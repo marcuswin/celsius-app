@@ -151,6 +151,7 @@ class CalculatorScreen extends Component {
                                   keyboardType={KEYBOARD_TYPE.NUMERIC}
                                   style={[CalculatorStyle.input]}
                                   onChangeText={(amount) => this.onChangeText(amount, item)}
+                                  maxLength={7}
                                   placeholder={'0.00'}
                                   placeholderTextColor={'#3D4853'}
                                 />
