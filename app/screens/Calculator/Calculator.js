@@ -45,7 +45,7 @@ class CalculatorScreen extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const {supportedCurrencies, callsInProgress} = this.props;
+    const {supportedCurrencies, callsInProgress, navigateTo} = this.props;
 
     if (!supportedCurrencies && newProps.supportedCurrencies) {
       // preselect ETH
@@ -54,9 +54,8 @@ class CalculatorScreen extends Component {
       })
     }
 
-    // Navigate to LoanPreview if loan request is successfully created
     if (callsInProgress.indexOf(API.CREATE_LOAN_REQUEST) !== -1 && newProps.callsInProgress.indexOf(API.CREATE_LOAN_REQUEST) === -1 && !newProps.error) {
-      this.props.navigateTo('LoanPreview');
+      navigateTo('LoanPreview');
     }
   }
 
@@ -77,6 +76,7 @@ class CalculatorScreen extends Component {
   onChangeText = (amount, coin) => {
     const {selectedCoins} = this.state;
     const formattedAmount = amount.replace(',', '.');
+
     this.setState({
       selectedCoins: selectedCoins.map(oc => ({
         ...oc,
@@ -92,7 +92,6 @@ class CalculatorScreen extends Component {
       }
       this.setState({modalVisible: false});
     }
-    // when user press back button on modal
     this.setState({modalVisible: false});
   };
 
