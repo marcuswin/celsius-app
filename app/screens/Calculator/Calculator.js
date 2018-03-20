@@ -157,8 +157,9 @@ class CalculatorScreen extends Component {
                               </View>
                             </Col>
                             <Col style={{width: '30%', justifyContent: 'center'}}>
-                              <Image source={{uri: item.image_url}}
-                                     style={{marginLeft: 23, width: 48, height: 48}}/>
+                              <Image
+                                source={{uri: item.image_url}}
+                                style={{marginLeft: 23, width: 48, height: 48}}/>
                             </Col>
                           </Grid>
                         </View>
