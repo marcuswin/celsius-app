@@ -1,3 +1,4 @@
+![Power to the people](./assets/images/power-to-the-people.png)
 
 # Celsius Mobile App
 
