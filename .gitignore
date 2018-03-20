@@ -1,0 +1,11 @@
+node_modules/**/*
+.expo/*
+npm-debug.*
+
+
+# IDEs
+.idea/
+
+# Environment files
+.env
+app.json
