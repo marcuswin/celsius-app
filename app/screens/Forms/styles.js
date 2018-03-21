@@ -7,6 +7,10 @@ const Styles = StyleSheet.create({
     backgroundColor: STYLES.PRIMARY_BLUE,
     paddingLeft: 40,
     paddingRight: 40,
+  },
+  buttonWrapper: {
+    paddingTop: 40,
+    paddingBottom: 40
   }
 });
 
