@@ -3,6 +3,7 @@ import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
+import DatePicker from 'react-native-datepicker'
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -85,8 +86,16 @@ class PersonalInfoScreen extends Component {
               <PrimaryInput labelText={'Middle Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={middleName}
                             onChange={(text) => this.setState({middleName: text})}/>
 
-              <PrimaryInput labelText={'Date of Birth'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={dateOfBirth}
-                            onChange={(text) => this.setState({dateOfBirth: text})}/>
+              <TouchableOpacity onPress={() => this.datePicker.onPressDate()}>
+                <PrimaryInput
+                  labelText={'Date of Birth'}
+                  clickable
+                  editable={false}
+                  onPress={() => this.datePicker.onPressDate()}
+                  keyboardType={KEYBOARD_TYPE.DEFAULT}
+                  value={dateOfBirth}
+                  onChange={(text) => console.log(text)}/>
+              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
                 <PrimaryInput
@@ -102,6 +111,25 @@ class PersonalInfoScreen extends Component {
                             keyboardType={KEYBOARD_TYPE.PHONE} value={phoneNumber}
                             onChange={(text) => this.setState({phoneNumber: text})}/>
             </Form>
+
+            <DatePicker
+              ref={(datePicker) => {
+                this.datePicker = datePicker;
+              }}
+              style={{opacity: 0}}
+              customStyles={{alignItems: 'left', borderWidth: 0}}
+              date={this.state.date}
+              mode="date"
+              placeholder={'Date of Birth'}
+              showIcon={false}
+              format="MM/DD/YYYY"
+              confirmBtnText="Ok"
+              cancelBtnText="Cancel"
+              onDateChange={(date) => {
+                this.setState({dateOfBirth: date})
+              }}
+            />
+
           </View>
         </Content>
       </Container>
