@@ -33,6 +33,7 @@ class PrimaryInput extends Component {
     autoCorrect: false,
     spellCheck: false,
     value: '',
+    placeholder: ''
   };
 
   constructor(props) {
@@ -122,6 +123,7 @@ class PrimaryInput extends Component {
       autoCapitalize,
       autoCorrect,
       spellCheck,
+      placeholder
     } = this.props;
 
     return (
@@ -132,6 +134,8 @@ class PrimaryInput extends Component {
             style={[PrimaryInputStyles.input]}
             underlineColorAndroid='rgba(0,0,0,0)'
             underline={false}
+            placeholder={this.state.focused ? placeholder : ''}
+            placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
             maxLength={maxLength}
             autoCapitalize={autoCapitalize}
             editable={editable}
