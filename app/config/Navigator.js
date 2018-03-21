@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import {StackNavigator} from 'react-navigation';
 
 // screens
 import WelcomeScreen from '../screens/Welcome/Welcome';
@@ -11,6 +11,7 @@ import ComingSoonScreen from "../screens/ComingSoon/ComingSoon";
 import LoanPreviewScreen from "../screens/LoanPreview/LoanPreview";
 import ThankYouScreen from "../screens/ThankYou/ThankYou";
 import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
+import PersonalInfoScreen from "../screens/Forms/PersonalInfo";
 
 const Navigator = StackNavigator({
   Welcome: {
@@ -52,6 +53,10 @@ const Navigator = StackNavigator({
   ThankYou: {
     screen: ThankYouScreen,
     title: 'ThankYou',
+  },
+  PersonalInfo: {
+    screen: PersonalInfoScreen,
+    title: 'PersonalInfo',
   }
 }, {
   headerMode: 'none'
