@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -12,6 +12,7 @@ import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
+import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 
 @connect(
   state => ({
@@ -30,7 +31,8 @@ class PersonalInfoScreen extends Component {
       middleName: '',
       dateOfBirth: '',
       gender: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      modalVisible: false
     };
   }
 
@@ -38,8 +40,16 @@ class PersonalInfoScreen extends Component {
     this.heading.animateHeading(event);
   };
 
+  closeModal = (value) => {
+    if (value) {
+      this.setState({gender: value.label})
+    }
+
+    this.setState({modalVisible: false})
+  };
+
   render() {
-    const {firstName, lastName, middleName, dateOfBirth, gender, phoneNumber} = this.state;
+    const {firstName, lastName, middleName, dateOfBirth, gender, phoneNumber, modalVisible} = this.state;
 
     return (
       <Container>
@@ -59,17 +69,35 @@ class PersonalInfoScreen extends Component {
           style={KycStyles.content}
           onScroll={this.onScroll}>
           <View>
+            <SelectModal
+              visible={modalVisible}
+              items={GENDER}
+              customHeaderStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
+              onClose={(value) => this.closeModal(value)}/>
+
             <Form>
               <PrimaryInput labelText={'First Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={firstName}
                             onChange={(text) => this.setState({firstName: text})}/>
+
               <PrimaryInput labelText={'Last Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={lastName}
                             onChange={(text) => this.setState({lastName: text})}/>
+
               <PrimaryInput labelText={'Middle Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={middleName}
                             onChange={(text) => this.setState({middleName: text})}/>
+
               <PrimaryInput labelText={'Date of Birth'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={dateOfBirth}
                             onChange={(text) => this.setState({dateOfBirth: text})}/>
-              <PrimaryInput labelText={'Gender'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={gender}
-                            onChange={(text) => this.setState({gender: text})}/>
+
+              <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+                <PrimaryInput
+                  clickable
+                  onPress={() => this.setState({modalVisible: true})}
+                  labelText={'Gender'}
+                  keyboardType={KEYBOARD_TYPE.DEFAULT}
+                  value={gender}
+                  onChange={(text) => this.setState({gender: text})}/>
+              </TouchableOpacity>
+
               <PrimaryInput labelText={'Phone Number'} placeholder={'+0000000000'}
                             keyboardType={KEYBOARD_TYPE.PHONE} value={phoneNumber}
                             onChange={(text) => this.setState({phoneNumber: text})}/>
@@ -80,5 +108,7 @@ class PersonalInfoScreen extends Component {
     );
   }
 }
+
+const GENDER = [{label: 'Male', value: 'male'}, {label: 'Female', value: 'female'}, {label: 'Other', value: 'value'}];
 
 export default PersonalInfoScreen;
