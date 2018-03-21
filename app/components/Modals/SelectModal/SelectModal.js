@@ -12,7 +12,8 @@ class SelectModal extends Component {
     visible: PropTypes.bool,
     animation: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    customHeaderStyle: PropTypes.instanceOf(Object)
+    customHeaderStyle: PropTypes.instanceOf(Object),
+    modalTitle: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -28,7 +29,7 @@ class SelectModal extends Component {
   }
 
   render() {
-    const { visible, animation, onClose, items, customHeaderStyle } = this.props;
+    const { visible, animation, onClose, items, customHeaderStyle, modalTitle } = this.props;
     return (
       <Modal animationType={animation}
              visible={visible}
@@ -41,7 +42,7 @@ class SelectModal extends Component {
             </Button>
           </Left>
           <Body>
-          <Title style={SelectModalStyles.headerTitle}>Select Coin</Title>
+          <Title style={SelectModalStyles.headerTitle}>{modalTitle}</Title>
           </Body>
           <Right/>
         </Header>

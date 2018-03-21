@@ -9,7 +9,7 @@ class PrimaryInput extends Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     onPress: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,

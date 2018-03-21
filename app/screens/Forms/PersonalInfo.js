@@ -8,12 +8,13 @@ import DatePicker from 'react-native-datepicker'
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
-import KycStyles from "./styles";
+import Styles from "./styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
-import {KEYBOARD_TYPE} from "../../config/constants/common";
+import {GENDER, KEYBOARD_TYPE, PERSON_TITLE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
+import {PrimaryButton} from "../../components/Buttons/Button/Button";
 
 @connect(
   state => ({
@@ -27,13 +28,17 @@ class PersonalInfoScreen extends Component {
     super();
 
     this.state = {
+      title: '',
       first_name: '',
       lastName: '',
       middleName: '',
       dateOfBirth: '',
+      motherMaidenName: '',
       gender: '',
-      phoneNumber: '',
-      modalVisible: false
+      socialSecurityNumber: '',
+      genderModalVisible: false,
+      titleModalVisible: false,
+      isLoading: false
     };
   }
 
@@ -41,16 +46,38 @@ class PersonalInfoScreen extends Component {
     this.heading.animateHeading(event);
   };
 
-  closeModal = (value) => {
+  onSubmit = () => {
+    console.log(this.state)
+  };
+
+  closeModal = (type, value) => {
     if (value) {
-      this.setState({gender: value.label})
+      if (type === 'genderModalVisible') {
+        this.setState({gender: value.label})
+      } else {
+        this.setState({title: value.label})
+      }
     }
 
-    this.setState({modalVisible: false})
+    const state = {};
+    state[type] = false;
+    this.setState(state)
   };
 
   render() {
-    const {firstName, lastName, middleName, dateOfBirth, gender, phoneNumber, modalVisible} = this.state;
+    const {
+      firstName,
+      lastName,
+      middleName,
+      dateOfBirth,
+      gender,
+      title,
+      motherMaidenName,
+      socialSecurityNumber,
+      genderModalVisible,
+      titleModalVisible,
+      isLoading
+    } = this.state;
 
     return (
       <Container>
@@ -66,57 +93,100 @@ class PersonalInfoScreen extends Component {
         <Message/>
 
         <Content
+          alwaysBounceHorizontal
           bounces={false}
-          style={KycStyles.content}
+          style={Styles.content}
           onScroll={this.onScroll}>
           <View>
             <SelectModal
-              visible={modalVisible}
+              visible={genderModalVisible}
               items={GENDER}
-              customHeaderStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
-              onClose={(value) => this.closeModal(value)}/>
+              modalTitle={'Gender'}
+              onClose={(value) => this.closeModal('genderModalVisible', value)}/>
+
+            <SelectModal
+              visible={titleModalVisible}
+              items={PERSON_TITLE}
+              modalTitle={'Title'}
+              onClose={(value) => this.closeModal('titleModalVisible', value)}/>
 
             <Form>
-              <PrimaryInput labelText={'First Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={firstName}
-                            onChange={(text) => this.setState({firstName: text})}/>
+              <TouchableOpacity onPress={() => this.setState({titleModalVisible: true})}>
+                <PrimaryInput
+                  clickable
+                  onPress={() => this.setState({titleModalVisible: true})}
+                  labelText={'Title'}
+                  keyboardType={KEYBOARD_TYPE.DEFAULT}
+                  value={title}
+                  onChange={(text) => this.setState({title: text})}/>
+              </TouchableOpacity>
 
-              <PrimaryInput labelText={'Last Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={lastName}
-                            onChange={(text) => this.setState({lastName: text})}/>
+              <PrimaryInput
+                labelText={'First Name'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={firstName}
+                autoCapitalize={'words'}
+                onChange={(text) => this.setState({firstName: text})}/>
 
-              <PrimaryInput labelText={'Middle Name'} keyboardType={KEYBOARD_TYPE.DEFAULT} value={middleName}
-                            onChange={(text) => this.setState({middleName: text})}/>
+              <PrimaryInput
+                labelText={'Last Name'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={lastName}
+                autoCapitalize={'words'}
+                onChange={(text) => this.setState({lastName: text})}/>
+
+              <PrimaryInput
+                labelText={'Middle Name'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={middleName}
+                autoCapitalize={'words'}
+                onChange={(text) => this.setState({middleName: text})}/>
 
               <TouchableOpacity onPress={() => this.datePicker.onPressDate()}>
                 <PrimaryInput
                   labelText={'Date of Birth'}
                   clickable
-                  editable={false}
                   onPress={() => this.datePicker.onPressDate()}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
-                  value={dateOfBirth}
-                  onChange={(text) => console.log(text)}/>
+                  value={dateOfBirth}/>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
+              <PrimaryInput
+                labelText={'Mother\'s Maiden Name'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={motherMaidenName}
+                autoCapitalize={'words'}
+                onChange={(text) => this.setState({motherMaidenName: text})}/>
+
+              <TouchableOpacity onPress={() => this.setState({genderModalVisible: true})}>
                 <PrimaryInput
                   clickable
-                  onPress={() => this.setState({modalVisible: true})}
+                  onPress={() => this.setState({genderModalVisible: true})}
                   labelText={'Gender'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
                   value={gender}
                   onChange={(text) => this.setState({gender: text})}/>
               </TouchableOpacity>
 
-              <PrimaryInput labelText={'Phone Number'} placeholder={'+0000000000'}
-                            keyboardType={KEYBOARD_TYPE.PHONE} value={phoneNumber}
-                            onChange={(text) => this.setState({phoneNumber: text})}/>
+              <PrimaryInput
+                labelText={'Social Security Number'}
+                keyboardType={KEYBOARD_TYPE.NUMERIC}
+                value={socialSecurityNumber}
+                onChange={(text) => this.setState({socialSecurityNumber: text})}/>
+
+              <View style={Styles.buttonWrapper}>
+                <PrimaryButton
+                  loading={isLoading}
+                  onPress={() => this.onSubmit()}
+                  title={'Next'}/>
+              </View>
             </Form>
 
             <DatePicker
               ref={(datePicker) => {
                 this.datePicker = datePicker;
               }}
-              style={{opacity: 0}}
+              style={{opacity: 0, height: 0, width: 0, position: 'absolute', top: -111111}}
               customStyles={{alignItems: 'left', borderWidth: 0}}
               date={this.state.date}
               mode="date"
@@ -136,7 +206,5 @@ class PersonalInfoScreen extends Component {
     );
   }
 }
-
-const GENDER = [{label: 'Male', value: 'male'}, {label: 'Female', value: 'female'}, {label: 'Other', value: 'value'}];
 
 export default PersonalInfoScreen;

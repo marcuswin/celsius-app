@@ -11,3 +11,15 @@ export const AUTO_CAPITALIZE = {
   SENTENCES: 'sentences',     // first letter of each sentence
   NONE: 'none'                // don't auto capitalize anything
 };
+
+export const GENDER = [
+  {label: 'Male', value: 'male'},
+  {label: 'Female', value: 'female'},
+  {label: 'Other', value: 'value'}
+];
+
+export const PERSON_TITLE = [
+  {label: 'Mr.', value: 'mr'},
+  {label: 'Ms.', value: 'ms'},
+  {label: 'Mrs.', value: 'mrs'}
+];
