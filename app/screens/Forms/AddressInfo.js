@@ -33,6 +33,7 @@ class AddressInfoScreen extends Component {
       city: '',
       zip: '',
       streetAndNumber: '',
+      buildingNumber: '',
       isDefault: true,
       modalVisible: false,
     };
@@ -62,6 +63,7 @@ class AddressInfoScreen extends Component {
       zip,
       modalVisible,
       streetAndNumber,
+      buildingNumber,
       isDefault,
       isLoading
     } = this.state;
@@ -125,11 +127,18 @@ class AddressInfoScreen extends Component {
                 onChange={(text) => this.setState({zip: text})}/>
 
               <PrimaryInput
-                labelText={'Street and Number'}
+                labelText={'Street'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={streetAndNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({streetAndNumber: text})}/>
+
+              <PrimaryInput
+                labelText={'Building number'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={buildingNumber}
+                autoCapitalize={'words'}
+                onChange={(text) => this.setState({buildingNumber: text})}/>
 
               <CheckBox
                 label={`Save as default`}

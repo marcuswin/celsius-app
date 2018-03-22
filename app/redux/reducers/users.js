@@ -5,6 +5,16 @@ const initialState = {
   userLocation: undefined,
   user: undefined,
   borrower: undefined,
+  personalInfo: {
+    title: '',
+    firstName: '',
+    lastName: '',
+    middleName: '',
+    dateOfBirth: '',
+    motherMaidenName: '',
+    gender: '',
+    socialSecurityNumber: '',
+  }
 };
 
 export default (state = initialState, action) => {
