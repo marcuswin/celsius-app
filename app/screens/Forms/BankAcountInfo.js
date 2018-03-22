@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
+import CheckBox from 'react-native-checkbox';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -29,6 +30,7 @@ class BankAccountInfoScreen extends Component {
       name: '',
       routingNumber: '',
       accountNumber: '',
+      isDefault: true,
       isLoading: false
     };
   }
@@ -38,7 +40,8 @@ class BankAccountInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    console.log(this.state)
+    const { navigateTo } = this.props;
+    navigateTo('PersonalInfo')
   };
 
   render() {
@@ -46,6 +49,7 @@ class BankAccountInfoScreen extends Component {
       name,
       routingNumber,
       accountNumber,
+      isDefault,
       isLoading
     } = this.state;
 
@@ -87,6 +91,22 @@ class BankAccountInfoScreen extends Component {
                 value={accountNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({accountNumber: text})}/>
+
+              <CheckBox
+                label={`Save as default`}
+                checked={isDefault}
+                labelStyle={Styles.checkboxLabel}
+                checkboxStyle={Styles.checkboxStyle}
+                checkedImage={
+                  Platform.OS === 'ios' ?
+                    require('../../../assets/images/icons/icon-check.png') :
+                    require('../../../assets/images/icons/icon-check2x.png')
+                }
+                uncheckedImage={require('../../../assets/images/icons/transparent.png')}
+                onChange={() => {
+                  this.setState({isDefault: !this.state.isDefault})
+                }}
+              />
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton

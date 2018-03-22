@@ -47,7 +47,8 @@ class PersonalInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    console.log(this.state)
+    const { navigateTo } = this.props;
+    navigateTo('AddressInfo')
   };
 
   closeModal = (type, value) => {
