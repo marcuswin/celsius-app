@@ -2,7 +2,7 @@ import AppNavigator from '../../config/Navigator';
 
 const initialState = {
   index: 0,
-  routes: [{ key: 'Init', routeName: 'AddressInfo' }],
+  routes: [{ key: 'Init', routeName: 'ContactInfo' }],
 };
 
 export default (state = initialState, action) =>
