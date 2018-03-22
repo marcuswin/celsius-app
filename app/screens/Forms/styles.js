@@ -24,6 +24,9 @@ const Styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '300',
     fontFamily: 'agile-light'
+  },
+  disabledForm: {
+    opacity: 0.5
   }
 });
 
