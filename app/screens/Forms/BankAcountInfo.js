@@ -30,6 +30,8 @@ class BankAccountInfoScreen extends Component {
       name: '',
       routingNumber: '',
       accountNumber: '',
+      purposeOfLoan: '',
+      note: '',
       isDefault: true,
       isLoading: false
     };
@@ -49,7 +51,9 @@ class BankAccountInfoScreen extends Component {
       name,
       routingNumber,
       accountNumber,
+      purposeOfLoan,
       isDefault,
+      note,
       isLoading
     } = this.state;
 
@@ -80,17 +84,30 @@ class BankAccountInfoScreen extends Component {
 
               <PrimaryInput
                 labelText={'Routing number'}
-                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={routingNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({routingNumber: text})}/>
 
               <PrimaryInput
                 labelText={'Account number'}
-                keyboardType={KEYBOARD_TYPE.EMAIL}
+                keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={accountNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({accountNumber: text})}/>
+
+              <PrimaryInput
+                labelText={'Purpose of Loan'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={purposeOfLoan}
+                onChange={(text) => this.setState({purposeOfLoan: text})}/>
+
+              <PrimaryInput
+                labelText={'Note'}
+                keyboardType={KEYBOARD_TYPE.DEFAULT}
+                value={note}
+                multiline
+                onChange={(text) => this.setState({note: text})}/>
 
               <CheckBox
                 label={`Save as default`}
