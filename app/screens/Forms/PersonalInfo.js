@@ -93,7 +93,6 @@ class PersonalInfoScreen extends Component {
         <Message/>
 
         <Content
-          alwaysBounceHorizontal
           bounces={false}
           style={Styles.content}
           onScroll={this.onScroll}>
