@@ -21,7 +21,8 @@ const PrimaryInputStyles = StyleSheet.create({
     color: STYLES.INPUT_COLOR_WHITE,
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 20,
-    borderColor: 'rgba(255,255,255,0)'
+    borderColor: 'rgba(255,255,255,0)',
+    minHeight: 50
   },
   label: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
