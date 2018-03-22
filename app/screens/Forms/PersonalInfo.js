@@ -19,23 +19,24 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
 @connect(
   state => ({
     nav: state.nav,
+    personalInfo: state.users.personalInfo
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class PersonalInfoScreen extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      title: '',
-      first_name: '',
-      lastName: '',
-      middleName: '',
-      dateOfBirth: '',
-      motherMaidenName: '',
-      gender: '',
-      socialSecurityNumber: '',
+      title: props.personalInfo.title,
+      firstName: props.personalInfo.firstName,
+      lastName: props.personalInfo.lastName,
+      middleName: props.personalInfo.middleName,
+      dateOfBirth: props.personalInfo.dateOfBirth,
+      motherMaidenName: props.personalInfo.motherMaidenName,
+      gender: props.personalInfo.gender,
+      socialSecurityNumber: props.personalInfo.socialSecurityNumber,
       genderModalVisible: false,
       titleModalVisible: false,
       isLoading: false
@@ -188,7 +189,7 @@ class PersonalInfoScreen extends Component {
               }}
               style={{opacity: 0, height: 0, width: 0, position: 'absolute', top: -111111}}
               customStyles={{alignItems: 'left', borderWidth: 0}}
-              date={this.state.date}
+              date={this.state.dateOfBirth}
               mode="date"
               placeholder={'Date of Birth'}
               showIcon={false}
