@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import DatePicker from 'react-native-datepicker'
+import * as _ from "lodash"
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -39,17 +40,48 @@ class PersonalInfoScreen extends Component {
       socialSecurityNumber: props.personalInfo.socialSecurityNumber,
       genderModalVisible: false,
       titleModalVisible: false,
-      isLoading: false
+      isLoading: false,
+      disabledButton: false,
     };
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {personalInfo} = this.props;
+
+    if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
+      this.setState({isLoading: false, disabledButton: false});
+    }
+  };
 
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
   onSubmit = () => {
-    const { navigateTo } = this.props;
-    navigateTo('AddressInfo')
+    const {createUserPersonalInfo} = this.props;
+    const {
+      title,
+      firstName,
+      lastName,
+      middleName,
+      dateOfBirth,
+      motherMaidenName,
+      gender,
+      socialSecurityNumber,
+    } = this.state;
+
+    this.setState({isLoading: true, disabledButton: true});
+
+    createUserPersonalInfo({
+      title,
+      firstName,
+      lastName,
+      middleName,
+      dateOfBirth,
+      motherMaidenName,
+      gender,
+      socialSecurityNumber
+    });
   };
 
   closeModal = (type, value) => {
@@ -78,7 +110,8 @@ class PersonalInfoScreen extends Component {
       socialSecurityNumber,
       genderModalVisible,
       titleModalVisible,
-      isLoading
+      isLoading,
+      disabledButton
     } = this.state;
 
     return (
@@ -98,7 +131,7 @@ class PersonalInfoScreen extends Component {
           bounces={false}
           style={Styles.content}
           onScroll={this.onScroll}>
-          <View>
+          <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <SelectModal
               visible={genderModalVisible}
               items={GENDER}
@@ -177,6 +210,7 @@ class PersonalInfoScreen extends Component {
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
+                  disabled={disabledButton}
                   loading={isLoading}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
