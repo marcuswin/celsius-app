@@ -12,11 +12,13 @@ class SelectCountryModal extends Component {
     visible: PropTypes.bool,
     animation: PropTypes.string,
     onClose: PropTypes.func.isRequired,
+    modalTitle: PropTypes.string
   };
 
   static defaultProps = {
     visible: false,
-    animation: 'slide'
+    animation: 'slide',
+    modalTitle: 'Select Country'
   };
 
   constructor() {
@@ -44,7 +46,7 @@ class SelectCountryModal extends Component {
   };
 
   render() {
-    const {visible, animation, onClose} = this.props;
+    const {visible, animation, onClose, modalTitle} = this.props;
     const {allCountries} = this.state;
 
     return (
@@ -59,7 +61,7 @@ class SelectCountryModal extends Component {
             </Button>
           </Left>
           <Body>
-          <Title style={SelectCountryStyles.headerTitle}>Select Country</Title>
+          <Title style={SelectCountryStyles.headerTitle}>{modalTitle}</Title>
           </Body>
         </Header>
 
