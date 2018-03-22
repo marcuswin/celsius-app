@@ -11,6 +11,19 @@ const Styles = StyleSheet.create({
   buttonWrapper: {
     paddingTop: 40,
     paddingBottom: 40
+  },
+  checkboxStyle: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    resizeMode: 'center',
+    height: 36,
+    width: 36,
+    borderRadius: 5
+  },
+  checkboxLabel: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '300',
+    fontFamily: 'agile-light'
   }
 });
 
