@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import CheckBox from 'react-native-checkbox';
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
