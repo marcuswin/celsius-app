@@ -22,18 +22,26 @@ const initialState = {
     zip: '',
     street: '',
     buildingNumber: '',
-    isDefault: true,
+    isDefault: true
   },
   contactInfo: {
     cellPhone: '',
     otherPhones: '',
     email: '',
-    isDefault: true,
+    isDefault: true
+  },
+  bankInfo: {
+    name: '',
+    routingNumber: '',
+    accountNumber: '',
+    purposeOfLoan: '',
+    note: '',
+    isDefault: true
   }
 };
 
 export default (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case ACTIONS.LOGIN_USER_SUCCESS:
       return {
         ...state,
@@ -144,14 +152,19 @@ export default (state = initialState, action) => {
         addressInfo: action.addressInfo
       };
 
-      case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
+    case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
       return {
         ...state,
         contactInfo: action.contactInfo
       };
 
+    case ACTIONS.CREATE_USER_BANK_INFO_SUCCESS:
+      return {
+        ...state,
+        bankInfo: action.bankInfo
+      };
     default:
-      return { ...state };
+      return {...state};
 
   }
 }

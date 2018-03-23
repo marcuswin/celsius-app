@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import CheckBox from 'react-native-checkbox';
+import * as _ from 'lodash';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -18,32 +19,60 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
 @connect(
   state => ({
     nav: state.nav,
+    bankInfo: state.users.bankInfo
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class BankAccountInfoScreen extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      name: '',
-      routingNumber: '',
-      accountNumber: '',
-      purposeOfLoan: '',
-      note: '',
-      isDefault: true,
-      isLoading: false
+      name: props.bankInfo.name,
+      routingNumber: props.bankInfo.routingNumber,
+      accountNumber: props.bankInfo.accountNumber,
+      purposeOfLoan: props.bankInfo.purposeOfLoan,
+      note: props.bankInfo.note,
+      isDefault: props.bankInfo.isDefault,
+      isLoading: false,
+      disabledButton: false
     };
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {personalInfo} = this.props;
+
+    if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
+      this.setState({isLoading: false, disabledButton: false});
+    }
+  };
 
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
   onSubmit = () => {
-    const { navigateTo } = this.props;
-    navigateTo('PersonalInfo')
+    const {createUserBankInfo} = this.props;
+    const {
+      name,
+      routingNumber,
+      accountNumber,
+      purposeOfLoan,
+      note,
+      isDefault,
+    } = this.state;
+
+    this.setState({isLoading: true, disabledButton: true});
+
+    createUserBankInfo({
+      name,
+      routingNumber,
+      accountNumber,
+      purposeOfLoan,
+      note,
+      isDefault,
+    });
   };
 
   render() {
@@ -54,7 +83,8 @@ class BankAccountInfoScreen extends Component {
       purposeOfLoan,
       isDefault,
       note,
-      isLoading
+      isLoading,
+      disabledButton
     } = this.state;
 
     return (
@@ -74,7 +104,7 @@ class BankAccountInfoScreen extends Component {
           bounces={false}
           style={Styles.content}
           onScroll={this.onScroll}>
-          <View>
+          <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Form>
               <PrimaryInput
                 labelText={'Bank Name'}
@@ -128,6 +158,7 @@ class BankAccountInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
+                  disabled={disabledButton}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
               </View>
