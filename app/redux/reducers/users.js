@@ -14,6 +14,15 @@ const initialState = {
     motherMaidenName: '',
     gender: '',
     socialSecurityNumber: '',
+  },
+  addressInfo: {
+    country: '',
+    state: '',
+    city: '',
+    zip: '',
+    street: '',
+    buildingNumber: '',
+    isDefault: true,
   }
 };
 
@@ -118,29 +127,15 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS:
-      const {
-        title,
-        socialSecurityNumber,
-        gender,
-        motherMaidenName,
-        dateOfBirth,
-        middleName,
-        firstName,
-        lastName
-      } = action.personalInfo;
-
       return {
         ...state,
-        personalInfo: {
-          title,
-          firstName,
-          lastName,
-          middleName,
-          dateOfBirth,
-          motherMaidenName,
-          gender,
-          socialSecurityNumber
-        }
+        personalInfo: action.personalInfo
+      };
+
+    case ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS:
+      return {
+        ...state,
+        addressInfo: action.addressInfo
       };
 
     default:
