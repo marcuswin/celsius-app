@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import CheckBox from 'react-native-checkbox';
+import * as _ from 'lodash';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -18,30 +19,54 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
 @connect(
   state => ({
     nav: state.nav,
+    contactInfo: state.users.contactInfo
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class ContactInfoScreen extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      cellPhone: '',
-      otherPhones: '',
-      email: '',
-      isDefault: true,
-      isLoading: false
+      cellPhone: props.contactInfo.cellPhone,
+      otherPhones: props.contactInfo.otherPhones,
+      email: props.contactInfo.email,
+      isDefault: props.contactInfo.isDefault,
+      isLoading: false,
+      disabledButton: false,
     };
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {contactInfo} = this.props;
+
+    if (!_.isEqual(contactInfo, nextProps.contactInfo)) {
+      this.setState({isLoading: false, disabledButton: false});
+    }
+  };
 
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
   onSubmit = () => {
-    const { navigateTo } = this.props;
-    navigateTo('BankAccountInfo')
+    const {createUserContactInfo} = this.props;
+    const {
+      cellPhone,
+      otherPhones,
+      email,
+      isDefault,
+    } = this.state;
+
+    this.setState({isLoading: true, disabledButton: true});
+
+    createUserContactInfo({
+      cellPhone,
+      otherPhones,
+      email,
+      isDefault
+    });
   };
 
   render() {
@@ -50,7 +75,8 @@ class ContactInfoScreen extends Component {
       otherPhones,
       email,
       isDefault,
-      isLoading
+      isLoading,
+      disabledButton
     } = this.state;
 
     return (
@@ -70,7 +96,7 @@ class ContactInfoScreen extends Component {
           bounces={false}
           style={Styles.content}
           onScroll={this.onScroll}>
-          <View>
+          <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Form>
               <PrimaryInput
                 labelText={'Cell Phone'}
@@ -111,6 +137,7 @@ class ContactInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
+                  disabled={disabledButton}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
               </View>

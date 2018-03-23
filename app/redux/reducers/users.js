@@ -23,6 +23,12 @@ const initialState = {
     street: '',
     buildingNumber: '',
     isDefault: true,
+  },
+  contactInfo: {
+    cellPhone: '',
+    otherPhones: '',
+    email: '',
+    isDefault: true,
   }
 };
 
@@ -136,6 +142,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         addressInfo: action.addressInfo
+      };
+
+      case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
+      return {
+        ...state,
+        contactInfo: action.contactInfo
       };
 
     default:
