@@ -5,7 +5,8 @@ import {navigateTo} from "./navigate";
 export {
   createUserPersonalInfo,
   createUserAddressInfo,
-  createUserContactInfo
+  createUserContactInfo,
+  createUserBankInfo
 }
 
 // PERSONAL INFO
@@ -57,5 +58,22 @@ function createUserContactInfoSuccess(contactInfo) {
     type: ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS,
     callName: API.CREATE_USER_CONTACT_INFO,
     contactInfo
+  }
+}
+
+// CONTACT INFO
+function createUserBankInfo(bankInfo) {
+  return async dispatch => {
+    dispatch(createUserBankInfoSuccess(bankInfo));
+    dispatch(navigateTo('PersonalInfo')); // TODO (djs): change...
+  }
+}
+
+
+function createUserBankInfoSuccess(bankInfo) {
+  return {
+    type: ACTIONS.CREATE_USER_BANK_INFO_SUCCESS,
+    callName: API.CREATE_USER_BANK_INFO,
+    bankInfo
   }
 }
