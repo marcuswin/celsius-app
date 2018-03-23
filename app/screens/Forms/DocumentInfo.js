@@ -15,6 +15,7 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import {DOCUMENT_TYPE, KEYBOARD_TYPE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
+import CameraModal from "../../components/Modals/Camera/Camera";
 
 @connect(
   state => ({
@@ -31,8 +32,10 @@ class DocumentInfoScreen extends Component {
     this.state = {
       documentType: '',
       modalVisible: false,
+      image: '',
       isLoading: false,
       disabledButton: false,
+      cameraModalVisible: false,
     };
   }
 
@@ -59,12 +62,20 @@ class DocumentInfoScreen extends Component {
     });
   };
 
+  closeCameraModal = (data) => {
+    this.setState({
+      cameraModalVisible: false,
+      image: data || this.state.image,
+    });
+  };
+
   render() {
     const {
       documentType,
       modalVisible,
       isLoading,
-      disabledButton
+      disabledButton,
+      cameraModalVisible
     } = this.state;
 
     return (
@@ -86,6 +97,11 @@ class DocumentInfoScreen extends Component {
           modalTitle={'Document Type'}
           onClose={(value) => this.closeModal(value)}/>
 
+        <CameraModal
+          visible={cameraModalVisible}
+          onClose={(value) => this.closeCameraModal(value)}
+        />
+
         <Content
           bounces={false}
           style={Styles.content}
@@ -98,6 +114,14 @@ class DocumentInfoScreen extends Component {
                   onPress={() => this.setState({modalVisible: true})}
                   labelText={'Document Type'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
+                  value={documentType.label || null}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
+                <PrimaryInput
+                  clickable
+                  onPress={() => this.setState({cameraModalVisible: true})}
+                  labelText={'Front side'}
                   value={documentType.label || null}/>
               </TouchableOpacity>
 
