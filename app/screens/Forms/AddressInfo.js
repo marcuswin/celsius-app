@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import CheckBox from 'react-native-checkbox';
+import * as _ from "lodash";
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -19,33 +20,64 @@ import SelectCountryModal from "../../components/Modals/SelectCountryModal/Selec
 @connect(
   state => ({
     nav: state.nav,
+    addressInfo: state.users.addressInfo
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class AddressInfoScreen extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      country: '',
-      state: '',
-      city: '',
-      zip: '',
-      streetAndNumber: '',
-      buildingNumber: '',
-      isDefault: true,
+      country: props.addressInfo.country,
+      state: props.addressInfo.state,
+      city: props.addressInfo.city,
+      zip: props.addressInfo.zip,
+      street: props.addressInfo.street,
+      buildingNumber: props.addressInfo.buildingNumber,
+      isDefault: props.addressInfo.isDefault,
       modalVisible: false,
+      isLoading: false,
+      disabledButton: false,
     };
   }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {addressInfo} = this.props;
+
+    if (!_.isEqual(addressInfo, nextProps.addressInfo)) {
+      this.setState({isLoading: false, disabledButton: false});
+    }
+  };
 
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
   onSubmit = () => {
-    const { navigateTo } = this.props;
-    navigateTo('ContactInfo')
+    const {createUserAddressInfo} = this.props;
+    const {
+      country,
+      state,
+      city,
+      zip,
+      street,
+      buildingNumber,
+      isDefault,
+    } = this.state;
+
+    this.setState({isLoading: true, disabledButton: true});
+
+    createUserAddressInfo({
+      country,
+      state,
+      city,
+      zip,
+      street,
+      buildingNumber,
+      isDefault
+    });
   };
 
   closeModal = (data) => {
@@ -62,10 +94,11 @@ class AddressInfoScreen extends Component {
       city,
       zip,
       modalVisible,
-      streetAndNumber,
+      street,
       buildingNumber,
       isDefault,
-      isLoading
+      isLoading,
+      disabledButton
     } = this.state;
 
     return (
@@ -85,7 +118,7 @@ class AddressInfoScreen extends Component {
           bounces={false}
           style={Styles.content}
           onScroll={this.onScroll}>
-          <View>
+          <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <SelectCountryModal
               visible={modalVisible}
               modalTitle={'Country'}
@@ -107,7 +140,7 @@ class AddressInfoScreen extends Component {
                     labelText={'State'}
                     keyboardType={KEYBOARD_TYPE.DEFAULT}
                     value={state}
-                    autoCapitalize={'words'}
+                    autoCapitalize={'characters'}
                     onChange={(text) => this.setState({state: text})}/>
                   : null
               }
@@ -129,9 +162,9 @@ class AddressInfoScreen extends Component {
               <PrimaryInput
                 labelText={'Street'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
-                value={streetAndNumber}
+                value={street}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({streetAndNumber: text})}/>
+                onChange={(text) => this.setState({street: text})}/>
 
               <PrimaryInput
                 labelText={'Building number'}
@@ -159,6 +192,7 @@ class AddressInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
+                  disabled={disabledButton}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
               </View>
