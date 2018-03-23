@@ -65,7 +65,7 @@ function createUserContactInfoSuccess(contactInfo) {
 function createUserBankInfo(bankInfo) {
   return async dispatch => {
     dispatch(createUserBankInfoSuccess(bankInfo));
-    dispatch(navigateTo('PersonalInfo')); // TODO (djs): change...
+    dispatch(navigateTo('DocumentInfo'));
   }
 }
 

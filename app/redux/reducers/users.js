@@ -37,7 +37,8 @@ const initialState = {
     purposeOfLoan: '',
     note: '',
     isDefault: true
-  }
+  },
+  documentInfo: {}
 };
 
 export default (state = initialState, action) => {

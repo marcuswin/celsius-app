@@ -23,3 +23,9 @@ export const PERSON_TITLE = [
   {label: 'Ms.', value: 'ms'},
   {label: 'Mrs.', value: 'mrs'}
 ];
+
+export const DOCUMENT_TYPE = [
+  {label: 'Passport', value: 'passport', bothSides: false},
+  {label: 'Driving Licence', value: 'driving_licence', bothSides: true},
+  {label: 'National Identity Card', value: 'national_identity_card', bothSides: true}
+];

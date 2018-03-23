@@ -15,6 +15,7 @@ import PersonalInfoScreen from "../screens/Forms/PersonalInfo";
 import AddressInfoScreen from "../screens/Forms/AddressInfo";
 import ContactInfoScreen from "../screens/Forms/ContactInfo";
 import BankAccountInfoScreen from "../screens/Forms/BankAcountInfo";
+import DocumentInfoScreen from "../screens/Forms/DocumentInfo";
 
 const Navigator = StackNavigator({
   Welcome: {
@@ -72,6 +73,10 @@ const Navigator = StackNavigator({
   BankAccountInfo: {
     screen: BankAccountInfoScreen,
     title: 'BankAccountInfo',
+  },
+  DocumentInfo: {
+    screen: DocumentInfoScreen,
+    title: 'DocumentInfo',
   }
 }, {
   headerMode: 'none'
