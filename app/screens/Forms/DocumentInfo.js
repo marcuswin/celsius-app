@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View} from 'native-base';
+import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
+import {Col, Grid} from 'react-native-easy-grid';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -16,6 +17,7 @@ import {DOCUMENT_TYPE, KEYBOARD_TYPE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
 import CameraModal from "../../components/Modals/Camera/Camera";
+import Icon from "../../components/Icons/Icon";
 
 @connect(
   state => ({
@@ -31,8 +33,10 @@ class DocumentInfoScreen extends Component {
 
     this.state = {
       documentType: '',
+      frontSide: '',
+      backSide: '',
+      selfie: '',
       modalVisible: false,
-      image: '',
       isLoading: false,
       disabledButton: false,
       cameraModalVisible: false,
@@ -67,6 +71,62 @@ class DocumentInfoScreen extends Component {
       cameraModalVisible: false,
       image: data || this.state.image,
     });
+  };
+
+  renderBackSide = () => (
+      <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
+        <View style={Styles.fakeInputWrapper}>
+          <Grid style={{height: 50}}>
+            <Col style={{justifyContent: 'center'}}>
+              <Text style={Styles.fakeInputText}>Back side</Text>
+            </Col>
+            <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+              <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
+                    style={{opacity: 0.5}}/>
+            </Col>
+          </Grid>
+        </View>
+      </TouchableOpacity>
+    );
+
+  renderPhotoItems = () => {
+    const {documentType} = this.state;
+
+    if (documentType) {
+      return (
+        <View>
+          <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
+            <View style={Styles.fakeInputWrapper}>
+              <Grid style={{height: 50}}>
+                <Col style={{justifyContent: 'center'}}>
+                  <Text style={Styles.fakeInputText}>Front side</Text>
+                </Col>
+                <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                  <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
+                        style={{opacity: 0.5}}/>
+                </Col>
+              </Grid>
+            </View>
+          </TouchableOpacity>
+
+          {documentType.bothSides ? this.renderBackSide() : null}
+
+          <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
+            <View style={Styles.fakeInputWrapper}>
+              <Grid style={{height: 50}}>
+                <Col style={{justifyContent: 'center'}}>
+                  <Text style={Styles.fakeInputText}>Selfie</Text>
+                </Col>
+                <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+                  <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
+                        style={{opacity: 0.5}}/>
+                </Col>
+              </Grid>
+            </View>
+          </TouchableOpacity>
+        </View>
+      )
+    }
   };
 
   render() {
@@ -107,7 +167,12 @@ class DocumentInfoScreen extends Component {
           style={Styles.content}
           onScroll={this.onScroll}>
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
-            <Form>
+            <Text style={Styles.description}>
+              Please choose your preferred document type for profile verification. Take a picture of both front and back
+              side of the document, as well as photo of yourself.
+            </Text>
+
+            <Form style={{paddingTop: 40}}>
               <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
                 <PrimaryInput
                   clickable
@@ -117,13 +182,7 @@ class DocumentInfoScreen extends Component {
                   value={documentType.label || null}/>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
-                <PrimaryInput
-                  clickable
-                  onPress={() => this.setState({cameraModalVisible: true})}
-                  labelText={'Front side'}
-                  value={documentType.label || null}/>
-              </TouchableOpacity>
+              {this.renderPhotoItems()}
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton

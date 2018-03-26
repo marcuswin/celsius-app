@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import {STYLES} from "../../config/constants/style";
+import {FONT_SCALE, STYLES} from "../../config/constants/style";
 
 const Styles = StyleSheet.create({
   content: {
@@ -21,12 +21,34 @@ const Styles = StyleSheet.create({
   },
   checkboxLabel: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: FONT_SCALE * 16,
     fontWeight: '300',
     fontFamily: 'agile-light'
   },
   disabledForm: {
     opacity: 0.5
+  },
+  fakeInputWrapper: {
+    paddingLeft: 10,
+    paddingRight: 18,
+    paddingBottom: 5,
+    paddingTop: 5,
+    marginBottom: 15,
+    borderRadius: 8,
+    backgroundColor: STYLES.INPUT_BACKGROUND_COLOR_WHITE,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  fakeInputText: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    opacity: 0.7,
+    fontSize: FONT_SCALE * 18
+  },
+  description: {
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-light',
+    color: '#fff'
   }
 });
 

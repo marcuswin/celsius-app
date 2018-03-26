@@ -3,7 +3,7 @@ import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const PrimaryInputStyles = StyleSheet.create({
   wrapper: {
-    paddingLeft: 18,
+    paddingLeft: 10,
     paddingRight: 18,
     paddingBottom: 5,
     paddingTop: 5,
@@ -22,7 +22,8 @@ const PrimaryInputStyles = StyleSheet.create({
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 20,
     borderColor: 'rgba(255,255,255,0)',
-    minHeight: 50
+    minHeight: 50,
+    marginLeft: -5
   },
   label: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
