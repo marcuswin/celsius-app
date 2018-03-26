@@ -27,6 +27,17 @@ const SelectCountryStyles = StyleSheet.create({
     color: '#3f2949',
     marginTop: 10
   },
+  search: {
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-medium',
+    textAlign: 'left'
+  },
+  searchBox: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
   coinTitle: {
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-medium',
