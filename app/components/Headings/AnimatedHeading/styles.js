@@ -3,8 +3,8 @@ import {STYLES} from "../../../config/constants/style";
 
 const AnimatedHeadingStyle = StyleSheet.create({
   container: {
-    paddingLeft: 32,
-    paddingRight: 32,
+    paddingLeft: 40,
+    paddingRight: 40,
     justifyContent: 'center',
     backgroundColor: STYLES.PRIMARY_BLUE
   },
