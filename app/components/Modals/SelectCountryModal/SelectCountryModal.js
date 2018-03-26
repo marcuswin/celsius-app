@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Body, Button, Header, Icon, Left, List, ListItem, Text, Title, View} from "native-base";
 import PropTypes from "prop-types";
-import {Modal, TouchableOpacity} from "react-native";
+import {Modal, TouchableOpacity, TextInput} from "react-native";
 import {countries} from "country-data";
 
 import SelectCountryStyles from "./styles";
-
 
 class SelectCountryModal extends Component {
   static propTypes = {
@@ -23,8 +22,11 @@ class SelectCountryModal extends Component {
     super();
 
     this.state = {
-      allCountries: []
-    }
+      allCountries: [],
+      filteredCountries: [],
+    };
+
+    this.filterCountries = this.filterCountries.bind(this);
   }
 
   componentWillMount = () => {
@@ -40,17 +42,28 @@ class SelectCountryModal extends Component {
       return 0;
     });
 
-    this.setState({allCountries: countryList})
+    this.setState({
+      allCountries: countryList,
+      filteredCountries: countryList,
+    })
   };
+
+  filterCountries = (text) => {
+    const {allCountries} = this.state;
+    this.setState({
+      filteredCountries: allCountries.filter(c => c.name.toLowerCase().includes(text.toLowerCase())),
+    });
+  }
 
   render() {
     const {visible, animation, onClose} = this.props;
-    const {allCountries} = this.state;
+    const {filteredCountries} = this.state;
 
     return (
-      <Modal animationType={animation}
-             visible={visible}
-             onRequestClose={() => onClose(null)}
+      <Modal
+        animationType={animation}
+        visible={visible}
+        onRequestClose={() => onClose(null)}
       >
         <Header style={[SelectCountryStyles.header]}>
           <Left>
@@ -63,10 +76,19 @@ class SelectCountryModal extends Component {
           </Body>
         </Header>
 
+        <View style={SelectCountryStyles.searchBox} >
+          <TextInput
+            style={SelectCountryStyles.search}
+            onChangeText={this.filterCountries}
+            placeholder={'eg. Japan'}
+            placeholderTextColor={'#3D4853'}
+          />
+        </View>
+
         <View>
-          {allCountries ? (
+          {filteredCountries.length ? (
             <List
-              dataArray={allCountries}
+              dataArray={filteredCountries}
               renderRow={(country) =>
                 <ListItem avatar style={{minWidth: 280}}>
                   <Left>
@@ -80,7 +102,16 @@ class SelectCountryModal extends Component {
                 </ListItem>
               }
             />
-          ) : null}
+          ) : (
+            <List
+              dataArray={['No countries match your search.']}
+              renderRow={(text) =>
+                <ListItem avatar style={{minWidth: 280}}>
+                  <Text style={SelectCountryStyles.coinTitle}>{text}</Text>
+                </ListItem>
+              }
+            />
+          )}
         </View>
       </Modal>
     );
