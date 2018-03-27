@@ -7,6 +7,7 @@ import {Col, Grid} from "react-native-easy-grid";
 import formatter from '../../utils/formatter';
 
 import * as actions from "../../redux/actions";
+import Accordion from '../../components/Accordion/Accordion';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import LoanPreviewStyle from "./styles";
@@ -22,7 +23,6 @@ import Icon from "../../components/Icons/Icon";
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
-
 class LoanPreviewScreen extends Component {
   constructor() {
     super();
@@ -30,6 +30,7 @@ class LoanPreviewScreen extends Component {
     this.state = {};
 
     this.handleAcceptLoanRequest = this.handleAcceptLoanRequest.bind(this);
+    this.renderCollateralsText = this.renderCollateralsText.bind(this);
   }
 
 
@@ -44,8 +45,24 @@ class LoanPreviewScreen extends Component {
     navigateTo('ThankYou', true);
   }
 
+  renderCollateralsText(styles) {
+    const { loanRequest } = this.props;
+    const collateralValues = loanRequest.loan_collaterals.map(lc => <Text style={[styles, GLOBAL_STYLE_DEFINITIONS.boldText]}>{formatter.crypto(lc.amount, lc.cryptocurrency.short)}</Text>);
+    const collateralRates = loanRequest.loan_collaterals.map(lc => <Text style={[styles, GLOBAL_STYLE_DEFINITIONS.boldText]}>{formatter.usd(lc.rate_usd)}</Text>);
+
+    const collaterals = collateralValues.map((cv, i) => <Text style={styles} key={ loanRequest.loan_collaterals[i].id }>{ i !== 0 ? ', and ' : '' }{ cv } at a rate of { collateralRates[i] }</Text>);
+
+    return (
+      <Text style={styles}>
+        Your total coin value is calculated based on { collaterals } according to the latest rates on
+        <Text style={[styles, { color: '#88A2C7' }]} onPress={() => Linking.openURL('https://coinmarketcap.com/')}> coinmarketcap.com</Text>
+      </Text>
+    )
+  }
+
   render() {
     const {loanRequest, competitionRates} = this.props;
+
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
@@ -63,86 +80,63 @@ class LoanPreviewScreen extends Component {
 
         <Content bounces={false} style={LoanPreviewStyle.content} onScroll={this.onScroll}>
           <View style={LoanPreviewStyle.wrapper}>
-            <Text style={LoanPreviewStyle.description}>Your estimated mac loan amount:</Text>
 
-            <View style={LoanPreviewStyle.amountWrapper}>
-              <Text style={LoanPreviewStyle.amount}>
-                <Text style={LoanPreviewStyle.dollarSign}>$</Text>
-                {formatter.usd(loanRequest.amount_to_borrow_usd, {symbol: ''})}
-              </Text>
-            </View>
+            <Text style={LoanPreviewStyle.description}>
+              Your estimated
+              <Text style={[LoanPreviewStyle.description, GLOBAL_STYLE_DEFINITIONS.boldText]}> coin value</Text>
+              :
+            </Text>
+            <Accordion
+              renderHeader={ (styles) =>
+                <Text style={styles}>
+                  <Text style={[styles, { opacity: 0.5 }]}>$</Text>
+                  {formatter.usd(loanRequest.totalCoinValue, {symbol: ''})}
+                </Text>
+              }
+              renderContent={this.renderCollateralsText}
+            />
 
-            <View style={LoanPreviewStyle.amountReportWrapper}>
-              <View style={LoanPreviewStyle.amountReportContent}>
-                <View style={{paddingTop: 20, paddingBottom: 20, alignItems: 'center'}}>
-                  <Text style={[LoanPreviewStyle.amountText]}>Estimated yearly interest in USD</Text>
-                  <Text style={[LoanPreviewStyle.amountNumber, GLOBAL_STYLE_DEFINITIONS.boldText]}>
-                    {formatter.usd(loanRequest.interest_usd)}
-                    <Text
-                      style={LoanPreviewStyle.amountTextPercent}> (9%)</Text>
-                  </Text>
-                </View>
-                <View style={{
-                  backgroundColor: '#9EA5AE',
-                  opacity: 0.3,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 1,
-                  width: '95%'
-                }}>
-                  <View style={{
-                    borderWidth: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderColor: '#9EA5AE',
-                    backgroundColor: '#fff',
-                    height: 26,
-                    width: 26,
-                    borderRadius: 13,
-                    position: 'absolute'
-                  }}>
-                    <Text style={{color: 'black', fontSize: FONT_SCALE * 10, opacity: 1}}>OR</Text>
-                  </View>
-                </View>
-                <View style={{paddingTop: 20, paddingBottom: 20, alignItems: 'center'}}>
-                  <Text style={[LoanPreviewStyle.amountText]}>Estimated yearly interest in CEL</Text>
-                  <Text style={[LoanPreviewStyle.amountNumber, GLOBAL_STYLE_DEFINITIONS.boldText]}>
-                    {formatter.cel(loanRequest.interest_deg)}
-                    <Text
-                      style={LoanPreviewStyle.amountTextPercent}> (9%)</Text>
-                  </Text>
-                </View>
-              </View>
-            </View>
+            <Text style={LoanPreviewStyle.description}>
+              Your estimated
+              <Text style={[LoanPreviewStyle.description, GLOBAL_STYLE_DEFINITIONS.boldText]}> maximum loan amount</Text>
+              :
+            </Text>
+            <Accordion
+              renderHeader={ (styles) =>
+                <Text style={styles}>
+                  <Text style={[styles, { opacity: 0.5 }]}>$</Text>
+                  {formatter.usd(loanRequest.amount_to_borrow_usd, {symbol: ''})}
+                </Text>
+              }
+              renderContent={ (styles) =>
+                <Text style={styles}>
+                  Your estimated loan amount is based on
+                  <Text style={[styles, GLOBAL_STYLE_DEFINITIONS.boldText]}> 30% </Text>
+                  of your estimated coin value
+                </Text>
+              }
+            />
 
-            <View style={{paddingTop: 20, paddingBottom: 20}}>
-              <Grid>
-                <Col style={GLOBAL_STYLE_DEFINITIONS.centeredColumn}>
-                  <View style={LoanPreviewStyle.iconWrapper}>
-                    <Icon name='ApplicationIcon' width='40' height='32' viewBox="0 0 38 38" fill={STYLES.PRIMARY_BLUE}/>
-                  </View>
-                  <Text style={LoanPreviewStyle.iconDescription}><Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'Zero'}</Text> loan{'\n'}application <Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'\nfees'}</Text></Text>
-                </Col>
-                <Col style={GLOBAL_STYLE_DEFINITIONS.centeredColumn}>
-                  <View style={LoanPreviewStyle.iconWrapper}>
-                    <Icon name='IconCalendar' width='40' height='32' viewBox="0 0 38 38" fill={STYLES.PRIMARY_BLUE}/>
-                  </View>
-                  <Text style={LoanPreviewStyle.iconDescription}><Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'Zero'}</Text> monthly{'\n'}service <Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'\nfees'}</Text></Text>
-                </Col>
-                <Col style={GLOBAL_STYLE_DEFINITIONS.centeredColumn}>
-                  <View style={LoanPreviewStyle.iconWrapper}>
-                    <Icon name='IconReplay' width='40' height='32' viewBox="0 0 38 38" fill={STYLES.PRIMARY_BLUE}/>
-                  </View>
-                  <Text style={LoanPreviewStyle.iconDescription}><Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'Zero'}</Text> early{'\n'}repayment <Text
-                    style={GLOBAL_STYLE_DEFINITIONS.boldText}>{'\nfees'}</Text></Text>
-                </Col>
-              </Grid>
-            </View>
+            <Text style={LoanPreviewStyle.description}>
+              Your estimated
+              <Text style={[LoanPreviewStyle.description, GLOBAL_STYLE_DEFINITIONS.boldText]}> yearly interest</Text>
+              :
+            </Text>
+            <Accordion
+              renderHeader={ (styles) =>
+                <Text style={styles}>
+                  <Text style={[styles, { opacity: 0.5 }]}>$</Text>
+                  {formatter.usd(loanRequest.interest_usd, {symbol: ''})}
+                </Text>
+              }
+              renderContent={ (styles) =>
+                <Text style={styles}>
+                  Your estimated yearly interested is based on your maximum loan amount of {formatter.usd(loanRequest.amount_to_borrow_usd, {symbol: '$'})} at
+                  <Text style={[styles, GLOBAL_STYLE_DEFINITIONS.boldText]}> 9% </Text>
+                  interest
+                </Text>
+              }
+            />
 
             {competitionRates.map(cr => (
               <View key={cr.name}>
@@ -217,7 +211,7 @@ class LoanPreviewScreen extends Component {
                 customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
                 customTitleStyles={{color: 'white'}}
                 onPress={this.handleAcceptLoanRequest}
-                title={'Sign up now'}/>
+                title={'Save my place'}/>
             </View>
           </View>
         </Content>

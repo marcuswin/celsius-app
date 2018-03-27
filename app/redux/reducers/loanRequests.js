@@ -1,3 +1,4 @@
+import LoanRequest from '../../models/loan-request';
 import ACTIONS from '../../config/constants/ACTIONS';
 
 const initialState = {
@@ -13,14 +14,14 @@ export default (state = initialState, action) => {
     case ACTIONS.CREATE_LOAN_REQUEST_SUCCESS:
       return {
         ...state,
-        loanRequest,
+        loanRequest: new LoanRequest(loanRequest),
         competitionRates,
       };
 
     case ACTIONS.ACCEPT_LOAN_REQUEST_SUCCESS:
       return {
         ...state,
-        loanRequest,
+        loanRequest: new LoanRequest(loanRequest),
       };
 
     case ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS:
