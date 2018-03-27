@@ -58,16 +58,7 @@ class LoginScreen extends Component {
   componentWillMount = async () => {
     const {navigateTo} = this.props;
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    if (token) navigateTo('Home');
-  };
-
-  componentWillReceiveProps = async (nextProps) => {
-    const {navigateTo} = this.props;
-    if (nextProps.user) {
-      if (nextProps.user.first_name) {
-        navigateTo('Home', true);
-      }
-    }
+    if (token) navigateTo('Home', true);
   };
 
   onScroll = event => {

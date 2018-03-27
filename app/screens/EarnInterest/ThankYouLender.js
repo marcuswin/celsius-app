@@ -31,7 +31,7 @@ class ThankYouLenderScreen extends Component {
 
     return (
       <Container>
-        <Content bounces={false} style={EarnInterest.thanksLenderContent} onScroll={this.onScroll}>
+        <Content bounces={false} style={EarnInterest.thanksLenderContent}>
           <Text style={EarnInterest.heading}>Thanks for the interest!</Text>
           <Text style={EarnInterest.welcomeText}>{user.first_name}, we couldn't do this without you</Text>
 
