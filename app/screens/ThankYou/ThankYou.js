@@ -5,7 +5,7 @@ import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 
 import ThankYouStyle from "./styles";
-import * as NavigateActions from "../../redux/actions/navigate";
+import * as actions from "../../redux/actions";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../config/constants/style";
 import Icon from "../../components/Icons/Icon";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
@@ -16,7 +16,7 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
     loanRequest: state.loanRequests.loanRequest,
     user: state.users.user,
   }),
-  dispatch => bindActionCreators(NavigateActions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch),
 )
 
 class ThankYouScreen extends Component {
@@ -27,8 +27,10 @@ class ThankYouScreen extends Component {
   }
 
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
+  handleEarnInterest = async () => {
+    const {navigateTo} = this.props;
+    this.props.createInterestRequest();
+    navigateTo('EarnInterest');
   };
 
   render() {
@@ -37,7 +39,7 @@ class ThankYouScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <Content bounces={false} style={ThankYouStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={ThankYouStyle.content}>
           <Text style={ThankYouStyle.heading}>Thanks for joining!</Text>
           <Text style={ThankYouStyle.welcomeText}>Welcome to the community, {user.first_name}</Text>
 
@@ -69,7 +71,7 @@ class ThankYouScreen extends Component {
               iconRight={false}
               customStyles={{backgroundColor: '#fff', height: 50}}
               customTitleStyles={{color: STYLES.PRIMARY_BLUE, fontSize: FONT_SCALE * 18}}
-              onPress={() => this.props.navigateTo('EarnInterest')}
+              onPress={this.handleEarnInterest}
               title="Learn about Earning Interest"/>
           </View>
 
