@@ -185,6 +185,37 @@ class LoanPreviewScreen extends Component {
 
             <View style={LoanPreviewStyle.separator}/>
 
+            <View style={LoanPreviewStyle.hippoSection}>
+              <Text style={LoanPreviewStyle.sectionText}>
+                The 1% are able to get loans at as little as 2% interest because they're already rich, with lots of assets and great credit.
+              </Text>
+
+              <View style={LoanPreviewStyle.hippoSectionBubble}>
+                <Text style={[LoanPreviewStyle.sectionText, { color: 'white' }]}>
+                  With Celsius
+                  <Text style={[LoanPreviewStyle.sectionText, { color: 'white' }, GLOBAL_STYLE_DEFINITIONS.boldText]}> you would save </Text>
+                  <Text style={[LoanPreviewStyle.sectionText, { color: 'white' }]}> { formatter.usd(competitionRates[0].interest_usd - loanRequest.interest_usd) } </Text>
+                  over your credit card and
+                  <Text style={[LoanPreviewStyle.sectionText, { color: 'white' }]}> { formatter.usd(competitionRates[1].interest_usd - loanRequest.interest_usd) } </Text>
+                  over a Payday loan.
+                </Text>
+              </View>
+              <View stye={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Image source={require('../../../assets/images/bubble-pointer.png')} style={LoanPreviewStyle.bubblePointer}/>
+              </View>
+
+              <View style={LoanPreviewStyle.hippo}>
+                <Image source={require('../../../assets/images/two-thumbs-up.png')} style={LoanPreviewStyle.hippoImage}/>
+
+                <Text style={[LoanPreviewStyle.sectionText, { width: 150 }]}>
+                  We want to provide our community with the lowest rates possible.
+                </Text>
+              </View>
+
+            </View>
+
+            <View style={LoanPreviewStyle.separator}/>
+
             <View style={{paddingTop: 20, paddingBottom: 20}}>
               <Text style={{
                 marginBottom: 9,
@@ -196,12 +227,7 @@ class LoanPreviewScreen extends Component {
                 Ready for a change?
               </Text>
 
-              <Text style={{
-                color: '#3D4853',
-                fontSize: FONT_SCALE * 18,
-                fontFamily: 'agile-extra-light',
-                textAlign: 'center'
-              }}>
+              <Text style={LoanPreviewStyle.sectionText}>
                 Save your place in the queue to be one of the first to get a loan.
               </Text>
             </View>
