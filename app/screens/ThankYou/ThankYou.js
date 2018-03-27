@@ -27,10 +27,6 @@ class ThankYouScreen extends Component {
   }
 
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   handleEarnInterest = async () => {
     const {navigateTo} = this.props;
     this.props.createInterestRequest();
@@ -43,7 +39,7 @@ class ThankYouScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <Content bounces={false} style={ThankYouStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={ThankYouStyle.content}>
           <Text style={ThankYouStyle.heading}>Thanks for joining!</Text>
           <Text style={ThankYouStyle.welcomeText}>Welcome to the community, {user.first_name}</Text>
 

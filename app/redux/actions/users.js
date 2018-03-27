@@ -66,6 +66,8 @@ function loginBorrower({email, password}) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       dispatch(loginBorrowerSuccess(res.data));
+
+      dispatch(navigateTo('Home', true))
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_BORROWER, err));
@@ -180,7 +182,9 @@ function loginUserTwitterSuccess(data) {
       type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
       callName: API.LOGIN_USER_TWITTER,
       user: data.user,
-    })
+    });
+
+    dispatch(navigateTo('Home', true));
   }
 }
 
@@ -264,7 +268,9 @@ function loginUserFacebookSuccess(data) {
       type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
       callName: API.LOGIN_USER_FACEBOOK,
       user: data.user,
-    })
+    });
+
+    dispatch(navigateTo('Home', true));
   }
 }
 
@@ -285,7 +291,9 @@ function loginUserGoogleSuccess(data) {
       type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,
       callName: API.LOGIN_USER_GOOGLE,
       user: data.user,
-    })
+    });
+
+    dispatch(navigateTo('Home', true));
   }
 }
 
