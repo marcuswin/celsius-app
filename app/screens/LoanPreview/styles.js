@@ -15,52 +15,6 @@ const LoanPreviewStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light'
   },
-  amountWrapper: {
-    marginTop: 20,
-    height: 80,
-    backgroundColor: '#3D4853',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3
-  },
-  dollarSign: {
-    fontSize: FONT_SCALE * 36,
-    color: '#fff',
-    fontFamily: 'agile-book'
-  },
-  amount: {
-    fontSize: FONT_SCALE * 36,
-    color: '#fff',
-    fontFamily: 'agile-book'
-  },
-  amountReportWrapper: {
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  amountReportContent: {
-    backgroundColor: '#fff',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    elevation: 3
-  },
-  amountText: {
-    fontSize: FONT_SCALE * 17,
-    color: '#757575',
-    fontFamily: 'agile-light'
-  },
-  amountNumber: {
-    fontSize: FONT_SCALE * 20,
-    fontFamily: 'agile-light'
-  },
   amountTextPercent: {
     color: '#C8C8C8',
     fontFamily: 'agile-light'
