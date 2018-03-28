@@ -10,7 +10,12 @@ const usersService = {
   registerGoogle,
   googleLogin,
   facebookLogin,
-  twitterLogin
+  twitterLogin,
+  getUserInfo,
+  createPersonalInfo,
+  createAddressInfo,
+  createContactInfo,
+  createBankAccountInfo,
 };
 
 function register({ email, password }) {
@@ -97,7 +102,6 @@ function facebookLogin(data) {
 }
 
 function twitterLogin(data) {
-
   return axios.post(`${apiUrl}/users/twitter/login`, {
     email: data.email,
     first_name: data.name,
@@ -105,6 +109,46 @@ function twitterLogin(data) {
     access_token: data.accessToken,
     secret_token: data.secret_token
   });
+}
+
+function getUserInfo() {
+  return axios.get(`${apiUrl}/users/info`);
+}
+
+function createPersonalInfo(personalInfo) {
+  console.log({
+    url: `${apiUrl}/users/personal_info`,
+    personalInfo,
+  });
+  return personalInfo;
+  // return axios.post(`${apiUrl}/users/personal_info`, personalInfo);
+}
+
+function createAddressInfo(addressInfo) {
+  console.log({
+    url: `${apiUrl}/users/address_info`,
+    addressInfo,
+  });
+  return addressInfo;
+  // return axios.post(`${apiUrl}/users/address_info`, addressInfo);
+}
+
+function createContactInfo(contactInfo) {
+  console.log({
+    url: `${apiUrl}/users/contact_info`,
+    contactInfo,
+  });
+  return contactInfo;
+  // return axios.post(`${apiUrl}/users/contact_info`, contactInfo);
+}
+
+function createBankAccountInfo(bankAccountInfo) {
+  console.log({
+    url: `${apiUrl}/users/bank_account_info`,
+    bankAccountInfo,
+  });
+  return bankAccountInfo;
+  // return axios.post(`${apiUrl}/users/bank_account_info`, bankAccountInfo);
 }
 
 export default usersService;

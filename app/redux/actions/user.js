@@ -1,6 +1,9 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {navigateTo} from "./navigate";
+import {apiError, startApiCall} from "./api";
+import {showMessage} from "./ui";
+import usersService from '../../services/users-service';
 
 export {
   createUserPersonalInfo,
@@ -12,8 +15,16 @@ export {
 // PERSONAL INFO
 function createUserPersonalInfo(personalInfo) {
   return async dispatch => {
-    dispatch(createUserPersonalInfoSuccess(personalInfo));
-    dispatch(navigateTo('AddressInfo'));
+    dispatch(startApiCall(API.CREATE_USER_PERSONAL_INFO));
+
+    try {
+      const newPersonalInfo = await usersService.createPersonalInfo(personalInfo);
+      dispatch(createUserPersonalInfoSuccess(newPersonalInfo));
+      dispatch(navigateTo('AddressInfo'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_PERSONAL_INFO, err));
+    }
   }
 }
 
@@ -29,8 +40,16 @@ function createUserPersonalInfoSuccess(personalInfo) {
 // ADDRESS INFO
 function createUserAddressInfo(addressInfo) {
   return async dispatch => {
-    dispatch(createUserAddressInfoSuccess(addressInfo));
-    dispatch(navigateTo('ContactInfo'));
+    dispatch(startApiCall(API.CREATE_USER_ADDRESS_INFO));
+
+    try {
+      const newAddressInfo = await usersService.createAddressInfo(addressInfo);
+      dispatch(createUserAddressInfoSuccess(newAddressInfo));
+      dispatch(navigateTo('ContactInfo'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_ADDRESS_INFO, err));
+    }
   }
 }
 
@@ -47,8 +66,16 @@ function createUserAddressInfoSuccess(addressInfo) {
 // CONTACT INFO
 function createUserContactInfo(contactInfo) {
   return async dispatch => {
-    dispatch(createUserContactInfoSuccess(contactInfo));
-    dispatch(navigateTo('BankAccountInfo'));
+    dispatch(startApiCall(API.CREATE_USER_CONTACT_INFO));
+
+    try {
+      const newContactInfo = await usersService.createContactInfo(contactInfo);
+      dispatch(createUserContactInfoSuccess(newContactInfo));
+      dispatch(navigateTo('BankAccountInfo'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_CONTACT_INFO, err));
+    }
   }
 }
 
@@ -62,10 +89,18 @@ function createUserContactInfoSuccess(contactInfo) {
 }
 
 // CONTACT INFO
-function createUserBankInfo(bankInfo) {
+function createUserBankInfo(bankAccountInfo) {
   return async dispatch => {
-    dispatch(createUserBankInfoSuccess(bankInfo));
-    dispatch(navigateTo('DocumentInfo'));
+    dispatch(startApiCall(API.CREATE_USER_BANK_INFO));
+
+    try {
+      const newBankInfo = await usersService.createBankAccountInfo(bankAccountInfo);
+      dispatch(createUserBankInfoSuccess(newBankInfo));
+      dispatch(navigateTo('DocumentInfo'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_BANK_INFO, err));
+    }
   }
 }
 
