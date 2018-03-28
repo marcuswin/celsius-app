@@ -8,7 +8,7 @@ import {countries} from "country-data";
 import CheckBox from 'react-native-checkbox';
 
 import SelectCountryModal from '../../../components/Modals/SelectCountryModal/SelectCountryModal';
-import PrimaryInput from "../../../components/Inputs/PrimaryInput/PrimaryInput";
+import PrimaryInput from "../../../components/Inputs/PrimaryInput";
 import {PrimaryButton} from "../../../components/Buttons/Button/Button";
 import * as actions from "../../../redux/actions";
 import apiUtil from "../../../utils/api-util";
