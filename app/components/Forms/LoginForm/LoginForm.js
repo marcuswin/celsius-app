@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './styles'
-import PrimaryInput from "../../Inputs/PrimaryInput/PrimaryInput";
+import PrimaryInput from "../../Inputs/PrimaryInput";
 import {PrimaryButton} from "../../Buttons/Button/Button";
 import * as actions from "../../../redux/actions";
 

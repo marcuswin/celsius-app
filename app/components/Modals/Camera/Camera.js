@@ -1,23 +1,37 @@
 import React, {Component} from 'react';
 import {Button, Text, View, Icon} from 'native-base';
-import {Image, Modal, TouchableOpacity, Vibration} from 'react-native';
-import {Camera, Permissions, FileSystem} from 'expo';
+import {Image, Modal, TouchableOpacity} from 'react-native';
+import {Camera, Permissions} from 'expo';
+
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 import CameraStyles from './styles';
 import {PrimaryButton} from "../../Buttons/Button/Button";
+import * as actions from "../../../redux/actions";
 
+@connect(
+  state => ({
+    isCameraOpen: state.ui.camera.isOpen,
+    photoName: state.ui.camera.photoName,
+    camera: state.ui.camera.camera,
+  }),
+  dispatch => bindActionCreators(actions, dispatch),
+)
 class CameraModal extends Component {
+  static propTypes = {
 
-  static propTypes = {};
+  };
 
-  static defaultProps = {};
+  static defaultProps = {
+    photoName: '',
+  };
 
   constructor() {
     super();
 
     this.state = {
       hasCameraPermission: null,
-      type: Camera.Constants.Type.back,
     };
   }
 
@@ -26,39 +40,23 @@ class CameraModal extends Component {
     this.setState({hasCameraPermission: status === 'granted'});
   }
 
-  flipCamera = () => {
-    this.setState({
-      type: this.state.type === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back,
-    });
-  };
-
   takePicture = async () => {
-    if (this.camera) {
-      this.camera.takePictureAsync().then(data => {
-        FileSystem.moveAsync({
-          from: data.uri,
-          to: `${FileSystem.documentDirectory}photos/Photo_${this.state.photoId}.jpg`,
-        }).then(() => {
-          this.setState({
-            photoId: this.state.photoId + 1,
-          });
-          Vibration.vibrate();
-        });
-      });
-    }
+    const { takeCameraPhoto, toggleCamera, photoName } = this.props;
+
+    this.camera.takePictureAsync({
+      base64: true,
+    }).then(photo => {
+      takeCameraPhoto(photoName, photo.base64);
+      toggleCamera();
+    }).catch(console.log);
   };
 
 
   render() {
-    const {visible, animation, onClose} = this.props;
+    const {isCameraOpen, flipCamera, camera, photoName, toggleCamera} = this.props;
 
     return (
-      <Modal animationType={animation}
-             visible={visible}
-             onRequestClose={() => onClose(null)}
-      >
+      <Modal visible={isCameraOpen}>
         <View style={{flex: 1}}>
           <Camera
             ref={ref => {
@@ -66,23 +64,28 @@ class CameraModal extends Component {
             }}
             style={{flex: 1}}
             faceDetectionLandmarks={Camera.Constants.FaceDetection.Landmarks.all}
-            type={this.state.type}>
-            <View style={{height: 70, backgroundColor: 'transparent'}}>
-              <Button title='Back' transparent onPress={() => onClose(null)} style={{position: 'absolute', left: 40, bottom: 0}}>
+            type={camera}>
+            <View style={{ height: 70 }}>
+              <Button title='Back' transparent onPress={toggleCamera} style={CameraStyles.backButton}>
                 <Icon style={CameraStyles.backArrow} name='arrow-back'/>
                 <Text style={CameraStyles.backButtonText}>Back</Text>
               </Button>
+
               <TouchableOpacity
-                style={{position: 'absolute', right: 40, bottom: 0}}
-                onPress={() => this.flipCamera()}>
+                style={CameraStyles.flipCamera}
+                onPress={flipCamera}>
                 <Image
                   source={require('../../../../assets/images/icons/camera-flip.png')}
-                  style={CameraStyles.flipCamera}/>
+                  style={CameraStyles.flipCameraImage}/>
               </TouchableOpacity>
             </View>
-            <View style={{height: 100, width: '100%', backgroundColor: 'transparent', position: 'absolute', bottom: 0, paddingLeft: 40, paddingRight: 40, justifyContent: 'center'}}>
-              <PrimaryButton
-                onPress={() => this.takePicture()} title={'Take a Photo'}/>
+
+            <View style={CameraStyles.headingWrapper}>
+              <Text style={CameraStyles.heading}>{ photoName.split('_').join(' ') }</Text>
+            </View>
+
+            <View style={CameraStyles.takePictureButton}>
+              <PrimaryButton onPress={() => this.takePicture()} title={'Take a Photo'}/>
             </View>
           </Camera>
         </View>

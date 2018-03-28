@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import ACTIONS from '../../config/constants/ACTIONS';
+import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
   userLocation: undefined,
@@ -38,7 +39,14 @@ const initialState = {
     note: '',
     isDefault: true
   },
-  documentInfo: {}
+  documentInfo: {
+    drivingLicenseFront: undefined,
+    drivingLicenseBack: undefined,
+    idFront: undefined,
+    idBack: undefined,
+    passport: undefined,
+    selfie: undefined,
+  }
 };
 
 export default (state = initialState, action) => {
@@ -164,8 +172,28 @@ export default (state = initialState, action) => {
         ...state,
         bankInfo: action.bankInfo
       };
+
+    case ACTIONS.TAKE_CAMERA_PHOTO:
+      if (action.photoName === CAMERA_PHOTOS.DRIVING_LICENSE_FRONT) return setDocumentImage(state, 'drivingLicenseFront', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.DRIVING_LICENSE_BACK) return setDocumentImage(state, 'drivingLicenseBack', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.ID_FRONT) return setDocumentImage(state, 'idFront', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.ID_BACK) return setDocumentImage(state, 'idBack', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.PASSPORT) return setDocumentImage(state, 'passport', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.SELFIE) return setDocumentImage(state, 'selfie', action.base64Image);
+      return { ...state };
+
     default:
       return {...state};
 
+  }
+}
+
+function setDocumentImage(state, imageName, image) {
+  return {
+    ...state,
+    documentInfo: {
+      ...state.documentInfo,
+      [imageName]: image,
+    }
   }
 }
