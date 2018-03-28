@@ -39,15 +39,17 @@ class AddressInfoScreen extends Component {
       isDefault: props.addressInfo.isDefault,
       modalVisible: false,
       isLoading: false,
-      disabledButton: false,
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   componentWillReceiveProps = (nextProps) => {
     const {addressInfo} = this.props;
 
     if (!_.isEqual(addressInfo, nextProps.addressInfo)) {
-      this.setState({isLoading: false, disabledButton: false});
+      this.setState({isLoading: false});
     }
   };
 
@@ -56,7 +58,7 @@ class AddressInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    const {createUserAddressInfo} = this.props;
+    const {createUserAddressInfo, showMessage} = this.props;
     const {
       country,
       state,
@@ -67,17 +69,40 @@ class AddressInfoScreen extends Component {
       isDefault,
     } = this.state;
 
-    this.setState({isLoading: true, disabledButton: true});
+    const error = this.validateForm();
 
-    createUserAddressInfo({
+    if (!error) {
+      this.setState({isLoading: true});
+
+      createUserAddressInfo({
+        country,
+        state,
+        city,
+        zip,
+        street,
+        buildingNumber,
+        isDefault
+      });
+    } else {
+      showMessage('error', error);
+    }
+
+  };
+
+  validateForm = () => {
+    const {
       country,
-      state,
       city,
       zip,
       street,
       buildingNumber,
-      isDefault
-    });
+    } = this.state;
+
+    if (!country) return 'Country is required!';
+    if (!city) return 'City is required!';
+    if (!zip) return 'Zip number is required!';
+    if (!street) return 'Street name is required!';
+    if (!buildingNumber) return 'Building number is required!';
   };
 
   closeModal = (data) => {
@@ -98,7 +123,6 @@ class AddressInfoScreen extends Component {
       buildingNumber,
       isDefault,
       isLoading,
-      disabledButton
     } = this.state;
 
     return (
@@ -129,7 +153,7 @@ class AddressInfoScreen extends Component {
                 <PrimaryInput
                   clickable
                   onPress={() => this.setState({modalVisible: true})}
-                  labelText={'Country'}
+                  labelText={'Country *'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
                   value={country}/>
               </TouchableOpacity>
@@ -146,28 +170,28 @@ class AddressInfoScreen extends Component {
               }
 
               <PrimaryInput
-                labelText={'City'}
+                labelText={'City *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={city}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({city: text})}/>
 
               <PrimaryInput
-                labelText={'ZIP'}
+                labelText={'ZIP *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={zip}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({zip: text})}/>
 
               <PrimaryInput
-                labelText={'Street'}
+                labelText={'Street *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={street}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({street: text})}/>
 
               <PrimaryInput
-                labelText={'Building number'}
+                labelText={'Building number *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={buildingNumber}
                 autoCapitalize={'words'}
@@ -192,8 +216,7 @@ class AddressInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
-                  disabled={disabledButton}
-                  onPress={() => this.onSubmit()}
+                  onPress={this.onSubmit}
                   title={'Next'}/>
               </View>
             </Form>
