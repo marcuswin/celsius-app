@@ -4,6 +4,9 @@ export {
   showMessage,
   clearMessage,
   setHeaderHeight,
+  toggleCamera,
+  takeCameraPhoto,
+  flipCamera,
 }
 
 function showMessage(msgType, text) {
@@ -32,5 +35,26 @@ function setHeaderHeight(height, isAnimatedHeader = false) {
     type: ACTIONS.SET_HEADER_HEIGHT,
     header: height,
     isAnimatedHeader,
+  }
+}
+
+function takeCameraPhoto(photoName, base64Image) {
+  return {
+    type: ACTIONS.TAKE_CAMERA_PHOTO,
+    photoName,
+    base64Image
+  }
+}
+
+function toggleCamera(photoName) {
+  return {
+    type: ACTIONS.TOGGLE_CAMERA,
+    photoName,
+  }
+}
+
+function flipCamera() {
+  return {
+    type: ACTIONS.FLIP_CAMERA,
   }
 }

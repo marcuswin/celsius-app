@@ -29,3 +29,12 @@ export const DOCUMENT_TYPE = [
   {label: 'Driving Licence', value: 'driving_licence', bothSides: true},
   {label: 'National Identity Card', value: 'national_identity_card', bothSides: true}
 ];
+
+export const CAMERA_PHOTOS = {
+  PASSPORT: 'PASSPORT',
+  DRIVING_LICENSE_FRONT: 'DRIVING_LICENSE_FRONT',
+  DRIVING_LICENSE_BACK: 'DRIVING_LICENSE_BACK',
+  ID_FRONT: 'ID_FRONT',
+  ID_BACK: 'ID_BACK',
+  SELFIE: 'SELFIE',
+}

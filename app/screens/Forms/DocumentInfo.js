@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
-import {Col, Grid} from 'react-native-easy-grid';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -13,11 +12,11 @@ import Styles from "./styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
-import {DOCUMENT_TYPE, KEYBOARD_TYPE} from "../../config/constants/common";
+import {DOCUMENT_TYPE, KEYBOARD_TYPE, CAMERA_PHOTOS} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
-import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
+import PrimaryInput from "../../components/Inputs/PrimaryInput";
+import CameraInput from "../../components/Inputs/CameraInput";
 import CameraModal from "../../components/Modals/Camera/Camera";
-import Icon from "../../components/Icons/Icon";
 
 @connect(
   state => ({
@@ -33,12 +32,8 @@ class DocumentInfoScreen extends Component {
 
     this.state = {
       documentType: '',
-      frontSide: '',
-      backSide: '',
-      selfie: '',
       modalVisible: false,
       isLoading: false,
-      disabledButton: false,
       cameraModalVisible: false,
     };
   }
@@ -66,77 +61,14 @@ class DocumentInfoScreen extends Component {
     });
   };
 
-  closeCameraModal = (data) => {
-    this.setState({
-      cameraModalVisible: false,
-      image: data || this.state.image,
-    });
-  };
-
-  renderBackSide = () => (
-      <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
-        <View style={Styles.fakeInputWrapper}>
-          <Grid style={{height: 50}}>
-            <Col style={{justifyContent: 'center'}}>
-              <Text style={Styles.fakeInputText}>Back side</Text>
-            </Col>
-            <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
-              <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
-                    style={{opacity: 0.5}}/>
-            </Col>
-          </Grid>
-        </View>
-      </TouchableOpacity>
-    );
-
-  renderPhotoItems = () => {
-    const {documentType} = this.state;
-
-    if (documentType) {
-      return (
-        <View>
-          <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
-            <View style={Styles.fakeInputWrapper}>
-              <Grid style={{height: 50}}>
-                <Col style={{justifyContent: 'center'}}>
-                  <Text style={Styles.fakeInputText}>Front side</Text>
-                </Col>
-                <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
-                  <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
-                        style={{opacity: 0.5}}/>
-                </Col>
-              </Grid>
-            </View>
-          </TouchableOpacity>
-
-          {documentType.bothSides ? this.renderBackSide() : null}
-
-          <TouchableOpacity onPress={() => this.setState({cameraModalVisible: true})}>
-            <View style={Styles.fakeInputWrapper}>
-              <Grid style={{height: 50}}>
-                <Col style={{justifyContent: 'center'}}>
-                  <Text style={Styles.fakeInputText}>Selfie</Text>
-                </Col>
-                <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
-                  <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}
-                        style={{opacity: 0.5}}/>
-                </Col>
-              </Grid>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )
-    }
-  };
-
   render() {
     const {
       documentType,
       modalVisible,
       isLoading,
       disabledButton,
-      cameraModalVisible
     } = this.state;
+    const { documentInfo } = this.props;
 
     return (
       <Container>
@@ -157,10 +89,7 @@ class DocumentInfoScreen extends Component {
           modalTitle={'Document Type'}
           onClose={(value) => this.closeModal(value)}/>
 
-        <CameraModal
-          visible={cameraModalVisible}
-          onClose={(value) => this.closeCameraModal(value)}
-        />
+        <CameraModal />
 
         <Content
           bounces={false}
@@ -182,7 +111,64 @@ class DocumentInfoScreen extends Component {
                   value={documentType.label || null}/>
               </TouchableOpacity>
 
-              {this.renderPhotoItems()}
+              { documentType && documentType.value === 'driving_licence' ? (
+                <CameraInput
+                  labelText={'Front Side'}
+                  value={documentInfo.drivingLicenseFront}
+                  photoName={CAMERA_PHOTOS.DRIVING_LICENSE_FRONT}
+                />
+              ) : null }
+              { documentType && documentType.value === 'driving_licence' ? (
+                <CameraInput
+                  labelText={'Back Side'}
+                  value={documentInfo.drivingLicenseBack}
+                  photoName={CAMERA_PHOTOS.DRIVING_LICENSE_BACK}
+                />
+              ) : null }
+              { documentType && documentType.value === 'driving_licence' ? (
+                <CameraInput
+                  labelText={'Selfie'}
+                  value={documentInfo.selfie}
+                  photoName={CAMERA_PHOTOS.SELFIE}
+                />
+              ) : null }
+
+              { documentType && documentType.value === 'national_identity_card' ? (
+                <CameraInput
+                  labelText={'Front Side'}
+                  value={documentInfo.idFront}
+                  photoName={CAMERA_PHOTOS.ID_FRONT}
+                />
+              ) : null }
+              { documentType && documentType.value === 'national_identity_card' ? (
+                <CameraInput
+                  labelText={'Back Side'}
+                  value={documentInfo.idBack}
+                  photoName={CAMERA_PHOTOS.ID_BACK}
+                />
+              ) : null }
+              { documentType && documentType.value === 'national_identity_card' ? (
+                <CameraInput
+                  labelText={'Selfie'}
+                  value={documentInfo.selfie}
+                  photoName={CAMERA_PHOTOS.SELFIE}
+                />
+              ) : null }
+
+              { documentType && documentType.value === 'passport' ? (
+                <CameraInput
+                  labelText={'Passport'}
+                  value={documentInfo.passport}
+                  photoName={CAMERA_PHOTOS.PASSPORT}
+                />
+              ) : null }
+              { documentType && documentType.value === 'passport' ? (
+                <CameraInput
+                  labelText={'Selfie'}
+                  value={documentInfo.selfie}
+                  photoName={CAMERA_PHOTOS.SELFIE}
+                />
+              ) : null }
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton

@@ -33,6 +33,17 @@ const PrimaryInputStyles = StyleSheet.create({
     opacity: 0.5,
     top: 0
   },
+  cameraInput: {
+    paddingLeft: 10,
+    paddingRight: 18,
+    paddingBottom: 5,
+    paddingTop: 5,
+    marginBottom: 15,
+    borderRadius: 8,
+    backgroundColor: STYLES.INPUT_BACKGROUND_COLOR_WHITE,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   cameraImage: {
     marginTop: -20,
     width: 0.5 * width,

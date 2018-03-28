@@ -28,17 +28,6 @@ const Styles = StyleSheet.create({
   disabledForm: {
     opacity: 0.5
   },
-  fakeInputWrapper: {
-    paddingLeft: 10,
-    paddingRight: 18,
-    paddingBottom: 5,
-    paddingTop: 5,
-    marginBottom: 15,
-    borderRadius: 8,
-    backgroundColor: STYLES.INPUT_BACKGROUND_COLOR_WHITE,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   fakeInputText: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
     fontFamily: 'agile-light',
