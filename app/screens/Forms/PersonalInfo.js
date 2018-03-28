@@ -30,6 +30,7 @@ class PersonalInfoScreen extends Component {
     super();
 
     this.state = {
+      // TODO(fj): create an object for personalInfo. This is confusing...
       title: props.personalInfo.title,
       firstName: props.personalInfo.firstName,
       lastName: props.personalInfo.lastName,
@@ -41,15 +42,17 @@ class PersonalInfoScreen extends Component {
       genderModalVisible: false,
       titleModalVisible: false,
       isLoading: false,
-      disabledButton: false,
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   componentWillReceiveProps = (nextProps) => {
     const {personalInfo} = this.props;
 
     if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
-      this.setState({isLoading: false, disabledButton: false});
+      this.setState({isLoading: false});
     }
   };
 
@@ -58,7 +61,7 @@ class PersonalInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    const {createUserPersonalInfo} = this.props;
+    const {createUserPersonalInfo, showMessage} = this.props;
     const {
       title,
       firstName,
@@ -70,18 +73,39 @@ class PersonalInfoScreen extends Component {
       socialSecurityNumber,
     } = this.state;
 
-    this.setState({isLoading: true, disabledButton: true});
+    const error = this.validateForm();
 
-    createUserPersonalInfo({
-      title,
+    if (!error) {
+      this.setState({isLoading: true});
+
+      createUserPersonalInfo({
+        title,
+        firstName,
+        lastName,
+        middleName,
+        dateOfBirth,
+        motherMaidenName,
+        gender,
+        socialSecurityNumber
+      });
+    } else {
+      showMessage('error', error);
+    }
+
+  };
+
+  validateForm = () => {
+    const {
       firstName,
       lastName,
-      middleName,
       dateOfBirth,
-      motherMaidenName,
-      gender,
-      socialSecurityNumber
-    });
+      socialSecurityNumber,
+    } = this.state;
+
+    if (!firstName) return 'First name is required!';
+    if (!lastName) return 'Last name is required!';
+    if (!dateOfBirth) return 'Date of Birth is required!';
+    if (!socialSecurityNumber) return 'Social security number is required!';
   };
 
   closeModal = (type, value) => {
@@ -111,7 +135,6 @@ class PersonalInfoScreen extends Component {
       genderModalVisible,
       titleModalVisible,
       isLoading,
-      disabledButton
     } = this.state;
 
     return (
@@ -156,14 +179,14 @@ class PersonalInfoScreen extends Component {
               </TouchableOpacity>
 
               <PrimaryInput
-                labelText={'First Name'}
+                labelText={'First Name *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={firstName}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({firstName: text})}/>
 
               <PrimaryInput
-                labelText={'Last Name'}
+                labelText={'Last Name *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={lastName}
                 autoCapitalize={'words'}
@@ -178,7 +201,7 @@ class PersonalInfoScreen extends Component {
 
               <TouchableOpacity onPress={() => this.datePicker.onPressDate()}>
                 <PrimaryInput
-                  labelText={'Date of Birth'}
+                  labelText={'Date of Birth *'}
                   clickable
                   onPress={() => this.datePicker.onPressDate()}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
@@ -203,16 +226,15 @@ class PersonalInfoScreen extends Component {
               </TouchableOpacity>
 
               <PrimaryInput
-                labelText={'Social Security Number'}
+                labelText={'Social Security Number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={socialSecurityNumber}
                 onChange={(text) => this.setState({socialSecurityNumber: text})}/>
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
-                  disabled={disabledButton}
                   loading={isLoading}
-                  onPress={() => this.onSubmit()}
+                  onPress={this.onSubmit}
                   title={'Next'}/>
               </View>
             </Form>

@@ -44,7 +44,7 @@ class PrimaryButton extends Component {
     } = this.props;
 
     return (
-      <TouchableOpacity style={[PrimaryButtonStyles.button, customStyles, disabled ? PrimaryButtonStyles.disabledStyles : {}]} disabled={disabled} onPress={onPress} pointerEvents={ loading ? 'none' : 'auto' }>
+      <TouchableOpacity style={[PrimaryButtonStyles.button, customStyles, disabled ? PrimaryButtonStyles.disabledStyles : {}]} disabled={disabled || loading} onPress={onPress} pointerEvents={ loading ? 'none' : 'auto' }>
         { loading ? (
           <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={PrimaryButtonStyles.loader} />
         ) : (

@@ -34,15 +34,17 @@ class ContactInfoScreen extends Component {
       email: props.contactInfo.email,
       isDefault: props.contactInfo.isDefault,
       isLoading: false,
-      disabledButton: false,
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   componentWillReceiveProps = (nextProps) => {
     const {contactInfo} = this.props;
 
     if (!_.isEqual(contactInfo, nextProps.contactInfo)) {
-      this.setState({isLoading: false, disabledButton: false});
+      this.setState({isLoading: false});
     }
   };
 
@@ -51,7 +53,7 @@ class ContactInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    const {createUserContactInfo} = this.props;
+    const {createUserContactInfo, showMessage} = this.props;
     const {
       cellPhone,
       otherPhones,
@@ -59,14 +61,30 @@ class ContactInfoScreen extends Component {
       isDefault,
     } = this.state;
 
-    this.setState({isLoading: true, disabledButton: true});
+    const error = this.validateForm();
 
-    createUserContactInfo({
+    if (!error) {
+      this.setState({isLoading: true});
+
+      createUserContactInfo({
+        cellPhone,
+        otherPhones,
+        email,
+        isDefault
+      });
+    } else {
+      showMessage('error', error);
+    }
+  };
+
+  validateForm = () => {
+    const {
       cellPhone,
-      otherPhones,
       email,
-      isDefault
-    });
+    } = this.state;
+
+    if (!cellPhone) return 'Cell phone is required!';
+    if (!email) return 'Email is required!';
   };
 
   render() {
@@ -76,7 +94,6 @@ class ContactInfoScreen extends Component {
       email,
       isDefault,
       isLoading,
-      disabledButton
     } = this.state;
 
     return (
@@ -99,7 +116,7 @@ class ContactInfoScreen extends Component {
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Form>
               <PrimaryInput
-                labelText={'Cell Phone'}
+                labelText={'Cell Phone *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={cellPhone}
                 onChange={(text) => this.setState({cellPhone: text})}/>
@@ -112,7 +129,7 @@ class ContactInfoScreen extends Component {
                 onChange={(text) => this.setState({otherPhones: text})}/>
 
               <PrimaryInput
-                labelText={'Email'}
+                labelText={'Email *'}
                 keyboardType={KEYBOARD_TYPE.EMAIL}
                 value={email}
                 autoCapitalize={'words'}
@@ -137,8 +154,7 @@ class ContactInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
-                  disabled={disabledButton}
-                  onPress={() => this.onSubmit()}
+                  onPress={this.onSubmit}
                   title={'Next'}/>
               </View>
             </Form>

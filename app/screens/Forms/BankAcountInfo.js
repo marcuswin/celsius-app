@@ -36,15 +36,17 @@ class BankAccountInfoScreen extends Component {
       note: props.bankInfo.note,
       isDefault: props.bankInfo.isDefault,
       isLoading: false,
-      disabledButton: false
     };
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   componentWillReceiveProps = (nextProps) => {
     const {personalInfo} = this.props;
 
     if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
-      this.setState({isLoading: false, disabledButton: false});
+      this.setState({isLoading: false});
     }
   };
 
@@ -53,7 +55,7 @@ class BankAccountInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    const {createUserBankInfo} = this.props;
+    const {createUserBankInfo, showMessage} = this.props;
     const {
       name,
       routingNumber,
@@ -63,16 +65,36 @@ class BankAccountInfoScreen extends Component {
       isDefault,
     } = this.state;
 
-    this.setState({isLoading: true, disabledButton: true});
+    const error = this.validateForm();
 
-    createUserBankInfo({
+    if (!error) {
+      this.setState({isLoading: true});
+
+      createUserBankInfo({
+        name,
+        routingNumber,
+        accountNumber,
+        purposeOfLoan,
+        note,
+        isDefault,
+      });
+    } else {
+      showMessage('error', error);
+    }
+  };
+
+  validateForm = () => {
+    const {
       name,
       routingNumber,
       accountNumber,
       purposeOfLoan,
-      note,
-      isDefault,
-    });
+    } = this.state;
+
+    if (!name) return 'Bank name is required!';
+    if (!routingNumber) return 'Routing number is required!';
+    if (!accountNumber) return 'Account number is required!';
+    if (!purposeOfLoan) return 'Purpose of loan is required!';
   };
 
   render() {
@@ -84,7 +106,6 @@ class BankAccountInfoScreen extends Component {
       isDefault,
       note,
       isLoading,
-      disabledButton
     } = this.state;
 
     return (
@@ -107,27 +128,27 @@ class BankAccountInfoScreen extends Component {
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Form>
               <PrimaryInput
-                labelText={'Bank Name'}
+                labelText={'Bank Name *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={name}
                 onChange={(text) => this.setState({name: text})}/>
 
               <PrimaryInput
-                labelText={'Routing number'}
+                labelText={'Routing number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={routingNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({routingNumber: text})}/>
 
               <PrimaryInput
-                labelText={'Account number'}
+                labelText={'Account number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={accountNumber}
                 autoCapitalize={'words'}
                 onChange={(text) => this.setState({accountNumber: text})}/>
 
               <PrimaryInput
-                labelText={'Purpose of Loan'}
+                labelText={'Purpose of Loan *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={purposeOfLoan}
                 onChange={(text) => this.setState({purposeOfLoan: text})}/>
@@ -158,8 +179,7 @@ class BankAccountInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
-                  disabled={disabledButton}
-                  onPress={() => this.onSubmit()}
+                  onPress={this.onSubmit}
                   title={'Next'}/>
               </View>
             </Form>
