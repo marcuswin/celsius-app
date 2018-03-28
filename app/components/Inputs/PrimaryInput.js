@@ -3,7 +3,7 @@ import {Input, Item, Label, Text, View} from "native-base";
 import PropTypes from "prop-types";
 
 import PrimaryInputStyles from './styles';
-import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
+import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../config/constants/common";
 
 class PrimaryInput extends Component {
   static propTypes = {

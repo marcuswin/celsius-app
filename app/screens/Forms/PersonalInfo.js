@@ -12,7 +12,7 @@ import {Message} from '../../components/Message/Message';
 import Styles from "./styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
-import PrimaryInput from "../../components/Inputs/PrimaryInput/PrimaryInput";
+import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {GENDER, KEYBOARD_TYPE, PERSON_TITLE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";

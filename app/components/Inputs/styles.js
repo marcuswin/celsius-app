@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
-import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import {Dimensions, StyleSheet} from 'react-native';
+import {FONT_SCALE, STYLES} from "../../config/constants/style";
+
+const {width} = Dimensions.get('window');
 
 const PrimaryInputStyles = StyleSheet.create({
   wrapper: {
@@ -30,6 +32,12 @@ const PrimaryInputStyles = StyleSheet.create({
     fontFamily: 'agile-light',
     opacity: 0.5,
     top: 0
+  },
+  cameraImage: {
+    marginTop: -20,
+    width: 0.5 * width,
+    height: 0.5 * width,
+    borderRadius: 8,
   }
 });
 
