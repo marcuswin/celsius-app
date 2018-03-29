@@ -6,16 +6,6 @@ const initialState = {
   userLocation: undefined,
   user: undefined,
   borrower: undefined,
-  personalInfo: {
-    title: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    dateOfBirth: '',
-    motherMaidenName: '',
-    gender: '',
-    socialSecurityNumber: '',
-  },
   addressInfo: {
     country: '',
     state: '',
@@ -149,9 +139,23 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
+        user: {
+          ...state.user,
+          ...action.personalInfo,
+        },
+      };
+
+    case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.personalInfo,
+        },
         personalInfo: action.personalInfo
       };
 
