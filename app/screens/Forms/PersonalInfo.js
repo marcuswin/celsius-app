@@ -142,7 +142,6 @@ class PersonalInfoScreen extends Component {
   };
 
   updateField(field, text) {
-    console.log(text);
     this.setState({
       personalInfo: {
         ...this.state.personalInfo,

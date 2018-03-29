@@ -8,7 +8,7 @@ import usersService from '../../services/users-service';
 export {
   getUserPersonalInfo,
   createUserPersonalInfo,
-  // getUserAddressInfo,
+  getUserAddressInfo,
   createUserAddressInfo,
   // getUserContactInfo,
   createUserContactInfo,
@@ -89,6 +89,28 @@ function createUserAddressInfoSuccess(addressInfo) {
   }
 }
 
+function getUserAddressInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_ADDRESS_INFO));
+
+    try {
+      const addressInfoRes = await usersService.getAddressInfo();
+      dispatch(getUserAddressInfoSuccess(addressInfoRes.data.address));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_ADDRESS_INFO, err));
+    }
+  }
+}
+
+
+function getUserAddressInfoSuccess(addressInfo) {
+  return {
+    type: ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS,
+    callName: API.GET_USER_ADDRESS_INFO,
+    addressInfo
+  }
+}
 
 // CONTACT INFO
 function createUserContactInfo(contactInfo) {
