@@ -19,9 +19,11 @@ class CameraInput extends Component {
   static propTypes = {
     labelText: PropTypes.string.isRequired,
     value: PropTypes.string,
+    previewImage: PropTypes.bool,
   };
 
   static defaultProps = {
+    previewImage: false,
   };
 
   constructor(props) {
@@ -42,16 +44,20 @@ class CameraInput extends Component {
 
   // Render methods
   renderLabelText = () => {
-    const {labelText, value} = this.props;
+    const {labelText, value, previewImage} = this.props;
 
     let text = labelText;
     let fontSize = 18;
     let positionTop = -2;
 
-    if (value) {
+    if (value && previewImage) {
       text = labelText.toUpperCase();
       fontSize = 12;
       positionTop = -10;
+    }
+
+    if (value && !previewImage) {
+      text = `${labelText} - Photo Taken`
     }
 
     return (
@@ -64,30 +70,23 @@ class CameraInput extends Component {
   render() {
     const {
       value,
+      previewImage,
     } = this.props;
 
     return (
       <TouchableOpacity onPress={this.onPress}>
         <View style={InputStyles.cameraInput}>
           <Grid style={{height: 50}}>
-            <Col style={{justifyContent: 'center'}}>
+            <Col size={85} style={{justifyContent: 'center'}}>
               { this.renderLabelText() }
             </Col>
-            <Col style={{justifyContent: 'center', alignItems: 'flex-end'}}>
-              { !value ? (
-                <Icon
-                  name='CameraIcon'
-                  height='25'
-                  width='25'
-                  viewBox="0 0 32 32"
-                  fill={'#fff'}
-                  style={{opacity: 0.5}}
-                />
-                ) : null }
+            <Col size={15} style={{justifyContent: 'center', alignItems: 'flex-end'}}>
+              { !value ? <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} /> : null }
+              { value && !previewImage ? <Image source={require('../../../assets/images/icons/icon-check.png')} height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} /> : null }
             </Col>
           </Grid>
 
-          { value ? <Image source={{ uri: `data:image/png;base64,${value}` }} style={InputStyles.cameraImage} />: null}
+          { value && previewImage ? <Image source={{ uri: `data:image/png;base64,${value}` }} style={InputStyles.cameraImage} />: null}
         </View>
       </TouchableOpacity>
     );
