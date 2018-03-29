@@ -3,6 +3,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 const initialState = {
   callsInProgress: [],
   error: undefined,
+  lastCompletedCall: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +24,7 @@ export default (state = initialState, action) => {
       ...state,
       callsInProgress,
       error: action.error,
+      lastCompletedCall: action.callName,
     }
   }
 
@@ -40,6 +42,7 @@ export default (state = initialState, action) => {
     return {
       ...state,
       callsInProgress,
+      lastCompletedCall: action.callName,
     }
   }
 

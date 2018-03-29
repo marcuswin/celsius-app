@@ -16,11 +16,13 @@ import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import SelectCountryModal from "../../components/Modals/SelectCountryModal/SelectCountryModal";
+import API from "../../config/constants/API";
 
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user
+    user: state.users.user,
+    lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -54,13 +56,13 @@ class AddressInfoScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user} = this.props;
+    const {user, lastCompletedCall} = this.props;
 
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
         addressInfo: {
           country: nextProps.user.country,
-          state: nextProps.user.state,
+          state: nextProps.user.us_state,
           city: nextProps.user.city,
           zip: nextProps.user.zip,
           street: nextProps.user.street,
@@ -68,6 +70,10 @@ class AddressInfoScreen extends Component {
           isDefault: nextProps.user.isDefault,
         }
       });
+    }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_ADDRESS_INFO) {
+      this.setState({ isLoading: false })
     }
   };
 
