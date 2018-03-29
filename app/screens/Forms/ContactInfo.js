@@ -15,11 +15,13 @@ import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
+import API from "../../config/constants/API";
 
 @connect(
   state => ({
     nav: state.nav,
-    contactInfo: state.users.contactInfo
+    user: state.users.user,
+    lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -29,22 +31,41 @@ class ContactInfoScreen extends Component {
     super();
 
     this.state = {
-      cellPhone: props.contactInfo.cellPhone,
-      otherPhones: props.contactInfo.otherPhones,
-      email: props.contactInfo.email,
-      isDefault: props.contactInfo.isDefault,
+      contactInfo: {
+        cellPhone: props.user.cellphone,
+        otherPhones: props.user.other_phone_number,
+        email: props.user.email,
+        isDefault: props.user.isDefault,
+      },
       isLoading: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.updateField = this.updateField.bind(this);
+  }
+
+  componentDidMount() {
+    const {getUserContactInfo} = this.props;
+    getUserContactInfo();
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {contactInfo} = this.props;
+    const {user, lastCompletedCall} = this.props;
 
-    if (!_.isEqual(contactInfo, nextProps.contactInfo)) {
-      this.setState({isLoading: false});
+    if (!_.isEqual(user, nextProps.user)) {
+      this.setState({
+        contactInfo: {
+          cellPhone: nextProps.user.cellphone,
+          otherPhones: nextProps.user.other_phone_number,
+          email: nextProps.user.email,
+          isDefault: nextProps.user.isDefault,
+        }
+      });
+    }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_CONTACT_INFO) {
+      this.setState({ isLoading: false })
     }
   };
 
@@ -59,7 +80,7 @@ class ContactInfoScreen extends Component {
       otherPhones,
       email,
       isDefault,
-    } = this.state;
+    } = this.state.contactInfo;
 
     const error = this.validateForm();
 
@@ -81,20 +102,33 @@ class ContactInfoScreen extends Component {
     const {
       cellPhone,
       email,
-    } = this.state;
+    } = this.state.contactInfo;
 
     if (!cellPhone) return 'Cell phone is required!';
     if (!email) return 'Email is required!';
   };
 
+  updateField(field, text) {
+    this.setState({
+      contactInfo: {
+        ...this.state.contactInfo,
+        [field]: text,
+      }
+    })
+  }
+
   render() {
+    const {
+      contactInfo,
+      isLoading,
+    } = this.state;
+
     const {
       cellPhone,
       otherPhones,
       email,
       isDefault,
-      isLoading,
-    } = this.state;
+    } = contactInfo;
 
     return (
       <Container>
@@ -119,21 +153,21 @@ class ContactInfoScreen extends Component {
                 labelText={'Cell Phone *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={cellPhone}
-                onChange={(text) => this.setState({cellPhone: text})}/>
+                onChange={(text) => this.updateField('cellPhone', text)}/>
 
               <PrimaryInput
                 labelText={'Other phones'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={otherPhones}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({otherPhones: text})}/>
+                onChange={(text) => this.updateField('otherPhones', text)}/>
 
               <PrimaryInput
                 labelText={'Email *'}
                 keyboardType={KEYBOARD_TYPE.EMAIL}
                 value={email}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({email: text})}/>
+                onChange={(text) => this.updateField('email', text)}/>
 
               <CheckBox
                 label={`Save as default`}
@@ -147,7 +181,7 @@ class ContactInfoScreen extends Component {
                 }
                 uncheckedImage={require('../../../assets/images/icons/transparent.png')}
                 onChange={() => {
-                  this.setState({isDefault: !this.state.isDefault})
+                  this.updateField('isDefault', !isDefault)
                 }}
               />
 

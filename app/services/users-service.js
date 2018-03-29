@@ -16,7 +16,7 @@ const usersService = {
   createPersonalInfo,
   getAddressInfo,
   createAddressInfo,
-  // getContactInfo,
+  getContactInfo,
   createContactInfo,
   // getBankAccountInfo,
   createBankAccountInfo,
@@ -152,12 +152,15 @@ function getAddressInfo() {
 }
 
 function createContactInfo(contactInfo) {
-  console.log({
-    url: `${apiUrl}/users/contact_info`,
-    contactInfo,
+  return axios.post(`${apiUrl}/users/contact`, {
+    cellphone: contactInfo.cellPhone,
+    other_phone_number: contactInfo.otherPhones,
+    email: contactInfo.email,
   });
-  return contactInfo;
-  // return axios.post(`${apiUrl}/users/contact_info`, contactInfo);
+}
+
+function getContactInfo() {
+  return axios.get(`${apiUrl}/users/contact`);
 }
 
 function createBankAccountInfo(bankAccountInfo) {

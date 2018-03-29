@@ -10,7 +10,7 @@ export {
   createUserPersonalInfo,
   getUserAddressInfo,
   createUserAddressInfo,
-  // getUserContactInfo,
+  getUserContactInfo,
   createUserContactInfo,
   // getUserBankInfo,
   createUserBankInfo,
@@ -133,6 +133,29 @@ function createUserContactInfoSuccess(contactInfo) {
   return {
     type: ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS,
     callName: API.CREATE_USER_CONTACT_INFO,
+    contactInfo
+  }
+}
+
+function getUserContactInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_CONTACT_INFO));
+
+    try {
+      const contactInfoRes = await usersService.getContactInfo();
+      dispatch(getUserContactInfoSuccess(contactInfoRes.data.contact));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_CONTACT_INFO, err));
+    }
+  }
+}
+
+
+function getUserContactInfoSuccess(contactInfo) {
+  return {
+    type: ACTIONS.GET_USER_CONTACT_INFO_SUCCESS,
+    callName: API.GET_USER_CONTACT_INFO,
     contactInfo
   }
 }
