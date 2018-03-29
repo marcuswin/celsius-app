@@ -20,7 +20,7 @@ import SelectCountryModal from "../../components/Modals/SelectCountryModal/Selec
 @connect(
   state => ({
     nav: state.nav,
-    addressInfo: state.users.addressInfo
+    user: state.users.user
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -30,26 +30,44 @@ class AddressInfoScreen extends Component {
     super();
 
     this.state = {
-      country: props.addressInfo.country,
-      state: props.addressInfo.state,
-      city: props.addressInfo.city,
-      zip: props.addressInfo.zip,
-      street: props.addressInfo.street,
-      buildingNumber: props.addressInfo.buildingNumber,
-      isDefault: props.addressInfo.isDefault,
+      addressInfo: {
+        country: props.user.country,
+        state: props.user.us_state,
+        city: props.user.city,
+        zip: props.user.zip,
+        street: props.user.street,
+        buildingNumber: props.user.building_number,
+        isDefault: props.user.isDefault,
+      },
       modalVisible: false,
       isLoading: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.updateField = this.updateField.bind(this);
+  }
+
+  componentDidMount() {
+    const {getUserAddressInfo} = this.props;
+    getUserAddressInfo();
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {addressInfo} = this.props;
+    const {user} = this.props;
 
-    if (!_.isEqual(addressInfo, nextProps.addressInfo)) {
-      this.setState({isLoading: false});
+    if (!_.isEqual(user, nextProps.user)) {
+      this.setState({
+        addressInfo: {
+          country: nextProps.user.country,
+          state: nextProps.user.state,
+          city: nextProps.user.city,
+          zip: nextProps.user.zip,
+          street: nextProps.user.street,
+          buildingNumber: nextProps.user.building_number,
+          isDefault: nextProps.user.isDefault,
+        }
+      });
     }
   };
 
@@ -67,7 +85,7 @@ class AddressInfoScreen extends Component {
       street,
       buildingNumber,
       isDefault,
-    } = this.state;
+    } = this.state.addressInfo;
 
     const error = this.validateForm();
 
@@ -96,7 +114,7 @@ class AddressInfoScreen extends Component {
       zip,
       street,
       buildingNumber,
-    } = this.state;
+    } = this.state.addressInfo;
 
     if (!country) return 'Country is required!';
     if (!city) return 'City is required!';
@@ -108,22 +126,35 @@ class AddressInfoScreen extends Component {
   closeModal = (data) => {
     this.setState({
       modalVisible: false,
-      country: data || this.state.country,
     });
+    this.updateField('country', data || this.state.country)
   };
 
+  updateField(field, text) {
+    this.setState({
+      addressInfo: {
+        ...this.state.addressInfo,
+        [field]: text,
+      }
+    })
+  }
+
   render() {
+    const {
+      addressInfo,
+      modalVisible,
+      isLoading,
+    } = this.state;
+
     const {
       country,
       state,
       city,
       zip,
-      modalVisible,
       street,
       buildingNumber,
       isDefault,
-      isLoading,
-    } = this.state;
+    } = addressInfo;
 
     return (
       <Container>
@@ -159,13 +190,13 @@ class AddressInfoScreen extends Component {
               </TouchableOpacity>
 
               {
-                this.state.country === 'United States' ?
+                country === 'United States' ?
                   <PrimaryInput
                     labelText={'State'}
                     keyboardType={KEYBOARD_TYPE.DEFAULT}
                     value={state}
                     autoCapitalize={'characters'}
-                    onChange={(text) => this.setState({state: text})}/>
+                    onChange={(text) => this.updateField('state', text)}/>
                   : null
               }
 
@@ -174,28 +205,28 @@ class AddressInfoScreen extends Component {
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={city}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({city: text})}/>
+                onChange={(text) => this.updateField('city', text)}/>
 
               <PrimaryInput
                 labelText={'ZIP *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={zip}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({zip: text})}/>
+                onChange={(text) => this.updateField('zip', text)}/>
 
               <PrimaryInput
                 labelText={'Street *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={street}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({street: text})}/>
+                onChange={(text) => this.updateField('street', text)}/>
 
               <PrimaryInput
                 labelText={'Building number *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={buildingNumber}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({buildingNumber: text})}/>
+                onChange={(text) => this.updateField('buildingNumber', text)}/>
 
               <CheckBox
                 label={`Save as default`}

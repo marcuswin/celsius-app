@@ -14,7 +14,7 @@ const usersService = {
   getUserInfo,
   getPersonalInfo,
   createPersonalInfo,
-  // getAddressInfo,
+  getAddressInfo,
   createAddressInfo,
   // getContactInfo,
   createContactInfo,
@@ -137,12 +137,18 @@ function getPersonalInfo() {
 }
 
 function createAddressInfo(addressInfo) {
-  console.log({
-    url: `${apiUrl}/users/address_info`,
-    addressInfo,
+  return axios.post(`${apiUrl}/users/address`, {
+    country: addressInfo.country,
+    us_state: addressInfo.state,
+    city: addressInfo.city,
+    zip: addressInfo.zip,
+    street: addressInfo.street,
+    building_number: addressInfo.buildingNumber,
   });
-  return addressInfo;
-  // return axios.post(`${apiUrl}/users/address_info`, addressInfo);
+}
+
+function getAddressInfo() {
+  return axios.get(`${apiUrl}/users/address`);
 }
 
 function createContactInfo(contactInfo) {

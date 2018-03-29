@@ -149,20 +149,14 @@ export default (state = initialState, action) => {
         },
       };
 
-    case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
+    case ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS:
+    case ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS:
       return {
         ...state,
         user: {
           ...state.user,
-          ...action.personalInfo,
+          ...action.addressInfo,
         },
-        personalInfo: action.personalInfo
-      };
-
-    case ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS:
-      return {
-        ...state,
-        addressInfo: action.addressInfo
       };
 
     case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
