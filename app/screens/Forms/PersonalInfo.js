@@ -12,6 +12,7 @@ import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/Animate
 import {Message} from '../../components/Message/Message';
 import Styles from "./styles";
 import * as actions from "../../redux/actions";
+import API from "../../config/constants/API";
 import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {GENDER, KEYBOARD_TYPE, PERSON_TITLE} from "../../config/constants/common";
@@ -22,6 +23,7 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
   state => ({
     nav: state.nav,
     user: state.users.user,
+    lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -57,7 +59,7 @@ class PersonalInfoScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user} = this.props;
+    const {user, lastCompletedCall} = this.props;
 
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
@@ -72,6 +74,10 @@ class PersonalInfoScreen extends Component {
           socialSecurityNumber: nextProps.user.ssn || '',
         },
       });
+    }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_PERSONAL_INFO) {
+      this.setState({ isLoading: false })
     }
   };
 
