@@ -12,9 +12,13 @@ const usersService = {
   facebookLogin,
   twitterLogin,
   getUserInfo,
+  getPersonalInfo,
   createPersonalInfo,
+  // getAddressInfo,
   createAddressInfo,
+  // getContactInfo,
   createContactInfo,
+  // getBankAccountInfo,
   createBankAccountInfo,
 };
 
@@ -116,12 +120,20 @@ function getUserInfo() {
 }
 
 function createPersonalInfo(personalInfo) {
-  console.log({
-    url: `${apiUrl}/users/personal_info`,
-    personalInfo,
+  return axios.post(`${apiUrl}/users/personal_info`, {
+    title: personalInfo.title,
+    first_name: personalInfo.firstName,
+    last_name: personalInfo.lastName,
+    middle_name: personalInfo.middleName,
+    date_of_birth: personalInfo.dateOfBirth,
+    mothers_maiden_name: personalInfo.motherMaidenName,
+    gender: personalInfo.gender,
+    ssn: personalInfo.socialSecurityNumber,
   });
-  return personalInfo;
-  // return axios.post(`${apiUrl}/users/personal_info`, personalInfo);
+}
+
+function getPersonalInfo() {
+  return axios.get(`${apiUrl}/users/personal_info`);
 }
 
 function createAddressInfo(addressInfo) {

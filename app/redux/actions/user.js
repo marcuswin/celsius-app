@@ -6,10 +6,14 @@ import {showMessage} from "./ui";
 import usersService from '../../services/users-service';
 
 export {
+  getUserPersonalInfo,
   createUserPersonalInfo,
+  // getUserAddressInfo,
   createUserAddressInfo,
+  // getUserContactInfo,
   createUserContactInfo,
-  createUserBankInfo
+  // getUserBankInfo,
+  createUserBankInfo,
 }
 
 // PERSONAL INFO
@@ -33,6 +37,29 @@ function createUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS,
     callName: API.CREATE_USER_PERSONAL_INFO,
+    personalInfo
+  }
+}
+
+function getUserPersonalInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
+
+    try {
+      const personalInfoRes = await usersService.getPersonalInfo();
+      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
+    }
+  }
+}
+
+
+function getUserPersonalInfoSuccess(personalInfo) {
+  return {
+    type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
+    callName: API.GET_USER_PERSONAL_INFO,
     personalInfo
   }
 }

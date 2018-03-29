@@ -5,6 +5,7 @@ import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import DatePicker from 'react-native-datepicker'
 import * as _ from 'lodash'
+import moment from 'moment';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -20,7 +21,7 @@ import {PrimaryButton} from "../../components/Buttons/Button/Button";
 @connect(
   state => ({
     nav: state.nav,
-    personalInfo: state.users.personalInfo
+    user: state.users.user,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -30,15 +31,16 @@ class PersonalInfoScreen extends Component {
     super();
 
     this.state = {
-      // TODO(fj): create an object for personalInfo. This is confusing...
-      title: props.personalInfo.title,
-      firstName: props.personalInfo.firstName,
-      lastName: props.personalInfo.lastName,
-      middleName: props.personalInfo.middleName,
-      dateOfBirth: props.personalInfo.dateOfBirth,
-      motherMaidenName: props.personalInfo.motherMaidenName,
-      gender: props.personalInfo.gender,
-      socialSecurityNumber: props.personalInfo.socialSecurityNumber,
+      personalInfo: {
+        title: props.user.title || '',
+        firstName: props.user.first_name || '',
+        lastName: props.user.last_name || '',
+        middleName: props.user.middle_name || '',
+        dateOfBirth: props.user.date_of_birth || '',
+        motherMaidenName: props.user.mothers_maiden_name || '',
+        gender: props.user.gender || '',
+        socialSecurityNumber: props.user.ssn || '',
+      },
       genderModalVisible: false,
       titleModalVisible: false,
       isLoading: false,
@@ -46,13 +48,30 @@ class PersonalInfoScreen extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.updateField = this.updateField.bind(this);
+  }
+
+  componentDidMount() {
+    const {getUserPersonalInfo} = this.props;
+    getUserPersonalInfo();
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {personalInfo} = this.props;
+    const {user} = this.props;
 
-    if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
-      this.setState({isLoading: false});
+    if (!_.isEqual(user, nextProps.user)) {
+      this.setState({
+        personalInfo: {
+          title: nextProps.user.title || '',
+          firstName: nextProps.user.first_name || '',
+          lastName: nextProps.user.last_name || '',
+          middleName: nextProps.user.middle_name || '',
+          dateOfBirth: nextProps.user.date_of_birth || '',
+          motherMaidenName: nextProps.user.mothers_maiden_name || '',
+          gender: nextProps.user.gender || '',
+          socialSecurityNumber: nextProps.user.ssn || '',
+        },
+      });
     }
   };
 
@@ -71,7 +90,7 @@ class PersonalInfoScreen extends Component {
       motherMaidenName,
       gender,
       socialSecurityNumber,
-    } = this.state;
+    } = this.state.personalInfo;
 
     const error = this.validateForm();
 
@@ -100,7 +119,7 @@ class PersonalInfoScreen extends Component {
       lastName,
       dateOfBirth,
       socialSecurityNumber,
-    } = this.state;
+    } = this.state.personalInfo;
 
     if (!firstName) return 'First name is required!';
     if (!lastName) return 'Last name is required!';
@@ -111,9 +130,9 @@ class PersonalInfoScreen extends Component {
   closeModal = (type, value) => {
     if (value) {
       if (type === 'genderModalVisible') {
-        this.setState({gender: value.label})
+        this.updateField('gender', value.label)
       } else {
-        this.setState({title: value.label})
+        this.updateField('title', value.label)
       }
     }
 
@@ -122,7 +141,23 @@ class PersonalInfoScreen extends Component {
     this.setState(state)
   };
 
+  updateField(field, text) {
+    console.log(text);
+    this.setState({
+      personalInfo: {
+        ...this.state.personalInfo,
+        [field]: text,
+      }
+    })
+  }
+
   render() {
+    const {
+      personalInfo,
+      genderModalVisible,
+      titleModalVisible,
+      isLoading,
+    } = this.state;
     const {
       firstName,
       lastName,
@@ -131,11 +166,8 @@ class PersonalInfoScreen extends Component {
       gender,
       title,
       motherMaidenName,
-      socialSecurityNumber,
-      genderModalVisible,
-      titleModalVisible,
-      isLoading,
-    } = this.state;
+      socialSecurityNumber
+    } = personalInfo;
 
     return (
       <Container>
@@ -175,7 +207,7 @@ class PersonalInfoScreen extends Component {
                   labelText={'Title'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
                   value={title}
-                  onChange={(text) => this.setState({title: text})}/>
+                  onChange={(text) => this.updateField('title', text)}/>
               </TouchableOpacity>
 
               <PrimaryInput
@@ -183,21 +215,21 @@ class PersonalInfoScreen extends Component {
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={firstName}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({firstName: text})}/>
+                onChange={(text) => this.updateField('firstName', text)}/>
 
               <PrimaryInput
                 labelText={'Last Name *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={lastName}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({lastName: text})}/>
+                onChange={(text) => this.updateField('lastName', text)}/>
 
               <PrimaryInput
                 labelText={'Middle Name'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={middleName}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({middleName: text})}/>
+                onChange={(text) => this.updateField('middleName', text)}/>
 
               <TouchableOpacity onPress={() => this.datePicker.onPressDate()}>
                 <PrimaryInput
@@ -205,7 +237,7 @@ class PersonalInfoScreen extends Component {
                   clickable
                   onPress={() => this.datePicker.onPressDate()}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
-                  value={dateOfBirth}/>
+                  value={moment(new Date(dateOfBirth)).format('DD/MM/YY')}/>
               </TouchableOpacity>
 
               <PrimaryInput
@@ -213,7 +245,7 @@ class PersonalInfoScreen extends Component {
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={motherMaidenName}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({motherMaidenName: text})}/>
+                onChange={(text) => this.updateField('motherMaidenName', text)}/>
 
               <TouchableOpacity onPress={() => this.setState({genderModalVisible: true})}>
                 <PrimaryInput
@@ -222,18 +254,18 @@ class PersonalInfoScreen extends Component {
                   labelText={'Gender'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
                   value={gender}
-                  onChange={(text) => this.setState({gender: text})}/>
+                  onChange={(text) => this.updateField('gender', text)}/>
               </TouchableOpacity>
 
               <PrimaryInput
                 labelText={'Social Security Number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={socialSecurityNumber}
-                onChange={(text) => this.setState({socialSecurityNumber: text})}/>
+                onChange={(text) => this.updateField('socialSecurityNumber', text)}/>
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
-                  loading={isLoading}
+                      loading={isLoading}
                   onPress={this.onSubmit}
                   title={'Next'}/>
               </View>
@@ -245,7 +277,7 @@ class PersonalInfoScreen extends Component {
               }}
               style={{opacity: 0, height: 0, width: 0, position: 'absolute', top: -111111}}
               customStyles={{alignItems: 'left', borderWidth: 0}}
-              date={this.state.dateOfBirth}
+              date={dateOfBirth}
               mode="date"
               placeholder={'Date of Birth'}
               showIcon={false}
@@ -253,7 +285,7 @@ class PersonalInfoScreen extends Component {
               confirmBtnText="Ok"
               cancelBtnText="Cancel"
               onDateChange={(date) => {
-                this.setState({dateOfBirth: date})
+                this.updateField('dateOfBirth', new Date(date))
               }}
             />
 
