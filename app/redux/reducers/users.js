@@ -6,21 +6,6 @@ const initialState = {
   userLocation: undefined,
   user: undefined,
   borrower: undefined,
-  addressInfo: {
-    country: '',
-    state: '',
-    city: '',
-    zip: '',
-    street: '',
-    buildingNumber: '',
-    isDefault: true
-  },
-  contactInfo: {
-    cellPhone: '',
-    otherPhones: '',
-    email: '',
-    isDefault: true
-  },
   bankInfo: {
     name: '',
     routingNumber: '',
@@ -159,10 +144,14 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.GET_USER_CONTACT_INFO_SUCCESS:
     case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
       return {
         ...state,
-        contactInfo: action.contactInfo
+        user: {
+          ...state.user,
+          ...action.contactInfo,
+        },
       };
 
     case ACTIONS.CREATE_USER_BANK_INFO_SUCCESS:
