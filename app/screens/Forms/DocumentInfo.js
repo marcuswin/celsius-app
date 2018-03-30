@@ -24,6 +24,7 @@ import API from "../../config/constants/API";
   state => ({
     nav: state.nav,
     user: state.users.user,
+    lastCompletedCall: state.api.lastCompletedCall,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -51,7 +52,7 @@ class DocumentInfoScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user} = this.props;
+    const {user, lastCompletedCall, navigateTo} = this.props;
 
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
@@ -62,6 +63,10 @@ class DocumentInfoScreen extends Component {
           selfie: nextProps.user.selfie,
         },
       })
+    }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_DOCUMENTS) {
+      navigateTo('ThankYou');
     }
   };
 
