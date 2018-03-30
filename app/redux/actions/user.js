@@ -13,6 +13,8 @@ export {
   createUserContactInfo,
   getUserBankInfo,
   createUserBankInfo,
+  getUserDocuments,
+  createUserDocuments,
 }
 
 // PERSONAL INFO
@@ -156,7 +158,7 @@ function getUserContactInfoSuccess(contactInfo) {
   }
 }
 
-// CONTACT INFO
+// BANK INFO
 function createUserBankInfo(bankAccountInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_USER_BANK_INFO));
@@ -186,7 +188,7 @@ function getUserBankInfo() {
 
     try {
       const bankInfoRes = await usersService.getBankAccountInfo();
-      dispatch(getUserBankInfoSuccess(bankInfoRes.data.bank));
+      dispatch(getUserBankInfoSuccess(bankInfoRes.data.documents));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_BANK_INFO, err));
@@ -199,5 +201,51 @@ function getUserBankInfoSuccess(bankInfo) {
     type: ACTIONS.GET_USER_BANK_INFO_SUCCESS,
     callName: API.GET_USER_BANK_INFO,
     bankInfo
+  }
+}
+
+// DOCUMENT INFO
+function createUserDocuments(documentInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.CREATE_USER_DOCUMENTS));
+
+    try {
+      const newDocuments = await usersService.createDocuments(documentInfo);
+      dispatch(createUserDocumentsSuccess(newDocuments.data.documents));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_DOCUMENTS, err));
+    }
+  }
+}
+
+
+function createUserDocumentsSuccess(documents) {
+  return {
+    type: ACTIONS.CREATE_USER_DOCUMENTS_SUCCESS,
+    callName: API.CREATE_USER_DOCUMENTS,
+    documents
+  }
+}
+
+function getUserDocuments() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_DOCUMENTS));
+
+    try {
+      const documentsRes = await usersService.getDocuments();
+      dispatch(getUserDocumentsSuccess(documentsRes.data.bank));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_DOCUMENTS, err));
+    }
+  }
+}
+
+function getUserDocumentsSuccess(documents) {
+  return {
+    type: ACTIONS.GET_USER_DOCUMENTS_SUCCESS,
+    callName: API.GET_USER_DOCUMENTS,
+    documents
   }
 }

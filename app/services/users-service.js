@@ -20,6 +20,8 @@ const usersService = {
   createContactInfo,
   getBankAccountInfo,
   createBankAccountInfo,
+  getDocuments,
+  createDocuments,
 };
 
 function register({ email, password }) {
@@ -173,6 +175,14 @@ function createBankAccountInfo(bankAccountInfo) {
 
 function getBankAccountInfo() {
   return axios.get(`${apiUrl}/users/bank_info`);
+}
+
+function createDocuments(documentInfo) {
+  return axios.post(`${apiUrl}/users/documents`, documentInfo);
+}
+
+function getDocuments() {
+  return axios.get(`${apiUrl}/users/documents`);
 }
 
 export default usersService;
