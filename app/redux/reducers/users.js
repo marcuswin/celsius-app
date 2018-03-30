@@ -159,14 +159,9 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.TAKE_CAMERA_PHOTO:
-      if (action.photoName === CAMERA_PHOTOS.DRIVING_LICENSE_FRONT) return setDocumentImage(state, 'drivingLicenseFront', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.DRIVING_LICENSE_BACK) return setDocumentImage(state, 'drivingLicenseBack', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.ID_FRONT) return setDocumentImage(state, 'idFront', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.ID_BACK) return setDocumentImage(state, 'idBack', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.PASSPORT) return setDocumentImage(state, 'passport', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setUserImage(state, 'document_front', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setUserImage(state, 'document_back', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.SELFIE) return setUserImage(state, 'selfie', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setDocumentImage(state, 'document_front', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'document_back', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.SELFIE) return setDocumentImage(state, 'selfie', action.base64Image);
       return { ...state };
 
     default:
@@ -176,16 +171,6 @@ export default (state = initialState, action) => {
 }
 
 function setDocumentImage(state, imageName, image) {
-  return {
-    ...state,
-    documentInfo: {
-      ...state.documentInfo,
-      [imageName]: image,
-    }
-  }
-}
-
-function setUserImage(state, imageName, image) {
   return {
     ...state,
     user: {
