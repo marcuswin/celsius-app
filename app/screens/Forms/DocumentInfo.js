@@ -17,32 +17,51 @@ import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import CameraInput from "../../components/Inputs/CameraInput";
 import CameraModal from "../../components/Modals/Camera/Camera";
+import apiUtil from "../../utils/api-util";
+import API from "../../config/constants/API";
 
 @connect(
   state => ({
     nav: state.nav,
-    documentInfo: state.users.documentInfo
+    user: state.users.user,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class DocumentInfoScreen extends Component {
-  constructor() {
+  constructor(props) {
     super();
 
     this.state = {
-      documentType: '',
+      documentInfo: {
+        documentType: props.user.document_type,
+        front: props.user.document_front,
+        back: props.user.document_back,
+        selfie: props.user.selfie,
+      },
       modalVisible: false,
       isLoading: false,
       cameraModalVisible: false,
     };
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const {documentInfo} = this.props;
+  componentDidMount() {
+    this.props.getUserDocuments();
+  }
 
-    if (!_.isEqual(documentInfo, nextProps.documentInfo)) {
-      this.setState({isLoading: false, disabledButton: false});
+  componentWillReceiveProps = (nextProps) => {
+    const {user} = this.props;
+
+    if (!_.isEqual(user, nextProps.user)) {
+      this.setState({
+        documentInfo: {
+          documentType: this.state.documentInfo.documentType,
+          front: nextProps.user.document_front,
+          back: nextProps.user.document_back,
+          selfie: nextProps.user.selfie,
+        },
+      })
     }
   };
 
@@ -51,24 +70,50 @@ class DocumentInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    console.log('Document info on submit')
+    const { showMessage, createUserDocuments } = this.props;
+
+    const error = this.validateForm();
+    if (!error) {
+      createUserDocuments(this.state.documentInfo);
+    } else {
+      showMessage('error', error)
+    }
   };
 
+  getDocumentLabel(documentType) {
+    const activeDocument = DOCUMENT_TYPE.filter(dt => dt.value === documentType);
+    return activeDocument.length ? activeDocument[0].label : null;
+  }
+
   closeModal = (data) => {
+    const {documentInfo} = this.state;
     this.setState({
       modalVisible: false,
-      documentType: data || this.state.documentType,
+      documentInfo: {
+        ...documentInfo,
+        documentType: data ? data.value : documentInfo.documentType,
+      }
     });
   };
 
+  validateForm() {
+    const { documentInfo } = this.state;
+
+    if (!documentInfo.documentType) return 'Document Type is Required';
+    if (!documentInfo.front) return 'Image of front side is Required';
+    if (!documentInfo.back && documentInfo.documentType !== 'passport') return 'Image of back side is Required';
+    if (!documentInfo.selfie) return 'Selfie image is Required';
+
+    return false;
+  }
+
   render() {
-    const {
-      documentType,
-      modalVisible,
-      isLoading,
-      disabledButton,
-    } = this.state;
-    const { documentInfo } = this.props;
+    const { callsInProgress } = this.props;
+    const { documentInfo, modalVisible } = this.state;
+    const { documentType } = documentInfo;
+
+    const documentLabel = this.getDocumentLabel(documentType);
+    const isLoading = apiUtil.areCallsInProgress([API.CREATE_USER_DOCUMENTS], callsInProgress);
 
     return (
       <Container>
@@ -108,61 +153,24 @@ class DocumentInfoScreen extends Component {
                   onPress={() => this.setState({modalVisible: true})}
                   labelText={'Document Type'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
-                  value={documentType.label || null}/>
+                  value={documentLabel}/>
               </TouchableOpacity>
 
-              { documentType && documentType.value === 'driving_licence' ? (
+              { documentType ? (
                 <CameraInput
                   labelText={'Front Side'}
-                  value={documentInfo.drivingLicenseFront}
-                  photoName={CAMERA_PHOTOS.DRIVING_LICENSE_FRONT}
+                  value={documentInfo.front}
+                  photoName={CAMERA_PHOTOS.DOCUMENT_FRONT}
                 />
               ) : null }
-              { documentType && documentType.value === 'driving_licence' ? (
+              { documentType && documentType !== 'passport' ? (
                 <CameraInput
                   labelText={'Back Side'}
-                  value={documentInfo.drivingLicenseBack}
-                  photoName={CAMERA_PHOTOS.DRIVING_LICENSE_BACK}
+                  value={documentInfo.back}
+                  photoName={CAMERA_PHOTOS.DOCUMENT_BACK}
                 />
               ) : null }
-              { documentType && documentType.value === 'driving_licence' ? (
-                <CameraInput
-                  labelText={'Selfie'}
-                  value={documentInfo.selfie}
-                  photoName={CAMERA_PHOTOS.SELFIE}
-                />
-              ) : null }
-
-              { documentType && documentType.value === 'national_identity_card' ? (
-                <CameraInput
-                  labelText={'Front Side'}
-                  value={documentInfo.idFront}
-                  photoName={CAMERA_PHOTOS.ID_FRONT}
-                />
-              ) : null }
-              { documentType && documentType.value === 'national_identity_card' ? (
-                <CameraInput
-                  labelText={'Back Side'}
-                  value={documentInfo.idBack}
-                  photoName={CAMERA_PHOTOS.ID_BACK}
-                />
-              ) : null }
-              { documentType && documentType.value === 'national_identity_card' ? (
-                <CameraInput
-                  labelText={'Selfie'}
-                  value={documentInfo.selfie}
-                  photoName={CAMERA_PHOTOS.SELFIE}
-                />
-              ) : null }
-
-              { documentType && documentType.value === 'passport' ? (
-                <CameraInput
-                  labelText={'Passport'}
-                  value={documentInfo.passport}
-                  photoName={CAMERA_PHOTOS.PASSPORT}
-                />
-              ) : null }
-              { documentType && documentType.value === 'passport' ? (
+              { documentType ? (
                 <CameraInput
                   labelText={'Selfie'}
                   value={documentInfo.selfie}
@@ -173,7 +181,7 @@ class DocumentInfoScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
                   loading={isLoading}
-                  disabled={disabledButton}
+                  disabled={isLoading}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
               </View>
