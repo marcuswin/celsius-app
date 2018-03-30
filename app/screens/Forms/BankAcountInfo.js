@@ -96,33 +96,14 @@ class BankAccountInfoScreen extends Component {
 
   onSubmit = () => {
     const {createUserBankInfo, showMessage, createLoanRequestInfo} = this.props;
-    const {
-      bankInfo,
-      loanRequest,
-    } = this.state;
-    const {
-      name,
-      routingNumber,
-      accountNumber,
-    } = bankInfo;
-    const {
-      purposeOfLoan,
-      note,
-    } = loanRequest;
+    const { bankInfo, loanRequest } = this.state;
 
     const error = this.validateForm();
 
     if (!error) {
-      createUserBankInfo({
-        name,
-        routingNumber,
-        accountNumber,
-      });
+      createUserBankInfo(bankInfo);
 
-      createLoanRequestInfo(this.props.loanRequest.id, {
-        purposeOfLoan,
-        note,
-      })
+      createLoanRequestInfo(this.props.loanRequest.id, loanRequest)
     } else {
       showMessage('error', error);
     }
