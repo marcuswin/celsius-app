@@ -50,6 +50,11 @@ export default class App extends Component {
   // Init Application
   static async initApp() {
     await App.loadAssetsAsync();
+
+    if (!SECURITY_STORAGE_AUTH_KEY) {
+      console.error('NO SECURITY_STORAGE_AUTH_KEY')
+    }
+
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
