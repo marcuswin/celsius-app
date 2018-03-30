@@ -5,9 +5,11 @@ import {showMessage} from './ui';
 import loanRequestsService from '../../services/loan-requests-service';
 
 export {
+  getLoanRequest,
   createLoanRequest,
   getSupportedCurrencies,
   acceptLoanRequest,
+  createLoanRequestInfo,
 }
 
 function createLoanRequest(collateralInfo) {
@@ -33,6 +35,29 @@ function createLoanRequestSuccess(loanRequest, competitionRates) {
     loanRequest,
     competitionRates,
     callName: API.CREATE_LOAN_REQUEST,
+  }
+}
+
+function getLoanRequest() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_LOAN_REQUEST));
+
+    try {
+      const res = await loanRequestsService.get();
+      const loanRequest = res.data.loan_request;
+      dispatch(getLoanRequestSuccess(loanRequest));
+    } catch (err) {
+      dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));
+      dispatch(apiError(API.CREATE_LOAN_REQUEST, err));
+    }
+  }
+}
+
+function getLoanRequestSuccess(loanRequest) {
+  return {
+    type: ACTIONS.GET_LOAN_REQUEST_SUCCESS,
+    callName: API.GET_LOAN_REQUEST,
+    loanRequest,
   }
 }
 
@@ -81,6 +106,30 @@ function acceptLoanRequestSuccess(loanRequest) {
     type: ACTIONS.ACCEPT_LOAN_REQUEST_SUCCESS,
     loanRequest,
     callName: API.ACCEPT_LOAN_REQUEST,
+  }
+}
+
+function createLoanRequestInfo(id, loanRequestInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.CREATE_LOAN_REQUEST_INFO));
+
+    try {
+      const res = await loanRequestsService.createLoanInfo(id, loanRequestInfo);
+      const loanRequest = res.data.loan_request;
+
+      dispatch(createLoanRequestInfoSuccess(loanRequest));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_LOAN_REQUEST_INFO, err));
+    }
+  }
+}
+
+function createLoanRequestInfoSuccess(loanRequest) {
+  return {
+    type: ACTIONS.CREATE_LOAN_REQUEST_INFO_SUCCESS,
+    callName: API.CREATE_LOAN_REQUEST_INFO,
+    loanRequest,
   }
 }
 

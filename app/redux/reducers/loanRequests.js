@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         competitionRates,
       };
 
+    case ACTIONS.GET_LOAN_REQUEST_SUCCESS:
     case ACTIONS.ACCEPT_LOAN_REQUEST_SUCCESS:
       return {
         ...state,
