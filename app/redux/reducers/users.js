@@ -6,14 +6,6 @@ const initialState = {
   userLocation: undefined,
   user: undefined,
   borrower: undefined,
-  bankInfo: {
-    name: '',
-    routingNumber: '',
-    accountNumber: '',
-    purposeOfLoan: '',
-    note: '',
-    isDefault: true
-  },
   documentInfo: {
     drivingLicenseFront: undefined,
     drivingLicenseBack: undefined,
@@ -154,10 +146,14 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.GET_USER_BANK_INFO_SUCCESS:
     case ACTIONS.CREATE_USER_BANK_INFO_SUCCESS:
       return {
         ...state,
-        bankInfo: action.bankInfo
+        user: {
+          ...state.user,
+          ...action.bankInfo,
+        },
       };
 
     case ACTIONS.TAKE_CAMERA_PHOTO:
