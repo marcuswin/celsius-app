@@ -188,7 +188,7 @@ function getUserBankInfo() {
 
     try {
       const bankInfoRes = await usersService.getBankAccountInfo();
-      dispatch(getUserBankInfoSuccess(bankInfoRes.data.documents));
+      dispatch(getUserBankInfoSuccess(bankInfoRes.data.bank));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_BANK_INFO, err));
@@ -234,7 +234,7 @@ function getUserDocuments() {
 
     try {
       const documentsRes = await usersService.getDocuments();
-      dispatch(getUserDocumentsSuccess(documentsRes.data.bank));
+      dispatch(getUserDocumentsSuccess(documentsRes.data.documents));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_DOCUMENTS, err));
