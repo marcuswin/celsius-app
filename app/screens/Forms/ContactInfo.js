@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Platform, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
-import CheckBox from 'react-native-checkbox';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
@@ -16,12 +15,14 @@ import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import API from "../../config/constants/API";
+import apiUtil from "../../utils/api-util";
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
     lastCompletedCall: state.api.lastCompletedCall,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -35,9 +36,7 @@ class ContactInfoScreen extends Component {
         cellPhone: props.user.cellphone,
         otherPhones: props.user.other_phone_number,
         email: props.user.email,
-        isDefault: props.user.isDefault,
       },
-      isLoading: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -51,7 +50,7 @@ class ContactInfoScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user, lastCompletedCall} = this.props;
+    const {user, lastCompletedCall, navigateTo} = this.props;
 
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
@@ -59,13 +58,12 @@ class ContactInfoScreen extends Component {
           cellPhone: nextProps.user.cellphone,
           otherPhones: nextProps.user.other_phone_number,
           email: nextProps.user.email,
-          isDefault: nextProps.user.isDefault,
         }
       });
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_CONTACT_INFO) {
-      this.setState({ isLoading: false })
+      navigateTo('BankAccountInfo');
     }
   };
 
@@ -79,19 +77,15 @@ class ContactInfoScreen extends Component {
       cellPhone,
       otherPhones,
       email,
-      isDefault,
     } = this.state.contactInfo;
 
     const error = this.validateForm();
 
     if (!error) {
-      this.setState({isLoading: true});
-
       createUserContactInfo({
         cellPhone,
         otherPhones,
         email,
-        isDefault
       });
     } else {
       showMessage('error', error);
@@ -118,17 +112,16 @@ class ContactInfoScreen extends Component {
   }
 
   render() {
-    const {
-      contactInfo,
-      isLoading,
-    } = this.state;
+    const { callsInProgress } = this.props;
+    const { contactInfo } = this.state;
 
     const {
       cellPhone,
       otherPhones,
       email,
-      isDefault,
     } = contactInfo;
+
+    const isLoading = apiUtil.areCallsInProgress([API.CREATE_USER_CONTACT_INFO], callsInProgress);
 
     return (
       <Container>
@@ -168,22 +161,6 @@ class ContactInfoScreen extends Component {
                 value={email}
                 autoCapitalize={'words'}
                 onChange={(text) => this.updateField('email', text)}/>
-
-              <CheckBox
-                label={`Save as default`}
-                checked={isDefault}
-                labelStyle={Styles.checkboxLabel}
-                checkboxStyle={Styles.checkboxStyle}
-                checkedImage={
-                  Platform.OS === 'ios' ?
-                    require('../../../assets/images/icons/icon-check.png') :
-                    require('../../../assets/images/icons/icon-check2x.png')
-                }
-                uncheckedImage={require('../../../assets/images/icons/transparent.png')}
-                onChange={() => {
-                  this.updateField('isDefault', !isDefault)
-                }}
-              />
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton

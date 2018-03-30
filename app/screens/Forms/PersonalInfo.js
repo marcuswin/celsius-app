@@ -18,12 +18,14 @@ import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {GENDER, KEYBOARD_TYPE, PERSON_TITLE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
+import apiUtil from "../../utils/api-util";
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
     lastCompletedCall: state.api.lastCompletedCall,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -45,7 +47,6 @@ class PersonalInfoScreen extends Component {
       },
       genderModalVisible: false,
       titleModalVisible: false,
-      isLoading: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -59,7 +60,7 @@ class PersonalInfoScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user, lastCompletedCall} = this.props;
+    const {user, lastCompletedCall, navigateTo} = this.props;
 
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
@@ -77,7 +78,7 @@ class PersonalInfoScreen extends Component {
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_PERSONAL_INFO) {
-      this.setState({ isLoading: false })
+      navigateTo('AddressInfo');
     }
   };
 
@@ -101,8 +102,6 @@ class PersonalInfoScreen extends Component {
     const error = this.validateForm();
 
     if (!error) {
-      this.setState({isLoading: true});
-
       createUserPersonalInfo({
         title,
         firstName,
@@ -116,7 +115,6 @@ class PersonalInfoScreen extends Component {
     } else {
       showMessage('error', error);
     }
-
   };
 
   validateForm = () => {
@@ -157,12 +155,8 @@ class PersonalInfoScreen extends Component {
   }
 
   render() {
-    const {
-      personalInfo,
-      genderModalVisible,
-      titleModalVisible,
-      isLoading,
-    } = this.state;
+    const { callsInProgress } = this.props;
+    const { personalInfo, genderModalVisible, titleModalVisible } = this.state;
     const {
       firstName,
       lastName,
@@ -173,6 +167,8 @@ class PersonalInfoScreen extends Component {
       motherMaidenName,
       socialSecurityNumber
     } = personalInfo;
+
+    const isLoading = apiUtil.areCallsInProgress([API.CREATE_USER_PERSONAL_INFO], callsInProgress);
 
     return (
       <Container>

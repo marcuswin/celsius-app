@@ -4,6 +4,7 @@ const initialState = {
   callsInProgress: [],
   error: undefined,
   lastCompletedCall: undefined,
+  history: [],
 };
 
 export default (state = initialState, action) => {
@@ -24,7 +25,7 @@ export default (state = initialState, action) => {
       ...state,
       callsInProgress,
       error: action.error,
-      lastCompletedCall: action.callName,
+      history: [ ...state.history].unshift(action.callName),
     }
   }
 
@@ -43,6 +44,7 @@ export default (state = initialState, action) => {
       ...state,
       callsInProgress,
       lastCompletedCall: action.callName,
+      history: [ ...state.history].unshift(action.callName),
     }
   }
 

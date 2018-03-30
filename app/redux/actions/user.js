@@ -1,6 +1,5 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
-import {navigateTo} from "./navigate";
 import {apiError, startApiCall} from "./api";
 import {showMessage} from "./ui";
 import usersService from '../../services/users-service';
@@ -23,8 +22,7 @@ function createUserPersonalInfo(personalInfo) {
 
     try {
       const newPersonalInfo = await usersService.createPersonalInfo(personalInfo);
-      dispatch(createUserPersonalInfoSuccess(newPersonalInfo));
-      dispatch(navigateTo('AddressInfo'));
+      dispatch(createUserPersonalInfoSuccess(newPersonalInfo.data.profile));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_USER_PERSONAL_INFO, err));
@@ -71,8 +69,7 @@ function createUserAddressInfo(addressInfo) {
 
     try {
       const newAddressInfo = await usersService.createAddressInfo(addressInfo);
-      dispatch(createUserAddressInfoSuccess(newAddressInfo));
-      dispatch(navigateTo('ContactInfo'));
+      dispatch(createUserAddressInfoSuccess(newAddressInfo.data.address));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_USER_ADDRESS_INFO, err));
@@ -119,8 +116,7 @@ function createUserContactInfo(contactInfo) {
 
     try {
       const newContactInfo = await usersService.createContactInfo(contactInfo);
-      dispatch(createUserContactInfoSuccess(newContactInfo));
-      dispatch(navigateTo('BankAccountInfo'));
+      dispatch(createUserContactInfoSuccess(newContactInfo.data.contact));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_USER_CONTACT_INFO, err));
@@ -167,8 +163,7 @@ function createUserBankInfo(bankAccountInfo) {
 
     try {
       const newBankInfo = await usersService.createBankAccountInfo(bankAccountInfo);
-      dispatch(createUserBankInfoSuccess(newBankInfo));
-      dispatch(navigateTo('DocumentInfo'));
+      dispatch(createUserBankInfoSuccess(newBankInfo.data.bank));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_USER_BANK_INFO, err));
