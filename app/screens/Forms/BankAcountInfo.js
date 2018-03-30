@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Platform, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View} from 'native-base';
 import {bindActionCreators} from 'redux';
-import CheckBox from 'react-native-checkbox';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
@@ -15,38 +14,79 @@ import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
+import API from "../../config/constants/API";
+import apiUtil from "../../utils/api-util";
 
 @connect(
   state => ({
     nav: state.nav,
-    bankInfo: state.users.bankInfo
+    user: state.users.user,
+    loanRequest: state.loanRequests.loanRequest,
+    callsInProgress: state.api.callsInProgress,
+    history: state.api.history,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class BankAccountInfoScreen extends Component {
+  static defaultProps = {
+    loanRequest: {},
+  }
+
   constructor(props) {
     super();
 
     this.state = {
-      name: props.bankInfo.name,
-      routingNumber: props.bankInfo.routingNumber,
-      accountNumber: props.bankInfo.accountNumber,
-      purposeOfLoan: props.bankInfo.purposeOfLoan,
-      note: props.bankInfo.note,
-      isDefault: props.bankInfo.isDefault,
-      isLoading: false,
+      bankInfo: {
+        name: props.user.bank_name,
+        routingNumber: props.user.bank_routing_number,
+        accountNumber: props.user.bank_account_number,
+      },
+      loanRequest: {
+        purposeOfLoan: props.loanRequest.loan_purpose,
+        note: props.loanRequest.note,
+      },
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    const {personalInfo} = this.props;
+  componentDidMount() {
+    const {getUserBankInfo, loanRequest, getLoanRequest } = this.props;
+    getUserBankInfo();
+    if (!loanRequest.id) getLoanRequest();
+  }
 
-    if (!_.isEqual(personalInfo, nextProps.personalInfo)) {
-      this.setState({isLoading: false});
+  componentWillReceiveProps = (nextProps) => {
+    const {user, loanRequest, navigateTo } = this.props;
+
+    if (!_.isEqual(user, nextProps.user)) {
+      this.setState({
+        bankInfo: {
+          name: nextProps.user.bank_name,
+          routingNumber: nextProps.user.bank_routing_number,
+          accountNumber: nextProps.user.bank_account_number,
+        },
+      });
+    }
+
+    if (!_.isEqual(loanRequest, nextProps.loanRequest)) {
+      this.setState({
+        loanRequest: {
+          purposeOfLoan: nextProps.loanRequest.loan_purpose,
+          note: nextProps.loanRequest.note,
+        },
+      });
+    }
+
+    if (
+      nextProps.activeScreen === 'BankAccountInfo' &&
+      [`${API.CREATE_USER_BANK_INFO}_SUCCESS`, `${API.CREATE_LOAN_REQUEST_INFO}_SUCCESS`].indexOf(nextProps.history[0]) !== -1 &&
+      [`${API.CREATE_USER_BANK_INFO}_SUCCESS`, `${API.CREATE_LOAN_REQUEST_INFO}_SUCCESS`].indexOf(nextProps.history[1]) !== -1
+    ) {
+      navigateTo('DocumentInfo');
     }
   };
 
@@ -55,29 +95,34 @@ class BankAccountInfoScreen extends Component {
   };
 
   onSubmit = () => {
-    const {createUserBankInfo, showMessage} = this.props;
+    const {createUserBankInfo, showMessage, createLoanRequestInfo} = this.props;
+    const {
+      bankInfo,
+      loanRequest,
+    } = this.state;
     const {
       name,
       routingNumber,
       accountNumber,
+    } = bankInfo;
+    const {
       purposeOfLoan,
       note,
-      isDefault,
-    } = this.state;
+    } = loanRequest;
 
     const error = this.validateForm();
 
     if (!error) {
-      this.setState({isLoading: true});
-
       createUserBankInfo({
         name,
         routingNumber,
         accountNumber,
+      });
+
+      createLoanRequestInfo(this.props.loanRequest.id, {
         purposeOfLoan,
         note,
-        isDefault,
-      });
+      })
     } else {
       showMessage('error', error);
     }
@@ -85,11 +130,17 @@ class BankAccountInfoScreen extends Component {
 
   validateForm = () => {
     const {
+      bankInfo,
+      loanRequest,
+    } = this.state;
+    const {
       name,
       routingNumber,
       accountNumber,
+    } = bankInfo;
+    const {
       purposeOfLoan,
-    } = this.state;
+    } = loanRequest;
 
     if (!name) return 'Bank name is required!';
     if (!routingNumber) return 'Routing number is required!';
@@ -97,16 +148,31 @@ class BankAccountInfoScreen extends Component {
     if (!purposeOfLoan) return 'Purpose of loan is required!';
   };
 
+  updateBankField(field, text) {
+    this.setState({
+      bankInfo: {
+        ...this.state.bankInfo,
+        [field]: text,
+      }
+    })
+  }
+
+  updateLoanField(field, text) {
+    this.setState({
+      loanRequest: {
+        ...this.state.loanRequest,
+        [field]: text,
+      }
+    })
+  }
+
   render() {
-    const {
-      name,
-      routingNumber,
-      accountNumber,
-      purposeOfLoan,
-      isDefault,
-      note,
-      isLoading,
-    } = this.state;
+    const { callsInProgress } = this.props;
+    const { bankInfo, loanRequest } = this.state;
+    const { name, routingNumber, accountNumber } = bankInfo;
+    const { purposeOfLoan, note } = loanRequest;
+
+    const isLoading = apiUtil.areCallsInProgress([API.CREATE_USER_BANK_INFO, API.CREATE_LOAN_REQUEST_INFO], callsInProgress);
 
     return (
       <Container>
@@ -131,50 +197,34 @@ class BankAccountInfoScreen extends Component {
                 labelText={'Bank Name *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={name}
-                onChange={(text) => this.setState({name: text})}/>
+                onChange={(text) => this.updateBankField('name', text)}/>
 
               <PrimaryInput
                 labelText={'Routing number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={routingNumber}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({routingNumber: text})}/>
+                onChange={(text) => this.updateBankField('routingNumber', text)}/>
 
               <PrimaryInput
                 labelText={'Account number *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={accountNumber}
                 autoCapitalize={'words'}
-                onChange={(text) => this.setState({accountNumber: text})}/>
+                onChange={(text) => this.updateBankField('accountNumber', text)}/>
 
               <PrimaryInput
                 labelText={'Purpose of Loan *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={purposeOfLoan}
-                onChange={(text) => this.setState({purposeOfLoan: text})}/>
+                onChange={(text) => this.updateLoanField('purposeOfLoan', text)}/>
 
               <PrimaryInput
                 labelText={'Note'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
                 value={note}
                 multiline
-                onChange={(text) => this.setState({note: text})}/>
-
-              <CheckBox
-                label={`Save as default`}
-                checked={isDefault}
-                labelStyle={Styles.checkboxLabel}
-                checkboxStyle={Styles.checkboxStyle}
-                checkedImage={
-                  Platform.OS === 'ios' ?
-                    require('../../../assets/images/icons/icon-check.png') :
-                    require('../../../assets/images/icons/icon-check2x.png')
-                }
-                uncheckedImage={require('../../../assets/images/icons/transparent.png')}
-                onChange={() => {
-                  this.setState({isDefault: !this.state.isDefault})
-                }}
-              />
+                onChange={(text) => this.updateLoanField('note', text)}/>
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton

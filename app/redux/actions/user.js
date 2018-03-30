@@ -11,7 +11,7 @@ export {
   createUserAddressInfo,
   getUserContactInfo,
   createUserContactInfo,
-  // getUserBankInfo,
+  getUserBankInfo,
   createUserBankInfo,
 }
 
@@ -176,6 +176,28 @@ function createUserBankInfoSuccess(bankInfo) {
   return {
     type: ACTIONS.CREATE_USER_BANK_INFO_SUCCESS,
     callName: API.CREATE_USER_BANK_INFO,
+    bankInfo
+  }
+}
+
+function getUserBankInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_BANK_INFO));
+
+    try {
+      const bankInfoRes = await usersService.getBankAccountInfo();
+      dispatch(getUserBankInfoSuccess(bankInfoRes.data.bank));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_BANK_INFO, err));
+    }
+  }
+}
+
+function getUserBankInfoSuccess(bankInfo) {
+  return {
+    type: ACTIONS.GET_USER_BANK_INFO_SUCCESS,
+    callName: API.GET_USER_BANK_INFO,
     bankInfo
   }
 }

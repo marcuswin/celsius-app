@@ -18,7 +18,7 @@ const usersService = {
   createAddressInfo,
   getContactInfo,
   createContactInfo,
-  // getBankAccountInfo,
+  getBankAccountInfo,
   createBankAccountInfo,
 };
 
@@ -164,12 +164,15 @@ function getContactInfo() {
 }
 
 function createBankAccountInfo(bankAccountInfo) {
-  console.log({
-    url: `${apiUrl}/users/bank_account_info`,
-    bankAccountInfo,
+  return axios.post(`${apiUrl}/users/bank_info`, {
+    bank_name: bankAccountInfo.name,
+    bank_routing_number: bankAccountInfo.routingNumber,
+    bank_account_number: bankAccountInfo.accountNumber,
   });
-  return bankAccountInfo;
-  // return axios.post(`${apiUrl}/users/bank_account_info`, bankAccountInfo);
+}
+
+function getBankAccountInfo() {
+  return axios.get(`${apiUrl}/users/bank_info`);
 }
 
 export default usersService;
