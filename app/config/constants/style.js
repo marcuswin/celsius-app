@@ -63,5 +63,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Welcome-Animal.png'),
   require('../../../assets/images/Headshot-cat.jpg'),
   require('../../../assets/images/caret.png'),
+  require('../../../assets/images/two-thumbs-up.png'),
+  require('../../../assets/images/bubble-pointer.png'),
   require('../../../assets/images/emc.png'),
 ];
