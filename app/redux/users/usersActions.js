@@ -1,7 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
-import {apiError, startApiCall} from "./api";
-import {showMessage} from "./ui";
+import {apiError, startApiCall} from "../api/apiActions";
+import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
 
 export {
