@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View} from 'native-base';
+import {Container, Content, Form, View, Button, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import DatePicker from 'react-native-datepicker'
 import * as _ from 'lodash'
@@ -80,6 +80,10 @@ class PersonalInfoScreen extends Component {
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_PERSONAL_INFO) {
       navigateTo('AddressInfo');
     }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CANCEL_LOAN_REQUEST) {
+      navigateTo('Home');
+    }
   };
 
   onScroll = event => {
@@ -155,7 +159,7 @@ class PersonalInfoScreen extends Component {
   }
 
   render() {
-    const { callsInProgress } = this.props;
+    const { callsInProgress, cancelLoanRequest } = this.props;
     const { personalInfo, genderModalVisible, titleModalVisible } = this.state;
     const {
       firstName,
@@ -266,9 +270,21 @@ class PersonalInfoScreen extends Component {
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
-                      loading={isLoading}
+                  loading={isLoading}
                   onPress={this.onSubmit}
-                  title={'Next'}/>
+                  title={'Next'}
+                />
+              </View>
+
+              <View>
+                <Button
+                  block
+                  style={{ marginBottom: 50 }}
+                  transparent
+                  onPress={ cancelLoanRequest }
+                >
+                  <Text style={{ color: '#EF461A' }}>Cancel Loan Request</Text>
+                </Button>
               </View>
             </Form>
 

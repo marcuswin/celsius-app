@@ -5,6 +5,7 @@ const loanRequestsService = {
   get,
   create,
   accept,
+  cancel,
   getSupportedCurrencies,
   createLoanInfo,
 };
@@ -21,6 +22,10 @@ function create(loanCollaterals) {
 
 function accept(id) {
   return axios.put(`${apiUrl}/loan_requests/${id}/accept`);
+}
+
+function cancel() {
+  return axios.put(`${apiUrl}/loan_requests/cancel`);
 }
 
 function getSupportedCurrencies() {

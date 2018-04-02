@@ -25,6 +25,12 @@ export default (state = initialState, action) => {
         loanRequest: new LoanRequest(loanRequest),
       };
 
+    case ACTIONS.CANCEL_LOAN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loanRequest: null,
+      };
+
     case ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS:
       return {
         ...state,

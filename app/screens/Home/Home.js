@@ -47,8 +47,6 @@ class HomeScreen extends Component {
   render() {
     const {navigateTo, loanRequest} = this.props;
 
-    console.log(loanRequest);
-
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
@@ -71,7 +69,7 @@ class HomeScreen extends Component {
           <View>
             <Image style={HomeStyle.macorImage} source={require('../../../assets/images/machor.png')}/>
             <View style={HomeStyle.buttonWrapper}>
-              { loanRequest ? (
+              { loanRequest && loanRequest.id ? (
                 <PrimaryButton
                   iconRight={false}
                   customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}

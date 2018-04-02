@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, Text, View} from 'native-base';
+import {Container, Content, Form, Text, View, Button} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
@@ -113,7 +113,7 @@ class DocumentInfoScreen extends Component {
   }
 
   render() {
-    const { callsInProgress } = this.props;
+    const { callsInProgress, cancelLoanRequest } = this.props;
     const { documentInfo, modalVisible } = this.state;
     const { documentType } = documentInfo;
 
@@ -189,6 +189,17 @@ class DocumentInfoScreen extends Component {
                   disabled={isLoading}
                   onPress={() => this.onSubmit()}
                   title={'Next'}/>
+              </View>
+
+              <View>
+                <Button
+                  block
+                  style={Styles.cancelButton}
+                  transparent
+                  onPress={ cancelLoanRequest }
+                >
+                  <Text style={Styles.cancelText}>Cancel Loan Request</Text>
+                </Button>
               </View>
             </Form>
           </View>

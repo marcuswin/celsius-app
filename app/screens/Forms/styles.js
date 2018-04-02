@@ -38,6 +38,14 @@ const Styles = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-light',
     color: '#fff'
+  },
+  cancelButton: {
+    marginBottom: 25,
+  },
+  cancelText: {
+    color: '#EF461A',
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 16,
   }
 });
 

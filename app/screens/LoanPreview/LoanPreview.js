@@ -7,6 +7,7 @@ import {Col, Grid} from "react-native-easy-grid";
 import formatter from '../../utils/formatter';
 
 import * as actions from "../../redux/actions";
+import API from "../../config/constants/API";
 import Accordion from '../../components/Accordion/Accordion';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
@@ -14,12 +15,15 @@ import LoanPreviewStyle from "./styles";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../config/constants/style";
 import Icon from "../../components/Icons/Icon";
+import apiUtil from "../../utils/api-util";
 
 @connect(
   state => ({
     nav: state.nav,
     loanRequest: state.loanRequests.loanRequest,
     competitionRates: state.loanRequests.competitionRates,
+    lastCompletedCall: state.api.lastCompletedCall,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -33,6 +37,14 @@ class LoanPreviewScreen extends Component {
     this.renderCollateralsText = this.renderCollateralsText.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { lastCompletedCall } = nextProps;
+    const { navigateTo } = this.props;
+
+    if (this.props.lastCompletedCall !== lastCompletedCall && lastCompletedCall === API.ACCEPT_LOAN_REQUEST) {
+      navigateTo('PersonalInfo', true);
+    }
+  }
 
   onScroll = event => {
     this.heading.animateHeading(event);
@@ -40,9 +52,12 @@ class LoanPreviewScreen extends Component {
 
   handleAcceptLoanRequest() {
     const {navigateTo, acceptLoanRequest, loanRequest} = this.props;
-    acceptLoanRequest(loanRequest.id);
+    if (loanRequest.status !== 'accepted') {
+      acceptLoanRequest(loanRequest.id);
+    } else {
+      navigateTo('PersonalInfo', true);
+    }
 
-    navigateTo('PersonalInfo', true);
   }
 
   renderCollateralsText(styles) {
@@ -61,7 +76,9 @@ class LoanPreviewScreen extends Component {
   }
 
   render() {
-    const {loanRequest, competitionRates} = this.props;
+    const {loanRequest, competitionRates, callsInProgress} = this.props;
+
+    const isLoading = apiUtil.areCallsInProgress([API.ACCEPT_LOAN_REQUEST], callsInProgress);
 
     return (
       <Container>
@@ -234,10 +251,12 @@ class LoanPreviewScreen extends Component {
             <View style={{paddingTop: 30, paddingBottom: 60}}>
               <PrimaryButton
                 fill={'#fff'}
+                loading={isLoading}
+                disabled={isLoading}
                 customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
                 customTitleStyles={{color: 'white'}}
                 onPress={this.handleAcceptLoanRequest}
-                title={'Save my place'}/>
+                title={'Verify Profile'}/>
             </View>
           </View>
         </Content>

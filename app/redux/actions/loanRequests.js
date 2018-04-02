@@ -9,6 +9,7 @@ export {
   createLoanRequest,
   getSupportedCurrencies,
   acceptLoanRequest,
+  cancelLoanRequest,
   createLoanRequestInfo,
 }
 
@@ -134,4 +135,26 @@ function createLoanRequestInfoSuccess(loanRequest) {
     loanRequest,
   }
 }
+
+function cancelLoanRequest() {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.CANCEL_LOAN_REQUEST));
+
+    try {
+      await loanRequestsService.cancel();
+      dispatch(cancelLoanRequestSuccess());
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CANCEL_LOAN_REQUEST, err));
+    }
+  }
+}
+
+function cancelLoanRequestSuccess() {
+  return {
+    type: ACTIONS.CANCEL_LOAN_REQUEST_SUCCESS,
+    callName: API.CANCEL_LOAN_REQUEST,
+  }
+}
+
 

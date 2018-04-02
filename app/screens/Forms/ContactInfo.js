@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View} from 'native-base';
+import {Container, Content, Form, View, Button, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
@@ -112,7 +112,7 @@ class ContactInfoScreen extends Component {
   }
 
   render() {
-    const { callsInProgress } = this.props;
+    const { callsInProgress, cancelLoanRequest } = this.props;
     const { contactInfo } = this.state;
 
     const {
@@ -167,6 +167,17 @@ class ContactInfoScreen extends Component {
                   loading={isLoading}
                   onPress={this.onSubmit}
                   title={'Next'}/>
+              </View>
+
+              <View>
+                <Button
+                  block
+                  style={{ marginBottom: 50 }}
+                  transparent
+                  onPress={ cancelLoanRequest }
+                >
+                  <Text style={{ color: '#EF461A' }}>Cancel Loan Request</Text>
+                </Button>
               </View>
             </Form>
           </View>
