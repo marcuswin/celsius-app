@@ -98,7 +98,7 @@ class SelectCountryModal extends Component {
                     <Text>{country.emoji}</Text>
                   </Left>
                   <Body>
-                  <TouchableOpacity onPress={() => onClose(country.name)}>
+                  <TouchableOpacity onPress={() => onClose(country)}>
                     <Text style={SelectCountryStyles.coinTitle}>{country.name}</Text>
                   </TouchableOpacity>
                   </Body>

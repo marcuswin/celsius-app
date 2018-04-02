@@ -37,6 +37,7 @@ class Step2 extends Component {
       email: props.user && props.user.email ? props.user.email : '',
       lastName: props.user && props.user.last_name ? props.user.last_name : '',
       country: props.userLocation ? countries[props.userLocation].name : '',
+      countryAlpha3: props.userLocation ? countries[props.userLocation].alpha3 : '',
       modalVisible: false,
       accredited: true
     };
@@ -48,9 +49,9 @@ class Step2 extends Component {
 
   onSubmit = () => {
     const {onNextStep} = this.props;
-    const {firstName, lastName, country, email} = this.state;
+    const {firstName, lastName, country, email, countryAlpha3} = this.state;
 
-    onNextStep({firstName, lastName, country, email})
+    onNextStep({firstName, lastName, country, email, countryAlpha3 })
   };
 
   getViewHeight = () => {
@@ -62,10 +63,11 @@ class Step2 extends Component {
 
   };
 
-  closeModal = (data) => {
+  setCountry = (country) => {
     this.setState({
       modalVisible: false,
-      country: data || this.state.country,
+      country: country.name || this.state.country,
+      countryAlpha3: country.alpha3 || this.state.countryAlpha3,
     });
   };
 
@@ -102,7 +104,7 @@ class Step2 extends Component {
 
           <SelectCountryModal
             visible={modalVisible}
-            onClose={(countryName) => this.closeModal(countryName)}/>
+            onClose={(countryData) => this.setCountry(countryData)}/>
 
           <CheckBox
             label={`I'm an Accredited Investor`}
