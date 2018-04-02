@@ -14,7 +14,8 @@ import {STYLES} from "../../config/constants/style";
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user
+    user: state.users.user,
+    loanRequest: state.loanRequests.loanRequest,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -28,18 +29,25 @@ class HomeScreen extends Component {
     };
   }
 
+  componentDidMount() {
+    const { getLoanRequest } = this.props;
+    getLoanRequest();
+  }
+
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
   handleEarnInterest = async () => {
-    const {navigateTo} = this.props;
-    this.props.createInterestRequest();
+    const {navigateTo, createInterestRequest} = this.props;
+    createInterestRequest();
     navigateTo('EarnInterest');
   };
 
   render() {
-    const {navigateTo} = this.props;
+    const {navigateTo, loanRequest} = this.props;
+
+    console.log(loanRequest);
 
     return (
       <Container>
@@ -63,11 +71,21 @@ class HomeScreen extends Component {
           <View>
             <Image style={HomeStyle.macorImage} source={require('../../../assets/images/machor.png')}/>
             <View style={HomeStyle.buttonWrapper}>
-              <PrimaryButton
-                iconRight={false}
-                customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-                customTitleStyles={{color: 'white'}} title={'Calculate loan'}
-                onPress={() => navigateTo('Calculator')}/>
+              { loanRequest ? (
+                <PrimaryButton
+                  iconRight={false}
+                  customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
+                  customTitleStyles={{color: 'white'}} title={'Preview loan'}
+                  onPress={() => navigateTo('LoanPreview')}
+                />
+              ) : (
+                <PrimaryButton
+                  iconRight={false}
+                  customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
+                  customTitleStyles={{color: 'white'}} title={'Calculate loan'}
+                  onPress={() => navigateTo('Calculator')}
+                />
+              )}
               <PrimaryButton
                 iconRight={false}
                 customStyles={{backgroundColor: STYLES.PRIMARY_GREEN, marginTop: 20}}

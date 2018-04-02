@@ -42,7 +42,7 @@ class LoanPreviewScreen extends Component {
     const {navigateTo, acceptLoanRequest, loanRequest} = this.props;
     acceptLoanRequest(loanRequest.id);
 
-    navigateTo('ThankYou', true);
+    navigateTo('PersonalInfo', true);
   }
 
   renderCollateralsText(styles) {
