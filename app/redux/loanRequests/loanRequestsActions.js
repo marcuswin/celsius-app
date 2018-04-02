@@ -1,7 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
-import {startApiCall, apiError} from './api';
-import {showMessage} from './ui';
+import {startApiCall, apiError} from '../api/apiActions';
+import {showMessage} from '../ui/uiActions';
 import loanRequestsService from '../../services/loan-requests-service';
 
 export {

@@ -2,9 +2,9 @@ import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
-import {startApiCall, apiError} from './api';
-import {navigateTo} from './navigate';
-import {showMessage} from './ui';
+import {startApiCall, apiError} from '../api/apiActions';
+import {navigateTo} from '../nav/navActions';
+import {showMessage} from '../ui/uiActions';
 import {setSecureStoreKey} from '../../utils/expo-storage';
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
