@@ -45,19 +45,21 @@ function getLoanRequest() {
     try {
       const res = await loanRequestsService.get();
       const loanRequest = res.data.loan_request;
-      dispatch(getLoanRequestSuccess(loanRequest));
+      const competitionRates = res.data.competition_rates;
+      dispatch(getLoanRequestSuccess(loanRequest, competitionRates));
     } catch (err) {
       dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));
-      dispatch(apiError(API.CREATE_LOAN_REQUEST, err));
+      dispatch(apiError(API.GET_LOAN_REQUEST, err));
     }
   }
 }
 
-function getLoanRequestSuccess(loanRequest) {
+function getLoanRequestSuccess(loanRequest, competitionRates) {
   return {
     type: ACTIONS.GET_LOAN_REQUEST_SUCCESS,
     callName: API.GET_LOAN_REQUEST,
     loanRequest,
+    competitionRates,
   }
 }
 
