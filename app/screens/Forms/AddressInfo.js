@@ -35,6 +35,7 @@ class AddressInfoScreen extends Component {
     this.state = {
       addressInfo: {
         country: props.user.country,
+        countryAlpha3: props.user.country_alpha3,
         state: props.user.us_state,
         city: props.user.city,
         zip: props.user.zip,
@@ -61,6 +62,7 @@ class AddressInfoScreen extends Component {
       this.setState({
         addressInfo: {
           country: nextProps.user.country,
+          countryAlpha3: nextProps.user.country_alpha3,
           state: nextProps.user.us_state,
           city: nextProps.user.city,
           zip: nextProps.user.zip,
@@ -81,30 +83,27 @@ class AddressInfoScreen extends Component {
 
   onSubmit = () => {
     const {createUserAddressInfo, showMessage} = this.props;
-    const {
-      country,
-      state,
-      city,
-      zip,
-      street,
-      buildingNumber,
-    } = this.state.addressInfo;
+    const { addressInfo } = this.state;
 
     const error = this.validateForm();
 
     if (!error) {
-      createUserAddressInfo({
-        country,
-        state,
-        city,
-        zip,
-        street,
-        buildingNumber,
-      });
+      createUserAddressInfo(addressInfo);
     } else {
       showMessage('error', error);
     }
 
+  };
+
+  setCountry = (country) => {
+    this.setState({
+      modalVisible: false,
+      addressInfo: {
+        ...this.state.addressInfo,
+        country: country.name || this.state.country,
+        countryAlpha3: country.alpha3 || this.state.countryAlpha3,
+      }
+    });
   };
 
   validateForm = () => {
@@ -121,13 +120,6 @@ class AddressInfoScreen extends Component {
     if (!zip) return 'Zip number is required!';
     if (!street) return 'Street name is required!';
     if (!buildingNumber) return 'Building number is required!';
-  };
-
-  closeModal = (data) => {
-    this.setState({
-      modalVisible: false,
-    });
-    this.updateField('country', data || this.state.country)
   };
 
   updateField(field, text) {
@@ -175,7 +167,7 @@ class AddressInfoScreen extends Component {
             <SelectCountryModal
               visible={modalVisible}
               modalTitle={'Country'}
-              onClose={(countryName) => this.closeModal(countryName)}/>
+              onClose={(countryData) => this.setCountry(countryData)}/>
 
             <Form>
               <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>

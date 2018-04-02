@@ -32,12 +32,13 @@ function register({ email, password }) {
 }
 
 function registerTwitter(twitterUser) {
-  const { email, firstName, lastName, country } = twitterUser;
+  const { email, firstName, lastName, country, countryAlpha3 } = twitterUser;
   return axios.post(`${apiUrl}/users/twitter`, {
     email,
     first_name: firstName,
     last_name: lastName,
     country,
+    country_alpha3: countryAlpha3,
     twitter_id: twitterUser.twitter_id,
     twitter_screen_name: twitterUser.twitter_screen_name,
     profile_picture: twitterUser.profile_picture,
@@ -47,35 +48,38 @@ function registerTwitter(twitterUser) {
 }
 
 function registerFacebook(facebookUser) {
-  const { email, firstName, lastName, country } = facebookUser;
+  const { email, firstName, lastName, country, countryAlpha3 } = facebookUser;
   return axios.post(`${apiUrl}/users/facebook`, {
     email,
     first_name: firstName,
     last_name: lastName,
     country,
+    country_alpha3: countryAlpha3,
     facebook_id: facebookUser.facebook_id,
     access_token: facebookUser.access_token
   });
 }
 
 function registerGoogle(googleUser) {
-  const { email, firstName, lastName, country } = googleUser;
+  const { email, firstName, lastName, country, countryAlpha3 } = googleUser;
   return axios.post(`${apiUrl}/users/google`, {
     email,
     first_name: firstName,
     last_name: lastName,
     country,
+    country_alpha3: countryAlpha3,
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
     access_token: googleUser.access_token
   });
 }
 
-function update({ firstName, lastName, country}) {
+function update({ firstName, lastName, country, countryAlpha3}) {
   return axios.put(`${apiUrl}/users/update`, {
     first_name: firstName,
     last_name: lastName,
     country,
+    country_alpha3: countryAlpha3,
   });
 }
 
@@ -141,6 +145,7 @@ function getPersonalInfo() {
 function createAddressInfo(addressInfo) {
   return axios.post(`${apiUrl}/users/address`, {
     country: addressInfo.country,
+    country_alpha3: addressInfo.countryAlpha3,
     us_state: addressInfo.state,
     city: addressInfo.city,
     zip: addressInfo.zip,
