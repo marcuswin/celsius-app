@@ -20,8 +20,8 @@ function create(loanCollaterals) {
   })
 }
 
-function accept(id) {
-  return axios.put(`${apiUrl}/loan_requests/${id}/accept`);
+function accept() {
+  return axios.put(`${apiUrl}/loan_requests/accept`);
 }
 
 function cancel() {
