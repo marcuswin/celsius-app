@@ -234,7 +234,7 @@ function getUserDocuments() {
 
     try {
       const documentsRes = await usersService.getDocuments();
-      dispatch(getUserDocumentsSuccess(documentsRes.data.documents));
+      dispatch(getUserDocumentsSuccess(documentsRes.data.kyc_documents));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_DOCUMENTS, err));

@@ -3,7 +3,7 @@ import nav from './nav/navReducer';
 import api from './api/apiReducer';
 import ui from './ui/uiReducer';
 import loanRequests from './loanRequests/loanRequestsReducer';
-import users from './users/usersreducer';
+import users from './users/usersReducer';
 import earnInterest from './earnInterest/earnInterestReducer';
 
 export default combineReducers({

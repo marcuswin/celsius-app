@@ -148,8 +148,8 @@ export default (state = initialState, action) => {
         },
       };
 
-    case ACTIONS.GET_USER_DOCUMENTS_INFO_SUCCESS:
-    case ACTIONS.CREATE_USER_DOCUMENTS_INFO_SUCCESS:
+    case ACTIONS.GET_USER_DOCUMENTS_SUCCESS:
+    case ACTIONS.CREATE_USER_DOCUMENTS_SUCCESS:
       return {
         ...state,
         user: {
@@ -159,8 +159,8 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.TAKE_CAMERA_PHOTO:
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setDocumentImage(state, 'document_front', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'document_back', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setDocumentImage(state, 'front', action.base64Image);
+      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'back', action.base64Image);
       if (action.photoName === CAMERA_PHOTOS.SELFIE) return setDocumentImage(state, 'selfie', action.base64Image);
       return { ...state };
 
