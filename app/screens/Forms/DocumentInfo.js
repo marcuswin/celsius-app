@@ -37,8 +37,8 @@ class DocumentInfoScreen extends Component {
     this.state = {
       documentInfo: {
         documentType: props.user.document_type,
-        front: props.user.document_front,
-        back: props.user.document_back,
+        front: props.user.front,
+        back: props.user.back,
         selfie: props.user.selfie,
       },
       modalVisible: false,
@@ -57,9 +57,9 @@ class DocumentInfoScreen extends Component {
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
         documentInfo: {
-          documentType: this.state.documentInfo.documentType,
-          front: nextProps.user.document_front,
-          back: nextProps.user.document_back,
+          documentType: nextProps.user.document_type || this.state.documentInfo.documentType,
+          front: nextProps.user.front,
+          back: nextProps.user.back,
           selfie: nextProps.user.selfie,
         },
       })

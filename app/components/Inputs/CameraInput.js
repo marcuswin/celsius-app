@@ -86,7 +86,7 @@ class CameraInput extends Component {
             </Col>
           </Grid>
 
-          { value && previewImage ? <Image source={{ uri: `data:image/png;base64,${value}` }} style={InputStyles.cameraImage} />: null}
+          { value && previewImage ? <Image source={{ uri: value }} style={InputStyles.cameraImage} />: null}
         </View>
       </TouchableOpacity>
     );

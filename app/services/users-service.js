@@ -183,7 +183,12 @@ function getBankAccountInfo() {
 }
 
 function createDocuments(documentInfo) {
-  return axios.post(`${apiUrl}/users/documents`, documentInfo);
+  return axios.post(`${apiUrl}/users/documents`, {
+    document_type: documentInfo.documentType,
+    front: documentInfo.front,
+    back: documentInfo.back,
+    selfie: documentInfo.selfie,
+  });
 }
 
 function getDocuments() {
