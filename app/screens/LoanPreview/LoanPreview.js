@@ -53,7 +53,7 @@ class LoanPreviewScreen extends Component {
   handleAcceptLoanRequest() {
     const {navigateTo, acceptLoanRequest, loanRequest} = this.props;
     if (loanRequest.status !== 'accepted') {
-      acceptLoanRequest(loanRequest.id);
+      acceptLoanRequest();
     } else {
       navigateTo('PersonalInfo', true);
     }

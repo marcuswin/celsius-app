@@ -87,12 +87,12 @@ function getSupportedCurrenciesSuccess(supportedCurrencies) {
   }
 }
 
-function acceptLoanRequest(id) {
+function acceptLoanRequest() {
   return async dispatch => {
     dispatch(startApiCall(API.ACCEPT_LOAN_REQUEST));
 
     try {
-      const res = await loanRequestsService.accept(id);
+      const res = await loanRequestsService.accept();
       const loanRequest = res.data.loan_request;
       loanRequest.order = res.data.order;
 
