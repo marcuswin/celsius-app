@@ -32,8 +32,8 @@ function getSupportedCurrencies() {
   return axios.get(`${apiUrl}/loan_requests/supported_currencies`);
 }
 
-function createLoanInfo(loanRequestId, loanInfo) {
-  return axios.post(`${apiUrl}/loan_requests/${loanRequestId}/loan_info`, {
+function createLoanInfo(loanInfo) {
+  return axios.post(`${apiUrl}/loan_requests/loan_info`, {
     loan_purpose: loanInfo.purposeOfLoan,
     note: loanInfo.note,
   })
