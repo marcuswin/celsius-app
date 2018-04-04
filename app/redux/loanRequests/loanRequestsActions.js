@@ -117,7 +117,7 @@ function createLoanRequestInfo(id, loanRequestInfo) {
     dispatch(startApiCall(API.CREATE_LOAN_REQUEST_INFO));
 
     try {
-      const res = await loanRequestsService.createLoanInfo(id, loanRequestInfo);
+      const res = await loanRequestsService.createLoanInfo(loanRequestInfo);
       const loanRequest = res.data.loan_request;
 
       dispatch(createLoanRequestInfoSuccess(loanRequest));
