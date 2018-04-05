@@ -36,7 +36,7 @@ export const PURPOSE_OF_LOAN = [
 
 export const DOCUMENT_TYPE = [
   {label: 'Passport', value: 'passport', bothSides: false},
-  {label: 'Driving License', value: 'driving_license', bothSides: true},
+  {label: 'Driving Licence', value: 'driving_licence', bothSides: true},
   {label: 'National Identity Card', value: 'identity_card', bothSides: true}
 ];
 
