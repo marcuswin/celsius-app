@@ -160,24 +160,27 @@ class DocumentInfoScreen extends Component {
                   value={documentLabel}/>
               </TouchableOpacity>
 
-              { documentType ? <Separator style={{ paddingTop: 10, paddingBottom: 30 }}>TAKE PHOTOS</Separator> : null }
+              { documentType ? <Separator customWrapperStyle={{ paddingTop: 30, paddingBottom: 15 }}>TAKE PHOTOS</Separator> : null }
               { documentType ? (
                 <CameraInput
-                  labelText={'Front Side'}
+                  labelTextActive={'Front side photo'}
+                  labelTextInactive={'Front side of the document'}
                   value={documentInfo.front || user.frontUrl}
                   photoName={CAMERA_PHOTOS.DOCUMENT_FRONT}
                 />
               ) : null }
               { documentType && documentType !== 'passport' ? (
                 <CameraInput
-                  labelText={'Back Side'}
+                  labelTextActive={'Back side photo'}
+                  labelTextInactive={'Back side of the document'}
                   value={documentInfo.back || user.backUrl}
                   photoName={CAMERA_PHOTOS.DOCUMENT_BACK}
                 />
               ) : null }
               { documentType ? (
                 <CameraInput
-                  labelText={'Selfie'}
+                  labelTextActive={'Take a Selfie'}
+                  labelTextInactive={'Selfie'}
                   value={documentInfo.selfie || user.selfieUrl}
                   photoName={CAMERA_PHOTOS.SELFIE}
                 />
@@ -188,7 +191,7 @@ class DocumentInfoScreen extends Component {
                   loading={isLoading}
                   disabled={isLoading}
                   onPress={() => this.onSubmit()}
-                  title={'Next'}/>
+                  title={'Finish application'}/>
               </View>
 
               <View>

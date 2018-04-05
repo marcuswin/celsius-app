@@ -17,7 +17,8 @@ import * as actions from "../../redux/actions";
 )
 class CameraInput extends Component {
   static propTypes = {
-    labelText: PropTypes.string.isRequired,
+    labelTextActive: PropTypes.string.isRequired,
+    labelTextInactive: PropTypes.string,
     value: PropTypes.string,
     previewImage: PropTypes.bool,
   };
@@ -44,20 +45,16 @@ class CameraInput extends Component {
 
   // Render methods
   renderLabelText = () => {
-    const {labelText, value, previewImage} = this.props;
+    const {labelTextActive, labelTextInactive, value} = this.props;
 
-    let text = labelText;
+    let text = labelTextActive;
     let fontSize = 18;
     let positionTop = -2;
 
-    if (value && previewImage) {
-      text = labelText.toUpperCase();
+    if (value) {
+      text = labelTextInactive ? labelTextInactive.toUpperCase() : labelTextActive.toUpperCase();
       fontSize = 12;
-      positionTop = -10;
-    }
-
-    if (value && !previewImage) {
-      text = `${labelText} - Photo Taken`
+      positionTop = -4;
     }
 
     return (
@@ -73,20 +70,35 @@ class CameraInput extends Component {
       previewImage,
     } = this.props;
 
+    const inputStyles = value ? [InputStyles.cameraInput, InputStyles.cameraInputActive] : InputStyles.cameraInput;
+
     return (
       <TouchableOpacity onPress={this.onPress}>
-        <View style={InputStyles.cameraInput}>
+        <View style={inputStyles}>
           <Grid style={{height: 50}}>
             <Col size={85} style={{justifyContent: 'center'}}>
               { this.renderLabelText() }
+              { value && !previewImage ? (
+                <Label style={{top: -2}}>
+                  <Text style={[InputStyles.label, InputStyles.labelActive]}>Photo Taken</Text>
+                </Label>
+              ) : null}
             </Col>
-            <Col size={15} style={{justifyContent: 'center', alignItems: 'flex-end'}}>
-              { !value ? <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} /> : null }
-              { value && !previewImage ? <Image source={require('../../../assets/images/icons/icon-check.png')} height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} /> : null }
+            <Col size={15} style={InputStyles.leftIconColumn}>
+
+              { !value ? (
+                  <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} />
+              ) : null }
+
+              { value && !previewImage ? (
+                <View style={InputStyles.checkbox}>
+                  <Image source={require('../../../assets/images/icons/icon-check.png')} height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}/>
+                </View>
+              ) : null }
             </Col>
           </Grid>
 
-          { value && previewImage ? <Image source={{ uri: value }} style={InputStyles.cameraImage} />: null}
+          { value && previewImage ? <Image source={{ uri: value }} style={InputStyles.cameraImage} /> : null}
         </View>
       </TouchableOpacity>
     );
