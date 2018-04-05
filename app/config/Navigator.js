@@ -13,9 +13,8 @@ import ThankYouScreen from "../screens/ThankYou/ThankYou";
 import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
 import PersonalInfoScreen from "../screens/Forms/PersonalInfo";
 import AddressInfoScreen from "../screens/Forms/AddressInfo";
-import ContactInfoScreen from "../screens/Forms/ContactInfo";
-import BankAccountInfoScreen from "../screens/Forms/BankAcountInfo";
 import DocumentInfoScreen from "../screens/Forms/DocumentInfo";
+import LoanDetailsScreen from "../screens/Forms/LoanDetails";
 
 const Navigator = StackNavigator({
   Welcome: {
@@ -66,13 +65,9 @@ const Navigator = StackNavigator({
     screen: AddressInfoScreen,
     title: 'AddressInfo',
   },
-  ContactInfo: {
-    screen: ContactInfoScreen,
-    title: 'ContactInfo',
-  },
-  BankAccountInfo: {
-    screen: BankAccountInfoScreen,
-    title: 'BankAccountInfo',
+  LoanDetails: {
+    screen: LoanDetailsScreen,
+    title: 'LoanDetails',
   },
   DocumentInfo: {
     screen: DocumentInfoScreen,
