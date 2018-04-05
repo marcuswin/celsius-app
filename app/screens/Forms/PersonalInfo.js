@@ -277,7 +277,7 @@ class PersonalInfoScreen extends Component {
                 <PrimaryButton
                   loading={isLoading}
                   onPress={this.onSubmit}
-                  title={'Next'}
+                  title={'Add address info'}
                 />
               </View>
             </Form>
