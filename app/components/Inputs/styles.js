@@ -33,6 +33,12 @@ const PrimaryInputStyles = StyleSheet.create({
     opacity: 0.5,
     top: 0
   },
+  labelActive: {
+    fontSize: 18,
+    color: 'white',
+    opacity: 1,
+    fontFamily: 'agile-bold',
+  },
   cameraInput: {
     paddingLeft: 10,
     paddingRight: 18,
@@ -42,13 +48,27 @@ const PrimaryInputStyles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: STYLES.INPUT_BACKGROUND_COLOR_WHITE,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    opacity: 0.5,
+  },
+  cameraInputActive: {
+    opacity: 1,
   },
   cameraImage: {
     marginTop: -20,
     width: 0.5 * width,
     height: 0.5 * width,
     borderRadius: 8,
+  },
+  leftIconColumn: {
+    justifyContent: 'center',
+    alignItems: 'flex-end'
+  },
+  checkbox: {
+    padding: 5,
+    backgroundColor: '#4FB895',
+    borderRadius: 4,
+    left: 5,
   }
 });
 

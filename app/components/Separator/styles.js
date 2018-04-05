@@ -13,10 +13,12 @@ const SeparatorStyle = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   middleBorderText: {
-    color: 'rgba(136, 162, 199, 1)',
-    opacity: 0.7,
+    fontFamily: 'agile-medium',
     fontSize: FONT_SCALE * 14,
-    fontFamily: 'agile-bold',
+    opacity: 0.5,
+    color: '#88A2C7',
+    lineHeight: FONT_SCALE * 17,
+    textAlign: 'center',
   },
 });
 
