@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-  Body, Button, Header, Icon, Left, Right, Text,
+  Body, Button, Header, Left, Right, Text,
   Title,
 } from 'native-base';
 import {connect} from "react-redux";
@@ -13,6 +13,7 @@ import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 
 import HeaderStyle from './styles';
 import * as actions from "../../../redux/actions";
+import Icon from "../../Icons/Icon";
 
 @connect(
   () => ({}),
@@ -26,6 +27,8 @@ class MainHeader extends Component {
     left: PropTypes.element,
     backButton: PropTypes.bool,
     backgroundColor: PropTypes.string,
+    cancelBtn: PropTypes.bool,
+    onCancel: PropTypes.func,
   };
 
   constructor() {
@@ -52,7 +55,9 @@ class MainHeader extends Component {
     if (backButton) {
       return (
         <Button style={{width: 80}} title='Back' transparent onPress={this.onPressBackButton}>
-          <Icon style={HeaderStyle.backArrow} name='arrow-back'/>
+          <Image
+            source={require('../../../../assets/images/icons/Back.png')}
+            style={{height: 20, width: 20, resizeMode: 'contain'}}/>
           <Text style={HeaderStyle.backButtonText}>Back</Text>
         </Button>
       );
@@ -64,6 +69,14 @@ class MainHeader extends Component {
   renderRight(rightSide) {
     if (rightSide) {
       return rightSide;
+    }
+
+    if (this.props.cancelBtn) {
+      return (
+        <TouchableOpacity style={{opacity: .6}} onPress={this.props.onCancel}>
+          <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'}/>
+        </TouchableOpacity>
+      );
     }
 
     return (

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View, Button, Text} from 'native-base';
+import {Container, Content, Form, View, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import DatePicker from 'react-native-datepicker'
 import * as _ from 'lodash'
@@ -15,10 +15,11 @@ import * as actions from "../../redux/actions";
 import API from "../../config/constants/API";
 import {STYLES} from "../../config/constants/style";
 import PrimaryInput from "../../components/Inputs/PrimaryInput";
-import {GENDER, KEYBOARD_TYPE, PERSON_TITLE} from "../../config/constants/common";
+import {GENDER, KEYBOARD_TYPE} from "../../config/constants/common";
 import SelectModal from "../../components/Modals/SelectModal/SelectModal";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import apiUtil from "../../utils/api-util";
+import SelectCountryModal from "../../components/Modals/SelectCountryModal/SelectCountryModal";
 
 @connect(
   state => ({
@@ -36,17 +37,16 @@ class PersonalInfoScreen extends Component {
 
     this.state = {
       personalInfo: {
-        title: props.user.title || '',
         firstName: props.user.first_name || '',
         lastName: props.user.last_name || '',
-        middleName: props.user.middle_name || '',
         dateOfBirth: props.user.date_of_birth || '',
-        motherMaidenName: props.user.mothers_maiden_name || '',
         gender: props.user.gender || '',
-        socialSecurityNumber: props.user.ssn || '',
+        cellphone: props.user.cellphone || '',
+        email: props.user.email || '',
+        citizenship: props.user.citizenship || '',
       },
       genderModalVisible: false,
-      titleModalVisible: false,
+      citizenshipModalVisible: false,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -65,14 +65,13 @@ class PersonalInfoScreen extends Component {
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
         personalInfo: {
-          title: nextProps.user.title || '',
           firstName: nextProps.user.first_name || '',
           lastName: nextProps.user.last_name || '',
-          middleName: nextProps.user.middle_name || '',
           dateOfBirth: nextProps.user.date_of_birth || '',
-          motherMaidenName: nextProps.user.mothers_maiden_name || '',
           gender: nextProps.user.gender || '',
-          socialSecurityNumber: nextProps.user.ssn || '',
+          cellphone: nextProps.user.cellphone || '',
+          email: nextProps.user.email || '',
+          citizenship: nextProps.user.citizenship || '',
         },
       });
     }
@@ -93,28 +92,26 @@ class PersonalInfoScreen extends Component {
   onSubmit = () => {
     const {createUserPersonalInfo, showMessage} = this.props;
     const {
-      title,
       firstName,
       lastName,
-      middleName,
       dateOfBirth,
-      motherMaidenName,
       gender,
-      socialSecurityNumber,
+      cellphone,
+      email,
+      citizenship
     } = this.state.personalInfo;
 
     const error = this.validateForm();
 
     if (!error) {
       createUserPersonalInfo({
-        title,
         firstName,
         lastName,
-        middleName,
         dateOfBirth,
-        motherMaidenName,
         gender,
-        socialSecurityNumber
+        cellphone,
+        email,
+        citizenship
       });
     } else {
       showMessage('error', error);
@@ -126,13 +123,19 @@ class PersonalInfoScreen extends Component {
       firstName,
       lastName,
       dateOfBirth,
-      socialSecurityNumber,
+      cellphone,
+      gender,
+      email,
+      citizenship
     } = this.state.personalInfo;
 
     if (!firstName) return 'First name is required!';
     if (!lastName) return 'Last name is required!';
     if (!dateOfBirth) return 'Date of Birth is required!';
-    if (!socialSecurityNumber) return 'Social security number is required!';
+    if (!cellphone) return 'Phone number is required!';
+    if (!email) return 'Email is required!';
+    if (!citizenship) return 'Citizenship is required!';
+    if (!gender) return 'Gender is required!';
   };
 
   closeModal = (type, value) => {
@@ -140,7 +143,7 @@ class PersonalInfoScreen extends Component {
       if (type === 'genderModalVisible') {
         this.updateField('gender', value.label)
       } else {
-        this.updateField('title', value.label)
+        this.updateField('citizenship', value.name)
       }
     }
 
@@ -159,17 +162,16 @@ class PersonalInfoScreen extends Component {
   }
 
   render() {
-    const { callsInProgress, cancelLoanRequest } = this.props;
-    const { personalInfo, genderModalVisible, titleModalVisible } = this.state;
+    const {callsInProgress, cancelLoanRequest} = this.props;
+    const {personalInfo, genderModalVisible, citizenshipModalVisible} = this.state;
     const {
       firstName,
       lastName,
-      middleName,
       dateOfBirth,
       gender,
-      title,
-      motherMaidenName,
-      socialSecurityNumber
+      cellphone,
+      email,
+      citizenship
     } = personalInfo;
 
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_USER_PERSONAL_INFO], callsInProgress);
@@ -177,13 +179,18 @@ class PersonalInfoScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
+        <MainHeader
+          {...this.props}
+          backButton
+          customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
+          cancelBtn
+          onCancel={() => cancelLoanRequest()}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
           ref={(heading) => {
             this.heading = heading;
           }}
-          text={'Personal Info'}/>
+          text={'Loan Request'}/>
 
         <Message/>
 
@@ -198,23 +205,16 @@ class PersonalInfoScreen extends Component {
               modalTitle={'Gender'}
               onClose={(value) => this.closeModal('genderModalVisible', value)}/>
 
-            <SelectModal
-              visible={titleModalVisible}
-              items={PERSON_TITLE}
-              modalTitle={'Title'}
-              onClose={(value) => this.closeModal('titleModalVisible', value)}/>
+            <SelectCountryModal
+              visible={citizenshipModalVisible}
+              modalTitle={'Citizenship'}
+              onClose={(value) => this.closeModal('citizenshipModalVisible', value)}/>
 
-            <Form>
-              <TouchableOpacity onPress={() => this.setState({titleModalVisible: true})}>
-                <PrimaryInput
-                  clickable
-                  onPress={() => this.setState({titleModalVisible: true})}
-                  labelText={'Title'}
-                  keyboardType={KEYBOARD_TYPE.DEFAULT}
-                  value={title}
-                  onChange={(text) => this.updateField('title', text)}/>
-              </TouchableOpacity>
+            <Text style={Styles.description}>
+              Let’s finish your profile first. Please provide us with missing information or edit current ones.
+            </Text>
 
+            <Form style={{paddingTop: 28}}>
               <PrimaryInput
                 labelText={'First Name *'}
                 keyboardType={KEYBOARD_TYPE.DEFAULT}
@@ -230,11 +230,17 @@ class PersonalInfoScreen extends Component {
                 onChange={(text) => this.updateField('lastName', text)}/>
 
               <PrimaryInput
-                labelText={'Middle Name'}
-                keyboardType={KEYBOARD_TYPE.DEFAULT}
-                value={middleName}
-                autoCapitalize={'words'}
-                onChange={(text) => this.updateField('middleName', text)}/>
+                labelText={'Email *'}
+                keyboardType={KEYBOARD_TYPE.EMAIL}
+                value={email}
+                onChange={(text) => this.updateField('email', text)}/>
+
+              <PrimaryInput
+                labelText={'Phone number *'}
+                keyboardType={KEYBOARD_TYPE.NUMERIC}
+                placeholder={'+0000000000'}
+                value={cellphone}
+                onChange={(text) => this.updateField('cellphone', text)}/>
 
               <TouchableOpacity onPress={() => this.datePicker.onPressDate()}>
                 <PrimaryInput
@@ -245,28 +251,27 @@ class PersonalInfoScreen extends Component {
                   value={moment(new Date(dateOfBirth)).format('DD/MM/YY')}/>
               </TouchableOpacity>
 
-              <PrimaryInput
-                labelText={'Mother\'s Maiden Name'}
-                keyboardType={KEYBOARD_TYPE.DEFAULT}
-                value={motherMaidenName}
-                autoCapitalize={'words'}
-                onChange={(text) => this.updateField('motherMaidenName', text)}/>
-
               <TouchableOpacity onPress={() => this.setState({genderModalVisible: true})}>
                 <PrimaryInput
                   clickable
                   onPress={() => this.setState({genderModalVisible: true})}
-                  labelText={'Gender'}
+                  labelText={'Gender *'}
                   keyboardType={KEYBOARD_TYPE.DEFAULT}
                   value={gender}
                   onChange={(text) => this.updateField('gender', text)}/>
               </TouchableOpacity>
 
-              <PrimaryInput
-                labelText={'Social Security Number *'}
-                keyboardType={KEYBOARD_TYPE.NUMERIC}
-                value={socialSecurityNumber}
-                onChange={(text) => this.updateField('socialSecurityNumber', text)}/>
+
+              <TouchableOpacity onPress={() => this.setState({citizenshipModalVisible: true})}>
+                <PrimaryInput
+                  clickable
+                  onPress={() => this.setState({citizenshipModalVisible: true})}
+                  labelText={'Citizenship *'}
+                  keyboardType={KEYBOARD_TYPE.DEFAULT}
+                  value={citizenship}
+                  onChange={(text) => this.updateField('citizenship', text)}/>
+              </TouchableOpacity>
+
 
               <View style={Styles.buttonWrapper}>
                 <PrimaryButton
@@ -274,17 +279,6 @@ class PersonalInfoScreen extends Component {
                   onPress={this.onSubmit}
                   title={'Next'}
                 />
-              </View>
-
-              <View>
-                <Button
-                  block
-                  style={{ marginBottom: 50 }}
-                  transparent
-                  onPress={ cancelLoanRequest }
-                >
-                  <Text style={{ color: '#EF461A' }}>Cancel Loan Request</Text>
-                </Button>
               </View>
             </Form>
 
