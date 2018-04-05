@@ -20,6 +20,7 @@ import {
 
 import StepStyles from "./styles";
 import Icon from "../../../components/Icons/Icon";
+import {Separator} from '../../../components/Separator/Separator';
 import * as actions from "../../../redux/actions";
 import LoginForm from "../../../components/Forms/LoginForm/LoginForm";
 
@@ -160,19 +161,9 @@ class Step1 extends Component {
             </Col>
           </Grid>
         </View>
-        <View style={{paddingTop: 50}}>
-          <Grid>
-            <Col style={StepStyles.centeredColumn}>
-              <View style={StepStyles.dummyBorder}/>
-            </Col>
-            <Col style={{width: 175, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={StepStyles.middleBorderText}>OR SIGN UP WITH E-MAIL</Text>
-            </Col>
-            <Col style={StepStyles.centeredColumn}>
-              <View style={StepStyles.dummyBorder}/>
-            </Col>
-          </Grid>
-        </View>
+
+        <Separator>OR SIGN UP WITH E-MAIL</Separator>
+
         <View style={{paddingTop: 46, paddingBottom: 60}}>
           <LoginForm onSubmit={(data) => this.onSubmit(data)} buttonText={'Create Account'}/>
         </View>
