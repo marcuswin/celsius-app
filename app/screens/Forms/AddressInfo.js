@@ -73,7 +73,7 @@ class AddressInfoScreen extends Component {
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_ADDRESS_INFO) {
-      navigateTo('BankAccountInfo');
+      navigateTo('LoanDetails');
     }
   };
 
