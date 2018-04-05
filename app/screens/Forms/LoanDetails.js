@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View, Button, Text} from 'native-base';
+import {Container, Content, Form, View, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
@@ -29,10 +29,10 @@ import apiUtil from "../../utils/api-util";
   dispatch => bindActionCreators(actions, dispatch),
 )
 
-class BankAccountInfoScreen extends Component {
+class LoanDetailsScreen extends Component {
   static defaultProps = {
     loanRequest: {},
-  }
+  };
 
   constructor(props) {
     super();
@@ -158,13 +158,18 @@ class BankAccountInfoScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
+        <MainHeader
+          {...this.props}
+          backButton
+          customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
+          cancelBtn
+          onCancel={() => cancelLoanRequest()}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
           ref={(heading) => {
             this.heading = heading;
           }}
-          text={'Bank Info'}/>
+          text={'Loan details'}/>
 
         <Message/>
 
@@ -173,7 +178,12 @@ class BankAccountInfoScreen extends Component {
           style={Styles.content}
           onScroll={this.onScroll}>
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
-            <Form>
+
+            <Text style={Styles.description}>
+              Here’s the information we need from you in order to place and review your loan request.
+            </Text>
+
+            <Form style={{paddingTop: 28}}>
               <PrimaryInput
                 labelText={'Bank Name *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
@@ -211,18 +221,7 @@ class BankAccountInfoScreen extends Component {
                 <PrimaryButton
                   loading={isLoading}
                   onPress={this.onSubmit}
-                  title={'Next'}/>
-              </View>
-
-              <View>
-                <Button
-                  block
-                  style={{ marginBottom: 50 }}
-                  transparent
-                  onPress={ cancelLoanRequest }
-                >
-                  <Text style={{ color: '#EF461A' }}>Cancel Loan Request</Text>
-                </Button>
+                  title={'Verify your profile'}/>
               </View>
             </Form>
           </View>
@@ -232,4 +231,4 @@ class BankAccountInfoScreen extends Component {
   }
 }
 
-export default BankAccountInfoScreen;
+export default LoanDetailsScreen;
