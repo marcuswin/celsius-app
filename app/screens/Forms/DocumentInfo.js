@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
+import {Separator} from '../../components/Separator/Separator';
 import Styles from "./styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
@@ -57,7 +58,7 @@ class DocumentInfoScreen extends Component {
     if (!_.isEqual(user, nextProps.user)) {
       this.setState({
         documentInfo: {
-          documentType: nextProps.user.document_type || this.state.documentInfo.documentType,
+          documentType: this.state.documentInfo.documentType || nextProps.user.document_type,
           front: nextProps.user.front,
           back: nextProps.user.back,
           selfie: nextProps.user.selfie,
@@ -102,18 +103,19 @@ class DocumentInfoScreen extends Component {
   };
 
   validateForm() {
+    const { user } = this.props;
     const { documentInfo } = this.state;
 
     if (!documentInfo.documentType) return 'Document Type is Required';
-    if (!documentInfo.front) return 'Image of front side is Required';
-    if (!documentInfo.back && documentInfo.documentType !== 'passport') return 'Image of back side is Required';
-    if (!documentInfo.selfie) return 'Selfie image is Required';
+    if (!user.frontUrl && !documentInfo.front) return 'Image of front side is Required';
+    if (!user.backUrl && !documentInfo.back && documentInfo.documentType !== 'passport') return 'Image of back side is Required';
+    if (!user.selfieUrl && !documentInfo.selfie) return 'Selfie image is Required';
 
     return false;
   }
 
   render() {
-    const { callsInProgress, cancelLoanRequest } = this.props;
+    const { callsInProgress, cancelLoanRequest, user } = this.props;
     const { documentInfo, modalVisible } = this.state;
     const { documentType } = documentInfo;
 
@@ -129,7 +131,7 @@ class DocumentInfoScreen extends Component {
           ref={(heading) => {
             this.heading = heading;
           }}
-          text={'Document Info'}/>
+          text={'Verify profile'}/>
 
         <Message/>
 
@@ -146,10 +148,7 @@ class DocumentInfoScreen extends Component {
           style={Styles.content}
           onScroll={this.onScroll}>
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
-            <Text style={Styles.description}>
-              Please choose your preferred document type for profile verification. Take a picture of both front and back
-              side of the document, as well as photo of yourself.
-            </Text>
+            <Text style={Styles.description}>As the last step, please take pictures of your preffered identification document and photo of yourself.</Text>
 
             <Form style={{paddingTop: 40}}>
               <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
@@ -161,24 +160,25 @@ class DocumentInfoScreen extends Component {
                   value={documentLabel}/>
               </TouchableOpacity>
 
+              { documentType ? <Separator style={{ paddingTop: 10, paddingBottom: 30 }}>TAKE PHOTOS</Separator> : null }
               { documentType ? (
                 <CameraInput
                   labelText={'Front Side'}
-                  value={documentInfo.front}
+                  value={documentInfo.front || user.frontUrl}
                   photoName={CAMERA_PHOTOS.DOCUMENT_FRONT}
                 />
               ) : null }
               { documentType && documentType !== 'passport' ? (
                 <CameraInput
                   labelText={'Back Side'}
-                  value={documentInfo.back}
+                  value={documentInfo.back || user.backUrl}
                   photoName={CAMERA_PHOTOS.DOCUMENT_BACK}
                 />
               ) : null }
               { documentType ? (
                 <CameraInput
                   labelText={'Selfie'}
-                  value={documentInfo.selfie}
+                  value={documentInfo.selfie || user.selfieUrl}
                   photoName={CAMERA_PHOTOS.SELFIE}
                 />
               ) : null }
