@@ -159,6 +159,10 @@ function getUserContactInfoSuccess(contactInfo) {
 }
 
 // BANK INFO
+/**
+ * @deprecated
+ * @description delete all logic related BankInfo
+ */
 function createUserBankInfo(bankAccountInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_USER_BANK_INFO));

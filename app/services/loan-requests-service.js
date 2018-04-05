@@ -34,6 +34,9 @@ function getSupportedCurrencies() {
 
 function createLoanInfo(loanInfo) {
   return axios.post(`${apiUrl}/loan_requests/loan_info`, {
+    public_wallet_address: loanInfo.publicWalletAddress,
+    ssn: loanInfo.socialSecurityNumber,
+    source_of_funds: loanInfo.sourceOfFunds,
     loan_purpose: loanInfo.purposeOfLoan,
     note: loanInfo.note,
   })

@@ -24,6 +24,16 @@ export const PERSON_TITLE = [
   {label: 'Mrs.', value: 'mrs'}
 ];
 
+export const PURPOSE_OF_LOAN = [
+  {label: 'Personal Expenses', value: 'Personal Expenses'},
+  {label: 'Pay off debt', value: 'Pay off debt'},
+  {label: 'Stock/Bond Investment', value: 'Stock/Bond Investment'},
+  {label: 'Additional Crypto Investment', value: 'Additional Crypto Investment'},
+  {label: 'Real Estate', value: 'Real Estate'},
+  {label: 'Business Venture (starting a business)', value: 'Business Venture (starting a business)'},
+  {label: 'Other', value: 'Other'},
+];
+
 export const DOCUMENT_TYPE = [
   {label: 'Passport', value: 'passport', bothSides: false},
   {label: 'Driving License', value: 'driving_license', bothSides: true},
@@ -34,4 +44,4 @@ export const CAMERA_PHOTOS = {
   DOCUMENT_FRONT: 'DOCUMENT_FRONT',
   DOCUMENT_BACK: 'DOCUMENT_BACK',
   SELFIE: 'SELFIE',
-}
+};
