@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, View, Button, Text} from 'native-base';
+import {Container, Content, Form, View, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
@@ -73,7 +73,7 @@ class AddressInfoScreen extends Component {
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_USER_ADDRESS_INFO) {
-      navigateTo('ContactInfo');
+      navigateTo('BankAccountInfo');
     }
   };
 
@@ -100,8 +100,7 @@ class AddressInfoScreen extends Component {
       modalVisible: false,
       addressInfo: {
         ...this.state.addressInfo,
-        country: country.name || this.state.country,
-        countryAlpha3: country.alpha3 || this.state.countryAlpha3,
+        country: country.name || this.state.country
       }
     });
   };
@@ -149,7 +148,12 @@ class AddressInfoScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
+        <MainHeader
+          {...this.props}
+          backButton
+          customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
+          cancelBtn
+          onCancel={() => cancelLoanRequest()}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
           ref={(heading) => {
@@ -169,7 +173,11 @@ class AddressInfoScreen extends Component {
               modalTitle={'Country'}
               onClose={(countryData) => this.setCountry(countryData)}/>
 
-            <Form>
+            <Text style={Styles.description}>
+              We’ll need a couple more things from your side to set up your profile.
+            </Text>
+
+            <Form style={{paddingTop: 28}}>
               <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
                 <PrimaryInput
                   clickable
@@ -198,7 +206,7 @@ class AddressInfoScreen extends Component {
                 onChange={(text) => this.updateField('city', text)}/>
 
               <PrimaryInput
-                labelText={'ZIP *'}
+                labelText={'Zip Code *'}
                 keyboardType={KEYBOARD_TYPE.NUMERIC}
                 value={zip}
                 autoCapitalize={'words'}
@@ -222,18 +230,7 @@ class AddressInfoScreen extends Component {
                 <PrimaryButton
                   loading={isLoading}
                   onPress={this.onSubmit}
-                  title={'Next'}/>
-              </View>
-
-              <View>
-                <Button
-                  block
-                  style={{ marginBottom: 50 }}
-                  transparent
-                  onPress={ cancelLoanRequest }
-                >
-                  <Text style={{ color: '#EF461A' }}>Cancel Loan Request</Text>
-                </Button>
+                  title={'Loan details'}/>
               </View>
             </Form>
           </View>

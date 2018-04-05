@@ -144,7 +144,6 @@ function getPersonalInfo() {
 function createAddressInfo(addressInfo) {
   return axios.post(`${apiUrl}/users/address`, {
     country: addressInfo.country,
-    country_alpha3: addressInfo.countryAlpha3,
     us_state: addressInfo.state,
     city: addressInfo.city,
     zip: addressInfo.zip,
