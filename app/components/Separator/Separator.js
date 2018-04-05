@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
-import {Text, View} from "native-base";
-import {Col, Grid} from "react-native-easy-grid";
+import {Text, View} from 'native-base';
+import {Col, Grid} from 'react-native-easy-grid';
+import PropTypes from 'prop-types';
 
 import SeparatorStyles from './styles';
 
 class Separator extends Component {
+
+  static propTypes = {
+    customWrapperStyle: PropTypes.instanceOf(Object),
+  };
+
   constructor() {
     super();
     this.state = {};
@@ -12,7 +18,7 @@ class Separator extends Component {
 
   render() {
     return (
-      <View style={{paddingTop: 50}}>
+      <View style={[{paddingTop: 50}, this.props.customWrapperStyle]}>
         <Grid>
           <Col style={SeparatorStyles.centeredColumn}>
             <View style={SeparatorStyles.dummyBorder}/>
