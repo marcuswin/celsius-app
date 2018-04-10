@@ -71,8 +71,8 @@ export default (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          first_name: name[0].trim(),
-          last_name: name[1].trim(),
+          first_name: name[0] ? name[0].trim() : '',
+          last_name: name[1] ? name[1].trim() : '',
           email: action.twitter_user.email,
           twitter_screen_name: action.twitter_user.screen_name,
           twitter_id: action.twitter_user.id_str,
