@@ -21,7 +21,7 @@ function createLoanRequest(collateralInfo) {
       dispatch(createLoanRequestSuccess(loanRequest, competitionRates));
 
     } catch (err) {
-      dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));
+      dispatch(showMessage(err.msgType, err.msg));
       dispatch(apiError(API.CREATE_LOAN_REQUEST, err));
     }
   }
