@@ -12,7 +12,8 @@ import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './layout/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
-import {getSecureStoreKey} from "./utils/expo-storage";
+import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
+import baseUrl from "./services/api-url";
 
 Sentry.config(SENTRY).install();
 
@@ -53,6 +54,13 @@ export default class App extends Component {
 
     if (!SECURITY_STORAGE_AUTH_KEY) {
       console.error('NO SECURITY_STORAGE_AUTH_KEY')
+    }
+
+    // logout user if backend environment has changed
+    const previousBaseUrl = await getSecureStoreKey('BASE_URL');
+    if (previousBaseUrl !== baseUrl) {
+      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      await setSecureStoreKey('BASE_URL', baseUrl);
     }
 
     // get user token
