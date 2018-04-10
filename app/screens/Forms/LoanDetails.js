@@ -47,9 +47,9 @@ class LoanDetailsScreen extends Component {
       },
       loanRequest: {
         purposeOfLoan: props.loanRequest.loan_purpose,
-        publicWalletAddress: props.user.publicWalletAddress,
-        socialSecurityNumber: props.user.socialSecurityNumber,
-        sourceOfFunds: props.user.sourceOfFunds,
+        publicWalletAddress: props.user.public_wallet_address,
+        socialSecurityNumber: props.user.ssn,
+        sourceOfFunds: props.loanRequest.source_of_funds,
         note: props.loanRequest.note,
       },
       modalVisible: false
@@ -60,15 +60,15 @@ class LoanDetailsScreen extends Component {
   }
 
   componentDidMount() {
-    const {getUserBankInfo, loanRequest, getLoanRequest} = this.props;
+    const {getUserBankInfo, getLoanRequest} = this.props;
     getUserBankInfo();
-    if (!loanRequest.id) getLoanRequest();
+    getLoanRequest();
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const {user, loanRequest, navigateTo} = this.props;
+    const {user, navigateTo} = this.props;
 
-    if (!_.isEqual(user, nextProps.user)) {
+    if (!_.isEqual(user, nextProps.user) && nextProps.user) {
       this.setState({
         bankInfo: {
           name: nextProps.user.bank_name,
@@ -78,7 +78,7 @@ class LoanDetailsScreen extends Component {
       });
     }
 
-    if (!_.isEqual(loanRequest, nextProps.loanRequest)) {
+    if (nextProps.loanRequest) {
       this.setState({
         loanRequest: {
           purposeOfLoan: nextProps.loanRequest.loan_purpose,

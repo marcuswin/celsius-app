@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Form, Text, View, Button} from 'native-base';
+import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
@@ -125,7 +125,12 @@ class DocumentInfoScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
+        <MainHeader
+          {...this.props}
+          backButton
+          customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
+          cancelBtn
+          onCancel={() => cancelLoanRequest()}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
           ref={(heading) => {
@@ -192,17 +197,6 @@ class DocumentInfoScreen extends Component {
                   disabled={isLoading}
                   onPress={() => this.onSubmit()}
                   title={'Finish application'}/>
-              </View>
-
-              <View>
-                <Button
-                  block
-                  style={Styles.cancelButton}
-                  transparent
-                  onPress={ cancelLoanRequest }
-                >
-                  <Text style={Styles.cancelText}>Cancel Loan Request</Text>
-                </Button>
               </View>
             </Form>
           </View>
