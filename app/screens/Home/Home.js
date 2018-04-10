@@ -24,7 +24,7 @@ class HomeScreen extends Component {
     super();
 
     this.state = {
-      headingTitle: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`
+      headingTitle: `Hola, ${ props.user && props.user.first_name ? props.user.first_name : 'Guest' }!`
     };
   }
 
