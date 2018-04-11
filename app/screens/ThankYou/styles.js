@@ -9,7 +9,6 @@ const ThankYouStyle = StyleSheet.create({
   },
   heading: {
     textAlign: 'center',
-    marginTop: 84,
     fontSize: 40,
     fontFamily: 'agile-extra-bold',
     color: '#fff',
@@ -25,22 +24,22 @@ const ThankYouStyle = StyleSheet.create({
     lineHeight: 25
   },
   imageWrapper: {
-    height: 230,
-    width: 230,
-    borderWidth: 10,
-    borderRadius: 115,
+    height: 195,
+    width: 195,
+    borderWidth: 8,
+    borderRadius: 10,
     borderColor: 'rgba(255, 255, 255, 0.3)',
     alignItems: 'center',
     justifyContent: 'center'
   },
   celsiusLogo: {
-    height: 68,
-    width: 68,
-    borderRadius: 34,
+    height: 62,
+    width: 62,
+    borderRadius: 31,
     position: 'absolute',
-    right: -10,
-    top: -10,
-    borderWidth: 10,
+    right: -31,
+    top: -31,
+    borderWidth: 8,
     backgroundColor: STYLES.PRIMARY_BLUE,
     borderColor: 'rgba(255, 255, 255, 0.3)',
     zIndex: 2
