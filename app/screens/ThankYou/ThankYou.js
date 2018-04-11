@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
-import {bindActionCreators} from "redux";
+import {bindActionCreators} from 'redux';
+import QRCode from 'react-native-qrcode';
 
-import ThankYouStyle from "./styles";
-import * as actions from "../../redux/actions";
-import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../config/constants/style";
-import Icon from "../../components/Icons/Icon";
-import {PrimaryButton} from "../../components/Buttons/Button/Button";
-import {MainHeader} from "../../components/Headers/MainHeader/MainHeader";
+import ThankYouStyle from './styles';
+import * as actions from '../../redux/actions';
+import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../config/constants/style';
+import Icon from '../../components/Icons/Icon';
+import {PrimaryButton} from '../../components/Buttons/Button/Button';
+import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 
 @connect(
   state => ({
@@ -25,7 +26,7 @@ class ThankYouScreen extends Component {
     super();
 
     this.state = {
-      status: 'Reject',
+      status: 'In review',
       address: '0xbb9bc244d798123fde783fcc1c72d3bb8c189413',
       requestNumber: 1,
       amount: 1
@@ -69,26 +70,39 @@ class ThankYouScreen extends Component {
           {...this.props}
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
-          onCancel={() => navigateTo('Home')}/>
+          onCancel={() => navigateTo('Home', true)}/>
         <Content bounces={false} style={ThankYouStyle.content}>
           <Text style={ThankYouStyle.heading}>Thank you</Text>
-          <Text style={ThankYouStyle.welcomeText}>You’re the {this.ordinalSuffixOf(requestNumber)} person interested in taking a loan.</Text>
+          <Text style={ThankYouStyle.welcomeText}>You’re the {this.ordinalSuffixOf(requestNumber)} person interested in
+            taking a loan.</Text>
 
           <View style={{paddingTop: 13}}>
             <Text style={ThankYouStyle.description}>
               Please transfer
-              <Text style={[GLOBAL_STYLE_DEFINITIONS.boldText, {color: '#fff'}]}> {amount} CEL {amount > 1 ? 'tokens' : 'token'} </Text>
+              <Text
+                style={[GLOBAL_STYLE_DEFINITIONS.boldText, {color: '#fff'}]}> {amount} CEL {amount > 1 ? 'tokens' : 'token'} </Text>
               to the address below in order for your loan application to be accepted and reviewed.
             </Text>
           </View>
 
           <TouchableOpacity onPress={() => navigateTo('Home', true)}>
-            <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, {paddingTop: 24}]}>
+            <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, {paddingTop: 40}]}>
               <View style={ThankYouStyle.imageWrapper}>
                 <View style={ThankYouStyle.celsiusLogo}>
                   <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF'/>
                 </View>
-
+                <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, {
+                  width: 170,
+                  height: 170,
+                  backgroundColor: '#fff',
+                  borderRadius: 8
+                }]}>
+                  <QRCode
+                    value={address}
+                    size={130}
+                    bgColor='black'
+                    fgColor='white'/>
+                </View>
               </View>
             </View>
           </TouchableOpacity>
@@ -119,7 +133,8 @@ class ThankYouScreen extends Component {
             <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn]}>
               <View style={{flexDirection: 'row'}}>
                 <View style={{justifyContent: 'center'}}>
-                  <View style={{width: 14, height: 14, borderRadius: 14, backgroundColor: statusColor, marginRight: 15}}/>
+                  <View
+                    style={{width: 14, height: 14, borderRadius: 14, backgroundColor: statusColor, marginRight: 15}}/>
                 </View>
                 <Text style={{color: statusColor, fontFamily: 'agile-medium', fontSize: 18}}>{status}</Text>
               </View>

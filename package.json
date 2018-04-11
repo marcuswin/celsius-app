@@ -36,6 +36,7 @@
     "react-native-easy-grid": "0.1.17",
     "react-native-google-signin": "0.12.0",
     "react-native-image-header-scroll-view": "0.8.0",
+    "react-native-qrcode": "^0.2.6",
     "react-native-simple-twitter": "1.2.0",
     "react-native-svg": "5.5.1",
     "react-native-svg-icon": "0.7.0",
