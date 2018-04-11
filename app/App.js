@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font} from 'expo';
+import {Asset, AppLoading, Font, Permissions} from 'expo';
 import {Provider} from 'react-redux';
 import {Image} from 'react-native';
 import wc from 'which-country';
@@ -71,9 +71,12 @@ export default class App extends Component {
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 
-    navigator.geolocation.getCurrentPosition(
-      pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
-    );
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
+      );
+    }
   }
 
   // Assets are cached differently depending on where
