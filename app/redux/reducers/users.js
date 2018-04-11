@@ -3,7 +3,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 
 const initialState = {
   userLocation: undefined,
-  user: {},
+  user: undefined,
   borrower: undefined,
 };
 
