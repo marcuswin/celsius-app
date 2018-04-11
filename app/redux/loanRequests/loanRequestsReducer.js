@@ -31,6 +31,23 @@ export default (state = initialState, action) => {
         loanRequest: null,
       };
 
+    case ACTIONS.CREATE_LOAN_DETAILS_SUCCESS:
+    case ACTIONS.GET_LOAN_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loanRequest: {
+          ...state.loanRequest,
+          loan_purpose: action.loanDetails.loan_purpose,
+          note: action.loanDetails.note,
+          source_of_funds: action.loanDetails.source_of_funds,
+          ssn: action.loanDetails.ssn,
+          public_wallet_address: action.loanDetails.public_wallet_address,
+          // bank_name: action.loanDetails.bank_name,
+          // bank_routing_number: action.loanDetails.bank_routing_number,
+          // bank_account_number: action.loanDetails.bank_account_number,
+        },
+      };
+
     case ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS:
       return {
         ...state,

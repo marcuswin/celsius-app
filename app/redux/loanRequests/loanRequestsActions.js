@@ -10,7 +10,8 @@ export {
   getSupportedCurrencies,
   acceptLoanRequest,
   cancelLoanRequest,
-  createLoanRequestInfo,
+  getLoanDetails,
+  createLoanDetails,
 }
 
 function createLoanRequest(collateralInfo) {
@@ -112,27 +113,51 @@ function acceptLoanRequestSuccess(loanRequest) {
   }
 }
 
-function createLoanRequestInfo(id, loanRequestInfo) {
+function createLoanDetails(id, details) {
   return async dispatch => {
-    dispatch(startApiCall(API.CREATE_LOAN_REQUEST_INFO));
+    dispatch(startApiCall(API.CREATE_LOAN_DETAILS));
 
     try {
-      const res = await loanRequestsService.createLoanInfo(loanRequestInfo);
-      const loanRequest = res.data.loan_request;
+      const res = await loanRequestsService.createLoanDetails(details);
+      const loanDetails = res.data.loan_details;
 
-      dispatch(createLoanRequestInfoSuccess(loanRequest));
+      dispatch(createLoanDetailsSuccess(loanDetails));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_LOAN_REQUEST_INFO, err));
+      dispatch(apiError(API.CREATE_LOAN_DETAILS, err));
     }
   }
 }
 
-function createLoanRequestInfoSuccess(loanRequest) {
+function createLoanDetailsSuccess(loanDetails) {
   return {
-    type: ACTIONS.CREATE_LOAN_REQUEST_INFO_SUCCESS,
-    callName: API.CREATE_LOAN_REQUEST_INFO,
-    loanRequest,
+    type: ACTIONS.CREATE_LOAN_DETAILS_SUCCESS,
+    callName: API.CREATE_LOAN_DETAILS,
+    loanDetails,
+  }
+}
+
+function getLoanDetails() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_LOAN_DETAILS));
+
+    try {
+      const res = await loanRequestsService.getLoanDetails();
+      const loanDetails = res.data.loan_details;
+
+      dispatch(getLoanDetailsSuccess(loanDetails));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_LOAN_DETAILS, err));
+    }
+  }
+}
+
+function getLoanDetailsSuccess(loanDetails) {
+  return {
+    type: ACTIONS.GET_LOAN_DETAILS_SUCCESS,
+    callName: API.GET_LOAN_DETAILS,
+    loanDetails,
   }
 }
 

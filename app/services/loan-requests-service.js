@@ -7,7 +7,8 @@ const loanRequestsService = {
   accept,
   cancel,
   getSupportedCurrencies,
-  createLoanInfo,
+  getLoanDetails,
+  createLoanDetails,
 };
 
 function get() {
@@ -32,13 +33,20 @@ function getSupportedCurrencies() {
   return axios.get(`${apiUrl}/loan_requests/supported_currencies`);
 }
 
-function createLoanInfo(loanInfo) {
+function getLoanDetails() {
+  return axios.get(`${apiUrl}/loan_requests/loan_info`)
+}
+
+function createLoanDetails(loanDetails) {
   return axios.post(`${apiUrl}/loan_requests/loan_info`, {
-    public_wallet_address: loanInfo.publicWalletAddress,
-    ssn: loanInfo.socialSecurityNumber,
-    source_of_funds: loanInfo.sourceOfFunds,
-    loan_purpose: loanInfo.purposeOfLoan,
-    note: loanInfo.note,
+    public_wallet_address: loanDetails.publicWalletAddress,
+    ssn: loanDetails.socialSecurityNumber,
+    source_of_funds: loanDetails.sourceOfFunds,
+    loan_purpose: loanDetails.purposeOfLoan,
+    note: loanDetails.note,
+    bank_name: loanDetails.name,
+    bank_routing_number: loanDetails.routingNumber,
+    bank_account_number: loanDetails.accountNumber,
   })
 }
 
