@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font} from 'expo';
+import {Asset, AppLoading, Font, Permissions} from 'expo';
 import {Provider} from 'react-redux';
 import {Image} from 'react-native';
 import wc from 'which-country';
@@ -12,7 +12,8 @@ import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './layout/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
-import {getSecureStoreKey} from "./utils/expo-storage";
+import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
+import baseUrl from "./services/api-url";
 
 Sentry.config(SENTRY).install();
 
@@ -55,6 +56,13 @@ export default class App extends Component {
       console.error('NO SECURITY_STORAGE_AUTH_KEY')
     }
 
+    // logout user if backend environment has changed
+    const previousBaseUrl = await getSecureStoreKey('BASE_URL');
+    if (previousBaseUrl !== baseUrl) {
+      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      await setSecureStoreKey('BASE_URL', baseUrl);
+    }
+
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
@@ -63,9 +71,12 @@ export default class App extends Component {
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 
-    navigator.geolocation.getCurrentPosition(
-      pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
-    );
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      navigator.geolocation.getCurrentPosition(
+        pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
+      );
+    }
   }
 
   // Assets are cached differently depending on where
