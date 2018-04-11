@@ -23,7 +23,7 @@ class Message extends Component {
     if (!message) return null;
 
     return (
-      <View style={[MessageStyle.container, MessageStyle[message.type]]}>
+      <View style={[MessageStyle.container, MessageStyle[message.type || 'error']]}>
         <Text style={MessageStyle.text}>
           {message.text}
         </Text>

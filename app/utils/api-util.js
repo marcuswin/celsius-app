@@ -55,13 +55,14 @@ function initInterceptors() {
       return res;
     },
     error => {
+      const defaultMsg = 'Oops, it looks like something went wrong.';
       const err = error.response ? error.response.data : {
-        type: 'Unknown',
-        msg: 'Oooops... Something went terribly wrong!',
+        type: 'Unknown Server Error',
+        msg: defaultMsg,
         raw_error: error,
       };
 
-      if (!err.msg) err.msg = 'Oooops... Something went wrong!';
+      if (!err.msg) err.msg = defaultMsg;
 
       /* eslint-disable no-underscore-dangle */
       console.log({API_ERROR: err});
