@@ -158,6 +158,18 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.CREATE_LOAN_DETAILS_SUCCESS:
+    case ACTIONS.GET_LOAN_DETAILS_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          bank_name: action.loanDetails.bank_name,
+          bank_routing_number: action.loanDetails.bank_routing_number,
+          bank_account_number: action.loanDetails.bank_account_number,
+        },
+      };
+
     case ACTIONS.TAKE_CAMERA_PHOTO:
       if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setDocumentImage(state, 'front', action.base64Image);
       if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'back', action.base64Image);
