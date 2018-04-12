@@ -63,7 +63,7 @@ class LoanPreviewScreen extends Component {
 
         <Content bounces={false} style={LoanPreviewStyle.content} onScroll={this.onScroll}>
           <View style={LoanPreviewStyle.wrapper}>
-            <Text style={LoanPreviewStyle.description}>Your estimated mac loan amount:</Text>
+            <Text style={LoanPreviewStyle.description}>Your estimated max loan amount:</Text>
 
             <View style={LoanPreviewStyle.amountWrapper}>
               <Text style={LoanPreviewStyle.amount}>
