@@ -131,10 +131,10 @@ class Step1 extends Component {
           <Grid>
             <Col style={StepStyles.centeredColumn}>
               <TouchableOpacity onPress={this.faceBookAuth}>
-                <Icon name='FaceBook' width='75' height='75' viewBox="0 0 80 80" fill='#FFFFFF'/>
+                <Icon name='Facebook' width='75' height='75' viewBox="0 0 80 80" fill='#FFFFFF'/>
                 <View style={StepStyles.socialNetworkTextWrapper}>
                   <Text style={StepStyles.socialNetworkDescription}>Sign up with</Text>
-                  <Text style={StepStyles.socialNetworkName}>FaceBook</Text>
+                  <Text style={StepStyles.socialNetworkName}>Facebook</Text>
                 </View>
               </TouchableOpacity>
             </Col>

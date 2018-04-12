@@ -66,7 +66,7 @@ class HomeScreen extends Component {
               <PrimaryButton
                 iconRight={false}
                 customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-                customTitleStyles={{color: 'white'}} title={'Calculate loan'}
+                customTitleStyles={{color: 'white'}} title={'Apply for a loan'}
                 onPress={() => navigateTo('Calculator')}/>
               <PrimaryButton
                 iconRight={false}
