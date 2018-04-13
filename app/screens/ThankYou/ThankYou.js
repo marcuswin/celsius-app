@@ -74,13 +74,17 @@ class ThankYouScreen extends Component {
     const {navigateTo} = this.props;
 
     let statusColor = 'yellow';
+    let statusCopy = '';
 
-    if (status === 'In review') {
+    if (status === 'in-kyc') {
       statusColor = '#E1D430';
-    } else if (status === 'Completed') {
+      statusCopy = 'In review';
+    } else if (status === 'kyc-done') {
       statusColor = '#69e159';
+      statusCopy = 'Completed';
     } else {
-      statusColor = '#e1332d'
+      statusColor = '#e1332d';
+      statusCopy = 'Incomplete';
     }
 
     return (
@@ -156,7 +160,7 @@ class ThankYouScreen extends Component {
                   <View
                     style={{width: 14, height: 14, borderRadius: 14, backgroundColor: statusColor, marginRight: 15}}/>
                 </View>
-                <Text style={{color: statusColor, fontFamily: 'agile-medium', fontSize: 18}}>{status}</Text>
+                <Text style={{color: statusColor, fontFamily: 'agile-medium', fontSize: 18}}>{ statusCopy }</Text>
               </View>
             </View>
           </View>
