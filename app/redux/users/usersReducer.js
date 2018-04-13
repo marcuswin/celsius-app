@@ -4,7 +4,7 @@ import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
   userLocation: undefined,
-  user: {},
+  user: undefined,
   borrower: undefined,
 };
 
