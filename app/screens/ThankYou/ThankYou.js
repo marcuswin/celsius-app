@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import QRCode from 'react-native-qrcode';
+import * as _ from 'lodash';
 
 import ThankYouStyle from './styles';
 import * as actions from '../../redux/actions';
@@ -16,6 +17,7 @@ import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
   state => ({
     nav: state.nav,
     loanRequest: state.loanRequests.loanRequest,
+    loanStatus: state.loanRequests.loanStatus,
     user: state.users.user,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -26,12 +28,30 @@ class ThankYouScreen extends Component {
     super();
 
     this.state = {
-      status: 'In review',
-      address: '0xbb9bc244d798123fde783fcc1c72d3bb8c189413',
-      requestNumber: 1,
-      amount: 1
+      status: 'Loading...',
+      address: 'Loading...',
+      requestNumber: 0,
+      amount: 0
     };
   }
+
+  componentWillMount() {
+    const {statusLoanRequest} = this.props;
+    statusLoanRequest();
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    const {loanStatus} = this.props;
+
+    if (!_.isEqual(loanStatus, nextProps.loanStatus)) {
+      this.setState({
+        status: nextProps.loanStatus.status,
+        address: nextProps.loanStatus.address,
+        requestNumber: nextProps.loanStatus.order,
+        amount: nextProps.loanStatus.amount,
+      })
+    }
+  };
 
   ordinalSuffixOf = (number) => {
     const j = number % 10;
@@ -85,7 +105,7 @@ class ThankYouScreen extends Component {
             </Text>
           </View>
 
-          <TouchableOpacity onPress={() => navigateTo('Home', true)}>
+          <TouchableOpacity onPress={() => null}>
             <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, {paddingTop: 40}]}>
               <View style={ThankYouStyle.imageWrapper}>
                 <View style={ThankYouStyle.celsiusLogo}>

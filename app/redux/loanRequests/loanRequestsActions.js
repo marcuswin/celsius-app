@@ -12,6 +12,7 @@ export {
   cancelLoanRequest,
   getLoanDetails,
   createLoanDetails,
+  statusLoanRequest
 }
 
 function createLoanRequest(collateralInfo) {
@@ -110,6 +111,30 @@ function acceptLoanRequestSuccess(loanRequest) {
     type: ACTIONS.ACCEPT_LOAN_REQUEST_SUCCESS,
     loanRequest,
     callName: API.ACCEPT_LOAN_REQUEST,
+  }
+}
+
+
+function statusLoanRequest() {
+  return async dispatch => {
+    dispatch(startApiCall(API.STATUS_LOAN_REQUEST));
+
+    try {
+      const response = await loanRequestsService.status();
+
+      dispatch(statusLoanRequestSuccess(response.data));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.STATUS_LOAN_REQUEST, err));
+    }
+  }
+}
+
+function statusLoanRequestSuccess(status) {
+  return {
+    type: ACTIONS.STATUS_LOAN_REQUEST_SUCCESS,
+    status,
+    callName: API.STATUS_LOAN_REQUEST,
   }
 }
 

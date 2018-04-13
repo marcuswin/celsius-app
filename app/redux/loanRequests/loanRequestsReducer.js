@@ -5,6 +5,7 @@ const initialState = {
   loanRequest: undefined,
   supportedCurrencies: undefined,
   competitionRates: undefined,
+  loanStatus: undefined
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +24,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loanRequest: new LoanRequest(loanRequest),
+      };
+
+    case ACTIONS.STATUS_LOAN_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loanStatus: action.status,
       };
 
     case ACTIONS.CANCEL_LOAN_REQUEST_SUCCESS:

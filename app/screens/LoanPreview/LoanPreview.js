@@ -41,6 +41,7 @@ class LoanPreviewScreen extends Component {
     const { lastCompletedCall } = nextProps;
     const { navigateTo } = this.props;
 
+    // TODO (djs): skip forms if populated
     if (this.props.lastCompletedCall !== lastCompletedCall && lastCompletedCall === API.ACCEPT_LOAN_REQUEST) {
       navigateTo('PersonalInfo', true);
     }
