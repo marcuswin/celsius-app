@@ -22,6 +22,7 @@ const usersService = {
   createBankAccountInfo,
   getDocuments,
   createDocuments,
+  kycCompleted
 };
 
 function register({ email, password }) {
@@ -166,6 +167,10 @@ function createContactInfo(contactInfo) {
 
 function getContactInfo() {
   return axios.get(`${apiUrl}/users/contact`);
+}
+
+function kycCompleted() {
+  return axios.put(`${apiUrl}/users/kyc/complete`);
 }
 
 function createBankAccountInfo(bankAccountInfo) {

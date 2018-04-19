@@ -215,6 +215,8 @@ function createUserDocuments(documentInfo) {
 
     try {
       const newDocuments = await usersService.createDocuments(documentInfo);
+      const complite = dispatch(completeKyc());
+      console.log(complite);
       dispatch(createUserDocumentsSuccess(newDocuments.data.documents));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
@@ -229,6 +231,18 @@ function createUserDocumentsSuccess(documents) {
     type: ACTIONS.CREATE_USER_DOCUMENTS_SUCCESS,
     callName: API.CREATE_USER_DOCUMENTS,
     documents
+  }
+}
+
+function completeKyc() {
+  return async dispatch => {
+    dispatch(startApiCall(API.CREATE_USER_DOCUMENTS));
+    try {
+      await usersService.kycCompleted();
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_USER_DOCUMENTS, err));
+    }
   }
 }
 
