@@ -1,13 +1,17 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {FONT_SCALE, STYLES} from "../../config/constants/style";
+
+const { height, width } = Dimensions.get('window');
 
 const ThankYouStyle = StyleSheet.create({
   content: {
+    paddingTop: height * 0.10,
     paddingLeft: 40,
     paddingRight: 40,
     backgroundColor: STYLES.PRIMARY_BLUE
   },
   heading: {
+    marginTop: 10,
     textAlign: 'center',
     fontSize: 40,
     fontFamily: 'agile-extra-bold',
@@ -71,6 +75,36 @@ const ThankYouStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     color: '#fff',
     fontFamily: 'agile-light',
+  },
+  heroImage: {
+    width: 140,
+    height: 140,
+    opacity: 0.5,
+  },
+  heroImageWrapper: {
+    paddingBottom: 10,
+  },
+  verificationText: {
+    fontSize: 18,
+    fontFamily: 'agile-light',
+    color: '#fff',
+    paddingBottom: 12,
+  },
+  descriptionText: {
+    fontSize: 18,
+    fontFamily: 'agile-light',
+    color: '#fff',
+    paddingBottom: 12,
+    textAlign: 'center',
+  },
+  cancelWrapper: {
+    paddingTop: 27,
+    paddingBottom: 20,
+  },
+  statusSection: {
+    position: 'absolute',
+    top: 0.9 * height * 0.6,
+    width: width - 80,
   }
 });
 
