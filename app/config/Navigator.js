@@ -11,6 +11,7 @@ import EarnInterestScreen from '../screens/EarnInterest/EarnInterest';
 import ComingSoonScreen from "../screens/ComingSoon/ComingSoon";
 import LoanPreviewScreen from "../screens/LoanPreview/LoanPreview";
 import ThankYouScreen from "../screens/ThankYou/ThankYou";
+import CongratsScreen from "../screens/Congrats/Congrats";
 import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
 import PersonalInfoScreen from "../screens/Forms/PersonalInfo";
 import AddressInfoScreen from "../screens/Forms/AddressInfo";
@@ -61,6 +62,10 @@ const Navigator = StackNavigator({
   ThankYou: {
     screen: ThankYouScreen,
     title: 'ThankYou',
+  },
+  Congrats: {
+    screen: CongratsScreen,
+    title: 'Congrats',
   },
   PersonalInfo: {
     screen: PersonalInfoScreen,
