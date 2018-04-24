@@ -3,6 +3,7 @@ import {StackNavigator} from 'react-navigation';
 // screens
 import WelcomeScreen from '../screens/Welcome/Welcome';
 import LoginScreen from "../screens/Login/Login";
+import ForgottenPasswordScreen from "../screens/ForgottenPassword/ForgottenPassword";
 import RegisterScreen from "../screens/Register/Register";
 import HomeScreen from "../screens/Home/Home";
 import CalculatorScreen from "../screens/Calculator/Calculator";
@@ -24,6 +25,10 @@ const Navigator = StackNavigator({
   Login: {
     screen: LoginScreen,
     title: 'Login',
+  },
+  ForgottenPassword: {
+    screen: ForgottenPasswordScreen,
+    title: 'ForgottenPassword',
   },
   Register: {
     screen: RegisterScreen,

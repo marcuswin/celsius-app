@@ -11,6 +11,7 @@ const usersService = {
   googleLogin,
   facebookLogin,
   twitterLogin,
+  sendResetLink,
   getUserInfo,
   getPersonalInfo,
   createPersonalInfo,
@@ -88,6 +89,12 @@ function login({ email, password }) {
   return axios.post(`${apiUrl}/users/login`, {
     email,
     password,
+  });
+}
+
+function sendResetLink(email) {
+  return axios.post(`${apiUrl}/users/send_reset_link`, {
+    email,
   });
 }
 
