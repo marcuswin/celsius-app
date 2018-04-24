@@ -23,7 +23,8 @@ export {
   registerUserGoogle,
   loginGoogle,
   loginFacebook,
-  loginTwitter
+  loginTwitter,
+  sendResetLink,
 }
 
 
@@ -367,5 +368,26 @@ function setUserLocation(userLocation) {
   return {
     type: ACTIONS.SET_USER_LOCATION,
     userLocation,
+  }
+}
+
+function sendResetLink(email) {
+  return async dispatch => {
+    dispatch(startApiCall(API.SEND_RESET_LINK));
+    try {
+      await usersService.sendResetLink(email);
+      dispatch(showMessage('info', 'Email with link sent!'));
+      dispatch(sendResetLinkSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_RESET_LINK, err));
+    }
+  }
+}
+
+function sendResetLinkSuccess() {
+  return {
+    type: ACTIONS.SEND_RESET_LINK_SUCCESS,
+    callName: API.SEND_RESET_LINK,
   }
 }
