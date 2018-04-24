@@ -23,7 +23,6 @@ import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/Animate
 import {Message} from '../../components/Message/Message';
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 import LoginStyle from "./styles";
-import WelcomeStyle from "../Welcome/styles";
 import * as actions from "../../redux/actions";
 import {getSecureStoreKey} from '../../utils/expo-storage';
 import StepStyles from "../Register/Steps/styles";
@@ -238,13 +237,23 @@ class LoginScreen extends Component {
 
           <View onLayout={(e) => this.setHeight('button', e.nativeEvent.layout)} style={LoginStyle.buttonWrapper}>
             <Button
-              style={WelcomeStyle.linkButton}
+              style={LoginStyle.registerButton}
               block
               title={'Don’t have account?'}
               transparent
               onPress={() => navigateTo('Register')}
             >
               <Text style={LoginStyle.linkButtonText}>Don’t have account?</Text>
+            </Button>
+
+            <Button
+              style={LoginStyle.forgottenButton}
+              block
+              title={'Forgotten password?'}
+              transparent
+              onPress={() => navigateTo('ForgottenPassword')}
+            >
+              <Text style={LoginStyle.linkButtonText}>Forgot password?</Text>
             </Button>
 
             <TWLoginButton

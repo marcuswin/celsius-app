@@ -20,6 +20,13 @@ const LoginStyle = StyleSheet.create({
   buttonWrapper: {
     paddingBottom: 60,
   },
+  registerButton: {
+    marginTop: 40,
+  },
+  forgottenButton: {
+    marginTop: 20,
+    paddingBottom: 60,
+  },
   linkButtonText: {
     color: 'rgba(136,162,199,1)',
     fontSize: FONT_SCALE * 18,

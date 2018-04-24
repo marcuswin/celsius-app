@@ -376,7 +376,7 @@ function sendResetLink(email) {
     dispatch(startApiCall(API.SEND_RESET_LINK));
     try {
       await usersService.sendResetLink(email);
-      dispatch(showMessage('info', 'Email with link sent!'));
+      dispatch(showMessage('info', 'Email sent!'));
       dispatch(sendResetLinkSuccess());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
