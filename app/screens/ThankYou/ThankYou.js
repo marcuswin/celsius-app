@@ -79,10 +79,10 @@ class ThankYouScreen extends Component {
       statusCopy = 'In review';
     } else if (status === 'kyc-done') {
       statusColor = '#69e159';
-      statusCopy = 'Completed';
+      statusCopy = 'Complete';
     } else {
-      statusColor = '#e1332d';
-      statusCopy = 'Incomplete';
+      statusColor = '#d8a148';
+      statusCopy = 'Need more details';
     }
 
     return (
@@ -96,7 +96,7 @@ class ThankYouScreen extends Component {
         <Content bounces={false} style={ThankYouStyle.content}>
 
           <View style={[ThankYouStyle.heroImageWrapper, GLOBAL_STYLE_DEFINITIONS.centeredColumn]}>
-            <Image source={require('../../../assets/images/icons/celsius_symbol_white.png')} style={[ThankYouStyle.heroImage]}/>
+            <Image source={require('../../../assets/images/icons/celsius-spinner.gif')} style={[ThankYouStyle.heroImage]}/>
           </View>
 
           <Text style={ThankYouStyle.heading}>Thank you</Text>

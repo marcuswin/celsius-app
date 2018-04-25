@@ -77,9 +77,8 @@ const ThankYouStyle = StyleSheet.create({
     fontFamily: 'agile-light',
   },
   heroImage: {
-    width: 140,
-    height: 140,
-    opacity: 0.5,
+    width: 150,
+    height: 150,
   },
   heroImageWrapper: {
     paddingBottom: 10,
