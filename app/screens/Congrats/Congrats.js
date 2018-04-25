@@ -39,7 +39,7 @@ class CongratsScreen extends Component {
         <Content bounces={false} style={ThankYouStyle.content}>
 
           <View style={[ThankYouStyle.heroImageWrapper, GLOBAL_STYLE_DEFINITIONS.centeredColumn]}>
-            <Image source={require('../../../assets/images/icons/celsius_symbol_white.png')} style={[ThankYouStyle.heroImage]}/>
+            <Image source={require('../../../assets/images/whale-good-job.png')} resizeMode="contain" style={[ThankYouStyle.heroImage]}/>
           </View>
 
           <Text style={ThankYouStyle.heading}>Congrats</Text>
