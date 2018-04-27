@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
-import ThankYouStyle from './Congrats.styles';
+import CongratsStyles from './Congrats.styles';
 import * as actions from '../../redux/actions';
 import {GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../config/constants/style';
 import {PrimaryButton} from '../../components/Buttons/Button/Button';
@@ -36,21 +36,21 @@ class CongratsScreen extends Component {
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => navigateTo('Home', true)}/>
-        <Content bounces={false} style={ThankYouStyle.content}>
+        <Content bounces={false} style={CongratsStyles.content}>
 
-          <View style={[ThankYouStyle.heroImageWrapper, GLOBAL_STYLE_DEFINITIONS.centeredColumn]}>
-            <Image source={require('../../../assets/images/whale-good-job.png')} resizeMode="contain" style={[ThankYouStyle.heroImage]}/>
+          <View style={[CongratsStyles.heroImageWrapper, GLOBAL_STYLE_DEFINITIONS.centeredColumn]}>
+            <Image source={require('../../../assets/images/whale-good-job.png')} resizeMode="contain" style={[CongratsStyles.heroImage]}/>
           </View>
 
-          <Text style={ThankYouStyle.heading}>Congrats</Text>
+          <Text style={CongratsStyles.heading}>Congrats</Text>
 
-          <Text style={ThankYouStyle.welcomeText}>
+          <Text style={CongratsStyles.welcomeText}>
             You have successfully completed verification process.
           </Text>
 
-          <View style={ThankYouStyle.statusSection}>
+          <View style={CongratsStyles.statusSection}>
             <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, { marginTop: 15 }]}>
-              <Text style={ThankYouStyle.verificationText}>
+              <Text style={CongratsStyles.verificationText}>
                 Profile verification status:
               </Text>
             </View>
@@ -64,7 +64,7 @@ class CongratsScreen extends Component {
               </View>
             </View>
 
-            <View style={ThankYouStyle.cancelWrapper}>
+            <View style={CongratsStyles.cancelWrapper}>
               <PrimaryButton
                 iconRight={false}
                 // customStyles={{backgroundColor: 'transparent', borderWidth: 2, borderColor: '#fff'}}
