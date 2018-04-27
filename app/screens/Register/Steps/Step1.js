@@ -18,7 +18,7 @@ import {
   FACEBOOK_URL
 } from 'react-native-dotenv'
 
-import StepStyles from "./styles";
+import StepStyles from "./Steps.styles";
 import Icon from "../../../components/Icons/Icon";
 import {Separator} from '../../../components/Separator/Separator';
 import * as actions from "../../../redux/actions";

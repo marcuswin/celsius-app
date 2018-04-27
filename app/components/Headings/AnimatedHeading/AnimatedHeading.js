@@ -4,7 +4,7 @@ import {Platform, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {Text} from "native-base";
 
-import AnimatedHeadingStyle from './styles';
+import AnimatedHeadingStyle from './AnimatedHeading.styles';
 import {FONT_SCALE} from "../../../config/constants/style";
 
 class AnimatedHeading extends Component {

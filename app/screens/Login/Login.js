@@ -22,10 +22,10 @@ import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
-import LoginStyle from "./styles";
+import LoginStyle from "./Login.styles";
 import * as actions from "../../redux/actions";
 import {getSecureStoreKey} from '../../utils/expo-storage';
-import StepStyles from "../Register/Steps/styles";
+import StepStyles from "../Register/Steps/Steps.styles";
 import Icon from "../../components/Icons/Icon";
 
 @connect(

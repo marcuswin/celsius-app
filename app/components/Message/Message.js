@@ -3,7 +3,7 @@ import {Text, View} from "native-base";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import MessageStyle from './styles';
+import MessageStyle from './Message.styles';
 import * as actions from "../../redux/actions";
 
 @connect(

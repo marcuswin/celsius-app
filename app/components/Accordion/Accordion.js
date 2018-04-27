@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../components/Icons/Icon";
 
-import AccordionStyles from "./styles";
+import AccordionStyles from "./Accordion.styles";
 
 class Accordion extends Component {
   static propTypes = {

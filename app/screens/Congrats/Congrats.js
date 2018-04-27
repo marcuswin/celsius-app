@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
-import ThankYouStyle from './styles';
+import ThankYouStyle from './Congrats.styles';
 import * as actions from '../../redux/actions';
 import {GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../config/constants/style';
 import {PrimaryButton} from '../../components/Buttons/Button/Button';

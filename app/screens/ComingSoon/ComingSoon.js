@@ -7,7 +7,7 @@ import {Col, Grid} from "react-native-easy-grid";
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
-import ComingSoonStyle from "./styles";
+import ComingSoonStyle from "./ComingSoon.styles";
 import * as NavigateActions from "../../redux/nav/navActions";
 import Icon from "../../components/Icons/Icon";
 import {GLOBAL_STYLE_DEFINITIONS} from "../../config/constants/style";

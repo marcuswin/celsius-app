@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {GLOBAL_STYLE_DEFINITIONS} from "../../config/constants/style";
-import WelcomeStyle from "./styles";
+import WelcomeStyle from "./Welcome.styles";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import {Heading} from "../../components/Headings/Heading/Heading";
 import * as actions from '../../redux/actions';

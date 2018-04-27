@@ -11,7 +11,7 @@ import API from "../../config/constants/API";
 import Accordion from '../../components/Accordion/Accordion';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
-import LoanPreviewStyle from "./styles";
+import LoanPreviewStyle from "./LoanPreview.styles";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../config/constants/style";
 import Icon from "../../components/Icons/Icon";

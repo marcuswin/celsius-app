@@ -3,7 +3,7 @@ import { Text } from "native-base";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Image, View } from "react-native";
 
-import PrimaryButtonStyles from './styles';
+import PrimaryButtonStyles from './Button.styles';
 import Icon from "../../Icons/Icon";
 import {STYLES} from "../../../config/constants/style";
 

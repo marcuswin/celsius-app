@@ -10,7 +10,7 @@ import {Image, StatusBar} from 'react-native';
 import {Grid, Row} from 'react-native-easy-grid';
 
 import {MainHeader} from '../MainHeader/MainHeader';
-import ResizeStyle from './styles';
+import ResizeStyle from './ResizeHeader.styles';
 
 const MAX_HEIGHT = 200;
 

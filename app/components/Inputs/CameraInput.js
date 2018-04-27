@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 
 import Icon from "../../components/Icons/Icon";
 
-import InputStyles from './styles';
+import InputStyles from './Inputs.styles';
 import * as actions from "../../redux/actions";
 
 @connect(

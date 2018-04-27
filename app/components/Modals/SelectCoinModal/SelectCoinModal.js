@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import {Modal, TouchableOpacity} from "react-native";
 import * as actions from "../../../redux/actions";
 
-import SelectCoinStyles from "./styles";
+import SelectCoinStyles from "./SelectCoinModal.styles";
 
 
 @connect(

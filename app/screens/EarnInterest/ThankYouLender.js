@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../config/constants/style";
 import Icon from "../../components/Icons/Icon";
-import EarnInterest from "./styles";
+import EarnInterest from "./EarnInterest.styles";
 import * as actions from "../../redux/actions";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 
