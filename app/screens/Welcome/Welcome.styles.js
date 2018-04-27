@@ -13,6 +13,15 @@ const WelcomeStyle = StyleSheet.create({
     height: Platform.OS === 'ios' ? (height - (PIXEL_RATIO * 50) + 40) : 'auto',
     justifyContent: 'flex-end',
   },
+  heading: {
+    marginTop: 10,
+    textAlign: 'center',
+    fontSize: 40,
+    fontFamily: 'agile-extra-bold',
+    color: '#fff',
+    lineHeight: 41,
+    fontWeight: '800'
+  },
   description: {
     fontSize: 18,
     color: STYLES.WHITE_TEXT_COLOR,

@@ -8,7 +8,6 @@ import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {GLOBAL_STYLE_DEFINITIONS} from "../../config/constants/style";
 import WelcomeStyle from "./Welcome.styles";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
-import {Heading} from "../../components/Headings/Heading/Heading";
 import * as actions from '../../redux/actions';
 
 @connect(
@@ -44,7 +43,7 @@ class WelcomeScreen extends Component {
               <Image source={require('../../../assets/images/Welcome-Animal.png')} style={[WelcomeStyle.heroImage]}/>
             </View>
 
-            <Heading style={WelcomeStyle.welcomeTitle} text={'Welcome to Celsius'}/>
+            <Text style={WelcomeStyle.heading}>Welcome to Celsius</Text>
             <Text style={WelcomeStyle.description}>
               We are creating the future of
               <Text style={GLOBAL_STYLE_DEFINITIONS.boldText}> P2P lending and borrowing</Text>.
