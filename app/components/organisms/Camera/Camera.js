@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
 import CameraStyles from './Camera.styles';
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
 
 @connect(
@@ -88,7 +88,7 @@ class CameraModal extends Component {
             </View>
 
             <View style={CameraStyles.takePictureButton}>
-              <PrimaryButton onPress={() => this.takePicture()} title={'Take a Photo'}/>
+              <CelButton onPress={() => this.takePicture()} title={'Take a Photo'}/>
             </View>
           </Camera>
         </View>

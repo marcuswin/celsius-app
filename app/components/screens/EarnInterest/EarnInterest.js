@@ -9,7 +9,7 @@ import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import EarnInterestStyle from "./EarnInterest.styles";
 import {STYLES} from "../../../config/constants/style";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -91,7 +91,7 @@ class EarnInterestScreen extends Component {
           </View>
 
           <View style={EarnInterestStyle.submitButtonWrapper}>
-            <PrimaryButton
+            <CelButton
               fill={'#fff'}
               customStyles={{backgroundColor: STYLES.PRIMARY_GREEN}}
               customTitleStyles={{color: 'white'}}

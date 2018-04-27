@@ -8,7 +8,7 @@ import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../../config/cons
 import Icon from "../../atoms/Icon/Icon";
 import EarnInterest from "./EarnInterest.styles";
 import * as actions from "../../../redux/actions";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -53,7 +53,7 @@ class ThankYouLenderScreen extends Component {
           </View>
 
           <View style={{paddingBottom: 20}}>
-            <PrimaryButton
+            <CelButton
               iconRight={false}
               customStyles={{backgroundColor: '#fff', height: 50}}
               customTitleStyles={{color: STYLES.PRIMARY_GREEN, fontSize: FONT_SCALE * 18}}

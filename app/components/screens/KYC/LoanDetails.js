@@ -13,7 +13,7 @@ import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE, PURPOSE_OF_LOAN} from "../../../config/constants/common";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import {Separator} from "../../atoms/Separator/Separator";
@@ -261,7 +261,7 @@ class LoanDetailsScreen extends Component {
                 onChange={(text) => this.updateField('note', text)}/>
 
               <View style={Styles.buttonWrapper}>
-                <PrimaryButton
+                <CelButton
                   loading={isLoading}
                   onPress={this.onSubmit}
                   title={'Verify your profile'}/>

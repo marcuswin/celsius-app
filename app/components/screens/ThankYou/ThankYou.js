@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import ThankYouStyle from './ThankYou.styles';
 import * as actions from '../../../redux/actions';
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../../config/constants/style';
-import {PrimaryButton} from '../../atoms/Buttons/Button/Button';
+import CelButton from '../../atoms/CelButton/CelButton';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 
 @connect(
@@ -126,7 +126,7 @@ class ThankYouScreen extends Component {
             </View>
 
             <View style={ThankYouStyle.cancelWrapper}>
-              <PrimaryButton
+              <CelButton
                 iconRight={false}
                 customStyles={{backgroundColor: 'transparent', borderWidth: 2, borderColor: '#fff'}}
                 customTitleStyles={{color: "#fff", fontSize: FONT_SCALE * 18}}

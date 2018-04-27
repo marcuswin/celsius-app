@@ -3,11 +3,11 @@ import { Text } from "native-base";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Image, View } from "react-native";
 
-import PrimaryButtonStyles from './Button.styles';
-import Icon from "../../Icon/Icon";
-import {STYLES} from "../../../../config/constants/style";
+import CelButtonStyles from './CelButton.styles';
+import Icon from "../Icon/Icon";
+import {STYLES} from "../../../config/constants/style";
 
-class PrimaryButton extends Component {
+class CelButton extends Component {
 
   static propTypes = {
     onPress: PropTypes.func.isRequired,
@@ -44,12 +44,12 @@ class PrimaryButton extends Component {
     } = this.props;
 
     return (
-      <TouchableOpacity style={[PrimaryButtonStyles.button, customStyles, disabled ? PrimaryButtonStyles.disabledStyles : {}]} disabled={disabled || loading} onPress={onPress} pointerEvents={ loading ? 'none' : 'auto' }>
+      <TouchableOpacity style={[CelButtonStyles.button, customStyles, disabled ? CelButtonStyles.disabledStyles : {}]} disabled={disabled || loading} onPress={onPress} pointerEvents={ loading ? 'none' : 'auto' }>
         { loading ? (
-          <Image source={require('../../../../../assets/images/icons/animated-spinner.gif')} style={PrimaryButtonStyles.loader} />
+          <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={CelButtonStyles.loader} />
         ) : (
-          <View style={PrimaryButtonStyles.btnContent}>
-            <Text style={[PrimaryButtonStyles.title, customTitleStyles, disabled ? PrimaryButtonStyles.disabledTextStyles : {}]}>
+          <View style={CelButtonStyles.btnContent}>
+            <Text style={[CelButtonStyles.title, customTitleStyles, disabled ? CelButtonStyles.disabledTextStyles : {}]}>
               {title}
             </Text>
             {this.renderIconRight(disabled ? '#ffffff' : fill)}
@@ -60,4 +60,4 @@ class PrimaryButton extends Component {
   }
 }
 
-export { PrimaryButton };
+export default CelButton;

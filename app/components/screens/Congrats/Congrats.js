@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import CongratsStyles from './Congrats.styles';
 import * as actions from '../../../redux/actions';
 import {GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../../config/constants/style';
-import {PrimaryButton} from '../../atoms/Buttons/Button/Button';
+import CelButton from '../../atoms/CelButton/CelButton';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 
 @connect(
@@ -65,7 +65,7 @@ class CongratsScreen extends Component {
             </View>
 
             <View style={CongratsStyles.cancelWrapper}>
-              <PrimaryButton
+              <CelButton
                 iconRight={false}
                 // customStyles={{backgroundColor: 'transparent', borderWidth: 2, borderColor: '#fff'}}
                 // customTitleStyles={{color: "#fff", fontSize: FONT_SCALE * 18}}

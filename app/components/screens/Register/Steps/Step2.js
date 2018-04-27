@@ -9,7 +9,7 @@ import CheckBox from 'react-native-checkbox';
 
 import SelectCountryModal from '../../../organisms/SelectCountryModal/SelectCountryModal';
 import PrimaryInput from "../../../atoms/Inputs/PrimaryInput";
-import {PrimaryButton} from "../../../atoms/Buttons/Button/Button";
+import CelButton from "../../../atoms/CelButton/CelButton";
 import * as actions from "../../../../redux/actions";
 import apiUtil from "../../../../utils/api-util";
 import API from "../../../../config/constants/API";
@@ -126,7 +126,7 @@ class Step2 extends Component {
         </Form>
 
         <View style={{marginTop: 40, paddingBottom: 100}}>
-          <PrimaryButton
+          <CelButton
             disabled={!this.state.accredited}
             onPress={() => this.onSubmit()} title="I’m done"
             loading={isLoading}/>

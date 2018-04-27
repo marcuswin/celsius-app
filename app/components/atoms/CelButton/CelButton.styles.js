@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
-import {FONT_SCALE, STYLES} from "../../../../config/constants/style";
+import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
-const PrimaryButtonStyle = StyleSheet.create({
+const CelButtonStyle = StyleSheet.create({
   button: {
     height: 60,
     width: '100%',
@@ -35,4 +35,4 @@ const PrimaryButtonStyle = StyleSheet.create({
   },
 });
 
-export default PrimaryButtonStyle;
+export default CelButtonStyle;

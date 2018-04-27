@@ -12,7 +12,7 @@ import {Separator} from '../../atoms/Separator/Separator';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import {DOCUMENT_TYPE, KEYBOARD_TYPE, CAMERA_PHOTOS} from "../../../config/constants/common";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
@@ -192,7 +192,7 @@ class DocumentInfoScreen extends Component {
               ) : null }
 
               <View style={Styles.buttonWrapper}>
-                <PrimaryButton
+                <CelButton
                   loading={isLoading}
                   disabled={isLoading}
                   onPress={() => this.onSubmit()}
