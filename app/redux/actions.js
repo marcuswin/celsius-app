@@ -8,3 +8,4 @@ export * from './users/googleActions'
 export * from './users/facebookActions'
 export * from './earnInterest/earnInterestActions'
 export * from './users/usersActions'
+// NOTE(fj): plop reduxGen importing new Actions here
