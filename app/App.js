@@ -10,7 +10,7 @@ import {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SENTRY, SECURITY_STORAGE_AUTH_
 import configureStore from './config/configureStore';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
-import MainLayout from './layout/MainLayout';
+import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey} from "./utils/expo-storage";
 
