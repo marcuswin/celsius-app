@@ -1,22 +1,22 @@
 import {StackNavigator} from 'react-navigation';
 
 // screens
-import WelcomeScreen from '../screens/Welcome/Welcome';
-import LoginScreen from "../screens/Login/Login";
-import ForgottenPasswordScreen from "../screens/ForgottenPassword/ForgottenPassword";
-import RegisterScreen from "../screens/Register/Register";
-import HomeScreen from "../screens/Home/Home";
-import CalculatorScreen from "../screens/Calculator/Calculator";
-import EarnInterestScreen from '../screens/EarnInterest/EarnInterest';
-import ComingSoonScreen from "../screens/ComingSoon/ComingSoon";
-import LoanPreviewScreen from "../screens/LoanPreview/LoanPreview";
-import ThankYouScreen from "../screens/ThankYou/ThankYou";
-import CongratsScreen from "../screens/Congrats/Congrats";
-import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
-import PersonalInfoScreen from "../screens/Forms/PersonalInfo";
-import AddressInfoScreen from "../screens/Forms/AddressInfo";
-import DocumentInfoScreen from "../screens/Forms/DocumentInfo";
-import LoanDetailsScreen from "../screens/Forms/LoanDetails";
+import WelcomeScreen from '../components/screens/Welcome/Welcome';
+import LoginScreen from "../components/screens/Login/Login";
+import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
+import RegisterScreen from "../components/screens/Register/Register";
+import HomeScreen from "../components/screens/Home/Home";
+import CalculatorScreen from "../components/screens/Calculator/Calculator";
+import EarnInterestScreen from '../components/screens/EarnInterest/EarnInterest';
+import ComingSoonScreen from "../components/screens/ComingSoon/ComingSoon";
+import LoanPreviewScreen from "../components/screens/LoanPreview/LoanPreview";
+import ThankYouScreen from "../components/screens/ThankYou/ThankYou";
+import CongratsScreen from "../components/screens/Congrats/Congrats";
+import ThankYouLenderScreen from '../components/screens/EarnInterest/ThankYouLender'
+import PersonalInfoScreen from "../components/screens/KYC/PersonalInfo";
+import AddressInfoScreen from "../components/screens/KYC/AddressInfo";
+import DocumentInfoScreen from "../components/screens/KYC/DocumentInfo";
+import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
 
 const Navigator = StackNavigator({
   Welcome: {
