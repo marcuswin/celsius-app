@@ -11,7 +11,7 @@ import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
 import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 
-import HeaderStyle from './styles';
+import HeaderStyle from './MainHeader.styles';
 import * as actions from "../../../redux/actions";
 import Icon from "../../Icons/Icon";
 

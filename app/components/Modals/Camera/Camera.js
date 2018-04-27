@@ -6,7 +6,7 @@ import {Camera, Permissions} from 'expo';
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-import CameraStyles from './styles';
+import CameraStyles from './Camera.styles';
 import {PrimaryButton} from "../../Buttons/Button/Button";
 import * as actions from "../../../redux/actions";
 

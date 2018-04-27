@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
-import Styles from "./styles";
+import Styles from "./ForgottenPassword.styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";

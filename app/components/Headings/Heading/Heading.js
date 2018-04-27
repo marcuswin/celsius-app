@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, View } from "native-base";
 
-import HeadingStyle from './styles';
+import HeadingStyle from './Heading.styles';
 
 class Heading extends Component {
   static propTypes = {

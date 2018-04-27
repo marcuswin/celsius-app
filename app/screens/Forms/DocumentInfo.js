@@ -9,7 +9,7 @@ import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
 import {Separator} from '../../components/Separator/Separator';
-import Styles from "./styles";
+import Styles from "./Forms.styles";
 import * as actions from "../../redux/actions";
 import {STYLES} from "../../config/constants/style";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";

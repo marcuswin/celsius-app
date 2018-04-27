@@ -3,7 +3,7 @@ import { Body, Button, Header, Icon, Left, List, ListItem, Right, Text, Title, V
 import PropTypes from "prop-types";
 import { Modal, TouchableOpacity } from "react-native";
 
-import SelectModalStyles from "./styles";
+import SelectModalStyles from "./SelectModal.styles";
 
 class SelectModal extends Component {
 

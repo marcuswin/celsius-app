@@ -5,7 +5,7 @@ import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
-import ThankYouStyle from './styles';
+import ThankYouStyle from './ThankYou.styles';
 import * as actions from '../../redux/actions';
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from '../../config/constants/style';
 import {PrimaryButton} from '../../components/Buttons/Button/Button';

@@ -10,7 +10,7 @@ import API from '../../config/constants/API';
 import {Message} from '../../components/Message/Message';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
-import CalculatorStyle from "./styles";
+import CalculatorStyle from "./Calculator.styles";
 import Icon from "../../components/Icons/Icon";
 import {KEYBOARD_TYPE} from "../../config/constants/common";
 import SelectCoinModal from "../../components/Modals/SelectCoinModal/SelectCoinModal";

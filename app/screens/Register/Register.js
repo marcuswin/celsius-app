@@ -8,7 +8,7 @@ import {bindActionCreators} from "redux";
 import {Message} from '../../components/Message/Message';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
-import RegisterStyle from "./styles";
+import RegisterStyle from "./Register.styles";
 import API from '../../config/constants/API';
 import Step1 from "./Steps/Step1";
 import Step2 from "./Steps/Step2";

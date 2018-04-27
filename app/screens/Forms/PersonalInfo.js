@@ -10,7 +10,7 @@ import moment from 'moment';
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../components/Message/Message';
-import Styles from "./styles";
+import Styles from "./Forms.styles";
 import * as actions from "../../redux/actions";
 import API from "../../config/constants/API";
 import {STYLES} from "../../config/constants/style";

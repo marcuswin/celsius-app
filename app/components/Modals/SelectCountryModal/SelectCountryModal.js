@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {Modal, TouchableOpacity, TextInput} from "react-native";
 import {countries} from "country-data";
 
-import SelectCountryStyles from "./styles";
+import SelectCountryStyles from "./SelectCountryModal.styles";
 
 
 class SelectCountryModal extends Component {

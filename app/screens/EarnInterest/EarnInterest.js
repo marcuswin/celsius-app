@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import * as actions from "../../redux/actions";
 import {MainHeader} from '../../components/Headers/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../components/Headings/AnimatedHeading/AnimatedHeading';
-import EarnInterestStyle from "./styles";
+import EarnInterestStyle from "./EarnInterest.styles";
 import {STYLES} from "../../config/constants/style";
 import {PrimaryButton} from "../../components/Buttons/Button/Button";
 
