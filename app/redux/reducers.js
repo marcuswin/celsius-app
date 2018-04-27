@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
+
 import nav from './nav/navReducer';
 import api from './api/apiReducer';
 import ui from './ui/uiReducer';
 import loanRequests from './loanRequests/loanRequestsReducer';
 import users from './users/usersReducer';
 import earnInterest from './earnInterest/earnInterestReducer';
+// NOTE(fj): plop reduxGen importing new Reducer here
 
 export default combineReducers({
   api,
@@ -12,5 +14,6 @@ export default combineReducers({
   loanRequests,
   users,
   ui,
-  earnInterest
+  earnInterest,
+  // NOTE(fj): plop reduxGen inserting new Reducer here
 });

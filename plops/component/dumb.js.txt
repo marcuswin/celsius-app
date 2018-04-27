@@ -1,0 +1,12 @@
+import React from 'react';
+// import {} from 'react-native';
+// import {} from 'native-base';
+
+// import {STYLES} from "../../config/constants/style";
+import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+
+const {{pascalCase name}} = (props) => (
+  <{{pascalCase name}} />
+)
+
+export default {{pascalCase name}};

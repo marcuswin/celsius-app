@@ -17,6 +17,7 @@ import PersonalInfoScreen from "../components/screens/KYC/PersonalInfo";
 import AddressInfoScreen from "../components/screens/KYC/AddressInfo";
 import DocumentInfoScreen from "../components/screens/KYC/DocumentInfo";
 import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
+// NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
   Welcome: {
@@ -82,7 +83,8 @@ const Navigator = StackNavigator({
   DocumentInfo: {
     screen: DocumentInfoScreen,
     title: 'DocumentInfo',
-  }
+  },
+  // NOTE(fj): plop screenGen inserting new Screen here
 }, {
   headerMode: 'none'
 });

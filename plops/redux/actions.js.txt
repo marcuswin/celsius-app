@@ -1,0 +1,8 @@
+import ACTIONS from '../../constants/ACTIONS';
+
+// export function testAction(payload) {
+//     return {
+//         type: ACTIONS.TEST_ACTION,
+//         payload,
+//     };
+// }
