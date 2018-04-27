@@ -17,7 +17,7 @@ import {STYLES} from "../../../config/constants/style";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import {GENDER, KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import apiUtil from "../../../utils/api-util";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 
@@ -274,7 +274,7 @@ class PersonalInfoScreen extends Component {
 
 
               <View style={Styles.buttonWrapper}>
-                <PrimaryButton
+                <CelButton
                   loading={isLoading}
                   onPress={this.onSubmit}
                   title={'Add address info'}

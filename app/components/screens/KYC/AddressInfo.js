@@ -13,7 +13,7 @@ import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
@@ -227,7 +227,7 @@ class AddressInfoScreen extends Component {
                 onChange={(text) => this.updateField('buildingNumber', text)}/>
 
               <View style={Styles.buttonWrapper}>
-                <PrimaryButton
+                <CelButton
                   loading={isLoading}
                   onPress={this.onSubmit}
                   title={'Loan details'}/>

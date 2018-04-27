@@ -10,12 +10,13 @@ import API from '../../../config/constants/API';
 import {Message} from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
-import CalculatorStyle from "./Calculator.styles";
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
+
 import {STYLES} from "../../../config/constants/style";
+import CalculatorStyle from "./Calculator.styles";
 
 @connect(
   state => ({

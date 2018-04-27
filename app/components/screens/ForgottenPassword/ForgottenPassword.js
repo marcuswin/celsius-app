@@ -10,7 +10,7 @@ import {Message} from '../../atoms/Message/Message';
 import Styles from "./ForgottenPassword.styles";
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import apiUtil from "../../../utils/api-util";
@@ -90,7 +90,7 @@ class ForgottenPasswordScreen extends Component {
                 onChange={this.updateEmail}/>
 
               <View style={Styles.buttonWrapper}>
-                <PrimaryButton
+                <CelButton
                   loading={isLoading}
                   disabled={isLoading}
                   onPress={() => this.onSubmit()}

@@ -12,7 +12,7 @@ import Accordion from '../../molecules/Accordion/Accordion';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import LoanPreviewStyle from "./LoanPreview.styles";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
 import apiUtil from "../../../utils/api-util";
@@ -250,7 +250,7 @@ class LoanPreviewScreen extends Component {
               </Text>
             </View>
             <View style={{paddingTop: 30, paddingBottom: 60}}>
-              <PrimaryButton
+              <CelButton
                 fill={'#fff'}
                 loading={isLoading}
                 disabled={isLoading}

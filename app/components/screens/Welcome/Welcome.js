@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {GLOBAL_STYLE_DEFINITIONS} from "../../../config/constants/style";
 import WelcomeStyle from "./Welcome.styles";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from '../../../redux/actions';
 
 @connect(
@@ -50,7 +50,7 @@ class WelcomeScreen extends Component {
               Keep up with what we’re doing by joining our community of members.
             </Text>
             <View style={WelcomeStyle.buttonWrapper}>
-              <PrimaryButton onPress={() => navigateTo('Register')} title={'Sign up'}/>
+              <CelButton onPress={() => navigateTo('Register')} title={'Sign up'}/>
               <Button
                 style={WelcomeStyle.linkButton}
                 block

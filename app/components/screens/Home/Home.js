@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import HomeStyle from "./Home.styles";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 
@@ -70,26 +70,26 @@ class HomeScreen extends Component {
             <Image style={HomeStyle.macorImage} source={require('../../../../assets/images/machor.png')}/>
             <View style={HomeStyle.buttonWrapper}>
               { loanRequest && loanRequest.id ? (
-                <PrimaryButton
+                <CelButton
                   iconRight={false}
                   customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
                   customTitleStyles={{color: 'white'}} title={'Preview loan'}
                   onPress={() => navigateTo('LoanPreview')}
                 />
               ) : (
-                <PrimaryButton
+                <CelButton
                   iconRight={false}
                   customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
                   customTitleStyles={{color: 'white'}} title={'Calculate loan'}
                   onPress={() => navigateTo('Calculator')}
                 />
               )}
-              <PrimaryButton
+              <CelButton
                 iconRight={false}
                 customStyles={{backgroundColor: STYLES.PRIMARY_GREEN, marginTop: 20}}
                 customTitleStyles={{color: 'white'}} title={'Earn interest'}
                 onPress={this.handleEarnInterest}/>
-              <PrimaryButton
+              <CelButton
                 iconRight={false}
                 customStyles={{backgroundColor: '#A866AA', marginTop: 20}}
                 customTitleStyles={{color: 'white'}} title={'See the roadmap'}

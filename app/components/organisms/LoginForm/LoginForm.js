@@ -8,7 +8,7 @@ import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './LoginForm.styles'
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
-import {PrimaryButton} from "../../atoms/Buttons/Button/Button";
+import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
 
 @connect(
@@ -62,7 +62,7 @@ class LoginForm extends Component {
           <PrimaryInput labelText={'Password'} secureTextEntry value={password} onChange={this.onChangePassword}/>
         </Form>
         <View style={[LoginFormStyles.buttonWrapper, customWrapperButtonStyles]}>
-          <PrimaryButton disabled={!email || !password} loading={isLoading}
+          <CelButton disabled={!email || !password} loading={isLoading}
                          customStyles={customButtonStyles} onPress={() => this.onSubmit()} title={buttonText}/>
         </View>
       </View>
