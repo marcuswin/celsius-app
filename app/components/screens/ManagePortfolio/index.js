@@ -4,33 +4,28 @@ import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 
+import {MainHeader} from '../../../components/molecules/MainHeader/MainHeader';
+import {AnimatedHeading} from '../../../components/molecules/AnimatedHeading/AnimatedHeading';
 import Calculator from '../Calculator/Calculator'
-import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
-import HomeStyle from "./Home.styles";
+import PortfolioStyle from "./styles";
 import * as actions from "../../../redux/actions";
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
-    loanRequest: state.loanRequests.loanRequest,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
-class HomeScreen extends Component {
+
+class ManagePorfolio extends Component {
   constructor(props) {
     super();
 
     this.state = {
-      headingTitle: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`
+      headingTitle: `Hola, ${ props.user && props.user.first_name ? props.user.first_name : 'Guest' }!`
     };
-  }
-
-  componentDidMount() {
-    const { getLoanRequest } = this.props;
-    getLoanRequest();
   }
 
   onScroll = event => {
@@ -38,6 +33,7 @@ class HomeScreen extends Component {
   };
 
   render() {
+
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
@@ -46,21 +42,24 @@ class HomeScreen extends Component {
           ref={(heading) => {
             this.heading = heading;
           }}
-          text={this.state.headingTitle}/>
-        <Content bounces={false} style={HomeStyle.content} onScroll={this.onScroll}>
+          subheading="Manage your porfolio"
+          text="Your Coins" />
+        <Content bounces={false} style={PortfolioStyle.content} onScroll={this.onScroll}>
           <View style={{paddingTop: 30}}>
-            <Text style={HomeStyle.subHeading}>
+            <Text style={PortfolioStyle.subHeading}>
               Tell us about your coins
             </Text>
-            <Text style={HomeStyle.description}>
+            <Text style={PortfolioStyle.description}>
               Let us know which coins you currently possess. We’ll help you track their value and provide you with an idea about taking a loan and earning interest with Celsius.
             </Text>
           </View>
-          <Calculator />
+          <View>
+            <Calculator />
+          </View>
         </Content>
       </Container>
     );
   }
 }
 
-export default HomeScreen;
+export default ManagePorfolio;
