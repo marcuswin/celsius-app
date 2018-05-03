@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, StatusBar, TextInput, TouchableOpacity} from 'react-native';
+import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Body, Button, Container, Content, List, ListItem, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
@@ -8,14 +8,11 @@ import Swipeable from 'react-native-swipeable';
 
 import API from '../../../config/constants/API';
 import {Message} from '../../atoms/Message/Message';
-import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
 
-import {STYLES} from "../../../config/constants/style";
 import CalculatorStyle from "./Calculator.styles";
 
 @connect(
@@ -29,7 +26,7 @@ import CalculatorStyle from "./Calculator.styles";
   dispatch => bindActionCreators(actions, dispatch),
 )
 
-class CalculatorScreen extends Component {
+class ManagePortfolio extends Component {
   constructor(props) {
     super(props);
 
@@ -115,28 +112,13 @@ class CalculatorScreen extends Component {
   ];
 
   render() {
+    console.log(this.props.supportedCurrencies)
+    const filteredSupportedCurrencies = this.props.supportedCurrencies != null && this.props.supportedCurrencies.filter((supportedCurrencie) => !this.state.selectedCoins.includes(supportedCurrencie));
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
-        <AnimatedHeading
-          subheading={'Get a loan in dollars'}
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Loan calculator'}/>
-
-        <Image style={{height: 10, width: '100%', backgroundColor: STYLES.PRIMARY_BLUE, resizeMode: 'contain'}}
-               source={require('../../../../assets/images/progress-1.png')}/>
-
         <Message/>
-        <Content bounces={false} style={CalculatorStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} onScroll={this.onScroll}>
           <View style={CalculatorStyle.container}>
-            <Text style={CalculatorStyle.description}>
-              Enter the amount of crypto you’d like to use as collateral in order to get a loan:
-            </Text>
-
             <List bounces={false} dataArray={this.state.selectedCoins}
                   renderRow={(item) =>
                     <Swipeable rightButtons={this.renderRemoveButton(item)}>
@@ -181,11 +163,11 @@ class CalculatorScreen extends Component {
               </Grid>
             </TouchableOpacity>
 
-            <SelectCoinModal visible={this.state.modalVisible} onClose={(data) => this.closeModal(data)}/>
+            <SelectCoinModal visible={this.state.modalVisible} supportedCurrencies={filteredSupportedCurrencies} onClose={(data) => this.closeModal(data)}/>
 
             <View style={CalculatorStyle.submitButtonWrapper}>
               <TouchableOpacity style={CalculatorStyle.submitButton} onPress={this.onPressSubmit}>
-                <Text style={CalculatorStyle.submitButtonTitle}>Estimate loan</Text>
+                <Text style={CalculatorStyle.submitButtonTitle}>Save coins</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -195,4 +177,4 @@ class CalculatorScreen extends Component {
   }
 }
 
-export default CalculatorScreen;
+export default ManagePortfolio;
