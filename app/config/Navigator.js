@@ -1,16 +1,23 @@
-import { StackNavigator } from 'react-navigation';
+import {StackNavigator} from 'react-navigation';
 
 // screens
-import WelcomeScreen from '../screens/Welcome/Welcome';
-import LoginScreen from "../screens/Login/Login";
-import RegisterScreen from "../screens/Register/Register";
-import HomeScreen from "../screens/Home/Home";
-import CalculatorScreen from "../screens/Calculator/Calculator";
-import EarnInterestScreen from '../screens/EarnInterest/EarnInterest';
-import ComingSoonScreen from "../screens/ComingSoon/ComingSoon";
-import LoanPreviewScreen from "../screens/LoanPreview/LoanPreview";
-import ThankYouScreen from "../screens/ThankYou/ThankYou";
-import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
+import WelcomeScreen from '../components/screens/Welcome/Welcome';
+import LoginScreen from "../components/screens/Login/Login";
+import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
+import RegisterScreen from "../components/screens/Register/Register";
+import HomeScreen from "../components/screens/Home/Home";
+import CalculatorScreen from "../components/screens/Calculator/Calculator";
+import EarnInterestScreen from '../components/screens/EarnInterest/EarnInterest';
+import ComingSoonScreen from "../components/screens/ComingSoon/ComingSoon";
+import LoanPreviewScreen from "../components/screens/LoanPreview/LoanPreview";
+import ThankYouScreen from "../components/screens/ThankYou/ThankYou";
+import CongratsScreen from "../components/screens/Congrats/Congrats";
+import ThankYouLenderScreen from '../components/screens/EarnInterest/ThankYouLender'
+import PersonalInfoScreen from "../components/screens/KYC/PersonalInfo";
+import AddressInfoScreen from "../components/screens/KYC/AddressInfo";
+import DocumentInfoScreen from "../components/screens/KYC/DocumentInfo";
+import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
+// NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
   Welcome: {
@@ -20,6 +27,10 @@ const Navigator = StackNavigator({
   Login: {
     screen: LoginScreen,
     title: 'Login',
+  },
+  ForgottenPassword: {
+    screen: ForgottenPasswordScreen,
+    title: 'ForgottenPassword',
   },
   Register: {
     screen: RegisterScreen,
@@ -52,7 +63,28 @@ const Navigator = StackNavigator({
   ThankYou: {
     screen: ThankYouScreen,
     title: 'ThankYou',
-  }
+  },
+  Congrats: {
+    screen: CongratsScreen,
+    title: 'Congrats',
+  },
+  PersonalInfo: {
+    screen: PersonalInfoScreen,
+    title: 'PersonalInfo',
+  },
+  AddressInfo: {
+    screen: AddressInfoScreen,
+    title: 'AddressInfo',
+  },
+  LoanDetails: {
+    screen: LoanDetailsScreen,
+    title: 'LoanDetails',
+  },
+  DocumentInfo: {
+    screen: DocumentInfoScreen,
+    title: 'DocumentInfo',
+  },
+  // NOTE(fj): plop screenGen inserting new Screen here
 }, {
   headerMode: 'none'
 });
