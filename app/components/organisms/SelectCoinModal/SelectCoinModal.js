@@ -1,20 +1,11 @@
 import React, {Component} from 'react';
 import {Body, Button, Header, Icon, Left, List, ListItem, Right, Text, Thumbnail, Title, View} from "native-base";
 import PropTypes from "prop-types";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
 import {Modal, TouchableOpacity} from "react-native";
-import * as actions from "../../../redux/actions";
 
 import SelectCoinStyles from "./SelectCoinModal.styles";
 
 
-@connect(
-  state => ({
-    supportedCurrencies: state.loanRequests.supportedCurrencies,
-  }),
-  dispatch => bindActionCreators(actions, dispatch),
-)
 class SelectCoinModal extends Component {
 
   static propTypes = {
@@ -27,16 +18,6 @@ class SelectCoinModal extends Component {
     visible: false,
     animation: 'slide'
   };
-
-  constructor(props) {
-    super();
-
-    this.state = {};
-
-    if (!props.supportedCurrencies) {
-      props.getSupportedCurrencies()
-    }
-  }
 
   render() {
     const {visible, animation, onClose, supportedCurrencies} = this.props;

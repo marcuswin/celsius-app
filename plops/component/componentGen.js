@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Creates React Component jsx and scss files',
+  description: 'Creates React Native component and style files inside /components',
   prompts: [
     {
       type: 'list',
