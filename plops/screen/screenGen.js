@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Creates React Component jsx and scss files',
+  description: 'Creates React Native screen and style files inside /screens',
   prompts: [
     {
       type: 'input',
