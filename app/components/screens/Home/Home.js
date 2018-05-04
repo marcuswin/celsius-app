@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+// import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-import {Container, Content, Text, View} from 'native-base';
+import {Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 
 import Calculator from '../Calculator/Calculator'
-import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
+// import {MainHeader} from '../../molecules/MainHeader/MainHeader';
+// import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import HomeStyle from "./Home.styles";
 import * as actions from "../../../redux/actions";
+import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
 @connect(
   state => ({
@@ -24,7 +25,10 @@ class HomeScreen extends Component {
     super();
 
     this.state = {
-      headingTitle: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`
+      animatedHeading: {
+        text: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`,
+      }
+      // headingTitle: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`
     };
   }
 
@@ -38,27 +42,22 @@ class HomeScreen extends Component {
   };
 
   render() {
+    const { animatedHeading } = this.state;
+
     return (
-      <Container>
-        <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} />
-        <AnimatedHeading
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={this.state.headingTitle}/>
-        <Content bounces={false} style={HomeStyle.content} onScroll={this.onScroll}>
-          <View style={{paddingTop: 30}}>
-            <Text style={HomeStyle.subHeading}>
-              Tell us about your coins
-            </Text>
-            <Text style={HomeStyle.description}>
-              Let us know which coins you currently possess. We’ll help you track their value and provide you with an idea about taking a loan and earning interest with Celsius.
-            </Text>
-          </View>
-          <Calculator />
-        </Content>
-      </Container>
+      <SimpleLayout
+        animatedHeading={animatedHeading}
+      >
+        <View style={{paddingTop: 30}}>
+          <Text style={HomeStyle.subHeading}>
+            Tell us about your coins
+          </Text>
+          <Text style={HomeStyle.description}>
+            Let us know which coins you currently possess. We’ll help you track their value and provide you with an idea about taking a loan and earning interest with Celsius.
+          </Text>
+        </View>
+        <Calculator />
+      </SimpleLayout>
     );
   }
 }
