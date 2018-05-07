@@ -20,11 +20,8 @@ const LoginStyle = StyleSheet.create({
   buttonWrapper: {
     paddingBottom: 60,
   },
-  registerButton: {
-    marginTop: 40,
-  },
   forgottenButton: {
-    marginTop: 20,
+    marginTop: 40,
     paddingBottom: 60,
   },
   linkButtonText: {
