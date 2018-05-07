@@ -42,4 +42,6 @@ $ npm run android
 
 DevTools
 -------------
+
 In development mode, you can install [React Native Debugger](https://github.com/jhen0409/react-native-debugger) as default debugger.
+[API Docs](https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#bf6e3009-2736-4a6e-b1a0-c0928c704550)
