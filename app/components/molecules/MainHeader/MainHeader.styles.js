@@ -4,7 +4,7 @@ import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 const HeaderStyle = StyleSheet.create({
   header: {
     backgroundColor: STYLES.PRIMARY_BLUE,
-    paddingRight: 30,
+    paddingRight: 20,
     paddingLeft: 20,
     borderBottomColor: 'transparent',
     elevation: 0,
