@@ -97,8 +97,8 @@ class Step1 extends Component {
     }
   };
 
-  faceBookAuth = async () => {
-    const {onNextStep, faceBookSuccess} = this.props;
+  facebookAuth = async () => {
+    const {onNextStep, facebookSuccess} = this.props;
 
     try {
       const {type, token} = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID, {
@@ -111,7 +111,7 @@ class Step1 extends Component {
         const user = await response.json();
         user.accessToken = token;
 
-        faceBookSuccess(user);
+        facebookSuccess(user);
         onNextStep();
       }
     } catch (e) {
@@ -131,7 +131,7 @@ class Step1 extends Component {
         <View>
           <Grid>
             <Col style={StepStyles.centeredColumn}>
-              <TouchableOpacity onPress={this.faceBookAuth}>
+              <TouchableOpacity onPress={this.facebookAuth}>
                 <Icon name='Facebook' width='75' height='75' viewBox="0 0 80 80" fill='#FFFFFF'/>
                 <View style={StepStyles.socialNetworkTextWrapper}>
                   <Text style={StepStyles.socialNetworkDescription}>Sign up with</Text>

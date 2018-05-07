@@ -110,11 +110,17 @@ class RegisterScreen extends Component {
   renderStep2 = () => <Step2 onNextStep={(data) => this.onNextStep(data)}/>;
 
   render() {
+    const {step} = this.state;
     const {setHeaderHeight} = this.props;
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader {...this.props} backButton={this.state.backButton}/>
+
+          <MainHeader
+          rightLink={ step === 0 ? { screen: 'Login', text: 'Log in' } : null }
+          backButton={this.state.backButton}
+        />
+
         <AnimatedHeading
           setHeaderHeight={setHeaderHeight}
           ref={(heading) => {
@@ -127,8 +133,8 @@ class RegisterScreen extends Component {
         <Content bounces={false} style={RegisterStyle.content} onScroll={this.onScroll}>
           <Animatable.View
             duration={1000}
-            ref={(step) => {
-              this.stepRef = step
+            ref={(newStep) => {
+              this.stepRef = newStep
             }}
             style={{opacity: 1}}
           >
