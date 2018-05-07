@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native';
 import { Container, Content } from 'native-base';
 
 import {STYLES} from "../../../config/constants/style";
+import {Message} from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
@@ -23,7 +24,7 @@ const defaultAnimatedHeading = {
 }
 
 const SimpleLayout = (props) => {
-  const { bottomNavigation, statusBar, mainHeader, animatedHeading } = props;
+  const { bottomNavigation, statusBar, mainHeader, animatedHeading, background } = props;
 
   const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
   const statusBarProps = { ...defaultStatusBar, ...statusBar };
@@ -35,11 +36,13 @@ const SimpleLayout = (props) => {
       <MainHeader { ...mainHeaderProps } />
       <AnimatedHeading { ...animatedHeadingProps } />
 
-      <Content style={SimpleLayoutStyle.content}>
+      <Message />
+
+      <Content style={[SimpleLayoutStyle.content, { backgroundColor: background }]}>
         { props.children }
       </Content>
 
-      <BottomNavigation { ...bottomNavigation } />
+      { bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null }
     </Container>
   )
 }

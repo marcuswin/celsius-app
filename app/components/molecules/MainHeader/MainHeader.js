@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Body, Button, Header, Left, Right, Text,
-  Title,
-} from 'native-base';
+import { Button, Header, Left, Right, Text } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
@@ -24,11 +21,10 @@ class MainHeader extends Component {
 
   static propTypes = {
     right: PropTypes.element,
-    headerTitle: PropTypes.string,
+    rightLink: PropTypes.instanceOf(Object),
     left: PropTypes.element,
     backButton: PropTypes.bool,
     backgroundColor: PropTypes.string,
-    cancelBtn: PropTypes.bool,
     onCancel: PropTypes.func,
   };
 
@@ -39,10 +35,13 @@ class MainHeader extends Component {
 
     this.setHeaderHeight = this.setHeaderHeight.bind(this);
     this.onPressBackButton = this.onPressBackButton.bind(this);
+    this.renderLeft = this.renderLeft.bind(this);
+    this.renderRight = this.renderRight.bind(this);
   }
 
   onPressBackButton() {
-    this.props.navigation.goBack();
+    const { navigateBack } = this.props;
+    navigateBack();
   }
 
 
@@ -52,7 +51,9 @@ class MainHeader extends Component {
     setHeaderHeight(height);
   }
 
-  renderLeft(leftSide, backButton) {
+  renderLeft() {
+    const { left, backButton } = this.props;
+
     if (backButton) {
       return (
         <Button style={{width: 80}} title='Back' transparent onPress={this.onPressBackButton}>
@@ -64,15 +65,25 @@ class MainHeader extends Component {
       );
     }
 
-    return leftSide;
+    return left;
   }
 
-  renderRight(rightSide) {
-    if (rightSide) {
-      return rightSide;
+  renderRight() {
+    const { right, rightLink, navigateTo } = this.props;
+
+    if (right) {
+      return right;
     }
 
-    if (this.props.cancelBtn) {
+    if (rightLink) {
+      return (
+        <Button transparent onPress={() => navigateTo(rightLink.screen)}>
+          <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]}>{ rightLink.text }</Text>
+        </Button>
+      );
+    }
+
+    if (this.props.onCancel) {
       return (
         <TouchableOpacity style={{opacity: .6}} onPress={this.props.onCancel}>
           <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'}/>
@@ -102,16 +113,13 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {headerTitle, right, left, backButton, customStyle} = this.props;
+    const {right, left, backButton, customStyle} = this.props;
 
     return (
       <Header style={[HeaderStyle.header, customStyle]} onLayout={this.setHeaderHeight}>
         <Left>
           {this.renderLeft(left, backButton)}
         </Left>
-        <Body>
-        <Title style={HeaderStyle.headerTitle}>{headerTitle}</Title>
-        </Body>
         <Right>
           {this.renderRight(right)}
         </Right>
