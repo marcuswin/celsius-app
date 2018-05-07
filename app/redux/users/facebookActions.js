@@ -1,10 +1,10 @@
 import ACTIONS from "../../config/constants/ACTIONS";
 
-function faceBookSuccess(user) {
+function facebookSuccess(user) {
   return {
     type: ACTIONS.FACEBOOK_SUCCESS,
     facebook_user: user,
   }
 }
 
-export { faceBookSuccess }
+export { facebookSuccess }
