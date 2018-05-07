@@ -127,7 +127,7 @@ class LoginScreen extends Component {
     }
   };
 
-  faceBookAuth = async () => {
+  facebookAuth = async () => {
     const {loginFacebook} = this.props;
 
     try {
@@ -162,7 +162,8 @@ class LoginScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader/>
+        <MainHeader rightLink={{ screen: 'Register', text: 'Sign up' }}/>
+
         <View onLayout={(e) => this.setHeight('heading', e.nativeEvent.layout)}>
           <AnimatedHeading
             ref={(heading) => {
@@ -180,14 +181,14 @@ class LoginScreen extends Component {
 
           <View onLayout={(e) => this.setHeight('text', e.nativeEvent.layout)}>
             <Text style={LoginStyle.description}>
-              It seems like your session timed out, so we would kindly ask you to log in again with your credentials.
+              Looks like your session timed out! Please log in again.
             </Text>
           </View>
 
           <View style={{paddingTop: 30}}>
             <Grid>
               <Col style={StepStyles.centeredColumn}>
-                <TouchableOpacity onPress={this.faceBookAuth}>
+                <TouchableOpacity onPress={this.facebookAuth}>
                   <Icon name='Facebook' width='75' height='75' viewBox="0 0 80 80" fill='#FFFFFF'/>
                   <View style={StepStyles.socialNetworkTextWrapper}>
                     <Text style={StepStyles.socialNetworkDescription}>Login with</Text>
@@ -236,16 +237,6 @@ class LoginScreen extends Component {
           </View>
 
           <View onLayout={(e) => this.setHeight('button', e.nativeEvent.layout)} style={LoginStyle.buttonWrapper}>
-            <Button
-              style={LoginStyle.registerButton}
-              block
-              title={'Don’t have account?'}
-              transparent
-              onPress={() => navigateTo('Register')}
-            >
-              <Text style={LoginStyle.linkButtonText}>Don’t have account?</Text>
-            </Button>
-
             <Button
               style={LoginStyle.forgottenButton}
               block

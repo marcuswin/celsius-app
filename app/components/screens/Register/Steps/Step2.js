@@ -57,7 +57,7 @@ class Step2 extends Component {
   getViewHeight = () => {
     const {dimensions, user} = this.props;
 
-    const minHeight = user.facebook_id || user.google_id || user.twitter_id ? 500 : 450;
+    const minHeight = (user && (user.facebook_id || user.google_id || user.twitter_id)) ? 500 : 450;
 
     return Math.max(dimensions.screenHeight - dimensions.header - dimensions.animatedHeader, minHeight);
 
@@ -88,7 +88,7 @@ class Step2 extends Component {
             labelText="Last Name"
             value={lastName}
             onChange={text => this.onChangeField('lastName', text)}/>
-          {user.facebook_id || user.google_id || user.twitter_id ?
+          {user && (user.facebook_id || user.google_id || user.twitter_id) ?
             <PrimaryInput
               labelText="Email"
               value={email}
