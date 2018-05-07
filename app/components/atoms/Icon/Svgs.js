@@ -2,7 +2,7 @@ import React from 'react';
 import {G, Path} from 'react-native-svg';
 
 export default {
-  FaceBook: (
+  Facebook: (
     <Path id="icon-facebook" d="M40,80C17.9,80,0,62.1,0,40S17.9,0,40,0s40,17.9,40,40S62.1,80,40,80z M42.2,33.4v-3.1
 	        c0-0.5,0-0.8,0.1-1.1c0-0.3,0.1-0.5,0.3-0.8c0.2-0.2,0.4-0.4,0.7-0.5c0.3-0.1,0.8-0.1,1.4-0.1h3.1v-6.2h-5c-2.9,0-4.9,0.7-6.2,2
 	        c-1.3,1.4-1.9,3.4-1.9,6v3.7H31v6.2h3.7v18h7.5v-18h5l0.7-6.2H42.2z"/>
