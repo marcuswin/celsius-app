@@ -5,8 +5,8 @@ const { height } = Dimensions.get('window');
 
 const SimpleLayoutStyle = StyleSheet.create({
   content: {
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: 36,
+    paddingRight: 36,
     paddingTop: 10,
     height: height - 87 - 50,
   },

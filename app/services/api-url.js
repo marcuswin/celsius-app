@@ -4,7 +4,7 @@ const { BACKEND } = process.env;
 let apiV1;
 
 if (!BACKEND || BACKEND === 'STAGING') {
-  apiV1 = API_V1_URL_PRODUCTION;
+  apiV1 = API_V1_URL_DEVELOP;
 }
 
 if (BACKEND === 'PRODUCTION') {

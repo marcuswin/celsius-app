@@ -6,12 +6,13 @@ const AnimatedHeadingStyle = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     justifyContent: 'center',
-    backgroundColor: STYLES.PRIMARY_BLUE
+    backgroundColor: STYLES.PRIMARY_BLUE,
+    paddingBottom: 50,
   },
   text: {
     fontWeight: '800',
     fontFamily: 'agile-extra-bold',
-    color: 'rgba(255,255,255,1)'
+    color: 'rgba(255,255,255,1)',
   }
 });
 
