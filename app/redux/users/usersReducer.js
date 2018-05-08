@@ -67,13 +67,13 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.TWITTER_SUCCESS:
-      const name = action.twitter_user.name.trim().split(/\s+(?=[^\s]+$)/);
+      const names = action.twitter_user.name.trim().split(/\s+(?=[^\s]+$)/);
       return {
         ...state,
         user: {
           ...state.user,
-          first_name: name[0].trim(),
-          last_name: name[1].trim(),
+          first_name: names[0] ? names[0].trim() : '',
+          last_name: names[1] ? names[1].trim() : '',
           email: action.twitter_user.email,
           twitter_screen_name: action.twitter_user.screen_name,
           twitter_id: action.twitter_user.id_str,
