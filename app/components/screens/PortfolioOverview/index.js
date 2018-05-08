@@ -15,7 +15,7 @@ import {STYLES} from "../../../config/constants/style";
   state => ({
     nav: state.nav,
     user: state.users.user,
-    portfolio: state.portfolio,
+    portfolio: state.portfolio.portfolio,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )

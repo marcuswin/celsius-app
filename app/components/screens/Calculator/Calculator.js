@@ -25,7 +25,7 @@ import { STYLES } from '../../../config/constants/style';
     supportedCurrencies: state.loanRequests.supportedCurrencies,
     error: state.api.error,
     callsInProgress: state.api.callsInProgress,
-    portfolio: state.portfolio,
+    portfolio: state.portfolio.portfolio,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
