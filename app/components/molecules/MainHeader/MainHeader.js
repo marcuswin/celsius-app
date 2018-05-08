@@ -5,7 +5,6 @@ import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 import {Image, TouchableOpacity} from 'react-native';
 import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
-
 import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 
 import HeaderStyle from './MainHeader.styles';
@@ -13,7 +12,9 @@ import * as actions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 
 @connect(
-  () => ({}),
+  state => ({
+    nav: state.nav
+  }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class MainHeader extends Component {
@@ -92,7 +93,17 @@ class MainHeader extends Component {
 
     return (
       <TouchableOpacity onPress={() => {
-        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        const {nav} = this.props;
+        const route = nav.routes[0].routeName;
+
+        if (route !== 'Welcome' && route !== 'Login' && route !== 'Register') {
+          navigateTo('Home', true);
+        }
+
+        const dev = false; // TODO (djs): temp
+        if (dev) {
+          deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        }
       }}>
         <Image
           source={require('../../../../assets/images/icons/celsius_symbol_white.png')}

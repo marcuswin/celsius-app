@@ -23,6 +23,7 @@
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
     "expo": "25.0.0",
+    "hoek": "^5.0.3",
     "immutable": "3.8.2",
     "lodash": "4.17.5",
     "native-base": "2.3.8",
