@@ -10,3 +10,4 @@ npm-debug.*
 .env
 app.json
 config.json
+config/
