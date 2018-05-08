@@ -17,6 +17,7 @@ import PersonalInfoScreen from "../components/screens/KYC/PersonalInfo";
 import AddressInfoScreen from "../components/screens/KYC/AddressInfo";
 import DocumentInfoScreen from "../components/screens/KYC/DocumentInfo";
 import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
+import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -43,6 +44,10 @@ const Navigator = StackNavigator({
   EarnInterest: {
     screen: EarnInterestScreen,
     title: 'EarnInterest'
+  },
+  ManagePortfolio: {
+    screen: ManagePortfolioScreen,
+    title: 'ManagePortfolio',
   },
   ThankYouLender: {
     screen: ThankYouLenderScreen,

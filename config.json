@@ -1,0 +1,53 @@
+{
+    "expo": {
+      "name": "Celsius",
+      "description": "P2P Decentralized Lending & Borrowing for Cryptocurrency",
+      "slug": "celsius",
+      "privacy": "public",
+      "sdkVersion": "25.0.0",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "version": "1.1.1",
+      "orientation": "portrait",
+      "icon": "./assets/images/icons/icon@2x.png",
+      "splash": {
+        "image": "./assets/images/loading.png",
+        "backgroundColor": "#4156A6",
+        "resizeMode": "cover"
+      },
+      "ios": {
+        "supportsTablet": false,
+        "bundleIdentifier": "network.celsius.borrower",
+        "config": {
+          "googleSignIn": {
+            "reservedClientId": "com.googleusercontent.apps.454720582142-8i6fk5bpohkcu8l077khvfiaj7ba5buh"
+          }
+        }
+      },
+      "android": {
+        "package": "network.celsius.borrower",
+        "versionCode": 3,
+        "config": {
+          "googleSignIn": {
+            "apiKey": "454720582142-vt7kq4hshg860v3vp2reu6mh6ol196ia.apps.googleusercontent.com",
+            "certificateHash": "FA8409BF0AD4E3F1DBDA8047D184A85B9F947F6C"
+          }
+        },
+        "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+      },
+      "hooks": {
+        "postPublish": [
+          {
+            "file": "sentry-expo/upload-sourcemaps",
+            "config": {
+              "organization": "mvp-workshop",
+              "project": "celsius",
+              "authToken": "a4169fe038a04d849f31175dc1b89cf7a27cf4d9d15941f6bc0b64d40ab4cf42"
+            }
+          }
+        ]
+      }
+    }
+  }

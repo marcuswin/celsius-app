@@ -1,0 +1,14 @@
+import ACTIONS from '../../config/constants/ACTIONS';
+
+const initialState = [];
+
+export default (state = initialState, action) => {
+  switch(action.type) {
+    case ACTIONS.GET_PORTFOLIO_SUCCESS:
+      return action.payload
+
+    default:
+      return state
+
+  }
+}
