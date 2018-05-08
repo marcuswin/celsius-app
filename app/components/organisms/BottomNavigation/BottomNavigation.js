@@ -53,7 +53,7 @@ class BottomNavigation extends Component {
     const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
 
     return (
-      <TouchableOpacity key={ navItem.label } onPress={ () => navigateTo(navItem.screen)}>
+      <TouchableOpacity key={ navItem.label } onPress={ () => state !== 'Active' ? navigateTo(navItem.screen) : null }>
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
             <Icon style={iconStyle} height="25" width="25" name={ navItem.icon } fill={ iconFill } />
