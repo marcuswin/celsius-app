@@ -17,6 +17,7 @@ import * as actions from "../../../redux/actions";
 import {getSecureStoreKey} from '../../../utils/expo-storage';
 import StepStyles from "../Signup/Signup.styles";
 import Icon from "../../atoms/Icon/Icon";
+import {Separator} from "../../atoms/Separator/Separator";
 
 const {
   GOOGLE_WEB_CLIENT_ID,
@@ -219,19 +220,8 @@ class LoginScreen extends Component {
               </Col>
             </Grid>
           </View>
-          <View style={{paddingTop: 30}}>
-            <Grid>
-              <Col style={StepStyles.centeredColumn}>
-                <View style={StepStyles.dummyBorder}/>
-              </Col>
-              <Col style={{width: 175, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={StepStyles.middleBorderText}>OR LOGIN WITH E-MAIL</Text>
-              </Col>
-              <Col style={StepStyles.centeredColumn}>
-                <View style={StepStyles.dummyBorder}/>
-              </Col>
-            </Grid>
-          </View>
+
+          <Separator>OR LOGIN WITH E-MAIL</Separator>
 
           <View style={[LoginStyle.formWrapper, {height: formHeight}]}>
             <LoginForm onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
