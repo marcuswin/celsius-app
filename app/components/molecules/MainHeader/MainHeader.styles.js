@@ -8,7 +8,7 @@ const HeaderStyle = StyleSheet.create({
     paddingLeft: 20,
     borderBottomColor: 'transparent',
     elevation: 0,
-    height: 70,
+    height: 110,
     paddingTop: 30
   },
   headerTitle: {
