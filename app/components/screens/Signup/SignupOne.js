@@ -43,12 +43,9 @@ class SignupOne extends Component {
 
     this.state = {
       formData: {
-        // email: '',
-        // password: '',
-        // confirmedPassword: '',
-        email: `filip.jovakaric+${ new Date().getTime() }@mvpworkshop.co`,
-        password: 'filip123',
-        confirmedPassword: 'filip123',
+        email: '',
+        password: '',
+        confirmedPassword: '',
       },
     };
 
