@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Permissions} from 'expo';
+import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
 import {Provider} from 'react-redux';
 import {Image} from 'react-native';
 import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
-import {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SENTRY, SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
 import configureStore from './config/configureStore';
 import apiUtil from './utils/api-util';
@@ -15,14 +15,18 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-Sentry.config(SENTRY).install();
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY} = Constants.manifest.extra;
+
+if (SENTRY_DSN) {
+  Sentry.config(SENTRY_DSN).install();
+}
 
 const store = configureStore();
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();
 
-// For images that saved to the local filesytem,
+// For images that saved to the local file system,
 // use Expo.Asset.fromModule(image).downloadAsync()
 // to download and cache the image.
 // There is also a loadAsync() helper method to cache a batch of assets.

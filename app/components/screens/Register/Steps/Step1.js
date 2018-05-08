@@ -3,11 +3,17 @@ import {Text, View} from 'native-base';
 import PropTypes from "prop-types";
 import {Col, Grid} from "react-native-easy-grid";
 import {TouchableOpacity} from "react-native";
-import {Google, Facebook} from 'expo';
+import {Google, Facebook, Constants} from 'expo';
 import {TWLoginButton} from 'react-native-simple-twitter';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {
+
+import StepStyles from "./styles";
+import Icon from "../../../components/Icons/Icon";
+import * as actions from "../../../redux/actions";
+import LoginForm from "../../../components/Forms/LoginForm/LoginForm";
+
+const {
   GOOGLE_WEB_CLIENT_ID,
   GOOGLE_ANDROID_STANDALONE_APP_CLIENT_ID,
   GOOGLE_IOS_STANDALONE_APP_CLIENT_ID,
@@ -16,13 +22,7 @@ import {
   GOOGLE_URL,
   FACEBOOK_APP_ID,
   FACEBOOK_URL
-} from 'react-native-dotenv'
-
-import StepStyles from "./Steps.styles";
-import Icon from "../../../atoms/Icon/Icon";
-import {Separator} from '../../../atoms/Separator/Separator';
-import * as actions from "../../../../redux/actions";
-import LoginForm from "../../../organisms/LoginForm/LoginForm";
+} = Constants.manifest.extra;
 
 @connect(
   () => ({}),
