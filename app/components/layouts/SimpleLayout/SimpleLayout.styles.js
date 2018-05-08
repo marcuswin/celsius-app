@@ -8,6 +8,7 @@ const SimpleLayoutStyle = StyleSheet.create({
     paddingLeft: 36,
     paddingRight: 36,
     paddingTop: 10,
+    marginBottom: 90,
     height: height - 87 - 50,
   },
 });

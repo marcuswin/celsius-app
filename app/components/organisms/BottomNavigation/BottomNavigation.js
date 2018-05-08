@@ -25,7 +25,7 @@ class BottomNavigation extends Component {
   static defaultProps = {
     navItems: [
       { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: [] },
-      { label: 'Borrow', screen: 'BorrowLanding', icon: 'Borrow', active: [] },
+      { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: [] },
     ]
