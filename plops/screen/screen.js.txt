@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
-// import {STYLES} from "../../config/constants/style";
+// import {STYLES} from "../../../config/constants/style";
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
 @connect(
