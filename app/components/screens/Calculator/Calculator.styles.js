@@ -7,7 +7,7 @@ const CalculatorStyle = StyleSheet.create({
     paddingRight: 40
   },
   container: {
-    paddingTop: 46
+    paddingTop: 25,
   },
   description: {
     color: '#3D4853',

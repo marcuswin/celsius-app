@@ -1,13 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import {FONT_SCALE} from "../../../config/constants/style";
+
+const { height } = Dimensions.get('window');
 
 const HomeStyle = StyleSheet.create({
   content: {
+    height: height - 220,
     paddingLeft: 40,
     paddingRight: 40,
   },
   subHeading: {
-    marginTop: 10,
     color: 'rgba(61,72,83,1)',
     fontFamily: 'agile-medium',
     fontSize: FONT_SCALE * 21

@@ -1,40 +1,31 @@
 import React, {Component} from 'react';
-// import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
-import {Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
+import isEmpty from 'lodash/isEmpty'
 
-import Calculator from '../Calculator/Calculator'
-// import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-// import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
-import HomeStyle from "./Home.styles";
+import Loader from '../../atoms/Loader/Loader';
+import API from "../../../config/constants/API";
+import apiUtil from '../../../utils/api-util';
 import * as actions from "../../../redux/actions";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import ManagePortfolio from '../ManagePortfolio'
+import PortfolioOverview from "../../screens/PortfolioOverview"
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
-    loanRequest: state.loanRequests.loanRequest,
+    getPortfolioRequest: state.getPortfolio,
+    portfolio: state.portfolio,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class HomeScreen extends Component {
-  constructor(props) {
-    super();
-
-    this.state = {
-      animatedHeading: {
-        text: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`,
-      }
-      // headingTitle: `Hola, ${ props.user ? props.user.first_name : 'Guest' }!`
-    };
-  }
 
   componentDidMount() {
-    const { getLoanRequest } = this.props;
-    getLoanRequest();
+    const { getPortfolio } = this.props;
+    getPortfolio();
   }
 
   onScroll = event => {
@@ -42,23 +33,11 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const { animatedHeading } = this.state;
-
-    return (
-      <SimpleLayout
-        animatedHeading={animatedHeading}
-      >
-        <View style={{paddingTop: 30}}>
-          <Text style={HomeStyle.subHeading}>
-            Tell us about your coins
-          </Text>
-          <Text style={HomeStyle.description}>
-            Let us know which coins you currently possess. We’ll help you track their value and provide you with an idea about taking a loan and earning interest with Celsius.
-          </Text>
-        </View>
-        <Calculator />
-      </SimpleLayout>
-    );
+    const isLoading = apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
+    if (isLoading) {
+      return <Loader />
+    }
+    return (!isLoading && !isEmpty(this.props.portfolio)) ? <PortfolioOverview /> : <ManagePortfolio />
   }
 }
 

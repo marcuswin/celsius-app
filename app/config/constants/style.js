@@ -22,10 +22,13 @@ function calcFontScale() {
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
   PRIMARY_GREEN: '#4FB895',
+  PRIMARY_RED: '#EF461A',
   WHITE_TEXT_COLOR: '#ffffff',
   INPUT_BACKGROUND_COLOR_WHITE: 'rgba(255, 255, 255, 0.1)',
   INPUT_COLOR_WHITE: '#ffffff',
   INPUT_LABEL_COLOR_WHITE: '#ffffff',
+  COIN_DATA_GREEN: '#55BB99',
+  GRAY_1: '#EEEEEE',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({

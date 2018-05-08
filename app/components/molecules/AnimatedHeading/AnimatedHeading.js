@@ -59,7 +59,8 @@ class AnimatedHeading extends Component {
           color: '#fff',
           fontSize: FONT_SCALE * 21,
           opacity: 0.7,
-          fontFamily: 'agile-light'
+          fontFamily: 'agile-light',
+          marginBottom: 10,
         }}>{subheading.toUpperCase()}</Text>
     }
   };
