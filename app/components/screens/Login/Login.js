@@ -5,18 +5,8 @@ import {Button, Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import {Col, Grid} from "react-native-easy-grid";
 import {TWLoginButton} from 'react-native-simple-twitter';
-import {Facebook, Google} from "expo";
-import {
-  SECURITY_STORAGE_AUTH_KEY,
-  GOOGLE_WEB_CLIENT_ID,
-  GOOGLE_ANDROID_STANDALONE_APP_CLIENT_ID,
-  GOOGLE_IOS_STANDALONE_APP_CLIENT_ID,
-  GOOGLE_ANDROID_CLIENT_ID,
-  GOOGLE_IOS_CLIENT_ID,
-  GOOGLE_URL,
-  FACEBOOK_APP_ID,
-  FACEBOOK_URL
-} from 'react-native-dotenv'
+import {Constants, Facebook, Google} from "expo";
+import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
@@ -27,6 +17,17 @@ import * as actions from "../../../redux/actions";
 import {getSecureStoreKey} from '../../../utils/expo-storage';
 import StepStyles from "../Register/Steps/Steps.styles";
 import Icon from "../../atoms/Icon/Icon";
+
+const {
+  GOOGLE_WEB_CLIENT_ID,
+  GOOGLE_ANDROID_STANDALONE_APP_CLIENT_ID,
+  GOOGLE_IOS_STANDALONE_APP_CLIENT_ID,
+  GOOGLE_ANDROID_CLIENT_ID,
+  GOOGLE_IOS_CLIENT_ID,
+  GOOGLE_URL,
+  FACEBOOK_APP_ID,
+  FACEBOOK_URL
+} = Constants.manifest.extra;
 
 @connect(
   state => ({

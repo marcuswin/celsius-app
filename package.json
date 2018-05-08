@@ -9,6 +9,9 @@
     "ios": "exp ios",
     "android": "exp android",
     "lint": "eslint app test *.js",
+    "env:local": "expo-env  --env=development --configPath=./config",
+    "env:staging": "expo-env --env=staging --configPath=./config",
+    "env:production": "expo-env --env=production --configPath=./config",
     "plop": "plop"
   },
   "pre-commit": [
@@ -23,6 +26,7 @@
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
     "expo": "25.0.0",
+    "expo-env": "^1.1.1",
     "hoek": "^5.0.3",
     "immutable": "3.8.2",
     "lodash": "4.17.5",
