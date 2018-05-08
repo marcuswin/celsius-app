@@ -50,7 +50,7 @@ class WelcomeScreen extends Component {
               Keep up with what we’re doing by joining our community of members.
             </Text>
             <View style={WelcomeStyle.buttonWrapper}>
-              <CelButton onPress={() => navigateTo('Register')} title={'Sign up'}/>
+              <CelButton onPress={() => navigateTo('SignupOne')} title={'Sign up'}/>
               <Button
                 style={WelcomeStyle.linkButton}
                 block

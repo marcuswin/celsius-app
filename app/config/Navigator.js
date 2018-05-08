@@ -4,7 +4,6 @@ import {StackNavigator} from 'react-navigation';
 import WelcomeScreen from '../components/screens/Welcome/Welcome';
 import LoginScreen from "../components/screens/Login/Login";
 import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
-import RegisterScreen from "../components/screens/Register/Register";
 import HomeScreen from "../components/screens/Home/Home";
 import CalculatorScreen from "../components/screens/Calculator/Calculator";
 import EarnInterestScreen from '../components/screens/EarnInterest/EarnInterest';
@@ -18,6 +17,8 @@ import AddressInfoScreen from "../components/screens/KYC/AddressInfo";
 import DocumentInfoScreen from "../components/screens/KYC/DocumentInfo";
 import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
 import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
+import SignupOneScreen from "../components/screens/Signup/SignupOne";
+import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -32,10 +33,6 @@ const Navigator = StackNavigator({
   ForgottenPassword: {
     screen: ForgottenPasswordScreen,
     title: 'ForgottenPassword',
-  },
-  Register: {
-    screen: RegisterScreen,
-    title: 'Register',
   },
   Home: {
     screen: HomeScreen,
@@ -88,6 +85,14 @@ const Navigator = StackNavigator({
   DocumentInfo: {
     screen: DocumentInfoScreen,
     title: 'DocumentInfo',
+  },
+  SignupOne: {
+    screen: SignupOneScreen,
+    title: 'SignupOne',
+  },
+  SignupTwo: {
+    screen: SignupTwoScreen,
+    title: 'SignupTwo',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
