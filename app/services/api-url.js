@@ -1,20 +1,13 @@
-import {API_V1_URL_PRODUCTION, API_V1_URL_DEVELOP} from 'react-native-dotenv'
+import {API_V1_URL_PRODUCTION, API_V1_URL_DEVELOP, API_V1_URL_STAGING} from 'react-native-dotenv'
+import {Constants} from 'expo';
 
-const { BACKEND } = process.env;
-let apiV1;
-
-if (!BACKEND || BACKEND === 'STAGING') {
-  apiV1 = API_V1_URL_DEVELOP;
+function getApiUrl(releaseChannel) {
+  if (releaseChannel === undefined) return API_V1_URL_DEVELOP; // since releaseChannels are undefined in dev, return your default.
+  if (releaseChannel.indexOf('staging') !== -1) return API_V1_URL_STAGING;
+  if (releaseChannel.indexOf('production') !== -1) return API_V1_URL_PRODUCTION;
 }
 
-if (BACKEND === 'PRODUCTION') {
-  // TODO
-}
-
-if (BACKEND === 'DEVELOPMENT') {
-  apiV1 = API_V1_URL_DEVELOP;
-}
-
-const baseUrl = apiV1;
+const releaseChanel = Constants.manifest.releaseChannel;
+const baseUrl = getApiUrl(releaseChanel);
 
 export default baseUrl;

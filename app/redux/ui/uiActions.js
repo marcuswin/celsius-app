@@ -9,11 +9,15 @@ export {
   flipCamera,
 }
 
+let msgTimeout;
+
 function showMessage(msgType, text) {
   return dispatch => {
-    const msgTiemout = setTimeout(() => {
+    clearTimeout(msgTimeout);
+
+    msgTimeout = setTimeout(() => {
       dispatch(clearMessage());
-      clearTimeout(msgTiemout);
+      clearTimeout(msgTimeout);
     }, 5000);
 
     dispatch({
