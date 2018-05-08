@@ -21,6 +21,7 @@ import SignupOneScreen from "../components/screens/Signup/SignupOne";
 import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
 import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
 import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
+import ProfileScreen from '../components/screens/Profile/Profile';
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -104,6 +105,10 @@ const Navigator = StackNavigator({
     screen: TermsOfUseScreen,
     title: 'TermsOfUse',
   },
+  Profile: {
+    screen: ProfileScreen,
+    title: 'Profile',
+  }
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
   headerMode: 'none'
