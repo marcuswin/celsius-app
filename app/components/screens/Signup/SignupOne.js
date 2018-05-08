@@ -4,19 +4,8 @@ import { Text, View, Form } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import {Col, Grid} from "react-native-easy-grid";
-import {Google, Facebook} from 'expo';
+import {Google, Facebook, Constants} from 'expo';
 import {TWLoginButton} from 'react-native-simple-twitter';
-
-import {
-  GOOGLE_WEB_CLIENT_ID,
-  GOOGLE_ANDROID_STANDALONE_APP_CLIENT_ID,
-  GOOGLE_IOS_STANDALONE_APP_CLIENT_ID,
-  GOOGLE_ANDROID_CLIENT_ID,
-  GOOGLE_IOS_CLIENT_ID,
-  GOOGLE_URL,
-  FACEBOOK_APP_ID,
-  FACEBOOK_URL
-} from 'react-native-dotenv'
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -29,6 +18,17 @@ import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+
+const {
+  GOOGLE_WEB_CLIENT_ID,
+  GOOGLE_ANDROID_STANDALONE_APP_CLIENT_ID,
+  GOOGLE_IOS_STANDALONE_APP_CLIENT_ID,
+  GOOGLE_ANDROID_CLIENT_ID,
+  GOOGLE_IOS_CLIENT_ID,
+  GOOGLE_URL,
+  FACEBOOK_APP_ID,
+  FACEBOOK_URL
+} = Constants.manifest.extra;
 
 @connect(
   (state) => ({
