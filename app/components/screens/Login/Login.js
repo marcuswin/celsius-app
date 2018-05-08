@@ -15,7 +15,7 @@ import LoginForm from "../../organisms/LoginForm/LoginForm";
 import LoginStyle from "./Login.styles";
 import * as actions from "../../../redux/actions";
 import {getSecureStoreKey} from '../../../utils/expo-storage';
-import StepStyles from "../Register/Steps/Steps.styles";
+import StepStyles from "../Signup/Signup.styles";
 import Icon from "../../atoms/Icon/Icon";
 
 const {
