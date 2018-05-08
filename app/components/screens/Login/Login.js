@@ -164,7 +164,7 @@ class LoginScreen extends Component {
     return (
       <Container>
         <StatusBar barStyle="dark-content"/>
-        <MainHeader rightLink={{ screen: 'Register', text: 'Sign up' }}/>
+        <MainHeader rightLink={{ screen: 'SignupOne', text: 'Sign up' }}/>
 
         <View onLayout={(e) => this.setHeight('heading', e.nativeEvent.layout)}>
           <AnimatedHeading
