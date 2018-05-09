@@ -60,13 +60,27 @@ const EstimatedLoanStyle = StyleSheet.create({
     fontFamily: 'agile-extra-light',
     textAlign: 'center'
   },
-  // separator
-  // hippoSection
-  // sectionText
-  // hippoSectionBubble
-  // bubblePointer
-  // hippo
-  // hippoImage
+  heading: {
+    color: '#3D4853',
+    fontFamily: 'agile-bold',
+    fontSize: FONT_SCALE * 21,
+    fontWeight: '500',
+    lineHeight: 25,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  pdfWrapper: {
+    paddingTop: 12,
+    paddingBottom: 12,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    height: 90,
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2, elevation: 3
+  },
 });
 
 export default EstimatedLoanStyle;
