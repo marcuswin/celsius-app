@@ -51,7 +51,7 @@ class LoginForm extends Component {
 
   render() {
     const {email, password} = this.state;
-    const {customWrapperButtonStyles, customButtonStyles, buttonText, callsInProgress} = this.props;
+    const {callsInProgress} = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER, API.LOGIN_BORROWER], callsInProgress);
 
@@ -61,9 +61,16 @@ class LoginForm extends Component {
           <PrimaryInput labelText={'E-mail'} keyboardType='email-address' value={email} onChange={this.onChangeEmail}/>
           <PrimaryInput labelText={'Password'} secureTextEntry value={password} onChange={this.onChangePassword}/>
         </Form>
-        <View style={[LoginFormStyles.buttonWrapper, customWrapperButtonStyles]}>
-          <CelButton disabled={!email || !password} loading={isLoading}
-                         customStyles={customButtonStyles} onPress={() => this.onSubmit()} title={buttonText}/>
+        <View style={[LoginFormStyles.buttonWrapper]}>
+          <CelButton
+            onPress={() => this.onSubmit()}
+            disabled={!email || !password}
+            loading={isLoading}
+            white
+            iconRight="IconArrowRight"
+          >
+            Login
+          </CelButton>
         </View>
       </View>
     );

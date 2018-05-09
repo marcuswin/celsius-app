@@ -26,7 +26,7 @@ import API from "../../../config/constants/API";
   dispatch => bindActionCreators(actions, dispatch),
 )
 
-class ForgottenPasswordScreen extends Component {
+class ForgottenPassword extends Component {
   constructor(props) {
     super(props);
 
@@ -92,9 +92,11 @@ class ForgottenPasswordScreen extends Component {
               <View style={Styles.buttonWrapper}>
                 <CelButton
                   loading={isLoading}
-                  disabled={isLoading}
+                  white
                   onPress={() => this.onSubmit()}
-                  title={'Get reset link'}/>
+                >
+                  Get reset link
+                </CelButton>
               </View>
             </Form>
           </View>
@@ -104,4 +106,4 @@ class ForgottenPasswordScreen extends Component {
   }
 }
 
-export default ForgottenPasswordScreen;
+export default ForgottenPassword;
