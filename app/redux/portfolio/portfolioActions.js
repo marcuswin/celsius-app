@@ -7,6 +7,7 @@ import portfolioRequestService from '../../services/portfolio-requests-service';
 export {
   getPortfolio,
   updatePortfolio,
+  getEstimatedLoan,
 }
 
 function updatePortfolio(data) {
@@ -37,7 +38,7 @@ function getPortfolio() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_PORTFOLIO_REQUEST));
 
-    try { 
+    try {
       const res = await portfolioRequestService.get();
       const portfolio = res.data;
       dispatch(getPortfolioRequestSuccess(portfolio));
@@ -53,5 +54,28 @@ function getPortfolioRequestSuccess(portfolio) {
     type: ACTIONS.GET_PORTFOLIO_SUCCESS,
     callName: API.GET_PORTFOLIO,
     payload: portfolio.data,
+  }
+}
+
+function getEstimatedLoan() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_ESTIMATED_LOAN));
+
+    try {
+      const res = await portfolioRequestService.getEstimatedLoan();
+      const estimatedLoan = res.data.estimated_loan;
+      dispatch(getEstimatedLoanSuccess(estimatedLoan));
+    } catch (err) {
+      dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));
+      dispatch(apiError(API.GET_ESTIMATED_LOAN, err));
+    }
+  }
+}
+
+function getEstimatedLoanSuccess(estimatedLoan) {
+  return {
+    type: ACTIONS.GET_ESTIMATED_LOAN_SUCCESS,
+    callName: API.GET_ESTIMATED_LOAN,
+    estimatedLoan,
   }
 }

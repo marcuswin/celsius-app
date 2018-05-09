@@ -19,6 +19,7 @@ import LoanDetailsScreen from "../components/screens/KYC/LoanDetails";
 import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
 import SignupOneScreen from "../components/screens/Signup/SignupOne";
 import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
+import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -93,6 +94,10 @@ const Navigator = StackNavigator({
   SignupTwo: {
     screen: SignupTwoScreen,
     title: 'SignupTwo',
+  },
+  EstimatedLoan: {
+    screen: EstimatedLoanScreen,
+    title: 'EstimatedLoan',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
