@@ -6,6 +6,7 @@ const portfolioService = {
   get,
   update,
   getSupportedCurrencies,
+  getEstimatedLoan,
 };
 
 
@@ -20,9 +21,12 @@ function update(data) {
   })
 }
 
-
 function getSupportedCurrencies () {
   return axios.get(`${apiUrl}/supported_currencies`)
+}
+
+function getEstimatedLoan () {
+  return axios.get(`${apiUrl}/portfolio/estimate_loan`)
 }
 
 
