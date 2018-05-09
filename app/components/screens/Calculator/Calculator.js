@@ -16,7 +16,6 @@ import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
 
 import CalculatorStyle from "./Calculator.styles";
-import { STYLES } from '../../../config/constants/style';
 
 @connect(
   state => ({
@@ -81,7 +80,7 @@ class Calculator extends Component {
     if (data) {
       if (this.state.selectedCoins) {
         this.setState({modalVisible: false,
-          selectedCoins: 
+          selectedCoins:
           [
             ...this.state.selectedCoins,
             ...[{
@@ -120,7 +119,7 @@ class Calculator extends Component {
   ];
 
   render() {
-    const filteredSupportedCurrencies = this.props.supportedCurrencies != null 
+    const filteredSupportedCurrencies = this.props.supportedCurrencies != null
       ? this.props.supportedCurrencies.filter(sc => !this.state.selectedCoins.map(x => x.currency.id).includes(sc.id))
       : []
     const isFormDisabled = isEmpty(this.state.selectedCoins)
@@ -175,13 +174,11 @@ class Calculator extends Component {
             <SelectCoinModal visible={this.state.modalVisible} supportedCurrencies={filteredSupportedCurrencies} onClose={(data) => this.closeModal(data)}/>
             <View style={CalculatorStyle.submitButtonWrapper}>
               <CelButton
-                iconRight={false}
-                customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-                customTitleStyles={!isFormDisabled ? {color: "#fff"} : null}
                 onPress={this.onPressSubmit}
-                title={this.props.userHasPortfolio ? "Save changes" : "Save coins"}
                 disabled={isFormDisabled}
-                />
+              >
+                {this.props.userHasPortfolio ? "Save changes" : "Save coins"}
+              </CelButton>
             </View>
           </View>
         </Content>
