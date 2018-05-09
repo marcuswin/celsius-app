@@ -155,8 +155,12 @@ class SignupTwo extends Component {
             <CelButton
               disabled={!termsOfService}
               onPress={this.onSubmit}
-              title="I’m done"
-              loading={isLoading}/>
+              loading={ isLoading }
+              white
+              iconRight="IconArrowRight"
+            >
+              I'm done
+            </CelButton>
           </View>
         </View>
       </SimpleLayout>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StatusBar, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {Button, Container, Content, View} from 'native-base';
+import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
@@ -50,16 +50,22 @@ class WelcomeScreen extends Component {
               Keep up with what we’re doing by joining our community of members.
             </Text>
             <View style={WelcomeStyle.buttonWrapper}>
-              <CelButton onPress={() => navigateTo('SignupOne')} title={'Sign up'}/>
-              <Button
-                style={WelcomeStyle.linkButton}
-                block
-                title={'Already have an account?'}
-                transparent
-                onPress={() => navigateTo('Login', true)}
+              <CelButton
+                onPress={() => navigateTo('SignupOne')}
+                white
+                iconRight="IconArrowRight"
               >
-                <Text style={WelcomeStyle.linkButtonText}>Already have an account?</Text>
-              </Button>
+                Sign up
+              </CelButton>
+
+              <CelButton
+                onPress={() => navigateTo('Login', true)}
+                transparent
+                size="small"
+                margin="25 0 60 0"
+              >
+                Already have an account?
+              </CelButton>
             </View>
           </View>
         </Content>

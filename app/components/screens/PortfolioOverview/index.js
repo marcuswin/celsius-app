@@ -8,9 +8,6 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
-
-import {STYLES} from "../../../config/constants/style";
-
 @connect(
   state => ({
     nav: state.nav,
@@ -38,7 +35,7 @@ class PortfolioScreen extends Component {
       text: 'Portfolio',
       subheading:"Track your coins",
     }
-    
+
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader}>
         <Content bounces={false} onScroll={this.onScroll}>
@@ -56,11 +53,10 @@ class PortfolioScreen extends Component {
           </View>
           <View style={{marginTop: 30, marginBottom: 130}}>
             <CelButton
-              iconRight={false}
-              customStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-              customTitleStyles={{color: 'white'}} title={'Manage your coins'}
               onPress={() => navigateTo('ManagePortfolio')}
-            />
+            >
+              Manage your coins
+            </CelButton>
             </View>
         </Content>
       </SimpleLayout>

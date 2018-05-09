@@ -30,6 +30,10 @@ const SimpleLayout = (props) => {
   const statusBarProps = { ...defaultStatusBar, ...statusBar };
   const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
 
+  const contentStyles = {};
+  contentStyles.backgroundColor = background || undefined;
+  contentStyles.marginBottom = bottomNavigation === false ? 0 : undefined;
+
   return (
     <Container>
       <StatusBar { ...statusBarProps } />
@@ -38,7 +42,7 @@ const SimpleLayout = (props) => {
 
       <Message />
 
-      <Content style={[SimpleLayoutStyle.content, { backgroundColor: background }]}>
+      <Content style={[SimpleLayoutStyle.content, contentStyles]}>
         { props.children }
       </Content>
 

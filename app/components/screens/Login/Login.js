@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StatusBar, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Button, Container, Content, View} from 'native-base';
+import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import {Col, Grid} from "react-native-easy-grid";
 import {TWLoginButton} from 'react-native-simple-twitter';
@@ -11,6 +11,7 @@ import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
+import CelButton from '../../atoms/CelButton/CelButton';
 import LoginForm from "../../organisms/LoginForm/LoginForm";
 import LoginStyle from "./Login.styles";
 import * as actions from "../../../redux/actions";
@@ -227,27 +228,24 @@ class LoginScreen extends Component {
             <LoginForm onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
           </View>
 
-          <View onLayout={(e) => this.setHeight('button', e.nativeEvent.layout)} style={LoginStyle.buttonWrapper}>
-            <Button
-              style={LoginStyle.forgottenButton}
-              block
-              title={'Forgotten password?'}
-              transparent
-              onPress={() => navigateTo('ForgottenPassword')}
-            >
-              <Text style={LoginStyle.linkButtonText}>Forgot password?</Text>
-            </Button>
+          <CelButton
+            size="small"
+            transparent
+            margin="25 0 60 0"
+            onPress={() => navigateTo('ForgottenPassword')}
+          >
+            Forgot password?
+          </CelButton>
 
-            <TWLoginButton
-              ref={this.setFakeTwitterButton}
-              style={StepStyles.fakeTwitterButton}
-              onGetAccessToken={twitterGetAccessToken}
-              onSuccess={this.onTwitterSuccess}
-              closeText="< Back to Celsius"
-              onClose={twitterClose}
-              onError={this.handleError}
-            />
-          </View>
+          <TWLoginButton
+            ref={this.setFakeTwitterButton}
+            style={StepStyles.fakeTwitterButton}
+            onGetAccessToken={twitterGetAccessToken}
+            onSuccess={this.onTwitterSuccess}
+            closeText="< Back to Celsius"
+            onClose={twitterClose}
+            onError={this.handleError}
+          />
         </Content>
       </Container>
     );

@@ -19,6 +19,12 @@ function calcFontScale() {
   return scale;
 }
 
+export const COLORS = {
+  blue: '#4156A6',
+  green: '#4FB895',
+  pink: '#A866AA',
+}
+
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
   PRIMARY_GREEN: '#4FB895',

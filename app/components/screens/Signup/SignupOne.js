@@ -209,8 +209,11 @@ class SignupOne extends Component {
                 disabled={!email || !password || !confirmedPassword}
                 loading={ isLoading }
                 onPress={this.onSubmit}
-                title={'Create account'}
-              />
+                white
+                iconRight="IconArrowRight"
+              >
+                Create account
+              </CelButton>
             </View>
           </View>
 
