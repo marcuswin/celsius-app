@@ -29,10 +29,13 @@ function initInterceptors() {
       // get token from secure store
       try {
         token = token || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-        newRequest.headers = {
-          ...newRequest.headers,
-          authorization: `Bearer ${token}`
-        };
+
+        if (token != null) {
+          newRequest.headers = {
+            ...newRequest.headers,
+            authorization: `Bearer ${token}`
+          };
+        }
       } catch (err) {
         console.log(err);
       }

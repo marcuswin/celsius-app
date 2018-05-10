@@ -11,7 +11,7 @@ const InputStyles = StyleSheet.create({
     paddingTop: 5,
     marginBottom: 15,
     borderRadius: 8,
-    backgroundColor: STYLES.INPUT_BACKGROUND_COLOR_WHITE,
+    backgroundColor: STYLES.INPUT_COLOR_WHITE,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -20,15 +20,16 @@ const InputStyles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0)'
   },
   input: {
-    color: STYLES.INPUT_COLOR_WHITE,
+    color: '#3D4853', // todo
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 20,
+    fontWeight: '200',
     borderColor: 'rgba(255,255,255,0)',
     minHeight: 50,
     marginLeft: -5
   },
   label: {
-    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    color: '#3D4853', // todo gray
     fontFamily: 'agile-light',
     opacity: 0.5,
     top: 0
