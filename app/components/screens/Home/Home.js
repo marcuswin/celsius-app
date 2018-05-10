@@ -35,7 +35,8 @@ class HomeScreen extends Component {
     if (isLoading) {
       return <Loader />
     }
-    return (!isLoading && !isEmpty(this.props.portfolio)) ? <PortfolioOverview /> : <ManagePortfolio />
+    return <PortfolioOverview />
+    // return (!isLoading && !isEmpty(this.props.portfolio)) ? <PortfolioOverview /> : <ManagePortfolio />
   }
 }
 

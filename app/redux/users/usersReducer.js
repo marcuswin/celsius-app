@@ -118,6 +118,15 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.UPDATE_USER_PERSONAL_INFO:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          [action.payload.key]: action.payload.value
+        }
+      }
+
     case ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS:
     case ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS:
       return {
