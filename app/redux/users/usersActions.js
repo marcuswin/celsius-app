@@ -6,6 +6,7 @@ import usersService from '../../services/users-service';
 
 export {
   getUserPersonalInfo,
+  updateUserPersonalInfo,
   createUserPersonalInfo,
   getUserAddressInfo,
   createUserAddressInfo,
@@ -52,6 +53,14 @@ function getUserPersonalInfo() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
     }
+  }
+}
+
+
+function updateUserPersonalInfo (key, value) {
+  return {
+    type: ACTIONS.UPDATE_USER_PERSONAL_INFO,
+    payload: {key, value}
   }
 }
 

@@ -9,7 +9,7 @@ import {FONT_SCALE} from "../../../config/constants/style";
 
 class AnimatedHeading extends Component {
   static propTypes = {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
     containerCustomStyles: PropTypes.instanceOf(Object),
     textCustomStyles: PropTypes.instanceOf(Object),
     subheading: PropTypes.string,
