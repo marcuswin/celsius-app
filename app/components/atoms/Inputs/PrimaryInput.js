@@ -3,6 +3,7 @@ import {Input, Item, Label, Text, View} from "native-base";
 import PropTypes from "prop-types";
 
 import PrimaryInputStyles from './Inputs.styles';
+import SecondaryInputStyles from './SecondaryInput.styles';
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 
 class PrimaryInput extends Component {
@@ -21,6 +22,7 @@ class PrimaryInput extends Component {
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
     value: PropTypes.string,
+    type: PropTypes.oneOfType(["primary", "secondary"]),
   };
 
   static defaultProps = {
@@ -94,6 +96,7 @@ class PrimaryInput extends Component {
   renderLabelText = () => {
     const {labelText} = this.props;
     const {inputLabel, value, focused, top} = this.state;
+    const InputStyles = (this.props.type === 'primary') ? PrimaryInputStyles : SecondaryInputStyles;
 
     let text = labelText;
     let fontSize = 18;
@@ -107,7 +110,7 @@ class PrimaryInput extends Component {
 
     return (
       <Label style={{top: positionTop}}>
-        <Text style={[PrimaryInputStyles.label, {fontSize}]}>{text}</Text>
+        <Text style={[InputStyles.label, {fontSize}]}>{text}</Text>
       </Label>
     )
   };
@@ -123,15 +126,16 @@ class PrimaryInput extends Component {
       autoCapitalize,
       autoCorrect,
       spellCheck,
-      placeholder
+      placeholder,
+      type,
     } = this.props;
-
+    const InputStyles = (type === 'primary') ? PrimaryInputStyles : SecondaryInputStyles;
     return (
-      <View style={PrimaryInputStyles.wrapper}>
-        <Item style={PrimaryInputStyles.item} floatingLabel={floatingLabel}>
+      <View style={InputStyles.wrapper}>
+        <Item style={InputStyles.item} floatingLabel={floatingLabel}>
           {this.renderLabelText()}
           <Input
-            style={[PrimaryInputStyles.input]}
+            style={InputStyles.input}
             underlineColorAndroid='rgba(0,0,0,0)'
             underline={false}
             placeholder={this.state.focused ? placeholder : ''}
