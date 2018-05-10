@@ -77,4 +77,8 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/emc.png'),
   require('../../../assets/images/whale-good-job.png'),
   require('../../../assets/images/icons/celsius-spinner.gif'),
+  require('../../../assets/images/punker.png'),
+  require('../../../assets/images/whale.png'),
+  require('../../../assets/images/bear.png'),
+  require('../../../assets/images/penguins.png'),
 ];

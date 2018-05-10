@@ -30,7 +30,7 @@ const WelcomeStyle = StyleSheet.create({
     paddingTop: 10
   },
   buttonWrapper: {
-    paddingTop: 57,
+    paddingTop: 20,
     justifyContent: 'center'
   },
   linkButtonText: {
