@@ -5,11 +5,15 @@ import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 import {Image, TouchableOpacity} from 'react-native';
 import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {Constants} from 'expo';
+
 import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 
 import HeaderStyle from './MainHeader.styles';
 import * as actions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
+
+const {ENV} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -96,13 +100,12 @@ class MainHeader extends Component {
         const {nav} = this.props;
         const route = nav.routes[0].routeName;
 
-        if (route !== 'Welcome' && route !== 'Login' && route !== 'Register') {
-          navigateTo('Home', true);
+        if (ENV !== 'PRODUCTION') {
+          deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
         }
 
-        const dev = false; // TODO (djs): temp
-        if (dev) {
-          deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        if (route !== 'Welcome' && route !== 'Login' && route !== 'Register') {
+          navigateTo('Home', true);
         }
       }}>
         <Image
