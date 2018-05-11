@@ -1,97 +1,123 @@
 import React, { Component } from "react";
-import { View, List, Body, ListItem, Content, Text } from 'native-base';
-import { StyleSheet, Image } from 'react-native';
+import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
-import {countries} from "country-data";
-import userService from '../../../services/users-service';
-import countriesService from '../../../services/countries-service'
+import _ from 'lodash';
 
-
+import API from '../../../config/constants/API';
+import apiUtil from '../../../utils/api-util';
+import Link from '../../atoms/Link/Link';
 import SelectCountry from '../../organisms/SelectCountry/SelectCountry';
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
-import { STYLES } from "../../../config/constants/style";
 
-// import AvatarDefaultImage from "../../../../assets/images/Headshot-cat.jpg";
 
-// const styles = StyleSheet.create({
-//   image: {
-//     height: 200,
-//     width: 200,
-//     borderRadius: 200 / 2,
-//     top: -50,
-//     zIndex: 99999,
-//     position: 'absolute',
-//   }
-// });
-
-// todo object
+// eslint-disable-next-line
+const getError = (errors, field, def = null) => {
+  return _.get(errors, [field, 'msg'], def)
+}
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
-    loanRequest: state.loanRequests.loanRequest,
+    error: state.users.error,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
+    getProfileInfo: state.api.getProfileInfo,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
-
 class ProfileScreen extends Component {
-
   componentDidMount() {
-    countriesService.get();
-    userService.getPersonalInfo();
+    this.props.getProfileInfo();
   }
 
   onScroll = event => {
     this.heading.animateHeading(event);
   };
 
-  handleUserInfoChange = (key, value) => {
-    this.props.updateUserPersonalInfo(key, value)
+  onSubmit = () => {
+    this.props.updateProfileInfo({
+      first_name: this.props.user.first_name,
+      last_name: this.props.user.last_name,
+      email: this.props.user.email,
+      cellphone: this.props.user.cellphone,
+      country: this.props.user.country
+    })
   };
 
-  onSubmit = () => {
-    console.log('submit')
+  handleUserInfoChange = (key, value) => {
+    
+    if (key === 'country') {
+      this.props.changeProfileInfo(key, value.name)
+
+    } else {
+      this.props.changeProfileInfo(key, value)
+    }  
   };
 
   render() {
-    console.log('this props', this.props.user.country)
     const { user, navigateTo } = this.props;
+    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
+    const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
+    /* eslint-disable */
     return (
       <SimpleLayout
         mainHeader={{ backButton: false}}
+        showAvatar
       >
-      <Content bounces={false} onScroll={this.onScroll}>
-        <PrimaryInput type="secondary" labelText="First name" value={user.first_name} onChange={this.handleUserInfoChange.bind(this, 'first_name')} />
-        <PrimaryInput type="secondary" labelText="Last name" value={user.last_name} onChange={this.handleUserInfoChange.bind(this, 'last_name')}  />
-        <PrimaryInput type="secondary" labelText="E-mail" value={user.email} keyboardType='email-address' onChange={this.handleUserInfoChange.bind(this, 'email')} />
-        <SelectCountry setCountry={this.handleUserInfoChange.bind(this, 'country')} country={user.country} />
-        <PrimaryInput type="secondary" labelText="Phone number" value ={this.props.phone} />
+      <Content bounces={false} onScroll={this.onScroll} style={{marginTop: 100, marginBottom: 140}}>
+        <PrimaryInput 
+          type="secondary"
+          labelText={getError(this.props.error, 'first_name', "First name")}
+          value={user.first_name} 
+          onChange={this.handleUserInfoChange.bind(this, 'first_name')} />
+        <PrimaryInput 
+          type="secondary" 
+          labelText={getError(this.props.error, 'last_name', "Last name")}
+          value={user.last_name} 
+          onChange={this.handleUserInfoChange.bind(this, 'last_name')}  />
+        <PrimaryInput 
+          type="secondary" 
+          labelText="E-mail" 
+          value={user.email} 
+          keyboardType='email-address' 
+          onChange={this.handleUserInfoChange.bind(this, 'email')} />
+        <SelectCountry 
+          setCountry={this.handleUserInfoChange.bind(this, 'country')} 
+          country={user.country} />
+        <PrimaryInput 
+          type="secondary" 
+          labelText={getError(this.props.error, 'cellphone', "Phone number")}
+          value={user.cellphone} 
+          onChange={this.handleUserInfoChange.bind(this, 'cellphone')} />
         <View style={{marginTop: 40, marginBottom: 30}}>
           <CelButton
-            onPress={() => this.navigateTo('ChangePassword')}
-            iconRight={false}
-            title={'Change password'}
-          />
+            onPress={() => navigateTo('ChangePassword')}
+            color="blue"
+          >Change password</CelButton>
         </View>
         <View style={{marginBottom: 30}}>
-        <CelButton
-          onPress={this.onSubmit}
-          iconRight={false}
-          title={'Save changes'}
-        />
+          <CelButton
+            loading={isUpdatingProfileInfo}
+            disabled={isLoadingProfileInfo}
+            onPress={this.onSubmit}
+            color="green"
+          >Save changes</CelButton>
+        </View>
+        <View>
+          <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
         </View>
       </Content>
     </SimpleLayout>
     )
+    /* eslint-enable */
+
   }
 }
 

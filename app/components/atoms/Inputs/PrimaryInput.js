@@ -67,7 +67,6 @@ class PrimaryInput extends Component {
   // Event Handlers
   onChangeText = (text) => {
     this.props.onChange(text);
-    this.setState({value: text})
   };
 
   onBlur = () => {
@@ -95,7 +94,8 @@ class PrimaryInput extends Component {
   // Render methods
   renderLabelText = () => {
     const {labelText} = this.props;
-    const {inputLabel, value, focused, top} = this.state;
+    const inputLabel = this.props.labelText.toUpperCase()
+    const {value, focused, top} = this.state;
     const InputStyles = (this.props.type === 'primary') ? PrimaryInputStyles : SecondaryInputStyles;
 
     let text = labelText;
