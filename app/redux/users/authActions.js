@@ -152,7 +152,6 @@ function registerUserTwitter(user) {
 
 function registerUserTwitterSuccess(data) {
   return (dispatch) => {
-    dispatch(navigateTo('Home', true));
     dispatch({
       type: ACTIONS.REGISTER_USER_TWITTER_SUCCESS,
       callName: API.REGISTER_USER_TWITTER,
@@ -238,7 +237,6 @@ function loginGoogle(user) {
 
 function registerUserFacebookSuccess(data) {
   return (dispatch) => {
-    dispatch(navigateTo('Home', true));
     dispatch({
       type: ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS,
       callName: API.REGISTER_USER_FACEBOOK,
@@ -277,7 +275,6 @@ function loginUserFacebookSuccess(data) {
 
 function registerUserGoogleSuccess(data) {
   return (dispatch) => {
-    dispatch(navigateTo('Home', true));
     dispatch({
       type: ACTIONS.REGISTER_USER_GOOGLE_SUCCESS,
       callName: API.REGISTER_USER_GOOGLE,
