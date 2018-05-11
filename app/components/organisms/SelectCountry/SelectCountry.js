@@ -9,6 +9,7 @@ class SelectCountry extends Component {
   static propTypes = {
     setCountry: PropTypes.func.isRequired,
     country: PropTypes.string,
+    inputType: PropTypes.oneOfType(["primary", "secondary"])
   }
 
   constructor(props) {
@@ -39,6 +40,7 @@ class SelectCountry extends Component {
         <TouchableOpacity onPress={() => this.setState({modalVisible: true})}>
           <PrimaryInput
             clickable
+            type={this.props.inputType}
             labelText="Country" value={country}
             onPress={() => this.setState({modalVisible: true})}/>
         </TouchableOpacity>
