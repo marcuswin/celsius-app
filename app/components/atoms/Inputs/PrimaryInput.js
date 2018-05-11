@@ -96,7 +96,7 @@ class PrimaryInput extends Component {
     const {labelText} = this.props;
     const inputLabel = this.props.labelText.toUpperCase()
     const {value, focused, top} = this.state;
-    const InputStyles = (this.props.type === 'primary') ? PrimaryInputStyles : SecondaryInputStyles;
+    const InputStyles = (this.props.type !== 'secondary') ? PrimaryInputStyles : SecondaryInputStyles;
 
     let text = labelText;
     let fontSize = 18;
@@ -129,7 +129,7 @@ class PrimaryInput extends Component {
       placeholder,
       type,
     } = this.props;
-    const InputStyles = (type === 'primary') ? PrimaryInputStyles : SecondaryInputStyles;
+    const InputStyles = (type !== 'secondary') ? PrimaryInputStyles : SecondaryInputStyles;
     return (
       <View style={InputStyles.wrapper}>
         <Item style={InputStyles.item} floatingLabel={floatingLabel}>
