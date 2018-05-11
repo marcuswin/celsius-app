@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {Form, View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
@@ -16,6 +16,7 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 
 import {STYLES} from "../../../config/constants/style";
+import Icon from "../../atoms/Icon/Icon";
 
 const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER]
 
@@ -114,7 +115,7 @@ class SignupTwo extends Component {
   render() {
     const { termsOfService, formData } = this.state;
     const { firstName, lastName, email, country } = formData;
-    const { user, callsInProgress } = this.props;
+    const { user, callsInProgress, navigateTo } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
@@ -144,11 +145,17 @@ class SignupTwo extends Component {
 
             <SelectCountry setCountry={this.setCountry} country={country} />
 
-            <CelCheckbox
-              label="I agree to Terms of Service"
-              value={termsOfService}
-              onChange={() => this.setState({termsOfService: !termsOfService})}
-            />
+            <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
+              <CelCheckbox
+                label="I agree to Terms of Service"
+                value={termsOfService}
+                onChange={() => this.setState({termsOfService: !termsOfService})}
+              />
+
+              <TouchableOpacity onPress={() => navigateTo('TermsOfUse')}>
+                <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }}/>
+              </TouchableOpacity>
+            </View>
           </Form>
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
