@@ -76,9 +76,9 @@ class CelButton extends Component {
     titleStyles.push(CelButtonStyles[`${color}BtnTitle`]);
     titleStyles.push(CelButtonStyles[`${size}BtnTitle`]);
 
-    if (white || inverse) titleStyles.push({ color: COLORS[color] });
+    if (white || inverse || disabled) titleStyles.push({ color: COLORS[color] });
     if (transparent) titleStyles.push(CelButtonStyles.transparentBtnTitle);
-    if (disabled) titleStyles.push({ color: 'white' });
+    if (disabled && white) titleStyles.push({ color: 'white' });
 
     return titleStyles;
   }
