@@ -97,7 +97,7 @@ class MainHeader extends Component {
 
     return (
       <TouchableOpacity onPress={() => {
-        const {nav, navigateTo} = this.props;
+        const {nav} = this.props;
         const route = nav.routes[0].routeName;
 
         if (ENV !== 'PRODUCTION') {
