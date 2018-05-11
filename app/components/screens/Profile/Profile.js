@@ -52,13 +52,12 @@ class ProfileScreen extends Component {
   };
 
   handleUserInfoChange = (key, value) => {
-    
     if (key === 'country') {
-      this.props.changeProfileInfo(key, value.name)
-
+      const countryName = _.get(value, 'name', value)
+      this.props.changeProfileInfo(key, countryName)
     } else {
       this.props.changeProfileInfo(key, value)
-    }  
+    }
   };
 
   render() {
@@ -88,7 +87,8 @@ class ProfileScreen extends Component {
           value={user.email} 
           keyboardType='email-address' 
           onChange={this.handleUserInfoChange.bind(this, 'email')} />
-        <SelectCountry 
+        <SelectCountry
+          inputType="secondary"
           setCountry={this.handleUserInfoChange.bind(this, 'country')} 
           country={user.country} />
         <PrimaryInput 
@@ -117,7 +117,6 @@ class ProfileScreen extends Component {
     </SimpleLayout>
     )
     /* eslint-enable */
-
   }
 }
 
