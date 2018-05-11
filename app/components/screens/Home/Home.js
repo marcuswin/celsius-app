@@ -14,7 +14,6 @@ import PortfolioOverview from "../../screens/PortfolioOverview"
   state => ({
     nav: state.nav,
     user: state.users.user,
-    getPortfolioRequest: state.getPortfolio,
     portfolio: state.portfolio.portfolio,
     callsInProgress: state.api.callsInProgress,
   }),
