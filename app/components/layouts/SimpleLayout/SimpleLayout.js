@@ -32,7 +32,7 @@ const SimpleLayout = (props) => {
 
   const contentStyles = {};
   contentStyles.backgroundColor = background || undefined;
-  contentStyles.marginBottom = bottomNavigation === false ? 0 : undefined;
+  contentStyles.marginBottom = bottomNavigation === false ? 0 : 90;
 
   return (
     <Container>
