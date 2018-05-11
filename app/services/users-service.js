@@ -23,7 +23,9 @@ const usersService = {
   createBankAccountInfo,
   getDocuments,
   createDocuments,
-  kycCompleted
+  kycCompleted,
+  getProfileInfo,
+  updateProfileInfo,
 };
 
 function register({ email, password }) {
@@ -147,6 +149,14 @@ function createPersonalInfo(personalInfo) {
 
 function getPersonalInfo() {
   return axios.get(`${apiUrl}/users/personal_info`);
+}
+
+function getProfileInfo() {
+  return axios.get(`${apiUrl}/me`);
+}
+
+function updateProfileInfo(profileInfo) {
+  return axios.patch(`${apiUrl}/me`, profileInfo);
 }
 
 function createAddressInfo(addressInfo) {

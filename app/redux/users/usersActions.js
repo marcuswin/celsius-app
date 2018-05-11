@@ -6,7 +6,9 @@ import usersService from '../../services/users-service';
 
 export {
   getUserPersonalInfo,
-  updateUserPersonalInfo,
+  getProfileInfo,
+  changeProfileInfo,
+  updateProfileInfo,
   createUserPersonalInfo,
   getUserAddressInfo,
   createUserAddressInfo,
@@ -56,20 +58,64 @@ function getUserPersonalInfo() {
   }
 }
 
+function getProfileInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
 
-function updateUserPersonalInfo (key, value) {
+    try {
+      const personalInfoRes = await usersService.getPersonalInfo();
+      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
+    }
+  }
+}
+
+
+function changeProfileInfo (key, value) {
   return {
-    type: ACTIONS.UPDATE_USER_PERSONAL_INFO,
+    type: ACTIONS.CHANGE_USER_PERSONAL_INFO,
     payload: {key, value}
   }
 }
 
+function updateProfileInfo(profileInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
+
+    try {
+      const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
+      dispatch(updateProfileInfoSuccess(updatedProfileData.data));
+      dispatch(showMessage('success', 'Profile updated'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(updateProfileInfoError(err.raw_error));
+      dispatch(apiError(API.UPDATE_USER_PERSONAL_INFO, err));
+    }
+  }
+}
+
+function updateProfileInfoSuccess(personalInfo) {
+  return {
+    type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
+    callName: API.UPDATE_USER_PERSONAL_INFO,
+    personalInfo,
+  }
+}
+
+function updateProfileInfoError(err) {
+  return {
+    type: ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR,
+    error: err,
+  }
+}
 
 function getUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
     callName: API.GET_USER_PERSONAL_INFO,
-    personalInfo
+    personalInfo,
   }
 }
 

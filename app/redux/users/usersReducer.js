@@ -3,8 +3,9 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
-  userLocation: undefined,
+  userLocation: undefined,  // Why undefined instead of null?
   user: undefined,
+  error: null,
   borrower: undefined,
 };
 
@@ -110,6 +111,7 @@ export default (state = initialState, action) => {
 
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS:
+    case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
         user: {
@@ -118,13 +120,20 @@ export default (state = initialState, action) => {
         },
       };
 
-    case ACTIONS.UPDATE_USER_PERSONAL_INFO:
+      case ACTIONS.CHANGE_USER_PERSONAL_INFO:
       return {
         ...state,
         user: {
           ...state.user,
           [action.payload.key]: action.payload.value
-        }
+        },
+        error: null
+      }
+
+      case ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR:
+      return {
+        ...state,
+        error: action.error
       }
 
     case ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS:
@@ -186,7 +195,7 @@ export default (state = initialState, action) => {
       return { ...state };
 
     default:
-      return {...state};
+      return state;
 
   }
 }

@@ -36,6 +36,8 @@ export const STYLES = {
   INPUT_LABEL_COLOR_WHITE: '#ffffff',
   COIN_DATA_GREEN: '#55BB99',
   GRAY_1: '#EEEEEE',
+  GRAY_2: '#3D4853',
+  GRAY_3: '#E9E9EF',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({

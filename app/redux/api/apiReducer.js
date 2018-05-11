@@ -53,5 +53,5 @@ export default (state = initialState, action) => {
   }
 
   // Return unchanged state
-  return { ...state };
+  return state;
 }
