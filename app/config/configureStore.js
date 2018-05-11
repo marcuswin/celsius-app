@@ -1,6 +1,8 @@
 import { Platform } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import {createLogger} from 'redux-logger';
+
 import reducer from '../redux/reducers';
 
 /* eslint global-require: 0 */
@@ -17,7 +19,11 @@ if (__DEV__) {
   /* eslint-enable no-underscore-dangle */
 }
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const middleware = __DEV__
+  ? [thunk, createLogger({collapsed: true})]
+  : [thunk]
+
+const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
 export default function configureStore(initialState) {
   const store = createStore(reducer, initialState, enhancer);

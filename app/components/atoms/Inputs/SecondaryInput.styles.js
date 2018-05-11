@@ -1,7 +1,7 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const InputStyles = StyleSheet.create({
   wrapper: {
@@ -20,7 +20,7 @@ const InputStyles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0)'
   },
   input: {
-    color: '#3D4853', // todo
+    color: STYLES.GRAY_2,
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 20,
     fontWeight: '200',
@@ -29,7 +29,7 @@ const InputStyles = StyleSheet.create({
     marginLeft: -5
   },
   label: {
-    color: '#3D4853', // todo gray
+    color: STYLES.GRAY_2,
     fontFamily: 'agile-light',
     opacity: 0.5,
     top: 0
@@ -67,7 +67,7 @@ const InputStyles = StyleSheet.create({
   },
   checkbox: {
     padding: 5,
-    backgroundColor: '#4FB895',
+    backgroundColor: STYLES.PRIMARY_GREEN,
     borderRadius: 4,
     left: 5,
   }
