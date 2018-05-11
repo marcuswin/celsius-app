@@ -1,12 +1,14 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
+// const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 const WelcomeCarouselStyle = StyleSheet.create({
 
     scrollPage: {
       width: SCREEN_WIDTH - 80,
+      // height: SCREEN_HEIGHT -
     },
     screen: {
       justifyContent: "center",
@@ -24,7 +26,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
       fontFamily: 'agile-bold',
       fontWeight: "800",
       fontSize: FONT_SCALE * 42,
-      color: '#FFFFFF',
+      color: STYLES.WHITE_TEXT_COLOR,
       textAlign: 'center',
       lineHeight: 40,
       paddingBottom: 10,
@@ -45,10 +47,12 @@ const WelcomeCarouselStyle = StyleSheet.create({
       fontFamily: 'agile-light',
       fontWeight: "300",
       fontSize: FONT_SCALE * 18,
-      color: '#FFFFFF',
+      color: STYLES.WHITE_TEXT_COLOR,
       textAlign: 'center',
     },
     circle: {
+      // position: 'absolute',
+      // left: (SCREEN_WIDTH - 80)/2,
       margin: 12,
       width: 8,
       height: 8,
