@@ -23,6 +23,7 @@ export const COLORS = {
   blue: '#4156A6',
   green: '#4FB895',
   pink: '#A866AA',
+  yellow: '#E19F30',
 }
 
 export const STYLES = {
