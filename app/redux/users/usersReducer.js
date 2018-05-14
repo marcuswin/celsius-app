@@ -7,6 +7,7 @@ const initialState = {
   user: undefined,
   error: null,
   borrower: undefined,
+  agreedToTermsOfUse: false,
 };
 
 export default (state = initialState, action) => {
@@ -193,6 +194,12 @@ export default (state = initialState, action) => {
       if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'back', action.base64Image);
       if (action.photoName === CAMERA_PHOTOS.SELFIE) return setDocumentImage(state, 'selfie', action.base64Image);
       return { ...state };
+
+    case ACTIONS.TOGGLE_TERMS_OF_USE:
+      return {
+        ...state,
+        agreedToTermsOfUse: !state.agreedToTermsOfUse,
+      }
 
     default:
       return state;
