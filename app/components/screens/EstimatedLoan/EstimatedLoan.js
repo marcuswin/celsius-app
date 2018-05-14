@@ -111,16 +111,14 @@ class EstimatedLoan extends Component {
         />
 
         <Text style={globalStyles.normalText}>
-          Your estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> coin value eligible for a loan</Text>
-          :
+          The estimated
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> value of your coins </Text>
+          eligible for a loan is:
         </Text>
         <CoinValueAccordion portfolio={portfolio} estimatedCoinValue={estimatedLoan.estimated_coin_value} />
 
         <Text style={globalStyles.normalText}>
-          Your estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> maximum loan amount</Text>
-          :
+          The biggest estimated loan you could get would be for:
         </Text>
         <Accordion
           renderHeader={ (styles) =>
@@ -139,9 +137,7 @@ class EstimatedLoan extends Component {
         />
 
         <Text style={globalStyles.normalText}>
-          Your estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> yearly interest</Text>
-          :
+          You'll pay about this much in yearly interest:
         </Text>
         <Accordion
           renderHeader={ (styles) =>

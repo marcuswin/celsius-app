@@ -64,9 +64,9 @@ class DepositCoins extends Component {
         </Text>
 
         <Text style={[globalStyles.normalText, { marginTop: 25 }]}>
-          Your estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> coin value eligible for a loan</Text>
-          :
+          The estimated
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> value of your coins </Text>
+          is:
         </Text>
         <CoinValueAccordion portfolio={portfolio} estimatedCoinValue={estimatedInterest.estimated_coin_value} />
 
