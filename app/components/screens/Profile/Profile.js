@@ -86,6 +86,7 @@ class ProfileScreen extends Component {
           labelText="E-mail" 
           value={user.email} 
           keyboardType='email-address' 
+          editable={false}
           onChange={this.handleUserInfoChange.bind(this, 'email')} />
         <SelectCountry
           inputType="secondary"
