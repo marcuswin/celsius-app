@@ -16,7 +16,7 @@ import {KEYBOARD_TYPE, PURPOSE_OF_LOAN} from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
-import {Separator} from "../../atoms/Separator/Separator";
+import Separator from "../../atoms/Separator/Separator";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
 
 @connect(
