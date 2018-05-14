@@ -162,7 +162,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
-              disabled={!agreedToTermsOfUse}
+              disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email || !formData.country}
               onPress={this.onSubmit}
               loading={ isLoading }
               white
