@@ -8,7 +8,7 @@ import * as _ from 'lodash';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
-import {Separator} from '../../atoms/Separator/Separator';
+import Separator from '../../atoms/Separator/Separator';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
