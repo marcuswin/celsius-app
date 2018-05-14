@@ -3,6 +3,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 const initialState = {
   portfolio: [],
   estimatedLoan: undefined,
+  estimatedInterest: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +18,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         estimatedLoan: action.estimatedLoan,
+      }
+
+    case ACTIONS.GET_ESTIMATED_INTEREST_SUCCESS:
+      return {
+        ...state,
+        estimatedInterest: action.estimatedInterest,
       }
 
     default:
