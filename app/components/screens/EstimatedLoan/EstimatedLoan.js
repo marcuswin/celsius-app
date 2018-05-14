@@ -15,6 +15,7 @@ import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../con
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Separator from "../../atoms/Separator/Separator";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
+import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyState";
 
 @connect(
   state => ({
@@ -93,9 +94,16 @@ class EstimatedLoan extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedLoan, portfolio } = this.props;
+    const { estimatedLoan, portfolio, navigateTo } = this.props;
 
     if (!estimatedLoan) return <Loader />;
+    if (!estimatedLoan.estimated_coin_value) return (
+      <SimpleLayout
+        animatedHeading={animatedHeading}
+      >
+        <PortfolioEmptyState onPress={() => navigateTo('ManagePortfolio')}/>
+      </SimpleLayout>
+    );
 
     return (
       <SimpleLayout

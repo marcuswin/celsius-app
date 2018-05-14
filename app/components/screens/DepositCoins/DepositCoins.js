@@ -13,6 +13,7 @@ import formatter from "../../../utils/formatter";
 import Accordion from "../../molecules/Accordion/Accordion";
 import Separator from "../../atoms/Separator/Separator";
 import DepositCoinsStyle from "./DepositCoins.styles";
+import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyState";
 
 @connect(
   state => ({
@@ -44,9 +45,16 @@ class DepositCoins extends Component {
   // rendering methods
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedInterest, portfolio } = this.props;
+    const { estimatedInterest, portfolio, navigateTo } = this.props;
 
     if (!estimatedInterest) return <Loader />;
+    if (!estimatedInterest.estimated_coin_value) return (
+      <SimpleLayout
+        animatedHeading={animatedHeading}
+      >
+        <PortfolioEmptyState onPress={() => navigateTo('ManagePortfolio')}/>
+      </SimpleLayout>
+    );
 
     return (
       <SimpleLayout animatedHeading={animatedHeading}>

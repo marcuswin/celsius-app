@@ -99,4 +99,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/penguins.png'),
   require('../../../assets/images/lending-interest-chart.png'),
   require('../../../assets/images/polar-bear-hodl.png'),
+  require('../../../assets/images/monkey-empty.png'),
 ];
