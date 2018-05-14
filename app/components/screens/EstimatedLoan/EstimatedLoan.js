@@ -12,6 +12,9 @@ import Loader from "../../atoms/Loader/Loader";
 import Accordion from '../../molecules/Accordion/Accordion';
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import Separator from "../../atoms/Separator/Separator";
+import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
 
 @connect(
   state => ({
@@ -31,7 +34,6 @@ class EstimatedLoan extends Component {
       }
     };
     // binders
-    this.renderCoinValueText = this.renderCoinValueText.bind(this);
   }
 
   // lifecycle methods
@@ -46,16 +48,16 @@ class EstimatedLoan extends Component {
     const { estimatedLoan } = this.props;
     return estimatedLoan ? estimatedLoan.competition_rates.map((cr, i) => (
       <View key={cr.name}>
-        { i !== 0 ? <View style={EstimatedLoanStyle.separator}/> : null }
+        { i !== 0 ? <Separator /> : null }
         <View style={{paddingTop: 20, paddingBottom: 20}}>
-          <Text style={[EstimatedLoanStyle.description, {
+          <Text style={[globalStyles.normalText, {
             fontSize: FONT_SCALE * 16,
             textAlign: 'center',
             marginLeft: 30,
             marginRight: 30
           }]}>
             With a {cr.name} loan at a
-            <Text style={globalStyles.boldText}> {(cr.yearly_rate * 100).toFixed(2)}% </Text>
+            <Text style={globalStyles.bold}> {(cr.yearly_rate * 100).toFixed(2)}% </Text>
             APR you pay:
           </Text>
         </View>
@@ -89,41 +91,9 @@ class EstimatedLoan extends Component {
     )) : null;
   }
 
-  renderCoinValueText(styles) {
-    const { portfolio } = this.props;
-    const btcAndEth = portfolio.filter(p => ['BTC', 'ETH'].indexOf(p.currency.short) !== -1);
-
-    let coinValueText = '';
-    if (btcAndEth.length) {
-      const loanDeposits = btcAndEth.map((c, i) => (
-        <Text style={styles} key={c.currency.short}>
-          { i !== 0 ? ' and ' : ''}
-          <Text style={[styles, globalStyles.boldText]}>{formatter.crypto(c.amount, c.currency.short)} </Text>
-          at a rate of
-          <Text style={[styles, globalStyles.boldText]}> {formatter.usd(c.market.quotes.USD.price)}</Text>
-        </Text>
-      ));
-
-      coinValueText = (
-        <Text style={styles}>
-          Your total coin value is calculated based on { loanDeposits } according to the latest rates on
-          <Text style={[styles, { color: '#88A2C7' }]} onPress={() => Linking.openURL('https://coinmarketcap.com/')}> coinmarketcap.com</Text>
-        </Text>
-      )
-    } else {
-      coinValueText = (
-        <Text style={styles}>
-          You don't have any BTC or ETH eligible for a loan.
-        </Text>
-      )
-    }
-
-    return coinValueText;
-  }
-
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedLoan } = this.props;
+    const { estimatedLoan, portfolio } = this.props;
 
     if (!estimatedLoan) return <Loader />;
 
@@ -131,31 +101,25 @@ class EstimatedLoan extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <View style={EstimatedLoanStyle.infoWrapper}>
-          <Text style={EstimatedLoanStyle.infoText}>
-            <Text style={[EstimatedLoanStyle.infoText, globalStyles.boldText]}>Coming soon: </Text>
-            we plan to allow Celsius members to start borrowing dollars in a few months, for now, see how big a loan you'll be able to get. Initially based on your BTC and ETH deposits.
-          </Text>
-        </View>
-
-        <Text style={EstimatedLoanStyle.description}>
-          Your estimated
-          <Text style={[EstimatedLoanStyle.description, globalStyles.boldText]}> coin value eligable for a loan</Text>
-          :
-        </Text>
-        <Accordion
-          renderHeader={ (styles) =>
-            <Text style={styles}>
-              <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-              {formatter.usd(estimatedLoan.estimated_coin_value, {symbol: ''})}
+        <InfoBubble
+          renderContent={(textStyles) => (
+            <Text style={textStyles}>
+              <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
+              we plan to allow Celsius members to start borrowing dollars in a few months, for now, see how big a loan you'll be able to get. Initially based on your BTC and ETH deposits.
             </Text>
-          }
-          renderContent={ this.renderCoinValueText }
+          )}
         />
 
-        <Text style={EstimatedLoanStyle.description}>
+        <Text style={globalStyles.normalText}>
           Your estimated
-          <Text style={[EstimatedLoanStyle.description, globalStyles.boldText]}> maximum loan amount</Text>
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> coin value eligible for a loan</Text>
+          :
+        </Text>
+        <CoinValueAccordion portfolio={portfolio} estimatedCoinValue={estimatedLoan.estimated_coin_value} />
+
+        <Text style={globalStyles.normalText}>
+          Your estimated
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> maximum loan amount</Text>
           :
         </Text>
         <Accordion
@@ -174,9 +138,9 @@ class EstimatedLoan extends Component {
           }
         />
 
-        <Text style={EstimatedLoanStyle.description}>
+        <Text style={globalStyles.normalText}>
           Your estimated
-          <Text style={[EstimatedLoanStyle.description, globalStyles.boldText]}> yearly interest</Text>
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> yearly interest</Text>
           :
         </Text>
         <Accordion
@@ -195,18 +159,18 @@ class EstimatedLoan extends Component {
           }
         />
 
-        <View style={EstimatedLoanStyle.separator}/>
+        <Separator />
 
-        <Text style={EstimatedLoanStyle.heading}>
+        <Text style={globalStyles.heading}>
           See How Celsius Compares to Other Credit Options Out There
         </Text>
 
         { this.renderCompetitionRates() }
 
-        <View style={EstimatedLoanStyle.separator}/>
+        <Separator />
 
         <View style={EstimatedLoanStyle.hippoSection}>
-          <Text style={EstimatedLoanStyle.heading}>
+          <Text style={globalStyles.heading}>
             It's Not About Profit, It's About Community
           </Text>
 
@@ -237,7 +201,7 @@ class EstimatedLoan extends Component {
           </Text>
         </View>
 
-        <View style={EstimatedLoanStyle.separator}/>
+        <Separator />
       </SimpleLayout>
     );
   }
