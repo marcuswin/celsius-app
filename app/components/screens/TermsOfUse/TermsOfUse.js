@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import {Container} from 'native-base';
 
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -11,8 +12,8 @@ import { STYLES } from "../../../config/constants/style";
 // import SimpleLayoutStyle from "../../layouts/SimpleLayout/SimpleLayout.styles";
 
 @connect(
-  () => ({
-  // map state to props
+  (state) => ({
+    agreedToTermsOfUse: state.users.agreedToTermsOfUse,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -74,40 +75,53 @@ class TermsOfUse extends Component {
       ]
     };
 
-  }
-
-  renderScreen(section, index) {
-      return (
-        <View style={TermsOfUseStyle.content} key={index}>
-          <Text style={TermsOfUseStyle.title}>{section.heading}</Text>
-          <Text style={TermsOfUseStyle.text}>{section.text}</Text>
-        </View>
-      )
+    this.onPress = this.onPress.bind(this);
   }
 
   // lifecycle methods
   // event hanlders
+  onPress() {
+    const { toggleTermsOfUse, navigateBack } = this.props;
+
+    toggleTermsOfUse();
+    navigateBack();
+  }
+
   // rendering methods
+  renderScreen(section, index) {
+    return (
+      <View style={TermsOfUseStyle.content} key={index}>
+        <Text style={TermsOfUseStyle.title}>{section.heading}</Text>
+        <Text style={TermsOfUseStyle.text}>{section.text}</Text>
+      </View>
+    )
+  }
+
   render() {
     const { terms } = this.state;
-    const { navigateBack } = this.props;
+    const { navigateBack, agreedToTermsOfUse } = this.props;
 
     return (
-      <SimpleLayout
-        mainHeader={{ backButton: false, onCancel: navigateBack}}
-        animatedHeading={{ text: 'Terms of Service' }}
-        bottomNavigation={ false }
-        background={STYLES.PRIMARY_BLUE}
+      <Container style={TermsOfUseStyle.buttonContainer}>
+        <SimpleLayout
+          mainHeader={{ backButton: false, onCancel: navigateBack}}
+          animatedHeading={{ text: 'Terms of Service' }}
+          bottomNavigation={ false }
+          background={STYLES.PRIMARY_BLUE}
 
-      >
+        >
 
-        {terms.map(this.renderScreen)}
+            {terms.map(this.renderScreen)}
 
-        <View style={TermsOfUseStyle.button}>
-          <CelButton white onPress={console.log}>I agree</CelButton>
-        </View>
+        </SimpleLayout>
 
-      </SimpleLayout>
+        { !agreedToTermsOfUse ? (
+          <View style={TermsOfUseStyle.button}>
+            <CelButton white onPress={this.onPress}>I agree</CelButton>
+          </View>
+        ): null }
+
+      </Container>
     );
   }
 }
