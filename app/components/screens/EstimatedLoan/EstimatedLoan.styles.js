@@ -4,11 +4,6 @@ import {FONT_SCALE} from "../../../config/constants/style";
 const {width} = Dimensions.get('window');
 
 const EstimatedLoanStyle = StyleSheet.create({
-  // separator: {
-  //   height: 1,
-  //   width: '100%',
-  //   backgroundColor: 'rgba(200,200,200,0.3)'
-  // },
   hippoSection: {
     paddingTop: 20,
     paddingBottom: 20,
@@ -52,6 +47,16 @@ const EstimatedLoanStyle = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2, elevation: 3
   },
+  bearImage: {
+    height: width * 0.25,
+    width: width * 0.25 * 1.13,
+  },
+  bearWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+  }
+
 });
 
 export default EstimatedLoanStyle;

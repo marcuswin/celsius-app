@@ -202,6 +202,17 @@ class EstimatedLoan extends Component {
         </View>
 
         <Separator />
+
+        <View style={EstimatedLoanStyle.bearWrapper}>
+          <Image source={require('../../../../assets/images/polar-bear-hodl.png')} style={EstimatedLoanStyle.bearImage}/>
+        </View>
+
+        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
+          You're
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedLoan.position_in_line) } </Text>
+          person in line to be eligible to borrow out your coins and earn interest (once when you transfer your coins and they are lent).
+        </Text>
+
       </SimpleLayout>
     );
   }
