@@ -70,7 +70,10 @@ export default class App extends Component {
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
-    if (token) await store.dispatch(actions.getLoggedInBorrower());
+    if (token) {
+      await store.dispatch(actions.getLoggedInBorrower());
+      store.dispatch(actions.toggleTermsOfUse());
+    }
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
