@@ -130,10 +130,12 @@ class SignupTwo extends Component {
             <PrimaryInput
               labelText="First Name"
               value={firstName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('firstName', text)}/>
             <PrimaryInput
               labelText="Last Name"
               value={lastName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('lastName', text)}/>
             {user && (user.facebook_id || user.google_id || user.twitter_id) ?
               <PrimaryInput
