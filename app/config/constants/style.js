@@ -41,9 +41,22 @@ export const STYLES = {
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
-  boldText: {
-    fontFamily: 'agile-bold'
+  normalText: {
+    color: STYLES.GRAY_2,
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-extra-light',
   },
+  heading: {
+    color: STYLES.GRAY_2,
+    fontFamily: 'agile-bold',
+    fontSize: FONT_SCALE * 21,
+    fontWeight: '500',
+    textAlign: 'center',
+    lineHeight: FONT_SCALE * 25,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  boldText: { fontFamily: 'agile-bold' },
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center'
@@ -84,4 +97,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/whale.png'),
   require('../../../assets/images/bear.png'),
   require('../../../assets/images/penguins.png'),
+  require('../../../assets/images/lending-interest-chart.png'),
+  require('../../../assets/images/polar-bear-hodl.png'),
+  require('../../../assets/images/monkey-empty.png'),
 ];

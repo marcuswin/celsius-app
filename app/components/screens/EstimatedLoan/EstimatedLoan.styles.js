@@ -4,30 +4,6 @@ import {FONT_SCALE} from "../../../config/constants/style";
 const {width} = Dimensions.get('window');
 
 const EstimatedLoanStyle = StyleSheet.create({
-  infoWrapper: {
-    borderRadius: 8,
-    padding: 15,
-    backgroundColor: '#E19F30',
-    marginTop: 22,
-    marginBottom: 25,
-  },
-  infoText: {
-    color: '#FFFFFF',
-    fontFamily: 'agile-medium',
-    fontSize: FONT_SCALE * 15,
-    fontWeight: '300',
-    lineHeight: 18,
-  },
-  description: {
-    color: '#3D4853',
-    fontSize: FONT_SCALE * 18,
-    fontFamily: 'agile-extra-light'
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: 'rgba(200,200,200,0.3)'
-  },
   hippoSection: {
     paddingTop: 20,
     paddingBottom: 20,
@@ -60,16 +36,6 @@ const EstimatedLoanStyle = StyleSheet.create({
     fontFamily: 'agile-extra-light',
     textAlign: 'center'
   },
-  heading: {
-    color: '#3D4853',
-    fontFamily: 'agile-bold',
-    fontSize: FONT_SCALE * 21,
-    fontWeight: '500',
-    lineHeight: 25,
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-  },
   pdfWrapper: {
     paddingTop: 12,
     paddingBottom: 12,
@@ -81,6 +47,16 @@ const EstimatedLoanStyle = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2, elevation: 3
   },
+  bearImage: {
+    height: width * 0.25,
+    width: width * 0.25 * 1.13,
+  },
+  bearWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 15,
+  }
+
 });
 
 export default EstimatedLoanStyle;

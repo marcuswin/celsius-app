@@ -23,6 +23,7 @@ import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLo
 import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
 import ProfileScreen from '../components/screens/Profile/Profile';
 import ResetPasswordScreen from "../components/screens/ResetPassword/ResetPassword";
+import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -113,6 +114,10 @@ const Navigator = StackNavigator({
   ResetPassword: {
     screen: ResetPasswordScreen,
     title: 'ResetPassword',
+  },
+  DepositCoins: {
+    screen: DepositCoinsScreen,
+    title: 'DepositCoins',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

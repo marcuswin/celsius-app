@@ -8,6 +8,7 @@ export {
   getPortfolio,
   updatePortfolio,
   getEstimatedLoan,
+  getEstimatedInterest,
 }
 
 function updatePortfolio(data) {
@@ -77,5 +78,28 @@ function getEstimatedLoanSuccess(estimatedLoan) {
     type: ACTIONS.GET_ESTIMATED_LOAN_SUCCESS,
     callName: API.GET_ESTIMATED_LOAN,
     estimatedLoan,
+  }
+}
+
+function getEstimatedInterest() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_ESTIMATED_INTEREST));
+
+    try {
+      const res = await portfolioRequestService.getEstimatedInterest();
+      const estimatedInterest = res.data.estimated_interest;
+      dispatch(getEstimatedInterestSuccess(estimatedInterest));
+    } catch (err) {
+      dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));
+      dispatch(apiError(API.GET_ESTIMATED_INTEREST, err));
+    }
+  }
+}
+
+function getEstimatedInterestSuccess(estimatedInterest) {
+  return {
+    type: ACTIONS.GET_ESTIMATED_INTEREST_SUCCESS,
+    callName: API.GET_ESTIMATED_INTEREST,
+    estimatedInterest,
   }
 }
