@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Linking, StatusBar, TouchableOpacity} from 'react-native';
+import {Image, Linking, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
@@ -83,7 +83,6 @@ class LoanPreviewScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}

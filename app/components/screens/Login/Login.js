@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, StatusBar, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -164,7 +164,6 @@ class LoginScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader rightLink={{ screen: 'SignupOne', text: 'Sign up' }}/>
 
         <View onLayout={(e) => this.setHeight('heading', e.nativeEvent.layout)}>

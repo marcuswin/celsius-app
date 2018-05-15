@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -124,7 +124,6 @@ class DocumentInfoScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader
           {...this.props}
           backButton

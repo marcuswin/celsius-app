@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Container, Content, View } from 'native-base';
 
 import {STYLES} from "../../../config/constants/style";
@@ -48,19 +48,14 @@ const defaultMainHeader = {
   customStyle: {backgroundColor: STYLES.PRIMARY_BLUE},
 }
 
-const defaultStatusBar = {
-  barStyle: 'dark-content',
-}
-
 const defaultAnimatedHeading = {
   containerCustomStyles: {backgroundColor: STYLES.PRIMARY_BLUE},
 }
 
 const SimpleLayout = (props) => {
-  const { bottomNavigation, statusBar, mainHeader, animatedHeading, background } = props;
+  const { bottomNavigation, mainHeader, animatedHeading, background } = props;
 
   const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
-  const statusBarProps = { ...defaultStatusBar, ...statusBar };
   const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
 
   const contentStyles = {};
@@ -69,7 +64,6 @@ const SimpleLayout = (props) => {
 
   return (
     <Container>
-      <StatusBar { ...statusBarProps } />
       <MainHeader { ...mainHeaderProps } />
       <AnimatedHeading { ...animatedHeadingProps } />
 
