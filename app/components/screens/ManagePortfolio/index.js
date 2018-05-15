@@ -10,6 +10,7 @@ import {AnimatedHeading} from '../../../components/molecules/AnimatedHeading/Ani
 import Calculator from '../Calculator/Calculator'
 import PortfolioStyle from "./styles";
 import * as actions from "../../../redux/actions";
+import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 
 
 @connect(
@@ -47,7 +48,7 @@ class ManagePorfolio extends Component {
           />
         <Content bounces={false} onScroll={this.onScroll} style={PortfolioStyle.content}>
           <View style={{paddingTop: 30}}>
-            {!userHasPortfolio && 
+            {!userHasPortfolio &&
               <Text style={PortfolioStyle.subHeading}>
                 Tell us about your coins
               </Text>
@@ -58,6 +59,8 @@ class ManagePorfolio extends Component {
           </View>
           <Calculator {...this.props} userHasPortfolio={userHasPortfolio} />
         </Content>
+
+          { userHasPortfolio ? <BottomNavigation/> : null }
       </Container>
     );
   }
