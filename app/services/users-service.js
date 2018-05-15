@@ -12,6 +12,7 @@ const usersService = {
   facebookLogin,
   twitterLogin,
   sendResetLink,
+  resetPassword,
   getUserInfo,
   getPersonalInfo,
   createPersonalInfo,
@@ -97,6 +98,12 @@ function login({ email, password }) {
 function sendResetLink(email) {
   return axios.post(`${apiUrl}/users/send_reset_link`, {
     email,
+  });
+}
+
+function resetPassword(password) {
+  return axios.post(`${apiUrl}/users/reset_password`, {
+    password,
   });
 }
 

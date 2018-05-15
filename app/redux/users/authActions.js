@@ -25,6 +25,7 @@ export {
   loginFacebook,
   loginTwitter,
   sendResetLink,
+  resetPassword,
 }
 
 
@@ -386,5 +387,26 @@ function sendResetLinkSuccess() {
   return {
     type: ACTIONS.SEND_RESET_LINK_SUCCESS,
     callName: API.SEND_RESET_LINK,
+  }
+}
+
+function resetPassword(password) {
+  return async dispatch => {
+    dispatch(startApiCall(API.RESET_PASSWORD));
+    try {
+      await usersService.resetPassword(password);
+      dispatch(showMessage('success', 'Password successfully changed.'));
+      dispatch(resetPasswordSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.RESET_PASSWORD, err));
+    }
+  }
+}
+
+function resetPasswordSuccess() {
+  return {
+    type: ACTIONS.RESET_PASSWORD_SUCCESS,
+    callName: API.RESET_PASSWORD,
   }
 }
