@@ -24,10 +24,10 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItems: [
-      { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: [] },
+      { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: [] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword'] },
     ]
   }
 

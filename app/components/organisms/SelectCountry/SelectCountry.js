@@ -9,7 +9,7 @@ class SelectCountry extends Component {
   static propTypes = {
     setCountry: PropTypes.func.isRequired,
     country: PropTypes.string,
-    inputType: PropTypes.oneOfType(["primary", "secondary"])
+    inputType: PropTypes.oneOf(["primary", "secondary"])
 
   }
 
