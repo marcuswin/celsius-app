@@ -10,6 +10,8 @@ import * as actions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from '../../atoms/CelButton/CelButton';
+import API from "../../../config/constants/API";
+import apiUtil from "../../../utils/api-util";
 
 
 // eslint-disable-next-line
@@ -19,8 +21,8 @@ const getError = (errors, field, def = null) => {
 
 
 @connect(
-  () => ({
-  // map state to props
+  state => ({
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -34,13 +36,13 @@ class ResetPassword extends Component {
         text: 'Reset Password'
       },
       formData: {
-        currentPassword: '',
         newPassword: '',
         confirmPassword: '',
       }
     };
     // binders
     this.onChangeField = this.onChangeField.bind(this);
+    this.handleResetPassword = this.handleResetPassword.bind(this);
   }
 
   onChangeField = (fieldName, text) => {
@@ -50,23 +52,28 @@ class ResetPassword extends Component {
 
   // lifecycle methods
   // event handlers
+  handleResetPassword() {
+    const { newPassword, confirmPassword } = this.state.formData;
+    const { resetPassword, showMessage } = this.props;
+
+    if (newPassword === confirmPassword) {
+      resetPassword(newPassword);
+    } else {
+      showMessage('error', 'Passwords not the same!')
+    }
+
+  }
   // rendering methods
   render() {
     const {animatedHeading, formData} = this.state;
+    const {callsInProgress} = this.props;
+
+    const isLoading = apiUtil.areCallsInProgress([API.RESET_PASSWORD], callsInProgress);
 
     return (
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-
-        <PrimaryInput
-          type="secondary"
-          labelText={"Current password"}
-          value={formData.currentPassword}
-          secureTextEntry
-          onChange={text => this.onChangeField('currentPassword', text)}
-        />
-
         <PrimaryInput
           type="secondary"
           labelText={"New password"}
@@ -86,6 +93,8 @@ class ResetPassword extends Component {
         <View style={{marginTop: 40, marginBottom: 30}}>
           <CelButton
             color="blue"
+            loading={isLoading}
+            onPress={this.handleResetPassword}
           >Change password</CelButton>
         </View>
 
