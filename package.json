@@ -12,6 +12,7 @@
     "env:local": "expo-env  --env=development --configPath=./config",
     "env:staging": "expo-env --env=staging --configPath=./config",
     "env:production": "expo-env --env=production --configPath=./config",
+    "deploy:staging": "expo publish --release-channel staging",
     "plop": "plop"
   },
   "pre-commit": [

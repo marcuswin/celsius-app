@@ -22,7 +22,7 @@ class PrimaryInput extends Component {
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
     value: PropTypes.string,
-    type: PropTypes.oneOfType(["primary", "secondary"]),
+    type: PropTypes.oneOf(["primary", "secondary"]),
   };
 
   static defaultProps = {
