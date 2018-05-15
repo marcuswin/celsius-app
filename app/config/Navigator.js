@@ -22,7 +22,7 @@ import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
 import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
 import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
 import ProfileScreen from '../components/screens/Profile/Profile';
-import ResetPasswordScreen from "../components/screens/ResetPassword/ResetPassword";
+import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePassword";
 import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
 // NOTE(fj): plop screenGen importing new Screen here
 
@@ -111,9 +111,9 @@ const Navigator = StackNavigator({
     screen: ProfileScreen,
     title: 'Profile',
   },
-  ResetPassword: {
-    screen: ResetPasswordScreen,
-    title: 'ResetPassword',
+  ChangePassword: {
+    screen: ChangePasswordScreen,
+    title: 'ChangePassword',
   },
   DepositCoins: {
     screen: DepositCoinsScreen,

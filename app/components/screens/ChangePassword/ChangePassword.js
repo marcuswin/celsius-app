@@ -17,13 +17,13 @@ import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
   dispatch => bindActionCreators(actions, dispatch),
 )
 
-class ResetPassword extends Component {
+class ChangePassword extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       animatedHeading: {
-        text: 'Reset Password'
+        text: 'Change Password'
       },
       formData: {
         currentPassword: '',
@@ -32,7 +32,7 @@ class ResetPassword extends Component {
     };
     // binders
     this.onChangeField = this.onChangeField.bind(this);
-    this.handleResetPassword = this.handleResetPassword.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
   }
 
   onChangeField = (fieldName, text) => {
@@ -42,7 +42,7 @@ class ResetPassword extends Component {
 
   // lifecycle methods
   // event handlers
-  handleResetPassword() {
+  handleChangePassword() {
     const { currentPassword, newPassword } = this.state.formData;
     const { resetPassword } = this.props;
 
@@ -78,7 +78,7 @@ class ResetPassword extends Component {
           <CelButton
             color="blue"
             loading={isLoading}
-            onPress={this.handleResetPassword}
+            onPress={this.handleChangePassword}
           >Change password</CelButton>
         </View>
 
@@ -87,4 +87,4 @@ class ResetPassword extends Component {
   }
 }
 
-export default ResetPassword;
+export default ChangePassword;
