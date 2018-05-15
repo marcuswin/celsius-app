@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
@@ -31,7 +30,6 @@ class ComingSoonScreen extends Component {
   render() {
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: '#A866AA'}}/>
         <AnimatedHeading
           containerCustomStyles={{backgroundColor: '#A866AA'}}

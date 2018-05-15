@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
@@ -33,7 +32,6 @@ class ManagePorfolio extends Component {
     const userHasPortfolio = !isEmpty(this.props.portfolio)
     return (
         <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader
           cancelBtn={userHasPortfolio}
           onCancel={userHasPortfolio ? () => this.props.navigateTo('Home') : null}

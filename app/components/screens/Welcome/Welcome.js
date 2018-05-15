@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -34,7 +33,6 @@ class WelcomeScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content" style={WelcomeStyle.statusBar}/>
         <MainHeader/>
         <Content bounces={false} style={WelcomeStyle.content}>
           <View style={[WelcomeStyle.view]}>

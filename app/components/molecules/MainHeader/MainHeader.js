@@ -119,7 +119,7 @@ class MainHeader extends Component {
     const {right, left, backButton, customStyle} = this.props;
 
     return (
-      <Header style={[HeaderStyle.header, customStyle]} onLayout={this.setHeaderHeight}>
+      <Header style={[HeaderStyle.header, customStyle]} onLayout={this.setHeaderHeight} iosBarStyle="light-content">
         <Left>
           {this.renderLeft(left, backButton)}
         </Left>
