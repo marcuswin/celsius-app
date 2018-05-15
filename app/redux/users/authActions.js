@@ -390,11 +390,11 @@ function sendResetLinkSuccess() {
   }
 }
 
-function resetPassword(password) {
+function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
-      await usersService.resetPassword(password);
+      await usersService.resetPassword(currentPassword, newPassword);
       dispatch(showMessage('success', 'Password successfully changed.'));
       dispatch(resetPasswordSuccess());
     } catch (err) {

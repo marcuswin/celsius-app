@@ -101,9 +101,10 @@ function sendResetLink(email) {
   });
 }
 
-function resetPassword(password) {
+function resetPassword(currentPassword, newPassword) {
   return axios.post(`${apiUrl}/users/reset_password`, {
-    password,
+    current_password: currentPassword,
+    new_password: newPassword,
   });
 }
 
