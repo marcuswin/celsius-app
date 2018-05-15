@@ -36,6 +36,7 @@ class ResetPassword extends Component {
         text: 'Reset Password'
       },
       formData: {
+        currentPassword: '',
         newPassword: '',
         confirmPassword: '',
       }
@@ -53,11 +54,11 @@ class ResetPassword extends Component {
   // lifecycle methods
   // event handlers
   handleResetPassword() {
-    const { newPassword, confirmPassword } = this.state.formData;
+    const { currentPassword, newPassword, confirmPassword } = this.state.formData;
     const { resetPassword, showMessage } = this.props;
 
     if (newPassword === confirmPassword) {
-      resetPassword(newPassword);
+      resetPassword(currentPassword, newPassword);
     } else {
       showMessage('error', 'Passwords not the same!')
     }
@@ -74,6 +75,14 @@ class ResetPassword extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
+        <PrimaryInput
+          type="secondary"
+          labelText={"Current password"}
+          value={formData.currentPassword}
+          secureTextEntry
+          onChange={text => this.onChangeField('currentPassword', text)}
+        />
+
         <PrimaryInput
           type="secondary"
           labelText={"New password"}
