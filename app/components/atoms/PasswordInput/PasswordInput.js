@@ -20,6 +20,8 @@ class PasswordInput extends Component {
   // rendering methods
   render() {
     const { visible } = this.state;
+    const { type } = this.props;
+
     return (
       <View>
         <PrimaryInput
@@ -32,8 +34,8 @@ class PasswordInput extends Component {
             height='30'
             width='30'
             viewBox={ visible ? "0 0 35 24" : '0 0 35 24' }
-            fill={'#000'}
-            stroke={'#000'}
+            fill={ type === 'secondary' ? 'black' : 'white' }
+            stroke={ type === 'secondary' ? 'black' : 'white' }
           />
         </TouchableOpacity>
       </View>
