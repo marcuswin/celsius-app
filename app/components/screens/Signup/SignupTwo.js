@@ -98,8 +98,15 @@ class SignupTwo extends Component {
   }
 
   onChangeField = (fieldName, text) => {
-    this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
-  }
+    if (fieldName === 'firstName' || fieldName === 'lastName') {
+      if (!/\d/.test(text)) {
+        this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
+      }
+    } else {
+      this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
+    }
+
+  };
 
   setCountry = (country) => {
     this.setState({
@@ -109,7 +116,7 @@ class SignupTwo extends Component {
         countryAlpha3: country.alpha3 || this.state.countryAlpha3,
       }
     });
-  }
+  };
 
   // rendering methods
   render() {

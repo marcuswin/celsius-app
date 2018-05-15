@@ -52,8 +52,15 @@ class ProfileScreen extends Component {
   };
 
   handleUserInfoChange = (key, value) => {
+    // prevent user to insert numbers in first name or last name field
+    if (key === 'first_name' || key === 'last_name') {
+      if (/\d/.test(value)) {
+        return
+      }
+    }
+
     if (key === 'country') {
-      const countryName = _.get(value, 'name', value)
+      const countryName = _.get(value, 'name', value);
       this.props.changeProfileInfo(key, countryName)
     } else {
       this.props.changeProfileInfo(key, value)
@@ -71,30 +78,30 @@ class ProfileScreen extends Component {
         showAvatar
       >
       <Content bounces={false} onScroll={this.onScroll} style={{marginTop: 100, marginBottom: 140}}>
-        <PrimaryInput 
+        <PrimaryInput
           type="secondary"
           labelText={getError(this.props.error, 'first_name', "First name")}
-          value={user.first_name} 
+          value={user.first_name}
           onChange={this.handleUserInfoChange.bind(this, 'first_name')} />
-        <PrimaryInput 
-          type="secondary" 
+        <PrimaryInput
+          type="secondary"
           labelText={getError(this.props.error, 'last_name', "Last name")}
-          value={user.last_name} 
+          value={user.last_name}
           onChange={this.handleUserInfoChange.bind(this, 'last_name')}  />
-        <PrimaryInput 
-          type="secondary" 
-          labelText="E-mail" 
-          value={user.email} 
-          keyboardType='email-address' 
+        <PrimaryInput
+          type="secondary"
+          labelText="E-mail"
+          value={user.email}
+          keyboardType='email-address'
           onChange={this.handleUserInfoChange.bind(this, 'email')} />
         <SelectCountry
           inputType="secondary"
-          setCountry={this.handleUserInfoChange.bind(this, 'country')} 
+          setCountry={this.handleUserInfoChange.bind(this, 'country')}
           country={user.country} />
-        <PrimaryInput 
-          type="secondary" 
+        <PrimaryInput
+          type="secondary"
           labelText={getError(this.props.error, 'cellphone', "Phone number")}
-          value={user.cellphone} 
+          value={user.cellphone}
           onChange={this.handleUserInfoChange.bind(this, 'cellphone')} />
         <View style={{marginTop: 40, marginBottom: 30}}>
           <CelButton
