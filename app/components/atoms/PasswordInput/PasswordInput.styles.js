@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 const eye = {
     position: 'absolute',
     right: 15,
-    opacity: 0.5,
+    opacity: 0.3,
 }
 
 const PasswordInputStyle = StyleSheet.create({
