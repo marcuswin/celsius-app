@@ -10,7 +10,7 @@ import {TWLoginButton} from 'react-native-simple-twitter';
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Icon from "../../atoms/Icon/Icon";
-import {Separator} from '../../atoms/Separator/Separator';
+import Separator from '../../atoms/Separator/Separator';
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 

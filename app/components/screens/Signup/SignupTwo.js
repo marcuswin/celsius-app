@@ -130,10 +130,12 @@ class SignupTwo extends Component {
             <PrimaryInput
               labelText="First Name"
               value={firstName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('firstName', text)}/>
             <PrimaryInput
               labelText="Last Name"
               value={lastName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('lastName', text)}/>
             {user && (user.facebook_id || user.google_id || user.twitter_id) ?
               <PrimaryInput
@@ -160,7 +162,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
-              disabled={!agreedToTermsOfUse}
+              disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email || !formData.country}
               onPress={this.onSubmit}
               loading={ isLoading }
               white

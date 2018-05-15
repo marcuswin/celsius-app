@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import SeparatorStyles from './Separator.styles';
 
 class Separator extends Component {
-
   static propTypes = {
     customWrapperStyle: PropTypes.instanceOf(Object),
+    // TODO(fj): add margin, the same as CelButton
   };
 
   constructor() {
@@ -17,6 +17,11 @@ class Separator extends Component {
   }
 
   render() {
+    const { children } = this.props;
+
+    if (!children) return <View style={SeparatorStyles.separator} />;
+
+
     return (
       <View style={[{paddingTop: 50}, this.props.customWrapperStyle]}>
         <Grid>
@@ -35,4 +40,4 @@ class Separator extends Component {
   }
 }
 
-export {Separator};
+export default Separator;
