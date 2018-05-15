@@ -1,57 +1,22 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
-import {STYLES, FONT_SCALE, PIXEL_RATIO} from "../../../config/constants/style";
+import {STYLES, PIXEL_RATIO} from "../../../config/constants/style";
 
 const {height} = Dimensions.get('window');
 
 const WelcomeStyle = StyleSheet.create({
   content: {
     backgroundColor: STYLES.PRIMARY_BLUE,
-    paddingLeft: 40,
-    paddingRight: 40
   },
   view: {
-    height: Platform.OS === 'ios' ? (height - (PIXEL_RATIO * 50) + 40) : 'auto',
-    justifyContent: 'flex-end',
-  },
-  heading: {
-    marginTop: 10,
-    textAlign: 'center',
-    fontSize: 40,
-    fontFamily: 'agile-extra-bold',
-    color: '#fff',
-    lineHeight: 41,
-    fontWeight: '800'
-  },
-  description: {
-    fontSize: 18,
-    color: STYLES.WHITE_TEXT_COLOR,
-    fontWeight: '300',
-    fontFamily: 'agile-light',
-    paddingTop: 10
+    minHeight: Platform.OS === 'ios' ? (height - (PIXEL_RATIO * 50) + 40) : 'auto',
+    justifyContent: 'center',
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   buttonWrapper: {
     paddingTop: 20,
     justifyContent: 'center'
   },
-  linkButtonText: {
-    color: 'rgba(136,162,199,1)',
-    fontSize: FONT_SCALE * 18,
-    fontFamily: 'agile-medium'
-  },
-  linkButton: {
-    marginTop: 40,
-    paddingBottom: 60
-  },
-  welcomeTitle: {
-    textAlign: 'center',
-  },
-  heroImage: {
-    width: 170,
-    height: 170
-  },
-  heroImageWrapper: {
-    paddingBottom: 10
-  }
 });
 
 export default WelcomeStyle;

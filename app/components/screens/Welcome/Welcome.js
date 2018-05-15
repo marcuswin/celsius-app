@@ -32,11 +32,10 @@ class WelcomeScreen extends Component {
     const {navigateTo} = this.props;
 
     return (
-      <Container>
-        <MainHeader/>
+      <Container style={{ backgroundColor: 'black' }}>
         <Content bounces={false} style={WelcomeStyle.content}>
+          <MainHeader/>
           <View style={[WelcomeStyle.view]}>
-
             <WelcomeCarousel />
 
             <View style={WelcomeStyle.buttonWrapper}>
@@ -52,7 +51,7 @@ class WelcomeScreen extends Component {
                 onPress={() => navigateTo('Login', true)}
                 transparent
                 size="small"
-                margin="25 0 60 0"
+                margin="25 0 20 0"
               >
                 Already have an account?
               </CelButton>
