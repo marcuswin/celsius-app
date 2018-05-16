@@ -71,10 +71,6 @@ class DocumentInfoScreen extends Component {
     }
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const { showMessage, createUserDocuments } = this.props;
 
@@ -145,7 +141,7 @@ class DocumentInfoScreen extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Text style={Styles.description}>As the last step, please take pictures of your preffered identification document and photo of yourself.</Text>
 

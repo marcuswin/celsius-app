@@ -85,10 +85,6 @@ class PersonalInfoScreen extends Component {
     }
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const {createUserPersonalInfo, showMessage} = this.props;
     const {
@@ -191,7 +187,7 @@ class PersonalInfoScreen extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <SelectModal
               visible={genderModalVisible}

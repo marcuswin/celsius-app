@@ -29,10 +29,6 @@ class EarnInterestScreen extends Component {
   }
 
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   handleAcceptedInterestRequest = async () => {
     const {navigateTo, acceptInterestRequest} = this.props;
     acceptInterestRequest();
@@ -56,7 +52,7 @@ class EarnInterestScreen extends Component {
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_GREEN}}/>
         <CelHeading subheading={'Earn interest'} text={'Deposit coins'}/>
 
-        <Content bounces={false} style={EarnInterestStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={EarnInterestStyle.content}>
           <View style={EarnInterestStyle.wrapper}>
             <Text style={[EarnInterestStyle.description, {paddingTop: '15%'}]}>
               Unlike banks, we distribute most of the fees and interest from borrowers back to Celsius community.

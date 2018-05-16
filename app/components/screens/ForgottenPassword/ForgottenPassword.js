@@ -34,10 +34,6 @@ class ForgottenPassword extends Component {
     };
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const { email } = this.state;
     const { sendResetLink } = this.props;
@@ -68,7 +64,7 @@ class ForgottenPassword extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Text style={Styles.description}>
               Enter the email address you used to sign in to Celsius.
