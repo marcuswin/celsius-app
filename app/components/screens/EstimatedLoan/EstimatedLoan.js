@@ -3,6 +3,7 @@ import {View, Text, Image, Linking, TouchableOpacity} from 'react-native';
 import {Col, Grid} from "react-native-easy-grid";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import get from 'lodash/get';
 
 import * as actions from "../../../redux/actions";
 import formatter from "../../../utils/formatter";
@@ -95,6 +96,7 @@ class EstimatedLoan extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedLoan, portfolio, navigateTo } = this.props;
+    const portfolioData = get(portfolio, 'data', []);
 
     if (!estimatedLoan) return <Loader />;
     if (!estimatedLoan.estimated_coin_value) return (
@@ -123,7 +125,7 @@ class EstimatedLoan extends Component {
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> value of your coins </Text>
           eligible for a loan is:
         </Text>
-        <CoinValueAccordion portfolio={portfolio} estimatedCoinValue={estimatedLoan.estimated_coin_value} />
+        <CoinValueAccordion portfolio={portfolioData} estimatedCoinValue={estimatedLoan.estimated_coin_value} />
 
         <Text style={globalStyles.normalText}>
           The biggest estimated loan you could get would be for:
