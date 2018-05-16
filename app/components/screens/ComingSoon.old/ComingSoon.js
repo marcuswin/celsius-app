@@ -23,16 +23,12 @@ class ComingSoonScreen extends Component {
     this.state = {};
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   render() {
     return (
       <Container>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: '#A866AA'}}/>
         <CelHeading subheading={'What’s coming soon…'} text={'Our roadmap'}/>
-        <Content bounces={false} style={ComingSoonStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={ComingSoonStyle.content}>
           <View style={ComingSoonStyle.row}>
             <Grid>
               <Col style={GLOBAL_STYLE_DEFINITIONS.centeredColumn}>

@@ -47,10 +47,6 @@ class LoginScreen extends Component {
     if (token) navigateTo('Home', true);
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   getFormHeight = () => {
     const {textHeight, buttonHeight, headingHeight, smIcon, separator} = this.state;
     const {dimensions} = this.props;

@@ -23,11 +23,6 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 
 class ManagePorfolio extends Component {
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   render() {
     const userHasPortfolio = !isEmpty(this.props.portfolio)
     return (
@@ -40,7 +35,7 @@ class ManagePorfolio extends Component {
           text={userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`}
           subheading={userHasPortfolio ? "Manage your portfolio" : null}
           />
-        <Content bounces={false} onScroll={this.onScroll} style={PortfolioStyle.content}>
+        <Content bounces={false} style={PortfolioStyle.content}>
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
               <Text style={PortfolioStyle.subHeading}>

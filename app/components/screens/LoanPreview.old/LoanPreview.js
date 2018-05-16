@@ -47,10 +47,6 @@ class LoanPreviewScreen extends Component {
     }
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   handleAcceptLoanRequest() {
     const {navigateTo, acceptLoanRequest, loanRequest} = this.props;
     if (loanRequest.status !== 'accepted') {
@@ -89,7 +85,7 @@ class LoanPreviewScreen extends Component {
         <Image style={{height: 10, width: '100%', backgroundColor: STYLES.PRIMARY_BLUE, resizeMode: 'contain'}}
                source={require('../../../../assets/images/progress-2.png')}/>
 
-        <Content bounces={false} style={LoanPreviewStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={LoanPreviewStyle.content}>
           <View style={LoanPreviewStyle.wrapper}>
 
             <Text style={LoanPreviewStyle.description}>
