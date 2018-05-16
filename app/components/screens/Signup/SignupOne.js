@@ -10,7 +10,7 @@ import {TWLoginButton} from 'react-native-simple-twitter';
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Icon from "../../atoms/Icon/Icon";
-import {Separator} from '../../atoms/Separator/Separator';
+import Separator from '../../atoms/Separator/Separator';
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 
@@ -18,6 +18,7 @@ import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 
 const {
   GOOGLE_WEB_CLIENT_ID,
@@ -45,7 +46,6 @@ class SignupOne extends Component {
       formData: {
         email: '',
         password: '',
-        confirmedPassword: '',
       },
     };
 
@@ -63,13 +63,9 @@ class SignupOne extends Component {
 
   onSubmit() {
     const { formData } = this.state;
-    const { showMessage, registerUser } = this.props;
+    const { registerUser } = this.props;
 
-    if (formData.password !== formData.confirmedPassword) {
-      showMessage('error', 'Passwords not the same!');
-    } else {
-      registerUser(formData);
-    }
+    registerUser(formData);
   };
 
   onChangeField = (fieldName, text) => {
@@ -150,7 +146,7 @@ class SignupOne extends Component {
   // rendering methods
   render() {
     const {twitterClose, twitterGetAccessToken, callsInProgress } = this.props;
-    const { email, password, confirmedPassword } = this.state.formData;
+    const { email, password } = this.state.formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
 
@@ -201,12 +197,11 @@ class SignupOne extends Component {
           <View style={SignupOneStyle.formWrapper}>
             <Form>
               <PrimaryInput labelText={'E-mail'} keyboardType='email-address' value={email} onChange={(text) => this.onChangeField('email', text)}/>
-              <PrimaryInput labelText={'Password'} secureTextEntry value={password} onChange={(text) => this.onChangeField('password', text)}/>
-              <PrimaryInput labelText={'Confirm Password'} secureTextEntry value={confirmedPassword} onChange={(text) => this.onChangeField('confirmedPassword', text)}/>
+              <PasswordInput labelText={'Password'} secureTextEntry value={password} onChange={(text) => this.onChangeField('password', text)}/>
             </Form>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
-                disabled={!email || !password || !confirmedPassword}
+                disabled={!email || !password }
                 loading={ isLoading }
                 onPress={this.onSubmit}
                 white

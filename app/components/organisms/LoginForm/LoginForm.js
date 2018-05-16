@@ -10,6 +10,7 @@ import LoginFormStyles from './LoginForm.styles'
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
+import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 
 @connect(
   state => ({
@@ -59,7 +60,7 @@ class LoginForm extends Component {
       <View style={LoginFormStyles.wrapper}>
         <Form>
           <PrimaryInput labelText={'E-mail'} keyboardType='email-address' value={email} onChange={this.onChangeEmail}/>
-          <PrimaryInput labelText={'Password'} secureTextEntry value={password} onChange={this.onChangePassword}/>
+          <PasswordInput labelText={'Password'} secureTextEntry value={password} onChange={this.onChangePassword}/>
         </Form>
         <View style={[LoginFormStyles.buttonWrapper]}>
           <CelButton
