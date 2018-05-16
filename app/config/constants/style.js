@@ -38,6 +38,9 @@ export const STYLES = {
   GRAY_1: '#EEEEEE',
   GRAY_2: '#3D4853',
   GRAY_3: '#E9E9EF',
+  GRAY_4: '#9DA3A9',
+  GRAY_5: '#CED1D4',
+  GRAY_6: '#C8C8C8',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
