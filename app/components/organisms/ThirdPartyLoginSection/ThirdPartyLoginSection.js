@@ -25,6 +25,7 @@ const {
 @connect(
   state => ({
     screenWidth: state.ui.dimensions.screenWidth,
+    user: state.users.user,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -41,13 +42,17 @@ class ThirdPartyLoginSection extends Component {
   };
 
   onTwitterSuccess = (twitterUser) => {
-    const {loginTwitter, user} = this.props;
+    const {loginTwitter, user, type, twitterSuccess} = this.props;
 
     const u = twitterUser;
     u.accessToken = user.twitter_oauth_token;
     u.secret_token = user.twitter_oauth_secret;
 
-    loginTwitter(u);
+    if (type === 'login') {
+      loginTwitter(u);
+    } else {
+      twitterSuccess(u);
+    }
   };
 
   setFakeTwitterButton = (component) => {
@@ -55,7 +60,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   googleAuth = async () => {
-    const {loginGoogle} = this.props;
+    const {loginGoogle, type, googleSuccess} = this.props;
 
     try {
       const result = await Google.logInAsync({
@@ -76,7 +81,11 @@ class ThirdPartyLoginSection extends Component {
         const user = await userInfoResponse.json();
         user.accessToken = result.accessToken;
 
-        loginGoogle(user)
+        if (type === 'login') {
+          loginGoogle(user);
+        } else {
+          googleSuccess(user);
+        }
       } else {
         return {cancelled: true};
       }
@@ -86,7 +95,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   facebookAuth = async () => {
-    const {loginFacebook} = this.props;
+    const {loginFacebook, type: componentType, facebookSuccess} = this.props;
 
     try {
       const {type, token} = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
@@ -100,6 +109,12 @@ class ThirdPartyLoginSection extends Component {
         user.accessToken = token;
 
         loginFacebook(user);
+
+        if (componentType === 'login') {
+          loginFacebook(user);
+        } else {
+          facebookSuccess(user);
+        }
       }
     } catch (e) {
       this.props.showMessage('error', e.message)
