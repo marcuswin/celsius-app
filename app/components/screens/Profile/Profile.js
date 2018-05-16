@@ -60,7 +60,7 @@ class ProfileScreen extends Component {
     }
 
     if (key === 'country') {
-      const countryName = _.get(value, 'name', value);
+      const countryName = _.get(value, 'name', value)
       this.props.changeProfileInfo(key, countryName)
     } else {
       this.props.changeProfileInfo(key, value)
@@ -93,6 +93,7 @@ class ProfileScreen extends Component {
           labelText="E-mail"
           value={user.email}
           keyboardType='email-address'
+          editable={false}
           onChange={this.handleUserInfoChange.bind(this, 'email')} />
         <SelectCountry
           inputType="secondary"

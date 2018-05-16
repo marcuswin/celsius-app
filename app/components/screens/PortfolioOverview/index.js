@@ -1,13 +1,43 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {View, List, Body, ListItem, Content} from 'native-base';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet } from 'react-native';
+import { View, List, Body, ListItem, Content, Text } from 'native-base';
+import { bindActionCreators } from "redux";
+import { Grid, Row, Col } from "react-native-easy-grid";
+import get from 'lodash/get';
 
+import { STYLES, FONT_SCALE } from "../../../config/constants/style";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
+
+const styles = StyleSheet.create({
+  totalValueContainer: {
+    backgroundColor: 'white',
+    display: 'flex',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    justifyContent: 'center',
+    paddingLeft: 36,
+    paddingRight: 20,
+    paddingTop: 14,
+    paddingBottom: 14,
+    marginBottom: 16,
+    width: '100%',
+  },
+  totalValueLabel: {
+    fontSize: FONT_SCALE * 11,
+    color: STYLES.GRAY_2,
+    fontFamily: 'agile-book',
+  },
+  totalValue: {
+    fontSize: FONT_SCALE * 36,
+    fontFamily: 'agile-medium',
+    color: STYLES.GRAY_2,
+  }
+});
 @connect(
   state => ({
     nav: state.nav,
@@ -19,45 +49,55 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
 class PortfolioScreen extends Component {
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
 
   render() {
     const {navigateTo, portfolio} = this.props;
     const animatedHeading = {
-          text: 'Portfolio',
-          subheading:"Track your coins",
+        text: 'Portfolio',
+        subheading:"Track your coins",
       }
 
     const mainHeader = {
       backButton: false,
-      text: 'Portfolio',
-      subheading:"Track your coins",
     }
+    
+    const totalValue = get(portfolio, 'meta.quotes.USD.total', 0);
+    const portfolioData = get(portfolio, 'data', [])
 
     return (
-      <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader}>
-        <Content bounces={false} onScroll={this.onScroll}>
-        <View style={{paddingTop: 10}}>
-          <List
-            dataArray={portfolio}
-            bounces={false}
-            renderRow={(item) =>
-                <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
-                  <Body>
-                    <CoinCard {...item} />
-                  </Body>
-                </ListItem>
-            }/>
-          </View>
-          <View style={{marginTop: 30, marginBottom: 130}}>
-            <CelButton
-              onPress={() => navigateTo('ManagePortfolio')}
-            >
-              Manage your coins
-            </CelButton>
+      <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
+        <Content bounces={false} onScroll={this.onScroll} style={{marginTop: -10}}>
+        <Grid>
+          <Row>
+            <Row style={styles.totalValueContainer}>
+              <Col style={{width: '100%'}}> 
+                <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
+                <Text style={styles.totalValue}>{totalValue !== 0 ? `$${totalValue.toFixed(3)}` : 'No total value'}</Text>
+              </Col>
+            </Row>
+          </Row>
+         </Grid> 
+          <View style={{paddingLeft: 36, paddingRight: 36}}>
+            <View>
+              <List
+                dataArray={portfolioData}
+                bounces={false}
+                renderRow={(item) =>
+                  <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
+                    <Body>
+                      <CoinCard {...item} />
+                    </Body>
+                  </ListItem>
+                }/>
             </View>
+            <View style={{marginTop: 30, marginBottom: 40}}>
+              <CelButton
+                onPress={() => navigateTo('ManagePortfolio')}
+              >
+                Manage your coins
+              </CelButton>
+            </View>
+          </View>
         </Content>
       </SimpleLayout>
     );

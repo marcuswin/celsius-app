@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Text, Image, View } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import get from "lodash/get";
 
 import * as actions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -46,6 +47,7 @@ class DepositCoins extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, navigateTo } = this.props;
+    const portfolioData = get(portfolio, 'data', [])
 
     if (!estimatedInterest) return <Loader />;
     if (!estimatedInterest.estimated_coin_value) return (
@@ -76,7 +78,7 @@ class DepositCoins extends Component {
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> value of your coins </Text>
           is:
         </Text>
-        <CoinValueAccordion portfolio={portfolio} estimatedCoinValue={estimatedInterest.estimated_coin_value} />
+        <CoinValueAccordion portfolio={portfolioData} estimatedCoinValue={estimatedInterest.estimated_coin_value} />
 
         <Text style={globalStyles.normalText}>
           Your estimated
