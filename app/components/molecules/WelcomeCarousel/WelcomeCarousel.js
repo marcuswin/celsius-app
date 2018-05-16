@@ -5,10 +5,16 @@ import WelcomeCarouselStyle from "./WelcomeCarousel.styles";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const xOffset = new Animated.Value(0);
 const images = [
-  require('../../../../assets/images/punker.png'),
-  require('../../../../assets/images/whale.png'),
-  require('../../../../assets/images/bear.png'),
-  require('../../../../assets/images/penguins.png'),
+  require('../../../../assets/images/Welcome_Doggirl.png'),
+  require('../../../../assets/images/Welcome_Whale.png'),
+  require('../../../../assets/images/Welcome_Polar-Bear.png'),
+  require('../../../../assets/images/Welcome_Penguin.png'),
+];
+const gifs = [
+  require('../../../../assets/images/Welcome_Doggirl.gif'),
+  require('../../../../assets/images/Welcome_Whale.gif'),
+  require('../../../../assets/images/Welcome_Polar-Bear.gif'),
+  require('../../../../assets/images/Welcome_Penguin.gif'),
 ];
 
 const transitionAnimation = index => ({
@@ -51,6 +57,7 @@ export default class WelcomeCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeScreen: 0,
       screens: [
         {
           title: 'Welcome to Celsius',
@@ -75,6 +82,17 @@ export default class WelcomeCarousel extends Component {
       ]
     };
     this.handleScroll = this.handleScroll.bind(this)
+    this.renderScreen = this.renderScreen.bind(this)
+    this.setActiveScreen = this.setActiveScreen.bind(this)
+  }
+
+
+  setActiveScreen(e) {
+    const { contentOffset, contentSize } = e.nativeEvent;
+    console.log(e.nativeEvent)
+    this.setState({
+      activeScreen: Math.floor(contentOffset.x * 4 / contentSize.width)
+    })
   }
 
   handleScroll() {
@@ -85,10 +103,15 @@ export default class WelcomeCarousel extends Component {
   }
 
   renderScreen(screen, index) {
+    const { activeScreen } = this.state;
     return (
       <View style={WelcomeCarouselStyle.scrollPage} key={index}>
         <Animated.View style={[WelcomeCarouselStyle.screen, transitionAnimation(index)]}>
-          <Image source={images[index]} style={WelcomeCarouselStyle.image} />
+          { activeScreen === index ? (
+            <Image source={gifs[index]} style={WelcomeCarouselStyle.image} />
+          ) : (
+            <Image source={images[index]} style={WelcomeCarouselStyle.image} />
+          )}
           <View style={[WelcomeCarouselStyle.circleWraper]}>
             <View style={index === 0 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle}/>
             <View style={index === 1 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle}/>
@@ -111,6 +134,7 @@ export default class WelcomeCarousel extends Component {
         onScroll={this.handleScroll}
         horizontal
         pagingEnabled
+        onMomentumScrollEnd={this.setActiveScreen}
         showsHorizontalScrollIndicator={false}
         style={WelcomeCarouselStyle.scrollView}
       >
