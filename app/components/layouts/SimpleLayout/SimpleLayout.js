@@ -57,15 +57,18 @@ const defaultAnimatedHeading = {
 }
 
 const SimpleLayout = (props) => {
-  const { bottomNavigation, statusBar, mainHeader, animatedHeading, background } = props;
+  const { bottomNavigation, statusBar, mainHeader, animatedHeading, background, contentSidePadding } = props;
 
   const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
   const statusBarProps = { ...defaultStatusBar, ...statusBar };
   const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
+  const contentSidePaddingValue = (contentSidePadding || contentSidePadding === 0) ? contentSidePadding : 36;
 
   const contentStyles = {};
   contentStyles.backgroundColor = background || undefined;
   contentStyles.marginBottom = bottomNavigation === false ? 0 : 90;
+  contentStyles.paddingRight = contentSidePaddingValue;
+  contentStyles.paddingLeft = contentSidePaddingValue;
 
   return (
     <Container>

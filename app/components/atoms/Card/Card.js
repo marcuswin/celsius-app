@@ -11,10 +11,6 @@ const CardStyle = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 17,
-    paddingRight: 17,
   },
 })
 
