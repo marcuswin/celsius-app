@@ -18,7 +18,7 @@ import * as actions from "../../../redux/actions";
 import {getSecureStoreKey} from '../../../utils/expo-storage';
 import StepStyles from "../Signup/Signup.styles";
 import Icon from "../../atoms/Icon/Icon";
-import {Separator} from "../../atoms/Separator/Separator";
+import Separator from "../../atoms/Separator/Separator";
 
 const {
   GOOGLE_WEB_CLIENT_ID,

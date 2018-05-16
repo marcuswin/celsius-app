@@ -55,17 +55,17 @@ export default class WelcomeCarousel extends Component {
         {
           title: 'Welcome to Celsius',
           smallDescription: 'YOU\'RE ONE IN A MILLION',
-          largeDescription: 'Let\'s get on the same team so crypto goes mainstream. Together, we can bring the next 100M people into Crypto(so you\'re not the only annoying one at parties).',
+          largeDescription: 'Let\'s get on the same team so crypto goes mainstream. Together, we can bring the next 100M people into Crypto (so you\'re not the only weirdo at parties).',
         },
         {
-          title: 'Get a Loan in Dollar',
+          title: 'Get a Loan in Dollars',
           smallDescription: 'NOW, YOU CAN HODL AND LIVE LARGE',
           largeDescription: 'Use our loan estimator to see how many dollars you could borrow against your crypto once we launch.',
         },
         {
           title: 'Earn Interest',
           smallDescription: 'PUT YOUR CRYPTO TO WORK',
-          largeDescription: 'Find out how much interest you should earn as a Celsius member once we launch.',
+          largeDescription: 'Find out how much interest you can earn as a Celsius member once we launch later this year.',
         },
         {
           title: 'Join the Queue',

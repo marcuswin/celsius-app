@@ -20,6 +20,11 @@ const SeparatorStyle = StyleSheet.create({
     lineHeight: FONT_SCALE * 17,
     textAlign: 'center',
   },
+  separator: {
+    height: 1,
+    width: '100%',
+    backgroundColor: 'rgba(200,200,200,0.3)'
+  },
 });
 
 export default SeparatorStyle;

@@ -18,6 +18,7 @@ export {
   createUserBankInfo,
   getUserDocuments,
   createUserDocuments,
+  toggleTermsOfUse,
 }
 
 // PERSONAL INFO
@@ -320,5 +321,11 @@ function getUserDocumentsSuccess(documents) {
     type: ACTIONS.GET_USER_DOCUMENTS_SUCCESS,
     callName: API.GET_USER_DOCUMENTS,
     documents
+  }
+}
+
+function toggleTermsOfUse() {
+  return {
+    type: ACTIONS.TOGGLE_TERMS_OF_USE,
   }
 }

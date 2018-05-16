@@ -26,6 +26,7 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
+    agreedToTermsOfUse: state.users.agreedToTermsOfUse,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -41,7 +42,6 @@ class SignupTwo extends Component {
         country: props.userLocation ? countries[props.userLocation].name : '',
         countryAlpha3: props.userLocation ? countries[props.userLocation].alpha3 : '',
       },
-      termsOfService: false,
     };
 
     // binders
@@ -98,8 +98,15 @@ class SignupTwo extends Component {
   }
 
   onChangeField = (fieldName, text) => {
-    this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
-  }
+    if (fieldName === 'firstName' || fieldName === 'lastName') {
+      if (!/\d/.test(text)) {
+        this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
+      }
+    } else {
+      this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
+    }
+
+  };
 
   setCountry = (country) => {
     this.setState({
@@ -109,13 +116,13 @@ class SignupTwo extends Component {
         countryAlpha3: country.alpha3 || this.state.countryAlpha3,
       }
     });
-  }
+  };
 
   // rendering methods
   render() {
-    const { termsOfService, formData } = this.state;
+    const { formData } = this.state;
     const { firstName, lastName, email, country } = formData;
-    const { user, callsInProgress, navigateTo } = this.props;
+    const { user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
@@ -130,10 +137,12 @@ class SignupTwo extends Component {
             <PrimaryInput
               labelText="First Name"
               value={firstName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('firstName', text)}/>
             <PrimaryInput
               labelText="Last Name"
               value={lastName}
+              autoCapitalize={'sentences'}
               onChange={text => this.onChangeField('lastName', text)}/>
             {user && (user.facebook_id || user.google_id || user.twitter_id) ?
               <PrimaryInput
@@ -148,8 +157,8 @@ class SignupTwo extends Component {
             <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
               <CelCheckbox
                 label="I agree to Terms of Service"
-                value={termsOfService}
-                onChange={() => this.setState({termsOfService: !termsOfService})}
+                value={agreedToTermsOfUse}
+                onChange={toggleTermsOfUse}
               />
 
               <TouchableOpacity onPress={() => navigateTo('TermsOfUse')}>
@@ -160,7 +169,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
-              disabled={!termsOfService}
+              disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email || !formData.country}
               onPress={this.onSubmit}
               loading={ isLoading }
               white

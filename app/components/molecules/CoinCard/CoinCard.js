@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Grid, Col, Row } from "react-native-easy-grid";
-
+import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
+import StarIcon from "../../atoms/StarIcon/StarIcon";
 import Card from '../../atoms/Card/Card';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
@@ -35,6 +36,8 @@ const CoinCardStyle = StyleSheet.create({
     fontFamily: 'agile-book',
   },
   text: {
+    marginTop: 5,
+    marginBottom: 10,
     fontSize: FONT_SCALE * 29,
     color: '#3D4853',
     fontFamily: 'agile-book',
@@ -84,6 +87,26 @@ const CoinCardStyle = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
+  lendingBorrowingInfoWrapper: {
+    width: '100%',
+    backgroundColor: STYLES.GRAY_4,
+    height: 46,
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: 20,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+  },
+  lendingBorrowingInfoText: {
+    color: 'white',
+    fontFamily: 'agile-medium',
+    fontSize: FONT_SCALE * 11,
+    marginLeft: 9,
+  },
+  row: {
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
 });
 
 
@@ -91,31 +114,41 @@ const CoinCard = (props) => {
   const percentChange24h = props.market.quotes.USD.percent_change_24h;
   const isPercentChangeNegative = percentChange24h < 0;
   return <Card>
-    <Grid>
-      <Col style={{width: '70%', justifyContent: 'center'}}>
-        <View>
-          <Text style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
-          <Text style={CoinCardStyle.text}>{`$${props.market.quotes.USD.price}`}</Text>
-        </View>
-      </Col>
-      <Col style={{width: '30%'}}>
-        <Image
-          source={{uri: props.currency.image_url}}          
-          style={CoinCardStyle.image}
-        />
-      </Col>
+    <Grid style={[CoinCardStyle.row, {paddingTop: 10}]}>
+      <Row>
+        <Col style={{width: '70%', justifyContent: 'center'}}>
+          <View>
+            <Text style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
+            <Text style={CoinCardStyle.text}>{`$${props.total}`}</Text>
+            <Text style={[CoinCardStyle.coinAmount, {fontFamily: 'agile-light'}]}>{props.amount} {props.currency.short.toUpperCase()}</Text>
+          </View>
+        </Col>
+        <Col style={{width: '30%'}}>
+          <Image
+            source={{uri: props.currency.image_url}}          
+            style={CoinCardStyle.image}
+          />
+        </Col>
+      </Row>
     </Grid>
     <Grid style={CoinCardStyle.coinData}>
-      <Row>
+      <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
         <View style={CoinCardStyle.wrapper}>
-          <Text style={CoinCardStyle.coinAmount}>{props.amount} {props.currency.short.toUpperCase()}: </Text>
-          <Text style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>${(props.amount * props.market.quotes.USD.price).toFixed(3)}</Text>
+          <Text style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>${props.market.quotes.USD.price.toFixed(3)}</Text>
         </View>
-        <View style={[CoinCardStyle.wrapper, {marginLeft: 'auto'}]}>
-          <View style={isPercentChangeNegative ? CoinCardStyle.triangleDown : CoinCardStyle.triangleUp} />
-          <Text style={isPercentChangeNegative ? CoinCardStyle.red : CoinCardStyle.green }>{percentChange24h}%</Text><Text>(24h)</Text>
-        </View>
+        <PricingChangeIndicator 
+          isPercentChangeNegative={isPercentChangeNegative}
+          percentChange24h={percentChange24h}
+        />
       </Row>
+      {(props.currency.short === "BTC" || props.currency.short === "ETH") &&
+        <Row>
+          <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
+            <StarIcon />
+            <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible for lending and borrowing</Text>
+          </View>
+        </Row>
+      }
     </Grid>
   </Card>;
 }
