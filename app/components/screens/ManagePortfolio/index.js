@@ -24,7 +24,7 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 class ManagePorfolio extends Component {
   render() {
-    const userHasPortfolio = !isEmpty(this.props.portfolio)
+    const userHasPortfolio = !isEmpty(this.props.portfolio.data)
     return (
         <Container>
         <MainHeader
