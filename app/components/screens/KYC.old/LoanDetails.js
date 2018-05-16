@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
@@ -18,6 +17,7 @@ import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import Separator from "../../atoms/Separator/Separator";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -175,12 +175,7 @@ class LoanDetailsScreen extends Component {
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Loan details'}/>
+        <CelHeading text={'Loan details'}/>
 
         <Message/>
 

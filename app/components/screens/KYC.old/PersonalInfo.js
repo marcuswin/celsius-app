@@ -8,7 +8,6 @@ import * as _ from 'lodash'
 import moment from 'moment';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
@@ -20,6 +19,7 @@ import SelectModal from "../../organisms/SelectModal/SelectModal";
 import CelButton from "../../atoms/CelButton/CelButton";
 import apiUtil from "../../../utils/api-util";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -184,12 +184,7 @@ class PersonalInfoScreen extends Component {
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Loan Request'}/>
+        <CelHeading text={'Loan Request'}/>
 
         <Message/>
 

@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
@@ -17,6 +16,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -153,12 +153,7 @@ class AddressInfoScreen extends Component {
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Address Info'}/>
+        <CelHeading text={'Address Info'}/>
 
         <Message/>
 
