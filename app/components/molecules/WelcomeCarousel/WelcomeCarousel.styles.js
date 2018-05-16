@@ -8,28 +8,17 @@ const WelcomeCarouselStyle = StyleSheet.create({
 
     scrollPage: {
       width: SCREEN_WIDTH - 80,
-      // height: SCREEN_HEIGHT -
     },
     screen: {
       justifyContent: "center",
       alignItems: "center",
     },
     title: {
-      fontFamily: 'agile-bold',
-      fontWeight: "800",
+      fontFamily: 'agile-extra-bold',
       fontSize: FONT_SCALE * 42,
       color: '#FFFFFF',
       textAlign: 'center',
       lineHeight: 40,
-    },
-    title2: {
-      fontFamily: 'agile-bold',
-      fontWeight: "800",
-      fontSize: FONT_SCALE * 42,
-      color: STYLES.WHITE_TEXT_COLOR,
-      textAlign: 'center',
-      lineHeight: 40,
-      paddingBottom: 10,
     },
     image: {
       width: 250,
@@ -51,8 +40,6 @@ const WelcomeCarouselStyle = StyleSheet.create({
       textAlign: 'center',
     },
     circle: {
-      // position: 'absolute',
-      // left: (SCREEN_WIDTH - 80)/2,
       margin: 12,
       width: 8,
       height: 8,
