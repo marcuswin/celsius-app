@@ -54,7 +54,7 @@ const CelButtonStyle = StyleSheet.create({
   },
 
   disabledButton: {
-    opacity: 0.7,
+    opacity: 0.5,
     backgroundColor: 'transparent',
   },
 
