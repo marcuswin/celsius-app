@@ -4,7 +4,6 @@ import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./ForgottenPassword.styles";
 import * as actions from "../../../redux/actions";
@@ -14,6 +13,7 @@ import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -61,12 +61,7 @@ class ForgottenPassword extends Component {
           backButton
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE }}
         />
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE, paddingTop: 20, height: 120 }}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Password forgotten'}/>
+        <CelHeading text={'Password forgotten'} />
 
         <Message/>
 

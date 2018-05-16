@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Separator from '../../atoms/Separator/Separator';
 import Styles from "./Forms.styles";
@@ -20,6 +19,7 @@ import CameraInput from "../../atoms/Inputs/CameraInput";
 import CameraModal from "../../organisms/Camera/Camera";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -130,12 +130,7 @@ class DocumentInfoScreen extends Component {
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Verify profile'}/>
+        <CelHeading text={'Verify profile'}/>
 
         <Message/>
 

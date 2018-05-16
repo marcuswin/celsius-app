@@ -5,11 +5,11 @@ import {bindActionCreators} from "redux";
 import {Col, Grid} from "react-native-easy-grid";
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import ComingSoonStyle from "./ComingSoon.styles";
 import * as NavigateActions from "../../../redux/nav/navActions";
 import Icon from "../../atoms/Icon/Icon";
 import {GLOBAL_STYLE_DEFINITIONS} from "../../../config/constants/style";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({nav: state.nav}),
@@ -31,13 +31,7 @@ class ComingSoonScreen extends Component {
     return (
       <Container>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: '#A866AA'}}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: '#A866AA'}}
-          subheading={'What’s coming soon…'}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Our roadmap'}/>
+        <CelHeading subheading={'What’s coming soon…'} text={'Our roadmap'}/>
         <Content bounces={false} style={ComingSoonStyle.content} onScroll={this.onScroll}>
           <View style={ComingSoonStyle.row}>
             <Grid>

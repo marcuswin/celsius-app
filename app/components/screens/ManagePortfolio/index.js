@@ -5,11 +5,11 @@ import {bindActionCreators} from "redux";
 import isEmpty from 'lodash/isEmpty';
 
 import {MainHeader} from '../../../components/molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../../components/molecules/AnimatedHeading/AnimatedHeading';
 import Calculator from '../Calculator/Calculator'
 import PortfolioStyle from "./styles";
 import * as actions from "../../../redux/actions";
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 
 @connect(
@@ -36,11 +36,7 @@ class ManagePorfolio extends Component {
           cancelBtn={userHasPortfolio}
           onCancel={userHasPortfolio ? () => this.props.navigateTo('Home') : null}
         />
-        <AnimatedHeading
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          backButton={false}
+        <CelHeading
           text={userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`}
           subheading={userHasPortfolio ? "Manage your portfolio" : null}
           />

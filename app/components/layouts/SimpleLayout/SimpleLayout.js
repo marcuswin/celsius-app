@@ -5,11 +5,11 @@ import { Container, Content, View } from 'native-base';
 import {STYLES} from "../../../config/constants/style";
 import {Message} from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 import Avatar from "../../atoms/Avatar/Avatar";
 
 import SimpleLayoutStyle from "./SimpleLayout.styles";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 
 const styles = StyleSheet.create({
@@ -65,7 +65,7 @@ const SimpleLayout = (props) => {
   return (
     <Container>
       <MainHeader { ...mainHeaderProps } />
-      <AnimatedHeading { ...animatedHeadingProps } />
+      <CelHeading { ...animatedHeadingProps } />
 
       {!props.showAvatar && <Message />}
 

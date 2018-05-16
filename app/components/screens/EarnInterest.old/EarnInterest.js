@@ -6,10 +6,10 @@ import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import EarnInterestStyle from "./EarnInterest.styles";
 import {STYLES} from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -54,14 +54,7 @@ class EarnInterestScreen extends Component {
     return (
       <Container>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_GREEN}}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_GREEN}}
-          subheading={'Earn interest'}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Deposit coins'}/>
-
+        <CelHeading subheading={'Earn interest'} text={'Deposit coins'}/>
 
         <Content bounces={false} style={EarnInterestStyle.content} onScroll={this.onScroll}>
           <View style={EarnInterestStyle.wrapper}>
