@@ -87,7 +87,7 @@ class LoginScreen extends Component {
         </Text>
 
         <View style={{paddingTop: 30}}>
-          <ThirdPartyLoginSection />
+          <ThirdPartyLoginSection type="login" />
         </View>
 
         <Separator>OR LOGIN WITH E-MAIL</Separator>
