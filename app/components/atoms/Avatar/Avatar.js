@@ -1,15 +1,18 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Dimensions } from 'react-native';
 import AvatarDefaultImage from "../../../../assets/images/Headshot-cat.jpg";
+
+const width = Dimensions.get("window").width;
 
 
   const styles = StyleSheet.create({
     root: {
-      height: 185,
-      width: 185,
-      borderRadius: 190 / 2,
-      left: 7.5,
-      top: 7.5,
+      height: '90%',
+      width: '90%',
+      top: '5%',
+      borderRadius: width * 0.9 / 4,
+      display: 'flex',
+      alignSelf: 'center',
     },    
   });
 
