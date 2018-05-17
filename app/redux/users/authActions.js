@@ -1,4 +1,4 @@
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {Constants} from 'expo';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
@@ -8,6 +8,8 @@ import {showMessage} from '../ui/uiActions';
 import {setSecureStoreKey} from '../../utils/expo-storage';
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
+
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 export {
   loginBorrower,

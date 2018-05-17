@@ -3,7 +3,7 @@ import {Text} from 'react-native';
 import {connect} from 'react-redux';
 import {View} from 'native-base';
 import {bindActionCreators} from 'redux';
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {Constants} from "expo";
 
 import CelButton from '../../atoms/CelButton/CelButton';
 import LoginForm from "../../organisms/LoginForm/LoginForm";
@@ -14,6 +14,8 @@ import Separator from "../../atoms/Separator/Separator";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {STYLES} from "../../../config/constants/style";
+
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -45,10 +47,6 @@ class LoginScreen extends Component {
     const {navigateTo} = this.props;
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     if (token) navigateTo('Home', true);
-  };
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
   };
 
   getFormHeight = () => {

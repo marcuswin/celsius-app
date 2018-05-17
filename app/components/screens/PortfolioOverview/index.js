@@ -60,23 +60,23 @@ class PortfolioScreen extends Component {
     const mainHeader = {
       backButton: false,
     }
-    
+
     const totalValue = get(portfolio, 'meta.quotes.USD.total', 0);
     const portfolioData = get(portfolio, 'data', [])
 
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
-        <Content bounces={false} onScroll={this.onScroll} style={{marginTop: -10}}>
+        <Content bounces={false} style={{marginTop: -10}}>
         <Grid>
           <Row>
             <Row style={styles.totalValueContainer}>
-              <Col style={{width: '100%'}}> 
+              <Col style={{width: '100%'}}>
                 <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
                 <Text style={styles.totalValue}>{totalValue !== 0 ? `$${totalValue.toFixed(3)}` : 'No total value'}</Text>
               </Col>
             </Row>
           </Row>
-         </Grid> 
+         </Grid>
           <View style={{paddingLeft: 36, paddingRight: 36}}>
             <View>
               <List

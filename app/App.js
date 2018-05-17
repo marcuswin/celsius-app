@@ -5,7 +5,6 @@ import {Image} from 'react-native';
 import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
 import configureStore from './config/configureStore';
 import apiUtil from './utils/api-util';
@@ -15,7 +14,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.config(SENTRY_DSN).install();
