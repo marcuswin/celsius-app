@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Grid, Col, Row } from "react-native-easy-grid";
+
+import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import StarIcon from "../../atoms/StarIcon/StarIcon";
 import Card from '../../atoms/Card/Card';
-import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 
 const commonStyles = {
@@ -119,7 +121,7 @@ const CoinCard = (props) => {
         <Col style={{width: '70%', justifyContent: 'center'}}>
           <View>
             <Text style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
-            <Text style={CoinCardStyle.text}>{`$${props.total}`}</Text>
+            <Text style={CoinCardStyle.text}>{formatter.usd(props.total)}</Text>
             <Text style={[CoinCardStyle.coinAmount, {fontFamily: 'agile-light'}]}>{props.amount} {props.currency.short.toUpperCase()}</Text>
           </View>
         </Col>
@@ -134,7 +136,7 @@ const CoinCard = (props) => {
     <Grid style={CoinCardStyle.coinData}>
       <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
         <View style={CoinCardStyle.wrapper}>
-          <Text style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>${props.market.quotes.USD.price.toFixed(3)}</Text>
+          <Text style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {props.currency.short} = {formatter.usd(props.market.quotes.USD.price)}</Text>
         </View>
         <PricingChangeIndicator 
           isPercentChangeNegative={isPercentChangeNegative}

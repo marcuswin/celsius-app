@@ -6,6 +6,8 @@ import { bindActionCreators } from "redux";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import get from 'lodash/get';
 
+import formatter from "../../../utils/formatter";
+import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import { STYLES, FONT_SCALE } from "../../../config/constants/style";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -62,21 +64,29 @@ class PortfolioScreen extends Component {
     }
 
     const totalValue = get(portfolio, 'meta.quotes.USD.total', 0);
-    const portfolioData = get(portfolio, 'data', [])
+    const percentChange24h = get(portfolio, 'meta.quotes.USD.percent_change_24h', 0);
+    const isPercentChangeNegative = percentChange24h < 0;
+    const portfolioData = get(portfolio, 'data', []);
 
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
         <Content bounces={false} style={{marginTop: -10}}>
-        <Grid>
+        {totalValue !== 0 && <Grid>
           <Row>
             <Row style={styles.totalValueContainer}>
-              <Col style={{width: '100%'}}>
+              <Col style={{width: '70%'}}>
                 <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
-                <Text style={styles.totalValue}>{totalValue !== 0 ? `$${totalValue.toFixed(3)}` : 'No total value'}</Text>
+                <Text style={styles.totalValue}>{formatter.usd(totalValue)}</Text>
+              </Col>
+              <Col style={{width: '30%', alignSelf: 'flex-end'}}>
+                <PricingChangeIndicator
+                  isPercentChangeNegative={isPercentChangeNegative}
+                  percentChange24h={percentChange24h}
+                />
               </Col>
             </Row>
           </Row>
-         </Grid>
+         </Grid>}
           <View style={{paddingLeft: 36, paddingRight: 36}}>
             <View>
               <List
