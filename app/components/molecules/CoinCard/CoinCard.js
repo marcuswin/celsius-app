@@ -147,7 +147,7 @@ const CoinCard = (props) => {
         <Row>
           <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
             <StarIcon />
-            <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible for lending and borrowing</Text>
+            <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible soon for lending and borrowing</Text>
           </View>
         </Row>
       }
