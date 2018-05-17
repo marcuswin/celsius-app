@@ -173,7 +173,7 @@ class EstimatedLoan extends Component {
 
         { this.renderCompetitionRates() }
 
-        <Separator />
+        <Separator margin='15 0 30 0'/>
 
         <View style={EstimatedLoanStyle.hippoSection}>
           <Text style={globalStyles.heading}>
@@ -207,7 +207,7 @@ class EstimatedLoan extends Component {
           </Text>
         </View>
 
-        <Separator />
+        <Separator margin='15 0 30 0'/>
 
         <View style={EstimatedLoanStyle.bearWrapper}>
           <Image source={require('../../../../assets/images/polar-bear-hodl.png')} style={EstimatedLoanStyle.bearImage}/>
