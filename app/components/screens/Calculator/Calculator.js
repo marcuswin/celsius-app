@@ -3,11 +3,12 @@ import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Body, Button, List, ListItem, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
+import get from 'lodash/get';
 import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
 import isEmpty from 'lodash/isEmpty';
-import CelButton from '../../atoms/CelButton/CelButton'
 
+import CelButton from '../../atoms/CelButton/CelButton';
 import API from '../../../config/constants/API';
 import {Message} from '../../atoms/Message/Message';
 import Icon from "../../atoms/Icon/Icon";
@@ -35,7 +36,7 @@ class Calculator extends Component {
 
     this.state = {
       modalVisible: false,
-      selectedCoins: props.portfolio.data || [],
+      selectedCoins: get(props.portfolio, 'data', []),
     };
 
     if (!props.supportedCurrencies) {

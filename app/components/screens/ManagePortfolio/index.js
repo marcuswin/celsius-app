@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
 
 import {MainHeader} from '../../../components/molecules/MainHeader/MainHeader';
 import Calculator from '../Calculator/Calculator'
@@ -24,7 +25,8 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 class ManagePorfolio extends Component {
   render() {
-    const userHasPortfolio = !isEmpty(this.props.portfolio.data)
+    const portfolioData = get(this.props.portfolio, 'data', [])
+    const userHasPortfolio = !isEmpty(portfolioData)
     return (
         <Container>
         <MainHeader
