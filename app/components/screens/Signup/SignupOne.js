@@ -76,7 +76,7 @@ class SignupOne extends Component {
             <ThirdPartyLoginSection type="signup"/>
           </View>
 
-          <Separator margin='15 0 30 0'>OR SIGN UP WITH E-MAIL</Separator>
+          <Separator margin='35 0 -15 0'>OR SIGN UP WITH E-MAIL</Separator>
 
           <View style={SignupOneStyle.formWrapper}>
             <Form>
