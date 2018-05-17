@@ -107,7 +107,7 @@ class DepositCoins extends Component {
           We want to do whatever we can to benefit all of our members and to incentivize as many people as possible to join the Celsius community.
         </Text>
 
-        <Separator />
+        <Separator margin='15 0 30 0'/>
 
         <View style={DepositCoinsStyle.hippoWrapper}>
           <Image source={require('../../../../assets/images/two-thumbs-up.png')} style={DepositCoinsStyle.hippoImage}/>
