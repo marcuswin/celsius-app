@@ -77,10 +77,6 @@ class AddressInfoScreen extends Component {
     }
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const {createUserAddressInfo, showMessage} = this.props;
     const { addressInfo } = this.state;
@@ -160,7 +156,7 @@ class AddressInfoScreen extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <SelectCountryModal
               visible={modalVisible}

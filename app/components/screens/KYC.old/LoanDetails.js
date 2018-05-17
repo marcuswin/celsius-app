@@ -86,10 +86,6 @@ class LoanDetailsScreen extends Component {
     }
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const {showMessage, createLoanDetails, loanRequest} = this.props;
     const {formData} = this.state;
@@ -182,7 +178,7 @@ class LoanDetailsScreen extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
 
             <SelectModal
