@@ -1,4 +1,4 @@
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {Constants} from 'expo';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
@@ -8,6 +8,8 @@ import {showMessage} from '../ui/uiActions';
 import {setSecureStoreKey} from '../../utils/expo-storage';
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
+
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 export {
   loginBorrower,
@@ -25,6 +27,7 @@ export {
   loginFacebook,
   loginTwitter,
   sendResetLink,
+  resetPassword,
 }
 
 
@@ -386,5 +389,26 @@ function sendResetLinkSuccess() {
   return {
     type: ACTIONS.SEND_RESET_LINK_SUCCESS,
     callName: API.SEND_RESET_LINK,
+  }
+}
+
+function resetPassword(currentPassword, newPassword) {
+  return async dispatch => {
+    dispatch(startApiCall(API.RESET_PASSWORD));
+    try {
+      await usersService.resetPassword(currentPassword, newPassword);
+      dispatch(showMessage('success', 'Password successfully changed.'));
+      dispatch(resetPasswordSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.RESET_PASSWORD, err));
+    }
+  }
+}
+
+function resetPasswordSuccess() {
+  return {
+    type: ACTIONS.RESET_PASSWORD_SUCCESS,
+    callName: API.RESET_PASSWORD,
   }
 }

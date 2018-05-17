@@ -41,7 +41,7 @@ function getPortfolio() {
 
     try {
       const res = await portfolioRequestService.get();
-      const portfolio = res.data;
+      const portfolio = res;
       dispatch(getPortfolioRequestSuccess(portfolio));
     } catch (err) {
       dispatch(showMessage(err.type === 'info' ? 'info' : 'error', err.msg));

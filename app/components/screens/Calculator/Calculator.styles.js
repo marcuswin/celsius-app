@@ -1,37 +1,54 @@
 import { StyleSheet } from 'react-native';
-import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+
+const CommonCalculatorStyles = {
+  defaultButton: {
+    width: '100%',
+    height: 80,
+    justifyContent: 'center',
+    borderStyle: 'dashed',
+    borderWidth: 1,
+    borderColor: STYLES.GRAY_6,
+    borderRadius: 8,
+    marginTop: 20
+  },
+  defaultButtonText: {
+    fontFamily: 'agile-book',
+    marginLeft: 25,
+    opacity: 0.7,
+    color: STYLES.GRAY_2,
+    fontSize: FONT_SCALE * 18
+  },
+}
 
 const CalculatorStyle = StyleSheet.create({
   content: {
     paddingLeft: 40,
-    paddingRight: 40
+    paddingRight: 40,
   },
   container: {
     paddingTop: 25,
   },
   description: {
-    color: '#3D4853',
+    color: STYLES.GRAY_2,
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
     paddingBottom: 22,
     fontWeight: "200"
   },
   addButton: {
-    width: '100%',
-    height: 80,
-    justifyContent: 'center',
-    borderStyle: 'dashed',
-    borderWidth: 1,
-    borderColor: '#C8C8C8',
-    borderRadius: 8,
-    marginTop: 20
+    ...CommonCalculatorStyles.defaultButton,
+  },
+  disabledAddButton: {
+    ...CommonCalculatorStyles.defaultButton,
+    borderColor: 'white',
   },
   addButtonText: {
-    fontFamily: 'agile-book',
-    marginLeft: 25,
-    opacity: 0.7,
-    color: '#3D4853',
-    fontSize: FONT_SCALE * 18
+    ...CommonCalculatorStyles.defaultButtonText,
+  },
+  disabledAddButtonText: {
+    ...CommonCalculatorStyles.defaultButtonText,
+    color: 'white',
   },
   addBtnColumn: {
     justifyContent: 'center'
@@ -61,6 +78,7 @@ const CalculatorStyle = StyleSheet.create({
   },
   submitButtonWrapper: {
     marginTop: 40,
+    marginBottom: 40,
     paddingBottom: 60,
   },
   submitButton: {

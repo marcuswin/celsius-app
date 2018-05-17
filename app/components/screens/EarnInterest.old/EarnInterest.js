@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import {StatusBar, Image} from 'react-native';
+import {Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import EarnInterestStyle from "./EarnInterest.styles";
 import {STYLES} from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -28,10 +28,6 @@ class EarnInterestScreen extends Component {
     this.state = {};
   }
 
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
 
   handleAcceptedInterestRequest = async () => {
     const {navigateTo, acceptInterestRequest} = this.props;
@@ -53,18 +49,10 @@ class EarnInterestScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_GREEN}}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_GREEN}}
-          subheading={'Earn interest'}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Deposit coins'}/>
+        <CelHeading subheading={'Earn interest'} text={'Deposit coins'}/>
 
-
-        <Content bounces={false} style={EarnInterestStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={EarnInterestStyle.content}>
           <View style={EarnInterestStyle.wrapper}>
             <Text style={[EarnInterestStyle.description, {paddingTop: '15%'}]}>
               Unlike banks, we distribute most of the fees and interest from borrowers back to Celsius community.

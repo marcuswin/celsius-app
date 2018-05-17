@@ -37,10 +37,6 @@ class ProfileScreen extends Component {
     this.props.getProfileInfo();
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     this.props.updateProfileInfo({
       first_name: this.props.user.first_name,
@@ -60,7 +56,7 @@ class ProfileScreen extends Component {
     }
 
     if (key === 'country') {
-      const countryName = _.get(value, 'name', value);
+      const countryName = _.get(value, 'name', value)
       this.props.changeProfileInfo(key, countryName)
     } else {
       this.props.changeProfileInfo(key, value)
@@ -77,7 +73,7 @@ class ProfileScreen extends Component {
         mainHeader={{ backButton: false}}
         showAvatar
       >
-      <Content bounces={false} onScroll={this.onScroll} style={{marginTop: 100, marginBottom: 140}}>
+      <Content bounces={false} style={{marginTop: 100, marginBottom: 140}}>
         <PrimaryInput
           type="secondary"
           labelText={getError(this.props.error, 'first_name', "First name")}
@@ -93,6 +89,7 @@ class ProfileScreen extends Component {
           labelText="E-mail"
           value={user.email}
           keyboardType='email-address'
+          editable={false}
           onChange={this.handleUserInfoChange.bind(this, 'email')} />
         <SelectCountry
           inputType="secondary"

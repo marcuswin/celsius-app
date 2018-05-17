@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, View, Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
@@ -18,6 +17,7 @@ import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import Separator from "../../atoms/Separator/Separator";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -84,10 +84,6 @@ class LoanDetailsScreen extends Component {
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.CREATE_LOAN_DETAILS) {
       navigateTo('DocumentInfo');
     }
-  };
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
   };
 
   onSubmit = () => {
@@ -169,26 +165,20 @@ class LoanDetailsScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader
           {...this.props}
           backButton
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Loan details'}/>
+        <CelHeading text={'Loan details'}/>
 
         <Message/>
 
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
 
             <SelectModal
