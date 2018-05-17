@@ -1,10 +1,12 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Container, Content, Text, View} from 'native-base';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Container, Content, Text, View } from 'native-base';
+import { bindActionCreators } from "redux";
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
 
-import {MainHeader} from '../../../components/molecules/MainHeader/MainHeader';
+import { Message } from '../../atoms/Message/Message';
+import { MainHeader } from '../../../components/molecules/MainHeader/MainHeader';
 import Calculator from '../Calculator/Calculator'
 import PortfolioStyle from "./styles";
 import * as actions from "../../../redux/actions";
@@ -24,9 +26,10 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 class ManagePorfolio extends Component {
   render() {
-    const userHasPortfolio = !isEmpty(this.props.portfolio.data)
+    const portfolioData = get(this.props.portfolio, 'data', []);
+    const userHasPortfolio = !isEmpty(portfolioData);
     return (
-        <Container>
+      <Container>
         <MainHeader
           cancelBtn={userHasPortfolio}
           onCancel={userHasPortfolio ? () => this.props.navigateTo('Home') : null}
@@ -35,6 +38,7 @@ class ManagePorfolio extends Component {
           text={userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`}
           subheading={userHasPortfolio ? "Manage your portfolio" : null}
           />
+        <Message/>
         <Content bounces={false} style={PortfolioStyle.content}>
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
@@ -48,8 +52,7 @@ class ManagePorfolio extends Component {
           </View>
           <Calculator {...this.props} userHasPortfolio={userHasPortfolio} />
         </Content>
-
-          { userHasPortfolio ? <BottomNavigation/> : null }
+        {userHasPortfolio ? <BottomNavigation/> : null}
       </Container>
     );
   }
