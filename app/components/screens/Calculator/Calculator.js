@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
-import {Body, Button, Container, Content, List, ListItem, Text, View} from 'native-base';
+import {Body, Button, List, ListItem, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
@@ -35,7 +35,7 @@ class Calculator extends Component {
 
     this.state = {
       modalVisible: false,
-      selectedCoins: props.portfolio,
+      selectedCoins: props.portfolio.data || [],
     };
 
     if (!props.supportedCurrencies) {
@@ -58,10 +58,6 @@ class Calculator extends Component {
       .map(sc => ({id: sc.currency.id, amount: sc.amount}));
 
     this.props.updatePortfolio(data);
-  };
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
   };
 
   onChangeText = (amount, coin) => {
@@ -102,12 +98,8 @@ class Calculator extends Component {
 
   removeItem = item => {
     const {selectedCoins} = this.state;
-    if (selectedCoins.length > 1) {
-      const filtered = selectedCoins.filter((el) => el.currency.short !== item.currency.short);
-      this.setState({selectedCoins: filtered})
-    } else {
-      this.props.showMessage('warning', 'You cannot remove last item.')
-    }
+    const filtered = selectedCoins.filter((el) => el.currency.short !== item.currency.short);
+    this.setState({selectedCoins: filtered})
   };
 
   renderRemoveButton = item => [
@@ -123,13 +115,14 @@ class Calculator extends Component {
       ? this.props.supportedCurrencies.filter(sc => !this.state.selectedCoins.map(x => x.currency.id).includes(sc.id))
       : []
     const isFormDisabled = isEmpty(this.state.selectedCoins)
+    const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
     return (
-      <View>
-      <Container>
+      <View style={{flex: 1}}>
         <Message/>
-        <Content bounces={false} onScroll={this.onScroll}>
           <View style={CalculatorStyle.container}>
-            <List bounces={false} dataArray={this.state.selectedCoins}
+            <List
+              dataArray={this.state.selectedCoins}
+              scrollEnabled={false}
               renderRow={(item) =>
               <Swipeable rightButtons={this.renderRemoveButton(item)}>
                   <ListItem style={CalculatorStyle.listItem}>
@@ -138,7 +131,7 @@ class Calculator extends Component {
                       <Grid>
                         <Col style={{width: '70%', justifyContent: 'center'}}>
                           <View style={{marginLeft: 17}}>
-                            <Text style={CalculatorStyle.itemLabel}>{item.currency.short}</Text>
+                            <Text style={CalculatorStyle.itemLabel}>{item.currency.short} - {item.currency.name.toUpperCase()}</Text>
                             <TextInput
                               keyboardType={KEYBOARD_TYPE.NUMERIC}
                               style={[CalculatorStyle.input]}
@@ -160,13 +153,13 @@ class Calculator extends Component {
                   </ListItem>
                 </Swipeable>
               }/>
-            <TouchableOpacity style={CalculatorStyle.addButton} onPress={() => this.setState({modalVisible: true})}>
+            <TouchableOpacity style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton} onPress={() => this.setState({modalVisible: true})} disabled={selectedAllCoins}>
               <Grid>
                 <Col style={{width: '70%', justifyContent: 'center'}}>
-                  <Text style={CalculatorStyle.addButtonText}>Add another coin</Text>
+                  <Text style={selectedAllCoins ? CalculatorStyle.disabledAddButtonText : CalculatorStyle.addButtonText}>Add another coin</Text>
                 </Col>
                 <Col style={{width: '30%', justifyContent: 'center'}}>
-                  <Icon name='AddButtonIcon' height='36' width='36' viewBox="0 0 40 40" fill={'#3D4853'}
+                  <Icon name='AddButtonIcon' height='36' width='36' viewBox="0 0 40 40" fill={selectedAllCoins ? 'white' : '#3D4853'}
                         style={{marginLeft: 30, opacity: 0.5}}/>
                 </Col>
               </Grid>
@@ -181,9 +174,7 @@ class Calculator extends Component {
               </CelButton>
             </View>
           </View>
-        </Content>
-      </Container>
-   </View>);
+      </View>);
   }
 }
 

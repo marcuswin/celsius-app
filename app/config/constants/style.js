@@ -38,6 +38,9 @@ export const STYLES = {
   GRAY_1: '#EEEEEE',
   GRAY_2: '#3D4853',
   GRAY_3: '#E9E9EF',
+  GRAY_4: '#9DA3A9',
+  GRAY_5: '#CED1D4',
+  GRAY_6: '#C8C8C8',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
@@ -95,6 +98,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/icons/celsius-spinner.gif'),
   require('../../../assets/images/lending-interest-chart.png'),
   require('../../../assets/images/polar-bear-hodl.png'),
+  require('../../../assets/images/monkey-empty.png'),
   require('../../../assets/images/bear-avatar.jpg'),
   require('../../../assets/images/cat-avatar.jpg'),
   require('../../../assets/images/deer-avatar.jpg'),

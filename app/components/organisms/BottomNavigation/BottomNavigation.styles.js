@@ -1,7 +1,18 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { Constants } from 'expo';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const { height, width } = Dimensions.get('window');
+
+let bottomNavigationHeight;
+let paddingBottom;
+if (Object.keys(Constants.platform) === 'ios' && Constants.platform.ios.deviceName === 'iPhone X') {
+  bottomNavigationHeight = 87;
+  paddingBottom = 30;
+} else {
+  bottomNavigationHeight = 60;
+  paddingBottom = 5;
+}
 
 const baseItem = {
   justifyContent: 'center',
@@ -20,20 +31,19 @@ const baseText = {
 const BottomNavigationStyle = StyleSheet.create({
   container: {
     position: 'absolute',
-    height: 87,
-    top: height - 87,
+    height: bottomNavigationHeight,
+    top: height - bottomNavigationHeight,
     left: 0,
     width,
     backgroundColor: 'rgba(255,255,255,0.82)',
 
     flexDirection: 'row',
-    // justifyContent: 'space-between',
 
     shadowOffset: {width: 0, height: -1},
     shadowOpacity: 0.1,
     shadowRadius: 2,
 
-    paddingBottom: 30,
+    paddingBottom,
   },
   itemActive: {
     ...baseItem,

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Linking, StatusBar, TouchableOpacity} from 'react-native';
+import {Image, Linking, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
@@ -10,12 +10,12 @@ import * as actions from "../../../redux/actions";
 import API from "../../../config/constants/API";
 import Accordion from '../../molecules/Accordion/Accordion';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import LoanPreviewStyle from "./LoanPreview.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS, STYLES} from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
 import apiUtil from "../../../utils/api-util";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -46,10 +46,6 @@ class LoanPreviewScreen extends Component {
       navigateTo('PersonalInfo', true);
     }
   }
-
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
 
   handleAcceptLoanRequest() {
     const {navigateTo, acceptLoanRequest, loanRequest} = this.props;
@@ -83,20 +79,13 @@ class LoanPreviewScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Estimated Loan'}
-          subheading={'Amount you can borrow'}/>
+        <CelHeading text={'Estimated Loan'} subheading={'Amount you can borrow'}/>
 
         <Image style={{height: 10, width: '100%', backgroundColor: STYLES.PRIMARY_BLUE, resizeMode: 'contain'}}
                source={require('../../../../assets/images/progress-2.png')}/>
 
-        <Content bounces={false} style={LoanPreviewStyle.content} onScroll={this.onScroll}>
+        <Content bounces={false} style={LoanPreviewStyle.content}>
           <View style={LoanPreviewStyle.wrapper}>
 
             <Text style={LoanPreviewStyle.description}>

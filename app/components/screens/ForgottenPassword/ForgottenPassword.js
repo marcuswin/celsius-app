@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Styles from "./ForgottenPassword.styles";
 import * as actions from "../../../redux/actions";
@@ -15,6 +13,7 @@ import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -35,10 +34,6 @@ class ForgottenPassword extends Component {
     };
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const { email } = this.state;
     const { sendResetLink } = this.props;
@@ -57,25 +52,19 @@ class ForgottenPassword extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader
           {...this.props}
           backButton
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE }}
         />
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE, paddingTop: 20, height: 120 }}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Password forgotten'}/>
+        <CelHeading text={'Password forgotten'} />
 
         <Message/>
 
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Text style={Styles.description}>
               Enter the email address you used to sign in to Celsius.

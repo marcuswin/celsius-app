@@ -26,16 +26,12 @@ class HomeScreen extends Component {
     getPortfolio();
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   render() {
     const isLoading = apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
     if (isLoading) {
       return <Loader />
     }
-    return (!isLoading && !isEmpty(this.props.portfolio)) ? <PortfolioOverview /> : <ManagePortfolio />
+    return (!isLoading && !isEmpty(this.props.portfolio.data)) ? <PortfolioOverview /> : <ManagePortfolio />
   }
 }
 

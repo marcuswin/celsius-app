@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 import {Image, TouchableOpacity} from 'react-native';
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 import {Constants} from 'expo';
 
 import {deleteSecureStoreKey} from "../../../utils/expo-storage";
@@ -12,8 +11,9 @@ import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 import HeaderStyle from './MainHeader.styles';
 import * as actions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
+import {STYLES} from "../../../config/constants/style";
 
-const {ENV} = Constants.manifest.extra;
+const {ENV, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -22,7 +22,6 @@ const {ENV} = Constants.manifest.extra;
   dispatch => bindActionCreators(actions, dispatch),
 )
 class MainHeader extends Component {
-
   static propTypes = {
     right: PropTypes.element,
     rightLink: PropTypes.instanceOf(Object),
@@ -30,6 +29,10 @@ class MainHeader extends Component {
     backButton: PropTypes.bool,
     backgroundColor: PropTypes.string,
     onCancel: PropTypes.func,
+  };
+
+  static defaultProps = {
+    backgroundColor: STYLES.PRIMARY_BLUE,
   };
 
   constructor() {
@@ -116,10 +119,14 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {right, left, backButton, customStyle} = this.props;
+    const {right, left, backButton, backgroundColor} = this.props;
+
+    const styles = {
+      backgroundColor,
+    }
 
     return (
-      <Header style={[HeaderStyle.header, customStyle]} onLayout={this.setHeaderHeight}>
+      <Header style={[HeaderStyle.header, styles]} onLayout={this.setHeaderHeight} iosBarStyle="light-content">
         <Left>
           {this.renderLeft(left, backButton)}
         </Left>

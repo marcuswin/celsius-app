@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
 import {Col, Grid} from "react-native-easy-grid";
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import ComingSoonStyle from "./ComingSoon.styles";
 import * as NavigateActions from "../../../redux/nav/navActions";
 import Icon from "../../atoms/Icon/Icon";
 import {GLOBAL_STYLE_DEFINITIONS} from "../../../config/constants/style";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({nav: state.nav}),
@@ -24,23 +23,12 @@ class ComingSoonScreen extends Component {
     this.state = {};
   }
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   render() {
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader {...this.props} backButton customStyle={{backgroundColor: '#A866AA'}}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: '#A866AA'}}
-          subheading={'What’s coming soon…'}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Our roadmap'}/>
-        <Content bounces={false} style={ComingSoonStyle.content} onScroll={this.onScroll}>
+        <CelHeading subheading={'What’s coming soon…'} text={'Our roadmap'}/>
+        <Content bounces={false} style={ComingSoonStyle.content}>
           <View style={ComingSoonStyle.row}>
             <Grid>
               <Col style={GLOBAL_STYLE_DEFINITIONS.centeredColumn}>

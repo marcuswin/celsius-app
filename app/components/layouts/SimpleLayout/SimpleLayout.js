@@ -1,15 +1,15 @@
 import React from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Container, Content, View } from 'native-base';
 
 import {STYLES} from "../../../config/constants/style";
 import {Message} from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 import Avatar from "../../atoms/Avatar/Avatar";
 
 import SimpleLayoutStyle from "./SimpleLayout.styles";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 
 const styles = StyleSheet.create({
@@ -48,30 +48,27 @@ const defaultMainHeader = {
   customStyle: {backgroundColor: STYLES.PRIMARY_BLUE},
 }
 
-const defaultStatusBar = {
-  barStyle: 'dark-content',
-}
-
 const defaultAnimatedHeading = {
   containerCustomStyles: {backgroundColor: STYLES.PRIMARY_BLUE},
 }
 
 const SimpleLayout = (props) => {
-  const { bottomNavigation, statusBar, mainHeader, animatedHeading, background } = props;
+  const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding } = props;
 
   const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
-  const statusBarProps = { ...defaultStatusBar, ...statusBar };
   const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
+  const contentSidePaddingValue = (contentSidePadding || contentSidePadding === 0) ? contentSidePadding : 36;
 
   const contentStyles = {};
   contentStyles.backgroundColor = background || undefined;
   contentStyles.marginBottom = bottomNavigation === false ? 0 : 90;
+  contentStyles.paddingRight = contentSidePaddingValue;
+  contentStyles.paddingLeft = contentSidePaddingValue;
 
   return (
     <Container>
-      <StatusBar { ...statusBarProps } />
       <MainHeader { ...mainHeaderProps } />
-      <AnimatedHeading { ...animatedHeadingProps } />
+      <CelHeading { ...animatedHeadingProps } />
 
       {!props.showAvatar && <Message />}
 

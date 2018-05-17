@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -33,12 +32,10 @@ class WelcomeScreen extends Component {
     const {navigateTo} = this.props;
 
     return (
-      <Container>
-        <StatusBar barStyle="dark-content" style={WelcomeStyle.statusBar}/>
-        <MainHeader/>
+      <Container style={{ backgroundColor: 'black' }}>
         <Content bounces={false} style={WelcomeStyle.content}>
+          <MainHeader/>
           <View style={[WelcomeStyle.view]}>
-
             <WelcomeCarousel />
 
             <View style={WelcomeStyle.buttonWrapper}>
@@ -54,7 +51,7 @@ class WelcomeScreen extends Component {
                 onPress={() => navigateTo('Login', true)}
                 transparent
                 size="small"
-                margin="25 0 60 0"
+                margin="25 0 20 0"
               >
                 Already have an account?
               </CelButton>

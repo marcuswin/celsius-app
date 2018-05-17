@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import * as _ from 'lodash';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {AnimatedHeading} from '../../molecules/AnimatedHeading/AnimatedHeading';
 import {Message} from '../../atoms/Message/Message';
 import Separator from '../../atoms/Separator/Separator';
 import Styles from "./Forms.styles";
@@ -20,6 +19,7 @@ import CameraInput from "../../atoms/Inputs/CameraInput";
 import CameraModal from "../../organisms/Camera/Camera";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
 
 @connect(
   state => ({
@@ -71,10 +71,6 @@ class DocumentInfoScreen extends Component {
     }
   };
 
-  onScroll = event => {
-    this.heading.animateHeading(event);
-  };
-
   onSubmit = () => {
     const { showMessage, createUserDocuments } = this.props;
 
@@ -124,19 +120,13 @@ class DocumentInfoScreen extends Component {
 
     return (
       <Container>
-        <StatusBar barStyle="dark-content"/>
         <MainHeader
           {...this.props}
           backButton
           customStyle={{backgroundColor: STYLES.PRIMARY_BLUE}}
           cancelBtn
           onCancel={() => cancelLoanRequest()}/>
-        <AnimatedHeading
-          containerCustomStyles={{backgroundColor: STYLES.PRIMARY_BLUE}}
-          ref={(heading) => {
-            this.heading = heading;
-          }}
-          text={'Verify profile'}/>
+        <CelHeading text={'Verify profile'}/>
 
         <Message/>
 
@@ -151,7 +141,7 @@ class DocumentInfoScreen extends Component {
         <Content
           bounces={false}
           style={Styles.content}
-          onScroll={this.onScroll}>
+        >
           <View pointerEvents={isLoading ? 'none' : null} style={isLoading ? Styles.disabledForm : null}>
             <Text style={Styles.description}>As the last step, please take pictures of your preffered identification document and photo of yourself.</Text>
 

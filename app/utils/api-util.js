@@ -1,9 +1,10 @@
 import axios from 'axios';
 import qs from "qs";
-import {SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
+import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 let token;
 
 export default {
