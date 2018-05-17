@@ -35,7 +35,7 @@ class Calculator extends Component {
 
     this.state = {
       modalVisible: false,
-      selectedCoins: props.portfolio.data,
+      selectedCoins: props.portfolio.data || [],
     };
 
     if (!props.supportedCurrencies) {
