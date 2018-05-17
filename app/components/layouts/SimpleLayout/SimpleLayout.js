@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { Container, Content, View } from 'native-base';
 
+import device from '../../../utils/device-util'
 import {STYLES} from "../../../config/constants/style";
 import {Message} from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
@@ -63,7 +64,13 @@ const SimpleLayout = (props) => {
 
   const contentStyles = {};
   contentStyles.backgroundColor = background || undefined;
-  contentStyles.marginBottom = bottomNavigation === false ? 0 : 90;
+
+  if (bottomNavigation === false) {
+    contentStyles.marginBottom = 0;
+  } else {
+    contentStyles.marginBottom = device.isiPhoneX() ? 90 : 60;
+  }
+
   contentStyles.paddingRight = contentSidePaddingValue;
   contentStyles.paddingLeft = contentSidePaddingValue;
   const marginTop = width < 340 ? (avatarSize / 2) - 30 : avatarSize / 2; // todo - should be better handling smaller screen
@@ -79,7 +86,7 @@ const SimpleLayout = (props) => {
       <Content style={[SimpleLayoutStyle.content, contentStyles]}>
         { props.children }
       </Content>
-      {props.showAvatar && 
+      {props.showAvatar &&
         <View style={styles.imageWrapper}>
           <View style={styles.rectangleElement} />
           <View style={styles.imageCircleWrapper}>
