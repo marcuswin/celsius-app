@@ -15,7 +15,7 @@ const commonStyles = {
     height: 5,
     backgroundColor: 'transparent',
     borderStyle: 'solid',
-    marginTop: 7,
+    marginTop: 5,
     borderTopWidth: 0,
     borderRightWidth: 4.5,
     borderBottomWidth: 6,
