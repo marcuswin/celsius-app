@@ -3,7 +3,7 @@ import {FONT_SCALE} from "../../../config/constants/style";
 
 const { height } = Dimensions.get('window');
 
-const HomeStyle = StyleSheet.create({
+const ManagePortfolioStyle = StyleSheet.create({
   content: {
     height: height - 220,
     paddingLeft: 40,
@@ -43,4 +43,4 @@ const HomeStyle = StyleSheet.create({
   },
 });
 
-export default HomeStyle;
+export default ManagePortfolioStyle;

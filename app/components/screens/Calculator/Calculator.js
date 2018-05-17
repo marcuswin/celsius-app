@@ -10,7 +10,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import CelButton from '../../atoms/CelButton/CelButton';
 import API from '../../../config/constants/API';
-import {Message} from '../../atoms/Message/Message';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
@@ -119,7 +118,6 @@ class Calculator extends Component {
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
     return (
       <View style={{flex: 1}}>
-        <Message/>
           <View style={CalculatorStyle.container}>
             <List
               dataArray={this.state.selectedCoins}
@@ -143,10 +141,10 @@ class Calculator extends Component {
                             />
                           </View>
                         </Col>
-                        <Col style={{width: '30%', justifyContent: 'center'}}>
+                        <Col style={CalculatorStyle.coinImageWrapper}>
                           <Image
                             source={{uri: item.currency.image_url}}
-                            style={{marginLeft: 23, width: 48, height: 48}}/>
+                            style={{width: 48, height: 48}}/>
                         </Col>
                       </Grid>
                     </View>
