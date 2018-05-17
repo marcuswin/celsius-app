@@ -1,12 +1,13 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { Constants } from 'expo';
+import device from '../../../utils/device-util';
+
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const { height, width } = Dimensions.get('window');
 
 let bottomNavigationHeight;
 let paddingBottom;
-if (Object.keys(Constants.platform) === 'ios' && Constants.platform.ios.deviceName === 'iPhone X') {
+if (device.isiPhoneX()) {
   bottomNavigationHeight = 87;
   paddingBottom = 30;
 } else {
