@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import isEmpty from 'lodash/isEmpty'
+import get from 'lodash/get';
 
 import Loader from '../../atoms/Loader/Loader';
 import API from "../../../config/constants/API";
@@ -31,7 +32,8 @@ class HomeScreen extends Component {
     if (isLoading) {
       return <Loader />
     }
-    return (!isLoading && !isEmpty(this.props.portfolio.data)) ? <PortfolioOverview /> : <ManagePortfolio />
+    const portfolioData = get(this.props.portfolio, 'data', []);
+    return (!isLoading && !isEmpty(portfolioData)) ? <PortfolioOverview /> : <ManagePortfolio />
   }
 }
 

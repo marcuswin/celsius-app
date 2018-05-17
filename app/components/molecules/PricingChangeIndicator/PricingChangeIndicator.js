@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { STYLES} from "../../../config/constants/style";
+import { STYLES, FONT_SCALE } from "../../../config/constants/style";
 
 const commonStyles = {
+  text: {
+    fontSize: FONT_SCALE * 14,
+  },
   percentageAmount: {
     marginLeft: 3,
     marginRight: 3,
@@ -12,7 +15,7 @@ const commonStyles = {
     height: 5,
     backgroundColor: 'transparent',
     borderStyle: 'solid',
-    marginTop: 7,
+    marginTop: 5,
     borderTopWidth: 0,
     borderRightWidth: 4.5,
     borderBottomWidth: 6,
@@ -24,11 +27,16 @@ const commonStyles = {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    ...commonStyles.text,
+  },
   redText: {
+    ...commonStyles.text,
     ...commonStyles.percentageAmount,
     color: STYLES.PRIMARY_RED,
   },
   greenText: {
+    ...commonStyles.text,
     ...commonStyles.percentageAmount,
     color: STYLES.COIN_DATA_GREEN,
   },
@@ -39,7 +47,7 @@ const styles = StyleSheet.create({
   triangleDown: {
     ...commonStyles.triangle,
     borderBottomColor: STYLES.PRIMARY_RED,
-    marginTop: 6,
+    marginTop: 5,
     transform: [
       {rotate: '180deg'}
     ]
@@ -54,7 +62,7 @@ const styles = StyleSheet.create({
 const PricingChangeIndicator = (props) => 
   <View style={[styles.wrapper, {marginLeft: 'auto'}]}>
     <View style={props.isPercentChangeNegative ? styles.triangleDown : styles.triangleUp} />
-    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange24h}%</Text><Text>(24h)</Text>
+    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange24h}%</Text><Text style={styles.text}>(24h)</Text>
   </View>
 
 export default PricingChangeIndicator;
