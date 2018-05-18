@@ -102,6 +102,11 @@ const CalculatorStyle = StyleSheet.create({
     paddingRight: 0,
     borderBottomWidth: 0,
     borderColor: 'transparent'
+  },
+  coinImageWrapper: {
+    width: '30%',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 
