@@ -27,7 +27,7 @@ class BottomNavigation extends Component {
       { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword'] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }
 
