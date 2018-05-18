@@ -8,12 +8,15 @@ import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
 import isEmpty from 'lodash/isEmpty';
 
+
+
 import CelButton from '../../atoms/CelButton/CelButton';
 import API from '../../../config/constants/API';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
+import { actions as mixpanelActions } from '../../../services/mixpanel' 
 
 import CalculatorStyle from "./Calculator.styles";
 
@@ -152,7 +155,14 @@ class Calculator extends Component {
                   </ListItem>
                 </Swipeable>
               }/>
-            <TouchableOpacity style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton} onPress={() => this.setState({modalVisible: true})} disabled={selectedAllCoins}>
+            <TouchableOpacity 
+              style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
+              onPress={() => {
+                mixpanelActions.addCoinButton();
+                this.setState({modalVisible: true})}
+              }
+              disabled={selectedAllCoins}
+            >
               <Grid>
                 <Col style={{width: '70%', justifyContent: 'center'}}>
                   <Text style={selectedAllCoins ? CalculatorStyle.disabledAddButtonText : CalculatorStyle.addButtonText}>Add another coin</Text>
