@@ -42,11 +42,11 @@ function setHeaderHeight(height, isAnimatedHeader = false) {
   }
 }
 
-function takeCameraPhoto(photoName, base64Image) {
+function takeCameraPhoto(photoName, photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
     photoName,
-    base64Image
+    photo
   }
 }
 

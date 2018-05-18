@@ -55,8 +55,8 @@ const EstimatedLoanStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 15,
-  }
-
+    marginBottom: 35,
+  },
 });
 
 export default EstimatedLoanStyle;

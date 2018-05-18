@@ -7,7 +7,9 @@ import {bindActionCreators} from "redux";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as actions from "../../../redux/actions";
+import { actions as mixpanelActions } from '../../../services/mixpanel' 
 import {STYLES} from "../../../config/constants/style";
+
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
@@ -27,7 +29,7 @@ class BottomNavigation extends Component {
       { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword'] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }
 
@@ -53,7 +55,14 @@ class BottomNavigation extends Component {
     const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
 
     return (
-      <TouchableOpacity key={ navItem.label } onPress={ () => state !== 'Active' ? navigateTo(navItem.screen) : null }>
+      <TouchableOpacity
+        key={ navItem.label }
+        onPress={ () => {
+          mixpanelActions.navigation(navItem.label);
+          if (state !== 'Active') {
+            navigateTo(navItem.screen)
+          }
+        }}>
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
             <Icon style={iconStyle} height="25" width="25" name={ navItem.icon } fill={ iconFill } />

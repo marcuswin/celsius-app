@@ -18,6 +18,8 @@ const initialState = {
     isOpen: false,
     camera: undefined,
     photoName: undefined,
+    lastPhoto: undefined,
+    lastPhotoName: undefined,
   }
 };
 
@@ -74,6 +76,16 @@ export default (state = initialState, action) => {
         camera: {
           ...state.camera,
           camera: state.camera.camera === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back,
+        }
+      }
+
+    case ACTIONS.TAKE_CAMERA_PHOTO:
+      return {
+        ...state,
+        camera: {
+          ...state.camera,
+          lastPhoto: action.photo,
+          lastPhotoName: action.photoName,
         }
       }
 
