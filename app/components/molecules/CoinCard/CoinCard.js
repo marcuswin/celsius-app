@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {Grid as G, Col, Row} from "react-native-easy-grid";
+import {Grid, Col, Row} from "react-native-easy-grid";
 import { LineChart } from 'react-native-svg-charts'
 
 import formatter from '../../../utils/formatter';
@@ -120,7 +120,7 @@ const CoinCard = (props) => {
   const data = [ 0, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5 ]; // TODO: djs: mocked data, should be loaded from backend
 
   return <Card>
-    <G style={[CoinCardStyle.row, {paddingTop: 10}]}>
+    <Grid style={[CoinCardStyle.row, {paddingTop: 10}]}>
       <Row>
         <Col style={{width: '70%', justifyContent: 'center'}}>
           <View>
@@ -138,8 +138,8 @@ const CoinCard = (props) => {
           />
         </Col>
       </Row>
-    </G>
-    <G style={CoinCardStyle.coinData}>
+    </Grid>
+    <Grid style={CoinCardStyle.coinData}>
       <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
         <View style={CoinCardStyle.wrapper}>
           <Text
@@ -167,7 +167,7 @@ const CoinCard = (props) => {
         </View>
       </Row>
       }
-    </G>
+    </Grid>
   </Card>;
 };
 
