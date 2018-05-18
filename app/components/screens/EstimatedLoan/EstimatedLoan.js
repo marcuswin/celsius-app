@@ -31,7 +31,7 @@ class EstimatedLoan extends Component {
 
     this.state = {
       animatedHeading: {
-        text: 'Estimated loan',
+        text: 'Estimated Loan',
         subheading: 'based on your portfolio',
       }
     };
