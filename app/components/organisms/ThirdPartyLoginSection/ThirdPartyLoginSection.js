@@ -10,7 +10,7 @@ import {Constants, Facebook, Google} from "expo";
 import * as actions from "../../../redux/actions";
 import ThirdPartyLoginSectionStyle from "./ThirdPartyLoginSection.styles";
 import Icon from "../../atoms/Icon/Icon";
-import { actions as mixpanelActions } from '../../../services/mixpanel' 
+import { actions as mixpanelActions } from '../../../services/mixpanel'
 
 
 const {
@@ -129,9 +129,10 @@ class ThirdPartyLoginSection extends Component {
 
   // rendering methods
   render() {
-    const {twitterClose, twitterGetAccessToken, screenWidth} = this.props;
+    const {twitterClose, twitterGetAccessToken, screenWidth, type} = this.props;
 
     const iconSize = 0.2 * screenWidth;
+    const action = type === 'login' ? 'Login with' : 'Sign up with';
 
     return (
       <View>
@@ -140,7 +141,7 @@ class ThirdPartyLoginSection extends Component {
             <TouchableOpacity onPress={this.facebookAuth}>
               <Icon name='Facebook' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
-                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>Login with</Text>
+                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkName}>Facebook</Text>
               </View>
             </TouchableOpacity>
@@ -149,7 +150,7 @@ class ThirdPartyLoginSection extends Component {
             <TouchableOpacity onPress={this.googleAuth}>
               <Icon name='Google' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
-                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>Login with</Text>
+                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkName}>Google</Text>
               </View>
 
@@ -160,7 +161,7 @@ class ThirdPartyLoginSection extends Component {
             <TouchableOpacity onPress={this.onOpenTwitter}>
               <Icon name='Twitter' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
-                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>Login with</Text>
+                <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkName}>Twitter</Text>
               </View>
             </TouchableOpacity>
