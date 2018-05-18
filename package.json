@@ -47,6 +47,7 @@
     "react-native-qrcode": "^0.2.6",
     "react-native-simple-twitter": "1.2.0",
     "react-native-svg": "5.5.1",
+    "react-native-svg-charts": "^5.0.0",
     "react-native-svg-icon": "0.7.0",
     "react-native-swipeable": "0.6.0",
     "react-navigation": "1.0.0-beta.27",

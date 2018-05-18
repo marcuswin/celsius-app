@@ -88,7 +88,7 @@ class LoginScreen extends Component {
           <ThirdPartyLoginSection type="login" />
         </View>
 
-        <Separator>OR LOGIN WITH E-MAIL</Separator>
+        <Separator margin='35 0 5 0'>OR LOGIN WITH E-MAIL</Separator>
 
         <View style={[LoginStyle.formWrapper, {height: formHeight}]}>
           <LoginForm onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>

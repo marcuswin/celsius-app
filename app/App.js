@@ -14,13 +14,17 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.config(SENTRY_DSN).install();
 }
 
 const store = configureStore();
+
+if (ENV !== 'PRODUCTION') {
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+}
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();

@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Grid, Col, Row } from "react-native-easy-grid";
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {Grid, Col, Row} from "react-native-easy-grid";
+import { LineChart } from 'react-native-svg-charts'
+
+import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import StarIcon from "../../atoms/StarIcon/StarIcon";
 import Card from '../../atoms/Card/Card';
@@ -26,7 +29,7 @@ const commonStyles = {
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
   }
-}
+};
 
 const CoinCardStyle = StyleSheet.create({
   label: {
@@ -113,19 +116,24 @@ const CoinCardStyle = StyleSheet.create({
 const CoinCard = (props) => {
   const percentChange24h = props.market.quotes.USD.percent_change_24h;
   const isPercentChangeNegative = percentChange24h < 0;
+
+  const data = [ 0, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5 ]; // TODO: djs: mocked data, should be loaded from backend
+
   return <Card>
     <Grid style={[CoinCardStyle.row, {paddingTop: 10}]}>
       <Row>
         <Col style={{width: '70%', justifyContent: 'center'}}>
           <View>
-            <Text style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
-            <Text style={CoinCardStyle.text}>{`$${props.total}`}</Text>
-            <Text style={[CoinCardStyle.coinAmount, {fontFamily: 'agile-light'}]}>{props.amount} {props.currency.short.toUpperCase()}</Text>
+            <Text
+              style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
+            <Text style={CoinCardStyle.text}>{formatter.usd(props.total)}</Text>
+            <Text
+              style={[CoinCardStyle.coinAmount, {fontFamily: 'agile-light'}]}>{props.amount} {props.currency.short.toUpperCase()}</Text>
           </View>
         </Col>
         <Col style={{width: '30%'}}>
           <Image
-            source={{uri: props.currency.image_url}}          
+            source={{uri: props.currency.image_url}}
             style={CoinCardStyle.image}
           />
         </Col>
@@ -134,23 +142,33 @@ const CoinCard = (props) => {
     <Grid style={CoinCardStyle.coinData}>
       <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
         <View style={CoinCardStyle.wrapper}>
-          <Text style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>${props.market.quotes.USD.price.toFixed(3)}</Text>
+          <Text
+            style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {props.currency.short} = {formatter.usd(props.market.quotes.USD.price)}</Text>
         </View>
-        <PricingChangeIndicator 
+        <PricingChangeIndicator
           isPercentChangeNegative={isPercentChangeNegative}
           percentChange24h={percentChange24h}
         />
       </Row>
+      <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
+        <View style={{width: '100%'}}>
+          <LineChart
+            style={{ height: 30 }}
+            data={ data }
+            svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
+          />
+        </View>
+      </Row>
       {(props.currency.short === "BTC" || props.currency.short === "ETH") &&
-        <Row>
-          <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
-            <StarIcon />
-            <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible for lending and borrowing</Text>
-          </View>
-        </Row>
+      <Row>
+        <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
+          <StarIcon/>
+          <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible soon for lending and borrowing</Text>
+        </View>
+      </Row>
       }
     </Grid>
   </Card>;
-}
+};
 
 export default CoinCard;

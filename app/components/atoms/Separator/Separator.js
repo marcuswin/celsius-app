@@ -4,11 +4,16 @@ import {Col, Grid} from 'react-native-easy-grid';
 import PropTypes from 'prop-types';
 
 import SeparatorStyles from './Separator.styles';
+import stylesUtil from '../../../utils/styles-util'
 
 class Separator extends Component {
   static propTypes = {
     customWrapperStyle: PropTypes.instanceOf(Object),
-    // TODO(fj): add margin, the same as CelButton
+    margin: PropTypes.string,
+  };
+
+  static defaultProps = {
+    margin: '0 0 0 0',
   };
 
   constructor() {
@@ -17,13 +22,15 @@ class Separator extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, margin } = this.props;
 
-    if (!children) return <View style={SeparatorStyles.separator} />;
+    const marginStyles = stylesUtil.getMargins(margin);
+
+    if (!children) return <View style={[SeparatorStyles.separator, marginStyles]} />;
 
 
     return (
-      <View style={[{paddingTop: 50}, this.props.customWrapperStyle]}>
+      <View style={marginStyles}>
         <Grid>
           <Col style={SeparatorStyles.centeredColumn}>
             <View style={SeparatorStyles.dummyBorder}/>
