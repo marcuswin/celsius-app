@@ -112,8 +112,8 @@ class SignupTwo extends Component {
     this.setState({
       formData: {
         ...this.state.formData,
-        country: country.name || this.state.country,
-        countryAlpha3: country.alpha3 || this.state.countryAlpha3,
+        country: country ? country.name || this.state.country : '',
+        countryAlpha3: country ? country.alpha3 || this.state.countryAlpha3 : '',
       }
     });
   };
