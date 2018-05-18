@@ -8,6 +8,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
+import { getUserTemporaryId, actions as mixpanelActions } from '../../../services/mixpanel' 
 
 @connect(
   state => ({
@@ -25,7 +26,11 @@ class WelcomeScreen extends Component {
 
   componentWillMount() {
     const {navigateTo, user} = this.props;
-    if (user) navigateTo('Home');
+    if (user) { 
+      navigateTo('Home')
+    } else { 
+      getUserTemporaryId() 
+    } 
   }
 
   render() {
@@ -40,7 +45,10 @@ class WelcomeScreen extends Component {
 
             <View style={WelcomeStyle.buttonWrapper}>
               <CelButton
-                onPress={() => navigateTo('SignupOne')}
+                onPress={() => {
+                  mixpanelActions.signupButton();
+                  navigateTo('SignupOne')}
+                }
                 white
                 iconRight="IconArrowRight"
               >
