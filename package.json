@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "axios": "0.18.0",
+    "base-64": "^0.1.0",
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
     "exp": "^53.1.0",
@@ -56,6 +57,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "2.2.0",
     "sentry-expo": "1.7.0",
+    "uuid": "^3.2.1",
     "which-country": "1.0.0"
   },
   "devDependencies": {
