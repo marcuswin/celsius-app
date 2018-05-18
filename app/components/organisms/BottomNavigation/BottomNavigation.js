@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as actions from "../../../redux/actions";
-import { actions as mixpanelActions } from '../../../services/mixpanel' 
+import { actions as mixpanelActions } from '../../../services/mixpanel'
 import {STYLES} from "../../../config/constants/style";
 
 
@@ -16,6 +16,8 @@ import BottomNavigationStyle from "./BottomNavigation.styles";
 @connect(
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
+    screenHeight: state.ui.dimensions.screenHeight,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -74,9 +76,15 @@ class BottomNavigation extends Component {
   }
 
   render() {
-    const { navItems } = this.props;
+    const { navItems, bottomNavigationDimensions, screenHeight } = this.props;
+
+    const styles = {
+      height: bottomNavigationDimensions.height,
+      top: screenHeight - bottomNavigationDimensions.height,
+      paddingBottom: bottomNavigationDimensions.paddingBottom,
+    }
     return (
-      <View style={BottomNavigationStyle.container}>
+      <View style={[ BottomNavigationStyle.container, styles ]}>
         { navItems.map(this.renderNavItem) }
       </View>
     );

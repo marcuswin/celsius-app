@@ -2,8 +2,27 @@ import {Dimensions, StatusBar} from 'react-native';
 import {Camera} from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
+import device from "../../utils/device-util";
 
 const {width, height} = Dimensions.get('window');
+
+function getBottomNavDimensions() {
+  let navHeight;
+  let navPaddingBottom;
+
+  if (device.isiPhoneX()) {
+    navHeight = 87;
+    navPaddingBottom = 30;
+  } else {
+    navHeight = 60;
+    navPaddingBottom = 5;
+  }
+
+  return {
+    height: navHeight,
+    paddingBottom: navPaddingBottom,
+  }
+}
 
 const initialState = {
   message: undefined,
@@ -13,6 +32,7 @@ const initialState = {
     animatedHeader: 100,
     screenWidth: width,
     screenHeight: height,
+    bottomNavigation: getBottomNavDimensions(),
   },
   camera: {
     isOpen: false,

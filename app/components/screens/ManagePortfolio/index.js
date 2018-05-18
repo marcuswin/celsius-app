@@ -13,7 +13,6 @@ import * as actions from "../../../redux/actions";
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 
-
 @connect(
   state => ({
     nav: state.nav,
@@ -22,8 +21,6 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
-
-
 class ManagePorfolio extends Component {
   render() {
     const portfolioData = get(this.props.portfolio, 'data', []);
@@ -37,7 +34,7 @@ class ManagePorfolio extends Component {
         <CelHeading
           text={userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`}
           subheading={userHasPortfolio ? "Manage your portfolio" : null}
-          />
+        />
         <Message/>
         <Content bounces={false} style={PortfolioStyle.content}>
           <View style={{paddingTop: 30}}>
@@ -46,9 +43,21 @@ class ManagePorfolio extends Component {
                 So, what coins are you HODLing?
               </Text>
             }
-            <Text style={PortfolioStyle.description}>
-              {userHasPortfolio ? "Add, remove or change amount for the existing coins in your portfolio." : "Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.\n" + '\n' + "Please add at least one coin in order to proceed." }
-            </Text>
+
+            { userHasPortfolio ? (
+              <Text style={PortfolioStyle.description}>
+                Add, remove or change amount for the existing coins in your portfolio.
+              </Text>
+            ) : (
+              <View>
+                <Text style={PortfolioStyle.description}>
+                  Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.
+                </Text>
+                <Text style={PortfolioStyle.description}>
+                  Please add at least one coin in order to proceed.
+                </Text>
+              </View>
+            )}
           </View>
           <Calculator {...this.props} userHasPortfolio={userHasPortfolio} />
         </Content>
