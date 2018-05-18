@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../atoms/Icon/Icon";
 
+import { actions as mixpanelActions } from '../../../services/mixpanel' 
 import AccordionStyles from "./Accordion.styles";
 
 class Accordion extends Component {
@@ -31,7 +32,14 @@ class Accordion extends Component {
 
     return (
       <View style={AccordionStyles.wrapper}>
-        <TouchableOpacity onPress={ () => this.setState({ isExpanded: !isExpanded })}>
+        <TouchableOpacity onPress={
+          () => {
+            if (!this.state.isExpanded) {
+              mixpanelActions.estimationExplanation()
+            }
+            this.setState({ isExpanded: !isExpanded })}
+          }
+        >
           <View style={[AccordionStyles.headerWrapper, backgroundColor]}>
             { renderHeader(AccordionStyles.headerText) }
 

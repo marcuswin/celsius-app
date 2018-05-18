@@ -27,8 +27,8 @@ class CameraModal extends Component {
     photoName: '',
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       hasCameraPermission: null,
@@ -36,20 +36,26 @@ class CameraModal extends Component {
   }
 
   async componentWillMount() {
+    const { camera, cameraType, flipCamera } = this.props;
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
+
+    if (camera !== Camera.Constants.Type[cameraType]) {
+      flipCamera()
+    }
   }
 
   takePicture = async () => {
     const { takeCameraPhoto, toggleCamera, photoName } = this.props;
 
     this.camera.takePictureAsync({
-      base64: true,
+      // base64: true,
     }).then(photo => {
-      const uriParts = photo.uri.split('.');
-      const fileType = uriParts[uriParts.length - 1];
+      console.log(photo);
+      // const uriParts = photo.uri.split('.');
+      // const fileType = uriParts[uriParts.length - 1];
 
-      takeCameraPhoto(photoName, `data:image/${fileType};base64,${photo.base64}`);
+      takeCameraPhoto(photoName, photo);
       toggleCamera();
     }).catch(console.log);
   };

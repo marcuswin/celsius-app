@@ -3,17 +3,20 @@ import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Body, Button, List, ListItem, Text, View} from 'native-base';
 import {bindActionCreators} from "redux";
+import get from 'lodash/get';
 import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
 import isEmpty from 'lodash/isEmpty';
-import CelButton from '../../atoms/CelButton/CelButton'
 
+
+
+import CelButton from '../../atoms/CelButton/CelButton';
 import API from '../../../config/constants/API';
-import {Message} from '../../atoms/Message/Message';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
+import { actions as mixpanelActions } from '../../../services/mixpanel' 
 
 import CalculatorStyle from "./Calculator.styles";
 
@@ -35,7 +38,7 @@ class Calculator extends Component {
 
     this.state = {
       modalVisible: false,
-      selectedCoins: props.portfolio.data || [],
+      selectedCoins: get(props.portfolio, 'data', []),
     };
 
     if (!props.supportedCurrencies) {
@@ -118,7 +121,6 @@ class Calculator extends Component {
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
     return (
       <View style={{flex: 1}}>
-        <Message/>
           <View style={CalculatorStyle.container}>
             <List
               dataArray={this.state.selectedCoins}
@@ -142,10 +144,10 @@ class Calculator extends Component {
                             />
                           </View>
                         </Col>
-                        <Col style={{width: '30%', justifyContent: 'center'}}>
+                        <Col style={CalculatorStyle.coinImageWrapper}>
                           <Image
                             source={{uri: item.currency.image_url}}
-                            style={{marginLeft: 23, width: 48, height: 48}}/>
+                            style={{width: 48, height: 48}}/>
                         </Col>
                       </Grid>
                     </View>
@@ -153,7 +155,14 @@ class Calculator extends Component {
                   </ListItem>
                 </Swipeable>
               }/>
-            <TouchableOpacity style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton} onPress={() => this.setState({modalVisible: true})} disabled={selectedAllCoins}>
+            <TouchableOpacity 
+              style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
+              onPress={() => {
+                mixpanelActions.addCoinButton();
+                this.setState({modalVisible: true})}
+              }
+              disabled={selectedAllCoins}
+            >
               <Grid>
                 <Col style={{width: '70%', justifyContent: 'center'}}>
                   <Text style={selectedAllCoins ? CalculatorStyle.disabledAddButtonText : CalculatorStyle.addButtonText}>Add another coin</Text>

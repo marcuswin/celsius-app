@@ -4,6 +4,9 @@ import {startApiCall, apiError} from '../api/apiActions';
 import {showMessage} from '../ui/uiActions';
 import portfolioRequestService from '../../services/portfolio-requests-service';
 
+import { actions as mixpanelActions } from '../../services/mixpanel';
+
+
 export {
   getPortfolio,
   updatePortfolio,
@@ -12,6 +15,8 @@ export {
 }
 
 function updatePortfolio(data) {
+  mixpanelActions.saveCoinButton();
+
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_PORTFOLIO_REQUEST));
 

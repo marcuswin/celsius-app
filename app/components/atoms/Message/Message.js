@@ -19,12 +19,24 @@ class Message extends Component {
   }
 
   render() {
-    const {message} = this.props;
+    const { message, inverted } = this.props;
     if (!message) return null;
+    let containerStyles;
+    let textStyles;
+
+    if (inverted) {
+      containerStyles = [MessageStyle.containerInterted, MessageStyle[`${message.type || 'error'}Inverted`]];
+      textStyles = [MessageStyle.text, MessageStyle[`${message.type}Text`]];
+
+    } else {
+      containerStyles = [MessageStyle.container, MessageStyle[message.type || 'error']];
+      textStyles = MessageStyle.text;
+
+    }
 
     return (
-      <View style={[MessageStyle.container, MessageStyle[message.type || 'error']]}>
-        <Text style={MessageStyle.text}>
+      <View style={containerStyles}>
+        <Text style={textStyles}>
           {message.text}
         </Text>
       </View>
