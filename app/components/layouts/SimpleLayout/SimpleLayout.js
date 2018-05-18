@@ -41,7 +41,7 @@ const SimpleLayout = (props) => {
       <MainHeader { ...mainHeaderProps } />
       <CelHeading { ...animatedHeadingProps } />
 
-      <Message/>
+      <Message inverted={background}/>
 
       <Content style={[SimpleLayoutStyle.content, contentStyles]}>
         { props.children }
