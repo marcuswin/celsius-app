@@ -119,6 +119,7 @@ class Calculator extends Component {
       : []
     const isFormDisabled = isEmpty(this.state.selectedCoins)
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
+
     return (
       <View style={{flex: 1}}>
           <View style={CalculatorStyle.container}>
@@ -139,7 +140,8 @@ class Calculator extends Component {
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
                               maxLength={7}
-                              placeholder={`${item.amount}` || '0.00'}
+                              value={`${item.amount > 0 ? item.amount : ''}`}
+                              placeholder='0.00'
                               placeholderTextColor={'#3D4853'}
                             />
                           </View>
