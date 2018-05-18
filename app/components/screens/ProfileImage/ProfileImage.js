@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import {Image, TouchableOpacity} from 'react-native';
-import {View, Content, Text} from 'native-base';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {Content} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
+import {CAMERA_PHOTOS} from "../../../config/constants/common";
 import * as actions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
 import ProfileImageStyle from "./ProfileImage.styles";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
-import Link from '../../atoms/Link/Link';
+import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import CameraModal from "../../organisms/Camera/Camera";
+import API from "../../../config/constants/API";
+import apiUtil from "../../../utils/api-util";
 
 const images = [
   require('../../../../assets/images/bear-avatar.jpg'),
@@ -24,10 +27,13 @@ const images = [
   require('../../../../assets/images/sheep-avatar.jpg'),
 ];
 
-
 @connect(
-  () => ({
-  // map state to props
+  state => ({
+    profilePicture: state.users.user.profile_picture,
+    lastPhoto: state.ui.camera.lastPhoto,
+    lastPhotoName: state.ui.camera.lastPhotoName,
+    callsInProgress: state.api.callsInProgress,
+    lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -36,56 +42,85 @@ class ProfileImage extends Component {
     super(props);
 
     this.state = {
-      // initial state
-      activeImage: require('../../../../assets/images/cat-avatar.jpg'),
+      activeImage: props.profilePicture,
     };
     // binders
-
+    this.setActiveImage = this.setActiveImage.bind(this);
+    this.renderImages = this.renderImages.bind(this);
+    this.updateProfilePicture = this.updateProfilePicture.bind(this);
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { navigateTo, lastCompletedCall } = this.props;
+
+    // set image after camera
+    if (nextProps.lastPhotoName === CAMERA_PHOTOS.PROFILE_PICTURE) {
+      console.log(nextProps);
+      this.setState({ activeImage: nextProps.lastPhoto });
+    }
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPLOAD_PLOFILE_IMAGE) {
+      navigateTo('Profile');
+    }
+  }
+
   // event hanlders
+  setActiveImage(image) {
+    this.setState({ activeImage: image });
+  }
+
+  updateProfilePicture() {
+    const { activeImage } = this.state;
+    const { updateProfilePicture } = this.props;
+    updateProfilePicture(activeImage);
+  }
+
   // rendering methods
+  renderImages(image) {
+    const { activeImage } = this.state;
+    const imageStyles = [ProfileImageStyle.image];
+    if (image === activeImage) imageStyles.push(ProfileImageStyle.activeImage);
 
-
-  // renderItem = ({index}) => {
-  //   return (
-  //       <View>
-  //         <Image style={ProfileImageStyle.image} source={images[index]} />
-  //       </View>
-  //   );
-  // };
-
+    return (
+      <TouchableOpacity key={images.indexOf(image)} style={ProfileImageStyle.button} onPress={() => this.setActiveImage(image)}>
+        <Image source={image} style={imageStyles} />
+      </TouchableOpacity>
+    )
+  }
 
   render() {
-    return (
-        <SimpleLayout
-          mainHeader={{ backButton: false}}
-          showAvatar
-        >
-          <CameraModal/>
+    const { toggleCamera } = this.props;
 
-          <Content style={ProfileImageStyle.content}>
-            <View>
-              <Link style={ProfileImageStyle.link}>Take a picture</Link>
-              <Text style={ProfileImageStyle.text}>Or choose from one of the below:</Text>
-            </View>
+    const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], this.props.callsInProgress);
+    return (
+        <BasicLayout bottomNavigation>
+          <MainHeader backButton />
+          <ImageHeading image={this.state.activeImage}/>
+
+          <Content>
+            <CelButton
+              onPress={() => toggleCamera(CAMERA_PHOTOS.PROFILE_PICTURE)}
+              transparent
+              color="blue"
+              size="small"
+              margin="15 0 15 0"
+              inverse
+            >
+              Take photo
+            </CelButton>
+
+            <CameraModal cameraType="front" />
+
+            <Text style={ProfileImageStyle.text}>Or choose from one of the below:</Text>
 
             <View style={ProfileImageStyle.viewWrapper}>
-
-              { images.map((image) => <TouchableOpacity style={ProfileImageStyle.button}>
-                <Image key={Math.random()} source={image} style={ProfileImageStyle.image} />
-              </TouchableOpacity>) }
-
+              { images.map(this.renderImages) }
             </View>
 
-            <View>
-              <CelButton
-                color="blue"
-              >Change avatar</CelButton>
-            </View>
+            <CelButton onPress={this.updateProfilePicture} margin="0 40 0 40" loading={isLoading}>Change avatar</CelButton>
           </Content>
-        </SimpleLayout>
+        </BasicLayout>
     );
   }
 }
