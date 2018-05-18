@@ -4,7 +4,9 @@ import {Form, View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import {countries} from "country-data";
-import * as _ from "lodash";
+import isEqual from "lodash/isEqual";
+import isNil from 'lodash/isNil' 
+import has from 'lodash/has' 
 
 import * as actions from "../../../redux/actions";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
@@ -17,6 +19,10 @@ import API from "../../../config/constants/API";
 
 import {STYLES} from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
+
+import { actions as mixpanelActions } from '../../../services/mixpanel' 
+
+
 
 const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER]
 
@@ -50,6 +56,30 @@ class SignupTwo extends Component {
     this.setCountry = this.setCountry.bind(this);
   }
 
+  componentDidMount() { 
+    const userIdTypes = { 
+      facebook_id: 'Facebook', 
+      twitter_id: 'Twitter', 
+      google_id: 'Google', 
+      id: 'email', 
+    } 
+ 
+    const { user } = this.props; 
+    const userIds = Object.keys(user) 
+      .filter(key => has(userIdTypes, key)) 
+      .reduce((obj, key) => { 
+        if (!isNil(user[key])) {
+          // eslint-disable-next-line
+          obj[key] = user[key]; 
+        } 
+        return obj; 
+      }, {}); 
+ 
+    const id = userIds[Object.keys(userIds)[0]] 
+ 
+    mixpanelActions.createAlias(id) 
+  } 
+
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
     const { user, navigateTo } = this.props;
@@ -58,7 +88,7 @@ class SignupTwo extends Component {
       navigateTo('Home', true);
     }
 
-    if (!_.isEqual(user, nextProps.user)) {
+    if (!isEqual(user, nextProps.user)) {
       this.setState({
         formData: {
           firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : '',
@@ -112,8 +142,8 @@ class SignupTwo extends Component {
     this.setState({
       formData: {
         ...this.state.formData,
-        country: country.name || this.state.country,
-        countryAlpha3: country.alpha3 || this.state.countryAlpha3,
+        country: country ? country.name || this.state.country : '',
+        countryAlpha3: country ? country.alpha3 || this.state.countryAlpha3 : '',
       }
     });
   };
@@ -156,7 +186,7 @@ class SignupTwo extends Component {
 
             <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
               <CelCheckbox
-                label="I agree to Terms of Service"
+                label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
                 onChange={toggleTermsOfUse}
               />

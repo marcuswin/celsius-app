@@ -19,6 +19,7 @@ export {
   getUserDocuments,
   createUserDocuments,
   toggleTermsOfUse,
+  updateProfilePicture,
 }
 
 // PERSONAL INFO
@@ -327,5 +328,27 @@ function getUserDocumentsSuccess(documents) {
 function toggleTermsOfUse() {
   return {
     type: ACTIONS.TOGGLE_TERMS_OF_USE,
+  }
+}
+
+function updateProfilePicture(image) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
+    try {
+      // const res = await usersService.update(user);
+
+      dispatch(updateProfilePictureSuccess(image));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.UPLOAD_PLOFILE_IMAGE, err));
+    }
+  }
+}
+
+function updateProfilePictureSuccess(image) {
+  return {
+    type: ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS,
+    callName: API.UPLOAD_PLOFILE_IMAGE,
+    image,
   }
 }

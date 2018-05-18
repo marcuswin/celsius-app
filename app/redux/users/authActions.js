@@ -8,6 +8,8 @@ import {showMessage} from '../ui/uiActions';
 import {setSecureStoreKey} from '../../utils/expo-storage';
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
+import { actions as mixpanelActions } from '../../services/mixpanel' 
+
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -111,6 +113,7 @@ function getLoggedInBorrowerSuccess(data) {
 
 
 function registerUser(user) {
+  mixpanelActions.startedSignup('email');
   return async dispatch => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -154,6 +157,7 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
+  mixpanelActions.finishedSignup('Twitter');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_TWITTER_SUCCESS,
@@ -239,6 +243,7 @@ function loginGoogle(user) {
 }
 
 function registerUserFacebookSuccess(data) {
+  mixpanelActions.finishedSignup('Facebook');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS,
@@ -277,6 +282,7 @@ function loginUserFacebookSuccess(data) {
 }
 
 function registerUserGoogleSuccess(data) {
+  mixpanelActions.finishedSignup('Google');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_GOOGLE_SUCCESS,
@@ -313,6 +319,7 @@ function updateUser(user) {
 }
 
 function updateUserSuccess(data) {
+  mixpanelActions.finishedSignup('email');
   return {
     type: ACTIONS.UPDATE_USER_SUCCESS,
     callName: API.UPDATE_USER,
