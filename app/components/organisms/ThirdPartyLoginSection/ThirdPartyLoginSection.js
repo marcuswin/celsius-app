@@ -37,7 +37,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   // lifecycle methods
-  // event hanlders
+  // event handlers
   onOpenTwitter = () => {
     if (this.props.type === 'signup') {
       mixpanelActions.startedSignup('Twitter');
@@ -101,7 +101,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   facebookAuth = async () => {
-    const {loginFacebook, type: componentType, facebookSuccess} = this.props;
+    const {loginFacebook, facebookSuccess} = this.props;
 
     try {
       const {type, token} = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
@@ -114,9 +114,7 @@ class ThirdPartyLoginSection extends Component {
         const user = await response.json();
         user.accessToken = token;
 
-        loginFacebook(user);
-
-        if (componentType === 'login') {
+        if (this.props.type === 'login') {
           loginFacebook(user);
         } else {
           mixpanelActions.startedSignup('Facebook');

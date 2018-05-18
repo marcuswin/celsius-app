@@ -7,7 +7,7 @@ const initialState = {
   user: undefined,
   error: null,
   borrower: undefined,
-  agreedToTermsOfUse: false,
+  agreedToTermsOfUse: true,
 };
 
 export default (state = initialState, action) => {

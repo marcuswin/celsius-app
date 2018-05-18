@@ -142,8 +142,8 @@ class SignupTwo extends Component {
     this.setState({
       formData: {
         ...this.state.formData,
-        country: country.name || this.state.country,
-        countryAlpha3: country.alpha3 || this.state.countryAlpha3,
+        country: country ? country.name || this.state.country : '',
+        countryAlpha3: country ? country.alpha3 || this.state.countryAlpha3 : '',
       }
     });
   };
@@ -186,7 +186,7 @@ class SignupTwo extends Component {
 
             <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
               <CelCheckbox
-                label="I agree to Terms of Service"
+                label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
                 onChange={toggleTermsOfUse}
               />
