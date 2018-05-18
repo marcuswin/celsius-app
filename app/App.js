@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
 import {Provider} from 'react-redux';
-import {Image} from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
-import configureStore from './config/configureStore';
+import store from './redux/store';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
@@ -14,13 +14,17 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.config(SENTRY_DSN).install();
 }
 
-const store = configureStore();
+if (ENV !== 'PRODUCTION') {
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+}
+
+AsyncStorage.removeItem('UserTemporaryId'); // reset temporary user id for mixpanel tracking
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();

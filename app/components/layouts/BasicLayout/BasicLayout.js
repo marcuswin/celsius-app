@@ -3,11 +3,15 @@ import { Container } from 'native-base';
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 
 
-const BasicLayout = (props) => (
-    <Container>
+const BasicLayout = (props) => {
+  const { bottomNavigation } = props;
+  const marginBottom = bottomNavigation ? 90 : 0;
+  return (
+    <Container style={{ marginBottom }}>
       { props.children }
-      <BottomNavigation />
+      { bottomNavigation ? <BottomNavigation /> : null }
     </Container>
-)
+  )
+}
 
 export default BasicLayout;

@@ -8,24 +8,10 @@ import OldButton from './CelButton.old';
 import CelButtonStyles from './CelButton.styles';
 import Icon from "../Icon/Icon";
 import {COLORS} from "../../../config/constants/style";
+import stylesUtil from "../../../utils/styles-util";
 
 const buttonColors = ['blue', 'green', 'pink'];
 const buttonSizes = ['small', 'medium'];
-
-// TODO(fj): move somewhere...
-function getMargins(margin) {
-  if (!margin) return getMargins('0 0 0 0');
-
-  const margins = margin.split(' ');
-  if (margins.length !== 4) return getMargins();
-
-  return {
-    marginTop: Number(margins[0]),
-    marginRight: Number(margins[1]),
-    marginBottom: Number(margins[2]),
-    marginLeft: Number(margins[3]),
-  }
-}
 
 class CelButton extends Component {
   static propTypes = {
@@ -59,7 +45,7 @@ class CelButton extends Component {
 
     buttonStyles.push(CelButtonStyles[`${color}Button`]);
     buttonStyles.push(CelButtonStyles[`${size}Button`]);
-    buttonStyles.push(getMargins(margin));
+    buttonStyles.push(stylesUtil.getMargins(margin));
 
     if (transparent) buttonStyles.push(CelButtonStyles.transparentButton);
     if (inverse) buttonStyles.push(CelButtonStyles.inverseButton);
@@ -76,8 +62,8 @@ class CelButton extends Component {
     titleStyles.push(CelButtonStyles[`${color}BtnTitle`]);
     titleStyles.push(CelButtonStyles[`${size}BtnTitle`]);
 
+    if (transparent) titleStyles.push([CelButtonStyles.transparentBtnTitle]);
     if (white || inverse || disabled) titleStyles.push({ color: COLORS[color] });
-    if (transparent) titleStyles.push(CelButtonStyles.transparentBtnTitle);
     if (disabled && white) titleStyles.push({ color: 'white' });
 
     return titleStyles;

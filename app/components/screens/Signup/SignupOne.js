@@ -55,7 +55,7 @@ class SignupOne extends Component {
 
   onChangeField = (fieldName, text) => {
     this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
-  }
+  };
 
   // rendering methods
   render() {
@@ -76,7 +76,7 @@ class SignupOne extends Component {
             <ThirdPartyLoginSection type="signup"/>
           </View>
 
-          <Separator>OR SIGN UP WITH E-MAIL</Separator>
+          <Separator margin='35 0 -15 0'>OR SIGN UP WITH E-MAIL</Separator>
 
           <View style={SignupOneStyle.formWrapper}>
             <Form>

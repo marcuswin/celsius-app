@@ -74,7 +74,7 @@ class LoginScreen extends Component {
 
     return (
       <SimpleLayout
-        mainHeader={{ back: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
+        mainHeader={{ backButton: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
         animatedHeading={{ text: 'Welcome Back!' }}
         bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}
@@ -88,7 +88,7 @@ class LoginScreen extends Component {
           <ThirdPartyLoginSection type="login" />
         </View>
 
-        <Separator>OR LOGIN WITH E-MAIL</Separator>
+        <Separator margin='35 0 5 0'>OR LOGIN WITH E-MAIL</Separator>
 
         <View style={[LoginStyle.formWrapper, {height: formHeight}]}>
           <LoginForm onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
