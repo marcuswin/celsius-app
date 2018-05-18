@@ -155,7 +155,7 @@ const CoinCard = (props) => {
           <LineChart
             style={{ height: 30 }}
             data={ data }
-            svg={{ stroke: '#4FB895' }}
+            svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
           />
         </View>
       </Row>
