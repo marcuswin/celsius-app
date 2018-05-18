@@ -9,6 +9,14 @@ const MessageStyle = StyleSheet.create({
     paddingRight: 20,
     justifyContent: 'center',
   },
+  containerInverted: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
   error: {
     backgroundColor: 'rgb(236, 66, 40)',
   },
@@ -26,7 +34,19 @@ const MessageStyle = StyleSheet.create({
     color: 'white',
     fontSize: FONT_SCALE * 18,
     textAlign: 'center',
-  }
+  },
+  errorText: {
+    color: 'rgb(236, 66, 40)',
+  },
+  infoText: {
+    color: 'rgb(155, 155, 155)',
+  },
+  warningText: {
+    color: 'rgb(223, 158, 64)',
+  },
+  successText: {
+    color: STYLES.PRIMARY_GREEN,
+  },
 });
 
 export default MessageStyle;

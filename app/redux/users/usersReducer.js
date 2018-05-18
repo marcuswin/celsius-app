@@ -190,15 +190,30 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.TAKE_CAMERA_PHOTO:
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_FRONT) return setDocumentImage(state, 'front', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.DOCUMENT_BACK) return setDocumentImage(state, 'back', action.base64Image);
-      if (action.photoName === CAMERA_PHOTOS.SELFIE) return setDocumentImage(state, 'selfie', action.base64Image);
-      return { ...state };
+      switch (action.photoName) {
+        case CAMERA_PHOTOS.DOCUMENT_FRONT:
+          return setDocumentImage(state, 'front', action.photo);
+        case CAMERA_PHOTOS.DOCUMENT_BACK:
+          return setDocumentImage(state, 'back', action.photo);
+        case CAMERA_PHOTOS.SELFIE:
+          return setDocumentImage(state, 'selfie', action.photo);
+        default:
+          return { ...state };
+      }
 
     case ACTIONS.TOGGLE_TERMS_OF_USE:
       return {
         ...state,
         agreedToTermsOfUse: !state.agreedToTermsOfUse,
+      }
+
+    case ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile_picture: action.image
+        },
       }
 
     default:

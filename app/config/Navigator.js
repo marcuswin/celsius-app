@@ -14,6 +14,7 @@ import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
 import ProfileScreen from '../components/screens/Profile/Profile';
 import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePassword";
 import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
+import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = StackNavigator({
@@ -68,6 +69,10 @@ const Navigator = StackNavigator({
   DepositCoins: {
     screen: DepositCoinsScreen,
     title: 'DepositCoins',
+  },
+  ProfileImage: {
+    screen: ProfileImageScreen,
+    title: 'ProfileImage',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
