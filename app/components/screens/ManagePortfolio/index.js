@@ -47,7 +47,7 @@ class ManagePorfolio extends Component {
               </Text>
             }
             <Text style={PortfolioStyle.description}>
-              {userHasPortfolio ? "Add, remove or change amount for the existing coins in your portfolio." : "Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future."}
+              {userHasPortfolio ? "Add, remove or change amount for the existing coins in your portfolio." : "Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.\n" + '\n' + "Please add at least one coin in order to proceed." }
             </Text>
           </View>
           <Calculator {...this.props} userHasPortfolio={userHasPortfolio} />
