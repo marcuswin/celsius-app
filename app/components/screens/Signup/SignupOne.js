@@ -55,7 +55,7 @@ class SignupOne extends Component {
 
   onChangeField = (fieldName, text) => {
     this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
-  }
+  };
 
   // rendering methods
   render() {
