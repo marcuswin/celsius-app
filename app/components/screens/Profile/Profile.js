@@ -8,10 +8,12 @@ import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Link from '../../atoms/Link/Link';
 import SelectCountry from '../../organisms/SelectCountry/SelectCountry';
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
+import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 
 
 // eslint-disable-next-line
@@ -69,56 +71,71 @@ class ProfileScreen extends Component {
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
     /* eslint-disable */
     return (
-      <SimpleLayout
-        mainHeader={{ backButton: false}}
-        showAvatar
-      >
-      <Content bounces={false} style={{marginTop: 100, marginBottom: 140}}>
-        <PrimaryInput
-          type="secondary"
-          labelText={getError(this.props.error, 'first_name', "First name")}
-          value={user.first_name}
-          onChange={this.handleUserInfoChange.bind(this, 'first_name')} />
-        <PrimaryInput
-          type="secondary"
-          labelText={getError(this.props.error, 'last_name', "Last name")}
-          value={user.last_name}
-          onChange={this.handleUserInfoChange.bind(this, 'last_name')}  />
-        <PrimaryInput
-          type="secondary"
-          labelText="E-mail"
-          value={user.email}
-          keyboardType='email-address'
-          editable={false}
-          onChange={this.handleUserInfoChange.bind(this, 'email')} />
-        <SelectCountry
-          inputType="secondary"
-          setCountry={this.handleUserInfoChange.bind(this, 'country')}
-          country={user.country} />
-        <PrimaryInput
-          type="secondary"
-          labelText={getError(this.props.error, 'cellphone', "Phone number")}
-          value={user.cellphone}
-          onChange={this.handleUserInfoChange.bind(this, 'cellphone')} />
-        <View style={{marginTop: 40, marginBottom: 30}}>
+      <BasicLayout bottomNavigation>
+        <MainHeader />
+        <ImageHeading image={user.profile_picture} />
+
+        <Content style={{ paddingLeft: 40, paddingRight: 40 }}>
           <CelButton
-            onPress={() => navigateTo('ChangePassword')}
+            onPress={() => navigateTo('ProfileImage')}
+            transparent
             color="blue"
-          >Change password</CelButton>
-        </View>
-        <View style={{marginBottom: 30}}>
-          <CelButton
-            loading={isUpdatingProfileInfo}
-            disabled={isLoadingProfileInfo}
-            onPress={this.onSubmit}
-            color="green"
-          >Save changes</CelButton>
-        </View>
-        <View>
-          <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
-        </View>
-      </Content>
-    </SimpleLayout>
+            size="small"
+            margin="15 0 15 0"
+            inverse
+          >
+            Change avatar
+          </CelButton>
+
+          <PrimaryInput
+            type="secondary"
+            labelText={getError(this.props.error, 'first_name', "First name")}
+            value={user.first_name}
+            onChange={this.handleUserInfoChange.bind(this, 'first_name')} />
+          <PrimaryInput
+            type="secondary"
+            labelText={getError(this.props.error, 'last_name', "Last name")}
+            value={user.last_name}
+            onChange={this.handleUserInfoChange.bind(this, 'last_name')}  />
+          <PrimaryInput
+            type="secondary"
+            labelText="E-mail"
+            value={user.email}
+            keyboardType='email-address'
+            editable={false}
+            onChange={this.handleUserInfoChange.bind(this, 'email')} />
+          <SelectCountry
+            inputType="secondary"
+            setCountry={this.handleUserInfoChange.bind(this, 'country')}
+            country={user.country} />
+          <PrimaryInput
+            type="secondary"
+            labelText={getError(this.props.error, 'cellphone', "Phone number")}
+            value={user.cellphone}
+            onChange={this.handleUserInfoChange.bind(this, 'cellphone')} />
+
+          <View style={{marginTop: 40, marginBottom: 30}}>
+            <CelButton
+              onPress={() => navigateTo('ChangePassword')}
+              color="blue"
+            >Change password</CelButton>
+          </View>
+
+          <View style={{marginBottom: 30}}>
+            <CelButton
+              loading={isUpdatingProfileInfo}
+              disabled={isLoadingProfileInfo}
+              onPress={this.onSubmit}
+              color="green"
+            >
+              Save changes
+            </CelButton>
+          </View>
+          <View>
+            <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
+          </View>
+        </Content>
+      </BasicLayout>
     )
     /* eslint-enable */
   }

@@ -13,6 +13,5 @@ export default {
 }
 
 function isiPhoneX() {
-  console.log({ width, height, platform });
   return (platform === 'ios' && width === sizes.iPhoneX.width && height === sizes.iPhoneX.height );
 }
