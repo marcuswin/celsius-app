@@ -105,7 +105,7 @@ class TermsOfUse extends Component {
       <Container style={TermsOfUseStyle.buttonContainer}>
         <SimpleLayout
           mainHeader={{ backButton: false, onCancel: navigateBack}}
-          animatedHeading={{ text: 'Terms of Service' }}
+          animatedHeading={{ text: 'Terms of Use' }}
           bottomNavigation={ false }
           background={STYLES.PRIMARY_BLUE}
 
