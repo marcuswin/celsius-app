@@ -156,7 +156,7 @@ class SignupTwo extends Component {
 
             <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
               <CelCheckbox
-                label="I agree to Terms of Service"
+                label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
                 onChange={toggleTermsOfUse}
               />
