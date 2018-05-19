@@ -1,12 +1,28 @@
 import React from 'react';
-import {Text, View} from "native-base";
+import { Image, View, Text } from 'react-native';
 
-import {STYLES} from "../../../config/constants/style";
+import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
+const wrapperStyles = {
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%',
+  backgroundColor: STYLES.PRIMARY_BLUE,
+  opacity: 0.4,
+}
 
-const Loader = () =>
-  <View style={{display: 'flex', justifyContent: 'center', height: '100%', backgroundColor: STYLES.PRIMARY_BLUE}}>
-      <Text style={{color: 'white', textAlign: 'center'}}>Loading...</Text>
+const imageStyles = {
+  height: 200,
+  width: 200,
+}
+
+const spinner = require('../../../../assets/images/icons/celsius-spinner.gif');
+
+const Loader = (props) =>
+  <View style={wrapperStyles}>
+    <Image source={spinner} style={imageStyles} />
+    { props.text ? <Text style={[globalStyles.heading, { color: 'white' }]}>{ props.text }</Text> : null }
+    <Text style={[globalStyles.normalText, { color: 'white' }]}>Please wait...</Text>
   </View>
 
 export default Loader;

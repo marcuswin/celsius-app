@@ -98,7 +98,8 @@ class EstimatedLoan extends Component {
     const { estimatedLoan, portfolio, navigateTo } = this.props;
     const portfolioData = get(portfolio, 'data', []);
 
-    if (!estimatedLoan) return <Loader />;
+    if (!estimatedLoan) return <Loader text="Estimating Loan"/>;
+
     if (!estimatedLoan.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
