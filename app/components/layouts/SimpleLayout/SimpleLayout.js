@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 import {STYLES} from "../../../config/constants/style";
-import {Message} from '../../atoms/Message/Message';
+import Message from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 

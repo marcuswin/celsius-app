@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 
-import { Message } from '../../atoms/Message/Message';
+import Message from '../../atoms/Message/Message';
 import { MainHeader } from '../../../components/molecules/MainHeader/MainHeader';
 import Calculator from '../Calculator/Calculator'
 import PortfolioStyle from "./styles";
