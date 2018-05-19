@@ -8,7 +8,6 @@ const wrapperStyles = {
   alignItems: 'center',
   height: '100%',
   backgroundColor: STYLES.PRIMARY_BLUE,
-  opacity: 0.4,
 }
 
 const imageStyles = {
