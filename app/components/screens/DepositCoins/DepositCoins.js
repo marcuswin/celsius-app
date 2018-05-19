@@ -49,7 +49,7 @@ class DepositCoins extends Component {
     const { estimatedInterest, portfolio, navigateTo } = this.props;
     const portfolioData = get(portfolio, 'data', [])
 
-    if (!estimatedInterest) return <Loader />;
+    if (!estimatedInterest) return <Loader text="Estimating Interest on Coins" />;
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}

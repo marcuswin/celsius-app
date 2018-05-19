@@ -28,11 +28,14 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const isLoading = apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
-    if (isLoading) {
-      return <Loader />
-    }
     const portfolioData = get(this.props.portfolio, 'data', []);
+
+    const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
+
+    console.log({ portfolioData, isLoading });
+
+    if (isLoading) return <Loader text="Loading Home Page" />
+
     return (!isLoading && !isEmpty(portfolioData)) ? <PortfolioOverview /> : <ManagePortfolio />
   }
 }
