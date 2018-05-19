@@ -21,6 +21,14 @@ class SelectCoinModal extends Component {
 
   render() {
     const {visible, animation, onClose, supportedCurrencies} = this.props;
+
+    // Capitalize currency names bitcoin -> Bitcoin
+    supportedCurrencies.forEach(sc => {
+      const currency = sc;
+      currency.name = sc.name.replace(/\b\w/g, l => l.toUpperCase());
+      return currency;
+    });
+
     return (
       <Modal animationType={animation}
              visible={visible}
