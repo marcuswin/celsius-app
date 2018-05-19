@@ -14,6 +14,7 @@ import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import CameraModal from "../../organisms/Camera/Camera";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
+import Message from "../../atoms/Message/Message";
 
 const images = [
   require('../../../../assets/images/bear-avatar.jpg'),
@@ -56,7 +57,6 @@ class ProfileImage extends Component {
 
     // set image after camera
     if (nextProps.lastPhotoName === CAMERA_PHOTOS.PROFILE_PICTURE) {
-      console.log(nextProps);
       this.setState({ activeImage: nextProps.lastPhoto });
     }
 
@@ -96,6 +96,7 @@ class ProfileImage extends Component {
     return (
         <BasicLayout bottomNavigation>
           <MainHeader backButton />
+          <Message/>
           <ImageHeading image={this.state.activeImage}/>
 
           <Content>

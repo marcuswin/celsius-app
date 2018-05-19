@@ -4,7 +4,7 @@ import {Container, Content, Form, Text, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {Message} from '../../atoms/Message/Message';
+import Message from '../../atoms/Message/Message';
 import Styles from "./ForgottenPassword.styles";
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";

@@ -14,6 +14,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
+import Message from "../../atoms/Message/Message";
 
 
 // eslint-disable-next-line
@@ -73,6 +74,7 @@ class ProfileScreen extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader />
+        <Message />
         <ImageHeading image={user.profile_picture} />
 
         <Content style={{ paddingLeft: 40, paddingRight: 40 }}>

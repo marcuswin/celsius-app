@@ -8,7 +8,7 @@ import * as _ from 'lodash'
 import moment from 'moment';
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import {Message} from '../../atoms/Message/Message';
+import Message from '../../atoms/Message/Message';
 import Styles from "./Forms.styles";
 import * as actions from "../../../redux/actions";
 import API from "../../../config/constants/API";
