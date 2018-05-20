@@ -4,7 +4,8 @@
   "scripts": {
     "start": "exp start --clear",
     "start:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" npm start",
-    "start:dev:local": "BAKCEND=DEVELOPMENT REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" npm start & npm run ios",
+    "start:dev:local": "npm run env:local && npm run start:dev",
+    "start:dev:staging": "npm run env:staging && npm run start:dev",
     "kill:expo": "lsof -ti:19000 | xargs kill -9",
     "ios": "exp ios",
     "android": "exp android",
@@ -12,7 +13,8 @@
     "env:local": "expo-env  --env=development --configPath=./config",
     "env:staging": "expo-env --env=staging --configPath=./config",
     "env:production": "expo-env --env=production --configPath=./config",
-    "deploy:staging": "exp publish --release-channel staging",
+    "publish:staging": "exp publish --release-channel staging",
+    "deploy:staging": "npm run env:staging && npm run publish:staging",
     "plop": "plop"
   },
   "pre-commit": [
@@ -33,6 +35,7 @@
     "hoek": "^5.0.3",
     "immutable": "3.8.2",
     "lodash": "4.17.5",
+    "moment": "^2.22.1",
     "native-base": "2.3.8",
     "prop-types": "15.6.0",
     "qs": "6.5.1",
