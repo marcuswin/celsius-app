@@ -28,10 +28,11 @@ class AnimatedHeading extends Component {
 
 
   componentDidUpdate = () => {
-    const {setHeaderHeight} = this.props;
-    if (setHeaderHeight) {
-      this.element.measure((x, y, width, height) => setHeaderHeight(height, true));
-    }
+    // TODO (fj): remove action completely
+    // const {setHeaderHeight} = this.props;
+    // if (setHeaderHeight) {
+    //   this.element.measure((x, y, width, height) => setHeaderHeight(height, true));
+    // }
   };
 
   offset = 0;

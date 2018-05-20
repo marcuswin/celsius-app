@@ -16,9 +16,10 @@ import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import SelectCoinModal from "../../organisms/SelectCoinModal/SelectCoinModal";
 import * as actions from "../../../redux/actions";
-import { actions as mixpanelActions } from '../../../services/mixpanel' 
+import { actions as mixpanelActions } from '../../../services/mixpanel'
 
 import CalculatorStyle from "./Calculator.styles";
+import apiUtil from "../../../utils/api-util";
 
 @connect(
   state => ({
@@ -58,7 +59,7 @@ class Calculator extends Component {
 
     const data = selectedCoins
       .filter(sc => sc.amount != null && sc.amount > 0)
-      .map(sc => ({id: sc.currency.id, amount: sc.amount}));
+      .map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
 
     this.props.updatePortfolio(data);
   };
@@ -67,10 +68,12 @@ class Calculator extends Component {
     const {selectedCoins} = this.state;
     const formattedAmount = amount.replace(',', '.');
 
+    console.log({ amount, coin, formattedAmount, number: Number(formattedAmount) });
+
     this.setState({
       selectedCoins: selectedCoins.map(oc => ({
         ...oc,
-        amount: oc.currency.short === coin.currency.short ? Number(formattedAmount) : oc.amount
+        amount: oc.currency.short === coin.currency.short && !isNaN(formattedAmount) ? formattedAmount : oc.amount
       })),
     });
   };
@@ -120,6 +123,7 @@ class Calculator extends Component {
     const isFormDisabled = isEmpty(this.state.selectedCoins)
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
 
+    const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
     return (
       <View style={{flex: 1}}>
           <View style={CalculatorStyle.container}>
@@ -157,7 +161,7 @@ class Calculator extends Component {
                   </ListItem>
                 </Swipeable>
               }/>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
                 mixpanelActions.addCoinButton();
@@ -179,6 +183,7 @@ class Calculator extends Component {
             <View style={CalculatorStyle.submitButtonWrapper}>
               <CelButton
                 onPress={this.onPressSubmit}
+                loading={isLoading}
                 disabled={isFormDisabled}
               >
                 {this.props.userHasPortfolio ? "Save changes" : "Save coins"}

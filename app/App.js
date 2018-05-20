@@ -75,7 +75,6 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getLoggedInBorrower());
-      store.dispatch(actions.toggleTermsOfUse());
     }
 
     // init twitter login service
