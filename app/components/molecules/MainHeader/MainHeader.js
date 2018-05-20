@@ -52,10 +52,11 @@ class MainHeader extends Component {
   }
 
 
-  setHeaderHeight(e) {
-    const {setHeaderHeight} = this.props;
-    const {height} = e.nativeEvent.layout;
-    setHeaderHeight(height);
+  setHeaderHeight() {
+    // const {setHeaderHeight} = this.props;
+    // const {height} = e.nativeEvent.layout;
+    // TODO (fj): remove action completely
+    // setHeaderHeight(height);
   }
 
   renderLeft() {

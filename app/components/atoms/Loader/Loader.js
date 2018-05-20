@@ -15,11 +15,12 @@ const imageStyles = {
   width: 200,
 }
 
-const spinner = require('../../../../assets/images/icons/celsius-spinner.gif');
+// const spinner = require('../../../../assets/images/icons/celsius-spinner.gif');
+const logo = require('../../../../assets/images/icons/celsius_symbol_white.png');
 
 const Loader = (props) =>
   <View style={wrapperStyles}>
-    <Image source={spinner} style={imageStyles} />
+    <Image source={logo} style={imageStyles} />
     { props.text ? <Text style={[globalStyles.heading, { color: 'white' }]}>{ props.text }</Text> : null }
     <Text style={[globalStyles.normalText, { color: 'white' }]}>Please wait...</Text>
   </View>
