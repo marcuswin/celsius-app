@@ -144,7 +144,7 @@ class Calculator extends Component {
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
                               maxLength={7}
-                              value={`${item.amount > 0 ? item.amount : ''}`}
+                              value={`${item.amount}` || ''}
                               placeholder='0.00'
                               placeholderTextColor={'#3D4853'}
                             />
