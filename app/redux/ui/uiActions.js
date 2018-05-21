@@ -46,7 +46,7 @@ function takeCameraPhoto(photoName, photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
     photoName,
-    photo
+    photo,
   }
 }
 
