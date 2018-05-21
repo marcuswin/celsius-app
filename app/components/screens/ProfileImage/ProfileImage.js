@@ -111,7 +111,7 @@ class ProfileImage extends Component {
               Take photo
             </CelButton>
 
-            <CameraModal cameraType="front" />
+            <CameraModal cameraType="front" qualityBack={ 0.2 }/>
 
             <Text style={ProfileImageStyle.text}>Or choose from one of the below:</Text>
 
