@@ -114,9 +114,10 @@ class DepositCoins extends Component {
         </View>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
-          You're
+          You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
-          person in line to be eligible to lend out your coins and earn interest (once when you transfer your coins and they are lent).
+          person in line eligible to lend out your coins and earn interest of up to 5%.
+          Passive income FTW.
         </Text>
       </SimpleLayout>
     );
