@@ -108,6 +108,7 @@ class EstimatedLoan extends Component {
       </SimpleLayout>
     );
 
+
     return (
       <SimpleLayout
         animatedHeading={animatedHeading}
@@ -135,7 +136,7 @@ class EstimatedLoan extends Component {
           renderHeader={ (styles) =>
             <Text style={styles}>
               <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-              10.000,00
+              {formatter.usd(estimatedLoan.max_loan_amount, {symbol: ''})}
             </Text>
           }
           renderContent={ (styles) =>
