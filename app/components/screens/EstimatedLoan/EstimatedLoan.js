@@ -135,7 +135,7 @@ class EstimatedLoan extends Component {
           renderHeader={ (styles) =>
             <Text style={styles}>
               <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-              {formatter.usd(estimatedLoan.max_loan_amount, {symbol: ''})}
+              10.000,00
             </Text>
           }
           renderContent={ (styles) =>
@@ -159,7 +159,7 @@ class EstimatedLoan extends Component {
           }
           renderContent={ (styles) =>
             <Text style={styles}>
-              Your estimated yearly interested is based on your maximum loan amount of { formatter.usd(estimatedLoan.max_loan_amount) } at
+              Your estimated yearly interest is based on your maximum loan amount of { formatter.usd(estimatedLoan.max_loan_amount) } at
               <Text style={[styles, globalStyles.boldText]}> 9% interest </Text>
               (which you can pay in CEL tokens or dollars).
             </Text>
@@ -211,13 +211,13 @@ class EstimatedLoan extends Component {
         <Separator margin='15 0 30 0'/>
 
         <View style={EstimatedLoanStyle.bearWrapper}>
-          <Image source={require('../../../../assets/images/polar-bear-hodl.png')} style={EstimatedLoanStyle.bearImage}/>
+          <Image source={require('../../../../assets/images/polar-bear_large.png')} style={EstimatedLoanStyle.bearImage}/>
         </View>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
-          You're
+          You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedLoan.position_in_line) } </Text>
-          person in line to be eligible to borrow out your coins and earn interest (once when you transfer your coins and they are lent).
+          person in line eligible to borrow dollars against your crypto.
         </Text>
 
       </SimpleLayout>
