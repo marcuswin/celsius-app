@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Button, Text, View, Icon} from 'native-base';
 import {Image, Modal, TouchableOpacity} from 'react-native';
 import {Camera, Permissions} from 'expo';
@@ -20,7 +21,7 @@ import * as actions from "../../../redux/actions";
 )
 class CameraModal extends Component {
   static propTypes = {
-
+    qualityBack: PropTypes.number,
   };
 
   static defaultProps = {
@@ -40,15 +41,20 @@ class CameraModal extends Component {
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
 
+    console.log({ camera, cameraType });
+
     if (camera !== Camera.Constants.Type[cameraType]) {
       flipCamera()
     }
   }
 
   takePicture = async () => {
-    const { takeCameraPhoto, toggleCamera, photoName } = this.props;
+    const { takeCameraPhoto, toggleCamera, photoName, qualityBack, camera } = this.props;
+
+    const quality = camera === Camera.Constants.Type.back && qualityBack ? qualityBack : 1;
 
     this.camera.takePictureAsync({
+      quality,
       base64: true,
     }).then(photo => {
       takeCameraPhoto(photoName, photo.base64);
