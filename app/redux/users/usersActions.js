@@ -335,9 +335,9 @@ function updateProfilePicture(image) {
   return async dispatch => {
     dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
     try {
-      // const res = await usersService.update(user);
+      const res = await usersService.setProfileImage(image);
 
-      dispatch(updateProfilePictureSuccess(image));
+      dispatch(updateProfilePictureSuccess(res.data.img_url));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.UPLOAD_PLOFILE_IMAGE, err));

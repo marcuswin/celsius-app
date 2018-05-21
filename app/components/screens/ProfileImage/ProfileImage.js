@@ -17,15 +17,15 @@ import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
 
 const images = [
-  require('../../../../assets/images/bear-avatar.jpg'),
-  require('../../../../assets/images/cat-avatar.jpg'),
-  require('../../../../assets/images/deer-avatar.jpg'),
-  require('../../../../assets/images/hippo-avatar.jpg'),
-  require('../../../../assets/images/monkey-avatar.jpg'),
-  require('../../../../assets/images/mouse-girl-avatar.jpg'),
-  require('../../../../assets/images/monkey-girl-avatar.jpg'),
-  require('../../../../assets/images/girl-dog-avatar.jpg'),
-  require('../../../../assets/images/sheep-avatar.jpg'),
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
+  'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
 ];
 
 @connect(
@@ -84,7 +84,7 @@ class ProfileImage extends Component {
 
     return (
       <TouchableOpacity key={images.indexOf(image)} style={ProfileImageStyle.button} onPress={() => this.setActiveImage(image)}>
-        <Image source={image} style={imageStyles} />
+        <Image source={{ uri: image }} style={imageStyles} />
       </TouchableOpacity>
     )
   }

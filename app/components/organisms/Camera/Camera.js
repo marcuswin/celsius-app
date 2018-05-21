@@ -49,13 +49,9 @@ class CameraModal extends Component {
     const { takeCameraPhoto, toggleCamera, photoName } = this.props;
 
     this.camera.takePictureAsync({
-      // base64: true,
+      base64: true,
     }).then(photo => {
-      console.log(photo);
-      // const uriParts = photo.uri.split('.');
-      // const fileType = uriParts[uriParts.length - 1];
-
-      takeCameraPhoto(photoName, photo);
+      takeCameraPhoto(photoName, photo.base64);
       toggleCamera();
     }).catch(console.log);
   };
