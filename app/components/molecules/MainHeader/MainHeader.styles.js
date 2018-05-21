@@ -25,8 +25,8 @@ const HeaderStyle = StyleSheet.create({
     marginTop: 3
   },
   logo: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
     opacity: 0.6,
   },
 });
