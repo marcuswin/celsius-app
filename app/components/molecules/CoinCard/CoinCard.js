@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {Grid, Col, Row} from "react-native-easy-grid";
 import { LineChart } from 'react-native-svg-charts'
+import get from 'lodash/get';
 
 import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
@@ -116,8 +117,7 @@ const CoinCardStyle = StyleSheet.create({
 const CoinCard = (props) => {
   const percentChange24h = props.market.quotes.USD.percent_change_24h;
   const isPercentChangeNegative = percentChange24h < 0;
-
-  const data = [ 0, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5, 11, 6, 8, 12, 24, 8, 7, 2, 1, 20, 24, 30, 35, 5 ]; // TODO: djs: mocked data, should be loaded from backend
+  const graphData = get(props.market.quotes.USD, 'price7d', null)
 
   return <Card>
     <Grid style={[CoinCardStyle.row, {paddingTop: 10}]}>
@@ -150,16 +150,18 @@ const CoinCard = (props) => {
           percentChange24h={percentChange24h}
         />
       </Row>
-      <Row style={[CoinCardStyle.row, {paddingBottom: 16}]}>
-        <View style={{width: '100%'}}>
-          <LineChart
-            style={{ height: 30 }}
-            data={ data }
-            svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
-          />
-        </View>
-      </Row>
-      {(props.currency.short === "BTC" || props.currency.short === "ETH") &&
+      {graphData && 
+        <Row style={[CoinCardStyle.row, {paddingBottom: 20}]}>
+          <View style={{width: '100%'}}>
+            <LineChart
+              style={{ height: 30 }}
+              data={ graphData  }
+              svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
+            />
+          </View>
+        </Row>
+      }
+      {(props.currency.short === "BTC" || props.currency.short === "ETH" || props.currency.short === "CEL" ) &&
       <Row>
         <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
           <StarIcon/>
