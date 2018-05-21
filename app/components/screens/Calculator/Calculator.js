@@ -146,7 +146,7 @@ class Calculator extends Component {
                               maxLength={7}
                               value={`${item.amount}` || ''}
                               placeholder='0.00'
-                              placeholderTextColor={'#3D4853'}
+                              placeholderTextColor='#3D4853'
                             />
                           </View>
                         </Col>
