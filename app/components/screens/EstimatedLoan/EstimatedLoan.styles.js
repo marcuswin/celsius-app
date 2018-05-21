@@ -48,8 +48,8 @@ const EstimatedLoanStyle = StyleSheet.create({
     shadowRadius: 2, elevation: 3
   },
   bearImage: {
-    height: width * 0.25,
-    width: width * 0.25 * 1.13,
+    height: width * 0.35,
+    width: width * 0.35 * 1.13,
   },
   bearWrapper: {
     justifyContent: 'center',

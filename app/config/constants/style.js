@@ -116,4 +116,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Welcome_Penguin.png'),
   require('../../../assets/images/Welcome_Polar-Bear.png'),
   require('../../../assets/images/Welcome_Whale.png'),
+  require('../../../assets/images/polar-bear_large.png'),
 ];

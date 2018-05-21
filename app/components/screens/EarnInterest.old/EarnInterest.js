@@ -71,10 +71,10 @@ class EarnInterestScreen extends Component {
             </View>
 
             <Text style={EarnInterestStyle.description}>
-              You're <Text
+              You're the <Text
               style={{fontWeight: 'bold'}}>{interestData.interestData ? interestData.interestData.position : 0}</Text> person
-              in line to be eligible to lend out your coins and earn
-              interest (once when your coins are lent).
+              in line eligible to lend out your coins and earn interest of up to 5%.
+              Passive income FTW.
             </Text>
           </View>
 
