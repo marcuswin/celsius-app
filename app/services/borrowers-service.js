@@ -16,7 +16,7 @@ function login({ email, password }) {
 }
 
 function getLoggedIn() {
-  return axios.get(`${apiUrl}/borrowers/logged_in`);
+  return axios.get(`${apiUrl}/borrowers/logged_in?_=${ new Date().getTime() }`);
 }
 
 function register({ email, password, firstName, lastName, country }) {

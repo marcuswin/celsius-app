@@ -1,18 +1,23 @@
-import { StackNavigator } from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 
 // screens
-import WelcomeScreen from '../screens/Welcome/Welcome';
-import LoginScreen from "../screens/Login/Login";
-import RegisterScreen from "../screens/Register/Register";
-import HomeScreen from "../screens/Home/Home";
-import CalculatorScreen from "../screens/Calculator/Calculator";
-import EarnInterestScreen from '../screens/EarnInterest/EarnInterest';
-import ComingSoonScreen from "../screens/ComingSoon/ComingSoon";
-import LoanPreviewScreen from "../screens/LoanPreview/LoanPreview";
-import ThankYouScreen from "../screens/ThankYou/ThankYou";
-import ThankYouLenderScreen from '../screens/EarnInterest/ThankYouLender'
+import WelcomeScreen from '../components/screens/Welcome/Welcome';
+import LoginScreen from "../components/screens/Login/Login";
+import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
+import HomeScreen from "../components/screens/Home/Home";
+import CalculatorScreen from "../components/screens/Calculator/Calculator";
+import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
+import SignupOneScreen from "../components/screens/Signup/SignupOne";
+import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
+import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
+import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
+import ProfileScreen from '../components/screens/Profile/Profile';
+import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePassword";
+import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
+import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
+// NOTE(fj): plop screenGen importing new Screen here
 
-const Navigator = StackNavigator({
+const Navigator = createStackNavigator({
   Welcome: {
     screen: WelcomeScreen,
     title: 'Welcome',
@@ -21,38 +26,55 @@ const Navigator = StackNavigator({
     screen: LoginScreen,
     title: 'Login',
   },
-  Register: {
-    screen: RegisterScreen,
-    title: 'Register',
+  ForgottenPassword: {
+    screen: ForgottenPasswordScreen,
+    title: 'ForgottenPassword',
   },
   Home: {
     screen: HomeScreen,
     title: 'Home',
   },
-  EarnInterest: {
-    screen: EarnInterestScreen,
-    title: 'EarnInterest'
-  },
-  ThankYouLender: {
-    screen: ThankYouLenderScreen,
-    title: 'ThankYouLender'
+  ManagePortfolio: {
+    screen: ManagePortfolioScreen,
+    title: 'ManagePortfolio',
   },
   Calculator: {
     screen: CalculatorScreen,
     title: 'Calculator',
   },
-  ComingSoon: {
-    screen: ComingSoonScreen,
-    title: 'ComingSoon',
+  SignupOne: {
+    screen: SignupOneScreen,
+    title: 'SignupOne',
   },
-  LoanPreview: {
-    screen: LoanPreviewScreen,
-    title: 'LoanPreview',
+  SignupTwo: {
+    screen: SignupTwoScreen,
+    title: 'SignupTwo',
   },
-  ThankYou: {
-    screen: ThankYouScreen,
-    title: 'ThankYou',
-  }
+  EstimatedLoan: {
+    screen: EstimatedLoanScreen,
+    title: 'EstimatedLoan',
+  },
+  TermsOfUse: {
+    screen: TermsOfUseScreen,
+    title: 'TermsOfUse',
+  },
+  Profile: {
+    screen: ProfileScreen,
+    title: 'Profile',
+  },
+  ChangePassword: {
+    screen: ChangePasswordScreen,
+    title: 'ChangePassword',
+  },
+  DepositCoins: {
+    screen: DepositCoinsScreen,
+    title: 'DepositCoins',
+  },
+  ProfileImage: {
+    screen: ProfileImageScreen,
+    title: 'ProfileImage',
+  },
+  // NOTE(fj): plop screenGen inserting new Screen here
 }, {
   headerMode: 'none'
 });

@@ -9,3 +9,5 @@ npm-debug.*
 # Environment files
 .env
 app.json
+config.json
+config/
