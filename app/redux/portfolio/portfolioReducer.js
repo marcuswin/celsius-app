@@ -9,9 +9,10 @@ const initialState = {
 export default (state = initialState, action) => {
   switch(action.type) {
     case ACTIONS.GET_PORTFOLIO_SUCCESS:
+    case ACTIONS.CREATE_PORTFOLIO_SUCCESS:
       return {
         ...state,
-        portfolio: action.payload,
+        portfolio: action.payload || action.portfolio,
       }
 
     case ACTIONS.GET_ESTIMATED_LOAN_SUCCESS:

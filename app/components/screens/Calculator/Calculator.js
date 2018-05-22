@@ -68,8 +68,6 @@ class Calculator extends Component {
     const {selectedCoins} = this.state;
     const formattedAmount = amount.replace(',', '.');
 
-    console.log({ amount, coin, formattedAmount, number: Number(formattedAmount) });
-
     this.setState({
       selectedCoins: selectedCoins.map(oc => ({
         ...oc,

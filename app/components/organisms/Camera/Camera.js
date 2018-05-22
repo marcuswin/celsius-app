@@ -21,11 +21,13 @@ import * as actions from "../../../redux/actions";
 )
 class CameraModal extends Component {
   static propTypes = {
+    cameraType: PropTypes.oneOf(['front', 'back']),
     qualityBack: PropTypes.number,
   };
 
   static defaultProps = {
     photoName: '',
+    cameraType: 'back',
   };
 
   constructor(props) {
@@ -40,8 +42,6 @@ class CameraModal extends Component {
     const { camera, cameraType, flipCamera } = this.props;
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({hasCameraPermission: status === 'granted'});
-
-    console.log({ camera, cameraType });
 
     if (camera !== Camera.Constants.Type[cameraType]) {
       flipCamera()
