@@ -8,6 +8,7 @@ const MessageStyle = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   containerInverted: {
     paddingTop: 10,
@@ -15,6 +16,7 @@ const MessageStyle = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'white',
   },
   error: {

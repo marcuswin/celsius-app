@@ -25,13 +25,12 @@ class Message extends Component {
     let textStyles;
 
     if (inverted) {
-      containerStyles = [MessageStyle.containerInterted, MessageStyle[`${message.type || 'error'}Inverted`]];
+      containerStyles = [MessageStyle.containerInverted, MessageStyle[`${message.type || 'error'}Inverted`]];
       textStyles = [MessageStyle.text, MessageStyle[`${message.type}Text`]];
 
     } else {
       containerStyles = [MessageStyle.container, MessageStyle[message.type || 'error']];
       textStyles = MessageStyle.text;
-
     }
 
     return (
