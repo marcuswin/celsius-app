@@ -15,6 +15,12 @@
     "env:production": "expo-env --env=production --configPath=./config",
     "publish:staging": "exp publish --release-channel staging",
     "deploy:staging": "npm run env:staging && npm run publish:staging",
+    "build:android:staging": "exp build:android --no-publish --release-channel staging",
+    "build:ios:staging": "exp build:ios --no-publish --release-channel staging",
+    "publish:production": "exp publish --release-channel production",
+    "deploy:production": "npm run env:production && npm run publish:production",
+    "build:android:production": "exp build:android --no-publish --release-channel production",
+    "build:ios:production": "exp build:ios --no-publish --release-channel production",
     "plop": "plop"
   },
   "pre-commit": [
@@ -29,7 +35,6 @@
     "base-64": "^0.1.0",
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
-    "exp": "^53.1.0",
     "expo": "25.0.0",
     "expo-env": "^1.1.1",
     "hoek": "^5.0.3",
