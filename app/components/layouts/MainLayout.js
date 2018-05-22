@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
-import { addNavigationHelpers } from 'react-navigation';
 import { BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import moment from "moment";
 import {Constants} from "expo";
+import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 import Navigator from '../../config/Navigator';
 import * as actions from "../../redux/actions";
 
 const {ENV, PUBLISH_TIME} = Constants.manifest.extra;
+
+createReactNavigationReduxMiddleware("root", state => state.nav);
 
 @connect(
   state => ({
@@ -40,10 +42,13 @@ class MainLayout extends Component {
   };
 
   render() {
-    const { dispatch, nav } = this.props;
+    const navigation = {
+      dispatch: this.props.dispatch,
+      state: this.props.nav,
+      addListener: createReduxBoundAddListener("root"),
+    };
 
-    return <Navigator
-      navigation={ addNavigationHelpers({ dispatch, state: nav }) }/>;
+    return <Navigator navigation={navigation} />;
   }
 }
 

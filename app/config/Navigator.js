@@ -1,4 +1,4 @@
-import {StackNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation';
 
 // screens
 import WelcomeScreen from '../components/screens/Welcome/Welcome';
@@ -17,7 +17,7 @@ import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins"
 import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
 // NOTE(fj): plop screenGen importing new Screen here
 
-const Navigator = StackNavigator({
+const Navigator = createStackNavigator({
   Welcome: {
     screen: WelcomeScreen,
     title: 'Welcome',
