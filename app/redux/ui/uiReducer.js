@@ -40,7 +40,8 @@ const initialState = {
     photoName: undefined,
     lastPhoto: undefined,
     lastPhotoName: undefined,
-  }
+  },
+  formData: {},
 };
 
 export default (state = initialState, action) => {
@@ -106,6 +107,15 @@ export default (state = initialState, action) => {
           ...state.camera,
           lastPhoto: action.photo,
           lastPhotoName: action.photoName,
+        }
+      }
+
+    case ACTIONS.UPDATE_FORM_FIELD:
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          [action.field]: action.value,
         }
       }
 

@@ -7,6 +7,8 @@ export {
   toggleCamera,
   takeCameraPhoto,
   flipCamera,
+  submitForm,
+  updateFormField,
 }
 
 let msgTimeout;
@@ -60,5 +62,27 @@ function toggleCamera(photoName) {
 function flipCamera() {
   return {
     type: ACTIONS.FLIP_CAMERA,
+  }
+}
+
+// function clearForm() {
+//   return {}
+// }
+
+function submitForm(formName, formData) {
+  console.log({ formName, formData });
+  return {
+    type: ACTIONS[`SUBMIT_${formName}`],
+    formData,
+  }
+}
+
+function updateFormField(field, value) {
+  console.log({ field, value });
+
+  return {
+    type: ACTIONS.UPDATE_FORM_FIELD,
+    field,
+    value,
   }
 }
