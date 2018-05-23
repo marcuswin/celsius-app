@@ -45,14 +45,26 @@ class TextInput extends Component {
     spellCheck: false,
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      active: false,
+    }
+  }
+
   // rendering methods
   render() {
     const { editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value } = this.props;
+    const { active } = this.state;
+
+    let label = labelText || placeholder;
+    label = (value || active) ? label.toUpperCase() : label;
 
     return (
       <View style={CelInputStyle.wrapper}>
         <Item style={CelInputStyle.item} floatingLabel={floatingLabel}>
-          <Label style={value ? CelInputStyle.labelActive : CelInputStyle.label}>{ labelText || placeholder }</Label>
+          <Label style={value || active ? CelInputStyle.labelActive : CelInputStyle.label}>{ label }</Label>
           <Input
             style={CelInputStyle.input}
             underlineColorAndroid='rgba(0,0,0,0)'
@@ -60,6 +72,8 @@ class TextInput extends Component {
             maxLength={maxLength}
             autoCapitalize={autoCapitalize}
             editable={editable}
+            onFocus={() => this.setState({ active: true })}
+            onBlur={() => this.setState({ active: false })}
             autoCorrect={autoCorrect}
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}
