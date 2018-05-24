@@ -21,7 +21,7 @@ const InputStyles = StyleSheet.create({
   },
   input: {
     color: STYLES.GRAY_2,
-    fontFamily: 'agile-bold',
+    fontFamily: 'agile-book',
     fontSize: FONT_SCALE * 20,
     fontWeight: '200',
     borderColor: 'rgba(255,255,255,0)',

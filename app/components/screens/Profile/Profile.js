@@ -133,7 +133,7 @@ class ProfileScreen extends Component {
               Save changes
             </CelButton>
           </View>
-          <View>
+          <View style={{marginBottom: 30}}>
             <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
           </View>
         </Content>

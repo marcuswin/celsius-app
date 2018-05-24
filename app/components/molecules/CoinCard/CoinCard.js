@@ -44,7 +44,7 @@ const CoinCardStyle = StyleSheet.create({
     marginBottom: 10,
     fontSize: FONT_SCALE * 29,
     color: '#3D4853',
-    fontFamily: 'agile-book',
+    fontFamily: 'agile-medium',
   },
   coinAmount: {
     fontSize: FONT_SCALE * 14,
@@ -86,6 +86,7 @@ const CoinCardStyle = StyleSheet.create({
     marginLeft: 'auto',
     width: 48,
     height: 48,
+    marginTop: 10
   },
   wrapper: {
     display: 'flex',
@@ -150,7 +151,7 @@ const CoinCard = (props) => {
           percentChange24h={percentChange24h}
         />
       </Row>
-      {graphData && 
+      {graphData &&
         <Row style={[CoinCardStyle.row, {paddingBottom: 20}]}>
           <View style={{width: '100%'}}>
             <LineChart

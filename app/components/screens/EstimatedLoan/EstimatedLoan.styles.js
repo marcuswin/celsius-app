@@ -24,7 +24,7 @@ const EstimatedLoanStyle = StyleSheet.create({
     marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   hippoImage: {
     width: width * 0.4,
@@ -35,6 +35,13 @@ const EstimatedLoanStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
     textAlign: 'center'
+  },
+  sectionText2: {
+    color: '#3D4853',
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-extra-light',
+    textAlign: 'left',
+    marginLeft: 12,
   },
   pdfWrapper: {
     paddingTop: 12,
