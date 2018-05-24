@@ -115,6 +115,8 @@ class Calculator extends Component {
   ];
 
   render() {
+    const { navigateTo } = this.props;
+
     const filteredSupportedCurrencies = this.props.supportedCurrencies != null
       ? this.props.supportedCurrencies.filter(sc => !this.state.selectedCoins.map(x => x.currency.id).includes(sc.id))
       : []
@@ -163,8 +165,9 @@ class Calculator extends Component {
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
                 mixpanelActions.addCoinButton();
-                this.setState({modalVisible: true})}
-              }
+                // this.setState({modalVisible: true})}
+                navigateTo('AddCoins');
+              }}
               disabled={selectedAllCoins}
             >
               <Grid>
