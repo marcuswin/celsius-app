@@ -55,7 +55,7 @@ class TextInput extends Component {
 
   // rendering methods
   render() {
-    const { editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value } = this.props;
+    const { editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus } = this.props;
     const { active } = this.state;
 
     let label = labelText || placeholder;
@@ -72,7 +72,10 @@ class TextInput extends Component {
             maxLength={maxLength}
             autoCapitalize={autoCapitalize}
             editable={editable}
-            onFocus={() => this.setState({ active: true })}
+            onFocus={() => {
+              onFocus()
+              this.setState({ active: true })}
+            }
             onBlur={() => this.setState({ active: false })}
             autoCorrect={autoCorrect}
             secureTextEntry={secureTextEntry}

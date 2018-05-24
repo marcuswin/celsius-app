@@ -46,6 +46,7 @@ class CelInput extends Component {
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
+    onPress: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
     secureTextEntry: PropTypes.bool,
@@ -73,6 +74,14 @@ class CelInput extends Component {
     autoCorrect: false,
     spellCheck: false,
   }
+
+  onFocus = () => {
+    const { onPress } = this.props;
+    if (onPress) {
+      onPress();
+    }
+  };
+
 
   // rendering methods
   render() {
@@ -105,6 +114,7 @@ class CelInput extends Component {
           <TextInput
             { ...this.props }
             onChange={(text) => updateFormField(field, text)}
+            onFocus={this.onFocus}
           />
         )
     }

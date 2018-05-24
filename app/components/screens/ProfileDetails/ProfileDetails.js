@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { Form } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import moment from 'moment';
 
 import * as actions from "../../../redux/actions";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -12,6 +13,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Separator from "../../atoms/Separator/Separator";
+import CelDatepicker from "../../atoms/CelInput/CelDatepicker";
 
 @connect(
   state => ({
@@ -27,11 +29,6 @@ class ProfileDetails extends Component {
     // binders
   }
 
-  // lifecycle methods
-  // event hanlders
-  updateVal = (text) => {
-    this.setState({ val: text });
-  }
   // rendering methods
   render() {
     const { formData, submitForm } = this.props;
@@ -46,6 +43,14 @@ class ProfileDetails extends Component {
         </Text>
 
         <Form>
+          <CelSelect field="gender" type="gender" labelText="gender" value={formData.gender} />
+          <CelDatepicker 
+            {...this.props} 
+            labelText="Date of birth"
+            field="dateOfBirth"
+            onDateChange={(date) => this.props.updateFormField('dateOfBirth', new Date(date))}
+            value={formData.dateOfBirth ? moment(new Date(formData.dateOfBirth)).format('DD/MM/YY') : ''}
+          />
           <CelInput value={formData.firstName} field="firstName" labelText="First Name"/>
           <CelInput value={formData.lastName} field="lastName" labelText="Last Name"/>
           <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship ? formData.citizenship.name : undefined} />
