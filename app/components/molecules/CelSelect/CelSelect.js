@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-// import {} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
 import { GENDER, DOCUMENT_TYPE } from "../../../config/constants/common";
-// import CelSelectStyle from "./CelSelect.styles";
+import CelSelectStyle from "./CelSelect.styles";
 import CelInputStyle from "../../atoms/CelInput/CelInput.styles";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
+import Icon from "../../atoms/Icon/Icon";
+import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 
 @connect(
   () => ({}),
@@ -17,14 +18,14 @@ import SelectModal from "../../organisms/SelectModal/SelectModal";
 )
 class CelSelect extends Component {
   static propTypes = {
-    type: PropTypes.oneOf(['gender', 'document']),
+    type: PropTypes.oneOf(['gender', 'document', 'country']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.string,
     field: PropTypes.string,
     labelText: PropTypes.string,
-    // TODO: add search property
-    search: PropTypes.func,
+    // TODO: add search logic ?
+    // search: PropTypes.func,
   }
   static defaultProps = {
     type: '',
@@ -52,8 +53,7 @@ class CelSelect extends Component {
 
     this.state = {
       visible: false,
-      allItems: items,
-      filteredItems: items,
+      items,
     };
     // binders
   }
@@ -62,28 +62,40 @@ class CelSelect extends Component {
   // event hanlders
   selectValue = (item) => {
     const { updateFormField, field } = this.props;
-    console.log(item);
-    if (item) updateFormField(field, item.value);
+    if (item) updateFormField(field, item);
     this.setState({ visible: false });
   }
   // rendering methods
   render() {
-    const { labelText, value } = this.props;
-    const { visible, filteredItems } = this.state;
+    const { labelText, value, type } = this.props;
+    const { visible, items } = this.state;
+
+    const label = value && labelText ? labelText.toUpperCase() : labelText;
 
     return (
       <View>
         <TouchableOpacity onPress={ () => this.setState({ visible: !visible })} style={CelInputStyle.wrapper}>
-          <Text style={ value ? CelInputStyle.labelActive : CelInputStyle.label}>{ labelText }</Text>
+          <Text style={ value ? CelSelectStyle.selectLabelActive : CelSelectStyle.selectLabel}>{ label }</Text>
           <Text style={ CelInputStyle.input }>{ value }</Text>
+
+          <View style={{ backgroundColor: 'red', position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+            <Icon name='CaretDown' height='25' width='25' fill={'white'} style={{opacity: 0.5}} />
+          </View>
         </TouchableOpacity>
 
-        <SelectModal
-          visible={visible}
-          items={filteredItems}
-          onClose={ this.selectValue }
-          modalTitle={ labelText }
-        />
+        { type === 'country' ? (
+          <SelectCountryModal
+            visible={ visible }
+            onClose={ this.selectValue }
+          />
+        ) : (
+          <SelectModal
+            visible={visible}
+            items={items}
+            onClose={ this.selectValue }
+            modalTitle={ labelText }
+          />
+        )}
       </View>
     );
   }
