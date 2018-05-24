@@ -8,9 +8,11 @@ import * as actions from "../../../redux/actions";
 // import VerifyProfileStyle from "./VerifyProfile.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES} from "../../../config/constants/style";
+import { CAMERA_COPY } from "../../../config/constants/common";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
+import CameraInput from "../../atoms/CameraInput/CameraInput";
 
 @connect(
   state => ({
@@ -47,6 +49,10 @@ class VerifyProfile extends Component {
           <CelSelect field="documentType" type="document" labelText="Document Type" value={formData.documentType ? formData.documentType.label : undefined }/>
 
           <Separator>TAKE PHOTOS</Separator>
+
+          <CameraInput labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput labelTextActive="Selfie" cameraType="front" labelTextInactive="Take a selfie" value={formData.selfie} field="selfie" cameraCopy={CAMERA_COPY.SELFIE} />
           <Separator>PHONE</Separator>
         </Form>
 
