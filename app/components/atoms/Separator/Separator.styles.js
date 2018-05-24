@@ -13,7 +13,7 @@ const SeparatorStyle = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   middleBorderText: {
-    fontFamily: 'agile-medium',
+    fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
     opacity: 0.5,
     color: '#88A2C7',

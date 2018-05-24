@@ -47,17 +47,16 @@ const CelInputStyle = {
     // fontSize: 18,
     opacity: 0.8,
     top: -18,
-    // position: 'absolute',
+    position: 'absolute',
   },
 // labelActive
   labelActive: {
     color: 'white',
     fontSize: FONT_SCALE * 12,
-    // opacity: 1,
     opacity: 0.8,
     top: -10,
     fontFamily: 'agile-light',
-    // position: 'absolute',
+    position: 'absolute',
   },
 };
 
