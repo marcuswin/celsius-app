@@ -1,4 +1,5 @@
 import ACTIONS from '../../config/constants/ACTIONS';
+import * as navActions from '../nav/navActions';
 
 export {
   showMessage,
@@ -7,6 +8,8 @@ export {
   toggleCamera,
   takeCameraPhoto,
   flipCamera,
+  activateCamera,
+  retakePhoto,
   submitForm,
   updateFormField,
 }
@@ -44,11 +47,16 @@ function setHeaderHeight(height, isAnimatedHeader = false) {
   }
 }
 
-function takeCameraPhoto(photoName, photo) {
+function takeCameraPhoto(photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
-    photoName,
     photo,
+  }
+}
+
+function retakePhoto() {
+  return {
+    type: ACTIONS.RETAKE_PHOTO,
   }
 }
 
@@ -62,6 +70,16 @@ function toggleCamera(photoName) {
 function flipCamera() {
   return {
     type: ACTIONS.FLIP_CAMERA,
+  }
+}
+
+function activateCamera(cameraProps) {
+  return dispatch => {
+    dispatch({
+      type: ACTIONS.ACTIVATE_CAMERA,
+      ...cameraProps,
+    });
+    dispatch(navActions.navigateTo('Camera'));
   }
 }
 

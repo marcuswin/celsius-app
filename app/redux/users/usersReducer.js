@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import ACTIONS from '../../config/constants/ACTIONS';
-import { CAMERA_PHOTOS } from '../../config/constants/common';
+// import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
   userLocation: undefined,  // Why undefined instead of null?
@@ -191,12 +191,12 @@ export default (state = initialState, action) => {
 
     case ACTIONS.TAKE_CAMERA_PHOTO:
       switch (action.photoName) {
-        case CAMERA_PHOTOS.DOCUMENT_FRONT:
-          return setDocumentImage(state, 'front', action.photo);
-        case CAMERA_PHOTOS.DOCUMENT_BACK:
-          return setDocumentImage(state, 'back', action.photo);
-        case CAMERA_PHOTOS.SELFIE:
-          return setDocumentImage(state, 'selfie', action.photo);
+        // case CAMERA_PHOTOS.DOCUMENT_FRONT:
+        //   return setDocumentImage(state, 'front', action.photo);
+        // case CAMERA_PHOTOS.DOCUMENT_BACK:
+        //   return setDocumentImage(state, 'back', action.photo);
+        // case CAMERA_PHOTOS.SELFIE:
+        //   return setDocumentImage(state, 'selfie', action.photo);
         default:
           return { ...state };
       }
@@ -222,12 +222,12 @@ export default (state = initialState, action) => {
   }
 }
 
-function setDocumentImage(state, imageName, image) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      [imageName]: image,
-    }
-  }
-}
+// function setDocumentImage(state, imageName, image) {
+//   return {
+//     ...state,
+//     user: {
+//       ...state.user,
+//       [imageName]: image,
+//     }
+//   }
+// }

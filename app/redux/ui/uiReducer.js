@@ -35,11 +35,19 @@ const initialState = {
     bottomNavigation: getBottomNavDimensions(),
   },
   camera: {
+    // camera modal state TODO(fj): remove
     isOpen: false,
     camera: undefined,
     photoName: undefined,
     lastPhoto: undefined,
     lastPhotoName: undefined,
+    // camera screen state
+    cameraField: undefined,
+    cameraHeading: undefined,
+    cameraCopy: undefined,
+    cameraType: 'back',
+    photo: undefined,
+    mask: undefined,
   },
   formData: {},
 };
@@ -96,7 +104,21 @@ export default (state = initialState, action) => {
         ...state,
         camera: {
           ...state.camera,
-          camera: state.camera.camera === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back,
+          cameraType: state.camera.cameraType === 'back' ? 'front' : 'back',
+        }
+      }
+
+    case ACTIONS.ACTIVATE_CAMERA:
+      return {
+        ...state,
+        camera: {
+          ...state.camera,
+          cameraField: action.cameraField,
+          cameraType: action.cameraType,
+          cameraHeading: action.cameraHeading,
+          cameraCopy: action.cameraCopy,
+          photo: action.photo,
+          mask: action.mask,
         }
       }
 
@@ -107,6 +129,16 @@ export default (state = initialState, action) => {
           ...state.camera,
           lastPhoto: action.photo,
           lastPhotoName: action.photoName,
+          photo: action.photo,
+        }
+      }
+
+    case ACTIONS.RETAKE_PHOTO:
+      return {
+        ...state,
+        camera: {
+          ...state.camera,
+          photo: undefined,
         }
       }
 
@@ -118,7 +150,7 @@ export default (state = initialState, action) => {
           [action.field]: action.value,
         }
       }
-
+    //
     default:
       return state;
 
