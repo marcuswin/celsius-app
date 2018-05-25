@@ -9,12 +9,12 @@ const CameraStyle = StyleSheet.create({
     paddingRight: 40,
     height,
   },
-  mask: {
-    height: height - 120,
+  view: {
+    height: 0.88 * height,
     justifyContent: 'space-between',
   },
   heading: {
-    marginTop: 40,
+    marginTop: 0.02 * height,
     fontFamily: 'agile-bold',
     textAlign: 'center',
     fontSize: FONT_SCALE * 42,
@@ -25,16 +25,28 @@ const CameraStyle = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  bottomSection: {
+    height: 0.3 * height,
+    justifyContent: 'space-between',
+  },
   cameraPhoto: {
     position: 'absolute',
-    top: 0,
-    left: -40,
     width,
     height,
     zIndex: -5,
   },
-  bottomSection: {
-  }
+  maskImage: {
+    position: 'absolute',
+    width,
+    height,
+    zIndex: -4,
+  },
+  maskImageTransparent: {
+    position: 'absolute',
+    width,
+    height,
+    opacity: 0.7,
+  },
 });
 
 export default CameraStyle;

@@ -34,7 +34,7 @@ class CameraScreen extends Component {
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
     photo: PropTypes.string,
-    mask: PropTypes.instanceOf(Object),
+    mask: PropTypes.oneOf(['circle', 'document']),
   }
 
   static defaultProps = {
@@ -74,10 +74,23 @@ class CameraScreen extends Component {
   }
   // rendering methods
   renderMask() {
-    // TODO: render mast element
+    const { mask, photo } = this.props;
+
+    const maskStyles = photo ? CameraStyle.maskImage : CameraStyle.maskImageTransparent;
+
+    switch (mask) {
+      case 'document':
+        return <Image resizeMode="cover" source={require('../../../../assets/images/camera-mask-document.png')} style={maskStyles} />
+      case 'circle':
+        return <Image resizeMode="cover" source={require('../../../../assets/images/camera-mask-circle.png')} style={maskStyles} />
+      default:
+        return null
+    }
   }
   renderCameraScreen() {
     const { cameraHeading, cameraType, flipCamera, cameraCopy } = this.props;
+
+    const mask = this.renderMask();
 
     return (
       <BasicLayout>
@@ -88,21 +101,23 @@ class CameraScreen extends Component {
           style={{flex: 1}}
           type={Camera.Constants.Type[cameraType]}
         >
+          { mask }
+
+          <MainHeader
+            backgroundColor="transparent"
+            backButton
+            right={(
+              <TouchableOpacity
+                // style={CameraStyles.flipCamera}
+                onPress={flipCamera}>
+                <Image
+                  source={require('../../../../assets/images/icons/camera-flip.png')}
+                  style={CameraStyles.flipCameraImage}/>
+              </TouchableOpacity>
+            )}
+          />
           <Content style={CameraStyle.content}>
-            <MainHeader
-              backgroundColor="transparent"
-              backButton
-              right={(
-                <TouchableOpacity
-                  // style={CameraStyles.flipCamera}
-                  onPress={flipCamera}>
-                  <Image
-                    source={require('../../../../assets/images/icons/camera-flip.png')}
-                    style={CameraStyles.flipCameraImage}/>
-                </TouchableOpacity>
-              )}
-            />
-            <View style={CameraStyle.mask}>
+            <View style={CameraStyle.view}>
               <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
               <View style={CameraStyle.bottomSection}>
@@ -117,6 +132,7 @@ class CameraScreen extends Component {
               </View>
             </View>
           </Content>
+
         </Camera>
       </BasicLayout>
     );
@@ -133,23 +149,27 @@ class CameraScreen extends Component {
     // check if url
     if (!isNaN(photo)) imageSource = photo ;
 
+    const mask = this.renderMask();
+
     return (
       <BasicLayout>
+        <MainHeader
+          backgroundColor="transparent"
+          backButton
+          right={(
+            <TouchableOpacity
+              // style={CameraStyles.flipCamera}
+              onPress={flipCamera}>
+              <Image
+                source={require('../../../../assets/images/icons/camera-flip.png')}
+                style={CameraStyles.flipCameraImage}/>
+            </TouchableOpacity>
+          )}
+        />
+
         <Content style={CameraStyle.content}>
-          <MainHeader
-            backgroundColor="transparent"
-            backButton
-            right={(
-              <TouchableOpacity
-                // style={CameraStyles.flipCamera}
-                onPress={flipCamera}>
-                <Image
-                  source={require('../../../../assets/images/icons/camera-flip.png')}
-                  style={CameraStyles.flipCameraImage}/>
-              </TouchableOpacity>
-            )}
-          />
-          <View style={CameraStyle.mask}>
+
+          <View style={CameraStyle.view}>
             <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
             <View style={CameraStyle.bottomSection}>
@@ -157,7 +177,6 @@ class CameraScreen extends Component {
                 onPress={retakePhoto}
                 white
                 inverse
-                margin="20 0 20 0"
               >
                 Retake Photo
               </CelButton>
@@ -171,8 +190,10 @@ class CameraScreen extends Component {
             </View>
           </View>
 
-          <Image source={imageSource} style={CameraStyle.cameraPhoto}/>
         </Content>
+
+        { mask }
+        <Image source={imageSource} style={CameraStyle.cameraPhoto}/>
       </BasicLayout>
     );
   }
