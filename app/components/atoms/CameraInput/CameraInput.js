@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text, View, Image} from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -15,7 +15,7 @@ import CelSelectStyle from "../../molecules/CelSelect/CelSelect.styles";
 )
 class CameraInput extends Component {
   static propTypes = {
-    mask: PropTypes.oneOf([]),
+    mask: PropTypes.oneOf(['circle', 'document']),
     cameraType: PropTypes.oneOf(['back', 'front']),
     cameraCopy: PropTypes.string,
     field: PropTypes.string.isRequired,
@@ -58,11 +58,10 @@ class CameraInput extends Component {
             <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} />
           </View>
         ) : (
-          <View style={{ backgroundColor: 'red', position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
-            <Image source={require('../../../../assets/images/icons/icon-check.png')} height='25' width='25' viewBox="0 0 32 32" fill={'#fff'}/>
+          <View style={{ position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+            <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" />
           </View>
         )}
-
       </TouchableOpacity>
     );
   }
