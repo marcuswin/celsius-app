@@ -150,6 +150,12 @@ export default (state = initialState, action) => {
           [action.field]: action.value,
         }
       }
+
+    case ACTIONS.INIT_FORM:
+      return {
+        ...state,
+        formData: action.formData,
+      }
     //
     default:
       return state;

@@ -8,7 +8,7 @@ const CelInputStyle = {
     paddingRight: 18,
     paddingBottom: 14,
     paddingTop: 23,
-    marginBottom: 15,
+    marginBottom: 20,
     borderRadius: 8,
     backgroundColor: 'rgba(256, 256, 256, 0.15)',
     height: 60,

@@ -10,7 +10,8 @@ export {
   flipCamera,
   activateCamera,
   retakePhoto,
-  submitForm,
+  // submitForm,
+  initForm,
   updateFormField,
 }
 
@@ -87,20 +88,25 @@ function activateCamera(cameraProps) {
 //   return {}
 // }
 
-function submitForm(formName, formData) {
-  console.log({ formName, formData });
-  return {
-    type: ACTIONS[`SUBMIT_${formName}`],
-    formData,
-  }
-}
+// function submitForm(formName, formData) {
+//   console.log({ formName, formData });
+//   return {
+//     type: ACTIONS[`SUBMIT_${formName}`],
+//     formData,
+//   }
+// }
 
 function updateFormField(field, value) {
-  console.log({ field, value });
-
   return {
     type: ACTIONS.UPDATE_FORM_FIELD,
     field,
     value,
+  }
+}
+
+function initForm(formData) {
+  return {
+    type: ACTIONS.INIT_FORM,
+    formData,
   }
 }

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
-import { GENDER, DOCUMENT_TYPE } from "../../../config/constants/common";
+import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
 import CelSelectStyle from "./CelSelect.styles";
 import CelInputStyle from "../../atoms/CelInput/CelInput.styles";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
@@ -18,7 +18,7 @@ import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountry
 )
 class CelSelect extends Component {
   static propTypes = {
-    type: PropTypes.oneOf(['gender', 'document', 'country']),
+    type: PropTypes.oneOf(['gender', 'document', 'title', 'country']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.string,
@@ -41,6 +41,9 @@ class CelSelect extends Component {
     let items;
 
     switch (props.type) {
+      case 'title':
+        items = PERSON_TITLE;
+        break;
       case 'document':
         items = DOCUMENT_TYPE;
         break;

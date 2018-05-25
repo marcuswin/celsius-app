@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Text } from 'react-native';
-import { Form } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import moment from 'moment';
@@ -14,24 +13,46 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Separator from "../../atoms/Separator/Separator";
 import CelDatepicker from "../../atoms/CelInput/CelDatepicker";
+import CelFrom from "../../atoms/CelFrom/CelFrom";
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    user: state.users.user,
+    // kyc: state.kyc.kyc,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class ProfileDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-    // binders
+  componentDidMount() {
+    this.initForm();
   }
 
+  validateForm = () => {
+    const { formData, showMessage } = this.props;
+
+    if (!formData.firstName) showMessage('error', 'First Name is required!');
+  }
+
+  submitForm = () => {
+    const { formData } = this.props;
+    console.log(formData);
+    this.validateForm();
+  }
+
+  initForm = () => {
+    const { initForm, user } = this.props;
+    initForm({
+      firstName: user.first_name,
+      lastName: user.last_name,
+      country: {
+        name: user.country
+      }
+    })
+  }
   // rendering methods
   render() {
-    const { formData, submitForm } = this.props;
+    const { formData } = this.props;
     return (
       <SimpleLayout
         animatedHeading={{ text: 'Profile Details'}}
@@ -42,17 +63,19 @@ class ProfileDetails extends Component {
           Please provide us with the information below to get started.
         </Text>
 
-        <Form>
-          <CelSelect field="gender" type="gender" labelText="gender" value={formData.gender} />
-          <CelDatepicker 
-            {...this.props} 
+        <CelFrom>
+          <CelSelect field="title" type="title" labelText="Title" value={formData.title ? formData.title.label : undefined} />
+          <CelInput value={formData.firstName} field="firstName" labelText="First Name"/>
+          <CelInput value={formData.middleName} field="middleName" labelText="Middle Name"/>
+          <CelInput value={formData.lastName} field="lastName" labelText="Last Name"/>
+
+          <CelDatepicker
             labelText="Date of birth"
             field="dateOfBirth"
             onDateChange={(date) => this.props.updateFormField('dateOfBirth', new Date(date))}
             value={formData.dateOfBirth ? moment(new Date(formData.dateOfBirth)).format('DD/MM/YY') : ''}
           />
-          <CelInput value={formData.firstName} field="firstName" labelText="First Name"/>
-          <CelInput value={formData.lastName} field="lastName" labelText="Last Name"/>
+
           <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship ? formData.citizenship.name : undefined} />
           <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender ? formData.gender.label : undefined} />
 
@@ -62,12 +85,13 @@ class ProfileDetails extends Component {
           <CelInput value={formData.city} field="city" labelText="City"/>
           <CelInput value={formData.street} field="street" labelText="Street"/>
           <CelInput value={formData.zip} field="zip" labelText="ZIP Code"/>
-        </Form>
+        </CelFrom>
 
         <CelButton
           white
-          onPress={() => submitForm('PROFILE_DETAILS')}
+          onPress={this.submitForm}
           iconRight="IconArrowRight"
+          margin="35 0 60 0"
         >
           Verify your profile
         </CelButton>
