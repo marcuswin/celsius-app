@@ -18,13 +18,31 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
     nav: state.nav,
     user: state.users.user,
     portfolio: state.portfolio.portfolio,
+    portfolioFormData: state.ui.portfolioFormData,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class ManagePorfolio extends Component {
+
+  componentDidMount() {
+    const portfolioData = this.getPortfolioData();
+    const userHasPortfolio = this.getUserHasPortfolio();
+
+    if (userHasPortfolio) {
+      const portfolioFormData = get(this.props.portfolioFormData, 'data', portfolioData);
+      this.props.updatePortfolioFormData(portfolioFormData);
+    }
+  }
+
+  getPortfolioData = () => get(this.props.portfolio, 'data', []);
+
+  getUserHasPortfolio = () => {
+    const portfolioData = this.getPortfolioData();
+    return !isEmpty(portfolioData);
+  }
+
   render() {
-    const portfolioData = get(this.props.portfolio, 'data', []);
-    const userHasPortfolio = !isEmpty(portfolioData);
+    const userHasPortfolio = this.getUserHasPortfolio();
     return (
       <Container>
         <MainHeader

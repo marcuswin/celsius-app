@@ -7,6 +7,7 @@ export {
   toggleCamera,
   takeCameraPhoto,
   flipCamera,
+  updatePortfolioFormData,
 }
 
 let msgTimeout;
@@ -60,5 +61,15 @@ function toggleCamera(photoName) {
 function flipCamera() {
   return {
     type: ACTIONS.FLIP_CAMERA,
+  }
+}
+
+function updatePortfolioFormData(data) {
+  return async dispatch => {
+
+    dispatch({
+      type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
+      data,
+    });
   }
 }

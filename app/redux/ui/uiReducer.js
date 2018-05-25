@@ -40,12 +40,12 @@ const initialState = {
     photoName: undefined,
     lastPhoto: undefined,
     lastPhotoName: undefined,
-  }
+  },
+  portfolioFormData: []
 };
 
 export default (state = initialState, action) => {
   let newState;
-
   switch (action.type) {
     case ACTIONS.SHOW_MESSAGE:
       return {
@@ -108,6 +108,12 @@ export default (state = initialState, action) => {
           lastPhotoName: action.photoName,
         }
       }
+
+    case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
+    return {
+      ...state,
+      portfolioFormData: action.data
+    }
 
     default:
       return state;
