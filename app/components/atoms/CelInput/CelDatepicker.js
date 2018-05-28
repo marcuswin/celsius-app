@@ -4,6 +4,7 @@ import DatePicker from 'react-native-datepicker';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
+import Icon from "../Icon/Icon";
 
 import CelInput from './CelInput';
 
@@ -25,6 +26,9 @@ class CelDatepicker extends Component {
         onPress={() => this.datePicker.onPressDate()}
         value={this.props.value}
       />
+      <View style={{ position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+        <Icon name='CalendarIcon' height='29' width='29' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} />
+      </View>
     </TouchableOpacity>
     <DatePicker
       ref={(datePicker) => {
