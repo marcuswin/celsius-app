@@ -73,7 +73,7 @@ class TextInput extends Component {
             autoCapitalize={autoCapitalize}
             editable={editable}
             onFocus={() => {
-              onFocus()
+              if (onFocus) onFocus()
               this.setState({ active: true })}
             }
             onBlur={() => this.setState({ active: false })}
