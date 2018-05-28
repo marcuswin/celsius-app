@@ -38,7 +38,7 @@ const CelButtonStyle = StyleSheet.create({
   smallButton: { height: 50 },
   smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-light', },
   mediumButton: { height: 60 },
-  mediumBtnTitle: { fontSize: FONT_SCALE * 20, fontFamily: 'agile-medium', },
+  mediumBtnTitle: { fontSize: FONT_SCALE * 20, marginLeft: 10, fontFamily: 'agile-medium', },
 
   inverseButton: {
     backgroundColor: 'transparent',
