@@ -73,9 +73,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     paddingTop: 23,
     marginBottom: 20,
     borderRadius: 8,
-    backgroundColor: 'rgba(256, 256, 256, 0.15)',
     height: 60,
   },
+  blueInputWrapper: { backgroundColor: 'rgba(256, 256, 256, 0.15)' },
+  whiteInputWrapper: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
   inputItem: {
     borderBottomColor: 'transparent',
     marginTop: 0,
@@ -84,7 +85,6 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     marginRight: 0,
   },
   input: {
-    color: STYLES.INPUT_COLOR_WHITE,
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 20,
     marginTop: 0,
@@ -94,6 +94,8 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     height: 23,
     top: 0,
   },
+  blueInputTextColor: { color: STYLES.INPUT_COLOR_WHITE },
+  whiteInputTextColor: { color: STYLES.GRAY_2 },
   inputLabelActive: {
     color: 'white',
     fontSize: FONT_SCALE * 12,

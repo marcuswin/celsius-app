@@ -54,20 +54,23 @@ class TextInput extends Component {
 
   // rendering methods
   render() {
-    const { editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus } = this.props;
+    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus } = this.props;
     const { active } = this.state;
 
     let label = labelText || placeholder;
     label = (value || active) ? label.toUpperCase() : label;
 
-    console.log(globalStyles)
+    let labelStyles = value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive;
+    labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
+
+    console.log({ labelStyles, theme })
 
     return (
-      <View style={globalStyles.inputWrapper}>
+      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
         <Item style={globalStyles.inputItem} floatingLabel={floatingLabel}>
-          <Label style={value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive}>{ label }</Label>
+          <Label style={labelStyles}>{ label }</Label>
           <Input
-            style={globalStyles.input}
+            style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
             underlineColorAndroid='rgba(0,0,0,0)'
             underline={false}
             maxLength={maxLength}

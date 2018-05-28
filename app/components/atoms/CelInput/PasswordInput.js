@@ -74,8 +74,8 @@ class PasswordInput extends Component {
             height="30"
             width="30"
             viewBox="0 0 35 24"
-            fill={ theme === 'secondary' ? 'black' : 'white' }
-            stroke={ theme === 'secondary' ? 'black' : 'white' }
+            fill={ theme === 'white' ? 'black' : 'white' }
+            stroke={ theme === 'white' ? 'black' : 'white' }
           />
         </TouchableOpacity>
       </View>

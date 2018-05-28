@@ -17,6 +17,7 @@ import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountry
 )
 class CelSelect extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['blue', 'white']),
     type: PropTypes.oneOf(['gender', 'document', 'title', 'country']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
@@ -32,6 +33,7 @@ class CelSelect extends Component {
     field: '',
     items: [],
     labelText: '',
+    theme: 'blue',
   }
 
   constructor(props) {
@@ -69,16 +71,25 @@ class CelSelect extends Component {
   }
   // rendering methods
   render() {
-    const { labelText, value, type } = this.props;
+    const { theme, labelText, value, type } = this.props;
     const { visible, items } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
+    const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
+    labelStyles.push(globalStyles[`${theme}InputTextColor`]);
+
+    console.log({ theme, labelStyles })
 
     return (
       <View>
-        <TouchableOpacity onPress={ () => this.setState({ visible: !visible })} style={globalStyles.inputWrapper}>
-          <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>{ label }</Text>
-          <Text style={ globalStyles.input }>{ value }</Text>
+        <TouchableOpacity
+          onPress={ () => this.setState({ visible: !visible })}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}
+        >
+          <Text style={ labelStyles }>{ label }</Text>
+          <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
+            { value }
+          </Text>
 
           <View style={ globalStyles.inputIconRight }>
             <Icon name='CaretDown' height='25' width='25' fill={'white'} style={{opacity: 0.5}} />

@@ -9,10 +9,13 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
+import CelInput from "../../atoms/CelInput/CelInput";
+import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
   state => ({
     callsInProgress: state.api.callsInProgress,
+    formData: state.ui.formData,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -25,34 +28,22 @@ class ChangePassword extends Component {
       animatedHeading: {
         text: 'Change Password'
       },
-      formData: {
-        currentPassword: '',
-        newPassword: '',
-      }
     };
-    // binders
-    this.onChangeField = this.onChangeField.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
   }
-
-  onChangeField = (fieldName, text) => {
-    this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
-  }
-
 
   // lifecycle methods
   // event handlers
-  handleChangePassword() {
-    const { currentPassword, newPassword } = this.state.formData;
-    const { resetPassword } = this.props;
+  handleChangePassword = () => {
+    const { formData, resetPassword } = this.props;
+    const { currentPassword, newPassword } = formData;
 
     resetPassword(currentPassword, newPassword);
   }
 
   // rendering methods
   render() {
-    const {animatedHeading, formData} = this.state;
-    const {callsInProgress} = this.props;
+    const {animatedHeading} = this.state;
+    const {callsInProgress, formData} = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.RESET_PASSWORD], callsInProgress);
 
@@ -60,26 +51,32 @@ class ChangePassword extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PasswordInput
-          type="secondary"
-          labelText={"Current password"}
-          value={formData.currentPassword}
-          onChange={text => this.onChangeField('currentPassword', text)}
-        />
+        <CelForm disabled={isLoading} margin="20 0 0 0">
+          <CelInput
+            theme="white"
+            type="password"
+            labelText="Current password"
+            value={formData.currentPassword}
+            field="currentPassword"
+          />
 
-        <PasswordInput
-          type="secondary"
-          labelText={"New password"}
-          value={formData.newPassword}
-          onChange={text => this.onChangeField('newPassword', text)}
-        />
+          <CelInput
+            theme="white"
+            type="password"
+            labelText="New password"
+            value={formData.newPassword}
+            field="newPassword"
+          />
+        </CelForm>
 
         <View style={{marginTop: 40, marginBottom: 30}}>
           <CelButton
             color="blue"
             loading={isLoading}
             onPress={this.handleChangePassword}
-          >Change password</CelButton>
+          >
+            Change password
+          </CelButton>
         </View>
 
       </SimpleLayout>

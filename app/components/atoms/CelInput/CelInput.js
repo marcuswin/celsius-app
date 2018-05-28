@@ -52,7 +52,6 @@ class CelInput extends Component {
     autoCapitalize: PropTypes.string,
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
-
   }
 
   static defaultProps = {
@@ -79,18 +78,24 @@ class CelInput extends Component {
     }
   };
 
+  onChangeText = (text) => {
+    const { updateFormField, field, onChange } = this.props;
+    if (onChange) {
+      onChange(field, text);
+    } else {
+      updateFormField(field, text);
+    }
+  }
 
   // rendering methods
   render() {
-    const { updateFormField, field } = this.props;
-
     switch (this.props.type) {
       case INPUT_TYPES.NUMBER:
       case INPUT_TYPES.NUMBER.toLowerCase():
         return (
           <TextInput
             { ...this.props }
-            onChange={(text) => updateFormField(field, text)}
+            onChange={this.onChangeText}
             keyboardType={KEYBOARD_TYPE.NUMERIC}
           />
         )
@@ -100,7 +105,7 @@ class CelInput extends Component {
         return (
           <PasswordInput
             { ...this.props }
-            onChange={(text) => updateFormField(field, text)}
+            onChange={this.onChangeText}
           />
         )
 
@@ -109,7 +114,7 @@ class CelInput extends Component {
         return (
           <SixDigitInput
             { ...this.props }
-            onChange={(text) => updateFormField(field, text)}
+            onChange={this.onChangeText}
             keyboardType={KEYBOARD_TYPE.NUMERIC}
           />
         )
@@ -120,7 +125,7 @@ class CelInput extends Component {
         return (
           <TextInput
             { ...this.props }
-            onChange={(text) => updateFormField(field, text)}
+            onChange={this.onChangeText}
             onFocus={this.onFocus}
           />
         )
