@@ -39,6 +39,21 @@ const CelInputStyle = {
     top: 0,
     // position: 'absolute'
   },
+  // sixDigitNumberInput
+  sixDigitNumberInput: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-bold',
+    fontSize: FONT_SCALE * 42,
+    textAlign: 'center',
+  },
+  // sixDigitWrapper
+  sixDigitWrapper: {
+    paddingBottom: 5,
+    marginBottom: 20,
+    borderRadius: 8,
+    backgroundColor: 'rgba(256, 256, 256, 0.15)',
+    height: 60,
+  },
 // label
   label: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
