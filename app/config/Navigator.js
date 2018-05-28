@@ -18,6 +18,7 @@ import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage"
 import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDetails";
 import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
 import CameraScreen from "../components/screens/Camera/Camera";
+import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -88,6 +89,10 @@ const Navigator = createStackNavigator({
   Camera: {
     screen: CameraScreen,
     title: 'Camera',
+  },
+  VerifyPhoneNumber: {
+    screen: VerifyPhoneNumberScreen,
+    title: 'VerifyPhoneNumber',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

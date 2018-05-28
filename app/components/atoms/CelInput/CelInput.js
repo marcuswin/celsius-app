@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
+import SixDigitInput from "./SixDigitInput";
 import * as actions from "../../../redux/actions";
 
 const INPUT_TYPES = {
@@ -100,6 +101,16 @@ class CelInput extends Component {
           <PasswordInput
             { ...this.props }
             onChange={(text) => updateFormField(field, text)}
+          />
+        )
+
+      case INPUT_TYPES.SIX_DIGIT:
+      case 'six-digit':
+        return (
+          <SixDigitInput
+            { ...this.props }
+            onChange={(text) => updateFormField(field, text)}
+            keyboardType={KEYBOARD_TYPE.NUMERIC}
           />
         )
 
