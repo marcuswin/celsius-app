@@ -3,12 +3,11 @@ import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import isEqual from "lodash/isEqual";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Link from '../../atoms/Link/Link';
-import SelectCountry from '../../organisms/SelectCountry/SelectCountry';
-import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -17,8 +16,6 @@ import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
-import { countries } from "country-data";
-import isEqual from "lodash/isEqual";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 

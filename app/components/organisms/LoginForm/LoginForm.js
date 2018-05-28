@@ -7,8 +7,6 @@ import {bindActionCreators} from "redux";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './LoginForm.styles'
-// import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
-// import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";

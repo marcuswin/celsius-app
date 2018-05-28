@@ -8,7 +8,6 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
-import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 

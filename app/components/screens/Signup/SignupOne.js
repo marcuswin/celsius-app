@@ -13,7 +13,6 @@ import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-// import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CelInput from "../../atoms/CelInput/CelInput";
