@@ -20,7 +20,7 @@ import Message from "../../atoms/Message/Message";
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
   return _.get(errors, [field, 'msg'], def)
-}
+};
 
 @connect(
   state => ({
@@ -59,7 +59,7 @@ class ProfileScreen extends Component {
     }
 
     if (key === 'country') {
-      const countryName = _.get(value, 'name', value)
+      const countryName = _.get(value, 'name', value);
       this.props.changeProfileInfo(key, countryName)
     } else {
       this.props.changeProfileInfo(key, value)

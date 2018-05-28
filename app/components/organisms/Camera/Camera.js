@@ -67,7 +67,7 @@ class CameraModal extends Component {
     const {isCameraOpen, flipCamera, camera, photoName, toggleCamera} = this.props;
 
     return (
-      <Modal visible={isCameraOpen}>
+      <Modal visible={isCameraOpen} onRequestClose={() => null}>
         <View style={{flex: 1}}>
           <Camera
             ref={ref => {
