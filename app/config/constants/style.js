@@ -1,4 +1,4 @@
-import {PixelRatio, StyleSheet, Platform} from "react-native";
+import {PixelRatio, Platform} from "react-native";
 
 export const PIXEL_RATIO = PixelRatio.get();
 // Font scaling for different iOS devices
@@ -43,7 +43,7 @@ export const STYLES = {
   GRAY_6: '#C8C8C8',
 };
 
-export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
+export const GLOBAL_STYLE_DEFINITIONS = {
   normalText: {
     color: STYLES.GRAY_2,
     fontSize: FONT_SCALE * 18,
@@ -63,8 +63,79 @@ export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center'
-  }
-});
+  },
+
+  // celsius form styles
+  inputWrapper: {
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: 14,
+    paddingTop: 23,
+    marginBottom: 20,
+    borderRadius: 8,
+    backgroundColor: 'rgba(256, 256, 256, 0.15)',
+    height: 60,
+  },
+  inputItem: {
+    borderBottomColor: 'transparent',
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  input: {
+    color: STYLES.INPUT_COLOR_WHITE,
+    fontFamily: 'agile-bold',
+    fontSize: FONT_SCALE * 20,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    height: 23,
+    top: 0,
+  },
+  inputLabelActive: {
+    color: 'white',
+    fontSize: FONT_SCALE * 12,
+    opacity: 0.8,
+    top: -10,
+    fontFamily: 'agile-light',
+    position: 'absolute',
+  },
+  inputLabelInactive: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 20,
+    opacity: 0.8,
+    top: -18,
+    position: 'absolute',
+  },
+  selectLabelInactive: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 20,
+    opacity: 0.8,
+  },
+  selectLabelActive: {
+    color: 'white',
+    fontSize: FONT_SCALE * 12,
+    opacity: 0.8,
+    fontFamily: 'agile-light',
+    position: 'absolute',
+    top: 5,
+    left: 18,
+  },
+  inputIconRight: {
+    position: 'absolute',
+    right: 15,
+    top: 0,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.4,
+  },
+
+};
 
 export const FONTS = [
   {'Roboto': require('native-base/Fonts/Roboto.ttf')},

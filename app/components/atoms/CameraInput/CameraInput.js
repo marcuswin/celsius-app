@@ -6,8 +6,7 @@ import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
 import Icon from "../Icon/Icon";
-import CelInputStyle from "../CelInput/CelInput.styles";
-import CelSelectStyle from "../../molecules/CelSelect/CelSelect.styles";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   () => ({}),
@@ -47,18 +46,18 @@ class CameraInput extends Component {
     const { value, labelTextActive, labelTextInactive } = this.props;
 
     return (
-      <TouchableOpacity onPress={ this.onPress } style={CelInputStyle.wrapper}>
-        <Text style={ value ? CelSelectStyle.selectLabelActive : CelSelectStyle.selectLabel}>
+      <TouchableOpacity onPress={ this.onPress } style={globalStyles.inputWrapper}>
+        <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>
           { value ? labelTextActive.toUpperCase() : labelTextInactive }
         </Text>
-        { value ? <Text style={ CelInputStyle.input }>Photo Taken</Text> : null }
+        { value ? <Text style={ globalStyles.input }>Photo Taken</Text> : null }
 
         { !value ? (
-          <View style={{ position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+          <View style={globalStyles.inputIconRight}>
             <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} />
           </View>
         ) : (
-          <View style={{ position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+          <View style={globalStyles.inputIconRight}>
             <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" />
           </View>
         )}

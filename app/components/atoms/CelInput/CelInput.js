@@ -2,15 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-// import { View, Text } from 'react-native';
-// import {} from 'native-base';
 
-// import {STYLES} from "../../config/constants/style";
-// import CelInputStyle from "./CelInput.styles";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 import TextInput from "./TextInput";
-import * as actions from "../../../redux/actions";
 import PasswordInput from "./PasswordInput";
+import * as actions from "../../../redux/actions";
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -43,7 +39,7 @@ class CelInput extends Component {
     labelText: PropTypes.string,
     floatingLabel: PropTypes.bool,
     // for Input
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     onPress: PropTypes.func,

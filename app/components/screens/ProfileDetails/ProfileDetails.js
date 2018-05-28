@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import moment from 'moment';
 
 import * as actions from "../../../redux/actions";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -13,7 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Separator from "../../atoms/Separator/Separator";
 import CelDatepicker from "../../atoms/CelInput/CelDatepicker";
-import CelFrom from "../../atoms/CelFrom/CelFrom";
+import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
   state => ({
@@ -63,7 +62,7 @@ class ProfileDetails extends Component {
           Please provide us with the information below to get started.
         </Text>
 
-        <CelFrom>
+        <CelForm>
           <CelSelect field="title" type="title" labelText="Title" value={formData.title ? formData.title.label : undefined} />
           <CelInput value={formData.firstName} field="firstName" labelText="First Name"/>
           <CelInput value={formData.middleName} field="middleName" labelText="Middle Name"/>
@@ -72,8 +71,8 @@ class ProfileDetails extends Component {
           <CelDatepicker
             labelText="Date of birth"
             field="dateOfBirth"
-            onDateChange={(date) => this.props.updateFormField('dateOfBirth', new Date(date))}
-            value={formData.dateOfBirth ? moment(new Date(formData.dateOfBirth)).format('DD/MM/YY') : ''}
+            format="Do MMM YYYY"
+            value={formData.dateOfBirth}
           />
 
           <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship ? formData.citizenship.name : undefined} />
@@ -85,7 +84,7 @@ class ProfileDetails extends Component {
           <CelInput value={formData.city} field="city" labelText="City"/>
           <CelInput value={formData.street} field="street" labelText="Street"/>
           <CelInput value={formData.zip} field="zip" labelText="ZIP Code"/>
-        </CelFrom>
+        </CelForm>
 
         <CelButton
           white

@@ -5,9 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
-import CelSelectStyle from "./CelSelect.styles";
-import CelInputStyle from "../../atoms/CelInput/CelInput.styles";
 import SelectModal from "../../organisms/SelectModal/SelectModal";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
@@ -77,11 +76,11 @@ class CelSelect extends Component {
 
     return (
       <View>
-        <TouchableOpacity onPress={ () => this.setState({ visible: !visible })} style={CelInputStyle.wrapper}>
-          <Text style={ value ? CelSelectStyle.selectLabelActive : CelSelectStyle.selectLabel}>{ label }</Text>
-          <Text style={ CelInputStyle.input }>{ value }</Text>
+        <TouchableOpacity onPress={ () => this.setState({ visible: !visible })} style={globalStyles.inputWrapper}>
+          <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>{ label }</Text>
+          <Text style={ globalStyles.input }>{ value }</Text>
 
-          <View style={{ backgroundColor: 'red', position: 'absolute', right: 15, top: 0, height: 60, justifyContent: 'center' }}>
+          <View style={ globalStyles.inputIconRight }>
             <Icon name='CaretDown' height='25' width='25' fill={'white'} style={{opacity: 0.5}} />
           </View>
         </TouchableOpacity>

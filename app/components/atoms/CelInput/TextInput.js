@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Input, Item, Label } from "native-base";
 
-// import {STYLES} from "../../config/constants/style";
-import CelInputStyle from "./CelInput.styles";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 
 class TextInput extends Component {
@@ -61,12 +60,14 @@ class TextInput extends Component {
     let label = labelText || placeholder;
     label = (value || active) ? label.toUpperCase() : label;
 
+    console.log(globalStyles)
+
     return (
-      <View style={CelInputStyle.wrapper}>
-        <Item style={CelInputStyle.item} floatingLabel={floatingLabel}>
-          <Label style={value || active ? CelInputStyle.labelActive : CelInputStyle.label}>{ label }</Label>
+      <View style={globalStyles.inputWrapper}>
+        <Item style={globalStyles.inputItem} floatingLabel={floatingLabel}>
+          <Label style={value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive}>{ label }</Label>
           <Input
-            style={CelInputStyle.input}
+            style={globalStyles.input}
             underlineColorAndroid='rgba(0,0,0,0)'
             underline={false}
             maxLength={maxLength}

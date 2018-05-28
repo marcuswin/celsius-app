@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 
-// import {STYLES} from "../../config/constants/style";
-// import CelInputStyle from "./CelInput.styles";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 import TextInput from "./TextInput";
 import Icon from "../Icon/Icon";
-import PasswordInputStyle from "../PasswordInput/PasswordInput.styles";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 class PasswordInput extends Component {
   static propTypes = {
@@ -60,15 +58,22 @@ class PasswordInput extends Component {
     const { visible } = this.state;
     const { theme } = this.props;
 
+    // icon position adjustment (diff icon heights)
+    const paddingTop = visible ? 0 : 3;
+
     return (
       <View>
         <TextInput {...this.props} secureTextEntry={!visible} />
-        <TouchableOpacity onPress={ () => this.setState({ visible: !visible })} style={visible ? PasswordInputStyle.eyeHide : PasswordInputStyle.eyeShow}>
+
+        <TouchableOpacity
+          style={[ globalStyles.inputIconRight, { paddingTop } ]}
+          onPress={ () => this.setState({ visible: !visible })}
+        >
           <Icon
             name={ visible ? 'EyeHide' : 'EyeShow' }
-            height='30'
-            width='30'
-            viewBox={ visible ? "0 0 35 24" : '0 0 35 24' }
+            height="30"
+            width="30"
+            viewBox="0 0 35 24"
             fill={ theme === 'secondary' ? 'black' : 'white' }
             stroke={ theme === 'secondary' ? 'black' : 'white' }
           />
