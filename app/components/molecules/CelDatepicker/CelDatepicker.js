@@ -6,7 +6,7 @@ import DatePicker from 'react-native-datepicker';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
-import Icon from "../Icon/Icon";
+import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
