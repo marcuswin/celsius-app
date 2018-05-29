@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import {Grid, Col, Row} from "react-native-easy-grid";
 import { LineChart } from 'react-native-svg-charts'
 import get from 'lodash/get';
@@ -10,6 +10,8 @@ import StarIcon from "../../atoms/StarIcon/StarIcon";
 import Card from '../../atoms/Card/Card';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
+
+const {height} = Dimensions.get('window');
 
 const commonStyles = {
   percentageAmount: {
@@ -86,7 +88,7 @@ const CoinCardStyle = StyleSheet.create({
     marginLeft: 'auto',
     width: 48,
     height: 48,
-    marginTop: 10
+    marginTop: height / 55,
   },
   wrapper: {
     display: 'flex',
