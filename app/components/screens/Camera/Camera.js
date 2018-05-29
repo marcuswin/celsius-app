@@ -172,7 +172,7 @@ class CameraScreen extends Component {
           <View style={CameraStyle.view}>
             <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
-            <View style={CameraStyle.bottomSection}>
+            <View>
               <CelButton
                 onPress={retakePhoto}
                 white

@@ -50,9 +50,9 @@ class VerifyProfile extends Component {
 
           <Separator>TAKE PHOTOS</Separator>
 
-          <CameraInput labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
-          <CameraInput labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
-          <CameraInput labelTextActive="Selfie" cameraType="front" labelTextInactive="Take a selfie" value={formData.selfie} field="selfie" cameraCopy={CAMERA_COPY.SELFIE} />
+          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput mask="circle" labelTextActive="Selfie" cameraType="front" labelTextInactive="Take a selfie" value={formData.selfie} field="selfie" cameraCopy={CAMERA_COPY.SELFIE} />
           <Separator>PHONE</Separator>
         </Form>
 

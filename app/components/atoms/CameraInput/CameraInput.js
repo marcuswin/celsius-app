@@ -14,6 +14,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 )
 class CameraInput extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['blue', 'white']),
     mask: PropTypes.oneOf(['circle', 'document']),
     cameraType: PropTypes.oneOf(['back', 'front']),
     cameraCopy: PropTypes.string,
@@ -24,14 +25,13 @@ class CameraInput extends Component {
   };
 
   static defaultProps = {
-
+    theme: 'blue'
   };
 
   // lifecycle methods
   // event hanlders
   onPress = () => {
     const { activateCamera, cameraType, cameraCopy, labelTextInactive, value, mask, field } = this.props;
-    console.log('Activate Camera');
     activateCamera({
       cameraField: field,
       cameraType,
@@ -43,10 +43,10 @@ class CameraInput extends Component {
   }
   // rendering methods
   render() {
-    const { value, labelTextActive, labelTextInactive } = this.props;
+    const { value, labelTextActive, labelTextInactive, theme } = this.props;
 
     return (
-      <TouchableOpacity onPress={ this.onPress } style={globalStyles.inputWrapper}>
+      <TouchableOpacity onPress={ this.onPress } style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
         <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>
           { value ? labelTextActive.toUpperCase() : labelTextInactive }
         </Text>
