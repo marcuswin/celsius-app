@@ -24,8 +24,7 @@ import apiUtil from "../../../utils/api-util";
 @connect(
   state => ({
     nav: state.nav,
-    loanRequest: state.loanRequests.loanRequest,
-    supportedCurrencies: state.loanRequests.supportedCurrencies,
+    supportedCurrencies: state.generalData.supportedCurrencies,
     error: state.api.error,
     callsInProgress: state.api.callsInProgress,
     portfolio: state.portfolio.portfolio,
@@ -43,6 +42,7 @@ class Calculator extends Component {
     };
 
     if (!props.supportedCurrencies) {
+      console.log('Hello');
       props.getSupportedCurrencies()
     }
   }
@@ -115,12 +115,14 @@ class Calculator extends Component {
   ];
 
   render() {
-    const filteredSupportedCurrencies = this.props.supportedCurrencies != null
-      ? this.props.supportedCurrencies.filter(sc => !this.state.selectedCoins.map(x => x.currency.id).includes(sc.id))
+    const { supportedCurrencies } = this.props;
+    const filteredSupportedCurrencies = supportedCurrencies != null
+      ? supportedCurrencies.filter(sc => !this.state.selectedCoins.map(x => x.currency.id).includes(sc.id))
       : []
     const isFormDisabled = isEmpty(this.state.selectedCoins)
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
 
+    console.log({ filteredSupportedCurrencies, supportedCurrencies })
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
     return (
       <View style={{flex: 1}}>
