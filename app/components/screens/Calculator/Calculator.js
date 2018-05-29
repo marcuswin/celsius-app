@@ -61,7 +61,7 @@ class Calculator extends Component {
   onChangeText = (amount, coin) => {
     const formattedAmount = amount.replace(',', '.');
 
-    const portfolioFormData = 
+    const portfolioFormData =
       this.props.portfolioFormData.map(selectedCoin => ({
         ...selectedCoin,
         amount: selectedCoin.currency.short === coin.currency.short && !isNaN(formattedAmount) ? formattedAmount : selectedCoin.amount
@@ -86,16 +86,32 @@ class Calculator extends Component {
   ];
 
   render() {
+
+    const {portfolioFormData} = this.props;
+
     const { navigateTo } = this.props;
 
     const filteredSupportedCurrencies = this.props.supportedCurrencies != null
     ? this.props.supportedCurrencies.filter(sc => !this.props.portfolioFormData.map(x => x.currency.id).includes(sc.id))
     : []
 
+    let portfolioHasZero = false;
+    if (portfolioFormData) {
+      portfolioFormData.forEach(coin => {
+        if ((!coin.amount || !Number(coin.amount)) && !portfolioHasZero) {
+          portfolioHasZero = true;
+        }
+      });
+    }
+
     const isFormDisabled = isEmpty(this.props.portfolioFormData);
+
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
 
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
+
+
+
     return (
       <View style={{flex: 1}}>
           <View style={CalculatorStyle.container}>
@@ -151,7 +167,7 @@ class Calculator extends Component {
                 </Col>
               </Grid>
             </TouchableOpacity>
-            {selectedAllCoins && 
+            {selectedAllCoins &&
               <Text style={CalculatorStyle.selectedAllCoinsMessage} >
               You have added all the coins you can track.{"\n"}
               Keep an eye on this list, since we'll expand{"\n"}
@@ -161,7 +177,7 @@ class Calculator extends Component {
               <CelButton
                 onPress={this.onPressSubmit}
                 loading={isLoading}
-                disabled={isFormDisabled}
+                disabled={isFormDisabled || portfolioHasZero}
               >
                 {this.props.userHasPortfolio ? "Save changes" : "Save coins"}
               </CelButton>
