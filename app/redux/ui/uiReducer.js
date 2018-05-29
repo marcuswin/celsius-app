@@ -35,13 +35,6 @@ const initialState = {
     bottomNavigation: getBottomNavDimensions(),
   },
   camera: {
-    // camera modal state TODO(fj): remove
-    isOpen: false,
-    camera: undefined,
-    photoName: undefined,
-    lastPhoto: undefined,
-    lastPhotoName: undefined,
-    // camera screen state
     cameraField: undefined,
     cameraHeading: undefined,
     cameraCopy: undefined,
@@ -127,8 +120,6 @@ export default (state = initialState, action) => {
         ...state,
         camera: {
           ...state.camera,
-          lastPhoto: action.photo,
-          lastPhotoName: action.photoName,
           photo: action.photo,
         }
       }

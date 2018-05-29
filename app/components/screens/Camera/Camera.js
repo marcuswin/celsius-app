@@ -10,11 +10,9 @@ import isBase64 from "is-base64";
 import * as actions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
 import CameraStyle from "./Camera.styles";
-// import CameraStyles from "../../organisms/Camera/Camera.styles";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
-import CameraStyles from "../../organisms/Camera/Camera.styles";
 
 @connect(
   state => ({
@@ -56,10 +54,9 @@ class CameraScreen extends Component {
   takePicture = async () => {
     const { takeCameraPhoto } = this.props;
 
-    // TODO: fix quality? Entity too large error on device
-    // const quality = cameraType === Camera.Constants.Type.back && qualityBack ? qualityBack : 1;
 
     this.camera.takePictureAsync({
+    // TODO: fix quality? Entity too large error on device
       quality: 0.2,
       base64: true,
     }).then(photo => {
@@ -108,11 +105,10 @@ class CameraScreen extends Component {
             backButton
             right={(
               <TouchableOpacity
-                // style={CameraStyles.flipCamera}
                 onPress={flipCamera}>
                 <Image
                   source={require('../../../../assets/images/icons/camera-flip.png')}
-                  style={CameraStyles.flipCameraImage}/>
+                  style={CameraStyle.flipCameraImage}/>
               </TouchableOpacity>
             )}
           />
@@ -158,11 +154,10 @@ class CameraScreen extends Component {
           backButton
           right={(
             <TouchableOpacity
-              // style={CameraStyles.flipCamera}
               onPress={flipCamera}>
               <Image
                 source={require('../../../../assets/images/icons/camera-flip.png')}
-                style={CameraStyles.flipCameraImage}/>
+                style={CameraStyle.flipCameraImage}/>
             </TouchableOpacity>
           )}
         />

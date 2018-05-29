@@ -13,6 +13,11 @@ const CameraStyle = StyleSheet.create({
     height: 0.88 * height,
     justifyContent: 'space-between',
   },
+  flipCameraImage: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain'
+  },
   heading: {
     marginTop: 0.02 * height,
     fontFamily: 'agile-bold',

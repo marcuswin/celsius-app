@@ -10,7 +10,6 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
-import CameraModal from "../../organisms/Camera/Camera";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
@@ -114,8 +113,6 @@ class ProfileImage extends Component {
             >
               Take photo
             </CelButton>
-
-            <CameraModal cameraType="front" qualityBack={ 0.2 }/>
 
             <Text style={ProfileImageStyle.text}>Or choose from one of the below:</Text>
 

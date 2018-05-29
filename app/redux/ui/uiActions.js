@@ -5,7 +5,6 @@ export {
   showMessage,
   clearMessage,
   setHeaderHeight,
-  toggleCamera,
   takeCameraPhoto,
   flipCamera,
   activateCamera,
@@ -61,13 +60,6 @@ function retakePhoto() {
   }
 }
 
-function toggleCamera(photoName) {
-  return {
-    type: ACTIONS.TOGGLE_CAMERA,
-    photoName,
-  }
-}
-
 function flipCamera() {
   return {
     type: ACTIONS.FLIP_CAMERA,
@@ -83,18 +75,6 @@ function activateCamera(cameraProps) {
     dispatch(navActions.navigateTo('Camera'));
   }
 }
-
-// function clearForm() {
-//   return {}
-// }
-
-// function submitForm(formName, formData) {
-//   console.log({ formName, formData });
-//   return {
-//     type: ACTIONS[`SUBMIT_${formName}`],
-//     formData,
-//   }
-// }
 
 function updateFormField(field, value) {
   return {

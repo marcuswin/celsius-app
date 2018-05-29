@@ -40,13 +40,6 @@ export const DOCUMENT_TYPE = [
   {label: 'National Identity Card', value: 'identity_card', bothSides: true}
 ];
 
-export const CAMERA_PHOTOS = {
-  DOCUMENT_FRONT: 'DOCUMENT_FRONT',
-  DOCUMENT_BACK: 'DOCUMENT_BACK',
-  SELFIE: 'SELFIE',
-  PROFILE_PICTURE: 'PROFILE_PICTURE',
-};
-
 export const CAMERA_COPY = {
   DOCUMENT: 'Please center your document in the marked area. Ensure that there’s enough light in the room for better picture quality.',
   SELFIE: 'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.',
