@@ -56,7 +56,7 @@ const EstimatedLoanStyle = StyleSheet.create({
   },
   bearImage: {
     height: width * 0.35,
-    width: width * 0.35 * 1.13,
+    width: width * 0.35 * 1.05,
   },
   bearWrapper: {
     justifyContent: 'center',
