@@ -4,7 +4,6 @@ import {Content} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import {CAMERA_PHOTOS} from "../../../config/constants/common";
 import * as actions from "../../../redux/actions";
 import ProfileImageStyle from "./ProfileImage.styles";
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -31,8 +30,7 @@ const images = [
 @connect(
   state => ({
     profilePicture: state.users.user.profile_picture,
-    lastPhoto: state.ui.camera.lastPhoto,
-    lastPhotoName: state.ui.camera.lastPhotoName,
+    profileImage: state.ui.formData.profileImage,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -45,19 +43,15 @@ class ProfileImage extends Component {
     this.state = {
       activeImage: props.profilePicture,
     };
-    // binders
-    this.setActiveImage = this.setActiveImage.bind(this);
-    this.renderImages = this.renderImages.bind(this);
-    this.updateProfilePicture = this.updateProfilePicture.bind(this);
   }
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { navigateTo, lastCompletedCall } = this.props;
+    const { navigateTo, lastCompletedCall, profileImage } = this.props;
 
     // set image after camera
-    if (nextProps.lastPhotoName === CAMERA_PHOTOS.PROFILE_PICTURE) {
-      this.setState({ activeImage: nextProps.lastPhoto });
+    if (nextProps.profileImage !== profileImage) {
+      this.setState({ activeImage: nextProps.profileImage });
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPLOAD_PLOFILE_IMAGE) {
@@ -66,18 +60,30 @@ class ProfileImage extends Component {
   }
 
   // event hanlders
-  setActiveImage(image) {
+  setActiveImage = (image) => {
     this.setState({ activeImage: image });
   }
 
-  updateProfilePicture() {
+  updateProfilePicture = () => {
     const { activeImage } = this.state;
     const { updateProfilePicture } = this.props;
     updateProfilePicture(activeImage);
   }
 
+  goToCamera = () => {
+    const { activateCamera } = this.props;
+
+    activateCamera({
+      cameraField: 'profileImage',
+      cameraHeading: 'Profile photo',
+      cameraCopy: 'Please center your face in the circle and take a selfie, to use as your profile photo.',
+      cameraType: 'front',
+      mask: 'circle',
+    })
+  }
+
   // rendering methods
-  renderImages(image) {
+  renderImages = (image) => {
     const { activeImage } = this.state;
     const imageStyles = [ProfileImageStyle.image];
     if (image === activeImage) imageStyles.push(ProfileImageStyle.activeImage);
@@ -90,8 +96,6 @@ class ProfileImage extends Component {
   }
 
   render() {
-    const { toggleCamera } = this.props;
-
     const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], this.props.callsInProgress);
     return (
         <BasicLayout bottomNavigation>
@@ -101,7 +105,7 @@ class ProfileImage extends Component {
 
           <Content>
             <CelButton
-              onPress={() => toggleCamera(CAMERA_PHOTOS.PROFILE_PICTURE)}
+              onPress={this.goToCamera}
               transparent
               color="blue"
               size="small"
