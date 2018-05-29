@@ -25,6 +25,11 @@ const SeparatorStyle = StyleSheet.create({
     width: '100%',
     backgroundColor: 'rgba(200,200,200,0.3)'
   },
+  textColumn: {
+    // width: 175,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 export default SeparatorStyle;

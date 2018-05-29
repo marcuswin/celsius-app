@@ -78,8 +78,6 @@ class CelSelect extends Component {
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
-    console.log({ theme, labelStyles })
-
     return (
       <View>
         <TouchableOpacity
@@ -92,7 +90,7 @@ class CelSelect extends Component {
           </Text>
 
           <View style={ globalStyles.inputIconRight }>
-            <Icon name='CaretDown' height='25' width='25' fill={'white'} style={{opacity: 0.5}} />
+            <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
           </View>
         </TouchableOpacity>
 

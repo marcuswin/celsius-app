@@ -45,19 +45,22 @@ class CameraInput extends Component {
   render() {
     const { value, labelTextActive, labelTextInactive, theme } = this.props;
 
+    const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
+    labelStyles.push(globalStyles[`${theme}InputTextColor`]);
+
     return (
       <TouchableOpacity onPress={ this.onPress } style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
-        <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>
+        <Text style={ labelStyles }>
           { value ? labelTextActive.toUpperCase() : labelTextInactive }
         </Text>
-        { value ? <Text style={ globalStyles.input }>Photo Taken</Text> : null }
+        { value ? <Text style={ [globalStyles.input, globalStyles[`${theme}InputTextColor`]] }>Photo Taken</Text> : null }
 
         { !value ? (
           <View style={globalStyles.inputIconRight}>
             <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={'#fff'} style={{opacity: 0.5}} />
           </View>
         ) : (
-          <View style={globalStyles.inputIconRight}>
+          <View style={[globalStyles.inputIconRight, { opacity: 1 }]}>
             <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" />
           </View>
         )}

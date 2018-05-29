@@ -130,6 +130,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
   inputIconRight: {
     position: 'absolute',
     right: 15,
+    width: 25,
     top: 0,
     height: 60,
     justifyContent: 'center',

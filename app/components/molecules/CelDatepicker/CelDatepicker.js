@@ -18,6 +18,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 
 class CelDatepicker extends Component {
   static propTypes = {
+    theme: PropTypes.oneOf(['blue', 'white']),
     labelText: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     onDateChange: PropTypes.func,
@@ -26,6 +27,7 @@ class CelDatepicker extends Component {
   }
 
   static defaultProps = {
+    theme: 'blue',
     format: 'MM/DD/YYYY',
   }
 
@@ -35,14 +37,17 @@ class CelDatepicker extends Component {
   }
 
   render() {
-    const { value, labelText, format } = this.props;
+    const { theme, value, labelText, format } = this.props;
     const label = value && labelText ? labelText.toUpperCase() : labelText;
+
+    let labelStyles = value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive;
+    labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
 
     return (
       <View>
-        <TouchableOpacity onPress={() => this.datePicker.onPressDate()} style={globalStyles.inputWrapper}>
-          <Text style={ value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive}>{ label }</Text>
-          { value ? <Text style={ globalStyles.input }>{ moment(value).format(format) }</Text> : null }
+        <TouchableOpacity onPress={() => this.datePicker.onPressDate()} style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+          <Text style={ labelStyles }>{ label }</Text>
+          { value ? <Text style={ [globalStyles.input, globalStyles[`${theme}InputTextColor`]] }>{ moment(value).format(format) }</Text> : null }
 
           <View style={globalStyles.inputIconRight}>
             <Icon name='CalendarIcon' height='29' width='29' viewBox="0 0 32 32" fill={'#fff'} />

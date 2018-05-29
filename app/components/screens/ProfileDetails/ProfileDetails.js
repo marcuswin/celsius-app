@@ -34,9 +34,10 @@ class ProfileDetails extends Component {
   }
 
   submitForm = () => {
-    const { formData } = this.props;
+    const { formData, navigateTo } = this.props;
     console.log(formData);
     this.validateForm();
+    navigateTo('VerifyProfile');
   }
 
   initForm = () => {
@@ -62,7 +63,7 @@ class ProfileDetails extends Component {
           Please provide us with the information below to get started.
         </Text>
 
-        <CelForm>
+        <CelForm margin="30 0 35 0">
           <CelSelect field="title" type="title" labelText="Title" value={formData.title ? formData.title.label : undefined} />
           <CelInput value={formData.firstName} field="firstName" labelText="First Name"/>
           <CelInput value={formData.middleName} field="middleName" labelText="Middle Name"/>
@@ -78,7 +79,7 @@ class ProfileDetails extends Component {
           <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship ? formData.citizenship.name : undefined} />
           <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender ? formData.gender.label : undefined} />
 
-          <Separator margin="40 0 15 0">ADDRESS INFO</Separator>
+          <Separator margin="20 0 15 0">ADDRESS INFO</Separator>
 
           <CelSelect field="country" type="country" labelText="Country" value={formData.country ? formData.country.name : undefined} />
           <CelInput value={formData.city} field="city" labelText="City"/>
@@ -90,7 +91,7 @@ class ProfileDetails extends Component {
           white
           onPress={this.submitForm}
           iconRight="IconArrowRight"
-          margin="35 0 60 0"
+          margin="0 0 60 0"
         >
           Verify your profile
         </CelButton>

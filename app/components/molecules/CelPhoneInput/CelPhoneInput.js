@@ -21,78 +21,75 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 class CelPhoneInput extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
-
-    // inherited from CelInput
-    labelText: PropTypes.string.isRequired,
+    field: PropTypes.string.isRequired,
+    labelText: PropTypes.string,
     value: PropTypes.string,
     editable: PropTypes.bool,
-    
   }
 
   static defaultProps = {
     theme: 'blue',
-    // inherited from CelInput
     editable: true,
   }
 
-    constructor(props) {
-      super(props);
-  
-      this.onPressFlag = this.onPressFlag.bind(this);
-      this.selectCountry = this.selectCountry.bind(this);
-      this.state = {
-        cca2: 'US',
-      };
-    }
-  
-    componentDidMount() {
-      this.setState({
-        pickerData: this.phone.getPickerData(),
-      });
-    }
-  
-    onPressFlag() {
-      if (this.props.editable) {
-        this.countryPicker.openModal();
-      }
-    }
-  
-    selectCountry(country) {
-      this.phone.selectCountry(country.cca2.toLowerCase());
-      this.setState({ cca2: country.cca2 });
-    }
-  
-    render() {
-      const { updateFormField, field } = this.props;
-      const disabled = this.props.editable === false;
-      return (
-        <View style={globalStyles.inputWrapper}>
-          <PhoneInput
-            ref={(ref) => {
-              this.phone = ref;
-            }}
-            onPressFlag={this.onPressFlag}
-            textStyle={globalStyles.selectLabelInactive}
-            textProps={{placeholder: this.props.labelText, placeholderTextColor: 'white'}}
-            onChangePhoneNumber={(text) => updateFormField(field, text)}
-            value={this.props.value}
-            disabled={disabled}
-          />
-          <CountryPicker
-            ref={(ref) => {
-              this.countryPicker = ref;
-            }}
-            onChange={value => this.selectCountry(value)}
-            translation="eng"
-            cca2={this.state.cca2}
-            disabled={disabled}
-          >
-            <View />
-          </CountryPicker>
-        </View>
-      );
+  constructor(props) {
+    super(props);
+
+    this.onPressFlag = this.onPressFlag.bind(this);
+    this.selectCountry = this.selectCountry.bind(this);
+    this.state = {
+      cca2: 'US',
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      pickerData: this.phone.getPickerData(),
+    });
+  }
+
+  onPressFlag() {
+    if (this.props.editable) {
+      this.countryPicker.openModal();
     }
   }
+
+  selectCountry(country) {
+    this.phone.selectCountry(country.cca2.toLowerCase());
+    this.setState({ cca2: country.cca2 });
+  }
+
+  render() {
+    const { theme, updateFormField, field } = this.props;
+    const disabled = this.props.editable === false;
+    return (
+      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+        <PhoneInput
+          ref={(ref) => {
+            this.phone = ref;
+          }}
+          onPressFlag={this.onPressFlag}
+          textStyle={globalStyles.selectLabelInactive}
+          textProps={{placeholder: this.props.labelText, placeholderTextColor: 'white'}}
+          onChangePhoneNumber={(text) => updateFormField(field, text)}
+          value={this.props.value}
+          disabled={disabled}
+        />
+        <CountryPicker
+          ref={(ref) => {
+            this.countryPicker = ref;
+          }}
+          onChange={value => this.selectCountry(value)}
+          translation="eng"
+          cca2={this.state.cca2}
+          disabled={disabled}
+        >
+          <View />
+        </CountryPicker>
+      </View>
+    );
+  }
+}
 
 
 export default CelPhoneInput;
