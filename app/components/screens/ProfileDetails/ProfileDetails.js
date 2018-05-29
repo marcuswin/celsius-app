@@ -11,7 +11,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Separator from "../../atoms/Separator/Separator";
-import CelDatepicker from "../../atoms/CelInput/CelDatepicker";
+import CelDatepicker from "../../molecules/CelDatepicker/CelDatepicker";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
