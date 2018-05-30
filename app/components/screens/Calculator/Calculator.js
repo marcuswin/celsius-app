@@ -19,6 +19,7 @@ import { actions as mixpanelActions } from '../../../services/mixpanel'
 import CalculatorStyle from "./Calculator.styles";
 import apiUtil from "../../../utils/api-util";
 
+
 @connect(
   state => ({
     nav: state.nav,
@@ -39,6 +40,10 @@ class Calculator extends Component {
     if (!props.supportedCurrencies) {
       props.getSupportedCurrencies();
     }
+
+    this.state = {
+      newCoinAdded: false
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -46,7 +51,25 @@ class Calculator extends Component {
     if (callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) !== -1 && newProps.callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) === -1 && !newProps.error) {
       navigateTo('Home');
     }
+
+    const newPortfolioFormData = newProps.portfolioFormData;
+
+    const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
+
+    if (this.props.nav.routes[this.props.nav.routes.length - 1].routeName === 'AddCoins') {
+      this.setState({
+        newCoinAdded: true,
+      })
+    }
+
+    if (this.state.newCoin && this[lastItem.currency.short]) {
+      this[lastItem.currency.short].focus();
+      this.setState({
+        newCoinAdded: false
+      })
+    }
   }
+
 
   onPressSubmit = () => {
     const data = this.props.portfolioFormData
@@ -110,10 +133,9 @@ class Calculator extends Component {
 
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
 
-
-
     return (
       <View style={{flex: 1}}>
+
           <View style={CalculatorStyle.container}>
             <List
               dataArray={this.props.portfolioFormData}
@@ -128,6 +150,9 @@ class Calculator extends Component {
                           <View style={{marginLeft: 17}}>
                             <Text style={CalculatorStyle.itemLabel}>{item.currency.short} - {item.currency.name.toUpperCase()}</Text>
                             <TextInput
+                              ref={comp => {
+                                this[item.currency.short] = comp
+                              }}
                               keyboardType={KEYBOARD_TYPE.NUMERIC}
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
