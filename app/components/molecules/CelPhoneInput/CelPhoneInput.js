@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
+import { Item, Label } from "native-base";
 import PhoneInput from 'react-native-phone-input';
+import get from 'lodash/get';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -62,30 +64,37 @@ class CelPhoneInput extends Component {
   render() {
     const { theme, updateFormField, field } = this.props;
     const disabled = this.props.editable === false;
+
+    const labelStyles = {...globalStyles.selectLabelInactive,  position: 'absolute', left: 40, ...globalStyles[`${theme}InputTextColor`]};
+    const inputStyles = {...globalStyles.input, ...globalStyles[`${theme}InputTextColor`]}
+    const inputPhoneValue = get(this.phone, 'inputPhone.props.value', null);
+
     return (
       <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
-        <PhoneInput
-          ref={(ref) => {
-            this.phone = ref;
-          }}
-          onPressFlag={this.onPressFlag}
-          textStyle={globalStyles.selectLabelInactive}
-          textProps={{placeholder: this.props.labelText, placeholderTextColor: 'white'}}
-          onChangePhoneNumber={(text) => updateFormField(field, text)}
-          value={this.props.value}
-          disabled={disabled}
-        />
-        <CountryPicker
-          ref={(ref) => {
-            this.countryPicker = ref;
-          }}
-          onChange={value => this.selectCountry(value)}
-          translation="eng"
-          cca2={this.state.cca2}
-          disabled={disabled}
-        >
-          <View />
-        </CountryPicker>
+        <Item style={globalStyles.inputItem}>
+          {!inputPhoneValue ? <Label style={labelStyles}>{this.props.labelText || ''}</Label> : null}
+          <PhoneInput
+            ref={(ref) => {
+              this.phone = ref;
+            }}
+            textStyle={inputStyles}
+            onPressFlag={this.onPressFlag}
+            onChangePhoneNumber={(text) => updateFormField(field, text)}
+            value={this.props.value}
+            disabled={disabled}
+          />
+          <CountryPicker
+            ref={(ref) => {
+              this.countryPicker = ref;
+            }}
+            onChange={value => this.selectCountry(value)}
+            translation="eng"
+            cca2={this.state.cca2}
+            disabled={disabled}
+          >
+            <View />
+          </CountryPicker>
+        </Item>
       </View>
     );
   }
