@@ -89,7 +89,6 @@ export default class WelcomeCarousel extends Component {
 
   setActiveScreen(e) {
     const { contentOffset, contentSize } = e.nativeEvent;
-    console.log(e.nativeEvent)
     this.setState({
       activeScreen: Math.floor(contentOffset.x * 4 / contentSize.width)
     })

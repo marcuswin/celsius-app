@@ -11,3 +11,5 @@ npm-debug.*
 app.json
 config.json
 /config
+
+package-lock.json

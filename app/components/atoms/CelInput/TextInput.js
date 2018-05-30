@@ -63,8 +63,6 @@ class TextInput extends Component {
     let labelStyles = value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive;
     labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
 
-    console.log({ labelStyles, theme })
-
     return (
       <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
         <Item style={globalStyles.inputItem} floatingLabel={floatingLabel}>
