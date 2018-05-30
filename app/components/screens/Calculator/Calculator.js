@@ -42,7 +42,6 @@ class Calculator extends Component {
     };
 
     if (!props.supportedCurrencies) {
-      console.log('Hello');
       props.getSupportedCurrencies()
     }
   }
@@ -122,7 +121,6 @@ class Calculator extends Component {
     const isFormDisabled = isEmpty(this.state.selectedCoins)
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
 
-    console.log({ filteredSupportedCurrencies, supportedCurrencies })
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
     return (
       <View style={{flex: 1}}>
