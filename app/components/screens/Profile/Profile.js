@@ -83,7 +83,7 @@ class ProfileScreen extends Component {
             transparent
             color="blue"
             size="small"
-            margin="15 0 15 0"
+            margin="5 0 25 0"
             inverse
           >
             Change avatar
