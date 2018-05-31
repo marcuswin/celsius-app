@@ -22,7 +22,10 @@ class CelDatepicker extends Component {
     labelText: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
     onDateChange: PropTypes.func,
-    value: PropTypes.instanceOf(Date),
+    value: PropTypes.oneOfType([
+      PropTypes.instanceOf(Date),
+      PropTypes.string,
+    ]),
     format: PropTypes.string,
   }
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import { lookup } from "country-data";
 
 import * as actions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -21,11 +22,12 @@ class CelSelect extends Component {
     type: PropTypes.oneOf(['gender', 'document', 'title', 'country']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
+      PropTypes.string,
+    ]),
     field: PropTypes.string,
     labelText: PropTypes.string,
-    // TODO: add search logic ?
-    // search: PropTypes.func,
   }
   static defaultProps = {
     type: '',
@@ -58,21 +60,44 @@ class CelSelect extends Component {
     this.state = {
       visible: false,
       items,
+      value: undefined,
     };
-    // binders
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { value, type } = this.props;
+    const { items } = this.state;
+
+    if (nextProps.value && value !== nextProps.value) {
+      let item;
+      if (type === 'country') {
+        item = lookup.countries({name: nextProps.value})[0]
+      } else {
+        item = items.filter(i => i.value === nextProps.value)[0];
+      }
+
+      // console.log({ item, value, nextValue: nextProps.value, items });
+
+      this.setState({ value: item });
+    }
+  }
   // event hanlders
   selectValue = (item) => {
-    const { updateFormField, field } = this.props;
-    if (item) updateFormField(field, item);
+    const { updateFormField, field, type } = this.props;
+    if (item) {
+      if (type === 'country') {
+        updateFormField(field, item.name);
+      } else {
+        updateFormField(field, item.value);
+      }
+    }
     this.setState({ visible: false });
   }
   // rendering methods
   render() {
-    const { theme, labelText, value, type } = this.props;
-    const { visible, items } = this.state;
+    const { theme, labelText, type } = this.props;
+    const { visible, items, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
@@ -86,7 +111,7 @@ class CelSelect extends Component {
         >
           <Text style={ labelStyles }>{ label }</Text>
           <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
-            { value }
+            { value && (value.label || value.name) }
           </Text>
 
           <View style={ globalStyles.inputIconRight }>
