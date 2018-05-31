@@ -11,10 +11,10 @@ function getBottomNavDimensions() {
   let navPaddingBottom;
 
   if (device.isiPhoneX()) {
-    navHeight = 87;
+    navHeight = 87 + 15;
     navPaddingBottom = 30;
   } else {
-    navHeight = 60;
+    navHeight = 60 + 15;
     navPaddingBottom = 5;
   }
 
