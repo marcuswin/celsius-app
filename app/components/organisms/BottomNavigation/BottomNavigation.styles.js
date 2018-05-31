@@ -7,7 +7,7 @@ const { width } = Dimensions.get('window');
 const baseItem = {
   justifyContent: 'center',
   alignItems: 'center',
-  width: 0.25 * width,
+  width: 0.20 * width,
 };
 
 const baseText = {
@@ -16,6 +16,18 @@ const baseText = {
   letterSpacing: 0.17,
   lineHeight: 17,
   textAlign: 'center',
+};
+
+const baseCelsius = {
+  width: 50,
+  height: 50,
+  borderColor: 'white',
+  borderWidth: 4,
+  borderRadius: 25,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: -15,
+  marginBottom: 5,
 };
 
 const BottomNavigationStyle = StyleSheet.create({
@@ -61,6 +73,19 @@ const BottomNavigationStyle = StyleSheet.create({
   textActive: {
     ...baseText,
     color: STYLES.PRIMARY_BLUE,
+  },
+  wallet: {
+    width: 0.20 * width,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  celsiusActive: {
+    ...baseCelsius,
+    backgroundColor: STYLES.PRIMARY_BLUE,
+  },
+  celsiusInactive: {
+    ...baseCelsius,
+    backgroundColor: 'rgb(197, 200, 203)',
   },
 });
 
