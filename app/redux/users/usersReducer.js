@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         borrower: action.borrower,
-        user: action.borrower.user,
+        user: action.borrower.user || action.borrower,
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:

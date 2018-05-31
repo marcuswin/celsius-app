@@ -9,6 +9,7 @@ export {
   updateProfileInfo,
   toggleTermsOfUse,
   updateProfilePicture,
+  createKYCDocuments,
 }
 
 function getProfileInfo() {
@@ -89,5 +90,26 @@ function updateProfilePictureSuccess(image) {
     type: ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS,
     callName: API.UPLOAD_PLOFILE_IMAGE,
     image,
+  }
+}
+
+function createKYCDocuments(documents) {
+  return async dispatch => {
+    dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
+    try {
+      await usersService.createKYCDocuments(documents);
+
+      dispatch(createKYCDocumentsSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_KYC_DOCUMENTS, err));
+    }
+  }
+}
+
+function createKYCDocumentsSuccess() {
+  return {
+    type: ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS,
+    callName: API.CREATE_KYC_DOCUMENTS,
   }
 }
