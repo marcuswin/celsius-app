@@ -23,7 +23,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
   return _.get(errors, [field, 'msg'], def)
-}
+};
 
 @connect(
   state => ({
@@ -168,7 +168,7 @@ class ProfileScreen extends Component {
               Save changes
             </CelButton>
           </View>
-          <View>
+          <View style={{marginBottom: 30}}>
             <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
           </View>
         </Content>

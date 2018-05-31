@@ -41,14 +41,13 @@ const CalculatorStyle = StyleSheet.create({
   },
   disabledAddButton: {
     ...CommonCalculatorStyles.defaultButton,
-    borderColor: 'white',
   },
   addButtonText: {
     ...CommonCalculatorStyles.defaultButtonText,
   },
   disabledAddButtonText: {
     ...CommonCalculatorStyles.defaultButtonText,
-    color: 'white',
+    color: '#CED1D4'
   },
   addBtnColumn: {
     justifyContent: 'center'
@@ -107,7 +106,15 @@ const CalculatorStyle = StyleSheet.create({
     width: '30%',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  selectedAllCoinsMessage: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: FONT_SCALE * 15,
+    lineHeight: FONT_SCALE * 23,
+    color: STYLES.GRAY_2,
+    fontFamily: 'agile-extra-light',
+  },
 });
 
 export default CalculatorStyle;

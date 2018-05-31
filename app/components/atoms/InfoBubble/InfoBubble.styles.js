@@ -10,7 +10,7 @@ const InfoBubbleStyle = StyleSheet.create({
   },
   infoText: {
     color: '#FFFFFF',
-    fontFamily: 'agile-medium',
+    fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 15,
     fontWeight: '300',
     lineHeight: 18,

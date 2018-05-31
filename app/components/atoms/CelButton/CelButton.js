@@ -78,7 +78,7 @@ class CelButton extends Component {
         height='25'
         viewBox='0 0 26 26'
         fill={ white && !disabled ? COLORS[color] : 'white' }
-        style={{marginLeft: 20, opacity: 0.5}}
+        style={{marginLeft: 10, marginTop: 2, opacity: 0.5}}
       />
     )
   };

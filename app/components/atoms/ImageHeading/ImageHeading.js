@@ -1,9 +1,7 @@
 import React from 'react';
 import isBase64 from 'is-base64';
-import { View, Image } from 'react-native';
-// import {} from 'native-base';
+import {Image, View} from 'react-native';
 
-// import {STYLES} from "../../config/constants/style";
 import ImageHeadingStyle from "./ImageHeading.styles";
 
 const defaultImage = require('../../../../assets/images/avatar-cat.jpg');
@@ -24,12 +22,13 @@ const ImageHeading = (props) => {
       <View style={ImageHeadingStyle.greySection}/>
       <View style={ImageHeadingStyle.imageWrapper}>
         <Image
+          resizeMethod="resize"
           source={imageSource || defaultImage}
           style={ImageHeadingStyle.image}
         />
       </View>
     </View>
   )
-}
+};
 
 export default ImageHeading;

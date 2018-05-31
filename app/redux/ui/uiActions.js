@@ -12,6 +12,7 @@ export {
   // submitForm,
   initForm,
   updateFormField,
+  updatePortfolioFormData,
 }
 
 let msgTimeout;
@@ -88,5 +89,15 @@ function initForm(formData) {
   return {
     type: ACTIONS.INIT_FORM,
     formData,
+  }
+}
+
+function updatePortfolioFormData(data) {
+  return async dispatch => {
+
+    dispatch({
+      type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
+      data,
+    });
   }
 }

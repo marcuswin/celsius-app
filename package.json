@@ -17,10 +17,10 @@
     "deploy:staging": "npm run env:staging && npm run publish:staging",
     "build:android:staging": "exp build:android --no-publish --release-channel staging",
     "build:ios:staging": "exp build:ios --no-publish --release-channel staging",
-    "publish:production": "exp publish --release-channel production",
-    "deploy:production": "npm run env:production && npm run publish:production",
-    "build:android:production": "exp build:android --no-publish --release-channel production",
-    "build:ios:production": "exp build:ios --no-publish --release-channel production",
+    "publish:production:ios": "exp publish --release-channel production_ios",
+    "publish:production:android": "exp publish --release-channel production_android",
+    "build:android:production": "exp build:android --release-channel production_android",
+    "build:ios:production": "exp build:ios --release-channel production_ios",
     "plop": "plop"
   },
   "pre-commit": [

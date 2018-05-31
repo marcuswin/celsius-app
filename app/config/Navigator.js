@@ -19,6 +19,7 @@ import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDe
 import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
 import CameraScreen from "../components/screens/Camera/Camera";
 import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
+import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -77,6 +78,10 @@ const Navigator = createStackNavigator({
   ProfileImage: {
     screen: ProfileImageScreen,
     title: 'ProfileImage',
+  },
+  AddCoins: {
+    screen: AddCoinsScreen,
+    title: 'AddCoins',
   },
   ProfileDetails: {
     screen: ProfileDetailsScreen,

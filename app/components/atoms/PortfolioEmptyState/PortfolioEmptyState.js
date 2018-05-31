@@ -18,7 +18,7 @@ const PortfolioEmptyState = (props) => (
       Please, add eligible coins (BTC, ETH, CEL) to be able to lend out your coins and earn interest.
     </Text>
 
-    <CelButton onPress={props.onPress} margin="30 0 0 0">
+    <CelButton onPress={props.onPress} margin="30 0 0 0" style={{marginBottom: 30}}>
       Manage your coins
     </CelButton>
   </View>

@@ -53,14 +53,14 @@ class EstimatedLoan extends Component {
         { i !== 0 ? <Separator margin='15 0 30 0' /> : null }
         <View style={{paddingTop: 20, paddingBottom: 20}}>
           <Text style={[globalStyles.normalText, {
-            fontSize: FONT_SCALE * 16,
+            fontSize: FONT_SCALE * 18,
             textAlign: 'center',
             marginLeft: 30,
             marginRight: 30
           }]}>
             With a {cr.name} loan at a
-            <Text style={globalStyles.bold}> {(cr.yearly_rate * 100).toFixed(2)}% </Text>
-            APR you pay:
+            <Text style={globalStyles.boldText}> {(cr.yearly_rate * 100).toFixed(2)}% APR </Text>
+            you pay:
           </Text>
         </View>
         <TouchableOpacity onPress={() => Linking.openURL(cr.info_link)}>
@@ -69,7 +69,7 @@ class EstimatedLoan extends Component {
               <Col>
                 <Image style={{width: 100, height: 63, marginLeft: 12}} source={{uri: cr.image}}/>
               </Col>
-              <Col>
+              <Col style={{ justifyContent: 'center' }}>
                 <Text style={{fontFamily: 'agile-medium', color: '#3D4853', fontSize: FONT_SCALE * 24}}>
                   {formatter.usd(cr.interest_usd)}
                 </Text>
@@ -130,7 +130,7 @@ class EstimatedLoan extends Component {
         <CoinValueAccordion portfolio={portfolioData} estimatedCoinValue={estimatedLoan.estimated_coin_value} />
 
         <Text style={globalStyles.normalText}>
-          The biggest estimated loan you could get would be for:
+          <Text style={[ globalStyles.boldText]}>The biggest estimated loan </Text> you could get would be for:
         </Text>
         <Accordion
           renderHeader={ (styles) =>
@@ -149,7 +149,7 @@ class EstimatedLoan extends Component {
         />
 
         <Text style={globalStyles.normalText}>
-          You'll pay about this much in yearly interest:
+          You'll pay about this much in <Text style={[ globalStyles.boldText]}>yearly interest </Text>:
         </Text>
         <Accordion
           renderHeader={ (styles) =>
@@ -199,7 +199,7 @@ class EstimatedLoan extends Component {
           <View style={EstimatedLoanStyle.hippo}>
             <Image source={require('../../../../assets/images/two-thumbs-up.png')} style={EstimatedLoanStyle.hippoImage}/>
 
-            <Text style={[EstimatedLoanStyle.sectionText, { width: 150 }]}>
+            <Text style={[EstimatedLoanStyle.sectionText2, { width: 150 }]}>
               We want to provide our community with the lowest rates possible.
             </Text>
           </View>

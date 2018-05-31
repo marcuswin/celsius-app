@@ -148,6 +148,12 @@ export default (state = initialState, action) => {
         formData: action.formData,
       }
     //
+    case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
+    return {
+      ...state,
+      portfolioFormData: action.data
+    }
+
     default:
       return state;
 
