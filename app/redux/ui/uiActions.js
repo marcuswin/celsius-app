@@ -93,11 +93,8 @@ function initForm(formData) {
 }
 
 function updatePortfolioFormData(data) {
-  return async dispatch => {
-
-    dispatch({
-      type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
-      data,
-    });
-  }
+  return {
+    type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
+    data,
+  };
 }

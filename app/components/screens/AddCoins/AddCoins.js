@@ -16,7 +16,7 @@ import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/
 @connect(
   state => ({
   // map state to props
-    supportedCurrencies: state.loanRequests.supportedCurrencies,
+    supportedCurrencies: state.generalData.supportedCurrencies,
     portfolio: state.portfolio.portfolio,
     portfolioFormData: state.ui.portfolioFormData,
   }),
@@ -46,9 +46,9 @@ class AddCoins extends Component {
 
   onSelectCoin = (coin) => {
     const {navigateTo} = this.props;
- 
+
       const coinData = [
-          ...this.props.portfolioFormData, 
+          ...this.props.portfolioFormData,
           {
             amount: '',
             currency: {
@@ -72,7 +72,7 @@ class AddCoins extends Component {
     if(['BTC', 'ETH', "CEL"].indexOf(coin.short) !== -1) {
       eligible = true;
     }
-    
+
 
     return (
       <View key={coin.id} style={AddCoinsStyle.coinWrapper}>

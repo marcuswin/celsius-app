@@ -39,6 +39,10 @@ class Calculator extends Component {
       props.getSupportedCurrencies();
     }
 
+    if (!props.portfolioFormData) {
+      props.updatePortfolioFormData(props.portfolio);
+    }
+
     this.state = {
       newCoinAdded: false
     }
@@ -51,9 +55,7 @@ class Calculator extends Component {
     }
 
     const newPortfolioFormData = newProps.portfolioFormData;
-
     const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
-
     if (this.props.nav.routes[this.props.nav.routes.length - 1].routeName === 'AddCoins') {
       this.setState({
         newCoinAdded: true,
@@ -76,7 +78,6 @@ class Calculator extends Component {
 
     this.props.updatePortfolio(data);
     this.props.updatePortfolioFormData(this.props.portfolioFormData);
-
   };
 
   onChangeText = (amount, coin) => {
@@ -90,7 +91,6 @@ class Calculator extends Component {
     );
 
     this.props.updatePortfolioFormData(portfolioFormData);
-
   };
 
   removeItem = item => {
@@ -104,17 +104,15 @@ class Calculator extends Component {
         <Icon name='TrashIcon' height='36' width='30' viewBox="0 0 36 36" fill={'#EF461A'} style={{marginLeft: 25}}/>
       </Button>
     </View>
-  ];
+  ]
 
   render() {
 
-    const {portfolioFormData} = this.props;
+    const { navigateTo, portfolioFormData, supportedCurrencies } = this.props;
 
-    const { navigateTo } = this.props;
-
-    const filteredSupportedCurrencies = this.props.supportedCurrencies != null
-    ? this.props.supportedCurrencies.filter(sc => !this.props.portfolioFormData.map(x => x.currency.id).includes(sc.id))
-    : []
+    const filteredSupportedCurrencies = supportedCurrencies != null
+      ? supportedCurrencies.filter(sc => !portfolioFormData.map(x => x.currency.id).includes(sc.id))
+      : []
 
     let portfolioHasZero = false;
     if (portfolioFormData) {
@@ -126,9 +124,7 @@ class Calculator extends Component {
     }
 
     const isFormDisabled = isEmpty(this.props.portfolioFormData);
-
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
-
     const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
 
     return (
@@ -148,9 +144,7 @@ class Calculator extends Component {
                           <View style={{marginLeft: 17}}>
                             <Text style={CalculatorStyle.itemLabel}>{item.currency.short} - {item.currency.name.toUpperCase()}</Text>
                             <TextInput
-                              ref={comp => {
-                                this[item.currency.short] = comp
-                              }}
+                              ref={comp => { this[item.currency.short] = comp }}
                               keyboardType={KEYBOARD_TYPE.NUMERIC}
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
