@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
-import {lookup} from 'country-data';
 import _ from 'lodash';
 import isEqual from "lodash/isEqual";
 
@@ -40,14 +39,14 @@ const getError = (errors, field, def = null) => {
 )
 class ProfileScreen extends Component {
   componentDidMount() {
-    const { user, getProfileInfo, initForm } = this.props;
-    getProfileInfo();
+    const { user, getLoggedInBorrower, initForm } = this.props;
+    getLoggedInBorrower();
 
     initForm({
       firstName: user && user.first_name ? user.first_name : undefined,
       email: user && user.email ? user.email : undefined,
       lastName: user && user.last_name ? user.last_name : undefined,
-      country: user && user.country ? lookup.countries({name: user.country})[0] : undefined,
+      country: user && user.country ? user.country : undefined,
       cellphone: user && user.cellphone ? user.cellphone : undefined,
     })
   }
@@ -61,7 +60,7 @@ class ProfileScreen extends Component {
         firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : undefined,
         email: nextProps.user && nextProps.user.email ? nextProps.user.email : undefined,
         lastName: nextProps.user && nextProps.user.last_name ? nextProps.user.last_name : undefined,
-        country: nextProps.user && nextProps.user.country ? lookup.countries({name: nextProps.user.country})[0] : undefined,
+        country: nextProps.user && nextProps.user.country ? nextProps.user.country : undefined,
         cellphone: nextProps.user && nextProps.user.cellphone ? nextProps.user.cellphone : undefined,
       })
     }
@@ -69,7 +68,6 @@ class ProfileScreen extends Component {
 
   onSubmit = () => {
     const { formData, updateProfileInfo } = this.props;
-    console.log(formData);
 
     updateProfileInfo({
       first_name: formData.firstName,
@@ -139,7 +137,7 @@ class ProfileScreen extends Component {
               type="country"
               labelText="Country"
               field="country"
-              value={formData.country ? formData.country.name : null}
+              value={formData.country}
             />
             <CelInput
               theme="white"
