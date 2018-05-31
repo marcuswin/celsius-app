@@ -62,7 +62,7 @@ class Calculator extends Component {
       })
     }
 
-    if (this.state.newCoin && this[lastItem.currency.short]) {
+    if (this.state.newCoinAdded && this[lastItem.currency.short]) {
       this[lastItem.currency.short].focus();
       this.setState({
         newCoinAdded: false
