@@ -17,21 +17,47 @@ import CelForm from "../../atoms/CelForm/CelForm";
 @connect(
   state => ({
     formData: state.ui.formData,
+    user: state.users.user,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class VerifyProfile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
+  // lifecycle methods
+  componentDidMount() {
+    this.initForm();
   }
 
-  // lifecycle methods
   // event hanlders
+  validateForm = () => {
+    const { formData, showMessage } = this.props;
+
+    if (!formData.documentType) return showMessage('error', 'Document Type is required!');
+    if (!formData.front) return showMessage('error', 'Front side photo is required!');
+    if (!formData.back && formData.documentType !== 'passport') return showMessage('error', 'Back side photo is required!');
+    if (!formData.selfie) return showMessage('error', 'Selfie is required!');
+    if (!formData.phone) return showMessage('error', 'Cell phone is required!');
+
+    return true;
+  }
+
+  submitForm = () => {
+    const { formData, updateProfileInfo } = this.props;
+    const isFormValid = this.validateForm();
+
+    if (isFormValid === true) {
+      updateProfileInfo({
+        cellphone: formData.cellphone,
+      })
+    }
+  }
+
+  initForm = () => {
+    const { initForm, user } = this.props;
+    initForm({
+      cellphone: user.cellphone,
+    })
+  }
   // rendering methods
   render() {
     const { formData } = this.props;
@@ -46,23 +72,23 @@ class VerifyProfile extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0">
-          <CelSelect field="documentType" type="document" labelText="Document Type" value={formData.documentType ? formData.documentType.label : undefined }/>
+          <CelSelect field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
           <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
-          { formData.documentType && formData.documentType.bothSides ? (
+          { formData.documentType !== 'passport' ? (
             <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
           ) : null }
           <CameraInput mask="circle" labelTextActive="Selfie" cameraType="front" labelTextInactive="Take a selfie" value={formData.selfie} field="selfie" cameraCopy={CAMERA_COPY.SELFIE} />
 
           <Separator margin="20 0 15 0">PHONE</Separator>
 
-          <CelPhoneInput labelText="Phone Number" field="phone" />
+          <CelPhoneInput labelText="Phone Number" field="cellphone" value={formData.cellphone} />
         </CelForm>
 
         <CelButton
-          onPress={() => console.log(this.props.formData)}
+          onPress={this.submitForm}
           iconRight="IconArrowRight"
           white
           margin="0 0 60 0"
