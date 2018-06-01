@@ -194,9 +194,8 @@ class Calculator extends Component {
             </TouchableOpacity>
             {selectedAllCoins &&
               <Text style={CalculatorStyle.selectedAllCoinsMessage} >
-              You have added all the coins you can track.{"\n"}
-              Keep an eye on this list, since we'll expand{"\n"}
-              it in the future.</Text>
+                You have added all the coins you can track. Keep an eye on this list, since we'll expand it in the future.
+              </Text>
             }
             <View style={CalculatorStyle.submitButtonWrapper}>
               <CelButton

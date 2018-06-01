@@ -158,7 +158,7 @@ function createPersonalInfo(personalInfo) {
 }
 
 function getPersonalInfo() {
-  return axios.get(`${apiUrl}/users/personal_info`);
+  return axios.get(`${apiUrl}/me`);
 }
 
 function getProfileInfo() {
