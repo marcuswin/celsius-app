@@ -203,4 +203,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/camera-mask-circle.png'),
   require('../../../assets/images/camera-mask-document.png'),
   require('../../../assets/images/phone_doggirl3x.png'),
+  require('../../../assets/images/wallet-girl3x.png'),
 ];
