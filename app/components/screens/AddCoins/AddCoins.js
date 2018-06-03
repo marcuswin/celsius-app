@@ -58,7 +58,6 @@ class AddCoins extends Component {
               short: coin.short,
             }
         }]
-      console.log('coinData', coinData)
       this.props.updatePortfolioFormData(coinData)
       navigateTo('ManagePortfolio');
   }

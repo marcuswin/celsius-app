@@ -3,7 +3,7 @@ import {FONT_SCALE} from "../../../config/constants/style";
 
 const AccordionStyle = StyleSheet.create({
   wrapper: {
-    marginBottom: 35,
+    marginBottom: 50,
   },
   headerWrapper: {
     marginTop: 20,

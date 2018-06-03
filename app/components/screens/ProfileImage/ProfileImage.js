@@ -95,12 +95,15 @@ class ProfileImage extends Component {
   }
 
   render() {
+    const { activeImage } = this.state;
+
     const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], this.props.callsInProgress);
+
     return (
         <BasicLayout bottomNavigation>
           <MainHeader backButton />
           <Message/>
-          <ImageHeading image={this.state.activeImage}/>
+          <ImageHeading image={activeImage}/>
 
           <Content>
             <CelButton

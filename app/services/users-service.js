@@ -131,7 +131,7 @@ function twitterLogin(data) {
 }
 
 function getPersonalInfo() {
-  return axios.get(`${apiUrl}/users/personal_info`);
+  return axios.get(`${apiUrl}/me`);
 }
 
 function updateProfileInfo(profileInfo) {

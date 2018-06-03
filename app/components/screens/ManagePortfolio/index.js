@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 
-import Message from '../../atoms/Message/Message';
 import Calculator from '../Calculator/Calculator'
 import PortfolioStyle from "./styles";
 import * as actions from "../../../redux/actions";
@@ -53,7 +52,6 @@ class ManagePorfolio extends Component {
           animatedHeading={animatedHeading}
           mainHeader={{ backButton: false, onCancel: navigateBack}}
         >
-        <Message/>
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
               <Text style={PortfolioStyle.subHeading}>

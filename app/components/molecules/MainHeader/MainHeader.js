@@ -17,7 +17,8 @@ const {ENV, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
-    nav: state.nav
+    nav: state.nav,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -77,7 +78,7 @@ class MainHeader extends Component {
   }
 
   renderRight() {
-    const { right, rightLink, navigateTo } = this.props;
+    const { right, rightLink, navigateTo, activeScreen } = this.props;
 
     if (right) {
       return right;
@@ -101,14 +102,11 @@ class MainHeader extends Component {
 
     return (
       <TouchableOpacity onPress={() => {
-        const {nav} = this.props;
-        const route = nav.routes[0].routeName;
-
         if (ENV !== 'PRODUCTION') {
           deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
         }
 
-        if (route !== 'Welcome' && route !== 'Login' && route !== 'Register') {
+        if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
           navigateTo('Home', true);
         }
       }}>

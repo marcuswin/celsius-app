@@ -50,8 +50,8 @@ class EstimatedLoan extends Component {
     const { estimatedLoan } = this.props;
     return estimatedLoan ? estimatedLoan.competition_rates.map((cr, i) => (
       <View key={cr.name}>
-        { i !== 0 ? <Separator margin='15 0 30 0' /> : null }
-        <View style={{paddingTop: 20, paddingBottom: 20}}>
+        { i !== 0 ? <Separator margin='30 0 30 0' /> : null }
+        <View style={{paddingTop: 10, paddingBottom: 20}}>
           <Text style={[globalStyles.normalText, {
             fontSize: FONT_SCALE * 18,
             textAlign: 'center',
@@ -167,15 +167,15 @@ class EstimatedLoan extends Component {
           }
         />
 
-        <Separator margin='15 0 30 0'/>
+        <Separator margin='0 0 40 0'/>
 
-        <Text style={globalStyles.heading}>
+        <Text style={EstimatedLoanStyle.headingText}>
           See How Celsius Compares to Other Credit Options Out There
         </Text>
 
         { this.renderCompetitionRates() }
 
-        <Separator margin='15 0 30 0'/>
+        <Separator margin='30 0 30 0'/>
 
         <View style={EstimatedLoanStyle.hippoSection}>
           <Text style={globalStyles.heading}>
@@ -209,7 +209,7 @@ class EstimatedLoan extends Component {
           </Text>
         </View>
 
-        <Separator margin='15 0 30 0'/>
+        <Separator margin='30 0 30 0'/>
 
         <View style={EstimatedLoanStyle.bearWrapper}>
           <Image source={require('../../../../assets/images/polar-bear_large.png')} style={EstimatedLoanStyle.bearImage}/>

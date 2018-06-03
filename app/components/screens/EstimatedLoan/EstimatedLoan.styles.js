@@ -1,12 +1,11 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const {width} = Dimensions.get('window');
 
 const EstimatedLoanStyle = StyleSheet.create({
   hippoSection: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    marginBottom: 15,
   },
   hippoSectionBubble: {
     backgroundColor: '#8a9098',
@@ -61,8 +60,17 @@ const EstimatedLoanStyle = StyleSheet.create({
   bearWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 35,
+  },
+  headingText: {
+    color: STYLES.GRAY_2,
+    fontFamily: 'agile-medium',
+    fontSize: FONT_SCALE * 21,
+    fontWeight: '500',
+    textAlign: 'center',
+    lineHeight: FONT_SCALE * 25,
+    marginBottom: 30,
   },
 });
 
