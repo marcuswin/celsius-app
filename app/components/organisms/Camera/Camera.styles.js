@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import {FONT_SCALE} from "../../../config/constants/style";
+
+const { width, height } = Dimensions.get('window');
 
 const CameraStyles = StyleSheet.create({
   // header: {
@@ -39,6 +41,25 @@ const CameraStyles = StyleSheet.create({
   headingWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  camera: Platform.OS === 'ios' ? {
+    flex: 1,
+  } : {
+    height,
+    width: 1.24 * width,
+    position: 'absolute',
+    left: -0.12 * width,
+    paddingLeft: 0.12 * width,
+    paddingRight: 0.12 * width,
+  },
+  androidWrapper: Platform.OS === 'ios' ? {
+    flex: 1,
+  } : {
+    position: 'absolute',
+    height,
+    width,
+    left: 0.12 * width,
+    paddingBottom: 20,
   },
   takePictureButton: {
     height: 100,
