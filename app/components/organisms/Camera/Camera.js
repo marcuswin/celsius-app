@@ -59,6 +59,7 @@ class CameraModal extends Component {
     this.camera.takePictureAsync({
       quality,
       base64: true,
+      skipProcessing: true,
     }).then(photo => {
       this.setState({ isLoading: false });
       takeCameraPhoto(photoName, photo.base64);

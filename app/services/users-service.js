@@ -1,6 +1,6 @@
 import axios from 'axios';
-import isBase64 from 'is-base64';
 import apiUrl from './api-url';
+import imageUtil from '../utils/image-util';
 
 const usersService = {
   register,
@@ -227,7 +227,7 @@ function getDocuments() {
 
 function setProfileImage(image) {
   // check if url of base64
-  const data = isBase64(image) ? { img_base64: image } : { img_url: image }
+  const data = imageUtil.isBase64(image) ? { img_base64: image } : { img_url: image }
   return axios.post(`${apiUrl}/me/profile_image`, data);
 }
 
