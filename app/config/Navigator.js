@@ -21,6 +21,7 @@ import CameraScreen from "../components/screens/Camera/Camera";
 import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
 import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
+import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -103,6 +104,10 @@ const Navigator = createStackNavigator({
   NoKyc: {
     screen: NoKycScreen,
     title: 'NoKyc',
+  },
+  AddFunds: {
+    screen: AddFundsScreen,
+    title: 'AddFunds',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
