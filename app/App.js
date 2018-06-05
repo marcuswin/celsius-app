@@ -1,28 +1,35 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Permissions} from 'expo';
+import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
 import {Provider} from 'react-redux';
-import {Image} from 'react-native';
+import { Image, AsyncStorage } from 'react-native';
 import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
-import {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SENTRY, SECURITY_STORAGE_AUTH_KEY} from 'react-native-dotenv'
 
-import configureStore from './config/configureStore';
+import store from './redux/store';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
-import MainLayout from './layout/MainLayout';
+import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-Sentry.config(SENTRY).install();
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
 
-const store = configureStore();
+if (SENTRY_DSN) {
+  Sentry.config(SENTRY_DSN).install();
+}
+
+if (ENV !== 'PRODUCTION') {
+  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+}
+
+AsyncStorage.removeItem('UserTemporaryId'); // reset temporary user id for mixpanel tracking
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();
 
-// For images that saved to the local filesytem,
+// For images that saved to the local file system,
 // use Expo.Asset.fromModule(image).downloadAsync()
 // to download and cache the image.
 // There is also a loadAsync() helper method to cache a batch of assets.
@@ -66,7 +73,9 @@ export default class App extends Component {
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
-    if (token) await store.dispatch(actions.getLoggedInBorrower());
+    if (token) {
+      await store.dispatch(actions.getLoggedInBorrower());
+    }
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
