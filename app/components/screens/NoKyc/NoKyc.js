@@ -42,7 +42,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../../celsius-app/assets/images/wallet-girl3x.png')} style={[NoKycStyle.image]}/>
+        <Image source={require('../../../../assets/images/wallet-girl3x.png')} style={[NoKycStyle.image]}/>
         <Text style={NoKycStyle.textOne}>
           Add, send and receive coins to your Celsius wallet
         </Text>
@@ -68,7 +68,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../../celsius-app/assets/images/phone_doggirl3x.png')} style={[NoKycStyle.image, {marginTop: 10}]}/>
+        <Image source={require('../../../../assets/images/phone_doggirl3x.png')} style={[NoKycStyle.image, {marginTop: 10}]}/>
         <Text style={NoKycStyle.textOne}>
           Profile verification failed
         </Text>
@@ -102,7 +102,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../../celsius-app/assets/images/wallet-girl3x.png')} style={NoKycStyle.image}/>
+        <Image source={require('../../../../assets/images/wallet-girl3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
           Add, send and receive coins to your Celsius wallet
         </Text>
