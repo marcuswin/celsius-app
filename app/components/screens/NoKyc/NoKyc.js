@@ -116,8 +116,8 @@ class NoKyc extends Component {
           Verify profile
         </CelButton>
         <CelButton
-          onPress={() => console.log('Masinsky')}
           transparent
+          onPress={() => navigateTo('CryptoForPeople')}
           color="blue"
           size="small"
           margin="15 0 15 0"
