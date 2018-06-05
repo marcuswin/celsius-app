@@ -115,7 +115,6 @@ class CelInput extends Component {
           <SixDigitInput
             { ...this.props }
             onChange={this.onChangeText}
-            keyboardType={KEYBOARD_TYPE.NUMERIC}
           />
         )
 

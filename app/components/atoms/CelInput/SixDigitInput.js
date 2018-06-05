@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import {Input} from 'native-base';
 
-// import {STYLES} from "../../config/constants/style";
-import CelInputStyle from "../../../components/atoms/CelInput/CelInput.styles";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 class SixDigitInput extends Component {
 
@@ -14,7 +13,6 @@ class SixDigitInput extends Component {
     onChange: PropTypes.func.isRequired,
     editable: PropTypes.bool,
     value: PropTypes.string,
-    // type: PropTypes.oneOf(["primary", "secondary"]),
   };
 
   static defaultProps = {
@@ -35,22 +33,27 @@ class SixDigitInput extends Component {
 
   // lifecycle methods
   // event handlers
+  handleChange = (text) => {
+    if (text.length <= 6) {
+      this.props.onChange(text);
+    }
+  }
   // rendering methods
   render() {
 
-    const { editable, value } = this.props;
+    const { editable, value, theme } = this.props;
 
     return (
-      <View style={CelInputStyle.sixDigitWrapper}>
+      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], { paddingTop: 0, paddingBottom: 0 }]}>
         <Input
-          style={CelInputStyle.sixDigitNumberInput}
+          style={[globalStyles.input, globalStyles[`${theme}InputTextColor`], { fontSize: FONT_SCALE * 40, textAlign: 'center', letterSpacing: 10, height: 50 }]}
           spacing={30}
           underlineColorAndroid='rgba(0,0,0,0)'
           underline={false}
           maxLength={6}
           editable={editable}
           keyboardType={KEYBOARD_TYPE.NUMERIC}
-          onChangeText={(text) => this.props.onChange(text)}
+          onChangeText={this.handleChange}
           value={value || ''}
         />
       </View>
