@@ -14,7 +14,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 
 @connect(
-  state => ({
+  () => ({
     // map state to props
   }),
   dispatch => bindActionCreators(actions, dispatch)
@@ -66,49 +66,57 @@ class AddFunds extends Component {
           </View>
         </View>
         <View style={AddFundsStyle.box}>
-          <Text style={AddFundsStyle.address}>
-            0xbb9bc244d798123fde783fcc1c72d3bb8c189413
-          </Text>
-          <View style={AddFundsStyle.boxButtons}>
-
+          <View style={AddFundsStyle.addressWrapper}>
+            <Text style={AddFundsStyle.address}>
+              0xbb9bc244d798123fde783fcc1c72d3bb8c189413
+            </Text>
+          </View>
+          <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
               onPress={console.log}
-              style={[AddFundsStyle.buttons, {borderBottomLeftRadius: 8, borderRightWidth: 1, borderRightColor: 'rgba(255, 255, 255, 0.3)'}]}
+              style={[AddFundsStyle.buttons, {
+                borderBottomLeftRadius: 8,
+                borderRightWidth: 1,
+                borderRightColor: "rgba(255, 255, 255, 0.3)"
+              }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
-              <Text
-                style={[AddFundsStyle.buttonsText, {color: 'white'}]}
-              >
-                <Icon
-                  style={{marginTop: 17}}
-                  name='ShareIcon'
-                  width='20' height='20'
-                  fill='rgba(255, 255, 255, 0.5)'
-                />
-                Share
-              </Text>
+                <Text
+                  style={[AddFundsStyle.buttonsText, { color: "white" }]}
+                >
+                  <Icon
+                    style={{ marginTop: 17 }}
+                    name='ShareIcon'
+                    width='20' height='20'
+                    fill='rgba(255, 255, 255, 0.5)'
+                  />
+                  Share
+                </Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={console.log}
-              style={[AddFundsStyle.buttons, {borderBottomRightRadius: 8, borderLeftWidth: 1, borderLeftColor: 'rgba(255, 255, 255, 0.3)'}]}
+              style={[AddFundsStyle.buttons, {
+                borderBottomRightRadius: 8,
+                borderLeftWidth: 1,
+                borderLeftColor: "rgba(255, 255, 255, 0.3)"
+              }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
-              <Text
-                style={[AddFundsStyle.buttonsText, {color: 'white'}]}
-              >
-                <Icon
-                  style={{marginTop: 17}}
-                  name='CopyIcon'
-                  width='20' height='20'
-                  fill='rgba(255, 255, 255, 0.5)'
-                />
-                Copy
-              </Text>
+                <Text
+                  style={[AddFundsStyle.buttonsText, { color: "white" }]}
+                >
+                  <Icon
+                    style={{ marginTop: 17 }}
+                    name='CopyIcon'
+                    width='20' height='20'
+                    fill='rgba(255, 255, 255, 0.5)'
+                  />
+                  Copy
+                </Text>
               </View>
             </TouchableOpacity>
-
           </View>
         </View>
         <Text style={AddFundsStyle.textTwo}>
@@ -119,7 +127,7 @@ class AddFunds extends Component {
           inverse
           white
           onPress={console.log}
-          margin='30 50 0 50'
+          margin='30 50 20 50'
         >
           Done
         </CelButton>
