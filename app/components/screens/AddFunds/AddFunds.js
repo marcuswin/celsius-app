@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-// import {} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -11,11 +10,12 @@ import AddFundsStyle from "./AddFunds.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
+import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
 
 
 @connect(
-  () => ({
-    // map state to props
+  state => ({
+    formData: state.ui.formData,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -25,8 +25,17 @@ class AddFunds extends Component {
 
     this.state = {
       // initial state
-      address: "0xbb9bc244d798123fde783fcc1c72d3bb8c189413"
+      wallet_eth: "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
+      wallet_btc: "1Pu6kMoa5BcddHQwjZ253HjAjJtd8M31PS",
+      radioItems: [
+        { label: 'BTC', value: 'btc' },
+        { label: 'ETH', value: 'eth' },
+      ]
     };
+
+    props.initForm({
+      currency: 'eth',
+    })
     // binders
   }
 
@@ -34,7 +43,10 @@ class AddFunds extends Component {
   // event hanlders
   // rendering methods
   render() {
-    const { address } = this.state;
+    const { radioItems } = this.state;
+    const { formData } = this.props;
+
+    const wallet = this.state[`wallet_${formData.currency}`];
     return (
       <SimpleLayout
         animatedHeading={{ text: "Add Funds", textAlign: "center" }}
@@ -44,6 +56,11 @@ class AddFunds extends Component {
         <Text style={AddFundsStyle.textOne}>
           Transfer your coins from another wallet by selecting the coin you want to transfer.
         </Text>
+
+        <View style={AddFundsStyle.radioWrapper}>
+          <RadioButtons field='currency' items={radioItems} value={formData.currency} />
+        </View>
+
         <View style={AddFundsStyle.imageWrapper}>
           <View style={AddFundsStyle.wrapperLogo}>
             <View style={AddFundsStyle.celsiusLogo}>
@@ -53,11 +70,10 @@ class AddFunds extends Component {
               />
             </View>
           </View>
-          <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, AddFundsStyle.qrCode
-          ]}>
+          <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               <QRCode
-                value={address}
+                value={wallet}
                 size={120}
                 bgColor='black'
                 fgColor='white'
