@@ -1,12 +1,17 @@
 import ACTIONS from '../../config/constants/ACTIONS';
+import * as navActions from '../nav/navActions';
 
 export {
   showMessage,
   clearMessage,
   setHeaderHeight,
-  toggleCamera,
   takeCameraPhoto,
   flipCamera,
+  activateCamera,
+  retakePhoto,
+  // submitForm,
+  initForm,
+  updateFormField,
   updatePortfolioFormData,
 }
 
@@ -43,18 +48,16 @@ function setHeaderHeight(height, isAnimatedHeader = false) {
   }
 }
 
-function takeCameraPhoto(photoName, photo) {
+function takeCameraPhoto(photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
-    photoName,
     photo,
   }
 }
 
-function toggleCamera(photoName) {
+function retakePhoto() {
   return {
-    type: ACTIONS.TOGGLE_CAMERA,
-    photoName,
+    type: ACTIONS.RETAKE_PHOTO,
   }
 }
 
@@ -64,12 +67,34 @@ function flipCamera() {
   }
 }
 
-function updatePortfolioFormData(data) {
-  return async dispatch => {
-
+function activateCamera(cameraProps) {
+  return dispatch => {
     dispatch({
-      type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
-      data,
+      type: ACTIONS.ACTIVATE_CAMERA,
+      ...cameraProps,
     });
+    dispatch(navActions.navigateTo('Camera'));
   }
+}
+
+function updateFormField(field, value) {
+  return {
+    type: ACTIONS.UPDATE_FORM_FIELD,
+    field,
+    value,
+  }
+}
+
+function initForm(formData) {
+  return {
+    type: ACTIONS.INIT_FORM,
+    formData,
+  }
+}
+
+function updatePortfolioFormData(data) {
+  return {
+    type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
+    data,
+  };
 }

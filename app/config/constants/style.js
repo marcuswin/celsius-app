@@ -1,4 +1,4 @@
-import {PixelRatio, StyleSheet, Platform} from "react-native";
+import {PixelRatio, Platform} from "react-native";
 
 export const PIXEL_RATIO = PixelRatio.get();
 // Font scaling for different iOS devices
@@ -43,7 +43,7 @@ export const STYLES = {
   GRAY_6: '#C8C8C8',
 };
 
-export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
+export const GLOBAL_STYLE_DEFINITIONS = {
   normalText: {
     color: STYLES.GRAY_2,
     fontSize: FONT_SCALE * 18,
@@ -51,7 +51,7 @@ export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
   },
   heading: {
     color: STYLES.GRAY_2,
-    fontFamily: 'agile-medium',
+    fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 21,
     fontWeight: '500',
     textAlign: 'center',
@@ -63,8 +63,82 @@ export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center'
-  }
-});
+  },
+
+  // celsius form styles
+  inputWrapper: {
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: 14,
+    paddingTop: 23,
+    marginBottom: 20,
+    borderRadius: 8,
+    height: 60,
+  },
+  blueInputWrapper: { backgroundColor: 'rgba(256, 256, 256, 0.15)' },
+  whiteInputWrapper: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
+  inputItem: {
+    borderBottomColor: 'transparent',
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  input: {
+    fontFamily: 'agile-bold',
+    fontSize: FONT_SCALE * 20,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    height: 23,
+    top: 0,
+  },
+  blueInputTextColor: { color: STYLES.INPUT_COLOR_WHITE },
+  whiteInputTextColor: { color: STYLES.GRAY_2 },
+  inputLabelActive: {
+    color: 'white',
+    fontSize: FONT_SCALE * 12,
+    opacity: 0.8,
+    top: -10,
+    fontFamily: 'agile-light',
+    position: 'absolute',
+  },
+  inputLabelInactive: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 20,
+    opacity: 0.8,
+    top: -18,
+    position: 'absolute',
+  },
+  selectLabelInactive: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 20,
+    opacity: 0.8,
+  },
+  selectLabelActive: {
+    color: 'white',
+    fontSize: FONT_SCALE * 12,
+    opacity: 0.8,
+    fontFamily: 'agile-light',
+    position: 'absolute',
+    top: 5,
+    left: 18,
+  },
+  inputIconRight: {
+    position: 'absolute',
+    right: 15,
+    width: 25,
+    top: 0,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.4,
+  },
+
+};
 
 export const FONTS = [
   {'Roboto': require('native-base/Fonts/Roboto.ttf')},
@@ -126,4 +200,8 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/avatar-monkey.jpg'),
   require('../../../assets/images/avatar-monkey-girl.jpg'),
   require('../../../assets/images/avatar-sheep.jpg'),
+  require('../../../assets/images/camera-mask-circle.png'),
+  require('../../../assets/images/camera-mask-document.png'),
+  require('../../../assets/images/phone_doggirl3x.png'),
+  require('../../../assets/images/wallet-girl3x.png'),
 ];

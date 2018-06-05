@@ -15,7 +15,12 @@ import ProfileScreen from '../components/screens/Profile/Profile';
 import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePassword";
 import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
 import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
+import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDetails";
+import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
+import CameraScreen from "../components/screens/Camera/Camera";
+import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
 import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
+import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -78,6 +83,26 @@ const Navigator = createStackNavigator({
   AddCoins: {
     screen: AddCoinsScreen,
     title: 'AddCoins',
+  },
+  ProfileDetails: {
+    screen: ProfileDetailsScreen,
+    title: 'ProfileDetails',
+  },
+  VerifyProfile: {
+    screen: VerifyProfileScreen,
+    title: 'VerifyProfile',
+  },
+  Camera: {
+    screen: CameraScreen,
+    title: 'Camera',
+  },
+  VerifyPhoneNumber: {
+    screen: VerifyPhoneNumberScreen,
+    title: 'VerifyPhoneNumber',
+  },
+  NoKyc: {
+    screen: NoKycScreen,
+    title: 'NoKyc',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

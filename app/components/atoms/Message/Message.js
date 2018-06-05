@@ -27,11 +27,12 @@ class Message extends Component {
     if (inverted) {
       containerStyles = [MessageStyle.containerInverted, MessageStyle[`${message.type || 'error'}Inverted`]];
       textStyles = [MessageStyle.text, MessageStyle[`${message.type}Text`]];
-
     } else {
       containerStyles = [MessageStyle.container, MessageStyle[message.type || 'error']];
       textStyles = MessageStyle.text;
     }
+
+    if (!message.text) return null;
 
     return (
       <View style={containerStyles}>

@@ -13,6 +13,8 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
+const walletScreens = ['NoKYC', 'WalletLanding', 'Profile'];
+
 @connect(
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -23,13 +25,16 @@ import BottomNavigationStyle from "./BottomNavigation.styles";
 )
 class BottomNavigation extends Component {
   static propTypes = {
-    navItems: PropTypes.instanceOf(Array),
+    navItemsLeft: PropTypes.instanceOf(Array),
+    navItemsRight: PropTypes.instanceOf(Array),
   }
 
   static defaultProps = {
-    navItems: [
+    navItemsLeft: [
       { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
+    ],
+    navItemsRight: [
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
@@ -76,16 +81,34 @@ class BottomNavigation extends Component {
   }
 
   render() {
-    const { navItems, bottomNavigationDimensions, screenHeight } = this.props;
+    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight, activeScreen, navigateTo } = this.props;
 
     const styles = {
       height: bottomNavigationDimensions.height,
       top: screenHeight - bottomNavigationDimensions.height,
       paddingBottom: bottomNavigationDimensions.paddingBottom,
     }
+
+    const state = walletScreens.indexOf(activeScreen) !== -1 ? 'Active' : 'Inactive';
+
     return (
       <View style={[ BottomNavigationStyle.container, styles ]}>
-        { navItems.map(this.renderNavItem) }
+        { navItemsLeft.map(this.renderNavItem) }
+
+        <TouchableOpacity
+          onPress={ () => {
+            mixpanelActions.navigation('Profile');
+            if (state !== 'Active') navigateTo('Profile');
+          }}>
+          <View style={BottomNavigationStyle.wallet} >
+            <View style={BottomNavigationStyle[`celsius${state}`]}>
+              <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+            </View>
+            <Text style={BottomNavigationStyle[`text${state}`]}>Wallet</Text>
+          </View>
+        </TouchableOpacity>
+
+        { navItemsRight.map(this.renderNavItem) }
       </View>
     );
   }

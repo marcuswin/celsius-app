@@ -1,44 +1,31 @@
 import React, {Component} from 'react';
-import { View, Form } from 'native-base';
+import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Separator from '../../atoms/Separator/Separator';
-import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
+// import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 import * as actions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import PasswordInput from "../../atoms/PasswordInput/PasswordInput";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
+import CelForm from "../../atoms/CelForm/CelForm";
+import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   (state) => ({
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
+    formData: state.ui.formData,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class SignupOne extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      formData: {
-        email: '',
-        password: '',
-      },
-    };
-
-    // binders
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChangeField = this.onChangeField.bind(this);
-  }
-
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
@@ -46,21 +33,15 @@ class SignupOne extends Component {
     }
   }
 
-  onSubmit() {
-    const { formData } = this.state;
-    const { registerUser } = this.props;
-
+  onSubmit = () => {
+    const { registerUser, formData } = this.props;
     registerUser(formData);
-  };
-
-  onChangeField = (fieldName, text) => {
-    this.setState({ formData: { ...this.state.formData, [fieldName]: text }});
   };
 
   // rendering methods
   render() {
-    const {callsInProgress } = this.props;
-    const { email, password } = this.state.formData;
+    const {callsInProgress, formData } = this.props;
+    const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
 
@@ -79,10 +60,10 @@ class SignupOne extends Component {
           <Separator margin='35 0 -15 0'>OR SIGN UP WITH E-MAIL</Separator>
 
           <View style={SignupOneStyle.formWrapper}>
-            <Form>
-              <PrimaryInput labelText={'E-mail'} keyboardType='email-address' value={email} onChange={(text) => this.onChangeField('email', text)}/>
-              <PasswordInput labelText={'Password'} secureTextEntry value={password} onChange={(text) => this.onChangeField('password', text)}/>
-            </Form>
+            <CelForm disabled={isLoading}>
+              <CelInput field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
+              <CelInput field="password" type="password" labelText="Password" value={formData.password} />
+            </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
                 disabled={!email || !password }

@@ -103,11 +103,11 @@ function getLoggedInBorrower() {
   }
 }
 
-function getLoggedInBorrowerSuccess(data) {
+function getLoggedInBorrowerSuccess(borrower) {
   return {
     type: ACTIONS.GET_LOGGED_IN_BORROWER_SUCCESS,
     callName: API.GET_LOGGED_IN_BORROWER,
-    borrower: data.borrower,
+    borrower,
   }
 }
 

@@ -14,21 +14,10 @@ const usersService = {
   twitterLogin,
   sendResetLink,
   resetPassword,
-  getUserInfo,
   getPersonalInfo,
-  createPersonalInfo,
-  getAddressInfo,
-  createAddressInfo,
-  getContactInfo,
-  createContactInfo,
-  getBankAccountInfo,
-  createBankAccountInfo,
-  getDocuments,
-  createDocuments,
-  kycCompleted,
-  getProfileInfo,
   updateProfileInfo,
   setProfileImage,
+  createKYCDocuments,
 };
 
 function register({ email, password }) {
@@ -141,27 +130,7 @@ function twitterLogin(data) {
   });
 }
 
-function getUserInfo() {
-  return axios.get(`${apiUrl}/users/info`);
-}
-
-function createPersonalInfo(personalInfo) {
-  return axios.post(`${apiUrl}/users/personal_info`, {
-    first_name: personalInfo.firstName,
-    last_name: personalInfo.lastName,
-    date_of_birth: personalInfo.dateOfBirth,
-    gender: personalInfo.gender,
-    cellphone: personalInfo.cellphone,
-    email: personalInfo.email,
-    citizenship: personalInfo.citizenship,
-  });
-}
-
 function getPersonalInfo() {
-  return axios.get(`${apiUrl}/me`);
-}
-
-function getProfileInfo() {
   return axios.get(`${apiUrl}/me`);
 }
 
@@ -169,66 +138,14 @@ function updateProfileInfo(profileInfo) {
   return axios.patch(`${apiUrl}/me`, profileInfo);
 }
 
-function createAddressInfo(addressInfo) {
-  return axios.post(`${apiUrl}/users/address`, {
-    country: addressInfo.country,
-    us_state: addressInfo.state,
-    city: addressInfo.city,
-    zip: addressInfo.zip,
-    street: addressInfo.street,
-    building_number: addressInfo.buildingNumber,
-  });
-}
-
-function getAddressInfo() {
-  return axios.get(`${apiUrl}/users/address`);
-}
-
-function createContactInfo(contactInfo) {
-  return axios.post(`${apiUrl}/users/contact`, {
-    cellphone: contactInfo.cellPhone,
-    other_phone_number: contactInfo.otherPhones,
-    email: contactInfo.email,
-  });
-}
-
-function getContactInfo() {
-  return axios.get(`${apiUrl}/users/contact`);
-}
-
-function kycCompleted() {
-  return axios.put(`${apiUrl}/users/kyc/complete`);
-}
-
-function createBankAccountInfo(bankAccountInfo) {
-  return axios.post(`${apiUrl}/users/bank_info`, {
-    bank_name: bankAccountInfo.name,
-    bank_routing_number: bankAccountInfo.routingNumber,
-    bank_account_number: bankAccountInfo.accountNumber,
-  });
-}
-
-function getBankAccountInfo() {
-  return axios.get(`${apiUrl}/users/bank_info`);
-}
-
-function createDocuments(documentInfo) {
-  return axios.post(`${apiUrl}/users/documents`, {
-    document_type: documentInfo.documentType,
-    front: documentInfo.front,
-    back: documentInfo.documentType !== 'passport' ? documentInfo.back : undefined,
-    selfie: documentInfo.selfie,
-  });
-}
-
-function getDocuments() {
-  return axios.get(`${apiUrl}/users/documents`);
-}
-
 function setProfileImage(image) {
   // check if url of base64
   const data = imageUtil.isBase64(image) ? { img_base64: image } : { img_url: image }
   return axios.post(`${apiUrl}/me/profile_image`, data);
+}
+
+function createKYCDocuments(documents) {
+  return axios.post(`${apiUrl}/me/documents`, documents);
 }
 
 export default usersService;

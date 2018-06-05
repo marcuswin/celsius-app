@@ -50,6 +50,7 @@ class CelButton extends Component {
     if (transparent) buttonStyles.push(CelButtonStyles.transparentButton);
     if (inverse) buttonStyles.push(CelButtonStyles.inverseButton);
     if (white) buttonStyles.push(CelButtonStyles.whiteButton);
+    if (inverse && white) buttonStyles.push(CelButtonStyles.inverseButton);
     if (disabled) buttonStyles.push(CelButtonStyles.disabledButton);
 
     return buttonStyles;
@@ -64,7 +65,7 @@ class CelButton extends Component {
 
     if (transparent) titleStyles.push([CelButtonStyles.transparentBtnTitle]);
     if (white || inverse || disabled) titleStyles.push({ color: COLORS[color] });
-    if (disabled && white) titleStyles.push({ color: 'white' });
+    if ((inverse || disabled) && white) titleStyles.push({ color: 'white' });
 
     return titleStyles;
   }

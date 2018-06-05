@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import ACTIONS from '../../config/constants/ACTIONS';
-import { CAMERA_PHOTOS } from '../../config/constants/common';
+// import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
   userLocation: undefined,  // Why undefined instead of null?
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         borrower: action.borrower,
-        user: action.borrower.user,
+        user: action.borrower.user || action.borrower,
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
@@ -111,7 +111,6 @@ export default (state = initialState, action) => {
       };
 
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
-    case ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
@@ -121,84 +120,10 @@ export default (state = initialState, action) => {
         },
       };
 
-      case ACTIONS.CHANGE_USER_PERSONAL_INFO:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          [action.payload.key]: action.payload.value
-        },
-        error: null
-      }
-
-      case ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR:
+    case ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR:
       return {
         ...state,
         error: action.error
-      }
-
-    case ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS:
-    case ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.addressInfo,
-        },
-      };
-
-    case ACTIONS.GET_USER_CONTACT_INFO_SUCCESS:
-    case ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.contactInfo,
-        },
-      };
-
-    case ACTIONS.GET_USER_BANK_INFO_SUCCESS:
-    case ACTIONS.CREATE_USER_BANK_INFO_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.bankInfo,
-        },
-      };
-
-    case ACTIONS.GET_USER_DOCUMENTS_SUCCESS:
-    case ACTIONS.CREATE_USER_DOCUMENTS_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          ...action.documents,
-        },
-      };
-
-    case ACTIONS.CREATE_LOAN_DETAILS_SUCCESS:
-    case ACTIONS.GET_LOAN_DETAILS_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          bank_name: action.loanDetails.bank_name,
-          bank_routing_number: action.loanDetails.bank_routing_number,
-          bank_account_number: action.loanDetails.bank_account_number,
-        },
-      };
-
-    case ACTIONS.TAKE_CAMERA_PHOTO:
-      switch (action.photoName) {
-        case CAMERA_PHOTOS.DOCUMENT_FRONT:
-          return setDocumentImage(state, 'front', action.photo);
-        case CAMERA_PHOTOS.DOCUMENT_BACK:
-          return setDocumentImage(state, 'back', action.photo);
-        case CAMERA_PHOTOS.SELFIE:
-          return setDocumentImage(state, 'selfie', action.photo);
-        default:
-          return { ...state };
       }
 
     case ACTIONS.TOGGLE_TERMS_OF_USE:
@@ -219,15 +144,5 @@ export default (state = initialState, action) => {
     default:
       return state;
 
-  }
-}
-
-function setDocumentImage(state, imageName, image) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      [imageName]: image,
-    }
   }
 }
