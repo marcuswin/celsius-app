@@ -149,6 +149,7 @@ export const FONTS = [
   {'agile-bold': require('../../../assets/fonts/Agile-Bold.otf')},
   {'agile-book': require('../../../assets/fonts/Agile-Book.otf')},
   {'agile-extra-bold': require('../../../assets/fonts/Agile-Extrabold.otf')},
+  {'inconsolata-regular': require('../../../assets/fonts/Inconsolata-Regular.ttf')},
 ];
 
 export const CACHE_IMAGES = [
