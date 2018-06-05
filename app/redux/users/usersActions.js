@@ -4,6 +4,7 @@ import {apiError, startApiCall} from "../api/apiActions";
 import * as NavActions from '../nav/navActions';
 import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
+import meService from '../../services/me-service';
 
 export {
   getProfileInfo,
@@ -11,7 +12,10 @@ export {
   toggleTermsOfUse,
   updateProfilePicture,
   createKYCDocuments,
-  verifyProfile,
+  sendVerificationSMS,
+  verifySMS,
+  verifyKYCDocs,
+  finishKYCVerification,
 }
 
 function getProfileInfo() {
@@ -35,7 +39,6 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-      dispatch(showMessage('success', 'Profile updated'));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(updateProfileInfoError(err.raw_error));
@@ -116,15 +119,76 @@ function createKYCDocumentsSuccess() {
   }
 }
 
-function verifyProfile(data) {
+function sendVerificationSMS() {
   return async dispatch => {
+    dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
     try {
-      await dispatch(updateProfileInfo({
-        cellphone: data.cellphone,
-      }));
-      dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
-    } catch(err) {
-      console.log(err);
+      await meService.sendVerificationSMS();
+      dispatch(sendVerificationSMSSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_VERIFICATION_SMS, err));
     }
+  }
+}
+
+function sendVerificationSMSSuccess() {
+  return {
+    type: ACTIONS.SEND_VERIFICATION_SMS_SUCCESS,
+    callName: API.SEND_VERIFICATION_SMS,
+  }
+}
+
+function verifySMS(verificationCode) {
+  return async dispatch => {
+    dispatch(startApiCall(API.VERIFY_SMS));
+    try {
+      await meService.verifySMS(verificationCode);
+      dispatch(verifySMSSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.VERIFY_SMS, err));
+    }
+  }
+}
+
+function verifySMSSuccess() {
+  return {
+    type: ACTIONS.VERIFY_SMS_SUCCESS,
+    callName: API.VERIFY_SMS,
+  }
+}
+
+function verifyKYCDocs() {
+  return async (dispatch, getState) => {
+    const { formData } = getState().ui;
+
+    await dispatch(updateProfileInfo({
+      cellphone: formData.cellphone,
+    }));
+    // await dispatch(createKYCDocuments({
+    //   front: formData.front,
+    //   back: formData.back,
+    //   document_type: formData.documentType,
+    // }));
+    await dispatch(sendVerificationSMS());
+    dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
+    dispatch(showMessage('info', 'SMS sent!'));
+  }
+}
+
+function finishKYCVerification() {
+  return async (dispatch, getState) => {
+    const { formData } = getState().ui;
+
+    await dispatch(verifySMS(formData.verificationCode));
+
+    // await dispatch(startKYC());
+    dispatch({
+      type: ACTIONS.GET_KYC_STATUS_SUCCESS,
+      status: 'pending',
+    });
+    dispatch(NavActions.navigateTo('NoKyc'));
+    dispatch(showMessage('success', 'KYC verification proccess has started!'));
   }
 }

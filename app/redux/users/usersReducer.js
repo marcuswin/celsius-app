@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   borrower: undefined,
   agreedToTermsOfUse: true,
+  kycStatus: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -139,6 +140,12 @@ export default (state = initialState, action) => {
           ...state.user,
           profile_picture: action.image
         },
+      }
+
+    case ACTIONS.GET_KYC_STATUS_SUCCESS:
+      return {
+        ...state,
+        kycStatus: action.status,
       }
 
     default:
