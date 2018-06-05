@@ -123,7 +123,7 @@ const CoinCard = (props) => {
   const graphData = get(props.market.quotes.USD, 'price7d', null)
 
   return <Card>
-    <Grid style={[CoinCardStyle.row, {paddingTop: 10}]}>
+    <Grid style={props.type === "wallet-card" && props.item.coinAmount === 0 ? [CoinCardStyle.row, {paddingTop: 10, opacity: 0.6}] : [CoinCardStyle.row, {paddingTop: 10}] }>
       <Row>
         <Col style={{width: '70%', justifyContent: 'center'}}>
           <View>
