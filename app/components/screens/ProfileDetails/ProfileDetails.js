@@ -44,14 +44,9 @@ class ProfileDetails extends Component {
     if (!formData.title) return showMessage('error', 'Title is required!');
     if (!formData.firstName) return showMessage('error', 'First Name Name is required!');
     if (!formData.lastName) return showMessage('error', 'Last Name is required!');
-    if (!formData.middleName) return showMessage('error', 'Middle Name is required!');
     if (!formData.dateOfBirth) return showMessage('error', 'Date of Birth is required!');
     if (!formData.citizenship) return showMessage('error', 'Citizenship is required!');
     if (!formData.gender) return showMessage('error', 'Gender is required!');
-    if (!formData.country) return showMessage('error', 'Country is required!');
-    if (!formData.city) return showMessage('error', 'City is required!');
-    if (!formData.street) return showMessage('error', 'Street is required!');
-    if (!formData.zip) return showMessage('error', 'Zip is required!');
 
     return true;
   }
@@ -107,6 +102,7 @@ class ProfileDetails extends Component {
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
           <CelSelect field="title" type="title" labelText="Title" value={formData.title} />
           <CelInput value={formData.firstName} field="firstName" labelText="First Name" autoCapitalize="sentences" />
+          <CelInput value={formData.middleName} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
           <CelInput value={formData.lastName} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
 
           <CelDatepicker labelText="Date of birth" field="dateOfBirth" format="Do MMM YYYY" value={formData.dateOfBirth} />

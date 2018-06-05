@@ -10,9 +10,6 @@ import VerifyPhoneNumberStyle from "./VerifyPhoneNumber.styles";
 import SimpleLayout from "../../../components/layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import CelInput from "../../../components/atoms/CelInput/CelInput";
-import CelInputStyle from "../../../components/atoms/CelInput/CelInput.styles";
-
-
 
 @connect(
   state => ({
@@ -53,10 +50,9 @@ class VerifyPhoneNumber extends Component {
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
           <CelInput
-            style={CelInputStyle.numberInput}
             type='six-digit'
-            field="digit"
-            value={formData.digit}
+            field="digits"
+            value={formData.digits}
           />
           <CelButton
             margin='20 0 0 0'
@@ -65,10 +61,12 @@ class VerifyPhoneNumber extends Component {
           >
             Finish
           </CelButton>
+
           <CelButton
             style={VerifyPhoneNumberStyle.resendButton}
             transparent
             margin="15 0 0 0"
+            size="small"
             onPress={console.log}
           >
             Resend code

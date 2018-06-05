@@ -94,6 +94,7 @@ class NoKyc extends Component {
   }
 
   renderNotStarted() {
+    const {navigateTo} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -109,15 +110,18 @@ class NoKyc extends Component {
           To be able to use your wallet and all of its features, please verify your profile first.
         </Text>
         <CelButton
-          onPress={console.log}
+          onPress={() => navigateTo('ProfileDetails')}
           margin='0 50 0 50'
         >
           Verify profile
         </CelButton>
         <CelButton
+          onPress={() => console.log('Masinsky')}
           transparent
-          onPress={console.log}
-          // color="blue"
+          color="blue"
+          size="small"
+          margin="15 0 15 0"
+          inverse
         >
           Learn more about Celsius
         </CelButton>

@@ -1,6 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
+import * as NavActions from '../nav/navActions';
 import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
 
@@ -10,6 +11,7 @@ export {
   toggleTermsOfUse,
   updateProfilePicture,
   createKYCDocuments,
+  verifyProfile,
 }
 
 function getProfileInfo() {
@@ -111,5 +113,18 @@ function createKYCDocumentsSuccess() {
   return {
     type: ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS,
     callName: API.CREATE_KYC_DOCUMENTS,
+  }
+}
+
+function verifyProfile(data) {
+  return async dispatch => {
+    try {
+      await dispatch(updateProfileInfo({
+        cellphone: data.cellphone,
+      }));
+      dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
+    } catch(err) {
+      console.log(err);
+    }
   }
 }
