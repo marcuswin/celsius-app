@@ -18,14 +18,6 @@ const AddFundsStyle = StyleSheet.create({
     color: 'white',
     marginTop: 20,
   },
-  celsiusLogo: {
-    height: 63,
-    width: 63,
-    borderRadius: 63 / 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   imageWrapper: {
     height: 167,
     width: 167,
@@ -52,49 +44,18 @@ const AddFundsStyle = StyleSheet.create({
     top: -35,
     left: 130,
   },
-  box: {
-    width: 200,
-    height: 100,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  celsiusLogo: {
+    height: 63,
+    width: 63,
+    borderRadius: 63 / 2,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 30
-  },
-  boxButtons: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 10
   },
   qrCode: {
     width: 120,
     height: 120,
     borderRadius: 8,
-  },
-  buttonsText: {
-    fontWeight: '300',
-    fontFamily: 'agile-book',
-    fontSize: FONT_SCALE * 18,
-    textAlign: 'center',
-    color: 'white',
-    paddingTop: 13,
-    paddingLeft: 8,
-    marginLeft: 12
-  },
-  buttons: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    width: 100,
-    height: 45,
-  },
-  address: {
-    fontSize: FONT_SCALE * 17,
-    color: 'white',
-    paddingTop: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    fontFamily: 'inconsolata-regular'
   },
   qrBackground: {
     width: 141,
@@ -103,10 +64,59 @@ const AddFundsStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  box: {
+    width: 200,
+    height: 95,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
+  addressWrapper: {
+    width: 200,
+    height: 47,
+    margin: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  address: {
+    fontSize: FONT_SCALE * 16,
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: 'inconsolata-regular',
+    paddingTop: 5,
+    paddingLeft: 7,
+    paddingRight: 7,
+    paddingBottom: 5
+  },
+  buttons: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    width: 100,
+    height: 47
+  },
+  boxButtonsWrapper: {
+    // flex: 1,
+    flexDirection: 'row',
+    width: 200,
+    height: 47,
+  },
   buttonTextWrapper: {
     flexDirection: 'row',
     marginRight: 10,
-  }
+  },
+  buttonsText: {
+    fontWeight: '300',
+    fontFamily: 'agile-book',
+    fontSize: FONT_SCALE * 16,
+    textAlign: 'center',
+    color: 'white',
+    paddingTop: 13,
+    paddingLeft: 8,
+    marginLeft: 12
+  },
 });
 
 export default AddFundsStyle;
