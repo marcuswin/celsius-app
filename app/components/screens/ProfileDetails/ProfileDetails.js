@@ -20,7 +20,6 @@ import API from "../../../config/constants/API";
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
-    // kyc: state.kyc.kyc,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -74,7 +73,7 @@ class ProfileDetails extends Component {
 
     if (user) {
       initForm({
-        title: user.title,
+        title: user.title || 'mr',
         firstName: user.first_name,
         lastName: user.last_name,
         dateOfBirth: user.date_of_birth,

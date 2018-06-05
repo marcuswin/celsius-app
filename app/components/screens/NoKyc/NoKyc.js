@@ -12,8 +12,8 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 
 
 @connect(
-  () => ({
-  // map state to props
+  state => ({
+    kycStatus: state.users.kycStatus,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -131,11 +131,7 @@ class NoKyc extends Component {
 
 
   render() {
-
-
-    const kycStatus = 'not_started';
-    // const kycStatus = 'rejected';
-    // const kycStatus = 'pending';
+    const { kycStatus } = this.props;
 
     switch (kycStatus) {
       case 'pending':

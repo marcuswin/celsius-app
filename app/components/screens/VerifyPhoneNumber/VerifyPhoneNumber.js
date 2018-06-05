@@ -10,10 +10,14 @@ import VerifyPhoneNumberStyle from "./VerifyPhoneNumber.styles";
 import SimpleLayout from "../../../components/layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import CelInput from "../../../components/atoms/CelInput/CelInput";
+import API from "../../../config/constants/API";
+import apiUtil from "../../../utils/api-util";
+import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -30,16 +34,28 @@ class VerifyPhoneNumber extends Component {
   }
 
   // lifecycle methods
+  verifyCode = async () => {
+    const { finishKYCVerification } = this.props;
+    finishKYCVerification();
+  }
+
+  resendCode = async () => {
+    const { sendVerificationSMS, showMessage } = this.props;
+    await sendVerificationSMS();
+    showMessage('info', 'SMS sent!')
+  }
   // event hanlders
   // rendering methods
   render() {
-    const { formData } = this.props;
+    const { formData, callsInProgress } = this.props;
+
+    const isLoading = apiUtil.areCallsInProgress([API.VERIFY_SMS], callsInProgress);
 
     return (
       <SimpleLayout
         animatedHeading={{ text : ''}}
-      bottomNavigation={false}
-      background={STYLES.PRIMARY_BLUE}
+        bottomNavigation={false}
+        background={STYLES.PRIMARY_BLUE}
       >
         <View>
           <Text style={VerifyPhoneNumberStyle.title}>
@@ -49,15 +65,19 @@ class VerifyPhoneNumber extends Component {
           <Text style={VerifyPhoneNumberStyle.text}>
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
-          <CelInput
-            type='six-digit'
-            field="digits"
-            value={formData.digits}
-          />
+          <CelForm disabled={isLoading}>
+            <CelInput
+              type='six-digit'
+              field="verificationCode"
+              value={formData.verificationCode}
+            />
+          </CelForm>
           <CelButton
             margin='20 0 0 0'
             white
-            onPress={console.log}
+            onPress={this.verifyCode}
+            loading={isLoading}
+            disabled={isLoading}
           >
             Finish
           </CelButton>
@@ -67,7 +87,7 @@ class VerifyPhoneNumber extends Component {
             transparent
             margin="15 0 0 0"
             size="small"
-            onPress={console.log}
+            onPress={this.resendCode}
           >
             Resend code
           </CelButton>

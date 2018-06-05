@@ -45,13 +45,11 @@ class VerifyProfile extends Component {
   }
 
   submitForm = () => {
-    const { formData, verifyProfile } = this.props;
+    const { verifyKYCDocs } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
-      verifyProfile({
-        cellphone: formData.cellphone,
-      })
+      verifyKYCDocs();
     }
   }
 
