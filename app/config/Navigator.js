@@ -23,6 +23,7 @@ import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
 import WalletLandingScreen from "../components/screens/WalletLanding/WalletLanding";
+import PortfolioScreen from "../components/screens/Portfolio/Portfolio";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -114,6 +115,10 @@ const Navigator = createStackNavigator({
     screen: WalletLandingScreen,
     title: 'WalletLanding',
   },
+  Portfolio: {
+    screen: PortfolioScreen,
+    title: 'Portfolio',
+  }
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
   headerMode: 'none'

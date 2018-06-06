@@ -51,7 +51,7 @@ class Calculator extends Component {
   componentWillReceiveProps(newProps) {
     const {callsInProgress, navigateTo} = this.props;
     if (callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) !== -1 && newProps.callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) === -1 && !newProps.error) {
-      navigateTo('Home');
+      navigateTo('Portfolio');
     }
 
     const newPortfolioFormData = newProps.portfolioFormData;

@@ -43,6 +43,7 @@ const initialState = {
     mask: undefined,
   },
   formData: {},
+  portfolioFormData: [],
 };
 
 export default (state = initialState, action) => {
