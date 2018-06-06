@@ -35,7 +35,7 @@ const CelButtonStyle = StyleSheet.create({
   },
   whiteBtnTitle: { color: 'transparent' },
 
-  miniButton: { height: 40 },
+  miniButton: { height: 40, paddingLeft: 10, paddingRight: 10, },
   miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
   smallButton: { height: 50 },
   smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-light', },

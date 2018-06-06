@@ -22,7 +22,7 @@ import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/Ver
 import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
-import WalletScreen from "../components/screens/Wallet/Wallet";
+import WalletLandingScreen from "../components/screens/WalletLanding/WalletLanding";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -110,9 +110,9 @@ const Navigator = createStackNavigator({
     screen: AddFundsScreen,
     title: 'AddFunds',
   },
-  Wallet: {
-    screen: WalletScreen,
-    title: 'Wallet',
+  WalletLanding: {
+    screen: WalletLandingScreen,
+    title: 'WalletLanding',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

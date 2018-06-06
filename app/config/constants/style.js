@@ -24,6 +24,7 @@ export const COLORS = {
   green: '#4FB895',
   pink: '#A866AA',
   yellow: '#E19F30',
+  gray: '#899099',
 }
 
 export const STYLES = {
@@ -41,6 +42,7 @@ export const STYLES = {
   GRAY_4: '#9DA3A9',
   GRAY_5: '#CED1D4',
   GRAY_6: '#C8C8C8',
+  GRAY_7: '#899099',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = {

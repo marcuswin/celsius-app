@@ -36,11 +36,11 @@ const TotalCoinsHeader = (props) =>
   <Grid>
     <Row>
       <Row style={styles.totalValueContainer}>
-        <Col style={{width: '70%'}}>
+        <Col style={{width: '65%'}}>
           <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
           <Text style={styles.totalValue}>{formatter.usd(props.totalValue)}</Text>
         </Col>
-        <Col style={{width: '30%', alignSelf: 'flex-end'}}>
+        <Col style={{width: '35%', alignSelf: 'flex-end'}}>
           {props.children}
         </Col>
       </Row>
