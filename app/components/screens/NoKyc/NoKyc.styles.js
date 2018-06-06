@@ -1,12 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
-import {FONT_SCALE} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const { width } = Dimensions.get('window');
 
 const NoKycStyle = StyleSheet.create({
   image: {
-    width: width / 2.65,
-    height: width / 2.5,
+    width: width / 2.7,
+    height: width / 2.55,
     marginTop: 15,
     marginBottom: 20,
     marginLeft: 'auto',
@@ -27,6 +27,7 @@ const NoKycStyle = StyleSheet.create({
     textAlign: 'center',
     color: 'rgba(61,72,83,1)',
     marginBottom: 30,
+    marginTop: 35
   },
   textThree: {
     fontFamily: 'agile-light',
@@ -71,6 +72,9 @@ const NoKycStyle = StyleSheet.create({
     textAlign: 'center',
     color: 'rgba(239,70,26,1)',
   },
+  textButton: {
+    color: STYLES.PRIMARY_BLUE
+  }
 });
 
 export default NoKycStyle;
