@@ -13,7 +13,7 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 
 @connect(
   state => ({
-    kycStatus: state.users.kycStatus,
+    kycStatus: state.users.user.kyc.status,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -138,7 +138,7 @@ class NoKyc extends Component {
         return this.renderPending();
       case 'rejected':
         return this.renderRejected();
-      case 'not_started':
+      case 'collecting':
       default:
         return this.renderNotStarted();
     }

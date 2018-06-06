@@ -20,6 +20,7 @@ import API from "../../../config/constants/API";
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -30,10 +31,14 @@ class ProfileDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { navigateTo, lastCompletedCall } = this.props;
+    const { navigateTo, lastCompletedCall, activeScreen } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_PERSONAL_INFO) {
       navigateTo('VerifyProfile');
+    }
+
+    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
+      this.initForm();
     }
   }
 
@@ -56,13 +61,15 @@ class ProfileDetails extends Component {
 
     if (isFormValid === true) {
       const updatedUser = {
-        title: formData.title.value,
+        title: formData.title,
         first_name: formData.firstName,
         last_name: formData.lastName,
         date_of_birth: formData.dateOfBirth,
-        citizenship: formData.citizenship.name,
-        gender: formData.gender.value,
+        citizenship: formData.citizenship,
+        gender: formData.gender,
       }
+
+      console.log(updatedUser);
 
       updateProfileInfo(updatedUser);
     }
@@ -73,7 +80,7 @@ class ProfileDetails extends Component {
 
     if (user) {
       initForm({
-        title: user.title || 'mr',
+        title: user.title,
         firstName: user.first_name,
         lastName: user.last_name,
         dateOfBirth: user.date_of_birth,
