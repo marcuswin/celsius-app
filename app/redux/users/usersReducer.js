@@ -9,6 +9,7 @@ const initialState = {
   borrower: undefined,
   agreedToTermsOfUse: true,
   kycStatus: undefined,
+  kycDocuments: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -143,9 +144,17 @@ export default (state = initialState, action) => {
       }
 
     case ACTIONS.GET_KYC_STATUS_SUCCESS:
+    case ACTIONS.START_KYC_SUCCESS:
       return {
         ...state,
         kycStatus: action.status,
+      }
+
+    case ACTIONS.GET_KYC_DOCUMENTS_SUCCESS:
+    case ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS:
+      return {
+        ...state,
+        kycDocuments: action.documents,
       }
 
     default:
