@@ -15,7 +15,7 @@ const PortfolioEmptyState = (props) => (
     </Text>
 
     <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-      Please, add eligible coins (BTC, ETH, CEL) to be able to lend out your coins and earn interest.
+      Please, add eligible coins (BTC, ETH) to be able to lend out your coins and earn interest.
     </Text>
 
     <CelButton onPress={props.onPress} margin="30 0 0 0" style={{marginBottom: 30}}>
