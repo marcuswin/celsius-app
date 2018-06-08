@@ -18,6 +18,7 @@ export {
   verifyKYCDocs,
   finishKYCVerification,
   startKYC,
+  setPin,
 }
 
 function getProfileInfo() {
@@ -262,3 +263,26 @@ function startKYCSuccess() {
     status: 'pending',
   }
 }
+
+function setPin(pinData) {
+  return async dispatch => {
+    dispatch(startApiCall(API.SET_PIN));
+    try {
+      await meService.setPin(pinData);
+      dispatch(setPinSuccess());
+      dispatch({type: ACTIONS.CLEAR_FORM});
+      dispatch(NavActions.navigateTo('NoKyc'));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+function setPinSuccess() {
+  return {
+    type: ACTIONS.SET_PIN_SUCCESS,
+    callName: API.SET_PIN,
+  }
+}
+

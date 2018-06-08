@@ -5,6 +5,8 @@ import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
 import WalletLanding from "../WalletLanding/WalletLanding";
 import NoKyc from "../NoKyc/NoKyc";
+import CreatePasscode from "../Passcode/CreatePasscode";
+
 
 @connect(
   state => ({
@@ -17,9 +19,10 @@ import NoKyc from "../NoKyc/NoKyc";
 )
 
 class HomeScreen extends Component {
+
   render() {
 
-
+    if (!this.props.user.has_pin) return <CreatePasscode />
 
     return (this.props.kycStatus === 'completed') ? <WalletLanding /> : <NoKyc />
   }

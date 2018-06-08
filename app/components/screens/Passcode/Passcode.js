@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { Text, Image } from "react-native";
 import { View } from "native-base";
-import CodeInput from 'react-native-confirmation-code-input';
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import get from 'lodash/get';
 
+import API from '../../../config/constants/API';
+import apiUtil from '../../../utils/api-util';
 import CatImage from '../../../../assets/images/avatar-cat-2.png'
 import * as actions from "../../../redux/actions";
+import PinInput from '../../atoms/PinInput/PinInput';
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
@@ -21,27 +22,31 @@ const types = {
     createPasscode: {
       title: `Create a${'\n'} passcode`,
       text: `Please create a 4-digit passcode${'\n'}to make your transactions even${'\n'} more secure.`,
-      buttonText: 'Confirm',
-      nextScreen: 'RepeatPasscode',
+      buttonText: 'Repeat passcode',
+      field: 'pin',
     },
     repeatPasscode: {
       title: `Repeat your${'\n'} passcode`,
       text: `Please create a 4-digit passcode${'\n'} to make your transactions even more secure.`,
-      buttonText: 'Repeat passcode',
-      nextScreen: 'Wallet',
+      buttonText: 'Confirm',
+      field: 'pin_confirm',
     },
     enterPasscode: {
       title: `Enter your${'\n'} passcode`,
       text: `To continue with your withdrawal${'\n'} please enter your 4-digit passcode.`,
       buttonText: 'Confirm',
-      nextScreen: '',
     },
 };
+
+const codeLength = 4;
+
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
+    formData: state.ui.formData,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -50,43 +55,56 @@ class Passcode extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
-    nextScreen: PropTypes.string,
   };
 
+  onPressButton = () => {
+    if (this.props.type === 'repeatPasscode') {
+      return this.props.setPin(this.props.formData);
+    }
+    if (this.props.type === 'createPasscode') {
+      this.props.navigateTo('RepeatPasscode');
+    }
+  }
+
+  onChange = (field, text) => {
+    if (field === 'repeatPasscode' && text.length === codeLength) {
+      if (this.props.formData.pin !== text) {
+        this.props.updateFormField('error', true)
+        return this.props.showMessage('error', 'Pin code should be the same');
+      }
+    }
+    this.props.updateFormField('error', false)
+    return this.props.updateFormField(types[this.props.type].field, text);
+  }
+
   render() {
-    const pinCode = get(this.pinInput, 'state.codeArr', null)
+    const field = types[this.props.type].field;
+    const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
+    const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
 
     return <SimpleLayout bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[this.props.type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[this.props.type].text}</Text>
-        <CodeInput
+        <PinInput
           ref={ref => {
             this.pinInput = ref;
           }}
-          codeLength={4}
+          codeLength={codeLength}
           space={19}
           size={60}
           inputPosition='center'
-          onFulfill={() => {
-            
-          }}
           cellBorderWidth={0}
           codeInputStyle={{fontSize: 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
           containerStyle={{marginBottom: 30}}
+          onChangeCode={(code) => this.onChange(this.props.type, code)}
         />
         <CelButton
           white
-          disabled={!pinCode}
-          onPress={() => {
-            if (this.props.nextScreen) {
-              this.props.navigateTo(this.props.nextScreen)
-            } else {
-              this.props.navigateTo(types[this.props.type].nextScreen)
-            }
-          }
-        }>
+          loading={isLoading}
+          disabled={disabled || isLoading}
+          onPress={() => this.onPressButton()}>
           {types[this.props.type].buttonText}
         </CelButton>
       </View>

@@ -3,13 +3,14 @@ import ACTIONS from '../../config/constants/ACTIONS';
 // import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
-  userLocation: undefined,  // Why undefined instead of null?
+  userLocation: undefined,
   user: undefined,
   error: null,
   borrower: undefined,
   agreedToTermsOfUse: true,
   kycStatus: undefined,
   kycDocuments: undefined,
+  isPinSet: null,
 };
 
 export default (state = initialState, action) => {

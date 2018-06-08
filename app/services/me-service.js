@@ -7,6 +7,7 @@ const meService = {
   startKYC,
   createKYCDocuments,
   getKYCDocuments,
+  setPin,
 };
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#76d35f2e-d523-4f2a-858e-ca33cc173f55
@@ -34,5 +35,9 @@ function getKYCDocuments() {
 function createKYCDocuments(documents) {
   return axios.put(`${apiUrl}/me/documents`, documents);
 }
+function setPin(data) {
+  return axios.post(`${apiUrl}/me/pin/set`, data);
+}
+
 
 export default meService;

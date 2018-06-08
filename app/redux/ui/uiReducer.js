@@ -148,7 +148,13 @@ export default (state = initialState, action) => {
         ...state,
         formData: action.formData,
       }
-    //
+      
+    case ACTIONS.CLEAR_FORM:
+      return {
+        ...state,
+        formData: {},
+      }
+
     case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
     return {
       ...state,

@@ -35,6 +35,8 @@ export default {
 
   // wallet api calls
   GET_COIN_ADDRESS: 'GET_COIN_ADDRESS',
+  CHECK_USER_PIN_STATUS: 'CHECK_USER_PIN_STATUS',
+  SET_PIN: 'SET_PIN',
 
   // root api calls
   GET_SUPPORTED_CURRENCIES: 'GET_SUPPORTED_CURRENCIES',
