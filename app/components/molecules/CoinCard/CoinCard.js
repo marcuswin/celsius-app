@@ -9,6 +9,8 @@ import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/Prici
 import StarIcon from "../../atoms/StarIcon/StarIcon";
 import Card from '../../atoms/Card/Card';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import {ELIGIBLE_COINS} from "../../../config/constants/common";
+
 
 
 const {height} = Dimensions.get('window');
@@ -164,7 +166,7 @@ const CoinCard = (props) => {
           </View>
         </Row>
       }
-      {(props.currency.short === "BTC" || props.currency.short === "ETH" || props.currency.short === "CEL" ) &&
+      {(ELIGIBLE_COINS.indexOf(props.currency.short) !== -1) &&
       <Row>
         <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
           <StarIcon/>

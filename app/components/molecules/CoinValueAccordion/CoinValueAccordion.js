@@ -5,6 +5,7 @@ import {Linking, Text} from 'react-native';
 import Accordion from "../Accordion/Accordion";
 import formatter from "../../../utils/formatter";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import {ELIGIBLE_COINS} from "../../../config/constants/common";
 
 class CoinValueAccordion extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ class CoinValueAccordion extends Component {
   // rendering methods
   renderCoinValueText(styles) {
     const { portfolio } = this.props;
-    const btcAndEth = portfolio.filter(p => ['BTC', 'ETH'].indexOf(p.currency.short) !== -1);
+    const btcAndEth = portfolio.filter(p => ELIGIBLE_COINS.indexOf(p.currency.short) !== -1);
 
     let coinValueText = '';
     if (btcAndEth.length) {
