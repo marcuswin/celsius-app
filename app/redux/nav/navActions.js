@@ -1,8 +1,8 @@
 import {NavigationActions, StackActions} from "react-navigation";
 
-function navigateTo(routeName, reset) {
+function navigateTo(routeName, screenProps) {
   return (dispatch) => {
-    if (reset) {
+    if (screenProps === true) {
       dispatch(StackActions.reset({
         index: 0,
         actions: [
@@ -10,7 +10,8 @@ function navigateTo(routeName, reset) {
         ]
       }))
     } else {
-      dispatch(NavigationActions.navigate({routeName}))
+      console.log({ params: screenProps, routeName });
+      dispatch(NavigationActions.navigate({routeName, params: screenProps}))
     }
   }
 }

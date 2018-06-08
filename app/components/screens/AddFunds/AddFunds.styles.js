@@ -22,7 +22,7 @@ const AddFundsStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     textAlign: 'center',
     color: 'white',
-    marginTop: 20,
+    // marginTop: 20,
   },
   imageWrapper: {
     height: 167,
