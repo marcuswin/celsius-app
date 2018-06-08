@@ -23,6 +23,7 @@ import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
 import CryptoForPeopleScreen from "../components/screens/CryptoForPeople/CryptoForPeople";
+import AmountInputScreen from "../components/screens/AmountInput/AmountInput";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -113,6 +114,10 @@ const Navigator = createStackNavigator({
   CryptoForPeople: {
     screen: CryptoForPeopleScreen,
     title: 'CryptoForPeople',
+  },
+  AmountInput: {
+    screen: AmountInputScreen,
+    title: 'AmountInput',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
