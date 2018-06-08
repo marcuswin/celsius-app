@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Clipboard, Share } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -117,7 +117,7 @@ class AddFunds extends Component {
           </View>
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
-              onPress={console.log}
+              onPress={() => Share.share({ message: address, title: 'Wallet address'})}
               style={[AddFundsStyle.buttons, {
                 borderBottomLeftRadius: 8,
                 borderRightWidth: 1,
@@ -140,7 +140,7 @@ class AddFunds extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={console.log}
+              onPress={() => Clipboard.setString(address)}
               style={[AddFundsStyle.buttons, {
                 borderBottomRightRadius: 8,
                 borderLeftWidth: 1,
