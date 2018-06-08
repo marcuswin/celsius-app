@@ -32,7 +32,7 @@ function getKYCDocuments() {
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#10e4b34c-ebc6-4b0f-a0d0-c2fcf97d74c4
 function createKYCDocuments(documents) {
-  return axios.post(`${apiUrl}/me/documents`, documents);
+  return axios.put(`${apiUrl}/me/documents`, documents);
 }
 
 export default meService;
