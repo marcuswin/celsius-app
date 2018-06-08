@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-// import {} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
 import AddCoinsStyle from "./AddCoins.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import {ELIGIBLE_COINS} from "../../../config/constants/common";
 
 
 
@@ -46,9 +45,9 @@ class AddCoins extends Component {
 
   onSelectCoin = (coin) => {
     const {navigateTo} = this.props;
- 
+
       const coinData = [
-          ...this.props.portfolioFormData, 
+          ...this.props.portfolioFormData,
           {
             amount: '',
             currency: {
@@ -68,10 +67,10 @@ class AddCoins extends Component {
 
   renderCoin(coin) {
     let eligible = false;
-    if(['BTC', 'ETH', "CEL"].indexOf(coin.short) !== -1) {
+    if(ELIGIBLE_COINS.indexOf(coin.short) !== -1) {
       eligible = true;
     }
-    
+
 
     return (
       <View key={coin.id} style={AddCoinsStyle.coinWrapper}>

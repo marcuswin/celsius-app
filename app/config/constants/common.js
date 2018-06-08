@@ -18,6 +18,8 @@ export const GENDER = [
   {label: 'Other', value: 'value'}
 ];
 
+export const ELIGIBLE_COINS = ['BTC', 'ETH'];
+
 export const PERSON_TITLE = [
   {label: 'Mr.', value: 'mr'},
   {label: 'Ms.', value: 'ms'},
