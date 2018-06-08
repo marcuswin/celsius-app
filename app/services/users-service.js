@@ -17,7 +17,6 @@ const usersService = {
   getPersonalInfo,
   updateProfileInfo,
   setProfileImage,
-  createKYCDocuments,
 };
 
 function register({ email, password }) {
@@ -142,10 +141,6 @@ function setProfileImage(image) {
   // check if url of base64
   const data = imageUtil.isBase64(image) ? { img_base64: image } : { img_url: image }
   return axios.post(`${apiUrl}/me/profile_image`, data);
-}
-
-function createKYCDocuments(documents) {
-  return axios.post(`${apiUrl}/me/documents`, documents);
 }
 
 export default usersService;

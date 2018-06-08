@@ -21,6 +21,7 @@ import API from "../../../config/constants/API";
   state => ({
     formData: state.ui.formData,
     user: state.users.user,
+    kycDocuments: state.users.kycDocuments,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -29,7 +30,18 @@ import API from "../../../config/constants/API";
 class VerifyProfile extends Component {
   // lifecycle methods
   componentDidMount() {
+    const { getKYCDocuments } = this.props;
+
+    getKYCDocuments();
     this.initForm();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { kycDocuments } = this.props;
+
+    if (kycDocuments && !prevProps.kycDocuments) {
+      this.initForm();
+    }
   }
 
   // event hanlders
@@ -54,9 +66,15 @@ class VerifyProfile extends Component {
   }
 
   initForm = () => {
-    const { initForm, user } = this.props;
+    const { initForm, user, kycDocuments } = this.props;
+    console.log({
+      init: kycDocuments,
+    })
     initForm({
       cellphone: user.cellphone,
+      documentType: kycDocuments ? kycDocuments.type : undefined,
+      front: kycDocuments ? kycDocuments.front : undefined,
+      back: kycDocuments ? kycDocuments.back : undefined,
     })
   }
   // rendering methods

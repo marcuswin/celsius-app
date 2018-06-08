@@ -11,11 +11,13 @@ export {
   updateProfileInfo,
   toggleTermsOfUse,
   updateProfilePicture,
+  getKYCDocuments,
   createKYCDocuments,
   sendVerificationSMS,
   verifySMS,
   verifyKYCDocs,
   finishKYCVerification,
+  startKYC,
 }
 
 function getProfileInfo() {
@@ -98,12 +100,32 @@ function updateProfilePictureSuccess(image) {
   }
 }
 
+function getKYCDocuments(documents) {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_KYC_DOCUMENTS));
+    try {
+      const res = await meService.getKYCDocuments(documents);
+      dispatch(getKYCDocumentsSuccess(res.data));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_KYC_DOCUMENTS, err));
+    }
+  }
+}
+
+function getKYCDocumentsSuccess(documents) {
+  return {
+    type: ACTIONS.GET_KYC_DOCUMENTS_SUCCESS,
+    callName: API.GET_KYC_DOCUMENTS,
+    documents,
+  }
+}
+
 function createKYCDocuments(documents) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
     try {
-      await usersService.createKYCDocuments(documents);
-
+      await meService.createKYCDocuments(documents);
       dispatch(createKYCDocumentsSuccess());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -162,33 +184,81 @@ function verifySMSSuccess() {
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().ui;
+    let callName;
+    let res;
 
-    await dispatch(updateProfileInfo({
-      cellphone: formData.cellphone,
-    }));
-    // await dispatch(createKYCDocuments({
-    //   front: formData.front,
-    //   back: formData.back,
-    //   document_type: formData.documentType,
-    // }));
-    await dispatch(sendVerificationSMS());
-    dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
-    dispatch(showMessage('info', 'SMS sent!'));
+    try {
+      callName = API.UPDATE_USER_PERSONAL_INFO;
+      dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
+      res = await usersService.updateProfileInfo({
+        cellphone: formData.cellphone
+      });
+      dispatch(updateProfileInfoSuccess(res.data));
+
+      callName = API.CREATE_KYC_DOCUMENTS;
+      dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
+      res = await meService.createKYCDocuments({
+        front: formData.front,
+        back: formData.documentType !== 'passport' ? formData.back : undefined,
+        type: formData.documentType,
+      });
+      dispatch(createKYCDocumentsSuccess(res.data));
+
+      callName = API.SEND_VERIFICATION_SMS;
+      dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
+      await meService.sendVerificationSMS();
+      dispatch(sendVerificationSMSSuccess());
+
+      dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
+      dispatch(showMessage('success', 'SMS sent!'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(callName, err));
+    }
   }
 }
 
 function finishKYCVerification() {
   return async (dispatch, getState) => {
     const { formData } = getState().ui;
+    let callName;
 
-    await dispatch(verifySMS(formData.verificationCode));
+    try {
+      callName = API.VERIFY_SMS;
+      dispatch(startApiCall(API.VERIFY_SMS));
+      await meService.verifySMS(formData.verificationCode);
+      dispatch(verifySMSSuccess());
 
-    // await dispatch(startKYC());
-    dispatch({
-      type: ACTIONS.GET_KYC_STATUS_SUCCESS,
-      status: 'pending',
-    });
-    dispatch(NavActions.navigateTo('NoKyc'));
-    dispatch(showMessage('success', 'KYC verification proccess has started!'));
+      callName = API.START_KYC;
+      dispatch(startApiCall(API.START_KYC));
+      await meService.startKYC();
+      dispatch(startKYCSuccess());
+
+      dispatch(NavActions.navigateTo('NoKyc'));
+      dispatch(showMessage('success', 'KYC verification proccess has started!'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(callName, err));
+    }
+  }
+}
+
+function startKYC() {
+  return async dispatch => {
+    dispatch(startApiCall(API.START_KYC));
+    try {
+      // await meService.startKYC();
+      dispatch(startKYCSuccess());
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.START_KYC, err));
+    }
+  }
+}
+
+function startKYCSuccess() {
+  return {
+    type: ACTIONS.START_KYC_SUCCESS,
+    status: 'pending',
   }
 }

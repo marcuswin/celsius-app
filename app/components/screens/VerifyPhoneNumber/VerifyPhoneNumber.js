@@ -61,7 +61,7 @@ class VerifyPhoneNumber extends Component {
           <Text style={VerifyPhoneNumberStyle.title}>
             Verify phone number
           </Text>
-          <Image source={require('../../../../../celsius-app/assets/images/phone_doggirl3x.png')} style={VerifyPhoneNumberStyle.image}/>
+          <Image source={require('../../../../assets/images/phone_doggirl3x.png')} style={VerifyPhoneNumberStyle.image}/>
           <Text style={VerifyPhoneNumberStyle.text}>
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
