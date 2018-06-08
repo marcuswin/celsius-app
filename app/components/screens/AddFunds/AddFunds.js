@@ -16,6 +16,8 @@ import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
 @connect(
   state => ({
     formData: state.ui.formData,
+    btcAddress: state.wallet.addresses.btcAddress,
+    ethAddress: state.wallet.addresses.ethAddress,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -25,8 +27,6 @@ class AddFunds extends Component {
 
     this.state = {
       // initial state
-      wallet_eth: "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
-      wallet_btc: "1Pu6kMoa5BcddHQwjZ253HjAjJtd8M31PS",
       radioItems: [
         { label: 'BTC', value: 'btc' },
         { label: 'ETH', value: 'eth' },
@@ -42,6 +42,18 @@ class AddFunds extends Component {
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { btcAddress, ethAddress } = this.props;
+    const { formData, navigation, getCoinAddress } = nextProps;
+
+    if (!btcAddress && (formData.currency === 'btc' || navigation.getParam('currency') === 'btc')) {
+      getCoinAddress('btc');
+    }
+
+    if (!ethAddress && (formData.currency === 'eth' || navigation.getParam('currency') === 'eth')) {
+      getCoinAddress('eth');
+    }
+  }
   // event hanlders
   // rendering methods
   render() {
@@ -49,13 +61,13 @@ class AddFunds extends Component {
     const { formData, navigation } = this.props;
 
     const currency = navigation.getParam('currency');
-    let wallet;
+    let address;
     let headingText;
     if (currency) {
       headingText = `Add more ${currency.toUpperCase()}`;
-      wallet = this.state[`wallet_${currency.toLowerCase()}`];
+      address = this.props[`${currency.toLowerCase()}Address`];
     } else {
-      wallet = this.state[`wallet_${formData.currency}`];
+      address = this.props[`${formData.currency}Address`];
       headingText = 'Add funds';
     }
 
@@ -91,7 +103,7 @@ class AddFunds extends Component {
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               <QRCode
-                value={wallet}
+                value={address}
                 size={120}
                 bgColor='black'
                 fgColor='white'
@@ -101,7 +113,7 @@ class AddFunds extends Component {
         </View>
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text style={AddFundsStyle.address}>{ wallet }</Text>
+            <Text style={AddFundsStyle.address}>{ address }</Text>
           </View>
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
