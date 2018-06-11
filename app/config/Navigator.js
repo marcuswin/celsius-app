@@ -23,6 +23,7 @@ import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
 import WalletLandingScreen from "../components/screens/WalletLanding/WalletLanding";
+import WalletDetailsScreen from "../components/screens/WalletDetails/WalletDetails";
 import PortfolioScreen from "../components/screens/Portfolio/Portfolio";
 import CryptoForPeopleScreen from "../components/screens/CryptoForPeople/CryptoForPeople";
 import AmountInputScreen from "../components/screens/AmountInput/AmountInput";
@@ -120,6 +121,10 @@ const Navigator = createStackNavigator({
   WalletLanding: {
     screen: WalletLandingScreen,
     title: 'WalletLanding',
+  },
+  WalletDetails: {
+    screen: WalletDetailsScreen,
+    title: 'WalletDetails',
   },
   Portfolio: {
     screen: PortfolioScreen,
