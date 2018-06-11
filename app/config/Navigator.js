@@ -136,6 +136,7 @@ const Navigator = createStackNavigator({
   TransactionConfirmation: {
     screen: TransactionConfirmationScreen,
     title: 'TransactionConfirmation',
+  },
   CreatePasscode: {
     screen: CreatePasscodeScreen,
     title: 'CreatePasscode',
