@@ -8,7 +8,7 @@ const walletService = {
   getCoinTransactions,
   getCoinGraphData,
   getAllTransactions,
-  withdrawFunds,
+  withdrawCrypto,
   getTransaction,
 };
 
@@ -36,7 +36,7 @@ function getAllTransactions() {
   return axios.get(`${apiUrl}/transactions`);
 }
 
-function withdrawFunds(coin, amount) {
+function withdrawCrypto(coin, amount) {
   return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount });
 }
 

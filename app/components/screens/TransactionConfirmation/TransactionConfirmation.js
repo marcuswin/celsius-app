@@ -12,10 +12,13 @@ import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import formatter from "../../../utils/formatter";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../config/constants/API";
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -31,15 +34,21 @@ class TransactionConfirmation extends Component {
 
   // lifecycle methods
   // event hanlders
+  confirmWithdrawal = () => {
+    const { formData, withdrawCrypto } = this.props;
+    withdrawCrypto(formData.currency, formData.amountCrypto);
+  }
   // rendering methods
   render() {
-    const { formData } = this.props;
+    const { formData, callsInProgress } = this.props;
 
     const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
     const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
 
     const balanceCrypto = formData.balance - formData.amountCrypto;
     const balanceUsd = balanceCrypto * formData.rateUsd;
+
+    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO], callsInProgress);
 
     return (
       <BasicLayout
@@ -73,8 +82,10 @@ class TransactionConfirmation extends Component {
           </View>
 
           <CelButton
-            onPress={() => (console.log())}
+            onPress={this.confirmWithdrawal}
             margin='50 36 50 36'
+            loading={isLoading}
+            disabled={isLoading}
           >
             Confirm withdrawal
           </CelButton>
