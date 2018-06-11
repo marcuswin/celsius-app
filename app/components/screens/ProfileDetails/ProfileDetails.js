@@ -69,8 +69,6 @@ class ProfileDetails extends Component {
         gender: formData.gender,
       }
 
-      console.log(updatedUser);
-
       updateProfileInfo(updatedUser);
     }
   }

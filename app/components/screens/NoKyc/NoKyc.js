@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Image, Linking, Text, View } from "react-native";
-// import {} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -8,11 +7,11 @@ import * as actions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
-
+import { KYC_STATUSES } from "../../../config/constants/common";
 
 @connect(
   state => ({
-    kycStatus: state.users.user.kyc.status,
+    kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -143,11 +142,13 @@ class NoKyc extends Component {
     const { kycStatus } = this.props;
 
     switch (kycStatus) {
-      case 'pending':
+      case KYC_STATUSES.pending:
+      case KYC_STATUSES.sending:
+      case KYC_STATUSES.sent:
         return this.renderPending();
-      case 'rejected':
+      case KYC_STATUSES.failed:
         return this.renderRejected();
-      case 'collecting':
+      case KYC_STATUSES.collecting:
       default:
         return this.renderNotStarted();
     }

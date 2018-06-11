@@ -5,6 +5,7 @@ import * as NavActions from '../nav/navActions';
 import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
+import { KYC_STATUSES } from "../../config/constants/common";
 
 export {
   getProfileInfo,
@@ -259,6 +260,8 @@ function startKYC() {
 function startKYCSuccess() {
   return {
     type: ACTIONS.START_KYC_SUCCESS,
-    status: 'pending',
+    kyc: {
+      status: KYC_STATUSES.pending
+    },
   }
 }
