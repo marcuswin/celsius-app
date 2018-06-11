@@ -33,7 +33,7 @@ function getCoinGraphData(coin, time = '7d') {
 }
 
 function getAllTransactions() {
-  return axios.get(`${apiUrl}/transactions`);
+  return axios.get(`${apiUrl}/wallet/transactions`);
 }
 
 function withdrawCrypto(coin, amount) {

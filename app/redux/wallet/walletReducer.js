@@ -5,11 +5,15 @@ function initialState() {
       addresses: {
         ethAddress: undefined,
         btcAddress: undefined,
-      }
+      },
+      transactions: {},
+      activeTransactionId: undefined
     };
 }
 
 export default function walletReducer($$state = initialState(), action) {
+    const newTransactions = {};
+
     switch (action.type) {
       case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
           return {
@@ -18,6 +22,28 @@ export default function walletReducer($$state = initialState(), action) {
               ...$$state.addresses,
               ...action.address
             }
+          };
+
+      case ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS:
+      case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
+          return {
+            ...$$state,
+            transactions: {
+              ...$$state.transactions,
+              [action.transaction.transaction_id]: action.transaction,
+            },
+            activeTransactionId: action.transaction.transaction_id,
+          };
+
+      case ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS:
+      case ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS:
+          action.transactions.forEach(t => { newTransactions[t.id] = t });
+          return {
+            ...$$state,
+            transactions: {
+              ...$$state.transactions,
+              ...newTransactions,
+            },
           };
 
     default:

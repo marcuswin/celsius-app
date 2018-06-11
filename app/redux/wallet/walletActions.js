@@ -32,7 +32,6 @@ export function withdrawCrypto(coin, amount) {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
       const res = await walletService.withdrawCrypto(coin, amount);
-      console.log(res.data.transaction);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
@@ -46,5 +45,71 @@ function withdrawCryptoSuccess(transaction) {
     type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
     callName: ACTIONS.WITHDRAW_CRYPTO,
     transaction,
+  }
+}
+
+export function getTransactionDetails(transactionId) {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
+
+      const res = await walletService.getTransaction(transactionId);
+      dispatch(getTransactionDetailsSuccess(res.data.transaction));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_TRANSACTION_DETAILS, err));
+    }
+  }
+}
+
+function getTransactionDetailsSuccess(transaction) {
+  return {
+    type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
+    callName: ACTIONS.GET_TRANSACTION_DETAILS,
+    transaction,
+  }
+}
+
+export function getCoinTransactions(coin) {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_COIN_TRANSACTIONS));
+
+      const res = await walletService.getCoinTransactions(coin);
+      dispatch(getCoinTransactionsSuccess(res.data.transactions));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_COIN_TRANSACTIONS, err));
+    }
+  }
+}
+
+function getCoinTransactionsSuccess(transactions) {
+  return {
+    type: ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS,
+    callName: ACTIONS.GET_COIN_TRANSACTIONS,
+    transactions,
+  }
+}
+
+export function getAllTransactions() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_ALL_TRANSACTIONS));
+
+      const res = await walletService.getAllTransactions();
+      dispatch(getAllTransactionsSuccess(res.data.transactions));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ALL_TRANSACTIONS, err));
+    }
+  }
+}
+
+function getAllTransactionsSuccess(transactions) {
+  return {
+    type: ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS,
+    callName: ACTIONS.GET_ALL_TRANSACTIONS,
+    transactions,
   }
 }
