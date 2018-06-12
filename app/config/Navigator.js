@@ -31,6 +31,9 @@ import TransactionConfirmationScreen from "../components/screens/TransactionConf
 import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode";
 import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
 import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
+
+import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
+
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -153,6 +156,10 @@ const Navigator = createStackNavigator({
   EnterPasscode: {
     screen: EnterPasscodeScreen,
     title: 'EnterPasscode',
+  },
+  TransactionDetails: {
+    screen: TransactionDetailsScreen,
+    title: 'TransactionDetails',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
