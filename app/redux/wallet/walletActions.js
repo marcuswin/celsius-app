@@ -4,6 +4,50 @@ import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 
+export function getWalletDetails() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_WALLET_DETAILS));
+
+      const res = await walletService.getWalletDetails()
+      dispatch(getWalletDetailsSuccess(res.data));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_WALLET_DETAILS, err));
+    }
+  }
+}
+
+function getWalletDetailsSuccess(walletBalance) {
+  return {
+    type: ACTIONS.GET_WALLET_DETAILS_SUCCESS,
+    callName: API.GET_WALLET_DETAILS,
+    walletBalance,
+  }
+}
+
+export function getCoinBalance(coin) {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_COIN_BALANCE));
+
+      const res = await walletService.getCoinBalance(coin);
+      dispatch(getCoinBalanceSuccess(res.data));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_COIN_BALANCE, err));
+    }
+  }
+}
+
+function getCoinBalanceSuccess(coinBalance) {
+  return {
+    type: ACTIONS.GET_COIN_BALANCE_SUCCESS,
+    callName: API.GET_COIN_BALANCE,
+    coinBalance,
+  }
+}
+
 export function getCoinAddress(coin) {
   return async dispatch => {
     try {
@@ -21,7 +65,7 @@ export function getCoinAddress(coin) {
 function getCoinAddressSuccess(address) {
   return {
     type: ACTIONS.GET_COIN_ADDRESS_SUCCESS,
-    callName: ACTIONS.GET_COIN_ADDRESS,
+    callName: API.GET_COIN_ADDRESS,
     address,
   }
 }
@@ -43,7 +87,7 @@ export function withdrawCrypto(coin, amount) {
 function withdrawCryptoSuccess(transaction) {
   return {
     type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-    callName: ACTIONS.WITHDRAW_CRYPTO,
+    callName: API.WITHDRAW_CRYPTO,
     transaction,
   }
 }
@@ -65,7 +109,7 @@ export function getTransactionDetails(transactionId) {
 function getTransactionDetailsSuccess(transaction) {
   return {
     type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
-    callName: ACTIONS.GET_TRANSACTION_DETAILS,
+    callName: API.GET_TRANSACTION_DETAILS,
     transaction,
   }
 }
@@ -87,7 +131,7 @@ export function getCoinTransactions(coin) {
 function getCoinTransactionsSuccess(transactions) {
   return {
     type: ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS,
-    callName: ACTIONS.GET_COIN_TRANSACTIONS,
+    callName: API.GET_COIN_TRANSACTIONS,
     transactions,
   }
 }
@@ -109,7 +153,7 @@ export function getAllTransactions() {
 function getAllTransactionsSuccess(transactions) {
   return {
     type: ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS,
-    callName: ACTIONS.GET_ALL_TRANSACTIONS,
+    callName: API.GET_ALL_TRANSACTIONS,
     transactions,
   }
 }

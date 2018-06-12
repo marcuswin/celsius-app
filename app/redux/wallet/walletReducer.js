@@ -2,6 +2,13 @@ import ACTIONS from '../../config/constants/ACTIONS';
 
 function initialState() {
     return {
+      balance: {
+        totalUsd: 0,
+        eth: 0,
+        ethUsd: 0,
+        btc: 0,
+        btcUsd: 0,
+      },
       addresses: {
         ethAddress: undefined,
         btcAddress: undefined,
@@ -45,6 +52,30 @@ export default function walletReducer($$state = initialState(), action) {
               ...newTransactions,
             },
           };
+
+      case ACTIONS.GET_WALLET_DETAILS_SUCCESS:
+        return {
+          ...$$state,
+          balance: {
+            totalUsd: action.walletBalance.balance,
+            eth: action.walletBalance.eth.amount,
+            ethUsd: action.walletBalance.eth.amount_usd,
+            btc: action.walletBalance.btc.amount,
+            btcUsd: action.walletBalance.btc.amount_usd,
+          }
+        }
+
+      case ACTIONS.GET_COIN_BALANCE_SUCCESS:
+        return {
+          ...$$state,
+          balance: {
+            ...$$state.balance,
+            eth: action.coinBalance.eth_balance !== undefined ? action.coinBalance.eth_balance : $$state.balance.eth,
+            ethUsd: action.coinBalance.eth_balance_usd !== undefined ? action.coinBalance.eth_balance_usd : $$state.balance.ethUsd,
+            btc: action.coinBalance.btc_balance !== undefined ? action.coinBalance.btc_balance : $$state.balance.btc,
+            btcUsd: action.coinBalance.btc_balance_usd !== undefined ? action.coinBalance.btc_balance_usd : $$state.balance.btcUsd,
+          }
+        }
 
     default:
         return { ...$$state };
