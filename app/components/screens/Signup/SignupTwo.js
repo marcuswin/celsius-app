@@ -64,7 +64,7 @@ class SignupTwo extends Component {
       firstName: user && user.first_name ? user.first_name : undefined,
       email: user && user.email ? user.email : undefined,
       lastName: user && user.last_name ? user.last_name : undefined,
-      country: userLocation ? countries[userLocation] : undefined,
+      country: userLocation ? countries[userLocation].name : undefined,
     })
   }
 
@@ -92,8 +92,8 @@ class SignupTwo extends Component {
     const { formData, user, updateUser, registerUserTwitter, registerUserFacebook, registerUserGoogle } = this.props;
 
     const data = { ...formData};
-    data.country = formData.country.name;
-    data.countryAlpha3 = formData.country.alpha3;
+    data.country = formData.country;
+    data.countryAlpha3 = countries.all.filter(c => c.name === formData.country)[0].alpha3;
 
     // update user
     if (user && user.id) {
@@ -151,7 +151,7 @@ class SignupTwo extends Component {
               />
             : null}
 
-            <CelSelect field="country" labelText="Country" type="country" value={country ? country.name : null} />
+            <CelSelect field="country" labelText="Country" type="country" value={country} />
 
             <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
               <CelCheckbox
