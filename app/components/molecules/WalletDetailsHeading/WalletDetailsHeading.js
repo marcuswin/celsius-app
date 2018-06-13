@@ -27,7 +27,7 @@ class WalletDetailsHeading extends Component {
   
 
   static Proptypes = {
-    type: Proptypes.oneOfType(['total', 'single-coin']),
+    type: Proptypes.oneOf(['total', 'single-coin']),
     onPressPrevious: Proptypes.func,
     onPressNext: Proptypes.func,
   }
