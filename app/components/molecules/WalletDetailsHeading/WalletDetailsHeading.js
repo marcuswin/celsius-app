@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Proptypes from 'prop-types';
 
+
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
+
 
 import * as actions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
@@ -36,6 +38,7 @@ class WalletDetailsHeading extends Component {
 
   render() {
 
+
     const coin = {
       totalUSD: 6332900,
       amount: 500,
@@ -51,7 +54,7 @@ class WalletDetailsHeading extends Component {
           {type === 'single-coin' && <Icon name={`Icon${coin.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{opacity: .6}} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
             {type === 'single-coin'
-              ? `${formatter.crypto(coin.coinAmount)} ${coin.short}`
+              ? `${formatter.crypto(coin.amount)} ${coin.short}`
               : 'TOTAL AMOUNT'
             }
           </Text>

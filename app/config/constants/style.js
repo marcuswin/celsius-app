@@ -43,6 +43,7 @@ export const STYLES = {
   GRAY_5: '#CED1D4',
   GRAY_6: '#C8C8C8',
   GRAY_7: '#899099',
+  YELLOW: '#E19F30',
 };
 
 export const GLOBAL_STYLE_DEFINITIONS = {

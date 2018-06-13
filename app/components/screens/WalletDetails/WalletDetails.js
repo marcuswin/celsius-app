@@ -9,6 +9,8 @@ import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import Message from "../../atoms/Message/Message";
 import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDetailsHeading";
+import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 
 @connect(
@@ -34,7 +36,10 @@ class WalletDetails extends Component {
         <WalletDetailsHeading />
         <Message />
 
-        <Content style={{ paddingLeft: 40, paddingRight: 40 }} />
+        <Content style={{ paddingLeft: 40, paddingRight: 40 }}>
+          <TransactionsHistory />
+          <CelButton margin={'40 0 70 0'} onPress={() => {}}>Withdraw</CelButton>
+        </Content>
       </BasicLayout>
     )
   }
