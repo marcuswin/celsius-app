@@ -5,17 +5,20 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as actions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
 import TransactionConfirmationStyle from "./TransactionConfirmation.styles";
 import AmountInputStyle from "../AmountInput/AmountInput.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
+import formatter from "../../../utils/formatter";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../config/constants/API";
 
 @connect(
-  () => ({
-  // map state to props
+  state => ({
+    formData: state.ui.formData,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -31,8 +34,22 @@ class TransactionConfirmation extends Component {
 
   // lifecycle methods
   // event hanlders
+  confirmWithdrawal = () => {
+    const { formData, withdrawCrypto } = this.props;
+    withdrawCrypto(formData.currency, formData.amountCrypto);
+  }
   // rendering methods
   render() {
+    const { formData, callsInProgress } = this.props;
+
+    const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
+    const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
+
+    const balanceCrypto = formData.balance - formData.amountCrypto;
+    const balanceUsd = balanceCrypto * formData.rateUsd;
+
+    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO], callsInProgress);
+
     return (
       <BasicLayout
         bottomNavigation={false}
@@ -44,14 +61,14 @@ class TransactionConfirmation extends Component {
             <Text
               style={AmountInputStyle.fiatAmount}
             >
-              $ 0.00
+              { mainAmountText }
             </Text>
-            <Text style={AmountInputStyle.cryptoAmount}>1.56997ETH</Text>
+            <Text style={AmountInputStyle.cryptoAmount}>{ secondaryAmountText }</Text>
             <View style={AmountInputStyle.separator}/>
             <View style={AmountInputStyle.newBalance}>
               <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
-              <Text style={AmountInputStyle.newBalanceText}> 96.5599 ETH =</Text>
-              <Text style={AmountInputStyle.newBalanceText}> $ 60.829,00</Text>
+              <Text style={AmountInputStyle.newBalanceText}>{ formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 }) } = </Text>
+              <Text style={AmountInputStyle.newBalanceText}>{ formatter.usd(balanceUsd) }</Text>
             </View>
           </View>
 
@@ -65,8 +82,10 @@ class TransactionConfirmation extends Component {
           </View>
 
           <CelButton
-            onPress={() => (console.log())}
+            onPress={this.confirmWithdrawal}
             margin='50 36 50 36'
+            loading={isLoading}
+            disabled={isLoading}
           >
             Confirm withdrawal
           </CelButton>

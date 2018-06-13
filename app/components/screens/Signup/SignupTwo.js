@@ -174,7 +174,7 @@ class SignupTwo extends Component {
               white
               iconRight="IconArrowRight"
             >
-              I'm done
+              Create passcode
             </CelButton>
           </View>
         </View>

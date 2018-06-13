@@ -15,8 +15,8 @@ function cel(amount) {
   return currency.format(amount, { precision: 0, thousand: ',', symbol: 'CEL', format: '%v %s' })
 }
 
-function crypto(amount, cryptocurrency) {
-  return currency.format(amount, { precision: 2, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
+function crypto(amount, cryptocurrency, options = {}) {
+  return currency.format(amount, { precision: options.precision || 2, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
 }
 
 function ordinalSuffixOf (number) {

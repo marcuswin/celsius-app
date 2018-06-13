@@ -13,7 +13,7 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
-const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails'];
+const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'Home'];
 
 @connect(
   state => ({
@@ -32,7 +32,7 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItemsLeft: [
-      { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
+      { label: 'Portfolio', screen: 'Portfolio', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
     ],
     navItemsRight: [

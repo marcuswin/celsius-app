@@ -1,21 +1,23 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-// import {} from 'native-base';
+import { Text, View, TouchableOpacity, Clipboard, Share } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 
 import * as actions from "../../../redux/actions";
-import { GLOBAL_STYLE_DEFINITIONS, STYLES } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import AddFundsStyle from "./AddFunds.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
+import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
 
 
 @connect(
-  () => ({
-    // map state to props
+  state => ({
+    formData: state.ui.formData,
+    btcAddress: state.wallet.addresses.btcAddress,
+    ethAddress: state.wallet.addresses.ethAddress,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -25,36 +27,80 @@ class AddFunds extends Component {
 
     this.state = {
       // initial state
-      address: "0xbb9bc244d798123fde783fcc1c72d3bb8c189413"
+      radioItems: [
+        { label: 'BTC', value: 'btc' },
+        { label: 'ETH', value: 'eth' },
+      ],
     };
-    // binders
+
+    const currency = props.navigation.getParam('currency');
+    if (!currency) {
+      props.initForm({
+        currency: 'eth',
+      })
+    }
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { btcAddress, ethAddress } = this.props;
+    const { formData, navigation, getCoinAddress } = nextProps;
+
+    if (!btcAddress && (formData.currency === 'btc' || navigation.getParam('currency') === 'btc')) {
+      getCoinAddress('btc');
+    }
+
+    if (!ethAddress && (formData.currency === 'eth' || navigation.getParam('currency') === 'eth')) {
+      getCoinAddress('eth');
+    }
+  }
   // event hanlders
   // rendering methods
   render() {
-    const { address } = this.state;
+    const { radioItems } = this.state;
+    const { formData, navigation } = this.props;
+
+    const currency = navigation.getParam('currency');
+    let address;
+    let headingText;
+    if (currency) {
+      headingText = `Add more ${currency.toUpperCase()}`;
+      address = this.props[`${currency.toLowerCase()}Address`];
+    } else {
+      address = this.props[`${formData.currency}Address`];
+      headingText = 'Add funds';
+    }
+
     return (
       <SimpleLayout
-        animatedHeading={{ text: "Add Funds", textAlign: "center" }}
+        animatedHeading={{ text: headingText, textAlign: "center" }}
         background={STYLES.PRIMARY_BLUE}
         bottomNavigation={false}
       >
-        <Text style={AddFundsStyle.textOne}>
-          Transfer your coins from another wallet by selecting the coin you want to transfer.
-        </Text>
+
+        { currency ? (
+          <Text style={AddFundsStyle.textOne}>
+            Use the wallet address below to transfer { currency.toUpperCase() } to your unique Celsius wallet address.
+          </Text>
+        ) : (
+          <Text style={AddFundsStyle.textOne}>
+            Transfer your coins from another wallet by selecting the coin you want to transfer.
+          </Text>
+        )}
+
+        { !currency ? (
+          <View style={AddFundsStyle.radioWrapper}>
+            <RadioButtons field='currency' items={radioItems} value={formData.currency} />
+          </View>
+        ) : null }
+
         <View style={AddFundsStyle.imageWrapper}>
           <View style={AddFundsStyle.wrapperLogo}>
             <View style={AddFundsStyle.celsiusLogo}>
-              <Icon name='CelsiusLogoV2'
-                    width='46' height='46' viewBox="0 0 49 49"
-                    fill='#FFFFFF'
-              />
+              <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF'/>
             </View>
           </View>
-          <View style={[GLOBAL_STYLE_DEFINITIONS.centeredColumn, AddFundsStyle.qrCode
-          ]}>
+          <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               <QRCode
                 value={address}
@@ -67,13 +113,11 @@ class AddFunds extends Component {
         </View>
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text style={AddFundsStyle.address}>
-              0xbb9bc244d798123fde783fcc1c72d3bb8c189413
-            </Text>
+            <Text style={AddFundsStyle.address}>{ address }</Text>
           </View>
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
-              onPress={console.log}
+              onPress={() => Share.share({ message: address, title: 'Wallet address'})}
               style={[AddFundsStyle.buttons, {
                 borderBottomLeftRadius: 8,
                 borderRightWidth: 1,
@@ -96,7 +140,7 @@ class AddFunds extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={console.log}
+              onPress={() => Clipboard.setString(address)}
               style={[AddFundsStyle.buttons, {
                 borderBottomRightRadius: 8,
                 borderLeftWidth: 1,
@@ -119,10 +163,20 @@ class AddFunds extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={AddFundsStyle.textTwo}>
-          Please keep in mind that you'll only be able to withdraw ETH to the original wallet you sent us ETH from but
-          anyone can send ETH to the address above.
+        <Text style={[AddFundsStyle.textTwo, { marginTop: 20, marginBottom: 25 }]}>
+          Please keep in mind that you'll only be able to withdraw ETH to the original wallet you sent us ETH from but anyone can send ETH to the address above.
         </Text>
+
+        <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 8, padding: 16 }}>
+          <Text style={AddFundsStyle.textTwo}>
+            For your security, if you would like to withdraw more than
+            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $50,000 </Text>
+            worth of ETH you will be required to contact us at
+            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> app@celsius.network </Text>
+            so that we can verify your identity prior to transferring your funds.
+          </Text>
+        </View>
+
         <CelButton
           inverse
           white

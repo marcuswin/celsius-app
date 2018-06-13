@@ -10,13 +10,19 @@ const AddFundsStyle = StyleSheet.create({
     color: 'white',
     marginTop: -10,
   },
+  radioWrapper: {
+    marginTop: 25,
+    marginBottom: 15,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
   textTwo: {
     fontWeight: '300',
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
     textAlign: 'center',
     color: 'white',
-    marginTop: 20,
+    // marginTop: 20,
   },
   imageWrapper: {
     height: 167,

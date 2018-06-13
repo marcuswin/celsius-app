@@ -11,6 +11,7 @@ export {
   retakePhoto,
   // submitForm,
   initForm,
+  clearForm,
   updateFormField,
   updatePortfolioFormData,
 }
@@ -89,6 +90,12 @@ function initForm(formData) {
   return {
     type: ACTIONS.INIT_FORM,
     formData,
+  }
+}
+
+function clearForm() {
+  return {
+    type: ACTIONS.CLEAR_FORM,
   }
 }
 

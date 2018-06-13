@@ -22,9 +22,18 @@ import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/Ver
 import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
+import WalletLandingScreen from "../components/screens/WalletLanding/WalletLanding";
+import WalletDetailsScreen from "../components/screens/WalletDetails/WalletDetails";
+import PortfolioScreen from "../components/screens/Portfolio/Portfolio";
 import CryptoForPeopleScreen from "../components/screens/CryptoForPeople/CryptoForPeople";
 import AmountInputScreen from "../components/screens/AmountInput/AmountInput";
 import TransactionConfirmationScreen from "../components/screens/TransactionConfirmation/TransactionConfirmation";
+import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode";
+import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
+import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
+
+import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
+
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -112,6 +121,18 @@ const Navigator = createStackNavigator({
     screen: AddFundsScreen,
     title: 'AddFunds',
   },
+  WalletLanding: {
+    screen: WalletLandingScreen,
+    title: 'WalletLanding',
+  },
+  WalletDetails: {
+    screen: WalletDetailsScreen,
+    title: 'WalletDetails',
+  },
+  Portfolio: {
+    screen: PortfolioScreen,
+    title: 'Portfolio',
+  },
   CryptoForPeople: {
     screen: CryptoForPeopleScreen,
     title: 'CryptoForPeople',
@@ -123,6 +144,22 @@ const Navigator = createStackNavigator({
   TransactionConfirmation: {
     screen: TransactionConfirmationScreen,
     title: 'TransactionConfirmation',
+  },
+  CreatePasscode: {
+    screen: CreatePasscodeScreen,
+    title: 'CreatePasscode',
+  },
+  RepeatPasscode: {
+    screen: RepeatPasscodeScreen,
+    title: 'RepeatPasscode',
+  },
+  EnterPasscode: {
+    screen: EnterPasscodeScreen,
+    title: 'EnterPasscode',
+  },
+  TransactionDetails: {
+    screen: TransactionDetailsScreen,
+    title: 'TransactionDetails',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
