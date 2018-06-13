@@ -11,8 +11,8 @@ const TransactionHistoryStyles = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     fontFamily: 'agile-light',
     color: COLORS.GRAY_2,
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
   },
   listItem: {
     marginLeft: 0,
