@@ -12,6 +12,12 @@ import { KYC_STATUSES } from "../../../config/constants/common";
 @connect(
   state => ({
     kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
+    kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
+    // kycStatus: KYC_STATUSES.failed,
+    // kycErrors: [
+    //   'Photo shitty',
+    //   'Name doesnt exist'
+    // ],
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -69,7 +75,7 @@ class NoKyc extends Component {
   }
 
   renderRejected() {
-    const {navigateTo} = this.props;
+    const {navigateTo, kycErrors} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -85,15 +91,18 @@ class NoKyc extends Component {
           <View style={NoKycStyle.circleRed}/>
           <Text style={NoKycStyle.redText}>Rejected</Text>
         </View>
-        <Text style={[NoKycStyle.textOne]}>
+        <Text style={[NoKycStyle.textOne, { marginBottom: 10}]}>
           Profile verification failed
         </Text>
-        <Text style={[NoKycStyle.textTwo, {marginBottom: 20, marginTop: 10}]}>
-          Document photo is in a low-resolution and not readable enough. Please, go through the KYC process again, or contact <Text onPress={()=> Linking.openURL('mailto:hello@celsius.network')} style={NoKycStyle.textButton}>Celsius support.</Text>
+        { kycErrors.map(e => (
+          <Text key={e} style={[NoKycStyle.textTwo, { marginTop: 5, marginBottom: 0 }]}>{ e }</Text>
+        )) }
+        <Text style={[NoKycStyle.textTwo, { marginTop: 10, marginBottom: 0 }]}>
+          Please, go through the KYC process again, or contact <Text onPress={()=> Linking.openURL('mailto:hello@celsius.network')} style={NoKycStyle.textButton}>Celsius support.</Text>
         </Text>
         <CelButton
           onPress={() => navigateTo('ProfileDetails')}
-          margin='0 50 30 50'
+          margin='20 50 30 50'
         >
           Verify Again
         </CelButton>

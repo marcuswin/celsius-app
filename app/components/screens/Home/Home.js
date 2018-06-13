@@ -6,6 +6,7 @@ import * as actions from "../../../redux/actions";
 import WalletLanding from "../WalletLanding/WalletLanding";
 import NoKyc from "../NoKyc/NoKyc";
 import CreatePasscode from "../Passcode/CreatePasscode";
+import { KYC_STATUSES } from "../../../config/constants/common";
 
 
 @connect(
@@ -13,7 +14,7 @@ import CreatePasscode from "../Passcode/CreatePasscode";
     nav: state.nav,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
-    kycStatus: undefined,
+    kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -24,7 +25,7 @@ class HomeScreen extends Component {
 
     if (!this.props.user.has_pin) return <CreatePasscode />
 
-    return (this.props.kycStatus === 'completed') ? <WalletLanding /> : <NoKyc />
+    return (this.props.kycStatus === 'passed') ? <WalletLanding /> : <NoKyc />
   }
 }
 
