@@ -83,7 +83,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../assets/images/wallet-bear3x.png')} style={[NoKycStyle.image, {marginTop: 5 }]}/>
+        <Image source={require('../../../../assets/images/bear-NoKYC3x.png')} style={[NoKycStyle.image, {marginTop: 5 }]}/>
         <Text style={[NoKycStyle.textThree, {marginTop: -5}]}>
           Profile verification status:
         </Text>

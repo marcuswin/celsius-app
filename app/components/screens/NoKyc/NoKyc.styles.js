@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 const NoKycStyle = StyleSheet.create({
   image: {
     width: width / 2.7,
-    height: width / 2.55,
+    height: width / 2.57,
     marginTop: 15,
     marginBottom: 20,
     marginLeft: 'auto',
