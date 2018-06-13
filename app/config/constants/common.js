@@ -19,6 +19,14 @@ export const GENDER = [
 ];
 
 export const ELIGIBLE_COINS = ['BTC', 'ETH'];
+export const KYC_STATUSES = {
+  collecting: 'collecting',
+  pending: 'pending',
+  sending: 'sending',
+  sent: 'sent',
+  passed: 'passed',
+  failed: 'failed',
+};
 
 export const PERSON_TITLE = [
   {label: 'Mr.', value: 'mr'},
