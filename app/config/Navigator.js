@@ -34,6 +34,7 @@ import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
 
 import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
 
+import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -160,6 +161,10 @@ const Navigator = createStackNavigator({
   TransactionDetails: {
     screen: TransactionDetailsScreen,
     title: 'TransactionDetails',
+  },
+  WalletTotals: {
+    screen: WalletTotalsScreen,
+    title: 'WalletTotals',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
