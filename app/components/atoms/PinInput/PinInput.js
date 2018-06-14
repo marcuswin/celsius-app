@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, StyleSheet, ViewPropTypes } from 'react-native';
 import _ from 'lodash';
@@ -41,12 +41,12 @@ export default class ConfirmationCodeInput extends Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
       codeArr: new Array(this.props.codeLength).fill(''),
       currentIndex: 0,
     };
-    
+
     this.codeInputRefs = [];
   }
 
@@ -54,7 +54,7 @@ export default class ConfirmationCodeInput extends Component {
     const { defaultCode } = this.props;
 
     this.setState({
-        codeArr: _.split(defaultCode, '')
+      codeArr: _.split(defaultCode, '')
     });
 
   }
@@ -73,13 +73,13 @@ export default class ConfirmationCodeInput extends Component {
         newCodeArr[i] = '';
       }
 
-    /* eslint-enable */
+      /* eslint-enable */
     }
 
     if (onChangeCode) {
       onChangeCode(newCodeArr.join(''));
     }
-    
+
     this.setState({
       codeArr: newCodeArr,
       currentIndex: index
@@ -99,10 +99,10 @@ export default class ConfirmationCodeInput extends Component {
     // eslint-disable-next-line
     let newCodeArr = _.clone(this.state.codeArr);
     newCodeArr[index] = character;
-    
+
     if (index === codeLength - 1) {
       const code = newCodeArr.join('');
-      
+
       this.blur(this.state.currentIndex);
 
       if (onChangeCode) {
@@ -127,7 +127,7 @@ export default class ConfirmationCodeInput extends Component {
       ...this.getInputSpaceStyle(space),
       color: activeColor
     };
-    
+
     switch (className) {
       case 'clear':
         return _.merge(classStyle, { borderWidth: 0 });
@@ -202,8 +202,8 @@ export default class ConfirmationCodeInput extends Component {
         };
       case 'center':
         return {
-          marginRight: space/2,
-          marginLeft: space/2
+          marginRight: space / 2,
+          marginLeft: space / 2
         };
       case 'right':
         return {
@@ -240,12 +240,12 @@ export default class ConfirmationCodeInput extends Component {
       size,
       activeColor
     } = this.props;
-    
+
     const initialCodeInputStyle = {
       width: size,
       height: size
     };
-    
+
     const codeInputs = [];
     for (let i = 0; i < codeLength; i++) {
       const id = i;
@@ -254,14 +254,14 @@ export default class ConfirmationCodeInput extends Component {
           key={id}
           ref={ref => (this.codeInputRefs[id] = ref)}
           style={[
-            styles.codeInput, 
-            initialCodeInputStyle, 
+            styles.codeInput,
+            initialCodeInputStyle,
             this.getClassStyle(className, this.state.currentIndex === id),
             codeInputStyle
           ]}
           underlineColorAndroid="transparent"
           selectionColor={activeColor}
-          keyboardType={'name-phone-pad'}
+          keyboardType={'numeric'}
           returnKeyType={'done'}
           {...this.props}
           autoFocus={autoFocus && id === 0}
@@ -273,7 +273,7 @@ export default class ConfirmationCodeInput extends Component {
         />
       )
     }
-    
+
     return (
       <View style={[styles.container, this.getContainerStyle(size, inputPosition), containerStyle]}>
         {codeInputs}
