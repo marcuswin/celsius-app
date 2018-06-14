@@ -19,7 +19,6 @@ const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'Home'];
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
-    kycStatus: undefined,
     screenHeight: state.ui.dimensions.screenHeight,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -82,7 +81,7 @@ class BottomNavigation extends Component {
   }
 
   render() {
-    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight, activeScreen, navigateTo, kycStatus } = this.props;
+    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight, activeScreen, navigateTo } = this.props;
 
     const styles = {
       height: bottomNavigationDimensions.height,
@@ -98,8 +97,8 @@ class BottomNavigation extends Component {
 
         <TouchableOpacity
           onPress={ () => {
-            mixpanelActions.navigation(kycStatus === 'completed' ? 'WalletLanding' : 'NoKyc');
-            if (state !== 'Active') navigateTo(kycStatus === 'completed' ? 'WalletLanding' : 'NoKyc');
+            mixpanelActions.navigation('Home');
+            if (state !== 'Active') navigateTo('Home');
           }}>
           <View style={BottomNavigationStyle.wallet} >
             <View style={BottomNavigationStyle[`celsius${state}`]}>

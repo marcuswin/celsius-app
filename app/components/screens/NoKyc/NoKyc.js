@@ -13,6 +13,7 @@ import { KYC_STATUSES } from "../../../config/constants/common";
   state => ({
     kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
     kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -25,11 +26,19 @@ class NoKyc extends Component {
         text: 'Wallet',
         subheading: 'Send and receive coins'
       },
-    // binders
    }
+
+   props.getKYCStatus();
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { activeScreen, getKYCStatus } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen && activeScreen === 'NoKyc') {
+      getKYCStatus();
+    }
+  }
   // event hanlders
   // rendering methods
 

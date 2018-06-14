@@ -7,6 +7,7 @@ const meService = {
   startKYC,
   createKYCDocuments,
   getKYCDocuments,
+  getKYCStatus,
   setPin,
 };
 
@@ -24,6 +25,10 @@ function verifySMS(verificationCode) {
 
 function startKYC() {
   return axios.post(`${apiUrl}/me/kyc/start`);
+}
+
+function getKYCStatus() {
+  return axios.get(`${apiUrl}/me/kyc/status`);
 }
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#9dfb9269-c3af-4723-8ec9-f62b380b3892

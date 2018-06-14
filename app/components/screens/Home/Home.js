@@ -24,8 +24,7 @@ class HomeScreen extends Component {
   render() {
 
     if (!this.props.user.has_pin) return <CreatePasscode />
-
-    return (this.props.kycStatus === 'passed') ? <WalletLanding /> : <NoKyc />
+    return (this.props.kycStatus === KYC_STATUSES.passed) ? <WalletLanding /> : <NoKyc />
   }
 }
 

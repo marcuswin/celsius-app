@@ -145,6 +145,7 @@ export default (state = initialState, action) => {
       }
 
     case ACTIONS.START_KYC_SUCCESS:
+    case ACTIONS.GET_KYC_STATUS_SUCCESS:
       return {
         ...state,
         user: {
