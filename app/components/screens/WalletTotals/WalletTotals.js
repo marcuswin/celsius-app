@@ -4,7 +4,6 @@ import { List, ListItem, Content } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Proptypes from "prop-types";
-import get from "lodash/get";
 
 import * as actions from "../../../redux/actions";
 import WalletTotalsStyle from "./WalletTotals.styles";
@@ -53,39 +52,48 @@ class WalletTotals extends Component {
 
   // event hanlders
   // rendering methods
-
-  renderList() {
-    const { portfolio, balance } = this.props;
-    const percentChange24h = get(portfolio, "meta.quotes.USD.percent_change_24h", 0);
-    const isPercentChangeNegative = percentChange24h < 0;
-    // const portfolioData = get(portfolio, "data", []);
+  renderBalance(coinData) {
+    const { balance, balanceUsd, short, currency, percentage } = coinData;
 
     return (
       <List style={WalletTotalsStyle.list}>
         <ListItem style={WalletTotalsStyle.listItem}>
           <View style={WalletTotalsStyle.coinInfo}>
             <View style={WalletTotalsStyle.coinAmount}>
-              <Text style={WalletTotalsStyle.name}>ETH - ETHEREUM</Text>
-              <Text style={WalletTotalsStyle.fiatAmount}>${balance.totalUsd}</Text>
-              <Text style={WalletTotalsStyle.cryptoAmount}>{balance.eth} ETH</Text>
+              <Text style={WalletTotalsStyle.name}>{short} - {currency}</Text>
+              <Text style={WalletTotalsStyle.fiatAmount}>${balanceUsd}</Text>
+              <Text style={WalletTotalsStyle.cryptoAmount}>{balance} {short}</Text>
             </View>
             <View style={WalletTotalsStyle.coinPercentage}>
               <PricingChangeIndicator
-                isPercentChangeNegative={isPercentChangeNegative}
-                percentChange24h={percentChange24h}
+                isPercentChangeNegative={false}
+                percentChange24h={percentage}
               />
             </View>
           </View>
         </ListItem>
       </List>
-
     );
-  };
+  }
+
 
   render() {
-    const { type } = this.props;
+    const { type, balance } = this.props;
 
-    // const totalValue = get(portfolio, "meta.quotes.USD.total", 0);
+    const ethereum = this.renderBalance({
+      balance: balance.eth,
+      balanceUsd: balance.ethUsd,
+      short: "ETH",
+      currency: "ETHEREUM",
+      percentage: 15
+    });
+    const bitcoin = this.renderBalance({
+      balance: balance.btc,
+      balanceUsd: balance.btcUsd,
+      short: "BTC",
+      currency: "BITCOIN",
+      percentage: -5
+    });
 
     return (
       <BasicLayout
@@ -94,17 +102,19 @@ class WalletTotals extends Component {
         <MainHeader onCancel={console.log()}/>
         <WalletDetailsHeading
           type={type}
-
         />
 
         <Content>
-          {this.renderList()}
+
+          {ethereum}
+          {bitcoin}
+
           <View style={WalletTotalsStyle.history}>
             <TransactionHistory/>
           </View>
         </Content>
 
-       </BasicLayout>
+      </BasicLayout>
     );
   }
 }

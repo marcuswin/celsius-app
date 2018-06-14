@@ -50,7 +50,8 @@ const WalletTotalsStyle = StyleSheet.create({
   history: {
     marginRight: 36,
     marginLeft: 36,
-    marginTop: 32
+    marginTop: 32,
+    marginBottom: 30
   }
 });
 
