@@ -25,7 +25,7 @@ export const KYC_STATUSES = {
   sending: 'sending',
   sent: 'sent',
   passed: 'passed',
-  failed: 'failed',
+  rejected: 'rejected',
 };
 
 export const PERSON_TITLE = [
