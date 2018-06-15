@@ -7,6 +7,8 @@ import WalletLanding from "../WalletLanding/WalletLanding";
 import NoKyc from "../NoKyc/NoKyc";
 import CreatePasscode from "../Passcode/CreatePasscode";
 import { KYC_STATUSES } from "../../../config/constants/common";
+import WelcomeScreen from "../Welcome/Welcome";
+import SignupTwo from "../Signup/SignupTwo";
 
 
 @connect(
@@ -14,7 +16,6 @@ import { KYC_STATUSES } from "../../../config/constants/common";
     nav: state.nav,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
-    kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -22,9 +23,13 @@ import { KYC_STATUSES } from "../../../config/constants/common";
 class HomeScreen extends Component {
 
   render() {
+    const { user } = this.props;
 
-    if (!this.props.user.has_pin) return <CreatePasscode />
-    return (this.props.kycStatus === KYC_STATUSES.passed) ? <WalletLanding /> : <NoKyc />
+    if (!user) return <WelcomeScreen/>;
+    if (!user.first_name || !user.last_name) return <SignupTwo/>;
+    if (!user.has_pin) return <CreatePasscode />;
+    if (user.kyc && user.kyc.status !== KYC_STATUSES.passed) return <NoKyc />;
+    return <WalletLanding />;
   }
 }
 
