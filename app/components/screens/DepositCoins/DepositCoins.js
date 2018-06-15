@@ -74,16 +74,15 @@ class DepositCoins extends Component {
         </Text>
 
         <Text style={[globalStyles.normalText, { marginTop: 25 }]}>
-          The estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> value of your coins </Text>
-          is:
+          Your estimated
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> coin value: </Text>
         </Text>
         <CoinValueAccordion portfolio={portfolioData} estimatedCoinValue={estimatedInterest.estimated_coin_value} />
 
         <Text style={globalStyles.normalText}>
-          Your estimated
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> interest on coins</Text>
-          :
+          At
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> 4.89% interest a year</Text>
+          , we estimate your interest would be:
         </Text>
         <Accordion
           renderHeader={ (styles) =>
@@ -116,8 +115,7 @@ class DepositCoins extends Component {
         <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
           You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
-          person in line eligible to lend out your coins and earn interest of up to 5%.
-          Passive income FTW.
+          person in line eligible to lend out your coins and earn interest (once when you transfer your coins and they are lent).
         </Text>
       </SimpleLayout>
     );

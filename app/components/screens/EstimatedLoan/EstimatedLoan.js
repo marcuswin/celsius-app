@@ -66,14 +66,14 @@ class EstimatedLoan extends Component {
         <TouchableOpacity onPress={() => Linking.openURL(cr.info_link)}>
           <View style={EstimatedLoanStyle.pdfWrapper}>
             <Grid>
-              <Col>
+              <Col style={{ width: 140 }}>
                 <Image style={{width: 100, height: 63, marginLeft: 12}} source={{uri: cr.image}}/>
               </Col>
               <Col style={{ justifyContent: 'center' }}>
                 <Text style={{fontFamily: 'agile-medium', color: '#3D4853', fontSize: FONT_SCALE * 24}}>
                   {formatter.usd(cr.interest_usd)}
                 </Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={{
                     color: 'rgba(61,72,83,0.5)',
                     fontSize: FONT_SCALE * 16,

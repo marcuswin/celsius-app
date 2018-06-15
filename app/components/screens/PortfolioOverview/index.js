@@ -69,6 +69,14 @@ class PortfolioScreen extends Component {
     const isPercentChangeNegative = percentChange24h < 0;
     const portfolioData = get(portfolio, 'data', []);
 
+    let letterSize;
+
+    if(totalValue.toString().length >= 10) {
+      letterSize = FONT_SCALE * 30
+    } else {
+      letterSize = FONT_SCALE * 36
+    };
+
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
         <Content bounces={false} style={{marginTop: -10}}>
@@ -77,7 +85,7 @@ class PortfolioScreen extends Component {
               <Row style={styles.totalValueContainer}>
                 <Col style={{width: '70%'}}>
                   <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
-                  <Text style={styles.totalValue}>{formatter.usd(totalValue)}</Text>
+                  <Text style={[styles.totalValue, {fontSize: letterSize}]}>{formatter.usd(totalValue)}</Text>
                 </Col>
                 <Col style={{width: '30%', alignSelf: 'flex-end'}}>
                   <PricingChangeIndicator
