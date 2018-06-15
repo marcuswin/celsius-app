@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import * as actions from "../../../redux/actions";
+import {FONT_SCALE} from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -14,6 +15,7 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
+import formatter from '../../../utils/formatter';
 
 @connect(
   state => ({
@@ -21,9 +23,9 @@ import Loader from "../../atoms/Loader/Loader";
     userOriginatingAddress: "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
     transaction: {
       "transaction_id": "0x1de8f17f133d73f41e7dcd531d6d9a3e014e835354eb8282d27ca437660ac90f",
-      "amount": 100,
-      "amount_usd": 1200,
-      "coin": "btc",
+      "amount": 100000000000,
+      "amount_usd": 10000200000,
+      "coin": "eth",
       "time": "2018-06-08T10:07:26.734Z",
       "is_confirmed": false,
       "from_address": "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
@@ -157,6 +159,9 @@ class TransactionDetails extends Component {
   render() {
     const { supportedCurrencies, transaction } = this.props;
     if (!supportedCurrencies) return <Loader text="Checking Data"/>;
+    const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
+    const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
+
 
     return (
       <BasicLayout
@@ -171,11 +176,11 @@ class TransactionDetails extends Component {
             <View style={TransactionDetailsStyle.amountStatus}>
               <View style={TransactionDetailsStyle.amount}>
                 <Text
-                  style={TransactionDetailsStyle.fiatAmount}
+                  style={[TransactionDetailsStyle.fiatAmount, {fontSize: letterSize}]}
                 >
-                  ${transaction.amount_usd}
+                  {formatter.usd(transaction.amount_usd)}
                 </Text>
-                <Text style={TransactionDetailsStyle.cryptoAmount}>{transaction.amount}ETH</Text>
+                <Text style={TransactionDetailsStyle.cryptoAmount}>{`${formatter.crypto(transaction.amount)} ${coin.short}`}</Text>
               </View>
               {this.renderCoinIcon()}
             </View>
