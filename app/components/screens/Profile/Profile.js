@@ -116,12 +116,14 @@ class ProfileScreen extends Component {
             value={user.cellphone}
             onChange={this.handleUserInfoChange.bind(this, 'cellphone')} />
 
-          <View style={{marginTop: 40, marginBottom: 30}}>
-            <CelButton
-              onPress={() => navigateTo('ChangePassword')}
-              color="blue"
-            >Change password</CelButton>
-          </View>
+          { !user.facebook_id && !user.google_id && !user.twitter_id ? (
+            <View style={{marginTop: 40, marginBottom: 30}}>
+              <CelButton
+                onPress={() => navigateTo('ChangePassword')}
+                color="blue"
+              >Change password</CelButton>
+            </View>
+          ) : null}
 
           <View style={{marginBottom: 30}}>
             <CelButton
