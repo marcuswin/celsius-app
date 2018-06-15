@@ -12,17 +12,10 @@ const WalletTotalsStyle = StyleSheet.create({
   listItem: {
     height: 140,
     backgroundColor: 'white',
-    padding: 36,
-    marginLeft: 0
-  },
-  coinInfo: {
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginLeft: 0,
     flexDirection: 'row',
-    alignItems: 'center',
-  },
-  coinAmount: {
-    marginRight: 47
-  },
-  coinPercentage: {
   },
   name: {
     fontSize: FONT_SCALE * 11,

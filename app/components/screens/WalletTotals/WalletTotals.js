@@ -12,6 +12,8 @@ import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDet
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import TransactionHistory from "../../molecules/TransactionHistory/TransactionsHistory";
+import formatter from "../../../utils/formatter";
+import {FONT_SCALE} from "../../../config/constants/style";
 
 
 @connect(
@@ -54,23 +56,20 @@ class WalletTotals extends Component {
   // rendering methods
   renderBalance(coinData) {
     const { balance, balanceUsd, short, currency, percentage } = coinData;
+    const fiatLetterSize = balanceUsd.toString().length >= 10 ? FONT_SCALE * 24 : FONT_SCALE * 30;
 
     return (
       <List style={WalletTotalsStyle.list}>
         <ListItem style={WalletTotalsStyle.listItem}>
-          <View style={WalletTotalsStyle.coinInfo}>
-            <View style={WalletTotalsStyle.coinAmount}>
+            <View>
               <Text style={WalletTotalsStyle.name}>{short} - {currency}</Text>
-              <Text style={WalletTotalsStyle.fiatAmount}>${balanceUsd}</Text>
-              <Text style={WalletTotalsStyle.cryptoAmount}>{balance} {short}</Text>
+              <Text style={[WalletTotalsStyle.fiatAmount, {fontSize: fiatLetterSize}]}>{formatter.usd(balanceUsd)}</Text>
+              <Text style={[WalletTotalsStyle.cryptoAmount]}>{formatter.crypto(balance)} {short}</Text>
             </View>
-            <View style={WalletTotalsStyle.coinPercentage}>
-              <PricingChangeIndicator
-                isPercentChangeNegative={false}
-                percentChange24h={percentage}
-              />
-            </View>
-          </View>
+            <PricingChangeIndicator
+              isPercentChangeNegative={false}
+              percentChange24h={percentage}
+            />
         </ListItem>
       </List>
     );

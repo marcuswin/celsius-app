@@ -13,9 +13,11 @@ import formatter from "../../../utils/formatter"
 import * as actions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
+import { FONT_SCALE } from "../../../config/constants/style";
 
 @connect(
   state => ({
+    balance: state.wallet.balance,
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
@@ -24,7 +26,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 class WalletDetailsHeading extends Component {
 
-  
+
 
   static Proptypes = {
     type: Proptypes.oneOf(['total', 'single-coin']),
@@ -37,19 +39,19 @@ class WalletDetailsHeading extends Component {
   }
 
   render() {
-
+    const { balance, type } = this.props;
 
     const coin = {
-      totalUSD: 6332900,
+      totalUSD: 100000000000,
       amount: 500,
       short: 'BTC',
     };
 
-    const { type } = this.props;
+    const fiatTotalSize = balance.totalUsd.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
 
     return <View style={WalletDetailsHeadingStyle.root}>
       <View style={{position: "relative", width: '100%'}}>
-        <Text style={WalletDetailsHeadingStyle.totalValueAmount}>{formatter.usd(coin.totalUSD)}</Text>
+        <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(balance.totalUsd)}</Text>
         <View style={WalletDetailsHeadingStyle.totalCoinAmountWrapper}>
           {type === 'single-coin' && <Icon name={`Icon${coin.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{opacity: .6}} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
