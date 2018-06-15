@@ -25,26 +25,35 @@ const styles = StyleSheet.create({
     color: STYLES.GRAY_2,
     fontFamily: 'agile-book',
   },
-  totalValue: {
+  totalValueStyle: {
     fontSize: FONT_SCALE * 36,
     fontFamily: 'agile-medium',
     color: STYLES.GRAY_2,
   }
 });
 
-const TotalCoinsHeader = (props) => 
-  <Grid>
-    <Row>
-      <Row style={styles.totalValueContainer}>
-        <Col style={{width: '65%'}}>
-          <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
-          <Text style={styles.totalValue}>{formatter.usd(props.totalValue)}</Text>
-        </Col>
-        <Col style={{width: '35%', alignSelf: 'flex-end'}}>
-          {props.children}
-        </Col>
+
+
+
+const TotalCoinsHeader = (props) => {
+  const letterSize = Math.round(props.totalValue).toString().length + 2 >= 10 ?
+    FONT_SCALE * 30 : FONT_SCALE * 36;
+
+  return (
+    <Grid>
+      <Row>
+        <Row style={styles.totalValueContainer}>
+          <Col style={{width: '65%'}}>
+            <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
+            <Text style={[styles.totalValueStyle, {fontSize: letterSize}]}>{formatter.usd(props.totalValue)}</Text>
+          </Col>
+          <Col style={{width: '35%', alignSelf: 'flex-end'}}>
+            {props.children}
+          </Col>
+        </Row>
       </Row>
-    </Row>
-  </Grid>
+    </Grid>
+  )
+}
 
 export default TotalCoinsHeader;
