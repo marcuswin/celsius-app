@@ -100,7 +100,7 @@ class PortfolioScreen extends Component {
             <View>
               <List
                 dataArray={portfolioData}
-                bounces={false}
+                scrollEnabled={false}
                 renderRow={(item) =>
                   <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
                     <Body>
