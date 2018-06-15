@@ -70,10 +70,10 @@ export default function walletReducer($$state = initialState(), action) {
           ...$$state,
           balance: {
             ...$$state.balance,
-            eth: action.coinBalance.eth_balance !== undefined ? action.coinBalance.eth_balance : $$state.balance.eth,
-            ethUsd: action.coinBalance.eth_balance_usd !== undefined ? action.coinBalance.eth_balance_usd : $$state.balance.ethUsd,
-            btc: action.coinBalance.btc_balance !== undefined ? action.coinBalance.btc_balance : $$state.balance.btc,
-            btcUsd: action.coinBalance.btc_balance_usd !== undefined ? action.coinBalance.btc_balance_usd : $$state.balance.btcUsd,
+            eth: action.coinBalance.eth_balance !== null ? action.coinBalance.eth_balance : $$state.balance.eth,
+            ethUsd: action.coinBalance.eth_balance_usd !== null ? action.coinBalance.eth_balance_usd : $$state.balance.ethUsd,
+            btc: action.coinBalance.btc_balance !== null ? action.coinBalance.btc_balance : $$state.balance.btc,
+            btcUsd: action.coinBalance.btc_balance_usd !== null ? action.coinBalance.btc_balance_usd : $$state.balance.btcUsd,
           }
         }
 
