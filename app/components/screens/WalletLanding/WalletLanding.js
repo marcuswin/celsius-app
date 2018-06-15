@@ -18,7 +18,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 
 @connect(
   state => ({
-    portfolio: state.portfolio.portfolio, // wallet 
+    portfolio: state.portfolio.portfolio, // wallet
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -58,7 +58,7 @@ class WalletLanding extends Component {
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
         <Content bounces={false} style={{marginTop: -10, marginBottom: 30}}>
           <TotalCoinsHeader totalValue={totalValue}>
-            {totalValue === 0 
+            {totalValue === 0
               ? <CelButton size="mini" color="green" margin="0 15 0 0" onPress={() => navigateTo('AddFunds')}>
                   Add funds
                 </CelButton>
@@ -69,7 +69,7 @@ class WalletLanding extends Component {
             }
           </TotalCoinsHeader>
           {(totalValue !== 0 && this.state.infoBubble) &&
-            <View style={[contentPadding, {marginBottom: -15}]}> 
+            <View style={[contentPadding, {marginBottom: -15}]}>
               <WalletInfoBubble
                 title="Did you know?"
                 onPressClose={this.onCloseInfo}
@@ -86,7 +86,7 @@ class WalletLanding extends Component {
             <View>
               <List
                 dataArray={portfolioData}
-                bounces={false}
+                scrollEnabled={false}
                 renderRow={(item) =>
                   <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
                     <Body>
