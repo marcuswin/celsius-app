@@ -122,7 +122,9 @@ const CoinCardStyle = StyleSheet.create({
 const CoinCard = (props) => {
   const percentChange24h = props.market.quotes.USD.percent_change_24h;
   const isPercentChangeNegative = percentChange24h < 0;
-  const graphData = get(props.market.quotes.USD, 'price7d', null)
+  const graphData = get(props.market.quotes.USD, 'price7d', null);
+
+  const letterSize = props.total.toString().length >= 10 ? FONT_SCALE * 25 : FONT_SCALE * 29;
 
   return <Card>
     <Grid style={props.type === "wallet-card" && props.item.coinAmount === 0 ? [CoinCardStyle.row, {paddingTop: 10, opacity: 0.6}] : [CoinCardStyle.row, {paddingTop: 10}] }>
@@ -131,7 +133,7 @@ const CoinCard = (props) => {
           <View>
             <Text
               style={CoinCardStyle.label}>{props.currency.short.toUpperCase()} - {props.currency.name.toUpperCase()}</Text>
-            <Text style={CoinCardStyle.text}>{formatter.usd(props.total)}</Text>
+            <Text style={[CoinCardStyle.text, {fontSize: letterSize}]}>{formatter.usd(props.total)}</Text>
             <Text
               style={[CoinCardStyle.coinAmount, {fontFamily: 'agile-light'}]}>{props.amount} {props.currency.short.toUpperCase()}</Text>
           </View>

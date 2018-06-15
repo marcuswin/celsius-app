@@ -20,7 +20,7 @@ const HeaderStyle = StyleSheet.create({
   },
   backButtonText: {
     color: 'white',
-    paddingLeft: 8,
+    paddingLeft: 5,
     opacity: 0.8,
     marginTop: 3
   },
