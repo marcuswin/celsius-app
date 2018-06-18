@@ -42,7 +42,7 @@ class PortfolioScreen extends Component {
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
         <Content bounces={false} style={{marginTop: -10}}>
-          {totalValue !== 0 && 
+          {totalValue !== 0 &&
             <TotalCoinsHeader totalValue={totalValue} >
               <PricingChangeIndicator
                 isPercentChangeNegative={isPercentChangeNegative}
@@ -54,7 +54,7 @@ class PortfolioScreen extends Component {
             <View>
               <List
                 dataArray={portfolioData}
-                bounces={false}
+                scrollEnabled={false}
                 renderRow={(item) =>
                   <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
                     <Body>

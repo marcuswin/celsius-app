@@ -19,6 +19,7 @@ export {
   verifyKYCDocs,
   finishKYCVerification,
   startKYC,
+  getKYCStatus,
   setPin,
 }
 
@@ -249,7 +250,7 @@ function startKYC() {
   return async dispatch => {
     dispatch(startApiCall(API.START_KYC));
     try {
-      // await meService.startKYC();
+      await meService.startKYC();
       dispatch(startKYCSuccess());
     } catch(err) {
       dispatch(showMessage('error', err.msg));
@@ -264,6 +265,26 @@ function startKYCSuccess() {
     kyc: {
       status: KYC_STATUSES.pending
     },
+  }
+}
+
+function getKYCStatus() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_KYC_STATUS));
+    try {
+      const res = await meService.getKYCStatus();
+      dispatch(getKYCStatusSuccess(res.data));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_KYC_STATUS, err));
+    }
+  }
+}
+
+function getKYCStatusSuccess(status) {
+  return {
+    type: ACTIONS.GET_KYC_STATUS_SUCCESS,
+    kyc: status,
   }
 }
 

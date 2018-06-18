@@ -13,11 +13,7 @@ import { KYC_STATUSES } from "../../../config/constants/common";
   state => ({
     kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
     kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
-    // kycStatus: KYC_STATUSES.failed,
-    // kycErrors: [
-    //   'Photo shitty',
-    //   'Name doesnt exist'
-    // ],
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -30,11 +26,19 @@ class NoKyc extends Component {
         text: 'Wallet',
         subheading: 'Send and receive coins'
       },
-    // binders
    }
+
+   props.getKYCStatus();
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { activeScreen, getKYCStatus } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen && activeScreen === 'NoKyc') {
+      getKYCStatus();
+    }
+  }
   // event hanlders
   // rendering methods
 
@@ -155,7 +159,7 @@ class NoKyc extends Component {
       case KYC_STATUSES.sending:
       case KYC_STATUSES.sent:
         return this.renderPending();
-      case KYC_STATUSES.failed:
+      case KYC_STATUSES.rejected:
         return this.renderRejected();
       case KYC_STATUSES.collecting:
       default:

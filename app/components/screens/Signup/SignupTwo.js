@@ -27,6 +27,7 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
 
 @connect(
   state => ({
+    screenIndex: state.nav.index,
     userLocation: state.users.userLocation,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
@@ -91,12 +92,14 @@ class SignupTwo extends Component {
   onSubmit = () => {
     const { formData, user, updateUser, registerUserTwitter, registerUserFacebook, registerUserGoogle } = this.props;
 
+    console.log('hello nigga');
     const data = { ...formData};
     data.country = formData.country;
     data.countryAlpha3 = countries.all.filter(c => c.name === formData.country)[0].alpha3;
 
+    console.log({ user, data });
     // update user
-    if (user && user.id) {
+    if (user && user.email) {
       updateUser(data);
     }
 
@@ -118,13 +121,14 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formData, user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse } = this.props;
+    const { formData, user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse, screenIndex } = this.props;
     const { firstName, lastName, email, country } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
     return (
       <SimpleLayout
+        mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
         bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}

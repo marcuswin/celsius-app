@@ -11,15 +11,15 @@ const PortfolioEmptyState = (props) => (
     </View>
 
     <Text style={globalStyles.heading}>
-      No coins to lend, at the moment
+      Add coins to earn up to 5% interest
     </Text>
 
     <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-      Please, add eligible coins (BTC, ETH) to be able to lend out your coins and earn interest.
+      Please add eligible coins (BTC or ETH) to see how much interest you could earn per year.
     </Text>
 
     <CelButton onPress={props.onPress} margin="30 0 0 0" style={{marginBottom: 30}}>
-      Manage your coins
+      Add Your Coins
     </CelButton>
   </View>
 )
