@@ -37,6 +37,7 @@ class TransactionConfirmation extends Component {
   confirmWithdrawal = () => {
     const { formData, withdrawCrypto } = this.props;
     withdrawCrypto(formData.currency, formData.amountCrypto);
+    // add formData.pin when backend is ready
   }
   // rendering methods
   render() {

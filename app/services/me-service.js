@@ -8,6 +8,7 @@ const meService = {
   createKYCDocuments,
   getKYCDocuments,
   setPin,
+  checkPin,
 };
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#76d35f2e-d523-4f2a-858e-ca33cc173f55
@@ -37,6 +38,10 @@ function createKYCDocuments(documents) {
 }
 function setPin(data) {
   return axios.post(`${apiUrl}/me/pin/set`, data);
+}
+
+function checkPin(pin) {
+  return axios.post(`${apiUrl}/me/pin/check`, pin);
 }
 
 

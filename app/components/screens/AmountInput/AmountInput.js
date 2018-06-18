@@ -58,7 +58,7 @@ class AmountInput extends Component {
       inUsd: true,
       amountUsd: 0,
       amountCrypto: 0,
-      currency,
+      currency: this.props.navigation.getParam('currency'),
       rateUsd: props[`${currency}Usd`],
       balance: props[`${currency}Balance`],
     })

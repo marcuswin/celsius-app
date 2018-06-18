@@ -77,7 +77,7 @@ class WalletTotals extends Component {
 
 
   render() {
-    const { type, balance } = this.props;
+    const { balance } = this.props;
 
     const ethereum = this.renderBalance({
       balance: balance.eth,
@@ -98,9 +98,12 @@ class WalletTotals extends Component {
       <BasicLayout
         bottomNavigation
       >
-        <MainHeader onCancel={console.log()}/>
+        <MainHeader
+          onCancel={() => this.props.navigateTo('WalletLanding')}
+        />
         <WalletDetailsHeading
-          type={type}
+          type='total'
+          currency='total'
         />
 
         <Content>

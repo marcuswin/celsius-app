@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 
+
 import * as actions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import AddFundsStyle from "./AddFunds.styles";
@@ -11,6 +12,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
+import Loader from "../../atoms/Loader/Loader";
 
 
 @connect(
@@ -39,13 +41,20 @@ class AddFunds extends Component {
         currency: 'eth',
       })
     }
+    const { formData, navigation, getCoinAddress } = this.props;
+
+    this.getAddress(formData, navigation, getCoinAddress);
   }
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { btcAddress, ethAddress } = this.props;
     const { formData, navigation, getCoinAddress } = nextProps;
 
+    this.getAddress(formData, navigation, getCoinAddress);
+  }
+
+  getAddress = (formData, navigation, getCoinAddress) => {
+    const { btcAddress, ethAddress } = this.props;
     if (!btcAddress && (formData.currency === 'btc' || navigation.getParam('currency') === 'btc')) {
       getCoinAddress('btc');
     }
@@ -71,6 +80,10 @@ class AddFunds extends Component {
       headingText = 'Add funds';
     }
 
+    if (!address) {
+      return <Loader />
+    }
+
     return (
       <SimpleLayout
         animatedHeading={{ text: headingText, textAlign: "center" }}
@@ -78,26 +91,26 @@ class AddFunds extends Component {
         bottomNavigation={false}
       >
 
-        { currency ? (
+        {currency ? (
           <Text style={AddFundsStyle.textOne}>
-            Use the wallet address below to transfer { currency.toUpperCase() } to your unique Celsius wallet address.
+            Use the wallet address below to transfer {currency.toUpperCase()} to your unique Celsius wallet address.
           </Text>
         ) : (
-          <Text style={AddFundsStyle.textOne}>
-            Transfer your coins from another wallet by selecting the coin you want to transfer.
+            <Text style={AddFundsStyle.textOne}>
+              Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-        )}
+          )}
 
-        { !currency ? (
+        {!currency ? (
           <View style={AddFundsStyle.radioWrapper}>
             <RadioButtons field='currency' items={radioItems} value={formData.currency} />
           </View>
-        ) : null }
+        ) : null}
 
         <View style={AddFundsStyle.imageWrapper}>
           <View style={AddFundsStyle.wrapperLogo}>
             <View style={AddFundsStyle.celsiusLogo}>
-              <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF'/>
+              <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF' />
             </View>
           </View>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
@@ -113,11 +126,11 @@ class AddFunds extends Component {
         </View>
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text style={AddFundsStyle.address}>{ address }</Text>
+            <Text style={AddFundsStyle.address}>{address}</Text>
           </View>
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
-              onPress={() => Share.share({ message: address, title: 'Wallet address'})}
+              onPress={() => Share.share({ message: address, title: 'Wallet address' })}
               style={[AddFundsStyle.buttons, {
                 borderBottomLeftRadius: 8,
                 borderRightWidth: 1,

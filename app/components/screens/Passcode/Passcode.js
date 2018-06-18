@@ -10,6 +10,7 @@ import apiUtil from '../../../utils/api-util';
 import CatImage from '../../../../assets/images/avatar-cat-2.png'
 import * as actions from "../../../redux/actions";
 import PinInput from '../../atoms/PinInput/PinInput';
+import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
@@ -35,6 +36,7 @@ const types = {
       title: `Enter your${'\n'} passcode`,
       text: `To continue with your withdrawal${'\n'} please enter your 4-digit passcode.`,
       buttonText: 'Confirm',
+      field: 'pin',
     },
 };
 
@@ -63,6 +65,16 @@ class Passcode extends Component {
     }
     if (this.props.type === 'createPasscode') {
       this.props.navigateTo('RepeatPasscode');
+    }
+    if (this.props.type === 'enterPasscode') {
+      const pin = this.props.formData
+      const checkPin = meService.checkPin(pin)
+      checkPin.then(() => {
+        this.props.storePin(pin.pin);
+        this.props.navigateTo('AmountInput', {currency: this.props.currency})
+      }, (error) => {
+        this.props.showMessage('error', error.error);
+      })
     }
   }
 

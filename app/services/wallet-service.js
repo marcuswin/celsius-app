@@ -36,8 +36,8 @@ function getAllTransactions() {
   return axios.get(`${apiUrl}/wallet/transactions`);
 }
 
-function withdrawCrypto(coin, amount) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount });
+function withdrawCrypto(coin, amount) { // add pin when backend is ready
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount});
 }
 
 function getTransaction(transactionId) {

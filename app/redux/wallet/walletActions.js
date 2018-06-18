@@ -92,6 +92,10 @@ function withdrawCryptoSuccess(transaction) {
   }
 }
 
+export function storePin(pin) {
+  return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
+}
+
 export function getTransactionDetails(transactionId) {
   return async dispatch => {
     try {
