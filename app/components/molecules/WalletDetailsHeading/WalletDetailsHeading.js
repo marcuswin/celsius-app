@@ -20,6 +20,8 @@ import { FONT_SCALE } from "../../../config/constants/style";
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     wallet: state.wallet,
+    walletTotal: state.wallet.total,
+    walletCurrencies: state.wallet.currencies,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -36,11 +38,11 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
+    const { walletCurrencies } = this.props;
+    // const walletData = get(this.props.wallet, 'currencies', null);
 
-    const walletData = get(this.props.wallet, 'data', null);
-   
-    const nonEmptyCurrencyAmount = walletData.filter(w => w.amount > 0);
-    const nonEmptyCurrencyNames = nonEmptyCurrencyAmount.map(c => c.currency.short)
+    const nonEmptyCurrencyAmount = walletCurrencies.filter(w => w.amount > 0);
+    const nonEmptyCurrencyNames = nonEmptyCurrencyAmount.map(c => c.currency.short.toUpperCase())
     const screens = [...nonEmptyCurrencyNames, 'total'];
 
     const { currency } = this.props;
@@ -58,28 +60,28 @@ class WalletDetailsHeading extends Component {
     if((screenIndex === screens.length - 2 && type === 'next') || (screenIndex === 0 && type === 'previous')) {
       return this.props.navigateTo('WalletTotals')
     }
-    
+
     return this.props.navigateTo('WalletDetails', {currency: screens[types[type]]})
 
   }
 
 
   render() {
-
-    const { currency, type, wallet } = this.props;
-    const walletData = get(wallet, 'data', null);
-    const total = get(wallet, 'meta.quotes.usd.total', 0)
-    const walletDataCurrency = (walletData != null && currency !== 'total') && walletData.find(w => w.currency.short === currency);
+    const { currency, type, walletTotal, walletCurrencies, navigateTo } = this.props;
+    const total = get(walletTotal, 'quotes.usd.total', 0)
+    const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
-  
+
+    console.log({ walletDataCurrency })
+
     return <View style={WalletDetailsHeadingStyle.root}>
       <View style={{position: "relative", width: '100%'}}>
-        <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(total)}</Text>
+        <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(walletDataCurrency.total)}</Text>
         <View style={WalletDetailsHeadingStyle.totalCoinAmountWrapper}>
           {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{ opacity: .6 }} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
             {type === 'single-coin'
-              ? `${formatter.crypto(walletDataCurrency.currency.amount)} ${walletDataCurrency.currency.short}`
+              ? formatter.crypto(walletDataCurrency.amount, currency.toUpperCase())
               : 'TOTAL AMOUNT'
             }
           </Text>
@@ -92,7 +94,7 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton size="mini" white onPress={() => { this.props.navigateTo('AddFunds', { currency }) }}>Add funds</CelButton>
+        <CelButton size="mini" white onPress={() => { navigateTo('AddFunds', { currency: currency.toLowerCase() }) }}>Add funds</CelButton>
       </View>}
     </View>
   }

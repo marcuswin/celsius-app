@@ -28,7 +28,7 @@ import {FONT_SCALE} from "../../../config/constants/style";
 class WalletTotals extends Component {
 
   static Proptypes = {
-    type: Proptypes.oneOfType(["total", "single-coin"]),
+    type: Proptypes.oneOf(["total", "single-coin"]),
     onPressPrevious: Proptypes.func,
     onPressNext: Proptypes.func
   };

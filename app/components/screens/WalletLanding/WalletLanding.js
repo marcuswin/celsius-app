@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import get from 'lodash/get';
 
 import apiUtil from '../../../utils/api-util';
+import formatter from '../../../utils/formatter';
 import TotalCoinsHeader from '../../molecules/TotalCoinsHeader/TotalCoinsHeader';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
@@ -15,15 +16,13 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import API from "../../../config/constants/API";
 import Loader from "../../atoms/Loader/Loader";
-
-
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-
-
 
 @connect(
   state => ({
     wallet: state.wallet,
+    walletTotal: state.wallet.total,
+    walletCurrencies: state.wallet.currencies,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -44,10 +43,11 @@ class WalletLanding extends Component {
     getWalletDetails();
   }
 
+  // TODO: move logic to info bubble
   onCloseInfo = () => this.setState({ infoBubble: false })
 
   render() {
-    const { navigateTo, wallet } = this.props;
+    const { navigateTo, walletTotal, walletCurrencies } = this.props;
 
     const animatedHeading = {
       text: 'Wallet',
@@ -58,20 +58,15 @@ class WalletLanding extends Component {
       backButton: false,
     };
 
-
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], this.props.callsInProgress);
-    const totalValue = get(wallet, 'meta.quotes.USD.total', 0);
-    const percentChange24h = get(wallet, 'meta.quotes.USD.percent_change_24h', 0);
+    const totalValue = get(walletTotal, 'quotes.USD.total', 0);
+    const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
-    const walletData = get(wallet, 'data', null)
-    const totalAmount = "$1232" // todo
     const contentPadding = { paddingLeft: 36, paddingRight: 36 }
-
 
     if (isLoading) {
       return <Loader />
     }
-
 
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
@@ -95,7 +90,7 @@ class WalletLanding extends Component {
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   You could be earning
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> {totalAmount} </Text>
+                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(0.049 * totalValue)} </Text>
                   a year if you deposited all of your eligible crypto from your portfolio to your Celsius wallet.
                 </Text>
               </WalletInfoBubble>
@@ -104,8 +99,8 @@ class WalletLanding extends Component {
           <View style={contentPadding}>
             <View>
               <List
-                dataArray={walletData}
-                bounces={false}
+                dataArray={walletCurrencies}
+                scrollEnabled={false}
                 renderRow={(item) =>
                   <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                     <Body>

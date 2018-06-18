@@ -23,12 +23,12 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
     wallet: state.wallet,
+    transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class WalletDetails extends Component {
-
   constructor() {
     super();
 
@@ -37,12 +37,41 @@ class WalletDetails extends Component {
     }
   }
 
+  componentDidMount() {
+    const { getCoinTransactions, navigation } = this.props;
+    const currency = navigation.getParam('currency');
+
+    getCoinTransactions(currency.toLowerCase());
+  }
+
   onCloseInfo = () => this.setState({ infoBubble: false })
+
+  getTransactions() {
+    const { transactions, navigation } = this.props;
+    const currency = navigation.getParam('currency').toLowerCase();
+    const transactionIds = Object.keys(transactions);
+    const transactionArray = [];
+
+    transactionIds.forEach(tid => {
+      if (transactions[tid].coin === currency) {
+        transactionArray.push(transactions[tid]);
+      }
+    })
+
+    console.log({
+      transactionArray,
+      transactionIds,
+      transactions,
+    })
+
+    return transactionArray;
+  }
 
   render() {
     const { navigateTo, navigation } = this.props;
     const currency = navigation.getParam('currency')
     const maxLoan = 4000; // todo
+    const transactions = this.getTransactions();
 
     return (
       <BasicLayout bottomNavigation>
@@ -62,7 +91,7 @@ class WalletDetails extends Component {
               if you deposit your {currency} into your Celsius wallet.
             </Text>
           </WalletInfoBubble>}
-          <TransactionsHistory />
+          <TransactionsHistory transactions={transactions} />
           <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency })}}>Withdraw</CelButton>
         </Content>
       </BasicLayout>

@@ -18,11 +18,11 @@ export function getWalletDetails() {
   }
 }
 
-function getWalletDetailsSuccess(walletBalance) {
+function getWalletDetailsSuccess(wallet) {
   return {
     type: ACTIONS.GET_WALLET_DETAILS_SUCCESS,
     callName: API.GET_WALLET_DETAILS,
-    walletBalance,
+    wallet,
   }
 }
 

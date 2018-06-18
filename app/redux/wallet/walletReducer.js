@@ -9,6 +9,8 @@ function initialState() {
       transactions: {},
       activeTransactionId: undefined,
       walletBalance: null,
+      total: null,
+      currencies: null,
     };
 }
 
@@ -47,11 +49,17 @@ export default function walletReducer(state = initialState(), action) {
             },
           };
 
-      case ACTIONS.GET_WALLET_DETAILS_SUCCESS:
       case ACTIONS.GET_COIN_BALANCE_SUCCESS:
         return {
           ...state,
           ...action.walletBalance
+        }
+
+      case ACTIONS.GET_WALLET_DETAILS_SUCCESS:
+        return {
+          ...state,
+          total: action.wallet.meta,
+          currencies: action.wallet.data,
         }
 
       case ACTIONS.STORE_PIN:

@@ -35,12 +35,11 @@ class AddFunds extends Component {
       ],
     };
 
-    const currency = props.navigation.getParam('currency');
-    if (!currency) {
-      props.initForm({
-        currency: 'eth',
-      })
-    }
+    let currency = props.navigation.getParam('currency');
+    currency = currency ? currency.toLowerCase() : currency;
+    props.initForm({
+      currency: currency || 'eth',
+    })
     const { formData, navigation, getCoinAddress } = this.props;
 
     this.getAddress(formData, navigation, getCoinAddress);
@@ -67,7 +66,7 @@ class AddFunds extends Component {
   // rendering methods
   render() {
     const { radioItems } = this.state;
-    const { formData, navigation } = this.props;
+    const { formData, navigation, navigateBack } = this.props;
 
     const currency = navigation.getParam('currency');
     let address;
@@ -193,7 +192,7 @@ class AddFunds extends Component {
         <CelButton
           inverse
           white
-          onPress={console.log}
+          onPress={() => navigateBack()}
           margin='30 50 20 50'
         >
           Done
