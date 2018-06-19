@@ -36,9 +36,9 @@ export default function walletReducer(state = initialState(), action) {
             ...state,
             transactions: {
               ...state.transactions,
-              [action.transaction.transaction_id]: action.transaction,
+              [action.transaction.id]: action.transaction,
             },
-            activeTransactionId: action.transaction.transaction_id,
+            activeTransactionId: action.transaction.id,
           };
 
       case ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS:
@@ -69,6 +69,12 @@ export default function walletReducer(state = initialState(), action) {
         return {
           ...state,
           pin: action.pin,
+        }
+
+      case ACTIONS.SET_ACTIVE_TRANSACTION_ID:
+        return {
+          ...state,
+          activeTransactionId: action.transactionId,
         }
 
     default:

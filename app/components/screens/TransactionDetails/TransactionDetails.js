@@ -21,18 +21,20 @@ import formatter from '../../../utils/formatter';
   state => ({
     nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
-    userOriginatingAddress: "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
+    ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
+    btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
+    activeTransactionId: state.wallet.activeTransactionId,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
 class TransactionDetails extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getTransactionDetails, navigation, getSupportedCurrencies } = this.props;
+    const { getTransactionDetails, navigation, getSupportedCurrencies, activeTransactionId } = this.props;
     getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
-    getTransactionDetails(transactionId);
+    getTransactionDetails(transactionId || activeTransactionId);
   }
 
   renderCelHeading() {
@@ -45,10 +47,6 @@ class TransactionDetails extends Component {
     if (isUserReceiving) {
       text = `Received ${ coin.short.toUpperCase()}`;
     } else {
-      text=`Withdrawn ${ coin.short.toUpperCase()}`
-    }
-
-    if (!transaction.is_confirmed) {
       text=`Withdrawn ${ coin.short.toUpperCase()}`
     }
 
@@ -110,37 +108,40 @@ class TransactionDetails extends Component {
   renderAddressLink() {
     const { transaction, supportedCurrencies } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    
+
 
     let webPage;
     let namePage
 
-    if(coin.short.toLowerCase() === 'eth') {
-      webPage = `https://etherscan.io/tx/${ transaction.to_address}`;
+    if (transaction.transacton_id && coin.short.toLowerCase() === 'eth') {
+      webPage = `https://etherscan.io/tx/${ transaction.transaction_id}`;
       namePage = 'View on Etherscan';
     }
-    if(coin.short.toLowerCase() === 'btc') {
-      webPage = `https://blockchain.info/tx/${ transaction.to_address}`;
+    if (transaction.transacton_id && coin.short.toLowerCase() === 'btc') {
+      webPage = `https://blockchain.info/tx/${ transaction.transaction_id}`;
       namePage = "View on Blockchain";
     }
 
-    return (
-    <Text onPress={()=> Linking.openURL(webPage)} style={TransactionDetailsStyle.link}>
-      {namePage}<Icon
-      name='NewWindowIcon'
-      height='12' width='12'
-      fill='white'
-      stroke="rgba(65,86,166,1)"
-    />
-    </Text>
-    )
+    return webPage && namePage ? (
+      <Text onPress={()=> Linking.openURL(webPage)} style={TransactionDetailsStyle.link}>
+        {namePage} <Icon
+        name='NewWindowIcon'
+        height='12' width='12'
+        fill='white'
+        stroke="rgba(65,86,166,1)"
+      />
+      </Text>
+    ) : null;
   }
 
   render() {
     const { supportedCurrencies, transaction, navigateTo } = this.props;
-    if (!supportedCurrencies && !transaction) return <Loader text="Checking Data"/>;
+
+    if (!supportedCurrencies || !transaction) return <Loader text="Checking Data"/>;
+
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
+    const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
+    const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : '-';
 
     return (
       <BasicLayout
@@ -156,9 +157,9 @@ class TransactionDetails extends Component {
                 <Text
                   style={[TransactionDetailsStyle.fiatAmount, {fontSize: letterSize}]}
                 >
-                  {formatter.usd(transaction.amount_usd)}
+                  { amountUsd }
                 </Text>
-                <Text style={TransactionDetailsStyle.cryptoAmount}>{`${formatter.crypto(transaction.amount)} ${coin.short}`}</Text>
+                <Text style={TransactionDetailsStyle.cryptoAmount}>{ formatter.crypto(transaction.amount, coin.short, { precision: 5 }) }</Text>
               </View>
               {this.renderCoinIcon()}
             </View>

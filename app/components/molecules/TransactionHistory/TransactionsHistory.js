@@ -66,7 +66,7 @@ const TransactionsHistory = (props) => {
                   </Col>
                   <Col style={{paddingLeft: 40}}>
                     <Text style={TransactionsHistoryStyles.usdAmount}>{formatter.usd(item.amount_usd)}</Text>
-                    <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase())}</Text>
+                    <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase(), { precision: 5 })}</Text>
                   </Col>
                 </Col>
                 <Col size={30}>

@@ -62,9 +62,9 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation } = this.props;
-    const currency = navigation.getParam('currency')
-    const maxLoan = 0.2624 * 1000; // todo
+    const { navigateTo, navigation, balances } = this.props;
+    const currency = navigation.getParam('currency');
+    const maxLoan = 0.2624 * balances.filter(b => b.currency.short === currency)[0].total;
     const transactions = this.getTransactions();
 
     return (
@@ -85,7 +85,7 @@ class WalletDetails extends Component {
               if you deposit your {currency} into your Celsius wallet.
             </Text>
           </WalletInfoBubble>}
-          <TransactionsHistory 
+          <TransactionsHistory
             transactions={transactions}
             navigateTo={navigateTo}
             />
