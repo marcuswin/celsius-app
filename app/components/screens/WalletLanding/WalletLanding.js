@@ -90,7 +90,7 @@ class WalletLanding extends Component {
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   You could be earning
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(0.049 * totalValue)} </Text>
+                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(0.049 * totalValue) } </Text>
                   a year if you deposited all of your eligible crypto from your portfolio to your Celsius wallet.
                 </Text>
               </WalletInfoBubble>
@@ -101,15 +101,16 @@ class WalletLanding extends Component {
               <List
                 dataArray={walletCurrencies}
                 scrollEnabled={false}
-                renderRow={(item) =>
-                  <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
-                    <Body>
-                      <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })} disabled={item.amount === 0}>
-                        <CoinCard type="wallet-card" {...item} />
-                      </TouchableOpacity>
-                    </Body>
-                  </ListItem>
-                } />
+                renderRow={(item) => 
+                  (totalValue !== 0 && item.amount !== 0) && 
+                    <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
+                      <Body>
+                        <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })}>
+                          <CoinCard type="wallet-card" {...item} />
+                        </TouchableOpacity>
+                      </Body>
+                    </ListItem>}
+              />
             </View>
           </View>
         </Content>
