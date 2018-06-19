@@ -3,7 +3,6 @@ import moment from "moment";
 import { View, Text, TouchableOpacity } from "react-native";
 import { List, ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
-// import Link from "../../atoms/Link/Link";
 import formatter from "../../../utils/formatter";
 import Icon from "../../atoms/Icon/Icon";
 
@@ -23,7 +22,22 @@ const statusText = {
 }
 
 const TransactionsHistory = (props) => {
-  const displayTransactions = props.transactions.map(t => ({
+
+  const orderedTransactionsByDate = props.transactions.sort((a, b) => {
+    const date1 = moment(a.time)
+    const date2 = moment(b.time)
+  
+    if (date1.isAfter(date2)) {
+      return -1;
+    }
+    if (date1.isBefore(date2)) {
+      return 1;
+    }
+
+    return 0;
+  });
+
+  const transactions = orderedTransactionsByDate.map(t => ({
     id: t.id,
     amount: t.amount,
     amount_usd: t.amount_usd,
@@ -32,11 +46,13 @@ const TransactionsHistory = (props) => {
     status: t.is_confirmed ? t.type : 'pending',
     type: t.type,
   }))
+
+
   return (
     <View>
       <Text style={TransactionsHistoryStyles.title}>Transaction History</Text>
       <List
-        dataArray={displayTransactions}
+        dataArray={transactions}
         scrollEnabled={false}
         style={{marginBottom: 30}}
         renderRow={(item) =>
@@ -82,7 +98,6 @@ const TransactionsHistory = (props) => {
             </TouchableOpacity>
           </ListItem>
         }/>
-      {/* <Link>See all</Link> */}
     </View>
   )
 }
