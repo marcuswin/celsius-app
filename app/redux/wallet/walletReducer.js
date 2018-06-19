@@ -5,6 +5,8 @@ function initialState() {
       addresses: {
         ethAddress: undefined,
         btcAddress: undefined,
+        ethOriginatingAddress: undefined,
+        btcOriginatingAddress: undefined,
       },
       transactions: {},
       activeTransactionId: undefined,
@@ -19,6 +21,7 @@ export default function walletReducer(state = initialState(), action) {
 
     switch (action.type) {
       case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
+      case ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS:
           return {
             ...state,
             addresses: {

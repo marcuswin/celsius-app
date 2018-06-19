@@ -5,6 +5,7 @@ const walletService = {
   getWalletDetails,
   getCoinBalance,
   getCoinAddress,
+  getCoinOriginatingAddress,
   getCoinTransactions,
   getCoinGraphData,
   getAllTransactions,
@@ -22,6 +23,10 @@ function getCoinBalance(coin) {
 
 function getCoinAddress(coin) {
   return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/address`);
+}
+
+function getCoinOriginatingAddress(coin) {
+  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/originating_address`);
 }
 
 function getCoinTransactions(coin) {

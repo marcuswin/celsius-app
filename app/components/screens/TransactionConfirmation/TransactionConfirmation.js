@@ -18,6 +18,8 @@ import API from "../../../config/constants/API";
 @connect(
   state => ({
     formData: state.ui.formData,
+    ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
+    btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -34,6 +36,21 @@ class TransactionConfirmation extends Component {
   }
 
   // lifecycle methods
+  componentDidMount() {
+    const { btcOriginatingAddress, ethOriginatingAddress, formData, getCoinOriginatingAddress } = this.props;
+
+    if (!btcOriginatingAddress && formData.currency === 'btc') {
+      console.log('btc orig');
+      getCoinOriginatingAddress('btc');
+    }
+
+    if (!ethOriginatingAddress && formData.currency === 'eth') {
+      console.log('eth orig');
+      getCoinOriginatingAddress('eth');
+    }
+
+    console.log(formData);
+  }
   componentWillReceiveProps(nextProps) {
     const { lastCompletedCall, navigateTo } = this.props;
 
@@ -58,6 +75,8 @@ class TransactionConfirmation extends Component {
     const balanceUsd = balanceCrypto * formData.rateUsd;
 
     const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO], callsInProgress);
+
+    const originatingAddress = this.props[`${formData.currency.toLowerCase()}OriginatingAddress`];
 
     return (
       <BasicLayout
@@ -87,7 +106,7 @@ class TransactionConfirmation extends Component {
 
           <View style={TransactionConfirmationStyle.addresViewWrapper}>
             <Text style={TransactionConfirmationStyle.toAddress}>TO ADDRESS</Text>
-            <Text style={TransactionConfirmationStyle.address}>0xbb9bc244d798123fde783fcc1c72d3bb8c189413</Text>
+            <Text style={TransactionConfirmationStyle.address}>{ originatingAddress }</Text>
           </View>
 
           <CelButton
