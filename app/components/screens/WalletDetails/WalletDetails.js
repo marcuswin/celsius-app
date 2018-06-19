@@ -38,10 +38,22 @@ class WalletDetails extends Component {
   }
 
   componentDidMount() {
-    const { getCoinTransactions, navigation } = this.props;
+    const { getCoinTransactions, navigation, getWalletDetails } = this.props;
     const currency = navigation.getParam('currency');
 
+    getWalletDetails();
     getCoinTransactions(currency.toLowerCase());
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { navigation, getCoinTransactions, getWalletDetails } = this.props;
+    const oldCurrency = navigation.getParam('currency');
+    const newCurrency = nextProps.navigation.getParam('currency');
+
+    if (nextProps.activeScreen === 'WalletDetails' && newCurrency !== oldCurrency) {
+      getCoinTransactions(newCurrency.toLowerCase());
+      getWalletDetails();
+    }
   }
 
   onCloseInfo = () => this.setState({ infoBubble: false })

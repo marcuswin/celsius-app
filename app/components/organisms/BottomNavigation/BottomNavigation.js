@@ -98,7 +98,7 @@ class BottomNavigation extends Component {
         <TouchableOpacity
           onPress={ () => {
             mixpanelActions.navigation('Home');
-            if (state !== 'Active') navigateTo('Home');
+            navigateTo('Home');
           }}>
           <View style={BottomNavigationStyle.wallet} >
             <View style={BottomNavigationStyle[`celsius${state}`]}>
