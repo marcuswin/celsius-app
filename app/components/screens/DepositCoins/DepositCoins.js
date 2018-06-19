@@ -38,8 +38,9 @@ class DepositCoins extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedInterest } = this.props;
+    const { getEstimatedInterest, portfolio, getPortfolio } = this.props;
     getEstimatedInterest();
+    if (!portfolio) getPortfolio();
   }
 
   // event hanlders
@@ -47,9 +48,11 @@ class DepositCoins extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, navigateTo } = this.props;
+
+    if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
+
     const portfolioData = get(portfolio, 'data', [])
 
-    if (!estimatedInterest) return <Loader text="Estimating Interest on Coins" />;
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}

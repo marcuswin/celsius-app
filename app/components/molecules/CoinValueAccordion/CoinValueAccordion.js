@@ -33,7 +33,7 @@ class CoinValueAccordion extends Component {
           { i !== 0 ? ' and ' : ''}
           <Text style={[styles, globalStyles.boldText]}>{formatter.crypto(c.amount, c.currency.short)} </Text>
           at a rate of
-          <Text style={[styles, globalStyles.boldText]}> {formatter.usd(c.market.quotes.USD.price)}</Text>
+          <Text style={[styles, globalStyles.boldText]}> {formatter.usd(c.currency.market.quotes.USD.price)}</Text>
         </Text>
       ));
 

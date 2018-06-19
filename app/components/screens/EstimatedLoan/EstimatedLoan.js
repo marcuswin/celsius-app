@@ -40,8 +40,9 @@ class EstimatedLoan extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedLoan } = this.props;
+    const { getEstimatedLoan, portfolio, getPortfolio } = this.props;
     getEstimatedLoan();
+    if (!portfolio) getPortfolio();
   }
 
   // event hanlders
@@ -96,9 +97,10 @@ class EstimatedLoan extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedLoan, portfolio, navigateTo } = this.props;
+
+    if (!estimatedLoan || !portfolio) return <Loader text="Estimating Loan"/>;
     const portfolioData = get(portfolio, 'data', []);
 
-    if (!estimatedLoan) return <Loader text="Estimating Loan"/>;
 
     if (!estimatedLoan.estimated_coin_value) return (
       <SimpleLayout
