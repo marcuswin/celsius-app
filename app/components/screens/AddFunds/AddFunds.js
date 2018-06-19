@@ -35,11 +35,12 @@ class AddFunds extends Component {
       ],
     };
 
-    let currency = props.navigation.getParam('currency');
-    currency = currency ? currency.toLowerCase() : currency;
-    props.initForm({
-      currency: currency || 'eth',
-    })
+    const currency = props.navigation.getParam('currency');
+    if (!currency) {
+      props.initForm({
+        currency: 'eth',
+      })
+    }
     const { formData, navigation, getCoinAddress } = this.props;
 
     this.getAddress(formData, navigation, getCoinAddress);
