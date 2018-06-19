@@ -25,6 +25,7 @@ import formatter from '../../../utils/formatter';
     btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
+    currencyRatesShort: state.generalData.currencyRatesShort,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -135,13 +136,13 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { supportedCurrencies, transaction, navigateTo } = this.props;
+    const { supportedCurrencies, transaction, navigateTo, currencyRatesShort } = this.props;
 
     if (!supportedCurrencies || !transaction) return <Loader text="Checking Data"/>;
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
-    const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : '-';
+    const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : formatter.usd(transaction.amount * currencyRatesShort[transaction.coin]);
 
     return (
       <BasicLayout

@@ -7,11 +7,20 @@ function initialState() {
 }
 
 export default function generalDataReducer(state = initialState(), action) {
+  const currencyRates = {};
+  const currencyRatesShort = {};
+
   switch (action.type) {
     case ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS:
+      action.supportedCurrencies.forEach(sc => {
+        currencyRates[sc.name] = sc.market.quotes.USD.price;
+        currencyRatesShort[sc.short.toLowerCase()] = sc.market.quotes.USD.price;
+      });
       return {
         ...state,
         supportedCurrencies: action.supportedCurrencies,
+        currencyRates,
+        currencyRatesShort,
       };
 
   default:

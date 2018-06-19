@@ -22,11 +22,12 @@ const statusText = {
 }
 
 const TransactionsHistory = (props) => {
+  const { currencyRatesShort, transactions, navigateTo } = props;
 
-  const orderedTransactionsByDate = props.transactions.sort((a, b) => {
+  const orderedTransactionsByDate = transactions.sort((a, b) => {
     const date1 = moment(a.time)
     const date2 = moment(b.time)
-  
+
     if (date1.isAfter(date2)) {
       return -1;
     }
@@ -37,12 +38,12 @@ const TransactionsHistory = (props) => {
     return 0;
   });
 
-  const transactions = orderedTransactionsByDate.map(t => ({
+  const transactionsDisplay = orderedTransactionsByDate.map(t => ({
     id: t.id,
     amount: t.amount,
-    amount_usd: t.amount_usd,
+    amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
     coin: t.coin,
-    time: moment(t.time).format('DD MMM YYYY'),
+    time: moment().diff(t.time, 'days') ? moment(t.time).format('DD MMM YYYY') : moment(t.time).format('HH:MM'),
     status: t.is_confirmed ? t.type : 'pending',
     type: t.type,
   }))
@@ -52,12 +53,12 @@ const TransactionsHistory = (props) => {
     <View>
       <Text style={TransactionsHistoryStyles.title}>Transaction History</Text>
       <List
-        dataArray={transactions}
+        dataArray={transactionsDisplay}
         scrollEnabled={false}
         style={{marginBottom: 30}}
         renderRow={(item) =>
           <ListItem style={TransactionsHistoryStyles.listItem}>
-            <TouchableOpacity style={{width: '100%'}} onPress={() => props.navigateTo('TransactionDetails', { id: item.id } )}>
+            <TouchableOpacity style={{width: '100%'}} onPress={() => navigateTo('TransactionDetails', { id: item.id } )}>
               <Grid style={{paddingLeft: 0, marginLeft: 0}}>
                 <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
                   <Col style={{ width: 40, position: "absolute" }}>
@@ -85,9 +86,9 @@ const TransactionsHistory = (props) => {
                     <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase(), { precision: 5 })}</Text>
                   </Col>
                 </Col>
-                <Col size={30}>
+                <Col size={50}>
                   <View style={{display: 'flex', alignSelf: 'flex-end'}}>
-                    <Text style={TransactionsHistoryStyles.time}>{item.time}</Text>
+                    <Text style={[TransactionsHistoryStyles.time, { alignSelf: 'flex-end' }]}>{item.time}</Text>
                     <Text
                       style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
                       {statusText[item.status]}

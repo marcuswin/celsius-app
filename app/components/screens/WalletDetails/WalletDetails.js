@@ -25,6 +25,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    currencyRatesShort: state.generalData.currencyRatesShort,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -74,7 +75,7 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, balances } = this.props;
+    const { navigateTo, navigation, balances, currencyRatesShort } = this.props;
     const currency = navigation.getParam('currency');
     const maxLoan = 0.2624 * balances.filter(b => b.currency.short === currency)[0].total;
     const transactions = this.getTransactions();
@@ -100,6 +101,7 @@ class WalletDetails extends Component {
           <TransactionsHistory
             transactions={transactions}
             navigateTo={navigateTo}
+            currencyRatesShort={currencyRatesShort}
             />
           <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
         </Content>
