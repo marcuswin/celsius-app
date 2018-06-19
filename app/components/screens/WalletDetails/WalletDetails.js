@@ -22,7 +22,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
-    wallet: state.wallet,
+    balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
@@ -58,19 +58,13 @@ class WalletDetails extends Component {
       }
     })
 
-    console.log({
-      transactionArray,
-      transactionIds,
-      transactions,
-    })
-
     return transactionArray;
   }
 
   render() {
     const { navigateTo, navigation } = this.props;
     const currency = navigation.getParam('currency')
-    const maxLoan = 4000; // todo
+    const maxLoan = 0.2624 * 1000; // todo
     const transactions = this.getTransactions();
 
     return (

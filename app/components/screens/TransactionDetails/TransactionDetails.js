@@ -30,7 +30,6 @@ class TransactionDetails extends Component {
   componentDidMount() {
     const { getSupportedCurrencies } = this.props;
     getSupportedCurrencies();
-
   }
 
   // event hanlders
@@ -142,8 +141,8 @@ class TransactionDetails extends Component {
     const { supportedCurrencies, transaction, navigateTo } = this.props;
     if (!supportedCurrencies) return <Loader text="Checking Data"/>;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
-
+    // const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
+    const letterSize = FONT_SCALE * 36;
 
     return (
       <BasicLayout
