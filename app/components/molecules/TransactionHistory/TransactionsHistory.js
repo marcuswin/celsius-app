@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { List, ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
 import Link from "../../atoms/Link/Link";
@@ -24,6 +24,7 @@ const statusText = {
 
 const TransactionsHistory = (props) => {
   const displayTransactions = props.transactions.map(t => ({
+    id: t.id,
     amount: t.amount,
     amount_usd: t.amount_usd,
     coin: t.coin,
@@ -40,43 +41,45 @@ const TransactionsHistory = (props) => {
         style={{marginBottom: 30}}
         renderRow={(item) =>
           <ListItem style={TransactionsHistoryStyles.listItem}>
-            <Grid style={{paddingLeft: 0, marginLeft: 0}}>
-              <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
-                <Col style={{ width: 40, position: "absolute" }}>
-                  { item.type === 'outgoing' &&
-                    <Icon
-                      name='SentArrow' height='36'
-                      width='36' viewBox="0 0 36 36"
-                      fill={colors[item.status]}
-                      stroke='white'
-                    />
-                  }
-                  { item.status === 'incoming' &&
-                    <Icon
-                      name='ReceiveArrow'
-                      height='36'
-                      width='36'
-                      viewBox="0 0 36 36"
-                      fill={colors[item.status]}
-                      stroke='white'
-                    />
-                  }
+            <TouchableOpacity onPress={() => props.navigateTo('TransactionDetails', { id: item.id } )}>
+              <Grid style={{paddingLeft: 0, marginLeft: 0}}>
+                <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
+                  <Col style={{ width: 40, position: "absolute" }}>
+                    { item.type === 'outgoing' &&
+                      <Icon
+                        name='SentArrow' height='36'
+                        width='36' viewBox="0 0 36 36"
+                        fill={colors[item.status]}
+                        stroke='white'
+                      />
+                    }
+                    { item.status === 'incoming' &&
+                      <Icon
+                        name='ReceiveArrow'
+                        height='36'
+                        width='36'
+                        viewBox="0 0 36 36"
+                        fill={colors[item.status]}
+                        stroke='white'
+                      />
+                    }
+                  </Col>
+                  <Col style={{paddingLeft: 40}}>
+                    <Text style={TransactionsHistoryStyles.usdAmount}>{formatter.usd(item.amount_usd)}</Text>
+                    <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase())}</Text>
+                  </Col>
                 </Col>
-                <Col style={{paddingLeft: 40}}>
-                  <Text style={TransactionsHistoryStyles.usdAmount}>{formatter.usd(item.amount_usd)}</Text>
-                  <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase())}</Text>
+                <Col size={30}>
+                  <View style={{display: 'flex', alignSelf: 'flex-end'}}>
+                    <Text style={TransactionsHistoryStyles.time}>{item.time}</Text>
+                    <Text
+                      style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
+                      {statusText[item.status]}
+                    </Text>
+                  </View>
                 </Col>
-              </Col>
-              <Col size={30}>
-                <View style={{display: 'flex', alignSelf: 'flex-end'}}>
-                  <Text style={TransactionsHistoryStyles.time}>{item.time}</Text>
-                  <Text
-                    style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
-                    {statusText[item.status]}
-                  </Text>
-                </View>
-              </Col>
-            </Grid>
+              </Grid>
+            </TouchableOpacity>
           </ListItem>
         }/>
       <Link>See all</Link>
@@ -86,3 +89,5 @@ const TransactionsHistory = (props) => {
 
 
 export default TransactionsHistory;
+
+// sort by date

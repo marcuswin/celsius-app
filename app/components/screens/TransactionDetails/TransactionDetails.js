@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import * as actions from "../../../redux/actions";
-import {FONT_SCALE} from "../../../config/constants/style";
+import { FONT_SCALE } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -19,6 +19,7 @@ import formatter from '../../../utils/formatter';
 
 @connect(
   state => ({
+    nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
     userOriginatingAddress: "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
@@ -28,12 +29,11 @@ import formatter from '../../../utils/formatter';
 class TransactionDetails extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getSupportedCurrencies } = this.props;
+    const { getTransactionDetails, navigation, getSupportedCurrencies } = this.props;
     getSupportedCurrencies();
+    const transactionId = navigation.getParam('id');
+    getTransactionDetails(transactionId);
   }
-
-  // event hanlders
-  // rendering methods
 
   renderCelHeading() {
     const { supportedCurrencies, transaction, userOriginatingAddress } = this.props;
@@ -43,7 +43,6 @@ class TransactionDetails extends Component {
 
 
     if (isUserReceiving) {
-      // text=`Received` + `${coin.short.toUppercase()}`
       text = `Received ${ coin.short.toUpperCase()}`;
     } else {
       text=`Withdrawn ${ coin.short.toUpperCase()}`
@@ -56,7 +55,6 @@ class TransactionDetails extends Component {
     return (
       <CelHeading text={text}/>
     )
-
   }
 
   renderCoinIcon() {
@@ -112,6 +110,7 @@ class TransactionDetails extends Component {
   renderAddressLink() {
     const { transaction, supportedCurrencies } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
+    
 
     let webPage;
     let namePage
@@ -139,10 +138,9 @@ class TransactionDetails extends Component {
 
   render() {
     const { supportedCurrencies, transaction, navigateTo } = this.props;
-    if (!supportedCurrencies) return <Loader text="Checking Data"/>;
+    if (!supportedCurrencies && !transaction) return <Loader text="Checking Data"/>;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    // const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
-    const letterSize = FONT_SCALE * 36;
+    const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
 
     return (
       <BasicLayout
@@ -218,5 +216,3 @@ class TransactionDetails extends Component {
 }
 
 export default TransactionDetails;
-
-

@@ -105,7 +105,7 @@ class WalletLanding extends Component {
                   ((totalValue === 0 && item.amount === 0 )|| (totalValue !== 0 && item.amount > 0)) && 
                     <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                       <Body>
-                        <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })} disabled={item.total === 0}>
+                        <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })}>
                           <CoinCard type="wallet-card" {...item} />
                         </TouchableOpacity>
                       </Body>

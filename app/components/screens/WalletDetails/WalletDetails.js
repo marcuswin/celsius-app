@@ -85,7 +85,10 @@ class WalletDetails extends Component {
               if you deposit your {currency} into your Celsius wallet.
             </Text>
           </WalletInfoBubble>}
-          <TransactionsHistory transactions={transactions} />
+          <TransactionsHistory 
+            transactions={transactions}
+            navigateTo={navigateTo}
+            />
           <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
         </Content>
       </BasicLayout>
