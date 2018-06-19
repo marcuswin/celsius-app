@@ -62,11 +62,14 @@ class Calculator extends Component {
       })
     }
 
-    if (this.state.newCoinAdded && this[lastItem.currency.short]) {
-      this[lastItem.currency.short].focus();
+    if (this.state.newCoinAdded) {
       this.setState({
         newCoinAdded: false
-      })
+      });
+
+      if (lastItem && this[lastItem.currency.short]) {
+        this[lastItem.currency.short].focus();
+      }
     }
   }
 
