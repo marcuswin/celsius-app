@@ -19,6 +19,7 @@ import API from "../../../config/constants/API";
   state => ({
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
+    lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -33,11 +34,18 @@ class TransactionConfirmation extends Component {
   }
 
   // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { lastCompletedCall, navigateTo } = this.props;
+
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.WITHDRAW_CRYPTO) {
+      navigateTo('TransactionDetails')
+    }
+  }
+
   // event hanlders
   confirmWithdrawal = () => {
     const { formData, withdrawCrypto } = this.props;
     withdrawCrypto(formData.currency, formData.amountCrypto);
-    // add formData.pin when backend is ready
   }
   // rendering methods
   render() {

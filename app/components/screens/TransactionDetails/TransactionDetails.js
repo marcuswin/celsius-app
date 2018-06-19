@@ -21,29 +21,11 @@ import formatter from '../../../utils/formatter';
   state => ({
     supportedCurrencies: state.generalData.supportedCurrencies,
     userOriginatingAddress: "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
-    transaction: {
-      "transaction_id": "0x1de8f17f133d73f41e7dcd531d6d9a3e014e835354eb8282d27ca437660ac90f",
-      "amount": 100000000000,
-      "amount_usd": 10000200000,
-      "coin": "eth",
-      "time": "2018-06-08T10:07:26.734Z",
-      "is_confirmed": false,
-      "from_address": "0x234584a8776a9fefe7b3ce2d8776350f22f9e026",
-      "to_address": "0x234584a8776a9fefe7b3ce2d8776350f22f9e026"
-    }
+    transaction: state.wallet.transactions[state.wallet.activeTransactionId],
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
 class TransactionDetails extends Component {
-  // constructor(props) {
-  //   super(props);
-  //
-  //   this.state = {
-  //     // initial state
-  //   };
-  //   // binders
-  // }
-
   // lifecycle methods
   componentDidMount() {
     const { getSupportedCurrencies } = this.props;
@@ -157,7 +139,7 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { supportedCurrencies, transaction } = this.props;
+    const { supportedCurrencies, transaction, navigateTo } = this.props;
     if (!supportedCurrencies) return <Loader text="Checking Data"/>;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
@@ -171,7 +153,6 @@ class TransactionDetails extends Component {
         {this.renderCelHeading()}
 
         <Content>
-
           <View style={TransactionDetailsStyle.inputWrapper}>
             <View style={TransactionDetailsStyle.amountStatus}>
               <View style={TransactionDetailsStyle.amount}>
@@ -225,7 +206,7 @@ class TransactionDetails extends Component {
           </View>
 
           <CelButton
-            onPress={() => (console.log())}
+            onPress={() => navigateTo('Home')}
             margin='10 36 45 36'
           >
             Close

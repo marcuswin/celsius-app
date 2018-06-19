@@ -22,10 +22,10 @@ const decimalForCurrency = {
 
 @connect(
   state => ({
-    ethBalance: 100,
-    btcBalance: 9,
-    ethUsd: 597,
-    btcUsd: 7595,
+    ethBalance: state.wallet.currencies.filter(c => c.currency.short === 'ETH')[0].amount,
+    btcBalance: state.wallet.currencies.filter(c => c.currency.short === 'BTC')[0].amount,
+    ethUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'ETH')[0].market.quotes.USD.price,
+    btcUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'BTC')[0].market.quotes.USD.price,
     formData: state.ui.formData,
   }),
   dispatch => bindActionCreators(actions, dispatch)
@@ -70,8 +70,10 @@ class AmountInput extends Component {
 
     const amount = formData.amount + number;
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd
-    if (amountUsd > 50000) {
-      showMessage('info', 'Maximum amount to withdraw is $50,000.00')
+    if (amountUsd > 20000) {
+      showMessage('info', 'Maximum amount to withdraw is $20,000.00');
+    } else if (amountUsd > formData.balance * formData.rateUsd) {
+      showMessage('info', 'Insufficient funds');
     } else if (amount.indexOf('.') === -1 || amount.length - amount.indexOf('.') <= decimal + 1) {
       this.updateAmount(amount);
     }
@@ -106,6 +108,13 @@ class AmountInput extends Component {
     updateFormField('amountUsd', amountUsd);
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd;
     updateFormField('amountCrypto', amountCrypto);
+
+    console.log({
+      amount,
+      amountUsd,
+      formData,
+      amountCrypto,
+    })
   }
 
   render() {

@@ -80,6 +80,7 @@ export default class App extends Component {
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 
+    await store.dispatch(actions.getSupportedCurrencies());
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === 'granted') {
       navigator.geolocation.getCurrentPosition(

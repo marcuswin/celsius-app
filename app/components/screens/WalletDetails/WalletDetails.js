@@ -92,7 +92,7 @@ class WalletDetails extends Component {
             </Text>
           </WalletInfoBubble>}
           <TransactionsHistory transactions={transactions} />
-          <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency })}}>Withdraw</CelButton>
+          <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
         </Content>
       </BasicLayout>
     )

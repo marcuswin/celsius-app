@@ -12,8 +12,6 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
-import Loader from "../../atoms/Loader/Loader";
-
 
 @connect(
   state => ({
@@ -80,10 +78,6 @@ class AddFunds extends Component {
       headingText = 'Add funds';
     }
 
-    if (!address) {
-      return <Loader />
-    }
-
     return (
       <SimpleLayout
         animatedHeading={{ text: headingText, textAlign: "center" }}
@@ -107,7 +101,7 @@ class AddFunds extends Component {
           </View>
         ) : null}
 
-        <View style={AddFundsStyle.imageWrapper}>
+        <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
           <View style={AddFundsStyle.wrapperLogo}>
             <View style={AddFundsStyle.celsiusLogo}>
               <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF' />
@@ -115,15 +109,18 @@ class AddFunds extends Component {
           </View>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
-              <QRCode
-                value={address}
-                size={120}
-                bgColor='black'
-                fgColor='white'
-              />
+              { address &&
+                <QRCode
+                  value={address}
+                  size={120}
+                  bgColor='black'
+                  fgColor='white'
+                />
+              }
             </View>
           </View>
         </View>
+
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
             <Text style={AddFundsStyle.address}>{address}</Text>
