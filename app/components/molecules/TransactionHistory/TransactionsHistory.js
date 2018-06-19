@@ -3,7 +3,7 @@ import moment from "moment";
 import { View, Text, TouchableOpacity } from "react-native";
 import { List, ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
-import Link from "../../atoms/Link/Link";
+// import Link from "../../atoms/Link/Link";
 import formatter from "../../../utils/formatter";
 import Icon from "../../atoms/Icon/Icon";
 
@@ -41,7 +41,7 @@ const TransactionsHistory = (props) => {
         style={{marginBottom: 30}}
         renderRow={(item) =>
           <ListItem style={TransactionsHistoryStyles.listItem}>
-            <TouchableOpacity onPress={() => props.navigateTo('TransactionDetails', { id: item.id } )}>
+            <TouchableOpacity style={{width: '100%'}} onPress={() => props.navigateTo('TransactionDetails', { id: item.id } )}>
               <Grid style={{paddingLeft: 0, marginLeft: 0}}>
                 <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
                   <Col style={{ width: 40, position: "absolute" }}>
@@ -82,12 +82,10 @@ const TransactionsHistory = (props) => {
             </TouchableOpacity>
           </ListItem>
         }/>
-      <Link>See all</Link>
+      {/* <Link>See all</Link> */}
     </View>
   )
 }
 
 
 export default TransactionsHistory;
-
-// sort by date
