@@ -158,7 +158,7 @@ class CoinCard extends Component {
                 style={CoinCardStyle.label}>{currency.short.toUpperCase()} - {currency.name.toUpperCase()}</Text>
               <Text style={CoinCardStyle.text}>{formatter.usd(total)}</Text>
               <Text
-                style={[CoinCardStyle.coinAmount, { fontFamily: 'agile-light' }]}>{amount} {currency.short.toUpperCase()}</Text>
+                style={[CoinCardStyle.coinAmount, { fontFamily: 'agile-light' }]}>{ formatter.crypto(amount, 'ETH', { precision: 5 }) }</Text>
             </View>
           </Col>
           <Col style={{ width: '30%' }}>
