@@ -77,9 +77,9 @@ class WalletDetailsGraphContainer extends Component {
         </Col>
         <Col style={{ marginLeft: 'auto'}}>
           <Text
-            style={[WalletDetailsGraphContainerStyle.coinAmount, {fontWeight: 'bold', alignSelf: 'flex-end'}]}
+            style={[WalletDetailsGraphContainerStyle.coinAmount, {alignSelf: 'flex-end'}]}
           >
-            1 {currency} = {formatter.usd(currencyPrice)}
+            1 {currency.toUpperCase()} = <Text style={{fontFamily: 'agile-book'}}>{formatter.usd(currencyPrice)}</Text>
           </Text>
         </Col>
       </Row>

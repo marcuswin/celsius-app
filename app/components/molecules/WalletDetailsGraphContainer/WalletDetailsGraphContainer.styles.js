@@ -7,7 +7,7 @@ const WalletDetailsGraphContainerStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     paddingLeft: 36,
-    paddingRight: 20,
+    paddingRight: 36,
     paddingTop: 14,
     paddingBottom: 14,
     marginBottom: 16,
