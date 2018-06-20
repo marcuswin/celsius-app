@@ -21,20 +21,20 @@ import CelButton from "../../atoms/CelButton/CelButton";
 
 const types = {
     createPasscode: {
-      title: `Create a${'\n'} passcode`,
-      text: `Please create a 4-digit passcode${'\n'}to make your transactions even${'\n'} more secure.`,
-      buttonText: 'Repeat passcode',
+      title: `Create a${'\n'} PIN`,
+      text: `Please create a 4-digit PIN${'\n'}to make your transactions even${'\n'} more secure.`,
+      buttonText: 'Repeat PIN',
       field: 'pin',
     },
     repeatPasscode: {
-      title: `Repeat your${'\n'} passcode`,
-      text: `Please create a 4-digit passcode${'\n'} to make your transactions even more secure.`,
+      title: `Repeat your${'\n'} PIN`,
+      text: `Please create a 4-digit PIN${'\n'} to make your transactions even more secure.`,
       buttonText: 'Confirm',
       field: 'pin_confirm',
     },
     enterPasscode: {
-      title: `Enter your${'\n'} passcode`,
-      text: `To continue with your withdrawal${'\n'} please enter your 4-digit passcode.`,
+      title: `Enter your${'\n'} PIN`,
+      text: `To continue with your withdrawal${'\n'} please enter your 4-digit PIN.`,
       buttonText: 'Confirm',
       field: 'pin',
     },
