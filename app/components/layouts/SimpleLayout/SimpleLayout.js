@@ -54,20 +54,18 @@ class SimpleLayout extends Component {
     }
 
     return (
-      <KeyboardAvoidingView behavior="padding" enabled style={{flex: 1}} keyboardVerticalOffset={keyboardOffset}>
-        <Container>
-          <MainHeader { ...mainHeaderProps } />
-          <CelHeading { ...animatedHeadingProps } />
+      <Container>
+        <MainHeader { ...mainHeaderProps } />
+        <CelHeading { ...animatedHeadingProps } />
 
-          <Message inverted={background}/>
+        <Message inverted={background}/>
 
-            <Content style={[SimpleLayoutStyle.content, contentStyles]}>
-              { this.props.children }
-            </Content>
+          <Content style={[SimpleLayoutStyle.content, contentStyles]}>
+            { this.props.children }
+          </Content>
 
-          {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
-        </Container>
-      </KeyboardAvoidingView>
+        {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
+      </Container>
     )
   }
 }
