@@ -27,6 +27,9 @@ class CelDatepicker extends Component {
       PropTypes.string,
     ]),
     format: PropTypes.string,
+    minDate: PropTypes.instanceOf(Date),
+    maxDate: PropTypes.instanceOf(Date),
+    onOpenModal: PropTypes.func,
   }
 
   static defaultProps = {
@@ -40,7 +43,7 @@ class CelDatepicker extends Component {
   }
 
   render() {
-    const { theme, value, labelText, format } = this.props;
+    const { theme, value, labelText, format, minDate, maxDate, onOpenModal } = this.props;
     const label = value && labelText ? labelText.toUpperCase() : labelText;
 
     let labelStyles = value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive;
@@ -69,6 +72,9 @@ class CelDatepicker extends Component {
           confirmBtnText="Ok"
           cancelBtnText="Cancel"
           onDateChange={this.onDateChange}
+          minDate={minDate}
+          maxDate={maxDate}
+          onOpenModal={onOpenModal}
         />
       </View>
     )

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
@@ -89,7 +90,7 @@ class ProfileDetails extends Component {
   }
   // rendering methods
   render() {
-    const { formData } = this.props;
+    const { formData, updateFormField } = this.props;
 
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
 
@@ -109,7 +110,17 @@ class ProfileDetails extends Component {
           <CelInput value={formData.middleName} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
           <CelInput value={formData.lastName} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
 
-          <CelDatepicker labelText="Date of birth" field="dateOfBirth" format="Do MMM YYYY" value={formData.dateOfBirth} />
+          <CelDatepicker
+            labelText="Date of birth"
+            field="dateOfBirth"
+            format="Do MMM YYYY"
+            minDate={moment().subtract(100, 'years').toDate()}
+            maxDate={moment().subtract(18, 'years').toDate()}
+            onModalOpen={() => {
+              if (!formData.dateOfBirth) updateFormField('dateOfBirth', moment().subtract(18, 'years').toDate())
+            }}
+            value={formData.dateOfBirth}
+          />
 
           <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
           <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
