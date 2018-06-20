@@ -43,7 +43,7 @@ const TransactionsHistory = (props) => {
     amount: t.amount,
     amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
     coin: t.coin,
-    time: moment().diff(t.time, 'days') ? moment(t.time).format('DD MMM YYYY') : moment(t.time).format('HH:MM'),
+    time: moment(t.time).isSame(moment(), 'day') ? moment(t.time).format('HH:mm') : moment(t.time).format('DD MMM YYYY'),
     status: t.is_confirmed ? t.type : 'pending',
     type: t.type,
   }))
