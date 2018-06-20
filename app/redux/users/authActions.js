@@ -157,7 +157,7 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelActions.finishedSignup('Twitter');
+  mixpanelActions.finishedSignup('oAuth');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_TWITTER_SUCCESS,
@@ -243,7 +243,7 @@ function loginGoogle(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  mixpanelActions.finishedSignup('Facebook');
+  mixpanelActions.finishedSignup('oAuth');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS,
@@ -282,7 +282,7 @@ function loginUserFacebookSuccess(data) {
 }
 
 function registerUserGoogleSuccess(data) {
-  mixpanelActions.finishedSignup('Google');
+  mixpanelActions.finishedSignup('oAuth');
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_GOOGLE_SUCCESS,
