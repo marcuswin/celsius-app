@@ -17,14 +17,20 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
     nav: state.nav,
     user: state.users.user,
     portfolio: state.portfolio.portfolio,
+    supportedCurrencies: state.generalData.supportedCurrencies,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class PortfolioScreen extends Component {
 
+  componentDidMount() {
+    const { getSupportedCurrencies } = this.props;
+    getSupportedCurrencies();
+  }
+
   render() {
-    const {navigateTo, portfolio} = this.props;
+    const { navigateTo, portfolio, supportedCurrencies } = this.props;
     const animatedHeading = {
       text: 'Portfolio',
       subheading: "Track your coins",
@@ -58,7 +64,10 @@ class PortfolioScreen extends Component {
                 renderRow={(item) =>
                   <ListItem style={{marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0}}>
                     <Body>
-                    <CoinCard {...item} />
+                    <CoinCard
+                      supportedCurrencies={supportedCurrencies}
+                      {...item}
+                      />
                     </Body>
                   </ListItem>
                 }/>
