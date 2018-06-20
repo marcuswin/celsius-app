@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Clipboard, Share } from "react-native";
+import { Text, View, TouchableOpacity, Clipboard, Share, Platform } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -61,6 +61,9 @@ class AddFunds extends Component {
       getCoinAddress('eth');
     }
   }
+
+
+
   // event hanlders
   // rendering methods
   render() {
@@ -102,11 +105,15 @@ class AddFunds extends Component {
         ) : null}
 
         <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
-          <View style={AddFundsStyle.wrapperLogo}>
-            <View style={AddFundsStyle.celsiusLogo}>
-              <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF' />
-            </View>
-          </View>
+
+              { Platform.OS === 'ios' ? (
+                <View style={AddFundsStyle.wrapperLogo}>
+                  <View style={AddFundsStyle.celsiusLogo}>
+                   <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF' />
+                  </View>
+                </View>
+                ) : null}
+
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               { address &&
@@ -138,12 +145,12 @@ class AddFunds extends Component {
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  <Icon
+                  { Platform.OS === 'ios' ? (<Icon
                     style={{ marginTop: 17 }}
                     name='ShareIcon'
                     width='20' height='20'
                     fill='rgba(255, 255, 255, 0.5)'
-                  />
+                  />) : null }
                   Share
                 </Text>
               </View>
@@ -161,12 +168,12 @@ class AddFunds extends Component {
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  <Icon
+                  {Platform.OS === 'ios' ? (<Icon
                     style={{ marginTop: 17 }}
                     name='CopyIcon'
                     width='20' height='20'
                     fill='rgba(255, 255, 255, 0.5)'
-                  />
+                  />) : null }
                   Copy
                 </Text>
               </View>
