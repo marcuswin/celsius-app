@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, Platform } from 'react-native';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
@@ -13,7 +13,7 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
-const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
+const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
 
 @connect(
   state => ({
@@ -80,8 +80,55 @@ class BottomNavigation extends Component {
     )
   }
 
+  renderWalletButton(navItem) {
+
+    const { activeScreen, navigateTo } = this.props;
+
+    const ios = walletScreens.indexOf(activeScreen) !== -1 ? 'Active' : 'Inactive';
+    const state = (navItem.active && navItem.active.indexOf(activeScreen) !== -1) || navItem.screen === activeScreen ? 'Active' : 'Inactive';
+
+    const iconFill = state === 'Active' ? STYLES.PRIMARY_BLUE : '#3D4853';
+    const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
+
+    if(Platform.OS === 'ios') {
+      return (
+      <TouchableOpacity
+        onPress={ () => {
+          mixpanelActions.navigation('Home');
+          navigateTo('Home');
+        }}>
+        <View style={BottomNavigationStyle.wallet} >
+          <View style={BottomNavigationStyle[`celsius${ios}`]}>
+            <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+          </View>
+          <Text style={BottomNavigationStyle[`text${ios}`]}>Wallet</Text>
+        </View>
+      </TouchableOpacity>
+      )
+    }
+
+    if(Platform.OS === 'android') {
+      return (
+        <TouchableOpacity
+          key={ navItem.label }
+          onPress={ () => {
+            mixpanelActions.navigation('Home');
+            navigateTo('Home');
+          }}>
+          <View style={BottomNavigationStyle[`item${state}`]} >
+            <View style={BottomNavigationStyle.iconWrapper}>
+              <Icon name="CelsiusLogo" width={30} height={30} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 5}]} fill={ iconFill } />
+            </View>
+            <Text style={BottomNavigationStyle[`text${state}`]}>{ navItem.label }</Text>
+          </View>
+        </TouchableOpacity>
+      )
+    }
+
+  };
+
   render() {
-    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight, activeScreen, navigateTo } = this.props;
+    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight } = this.props;
 
     const styles = {
       height: bottomNavigationDimensions.height,
@@ -89,24 +136,13 @@ class BottomNavigation extends Component {
       paddingBottom: bottomNavigationDimensions.paddingBottom,
     }
 
-    const state = walletScreens.indexOf(activeScreen) !== -1 ? 'Active' : 'Inactive';
+
 
     return (
       <View style={[ BottomNavigationStyle.container, styles ]}>
         { navItemsLeft.map(this.renderNavItem) }
 
-        <TouchableOpacity
-          onPress={ () => {
-            mixpanelActions.navigation('Home');
-            navigateTo('Home');
-          }}>
-          <View style={BottomNavigationStyle.wallet} >
-            <View style={BottomNavigationStyle[`celsius${state}`]}>
-              <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
-            </View>
-            <Text style={BottomNavigationStyle[`text${state}`]}>Wallet</Text>
-          </View>
-        </TouchableOpacity>
+        {this.renderWalletButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens })}
 
         { navItemsRight.map(this.renderNavItem) }
       </View>
