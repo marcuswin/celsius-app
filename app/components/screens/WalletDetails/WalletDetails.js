@@ -26,11 +26,8 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-<<<<<<< HEAD
     currencyRatesShort: state.generalData.currencyRatesShort,
-=======
     supportedCurrencies: state.generalData.supportedCurrencies,
->>>>>>> 976f47d... Add Graph wallet details container
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
