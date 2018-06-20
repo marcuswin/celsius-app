@@ -39,18 +39,18 @@ class ManagePorfolio extends Component {
   }
 
   render() {
+    const {navigateBack} = this.props;
     const userHasPortfolio = this.getUserHasPortfolio();
     const animatedHeading = {
       text: userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`,
       subheading: userHasPortfolio ? "Manage your portfolio" : null
     };
-    const {navigateBack} = this.props;
 
     return (
 
         <SimpleLayout
           animatedHeading={animatedHeading}
-          mainHeader={{ backButton: false, onCancel: navigateBack}}
+          mainHeader={{ backButton: false, onCancel: userHasPortfolio ? navigateBack : null }}
         >
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
