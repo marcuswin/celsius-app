@@ -92,7 +92,7 @@ class WalletTotals extends Component {
             </View>
             <PricingChangeIndicator
               isPercentChangeNegative={percentage < 0}
-              percentChange24h={percentage}
+              percentChange={percentage}
             />
         </ListItem>
       </List>
@@ -103,7 +103,6 @@ class WalletTotals extends Component {
   render() {
     const { walletBalances, supportedCurrencies, navigateTo, currencyRatesShort } = this.props;
     const transactions = this.getTransactions();
-    console.log({ walletBalances, supportedCurrencies });
 
     const ethereumTotal = this.renderBalance({
       balance: walletBalances.filter(b => b.currency.short === 'ETH')[0].amount,

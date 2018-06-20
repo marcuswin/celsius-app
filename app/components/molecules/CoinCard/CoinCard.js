@@ -145,8 +145,8 @@ class CoinCard extends Component {
   render() {
     const { type, currency, amount, total, supportedCurrencies } = this.props;
 
-    const percentChange24h = get(currency, 'market.quotes.USD.percent_change_24h', 0);
-    const isPercentChangeNegative = percentChange24h < 0;
+    const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
+    const isPercentChangeNegative = percentChange < 0;
     const graphDataObj = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.short)
     const graphData = get(graphDataObj, '[0]market.price_usd.7d', null)
     // eslint-disable-next-line
@@ -181,7 +181,7 @@ class CoinCard extends Component {
           </View>
           <PricingChangeIndicator
             isPercentChangeNegative={isPercentChangeNegative}
-            percentChange24h={percentChange24h}
+            percentChange={percentChange}
           />
         </Row>
         {graphDataPrices &&

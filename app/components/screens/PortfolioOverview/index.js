@@ -52,7 +52,7 @@ class PortfolioScreen extends Component {
             <TotalCoinsHeader totalValue={totalValue} >
               <PricingChangeIndicator
                 isPercentChangeNegative={isPercentChangeNegative}
-                percentChange24h={percentChange24h}
+                percentChange={percentChange24h}
               />
             </TotalCoinsHeader>
           }

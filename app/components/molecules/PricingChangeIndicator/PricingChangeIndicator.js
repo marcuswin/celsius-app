@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 const PricingChangeIndicator = (props) => 
   <View style={[styles.wrapper, {marginLeft: 'auto'}, props.rootStyles ? props.rootStyles : null]}>
     <View style={props.isPercentChangeNegative ? styles.triangleDown : styles.triangleUp} />
-    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange24h}%</Text><Text style={styles.text}>({props.period ? props.period : '24h'})</Text>
+    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange}%</Text><Text style={styles.text}>({props.period ? props.period : '24h'})</Text>
   </View>
 
 export default PricingChangeIndicator;

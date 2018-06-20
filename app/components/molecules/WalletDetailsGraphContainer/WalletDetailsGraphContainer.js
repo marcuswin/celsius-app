@@ -10,16 +10,17 @@ import formatter from "../../../utils/formatter";
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import WalletDetailsGraphContainerStyle from './WalletDetailsGraphContainer.styles';
 
-const periods = ['1d', '7d', '1m', '3m'];
+const periods = ['1d', '7d', '1m', '3m', '1y'];
 
 class WalletDetailsGraphContainer extends Component {
 
   constructor(props) {
     super(props);
     const { supportedCurrencies, currency } = props;
-    const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
+    const currencyData = this.getCurrencyData(supportedCurrencies, currency);
+    const percentChange = get(currencyData, '[0]market.price_change_usd.1d', 0);
 
-    const graphDataPrices = this.getGraphData(supportedCurrencies, currency);
+    const graphDataPrices = this.getGraphData(supportedCurrencies, currency, '1d');
 
     this.state = {
       activePeriod: '1d',
@@ -32,30 +33,34 @@ class WalletDetailsGraphContainer extends Component {
   onPress = (period) => {
     const { supportedCurrencies, currency } = this.props;
 
-    const currencyData = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency); // todo
-    const graphData = get(currencyData, `[0]market.price_usd.${period}`, null)
+    const currencyData = this.getCurrencyData(supportedCurrencies, currency);
+    const graphData = get(currencyData, `[0]market.price_usd.${period}`, null);
+    const percentChange = get(currencyData, `[0]market.price_change_usd.${period}`, '-');
+
     // eslint-disable-next-line
     const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
 
+
     this.setState({
       activePeriod: period,
+      percentChange,
       graphData: graphDataPrices,
     })
 
   }
 
-  getGraphData = (supportedCurrencies, currency) => {
+  getGraphData = (supportedCurrencies, currency, period) => {
     const currencyData = this.getCurrencyData(supportedCurrencies, currency);
-    const graphData = get(currencyData, '[0]market.price_usd.1d', null)
+    const graphData = get(currencyData, `[0]market.price_usd.${period}`, null)
     // eslint-disable-next-line
     return graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
   }
 
-  getCurrencyData = (supportedCurrencies, currency) => supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency);
+  getCurrencyData = (supportedCurrencies, currency) => supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.toUpperCase());
 
   render() {
     const { currency, supportedCurrencies } = this.props;
-    const { percentChange, graphData } = this.state;
+    const { percentChange, graphData, activePeriod } = this.state;
     const isPercentChangeNegative = this.state.percentChange < 0;
     const currencyData = this.getCurrencyData(supportedCurrencies, currency);
     const currencyPrice = get(currencyData, '[0]market.quotes.USD.price', '-');
@@ -65,7 +70,8 @@ class WalletDetailsGraphContainer extends Component {
         <Col style={{alignItems: 'flex-start', alignContent: 'flex-start'}}>
           <PricingChangeIndicator
             isPercentChangeNegative={isPercentChangeNegative}
-            percentChange24h={percentChange}
+            percentChange={percentChange}
+            period={activePeriod}
             rootStyles={{marginLeft: 0}}
             />
         </Col>
