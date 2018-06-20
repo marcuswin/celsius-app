@@ -48,6 +48,15 @@ class WalletLanding extends Component {
   // TODO: move logic to info bubble
   onCloseInfo = () => this.setState({ infoBubble: false })
 
+  clickCard = (short, amount) => {
+    const { navigateTo } = this.props
+    if (!amount) {
+      navigateTo('AddFunds', { currency: short.toLowerCase() });
+    } else {
+      navigateTo('WalletDetails', { currency: short.toLowerCase() });
+    }
+  }
+
   render() {
     const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies } = this.props;
 
@@ -65,7 +74,6 @@ class WalletLanding extends Component {
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
     const contentPadding = { paddingLeft: 36, paddingRight: 36 }
-    console.log('supportedCurrencies', supportedCurrencies)
 
     if (isLoading) {
       return <Loader />
@@ -104,11 +112,11 @@ class WalletLanding extends Component {
               <List
                 dataArray={walletCurrencies}
                 scrollEnabled={false}
-                renderRow={(item) => 
-                  ((totalValue === 0 && item.amount === 0 )|| (totalValue !== 0 && item.amount > 0)) && 
+                renderRow={(item) =>
+                  ((totalValue === 0 && item.amount === 0 )|| (totalValue !== 0 && item.amount > 0)) &&
                     <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                       <Body>
-                        <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })}>
+                      <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
                           <CoinCard type="wallet-card" {...item} supportedCurrencies={supportedCurrencies} />
                         </TouchableOpacity>
                       </Body>

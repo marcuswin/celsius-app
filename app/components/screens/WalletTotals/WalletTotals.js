@@ -18,10 +18,14 @@ import {FONT_SCALE} from "../../../config/constants/style";
 
 @connect(
   state => ({
-    balance: state.wallet.balance,
+    walletBalances: state.wallet.currencies,
+    transactions: state.wallet.transactions,
+    supportedCurrencies: state.generalData.supportedCurrencies,
+    currencyRatesShort: state.generalData.currencyRatesShort,
     nav: state.nav,
     user: state.users.user,
-    portfolio: state.portfolio.portfolio
+    portfolio: state.portfolio.portfolio,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -48,11 +52,31 @@ class WalletTotals extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getWalletDetails } = this.props;
+    const { getWalletDetails, getAllTransactions } = this.props;
     getWalletDetails();
+    getAllTransactions();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { activeScreen, getWalletDetails, getAllTransactions } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'WalletTotals') {
+      getWalletDetails();
+      getAllTransactions();
+    }
   }
 
   // event hanlders
+  getTransactions() {
+    const { transactions } = this.props;
+    if (!transactions) return [];
+
+    const transactionIds = Object.keys(transactions);
+    const transactionArray = [];
+    transactionIds.forEach(tid => transactionArray.push(transactions[tid]));
+    return transactionArray;
+  }
+
   // rendering methods
   renderBalance(coinData) {
     const { balance, balanceUsd, short, currency, percentage } = coinData;
@@ -64,10 +88,10 @@ class WalletTotals extends Component {
             <View>
               <Text style={WalletTotalsStyle.name}>{short} - {currency}</Text>
               <Text style={[WalletTotalsStyle.fiatAmount, {fontSize: fiatLetterSize}]}>{formatter.usd(balanceUsd)}</Text>
-              <Text style={[WalletTotalsStyle.cryptoAmount]}>{formatter.crypto(balance)} {short}</Text>
+              <Text style={[WalletTotalsStyle.cryptoAmount]}>{formatter.crypto(balance, short, { precision: 5 })}</Text>
             </View>
             <PricingChangeIndicator
-              isPercentChangeNegative={false}
+              isPercentChangeNegative={percentage < 0}
               percentChange24h={percentage}
             />
         </ListItem>
@@ -77,21 +101,23 @@ class WalletTotals extends Component {
 
 
   render() {
-    const { balance } = this.props;
+    const { walletBalances, supportedCurrencies, navigateTo, currencyRatesShort } = this.props;
+    const transactions = this.getTransactions();
+    console.log({ walletBalances, supportedCurrencies });
 
-    const ethereum = this.renderBalance({
-      balance: balance.eth,
-      balanceUsd: balance.ethUsd,
-      short: "ETH",
-      currency: "ETHEREUM",
-      percentage: 15
+    const ethereumTotal = this.renderBalance({
+      balance: walletBalances.filter(b => b.currency.short === 'ETH')[0].amount,
+      balanceUsd: walletBalances.filter(b => b.currency.short === 'ETH')[0].total,
+      short: 'ETH',
+      currency: 'ETHEREUM',
+      percentage: supportedCurrencies.filter(sc => sc.short === 'ETH')[0].market.quotes.USD.percent_change_24h,
     });
-    const bitcoin = this.renderBalance({
-      balance: balance.btc,
-      balanceUsd: balance.btcUsd,
-      short: "BTC",
-      currency: "BITCOIN",
-      percentage: -5
+    const bitcoinTotal = this.renderBalance({
+      balance: walletBalances.filter(b => b.currency.short === 'BTC')[0].amount,
+      balanceUsd: walletBalances.filter(b => b.currency.short === 'BTC')[0].total,
+      short: 'BTC',
+      currency: 'BITCOIN',
+      percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.quotes.USD.percent_change_24h,
     });
 
     return (
@@ -108,11 +134,15 @@ class WalletTotals extends Component {
 
         <Content>
 
-          {ethereum}
-          {bitcoin}
+          { bitcoinTotal }
+          { ethereumTotal }
 
           <View style={WalletTotalsStyle.history}>
-            <TransactionHistory/>
+            <TransactionHistory
+              transactions={transactions}
+              navigateTo={navigateTo}
+              currencyRatesShort={currencyRatesShort}
+            />
           </View>
         </Content>
 

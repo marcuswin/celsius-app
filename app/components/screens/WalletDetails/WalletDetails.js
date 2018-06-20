@@ -78,8 +78,9 @@ class WalletDetails extends Component {
 
   render() {
     const { navigateTo, navigation, balances, currencyRatesShort, supportedCurrencies } = this.props;
-    const currency = navigation.getParam('currency');
-    const maxLoan = 0.2624 * balances.filter(b => b.currency.short === currency)[0].total;
+    const currency = navigation.getParam('currency').toLowerCase();
+    const coinBalance = balances.filter(b => b.currency.short.toLowerCase() === currency)[0];
+    const maxLoan = 0.2624 * coinBalance.total;
     const transactions = this.getTransactions();
 
     return (
@@ -97,22 +98,24 @@ class WalletDetails extends Component {
             supportedCurrencies={supportedCurrencies}
           />
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
-          {this.state.infoBubble && <WalletInfoBubble
-            title={`Deposit your ${currency}`}
-            onPressClose={this.onCloseInfo}
-          >
-            <Text style={[globalStyles.normalText, { color: 'white' }]}>
-              You can get a loan up to
-              <Text style={[globalStyles.boldText, { color: 'white' }]}> {formatter.usd(maxLoan)} </Text>
-              if you deposit your {currency} into your Celsius wallet.
-            </Text>
-          </WalletInfoBubble>}
-          <TransactionsHistory
-            transactions={transactions}
-            navigateTo={navigateTo}
-            currencyRatesShort={currencyRatesShort}
-            />
-          <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
+            {this.state.infoBubble && (
+              <WalletInfoBubble
+                title={`Deposit your ${currency}`}
+                onPressClose={this.onCloseInfo}
+              >
+                <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                  You can get a loan up to
+                  <Text style={[globalStyles.boldText, { color: 'white' }]}> {formatter.usd(maxLoan)} </Text>
+                  if you deposit your {currency} into your Celsius wallet.
+                </Text>
+              </WalletInfoBubble>
+            )}
+            <TransactionsHistory
+              transactions={transactions}
+              navigateTo={navigateTo}
+              currencyRatesShort={currencyRatesShort}
+              />
+            <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
           </View>
         </Content>
       </BasicLayout>

@@ -81,8 +81,9 @@ class AmountInput extends Component {
 
   onPressDecimal = () => {
     const { formData } = this.props;
-    console.log(formData.amount);
-    this.updateAmount(`${formData.amount}.`);
+    if (formData.amount.indexOf('.') !== -1) {
+      this.updateAmount(`${formData.amount}.`);
+    }
   }
 
   onPressErase = () => {

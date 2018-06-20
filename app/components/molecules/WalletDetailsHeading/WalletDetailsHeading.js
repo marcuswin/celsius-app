@@ -42,7 +42,7 @@ class WalletDetailsHeading extends Component {
     // const walletData = get(this.props.wallet, 'currencies', null);
 
     const nonEmptyCurrencyAmount = walletCurrencies.filter(w => w.amount > 0);
-    const nonEmptyCurrencyNames = nonEmptyCurrencyAmount.map(c => c.currency.short.toUpperCase())
+    const nonEmptyCurrencyNames = nonEmptyCurrencyAmount.map(c => c.currency.short.toLowerCase())
     const screens = [...nonEmptyCurrencyNames, 'total'];
 
     const { currency } = this.props;
@@ -68,15 +68,16 @@ class WalletDetailsHeading extends Component {
 
   render() {
     const { currency, type, walletTotal, walletCurrencies, navigateTo } = this.props;
-    const total = get(walletTotal, 'quotes.usd.total', 0)
-    const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short === currency);
+    const total = get(walletTotal, 'quotes.USD.total', 0)
+    const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
 
-    console.log({ walletDataCurrency })
+    console.log({ type, total })
+    const totalText = type === 'total' ? formatter.usd(total) : formatter.usd(walletDataCurrency.total);
 
     return <View style={WalletDetailsHeadingStyle.root}>
       <View style={{position: "relative", width: '100%'}}>
-        <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(walletDataCurrency.total)}</Text>
+        <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(totalText)}</Text>
         <View style={WalletDetailsHeadingStyle.totalCoinAmountWrapper}>
           {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{ opacity: .6 }} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
