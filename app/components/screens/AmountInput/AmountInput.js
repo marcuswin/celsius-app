@@ -81,14 +81,13 @@ class AmountInput extends Component {
 
   onPressDecimal = () => {
     const { formData } = this.props;
-    if (formData.amount.indexOf('.') !== -1) {
+    if (formData.amount.indexOf('.') === -1) {
       this.updateAmount(`${formData.amount}.`);
     }
   }
 
   onPressErase = () => {
     const { formData } = this.props;
-    console.log(formData.amount);
     this.updateAmount(formData.amount.substring(0, formData.amount.length - 1));
   }
 
