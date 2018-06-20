@@ -42,7 +42,7 @@ function getAllTransactions() {
 }
 
 function withdrawCrypto(coin, amount) { // add pin when backend is ready
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount});
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount: amount.toFixed(5) });
 }
 
 function getTransaction(transactionId) {
