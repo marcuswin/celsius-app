@@ -47,7 +47,7 @@ class LoginForm extends Component {
 
         <CelButton
           onPress={() => this.onSubmit()}
-          disabled={!formData.email || !formData.password}
+          disabled={!formData.email || !formData.password || formData.password.length < 8}
           loading={isLoading}
           white
           iconRight="IconArrowRight"

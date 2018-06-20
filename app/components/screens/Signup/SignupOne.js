@@ -6,7 +6,6 @@ import {bindActionCreators} from "redux";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import Separator from '../../atoms/Separator/Separator';
-// import PrimaryInput from "../../atoms/Inputs/PrimaryInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 import * as actions from "../../../redux/actions";
@@ -66,7 +65,7 @@ class SignupOne extends Component {
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
-                disabled={!email || !password }
+                disabled={!email || !password || password.length < 8 }
                 loading={ isLoading }
                 onPress={this.onSubmit}
                 white
