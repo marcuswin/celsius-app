@@ -174,14 +174,14 @@ class AddFunds extends Component {
           </View>
         </View>
         <Text style={[AddFundsStyle.textTwo, { marginTop: 20, marginBottom: 25 }]}>
-          Please keep in mind that you'll only be able to withdraw ETH to the original wallet you sent us ETH from but anyone can send ETH to the address above.
+          Please keep in mind that you'll only be able to withdraw  to the original wallet you sent us {currency.toUpperCase()} from but anyone can send {currency.toUpperCase()} to the address above.
         </Text>
 
         <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 8, padding: 16 }}>
           <Text style={AddFundsStyle.textTwo}>
             For your security, if you would like to withdraw more than
             <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $50,000 </Text>
-            worth of ETH you will be required to contact us at
+            worth of {currency.toUpperCase()} you will be required to contact us at
             <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> app@celsius.network </Text>
             so that we can verify your identity prior to transferring your funds.
           </Text>
