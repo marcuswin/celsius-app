@@ -23,6 +23,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
+    supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -39,7 +40,8 @@ class WalletLanding extends Component {
   }
 
   componentDidMount() {
-    const { getWalletDetails } = this.props;
+    const { getWalletDetails, getSupportedCurrencies } = this.props;
+    getSupportedCurrencies();
     getWalletDetails();
   }
 
@@ -47,7 +49,7 @@ class WalletLanding extends Component {
   onCloseInfo = () => this.setState({ infoBubble: false })
 
   render() {
-    const { navigateTo, walletTotal, walletCurrencies } = this.props;
+    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies } = this.props;
 
     const animatedHeading = {
       text: 'Wallet',
@@ -63,6 +65,7 @@ class WalletLanding extends Component {
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
     const contentPadding = { paddingLeft: 36, paddingRight: 36 }
+    console.log('supportedCurrencies', supportedCurrencies)
 
     if (isLoading) {
       return <Loader />
@@ -106,7 +109,7 @@ class WalletLanding extends Component {
                     <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                       <Body>
                         <TouchableOpacity onPress={() => this.props.navigateTo('WalletDetails', { currency: item.currency.short })}>
-                          <CoinCard type="wallet-card" {...item} />
+                          <CoinCard type="wallet-card" {...item} supportedCurrencies={supportedCurrencies} />
                         </TouchableOpacity>
                       </Body>
                     </ListItem>}

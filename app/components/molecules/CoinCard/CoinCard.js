@@ -143,11 +143,15 @@ class CoinCard extends Component {
 
 
   render() {
-    const { type, currency, amount, total } = this.props;
+    const { type, currency, amount, total, supportedCurrencies } = this.props;
 
     const percentChange24h = get(currency, 'market.quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
-    const graphData = get(currency, 'market.quotes.USD.price7d', null);
+    const graphDataObj = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.short)
+    const graphData = get(graphDataObj, '[0]market.price_usd.7d', null)
+    // eslint-disable-next-line
+    const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
+
 
     return <Card>
       <Grid style={type === "wallet-card" && amount === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.6 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
@@ -180,12 +184,12 @@ class CoinCard extends Component {
             percentChange24h={percentChange24h}
           />
         </Row>
-        {graphData &&
+        {graphDataPrices &&
           <Row style={[CoinCardStyle.row, { paddingBottom: 20 }]}>
             <View style={{ width: '100%' }}>
               <LineChart
                 style={{ height: 30 }}
-                data={graphData}
+                data={graphDataPrices}
                 svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
               />
             </View>

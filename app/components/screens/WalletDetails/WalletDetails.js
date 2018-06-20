@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { Content } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDet
 import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
+import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
 import formatter from "../../../utils/formatter";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
@@ -25,7 +26,11 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+<<<<<<< HEAD
     currencyRatesShort: state.generalData.currencyRatesShort,
+=======
+    supportedCurrencies: state.generalData.supportedCurrencies,
+>>>>>>> 976f47d... Add Graph wallet details container
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -75,7 +80,7 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, balances, currencyRatesShort } = this.props;
+    const { navigateTo, navigation, balances, currencyRatesShort, supportedCurrencies } = this.props;
     const currency = navigation.getParam('currency');
     const maxLoan = 0.2624 * balances.filter(b => b.currency.short === currency)[0].total;
     const transactions = this.getTransactions();
@@ -85,9 +90,16 @@ class WalletDetails extends Component {
         <MainHeader
           onCancel={() => navigateTo('WalletLanding')}
         />
-        <WalletDetailsHeading currency={currency} />
+        <WalletDetailsHeading
+          currency={currency}
+        />
         <Message />
-        <Content style={{ paddingLeft: 40, paddingRight: 40 }}>
+        <Content>
+          <WalletDetailsGraphContainer
+            currency={currency}
+            supportedCurrencies={supportedCurrencies}
+          />
+          <View style={{ paddingLeft: 40, paddingRight: 40 }}>
           {this.state.infoBubble && <WalletInfoBubble
             title={`Deposit your ${currency}`}
             onPressClose={this.onCloseInfo}
@@ -104,6 +116,7 @@ class WalletDetails extends Component {
             currencyRatesShort={currencyRatesShort}
             />
           <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
+          </View>
         </Content>
       </BasicLayout>
     )
