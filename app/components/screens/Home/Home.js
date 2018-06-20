@@ -9,7 +9,7 @@ import CreatePasscode from "../Passcode/CreatePasscode";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import WelcomeScreen from "../Welcome/Welcome";
 import SignupTwo from "../Signup/SignupTwo";
-
+import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 
 @connect(
   state => ({
@@ -21,11 +21,14 @@ import SignupTwo from "../Signup/SignupTwo";
 )
 
 class HomeScreen extends Component {
-
   render() {
     const { user } = this.props;
 
     if (!user) return <WelcomeScreen/>;
+
+    // Anything beyond this point is considered as the user has logged in.
+    registerForPushNotificationsAsync();
+
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
     if (user.kyc && user.kyc.status !== KYC_STATUSES.passed) return <NoKyc />;
