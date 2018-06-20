@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, Image, Linking } from "react-native";
+import { Constants } from "expo";
 import { Content } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -17,12 +18,19 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 
+const {ENV} = Constants.manifest.extra;
+
+const etherscanUrl = ENV === 'PRODUCTION' ? 'https://etherscan.io' : 'https://kovan.etherscan.io';
+const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https://testnet.blockchain.info';
+
 @connect(
   state => ({
     nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
-    ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
-    btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
+    originatingAddresses: {
+      eth: state.wallet.addresses.ethOriginatingAddress,
+      btc: state.wallet.addresses.btcOriginatingAddress,
+    },
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
@@ -39,11 +47,11 @@ class TransactionDetails extends Component {
   }
 
   renderCelHeading() {
-    const { supportedCurrencies, transaction, userOriginatingAddress } = this.props;
+    const { supportedCurrencies, transaction } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    const isUserReceiving = transaction.to_address === userOriginatingAddress;
-    let text;
 
+    const isUserReceiving = transaction.type === 'incoming';
+    let text;
 
     if (isUserReceiving) {
       text = `Received ${ coin.short.toUpperCase()}`;
@@ -57,10 +65,10 @@ class TransactionDetails extends Component {
   }
 
   renderCoinIcon() {
-    const { supportedCurrencies, transaction, userOriginatingAddress } = this.props;
+    const { supportedCurrencies, transaction } = this.props;
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-    const isUserReceiving = transaction.to_address === userOriginatingAddress;
+    const isUserReceiving = transaction.type === 'incoming';
 
     const coinIcon = <Image source={{ uri: coin.image_url }} style={TransactionDetailsStyle.coinType}/>;
     let iconName;
@@ -89,8 +97,8 @@ class TransactionDetails extends Component {
   }
 
   renderStatus() {
-    const { transaction, userOriginatingAddress } = this.props;
-    const isUserReceiving = transaction.to_address === userOriginatingAddress;
+    const { transaction } = this.props;
+    const isUserReceiving = transaction.type === 'incoming';
     let status;
 
     if (transaction.is_confirmed) {
@@ -107,19 +115,17 @@ class TransactionDetails extends Component {
   }
 
   renderAddressLink() {
-    const { transaction, supportedCurrencies } = this.props;
-    const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-
+    const { transaction } = this.props;
 
     let webPage;
-    let namePage
+    let namePage;
 
-    if (transaction.transacton_id && coin.short.toLowerCase() === 'eth') {
-      webPage = `https://etherscan.io/tx/${ transaction.transaction_id}`;
+    if (transaction.transaction_id && transaction.coin === 'eth') {
+      webPage = `${etherscanUrl}/tx/${ transaction.transaction_id}`;
       namePage = 'View on Etherscan';
     }
-    if (transaction.transacton_id && coin.short.toLowerCase() === 'btc') {
-      webPage = `https://blockchain.info/tx/${ transaction.transaction_id}`;
+    if (transaction.transaction_id && transaction.coin === 'btc') {
+      webPage = `${blockchainUrl}/tx/${ transaction.transaction_id}`;
       namePage = "View on Blockchain";
     }
 
@@ -190,19 +196,35 @@ class TransactionDetails extends Component {
             <Separator/>
           </View>
 
-          <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>To:</Text>
-              <Text
-                style={[TransactionDetailsStyle.info, {
-                  textAlign: "left",
-                  fontFamily: "inconsolata-regular",
-                  marginBottom: 5
-                }]}>{transaction.to_address}
+          { transaction.type === 'incoming' ? (
+            <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
+              <View style={{ flexDirection: "column" }}>
+                <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>From:</Text>
+                <Text
+                  style={[TransactionDetailsStyle.info, {
+                    textAlign: "left",
+                    fontFamily: "inconsolata-regular",
+                    marginBottom: 5
+                  }]}>{transaction.from_address}
                 </Text>
-              {this.renderAddressLink()}
+                {this.renderAddressLink()}
+              </View>
             </View>
-          </View>
+          ) : (
+            <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
+              <View style={{ flexDirection: "column" }}>
+                <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>To:</Text>
+                <Text
+                  style={[TransactionDetailsStyle.info, {
+                    textAlign: "left",
+                    fontFamily: "inconsolata-regular",
+                    marginBottom: 5
+                  }]}>{transaction.to_address}
+                  </Text>
+                {this.renderAddressLink()}
+              </View>
+            </View>
+          )}
 
           <CelButton
             onPress={() => navigateTo('Home')}

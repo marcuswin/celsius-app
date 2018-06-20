@@ -72,7 +72,6 @@ class WalletDetailsHeading extends Component {
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
 
-    console.log({ type, total })
     const totalText = type === 'total' ? formatter.usd(total) : formatter.usd(walletDataCurrency.total);
 
     return <View style={WalletDetailsHeadingStyle.root}>
