@@ -95,7 +95,7 @@ class ProfileScreen extends Component {
         <Message />
         <ImageHeading image={user.profile_picture} />
 
-        <Content style={{ paddingLeft: 40, paddingRight: 40 }}>
+        <Content style={{ paddingLeft: 40, paddingRight: 40 }} enableOnAndroid>
           <CelButton
             onPress={() => navigateTo('ProfileImage')}
             transparent

@@ -53,7 +53,7 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-        <Content style={[SimpleLayoutStyle.content, contentStyles]}>
+        <Content style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid>
           { this.props.children }
         </Content>
 
