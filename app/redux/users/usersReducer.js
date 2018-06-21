@@ -10,7 +10,6 @@ const initialState = {
   agreedToTermsOfUse: true,
   kycStatus: undefined,
   kycDocuments: undefined,
-  isPinSet: null,
 };
 
 export default (state = initialState, action) => {
@@ -122,6 +121,14 @@ export default (state = initialState, action) => {
           ...action.personalInfo,
         },
       };
+    case ACTIONS.SET_PIN_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          has_pin: true,
+        }
+      }
 
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR:
       return {
