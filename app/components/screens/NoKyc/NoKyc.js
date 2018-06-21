@@ -51,7 +51,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../assets/images/wallet-girl3x.png')} style={[NoKycStyle.image]}/>
+        <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
         <Text style={NoKycStyle.textThree}>
           Profile verification status:
         </Text>
@@ -123,7 +123,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../assets/images/wallet-girl3x.png')} style={NoKycStyle.image}/>
+        <Image source={require('../../../../assets/images/bear-NoKYC3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
           Add, send and receive coins to your Celsius wallet
         </Text>
