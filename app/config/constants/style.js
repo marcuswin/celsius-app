@@ -112,7 +112,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 20,
     opacity: 0.8,
-    top: -18,
+    top: -20,
     position: 'absolute',
   },
   selectLabelInactive: {
