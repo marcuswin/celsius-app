@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Container, Content } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {KeyboardAvoidingView} from "react-native";
 
 import {STYLES} from "../../../config/constants/style";
 import Message from '../../atoms/Message/Message';
@@ -47,12 +46,6 @@ class SimpleLayout extends Component {
     contentStyles.paddingRight = contentSidePaddingValue;
     contentStyles.paddingLeft = contentSidePaddingValue;
 
-    let keyboardOffset = 0;
-
-    if (bottomNavigation !== false) {
-      keyboardOffset = -bottomNavigationDimensions.height;
-    }
-
     return (
       <Container>
         <MainHeader { ...mainHeaderProps } />
@@ -60,9 +53,9 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-          <Content style={[SimpleLayoutStyle.content, contentStyles]}>
-            { this.props.children }
-          </Content>
+        <Content style={[SimpleLayoutStyle.content, contentStyles]}>
+          { this.props.children }
+        </Content>
 
         {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
       </Container>
