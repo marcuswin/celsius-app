@@ -144,7 +144,7 @@ function setProfileImage(image) {
   return axios.post(`${apiUrl}/me/profile_image`, data);
 }
 
-function addExpoPushToken(token) {
+async function addExpoPushToken(token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
     expo_push_token: token,
   });
