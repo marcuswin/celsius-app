@@ -130,14 +130,18 @@ class TransactionDetails extends Component {
     }
 
     return webPage && namePage ? (
-      <Text onPress={()=> Linking.openURL(webPage)} style={TransactionDetailsStyle.link}>
-        {namePage} <Icon
-        name='NewWindowIcon'
-        height='12' width='12'
-        fill='white'
-        stroke="rgba(65,86,166,1)"
-      />
-      </Text>
+      <View style={TransactionDetailsStyle.linkWrapper}>
+        <Text onPress={()=> Linking.openURL(webPage)} style={TransactionDetailsStyle.link}>
+          {namePage}
+        </Text>
+        <Icon
+          style={{marginLeft: 5}}
+          name='NewWindowIcon'
+          height='12' width='12'
+          fill='white'
+          stroke="rgba(65,86,166,1)"
+        />
+      </View>
     ) : null;
   }
 

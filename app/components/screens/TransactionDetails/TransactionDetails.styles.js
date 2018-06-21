@@ -99,6 +99,9 @@ const TransactionDetailsStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  linkWrapper: {
+    flexDirection: 'row',
+  },
   link: {
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
