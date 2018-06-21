@@ -78,7 +78,6 @@ const CalculatorStyle = StyleSheet.create({
   submitButtonWrapper: {
     marginTop: 40,
     marginBottom: 40,
-    paddingBottom: 60,
   },
   submitButton: {
     height: 60,
