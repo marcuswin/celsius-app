@@ -136,7 +136,10 @@ class AmountInput extends Component {
       <BasicLayout
         bottomNavigation={false}
       >
-        <MainHeader backButton/>
+        <MainHeader
+          backButton
+          onPressBackButton={() => navigateTo('WalletDetails', { curency: formData.currency })}
+        />
         <CelHeading text={`Withdraw ${formData.currency ? formData.currency.toUpperCase() : ''}`} />
         <Message />
         <Content>

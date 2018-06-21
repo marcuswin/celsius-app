@@ -48,7 +48,11 @@ class MainHeader extends Component {
   }
 
   onPressBackButton() {
-    const { navigateBack } = this.props;
+    const { navigateBack, onPressBackButton } = this.props;
+    if (onPressBackButton) {
+      return onPressBackButton();
+    }
+    
     navigateBack();
   }
 
