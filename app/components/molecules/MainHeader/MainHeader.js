@@ -28,6 +28,7 @@ class MainHeader extends Component {
     rightLink: PropTypes.instanceOf(Object),
     left: PropTypes.element,
     backButton: PropTypes.bool,
+    onPressBackButton: PropTypes.func,
     backgroundColor: PropTypes.string,
     onCancel: PropTypes.func,
   };
