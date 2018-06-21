@@ -92,30 +92,28 @@ class SignupTwo extends Component {
   onSubmit = () => {
     const { formData, user, updateUser, registerUserTwitter, registerUserFacebook, registerUserGoogle } = this.props;
 
-    console.log('hello nigga');
     const data = { ...formData};
     data.country = formData.country;
     data.countryAlpha3 = countries.all.filter(c => c.name === formData.country)[0].alpha3;
 
-    console.log({ user, data });
-    // update user
-    if (user && user.email) {
-      updateUser(data);
-    }
-
     // register twitter user
     if (user && user.twitter_id) {
-      registerUserTwitter({...user, ...data});
+      return registerUserTwitter({...user, ...data});
     }
 
     // register facebook user
     if (user && user.facebook_id) {
-      registerUserFacebook({...user, ...data});
+      return registerUserFacebook({...user, ...data});
     }
 
     // register google user
     if (user && user.google_id) {
-      registerUserGoogle({...user, ...data});
+      return registerUserGoogle({...user, ...data});
+    }
+
+    // update user
+    if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
+      return updateUser(data);
     }
   }
 
