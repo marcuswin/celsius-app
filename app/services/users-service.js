@@ -17,6 +17,7 @@ const usersService = {
   getPersonalInfo,
   updateProfileInfo,
   setProfileImage,
+  addExpoPushToken
 };
 
 function register({ email, password }) {
@@ -141,6 +142,12 @@ function setProfileImage(image) {
   // check if url of base64
   const data = imageUtil.isBase64(image) ? { img_base64: image } : { img_url: image }
   return axios.post(`${apiUrl}/me/profile_image`, data);
+}
+
+async function addExpoPushToken(token) {
+  return axios.put(`${apiUrl}/users/expoPushToken`, {
+    expo_push_token: token,
+  });
 }
 
 export default usersService;
