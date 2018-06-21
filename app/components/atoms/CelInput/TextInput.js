@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Input, Item, Label } from "native-base";
 
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 
 class TextInput extends Component {
@@ -80,6 +80,7 @@ class TextInput extends Component {
               if (onFocus) onFocus()
               this.setState({ active: true })}
             }
+            selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE }
             onBlur={() => this.setState({ active: false })}
             returnKeyType={returnKeyType}
             autoCorrect={autoCorrect}
