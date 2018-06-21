@@ -20,6 +20,7 @@ class TextInput extends Component {
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
     secureTextEntry: PropTypes.bool,
+    returnKeyType: PropTypes.string,
     keyboardType: PropTypes.string,
     multiline: PropTypes.bool,
     autoCapitalize: PropTypes.string,
@@ -35,6 +36,7 @@ class TextInput extends Component {
     // for Input
     value: '',
     placeholder: '',
+    returnKeyType: null,
     editable: true,
     maxLength: 100,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
@@ -54,7 +56,7 @@ class TextInput extends Component {
 
   // rendering methods
   render() {
-    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus } = this.props;
+    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, floatingLabel, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
     const { active } = this.state;
 
     let label = labelText || placeholder;
@@ -79,6 +81,7 @@ class TextInput extends Component {
               this.setState({ active: true })}
             }
             onBlur={() => this.setState({ active: false })}
+            returnKeyType={returnKeyType}
             autoCorrect={autoCorrect}
             secureTextEntry={secureTextEntry}
             keyboardType={keyboardType}

@@ -60,8 +60,16 @@ class SignupOne extends Component {
 
           <View style={SignupOneStyle.formWrapper}>
             <CelForm disabled={isLoading}>
-              <CelInput field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
-              <CelInput field="password" type="password" labelText="Password" value={formData.password} />
+              <CelInput field="email"
+                        labelText="E-mail"
+                        keyboardType='email-address'
+                        returnKeyType="next"
+                        value={formData.email}/>
+              <CelInput field="password"
+                        type="password"
+                        labelText="Password"
+                        returnKeyType="done"
+                        value={formData.password} />
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton

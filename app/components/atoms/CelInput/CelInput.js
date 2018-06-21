@@ -48,6 +48,7 @@ class CelInput extends Component {
     maxLength: PropTypes.number,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
+    returnKeyType: PropTypes.string,
     multiline: PropTypes.bool,
     autoCapitalize: PropTypes.string,
     autoCorrect: PropTypes.bool,
