@@ -19,6 +19,9 @@ const MessageStyle = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  neutralInverted: {
+    backgroundColor: STYLES.GRAY_2,
+  },
   error: {
     backgroundColor: 'rgb(236, 66, 40)',
   },
@@ -30,6 +33,9 @@ const MessageStyle = StyleSheet.create({
   },
   success: {
     backgroundColor: STYLES.PRIMARY_GREEN,
+  },
+  neutral: {
+    backgroundColor: STYLES.GRAY_2,
   },
   text: {
     fontFamily: 'agile-light',
@@ -49,6 +55,9 @@ const MessageStyle = StyleSheet.create({
   successText: {
     color: STYLES.PRIMARY_GREEN,
   },
+  neutralText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+  }
 });
 
 export default MessageStyle;

@@ -18,12 +18,14 @@ export {
 
 let msgTimeout;
 
-function showMessage(msgType, text) {
+function showMessage(msgType, text, disableClear) {
   return dispatch => {
     clearTimeout(msgTimeout);
 
     msgTimeout = setTimeout(() => {
-      dispatch(clearMessage());
+      if (!disableClear) {
+        dispatch(clearMessage());
+      }
       clearTimeout(msgTimeout);
     }, 5000);
 

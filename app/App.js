@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, NetInfo } from 'react-native';
 import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
@@ -53,6 +53,13 @@ function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
 
+function handleConnectivityChange(isConnected) {
+  if (!isConnected) {
+    store.dispatch(actions.showMessage('neutral', 'There\'s no internet connection. Please, make sure that your Wi-Fi or Cellular Data is turned on, then try again.', true));
+  } else {
+    store.dispatch(actions.clearMessage());
+  }
+}
 
 export default class App extends Component {
   // Init Application
@@ -87,6 +94,15 @@ export default class App extends Component {
         pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
       );
     }
+
+    const initialConnection = await NetInfo.isConnected.fetch();
+
+    handleConnectivityChange(initialConnection);
+
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      handleConnectivityChange
+    );
   }
 
   // Assets are cached differently depending on where
