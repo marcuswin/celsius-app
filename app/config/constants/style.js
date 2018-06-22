@@ -102,15 +102,21 @@ export const GLOBAL_STYLE_DEFINITIONS = {
   },
   blueInputTextColor: { color: STYLES.INPUT_COLOR_WHITE },
   whiteInputTextColor: { color: STYLES.GRAY_2 },
-  inputLabelActive: {
-    color: 'white',
-    opacity: 0.8,
-    fontFamily: 'agile-light',
+  inputLabelWrapper: {
+    left: 18,
+    zIndex: 2,
+    position: 'absolute',
+    top: 18,
   },
-  inputLabelInactive: {
+  inputLabel: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
     fontFamily: 'agile-light',
     opacity: 0.8,
+    zIndex: 3,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontSize: FONT_SCALE * 20,
   },
   selectLabelInactive: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,

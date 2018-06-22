@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Animated, View, Easing } from "react-native";
+import { Animated, View, Easing, Text } from "react-native";
 import { Input } from "native-base";
 
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors, FONT_SCALE } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
-
-const ACTIVE_LABEL_TOP = 8;
-const INACTIVE_LABEL_TOP = 18;
-const ACTIVE_LABEL_SIZE = FONT_SCALE * 12;
-const INACTIVE_LABEL_SIZE = FONT_SCALE * 20;
 
 class TextInput extends Component {
   static propTypes = {
@@ -56,30 +51,20 @@ class TextInput extends Component {
 
     this.state = {
       active: false,
-      labelTop: new Animated.Value(this.props.value ? ACTIVE_LABEL_TOP : INACTIVE_LABEL_TOP),
-      labelFontSize: new Animated.Value(this.props.value ? ACTIVE_LABEL_SIZE : INACTIVE_LABEL_SIZE),
+      animatedValue: new Animated.Value(this.props.value ? 10 : 20),
     }
   }
 
-  animateLabel(top, fontSize) {
-    Animated.parallel([
-      Animated.timing(
-        this.state.labelTop,
-        {
-          toValue: top,
-          easing: Easing.out(Easing.quad),
-          duration: 300,
-        }
-      ),
-      Animated.timing(
-        this.state.labelFontSize,
-        {
-          toValue: fontSize,
-          easing: Easing.out(Easing.quad),
-          duration: 300,
-        }
-      ),
-    ]).start();
+  animateLabel(value) {
+    Animated.timing(
+      this.state.animatedValue,
+      {
+        toValue: value,
+        easing: Easing.out(Easing.quad),
+        duration: 300,
+        useNativeDriver: true,
+      }
+    ).start();
   }
 
   // rendering methods
@@ -90,13 +75,12 @@ class TextInput extends Component {
     let label = labelText || placeholder;
     label = (value || active) ? label.toUpperCase() : label;
 
-    let labelStyles = value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive;
-    labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
+    const labelStyles = { ...globalStyles.inputLabel, ...globalStyles[`${theme}InputTextColor`] };
 
     if (value || active) {
-      this.animateLabel(ACTIVE_LABEL_TOP, ACTIVE_LABEL_SIZE);
+      this.animateLabel(10);
     } else {
-      this.animateLabel(INACTIVE_LABEL_TOP, INACTIVE_LABEL_SIZE);
+      this.animateLabel(20);
     }
 
     return (
@@ -124,15 +108,20 @@ class TextInput extends Component {
             value={value || ''}
           />
             <Animated.View style={{
-              left: 18,
-              zIndex: 2,
-              position: 'absolute',
-              top: this.state.labelTop,
-            }} pointerEvents="none">
-              <Animated.Text style={{
-                ...labelStyles,
-                fontSize: this.state.labelFontSize
-              }}>{ label }</Animated.Text>
+              ...globalStyles.inputLabelWrapper,
+              transform: [{
+                translateY: this.state.animatedValue.interpolate({
+                  inputRange: [10, 20],
+                  outputRange: [-12, 0],
+                }),
+              }, {
+                scale: this.state.animatedValue.interpolate({
+                  inputRange: [10, 20],
+                  outputRange: [0.6, 1],
+                }),
+              }],
+            }}>
+              <Text style={labelStyles}>{ label }</Text>
             </Animated.View>
       </View>
     )
