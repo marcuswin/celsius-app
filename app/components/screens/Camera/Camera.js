@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { Content } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
-import { Camera } from 'expo';
-import isBase64 from "is-base64";
+import { Camera, Permissions } from 'expo';
 
 import * as actions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
@@ -13,6 +12,7 @@ import CameraStyle from "./Camera.styles";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
+import imageUtil from "../../../utils/image-util";
 
 @connect(
   state => ({
@@ -44,24 +44,47 @@ class CameraScreen extends Component {
     super(props);
 
     this.state = {
-      // initial state
+      isLoading: false,
+      hasCameraPermission: false,
     };
-    // binders
+  }
+
+
+  async componentWillMount() {
+    this.getCameraPermissions()
+  }
+
+  getCameraPermissions = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   // lifecycle methods
   // event hanlders
-  takePicture = async () => {
-    const { takeCameraPhoto } = this.props;
+  takeCameraPhoto = async () => {
+    if (!this.camera) return;
 
+    if (!this.state.hasCameraPermission) {
+      return await this.getCameraPermissions;
+    }
 
-    this.camera.takePictureAsync({
-    // TODO: fix quality? Entity too large error on device
-      quality: 0.2,
-      base64: true,
-    }).then(photo => {
+    const { takeCameraPhoto, cameraType } = this.props;
+    try {
+      const quality = Camera.Constants.Type[cameraType] === Camera.Constants.Type.back ? 0.2 : 0.5;
+      this.setState({ isLoading: true });
+
+      const photo = await this.camera.takePictureAsync({
+        quality,
+        base64: true,
+        skipProcessing: true,
+      })
+
       takeCameraPhoto(photo.base64);
-    }).catch(console.log);
+      this.setState({ isLoading: false });
+    } catch(err) {
+      console.log(err);
+      this.setState({ isLoading: false });
+    }
   };
 
   savePhoto = () => {
@@ -92,43 +115,46 @@ class CameraScreen extends Component {
     return (
       <BasicLayout>
         <Camera
-          ref={ref => {
-            this.camera = ref;
-          }}
-          style={{flex: 1}}
+          ref={ref => { this.camera = ref; }}
+          style={CameraStyle.camera}
           type={Camera.Constants.Type[cameraType]}
         >
-          { mask }
+          { Platform.OS === 'ios' ? mask : null }
 
-          <MainHeader
-            backgroundColor="transparent"
-            backButton
-            right={(
-              <TouchableOpacity
-                onPress={flipCamera}>
-                <Image
-                  source={require('../../../../assets/images/icons/camera-flip.png')}
-                  style={CameraStyle.flipCameraImage}/>
-              </TouchableOpacity>
-            )}
-          />
-          <Content style={CameraStyle.content}>
-            <View style={CameraStyle.view}>
-              <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
+          <View style={CameraStyle.androidWrapper}>
+            <MainHeader
+              backgroundColor="transparent"
+              backButton
+              right={(
+                <TouchableOpacity
+                  onPress={flipCamera}>
+                  <Image
+                    source={require('../../../../assets/images/icons/camera-flip.png')}
+                    style={CameraStyle.flipCameraImage}/>
+                </TouchableOpacity>
+              )}
+            />
+            <Content style={CameraStyle.content}>
+              <View style={CameraStyle.view}>
+                <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
-              <View style={CameraStyle.bottomSection}>
-                <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
-                <CelButton
-                  onPress={this.takePicture}
-                  white
-                  margin="20 0 20 0"
-                >
-                  Take Photo
-                </CelButton>
+                <View style={CameraStyle.bottomSection}>
+                  <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
+                  <CelButton
+                    onPress={() => { this.takeCameraPhoto() }}
+                    disabled={this.state.isLoading}
+                    loading={this.state.isLoading}
+                    white
+                    margin="20 0 20 0"
+                  >
+                    Take Photo
+                  </CelButton>
+                </View>
               </View>
-            </View>
-          </Content>
+            </Content>
 
+            { Platform.OS !== 'ios' ? mask : null }
+          </View>
         </Camera>
       </BasicLayout>
     );
@@ -137,14 +163,7 @@ class CameraScreen extends Component {
   renderConfirmScreen() {
     const { cameraHeading, flipCamera, photo, retakePhoto } = this.props;
 
-    let imageSource;
-    // check if base64
-    if (isBase64(photo)) imageSource = { uri: `data:image/png;base64,${photo}` };
-    // check if url
-    if (photo && photo.includes('https://')) imageSource = { uri: photo };
-    // check if url
-    if (!isNaN(photo)) imageSource = photo ;
-
+    const imageSource = imageUtil.getSource(photo);
     const mask = this.renderMask();
 
     return (
@@ -187,8 +206,9 @@ class CameraScreen extends Component {
 
         </Content>
 
-        { mask }
+        { Platform.OS === 'ios' ? mask : null }
         <Image source={imageSource} style={CameraStyle.cameraPhoto}/>
+        { Platform.OS !== 'ios' ? mask : null }
       </BasicLayout>
     );
   }
