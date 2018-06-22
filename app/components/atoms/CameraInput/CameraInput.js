@@ -48,8 +48,10 @@ class CameraInput extends Component {
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
+    const cameraBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
-      <TouchableOpacity onPress={ this.onPress } style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+      <TouchableOpacity onPress={ this.onPress } style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
         <Text style={ labelStyles }>
           { value ? labelTextActive.toUpperCase() : labelTextInactive }
         </Text>

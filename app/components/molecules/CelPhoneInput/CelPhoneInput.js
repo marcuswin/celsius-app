@@ -62,15 +62,17 @@ class CelPhoneInput extends Component {
   }
 
   render() {
-    const { theme, updateFormField, field } = this.props;
+    const { theme, updateFormField, field, value } = this.props;
     const disabled = this.props.editable === false;
 
     const labelStyles = {...globalStyles.selectLabelInactive,  position: 'absolute', left: 40, ...globalStyles[`${theme}InputTextColor`]};
     const inputStyles = {...globalStyles.input, ...globalStyles[`${theme}InputTextColor`]}
     const inputPhoneValue = get(this.phone, 'inputPhone.props.value', null);
 
+    const phoneBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
-      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground]}>
         <Item style={globalStyles.inputItem}>
           {!inputPhoneValue ? <Label style={labelStyles}>{this.props.labelText || ''}</Label> : null}
           <PhoneInput
@@ -87,7 +89,7 @@ class CelPhoneInput extends Component {
             ref={(ref) => {
               this.countryPicker = ref;
             }}
-            onChange={value => this.selectCountry(value)}
+            onChange={selectedValue => this.selectCountry(selectedValue)}
             translation="eng"
             cca2={this.state.cca2}
             disabled={disabled}

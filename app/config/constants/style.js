@@ -78,8 +78,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     borderRadius: 8,
     height: 60,
   },
-  blueInputWrapper: { backgroundColor: 'rgba(256, 256, 256, 0.15)' },
-  whiteInputWrapper: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
+  blueInputWrapper: { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+  blueInputWrapperActive: {backgroundColor: 'rgba(255,255,255,0.35)'},
+  whiteInputWrapper: { backgroundColor: 'rgba(255,255,255,0.5)' },
+  whiteInputWrapperActive: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
   inputItem: {
     borderBottomColor: 'transparent',
     marginTop: 0,

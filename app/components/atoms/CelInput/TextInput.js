@@ -65,9 +65,11 @@ class TextInput extends Component {
     let labelStyles = value || active ? globalStyles.inputLabelActive : globalStyles.inputLabelInactive;
     labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
 
+    const inputBackground = value || active ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
-      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
-        <Item style={globalStyles.inputItem} floatingLabel={floatingLabel}>
+      <View style={[globalStyles.inputWrapper, inputBackground ]}>
+        <Item style={[globalStyles.inputItem]} floatingLabel={floatingLabel}>
           <Label style={labelStyles}>{ label }</Label>
           <Input
             style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
