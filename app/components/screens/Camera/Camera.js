@@ -119,8 +119,6 @@ class CameraScreen extends Component {
           style={CameraStyle.camera}
           type={Camera.Constants.Type[cameraType]}
         >
-          { Platform.OS === 'ios' ? mask : null }
-
           <View style={CameraStyle.androidWrapper}>
             <MainHeader
               backgroundColor="transparent"
@@ -153,7 +151,7 @@ class CameraScreen extends Component {
               </View>
             </Content>
 
-            { Platform.OS !== 'ios' ? mask : null }
+            { mask }
           </View>
         </Camera>
       </BasicLayout>

@@ -14,6 +14,8 @@ import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
 
+
+const randomGifs = getRandomGifs();
 const images = [
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
@@ -23,30 +25,30 @@ const images = [
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Deer.gif'),
+    gif: randomGifs.indexOf('deer') !== -1 ? require('../../../../assets/images/App-Login-Animations_Deer.gif') : undefined,
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Hippo.gif'),
+    gif: randomGifs.indexOf('hippo') !== -1 ? require('../../../../assets/images/App-Login-Animations_Hippo.gif') : undefined,
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Squirelgirl.gif'),
+    gif: randomGifs.indexOf('mouse-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Squirelgirl.gif') : undefined,
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Monkey-Girl.gif'),
+    gif: randomGifs.indexOf('monkey-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Monkey-Girl.gif') : undefined,
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Doggirl.gif'),
+    gif: randomGifs.indexOf('girl-dog') !== -1 ? require('../../../../assets/images/App-Login-Animations_Doggirl.gif') : undefined,
   },
   {
     url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
-    gif: require('../../../../assets/images/App-Login-Animations_Sheep.gif'),
+    gif: randomGifs.indexOf('sheep') !== -1 ? require('../../../../assets/images/App-Login-Animations_Sheep.gif') : undefined,
   },
 ];
 
@@ -158,3 +160,18 @@ class ProfileImage extends Component {
 }
 
 export default ProfileImage;
+
+function getRandomGifs(gifNumber = 3) {
+  const allGifs = [
+    'deer',
+    'hippo',
+    'mouse-girl',
+    'monkey-girl',
+    'girl-dog',
+    'sheep',
+  ]
+
+  const shuffled = allGifs.sort(() => .5 - Math.random());
+  const gifs = shuffled.slice(0, gifNumber);
+  return gifs;
+}
