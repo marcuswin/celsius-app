@@ -21,7 +21,6 @@ export {
   updateUser,
   registerBorrower,
   registerExistingBorrower,
-  setUserLocation,
   registerUserTwitter,
   registerUserFacebook,
   registerUserGoogle,
@@ -368,13 +367,6 @@ function registerExistingBorrowerSuccess(data) {
     callName: API.REGISTER_EXISTING_BORROWER,
     user: data.user,
     borrower: data.borrower,
-  }
-}
-
-function setUserLocation(userLocation) {
-  return {
-    type: ACTIONS.SET_USER_LOCATION,
-    userLocation,
   }
 }
 
