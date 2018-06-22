@@ -15,6 +15,7 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
+import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 
@@ -84,7 +85,6 @@ class ProfileScreen extends Component {
     const { user, formData, navigateTo } = this.props;
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
-    /* eslint-disable */
     return (
       <BasicLayout bottomNavigation>
         <MainHeader />
@@ -128,11 +128,11 @@ class ProfileScreen extends Component {
               editable={false}
               field="email"
             />
-            <CelInput
+            <CelPhoneInput
               theme="white"
               labelText={getError(this.props.error, 'cellphone', "Phone number")}
-              value={formData.cellphone}
               field="cellphone"
+              value={formData.cellphone}
             />
           </CelForm>
 
@@ -161,7 +161,6 @@ class ProfileScreen extends Component {
         </Content>
       </BasicLayout>
     )
-    /* eslint-enable */
   }
 }
 
