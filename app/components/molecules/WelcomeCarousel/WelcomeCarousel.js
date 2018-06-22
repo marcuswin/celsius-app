@@ -4,12 +4,7 @@ import WelcomeCarouselStyle from "./WelcomeCarousel.styles";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const xOffset = new Animated.Value(0);
-const images = [
-  require('../../../../assets/images/Welcome_Doggirl.png'),
-  require('../../../../assets/images/Welcome_Whale.png'),
-  require('../../../../assets/images/Welcome_Polar-Bear.png'),
-  require('../../../../assets/images/Welcome_Penguin.png'),
-];
+
 const gifs = [
   require('../../../../assets/images/Welcome_Doggirl.gif'),
   require('../../../../assets/images/Welcome_Whale.gif'),
@@ -102,15 +97,13 @@ export default class WelcomeCarousel extends Component {
   }
 
   renderScreen(screen, index) {
-    const { activeScreen } = this.state;
+
     return (
       <View style={WelcomeCarouselStyle.scrollPage} key={index}>
         <Animated.View style={[WelcomeCarouselStyle.screen, transitionAnimation(index)]}>
-          { activeScreen === index ? (
+
             <Image source={gifs[index]} style={WelcomeCarouselStyle.image} />
-          ) : (
-            <Image source={images[index]} style={WelcomeCarouselStyle.image} />
-          )}
+
           <View style={[WelcomeCarouselStyle.circleWraper]}>
             <View style={index === 0 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle}/>
             <View style={index === 1 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle}/>
