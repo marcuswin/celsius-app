@@ -15,15 +15,39 @@ import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
 
 const images = [
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Deer.gif'),
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Hippo.gif'),
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Squirelgirl.gif'),
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Monkey-Girl.gif'),
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Doggirl.gif'),
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
+    gif: require('../../../../assets/images/App-Login-Animations_Sheep.gif'),
+  },
 ];
 
 @connect(
@@ -60,7 +84,7 @@ class ProfileImage extends Component {
 
   // event hanlders
   setActiveImage = (image) => {
-    this.setState({ activeImage: image });
+    this.setState({ activeImage: image.url });
   }
 
   updateProfilePicture = () => {
@@ -84,12 +108,15 @@ class ProfileImage extends Component {
   // rendering methods
   renderImages = (image) => {
     const { activeImage } = this.state;
-    const imageStyles = [ProfileImageStyle.image];
-    if (image === activeImage) imageStyles.push(ProfileImageStyle.activeImage);
+    const viewStyles = [ProfileImageStyle.imageWrapper];
+    if (image.url === activeImage) viewStyles.push(ProfileImageStyle.activeImage);
+    const imageStyles = image.gif ? ProfileImageStyle.gif : ProfileImageStyle.image;
 
     return (
       <TouchableOpacity key={images.indexOf(image)} style={ProfileImageStyle.button} onPress={() => this.setActiveImage(image)}>
-        <Image source={{ uri: image }} style={imageStyles} />
+        <View style={viewStyles}>
+          <Image source={image.gif || { uri: image.url }} style={imageStyles} />
+        </View>
       </TouchableOpacity>
     )
   }

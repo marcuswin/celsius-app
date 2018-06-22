@@ -210,4 +210,10 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/wallet-girl3x.png'),
   require('../../../assets/images/bear-NoKYC3x.png'),
   require('../../../assets/images/bear-happyKYC3x.png'),
+  require('../../../assets/images/App-Login-Animations_Deer.gif'),
+  require('../../../assets/images/App-Login-Animations_Hippo.gif'),
+  require('../../../assets/images/App-Login-Animations_Squirelgirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Monkey-Girl.gif'),
+  require('../../../assets/images/App-Login-Animations_Doggirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Sheep.gif'),
 ];
