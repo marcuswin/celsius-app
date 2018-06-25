@@ -10,7 +10,7 @@ import { bindActionCreators } from "redux";
 import * as actions from "../../../redux/actions";
 import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
-import StarIcon from "../../atoms/StarIcon/StarIcon";
+import Icon from "../../atoms/Icon/Icon";
 import Card from '../../atoms/Card/Card';
 import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
@@ -61,7 +61,7 @@ const CoinCardStyle = StyleSheet.create({
     fontWeight: '100',
   },
   bold: {
-    fontWeight: 'bold'
+    fontWeight: '100'
   },
   red: {
     ...commonStyles.percentageAmount,
@@ -198,7 +198,13 @@ class CoinCard extends Component {
         {(type !== "wallet-card" && ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
           <Row>
             <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
-              <StarIcon />
+              <Icon
+                name={'EligibilityStarTwo'}
+                height='22'
+                width='22'
+                stroke={'#9DA3A9'}
+                fill={'rgba(61,72,83,0.5)'}
+              />
               <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible soon for lending and borrowing</Text>
             </View>
           </Row>
