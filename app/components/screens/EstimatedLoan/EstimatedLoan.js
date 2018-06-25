@@ -217,7 +217,7 @@ class EstimatedLoan extends Component {
           <Image source={require('../../../../assets/images/polar-bear_large.png')} style={EstimatedLoanStyle.bearImage}/>
         </View>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
+        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 10, marginBottom: 30 }]}>
           You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedLoan.position_in_line) } </Text>
           person in line eligible to borrow dollars against your crypto.

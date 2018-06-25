@@ -61,7 +61,7 @@ const EstimatedLoanStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 35,
+    marginBottom: 10,
   },
   headingText: {
     color: STYLES.GRAY_2,
