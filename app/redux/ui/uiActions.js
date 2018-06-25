@@ -4,6 +4,7 @@ import * as navActions from '../nav/navActions';
 export {
   showMessage,
   clearMessage,
+  setInternetConnectivity,
   setHeaderHeight,
   takeCameraPhoto,
   flipCamera,
@@ -34,6 +35,13 @@ function showMessage(msgType, text, disableClear) {
       msgType,
       text,
     })
+  }
+}
+
+function setInternetConnectivity(connected) {
+  return {
+    type: ACTIONS.SET_INTERNET_CONNECTIVITY,
+    internetConnected: connected,
   }
 }
 

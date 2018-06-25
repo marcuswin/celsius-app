@@ -53,11 +53,7 @@ function cacheFonts(fonts) {
 }
 
 function handleConnectivityChange(isConnected) {
-  if (!isConnected) {
-    store.dispatch(actions.showMessage('neutral', 'There\'s no internet connection. Please, make sure that your Wi-Fi or Cellular Data is turned on, then try again.', true));
-  } else {
-    store.dispatch(actions.clearMessage());
-  }
+  store.dispatch(actions.setInternetConnectivity(isConnected));
 }
 
 export default class App extends Component {

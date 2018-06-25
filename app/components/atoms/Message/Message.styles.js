@@ -19,9 +19,6 @@ const MessageStyle = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  neutralInverted: {
-    backgroundColor: STYLES.GRAY_2,
-  },
   error: {
     backgroundColor: 'rgb(236, 66, 40)',
   },
