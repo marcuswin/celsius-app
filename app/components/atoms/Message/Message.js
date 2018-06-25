@@ -27,7 +27,7 @@ class Message extends Component {
 
     if (!connected) {
       containerStyles = [MessageStyle.container, MessageStyle.neutral];
-      textStyles = MessageStyle.text;
+      textStyles = [MessageStyle.text, MessageStyle.neutralText];
     } else if (inverted) {
       containerStyles = [MessageStyle.containerInverted, MessageStyle[`${message.type || 'error'}Inverted`]];
       textStyles = [MessageStyle.text, MessageStyle[`${message.type}Text`]];
