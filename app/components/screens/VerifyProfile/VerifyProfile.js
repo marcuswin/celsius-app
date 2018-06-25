@@ -98,7 +98,7 @@ class VerifyProfile extends Component {
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
-          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.back} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
           { formData.documentType !== 'passport' ? (
             <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
           ) : null }
