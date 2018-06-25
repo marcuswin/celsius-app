@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
+import {Asset, AppLoading, Font, Constants} from 'expo';
 import {Provider} from 'react-redux';
 import { Image, AsyncStorage, NetInfo } from 'react-native';
-import wc from 'which-country';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
@@ -88,12 +87,6 @@ export default class App extends Component {
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 
     await store.dispatch(actions.getSupportedCurrencies());
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      navigator.geolocation.getCurrentPosition(
-        pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
-      );
-    }
 
     const initialConnection = await NetInfo.isConnected.fetch();
 
