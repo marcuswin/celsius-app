@@ -73,7 +73,7 @@ class TextInput extends Component {
           <Label style={labelStyles}>{ label }</Label>
           <Input
             style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
-            underlineColorAndroid='white'
+            underlineColorAndroid={'rgba(0,0,0,0)'}
             underline={false}
             maxLength={maxLength}
             autoCapitalize={autoCapitalize}

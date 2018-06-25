@@ -85,6 +85,7 @@ class SelectCountryModal extends Component {
             onChangeText={this.filterCountries}
             placeholder={'eg. Japan'}
             placeholderTextColor={'#3D4853'}
+            underlineColorAndroid={'rgba(0,0,0,0)'}
           />
         </View>
 

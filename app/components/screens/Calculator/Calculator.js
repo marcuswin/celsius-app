@@ -155,6 +155,7 @@ class Calculator extends Component {
                               value={`${item.amount}` || ''}
                               placeholder='0.00'
                               placeholderTextColor='#3D4853'
+                              underlineColorAndroid={'rgba(0,0,0,0)'}
                             />
                           </View>
                         </Col>
