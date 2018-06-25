@@ -79,7 +79,9 @@ class CameraScreen extends Component {
         skipProcessing: true,
       })
 
-      takeCameraPhoto(photo.base64);
+      const base64String = photo.base64.replace(/\s/g, "");
+
+      takeCameraPhoto(base64String);
       this.setState({ isLoading: false });
     } catch(err) {
       console.log(err);
