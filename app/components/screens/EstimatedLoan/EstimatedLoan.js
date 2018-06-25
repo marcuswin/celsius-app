@@ -83,7 +83,7 @@ class EstimatedLoan extends Component {
                   }}>
                     {cr.info_text}
                   </Text>
-                  <Icon style={{marginLeft: 10}} name='IconBlank' width='14' height='14' viewBox="0 0 14 14"
+                  <Icon style={{marginLeft: 10, marginTop: 5}} name='IconBlank' width='14' height='14' viewBox="0 0 14 14"
                         fill='#C8C8C8'/>
                 </View>
               </Col>
