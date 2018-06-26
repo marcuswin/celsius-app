@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {FONT_SCALE} from "../../../config/constants/style";
 
 const AccordionStyle = StyleSheet.create({
@@ -13,10 +13,10 @@ const AccordionStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
+    shadowOffset: Platform.OS === 'ios' ? {width: 0, height: 2} : null,
+    shadowOpacity: Platform.OS === 'ios' ? 0.2 : null,
+    shadowRadius: Platform.OS === 'ios' ? 2 : null,
+    elevation: Platform.OS === 'ios' ? 3 : null,
     paddingLeft: 20,
     paddingRight: 20
   },
@@ -31,9 +31,9 @@ const AccordionStyle = StyleSheet.create({
   },
   expandedContent: {
     backgroundColor: '#fff',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowOffset: Platform.OS === 'ios' ? {width: 0, height: 2} : null,
+    shadowOpacity: Platform.OS === 'ios' ? 0.2 : null,
+    shadowRadius: Platform.OS === 'ios' ? 2 : null,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomLeftRadius: 8,
