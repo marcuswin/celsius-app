@@ -100,7 +100,6 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     paddingLeft: 0,
     zIndex: 1,
     height: 28,
-    top: 0,
   },
   blueInputTextColor: { color: STYLES.INPUT_COLOR_WHITE },
   whiteInputTextColor: { color: STYLES.GRAY_2 },
@@ -109,6 +108,8 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     zIndex: 2,
     position: 'absolute',
     top: 18,
+    height: 23,
+    width: 100,
   },
   inputLabel: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,

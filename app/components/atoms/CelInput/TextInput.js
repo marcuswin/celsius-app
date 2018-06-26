@@ -71,60 +71,66 @@ class TextInput extends Component {
   render() {
     const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
     const { active } = this.state;
+    const isActiveInput = value || active;
 
     let label = labelText || placeholder;
-    label = (value || active) ? label.toUpperCase() : label;
+    label = (isActiveInput) ? label.toUpperCase() : label;
 
     const labelStyles = { ...globalStyles.inputLabel, ...globalStyles[`${theme}InputTextColor`] };
 
-    if (value || active) {
+    if (isActiveInput) {
       this.animateLabel(10);
     } else {
       this.animateLabel(20);
     }
 
-    const inputBackground = value || active ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    const inputBackground = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     return (
       <View style={[globalStyles.inputWrapper, inputBackground ]}>
-          <Input
-            style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
-            underlineColorAndroid={'rgba(0,0,0,0)'}
-            underline={false}
-            maxLength={maxLength}
-            autoCapitalize={autoCapitalize}
-            editable={editable}
-            onFocus={() => {
-              if (onFocus) onFocus()
-              this.setState({ active: true })}
-            }
-            selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE }
-            onBlur={() => this.setState({ active: false })}
-            returnKeyType={returnKeyType}
-            autoCorrect={autoCorrect}
-            secureTextEntry={secureTextEntry}
-            keyboardType={keyboardType}
-            multiline={multiline}
-            spellCheck={spellCheck}
-            onChangeText={(text) => this.props.onChange(text) }
-            value={value || ''}
-          />
-            <Animated.View style={{
-              ...globalStyles.inputLabelWrapper,
-              transform: [{
-                translateY: this.state.animatedValue.interpolate({
-                  inputRange: [10, 20],
-                  outputRange: [-12, 0],
-                }),
-              }, {
-                scale: this.state.animatedValue.interpolate({
-                  inputRange: [10, 20],
-                  outputRange: [0.6, 1],
-                }),
-              }],
-            }}>
-              <Text style={labelStyles}>{ label }</Text>
-            </Animated.View>
+        <Input
+          style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
+          underlineColorAndroid={'rgba(0,0,0,0)'}
+          underline={false}
+          maxLength={maxLength}
+          autoCapitalize={autoCapitalize}
+          editable={editable}
+          onFocus={() => {
+            if (onFocus) onFocus()
+            this.setState({ active: true })}
+          }
+          selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE }
+          onBlur={() => this.setState({ active: false })}
+          returnKeyType={returnKeyType}
+          autoCorrect={autoCorrect}
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType}
+          multiline={multiline}
+          spellCheck={spellCheck}
+          onChangeText={(text) => this.props.onChange(text) }
+          value={value || ''}
+        />
+        <Animated.View pointerEvents={'none'} style={{
+          ...globalStyles.inputLabelWrapper,
+          transform: [{
+            translateY: this.state.animatedValue.interpolate({
+              inputRange: [10, 20],
+              outputRange: [-12, 0],
+            }),
+          }, {
+            scale: this.state.animatedValue.interpolate({
+              inputRange: [10, 20],
+              outputRange: [0.6, 1],
+            }),
+          }, {
+            translateX: this.state.animatedValue.interpolate({
+              inputRange: [10, 20],
+              outputRange: [-33, 0],
+            }),
+          }],
+        }}>
+          <Text style={labelStyles}>{ label }</Text>
+        </Animated.View>
       </View>
     )
   }
