@@ -77,8 +77,6 @@ class CelSelect extends Component {
         item = items.filter(i => i.value === nextProps.value)[0];
       }
 
-      // console.log({ item, value, nextValue: nextProps.value, items });
-
       this.setState({ value: item });
     }
   }

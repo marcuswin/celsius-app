@@ -108,13 +108,6 @@ class AmountInput extends Component {
     updateFormField('amountUsd', amountUsd);
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd;
     updateFormField('amountCrypto', amountCrypto);
-
-    console.log({
-      amount,
-      amountUsd,
-      formData,
-      amountCrypto,
-    })
   }
 
   render() {

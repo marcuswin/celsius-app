@@ -10,7 +10,6 @@ function navigateTo(routeName, screenProps) {
         ]
       }))
     } else {
-      console.log({ params: screenProps, routeName });
       dispatch(NavigationActions.navigate({routeName, params: screenProps}))
     }
   }

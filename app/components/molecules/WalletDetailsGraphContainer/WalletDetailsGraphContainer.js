@@ -38,17 +38,17 @@ class WalletDetailsGraphContainer extends Component {
       const currencyData = this.getCurrencyData(supportedCurrencies, nextProps.currency);
       const percentChange = this.getPercentageChange(currencyData, period);
       const graphDataPrices = this.getGraphData(supportedCurrencies, nextProps.currency, period);
-  
+
       this.setState({
         activePeriod: period,
         percentChange,
         graphData: graphDataPrices,
       })
-    
+
     }
-  
+
   }
-  
+
 
   onPress = (period) => {
     const { supportedCurrencies, currency } = this.props;
@@ -77,7 +77,6 @@ class WalletDetailsGraphContainer extends Component {
 
   render() {
     const { currency, supportedCurrencies } = this.props;
-    console.log('Currency', currency)
     const { percentChange, graphData, activePeriod } = this.state;
     const isPercentChangeNegative = this.state.percentChange < 0;
     const currencyData = this.getCurrencyData(supportedCurrencies, currency);
@@ -113,7 +112,7 @@ class WalletDetailsGraphContainer extends Component {
         </Row>
       }
       <Row style={WalletDetailsGraphContainerStyle.buttonsWrapper}>
-        { periods.map(period => 
+        { periods.map(period =>
           <TouchableOpacity
             key={period}
             style={[WalletDetailsGraphContainerStyle.periodButton, this.state.activePeriod === period ? { backgroundColor: COLORS.gray } : null]}

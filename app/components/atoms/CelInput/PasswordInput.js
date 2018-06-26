@@ -56,14 +56,11 @@ class PasswordInput extends Component {
 
   // rendering methods
   render() {
-    const { visible, active } = this.state;
+    const { visible } = this.state;
     const { theme, onFocus } = this.props;
-
-    console.log(active)
 
     // icon position adjustment (diff icon heights)
     const paddingTop = visible ? 0 : 3;
-
 
     return (
       <View>

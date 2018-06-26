@@ -76,7 +76,6 @@ export function getCoinOriginatingAddress(coin) {
       dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
 
       const res = await walletService.getCoinOriginatingAddress(coin)
-      console.log(res);
       dispatch(getCoinOriginatingAddressSuccess({ [`${coin}OriginatingAddress`]: res.data.address }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));

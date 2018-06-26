@@ -67,9 +67,6 @@ class VerifyProfile extends Component {
 
   initForm = () => {
     const { initForm, user, kycDocuments } = this.props;
-    console.log({
-      init: kycDocuments,
-    })
     initForm({
       cellphone: user.cellphone,
       documentType: kycDocuments ? kycDocuments.type : undefined,
