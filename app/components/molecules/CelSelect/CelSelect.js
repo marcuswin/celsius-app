@@ -103,11 +103,13 @@ class CelSelect extends Component {
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
+    const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
       <View>
         <TouchableOpacity
           onPress={ () => this.setState({ visible: !visible })}
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}
         >
           <Text style={ labelStyles }>{ label }</Text>
           <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>

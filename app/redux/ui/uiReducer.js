@@ -26,6 +26,7 @@ function getBottomNavDimensions() {
 
 const initialState = {
   message: undefined,
+  internetConnected: true,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
@@ -57,6 +58,12 @@ export default (state = initialState, action) => {
           type: action.msgType,
           text: action.text,
         }
+      };
+
+    case ACTIONS.SET_INTERNET_CONNECTIVITY:
+      return {
+        ...state,
+        internetConnected: action.internetConnected
       };
 
     case ACTIONS.NAVIGATE:

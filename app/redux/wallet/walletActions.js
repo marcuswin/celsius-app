@@ -94,11 +94,11 @@ function getCoinOriginatingAddressSuccess(address) {
 }
 
 export function withdrawCrypto(coin, amount) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amount);
+      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
     } catch(err) {
       dispatch(showMessage('error', err.msg));

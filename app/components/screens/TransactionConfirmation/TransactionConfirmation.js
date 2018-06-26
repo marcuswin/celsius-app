@@ -40,17 +40,14 @@ class TransactionConfirmation extends Component {
     const { btcOriginatingAddress, ethOriginatingAddress, formData, getCoinOriginatingAddress } = this.props;
 
     if (!btcOriginatingAddress && formData.currency === 'btc') {
-      console.log('btc orig');
       getCoinOriginatingAddress('btc');
     }
 
     if (!ethOriginatingAddress && formData.currency === 'eth') {
-      console.log('eth orig');
       getCoinOriginatingAddress('eth');
     }
-
-    console.log(formData);
   }
+
   componentWillReceiveProps(nextProps) {
     const { lastCompletedCall, navigateTo } = this.props;
 

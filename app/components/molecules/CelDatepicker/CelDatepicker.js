@@ -49,9 +49,11 @@ class CelDatepicker extends Component {
     let labelStyles = value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive;
     labelStyles = { ...labelStyles, ...globalStyles[`${theme}InputTextColor`] };
 
+    const dateBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
       <View>
-        <TouchableOpacity onPress={() => this.datePicker.onPressDate()} style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+        <TouchableOpacity onPress={() => this.datePicker.onPressDate()} style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], dateBackground]}>
           <Text style={ labelStyles }>{ label }</Text>
           { value ? <Text style={ [globalStyles.input, globalStyles[`${theme}InputTextColor`]] }>{ moment(value).format(format) }</Text> : null }
 

@@ -7,10 +7,10 @@ import get from 'lodash/get';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import CountryPicker from 'react-native-country-picker-modal';
 import * as actions from "../../../redux/actions";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 
 
 @connect(
@@ -40,7 +40,8 @@ class CelPhoneInput extends Component {
     this.onPressFlag = this.onPressFlag.bind(this);
     this.selectCountry = this.selectCountry.bind(this);
     this.state = {
-      cca2: 'US',
+      alpha2: 'US',
+      showCountryModal: false,
     };
   }
 
@@ -52,25 +53,30 @@ class CelPhoneInput extends Component {
 
   onPressFlag() {
     if (this.props.editable) {
-      this.countryPicker.openModal();
+      this.setState({ showCountryModal: true });
     }
   }
 
   selectCountry(country) {
-    this.phone.selectCountry(country.cca2.toLowerCase());
-    this.setState({ cca2: country.cca2 });
+    const countryAlpha2 = country != null ? country.alpha2.toLowerCase() : 'US';
+    this.phone.selectCountry(countryAlpha2);
+    this.setState({ alpha2: countryAlpha2, showCountryModal: false });
   }
+  
 
   render() {
-    const { theme, updateFormField, field } = this.props;
+    const { theme, updateFormField, field, value } = this.props;
+    const { showCountryModal } = this.state;
     const disabled = this.props.editable === false;
 
     const labelStyles = {...globalStyles.selectLabelInactive,  position: 'absolute', left: 40, ...globalStyles[`${theme}InputTextColor`]};
     const inputStyles = {...globalStyles.input, ...globalStyles[`${theme}InputTextColor`]}
     const inputPhoneValue = get(this.phone, 'inputPhone.props.value', null);
 
+    const phoneBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
-      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground]}>
         <Item style={globalStyles.inputItem}>
           {!inputPhoneValue ? <Label style={labelStyles}>{this.props.labelText || ''}</Label> : null}
           <PhoneInput
@@ -83,22 +89,15 @@ class CelPhoneInput extends Component {
             value={this.props.value}
             disabled={disabled}
           />
-          <CountryPicker
-            ref={(ref) => {
-              this.countryPicker = ref;
-            }}
-            onChange={value => this.selectCountry(value)}
-            translation="eng"
-            cca2={this.state.cca2}
-            disabled={disabled}
-          >
-            <View />
-          </CountryPicker>
+          <SelectCountryModal
+            visible={ showCountryModal }
+            onClose={ country => this.selectCountry(country) }
+          />
+          <View />
         </Item>
       </View>
     );
   }
 }
-
 
 export default CelPhoneInput;

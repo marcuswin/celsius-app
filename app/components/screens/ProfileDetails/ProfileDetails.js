@@ -65,7 +65,7 @@ class ProfileDetails extends Component {
         title: formData.title,
         first_name: formData.firstName,
         last_name: formData.lastName,
-        date_of_birth: formData.dateOfBirth,
+        date_of_birth: moment(formData.dateOfBirth).format('MM/DD/YYYY'),
         citizenship: formData.citizenship,
         gender: formData.gender,
       }

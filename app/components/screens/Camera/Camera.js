@@ -79,7 +79,9 @@ class CameraScreen extends Component {
         skipProcessing: true,
       })
 
-      takeCameraPhoto(photo.base64);
+      const base64String = photo.base64.replace(/\s/g, "");
+
+      takeCameraPhoto(base64String);
       this.setState({ isLoading: false });
     } catch(err) {
       console.log(err);
@@ -119,8 +121,6 @@ class CameraScreen extends Component {
           style={CameraStyle.camera}
           type={Camera.Constants.Type[cameraType]}
         >
-          { Platform.OS === 'ios' ? mask : null }
-
           <View style={CameraStyle.androidWrapper}>
             <MainHeader
               backgroundColor="transparent"
@@ -153,7 +153,7 @@ class CameraScreen extends Component {
               </View>
             </Content>
 
-            { Platform.OS !== 'ios' ? mask : null }
+            { mask }
           </View>
         </Camera>
       </BasicLayout>

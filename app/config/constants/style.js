@@ -78,8 +78,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     borderRadius: 8,
     height: 60,
   },
-  blueInputWrapper: { backgroundColor: 'rgba(256, 256, 256, 0.15)' },
-  whiteInputWrapper: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
+  blueInputWrapper: { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+  blueInputWrapperActive: {backgroundColor: 'rgba(255,255,255,0.35)'},
+  whiteInputWrapper: { backgroundColor: 'rgba(255,255,255,0.5)' },
+  whiteInputWrapperActive: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
   inputItem: {
     borderBottomColor: 'transparent',
     marginTop: 0,
@@ -215,4 +217,10 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/wallet-girl3x.png'),
   require('../../../assets/images/bear-NoKYC3x.png'),
   require('../../../assets/images/bear-happyKYC3x.png'),
+  require('../../../assets/images/App-Login-Animations_Deer.gif'),
+  require('../../../assets/images/App-Login-Animations_Hippo.gif'),
+  require('../../../assets/images/App-Login-Animations_Squirelgirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Monkey-Girl.gif'),
+  require('../../../assets/images/App-Login-Animations_Doggirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Sheep.gif'),
 ];

@@ -83,11 +83,13 @@ class TextInput extends Component {
       this.animateLabel(20);
     }
 
+    const inputBackground = value || active ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
-      <View style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`]]}>
+      <View style={[globalStyles.inputWrapper, , inputBackground ]]}>
           <Input
             style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
-            underlineColorAndroid='rgba(0,0,0,0)'
+            underlineColorAndroid={'rgba(0,0,0,0)'}
             underline={false}
             maxLength={maxLength}
             autoCapitalize={autoCapitalize}

@@ -14,16 +14,42 @@ import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
 
+
+const randomGifs = getRandomGifs();
 const images = [
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
+    gif: randomGifs.indexOf('deer') !== -1 ? require('../../../../assets/images/App-Login-Animations_Deer.gif') : undefined,
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
+    gif: randomGifs.indexOf('hippo') !== -1 ? require('../../../../assets/images/App-Login-Animations_Hippo.gif') : undefined,
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
+    gif: randomGifs.indexOf('mouse-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Squirelgirl.gif') : undefined,
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
+    gif: randomGifs.indexOf('monkey-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Monkey-Girl.gif') : undefined,
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
+    gif: randomGifs.indexOf('girl-dog') !== -1 ? require('../../../../assets/images/App-Login-Animations_Doggirl.gif') : undefined,
+  },
+  {
+    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
+    gif: randomGifs.indexOf('sheep') !== -1 ? require('../../../../assets/images/App-Login-Animations_Sheep.gif') : undefined,
+  },
 ];
 
 @connect(
@@ -60,7 +86,7 @@ class ProfileImage extends Component {
 
   // event hanlders
   setActiveImage = (image) => {
-    this.setState({ activeImage: image });
+    this.setState({ activeImage: image.url });
   }
 
   updateProfilePicture = () => {
@@ -84,12 +110,15 @@ class ProfileImage extends Component {
   // rendering methods
   renderImages = (image) => {
     const { activeImage } = this.state;
-    const imageStyles = [ProfileImageStyle.image];
-    if (image === activeImage) imageStyles.push(ProfileImageStyle.activeImage);
+    const viewStyles = [ProfileImageStyle.imageWrapper];
+    if (image.url === activeImage) viewStyles.push(ProfileImageStyle.activeImage);
+    const imageStyles = image.gif ? ProfileImageStyle.gif : ProfileImageStyle.image;
 
     return (
       <TouchableOpacity key={images.indexOf(image)} style={ProfileImageStyle.button} onPress={() => this.setActiveImage(image)}>
-        <Image source={{ uri: image }} style={imageStyles} />
+        <View style={viewStyles}>
+          <Image source={image.gif || { uri: image.url }} style={imageStyles} />
+        </View>
       </TouchableOpacity>
     )
   }
@@ -131,3 +160,18 @@ class ProfileImage extends Component {
 }
 
 export default ProfileImage;
+
+function getRandomGifs(gifNumber = 3) {
+  const allGifs = [
+    'deer',
+    'hippo',
+    'mouse-girl',
+    'monkey-girl',
+    'girl-dog',
+    'sheep',
+  ]
+
+  const shuffled = allGifs.sort(() => .5 - Math.random());
+  const gifs = shuffled.slice(0, gifNumber);
+  return gifs;
+}

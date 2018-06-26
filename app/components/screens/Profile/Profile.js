@@ -15,7 +15,7 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
-import CelSelect from "../../molecules/CelSelect/CelSelect";
+import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 
@@ -46,7 +46,6 @@ class ProfileScreen extends Component {
       firstName: user && user.first_name ? user.first_name : undefined,
       email: user && user.email ? user.email : undefined,
       lastName: user && user.last_name ? user.last_name : undefined,
-      country: user && user.country ? user.country : undefined,
       cellphone: user && user.cellphone ? user.cellphone : undefined,
     })
   }
@@ -60,7 +59,6 @@ class ProfileScreen extends Component {
         firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : undefined,
         email: nextProps.user && nextProps.user.email ? nextProps.user.email : undefined,
         lastName: nextProps.user && nextProps.user.last_name ? nextProps.user.last_name : undefined,
-        country: nextProps.user && nextProps.user.country ? nextProps.user.country : undefined,
         cellphone: nextProps.user && nextProps.user.cellphone ? nextProps.user.cellphone : undefined,
       })
     }
@@ -74,7 +72,6 @@ class ProfileScreen extends Component {
       last_name: formData.lastName,
       email: formData.email,
       cellphone: formData.cellphone,
-      country: formData.country,
     })
   };
 
@@ -88,7 +85,6 @@ class ProfileScreen extends Component {
     const { user, formData, navigateTo } = this.props;
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
-    /* eslint-disable */
     return (
       <BasicLayout bottomNavigation>
         <MainHeader />
@@ -132,18 +128,11 @@ class ProfileScreen extends Component {
               editable={false}
               field="email"
             />
-            <CelSelect
-              theme="white"
-              type="country"
-              labelText="Country"
-              field="country"
-              value={formData.country}
-            />
-            <CelInput
+            <CelPhoneInput
               theme="white"
               labelText={getError(this.props.error, 'cellphone', "Phone number")}
-              value={formData.cellphone}
               field="cellphone"
+              value={formData.cellphone}
             />
           </CelForm>
 
@@ -172,7 +161,6 @@ class ProfileScreen extends Component {
         </Content>
       </BasicLayout>
     )
-    /* eslint-enable */
   }
 }
 

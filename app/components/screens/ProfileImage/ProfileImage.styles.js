@@ -30,12 +30,24 @@ const ProfileImageStyle = StyleSheet.create({
     borderRadius: smallImageSize / 2,
     backgroundColor: 'white',
   },
-  image: {
+  imageWrapper: {
     width: smallImageSize,
     height: smallImageSize,
     borderRadius: smallImageSize / 2,
     borderWidth: 3,
     borderColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: smallImageSize - 20,
+    height: smallImageSize - 20,
+    borderRadius: (smallImageSize - 20) / 2,
+  },
+  gif: {
+    width: smallImageSize,
+    height: smallImageSize,
+    borderRadius: smallImageSize / 2,
   },
   activeImage: {
     borderColor: STYLES.PRIMARY_GREEN,

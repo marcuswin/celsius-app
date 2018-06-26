@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Permissions, Constants} from 'expo';
+import {Asset, AppLoading, Font, Constants} from 'expo';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage } from 'react-native';
-import wc from 'which-country';
+import { Image, AsyncStorage, NetInfo } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
@@ -53,6 +52,9 @@ function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
 
+function handleConnectivityChange(isConnected) {
+  store.dispatch(actions.setInternetConnectivity(isConnected));
+}
 
 export default class App extends Component {
   // Init Application
@@ -81,12 +83,15 @@ export default class App extends Component {
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 
     await store.dispatch(actions.getSupportedCurrencies());
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      navigator.geolocation.getCurrentPosition(
-        pos => pos ? store.dispatch(actions.setUserLocation(wc([pos.coords.longitude, pos.coords.latitude]))) : null
-      );
-    }
+
+    const initialConnection = await NetInfo.isConnected.fetch();
+
+    handleConnectivityChange(initialConnection);
+
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      handleConnectivityChange
+    );
   }
 
   // Assets are cached differently depending on where

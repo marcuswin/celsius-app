@@ -50,21 +50,30 @@ class PasswordInput extends Component {
 
     this.state = {
       visible: false,
+      active: false
     }
   }
 
   // rendering methods
   render() {
-    const { visible } = this.state;
-    const { theme } = this.props;
+    const { visible, active } = this.state;
+    const { theme, onFocus } = this.props;
+
+    console.log(active)
 
     // icon position adjustment (diff icon heights)
     const paddingTop = visible ? 0 : 3;
 
+
     return (
       <View>
-        <TextInput {...this.props} secureTextEntry={!visible} />
-
+        <TextInput {...this.props}
+                   secureTextEntry={!visible}
+                   onFocus={() => {
+                     if (onFocus) onFocus()
+                     this.setState({ active: true })}
+                   }
+        />
         <TouchableOpacity
           style={[ globalStyles.inputIconRight, { paddingTop } ]}
           onPress={ () => this.setState({ visible: !visible })}

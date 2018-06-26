@@ -8,7 +8,7 @@ import {showMessage} from '../ui/uiActions';
 import {setSecureStoreKey} from '../../utils/expo-storage';
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { actions as mixpanelActions } from '../../services/mixpanel' 
+import { actions as mixpanelActions } from '../../services/mixpanel'
 
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
@@ -21,7 +21,6 @@ export {
   updateUser,
   registerBorrower,
   registerExistingBorrower,
-  setUserLocation,
   registerUserTwitter,
   registerUserFacebook,
   registerUserGoogle,
@@ -70,6 +69,9 @@ function loginBorrower({email, password}) {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+
+      const userRes = await usersService.getPersonalInfo();
+      res.data.user = userRes.data;
 
       dispatch(loginBorrowerSuccess(res.data));
 
@@ -175,6 +177,9 @@ function loginTwitter(user) {
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
 
+      const userRes = await usersService.getPersonalInfo();
+      res.data.user = userRes.data;
+
       dispatch(loginUserTwitterSuccess(res.data))
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -234,6 +239,9 @@ function loginGoogle(user) {
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
 
+      const userRes = await usersService.getPersonalInfo();
+      res.data.user = userRes.data;
+
       dispatch(loginUserGoogleSuccess(res.data))
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -260,6 +268,9 @@ function loginFacebook(user) {
       const res = await usersService.facebookLogin(user);
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
+
+      const userRes = await usersService.getPersonalInfo();
+      res.data.user = userRes.data;
 
       dispatch(loginUserFacebookSuccess(res.data))
     } catch (err) {
@@ -368,13 +379,6 @@ function registerExistingBorrowerSuccess(data) {
     callName: API.REGISTER_EXISTING_BORROWER,
     user: data.user,
     borrower: data.borrower,
-  }
-}
-
-function setUserLocation(userLocation) {
-  return {
-    type: ACTIONS.SET_USER_LOCATION,
-    userLocation,
   }
 }
 
