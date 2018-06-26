@@ -31,6 +31,9 @@ const MessageStyle = StyleSheet.create({
   success: {
     backgroundColor: STYLES.PRIMARY_GREEN,
   },
+  neutral: {
+    backgroundColor: STYLES.GRAY_2,
+  },
   text: {
     fontFamily: 'agile-light',
     color: 'white',
@@ -49,6 +52,9 @@ const MessageStyle = StyleSheet.create({
   successText: {
     color: STYLES.PRIMARY_GREEN,
   },
+  neutralText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+  }
 });
 
 export default MessageStyle;

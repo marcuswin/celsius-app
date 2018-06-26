@@ -4,6 +4,7 @@ import * as navActions from '../nav/navActions';
 export {
   showMessage,
   clearMessage,
+  setInternetConnectivity,
   setHeaderHeight,
   takeCameraPhoto,
   flipCamera,
@@ -18,12 +19,14 @@ export {
 
 let msgTimeout;
 
-function showMessage(msgType, text) {
+function showMessage(msgType, text, disableClear) {
   return dispatch => {
     clearTimeout(msgTimeout);
 
     msgTimeout = setTimeout(() => {
-      dispatch(clearMessage());
+      if (!disableClear) {
+        dispatch(clearMessage());
+      }
       clearTimeout(msgTimeout);
     }, 5000);
 
@@ -32,6 +35,13 @@ function showMessage(msgType, text) {
       msgType,
       text,
     })
+  }
+}
+
+function setInternetConnectivity(connected) {
+  return {
+    type: ACTIONS.SET_INTERNET_CONNECTIVITY,
+    internetConnected: connected,
   }
 }
 
