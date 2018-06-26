@@ -90,7 +90,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     marginRight: 0,
   },
   input: {
-    fontFamily: 'agile-bold',
+    fontFamily: 'agile-medium',
     fontSize: FONT_SCALE * 20,
     marginTop: 0,
     marginBottom: 0,
