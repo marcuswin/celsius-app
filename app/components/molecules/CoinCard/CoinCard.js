@@ -58,11 +58,8 @@ const CoinCardStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     fontFamily: 'agile-book',
     color: '#181C21',
-    fontWeight: '100',
   },
-  bold: {
-    fontWeight: '100'
-  },
+  bold: {},
   red: {
     ...commonStyles.percentageAmount,
     color: STYLES.PRIMARY_RED,

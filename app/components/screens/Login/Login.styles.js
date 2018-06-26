@@ -11,7 +11,6 @@ const LoginStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     color: STYLES.WHITE_TEXT_COLOR,
     lineHeight: FONT_SCALE * 23,
-    fontWeight: '300',
     fontFamily: 'agile-light',
   },
   formWrapper: {

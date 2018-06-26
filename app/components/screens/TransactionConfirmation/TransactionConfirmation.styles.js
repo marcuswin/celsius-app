@@ -9,7 +9,6 @@ const TransactionConfirmationStyle = StyleSheet.create({
   explanationText: {
     fontFamily: "agile-light",
     fontSize: FONT_SCALE * 18,
-    fontWeight: "300",
     color: "rgba(61,72,83,1)",
     marginTop: 30,
     marginRight: 36,
@@ -33,13 +32,11 @@ const TransactionConfirmationStyle = StyleSheet.create({
   toAddress: {
     fontFamily: "agile-book",
     fontSize: FONT_SCALE * 11,
-    fontWeight: "500",
     color: "rgba(61,72,83,0.3)",
   },
   address: {
     fontFamily: "agile-book",
     fontSize: FONT_SCALE * 18,
-    fontWeight: "300",
     color: "rgba(61,72,83,1)",
     textAlign: 'left'
   }

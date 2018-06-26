@@ -67,7 +67,6 @@ const EstimatedLoanStyle = StyleSheet.create({
     color: STYLES.GRAY_2,
     fontFamily: 'agile-medium',
     fontSize: FONT_SCALE * 21,
-    fontWeight: '500',
     textAlign: 'center',
     lineHeight: FONT_SCALE * 25,
     marginBottom: 30,

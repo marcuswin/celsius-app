@@ -14,7 +14,6 @@ const NoKycStyle = StyleSheet.create({
   },
   textOne: {
     fontFamily: 'agile-medium',
-    fontWeight: '500',
     fontSize: FONT_SCALE * 21,
     textAlign: 'center',
     color: 'rgba(61,72,83,1)',
@@ -22,7 +21,6 @@ const NoKycStyle = StyleSheet.create({
   },
   textTwo: {
     fontFamily: 'agile-light',
-    fontWeight: '300',
     fontSize: FONT_SCALE * 17,
     textAlign: 'center',
     color: 'rgba(61,72,83,1)',
@@ -31,7 +29,6 @@ const NoKycStyle = StyleSheet.create({
   },
   textThree: {
     fontFamily: 'agile-light',
-    fontWeight: '300',
     fontSize: FONT_SCALE * 18,
     textAlign: 'center',
     color: 'rgba(61,72,83,1)',
@@ -60,14 +57,12 @@ const NoKycStyle = StyleSheet.create({
   },
   yellowText: {
     fontFamily: 'agile-medium',
-    fontWeight: '300',
     fontSize: FONT_SCALE * 20,
     textAlign: 'center',
     color: 'rgba(225,159,48,1)',
   },
   redText: {
     fontFamily: 'agile-medium',
-    fontWeight: '300',
     fontSize: FONT_SCALE * 20,
     textAlign: 'center',
     color: 'rgba(239,70,26,1)',

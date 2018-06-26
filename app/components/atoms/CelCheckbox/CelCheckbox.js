@@ -2,7 +2,7 @@ import React from 'react';
 import {Platform} from "react-native";
 import CheckBox from 'react-native-checkbox';
 
-const labelStyle = { color: '#ffffff', fontSize: 16, fontWeight: '300', fontFamily: 'agile-light' };
+const labelStyle = { color: '#ffffff', fontSize: 16, fontFamily: 'agile-light' };
 const checkboxStyle = {
   backgroundColor: 'rgba(255,255,255,0.05)',
   resizeMode: 'center',

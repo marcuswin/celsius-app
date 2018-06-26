@@ -56,7 +56,6 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     color: STYLES.GRAY_2,
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 21,
-    fontWeight: '500',
     textAlign: 'center',
     lineHeight: FONT_SCALE * 25,
     marginTop: 10,

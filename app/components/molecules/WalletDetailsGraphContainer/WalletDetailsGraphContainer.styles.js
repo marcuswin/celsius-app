@@ -17,7 +17,6 @@ const WalletDetailsGraphContainerStyles = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     fontFamily: 'agile-book',
     color: '#181C21',
-    fontWeight: '100',
   },
   periodButton: {
     backgroundColor: '#D8DADD',

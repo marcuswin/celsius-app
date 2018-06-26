@@ -8,7 +8,6 @@ const CryptoForPeopleStyle = StyleSheet.create({
 
   titleText: {
     fontFamily: 'agile-bold',
-    fontWeight: '500',
     fontSize: FONT_SCALE * 21,
     textAlign: 'left',
     color: 'rgba(61,72,83,1)',
@@ -18,7 +17,6 @@ const CryptoForPeopleStyle = StyleSheet.create({
   },
   explanationText: {
     fontFamily: 'agile-light',
-    fontWeight: '200',
     fontSize: FONT_SCALE * 18,
     textAlign: 'left',
     color: 'rgba(61,72,83,1)',

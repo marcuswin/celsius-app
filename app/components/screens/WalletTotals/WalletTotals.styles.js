@@ -19,7 +19,6 @@ const WalletTotalsStyle = StyleSheet.create({
   },
   name: {
     fontSize: FONT_SCALE * 11,
-    fontWeight: '300',
     fontFamily: 'agile-book',
     color: 'rgba(61,72,83,0.5)',
     marginTop: 30,
@@ -27,7 +26,6 @@ const WalletTotalsStyle = StyleSheet.create({
   },
   fiatAmount: {
     fontSize: FONT_SCALE * 30,
-    fontWeight: '500',
     fontFamily: 'agile-bold',
     color: 'rgba(61,72,83,1)',
     marginBottom: 7,
@@ -35,7 +33,6 @@ const WalletTotalsStyle = StyleSheet.create({
   },
   cryptoAmount: {
     fontSize: FONT_SCALE * 14,
-    fontWeight: '300',
     fontFamily: 'agile-light',
     color: 'rgba(61,72,83,1)',
     marginBottom: 25

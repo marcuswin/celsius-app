@@ -34,7 +34,6 @@ const CalculatorStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
     paddingBottom: 22,
-    fontWeight: "200"
   },
   addButton: {
     ...CommonCalculatorStyles.defaultButton,

@@ -24,7 +24,6 @@ const AmountInputStyle = StyleSheet.create({
     color: '#3D4853'
   },
   cryptoAmount: {
-    fontWeight: "300",
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
@@ -44,7 +43,6 @@ const AmountInputStyle = StyleSheet.create({
     flexDirection: 'row',
   },
   newBalanceText: {
-    fontWeight: "300",
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
@@ -73,7 +71,6 @@ const AmountInputStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontWeight: "300",
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",

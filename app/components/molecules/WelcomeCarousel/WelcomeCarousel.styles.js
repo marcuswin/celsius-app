@@ -23,7 +23,6 @@ const WelcomeCarouselStyle = StyleSheet.create({
     },
     smallDescription: {
       fontFamily: 'agile-bold',
-      fontWeight: "500",
       fontSize: FONT_SCALE * 16,
       color: '#88A2C7',
       marginBottom: 19,
@@ -32,7 +31,6 @@ const WelcomeCarouselStyle = StyleSheet.create({
     },
     largeDescription: {
       fontFamily: 'agile-light',
-      fontWeight: "300",
       fontSize: FONT_SCALE * 18,
       color: STYLES.WHITE_TEXT_COLOR,
       textAlign: 'center',

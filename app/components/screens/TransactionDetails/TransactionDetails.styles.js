@@ -29,7 +29,6 @@ const TransactionDetailsStyle = StyleSheet.create({
     color: '#3D4853'
   },
   cryptoAmount: {
-    fontWeight: "300",
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
@@ -53,31 +52,26 @@ const TransactionDetailsStyle = StyleSheet.create({
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 18,
     color: "rgba(61,72,83,1)",
-    fontWeight: '500'
   },
   info: {
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE *  18,
     color: "rgba(61,72,83,1)",
-    fontWeight: '300'
   },
   infoWithdrawn: {
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 18,
     color: "rgba(239,70,26,1)",
-    fontWeight: '300',
   },
   infoInProgress: {
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 18,
     color: "rgba(225,159,48,1)",
-    fontWeight: '300',
   },
   infoReceived: {
     fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 18,
     color: "rgba(79,184,149,1)",
-    fontWeight: '300',
   },
   imageWrapper: {
     position: 'absolute',
@@ -106,7 +100,6 @@ const TransactionDetailsStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
     color: "rgba(65,86,166,1)",
-    fontWeight: '300',
   },
 });
 

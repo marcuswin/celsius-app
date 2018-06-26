@@ -8,18 +8,15 @@ const VerifyPhoneNumberStyle = StyleSheet.create({
   finishButton: {
     marginTop: 30,
     fontSize: FONT_SCALE * 21,
-    fontWeight: '500',
     fontFamily: 'agile-light',
   },
   resendButton: {
     fontSize: FONT_SCALE * 18,
-    fontWeight: '300',
     fontFamily: 'agile-light',
   },
   title: {
     marginBottom: 20,
     fontSize: FONT_SCALE * 42,
-    fontWeight: '800',
     fontFamily: 'agile-bold',
     textAlign: 'center',
     color: 'white',
@@ -33,7 +30,6 @@ const VerifyPhoneNumberStyle = StyleSheet.create({
   },
   text: {
     fontSize: FONT_SCALE * 18,
-    fontWeight: '300',
     fontFamily: 'agile-light',
     textAlign: 'left',
     color: 'white',

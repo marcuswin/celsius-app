@@ -12,7 +12,6 @@ const PassCodeStyle = StyleSheet.create({
   },
   text: {
     fontFamily: 'agile-light',
-    fontWeight: "300",
     fontSize: FONT_SCALE * 18,
     marginTop: 20,
     marginBottom: 20,

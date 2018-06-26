@@ -3,7 +3,6 @@ import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const AddFundsStyle = StyleSheet.create({
   textOne: {
-    fontWeight: '300',
     fontFamily: 'agile-book',
     fontSize: FONT_SCALE * 18,
     textAlign: 'center',
@@ -17,7 +16,6 @@ const AddFundsStyle = StyleSheet.create({
     marginRight: 'auto',
   },
   textTwo: {
-    fontWeight: '300',
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
     textAlign: 'center',
@@ -114,7 +112,6 @@ const AddFundsStyle = StyleSheet.create({
     marginRight: 10,
   },
   buttonsText: {
-    fontWeight: '300',
     fontFamily: 'agile-book',
     fontSize: FONT_SCALE * 16,
     textAlign: 'center',
