@@ -86,7 +86,7 @@ class TextInput extends Component {
     const inputBackground = value || active ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     return (
-      <View style={[globalStyles.inputWrapper, , inputBackground ]]}>
+      <View style={[globalStyles.inputWrapper, inputBackground ]}>
           <Input
             style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
             underlineColorAndroid={'rgba(0,0,0,0)'}
