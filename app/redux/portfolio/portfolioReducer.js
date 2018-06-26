@@ -1,7 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 
 const initialState = {
-  portfolio: [],
+  portfolio: undefined,
   estimatedLoan: undefined,
   estimatedInterest: undefined,
 };

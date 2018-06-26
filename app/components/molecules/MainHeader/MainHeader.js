@@ -28,6 +28,7 @@ class MainHeader extends Component {
     rightLink: PropTypes.instanceOf(Object),
     left: PropTypes.element,
     backButton: PropTypes.bool,
+    onPressBackButton: PropTypes.func,
     backgroundColor: PropTypes.string,
     onCancel: PropTypes.func,
   };
@@ -48,7 +49,11 @@ class MainHeader extends Component {
   }
 
   onPressBackButton() {
-    const { navigateBack } = this.props;
+    const { navigateBack, onPressBackButton } = this.props;
+    if (onPressBackButton) {
+      return onPressBackButton();
+    }
+
     navigateBack();
   }
 
@@ -69,7 +74,7 @@ class MainHeader extends Component {
           <Image
             source={require('../../../../assets/images/icons/Back.png')}
             style={{height: 20, width: 20, resizeMode: 'contain'}}/>
-          <Text style={HeaderStyle.backButtonText}>Back</Text>
+          <Text style={HeaderStyle.backButtonText} uppercase={false}>Back</Text>
         </Button>
       );
     }
@@ -87,7 +92,7 @@ class MainHeader extends Component {
     if (rightLink) {
       return (
         <Button transparent onPress={() => navigateTo(rightLink.screen)}>
-          <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]}>{ rightLink.text }</Text>
+          <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
     }

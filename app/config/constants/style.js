@@ -1,4 +1,4 @@
-import {PixelRatio, StyleSheet, Platform} from "react-native";
+import {PixelRatio, Platform} from "react-native";
 
 export const PIXEL_RATIO = PixelRatio.get();
 // Font scaling for different iOS devices
@@ -24,6 +24,7 @@ export const COLORS = {
   green: '#4FB895',
   pink: '#A866AA',
   yellow: '#E19F30',
+  gray: '#899099',
 }
 
 export const STYLES = {
@@ -41,9 +42,11 @@ export const STYLES = {
   GRAY_4: '#9DA3A9',
   GRAY_5: '#CED1D4',
   GRAY_6: '#C8C8C8',
+  GRAY_7: '#899099',
+  YELLOW: '#E19F30',
 };
 
-export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
+export const GLOBAL_STYLE_DEFINITIONS = {
   normalText: {
     color: STYLES.GRAY_2,
     fontSize: FONT_SCALE * 18,
@@ -51,9 +54,8 @@ export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
   },
   heading: {
     color: STYLES.GRAY_2,
-    fontFamily: 'agile-medium',
+    fontFamily: 'agile-bold',
     fontSize: FONT_SCALE * 21,
-    fontWeight: '500',
     textAlign: 'center',
     lineHeight: FONT_SCALE * 25,
     marginTop: 10,
@@ -63,8 +65,89 @@ export const GLOBAL_STYLE_DEFINITIONS = StyleSheet.create({
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center'
-  }
-});
+  },
+
+  // celsius form styles
+  inputWrapper: {
+    paddingLeft: 18,
+    paddingRight: 18,
+    paddingBottom: 8,
+    paddingTop: 23,
+    marginBottom: 20,
+    borderRadius: 8,
+    height: 60,
+  },
+  blueInputWrapper: { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+  blueInputWrapperActive: {backgroundColor: 'rgba(255,255,255,0.35)'},
+  whiteInputWrapper: { backgroundColor: 'rgba(255,255,255,0.5)' },
+  whiteInputWrapperActive: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
+  inputItem: {
+    borderBottomColor: 'transparent',
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 0,
+    zIndex: 0,
+    marginRight: 0,
+  },
+  input: {
+    fontFamily: 'agile-medium',
+    fontSize: FONT_SCALE * 20,
+    marginTop: 4,
+    marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    paddingLeft: 0,
+    zIndex: 1,
+    height: 28,
+  },
+  blueInputTextColor: { color: STYLES.INPUT_COLOR_WHITE },
+  whiteInputTextColor: { color: STYLES.GRAY_2 },
+  inputLabelWrapper: {
+    left: 18,
+    zIndex: 2,
+    position: 'absolute',
+    top: 18,
+    height: 23,
+    width: 100,
+  },
+  inputLabel: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    opacity: 0.8,
+    zIndex: 3,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    fontSize: FONT_SCALE * 20,
+  },
+  selectLabelInactive: {
+    color: STYLES.INPUT_LABEL_COLOR_WHITE,
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 20,
+    opacity: 0.8,
+    zIndex: 2,
+  },
+  selectLabelActive: {
+    color: 'white',
+    fontSize: FONT_SCALE * 12,
+    opacity: 0.8,
+    fontFamily: 'agile-light',
+    position: 'absolute',
+    top: 5,
+    zIndex: 2,
+    left: 18,
+  },
+  inputIconRight: {
+    position: 'absolute',
+    right: 15,
+    top: 0,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.4,
+  },
+
+};
 
 export const FONTS = [
   {'Roboto': require('native-base/Fonts/Roboto.ttf')},
@@ -75,6 +158,7 @@ export const FONTS = [
   {'agile-bold': require('../../../assets/fonts/Agile-Bold.otf')},
   {'agile-book': require('../../../assets/fonts/Agile-Book.otf')},
   {'agile-extra-bold': require('../../../assets/fonts/Agile-Extrabold.otf')},
+  {'inconsolata-regular': require('../../../assets/fonts/Inconsolata-Regular.ttf')},
 ];
 
 export const CACHE_IMAGES = [
@@ -126,4 +210,16 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/avatar-monkey.jpg'),
   require('../../../assets/images/avatar-monkey-girl.jpg'),
   require('../../../assets/images/avatar-sheep.jpg'),
+  require('../../../assets/images/camera-mask-circle.png'),
+  require('../../../assets/images/camera-mask-document.png'),
+  require('../../../assets/images/phone_doggirl3x.png'),
+  require('../../../assets/images/wallet-girl3x.png'),
+  require('../../../assets/images/bear-NoKYC3x.png'),
+  require('../../../assets/images/bear-happyKYC3x.png'),
+  require('../../../assets/images/App-Login-Animations_Deer.gif'),
+  require('../../../assets/images/App-Login-Animations_Hippo.gif'),
+  require('../../../assets/images/App-Login-Animations_Squirelgirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Monkey-Girl.gif'),
+  require('../../../assets/images/App-Login-Animations_Doggirl.gif'),
+  require('../../../assets/images/App-Login-Animations_Sheep.gif'),
 ];

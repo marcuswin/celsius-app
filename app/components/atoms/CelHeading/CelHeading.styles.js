@@ -11,8 +11,7 @@ const CelHeadingStyle = StyleSheet.create({
     backgroundColor: STYLES.PRIMARY_BLUE,
   },
   heading: {
-    fontWeight: '800',
-    fontFamily: 'agile-extra-bold',
+    fontFamily: 'agile-bold',
     color: 'white',
     fontSize: FONT_SCALE * 40,
   },

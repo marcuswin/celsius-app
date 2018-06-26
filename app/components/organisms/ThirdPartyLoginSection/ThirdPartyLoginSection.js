@@ -40,7 +40,7 @@ class ThirdPartyLoginSection extends Component {
   // event handlers
   onOpenTwitter = () => {
     if (this.props.type === 'signup') {
-      mixpanelActions.startedSignup('Twitter');
+      mixpanelActions.startedSignup('oAuth');
     }
     this.fakeTwitterButton.onButtonPress();
     this.props.twitterOpen();
@@ -89,7 +89,7 @@ class ThirdPartyLoginSection extends Component {
         if (type === 'login') {
           loginGoogle(user);
         } else {
-          mixpanelActions.startedSignup('Google');
+          mixpanelActions.startedSignup('oAuth');
           googleSuccess(user);
         }
       } else {
@@ -117,7 +117,7 @@ class ThirdPartyLoginSection extends Component {
         if (this.props.type === 'login') {
           loginFacebook(user);
         } else {
-          mixpanelActions.startedSignup('Facebook');
+          mixpanelActions.startedSignup('oAuth');
           facebookSuccess(user);
         }
       }

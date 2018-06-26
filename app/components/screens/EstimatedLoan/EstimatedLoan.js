@@ -22,6 +22,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   state => ({
     portfolio: state.portfolio.portfolio,
     estimatedLoan: state.portfolio.estimatedLoan,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -40,8 +41,18 @@ class EstimatedLoan extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedLoan } = this.props;
+    const { getEstimatedLoan, portfolio, getPortfolio } = this.props;
     getEstimatedLoan();
+    if (!portfolio) getPortfolio();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { getEstimatedLoan, getPortfolio, activeScreen } = this.props;
+    if (nextProps.activeScreen === 'EstimatedLoan' && activeScreen !== nextProps.activeScreen) {
+      getEstimatedLoan();
+      if (!nextProps.portfolio) getPortfolio();
+    }
   }
 
   // event hanlders
@@ -82,7 +93,7 @@ class EstimatedLoan extends Component {
                   }}>
                     {cr.info_text}
                   </Text>
-                  <Icon style={{marginLeft: 10}} name='IconBlank' width='14' height='14' viewBox="0 0 14 14"
+                  <Icon style={{marginLeft: 10, marginTop: 5}} name='IconBlank' width='14' height='14' viewBox="0 0 14 14"
                         fill='#C8C8C8'/>
                 </View>
               </Col>
@@ -96,9 +107,10 @@ class EstimatedLoan extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedLoan, portfolio, navigateTo } = this.props;
+
+    if (!estimatedLoan || !portfolio) return <Loader text="Estimating Loan"/>;
     const portfolioData = get(portfolio, 'data', []);
 
-    if (!estimatedLoan) return <Loader text="Estimating Loan"/>;
 
     if (!estimatedLoan.estimated_coin_value) return (
       <SimpleLayout
@@ -215,7 +227,7 @@ class EstimatedLoan extends Component {
           <Image source={require('../../../../assets/images/polar-bear_large.png')} style={EstimatedLoanStyle.bearImage}/>
         </View>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
+        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 10, marginBottom: 30 }]}>
           You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedLoan.position_in_line) } </Text>
           person in line eligible to borrow dollars against your crypto.

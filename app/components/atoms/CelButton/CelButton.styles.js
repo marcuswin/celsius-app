@@ -35,9 +35,11 @@ const CelButtonStyle = StyleSheet.create({
   },
   whiteBtnTitle: { color: 'transparent' },
 
-  smallButton: { height: 50 },
+  miniButton: { borderRadius: 20, height: 40, paddingLeft: 10, paddingRight: 10, },
+  miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
+  smallButton: { borderRadius: 25, height: 50 },
   smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-light', },
-  mediumButton: { height: 60 },
+  mediumButton: { borderRadius: 30, height: 60 },
   mediumBtnTitle: { fontSize: FONT_SCALE * 20, marginLeft: 10, fontFamily: 'agile-medium', },
 
   inverseButton: {
@@ -69,7 +71,7 @@ const CelButtonStyle = StyleSheet.create({
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'center',
-    borderRadius: 60,
+    borderRadius: 30,
     alignItems: 'center',
     flexDirection:'row'
   },

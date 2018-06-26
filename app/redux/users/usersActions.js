@@ -1,63 +1,26 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
+import * as NavActions from '../nav/navActions';
 import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
+import meService from '../../services/me-service';
+import { KYC_STATUSES } from "../../config/constants/common";
 
 export {
-  getUserPersonalInfo,
   getProfileInfo,
-  changeProfileInfo,
   updateProfileInfo,
-  createUserPersonalInfo,
-  getUserAddressInfo,
-  createUserAddressInfo,
-  getUserContactInfo,
-  createUserContactInfo,
-  getUserBankInfo,
-  createUserBankInfo,
-  getUserDocuments,
-  createUserDocuments,
   toggleTermsOfUse,
   updateProfilePicture,
-}
-
-// PERSONAL INFO
-function createUserPersonalInfo(personalInfo) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_PERSONAL_INFO));
-
-    try {
-      const newPersonalInfo = await usersService.createPersonalInfo(personalInfo);
-      dispatch(createUserPersonalInfoSuccess(newPersonalInfo.data.profile));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_PERSONAL_INFO, err));
-    }
-  }
-}
-
-
-function createUserPersonalInfoSuccess(personalInfo) {
-  return {
-    type: ACTIONS.CREATE_USER_PERSONAL_INFO_SUCCESS,
-    callName: API.CREATE_USER_PERSONAL_INFO,
-    personalInfo
-  }
-}
-
-function getUserPersonalInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
-
-    try {
-      const personalInfoRes = await usersService.getPersonalInfo();
-      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.data));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
-    }
-  }
+  getKYCDocuments,
+  createKYCDocuments,
+  sendVerificationSMS,
+  verifySMS,
+  verifyKYCDocs,
+  finishKYCVerification,
+  startKYC,
+  getKYCStatus,
+  setPin,
 }
 
 function getProfileInfo() {
@@ -66,19 +29,11 @@ function getProfileInfo() {
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
-      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.data));
+      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
     }
-  }
-}
-
-
-function changeProfileInfo (key, value) {
-  return {
-    type: ACTIONS.CHANGE_USER_PERSONAL_INFO,
-    payload: {key, value}
   }
 }
 
@@ -89,7 +44,6 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-      dispatch(showMessage('success', 'Profile updated'));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(updateProfileInfoError(err.raw_error));
@@ -121,210 +75,6 @@ function getUserPersonalInfoSuccess(personalInfo) {
   }
 }
 
-// ADDRESS INFO
-function createUserAddressInfo(addressInfo) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_ADDRESS_INFO));
-
-    try {
-      const newAddressInfo = await usersService.createAddressInfo(addressInfo);
-      dispatch(createUserAddressInfoSuccess(newAddressInfo.data.address));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_ADDRESS_INFO, err));
-    }
-  }
-}
-
-
-function createUserAddressInfoSuccess(addressInfo) {
-  return {
-    type: ACTIONS.CREATE_USER_ADDRESS_INFO_SUCCESS,
-    callName: API.CREATE_USER_ADDRESS_INFO,
-    addressInfo
-  }
-}
-
-function getUserAddressInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_ADDRESS_INFO));
-
-    try {
-      const addressInfoRes = await usersService.getAddressInfo();
-      dispatch(getUserAddressInfoSuccess(addressInfoRes.data.address));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_ADDRESS_INFO, err));
-    }
-  }
-}
-
-
-function getUserAddressInfoSuccess(addressInfo) {
-  return {
-    type: ACTIONS.GET_USER_ADDRESS_INFO_SUCCESS,
-    callName: API.GET_USER_ADDRESS_INFO,
-    addressInfo
-  }
-}
-
-// CONTACT INFO
-function createUserContactInfo(contactInfo) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_CONTACT_INFO));
-
-    try {
-      const newContactInfo = await usersService.createContactInfo(contactInfo);
-      dispatch(createUserContactInfoSuccess(newContactInfo.data.contact));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_CONTACT_INFO, err));
-    }
-  }
-}
-
-
-function createUserContactInfoSuccess(contactInfo) {
-  return {
-    type: ACTIONS.CREATE_USER_CONTACT_INFO_SUCCESS,
-    callName: API.CREATE_USER_CONTACT_INFO,
-    contactInfo
-  }
-}
-
-function getUserContactInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_CONTACT_INFO));
-
-    try {
-      const contactInfoRes = await usersService.getContactInfo();
-      dispatch(getUserContactInfoSuccess(contactInfoRes.data.contact));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_CONTACT_INFO, err));
-    }
-  }
-}
-
-
-function getUserContactInfoSuccess(contactInfo) {
-  return {
-    type: ACTIONS.GET_USER_CONTACT_INFO_SUCCESS,
-    callName: API.GET_USER_CONTACT_INFO,
-    contactInfo
-  }
-}
-
-// BANK INFO
-/**
- * @deprecated
- * @description delete all logic related BankInfo
- */
-function createUserBankInfo(bankAccountInfo) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_BANK_INFO));
-
-    try {
-      const newBankInfo = await usersService.createBankAccountInfo(bankAccountInfo);
-      dispatch(createUserBankInfoSuccess(newBankInfo.data.bank));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_BANK_INFO, err));
-    }
-  }
-}
-
-
-function createUserBankInfoSuccess(bankInfo) {
-  return {
-    type: ACTIONS.CREATE_USER_BANK_INFO_SUCCESS,
-    callName: API.CREATE_USER_BANK_INFO,
-    bankInfo
-  }
-}
-
-function getUserBankInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_BANK_INFO));
-
-    try {
-      const bankInfoRes = await usersService.getBankAccountInfo();
-      dispatch(getUserBankInfoSuccess(bankInfoRes.data.bank));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_BANK_INFO, err));
-    }
-  }
-}
-
-function getUserBankInfoSuccess(bankInfo) {
-  return {
-    type: ACTIONS.GET_USER_BANK_INFO_SUCCESS,
-    callName: API.GET_USER_BANK_INFO,
-    bankInfo
-  }
-}
-
-// DOCUMENT INFO
-function createUserDocuments(documentInfo) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_DOCUMENTS));
-
-    try {
-      const newDocuments = await usersService.createDocuments(documentInfo);
-      const complite = dispatch(completeKyc());
-      console.log(complite);
-      dispatch(createUserDocumentsSuccess(newDocuments.data.documents));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_DOCUMENTS, err));
-    }
-  }
-}
-
-
-function createUserDocumentsSuccess(documents) {
-  return {
-    type: ACTIONS.CREATE_USER_DOCUMENTS_SUCCESS,
-    callName: API.CREATE_USER_DOCUMENTS,
-    documents
-  }
-}
-
-function completeKyc() {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_USER_DOCUMENTS));
-    try {
-      await usersService.kycCompleted();
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_USER_DOCUMENTS, err));
-    }
-  }
-}
-
-function getUserDocuments() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_DOCUMENTS));
-
-    try {
-      const documentsRes = await usersService.getDocuments();
-      dispatch(getUserDocumentsSuccess(documentsRes.data.kyc_documents));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_DOCUMENTS, err));
-    }
-  }
-}
-
-function getUserDocumentsSuccess(documents) {
-  return {
-    type: ACTIONS.GET_USER_DOCUMENTS_SUCCESS,
-    callName: API.GET_USER_DOCUMENTS,
-    documents
-  }
-}
-
 function toggleTermsOfUse() {
   return {
     type: ACTIONS.TOGGLE_TERMS_OF_USE,
@@ -352,3 +102,211 @@ function updateProfilePictureSuccess(image) {
     image,
   }
 }
+
+function getKYCDocuments(documents) {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_KYC_DOCUMENTS));
+    try {
+      const res = await meService.getKYCDocuments(documents);
+      dispatch(getKYCDocumentsSuccess(res.data));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_KYC_DOCUMENTS, err));
+    }
+  }
+}
+
+function getKYCDocumentsSuccess(documents) {
+  return {
+    type: ACTIONS.GET_KYC_DOCUMENTS_SUCCESS,
+    callName: API.GET_KYC_DOCUMENTS,
+    documents,
+  }
+}
+
+function createKYCDocuments(documents) {
+  return async dispatch => {
+    dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
+    try {
+      await meService.createKYCDocuments(documents);
+      dispatch(createKYCDocumentsSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_KYC_DOCUMENTS, err));
+    }
+  }
+}
+
+function createKYCDocumentsSuccess() {
+  return {
+    type: ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS,
+    callName: API.CREATE_KYC_DOCUMENTS,
+  }
+}
+
+function sendVerificationSMS() {
+  return async dispatch => {
+    dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
+    try {
+      await meService.sendVerificationSMS();
+      dispatch(sendVerificationSMSSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_VERIFICATION_SMS, err));
+    }
+  }
+}
+
+function sendVerificationSMSSuccess() {
+  return {
+    type: ACTIONS.SEND_VERIFICATION_SMS_SUCCESS,
+    callName: API.SEND_VERIFICATION_SMS,
+  }
+}
+
+function verifySMS(verificationCode) {
+  return async dispatch => {
+    dispatch(startApiCall(API.VERIFY_SMS));
+    try {
+      await meService.verifySMS(verificationCode);
+      dispatch(verifySMSSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.VERIFY_SMS, err));
+    }
+  }
+}
+
+function verifySMSSuccess() {
+  return {
+    type: ACTIONS.VERIFY_SMS_SUCCESS,
+    callName: API.VERIFY_SMS,
+  }
+}
+
+function verifyKYCDocs() {
+  return async (dispatch, getState) => {
+    const { formData } = getState().ui;
+    let callName;
+    let res;
+
+    try {
+      callName = API.UPDATE_USER_PERSONAL_INFO;
+      dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
+      res = await usersService.updateProfileInfo({
+        cellphone: formData.cellphone
+      });
+      dispatch(updateProfileInfoSuccess(res.data));
+
+      callName = API.CREATE_KYC_DOCUMENTS;
+      dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
+      res = await meService.createKYCDocuments({
+        front: formData.front,
+        back: formData.documentType !== 'passport' ? formData.back : undefined,
+        type: formData.documentType,
+      });
+      dispatch(createKYCDocumentsSuccess(res.data));
+
+      callName = API.SEND_VERIFICATION_SMS;
+      dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
+      await meService.sendVerificationSMS();
+      dispatch(sendVerificationSMSSuccess());
+
+      dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
+      dispatch(showMessage('success', 'SMS sent!'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(callName, err));
+    }
+  }
+}
+
+function finishKYCVerification() {
+  return async (dispatch, getState) => {
+    const { formData } = getState().ui;
+    let callName;
+
+    try {
+      callName = API.VERIFY_SMS;
+      dispatch(startApiCall(API.VERIFY_SMS));
+      await meService.verifySMS(formData.verificationCode);
+      dispatch(verifySMSSuccess());
+
+      callName = API.START_KYC;
+      dispatch(startApiCall(API.START_KYC));
+      await meService.startKYC();
+      dispatch(startKYCSuccess());
+
+      dispatch(NavActions.navigateTo('NoKyc'));
+      dispatch(showMessage('success', 'KYC verification proccess has started!'));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(callName, err));
+    }
+  }
+}
+
+function startKYC() {
+  return async dispatch => {
+    dispatch(startApiCall(API.START_KYC));
+    try {
+      await meService.startKYC();
+      dispatch(startKYCSuccess());
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.START_KYC, err));
+    }
+  }
+}
+
+function startKYCSuccess() {
+  return {
+    type: ACTIONS.START_KYC_SUCCESS,
+    kyc: {
+      status: KYC_STATUSES.pending
+    },
+  }
+}
+
+function getKYCStatus() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_KYC_STATUS));
+    try {
+      const res = await meService.getKYCStatus();
+      dispatch(getKYCStatusSuccess(res.data));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_KYC_STATUS, err));
+    }
+  }
+}
+
+function getKYCStatusSuccess(status) {
+  return {
+    type: ACTIONS.GET_KYC_STATUS_SUCCESS,
+    kyc: status,
+  }
+}
+
+function setPin(pinData) {
+  return async dispatch => {
+    dispatch(startApiCall(API.SET_PIN));
+    try {
+      await meService.setPin(pinData);
+      dispatch(setPinSuccess());
+      dispatch({type: ACTIONS.CLEAR_FORM});
+      dispatch(NavActions.navigateTo('NoKyc'));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+function setPinSuccess() {
+  return {
+    type: ACTIONS.SET_PIN_SUCCESS,
+    callName: API.SET_PIN,
+  }
+}
+

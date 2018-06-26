@@ -13,7 +13,7 @@ const PortfolioEmptyStateStyle = StyleSheet.create({
   },
   image: {
     height: width * 0.33,
-    width: width * 0.33 * 1.13,
+    width: width * 0.33 * 1.2 + 3,
   }
 });
 

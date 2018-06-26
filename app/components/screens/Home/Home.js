@@ -1,40 +1,38 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import isEmpty from 'lodash/isEmpty'
-import get from 'lodash/get';
 
-import Loader from '../../atoms/Loader/Loader';
-import API from "../../../config/constants/API";
-import apiUtil from '../../../utils/api-util';
 import * as actions from "../../../redux/actions";
-import ManagePortfolio from '../ManagePortfolio'
-import PortfolioOverview from "../../screens/PortfolioOverview"
+import WalletLanding from "../WalletLanding/WalletLanding";
+import NoKyc from "../NoKyc/NoKyc";
+import CreatePasscode from "../Passcode/CreatePasscode";
+import { KYC_STATUSES } from "../../../config/constants/common";
+import WelcomeScreen from "../Welcome/Welcome";
+import SignupTwo from "../Signup/SignupTwo";
+import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
-    portfolio: state.portfolio.portfolio,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 
 class HomeScreen extends Component {
-  componentDidMount() {
-    const { getPortfolio } = this.props;
-    getPortfolio();
-  }
-
   render() {
-    const portfolioData = get(this.props.portfolio, 'data', []);
+    const { user } = this.props;
 
-    const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
+    if (!user) return <WelcomeScreen/>;
 
-    if (isLoading) return <Loader text="Loading Home Page" />
+    // Anything beyond this point is considered as the user has logged in.
+    registerForPushNotificationsAsync();
 
-    return (!isLoading && !isEmpty(portfolioData)) ? <PortfolioOverview /> : <ManagePortfolio />
+    if (!user.first_name || !user.last_name) return <SignupTwo/>;
+    if (!user.has_pin) return <CreatePasscode />;
+    if (user.kyc && user.kyc.status !== KYC_STATUSES.passed) return <NoKyc />;
+    return <WalletLanding />;
   }
 }
 

@@ -11,10 +11,10 @@ function getBottomNavDimensions() {
   let navPaddingBottom;
 
   if (device.isiPhoneX()) {
-    navHeight = 87;
+    navHeight = 87 + 15;
     navPaddingBottom = 30;
   } else {
-    navHeight = 60;
+    navHeight = 60 + 15;
     navPaddingBottom = 5;
   }
 
@@ -26,6 +26,7 @@ function getBottomNavDimensions() {
 
 const initialState = {
   message: undefined,
+  internetConnected: true,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
@@ -35,17 +36,20 @@ const initialState = {
     bottomNavigation: getBottomNavDimensions(),
   },
   camera: {
-    isOpen: false,
-    camera: undefined,
-    photoName: undefined,
-    lastPhoto: undefined,
-    lastPhotoName: undefined,
+    cameraField: undefined,
+    cameraHeading: undefined,
+    cameraCopy: undefined,
+    cameraType: 'back',
+    photo: undefined,
+    mask: undefined,
   },
-  portfolioFormData: []
+  formData: {},
+  portfolioFormData: [],
 };
 
 export default (state = initialState, action) => {
   let newState;
+
   switch (action.type) {
     case ACTIONS.SHOW_MESSAGE:
       return {
@@ -54,6 +58,12 @@ export default (state = initialState, action) => {
           type: action.msgType,
           text: action.text,
         }
+      };
+
+    case ACTIONS.SET_INTERNET_CONNECTIVITY:
+      return {
+        ...state,
+        internetConnected: action.internetConnected
       };
 
     case ACTIONS.NAVIGATE:
@@ -95,7 +105,21 @@ export default (state = initialState, action) => {
         ...state,
         camera: {
           ...state.camera,
-          camera: state.camera.camera === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back,
+          cameraType: state.camera.cameraType === 'back' ? 'front' : 'back',
+        }
+      }
+
+    case ACTIONS.ACTIVATE_CAMERA:
+      return {
+        ...state,
+        camera: {
+          ...state.camera,
+          cameraField: action.cameraField,
+          cameraType: action.cameraType,
+          cameraHeading: action.cameraHeading,
+          cameraCopy: action.cameraCopy,
+          photo: action.photo,
+          mask: action.mask,
         }
       }
 
@@ -104,9 +128,38 @@ export default (state = initialState, action) => {
         ...state,
         camera: {
           ...state.camera,
-          lastPhoto: action.photo,
-          lastPhotoName: action.photoName,
+          photo: action.photo,
         }
+      }
+
+    case ACTIONS.RETAKE_PHOTO:
+      return {
+        ...state,
+        camera: {
+          ...state.camera,
+          photo: undefined,
+        }
+      }
+
+    case ACTIONS.UPDATE_FORM_FIELD:
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          [action.field]: action.value,
+        }
+      }
+
+    case ACTIONS.INIT_FORM:
+      return {
+        ...state,
+        formData: action.formData,
+      }
+      
+    case ACTIONS.CLEAR_FORM:
+      return {
+        ...state,
+        formData: {},
       }
 
     case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:

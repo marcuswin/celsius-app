@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, Platform } from 'react-native';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
@@ -13,6 +13,8 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
+const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
+
 @connect(
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -23,13 +25,16 @@ import BottomNavigationStyle from "./BottomNavigation.styles";
 )
 class BottomNavigation extends Component {
   static propTypes = {
-    navItems: PropTypes.instanceOf(Array),
+    navItemsLeft: PropTypes.instanceOf(Array),
+    navItemsRight: PropTypes.instanceOf(Array),
   }
 
   static defaultProps = {
-    navItems: [
-      { label: 'Portfolio', screen: 'Home', icon: 'Portfolio', active: ['ManageCoins'] },
+    navItemsLeft: [
+      { label: 'Portfolio', screen: 'Portfolio', icon: 'Portfolio', active: ['ManageCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
+    ],
+    navItemsRight: [
       { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
@@ -75,17 +80,71 @@ class BottomNavigation extends Component {
     )
   }
 
+  renderWalletButton(navItem) {
+
+    const { activeScreen, navigateTo } = this.props;
+
+    const ios = walletScreens.indexOf(activeScreen) !== -1 ? 'Active' : 'Inactive';
+    const state = (navItem.active && navItem.active.indexOf(activeScreen) !== -1) || navItem.screen === activeScreen ? 'Active' : 'Inactive';
+
+    const iconFill = state === 'Active' ? STYLES.PRIMARY_BLUE : '#3D4853';
+    const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
+
+    if(Platform.OS === 'ios') {
+      return (
+      <TouchableOpacity
+        onPress={ () => {
+          mixpanelActions.navigation('Home');
+          navigateTo('Home');
+        }}>
+        <View style={BottomNavigationStyle.wallet} >
+          <View style={BottomNavigationStyle[`celsius${ios}`]}>
+            <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+          </View>
+          <Text style={BottomNavigationStyle[`text${ios}`]}>Wallet</Text>
+        </View>
+      </TouchableOpacity>
+      )
+    }
+
+    if(Platform.OS === 'android') {
+      return (
+        <TouchableOpacity
+          key={ navItem.label }
+          onPress={ () => {
+            mixpanelActions.navigation('Home');
+            navigateTo('Home');
+          }}>
+          <View style={BottomNavigationStyle[`item${state}`]} >
+            <View style={BottomNavigationStyle.iconWrapper}>
+              <Icon name="CelsiusLogo" width={25} height={25} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 0}]} fill={ iconFill } />
+            </View>
+            <Text style={BottomNavigationStyle[`text${state}`]}>{ navItem.label }</Text>
+          </View>
+        </TouchableOpacity>
+      )
+    }
+
+  };
+
   render() {
-    const { navItems, bottomNavigationDimensions, screenHeight } = this.props;
+    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight } = this.props;
 
     const styles = {
       height: bottomNavigationDimensions.height,
       top: screenHeight - bottomNavigationDimensions.height,
       paddingBottom: bottomNavigationDimensions.paddingBottom,
     }
+
+
+
     return (
       <View style={[ BottomNavigationStyle.container, styles ]}>
-        { navItems.map(this.renderNavItem) }
+        { navItemsLeft.map(this.renderNavItem) }
+
+        {this.renderWalletButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens })}
+
+        { navItemsRight.map(this.renderNavItem) }
       </View>
     );
   }

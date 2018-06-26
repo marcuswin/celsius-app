@@ -20,6 +20,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   state => ({
     portfolio: state.portfolio.portfolio,
     estimatedInterest: state.portfolio.estimatedInterest,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -38,8 +39,17 @@ class DepositCoins extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedInterest } = this.props;
+    const { getEstimatedInterest, portfolio, getPortfolio } = this.props;
     getEstimatedInterest();
+    if (!portfolio) getPortfolio();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { getEstimatedInterest, getPortfolio, activeScreen } = this.props;
+    if (nextProps.activeScreen === 'DepositCoins' && activeScreen !== nextProps.activeScreen) {
+      getEstimatedInterest();
+      if (!nextProps.portfolio) getPortfolio();
+    }
   }
 
   // event hanlders
@@ -47,9 +57,11 @@ class DepositCoins extends Component {
   render() {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, navigateTo } = this.props;
+
+    if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
+
     const portfolioData = get(portfolio, 'data', [])
 
-    if (!estimatedInterest) return <Loader text="Estimating Interest on Coins" />;
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
@@ -95,15 +107,24 @@ class DepositCoins extends Component {
         />
 
         <Text style={globalStyles.heading}>
-          Doing what’s in the best interest of our members
+          How do we calculate the interest you earn?
         </Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          We've created this formula to give interest to our members based on not just their total amount of deposits in order to make sure that all our members have the ability to earn interest, not just the members HODLing lots and lots of crypto.
+          We want to maximize the return for all HODLers and do what's in the best interest of all of our members.
         </Text>
 
+        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17 }]}>
+          Our formula for CEL interest will be based on 3 factors which reward HODLing and discourage speculation:</Text>
+
+        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>50% - the amount of BTC or ETH you've deposited.</Text>
+
+        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>25% - the amount of time you've been part of the Celsius community vs. others without withdrawing your coins.</Text>
+
+        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>25% - the amount of CEL tokens you've earned as a percentage of how many you've withdrawn.</Text>
+
         <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 33 }]}>
-          We want to do whatever we can to benefit all of our members and to incentivize as many people as possible to join the Celsius community.
+          We are working on distributing CEL interest to our community, so for now, we're using the interest earned from deposits to buy back CEL on the open market in order to reduce the number of CEL in circulation.
         </Text>
 
         <Separator margin='15 0 30 0'/>

@@ -35,7 +35,7 @@ class Separator extends Component {
           <Col style={SeparatorStyles.centeredColumn}>
             <View style={SeparatorStyles.dummyBorder}/>
           </Col>
-          <Col style={{width: 175, justifyContent: 'center', alignItems: 'center'}}>
+          <Col style={SeparatorStyles.textColumn}>
             <Text style={SeparatorStyles.middleBorderText}>{ this.props.children }</Text>
           </Col>
           <Col style={SeparatorStyles.centeredColumn}>
