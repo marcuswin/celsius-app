@@ -13,7 +13,7 @@ function getSource(image) {
   if (isBase64Image(image)) return { uri: `data:image/png;base64,${image}` };
 
   // check if url
-  if (image && image.includes('https://')) return { uri: image };
+  if (image && (image.includes('https://') || image.includes('http://'))) return { uri: image.replace('files', 'file-uploads') };
 
   // check image is in the projet and fetched through require
   if (!isNaN(image)) return image ;

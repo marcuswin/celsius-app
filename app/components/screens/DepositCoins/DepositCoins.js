@@ -20,6 +20,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   state => ({
     portfolio: state.portfolio.portfolio,
     estimatedInterest: state.portfolio.estimatedInterest,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -41,6 +42,14 @@ class DepositCoins extends Component {
     const { getEstimatedInterest, portfolio, getPortfolio } = this.props;
     getEstimatedInterest();
     if (!portfolio) getPortfolio();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { getEstimatedInterest, getPortfolio, activeScreen } = this.props;
+    if (nextProps.activeScreen === 'DepositCoins' && activeScreen !== nextProps.activeScreen) {
+      getEstimatedInterest();
+      if (!nextProps.portfolio) getPortfolio();
+    }
   }
 
   // event hanlders

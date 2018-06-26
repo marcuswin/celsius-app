@@ -22,6 +22,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   state => ({
     portfolio: state.portfolio.portfolio,
     estimatedLoan: state.portfolio.estimatedLoan,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -43,6 +44,15 @@ class EstimatedLoan extends Component {
     const { getEstimatedLoan, portfolio, getPortfolio } = this.props;
     getEstimatedLoan();
     if (!portfolio) getPortfolio();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { getEstimatedLoan, getPortfolio, activeScreen } = this.props;
+    if (nextProps.activeScreen === 'EstimatedLoan' && activeScreen !== nextProps.activeScreen) {
+      getEstimatedLoan();
+      if (!nextProps.portfolio) getPortfolio();
+    }
   }
 
   // event hanlders
