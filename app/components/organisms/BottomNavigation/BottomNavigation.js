@@ -117,7 +117,7 @@ class BottomNavigation extends Component {
           }}>
           <View style={BottomNavigationStyle[`item${state}`]} >
             <View style={BottomNavigationStyle.iconWrapper}>
-              <Icon name="CelsiusLogo" width={30} height={30} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 5}]} fill={ iconFill } />
+              <Icon name="CelsiusLogo" width={25} height={25} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 0}]} fill={ iconFill } />
             </View>
             <Text style={BottomNavigationStyle[`text${state}`]}>{ navItem.label }</Text>
           </View>
