@@ -7,7 +7,7 @@ import * as actions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import AddCoinsStyle from "./AddCoins.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import {STYLES} from "../../../config/constants/style";
 import {ELIGIBLE_COINS} from "../../../config/constants/common";
 
 
@@ -114,7 +114,7 @@ class AddCoins extends Component {
             fill={STYLES.PRIMARY_BLUE}
             stroke={'white'}
           />
-          <Text style={AddCoinsStyle.explanationText}>Coins <Text style={[globalStyles.boldText]}>eligible </Text>for borrowing</Text>
+          <Text style={AddCoinsStyle.explanationText}>Coins <Text style={[AddCoinsStyle.explanationText]}>eligible </Text>for borrowing</Text>
         </View>
       </SimpleLayout>
 

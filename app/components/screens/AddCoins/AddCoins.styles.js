@@ -15,8 +15,9 @@ const AddCoinsStyle = StyleSheet.create({
     color: '#3D4853',
   },
   explanation: {
+
     flexDirection: 'row',
-    width: 300,
+    margin: 'auto',
     height: 52,
     backgroundColor: 'white',
     shadowColor: '#000000',
