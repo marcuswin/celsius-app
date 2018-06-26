@@ -17,6 +17,7 @@
     "deploy:staging": "npm run env:staging && npm run publish:staging",
     "build:android:staging": "exp build:android --no-publish --release-channel staging",
     "build:ios:staging": "exp build:ios --no-publish --release-channel staging",
+    "publish:beta": "exp publish --release-channel celsius_beta",
     "publish:production:ios": "exp publish --release-channel production_ios",
     "publish:production:android": "exp publish --release-channel production_android",
     "build:android:production": "exp build:android --release-channel production_android",
