@@ -55,8 +55,13 @@ class CameraScreen extends Component {
   }
 
   getCameraPermissions = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
+    let perm = await Permissions.getAsync(Permissions.CAMERA);
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA);
+    }
+
+    this.setState({ hasCameraPermission: perm.status === 'granted' });
   }
 
   // lifecycle methods
@@ -142,7 +147,7 @@ class CameraScreen extends Component {
                   <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
                   <CelButton
                     onPress={() => { this.takeCameraPhoto() }}
-                    disabled={this.state.isLoading}
+                    disabled={this.state.isLoading || !this.state.hasCameraPermission}
                     loading={this.state.isLoading}
                     white
                     margin="20 0 20 0"
