@@ -12,11 +12,16 @@ import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/Prici
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as actions from "../../../redux/actions";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import API from "../../../config/constants/API";
-import Loader from "../../atoms/Loader/Loader";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import TopPageLoader from "../../atoms/TopPageLoader/TopPageLoader";
+import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
+
+let shouldRefresh = true;
+let refreshTimeout;
 
 @connect(
   state => ({
@@ -28,7 +33,6 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
-
 class WalletLanding extends Component {
 
   constructor() {
@@ -57,31 +61,38 @@ class WalletLanding extends Component {
     }
   }
 
+  refreshWallet = (e) => {
+    const { getWalletDetails, callsInProgress } = this.props;
+    if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], callsInProgress) && e.nativeEvent.contentOffset.y < 0 && shouldRefresh) {
+      getWalletDetails();
+
+      shouldRefresh = false;
+      refreshTimeout = setTimeout(() => {
+        shouldRefresh = true;
+        clearTimeout(refreshTimeout);
+      }, 10000)
+    }
+  }
+
   render() {
     const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies } = this.props;
-
-    const animatedHeading = {
-      text: 'Wallet',
-      subheading: "Your deposited coins",
-    };
-
-    const mainHeader = {
-      backButton: false,
-    };
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], this.props.callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
-    const contentPadding = { paddingLeft: 36, paddingRight: 36 }
+    const contentPadding = { paddingLeft: 36, paddingRight: 36 };
 
-    if (isLoading) {
-      return <Loader />
-    }
+    console.log(walletCurrencies)
 
     return (
-      <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
-        <Content bounces={false} style={{ marginTop: -10, marginBottom: 30 }}>
+      <BasicLayout bottomNavigation>
+        <MainHeader backButton={false} />
+        <CelHeading text="Wallet" subheading="Your deposited coins" />
+
+        <TopPageLoader isLoading={isLoading} />
+
+        <Content onScroll={this.refreshWallet} style={{ marginBottom: 30 }}>
           <TotalCoinsHeader totalValue={totalValue}>
             {totalValue === 0
               ? <CelButton size="mini" color="green" margin="0 15 0 0" onPress={() => navigateTo('AddFunds')}>
@@ -107,24 +118,27 @@ class WalletLanding extends Component {
               </WalletInfoBubble>
             </View>
           }
-          <View style={contentPadding}>
-            <View>
-              <List
-                dataArray={walletCurrencies}
-                scrollEnabled={false}
-                renderRow={(item) =>
-                    <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
-                      <Body>
-                      <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
-                          <CoinCard type="wallet-card" {...item} supportedCurrencies={supportedCurrencies} />
-                        </TouchableOpacity>
-                      </Body>
-                    </ListItem>}
-                  />
+
+          { walletCurrencies && (
+            <View style={contentPadding}>
+              <View>
+                <List
+                  dataArray={walletCurrencies}
+                  scrollable={false}
+                  renderRow={(item) =>
+                      <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
+                        <Body>
+                        <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
+                            <CoinCard type="wallet-card" {...item} supportedCurrencies={supportedCurrencies} />
+                          </TouchableOpacity>
+                        </Body>
+                      </ListItem>}
+                    />
+              </View>
             </View>
-          </View>
+          )}
         </Content>
-      </SimpleLayout>
+      </BasicLayout>
     );
   }
 }
