@@ -108,7 +108,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     position: 'absolute',
     top: 18,
     height: 23,
-    width: 200,
+    width: 300,
   },
   inputLabel: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,
@@ -133,7 +133,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     opacity: 0.8,
     fontFamily: 'agile-light',
     position: 'absolute',
-    top: 5,
+    top: 11,
     zIndex: 2,
     left: 18,
   },
