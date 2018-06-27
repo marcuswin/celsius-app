@@ -110,6 +110,7 @@ class ProfileScreen extends Component {
               value={formData.firstName}
               field="firstName"
               onChange={this.handleUserNameChange}
+              editable={false}
               autoCapitalize={'sentences'}
             />
             <CelInput
@@ -118,6 +119,7 @@ class ProfileScreen extends Component {
               value={formData.lastName}
               field="lastName"
               onChange={this.handleUserNameChange}
+              editable={false}
               autoCapitalize={'sentences'}
             />
             <CelInput
