@@ -188,7 +188,7 @@ class AddFunds extends Component {
         <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 8, padding: 16 }}>
           <Text style={AddFundsStyle.textTwo}>
             For your security, if you would like to withdraw more than
-            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $50,000 </Text>
+            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $20,000 </Text>
             worth of { copyCurrency } you will be required to contact us at
             <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> app@celsius.network </Text>
             so that we can verify your identity prior to transferring your funds.
