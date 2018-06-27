@@ -80,7 +80,8 @@ class WalletDetails extends Component {
     const { navigateTo, navigation, balances, currencyRatesShort, supportedCurrencies } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
     const coinBalance = balances.filter(b => b.currency.short.toLowerCase() === currency)[0];
-    const maxLoan = 0.2624 * coinBalance.total;
+    const totalBalance = coinBalance ? coinBalance.total : 0;
+    const maxLoan = 0.2624 * totalBalance;
     const transactions = this.getTransactions();
 
     return (

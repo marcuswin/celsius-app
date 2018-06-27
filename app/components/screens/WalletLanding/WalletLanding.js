@@ -83,8 +83,6 @@ class WalletLanding extends Component {
     const isPercentChangeNegative = percentChange24h < 0;
     const contentPadding = { paddingLeft: 36, paddingRight: 36 };
 
-    console.log(walletCurrencies)
-
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
@@ -92,7 +90,7 @@ class WalletLanding extends Component {
 
         <TopPageLoader isLoading={isLoading} />
 
-        <Content onScroll={this.refreshWallet} style={{ marginBottom: 30 }}>
+        <Content onScroll={this.refreshWallet}>
           <TotalCoinsHeader totalValue={totalValue}>
             {totalValue === 0
               ? <CelButton size="mini" color="green" margin="0 15 0 0" onPress={() => navigateTo('AddFunds')}>

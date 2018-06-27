@@ -35,9 +35,7 @@ class NoKyc extends Component {
   componentWillReceiveProps(nextProps) {
     const { activeScreen, getKYCStatus } = this.props;
 
-    console.log('propsing')
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
-      console.log('getting status')
       getKYCStatus();
     }
   }
