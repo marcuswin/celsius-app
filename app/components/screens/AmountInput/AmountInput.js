@@ -94,7 +94,14 @@ class AmountInput extends Component {
   switchCurrencies = () => {
     const { formData, updateFormField } = this.props;
     updateFormField('inUsd', !formData.inUsd);
-    updateFormField('amount', formData.inUsd ? formData.amountCrypto.toFixed(5).toString() : formData.amountUsd.toFixed(2).toString());
+
+    let newAmount = formData.inUsd ? formData.amountCrypto.toFixed(5).toString() : formData.amountUsd.toFixed(2).toString();
+
+    if (Number(newAmount) === 0) {
+      newAmount = '';
+    }
+
+    updateFormField('amount', newAmount);
     this.setState({
       decimal: formData.inUsd ? decimalForCurrency[formData.currency] : decimalForCurrency.usd,
     })
