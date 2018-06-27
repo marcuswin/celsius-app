@@ -56,7 +56,7 @@ const CoinCardStyle = StyleSheet.create({
   },
   coinAmount: {
     fontSize: FONT_SCALE * 14,
-    fontFamily: 'agile-book',
+    fontFamily: 'agile-light',
     color: '#181C21',
   },
   bold: {},
