@@ -108,7 +108,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     position: 'absolute',
     top: 18,
     height: 23,
-    width: 100,
+    width: 200,
   },
   inputLabel: {
     color: STYLES.INPUT_LABEL_COLOR_WHITE,

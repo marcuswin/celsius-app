@@ -125,7 +125,7 @@ class TextInput extends Component {
           }, {
             translateX: this.state.animatedValue.interpolate({
               inputRange: [10, 20],
-              outputRange: [-33, 0],
+              outputRange: [-66, 0],
             }),
           }],
         }}>
