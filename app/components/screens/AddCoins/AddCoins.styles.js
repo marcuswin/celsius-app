@@ -38,12 +38,12 @@ const AddCoinsStyle = StyleSheet.create({
   coinContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
     marginTop: 30,
     marginBottom: 30,
   },
   coinWrapper: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },
