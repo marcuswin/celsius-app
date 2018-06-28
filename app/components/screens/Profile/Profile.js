@@ -7,7 +7,6 @@ import isEqual from "lodash/isEqual";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
-import Link from '../../atoms/Link/Link';
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -158,7 +157,13 @@ class ProfileScreen extends Component {
             </CelButton>
           </View>
           <View style={{marginBottom: 30}}>
-            <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
+            <CelButton onPress={() => navigateTo('TermsOfUse')}
+                       transparent
+                       color="blue"
+                       size="small"
+                       margin="0 0 0 0"
+                       inverse
+            >See Terms of Use</CelButton>
           </View>
         </Content>
       </BasicLayout>
