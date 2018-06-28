@@ -38,7 +38,7 @@ const CelButtonStyle = StyleSheet.create({
   miniButton: { borderRadius: 20, height: 40, paddingLeft: 10, paddingRight: 10, },
   miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
   smallButton: { borderRadius: 25, height: 50 },
-  smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-light', },
+  smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
   mediumButton: { borderRadius: 30, height: 60 },
   mediumBtnTitle: { fontSize: FONT_SCALE * 20, marginLeft: 10, fontFamily: 'agile-medium', },
 

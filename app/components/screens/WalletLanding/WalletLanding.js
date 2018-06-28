@@ -93,7 +93,7 @@ class WalletLanding extends Component {
         <Content onScroll={this.refreshWallet}>
           <TotalCoinsHeader totalValue={totalValue}>
             {totalValue === 0
-              ? <CelButton size="mini" color="green" margin="0 15 0 0" onPress={() => navigateTo('AddFunds')}>
+              ? <CelButton size="small" color="green" margin="0 0 0 0" onPress={() => navigateTo('AddFunds')} >
                 Add funds
                 </CelButton>
               : <PricingChangeIndicator
