@@ -21,6 +21,10 @@ import { registerForPushNotificationsAsync } from "../../../utils/push-notificat
 )
 
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    props.getProfileInfo();
+  }
   render() {
     const { user } = this.props;
 
