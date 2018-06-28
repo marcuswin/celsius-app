@@ -99,6 +99,7 @@ export function withdrawCrypto(coin, amount) {
 
       const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
+      dispatch(getWalletDetails());
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));

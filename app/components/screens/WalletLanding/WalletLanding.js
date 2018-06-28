@@ -30,6 +30,7 @@ let refreshTimeout;
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -47,6 +48,13 @@ class WalletLanding extends Component {
     const { getWalletDetails, getSupportedCurrencies } = this.props;
     getSupportedCurrencies();
     getWalletDetails();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { getWalletDetails, activeScreen } = this.props;
+    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
+      getWalletDetails();
+    }
   }
 
   // TODO: move logic to info bubble
