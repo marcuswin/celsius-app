@@ -12,13 +12,15 @@ class SelectCountryModal extends Component {
     visible: PropTypes.bool,
     animation: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    modalTitle: PropTypes.string
+    modalTitle: PropTypes.string,
+    withPhones: PropTypes.bool,
   };
 
   static defaultProps = {
     visible: false,
     animation: 'slide',
-    modalTitle: 'Select Country'
+    modalTitle: 'Select Country',
+    withPhones: false,
   };
 
   constructor() {
@@ -59,8 +61,10 @@ class SelectCountryModal extends Component {
   }
 
   render() {
-    const {visible, animation, onClose, modalTitle} = this.props;
+    const {visible, animation, onClose, modalTitle, withPhones} = this.props;
     const {filteredCountries} = this.state;
+
+    console.log(filteredCountries[10])
 
     return (
       <Modal
@@ -100,7 +104,10 @@ class SelectCountryModal extends Component {
                   </Left>
                   <Body>
                   <TouchableOpacity onPress={() => onClose(country)}>
-                    <Text style={SelectCountryStyles.coinTitle}>{country.name}</Text>
+                    <Text style={SelectCountryStyles.coinTitle}>
+                      {country.name}
+                      { withPhones && country.countryCallingCodes ? ` (${country.countryCallingCodes[0]})` : '' }
+                    </Text>
                   </TouchableOpacity>
                   </Body>
                 </ListItem>
