@@ -13,7 +13,6 @@ import TransactionsHistory from "../../molecules/TransactionHistory/Transactions
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
-import formatter from "../../../utils/formatter";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
@@ -23,7 +22,6 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
-    balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     currencyRatesShort: state.generalData.currencyRatesShort,
@@ -77,11 +75,8 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, balances, currencyRatesShort, supportedCurrencies } = this.props;
+    const { navigateTo, navigation, currencyRatesShort, supportedCurrencies } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
-    const coinBalance = balances.filter(b => b.currency.short.toLowerCase() === currency)[0];
-    const totalBalance = coinBalance ? coinBalance.total : 0;
-    const maxLoan = 0.2624 * totalBalance;
     const transactions = this.getTransactions();
 
     return (
@@ -105,9 +100,7 @@ class WalletDetails extends Component {
                 onPressClose={this.onCloseInfo}
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  You can get a loan up to
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> {formatter.usd(maxLoan)} </Text>
-                  if you deposit your {currency} into your Celsius wallet.
+                  Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100
                 </Text>
               </WalletInfoBubble>
             )}
