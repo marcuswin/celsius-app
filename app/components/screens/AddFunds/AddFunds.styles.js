@@ -39,7 +39,7 @@ const AddFundsStyle = StyleSheet.create({
     width: 62,
     borderWidth: 8,
     borderRadius: 62/2,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
     backgroundColor: STYLES.PRIMARY_BLUE,
     alignItems: 'center',
     justifyContent: 'center',
