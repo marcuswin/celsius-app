@@ -5,7 +5,7 @@ const CelHeadingStyle = StyleSheet.create({
   container: {
     paddingLeft: 40,
     paddingRight: 40,
-    paddingBottom: 30,
+    paddingBottom: 20,
     paddingTop: 10,
     justifyContent: 'center',
     backgroundColor: STYLES.PRIMARY_BLUE,
