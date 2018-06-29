@@ -14,7 +14,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
       fontSize: FONT_SCALE * 42,
       color: '#FFFFFF',
       textAlign: 'center',
-      lineHeight: 40,
+      lineHeight: 43,
       marginTop: 40
     },
     image: {
