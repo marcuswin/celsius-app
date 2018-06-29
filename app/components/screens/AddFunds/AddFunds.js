@@ -62,7 +62,11 @@ class AddFunds extends Component {
     }
   }
 
-
+  copyAddress = (address) => {
+    const { showMessage } = this.props;
+    showMessage('success', 'Address copied to clipboard!');
+    Clipboard.setString(address);
+  }
 
   // event hanlders
   // rendering methods
@@ -158,7 +162,7 @@ class AddFunds extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => Clipboard.setString(address)}
+              onPress={() => this.copyAddress(address)}
               style={[AddFundsStyle.buttons, {
                 borderBottomRightRadius: 8,
                 borderLeftWidth: 1,
