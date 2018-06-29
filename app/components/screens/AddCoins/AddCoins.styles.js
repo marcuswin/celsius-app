@@ -41,7 +41,7 @@ const AddCoinsStyle = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 35,
   },
   coinWrapper: {
     justifyContent: 'center',

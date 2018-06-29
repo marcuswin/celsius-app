@@ -203,7 +203,7 @@ class AddFunds extends Component {
           inverse
           white
           onPress={() => navigateBack()}
-          margin='30 50 20 50'
+          margin='30 50 30 50'
         >
           Done
         </CelButton>
