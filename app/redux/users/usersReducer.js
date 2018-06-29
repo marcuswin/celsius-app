@@ -10,6 +10,10 @@ const initialState = {
   agreedToTermsOfUse: true,
   kycStatus: undefined,
   kycDocuments: undefined,
+  appSettings: {
+    showWalletDetailsInfoBox: true,
+    showWalletLandingInfoBox: true,
+  }
 };
 
 export default (state = initialState, action) => {
@@ -170,6 +174,15 @@ export default (state = initialState, action) => {
 
     case ACTIONS.LOGOUT_USER:
       return { ...initialState }
+
+    case ACTIONS.UPDATE_USER_APP_SETTINGS:
+      return {
+        ...state,
+        appSettings: {
+          ...state.appSettings,
+          ...action.appSettings,
+        }
+      }
 
     default:
       return state;

@@ -28,6 +28,7 @@ let refreshTimeout;
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
+    appSettings: state.users.appSettings,
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -57,8 +58,7 @@ class WalletLanding extends Component {
     }
   }
 
-  // TODO: move logic to info bubble
-  onCloseInfo = () => this.setState({ infoBubble: false })
+  onCloseInfo = () => this.props.updateUserAppSettings({ showWalletLandingInfoBox: false });
 
   clickCard = (short, amount) => {
     const { navigateTo } = this.props
@@ -83,7 +83,7 @@ class WalletLanding extends Component {
   }
 
   render() {
-    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies } = this.props;
+    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], this.props.callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
@@ -110,7 +110,7 @@ class WalletLanding extends Component {
               />
             }
           </TotalCoinsHeader>
-          {(totalValue !== 0 && this.state.infoBubble) &&
+          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) &&
             <View style={[contentPadding, { marginBottom: -15 }]}>
               <WalletInfoBubble
                 title="Did you know?"

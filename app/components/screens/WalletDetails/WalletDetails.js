@@ -19,6 +19,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
   state => ({
     nav: state.nav,
     user: state.users.user,
+    appSettings: state.users.appSettings,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
@@ -30,14 +31,6 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
   dispatch => bindActionCreators(actions, dispatch),
 )
 class WalletDetails extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      infoBubble: true,
-    }
-  }
-
   componentDidMount() {
     const { getCoinTransactions, navigation, getWalletDetails } = this.props;
     const currency = navigation.getParam('currency');
@@ -57,7 +50,7 @@ class WalletDetails extends Component {
     }
   }
 
-  onCloseInfo = () => this.setState({ infoBubble: false })
+  onCloseInfo = () => this.props.updateUserAppSettings({ showWalletDetailsInfoBox: false });
 
   getTransactions() {
     const { transactions, navigation } = this.props;
@@ -75,7 +68,7 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, currencyRatesShort, supportedCurrencies } = this.props;
+    const { navigateTo, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
     const transactions = this.getTransactions();
 
@@ -94,7 +87,7 @@ class WalletDetails extends Component {
             supportedCurrencies={supportedCurrencies}
           />
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {this.state.infoBubble && (
+            {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
                 title={`Deposit your ${currency}`}
                 onPressClose={this.onCloseInfo}
