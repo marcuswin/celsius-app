@@ -147,16 +147,18 @@ class SignupTwo extends Component {
               />
             : null}
 
-            <View style={{ justifyContent: 'space-between', flexDirection:'row' }}>
+            <View style={{ justifyContent: 'space-between', flexDirection:'row', alignItems: 'center', height: 36 }}>
               <CelCheckbox
                 label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
                 onChange={toggleTermsOfUse}
               />
 
-              <TouchableOpacity onPress={() => navigateTo('TermsOfUse')}>
-                <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }}/>
-              </TouchableOpacity>
+              <View style={{ height: 36, marginTop: -15 }}>
+                <TouchableOpacity onPress={() => navigateTo('TermsOfUse')}>
+                  <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }}/>
+                </TouchableOpacity>
+              </View>
             </View>
           </CelForm>
 
