@@ -5,7 +5,6 @@ const SeparatorStyle = StyleSheet.create({
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center',
-    // height: 120,
   },
   dummyBorder: {
     width: '100%',
