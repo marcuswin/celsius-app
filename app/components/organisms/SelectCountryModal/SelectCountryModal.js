@@ -64,8 +64,6 @@ class SelectCountryModal extends Component {
     const {visible, animation, onClose, modalTitle, withPhones} = this.props;
     const {filteredCountries} = this.state;
 
-    console.log(filteredCountries[10])
-
     return (
       <Modal
         animationType={animation}
