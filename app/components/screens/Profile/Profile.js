@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TouchableOpacity, Text } from "react-native";
 import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
@@ -16,7 +17,6 @@ import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
-
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
@@ -81,12 +81,25 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { user, formData, navigateTo } = this.props;
+    const { user, formData, navigateTo, logoutUser } = this.props;
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
+
     return (
       <BasicLayout bottomNavigation>
-        <MainHeader />
+        <MainHeader
+          right={(
+            <TouchableOpacity onPress={logoutUser}>
+              <Text style={[{
+                color: 'white',
+                paddingLeft: 5,
+                opacity: 0.8,
+                marginTop: 3,
+                textAlign: 'right'
+              }]}>Log out</Text>
+            </TouchableOpacity>
+          )}
+        />
         <Message />
         <ImageHeading image={user.profile_picture} />
 

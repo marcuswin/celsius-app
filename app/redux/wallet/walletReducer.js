@@ -77,6 +77,9 @@ export default function walletReducer(state = initialState(), action) {
           activeTransactionId: action.transactionId,
         }
 
+      case ACTIONS.LOGOUT_USER:
+        return { ...initialState() }
+
     default:
       return state;
     }

@@ -5,11 +5,10 @@ import API from '../../config/constants/API';
 import {startApiCall, apiError} from '../api/apiActions';
 import {navigateTo} from '../nav/navActions';
 import {showMessage} from '../ui/uiActions';
-import {setSecureStoreKey} from '../../utils/expo-storage';
+import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
 import { actions as mixpanelActions } from '../../services/mixpanel'
-
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -29,6 +28,7 @@ export {
   loginTwitter,
   sendResetLink,
   resetPassword,
+  logoutUser,
 }
 
 
@@ -421,5 +421,19 @@ function resetPasswordSuccess() {
   return {
     type: ACTIONS.RESET_PASSWORD_SUCCESS,
     callName: API.RESET_PASSWORD,
+  }
+}
+
+function logoutUser() {
+  return async dispatch => {
+    try {
+      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+
+      dispatch({
+        type: ACTIONS.LOGOUT_USER,
+      });
+    } catch(err) {
+      console.log(err);
+    }
   }
 }
