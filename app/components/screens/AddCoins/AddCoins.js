@@ -107,9 +107,6 @@ class AddCoins extends Component {
           Select a coin to add to your portfolio,
           for now you can only add some of the coins listed below.
         </Text>
-        <View style={AddCoinsStyle.coinContent}>
-          {filteredSupportedCurrencies.map(this.renderCoin)}
-        </View>
         <View style={AddCoinsStyle.explanation}>
           <Icon
             style={{ marginLeft: 13, marginTop: 13,}}
@@ -119,7 +116,10 @@ class AddCoins extends Component {
             fill={STYLES.PRIMARY_BLUE}
             stroke={'white'}
           />
-          <Text style={AddCoinsStyle.explanationText}>Coins <Text style={[AddCoinsStyle.explanationText]}>eligible </Text>for borrowing</Text>
+          <Text style={AddCoinsStyle.explanationText}>Coins <Text style={{fontFamily: 'agile-bold',}}>eligible </Text>to earn up to 5% interest later this year.</Text>
+        </View>
+        <View style={AddCoinsStyle.coinContent}>
+          {filteredSupportedCurrencies.map(this.renderCoin)}
         </View>
       </SimpleLayout>
 
