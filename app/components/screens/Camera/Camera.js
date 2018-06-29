@@ -98,6 +98,9 @@ class CameraScreen extends Component {
     const { navigateBack, updateFormField, cameraField, photo } = this.props;
     updateFormField(cameraField, photo);
     navigateBack();
+
+
+
   }
   // rendering methods
   renderMask() {
@@ -204,7 +207,7 @@ class CameraScreen extends Component {
                 white
                 margin="20 0 20 0"
               >
-                Save Photo
+                Use Photo
               </CelButton>
             </View>
           </View>
