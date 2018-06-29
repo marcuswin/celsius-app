@@ -89,10 +89,15 @@ class AddCoins extends Component {
 
   render() {
     const {animatedHeading} = this.state;
+    const {portfolioFormData} = this.props;
 
     const filteredSupportedCurrencies = this.props.supportedCurrencies != null
      ? this.props.supportedCurrencies.filter(sc => !this.props.portfolioFormData.map(x => x.currency.id).includes(sc.id))
-     : []
+     : [];
+
+    if ( Object.keys(portfolioFormData).length === 0 ) {
+      animatedHeading.text = 'Add your first coin'
+    }
 
     return (
       <SimpleLayout
