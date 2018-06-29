@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Image } from "react-native";
+import { Text, Image, Dimensions } from "react-native";
 import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -94,6 +94,8 @@ class Passcode extends Component {
     const field = types[this.props.type].field;
     const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
+    const pinSize = 60;
+    const pinSpacing = Math.min((Dimensions.get('window').width - 4*pinSize - 72) / 3, 19);
     const backButton = this.props.type !== 'createPasscode' || this.props.activeScreen === 'Home';
 
     return <SimpleLayout mainHeader={{ backButton }} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
@@ -106,8 +108,8 @@ class Passcode extends Component {
             this.pinInput = ref;
           }}
           codeLength={codeLength}
-          space={19}
-          size={60}
+          space={pinSpacing}
+          size={pinSize}
           inputPosition='center'
           cellBorderWidth={0}
           codeInputStyle={{fontSize: 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
