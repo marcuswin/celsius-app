@@ -1,5 +1,7 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+
+const { height } = Dimensions.get('window');
 
 const SelectCountryStyles = StyleSheet.create({
   header: {
@@ -7,6 +9,7 @@ const SelectCountryStyles = StyleSheet.create({
     paddingRight: 40,
     paddingLeft: 20,
     borderBottomColor: 'transparent',
+    height: 60,
   },
   headerTitle: {
     color: 'white',
@@ -37,6 +40,7 @@ const SelectCountryStyles = StyleSheet.create({
     paddingBottom: 20,
     paddingLeft: 30,
     paddingRight: 30,
+    height: 60,
   },
   coinTitle: {
     fontSize: FONT_SCALE * 18,
@@ -47,6 +51,10 @@ const SelectCountryStyles = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     fontFamily: 'agile-extra-light'
   },
+  content: {
+    height: height - 120,
+    paddingBottom: 10,
+  }
 });
 
 export default SelectCountryStyles;

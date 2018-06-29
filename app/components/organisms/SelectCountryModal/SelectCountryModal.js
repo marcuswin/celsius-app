@@ -79,7 +79,7 @@ class SelectCountryModal extends Component {
             </Button>
           </Left>
           <Body>
-          <Title style={SelectCountryStyles.headerTitle}>{modalTitle}</Title>
+            <Title style={SelectCountryStyles.headerTitle}>{modalTitle}</Title>
           </Body>
         </Header>
 
@@ -93,7 +93,7 @@ class SelectCountryModal extends Component {
           />
         </View>
 
-        <View>
+        <View style={SelectCountryStyles.content}>
           {filteredCountries.length ? (
             <List
               dataArray={filteredCountries}
