@@ -31,7 +31,7 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItemsLeft: [
-      { label: 'Portfolio', screen: 'Portfolio', icon: 'Portfolio', active: ['ManageCoins'] },
+      { label: 'Portfolio', screen: 'Portfolio', icon: 'Portfolio', active: ['ManagePortfolio', 'AddCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
     ],
     navItemsRight: [
