@@ -88,6 +88,7 @@ class AddFunds extends Component {
     const copyCurrency = currency ? currency.toUpperCase() : 'BTC and ETH';
     return (
       <SimpleLayout
+        mainHeader={{ onCancel: navigateBack, backButton: false }}
         animatedHeading={{ text: headingText, textAlign: "center" }}
         background={STYLES.PRIMARY_BLUE}
         bottomNavigation={false}
