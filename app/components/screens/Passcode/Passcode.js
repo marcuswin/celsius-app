@@ -49,7 +49,6 @@ const codeLength = 4;
     user: state.users.user,
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
-    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -96,9 +95,8 @@ class Passcode extends Component {
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
     const pinSize = 60;
     const pinSpacing = Math.min((Dimensions.get('window').width - 4*pinSize - 72) / 3, 19);
-    const backButton = this.props.type !== 'createPasscode' || this.props.activeScreen === 'Home';
 
-    return <SimpleLayout mainHeader={{ backButton }} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
+    return <SimpleLayout bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[this.props.type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
