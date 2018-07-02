@@ -70,9 +70,10 @@ class AmountInput extends Component {
 
     const amount = formData.amount + number;
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd
+    const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd
     if (amountUsd > 20000) {
       showMessage('info', 'Maximum amount to withdraw is $20,000.00');
-    } else if (amountUsd > formData.balance * formData.rateUsd) {
+    } else if (amountCrypto > formData.balance) {
       showMessage('info', 'Insufficient funds');
     } else if (amount.indexOf('.') === -1 || amount.length - amount.indexOf('.') <= decimal + 1) {
       this.updateAmount(amount);
