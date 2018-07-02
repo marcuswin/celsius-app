@@ -56,7 +56,7 @@ const CoinCardStyle = StyleSheet.create({
   },
   coinAmount: {
     fontSize: FONT_SCALE * 14,
-    fontFamily: 'agile-book',
+    fontFamily: 'agile-light',
     color: '#181C21',
   },
   bold: {},
@@ -200,7 +200,7 @@ class CoinCard extends Component {
                 height='22'
                 width='22'
                 stroke={'#9DA3A9'}
-                fill={'rgba(61,72,83,0.5)'}
+                fill={'rgba(255,255,255,0.5)'}
               />
               <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible soon for lending and borrowing</Text>
             </View>

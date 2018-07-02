@@ -27,6 +27,9 @@ export default (state = initialState, action) => {
         estimatedInterest: action.estimatedInterest,
       }
 
+    case ACTIONS.LOGOUT_USER:
+      return { ...initialState }
+
     default:
       return state
 

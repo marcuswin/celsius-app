@@ -225,7 +225,7 @@ class TransactionDetails extends Component {
                     marginBottom: 5
                   }]}>{transaction.to_address}
                   </Text>
-                {this.renderAddressLink()}
+
               </View>
             </View>
           )}

@@ -29,7 +29,8 @@ function initInterceptors() {
 
       // get token from secure store
       try {
-        token = token || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        const storageToken = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        if (token !== storageToken) token = storageToken;
 
         if (token != null) {
           newRequest.headers = {

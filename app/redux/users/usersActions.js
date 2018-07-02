@@ -6,6 +6,7 @@ import {showMessage} from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
+import { setSecureStoreKey } from "../../utils/expo-storage";
 
 export {
   getProfileInfo,
@@ -21,6 +22,7 @@ export {
   startKYC,
   getKYCStatus,
   setPin,
+  updateUserAppSettings,
 }
 
 function getProfileInfo() {
@@ -307,6 +309,26 @@ function setPinSuccess() {
   return {
     type: ACTIONS.SET_PIN_SUCCESS,
     callName: API.SET_PIN,
+  }
+}
+
+function updateUserAppSettings(appSettings) {
+  return async (dispatch, getState) => {
+    try {
+      const newAppSettings = {
+        ...getState().users.appSettings,
+        ...appSettings,
+      }
+
+      await setSecureStoreKey('APP_SETTINGS', JSON.stringify(newAppSettings));
+
+      dispatch({
+        type: ACTIONS.UPDATE_USER_APP_SETTINGS,
+        appSettings: newAppSettings,
+      });
+    } catch(err) {
+      console.log(err)
+    }
   }
 }
 

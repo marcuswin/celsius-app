@@ -4,16 +4,11 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 import {Image, TouchableOpacity} from 'react-native';
-import {Constants} from 'expo';
-
-import {deleteSecureStoreKey} from "../../../utils/expo-storage";
 
 import HeaderStyle from './MainHeader.styles';
 import * as actions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import {STYLES} from "../../../config/constants/style";
-
-const {ENV, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -42,7 +37,6 @@ class MainHeader extends Component {
 
     this.state = {};
 
-    this.setHeaderHeight = this.setHeaderHeight.bind(this);
     this.onPressBackButton = this.onPressBackButton.bind(this);
     this.renderLeft = this.renderLeft.bind(this);
     this.renderRight = this.renderRight.bind(this);
@@ -57,13 +51,6 @@ class MainHeader extends Component {
     navigateBack();
   }
 
-
-  setHeaderHeight() {
-    // const {setHeaderHeight} = this.props;
-    // const {height} = e.nativeEvent.layout;
-    // TODO (fj): remove action completely
-    // setHeaderHeight(height);
-  }
 
   renderLeft() {
     const { left, backButton } = this.props;
@@ -107,10 +94,6 @@ class MainHeader extends Component {
 
     return (
       <TouchableOpacity onPress={() => {
-        if (ENV !== 'PRODUCTION') {
-          deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-        }
-
         if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
           navigateTo('Home', true);
         }
@@ -130,7 +113,7 @@ class MainHeader extends Component {
     }
 
     return (
-      <Header style={[HeaderStyle.header, styles]} onLayout={this.setHeaderHeight} iosBarStyle="light-content">
+      <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
         <Left>
           {this.renderLeft(left, backButton)}
         </Left>

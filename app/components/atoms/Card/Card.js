@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 
 const CardStyle = StyleSheet.create({
   root: {
-    width: '100%',
+    width: '98%',
+    marginLeft: 2,
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
     borderRadius: 8,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Body, Button, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from "native-base";
+import { Body, Button, Header, Icon, Left, List, ListItem, Right, Text, View } from "native-base";
 import PropTypes from "prop-types";
 import { Modal, TouchableOpacity } from "react-native";
 
@@ -41,9 +41,9 @@ class SelectModal extends Component {
               <Icon style={SelectModalStyles.backArrow} name='arrow-back'/>
             </Button>
           </Left>
-          <Body>
-          <Title style={SelectModalStyles.headerTitle}>{modalTitle}</Title>
-          </Body>
+
+          <Text style={SelectModalStyles.headerTitle}>{modalTitle}</Text>
+
           <Right/>
         </Header>
 
