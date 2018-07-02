@@ -64,7 +64,7 @@ class ManagePorfolio extends Component {
               </Text>
             ) : (
               <View>
-                <Text style={PortfolioStyle.description}>
+                <Text style={PortfolioStyle.description2}>
                   Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.
                 </Text>
                 <Text style={PortfolioStyle.description}>

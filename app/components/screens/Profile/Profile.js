@@ -82,7 +82,6 @@ class ProfileScreen extends Component {
 
   render() {
     const { user, formData, navigateTo, logoutUser } = this.props;
-    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
 
     return (
@@ -159,16 +158,6 @@ class ProfileScreen extends Component {
             </View>
           ) : null}
 
-          <View style={{marginBottom: 30}}>
-            <CelButton
-              loading={isUpdatingProfileInfo}
-              disabled={isLoadingProfileInfo}
-              onPress={this.onSubmit}
-              color="green"
-            >
-              Save changes
-            </CelButton>
-          </View>
           <View style={{marginBottom: 30}}>
             <CelButton onPress={() => navigateTo('TermsOfUse')}
                        transparent
