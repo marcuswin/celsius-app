@@ -102,7 +102,8 @@ class WalletDetails extends Component {
               navigateTo={navigateTo}
               currencyRatesShort={currencyRatesShort}
               />
-            <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
+
+            { currency.amount && <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
           </View>
         </Content>
       </BasicLayout>
