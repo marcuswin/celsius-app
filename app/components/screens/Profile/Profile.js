@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { TouchableOpacity, Text } from "react-native";
 import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
@@ -7,7 +8,6 @@ import isEqual from "lodash/isEqual";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
-import Link from '../../atoms/Link/Link';
 import * as actions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -17,7 +17,6 @@ import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
-
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
@@ -82,12 +81,25 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { user, formData, navigateTo } = this.props;
+    const { user, formData, navigateTo, logoutUser } = this.props;
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
+
     return (
       <BasicLayout bottomNavigation>
-        <MainHeader />
+        <MainHeader
+          right={(
+            <TouchableOpacity onPress={logoutUser}>
+              <Text style={[{
+                color: 'white',
+                paddingLeft: 5,
+                opacity: 0.8,
+                marginTop: 3,
+                textAlign: 'right'
+              }]}>Log out</Text>
+            </TouchableOpacity>
+          )}
+        />
         <Message />
         <ImageHeading image={user.profile_picture} />
 
@@ -110,6 +122,7 @@ class ProfileScreen extends Component {
               value={formData.firstName}
               field="firstName"
               onChange={this.handleUserNameChange}
+              editable={false}
               autoCapitalize={'sentences'}
             />
             <CelInput
@@ -118,6 +131,7 @@ class ProfileScreen extends Component {
               value={formData.lastName}
               field="lastName"
               onChange={this.handleUserNameChange}
+              editable={false}
               autoCapitalize={'sentences'}
             />
             <CelInput
@@ -156,7 +170,13 @@ class ProfileScreen extends Component {
             </CelButton>
           </View>
           <View style={{marginBottom: 30}}>
-            <Link onPress={() => navigateTo('TermsOfUse')}>See Terms of Service</Link>
+            <CelButton onPress={() => navigateTo('TermsOfUse')}
+                       transparent
+                       color="blue"
+                       size="small"
+                       margin="0 0 0 0"
+                       inverse
+            >See Terms of Use</CelButton>
           </View>
         </Content>
       </BasicLayout>

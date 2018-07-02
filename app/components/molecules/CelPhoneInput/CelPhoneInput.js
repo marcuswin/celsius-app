@@ -62,7 +62,7 @@ class CelPhoneInput extends Component {
     this.phone.selectCountry(countryAlpha2);
     this.setState({ alpha2: countryAlpha2, showCountryModal: false });
   }
-  
+
 
   render() {
     const { theme, updateFormField, field, value } = this.props;
@@ -90,6 +90,7 @@ class CelPhoneInput extends Component {
             disabled={disabled}
           />
           <SelectCountryModal
+            withPhones
             visible={ showCountryModal }
             onClose={ country => this.selectCountry(country) }
           />

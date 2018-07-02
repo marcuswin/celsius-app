@@ -26,7 +26,7 @@ const PassCodeStyle = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: imageSize,
+    width: imageSize + 6,
     height: imageSize,
     display: 'flex',
     alignSelf: 'center',

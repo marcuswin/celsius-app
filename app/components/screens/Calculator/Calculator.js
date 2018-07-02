@@ -180,7 +180,7 @@ class Calculator extends Component {
             >
               <Grid>
                 <Col style={{width: '70%', justifyContent: 'center'}}>
-                  <Text style={selectedAllCoins ? CalculatorStyle.disabledAddButtonText : CalculatorStyle.addButtonText}>Add another coin</Text>
+                  <Text style={selectedAllCoins ? CalculatorStyle.disabledAddButtonText : CalculatorStyle.addButtonText}>Add coin</Text>
                 </Col>
                 <Col style={{width: '30%', justifyContent: 'center'}}>
                   <Icon name='AddButtonIcon' height='36' width='36' viewBox="0 0 40 40" fill={selectedAllCoins ? '#CED1D4' : '#3D4853'}

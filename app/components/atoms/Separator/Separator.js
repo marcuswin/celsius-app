@@ -35,7 +35,7 @@ class Separator extends Component {
           <Col style={SeparatorStyles.centeredColumn}>
             <View style={SeparatorStyles.dummyBorder}/>
           </Col>
-          <Col style={SeparatorStyles.textColumn}>
+          <Col style={SeparatorStyles.textColumn} size={3}>
             <Text style={SeparatorStyles.middleBorderText}>{ this.props.children }</Text>
           </Col>
           <Col style={SeparatorStyles.centeredColumn}>

@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Platform } from 'react-native';
 import { STYLES, FONT_SCALE } from "../../../config/constants/style";
 
 const commonStyles = {
   text: {
     fontSize: FONT_SCALE * 14,
+    fontFamily: 'agile-light'
   },
   percentageAmount: {
     marginLeft: 3,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   triangleDown: {
     ...commonStyles.triangle,
     borderBottomColor: STYLES.PRIMARY_RED,
-    marginTop: 5,
+    marginTop: Platform.OS === 'ios' ? 5 : 9,
     transform: [
       {rotate: '180deg'}
     ]
@@ -59,10 +60,10 @@ const styles = StyleSheet.create({
 });
 
 
-const PricingChangeIndicator = (props) => 
+const PricingChangeIndicator = (props) =>
   <View style={[styles.wrapper, {marginLeft: 'auto'}, props.rootStyles ? props.rootStyles : null]}>
     <View style={props.isPercentChangeNegative ? styles.triangleDown : styles.triangleUp} />
-    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange}%</Text><Text style={styles.text}>({props.period ? props.period : '24h'})</Text>
+    <Text style={props.isPercentChangeNegative ? styles.redText : styles.greenText}>{props.percentChange}%</Text><Text style={[styles.text]}>({props.period ? props.period : '24h'})</Text>
   </View>
 
 export default PricingChangeIndicator;

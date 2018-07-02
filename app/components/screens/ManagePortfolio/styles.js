@@ -15,7 +15,6 @@ const ManagePortfolioStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 21
   },
   description: {
-    marginTop: 10,
     color: '#3D4853',
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',

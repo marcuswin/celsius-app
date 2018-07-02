@@ -38,12 +38,7 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
-    const { walletCurrencies } = this.props;
-    // const walletData = get(this.props.wallet, 'currencies', null);
-
-    const nonEmptyCurrencyAmount = walletCurrencies.filter(w => w.amount > 0);
-    const nonEmptyCurrencyNames = nonEmptyCurrencyAmount.map(c => c.currency.short.toLowerCase())
-    const screens = [...nonEmptyCurrencyNames, 'total'];
+    const screens = ['eth', 'btc', 'total'];
 
     const { currency } = this.props;
     const screenIndex = screens.findIndex(el => el === currency);
@@ -81,7 +76,7 @@ class WalletDetailsHeading extends Component {
           {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{ opacity: .6 }} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
             {type === 'single-coin'
-              ? formatter.crypto(walletDataCurrency.amount, currency.toUpperCase())
+              ? formatter.crypto(walletDataCurrency.amount, currency.toUpperCase(), { precision: 5 })
               : 'TOTAL AMOUNT'
             }
           </Text>

@@ -15,7 +15,6 @@ const AddCoinsStyle = StyleSheet.create({
     color: '#3D4853',
   },
   explanation: {
-
     flexDirection: 'row',
     margin: 'auto',
     height: 52,
@@ -24,7 +23,7 @@ const AddCoinsStyle = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: {width: 0, height: 3},
     borderRadius: 8,
-    marginBottom: 30,
+    marginTop: 25,
   },
   explanationText: {
     fontSize: FONT_SCALE * 15,
@@ -34,18 +33,21 @@ const AddCoinsStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     color: '#3D4853',
     textAlign: 'left',
+    marginRight: 13
   },
   coinContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 35,
   },
   coinWrapper: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 8,
+    marginRight: 8
   },
   coin: {
     justifyContent: 'center',

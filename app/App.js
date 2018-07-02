@@ -79,6 +79,14 @@ export default class App extends Component {
       await store.dispatch(actions.getLoggedInBorrower());
     }
 
+    // gete user app setting
+    const appSettings = await getSecureStoreKey('APP_SETTINGS');
+    if (appSettings) {
+      store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
+    }
+
+    store.dispatch(actions.getSupportedCurrencies())
+
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
 

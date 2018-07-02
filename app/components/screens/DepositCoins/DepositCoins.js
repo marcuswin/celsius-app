@@ -133,7 +133,7 @@ class DepositCoins extends Component {
           <Image source={require('../../../../assets/images/two-thumbs-up.png')} style={DepositCoinsStyle.hippoImage}/>
         </View>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 30 }]}>
+        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 40 }]}>
           You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
           person in line eligible to lend out your coins and earn interest (once when you transfer your coins and they are lent).

@@ -13,17 +13,16 @@ import TransactionsHistory from "../../molecules/TransactionHistory/Transactions
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
-import formatter from "../../../utils/formatter";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
+    appSettings: state.users.appSettings,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
-    balances: state.wallet.currencies,
     transactions: state.wallet.transactions,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     currencyRatesShort: state.generalData.currencyRatesShort,
@@ -32,14 +31,6 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
   dispatch => bindActionCreators(actions, dispatch),
 )
 class WalletDetails extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      infoBubble: true,
-    }
-  }
-
   componentDidMount() {
     const { getCoinTransactions, navigation, getWalletDetails } = this.props;
     const currency = navigation.getParam('currency');
@@ -59,7 +50,7 @@ class WalletDetails extends Component {
     }
   }
 
-  onCloseInfo = () => this.setState({ infoBubble: false })
+  onCloseInfo = () => this.props.updateUserAppSettings({ showWalletDetailsInfoBox: false });
 
   getTransactions() {
     const { transactions, navigation } = this.props;
@@ -77,10 +68,8 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, balances, currencyRatesShort, supportedCurrencies } = this.props;
+    const { navigateTo, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
-    const coinBalance = balances.filter(b => b.currency.short.toLowerCase() === currency)[0];
-    const maxLoan = 0.2624 * coinBalance.total;
     const transactions = this.getTransactions();
 
     return (
@@ -98,15 +87,13 @@ class WalletDetails extends Component {
             supportedCurrencies={supportedCurrencies}
           />
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {this.state.infoBubble && (
+            {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
                 title={`Deposit your ${currency}`}
                 onPressClose={this.onCloseInfo}
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  You can get a loan up to
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> {formatter.usd(maxLoan)} </Text>
-                  if you deposit your {currency} into your Celsius wallet.
+                  Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100
                 </Text>
               </WalletInfoBubble>
             )}

@@ -7,12 +7,14 @@ const SelectCoinStyles = StyleSheet.create({
     paddingRight: 40,
     paddingLeft: 20,
     borderBottomColor: 'transparent',
+    alignItems: 'center'
   },
   headerTitle: {
     color: 'white',
     fontSize: FONT_SCALE * 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontFamily: 'agile-medium'
   },
   backArrow: {
     color: 'white',
