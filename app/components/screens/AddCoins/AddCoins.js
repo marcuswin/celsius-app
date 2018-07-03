@@ -109,7 +109,7 @@ class AddCoins extends Component {
         </Text>
         <View style={AddCoinsStyle.explanation}>
           <Icon
-            style={{ marginLeft: 13, marginTop: 13,}}
+
             name={'EligibilityStar'}
             height='26'
             width='26'
