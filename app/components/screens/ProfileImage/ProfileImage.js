@@ -140,7 +140,7 @@ class ProfileImage extends Component {
               transparent
               color="blue"
               size="small"
-              margin="15 0 15 0"
+              margin="0 0 10 0"
               inverse
             >
               Take photo
@@ -152,7 +152,7 @@ class ProfileImage extends Component {
               { images.map(this.renderImages) }
             </View>
 
-            <CelButton onPress={this.updateProfilePicture} margin="0 40 0 40" loading={isLoading}>Change avatar</CelButton>
+            <CelButton onPress={this.updateProfilePicture} margin="0 40 30 40" loading={isLoading}>Change avatar</CelButton>
           </Content>
         </BasicLayout>
     );

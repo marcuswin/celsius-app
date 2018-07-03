@@ -7,7 +7,7 @@ const smallImageSize = SCREEN_WIDTH / 4 - 8;
 
 const ProfileImageStyle = StyleSheet.create({
   text: {
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
     fontFamily: 'agile-light',
