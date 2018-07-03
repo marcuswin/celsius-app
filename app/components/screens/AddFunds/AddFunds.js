@@ -138,6 +138,7 @@ class AddFunds extends Component {
           <View style={AddFundsStyle.addressWrapper}>
             <Text style={AddFundsStyle.address}>{address}</Text>
           </View>
+
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
               onPress={() => Share.share({ message: address, title: 'Wallet address' })}
@@ -166,8 +167,6 @@ class AddFunds extends Component {
               onPress={() => this.copyAddress(address)}
               style={[AddFundsStyle.buttons, {
                 borderBottomRightRadius: 8,
-                borderLeftWidth: 1,
-                borderLeftColor: "rgba(255, 255, 255, 0.3)"
               }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
