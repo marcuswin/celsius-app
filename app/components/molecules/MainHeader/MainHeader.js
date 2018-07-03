@@ -57,12 +57,13 @@ class MainHeader extends Component {
 
     if (backButton) {
       return (
-        <Button style={{width: 80}} title='Back' transparent onPress={this.onPressBackButton}>
-          <Image
-            source={require('../../../../assets/images/icons/Back.png')}
-            style={{height: 20, width: 20, resizeMode: 'contain'}}/>
+        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
+          <Icon
+            name='IconChevronLeft'
+            height='20' width='20' fill="rgba(255,255,255,0.5)" viewBox="0 0 22 19"
+          />
           <Text style={HeaderStyle.backButtonText} uppercase={false}>Back</Text>
-        </Button>
+        </TouchableOpacity>
       );
     }
 
