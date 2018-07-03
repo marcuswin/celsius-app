@@ -5,8 +5,8 @@ const baseButton = {
   minWidth: 60,
   justifyContent: 'center',
   alignItems: 'center',
-  paddingLeft: 5,
-  paddingRight: 5,
+  paddingLeft: 25,
+  paddingRight: 25,
 }
 
 const baseText = {
