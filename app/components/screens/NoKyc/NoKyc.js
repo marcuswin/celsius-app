@@ -66,7 +66,7 @@ class NoKyc extends Component {
           <Text style={NoKycStyle.yellowText}>In progress</Text>
         </View>
         <Text style={[NoKycStyle.textTwo]}>
-          While waiting for your profile verification to finish, add coins to track in your portfolio.</Text>
+          While you're waiting for your profile verification to finish, add coins to track in your portfolio. This may take up to 24 hours.</Text>
         <CelButton
           onPress={() => navigateTo('ManagePortfolio')}
           margin='0 50 30 50'
