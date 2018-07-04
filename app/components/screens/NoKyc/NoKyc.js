@@ -8,6 +8,7 @@ import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import { KYC_STATUSES } from "../../../config/constants/common";
+import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
@@ -55,24 +56,29 @@ class NoKyc extends Component {
         <Text style={NoKycStyle.textThree}>
           Profile verification status:
         </Text>
-        <Text style={NoKycStyle.textOne}>
-          Add, send and receive coins to your Celsius wallet
-        </Text>
-        <Text style={NoKycStyle.textTwo}>
-          To be able to use your wallet and all of its features, please wait for your profile to be verified.
-        </Text>
-        <View style={NoKycStyle.statusWrapper}>
+        <View style={[NoKycStyle.statusWrapper, {marginTop: 5}]}>
           <View style={NoKycStyle.circleYellow}/>
           <Text style={NoKycStyle.yellowText}>In progress</Text>
         </View>
-        <Text style={[NoKycStyle.textTwo]}>
-          While you're waiting for your profile verification to finish, add coins to track in your portfolio. This may take up to 24 hours.</Text>
+        <Text style={[NoKycStyle.textTwo, {marginTop: 10}]}>
+          While you're waiting for your profile verification to finish(usually within 24 hours), you can add coins to watch in your portfolio or join our Telegram.</Text>
         <CelButton
           onPress={() => navigateTo('ManagePortfolio')}
-          margin='0 50 30 50'
+          margin='0 50 0 50'
         >
           Visit portfolio
         </CelButton>
+
+        <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+          <Icon name='TelegramIcon' height='25' width='25' viewBox="0 0 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
+          <CelButton onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
+                     transparent
+                     color="blue"
+                     size="medium"
+                     margin="0 0 5 0"
+                     inverse
+          >Join our Telegram</CelButton>
+        </View>
 
       </SimpleLayout>
     )
