@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity, Text, Linking } from "react-native";
 import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
@@ -17,6 +17,7 @@ import Message from "../../atoms/Message/Message";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
+import Icon from "../../atoms/Icon/Icon";
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
@@ -157,6 +158,17 @@ class ProfileScreen extends Component {
               >Change password</CelButton>
             </View>
           ) : null}
+
+          <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+            <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
+            <CelButton onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
+                       transparent
+                       color="blue"
+                       size="medium"
+                       margin="0 0 0 0"
+                       inverse
+            >Join our Telegram</CelButton>
+          </View>
 
           <View style={{marginBottom: 30}}>
             <CelButton onPress={() => navigateTo('TermsOfUse')}
