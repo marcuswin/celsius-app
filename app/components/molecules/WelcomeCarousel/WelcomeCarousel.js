@@ -4,12 +4,18 @@ import WelcomeCarouselStyle from "./WelcomeCarousel.styles";
 
 const xOffset = new Animated.Value(0);
 
+// const gifs = [
+//   require("../../../../assets/images/Welcome_Doggirl.gif"),
+//   require("../../../../assets/images/Welcome_Whale.gif"),
+//   require("../../../../assets/images/Welcome_Polar-Bear.gif"),
+//   require("../../../../assets/images/Welcome_Penguin.gif")
+// ];
 
-const gifs = [
-  require("../../../../assets/images/Welcome_Doggirl.gif"),
-  require("../../../../assets/images/Welcome_Whale.gif"),
-  require("../../../../assets/images/Welcome_Polar-Bear.gif"),
-  require("../../../../assets/images/Welcome_Penguin.gif")
+const images = [
+  require("../../../../assets/images/Welcome_Doggirl.png"),
+  require("../../../../assets/images/Welcome_Whale.png"),
+  require("../../../../assets/images/Welcome_Polar-Bear.png"),
+  require("../../../../assets/images/Welcome_Penguin.png")
 ];
 
 export default class WelcomeCarousel extends Component {
@@ -87,7 +93,7 @@ export default class WelcomeCarousel extends Component {
     return (
       <View style={WelcomeCarouselStyle.scrollPage} key={index}>
 
-        <Image source={gifs[index]} style={WelcomeCarouselStyle.image}/>
+        <Image source={images[index]} style={WelcomeCarouselStyle.image}/>
 
         <Text style={WelcomeCarouselStyle.title}>{screen.title}</Text>
         <Text style={WelcomeCarouselStyle.smallDescription}>{screen.smallDescription}</Text>
