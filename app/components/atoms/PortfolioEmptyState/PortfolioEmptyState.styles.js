@@ -5,7 +5,7 @@ const { width } = Dimensions.get('window');
 
 const PortfolioEmptyStateStyle = StyleSheet.create({
   wrapper: {
-    marginTop: 30,
+    marginTop: 20,
   },
   imageWrapper: {
     justifyContent: 'center',
