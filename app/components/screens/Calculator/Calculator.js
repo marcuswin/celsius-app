@@ -199,7 +199,7 @@ class Calculator extends Component {
                 loading={isLoading}
                 disabled={isFormDisabled || portfolioHasZero}
               >
-                {this.props.userHasPortfolio ? "Go to Portfolio" : "Save coins"}
+                {this.props.userHasPortfolio ? "Go to Tracker" : "Save coins"}
               </CelButton>
             </View>
           </View>

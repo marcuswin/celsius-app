@@ -33,7 +33,7 @@ class PortfolioScreen extends Component {
 
     const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
 
-    if (isLoading) return <Loader text="Loading Portfolio Page" />
+    if (isLoading) return <Loader text="Loading Tracker Page" />
 
     return (!isLoading && !isEmpty(portfolioData)) ? <PortfolioOverview /> : <ManagePortfolio />
   }

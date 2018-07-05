@@ -32,7 +32,7 @@ class PortfolioScreen extends Component {
   render() {
     const { navigateTo, portfolio, supportedCurrencies } = this.props;
     const animatedHeading = {
-      text: 'Portfolio',
+      text: 'Tracker',
       subheading: "Track your coins",
     };
 

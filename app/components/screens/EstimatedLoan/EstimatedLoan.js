@@ -33,7 +33,7 @@ class EstimatedLoan extends Component {
     this.state = {
       animatedHeading: {
         text: 'Estimated Loan',
-        subheading: 'based on your portfolio',
+        subheading: 'based on your tracker',
       }
     };
     // binders
