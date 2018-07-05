@@ -48,7 +48,7 @@ class CelForm extends Component {
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { clearInputLayouts } = this.props;
+    const { clearInputLayouts, keyboardHeight } = this.props;
     const { onScreen, keyboardEventsAttached } = this.state;
 
     if (nextProps.activeScreen === onScreen && !keyboardEventsAttached) {
@@ -57,6 +57,7 @@ class CelForm extends Component {
     }
 
     if (nextProps.activeScreen !== onScreen && keyboardEventsAttached) {
+      if (keyboardHeight) this.keyboardDidHide();
       this.keyboardDidShowListener.remove();
       this.keyboardDidHideListener.remove();
       clearInputLayouts();
