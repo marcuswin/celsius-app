@@ -80,7 +80,7 @@ class MainHeader extends Component {
 
     if (rightLink) {
       return (
-        <Button transparent onPress={() => navigateTo(rightLink.screen)}>
+        <Button transparent onPress={() => navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
