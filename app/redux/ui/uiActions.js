@@ -143,11 +143,14 @@ function clearInputLayouts() {
 
 function scrollTo(scrollOptions = {}) {
   const { field } = scrollOptions;
-  if (!field) return { type: ACTIONS.SCROLL_TO };
 
   return (dispatch, getState) => {
     const { screenHeight } = getState().ui.dimensions;
-    const { keyboardHeight } = getState().ui;
+    const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
+
+    if (!field && !scrollToY) return;
+    if (!field && scrollToY) return dispatch({ type: ACTIONS.SCROLL_TO });
+
     let newY;
 
     // scroll to input field
