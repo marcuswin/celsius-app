@@ -141,15 +141,18 @@ function clearInputLayouts() {
   };
 }
 
-function scrollTo({ field }) {
+function scrollTo(scrollOptions = {}) {
+  const { field } = scrollOptions;
+  if (!field) return { type: ACTIONS.SCROLL_TO };
+
   return (dispatch, getState) => {
     const { screenHeight } = getState().ui.dimensions;
     const { keyboardHeight } = getState().ui;
     let newY;
 
     // scroll to input field
-    if (field) {
-      const fieldLayout = getState().ui.formInputLayouts[field];
+    const fieldLayout = field ? getState().ui.formInputLayouts[field] : undefined;
+    if (field && fieldLayout) {
       if (keyboardHeight) {
         newY = fieldLayout.y - (screenHeight - keyboardHeight - 40);
         newY = newY < 0 ? 0 : newY;
@@ -162,8 +165,8 @@ function scrollTo({ field }) {
             newY = fieldLayout.y - (screenHeight - kHeight - 40);
             newY = newY < 0 ? 0 : newY;
 
-            dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
             clearInterval(keyboardInterval);
+            dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
           }
         }, 50)
       }

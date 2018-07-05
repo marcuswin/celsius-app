@@ -2,10 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TextInput, StyleSheet, ViewPropTypes } from 'react-native';
 import _ from 'lodash';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "../../../redux/actions";
+import CelForm from "../CelForm/CelForm";
 
 // if ViewPropTypes is not defined fall back to View.propType (to support RN < 0.44)
 const viewPropTypes = ViewPropTypes || View.propTypes;
 
+@connect(
+  () => ({}),
+  dispatch => bindActionCreators(actions, dispatch),
+)
 export default class ConfirmationCodeInput extends Component {
   static propTypes = {
     codeLength: PropTypes.number,
@@ -17,7 +25,6 @@ export default class ConfirmationCodeInput extends Component {
     activeColor: PropTypes.string,
     inactiveColor: PropTypes.string,
     ignoreCase: PropTypes.bool,
-    autoFocus: PropTypes.bool,
     codeInputStyle: TextInput.propTypes.style,
     containerStyle: viewPropTypes.style,
     onChangeCode: PropTypes.func,
@@ -27,7 +34,6 @@ export default class ConfirmationCodeInput extends Component {
   static defaultProps = {
     codeLength: 5,
     inputPosition: 'center',
-    autoFocus: true,
     size: 40,
     className: 'border-box',
     cellBorderWidth: 1,
@@ -60,11 +66,14 @@ export default class ConfirmationCodeInput extends Component {
   }
 
   onFocus(index) {
-    const { onChangeCode } = this.props;
+    const { onChangeCode, scrollTo } = this.props;
     /* eslint-disable */
 
     let newCodeArr = _.clone(this.state.codeArr);
     const currentEmptyIndex = _.findIndex(newCodeArr, c => !c);
+
+    scrollTo({ field: `pin${index}`});
+
     if (currentEmptyIndex !== -1 && currentEmptyIndex < index) {
       return this.setFocus(currentEmptyIndex);
     }
@@ -72,7 +81,6 @@ export default class ConfirmationCodeInput extends Component {
       if (i >= index) {
         newCodeArr[i] = '';
       }
-
       /* eslint-enable */
     }
 
@@ -80,10 +88,13 @@ export default class ConfirmationCodeInput extends Component {
       onChangeCode(newCodeArr.join(''));
     }
 
+
     this.setState({
       codeArr: newCodeArr,
       currentIndex: index
     })
+
+    return false;
   }
 
   onKeyPress(e) {
@@ -166,6 +177,7 @@ export default class ConfirmationCodeInput extends Component {
 
   setFocus(index) {
     this.codeInputRefs[index].focus();
+    this.props.scrollTo({ field: 'pin0' })
   }
 
   getContainerStyle(size, position) {
@@ -221,12 +233,13 @@ export default class ConfirmationCodeInput extends Component {
     this.codeInputRefs[index].blur();
   }
 
-  clear() {
-    this.setState({
-      codeArr: new Array(this.props.codeLength).fill(''),
-      currentIndex: 0
-    });
-    this.setFocus(0);
+  saveLayout = (id) => {
+    this.codeInputRefs[id].measureInWindow((x, y, width, height) => {
+      this.props.setInputLayout(`pin${id}`,{ x, y, width, height });
+
+      // focus first box, behaves buggy on android
+      // if (id === 0) this.setFocus(0);
+    })
   }
 
   render() {
@@ -235,7 +248,6 @@ export default class ConfirmationCodeInput extends Component {
       codeInputStyle,
       containerStyle,
       inputPosition,
-      autoFocus,
       className,
       size,
       activeColor
@@ -253,6 +265,7 @@ export default class ConfirmationCodeInput extends Component {
         <TextInput
           key={id}
           ref={ref => (this.codeInputRefs[id] = ref)}
+          onLayout={() => this.saveLayout(id)}
           style={[
             styles.codeInput,
             initialCodeInputStyle,
@@ -264,7 +277,6 @@ export default class ConfirmationCodeInput extends Component {
           keyboardType={'numeric'}
           returnKeyType={'done'}
           {...this.props}
-          autoFocus={autoFocus && id === 0}
           onFocus={() => this.onFocus(id)}
           value={this.state.codeArr[id] ? this.state.codeArr[id].toString() : ''}
           onChangeText={text => this.onInputCode(text, id)}
@@ -275,9 +287,11 @@ export default class ConfirmationCodeInput extends Component {
     }
 
     return (
-      <View style={[styles.container, this.getContainerStyle(size, inputPosition), containerStyle]}>
-        {codeInputs}
-      </View>
+      <CelForm>
+        <View style={[styles.container, this.getContainerStyle(size, inputPosition), containerStyle]}>
+          {codeInputs}
+        </View>
+      </CelForm>
     );
   }
 }

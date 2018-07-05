@@ -49,6 +49,7 @@ const codeLength = 4;
     user: state.users.user,
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -90,13 +91,16 @@ class Passcode extends Component {
   }
 
   render() {
+    const { activeScreen } = this.props;
+
     const field = types[this.props.type].field;
     const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
     const pinSize = 60;
     const pinSpacing = Math.min((Dimensions.get('window').width - 4*pinSize - 72) / 3, 19);
+    const mainHeader = { backButton: activeScreen !== 'Home' };
 
-    return <SimpleLayout bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
+    return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[this.props.type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />

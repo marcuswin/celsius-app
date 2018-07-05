@@ -32,7 +32,7 @@ const defaultAnimatedHeading = {
 )
 class SimpleLayout extends Component {
   componentWillReceiveProps({ scrollToY }) {
-    if (scrollToY !== this.props.scrollToY) {
+    if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
     }
   }
@@ -65,7 +65,7 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-        <ScrollView style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid ref={component => { this.scrollView = component }}>
+        <ScrollView style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid ref={component => { this.scrollView = component }} onScroll={() => this.props.scrollTo()}>
           { this.props.children }
         </ScrollView>
 
