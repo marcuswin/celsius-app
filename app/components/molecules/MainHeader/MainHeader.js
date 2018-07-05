@@ -26,6 +26,7 @@ class MainHeader extends Component {
     onPressBackButton: PropTypes.func,
     backgroundColor: PropTypes.string,
     onCancel: PropTypes.func,
+    homeButton: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -93,17 +94,21 @@ class MainHeader extends Component {
       );
     }
 
-    return (
-      <TouchableOpacity onPress={() => {
-        if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
-          navigateTo('Home', true);
-        }
-      }}>
-        <Image
-          source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-          style={HeaderStyle.logo}/>
-      </TouchableOpacity>
-    );
+    if (this.props.homeButton) {
+      return (
+        <TouchableOpacity onPress={() => {
+          if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
+            navigateTo('Home', true);
+          }
+        }}>
+          <Image
+            source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
+            style={HeaderStyle.logo}/>
+        </TouchableOpacity>
+      );
+    }
+
+    return null;
   }
 
   render() {
