@@ -15,6 +15,7 @@ import Icon from "../../atoms/Icon/Icon";
     kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
     kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    user: state.users.user,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -24,8 +25,7 @@ class NoKyc extends Component {
 
     this.state = {
       animatedHeading: {
-        text: 'Wallet',
-        subheading: 'Send and receive coins'
+        text: `Welcome \n${this.props.user.first_name}!`
       },
    }
 
@@ -129,12 +129,12 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../assets/images/bear-NoKYC3x.png')} style={NoKycStyle.image}/>
+        <Image source={require('../../../../assets/images/wallet-emptystate-ftux3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
-          Add, send and receive coins to your Celsius wallet
+          This is where you'll be able to add, send and receive coins
         </Text>
         <Text style={[NoKycStyle.textTwo,{marginTop: 10}]}>
-          To be able to use your wallet and all of its features, please verify your profile first.
+          But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
           onPress={() => navigateTo('ProfileDetails')}

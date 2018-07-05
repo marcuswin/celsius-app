@@ -223,4 +223,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/App-Login-Animations_Doggirl.gif'),
   require('../../../assets/images/App-Login-Animations_Sheep.gif'),
   require('../../../assets/images/pie-chart.png'),
+  require('../../../assets/images/wallet-emptystate-ftux3x.png'),
 ];
