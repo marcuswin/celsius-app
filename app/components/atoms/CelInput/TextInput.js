@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Animated, View, Easing, Text } from "react-native";
-import { Input } from "native-base";
+import { Animated, View, Easing, Text, TextInput } from "react-native";
+// import { Input } from "native-base";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 
-class TextInput extends Component {
+class CelTextInput extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
 
@@ -17,6 +17,7 @@ class TextInput extends Component {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
+    onLayout: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
     secureTextEntry: PropTypes.bool,
@@ -67,6 +68,12 @@ class TextInput extends Component {
     ).start();
   }
 
+  saveLayout = () => {
+    this.input.measureInWindow((x, y, width, height) => {
+      this.props.onLayout({ x, y, width, height });
+    })
+  }
+
   // rendering methods
   render() {
     const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
@@ -88,13 +95,15 @@ class TextInput extends Component {
 
     return (
       <View style={[globalStyles.inputWrapper, inputBackground ]}>
-        <Input
+        <TextInput
           style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
           underlineColorAndroid={'rgba(0,0,0,0)'}
           underline={false}
           maxLength={maxLength}
           autoCapitalize={autoCapitalize}
           editable={editable}
+          ref={ref => { this.input = ref }}
+          onLayout={ () => this.saveLayout()}
           onFocus={() => {
             if (onFocus) onFocus()
             this.setState({ active: true })}
@@ -136,4 +145,4 @@ class TextInput extends Component {
   }
 }
 
-export default TextInput;
+export default CelTextInput;

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Container, Content } from 'native-base';
+import { Platform, ScrollView } from "react-native";
+import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -24,12 +25,20 @@ const defaultAnimatedHeading = {
 @connect(
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
+    scrollToY: state.ui.scrollTo,
+    keyboardHeight: state.ui.keyboardHeight,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class SimpleLayout extends Component {
+  componentWillReceiveProps({ scrollToY }) {
+    if (scrollToY !== this.props.scrollToY) {
+      this.scrollView.scrollTo({ y: scrollToY, animated: true });
+    }
+  }
+
   render() {
-    const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding, bottomNavigationDimensions } = this.props;
+    const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding, bottomNavigationDimensions, keyboardHeight } = this.props;
 
     const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
     const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
@@ -46,6 +55,9 @@ class SimpleLayout extends Component {
     contentStyles.paddingRight = contentSidePaddingValue;
     contentStyles.paddingLeft = contentSidePaddingValue;
 
+    // add margin to Android when keyboard is open
+    contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
+
     return (
       <Container>
         <MainHeader { ...mainHeaderProps } />
@@ -53,9 +65,9 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-        <Content style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid>
+        <ScrollView style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid ref={component => { this.scrollView = component }}>
           { this.props.children }
-        </Content>
+        </ScrollView>
 
         {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
       </Container>

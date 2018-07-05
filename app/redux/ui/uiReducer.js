@@ -25,6 +25,7 @@ function getBottomNavDimensions() {
 }
 
 const initialState = {
+  keyboardHeight: 0,
   message: undefined,
   internetConnected: true,
   dimensions: {
@@ -43,8 +44,10 @@ const initialState = {
     photo: undefined,
     mask: undefined,
   },
+  scrollTo: undefined,
   formData: {},
   portfolioFormData: [],
+  formInputLayouts: {},
 };
 
 export default (state = initialState, action) => {
@@ -155,7 +158,7 @@ export default (state = initialState, action) => {
         ...state,
         formData: action.formData,
       }
-      
+
     case ACTIONS.CLEAR_FORM:
       return {
         ...state,
@@ -163,10 +166,37 @@ export default (state = initialState, action) => {
       }
 
     case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
-    return {
-      ...state,
-      portfolioFormData: action.data
-    }
+      return {
+        ...state,
+        portfolioFormData: action.data
+      }
+
+    case ACTIONS.SET_KEYBOARD_HEIGHT:
+      return {
+        ...state,
+        keyboardHeight: action.keyboardHeight
+      }
+
+    case ACTIONS.SET_INPUT_LAYOUT:
+      return {
+        ...state,
+        formInputLayouts: {
+          ...state.formInputLayouts,
+          [action.field]: action.layout,
+        }
+      }
+
+    case ACTIONS.CLEAR_INPUT_LAYOUTS:
+      return {
+        ...state,
+        formInputLayouts: {},
+      }
+
+    case ACTIONS.SCROLL_TO:
+      return {
+        ...state,
+        scrollTo: action.scrollTo,
+      }
 
     default:
       return state;

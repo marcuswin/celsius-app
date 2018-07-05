@@ -15,6 +15,10 @@ export {
   clearForm,
   updateFormField,
   updatePortfolioFormData,
+  setKeyboardHeight,
+  setInputLayout,
+  clearInputLayouts,
+  scrollTo,
 }
 
 let msgTimeout;
@@ -114,4 +118,56 @@ function updatePortfolioFormData(data) {
     type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
     data,
   };
+}
+
+function setKeyboardHeight(keyboardHeight) {
+  return {
+    type: ACTIONS.SET_KEYBOARD_HEIGHT,
+    keyboardHeight,
+  };
+}
+
+function setInputLayout(field, layout) {
+  return {
+    type: ACTIONS.SET_INPUT_LAYOUT,
+    field,
+    layout,
+  };
+}
+
+function clearInputLayouts() {
+  return {
+    type: ACTIONS.CLEAR_INPUT_LAYOUTS,
+  };
+}
+
+function scrollTo({ field }) {
+  return (dispatch, getState) => {
+    const { screenHeight } = getState().ui.dimensions;
+    const { keyboardHeight } = getState().ui;
+    let newY;
+
+    // scroll to input field
+    if (field) {
+      const fieldLayout = getState().ui.formInputLayouts[field];
+      if (keyboardHeight) {
+        newY = fieldLayout.y - (screenHeight - keyboardHeight - 40);
+        newY = newY < 0 ? 0 : newY;
+        dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+      } else {
+        // wait for keyboard to open
+        const keyboardInterval = setInterval(() => {
+          const kHeight = getState().ui.keyboardHeight;
+          if (kHeight) {
+            newY = fieldLayout.y - (screenHeight - kHeight - 40);
+            newY = newY < 0 ? 0 : newY;
+
+            dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+            clearInterval(keyboardInterval);
+          }
+        }, 50)
+      }
+    }
+
+  }
 }
