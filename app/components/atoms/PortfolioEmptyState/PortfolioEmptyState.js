@@ -11,7 +11,7 @@ const PortfolioEmptyState = (props) => (
     </View>
 
     <Text style={globalStyles.heading}>
-      Add coins to see how much you can borrow
+      Add coins to see how much you can { props.screen === 'DepositCoins' ? 'lend' : 'borrow'}
     </Text>
 
     <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>

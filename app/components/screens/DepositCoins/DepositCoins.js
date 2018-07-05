@@ -66,7 +66,7 @@ class DepositCoins extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="DepositCoins" onPress={() => navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 

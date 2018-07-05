@@ -116,7 +116,7 @@ class EstimatedLoan extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="EstimatedLoan" onPress={() => navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 
