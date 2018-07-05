@@ -63,7 +63,7 @@ const BottomNavigationStyle = StyleSheet.create({
   },
   textInactive: {
     ...baseText,
-    opacity: 0.5,
+    opacity: 0.7,
     color: '#3D4853',
   },
   textActive: {
