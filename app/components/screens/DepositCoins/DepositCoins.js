@@ -103,7 +103,7 @@ class DepositCoins extends Component {
               {formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}
             </Text>
           }
-          renderContent={ () => <Image source={require('../../../../assets/images/lending-interest-chart.png')} style={DepositCoinsStyle.pieChart}/> }
+          renderContent={ () => <Image source={require('../../../../assets/images/pie-chart.png')} style={DepositCoinsStyle.pieChart}/> }
         />
 
         <Text style={globalStyles.heading}>
