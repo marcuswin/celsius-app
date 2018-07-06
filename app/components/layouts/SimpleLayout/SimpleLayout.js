@@ -31,6 +31,11 @@ const defaultAnimatedHeading = {
   dispatch => bindActionCreators(actions, dispatch),
 )
 class SimpleLayout extends Component {
+  constructor (props) {
+    super(props);
+    props.setScrollPosition(0);
+  }
+
   componentWillReceiveProps({ scrollToY }) {
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
@@ -65,7 +70,14 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-        <ScrollView style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid ref={component => { this.scrollView = component }} onScroll={() => this.props.scrollTo()}>
+        <ScrollView
+          style={[SimpleLayoutStyle.content, contentStyles]}
+          enableOnAndroid
+          ref={component => { this.scrollView = component }}
+          onScroll={() => this.props.scrollTo()}
+          scrollEventThrottle={0}
+          onScrollEndDrag={e => { this.props.setScrollPosition(e.nativeEvent.contentOffset.y) }}
+        >
           { this.props.children }
         </ScrollView>
 

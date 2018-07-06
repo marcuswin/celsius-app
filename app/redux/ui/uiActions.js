@@ -1,6 +1,8 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 
+// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
+
 export {
   showMessage,
   clearMessage,
@@ -19,6 +21,8 @@ export {
   setInputLayout,
   clearInputLayouts,
   scrollTo,
+  setScrollElementLayout,
+  setScrollPosition,
 }
 
 let msgTimeout;
@@ -142,14 +146,16 @@ function clearInputLayouts() {
 }
 
 function scrollTo(scrollOptions = {}) {
-  const { field } = scrollOptions;
+  const { field, accordion } = scrollOptions;
 
   return (dispatch, getState) => {
+
     const { screenHeight } = getState().ui.dimensions;
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
-    if (!field && !scrollToY) return;
-    if (!field && scrollToY) return dispatch({ type: ACTIONS.SCROLL_TO });
+    if (!field && !accordion) {
+      return scrollToY ? dispatch({ type: ACTIONS.SCROLL_TO }) : null;
+    }
 
     let newY;
 
@@ -175,5 +181,28 @@ function scrollTo(scrollOptions = {}) {
       }
     }
 
+    // scroll accordion into view
+    const accordionLayout = accordion ? getState().ui.scrollLayouts[`${accordion}Accordion`] : undefined;
+    if (accordion && accordionLayout) {
+      newY = accordionLayout.y - 0.3 * screenHeight;
+      newY = newY < 0 ? 0 : newY;
+      dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+    }
   }
 }
+
+function setScrollElementLayout(element, layout) {
+  return {
+    type: ACTIONS.SET_SCROLL_ELEMENT_LAYOUT,
+    element,
+    layout,
+  };
+}
+
+function setScrollPosition(scrollPosition) {
+  return {
+    type: ACTIONS.SET_SCROLL_POSITION,
+    scrollPosition,
+  };
+}
+

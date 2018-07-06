@@ -45,13 +45,16 @@ const initialState = {
     mask: undefined,
   },
   scrollTo: undefined,
+  scrollPosition: 0,
   formData: {},
   portfolioFormData: [],
   formInputLayouts: {},
+  scrollLayouts: {},
 };
 
 export default (state = initialState, action) => {
   let newState;
+  let layout;
 
   switch (action.type) {
     case ACTIONS.SHOW_MESSAGE:
@@ -196,6 +199,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         scrollTo: action.scrollTo,
+        scrollPosition: action.scrollTo || state.scrollPosition,
+      }
+
+    case ACTIONS.SET_SCROLL_POSITION:
+      return {
+        ...state,
+        scrollPosition: action.scrollPosition,
+      }
+
+    case ACTIONS.SET_SCROLL_ELEMENT_LAYOUT:
+      layout = action.layout;
+      layout.y += state.scrollPosition;
+      return {
+        ...state,
+        scrollLayouts: {
+          ...state.scrollLayouts,
+          [action.element]: layout,
+        }
       }
 
     default:

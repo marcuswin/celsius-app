@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
 import Icon from "../../atoms/Icon/Icon";
-
-import { actions as mixpanelActions } from '../../../services/mixpanel' 
+import { actions as mixpanelActions } from '../../../services/mixpanel'
 import AccordionStyles from "./Accordion.styles";
+import * as actions from "../../../redux/actions";
 
+@connect(
+  () => ({}),
+  dispatch => bindActionCreators(actions, dispatch),
+)
 class Accordion extends Component {
   static propTypes = {
     renderHeader: PropTypes.func.isRequired,
     renderContent: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -23,6 +31,23 @@ class Accordion extends Component {
     };
   }
 
+  expandAccordion = () => {
+    const { isExpanded } = this.state;
+    const { scrollTo, name } = this.props;
+    if (!isExpanded) {
+      mixpanelActions.estimationExplanation()
+    }
+    if (!isExpanded) scrollTo({ accordion: name })
+    this.setState({ isExpanded: !isExpanded })
+  }
+
+  saveLayout = () => {
+    const { name, setScrollElementLayout } = this.props;
+    this.accordion.measureInWindow((x, y, width, height) => {
+      setScrollElementLayout(`${name}Accordion`, { x, y, width, height });
+    })
+  }
+
   render() {
     const { isExpanded } = this.state;
     const { renderHeader, renderContent } = this.props;
@@ -31,15 +56,12 @@ class Accordion extends Component {
     const iconName = isExpanded ? 'QuestionMark' : 'QuestionMarkCircle';
 
     return (
-      <View style={AccordionStyles.wrapper}>
-        <TouchableOpacity onPress={
-          () => {
-            if (!this.state.isExpanded) {
-              mixpanelActions.estimationExplanation()
-            }
-            this.setState({ isExpanded: !isExpanded })}
-          }
-        >
+      <View
+        style={AccordionStyles.wrapper}
+        onLayout={this.saveLayout}
+        ref={el => { this.accordion = el }}
+      >
+        <TouchableOpacity onPress={this.expandAccordion}>
           <View style={[AccordionStyles.headerWrapper, backgroundColor]}>
             { renderHeader(AccordionStyles.headerText) }
 

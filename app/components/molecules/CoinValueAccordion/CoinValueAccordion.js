@@ -61,6 +61,7 @@ class CoinValueAccordion extends Component {
 
     return (
       <Accordion
+        name="coinValue"
         renderHeader={ (styles) =>
           <Text style={styles}>
             <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedCoinValue, {symbol: ''})}</Text>

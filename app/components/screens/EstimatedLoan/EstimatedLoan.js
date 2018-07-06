@@ -145,6 +145,7 @@ class EstimatedLoan extends Component {
           <Text style={[ globalStyles.boldText]}>The biggest estimated loan </Text> you could get would be for:
         </Text>
         <Accordion
+          name="estimatedLoan"
           renderHeader={ (styles) =>
             <Text style={styles}>
               <Text style={[styles, { opacity: 0.5 }]}>$</Text>
@@ -164,6 +165,7 @@ class EstimatedLoan extends Component {
           You'll pay about this much in <Text style={[ globalStyles.boldText]}>yearly interest </Text>:
         </Text>
         <Accordion
+          name="yearlyInterest"
           renderHeader={ (styles) =>
             <Text style={styles}>
               <Text style={[styles, { opacity: 0.5 }]}>$</Text>

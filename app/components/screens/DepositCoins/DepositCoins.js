@@ -100,6 +100,7 @@ class DepositCoins extends Component {
           , we estimate your interest would be:
         </Text>
         <Accordion
+          name="interest"
           renderHeader={ (styles) =>
             <Text style={styles}>
               <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}</Text>
