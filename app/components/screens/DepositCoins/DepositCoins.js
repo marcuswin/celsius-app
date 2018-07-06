@@ -9,7 +9,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Loader from "../../atoms/Loader/Loader";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import formatter from "../../../utils/formatter";
 import Accordion from "../../molecules/Accordion/Accordion";
 import Separator from "../../atoms/Separator/Separator";
@@ -60,7 +60,10 @@ class DepositCoins extends Component {
 
     if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
 
-    const portfolioData = get(portfolio, 'data', [])
+    const portfolioData = get(portfolio, 'data', []);
+
+    const letterSize = Math.round(estimatedInterest.lending_interest).toString().length >= 10 ?
+      FONT_SCALE * 26 : FONT_SCALE * 36;
 
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
@@ -99,8 +102,7 @@ class DepositCoins extends Component {
         <Accordion
           renderHeader={ (styles) =>
             <Text style={styles}>
-              <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-              {formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}
+              <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}</Text>
             </Text>
           }
           renderContent={ () => <Image source={require('../../../../assets/images/pie-chart.png')} style={DepositCoinsStyle.pieChart}/> }

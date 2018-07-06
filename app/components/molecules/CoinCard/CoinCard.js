@@ -142,6 +142,9 @@ class CoinCard extends Component {
   render() {
     const { type, currency, amount, total, supportedCurrencies } = this.props;
 
+    const letterSize = total.toString().length >= 9 ?
+      FONT_SCALE * 20 : FONT_SCALE * 29;
+
     const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange < 0;
     const graphDataObj = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.short)
@@ -157,7 +160,7 @@ class CoinCard extends Component {
             <View>
               <Text
                 style={CoinCardStyle.label}>{currency.short.toUpperCase()} - {currency.name.toUpperCase()}</Text>
-              <Text style={CoinCardStyle.text}>{formatter.usd(total)}</Text>
+              <Text style={[CoinCardStyle.text, {fontSize: letterSize}]}>{formatter.usd(total)}</Text>
               <Text
                 style={[CoinCardStyle.coinAmount, { fontFamily: 'agile-light' }]}>{ formatter.crypto(amount, currency.short.toUpperCase(), { precision: 5 }) }</Text>
             </View>
