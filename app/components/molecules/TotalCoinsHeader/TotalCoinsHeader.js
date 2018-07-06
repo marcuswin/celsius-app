@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
 
 
 const TotalCoinsHeader = (props) => {
-  const letterSize = Math.round(props.totalValue).toString().length >= 10 ?
-    FONT_SCALE * 22 : FONT_SCALE * 36;
+  const letterSize = Math.round(props.totalValue).toString().length >= 7 ?
+    FONT_SCALE * 24 : FONT_SCALE * 36;
 
   return (
     <Grid>

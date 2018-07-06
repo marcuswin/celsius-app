@@ -14,7 +14,7 @@ import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
-import { STYLES } from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 
@@ -96,7 +96,7 @@ class Passcode extends Component {
     const field = types[this.props.type].field;
     const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
-    const pinSize = 60;
+    const pinSize = FONT_SCALE * 60;
     const pinSpacing = Math.min((Dimensions.get('window').width - 4*pinSize - 72) / 3, 19);
     const mainHeader = { backButton: activeScreen !== 'Home' };
 
@@ -114,7 +114,7 @@ class Passcode extends Component {
           size={pinSize}
           inputPosition='center'
           cellBorderWidth={0}
-          codeInputStyle={{fontSize: 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
+          codeInputStyle={{fontSize: FONT_SCALE * 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
           containerStyle={{marginBottom: 30}}
           onChangeCode={(code) => this.onChange(this.props.type, code)}
         />

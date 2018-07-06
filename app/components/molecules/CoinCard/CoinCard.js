@@ -142,7 +142,7 @@ class CoinCard extends Component {
   render() {
     const { type, currency, amount, total, supportedCurrencies } = this.props;
 
-    const letterSize = total.toString().length >= 9 ?
+    const letterSize = Math.round(total).toString().length >= 7 ?
       FONT_SCALE * 20 : FONT_SCALE * 29;
 
     const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
