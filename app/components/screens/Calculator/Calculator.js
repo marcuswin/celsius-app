@@ -56,7 +56,9 @@ class Calculator extends Component {
 
     const newPortfolioFormData = newProps.portfolioFormData;
     const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
-    if (this.props.nav.routes[this.props.nav.routes.length - 1].routeName === 'AddCoins') {
+
+
+    if (lastItem.amount === '') {
       this.setState({
         newCoinAdded: true,
       })
