@@ -74,7 +74,7 @@ class WalletLanding extends Component {
 
   refreshWallet = (e) => {
     const { getWalletDetails, callsInProgress } = this.props;
-    if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], callsInProgress) && e.nativeEvent.contentOffset.y < 0 && shouldRefresh) {
+    if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], callsInProgress) && e.nativeEvent.contentOffset.y < 0 && shouldRefresh) {
       getWalletDetails();
 
       shouldRefresh = false;
@@ -88,13 +88,11 @@ class WalletLanding extends Component {
   render() {
     const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan } = this.props;
 
-    const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], this.props.callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], this.props.callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
     const contentPadding = { paddingLeft: 36, paddingRight: 36 };
-
-    console.log(estimatedLoan)
 
     return (
       <BasicLayout bottomNavigation>
@@ -115,7 +113,7 @@ class WalletLanding extends Component {
               />
             }
           </TotalCoinsHeader>
-          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) &&
+          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) && estimatedLoan && estimatedLoan.max_loan_amount &&
             <View style={[contentPadding, { marginBottom: -15 }]}>
               <WalletInfoBubble
                 title="Did you know?"
