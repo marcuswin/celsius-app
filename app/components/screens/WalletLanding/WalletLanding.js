@@ -32,6 +32,7 @@ let refreshTimeout;
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    estimatedLoan: state.portfolio.estimatedLoan,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -46,15 +47,17 @@ class WalletLanding extends Component {
   }
 
   componentDidMount() {
-    const { getWalletDetails, getSupportedCurrencies } = this.props;
+    const { getWalletDetails, getSupportedCurrencies, getEstimatedLoan } = this.props;
     getSupportedCurrencies();
     getWalletDetails();
+    getEstimatedLoan();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getWalletDetails, activeScreen } = this.props;
+    const { getWalletDetails, activeScreen, getEstimatedLoan } = this.props;
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
       getWalletDetails();
+      getEstimatedLoan();
     }
   }
 
@@ -83,13 +86,15 @@ class WalletLanding extends Component {
   }
 
   render() {
-    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings } = this.props;
+    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], this.props.callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
     const contentPadding = { paddingLeft: 36, paddingRight: 36 };
+
+    console.log(estimatedLoan)
 
     return (
       <BasicLayout bottomNavigation>
@@ -118,7 +123,7 @@ class WalletLanding extends Component {
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   You could be earning
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(0.049 * totalValue) } </Text>
+                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(estimatedLoan.max_loan_amount) } </Text>
                   a year if you deposited all of your eligible crypto from your portfolio to your Celsius wallet.
                 </Text>
               </WalletInfoBubble>
