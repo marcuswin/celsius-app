@@ -15,41 +15,16 @@ import apiUtil from "../../../utils/api-util";
 import Message from "../../atoms/Message/Message";
 
 
-const randomGifs = getRandomGifs();
 const images = [
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
-    gif: randomGifs.indexOf('deer') !== -1 ? require('../../../../assets/images/App-Login-Animations_Deer.gif') : undefined,
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
-    gif: randomGifs.indexOf('hippo') !== -1 ? require('../../../../assets/images/App-Login-Animations_Hippo.gif') : undefined,
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
-    gif: randomGifs.indexOf('mouse-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Squirelgirl.gif') : undefined,
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
-    gif: randomGifs.indexOf('monkey-girl') !== -1 ? require('../../../../assets/images/App-Login-Animations_Monkey-Girl.gif') : undefined,
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
-    gif: randomGifs.indexOf('girl-dog') !== -1 ? require('../../../../assets/images/App-Login-Animations_Doggirl.gif') : undefined,
-  },
-  {
-    url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
-    gif: randomGifs.indexOf('sheep') !== -1 ? require('../../../../assets/images/App-Login-Animations_Sheep.gif') : undefined,
-  },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg' },
+  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg' },
 ];
 
 @connect(
@@ -112,12 +87,12 @@ class ProfileImage extends Component {
     const { activeImage } = this.state;
     const viewStyles = [ProfileImageStyle.imageWrapper];
     if (image.url === activeImage) viewStyles.push(ProfileImageStyle.activeImage);
-    const imageStyles = image.gif ? ProfileImageStyle.gif : ProfileImageStyle.image;
+    const imageStyles = ProfileImageStyle.image;
 
     return (
       <TouchableOpacity key={images.indexOf(image)} style={ProfileImageStyle.button} onPress={() => this.setActiveImage(image)}>
         <View style={viewStyles}>
-          <Image source={image.gif || { uri: image.url }} style={imageStyles} />
+          <Image source={{ uri: image.url }} style={imageStyles} />
         </View>
       </TouchableOpacity>
     )
@@ -160,18 +135,3 @@ class ProfileImage extends Component {
 }
 
 export default ProfileImage;
-
-function getRandomGifs(gifNumber = 3) {
-  const allGifs = [
-    'deer',
-    'hippo',
-    'mouse-girl',
-    'monkey-girl',
-    'girl-dog',
-    'sheep',
-  ]
-
-  const shuffled = allGifs.sort(() => .5 - Math.random());
-  const gifs = shuffled.slice(0, gifNumber);
-  return gifs;
-}

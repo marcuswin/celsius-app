@@ -40,9 +40,9 @@ const ProfileImageStyle = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: smallImageSize - 20,
-    height: smallImageSize - 20,
-    borderRadius: (smallImageSize - 20) / 2,
+    width: smallImageSize,
+    height: smallImageSize,
+    borderRadius: (smallImageSize) / 2,
   },
   gif: {
     width: smallImageSize,
