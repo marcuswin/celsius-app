@@ -27,6 +27,7 @@ const defaultAnimatedHeading = {
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
     scrollToY: state.ui.scrollTo,
     keyboardHeight: state.ui.keyboardHeight,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -34,11 +35,19 @@ class SimpleLayout extends Component {
   constructor (props) {
     super(props);
     props.setScrollPosition(0);
+
+    this.state = {
+      screen: props.activeScreen,
+    }
   }
 
-  componentWillReceiveProps({ scrollToY }) {
+  componentWillReceiveProps({ scrollToY, activeScreen }) {
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
+    }
+
+    if (activeScreen === this.state.screen && activeScreen !== this.props.activeScreen) {
+      this.scrollView.scrollTo({ y: 0, animated: false });
     }
   }
 
