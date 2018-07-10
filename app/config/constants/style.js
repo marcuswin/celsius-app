@@ -182,7 +182,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/icons/celsius-spinner.gif'),
   require('../../../assets/images/lending-interest-chart.png'),
   require('../../../assets/images/polar-bear-hodl.png'),
-  require('../../../assets/images/monkey-empty.png'),
+  require('../../../assets/images/monkey-confused3x.png'),
   require('../../../assets/images/avatar-mouse-girl.jpg'),
   require('../../../assets/images/Welcome_Doggirl.gif'),
   require('../../../assets/images/Welcome_Penguin.gif'),
@@ -218,4 +218,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/bear-happyKYC3x.png'),
   require('../../../assets/images/pie-chart.png'),
   require('../../../assets/images/wallet-emptystate-ftux3x.png'),
+  require('../../../assets/images/deer-confused3x.png'),
 ];

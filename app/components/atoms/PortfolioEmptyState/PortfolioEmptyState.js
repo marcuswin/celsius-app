@@ -7,7 +7,10 @@ import CelButton from "../CelButton/CelButton";
 const PortfolioEmptyState = (props) => (
   <View style={PortfolioEmptyStateStyle.wrapper}>
     <View style={PortfolioEmptyStateStyle.imageWrapper}>
-      <Image source={require('../../../../assets/images/monkey-empty.png')} style={PortfolioEmptyStateStyle.image} />
+      {props.screen === 'DepositCoins' ?
+        <Image source={require('../../../../assets/images/monkey-confused3x.png')} style={PortfolioEmptyStateStyle.image}/>
+        :  <Image source={require('../../../../assets/images/deer-confused3x.png')} style={PortfolioEmptyStateStyle.image}/>
+      }
     </View>
 
     <Text style={globalStyles.heading}>
@@ -18,9 +21,13 @@ const PortfolioEmptyState = (props) => (
       Please add some coins to your portfolio to see how big a loan you can get at 9% annual interest.
     </Text>
 
-    <CelButton onPress={props.onPress} margin="20 0 20 0" style={{marginBottom: 30}}>
+    <CelButton
+      onPress={props.onPress}
+      margin="30 0 30 0"
+    >
       Add Your Coins
     </CelButton>
+
   </View>
 )
 

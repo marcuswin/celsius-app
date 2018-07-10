@@ -6,14 +6,15 @@ const { width } = Dimensions.get('window');
 const PortfolioEmptyStateStyle = StyleSheet.create({
   wrapper: {
     marginTop: 20,
+    alignItems: 'center'
   },
   imageWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
-    height: width * 0.33,
-    width: width * 0.33 * 1.2 + 3,
+    height: width * 0.4,
+    width: width * 0.4 + 16,
   }
 });
 
