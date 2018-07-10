@@ -109,14 +109,14 @@ class WalletTotals extends Component {
       balanceUsd: walletBalances.filter(b => b.currency.short === 'ETH')[0].total,
       short: 'ETH',
       currency: 'ETHEREUM',
-      percentage: supportedCurrencies.filter(sc => sc.short === 'ETH')[0].market.quotes.USD.percent_change_24h,
+      percentage: supportedCurrencies.filter(sc => sc.short === 'ETH')[0].market.price_change_usd['1d'],
     });
     const bitcoinTotal = this.renderBalance({
       balance: walletBalances.filter(b => b.currency.short === 'BTC')[0].amount,
       balanceUsd: walletBalances.filter(b => b.currency.short === 'BTC')[0].total,
       short: 'BTC',
       currency: 'BITCOIN',
-      percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.quotes.USD.percent_change_24h,
+      percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.price_change_usd['1d'],
     });
 
     return (
