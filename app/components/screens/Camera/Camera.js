@@ -33,6 +33,7 @@ class CameraScreen extends Component {
     cameraType: PropTypes.oneOf(['front', 'back']),
     photo: PropTypes.string,
     mask: PropTypes.oneOf(['circle', 'document']),
+    onSave: PropTypes.func,
   }
 
   static defaultProps = {
@@ -95,13 +96,18 @@ class CameraScreen extends Component {
   };
 
   savePhoto = () => {
-    const { navigateBack, updateFormField, cameraField, photo } = this.props;
-    updateFormField(cameraField, photo);
-    navigateBack();
+    const { navigateBack, updateFormField, cameraField, photo, navigation } = this.props;
 
+    const onSave = navigation.getParam('onSave');
 
-
+    if (onSave) {
+      onSave(photo);
+    } else {
+      updateFormField(cameraField, photo);
+      navigateBack();
+    }
   }
+
   // rendering methods
   renderMask() {
     const { mask, photo } = this.props;

@@ -92,7 +92,7 @@ function activateCamera(cameraProps) {
       type: ACTIONS.ACTIVATE_CAMERA,
       ...cameraProps,
     });
-    dispatch(navActions.navigateTo('Camera'));
+    dispatch(navActions.navigateTo('Camera', { onSave: cameraProps.onSave }));
   }
 }
 

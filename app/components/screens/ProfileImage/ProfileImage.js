@@ -79,7 +79,16 @@ class ProfileImage extends Component {
       cameraCopy: 'Please center your face in the circle and take a selfie, to use as your profile photo.',
       cameraType: 'front',
       mask: 'circle',
+      onSave: this.saveProfileImage,
     })
+  }
+
+  saveProfileImage = (photo) => {
+    const { updateProfilePicture, navigateTo, updateFormField } = this.props;
+
+    updateProfilePicture(photo);
+    updateFormField('profileImage', photo);
+    navigateTo('Profile');
   }
 
   // rendering methods
