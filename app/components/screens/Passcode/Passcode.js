@@ -28,7 +28,7 @@ const types = {
     },
     repeatPasscode: {
       title: `Repeat your${'\n'} PIN`,
-      text: `Please create a 4-digit PIN${'\n'} to make your transactions even more secure.`,
+      text: `Please type your PIN number${'\n'}one more time to confirm`,
       buttonText: 'Confirm',
       field: 'pin_confirm',
     },
