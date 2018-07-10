@@ -31,7 +31,7 @@ function getProfileInfo() {
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
-      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile));
+      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile || personalInfoRes.data));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
