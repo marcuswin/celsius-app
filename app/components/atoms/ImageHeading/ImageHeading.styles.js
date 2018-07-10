@@ -1,8 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {STYLES} from "../../../config/constants/style";
 
-const { width } = Dimensions.get('window');
-const imageSize = 0.5 * width;
+const { width, height } = Dimensions.get('window');
+const imageSize = Math.min(((height - width) / (width * 2)), 0.5) * width;
 
 const ImageHeadingStyle = StyleSheet.create({
   wrapper: {
