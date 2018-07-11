@@ -9,7 +9,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Loader from "../../atoms/Loader/Loader";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import formatter from "../../../utils/formatter";
 import Accordion from "../../molecules/Accordion/Accordion";
 import Separator from "../../atoms/Separator/Separator";
@@ -60,13 +60,16 @@ class DepositCoins extends Component {
 
     if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
 
-    const portfolioData = get(portfolio, 'data', [])
+    const portfolioData = get(portfolio, 'data', []);
+
+    const letterSize = Math.round(estimatedInterest.lending_interest).toString().length >= 10 ?
+      FONT_SCALE * 26 : FONT_SCALE * 36;
 
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="DepositCoins" onPress={() => navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 
@@ -97,13 +100,13 @@ class DepositCoins extends Component {
           , we estimate your interest would be:
         </Text>
         <Accordion
+          name="interest"
           renderHeader={ (styles) =>
             <Text style={styles}>
-              <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-              {formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}
+              <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}</Text>
             </Text>
           }
-          renderContent={ () => <Image source={require('../../../../assets/images/lending-interest-chart.png')} style={DepositCoinsStyle.pieChart}/> }
+          renderContent={ () => <Image source={require('../../../../assets/images/pie-chart.png')} style={DepositCoinsStyle.pieChart}/> }
         />
 
         <Text style={globalStyles.heading}>
@@ -136,7 +139,7 @@ class DepositCoins extends Component {
         <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 40 }]}>
           You're the
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
-          person in line eligible to lend out your coins and earn interest (once when you transfer your coins and they are lent).
+          person in line eligible to lend out your coins and earn interest (when you transfer your coins and they are lent).
         </Text>
       </SimpleLayout>
     );

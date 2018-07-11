@@ -73,10 +73,15 @@ class CelInput extends Component {
   }
 
   onFocus = () => {
-    const { onPress } = this.props;
+    const { onPress, scrollTo, field } = this.props;
     if (onPress) {
       onPress();
     }
+
+    // keyboard fires after focus
+    scrollTo({ field });
+
+    return false;
   };
 
   onChangeText = (text) => {
@@ -86,6 +91,12 @@ class CelInput extends Component {
     } else {
       updateFormField(field, text);
     }
+  }
+
+
+  handleLayout = (layout) => {
+    const { field, setInputLayout } = this.props;
+    setInputLayout(field, layout);
   }
 
   // rendering methods
@@ -104,8 +115,9 @@ class CelInput extends Component {
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
+            onFocus={this.onFocus}
             keyboardType={KEYBOARD_TYPE.NUMERIC}
-
+            onLayout={this.handleLayout}
           />
         )
 
@@ -116,6 +128,7 @@ class CelInput extends Component {
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
+            onLayout={this.handleLayout}
           />
         )
 
@@ -126,6 +139,7 @@ class CelInput extends Component {
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
+            onLayout={this.handleLayout}
           />
         )
 
@@ -136,7 +150,8 @@ class CelInput extends Component {
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
-
+            onFocus={this.onFocus}
+            onLayout={this.handleLayout}
           />
         )
     }

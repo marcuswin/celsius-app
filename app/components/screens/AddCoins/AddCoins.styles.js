@@ -24,16 +24,18 @@ const AddCoinsStyle = StyleSheet.create({
     shadowOffset: {width: 0, height: 3},
     borderRadius: 8,
     marginTop: 25,
+    marginBottom: 30,
+    paddingLeft: 13,
+    paddingRight: 13,
+    alignItems: 'center'
   },
   explanationText: {
     fontSize: FONT_SCALE * 15,
-    marginTop: 'auto',
-    marginBottom: 'auto',
-    marginLeft: 15,
+    marginLeft: 13,
+    marginRight: 13,
     fontFamily: 'agile-light',
     color: '#3D4853',
     textAlign: 'left',
-    marginRight: 13
   },
   coinContent: {
     flexDirection: 'row',

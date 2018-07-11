@@ -31,7 +31,7 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItemsLeft: [
-      { label: 'Portfolio', screen: 'Portfolio', icon: 'Portfolio', active: ['ManageCoins'] },
+      { label: 'Tracker', screen: 'Portfolio', icon: 'Portfolio', active: ['ManagePortfolio', 'AddCoins'] },
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
     ],
     navItemsRight: [
@@ -98,8 +98,10 @@ class BottomNavigation extends Component {
           navigateTo('Home');
         }}>
         <View style={BottomNavigationStyle.wallet} >
-          <View style={BottomNavigationStyle[`celsius${ios}`]}>
-            <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+          <View style={BottomNavigationStyle.celWrapper}>
+            <View style={BottomNavigationStyle[`celsius${ios}`]}>
+              <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+            </View>
           </View>
           <Text style={BottomNavigationStyle[`text${ios}`]}>Wallet</Text>
         </View>

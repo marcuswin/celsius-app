@@ -7,17 +7,12 @@ import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
 import isEmpty from 'lodash/isEmpty';
 
-
-
-import CelButton from '../../atoms/CelButton/CelButton';
-import API from '../../../config/constants/API';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import * as actions from "../../../redux/actions";
 import { actions as mixpanelActions } from '../../../services/mixpanel'
 
 import CalculatorStyle from "./Calculator.styles";
-import apiUtil from "../../../utils/api-util";
 
 @connect(
   state => ({
@@ -49,14 +44,11 @@ class Calculator extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const {callsInProgress, navigateTo} = this.props;
-    if (callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) !== -1 && newProps.callsInProgress.indexOf(API.CREATE_PORTFOLIO_REQUEST) === -1 && !newProps.error) {
-      navigateTo('Portfolio');
-    }
-
     const newPortfolioFormData = newProps.portfolioFormData;
     const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
-    if (this.props.nav.routes[this.props.nav.routes.length - 1].routeName === 'AddCoins') {
+
+
+    if (lastItem.amount === '') {
       this.setState({
         newCoinAdded: true,
       })
@@ -73,15 +65,10 @@ class Calculator extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.updatePortfolio();
+  }
 
-  onPressSubmit = () => {
-    const data = this.props.portfolioFormData
-      .filter(sc => sc.amount != null && sc.amount > 0)
-      .map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
-
-    this.props.updatePortfolio(data);
-    this.props.updatePortfolioFormData(this.props.portfolioFormData);
-  };
 
   onChangeText = (amount, coin) => {
     const formattedAmount = amount.replace(',', '.');
@@ -94,6 +81,17 @@ class Calculator extends Component {
     );
 
     this.props.updatePortfolioFormData(portfolioFormData);
+  };
+
+  updatePortfolio = () => {
+    const data = this.props.portfolioFormData
+      .filter(sc => sc.amount != null && sc.amount > 0)
+      .map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
+
+    if (data.length) {
+      this.props.updatePortfolio(data);
+      this.props.updatePortfolioFormData(this.props.portfolioFormData);
+    }
   };
 
   removeItem = item => {
@@ -110,7 +108,6 @@ class Calculator extends Component {
   ]
 
   render() {
-
     const { navigateTo, portfolioFormData, supportedCurrencies } = this.props;
 
     const filteredSupportedCurrencies = supportedCurrencies != null
@@ -126,13 +123,12 @@ class Calculator extends Component {
       });
     }
 
-    const isFormDisabled = isEmpty(this.props.portfolioFormData);
+    // const isFormDisabled = isEmpty(this.props.portfolioFormData);
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
-    const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
+    // const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
 
     return (
       <View style={{flex: 1}}>
-
           <View style={CalculatorStyle.container}>
             <List
               dataArray={this.props.portfolioFormData}
@@ -151,6 +147,7 @@ class Calculator extends Component {
                               keyboardType={KEYBOARD_TYPE.NUMERIC}
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
+                              onBlur={this.updatePortfolio}
                               maxLength={7}
                               value={`${item.amount}` || ''}
                               placeholder='0.00'
@@ -193,15 +190,6 @@ class Calculator extends Component {
                 You have added all the coins you can track. Keep an eye on this list, since we'll expand it in the future.
               </Text>
             }
-            <View style={CalculatorStyle.submitButtonWrapper}>
-              <CelButton
-                onPress={this.onPressSubmit}
-                loading={isLoading}
-                disabled={isFormDisabled || portfolioHasZero}
-              >
-                {this.props.userHasPortfolio ? "Save changes" : "Save coins"}
-              </CelButton>
-            </View>
           </View>
       </View>);
   }

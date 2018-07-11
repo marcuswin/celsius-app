@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 
 const SimpleLayoutStyle = StyleSheet.create({
   content: {
-    paddingTop: 10,
+    // paddingTop: 10,
     flex: 1,
   },
 });

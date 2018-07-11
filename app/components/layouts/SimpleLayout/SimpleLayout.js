@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Container, Content } from 'native-base';
+import { Platform, ScrollView } from "react-native";
+import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -24,12 +25,34 @@ const defaultAnimatedHeading = {
 @connect(
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
+    scrollToY: state.ui.scrollTo,
+    keyboardHeight: state.ui.keyboardHeight,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
 class SimpleLayout extends Component {
+  constructor (props) {
+    super(props);
+    props.setScrollPosition(0);
+
+    this.state = {
+      screen: props.activeScreen,
+    }
+  }
+
+  componentWillReceiveProps({ scrollToY, activeScreen }) {
+    if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
+      this.scrollView.scrollTo({ y: scrollToY, animated: true });
+    }
+
+    if (activeScreen === this.state.screen && activeScreen !== this.props.activeScreen) {
+      this.scrollView.scrollTo({ y: 0, animated: false });
+    }
+  }
+
   render() {
-    const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding, bottomNavigationDimensions } = this.props;
+    const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding, bottomNavigationDimensions, keyboardHeight } = this.props;
 
     const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
     const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
@@ -46,6 +69,9 @@ class SimpleLayout extends Component {
     contentStyles.paddingRight = contentSidePaddingValue;
     contentStyles.paddingLeft = contentSidePaddingValue;
 
+    // add margin to Android when keyboard is open
+    contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
+
     return (
       <Container>
         <MainHeader { ...mainHeaderProps } />
@@ -53,9 +79,16 @@ class SimpleLayout extends Component {
 
         <Message inverted={background}/>
 
-        <Content style={[SimpleLayoutStyle.content, contentStyles]} enableOnAndroid>
+        <ScrollView
+          style={[SimpleLayoutStyle.content, contentStyles]}
+          enableOnAndroid
+          ref={component => { this.scrollView = component }}
+          onScroll={() => this.props.scrollTo()}
+          scrollEventThrottle={0}
+          onScrollEndDrag={e => { this.props.setScrollPosition(e.nativeEvent.contentOffset.y) }}
+        >
           { this.props.children }
-        </Content>
+        </ScrollView>
 
         {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
       </Container>

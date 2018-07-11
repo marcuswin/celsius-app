@@ -7,7 +7,6 @@ const AddFundsStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     textAlign: 'center',
     color: 'white',
-    marginTop: -10,
   },
   radioWrapper: {
     marginTop: 25,

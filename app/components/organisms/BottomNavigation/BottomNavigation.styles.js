@@ -19,15 +19,11 @@ const baseText = {
 };
 
 const baseCelsius = {
-  width: 50,
-  height: 50,
-  borderColor: 'white',
-  borderWidth: 4,
-  borderRadius: 25,
+  width: 42,
+  height: 42,
+  borderRadius: 21,
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: -15,
-  marginBottom: 5,
 };
 
 const BottomNavigationStyle = StyleSheet.create({
@@ -67,7 +63,7 @@ const BottomNavigationStyle = StyleSheet.create({
   },
   textInactive: {
     ...baseText,
-    opacity: 0.5,
+    opacity: 0.7,
     color: '#3D4853',
   },
   textActive: {
@@ -78,6 +74,16 @@ const BottomNavigationStyle = StyleSheet.create({
     width: 0.20 * width,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  celWrapper: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -15,
+    marginBottom: 5,
   },
   celsiusActive: {
     ...baseCelsius,

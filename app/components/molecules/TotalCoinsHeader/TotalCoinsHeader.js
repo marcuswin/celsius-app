@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     justifyContent: 'center',
     paddingLeft: 36,
-    paddingRight: 20,
+    paddingRight: 36,
     paddingTop: 14,
     paddingBottom: 14,
     marginBottom: 16,
@@ -36,14 +36,14 @@ const styles = StyleSheet.create({
 
 
 const TotalCoinsHeader = (props) => {
-  const letterSize = Math.round(props.totalValue).toString().length + 2 >= 10 ?
-    FONT_SCALE * 30 : FONT_SCALE * 36;
+  const letterSize = Math.round(props.totalValue).toString().length >= 7 ?
+    FONT_SCALE * 24 : FONT_SCALE * 36;
 
   return (
     <Grid>
       <Row>
-        <Row style={styles.totalValueContainer}>
-          <Col style={{width: '65%'}}>
+        <Row style={[styles.totalValueContainer]}>
+          <Col style={{width: '70%'}}>
             <Text style={styles.totalValueLabel}>TOTAL VALUE</Text>
             <Text style={[styles.totalValueStyle, {fontSize: letterSize}]}>{formatter.usd(props.totalValue)}</Text>
           </Col>

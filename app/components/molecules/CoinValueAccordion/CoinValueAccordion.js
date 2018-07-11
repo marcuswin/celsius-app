@@ -4,7 +4,7 @@ import {Linking, Text} from 'react-native';
 
 import Accordion from "../Accordion/Accordion";
 import formatter from "../../../utils/formatter";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import {ELIGIBLE_COINS} from "../../../config/constants/common";
 
 class CoinValueAccordion extends Component {
@@ -56,12 +56,16 @@ class CoinValueAccordion extends Component {
 
   render() {
     const { estimatedCoinValue } = this.props;
+    const letterSize = Math.round(estimatedCoinValue).toString().length >= 10 ?
+      FONT_SCALE * 26 : FONT_SCALE * 36;
+
     return (
       <Accordion
+        name="coinValue"
         renderHeader={ (styles) =>
           <Text style={styles}>
-            <Text style={[styles, { opacity: 0.5 }]}>$</Text>
-            {formatter.usd(estimatedCoinValue, {symbol: ''})}
+            <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedCoinValue, {symbol: ''})}</Text>
+
           </Text>
         }
         renderContent={ this.renderCoinValueText }

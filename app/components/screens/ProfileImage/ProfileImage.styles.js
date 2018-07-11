@@ -7,7 +7,7 @@ const smallImageSize = SCREEN_WIDTH / 4 - 8;
 
 const ProfileImageStyle = StyleSheet.create({
   text: {
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 'auto',
     marginRight: 'auto',
     fontFamily: 'agile-light',
@@ -40,9 +40,9 @@ const ProfileImageStyle = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: smallImageSize - 20,
-    height: smallImageSize - 20,
-    borderRadius: (smallImageSize - 20) / 2,
+    width: smallImageSize,
+    height: smallImageSize,
+    borderRadius: (smallImageSize) / 2,
   },
   gif: {
     width: smallImageSize,

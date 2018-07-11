@@ -25,6 +25,7 @@ function getBottomNavDimensions() {
 }
 
 const initialState = {
+  keyboardHeight: 0,
   message: undefined,
   internetConnected: true,
   dimensions: {
@@ -43,12 +44,17 @@ const initialState = {
     photo: undefined,
     mask: undefined,
   },
+  scrollTo: undefined,
+  scrollPosition: 0,
   formData: {},
   portfolioFormData: [],
+  formInputLayouts: {},
+  scrollLayouts: {},
 };
 
 export default (state = initialState, action) => {
   let newState;
+  let layout;
 
   switch (action.type) {
     case ACTIONS.SHOW_MESSAGE:
@@ -155,7 +161,7 @@ export default (state = initialState, action) => {
         ...state,
         formData: action.formData,
       }
-      
+
     case ACTIONS.CLEAR_FORM:
       return {
         ...state,
@@ -163,10 +169,55 @@ export default (state = initialState, action) => {
       }
 
     case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
-    return {
-      ...state,
-      portfolioFormData: action.data
-    }
+      return {
+        ...state,
+        portfolioFormData: action.data
+      }
+
+    case ACTIONS.SET_KEYBOARD_HEIGHT:
+      return {
+        ...state,
+        keyboardHeight: action.keyboardHeight
+      }
+
+    case ACTIONS.SET_INPUT_LAYOUT:
+      return {
+        ...state,
+        formInputLayouts: {
+          ...state.formInputLayouts,
+          [action.field]: action.layout,
+        }
+      }
+
+    case ACTIONS.CLEAR_INPUT_LAYOUTS:
+      return {
+        ...state,
+        formInputLayouts: {},
+      }
+
+    case ACTIONS.SCROLL_TO:
+      return {
+        ...state,
+        scrollTo: action.scrollTo,
+        scrollPosition: action.scrollTo || state.scrollPosition,
+      }
+
+    case ACTIONS.SET_SCROLL_POSITION:
+      return {
+        ...state,
+        scrollPosition: action.scrollPosition,
+      }
+
+    case ACTIONS.SET_SCROLL_ELEMENT_LAYOUT:
+      layout = action.layout;
+      layout.y += state.scrollPosition;
+      return {
+        ...state,
+        scrollLayouts: {
+          ...state.scrollLayouts,
+          [action.element]: layout,
+        }
+      }
 
     default:
       return state;

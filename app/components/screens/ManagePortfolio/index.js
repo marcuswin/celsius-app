@@ -39,18 +39,21 @@ class ManagePorfolio extends Component {
   }
 
   render() {
-    const {navigateBack} = this.props;
     const userHasPortfolio = this.getUserHasPortfolio();
     const animatedHeading = {
       text: userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`,
-      subheading: userHasPortfolio ? "Manage your portfolio" : null
+      subheading: userHasPortfolio ? "Manage your tracker" : null
     };
 
-    return (
+    const mainHeader = {
+      backButton: false,
+      rightLink: { screen: 'Portfolio', text: 'Done'},
+    }
 
+    return (
         <SimpleLayout
           animatedHeading={animatedHeading}
-          mainHeader={{ backButton: false, onCancel: userHasPortfolio ? navigateBack : null }}
+          mainHeader={mainHeader}
         >
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
@@ -60,11 +63,11 @@ class ManagePorfolio extends Component {
             }
             { userHasPortfolio ? (
               <Text style={PortfolioStyle.description}>
-                Add, remove or change amount for the existing coins in your portfolio.
+                Add, remove or change amount for the existing coins in your tracker.
               </Text>
             ) : (
               <View>
-                <Text style={PortfolioStyle.description}>
+                <Text style={PortfolioStyle.description2}>
                   Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.
                 </Text>
                 <Text style={PortfolioStyle.description}>

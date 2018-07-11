@@ -26,6 +26,7 @@ class MainHeader extends Component {
     onPressBackButton: PropTypes.func,
     backgroundColor: PropTypes.string,
     onCancel: PropTypes.func,
+    homeButton: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -57,12 +58,13 @@ class MainHeader extends Component {
 
     if (backButton) {
       return (
-        <Button style={{width: 80}} title='Back' transparent onPress={this.onPressBackButton}>
-          <Image
-            source={require('../../../../assets/images/icons/Back.png')}
-            style={{height: 20, width: 20, resizeMode: 'contain'}}/>
+        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
+          <Icon
+            name='IconChevronLeft'
+            height='20' width='20' fill="rgba(255,255,255,0.5)" viewBox="0 0 22 19"
+          />
           <Text style={HeaderStyle.backButtonText} uppercase={false}>Back</Text>
-        </Button>
+        </TouchableOpacity>
       );
     }
 
@@ -78,7 +80,7 @@ class MainHeader extends Component {
 
     if (rightLink) {
       return (
-        <Button transparent onPress={() => navigateTo(rightLink.screen)}>
+        <Button transparent onPress={() => navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
@@ -92,17 +94,21 @@ class MainHeader extends Component {
       );
     }
 
-    return (
-      <TouchableOpacity onPress={() => {
-        if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
-          navigateTo('Home', true);
-        }
-      }}>
-        <Image
-          source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-          style={HeaderStyle.logo}/>
-      </TouchableOpacity>
-    );
+    if (this.props.homeButton) {
+      return (
+        <TouchableOpacity onPress={() => {
+          if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
+            navigateTo('Home', true);
+          }
+        }}>
+          <Image
+            source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
+            style={HeaderStyle.logo}/>
+        </TouchableOpacity>
+      );
+    }
+
+    return null;
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, List, Body, ListItem, Content } from 'native-base';
+import { View, List, Body, ListItem } from 'native-base';
 import { bindActionCreators } from "redux";
 import get from 'lodash/get';
 
@@ -32,7 +32,7 @@ class PortfolioScreen extends Component {
   render() {
     const { navigateTo, portfolio, supportedCurrencies } = this.props;
     const animatedHeading = {
-      text: 'Portfolio',
+      text: 'Tracker',
       subheading: "Track your coins",
     };
 
@@ -47,7 +47,7 @@ class PortfolioScreen extends Component {
 
     return (
       <SimpleLayout animatedHeading={animatedHeading} mainHeader={mainHeader} contentSidePadding={0}>
-        <Content bounces={false} style={{marginTop: -10}}>
+        <View>
           {totalValue !== 0 &&
             <TotalCoinsHeader totalValue={totalValue} >
               <PricingChangeIndicator
@@ -80,7 +80,7 @@ class PortfolioScreen extends Component {
               </CelButton>
             </View>
           </View>
-        </Content>
+        </View>
       </SimpleLayout>
     );
   }

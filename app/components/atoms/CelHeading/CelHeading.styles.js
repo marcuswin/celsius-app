@@ -3,8 +3,8 @@ import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const CelHeadingStyle = StyleSheet.create({
   container: {
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: 36,
+    paddingRight: 36,
     paddingBottom: 20,
     paddingTop: 10,
     justifyContent: 'center',

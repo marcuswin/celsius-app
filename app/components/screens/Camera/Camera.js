@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
-import { Content } from 'native-base';
+import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
 import { Camera, Permissions } from 'expo';
@@ -33,6 +33,7 @@ class CameraScreen extends Component {
     cameraType: PropTypes.oneOf(['front', 'back']),
     photo: PropTypes.string,
     mask: PropTypes.oneOf(['circle', 'document']),
+    onSave: PropTypes.func,
   }
 
   static defaultProps = {
@@ -95,13 +96,18 @@ class CameraScreen extends Component {
   };
 
   savePhoto = () => {
-    const { navigateBack, updateFormField, cameraField, photo } = this.props;
-    updateFormField(cameraField, photo);
-    navigateBack();
+    const { navigateBack, updateFormField, cameraField, photo, navigation } = this.props;
 
+    const onSave = navigation.getParam('onSave');
 
-
+    if (onSave) {
+      onSave(photo);
+    } else {
+      updateFormField(cameraField, photo);
+      navigateBack();
+    }
   }
+
   // rendering methods
   renderMask() {
     const { mask, photo } = this.props;
@@ -178,7 +184,14 @@ class CameraScreen extends Component {
       <BasicLayout>
         <MainHeader
           backgroundColor="transparent"
-          backButton
+          left={(
+            <Button style={{width: 80}} title='Back' transparent onPress={retakePhoto}>
+              <Image
+                source={require('../../../../assets/images/icons/Back.png')}
+                style={{height: 20, width: 20, resizeMode: 'contain'}}/>
+              <Text style={CameraStyle.backBtn} uppercase={false}>Back</Text>
+            </Button>
+          )}
           right={(
             <TouchableOpacity
               onPress={flipCamera}>

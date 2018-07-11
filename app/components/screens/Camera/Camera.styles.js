@@ -74,6 +74,14 @@ const CameraStyle = StyleSheet.create({
     height,
     zIndex: -5,
   },
+  backBtn: {
+    color: 'white',
+    paddingLeft: 5,
+    opacity: 0.8,
+    marginTop: 3,
+    fontSize: FONT_SCALE * 24,
+    fontFamily: 'agile-medium',
+  },
 });
 
 export default CameraStyle;

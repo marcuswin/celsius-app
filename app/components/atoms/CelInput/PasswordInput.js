@@ -79,7 +79,7 @@ class PasswordInput extends Component {
             name={ visible ? 'EyeHide' : 'EyeShow' }
             height="30"
             width="30"
-            viewBox="0 0 35 24"
+            viewBox="0 0 35 20"
             fill={ theme === 'white' ? 'black' : 'white' }
             stroke={ theme === 'white' ? 'black' : 'white' }
           />

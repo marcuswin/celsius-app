@@ -1,6 +1,8 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 
+// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
+
 export {
   showMessage,
   clearMessage,
@@ -15,6 +17,12 @@ export {
   clearForm,
   updateFormField,
   updatePortfolioFormData,
+  setKeyboardHeight,
+  setInputLayout,
+  clearInputLayouts,
+  scrollTo,
+  setScrollElementLayout,
+  setScrollPosition,
 }
 
 let msgTimeout;
@@ -84,7 +92,7 @@ function activateCamera(cameraProps) {
       type: ACTIONS.ACTIVATE_CAMERA,
       ...cameraProps,
     });
-    dispatch(navActions.navigateTo('Camera'));
+    dispatch(navActions.navigateTo('Camera', { onSave: cameraProps.onSave }));
   }
 }
 
@@ -115,3 +123,86 @@ function updatePortfolioFormData(data) {
     data,
   };
 }
+
+function setKeyboardHeight(keyboardHeight) {
+  return {
+    type: ACTIONS.SET_KEYBOARD_HEIGHT,
+    keyboardHeight,
+  };
+}
+
+function setInputLayout(field, layout) {
+  return {
+    type: ACTIONS.SET_INPUT_LAYOUT,
+    field,
+    layout,
+  };
+}
+
+function clearInputLayouts() {
+  return {
+    type: ACTIONS.CLEAR_INPUT_LAYOUTS,
+  };
+}
+
+function scrollTo(scrollOptions = {}) {
+  const { field, accordion } = scrollOptions;
+
+  return (dispatch, getState) => {
+
+    const { screenHeight } = getState().ui.dimensions;
+    const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
+
+    if (!field && !accordion) {
+      return scrollToY ? dispatch({ type: ACTIONS.SCROLL_TO }) : null;
+    }
+
+    let newY;
+
+    // scroll to input field
+    const fieldLayout = field ? getState().ui.formInputLayouts[field] : undefined;
+    if (field && fieldLayout) {
+      if (keyboardHeight) {
+        newY = fieldLayout.y - (screenHeight - keyboardHeight - 40);
+        newY = newY < 0 ? 0 : newY;
+        dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+      } else {
+        // wait for keyboard to open
+        const keyboardInterval = setInterval(() => {
+          const kHeight = getState().ui.keyboardHeight;
+          if (kHeight) {
+            newY = fieldLayout.y - (screenHeight - kHeight - 40);
+            newY = newY < 0 ? 0 : newY;
+
+            clearInterval(keyboardInterval);
+            dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+          }
+        }, 50)
+      }
+    }
+
+    // scroll accordion into view
+    const accordionLayout = accordion ? getState().ui.scrollLayouts[`${accordion}Accordion`] : undefined;
+    if (accordion && accordionLayout) {
+      newY = accordionLayout.y - 0.3 * screenHeight;
+      newY = newY < 0 ? 0 : newY;
+      dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
+    }
+  }
+}
+
+function setScrollElementLayout(element, layout) {
+  return {
+    type: ACTIONS.SET_SCROLL_ELEMENT_LAYOUT,
+    element,
+    layout,
+  };
+}
+
+function setScrollPosition(scrollPosition) {
+  return {
+    type: ACTIONS.SET_SCROLL_POSITION,
+    scrollPosition,
+  };
+}
+

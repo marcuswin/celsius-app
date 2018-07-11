@@ -13,7 +13,8 @@ const CelButtonStyle = StyleSheet.create({
   },
   baseTitle: {
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
+    margin: 'auto'
   },
 
   blueButton: {
@@ -33,14 +34,14 @@ const CelButtonStyle = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: 'white',
   },
-  whiteBtnTitle: { color: 'transparent' },
+  whiteBtnTitle: { color: 'transparent', margin: 'auto' },
 
   miniButton: { borderRadius: 20, height: 40, paddingLeft: 10, paddingRight: 10, },
-  miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
+  miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', margin: 'auto' },
   smallButton: { borderRadius: 25, height: 50 },
-  smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', },
+  smallBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', margin: 'auto' },
   mediumButton: { borderRadius: 30, height: 60 },
-  mediumBtnTitle: { fontSize: FONT_SCALE * 20, marginLeft: 10, fontFamily: 'agile-medium', },
+  mediumBtnTitle: { fontSize: FONT_SCALE * 20, fontFamily: 'agile-medium', margin: 'auto' },
 
   inverseButton: {
     backgroundColor: 'transparent',
@@ -53,6 +54,7 @@ const CelButtonStyle = StyleSheet.create({
   transparentBtnTitle: {
     color: 'white',
     opacity: 0.7,
+    margin: 'auto'
   },
 
   disabledButton: {

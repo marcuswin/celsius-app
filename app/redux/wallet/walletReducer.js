@@ -62,7 +62,15 @@ export default function walletReducer(state = initialState(), action) {
         return {
           ...state,
           total: action.wallet.meta,
-          currencies: action.wallet.data,
+          currencies: action.wallet.data.map(c => {
+            const currency = c;
+            currency.amountRaw = currency.amount;
+
+            // floor crypto balances to 5 decimals, otherwise they get rounded wrong
+            currency.amount = Math.floor(currency.amountRaw * 100000) / 100000;
+
+            return currency;
+          }),
         }
 
       case ACTIONS.STORE_PIN:

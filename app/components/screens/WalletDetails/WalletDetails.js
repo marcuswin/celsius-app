@@ -24,6 +24,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
     transactions: state.wallet.transactions,
+    walletCurrencies: state.wallet.currencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     currencyRatesShort: state.generalData.currencyRatesShort,
     supportedCurrencies: state.generalData.supportedCurrencies,
@@ -68,9 +69,10 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { navigateTo, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
+    const { walletCurrencies, navigateTo, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
     const transactions = this.getTransactions();
+    const walletData = (walletCurrencies != null) && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
 
     return (
       <BasicLayout bottomNavigation>
@@ -102,7 +104,8 @@ class WalletDetails extends Component {
               navigateTo={navigateTo}
               currencyRatesShort={currencyRatesShort}
               />
-            <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton>
+
+            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
           </View>
         </Content>
       </BasicLayout>
