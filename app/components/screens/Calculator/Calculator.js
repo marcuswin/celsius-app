@@ -47,8 +47,7 @@ class Calculator extends Component {
     const newPortfolioFormData = newProps.portfolioFormData;
     const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
 
-
-    if (lastItem.amount === '') {
+    if (lastItem && lastItem.amount === '') {
       this.setState({
         newCoinAdded: true,
       })
