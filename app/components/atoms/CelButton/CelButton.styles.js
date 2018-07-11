@@ -10,6 +10,8 @@ const CelButtonStyle = StyleSheet.create({
     alignItems: 'center',
     flexDirection:'row',
     opacity: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   baseTitle: {
     textAlign: 'center',
