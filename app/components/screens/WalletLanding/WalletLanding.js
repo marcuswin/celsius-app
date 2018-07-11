@@ -113,7 +113,7 @@ class WalletLanding extends Component {
               />
             }
           </TotalCoinsHeader>
-          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) && estimatedLoan && estimatedLoan.max_loan_amount &&
+          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) && !!estimatedLoan && !!estimatedLoan.max_loan_amount &&
             <View style={[contentPadding, { marginBottom: -15 }]}>
               <WalletInfoBubble
                 title="Did you know?"
