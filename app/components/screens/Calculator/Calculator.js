@@ -47,8 +47,7 @@ class Calculator extends Component {
     const newPortfolioFormData = newProps.portfolioFormData;
     const lastItem = newPortfolioFormData[newPortfolioFormData.length - 1];
 
-
-    if (lastItem.amount === '') {
+    if (lastItem && lastItem.amount === '') {
       this.setState({
         newCoinAdded: true,
       })
@@ -97,6 +96,11 @@ class Calculator extends Component {
   removeItem = item => {
     const filtered = this.props.portfolioFormData.filter((el) => el.currency.short !== item.currency.short);
     this.props.updatePortfolioFormData(filtered);
+
+    const data = filtered.map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
+    this.props.updatePortfolio(data);
+
+    console.log({ filtered, data })
   };
 
   renderRemoveButton = item => [
