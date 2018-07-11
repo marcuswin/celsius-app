@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import {connect} from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
 import {bindActionCreators} from "redux";
 import { lookup } from "country-data";
 
 import * as actions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
-import SelectModal from "../../organisms/SelectModal/SelectModal";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 
@@ -91,11 +91,18 @@ class CelSelect extends Component {
       }
     }
     this.setState({ visible: false });
-  }
-  // rendering methods
-  render() {
-    const { theme, labelText, type } = this.props;
-    const { visible, items, value } = this.state;
+  };
+
+  handlePickerSelect = (value) => {
+    const { updateFormField, field } = this.props;
+    if (value) {
+      updateFormField(field, value);
+    }
+  };
+
+  renderSelect() {
+    const { theme, labelText } = this.props;
+    const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
@@ -104,34 +111,42 @@ class CelSelect extends Component {
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     return (
+      <TouchableOpacity
+        onPress={ () => this.setState({ visible: !visible })}
+        style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
+        <Text style={ labelStyles }>{ label }</Text>
+        <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
+          { value && (value.label || value.name) }
+        </Text>
+
+        <View style={ globalStyles.inputIconRight }>
+          <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
+        </View>
+      </TouchableOpacity>
+    );
+  }
+  // rendering methods
+  render() {
+    const { type } = this.props;
+    const { visible, items, value } = this.state;
+
+    return (
       <View>
-        <TouchableOpacity
-          onPress={ () => this.setState({ visible: !visible })}
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}
-        >
-          <Text style={ labelStyles }>{ label }</Text>
-          <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
-            { value && (value.label || value.name) }
-          </Text>
-
-          <View style={ globalStyles.inputIconRight }>
-            <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
-          </View>
-        </TouchableOpacity>
-
-        { type === 'country' ? (
-          <SelectCountryModal
-            visible={ visible }
-            onClose={ this.selectValue }
-          />
-        ) : (
-          <SelectModal
-            visible={visible}
+        { type !== 'country' ?
+          <RNPickerSelect
             items={items}
-            onClose={ this.selectValue }
-            modalTitle={ labelText }
-          />
-        )}
+            onValueChange={this.handlePickerSelect}
+            value={value ? value.value : null}>
+            {this.renderSelect()}
+          </RNPickerSelect> :
+          this.renderSelect()
+        }
+        { type === 'country' &&
+        <SelectCountryModal
+          visible={ visible }
+          onClose={ this.selectValue }
+        />
+        }
       </View>
     );
   }
