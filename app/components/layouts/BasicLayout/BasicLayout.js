@@ -46,7 +46,7 @@ class BasicLayout extends Component {
     }
 
     return (
-      <Container style={{ marginBottom }}>
+      <Container style={{ marginBottom, flex: 1 }}>
         { this.props.children }
       </Container>
     )
