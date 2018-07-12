@@ -31,7 +31,7 @@ class BasicLayout extends Component {
     const {screen} = this.state;
 
     if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
-      displayBottomNavigation(!(bottomNavigation === false));
+      displayBottomNavigation(!!bottomNavigation);
     }
   }
 
