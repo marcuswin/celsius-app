@@ -7,7 +7,6 @@ import {bindActionCreators} from "redux";
 import {STYLES} from "../../../config/constants/style";
 import Message from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
-import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
 
 import * as actions from "../../../redux/actions";
 import SimpleLayoutStyle from "./SimpleLayout.styles";
@@ -41,7 +40,20 @@ class SimpleLayout extends Component {
     }
   }
 
+  componentDidMount() {
+    const {bottomNavigation, displayBottomNavigation} = this.props;
+
+    displayBottomNavigation(!(bottomNavigation === false));
+  }
+
   componentWillReceiveProps({ scrollToY, activeScreen }) {
+    const {bottomNavigation, displayBottomNavigation} = this.props;
+    const {screen} = this.state;
+
+    if (screen === activeScreen) {
+      displayBottomNavigation(!(bottomNavigation === false));
+    }
+
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
     }
@@ -52,7 +64,15 @@ class SimpleLayout extends Component {
   }
 
   render() {
-    const { bottomNavigation, mainHeader, animatedHeading, background, contentSidePadding, bottomNavigationDimensions, keyboardHeight } = this.props;
+    const {
+      bottomNavigation,
+      mainHeader,
+      animatedHeading,
+      background,
+      contentSidePadding,
+      bottomNavigationDimensions,
+      keyboardHeight
+    } = this.props;
 
     const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
     const animatedHeadingProps = { ...defaultAnimatedHeading, ...animatedHeading };
@@ -73,7 +93,7 @@ class SimpleLayout extends Component {
     contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
 
     return (
-      <Container>
+      <Container style={{flex: 1,}}>
         <MainHeader { ...mainHeaderProps } />
         <CelHeading { ...animatedHeadingProps } />
 
@@ -89,8 +109,6 @@ class SimpleLayout extends Component {
         >
           { this.props.children }
         </ScrollView>
-
-        {bottomNavigation !== false ? <BottomNavigation { ...bottomNavigation } /> : null}
       </Container>
     )
   }

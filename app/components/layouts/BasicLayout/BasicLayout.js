@@ -4,9 +4,6 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as actions from "../../../redux/actions";
 
-import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
-
-
 @connect(
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
@@ -27,7 +24,6 @@ class BasicLayout extends Component {
     return (
       <Container style={{ marginBottom }}>
         { this.props.children }
-        { bottomNavigation ? <BottomNavigation /> : null }
       </Container>
     )
   }
