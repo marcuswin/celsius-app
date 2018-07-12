@@ -7,6 +7,7 @@ export default {
 
   // navigation actions
   NAVIGATE: 'Navigation/NAVIGATE',
+  DISPLAY_BOTTOM_NAVIGATION: 'DISPLAY_BOTTOM_NAVIGATION',
 
   // general data actions
   GET_SUPPORTED_CURRENCIES_SUCCESS: 'GET_SUPPORTED_CURRENCIES_SUCCESS',
