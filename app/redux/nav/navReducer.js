@@ -14,6 +14,7 @@ export default (state = initialState, action) => {
     case ACTIONS.DISPLAY_BOTTOM_NAVIGATION:
       return {
         ...state,
+        ...newState,
         displayBottomNavigation: action.value,
       };
     case ACTIONS.LOGOUT_USER:
