@@ -4,20 +4,21 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 
-
 import * as actions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import AddFundsStyle from "./AddFunds.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
-import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
+import CelSelect from "../../molecules/CelSelect/CelSelect";
+import cryptoUtil from "../../../utils/crypto-util";
 
 @connect(
   state => ({
     formData: state.ui.formData,
     btcAddress: state.wallet.addresses.btcAddress,
     ethAddress: state.wallet.addresses.ethAddress,
+    activeScreen: state.nav.routes[state.nav.index].routeName
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -26,66 +27,78 @@ class AddFunds extends Component {
     super(props);
 
     this.state = {
-      // initial state
-      radioItems: [
-        { label: 'BTC', value: 'btc' },
-        { label: 'ETH', value: 'eth' },
-      ],
+      pickerItems: [
+        { label: "Celsius (CEL)", value: "cel" },
+        { label: "Bitcoin (BTC)", value: "btc" },
+        { label: "Ethereum (ETH)", value: "eth" }
+      ]
     };
-
-    const currency = props.navigation.getParam('currency');
-    if (!currency) {
-      props.initForm({
-        currency: 'eth',
-      })
-    }
-    const { formData, navigation, getCoinAddress } = this.props;
-
-    this.getAddress(formData, navigation, getCoinAddress);
   }
 
   // lifecycle methods
+  componentDidMount() {
+    const { navigation, initForm } = this.props;
+    const currency = navigation.getParam("currency");
+
+    initForm({ currency: currency || "cel" });
+  }
+
   componentWillReceiveProps(nextProps) {
-    const { formData, navigation, getCoinAddress } = nextProps;
+    const { activeScreen, formData } = this.props;
 
-    this.getAddress(formData, navigation, getCoinAddress);
-  }
-
-  getAddress = (formData, navigation, getCoinAddress) => {
-    const { btcAddress, ethAddress } = this.props;
-    if (!btcAddress && (formData.currency === 'btc' || navigation.getParam('currency') === 'btc')) {
-      getCoinAddress('btc');
+    if (nextProps.formData.currency && nextProps.formData.currency !== formData.currency) {
+      this.getAddress(nextProps.formData.currency);
     }
 
-    if (!ethAddress && (formData.currency === 'eth' || navigation.getParam('currency') === 'eth')) {
-      getCoinAddress('eth');
+    if ((activeScreen !== nextProps.activeScreen && nextProps.activeScreen === "AddFunds")) {
+      this.componentDidMount();
     }
   }
 
-  copyAddress = (address) => {
-    const { showMessage } = this.props;
-    showMessage('success', 'Address copied to clipboard!');
-    Clipboard.setString(address);
-  }
+  getAddress = (currency) => {
+    const { btcAddress, ethAddress, getCoinAddress } = this.props;
+
+    if (!btcAddress && currency === "btc") {
+      getCoinAddress("btc");
+    }
+
+    if (!ethAddress && cryptoUtil.isERC20(currency)) {
+      getCoinAddress("eth");
+    }
+  };
 
   // event hanlders
   // rendering methods
+  setAddress = (currency) => {
+    const { btcAddress, ethAddress } = this.props;
+
+    if (currency === "btc") return btcAddress;
+    if (cryptoUtil.isERC20(currency)) return ethAddress;
+  };
+
+  copyAddress = (address) => {
+    const { showMessage } = this.props;
+    showMessage("success", "Address copied to clipboard!");
+    Clipboard.setString(address);
+  };
+
   render() {
-    const { radioItems } = this.state;
+    const { pickerItems } = this.state;
     const { formData, navigation, navigateBack } = this.props;
 
-    const currency = navigation.getParam('currency');
+    const navCurrency = navigation.getParam("currency");
     let address;
     let headingText;
-    if (currency) {
-      headingText = `Add more ${currency.toUpperCase()}`;
-      address = this.props[`${currency.toLowerCase()}Address`];
+    if (navCurrency) {
+      headingText = `Add more ${navCurrency.toUpperCase()}`;
+      address = this.setAddress(navCurrency.toLowerCase());
     } else {
-      address = this.props[`${formData.currency}Address`];
-      headingText = 'Add funds';
+      address = this.setAddress(formData.currency);
+      headingText = "Add funds";
     }
 
-    const copyCurrency = currency ? currency.toUpperCase() : 'BTC and ETH';
+    const copyCurrency = navCurrency ? navCurrency.toUpperCase() : "BTC and ETH";
+
     return (
       <SimpleLayout
         mainHeader={{ onCancel: navigateBack, backButton: false }}
@@ -94,41 +107,40 @@ class AddFunds extends Component {
         bottomNavigation={false}
       >
 
-        {currency ? (
+        {navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
-            Use the wallet address below to transfer {currency.toUpperCase()} to your unique Celsius wallet address.
+            Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
+            address.
           </Text>
         ) : (
-            <Text style={AddFundsStyle.textOne}>
-              Transfer your coins from another wallet by selecting the coin you want to transfer.
+          <Text style={AddFundsStyle.textOne}>
+            Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-          )}
+        )}
 
-        {!currency ? (
-          <View style={AddFundsStyle.radioWrapper}>
-            <RadioButtons field='currency' items={radioItems} value={formData.currency} />
-          </View>
-        ) : null}
+        {!navCurrency && (
+          <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency} margin="25 50 15 50"/>
+        )}
 
         <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
 
-              { Platform.OS === 'ios' ? (
-                <View style={AddFundsStyle.wrapperLogo}>
-                  <View style={AddFundsStyle.celsiusLogo}>
-                   <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF' />
-                  </View>
-                </View>
-                ) : null}
+          {Platform.OS === "ios" ? (
+            <View style={AddFundsStyle.wrapperLogo}>
+              <View style={AddFundsStyle.celsiusLogo}>
+                <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF'/>
+              </View>
+            </View>
+          ) : null}
 
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
-              { address &&
-                <QRCode
-                  value={address}
-                  size={120}
-                  bgColor='black'
-                  fgColor='white'
-                />
+              {address &&
+              <QRCode
+                value={address}
+                size={120}
+                bgColor='black'
+                fgColor='white'
+              />
               }
             </View>
           </View>
@@ -141,7 +153,7 @@ class AddFunds extends Component {
 
           <View style={AddFundsStyle.boxButtonsWrapper}>
             <TouchableOpacity
-              onPress={() => Share.share({ message: address, title: 'Wallet address' })}
+              onPress={() => Share.share({ message: address, title: "Wallet address" })}
               style={[AddFundsStyle.buttons, {
                 borderBottomLeftRadius: 8,
                 borderRightWidth: 1,
@@ -152,12 +164,12 @@ class AddFunds extends Component {
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  { Platform.OS === 'ios' ? (<Icon
+                  {Platform.OS === "ios" ? (<Icon
                     style={{ marginTop: 17 }}
                     name='ShareIcon'
                     width='20' height='20'
                     fill='rgba(255, 255, 255, 0.5)'
-                  />) : null }
+                  />) : null}
                   Share
                 </Text>
               </View>
@@ -166,19 +178,19 @@ class AddFunds extends Component {
             <TouchableOpacity
               onPress={() => this.copyAddress(address)}
               style={[AddFundsStyle.buttons, {
-                borderBottomRightRadius: 8,
+                borderBottomRightRadius: 8
               }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  {Platform.OS === 'ios' ? (<Icon
+                  {Platform.OS === "ios" ? (<Icon
                     style={{ marginTop: 17 }}
                     name='CopyIcon'
                     width='20' height='20'
                     fill='rgba(255, 255, 255, 0.5)'
-                  />) : null }
+                  />) : null}
                   Copy
                 </Text>
               </View>
@@ -186,21 +198,21 @@ class AddFunds extends Component {
           </View>
         </View>
         <Text style={[AddFundsStyle.textTwo, { marginTop: 20, marginBottom: 25 }]}>
-          Please keep in mind that you'll only be able to withdraw  to the original wallet you sent us { copyCurrency } from but anyone can send { copyCurrency } to the address above.
+          Please keep in mind that you'll only be able to withdraw to the original wallet you sent
+          us {copyCurrency} from but anyone can send {copyCurrency} to the address above.
         </Text>
 
-        <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: 8, padding: 16 }}>
+        <View style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: 8, padding: 16 }}>
           <Text style={AddFundsStyle.textTwo}>
             For your security, if you would like to withdraw more than
             <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $20,000 </Text>
-            worth of { copyCurrency } you will be required to contact us at
+            worth of {copyCurrency} you will be required to contact us at
             <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> app@celsius.network </Text>
             so that we can verify your identity prior to transferring your funds.
           </Text>
         </View>
 
         <CelButton
-          inverse
           white
           onPress={() => navigateBack()}
           margin='30 50 30 50'

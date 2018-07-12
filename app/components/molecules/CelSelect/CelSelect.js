@@ -11,6 +11,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
+import stylesUtil from "../../../utils/styles-util";
 
 @connect(
   () => ({}),
@@ -19,7 +20,7 @@ import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountry
 class CelSelect extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
-    type: PropTypes.oneOf(['gender', 'document', 'title', 'country']),
+    type: PropTypes.oneOf(['gender', 'document', 'title', 'country', 'native']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
@@ -28,14 +29,16 @@ class CelSelect extends Component {
     ]),
     field: PropTypes.string,
     labelText: PropTypes.string,
+    margin: PropTypes.string,
   }
   static defaultProps = {
-    type: '',
+    type: 'native',
     value: '',
     field: '',
     items: [],
     labelText: '',
     theme: 'blue',
+    margin: '0 0 15 0',
   }
 
   constructor(props) {
@@ -101,7 +104,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText } = this.props;
+    const { theme, labelText, margin } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -109,11 +112,12 @@ class CelSelect extends Component {
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    const margins = stylesUtil.getMargins(margin);
 
     return (
       <TouchableOpacity
         onPress={ () => this.setState({ visible: !visible })}
-        style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
+        style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground, margins]}>
         <Text style={ labelStyles }>{ label }</Text>
         <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
           { value && (value.label || value.name) }
