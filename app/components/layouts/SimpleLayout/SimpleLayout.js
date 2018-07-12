@@ -50,16 +50,13 @@ class SimpleLayout extends Component {
     const {bottomNavigation, displayBottomNavigation} = this.props;
     const {screen} = this.state;
 
-    if (screen === activeScreen) {
-      displayBottomNavigation(!(bottomNavigation === false));
-    }
-
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
     }
 
-    if (activeScreen === this.state.screen && activeScreen !== this.props.activeScreen) {
+    if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
       this.scrollView.scrollTo({ y: 0, animated: false });
+      displayBottomNavigation(!(bottomNavigation === false));
     }
   }
 
