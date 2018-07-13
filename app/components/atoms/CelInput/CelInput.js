@@ -8,6 +8,7 @@ import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
 import SixDigitInput from "./SixDigitInput";
 import * as actions from "../../../redux/actions";
+import RealPinInput from "./RealPinInput";
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -15,6 +16,7 @@ const INPUT_TYPES = {
   PHONE: 'PHONE',
   PASSWORD: 'PASSWORD',
   SIX_DIGIT: 'SIX_DIGIT',
+  PIN: 'PIN',
 }
 
 const inputTypes = [
@@ -24,6 +26,7 @@ const inputTypes = [
   INPUT_TYPES.PASSWORD, INPUT_TYPES.PASSWORD.toLowerCase(),
   // SIX_DIXIT, six-digit
   INPUT_TYPES.SIX_DIGIT, INPUT_TYPES.SIX_DIGIT.toLowerCase().replace('_', '-'),
+  INPUT_TYPES.PIN, INPUT_TYPES.PIN.toLowerCase(),
 ]
 
 @connect(
@@ -46,6 +49,7 @@ class CelInput extends Component {
     onPress: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    digits: PropTypes.number,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
     returnKeyType: PropTypes.string,
@@ -65,6 +69,7 @@ class CelInput extends Component {
     placeholder: '',
     editable: true,
     maxLength: 100,
+    digits: 4,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
     autoCapitalize: AUTO_CAPITALIZE.NONE,
@@ -136,6 +141,17 @@ class CelInput extends Component {
       case 'six-digit':
         return (
           <SixDigitInput
+            { ...this.props }
+            onChange={this.onChangeText}
+            onFocus={this.onFocus}
+            onLayout={this.handleLayout}
+          />
+        )
+
+      case INPUT_TYPES.PIN:
+      case INPUT_TYPES.PIN.toLowerCase():
+        return (
+          <RealPinInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
