@@ -8,6 +8,7 @@ import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
 import SixDigitInput from "./SixDigitInput";
 import * as actions from "../../../redux/actions";
+import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
 import RealPinInput from "./RealPinInput";
 
 const INPUT_TYPES = {
@@ -38,6 +39,7 @@ class CelInput extends Component {
     type: PropTypes.oneOf(inputTypes),
     theme: PropTypes.oneOf(['blue', 'white']),
     field: PropTypes.string.isRequired,
+    error: PropTypes.string,
 
     // inherited from CelInput
     labelText: PropTypes.string,
@@ -106,17 +108,18 @@ class CelInput extends Component {
 
   // rendering methods
   render() {
+    const { theme } = this.props;
 
     this.state = {
       active: false,
     };
 
-
+    let inputField;
 
     switch (this.props.type) {
       case INPUT_TYPES.NUMBER:
       case INPUT_TYPES.NUMBER.toLowerCase():
-        return (
+        inputField = (
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
@@ -124,33 +127,36 @@ class CelInput extends Component {
             keyboardType={KEYBOARD_TYPE.NUMERIC}
             onLayout={this.handleLayout}
           />
-        )
+        );
+        break;
 
       case INPUT_TYPES.PASSWORD:
       case INPUT_TYPES.PASSWORD.toLowerCase():
-        return (
+        inputField = (
           <PasswordInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
           />
-        )
+        );
+        break;
 
       case INPUT_TYPES.SIX_DIGIT:
-      case 'six-digit':
-        return (
+      case "six-digit":
+        inputField = (
           <SixDigitInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
           />
-        )
+        );
+        break;
 
       case INPUT_TYPES.PIN:
       case INPUT_TYPES.PIN.toLowerCase():
-        return (
+        inputField = (
           <RealPinInput
             { ...this.props }
             onChange={this.onChangeText}
@@ -158,11 +164,12 @@ class CelInput extends Component {
             onLayout={this.handleLayout}
           />
         )
+        break;
 
       case INPUT_TYPES.TEXT:
       case INPUT_TYPES.TEXT.toLowerCase():
       default:
-        return (
+        inputField = (
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
@@ -171,6 +178,14 @@ class CelInput extends Component {
           />
         )
     }
+
+    return (
+      <InputErrorWrapper
+        theme={theme}
+      >
+        {inputField}
+      </InputErrorWrapper>
+    );
   }
 }
 

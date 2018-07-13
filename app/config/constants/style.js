@@ -66,14 +66,30 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     justifyContent: 'center',
     alignItems: 'center'
   },
-
+  blueErrorText: {
+    fontSize: FONT_SCALE * 16,
+    position: 'absolute',
+    top: 65,
+    color: '#fff'
+  },
+  whiteErrorText: {
+    fontSize: FONT_SCALE * 16,
+    position: 'absolute',
+    top: 65,
+    color: '#EF461A'
+  },
   // celsius form styles
+  errorInputWrapper: {
+      borderColor: '#EF461A',
+      borderWidth: 1,
+      borderRadius: 8
+  },
   inputWrapper: {
     paddingLeft: 18,
     paddingRight: 18,
     paddingBottom: 8,
     paddingTop: 23,
-    marginBottom: 20,
+    // marginBottom: 20,
     borderRadius: 8,
     height: 60,
   },

@@ -12,6 +12,7 @@ import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/c
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import stylesUtil from "../../../utils/styles-util";
+import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
   () => ({}),
@@ -83,6 +84,7 @@ class CelSelect extends Component {
       this.setState({ value: item });
     }
   }
+
   // event hanlders
   selectValue = (item) => {
     const { updateFormField, field, type } = this.props;
@@ -115,20 +117,25 @@ class CelSelect extends Component {
     const margins = stylesUtil.getMargins(margin);
 
     return (
-      <TouchableOpacity
-        onPress={ () => this.setState({ visible: !visible })}
-        style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground, margins]}>
-        <Text style={ labelStyles }>{ label }</Text>
-        <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
-          { value && (value.label || value.name) }
-        </Text>
+      <InputErrorWrapper
+        theme={theme}
+      >
+        <TouchableOpacity
+          onPress={() => this.setState({ visible: !visible })}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground, margins]}>
+          <Text style={labelStyles}>{label}</Text>
+          <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
+            {value && (value.label || value.name)}
+          </Text>
 
-        <View style={ globalStyles.inputIconRight }>
-          <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
-        </View>
-      </TouchableOpacity>
+          <View style={ globalStyles.inputIconRight }>
+            <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
+          </View>
+        </TouchableOpacity>
+      </InputErrorWrapper>
     );
   }
+
   // rendering methods
   render() {
     const { type } = this.props;
