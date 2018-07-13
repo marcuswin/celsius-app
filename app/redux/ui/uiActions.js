@@ -150,7 +150,9 @@ function scrollTo(scrollOptions = {}) {
 
   return (dispatch, getState) => {
 
-    const { screenHeight } = getState().ui.dimensions;
+    const { screenHeight, bottomNavigation } = getState().ui.dimensions;
+    const { displayBottomNavigation } = getState().nav;
+    const scrollBottomOffset = displayBottomNavigation ? 40 : bottomNavigation.height + 10;
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {
@@ -163,7 +165,7 @@ function scrollTo(scrollOptions = {}) {
     const fieldLayout = field ? getState().ui.formInputLayouts[field] : undefined;
     if (field && fieldLayout) {
       if (keyboardHeight) {
-        newY = fieldLayout.y - (screenHeight - keyboardHeight - 40);
+        newY = fieldLayout.y - (screenHeight - keyboardHeight - scrollBottomOffset);
         newY = newY < 0 ? 0 : newY;
         dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
       } else {
@@ -171,7 +173,7 @@ function scrollTo(scrollOptions = {}) {
         const keyboardInterval = setInterval(() => {
           const kHeight = getState().ui.keyboardHeight;
           if (kHeight) {
-            newY = fieldLayout.y - (screenHeight - kHeight - 40);
+            newY = fieldLayout.y - (screenHeight - kHeight - scrollBottomOffset);
             newY = newY < 0 ? 0 : newY;
 
             clearInterval(keyboardInterval);
