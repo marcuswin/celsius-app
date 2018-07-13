@@ -25,7 +25,8 @@ class WelcomeScreen extends Component {
   }
 
   componentWillMount() {
-    const {navigateTo, user} = this.props;
+    const {navigateTo, user, displayBottomNavigation} = this.props;
+    displayBottomNavigation(false);
     if (user) { 
       navigateTo('Home')
     } else { 

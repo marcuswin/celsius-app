@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
-import { BackHandler } from 'react-native';
+import { BackHandler, View } from "react-native";
 import { connect } from 'react-redux';
 import moment from "moment";
 import {Constants} from "expo";
@@ -8,6 +8,7 @@ import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } fro
 
 import Navigator from '../../config/Navigator';
 import * as actions from "../../redux/actions";
+import BottomNavigation from "../organisms/BottomNavigation/BottomNavigation";
 
 const {ENV, PUBLISH_TIME} = Constants.manifest.extra;
 
@@ -47,8 +48,14 @@ class MainLayout extends Component {
       state: this.props.nav,
       addListener: createReduxBoundAddListener("root"),
     };
+    const {displayBottomNavigation} = this.props.nav;
 
-    return <Navigator navigation={navigation} />;
+    return (
+      <View style={{flex: 1,}}>
+        <Navigator navigation={navigation} />
+        {displayBottomNavigation && <BottomNavigation/>}
+      </View>
+    );
   }
 }
 
