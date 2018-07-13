@@ -47,9 +47,10 @@ class VerifyPhoneNumber extends Component {
   }
 
   resendCode = async () => {
-    const { sendVerificationSMS, showMessage } = this.props;
+    const { sendVerificationSMS, showMessage, updateFormField } = this.props;
     await sendVerificationSMS();
     showMessage('info', 'SMS sent!')
+    updateFormField('verificationCode', '')
   }
   // event hanlders
   // rendering methods
