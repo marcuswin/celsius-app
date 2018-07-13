@@ -12,7 +12,7 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import CelForm from "../../atoms/CelForm/CelForm";
-import PinInput from '../../atoms/PinInput/PinInput';
+import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   state => ({
@@ -34,10 +34,10 @@ class VerifyPhoneNumber extends Component {
   }
 
   // lifecycle methods
-  onChange = code => {
+  onChange = (field, code) => {
     const { formData, updateFormField } = this.props;
     formData.verification_code = code;
-    updateFormField('verificationCode', formData.verification_code)
+    updateFormField(field, formData.verification_code)
   }
 
 
@@ -55,7 +55,9 @@ class VerifyPhoneNumber extends Component {
   // rendering methods
 
   render() {
-    const { callsInProgress } = this.props;
+    const { callsInProgress, formData } = this.props;
+
+    const pinValue = formData.verificationCode;
 
     const isLoading = apiUtil.areCallsInProgress([API.VERIFY_SMS], callsInProgress);
 
@@ -74,19 +76,11 @@ class VerifyPhoneNumber extends Component {
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
           <CelForm disabled={isLoading}>
-            <PinInput
-              ref={ref => {
-                this.pinInput = ref;
-              }}
-              codeLength={6}
-              space={0}
-              size={50}
-              inputPosition='center'
-              cellBorderWidth={0}
-              codeInputStyle={{width: 40, height: 45,fontSize: 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
-              containerStyle={{ height: 60, backgroundColor: '#5C6FB1', marginBottom: 20, borderRadius: 10, paddingTop: 5}}
-              onChangeCode={(code) => this.onChange(code)}
-            />
+            <CelInput type="pin"
+                      field="verificationCode"
+                      value={pinValue}
+                      digits={6}
+                      onChange={this.onChange}/>
           </CelForm>
           <CelButton
             margin='20 0 0 0'
