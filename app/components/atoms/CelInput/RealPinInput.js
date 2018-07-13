@@ -3,7 +3,7 @@ import { Dimensions, Text, TextInput, View } from "react-native";
 
 import RealPinInputStyle from "./RealPinInput.styles";
 import { KEYBOARD_TYPE } from "../../../config/constants/common";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 const PinTextFontSizeMap = {
   4: FONT_SCALE * 40,
@@ -38,7 +38,9 @@ class RealPinInput extends Component {
   };
 
   render() {
-    const { digits, value, onFocus } = this.props;
+    const { digits, value, onFocus, theme } = this.props;
+    const { active } = this.state;
+    const isActiveInput = value || active;
 
     const width = Dimensions.get("window").width - 72;
 
@@ -55,7 +57,8 @@ class RealPinInput extends Component {
     };
 
     const pinTextStyle = {
-      fontSize: FONT_SCALE * 16
+      fontSize: FONT_SCALE * 16,
+      ...globalStyles[`${theme}InputTextColor`],
     };
 
     if (PinTextFontSizeMap[digits]) {
@@ -67,12 +70,14 @@ class RealPinInput extends Component {
       value: value[index]
     }));
 
+    const digitBackgroundStyle = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+
     return (
       <View style={RealPinInputStyle.container}>
         <View style={RealPinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
             <View key={digit.index}
-                  style={[RealPinInputStyle.digitWrapper, digitWrapperStyle]}>
+                  style={[RealPinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
               <Text style={[RealPinInputStyle.digitText, pinTextStyle]}>
                 {digit.value ? digit.value : ""}
               </Text>
@@ -93,8 +98,8 @@ class RealPinInput extends Component {
                        onFocus();
                      }
                      this.setState({ active: true });
-                   }
-                   }/>
+                   }}
+                   onBlur={() => this.setState({ active: false })}/>
       </View>
     );
   }
