@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Image, Dimensions } from "react-native";
+import { Text, Image } from "react-native";
 import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -9,14 +9,15 @@ import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import CatImage from '../../../../assets/images/avatar-cat-2.png'
 import * as actions from "../../../redux/actions";
-import PinInput from '../../atoms/PinInput/PinInput';
 import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 
 import CelButton from "../../atoms/CelButton/CelButton";
+import CelInput from "../../atoms/CelInput/CelInput";
+import CelForm from "../../atoms/CelForm/CelForm";
 
 
 const types = {
@@ -41,7 +42,6 @@ const types = {
 };
 
 const codeLength = 4;
-
 
 @connect(
   state => ({
@@ -80,14 +80,14 @@ class Passcode extends Component {
   }
 
   onChange = (field, text) => {
-    if (field === 'repeatPasscode' && text.length === codeLength) {
+    if (field === 'pin_confirm' && text.length === codeLength) {
       if (this.props.formData.pin !== text) {
         this.props.updateFormField('error', true)
         return this.props.showMessage('error', 'Pin code should be the same');
       }
     }
     this.props.updateFormField('error', false)
-    return this.props.updateFormField(types[this.props.type].field, text);
+    return this.props.updateFormField(field, text);
   }
 
   render() {
@@ -95,9 +95,8 @@ class Passcode extends Component {
 
     const field = types[this.props.type].field;
     const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
+    const pinValue = this.props.formData[field];
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
-    const pinSize = FONT_SCALE * 60;
-    const pinSpacing = Math.min((Dimensions.get('window').width - 4*pinSize - 72) / 3, 19);
     const mainHeader = { backButton: activeScreen !== 'Home' };
 
     return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
@@ -105,19 +104,13 @@ class Passcode extends Component {
         <Text style={PasscodeStyle.title}>{types[this.props.type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[this.props.type].text}</Text>
-        <PinInput
-          ref={ref => {
-            this.pinInput = ref;
-          }}
-          codeLength={codeLength}
-          space={pinSpacing}
-          size={pinSize}
-          inputPosition='center'
-          cellBorderWidth={0}
-          codeInputStyle={{fontSize: FONT_SCALE * 45, fontFamily: 'agile-medium', borderRadius: 10, backgroundColor: '#5C6FB1'}}
-          containerStyle={{marginBottom: 30}}
-          onChangeCode={(code) => this.onChange(this.props.type, code)}
-        />
+        <CelForm>
+          <CelInput type="pin"
+                    value={pinValue}
+                    digits={codeLength}
+                    onChange={this.onChange}
+                    field={types[this.props.type].field}/>
+        </CelForm>
         <CelButton
           white
           loading={isLoading}
