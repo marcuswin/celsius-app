@@ -31,10 +31,9 @@ import TransactionConfirmationScreen from "../components/screens/TransactionConf
 import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode";
 import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
 import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
-
 import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
-
 import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
+import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -165,6 +164,10 @@ const Navigator = createStackNavigator({
   WalletTotals: {
     screen: WalletTotalsScreen,
     title: 'WalletTotals',
+  },
+  SecureTransactions: {
+    screen: SecureTransactionsScreen,
+    title: 'SecureTransactions',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
