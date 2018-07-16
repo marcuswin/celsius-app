@@ -92,9 +92,9 @@ class SimpleLayout extends Component {
     return (
       <Container style={{flex: 1,}}>
         <MainHeader { ...mainHeaderProps } />
+        <Message/>
         <CelHeading { ...animatedHeadingProps } />
 
-        <Message inverted={background}/>
 
         <ScrollView
           style={[SimpleLayoutStyle.content, contentStyles]}

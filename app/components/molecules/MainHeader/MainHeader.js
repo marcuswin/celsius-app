@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Header, Left, Right, Text } from 'native-base';
+import { Button, Header, Left, Right, Text, View } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import {STYLES} from "../../../config/constants/style";
 @connect(
   state => ({
     nav: state.nav,
+    message: state.ui.message,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => bindActionCreators(actions, dispatch),
@@ -112,21 +113,24 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {right, left, backButton, backgroundColor} = this.props;
+    const {right, left, backButton, backgroundColor, message} = this.props;
 
     const styles = {
       backgroundColor,
     }
 
     return (
-      <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
-        <Left>
-          {this.renderLeft(left, backButton)}
-        </Left>
-        <Right>
-          {this.renderRight(right)}
-        </Right>
-      </Header>
+      <View>
+      { message ? null :
+          <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
+          <Left>
+            {this.renderLeft(left, backButton)}
+          </Left>
+          <Right>
+            {this.renderRight(right)}
+          </Right>
+        </Header> }
+      </View>
     );
   }
 }

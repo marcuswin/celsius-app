@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
 import { BackHandler, View } from "react-native";
 import { connect } from 'react-redux';
-import moment from "moment";
 import {Constants} from "expo";
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
@@ -24,12 +23,11 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 class MainLayout extends Component {
 
   componentDidMount() {
-    const { showMessage } = this.props;
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
 
     // flash date of deploy message
     if (ENV !== 'PRODUCTION' && PUBLISH_TIME) {
-      showMessage('warning', `Dev Info: App published on ${ moment(PUBLISH_TIME).format('ddd, DD-MMM HH:mm Z') }GMT`)
+      // showMessage('warning', `Dev Info: App published on ${ moment(PUBLISH_TIME).format('ddd, DD-MMM HH:mm Z') }GMT`)
     }
   }
 

@@ -18,7 +18,7 @@ class InputErrorWrapper extends Component {
     const { error, theme } = this.props;
 
     return (
-      <View style= {[ error ? globalStyles.errorInputWrapper : null, {marginBottom: 30}]}>
+      <View style= {[ error ? [globalStyles.errorInputWrapper, {marginBottom: 30}] : null, {marginBottom: 20}]}>
         { this.props.children }
         { error ? <Text style={globalStyles[`${theme}ErrorText`]}>error</Text> : null}
       </View>
