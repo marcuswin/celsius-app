@@ -37,14 +37,10 @@ class TransactionConfirmation extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { btcOriginatingAddress, ethOriginatingAddress, formData, getCoinOriginatingAddress } = this.props;
+    const { formData, getCoinOriginatingAddress } = this.props;
 
-    if (!btcOriginatingAddress && formData.currency === 'btc') {
-      getCoinOriginatingAddress('btc');
-    }
-
-    if (!ethOriginatingAddress && formData.currency === 'eth') {
-      getCoinOriginatingAddress('eth');
+    if (!this.props[`${formData.currency}OriginatingAddress`]) {
+      getCoinOriginatingAddress(formData.currency);
     }
   }
 

@@ -315,6 +315,7 @@ function loginUserGoogleSuccess(data) {
   }
 }
 
+// TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER));

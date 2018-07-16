@@ -18,14 +18,17 @@ const decimalForCurrency = {
   usd: 2,
   btc: 5,
   eth: 5,
+  cel: 5,
 };
 
 @connect(
   state => ({
     ethBalance: state.wallet.currencies.filter(c => c.currency.short === 'ETH')[0].amount,
     btcBalance: state.wallet.currencies.filter(c => c.currency.short === 'BTC')[0].amount,
+    celBalance: state.wallet.currencies.filter(c => c.currency.short === 'CEL')[0].amount,
     ethUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'ETH')[0].market.quotes.USD.price,
     btcUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'BTC')[0].market.quotes.USD.price,
+    celUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'CEL')[0].market.quotes.USD.price,
     formData: state.ui.formData,
   }),
   dispatch => bindActionCreators(actions, dispatch)
