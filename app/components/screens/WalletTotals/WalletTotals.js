@@ -118,6 +118,13 @@ class WalletTotals extends Component {
       currency: 'BITCOIN',
       percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.price_change_usd['1d'],
     });
+    const celsiusTotal = this.renderBalance({
+      balance: walletBalances.filter(b => b.currency.short === 'CEL')[0].amount,
+      balanceUsd: walletBalances.filter(b => b.currency.short === 'CEL')[0].total,
+      short: 'CEL',
+      currency: 'CELSIUS',
+      percentage: supportedCurrencies.filter(sc => sc.short === 'CEL')[0].market.price_change_usd['1d'],
+    });
 
     return (
       <BasicLayout
@@ -135,6 +142,7 @@ class WalletTotals extends Component {
 
           { bitcoinTotal }
           { ethereumTotal }
+          { celsiusTotal }
 
           <View style={WalletTotalsStyle.history}>
             <TransactionHistory

@@ -84,14 +84,16 @@ class WalletDetails extends Component {
         />
         <Message />
         <Content>
-          <WalletDetailsGraphContainer
-            currency={currency}
-            supportedCurrencies={supportedCurrencies}
-          />
+          { currency !== 'cel' && (
+            <WalletDetailsGraphContainer
+              currency={currency}
+              supportedCurrencies={supportedCurrencies}
+            />
+          )}
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
             {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
-                title={`Deposit your ${currency}`}
+                title={`Deposit your ${currency.toUpperCase()}`}
                 onPressClose={this.onCloseInfo}
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>

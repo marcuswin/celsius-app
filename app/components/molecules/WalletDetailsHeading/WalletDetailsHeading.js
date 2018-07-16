@@ -39,7 +39,7 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
-    const screens = ['eth', 'btc', 'total'];
+    const screens = ['cel', 'eth', 'btc', 'total'];
 
     const { currency } = this.props;
     const screenIndex = screens.findIndex(el => el === currency);
@@ -83,7 +83,7 @@ class WalletDetailsHeading extends Component {
       <View style={{position: "relative", width: '100%'}}>
         <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(totalText)}</Text>
         <View style={WalletDetailsHeadingStyle.totalCoinAmountWrapper}>
-          {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{ opacity: .6 }} />}
+          {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" style={{ opacity: .6 }} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
             {type === 'single-coin'
               ? formatter.crypto(walletDataCurrency.amount, currency.toUpperCase(), { precision: 5 })
