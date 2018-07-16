@@ -47,6 +47,7 @@ const initialState = {
   scrollTo: undefined,
   scrollPosition: 0,
   formData: {},
+  formErrors: {},
   portfolioFormData: [],
   formInputLayouts: {},
   scrollLayouts: {},
@@ -166,6 +167,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         formData: {},
+      }
+
+    case ACTIONS.SET_FORM_ERRORS:
+      return {
+        ...state,
+        formErrors: {
+          ...state.formErrors,
+          ...action.formErrors,
+        },
+      }
+
+    case ACTIONS.CLEAR_FORM_ERRORS:
+      return {
+        ...state,
+        formErrors: {},
       }
 
     case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:

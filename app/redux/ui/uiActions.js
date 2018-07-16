@@ -15,6 +15,7 @@ export {
   // submitForm,
   initForm,
   clearForm,
+  setFormErrors,
   updateFormField,
   updatePortfolioFormData,
   setKeyboardHeight,
@@ -114,6 +115,19 @@ function initForm(formData) {
 function clearForm() {
   return {
     type: ACTIONS.CLEAR_FORM,
+  }
+}
+
+function setFormErrors(formErrors) {
+  return dispatch => {
+    const timeout = setTimeout(() => {
+      dispatch({ type: ACTIONS.CLEAR_FORM_ERRORS })
+      clearTimeout(timeout)
+    }, 2000)
+    dispatch({
+      type: ACTIONS.SET_FORM_ERRORS,
+      formErrors,
+    })
   }
 }
 
