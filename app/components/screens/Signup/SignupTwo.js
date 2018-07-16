@@ -32,6 +32,7 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     lastCompletedCall: state.api.lastCompletedCall,
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -113,7 +114,7 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formData, user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse, screenIndex } = this.props;
+    const { formErrors, formData, user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse, screenIndex } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
@@ -128,12 +129,14 @@ class SignupTwo extends Component {
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
+              error={formErrors.first_name}
               field="firstName"
               labelText="First Name"
               value={firstName}
               autoCapitalize={'sentences'}
             />
             <CelInput
+              error={formErrors.last_name}
               field="lastName"
               labelText="Last Name"
               value={lastName}
@@ -141,6 +144,7 @@ class SignupTwo extends Component {
             />
             {user && (user.facebook_id || user.google_id || user.twitter_id) ?
               <CelInput
+                error={formErrors.email}
                 field="email"
                 labelText="Email"
                 value={email}

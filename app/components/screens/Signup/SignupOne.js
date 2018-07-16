@@ -21,6 +21,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -39,7 +40,7 @@ class SignupOne extends Component {
 
   // rendering methods
   render() {
-    const {callsInProgress, formData } = this.props;
+    const {callsInProgress, formData, formErrors } = this.props;
     const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
@@ -60,16 +61,22 @@ class SignupOne extends Component {
 
           <View style={SignupOneStyle.formWrapper}>
             <CelForm disabled={isLoading}>
-              <CelInput field="email"
-                        labelText="E-mail"
-                        keyboardType='email-address'
-                        returnKeyType="next"
-                        value={formData.email}/>
-              <CelInput field="password"
-                        type="password"
-                        labelText="Password"
-                        returnKeyType="done"
-                        value={formData.password} />
+              <CelInput
+                error={formErrors.email}
+                field="email"
+                labelText="E-mail"
+                keyboardType='email-address'
+                returnKeyType="next"
+                value={formData.email}
+              />
+              <CelInput
+                error={formErrors.password}
+                field="password"
+                type="password"
+                labelText="Password"
+                returnKeyType="done"
+                value={formData.password}
+              />
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton

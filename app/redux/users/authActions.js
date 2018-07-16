@@ -4,11 +4,12 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import {startApiCall, apiError} from '../api/apiActions';
 import {navigateTo} from '../nav/navActions';
-import {showMessage} from '../ui/uiActions';
+import {showMessage, setFormErrors} from '../ui/uiActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
 import { actions as mixpanelActions } from '../../services/mixpanel'
+import apiUtil from '../../utils/api-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -77,7 +78,11 @@ function loginBorrower({email, password}) {
 
       dispatch(navigateTo('Home', true))
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
       dispatch(apiError(API.LOGIN_BORROWER, err));
     }
   }
@@ -126,7 +131,11 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
       dispatch(apiError(API.REGISTER_USER, err));
     }
   }
@@ -324,7 +333,11 @@ function updateUser(user) {
 
       dispatch(updateUserSuccess(res.data));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
       dispatch(apiError(API.UPDATE_USER, err));
     }
   }

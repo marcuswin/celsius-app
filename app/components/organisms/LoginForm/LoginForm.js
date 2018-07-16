@@ -16,6 +16,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
   state => ({
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
   }),
   dispatch => bindActionCreators(actions, dispatch),
 )
@@ -34,15 +35,15 @@ class LoginForm extends Component {
   };
 
   render() {
-    const {callsInProgress, formData} = this.props;
+    const {callsInProgress, formData, formErrors} = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER, API.LOGIN_BORROWER], callsInProgress);
 
     return (
       <View style={LoginFormStyles.wrapper}>
         <CelForm disabled={isLoading}>
-          <CelInput field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
-          <CelInput field="password" type="password" labelText="Password" value={formData.password} />
+          <CelInput error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
+          <CelInput error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
         </CelForm>
 
         <CelButton
