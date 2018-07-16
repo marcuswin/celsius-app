@@ -68,9 +68,17 @@ class Calculator extends Component {
     this.updatePortfolio();
   }
 
-
   onChangeText = (amount, coin) => {
-    const formattedAmount = amount.replace(',', '.');
+    let formattedAmount = amount.replace(',', '.');
+
+    if (!isNaN(formattedAmount)) {
+      const splitAmount = formattedAmount.split('.');
+
+      if (splitAmount.length > 1){
+        const maxDecimals = this.getCoinMaximumDecimals(coin);
+        formattedAmount = [splitAmount[0], splitAmount[1].substr(0, maxDecimals)].join('.');
+      }
+    }
 
     const portfolioFormData =
       this.props.portfolioFormData.map(selectedCoin => ({
@@ -80,6 +88,17 @@ class Calculator extends Component {
     );
 
     this.props.updatePortfolioFormData(portfolioFormData);
+  };
+
+  getCoinMaximumDecimals = (coin) => {
+    switch (coin.currency.short) {
+      case 'BTC':
+        return 5;
+      case 'ETH':
+        return 4;
+      default:
+        return 3;
+    }
   };
 
   updatePortfolio = () => {
@@ -152,7 +171,7 @@ class Calculator extends Component {
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
                               onBlur={this.updatePortfolio}
-                              maxLength={7}
+                              maxLength={11}
                               value={`${item.amount}` || ''}
                               placeholder='0.00'
                               placeholderTextColor='#3D4853'
