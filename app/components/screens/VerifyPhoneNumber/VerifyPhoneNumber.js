@@ -80,7 +80,7 @@ class VerifyPhoneNumber extends Component {
             <CelInput type="pin"
                       field="verificationCode"
                       value={pinValue}
-                      digits={6}
+                      digits={4}
                       onChange={this.onChange}/>
           </CelForm>
           <CelButton
