@@ -108,7 +108,7 @@ class CelInput extends Component {
 
   // rendering methods
   render() {
-    const { theme } = this.props;
+    const { theme, error } = this.props;
 
     this.state = {
       active: false,
@@ -182,6 +182,7 @@ class CelInput extends Component {
     return (
       <InputErrorWrapper
         theme={theme}
+        error={error}
       >
         {inputField}
       </InputErrorWrapper>
