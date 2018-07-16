@@ -1,6 +1,6 @@
 import { StyleSheet} from "react-native";
 
-const RealPinInputStyle = StyleSheet.create({
+const PinInputStyle = StyleSheet.create({
   container: {
     marginBottom: 20,
   },
@@ -25,5 +25,5 @@ const RealPinInputStyle = StyleSheet.create({
   },
 });
 
-export default RealPinInputStyle;
+export default PinInputStyle;
 

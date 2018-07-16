@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dimensions, Text, TextInput, View } from "react-native";
 
-import RealPinInputStyle from "./RealPinInput.styles";
+import PinInputStyle from "./PinInput.styles";
 import { KEYBOARD_TYPE } from "../../../config/constants/common";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
@@ -12,7 +12,7 @@ const PinTextFontSizeMap = {
 };
 
 // Please don't hate me for the name, we can rename it when we remove PinInput. :)
-class RealPinInput extends Component {
+class PinInput extends Component {
   constructor(props) {
     super(props);
 
@@ -73,18 +73,18 @@ class RealPinInput extends Component {
     const digitBackgroundStyle = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     return (
-      <View style={RealPinInputStyle.container}>
-        <View style={RealPinInputStyle.digitsWrapper}>
+      <View style={PinInputStyle.container}>
+        <View style={PinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
             <View key={digit.index}
-                  style={[RealPinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
-              <Text style={[RealPinInputStyle.digitText, pinTextStyle]}>
+                  style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
+              <Text style={[PinInputStyle.digitText, pinTextStyle]}>
                 {digit.value ? digit.value : ""}
               </Text>
             </View>
           )}
         </View>
-        <TextInput style={[RealPinInputStyle.digitInput, pinInputStyle]}
+        <TextInput style={[PinInputStyle.digitInput, pinInputStyle]}
                    value={value}
                    maxLength={digits}
                    ref={ref => {
@@ -105,4 +105,4 @@ class RealPinInput extends Component {
   }
 }
 
-export default RealPinInput;
+export default PinInput;

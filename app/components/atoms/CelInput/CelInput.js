@@ -9,7 +9,7 @@ import PasswordInput from "./PasswordInput";
 import SixDigitInput from "./SixDigitInput";
 import * as actions from "../../../redux/actions";
 import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
-import RealPinInput from "./RealPinInput";
+import PinInput from "./PinInput";
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -157,7 +157,7 @@ class CelInput extends Component {
       case INPUT_TYPES.PIN:
       case INPUT_TYPES.PIN.toLowerCase():
         inputField = (
-          <RealPinInput
+          <PinInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
