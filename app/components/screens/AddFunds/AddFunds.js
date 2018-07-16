@@ -18,7 +18,8 @@ import cryptoUtil from "../../../utils/crypto-util";
     formData: state.ui.formData,
     btcAddress: state.wallet.addresses.btcAddress,
     ethAddress: state.wallet.addresses.ethAddress,
-    activeScreen: state.nav.routes[state.nav.index].routeName
+    activeScreen: state.nav.routes[state.nav.index].routeName,
+    routes: state.nav.routes,
   }),
   dispatch => bindActionCreators(actions, dispatch)
 )
@@ -76,6 +77,19 @@ class AddFunds extends Component {
     if (cryptoUtil.isERC20(currency)) return ethAddress;
   };
 
+  goBack = () => {
+    const { routes, navigateTo } = this.props;
+
+    const lastRoute = routes[routes.length - 2];
+    const beforeLastRoute = routes[routes.length - 3];
+
+    if (lastRoute.routeName === 'SecureTransactions') {
+      navigateTo(beforeLastRoute.routeName, beforeLastRoute.params);
+    } else {
+      navigateTo(lastRoute.routeName, lastRoute.params);
+    }
+  }
+
   copyAddress = (address) => {
     const { showMessage } = this.props;
     showMessage("success", "Address copied to clipboard!");
@@ -84,7 +98,7 @@ class AddFunds extends Component {
 
   render() {
     const { pickerItems } = this.state;
-    const { formData, navigation, navigateBack } = this.props;
+    const { formData, navigation, navigateTo } = this.props;
 
     const navCurrency = navigation.getParam("currency");
     let address;
@@ -97,11 +111,9 @@ class AddFunds extends Component {
       headingText = "Add funds";
     }
 
-    const copyCurrency = navCurrency ? navCurrency.toUpperCase() : "BTC and ETH";
-
     return (
       <SimpleLayout
-        mainHeader={{ onCancel: navigateBack, backButton: false }}
+        mainHeader={{ onCancel: this.goBack, backButton: false }}
         animatedHeading={{ text: headingText, textAlign: "center" }}
         background={STYLES.PRIMARY_BLUE}
         bottomNavigation={false}
@@ -197,25 +209,23 @@ class AddFunds extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        <Text style={[AddFundsStyle.textTwo, { marginTop: 20, marginBottom: 25 }]}>
-          Please keep in mind that you'll only be able to withdraw to the original wallet you sent
-          us {copyCurrency} from but anyone can send {copyCurrency} to the address above.
-        </Text>
 
-        <View style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", borderRadius: 8, padding: 16 }}>
-          <Text style={AddFundsStyle.textTwo}>
-            For your security, if you would like to withdraw more than
-            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> $20,000 </Text>
-            worth of {copyCurrency} you will be required to contact us at
-            <Text style={[AddFundsStyle.textTwo, globalStyles.boldText]}> app@celsius.network </Text>
-            so that we can verify your identity prior to transferring your funds.
-          </Text>
-        </View>
+        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn} onPress={() => navigateTo('SecureTransactions', { currency: navCurrency })}>
+          <Icon
+            name="Shield"
+            width={20}
+            height={25}
+            fill="white"
+            stroke="white"
+            style={{ opacity: 0.5 }}
+          />
+          <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
+        </TouchableOpacity>
 
         <CelButton
           white
-          onPress={() => navigateBack()}
-          margin='30 50 30 50'
+          onPress={this.goBack}
+          margin='0 50 30 50'
         >
           Done
         </CelButton>

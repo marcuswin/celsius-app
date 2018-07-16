@@ -119,6 +119,18 @@ const AddFundsStyle = StyleSheet.create({
     paddingLeft: 8,
     marginLeft: 12
   },
+  secureTransactionsBtn: {
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 20,
+    marginBottom: 25,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 8,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  }
 });
 
 export default AddFundsStyle;

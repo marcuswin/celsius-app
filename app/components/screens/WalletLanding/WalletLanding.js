@@ -64,9 +64,13 @@ class WalletLanding extends Component {
   onCloseInfo = () => this.props.updateUserAppSettings({ showWalletLandingInfoBox: false });
 
   clickCard = (short, amount) => {
-    const { navigateTo } = this.props
+    const { navigateTo, appSettings } = this.props;
     if (!amount) {
-      navigateTo('AddFunds', { currency: short.toLowerCase() });
+      if (appSettings.showSecureTransactionsScreen) {
+        navigateTo('SecureTransactions', { currency: short.toLowerCase() })
+      } else {
+        navigateTo('AddFunds', { currency: short.toLowerCase() })
+      }
     } else {
       navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
@@ -85,8 +89,17 @@ class WalletLanding extends Component {
     }
   }
 
+  goToAddFunds = () => {
+    const { appSettings, navigateTo } = this.props;
+    if (appSettings.showSecureTransactionsScreen) {
+      navigateTo('SecureTransactions')
+    } else {
+      navigateTo('AddFunds')
+    }
+  }
+
   render() {
-    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan } = this.props;
+    const { walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], this.props.callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
@@ -104,7 +117,7 @@ class WalletLanding extends Component {
         <Content onScroll={this.refreshWallet}>
           <TotalCoinsHeader totalValue={totalValue}>
             {totalValue === 0
-              ? <CelButton size="small" color="green" margin="0 0 0 0" onPress={() => navigateTo('AddFunds')} >
+              ? <CelButton size="small" color="green" margin="0 0 0 0" onPress={this.goToAddFunds} >
                 Add funds
                 </CelButton>
               : <PricingChangeIndicator

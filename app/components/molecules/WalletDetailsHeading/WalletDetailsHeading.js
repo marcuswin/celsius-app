@@ -19,6 +19,7 @@ import { FONT_SCALE } from "../../../config/constants/style";
   state => ({
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    appSettings: state.users.appSettings,
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
@@ -60,9 +61,18 @@ class WalletDetailsHeading extends Component {
 
   }
 
+  goToAddFunds = () => {
+    const { appSettings, navigateTo, currency } = this.props;
+    if (appSettings.showSecureTransactionsScreen) {
+      navigateTo('SecureTransactions', { currency: currency.toLowerCase() })
+    } else {
+      navigateTo('AddFunds', { currency: currency.toLowerCase() })
+    }
+  }
+
 
   render() {
-    const { currency, type, walletTotal, walletCurrencies, navigateTo } = this.props;
+    const { currency, type, walletTotal, walletCurrencies } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
@@ -89,7 +99,7 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton size="mini" white onPress={() => { navigateTo('AddFunds', { currency: currency.toLowerCase() }) }}>Add funds</CelButton>
+        <CelButton size="mini" white onPress={this.goToAddFunds}>Add funds</CelButton>
       </View>}
     </View>
   }
