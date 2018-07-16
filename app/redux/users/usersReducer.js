@@ -13,6 +13,7 @@ const initialState = {
   appSettings: {
     showWalletDetailsInfoBox: true,
     showWalletLandingInfoBox: true,
+    showSecureTransactionsScreen: true,
   }
 };
 

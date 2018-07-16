@@ -24,15 +24,20 @@ class SecureTransactions extends Component {
     this.state = {
       // initial state
     };
-    // binders
   }
 
   // lifecycle methods
+  componentDidMount() {
+    const { updateUserAppSettings } = this.props;
+    updateUserAppSettings({ showSecureTransactionsScreen: false });
+  }
   // event hanlders
   // rendering methods
   render() {
-    const {navigateTo} = this.props;
+    const {navigateTo, navigation} = this.props;
+    const currency = navigation.getParam('currency')
 
+    const currencyCopy = currency ? currency.toUpperCase() : 'coins'
     return (
 
       <SimpleLayout
@@ -51,12 +56,12 @@ class SecureTransactions extends Component {
                }}
         />
         <Text style={SecureTransactionsStyle.title}>Secure transactions</Text>
-        <Text style={SecureTransactionsStyle.explanation}>Please keep in mind that you’ll only be able to withdraw ETH to the original wallet you sent us ETH from, but anyone can send ETH to the address you initially set.</Text>
+        <Text style={SecureTransactionsStyle.explanation}>Please keep in mind that you’ll only be able to withdraw {currencyCopy} to the original wallet you sent us {currencyCopy} from, but anyone can send {currencyCopy} to the address you initially set.</Text>
         <View style={SecureTransactionsStyle.suggestionWrapper}>
-          <Text style={SecureTransactionsStyle.suggestion}>For your security, if you would like to withdraw more than <Text style={{fontFamily: 'agile-bold'}}>$20.000</Text> worth of ETH you will be required to contact us at <Text style={{fontFamily: 'agile-bold'}}>app@celsius.network</Text> so that we can verify your identity prior to transferring your funds.</Text>
+          <Text style={SecureTransactionsStyle.suggestion}>For your security, if you would like to withdraw more than <Text style={{fontFamily: 'agile-bold'}}>$20.000</Text> worth of {currencyCopy} you will be required to contact us at <Text style={{fontFamily: 'agile-bold'}}>app@celsius.network</Text> so that we can verify your identity prior to transferring your funds.</Text>
         </View>
           <CelButton
-            onPress={() => navigateTo('AddFunds')}
+            onPress={() => navigateTo('AddFunds', { currency })}
             white
           >
             Add Funds
