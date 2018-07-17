@@ -35,7 +35,7 @@ class SelectCountryModal extends Component {
   }
 
   componentWillMount = () => {
-    const countryList = countries.all.filter(c => c.status === 'assigned');
+    const countryList = this.getAllCountries(this.props.withPhones);
 
     countryList.sort((a, b) => {
       if (a.name === 'United States') return -1;
@@ -52,6 +52,22 @@ class SelectCountryModal extends Component {
       filteredCountries: countryList,
     })
   };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible) {
+      this.componentWillMount();
+    }
+  }
+
+  getAllCountries = (withPhones) => {
+    let allCountries;
+    if (withPhones) {
+      allCountries = countries.all.filter(c => c.status === 'assigned' && c.countryCallingCodes.length);
+    } else {
+      allCountries = countries.all.filter(c => c.status === 'assigned');
+    }
+    return allCountries;
+  }
 
   filterCountries = (text) => {
     const {allCountries} = this.state;

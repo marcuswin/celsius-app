@@ -73,10 +73,14 @@ class CelPhoneInput extends Component {
   }
 
   selectCountry(country) {
-    const countryAlpha2 = country != null ? country.alpha2.toLowerCase() : "US";
-    this.phone.selectCountry(countryAlpha2);
-    this.setState({ alpha2: countryAlpha2, showCountryModal: false });
-    this.changePhoneNumber(country.countryCallingCodes[0]);
+    if (country) {
+      const countryAlpha2 = country != null ? country.alpha2.toLowerCase() : "US";
+      this.phone.selectCountry(countryAlpha2);
+      this.setState({ alpha2: countryAlpha2, showCountryModal: false });
+      this.changePhoneNumber(country.countryCallingCodes[0]);
+    } else {
+      this.setState({ showCountryModal: false });
+    }
   }
 
   changePhoneNumber = (text) => {
@@ -112,6 +116,12 @@ class CelPhoneInput extends Component {
       onLayout: this.saveLayout
     };
 
+    const flagStyles = {
+      backgroundColor: 'rgba(255,255,255,0.3)',
+      borderWidth: 0,
+      borderRadius: 4,
+    };
+
     return (
       <InputErrorWrapper
         theme={theme}
@@ -130,6 +140,7 @@ class CelPhoneInput extends Component {
               onPressFlag={this.onPressFlag}
               onChangePhoneNumber={this.changePhoneNumber}
               disabled={disabled}
+              flagStyle={flagStyles}
             />
             <SelectCountryModal
               withPhones
