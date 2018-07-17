@@ -21,6 +21,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     portfolio: state.portfolio.portfolio,
     estimatedInterest: state.portfolio.estimatedInterest,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -58,9 +59,11 @@ class DepositCoins extends Component {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, actions } = this.props;
 
-    if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
+    if (!estimatedInterest || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader/>
+    </SimpleLayout>;
 
-    const portfolioData = get(portfolio, 'data', []);
+    const portfolioData = get(portfolio, "data", []);
 
     const letterSize = Math.round(estimatedInterest.lending_interest).toString().length >= 10 ?
       FONT_SCALE * 26 : FONT_SCALE * 36;
@@ -79,7 +82,8 @@ class DepositCoins extends Component {
           renderContent={(textStyles) => (
             <Text style={textStyles}>
               <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
-              we plan to allow Celsius members to start earning interest later this year, for now, see how much interest you might be able to get.
+              we plan to allow Celsius members to start earning interest later this year, for now, see how much
+              interest you might be able to get.
             </Text>
           )}
         />

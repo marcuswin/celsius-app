@@ -34,6 +34,7 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
+
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -148,7 +149,12 @@ class TransactionDetails extends Component {
   render() {
     const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
 
-    if (!supportedCurrencies || !transaction) return <Loader text="Checking Data"/>;
+    if (!supportedCurrencies || !transaction) return <BasicLayout
+      bottomNavigation
+    >
+      <MainHeader backButton/>
+    <Loader/>
+    </BasicLayout>;
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;

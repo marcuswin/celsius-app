@@ -10,9 +10,9 @@ import formatter from "../../../utils/formatter";
 import EstimatedLoanStyle from "./EstimatedLoan.styles";
 import Icon from "../../atoms/Icon/Icon";
 import Loader from "../../atoms/Loader/Loader";
-import Accordion from '../../molecules/Accordion/Accordion';
+import Accordion from "../../molecules/Accordion/Accordion";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Separator from "../../atoms/Separator/Separator";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
@@ -23,6 +23,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     portfolio: state.portfolio.portfolio,
     estimatedLoan: state.portfolio.estimatedLoan,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -108,8 +109,11 @@ class EstimatedLoan extends Component {
     const { animatedHeading } = this.state;
     const { estimatedLoan, portfolio, actions } = this.props;
 
-    if (!estimatedLoan || !portfolio) return <Loader text="Estimating Loan"/>;
-    const portfolioData = get(portfolio, 'data', []);
+    if (!estimatedLoan || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader/>
+    </SimpleLayout>;
+
+    const portfolioData = get(portfolio, "data", []);
 
 
     if (!estimatedLoan.estimated_coin_value) return (
