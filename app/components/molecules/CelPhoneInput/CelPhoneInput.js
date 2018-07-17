@@ -6,7 +6,7 @@ import PhoneInput from "react-native-phone-input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
@@ -17,7 +17,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
   state => ({
     formData: state.ui.formData
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class CelPhoneInput extends Component {
@@ -37,8 +37,6 @@ class CelPhoneInput extends Component {
   constructor(props) {
     super(props);
 
-    this.onPressFlag = this.onPressFlag.bind(this);
-    this.selectCountry = this.selectCountry.bind(this);
     this.state = {
       alpha2: "US",
       showCountryModal: false
@@ -66,13 +64,13 @@ class CelPhoneInput extends Component {
     }
   }
 
-  onPressFlag() {
+  onPressFlag = () => {
     if (this.props.editable) {
       this.setState({ showCountryModal: true });
     }
   }
 
-  selectCountry(country) {
+  selectCountry = (country) => {
     if (country) {
       const countryAlpha2 = country != null ? country.alpha2.toLowerCase() : "US";
       this.phone.selectCountry(countryAlpha2);
@@ -84,26 +82,27 @@ class CelPhoneInput extends Component {
   }
 
   changePhoneNumber = (text) => {
-    const { updateFormField, field } = this.props;
-    updateFormField(field, text.split(" ").join(""));
+    const { field, actions } = this.props;
+    actions.updateFormField(field, text.split(" ").join(""));
   };
 
   saveLayout = () => {
-    const { setInputLayout, field } = this.props;
+    const { field, actions } = this.props;
     this.phone.inputPhone.measureInWindow((x, y, width, height) => {
-      setInputLayout(field, { x, y, width, height });
+      actions.setInputLayout(field, { x, y, width, height });
     });
   };
 
   focusPhoneInput = () => {
-    this.props.scrollTo({ field: this.props.field });
+    const { actions, field } = this.props;
+    actions.scrollTo({ field });
     return false;
   };
 
   render() {
-    const { theme, value } = this.props;
+    const { theme, value, editable, labelText } = this.props;
     const { showCountryModal } = this.state;
-    const disabled = this.props.editable === false;
+    const disabled = editable === false;
 
     const labelStyles = [globalStyles.selectLabelActive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
@@ -129,7 +128,7 @@ class CelPhoneInput extends Component {
         <View
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground]}
         >
-          <Label style={labelStyles}>{this.props.labelText.toUpperCase() || "PHONE"}</Label>
+          <Label style={labelStyles}>{labelText.toUpperCase() || "PHONE"}</Label>
           <Item style={globalStyles.inputItem}>
             <PhoneInput
               ref={(ref) => {

@@ -68,7 +68,6 @@ class WalletDetailsHeading extends Component {
     }
   }
 
-
   render() {
     const { currency, type, walletTotal, walletCurrencies } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0)

@@ -4,7 +4,7 @@ import { Content } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import Message from "../../atoms/Message/Message";
@@ -29,29 +29,29 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     currencyRatesShort: state.generalData.currencyRatesShort,
     supportedCurrencies: state.generalData.supportedCurrencies,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletDetails extends Component {
   componentDidMount() {
-    const { getCoinTransactions, navigation, getWalletDetails } = this.props;
+    const { actions, navigation } = this.props;
     const currency = navigation.getParam('currency');
 
-    getWalletDetails();
-    getCoinTransactions(currency.toLowerCase());
+    actions.getWalletDetails();
+    actions.getCoinTransactions(currency.toLowerCase());
   }
 
   componentWillReceiveProps(nextProps) {
-    const { navigation, getCoinTransactions, getWalletDetails } = this.props;
+    const { navigation, actions } = this.props;
     const oldCurrency = navigation.getParam('currency');
     const newCurrency = nextProps.navigation.getParam('currency');
 
     if (nextProps.activeScreen === 'WalletDetails' && newCurrency !== oldCurrency) {
-      getCoinTransactions(newCurrency.toLowerCase());
-      getWalletDetails();
+      actions.getCoinTransactions(newCurrency.toLowerCase());
+      actions.getWalletDetails();
     }
   }
 
-  onCloseInfo = () => this.props.updateUserAppSettings({ showWalletDetailsInfoBox: false });
+  onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletDetailsInfoBox: false });
 
   getTransactions() {
     const { transactions, navigation } = this.props;
@@ -69,7 +69,7 @@ class WalletDetails extends Component {
   }
 
   render() {
-    const { walletCurrencies, navigateTo, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
+    const { walletCurrencies, actions, navigation, currencyRatesShort, supportedCurrencies, appSettings } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
     const transactions = this.getTransactions();
     const walletData = (walletCurrencies != null) && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
@@ -77,7 +77,7 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
-          onCancel={() => navigateTo('WalletLanding')}
+          onCancel={() => actions.navigateTo('WalletLanding')}
         />
         <WalletDetailsHeading
           currency={currency}
@@ -103,11 +103,11 @@ class WalletDetails extends Component {
             )}
             <TransactionsHistory
               transactions={transactions}
-              navigateTo={navigateTo}
+              navigateTo={actions.navigateTo}
               currencyRatesShort={currencyRatesShort}
               />
 
-            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {this.props.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
+            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {actions.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
           </View>
         </Content>
       </BasicLayout>

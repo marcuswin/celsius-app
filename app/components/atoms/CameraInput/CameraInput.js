@@ -4,14 +4,14 @@ import { TouchableOpacity, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CameraInput extends Component {
   static propTypes = {
@@ -32,8 +32,8 @@ class CameraInput extends Component {
   // lifecycle methods
   // event hanlders
   onPress = () => {
-    const { activateCamera, cameraType, cameraCopy, labelTextInactive, value, mask, field } = this.props;
-    activateCamera({
+    const { actions, cameraType, cameraCopy, labelTextInactive, value, mask, field } = this.props;
+    actions.activateCamera({
       cameraField: field,
       cameraType,
       cameraHeading: labelTextInactive,

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
 import { Camera, Permissions } from 'expo';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
 import CameraStyle from "./Camera.styles";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -23,7 +23,7 @@ import imageUtil from "../../../utils/image-util";
     photo: state.ui.camera.photo,
     mask: state.ui.camera.mask,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CameraScreen extends Component {
   static propTypes = {
@@ -75,7 +75,7 @@ class CameraScreen extends Component {
       return await this.getCameraPermissions;
     }
 
-    const { takeCameraPhoto, cameraType } = this.props;
+    const { actions, cameraType } = this.props;
     try {
       const quality = Camera.Constants.Type[cameraType] === Camera.Constants.Type.back ? 0.2 : 0.5;
       this.setState({ isLoading: true });
@@ -88,7 +88,7 @@ class CameraScreen extends Component {
 
       const base64String = photo.base64.replace(/\s/g, "");
 
-      takeCameraPhoto(base64String);
+      actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
     } catch(err) {
       console.log(err);
@@ -97,15 +97,15 @@ class CameraScreen extends Component {
   };
 
   savePhoto = () => {
-    const { navigateBack, updateFormField, cameraField, photo, navigation } = this.props;
+    const { actions, cameraField, photo, navigation } = this.props;
 
     const onSave = navigation.getParam('onSave');
 
     if (onSave) {
       onSave(photo);
     } else {
-      updateFormField(cameraField, photo);
-      navigateBack();
+      actions.updateFormField(cameraField, photo);
+      actions.navigateBack();
     }
   }
 
@@ -125,7 +125,7 @@ class CameraScreen extends Component {
     }
   }
   renderCameraScreen() {
-    const { cameraHeading, cameraType, flipCamera, cameraCopy } = this.props;
+    const { cameraHeading, cameraType, actions, cameraCopy } = this.props;
 
     const mask = this.renderMask();
 
@@ -142,7 +142,7 @@ class CameraScreen extends Component {
               backButton
               right={(
                 <TouchableOpacity
-                  onPress={flipCamera}>
+                  onPress={actions.flipCamera}>
                   <Image
                     source={require('../../../../assets/images/icons/camera-flip.png')}
                     style={CameraStyle.flipCameraImage}/>
@@ -177,7 +177,7 @@ class CameraScreen extends Component {
 
   renderConfirmScreen() {
     const { hasInitialPhoto } = this.state;
-    const { cameraHeading, photo, retakePhoto, navigateBack } = this.props;
+    const { cameraHeading, photo, actions } = this.props;
 
     const imageSource = imageUtil.getSource(photo);
     const mask = this.renderMask();
@@ -187,7 +187,7 @@ class CameraScreen extends Component {
         <MainHeader
           backgroundColor="transparent"
           left={(
-            <Button style={{width: 80}} title='Back' transparent onPress={hasInitialPhoto ? navigateBack : retakePhoto}>
+            <Button style={{width: 80}} title='Back' transparent onPress={hasInitialPhoto ? actions.navigateBack : actions.retakePhoto}>
               <Image
                 source={require('../../../../assets/images/icons/Back.png')}
                 style={{height: 20, width: 20, resizeMode: 'contain'}}/>
@@ -203,7 +203,7 @@ class CameraScreen extends Component {
 
             <View>
               <CelButton
-                onPress={retakePhoto}
+                onPress={actions.retakePhoto}
                 white
                 inverse
               >

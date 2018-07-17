@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES} from "../../../config/constants/style";
 import { CAMERA_COPY } from "../../../config/constants/common";
@@ -25,14 +25,14 @@ import API from "../../../config/constants/API";
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class VerifyProfile extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getKYCDocuments } = this.props;
+    const { actions } = this.props;
 
-    getKYCDocuments();
+    actions.getKYCDocuments();
     this.initForm();
   }
 
@@ -46,28 +46,28 @@ class VerifyProfile extends Component {
 
   // event hanlders
   validateForm = () => {
-    const { formData, showMessage } = this.props;
+    const { formData, actions } = this.props;
 
-    if (!formData.documentType) return showMessage('error', 'Document Type is required!');
-    if (!formData.front) return showMessage('error', 'Front side photo is required!');
-    if (!formData.back && formData.documentType !== 'passport') return showMessage('error', 'Back side photo is required!');
-    if (!formData.cellphone) return showMessage('error', 'Cell phone is required!');
+    if (!formData.documentType) return actions.showMessage('error', 'Document Type is required!');
+    if (!formData.front) return actions.showMessage('error', 'Front side photo is required!');
+    if (!formData.back && formData.documentType !== 'passport') return actions.showMessage('error', 'Back side photo is required!');
+    if (!formData.cellphone) return actions.showMessage('error', 'Cell phone is required!');
 
     return true;
   }
 
   submitForm = () => {
-    const { verifyKYCDocs } = this.props;
+    const { actions } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
-      verifyKYCDocs();
+      actions.verifyKYCDocs();
     }
   }
 
   initForm = () => {
-    const { initForm, user, kycDocuments } = this.props;
-    initForm({
+    const { actions, user, kycDocuments } = this.props;
+    actions.initForm({
       cellphone: user.cellphone,
       documentType: kycDocuments ? kycDocuments.type : undefined,
       front: kycDocuments ? kycDocuments.front : undefined,

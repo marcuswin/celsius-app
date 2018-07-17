@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import stylesUtil from '../../../utils/styles-util';
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 
 const styles = {
   // marginTop: 30,
@@ -20,7 +20,7 @@ const disabledStyles = {
     keyboardHeight: state.ui.keyboardHeight,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelForm extends Component {
   static propTypes = {
@@ -67,14 +67,14 @@ class CelForm extends Component {
   // event hanlders
 
   keyboardDidShow = (e) => {
-    const { setKeyboardHeight } = this.props;
-    setKeyboardHeight(e.endCoordinates.height);
+    const { actions } = this.props;
+    actions.setKeyboardHeight(e.endCoordinates.height);
     return false;
   }
 
   keyboardDidHide = () => {
-    const { setKeyboardHeight } = this.props;
-    setKeyboardHeight(0);
+    const { actions } = this.props;
+    actions.setKeyboardHeight(0);
     return false;
   }
 

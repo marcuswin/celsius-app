@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import CatImage from '../../../../assets/images/avatar-cat-2.png'
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -18,7 +18,6 @@ import { STYLES } from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
-
 
 const types = {
     createPasscode: {
@@ -51,72 +50,73 @@ const codeLength = 4;
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-
 class Passcode extends Component {
-
   static propTypes = {
     type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
   };
 
   onPressButton = () => {
-    if (this.props.type === 'repeatPasscode') {
-      return this.props.setPin(this.props.formData);
+    const { type, formData, currency, actions } = this.props;
+    if (type === 'repeatPasscode') {
+      return actions.setPin(formData);
     }
-    if (this.props.type === 'createPasscode') {
-      this.props.navigateTo('RepeatPasscode');
+    if (type === 'createPasscode') {
+      actions.navigateTo('RepeatPasscode');
     }
-    if (this.props.type === 'enterPasscode') {
-      const pin = this.props.formData
+    if (type === 'enterPasscode') {
+      // TODO(fj): move pin checking to action
+      const pin = formData
       const checkPin = meService.checkPin(pin)
       checkPin.then(() => {
-        this.props.storePin(pin.pin);
-        this.props.navigateTo('AmountInput', {currency: this.props.currency})
+        actions.storePin(pin.pin);
+        actions.navigateTo('AmountInput', {currency})
       }, (error) => {
-        this.props.showMessage('error', error.error);
+        actions.showMessage('error', error.error);
       })
     }
   }
 
   onChange = (field, text) => {
+    const { formData, actions } = this.props;
     if (field === 'pin_confirm' && text.length === codeLength) {
-      if (this.props.formData.pin !== text) {
-        this.props.updateFormField('error', true)
-        return this.props.showMessage('error', 'Pin code should be the same');
+      if (formData.pin !== text) {
+        actions.updateFormField('error', true)
+        return actions.showMessage('error', 'Pin code should be the same');
       }
     }
-    this.props.updateFormField('error', false)
-    return this.props.updateFormField(field, text);
+    actions.updateFormField('error', false)
+    return actions.updateFormField(field, text);
   }
 
   render() {
-    const { activeScreen } = this.props;
+    const { activeScreen, type, formData, callsInProgress } = this.props;
 
-    const field = types[this.props.type].field;
-    const disabled = (this.props.formData[field] == null || this.props.formData[field].length < codeLength) || this.props.formData.error;
-    const pinValue = this.props.formData[field];
-    const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], this.props.callsInProgress);
+    const field = types[type].field;
+    const disabled = (formData[field] == null || formData[field].length < codeLength) || formData.error;
+    const pinValue = formData[field];
+    const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
     const mainHeader = { backButton: activeScreen !== 'Home' };
 
     return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
-        <Text style={PasscodeStyle.title}>{types[this.props.type].title}</Text>
+        <Text style={PasscodeStyle.title}>{types[type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
-        <Text style={PasscodeStyle.text}>{types[this.props.type].text}</Text>
+        <Text style={PasscodeStyle.text}>{types[type].text}</Text>
         <CelForm>
           <CelInput type="pin"
                     value={pinValue}
                     digits={codeLength}
                     onChange={this.onChange}
-                    field={types[this.props.type].field}/>
+                    field={types[type].field}/>
         </CelForm>
         <CelButton
           white
           loading={isLoading}
           disabled={disabled || isLoading}
           onPress={() => this.onPressButton()}>
-          {types[this.props.type].buttonText}
+          {types[type].buttonText}
         </CelButton>
       </View>
     </SimpleLayout>

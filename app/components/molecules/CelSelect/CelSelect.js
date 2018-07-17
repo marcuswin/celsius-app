@@ -6,7 +6,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import {bindActionCreators} from "redux";
 import { lookup } from "country-data";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
@@ -16,7 +16,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelSelect extends Component {
   static propTypes = {
@@ -87,21 +87,21 @@ class CelSelect extends Component {
 
   // event hanlders
   selectValue = (item) => {
-    const { updateFormField, field, type } = this.props;
+    const { actions, field, type } = this.props;
     if (item) {
       if (type === 'country') {
-        updateFormField(field, item.name);
+        actions.updateFormField(field, item.name);
       } else {
-        updateFormField(field, item.value);
+        actions.updateFormField(field, item.value);
       }
     }
     this.setState({ visible: false });
   };
 
   handlePickerSelect = (value) => {
-    const { updateFormField, field } = this.props;
+    const { actions, field } = this.props;
     if (value) {
-      updateFormField(field, value);
+      actions.updateFormField(field, value);
     }
   };
 
