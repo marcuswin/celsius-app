@@ -40,10 +40,10 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
 class TransactionDetails extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { ations, navigation, activeTransactionId } = this.props;
-    ations.getSupportedCurrencies();
+    const { actions, navigation, activeTransactionId } = this.props;
+    actions.getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
-    ations.getTransactionDetails(transactionId || activeTransactionId);
+    actions.getTransactionDetails(transactionId || activeTransactionId);
   }
 
   renderCelHeading() {

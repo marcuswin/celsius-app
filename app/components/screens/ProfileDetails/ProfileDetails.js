@@ -29,6 +29,7 @@ class ProfileDetails extends Component {
   constructor(props) {
     super(props);
     this.initForm();
+    props.actions.getLoggedInBorrower();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,6 +41,7 @@ class ProfileDetails extends Component {
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
       this.initForm();
+      actions.getLoggedInBorrower();
     }
   }
 
@@ -65,6 +67,7 @@ class ProfileDetails extends Component {
         title: formData.title,
         first_name: formData.firstName,
         last_name: formData.lastName,
+        middle_name: formData.middleName,
         date_of_birth: moment(formData.dateOfBirth).format('MM/DD/YYYY'),
         citizenship: formData.citizenship,
         gender: formData.gender,
@@ -81,6 +84,7 @@ class ProfileDetails extends Component {
       actions.initForm({
         title: user.title,
         firstName: user.first_name,
+        middleName: user.middle_name,
         lastName: user.last_name,
         dateOfBirth: user.date_of_birth,
         citizenship: user.citizenship,

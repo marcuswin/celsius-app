@@ -16,7 +16,8 @@ function login({ email, password }) {
 }
 
 function getLoggedIn() {
-  return axios.get(`${apiUrl}/me?_=${ new Date().getTime() }`);
+  return axios.get(`${apiUrl}/me`);
+  // return axios.get(`${apiUrl}/me?_=${ new Date().getTime() }`);
 }
 
 function register({ email, password, firstName, lastName }) {

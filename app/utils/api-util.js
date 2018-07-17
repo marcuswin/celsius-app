@@ -78,7 +78,7 @@ function initInterceptors() {
     });
 }
 
-function areCallsInProgress(callsToCheck, callsInProgress) {
+function areCallsInProgress(callsToCheck, callsInProgress = []) {
   return !!(callsInProgress.filter(cip => callsToCheck.indexOf(cip) !== -1).length);
 }
 
