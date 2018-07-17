@@ -6,8 +6,8 @@ import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
 
 import Calculator from '../Calculator/Calculator'
-import PortfolioStyle from "./styles";
-import * as actions from "../../../redux/actions";
+import PortfolioStyle from "./ManagePortfolio.styles";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
 @connect(
@@ -17,17 +17,17 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
     portfolio: state.portfolio.portfolio,
     portfolioFormData: state.ui.portfolioFormData,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class ManagePorfolio extends Component {
-
+class ManagePortfolio extends Component {
   componentDidMount() {
+    const {portfolioFormData, actions} = this.props;
     const portfolioData = this.getPortfolioData();
     const userHasPortfolio = this.getUserHasPortfolio();
 
     if (userHasPortfolio) {
-      const portfolioFormData = get(this.props.portfolioFormData, 'data', portfolioData);
-      this.props.updatePortfolioFormData(portfolioFormData);
+      const newPortfolioFormData = get(portfolioFormData, 'data', portfolioData);
+      actions.updatePortfolioFormData(newPortfolioFormData);
     }
   }
 
@@ -39,9 +39,11 @@ class ManagePorfolio extends Component {
   }
 
   render() {
+    const { user } = this.props;
+
     const userHasPortfolio = this.getUserHasPortfolio();
     const animatedHeading = {
-      text: userHasPortfolio ? "Your coins" : `Hola, ${ this.props.user && this.props.user.first_name ? this. props.user.first_name : 'Guest' }!`,
+      text: userHasPortfolio ? "Your coins" : `Hola, ${ user && user.first_name ? user.first_name : 'Guest' }!`,
       subheading: userHasPortfolio ? "Manage your tracker" : null
     };
 
@@ -82,4 +84,4 @@ class ManagePorfolio extends Component {
   }
 }
 
-export default ManagePorfolio;
+export default ManagePortfolio;

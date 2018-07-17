@@ -9,7 +9,7 @@ import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './LoginForm.styles'
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
@@ -18,7 +18,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class LoginForm extends Component {
   static propTypes = {
@@ -30,7 +30,6 @@ class LoginForm extends Component {
 
   onSubmit = () => {
     const {onSubmit, formData} = this.props;
-
     onSubmit(formData);
   };
 

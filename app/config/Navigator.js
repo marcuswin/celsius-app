@@ -6,7 +6,7 @@ import LoginScreen from "../components/screens/Login/Login";
 import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
 import HomeScreen from "../components/screens/Home/Home";
 import CalculatorScreen from "../components/screens/Calculator/Calculator";
-import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
+import ManagePortfolioScreen from "../components/screens/ManagePortfolio/ManagePortfolio";
 import SignupOneScreen from "../components/screens/Signup/SignupOne";
 import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
 import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";

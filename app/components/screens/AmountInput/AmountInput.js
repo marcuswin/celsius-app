@@ -4,7 +4,7 @@ import {Content} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import AmountInputStyle from "./AmountInput.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -31,7 +31,7 @@ const decimalForCurrency = {
     celUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'CEL')[0].market.quotes.USD.price,
     formData: state.ui.formData,
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class AmountInput extends Component {
   constructor(props) {
@@ -56,28 +56,28 @@ class AmountInput extends Component {
       decimal: decimalForCurrency.usd,
     };
 
-    props.initForm({
+    props.actions.initForm({
       amount: '',
       inUsd: true,
       amountUsd: 0,
       amountCrypto: 0,
-      currency: this.props.navigation.getParam('currency'),
+      currency: props.navigation.getParam('currency'),
       rateUsd: props[`${currency}Usd`],
       balance: props[`${currency}Balance`],
     })
   }
 
   onPressNumber = (number) => {
-    const { formData, showMessage } = this.props;
+    const { formData, actions } = this.props;
     const { decimal } = this.state;
 
     const amount = formData.amount + number;
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd
     if (amountUsd > 20000) {
-      showMessage('info', 'Maximum amount to withdraw is $20,000.00');
+      actions.showMessage('info', 'Maximum amount to withdraw is $20,000.00');
     } else if (amountCrypto > formData.balance) {
-      showMessage('info', 'Insufficient funds');
+      actions.showMessage('info', 'Insufficient funds');
     } else if (amount.indexOf('.') === -1 || amount.length - amount.indexOf('.') <= decimal + 1) {
       this.updateAmount(amount);
     }
@@ -96,8 +96,8 @@ class AmountInput extends Component {
   }
 
   switchCurrencies = () => {
-    const { formData, updateFormField } = this.props;
-    updateFormField('inUsd', !formData.inUsd);
+    const { formData, actions } = this.props;
+    actions.updateFormField('inUsd', !formData.inUsd);
 
     let newAmount = formData.inUsd ? formData.amountCrypto.toFixed(5).toString() : formData.amountUsd.toFixed(2).toString();
 
@@ -105,25 +105,25 @@ class AmountInput extends Component {
       newAmount = '';
     }
 
-    updateFormField('amount', newAmount);
+    actions.updateFormField('amount', newAmount);
     this.setState({
       decimal: formData.inUsd ? decimalForCurrency[formData.currency] : decimalForCurrency.usd,
     })
   }
 
   updateAmount = (amount) => {
-    const { formData, updateFormField } = this.props;
+    const { formData, actions } = this.props;
 
-    updateFormField('amount', amount);
+    actions.updateFormField('amount', amount);
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd;
-    updateFormField('amountUsd', amountUsd);
+    actions.updateFormField('amountUsd', amountUsd);
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd;
-    updateFormField('amountCrypto', amountCrypto);
+    actions.updateFormField('amountCrypto', amountCrypto);
   }
 
   render() {
     const { numPad } = this.state;
-    const { formData, navigateTo } = this.props;
+    const { formData, actions } = this.props;
 
     if (!formData.currency) return null;
 
@@ -142,7 +142,7 @@ class AmountInput extends Component {
       >
         <MainHeader
           backButton
-          onPressBackButton={() => navigateTo('WalletDetails', { curency: formData.currency })}
+          onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
         />
         <CelHeading text={`Withdraw ${formData.currency ? formData.currency.toUpperCase() : ''}`} />
         <Message />
@@ -180,7 +180,7 @@ class AmountInput extends Component {
         </View>
         <CelButton
           disabled={!formData.amountCrypto}
-          onPress={() => navigateTo('TransactionConfirmation')}
+          onPress={() => actions.navigateTo('TransactionConfirmation')}
           margin='10 36 45 36'
         >
           Withdraw

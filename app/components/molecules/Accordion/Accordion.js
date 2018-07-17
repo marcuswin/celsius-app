@@ -7,11 +7,11 @@ import { bindActionCreators } from "redux";
 import Icon from "../../atoms/Icon/Icon";
 import { actions as mixpanelActions } from '../../../services/mixpanel'
 import AccordionStyles from "./Accordion.styles";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Accordion extends Component {
   static propTypes = {
@@ -33,18 +33,18 @@ class Accordion extends Component {
 
   expandAccordion = () => {
     const { isExpanded } = this.state;
-    const { scrollTo, name } = this.props;
+    const { actions, name } = this.props;
     if (!isExpanded) {
       mixpanelActions.estimationExplanation()
     }
-    if (!isExpanded) scrollTo({ accordion: name })
+    if (!isExpanded) actions.scrollTo({ accordion: name })
     this.setState({ isExpanded: !isExpanded })
   }
 
   saveLayout = () => {
-    const { name, setScrollElementLayout } = this.props;
+    const { name, actions } = this.props;
     this.accordion.measureInWindow((x, y, width, height) => {
-      setScrollElementLayout(`${name}Accordion`, { x, y, width, height });
+      actions.setScrollElementLayout(`${name}Accordion`, { x, y, width, height });
     })
   }
 

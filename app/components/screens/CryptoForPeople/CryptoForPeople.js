@@ -4,7 +4,7 @@ import {Content} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { STYLES } from "../../../config/constants/style";
 import CryptoForPeopleStyle from "./CryptoForPeople.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -16,18 +16,9 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
   () => ({
     // map state to props
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CryptoForPeople extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
-  }
-
   // lifecycle methods
   // event hanlders
   // rendering methods

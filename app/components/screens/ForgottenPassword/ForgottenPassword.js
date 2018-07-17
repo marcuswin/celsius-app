@@ -4,7 +4,7 @@ import {Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import Styles from "./ForgottenPassword.styles";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
@@ -22,12 +22,12 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ForgottenPassword extends Component {
   onSubmit = () => {
-    const { formData, sendResetLink } = this.props;
-    sendResetLink(formData.email);
+    const { formData, actions } = this.props;
+    actions.sendResetLink(formData.email);
   };
 
   render() {

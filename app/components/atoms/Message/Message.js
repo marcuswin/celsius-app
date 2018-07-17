@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import MessageStyle from "./Message.styles";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 
 @connect(
@@ -13,7 +13,7 @@ import Icon from "../../atoms/Icon/Icon";
     message: state.ui.message,
     connected: state.ui.internetConnected,
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Message extends Component {
 
@@ -43,7 +43,7 @@ class Message extends Component {
 
 
   render() {
-    const { message, connected, clearMessage } = this.props;
+    const { message, connected, actions } = this.props;
     const {opacity} = this.state;
 
     if (!message && connected) return null;
@@ -100,7 +100,7 @@ class Message extends Component {
             {message.text}
           </Text>
         </View>
-        <TouchableOpacity onPress={() => clearMessage()}>
+        <TouchableOpacity onPress={() => actions.clearMessage()}>
           <Icon name='xIcon' height='17' width='17' viewBox="0 0 1000 1000" fill={"#545F8D"}/>
         </TouchableOpacity>
       </Animated.View>

@@ -6,16 +6,16 @@ import {bindActionCreators} from 'redux';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
-import * as actions from '../../../redux/actions';
+import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
-import { getUserTemporaryId, actions as mixpanelActions } from '../../../services/mixpanel' 
+import { getUserTemporaryId, actions as mixpanelActions } from '../../../services/mixpanel'
 
 @connect(
   state => ({
     nav: state.nav,
     user: state.users.user,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WelcomeScreen extends Component {
   constructor() {
@@ -25,17 +25,17 @@ class WelcomeScreen extends Component {
   }
 
   componentWillMount() {
-    const {navigateTo, user, displayBottomNavigation} = this.props;
-    displayBottomNavigation(false);
-    if (user) { 
-      navigateTo('Home')
-    } else { 
-      getUserTemporaryId() 
-    } 
+    const {actions, user} = this.props;
+    actions.displayBottomNavigation(false);
+    if (user) {
+      actions.navigateTo('Home')
+    } else {
+      getUserTemporaryId()
+    }
   }
 
   render() {
-    const {navigateTo} = this.props;
+    const {actions} = this.props;
 
     return (
       <Container style={{ backgroundColor: 'black' }}>
@@ -48,7 +48,7 @@ class WelcomeScreen extends Component {
               <CelButton
                 onPress={() => {
                   mixpanelActions.signupButton();
-                  navigateTo('SignupOne')}
+                  actions.navigateTo('SignupOne')}
                 }
                 white
                 iconRight="IconArrowRight"
@@ -57,7 +57,7 @@ class WelcomeScreen extends Component {
               </CelButton>
 
               <CelButton
-                onPress={() => navigateTo('Login', true)}
+                onPress={() => actions.navigateTo('Login', true)}
                 transparent
                 size="small"
                 margin="25 0 20 0"

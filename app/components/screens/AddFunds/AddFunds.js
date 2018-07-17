@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import AddFundsStyle from "./AddFunds.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -21,7 +21,7 @@ import cryptoUtil from "../../../utils/crypto-util";
     activeScreen: state.nav.routes[state.nav.index].routeName,
     routes: state.nav.routes,
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class AddFunds extends Component {
   constructor(props) {
@@ -38,10 +38,10 @@ class AddFunds extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { navigation, initForm } = this.props;
+    const { navigation, actions } = this.props;
     const currency = navigation.getParam("currency");
 
-    initForm({ currency: currency || "cel" });
+    actions.initForm({ currency: currency || "cel" });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,14 +57,14 @@ class AddFunds extends Component {
   }
 
   getAddress = (currency) => {
-    const { btcAddress, ethAddress, getCoinAddress } = this.props;
+    const { btcAddress, ethAddress, actions } = this.props;
 
     if (!btcAddress && currency === "btc") {
-      getCoinAddress("btc");
+      actions.getCoinAddress("btc");
     }
 
     if (!ethAddress && cryptoUtil.isERC20(currency)) {
-      getCoinAddress("eth");
+      actions.getCoinAddress("eth");
     }
   };
 
@@ -78,27 +78,28 @@ class AddFunds extends Component {
   };
 
   goBack = () => {
-    const { routes, navigateTo } = this.props;
+    const { routes, actions } = this.props;
 
     const lastRoute = routes[routes.length - 2];
     const beforeLastRoute = routes[routes.length - 3];
 
+    // Skip SecureTransactions screen
     if (lastRoute.routeName === 'SecureTransactions') {
-      navigateTo(beforeLastRoute.routeName, beforeLastRoute.params);
+      actions.navigateTo(beforeLastRoute.routeName, beforeLastRoute.params);
     } else {
-      navigateTo(lastRoute.routeName, lastRoute.params);
+      actions.navigateBack();
     }
   }
 
   copyAddress = (address) => {
-    const { showMessage } = this.props;
-    showMessage("success", "Address copied to clipboard!");
+    const { actions } = this.props;
+    actions.showMessage("success", "Address copied to clipboard!");
     Clipboard.setString(address);
   };
 
   render() {
     const { pickerItems } = this.state;
-    const { formData, navigation, navigateTo } = this.props;
+    const { formData, navigation, actions } = this.props;
 
     const navCurrency = navigation.getParam("currency");
     let address;
@@ -210,7 +211,7 @@ class AddFunds extends Component {
           </View>
         </View>
 
-        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn} onPress={() => navigateTo('SecureTransactions', { currency: navCurrency })}>
+        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn} onPress={() => actions.navigateTo('SecureTransactions', { currency: navCurrency })}>
           <Icon
             name="Shield"
             width={20}

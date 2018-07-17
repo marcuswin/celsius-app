@@ -8,7 +8,7 @@ import Loader from '../../atoms/Loader/Loader';
 import API from "../../../config/constants/API";
 import apiUtil from '../../../utils/api-util';
 import * as actions from "../../../redux/actions";
-import ManagePortfolio from '../ManagePortfolio'
+import ManagePortfolio from '../ManagePortfolio/ManagePortfolio'
 import PortfolioOverview from "../../screens/PortfolioOverview"
 
 @connect(

@@ -4,7 +4,7 @@ import {View, Text} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import VerifyPhoneNumberStyle from "./VerifyPhoneNumber.styles";
 import SimpleLayout from "../../../components/layouts/SimpleLayout/SimpleLayout";
@@ -19,47 +19,34 @@ import CelInput from "../../atoms/CelInput/CelInput";
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class VerifyPhoneNumber extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-
-    };
-    // binders
-
-  }
-
   // lifecycle methods
+  // event hanlders
   onChange = (field, code) => {
-    const { formData, updateFormField } = this.props;
+    const { formData, actions } = this.props;
     formData.verification_code = code;
-    updateFormField(field, formData.verification_code)
+    actions.updateFormField(field, formData.verification_code)
   }
-
 
   verifyCode = async () => {
-    const { finishKYCVerification } = this.props;
-    finishKYCVerification();
+    const { actions } = this.props;
+    actions.finishKYCVerification();
   }
 
   resendCode = async () => {
-    const { sendVerificationSMS, showMessage, updateFormField } = this.props;
-    await sendVerificationSMS();
-    showMessage('info', 'SMS sent!')
-    updateFormField('verificationCode', '')
+    const { actions } = this.props;
+    await actions.sendVerificationSMS();
+    actions.showMessage('info', 'SMS sent!')
+    actions.updateFormField('verificationCode', '')
   }
-  // event hanlders
   // rendering methods
 
   render() {
     const { callsInProgress, formData } = this.props;
 
     const pinValue = formData.verificationCode;
-
     const isLoading = apiUtil.areCallsInProgress([API.VERIFY_SMS], callsInProgress);
 
     return (

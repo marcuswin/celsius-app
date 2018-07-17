@@ -8,7 +8,7 @@ import {STYLES} from "../../../config/constants/style";
 import Message from '../../atoms/Message/Message';
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayoutStyle from "./SimpleLayout.styles";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 
@@ -28,12 +28,12 @@ const defaultAnimatedHeading = {
     keyboardHeight: state.ui.keyboardHeight,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SimpleLayout extends Component {
   constructor (props) {
     super(props);
-    props.setScrollPosition(0);
+    props.actions.setScrollPosition(0);
 
     this.state = {
       screen: props.activeScreen,
@@ -41,13 +41,13 @@ class SimpleLayout extends Component {
   }
 
   componentDidMount() {
-    const {bottomNavigation, displayBottomNavigation} = this.props;
+    const {bottomNavigation, actions} = this.props;
 
-    displayBottomNavigation(!(bottomNavigation === false));
+    actions.displayBottomNavigation(!(bottomNavigation === false));
   }
 
   componentWillReceiveProps({ scrollToY, activeScreen }) {
-    const {bottomNavigation, displayBottomNavigation} = this.props;
+    const {bottomNavigation, actions} = this.props;
     const {screen} = this.state;
 
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
@@ -56,7 +56,7 @@ class SimpleLayout extends Component {
 
     if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
       this.scrollView.scrollTo({ y: 0, animated: false });
-      displayBottomNavigation(!(bottomNavigation === false));
+      actions.displayBottomNavigation(!(bottomNavigation === false));
     }
   }
 
@@ -68,7 +68,8 @@ class SimpleLayout extends Component {
       background,
       contentSidePadding,
       bottomNavigationDimensions,
-      keyboardHeight
+      keyboardHeight,
+      actions,
     } = this.props;
 
     const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
@@ -100,9 +101,9 @@ class SimpleLayout extends Component {
           style={[SimpleLayoutStyle.content, contentStyles]}
           enableOnAndroid
           ref={component => { this.scrollView = component }}
-          onScroll={() => this.props.scrollTo()}
+          onScroll={() => actions.scrollTo()}
           scrollEventThrottle={0}
-          onScrollEndDrag={e => { this.props.setScrollPosition(e.nativeEvent.contentOffset.y) }}
+          onScrollEndDrag={e => { actions.setScrollPosition(e.nativeEvent.contentOffset.y) }}
         >
           { this.props.children }
         </ScrollView>
