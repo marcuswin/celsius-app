@@ -10,6 +10,7 @@ import apiUtil from '../../../utils/api-util';
 import * as actions from "../../../redux/actions";
 import ManagePortfolio from '../ManagePortfolio'
 import PortfolioOverview from "../../screens/PortfolioOverview"
+import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 
 @connect(
   state => ({
@@ -23,17 +24,36 @@ import PortfolioOverview from "../../screens/PortfolioOverview"
 )
 
 class PortfolioScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      animatedHeading: {
+        text: "Deposit Coins",
+        subheading: "Earn interest"
+      }
+    };
+    // binders
+  }
+
+
   componentDidMount() {
     const { getPortfolio } = this.props;
     getPortfolio();
+
+
+
   }
 
   render() {
     const portfolioData = get(this.props.portfolio, 'data', []);
+    const {animatedHeading} = this.state;
 
     const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
 
-    if (isLoading) return <Loader text="Loading Tracker Page" />
+    if (isLoading) return  <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader text="Loading Tracker Page" />
+      </SimpleLayout>;
 
     return (!isLoading && !isEmpty(portfolioData)) ? <PortfolioOverview /> : <ManagePortfolio />
   }

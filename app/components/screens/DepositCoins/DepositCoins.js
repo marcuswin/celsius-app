@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import { Text, Image, View } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from "react";
+import { Text, Image, View } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import get from "lodash/get";
 
 import * as actions from "../../../redux/actions";
@@ -21,8 +21,9 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     portfolio: state.portfolio.portfolio,
     estimatedInterest: state.portfolio.estimatedInterest,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    callsInProgress: state.api.callsInProgress
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => bindActionCreators(actions, dispatch)
 )
 class DepositCoins extends Component {
   constructor(props) {
@@ -30,8 +31,8 @@ class DepositCoins extends Component {
 
     this.state = {
       animatedHeading: {
-        text: 'Deposit Coins',
-        subheading: 'Earn interest',
+        text: "Deposit Coins",
+        subheading: "Earn interest"
       }
     };
     // binders
@@ -46,7 +47,7 @@ class DepositCoins extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { getEstimatedInterest, getPortfolio, activeScreen } = this.props;
-    if (nextProps.activeScreen === 'DepositCoins' && activeScreen !== nextProps.activeScreen) {
+    if (nextProps.activeScreen === "DepositCoins" && activeScreen !== nextProps.activeScreen) {
       getEstimatedInterest();
       if (!nextProps.portfolio) getPortfolio();
     }
@@ -58,28 +59,33 @@ class DepositCoins extends Component {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, navigateTo } = this.props;
 
-    if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
+    if (!estimatedInterest || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader/>
+    </SimpleLayout>;
 
-    const portfolioData = get(portfolio, 'data', []);
+    const portfolioData = get(portfolio, "data", []);
 
     const letterSize = Math.round(estimatedInterest.lending_interest).toString().length >= 10 ?
       FONT_SCALE * 26 : FONT_SCALE * 36;
+
 
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState screen="DepositCoins" onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="DepositCoins" onPress={() => navigateTo("ManagePortfolio")}/>
       </SimpleLayout>
     );
 
     return (
       <SimpleLayout animatedHeading={animatedHeading}>
+
         <InfoBubble
           renderContent={(textStyles) => (
             <Text style={textStyles}>
               <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
-              we plan to allow Celsius members to start earning interest later this year, for now, see how much interest you might be able to get.
+              we plan to allow Celsius members to start earning interest later this year, for now, see how much
+              interest you might be able to get.
             </Text>
           )}
         />
@@ -92,7 +98,8 @@ class DepositCoins extends Component {
           Your estimated
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> coin value: </Text>
         </Text>
-        <CoinValueAccordion portfolio={portfolioData} estimatedCoinValue={estimatedInterest.estimated_coin_value} />
+        <CoinValueAccordion portfolio={portfolioData}
+                            estimatedCoinValue={estimatedInterest.estimated_coin_value}/>
 
         <Text style={globalStyles.normalText}>
           At
@@ -101,45 +108,56 @@ class DepositCoins extends Component {
         </Text>
         <Accordion
           name="interest"
-          renderHeader={ (styles) =>
+          renderHeader={(styles) =>
             <Text style={styles}>
-              <Text style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedInterest.lending_interest, {symbol: ''})}</Text>
+              <Text
+                style={[styles, { fontSize: letterSize }]}>${formatter.usd(estimatedInterest.lending_interest, { symbol: "" })}</Text>
             </Text>
           }
-          renderContent={ () => <Image source={require('../../../../assets/images/pie-chart.png')} style={DepositCoinsStyle.pieChart}/> }
+          renderContent={() => <Image source={require("../../../../assets/images/pie-chart.png")}
+                                      style={DepositCoinsStyle.pieChart}/>}
         />
 
         <Text style={globalStyles.heading}>
           How do we calculate the interest you earn?
         </Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
+        <Text style={[globalStyles.normalText, { textAlign: "center" }]}>
           We want to maximize the return for all HODLers and do what's in the best interest of all of our members.
         </Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17 }]}>
-          Our formula for CEL interest will be based on 3 factors which reward HODLing and discourage speculation:</Text>
+        <Text style={[globalStyles.normalText, { textAlign: "center", marginTop: 17 }]}>
+          Our formula for CEL interest will be based on 3 factors which reward HODLing and discourage
+          speculation:</Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>50% - the amount of BTC or ETH you've deposited.</Text>
+        <Text style={[globalStyles.normalText, { textAlign: "center" }]}>50% - the amount of BTC or ETH you've
+          deposited.</Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>25% - the amount of time you've been part of the Celsius community vs. others without withdrawing your coins.</Text>
+        <Text style={[globalStyles.normalText, { textAlign: "center" }]}>25% - the amount of time you've been part
+          of the Celsius community vs. others without withdrawing your coins.</Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>25% - the amount of CEL tokens you've earned as a percentage of how many you've withdrawn.</Text>
+        <Text style={[globalStyles.normalText, { textAlign: "center" }]}>25% - the amount of CEL tokens you've
+          earned as a percentage of how many you've withdrawn.</Text>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 33 }]}>
-          We are working on distributing CEL interest to our community, so for now, we're using the interest earned from deposits to buy back CEL on the open market in order to reduce the number of CEL in circulation.
+        <Text style={[globalStyles.normalText, { textAlign: "center", marginTop: 17, marginBottom: 33 }]}>
+          We are working on distributing CEL interest to our community, so for now, we're using the interest
+          earned from deposits to buy back CEL on the open market in order to reduce the number of CEL in
+          circulation.
         </Text>
 
         <Separator margin='15 0 30 0'/>
 
         <View style={DepositCoinsStyle.hippoWrapper}>
-          <Image source={require('../../../../assets/images/two-thumbs-up.png')} style={DepositCoinsStyle.hippoImage}/>
+          <Image source={require("../../../../assets/images/two-thumbs-up.png")}
+                 style={DepositCoinsStyle.hippoImage}/>
         </View>
 
-        <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 17, marginBottom: 40 }]}>
+        <Text style={[globalStyles.normalText, { textAlign: "center", marginTop: 17, marginBottom: 40 }]}>
           You're the
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
-          person in line eligible to lend out your coins and earn interest (when you transfer your coins and they are lent).
+          <Text
+            style={[globalStyles.normalText, globalStyles.boldText]}> {formatter.ordinalSuffixOf(estimatedInterest.position_in_line)} </Text>
+          person in line eligible to lend out your coins and earn interest (when you transfer your coins and they
+          are lent).
         </Text>
       </SimpleLayout>
     );
