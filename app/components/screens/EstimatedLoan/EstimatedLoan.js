@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from 'lodash/get';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import formatter from "../../../utils/formatter";
 import EstimatedLoanStyle from "./EstimatedLoan.styles";
 import Icon from "../../atoms/Icon/Icon";
@@ -24,7 +24,7 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     estimatedLoan: state.portfolio.estimatedLoan,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class EstimatedLoan extends Component {
   constructor(props) {
@@ -41,17 +41,17 @@ class EstimatedLoan extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedLoan, portfolio, getPortfolio } = this.props;
-    getEstimatedLoan();
-    if (!portfolio) getPortfolio();
+    const { actions, portfolio} = this.props;
+    actions.getEstimatedLoan();
+    if (!portfolio) actions.getPortfolio();
   }
 
 
   componentWillReceiveProps(nextProps) {
-    const { getEstimatedLoan, getPortfolio, activeScreen } = this.props;
+    const { actions, activeScreen } = this.props;
     if (nextProps.activeScreen === 'EstimatedLoan' && activeScreen !== nextProps.activeScreen) {
-      getEstimatedLoan();
-      if (!nextProps.portfolio) getPortfolio();
+      actions.getEstimatedLoan();
+      if (!nextProps.portfolio) actions.getPortfolio();
     }
   }
 
@@ -106,7 +106,7 @@ class EstimatedLoan extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedLoan, portfolio, navigateTo } = this.props;
+    const { estimatedLoan, portfolio, actions } = this.props;
 
     if (!estimatedLoan || !portfolio) return <Loader text="Estimating Loan"/>;
     const portfolioData = get(portfolio, 'data', []);
@@ -116,7 +116,7 @@ class EstimatedLoan extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState screen="EstimatedLoan" onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="EstimatedLoan" onPress={() => actions.navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 

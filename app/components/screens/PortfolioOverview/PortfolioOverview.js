@@ -8,9 +8,8 @@ import TotalCoinsHeader from '../../molecules/TotalCoinsHeader/TotalCoinsHeader'
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import CelButton from "../../atoms/CelButton/CelButton";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-
 
 @connect(
   state => ({
@@ -19,18 +18,17 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
     portfolio: state.portfolio.portfolio,
     supportedCurrencies: state.generalData.supportedCurrencies,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class PortfolioScreen extends Component {
-
   componentDidMount() {
-    const { getSupportedCurrencies } = this.props;
-    getSupportedCurrencies();
+    const { actions } = this.props;
+    actions.getSupportedCurrencies();
   }
 
   render() {
-    const { navigateTo, portfolio, supportedCurrencies } = this.props;
+    const { actions, portfolio, supportedCurrencies } = this.props;
     const animatedHeading = {
       text: 'Tracker',
       subheading: "Track your coins",
@@ -74,7 +72,7 @@ class PortfolioScreen extends Component {
             </View>
             <View style={{marginTop: 30, marginBottom: 40}}>
               <CelButton
-                onPress={() => navigateTo('ManagePortfolio')}
+                onPress={() => actions.navigateTo('ManagePortfolio')}
               >
                 Manage your coins
               </CelButton>

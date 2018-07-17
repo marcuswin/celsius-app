@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { FONT_SCALE } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -35,15 +35,15 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getTransactionDetails, navigation, getSupportedCurrencies, activeTransactionId } = this.props;
-    getSupportedCurrencies();
+    const { ations, navigation, activeTransactionId } = this.props;
+    ations.getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
-    getTransactionDetails(transactionId || activeTransactionId);
+    ations.getTransactionDetails(transactionId || activeTransactionId);
   }
 
   renderCelHeading() {
@@ -146,7 +146,7 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { supportedCurrencies, transaction, navigateTo, currencyRatesShort } = this.props;
+    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
 
     if (!supportedCurrencies || !transaction) return <Loader text="Checking Data"/>;
 
@@ -231,7 +231,7 @@ class TransactionDetails extends Component {
           )}
 
           <CelButton
-            onPress={() => navigateTo('Home')}
+            onPress={() => actions.navigateTo('Home')}
             margin='10 36 45 36'
           >
             Close

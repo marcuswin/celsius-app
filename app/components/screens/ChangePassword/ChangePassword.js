@@ -3,7 +3,7 @@ import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
 import API from "../../../config/constants/API";
@@ -16,7 +16,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class ChangePassword extends Component {
@@ -33,10 +33,10 @@ class ChangePassword extends Component {
   // lifecycle methods
   // event handlers
   handleChangePassword = () => {
-    const { formData, resetPassword } = this.props;
+    const { formData, actions } = this.props;
     const { currentPassword, newPassword } = formData;
 
-    resetPassword(currentPassword, newPassword);
+    actions.resetPassword(currentPassword, newPassword);
   }
 
   // rendering methods

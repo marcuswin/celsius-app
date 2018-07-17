@@ -7,7 +7,7 @@ import isEqual from "lodash/isEqual";
 import isNil from 'lodash/isNil'
 import has from 'lodash/has'
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -34,11 +34,11 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SignupTwo extends Component {
   componentDidMount() {
-    const { user, initForm } = this.props;
+    const { user, actions } = this.props;
 
     const userIdTypes = {
       facebook_id: 'Facebook',
@@ -60,7 +60,7 @@ class SignupTwo extends Component {
     const id = userIds[Object.keys(userIds)[0]];
     mixpanelActions.createAlias(id);
 
-    initForm({
+    actions.initForm({
       firstName: user && user.first_name ? user.first_name : undefined,
       email: user && user.email ? user.email : undefined,
       lastName: user && user.last_name ? user.last_name : undefined,
@@ -69,15 +69,15 @@ class SignupTwo extends Component {
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { user, navigateTo, initForm } = this.props;
+    const { user, actions, lastCompletedCall } = this.props;
 
-    if (pageCalls.indexOf(this.props.lastCompletedCall) === -1 && pageCalls.indexOf(nextProps.lastCompletedCall) !== -1) {
-      navigateTo('Home', true);
+    if (pageCalls.indexOf(lastCompletedCall) === -1 && pageCalls.indexOf(nextProps.lastCompletedCall) !== -1) {
+      actions.navigateTo('Home', true);
     }
 
 
     if (!isEqual(user, nextProps.user)) {
-      initForm({
+      actions.initForm({
         firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : undefined,
         email: nextProps.user && nextProps.user.email ? nextProps.user.email : undefined,
         lastName: nextProps.user && nextProps.user.last_name ? nextProps.user.last_name : undefined,
@@ -87,34 +87,34 @@ class SignupTwo extends Component {
 
   // event hanlders
   onSubmit = () => {
-    const { formData, user, updateUser, registerUserTwitter, registerUserFacebook, registerUserGoogle } = this.props;
+    const { formData, user, actions } = this.props;
 
     const data = { ...formData};
 
     // register twitter user
     if (user && user.twitter_id) {
-      return registerUserTwitter({...user, ...data});
+      return actions.registerUserTwitter({...user, ...data});
     }
 
     // register facebook user
     if (user && user.facebook_id) {
-      return registerUserFacebook({...user, ...data});
+      return actions.registerUserFacebook({...user, ...data});
     }
 
     // register google user
     if (user && user.google_id) {
-      return registerUserGoogle({...user, ...data});
+      return actions.registerUserGoogle({...user, ...data});
     }
 
     // update user
     if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
-      return updateUser(data);
+      return actions.updateUser(data);
     }
   }
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, navigateTo, toggleTermsOfUse, agreedToTermsOfUse, screenIndex } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, screenIndex, actions } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
@@ -155,11 +155,11 @@ class SignupTwo extends Component {
               <CelCheckbox
                 label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
-                onChange={toggleTermsOfUse}
+                onChange={actions.toggleTermsOfUse}
               />
 
               <View style={{ height: 36, marginTop: -15 }}>
-                <TouchableOpacity onPress={() => navigateTo('TermsOfUse')}>
+                <TouchableOpacity onPress={() => actions.navigateTo('TermsOfUse')}>
                   <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }}/>
                 </TouchableOpacity>
               </View>

@@ -3,14 +3,12 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import AddCoinsStyle from "./AddCoins.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {STYLES} from "../../../config/constants/style";
 import {ELIGIBLE_COINS} from "../../../config/constants/common";
-
-
 
 @connect(
   state => ({
@@ -19,7 +17,7 @@ import {ELIGIBLE_COINS} from "../../../config/constants/common";
     portfolio: state.portfolio.portfolio,
     portfolioFormData: state.ui.portfolioFormData,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class AddCoins extends Component {
   constructor(props) {
@@ -32,40 +30,33 @@ class AddCoins extends Component {
       },
     };
 
-    // binders
-     this.capitalize = this.capitalize.bind(this)
-     this.renderCoin = this.renderCoin.bind(this)
   }
 
   // lifecycle methods
   // event hanlders
-  // rendering methods
-
-
-
   onSelectCoin = (coin) => {
-    const {navigateTo} = this.props;
+    const {portfolioFormData, actions} = this.props;
 
-      const coinData = [
-          ...this.props.portfolioFormData,
-          {
-            amount: '',
-            currency: {
-              id: coin.id,
-              image_url: coin.image_url,
-              name: coin.name,
-              short: coin.short,
-            }
-        }]
-      this.props.updatePortfolioFormData(coinData)
-      navigateTo('ManagePortfolio');
+    const coinData = [
+      ...portfolioFormData,
+      {
+        amount: '',
+        currency: {
+          id: coin.id,
+          image_url: coin.image_url,
+          name: coin.name,
+          short: coin.short,
+        },
+      }
+    ];
+    actions.updatePortfolioFormData(coinData);
+    actions.navigateTo('ManagePortfolio');
   }
 
-  capitalize(str){
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  renderCoin(coin) {
+  // rendering methods
+  renderCoin = (coin) => {
     let eligible = false;
     if(ELIGIBLE_COINS.indexOf(coin.short) !== -1) {
       eligible = true;
@@ -89,10 +80,10 @@ class AddCoins extends Component {
 
   render() {
     const {animatedHeading} = this.state;
-    const {portfolioFormData} = this.props;
+    const {portfolioFormData, supportedCurrencies} = this.props;
 
-    const filteredSupportedCurrencies = this.props.supportedCurrencies != null
-     ? this.props.supportedCurrencies.filter(sc => !this.props.portfolioFormData.map(x => x.currency.id).includes(sc.id))
+    const filteredSupportedCurrencies = supportedCurrencies != null
+     ? supportedCurrencies.filter(sc => !portfolioFormData.map(x => x.currency.id).includes(sc.id))
      : [];
 
     if ( Object.keys(portfolioFormData).length === 0 ) {
@@ -109,7 +100,6 @@ class AddCoins extends Component {
         </Text>
         <View style={AddCoinsStyle.explanation}>
           <Icon
-
             name={'EligibilityStar'}
             height='26'
             width='26'

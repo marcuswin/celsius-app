@@ -8,7 +8,7 @@ import apiUtil from '../../../utils/api-util';
 import Separator from '../../atoms/Separator/Separator';
 import CelButton from "../../atoms/CelButton/CelButton";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -23,19 +23,20 @@ import CelInput from "../../atoms/CelInput/CelInput";
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SignupOne extends Component {
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    if (!this.props.user && nextProps.user) {
-      this.props.navigateTo('SignupTwo');
+    const { actions, user } = this.props;
+    if (!user && nextProps.user) {
+      actions.navigateTo('SignupTwo');
     }
   }
 
   onSubmit = () => {
-    const { registerUser, formData } = this.props;
-    registerUser(formData);
+    const { actions, formData } = this.props;
+    actions.registerUser(formData);
   };
 
   // rendering methods

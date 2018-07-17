@@ -9,7 +9,7 @@ import API from "../../../config/constants/API";
 import apiUtil from '../../../utils/api-util';
 import * as actions from "../../../redux/actions";
 import ManagePortfolio from '../ManagePortfolio/ManagePortfolio'
-import PortfolioOverview from "../../screens/PortfolioOverview"
+import PortfolioOverview from "../PortfolioOverview/PortfolioOverview"
 
 @connect(
   state => ({
