@@ -47,6 +47,7 @@ class CameraScreen extends Component {
     this.state = {
       isLoading: false,
       hasCameraPermission: false,
+      hasInitialPhoto: !!props.photo,
     };
   }
 
@@ -88,7 +89,7 @@ class CameraScreen extends Component {
       const base64String = photo.base64.replace(/\s/g, "");
 
       takeCameraPhoto(base64String);
-      this.setState({ isLoading: false });
+      this.setState({ isLoading: false, hasInitialPhoto: false });
     } catch(err) {
       console.log(err);
       this.setState({ isLoading: false });
@@ -175,7 +176,8 @@ class CameraScreen extends Component {
   }
 
   renderConfirmScreen() {
-    const { cameraHeading, flipCamera, photo, retakePhoto } = this.props;
+    const { hasInitialPhoto } = this.state;
+    const { cameraHeading, photo, retakePhoto, navigateBack } = this.props;
 
     const imageSource = imageUtil.getSource(photo);
     const mask = this.renderMask();
@@ -185,20 +187,12 @@ class CameraScreen extends Component {
         <MainHeader
           backgroundColor="transparent"
           left={(
-            <Button style={{width: 80}} title='Back' transparent onPress={retakePhoto}>
+            <Button style={{width: 80}} title='Back' transparent onPress={hasInitialPhoto ? navigateBack : retakePhoto}>
               <Image
                 source={require('../../../../assets/images/icons/Back.png')}
                 style={{height: 20, width: 20, resizeMode: 'contain'}}/>
               <Text style={CameraStyle.backBtn} uppercase={false}>Back</Text>
             </Button>
-          )}
-          right={(
-            <TouchableOpacity
-              onPress={flipCamera}>
-              <Image
-                source={require('../../../../assets/images/icons/camera-flip.png')}
-                style={CameraStyle.flipCameraImage}/>
-            </TouchableOpacity>
           )}
         />
 
