@@ -5,7 +5,7 @@ import { TouchableOpacity, View, Text } from "react-native";
 import DatePicker from "react-native-datepicker";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
@@ -14,7 +14,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
   state => ({
     formData: state.ui.formData
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class CelDatepicker extends Component {
@@ -39,8 +39,8 @@ class CelDatepicker extends Component {
   };
 
   onDateChange = (date) => {
-    const { updateFormField, field } = this.props;
-    updateFormField(field, new Date(date));
+    const { actions, field } = this.props;
+    actions.updateFormField(field, new Date(date));
   };
 
   render() {

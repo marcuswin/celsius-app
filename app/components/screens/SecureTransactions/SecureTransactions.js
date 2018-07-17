@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import CelButton from "../../atoms/CelButton/CelButton";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -15,7 +15,7 @@ import SecureTransactionsStyle from "./SecureTransactions.styles";
   // map state to props
     nav: state.nav
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SecureTransactions extends Component {
   constructor(props) {
@@ -28,13 +28,13 @@ class SecureTransactions extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { updateUserAppSettings } = this.props;
-    updateUserAppSettings({ showSecureTransactionsScreen: false });
+    const { actions } = this.props;
+    actions.updateUserAppSettings({ showSecureTransactionsScreen: false });
   }
   // event hanlders
   // rendering methods
   render() {
-    const {navigateTo, navigation} = this.props;
+    const {actions, navigation} = this.props;
     const currency = navigation.getParam('currency')
 
     const currencyCopy = currency ? currency.toUpperCase() : 'coins'
@@ -61,7 +61,7 @@ class SecureTransactions extends Component {
           <Text style={SecureTransactionsStyle.suggestion}>For your security, if you would like to withdraw more than <Text style={{fontFamily: 'agile-bold'}}>$20.000</Text> worth of {currencyCopy} you will be required to contact us at <Text style={{fontFamily: 'agile-bold'}}>app@celsius.network</Text> so that we can verify your identity prior to transferring your funds.</Text>
         </View>
           <CelButton
-            onPress={() => navigateTo('AddFunds', { currency })}
+            onPress={() => actions.navigateTo('AddFunds', { currency })}
             white
           >
             Add Funds

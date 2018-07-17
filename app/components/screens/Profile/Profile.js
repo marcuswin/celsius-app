@@ -8,7 +8,7 @@ import isEqual from "lodash/isEqual";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
@@ -35,14 +35,14 @@ const getError = (errors, field, def = null) => {
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfileScreen extends Component {
   componentDidMount() {
-    const { user, getLoggedInBorrower, initForm } = this.props;
-    getLoggedInBorrower();
+    const { user, actions } = this.props;
+    actions.getLoggedInBorrower();
 
-    initForm({
+    actions.initForm({
       firstName: user && user.first_name ? user.first_name : undefined,
       email: user && user.email ? user.email : undefined,
       lastName: user && user.last_name ? user.last_name : undefined,
@@ -52,10 +52,10 @@ class ProfileScreen extends Component {
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { user, initForm } = this.props;
+    const { user, actions } = this.props;
 
     if (!isEqual(user, nextProps.user)) {
-      initForm({
+      actions.initForm({
         firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : undefined,
         email: nextProps.user && nextProps.user.email ? nextProps.user.email : undefined,
         lastName: nextProps.user && nextProps.user.last_name ? nextProps.user.last_name : undefined,
@@ -65,9 +65,9 @@ class ProfileScreen extends Component {
   }
 
   onSubmit = () => {
-    const { formData, updateProfileInfo } = this.props;
+    const { formData, actions } = this.props;
 
-    updateProfileInfo({
+    actions.updateProfileInfo({
       first_name: formData.firstName,
       last_name: formData.lastName,
       email: formData.email,
@@ -76,20 +76,21 @@ class ProfileScreen extends Component {
   };
 
   handleUserNameChange = (field, text) => {
+    const { actions } = this.props;
     // prevent user to insert numbers in first name or last name field
     if (/\d/.test(text)) return;
-    this.props.updateFormField(field, text);
+    actions.updateFormField(field, text);
   };
 
   render() {
-    const { user, formData, navigateTo, logoutUser } = this.props;
-    const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], this.props.callsInProgress);
+    const { user, formData, actions, callsInProgress, error } = this.props;
+    const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
 
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
           right={(
-            <TouchableOpacity onPress={logoutUser}>
+            <TouchableOpacity onPress={actions.logoutUser}>
               <Text style={[{
                 color: 'white',
                 paddingLeft: 5,
@@ -105,7 +106,7 @@ class ProfileScreen extends Component {
 
         <Content style={{ paddingLeft: 40, paddingRight: 40 }} enableOnAndroid>
           <CelButton
-            onPress={() => navigateTo('ProfileImage')}
+            onPress={() => actions.navigateTo('ProfileImage')}
             transparent
             color="blue"
             size="small"
@@ -118,7 +119,7 @@ class ProfileScreen extends Component {
           <CelForm disabled={isLoadingProfileInfo}>
             <CelInput
               theme="white"
-              labelText={getError(this.props.error, 'first_name', "First name")}
+              labelText={getError(error, 'first_name', "First name")}
               value={formData.firstName}
               field="firstName"
               onChange={this.handleUserNameChange}
@@ -127,7 +128,7 @@ class ProfileScreen extends Component {
             />
             <CelInput
               theme="white"
-              labelText={getError(this.props.error, 'last_name', "Last name")}
+              labelText={getError(error, 'last_name', "Last name")}
               value={formData.lastName}
               field="lastName"
               onChange={this.handleUserNameChange}
@@ -144,7 +145,7 @@ class ProfileScreen extends Component {
             />
             <CelPhoneInput
               theme="white"
-              labelText={getError(this.props.error, 'cellphone', "Phone number")}
+              labelText={getError(error, 'cellphone', "Phone number")}
               field="cellphone"
               value={formData.cellphone}
             />
@@ -153,7 +154,7 @@ class ProfileScreen extends Component {
           { !user.facebook_id && !user.google_id && !user.twitter_id ? (
             <View style={{marginTop: 40, marginBottom: 30}}>
               <CelButton
-                onPress={() => navigateTo('ChangePassword')}
+                onPress={() => actions.navigateTo('ChangePassword')}
                 color="blue"
               >Change password</CelButton>
             </View>
@@ -171,7 +172,7 @@ class ProfileScreen extends Component {
           </View>
 
           <View style={{marginBottom: 30}}>
-            <CelButton onPress={() => navigateTo('TermsOfUse')}
+            <CelButton onPress={() => actions.navigateTo('TermsOfUse')}
                        transparent
                        color="blue"
                        size="small"

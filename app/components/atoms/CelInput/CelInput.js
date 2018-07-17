@@ -7,7 +7,7 @@ import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
 import SixDigitInput from "./SixDigitInput";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
 import PinInput from "./PinInput";
 
@@ -32,7 +32,7 @@ const inputTypes = [
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelInput extends Component {
   static propTypes = {
@@ -80,35 +80,35 @@ class CelInput extends Component {
   }
 
   onFocus = () => {
-    const { onPress, scrollTo, field } = this.props;
+    const { onPress, actions, field } = this.props;
     if (onPress) {
       onPress();
     }
 
     // keyboard fires after focus
-    scrollTo({ field });
+    actions.scrollTo({ field });
 
     return false;
   };
 
   onChangeText = (text) => {
-    const { updateFormField, field, onChange } = this.props;
+    const { field, onChange, actions } = this.props;
     if (onChange) {
       onChange(field, text);
     } else {
-      updateFormField(field, text);
+      actions.updateFormField(field, text);
     }
   }
 
 
   handleLayout = (layout) => {
-    const { field, setInputLayout } = this.props;
-    setInputLayout(field, layout);
+    const { field, actions } = this.props;
+    actions.setInputLayout(field, layout);
   }
 
   // rendering methods
   render() {
-    const { theme, error } = this.props;
+    const { theme, error, type } = this.props;
 
     this.state = {
       active: false,
@@ -116,7 +116,7 @@ class CelInput extends Component {
 
     let inputField;
 
-    switch (this.props.type) {
+    switch (type) {
       case INPUT_TYPES.NUMBER:
       case INPUT_TYPES.NUMBER.toLowerCase():
         inputField = (

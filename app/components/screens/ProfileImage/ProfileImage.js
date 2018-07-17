@@ -4,7 +4,7 @@ import {Content} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import ProfileImageStyle from "./ProfileImage.styles";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -34,7 +34,7 @@ const images = [
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfileImage extends Component {
   constructor(props) {
@@ -47,7 +47,7 @@ class ProfileImage extends Component {
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { navigateTo, lastCompletedCall, profileImage } = this.props;
+    const { actions, lastCompletedCall, profileImage } = this.props;
 
     // set image after camera
     if (nextProps.profileImage !== profileImage) {
@@ -55,7 +55,7 @@ class ProfileImage extends Component {
     }
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPLOAD_PLOFILE_IMAGE) {
-      navigateTo('Profile');
+      actions.navigateTo('Profile');
     }
   }
 
@@ -66,14 +66,14 @@ class ProfileImage extends Component {
 
   updateProfilePicture = () => {
     const { activeImage } = this.state;
-    const { updateProfilePicture } = this.props;
-    updateProfilePicture(activeImage);
+    const { actions } = this.props;
+    actions.updateProfilePicture(activeImage);
   }
 
   goToCamera = () => {
-    const { activateCamera } = this.props;
+    const { actions } = this.props;
 
-    activateCamera({
+    actions.activateCamera({
       cameraField: 'profileImage',
       cameraHeading: 'Profile photo',
       cameraCopy: 'Please center your face in the circle and take a selfie, to use as your profile photo.',
@@ -84,11 +84,11 @@ class ProfileImage extends Component {
   }
 
   saveProfileImage = (photo) => {
-    const { updateProfilePicture, navigateTo, updateFormField } = this.props;
+    const { actions } = this.props;
 
-    updateProfilePicture(photo);
-    updateFormField('profileImage', photo);
-    navigateTo('Profile');
+    actions.updateProfilePicture(photo);
+    actions.updateFormField('profileImage', photo);
+    actions.navigateTo('Profile');
   }
 
   // rendering methods
@@ -108,9 +108,9 @@ class ProfileImage extends Component {
   }
 
   render() {
-    const { activeImage } = this.state;
+    const { activeImage, callsInProgress } = this.state;
 
-    const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], this.props.callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
 
     return (
         <BasicLayout bottomNavigation>

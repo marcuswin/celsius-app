@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -23,7 +23,7 @@ import API from "../../../config/constants/API";
     lastCompletedCall: state.api.lastCompletedCall,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfileDetails extends Component {
   constructor(props) {
@@ -32,10 +32,10 @@ class ProfileDetails extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { navigateTo, lastCompletedCall, activeScreen } = this.props;
+    const { actions, lastCompletedCall, activeScreen } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_PERSONAL_INFO) {
-      navigateTo('VerifyProfile');
+      actions.navigateTo('VerifyProfile');
     }
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
@@ -44,20 +44,20 @@ class ProfileDetails extends Component {
   }
 
   validateForm = () => {
-    const { formData, showMessage } = this.props;
+    const { formData, actions } = this.props;
 
-    if (!formData.title) return showMessage('error', 'Title is required!');
-    if (!formData.firstName) return showMessage('error', 'First Name Name is required!');
-    if (!formData.lastName) return showMessage('error', 'Last Name is required!');
-    if (!formData.dateOfBirth) return showMessage('error', 'Date of Birth is required!');
-    if (!formData.citizenship) return showMessage('error', 'Citizenship is required!');
-    if (!formData.gender) return showMessage('error', 'Gender is required!');
+    if (!formData.title) return actions.showMessage('error', 'Title is required!');
+    if (!formData.firstName) return actions.showMessage('error', 'First Name Name is required!');
+    if (!formData.lastName) return actions.showMessage('error', 'Last Name is required!');
+    if (!formData.dateOfBirth) return actions.showMessage('error', 'Date of Birth is required!');
+    if (!formData.citizenship) return actions.showMessage('error', 'Citizenship is required!');
+    if (!formData.gender) return actions.showMessage('error', 'Gender is required!');
 
     return true;
   }
 
   submitForm = () => {
-    const { formData, updateProfileInfo } = this.props;
+    const { formData, actions } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
@@ -70,15 +70,15 @@ class ProfileDetails extends Component {
         gender: formData.gender,
       }
 
-      updateProfileInfo(updatedUser);
+      actions.updateProfileInfo(updatedUser);
     }
   }
 
   initForm = () => {
-    const { initForm, user } = this.props;
+    const { actions, user } = this.props;
 
     if (user) {
-      initForm({
+      actions.initForm({
         title: user.title,
         firstName: user.first_name,
         lastName: user.last_name,
@@ -90,9 +90,9 @@ class ProfileDetails extends Component {
   }
   // rendering methods
   render() {
-    const { formData, updateFormField } = this.props;
+    const { formData, actions, callsInProgress } = this.props;
 
-    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
+    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
 
     return (
       <SimpleLayout
@@ -117,7 +117,7 @@ class ProfileDetails extends Component {
             minDate={moment().subtract(100, 'years').toDate()}
             maxDate={moment().subtract(18, 'years').toDate()}
             onModalOpen={() => {
-              if (!formData.dateOfBirth) updateFormField('dateOfBirth', moment().subtract(18, 'years').toDate())
+              if (!formData.dateOfBirth) actions.updateFormField('dateOfBirth', moment().subtract(18, 'years').toDate())
             }}
             value={formData.dateOfBirth}
           />

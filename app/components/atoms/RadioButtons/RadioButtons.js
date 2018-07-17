@@ -4,12 +4,12 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import RadioButtonsStyle from "./RadioButtons.styles";
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class RadioButtons extends Component {
   static propTypes = {
@@ -22,20 +22,12 @@ class RadioButtons extends Component {
   static defaultProps = {
     margin: '0 0 0 0',
   }
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
-  }
 
   // lifecycle methods
   // event hanlders
   // rendering methods
   renderRadioButtonEl = (item, index, allItems) => {
-    const { updateFormField, field, value } = this.props;
+    const { actions, field, value } = this.props;
     const buttonStyles = [];
     const textStyles = [];
 
@@ -56,7 +48,7 @@ class RadioButtons extends Component {
     }
 
     return (
-      <TouchableOpacity key={item.label} style={buttonStyles} onPress={() => updateFormField(field, item.value)}>
+      <TouchableOpacity key={item.label} style={buttonStyles} onPress={() => actions.updateFormField(field, item.value)}>
         <Text style={textStyles}>
           { item.label }
         </Text>

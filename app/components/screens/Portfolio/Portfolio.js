@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import Loader from '../../atoms/Loader/Loader';
 import API from "../../../config/constants/API";
 import apiUtil from '../../../utils/api-util';
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import ManagePortfolio from '../ManagePortfolio/ManagePortfolio'
 import PortfolioOverview from "../PortfolioOverview/PortfolioOverview"
 
@@ -19,19 +19,20 @@ import PortfolioOverview from "../PortfolioOverview/PortfolioOverview"
     portfolioFormData: state.ui.portfolioFormData,
     callsInProgress: state.api.callsInProgress,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class PortfolioScreen extends Component {
   componentDidMount() {
-    const { getPortfolio } = this.props;
-    getPortfolio();
+    const { actions } = this.props;
+    actions.getPortfolio();
   }
 
   render() {
-    const portfolioData = get(this.props.portfolio, 'data', []);
+    const { portfolio, callsInProgress } = this.props;
 
-    const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], this.props.callsInProgress);
+    const portfolioData = get(portfolio, 'data', []);
+    const isLoading = !portfolioData.length && apiUtil.areCallsInProgress([API.GET_PORTFOLIO_REQUEST, API.GET_SUPPORTED_CURRENCIES], callsInProgress);
 
     if (isLoading) return <Loader text="Loading Tracker Page" />
 

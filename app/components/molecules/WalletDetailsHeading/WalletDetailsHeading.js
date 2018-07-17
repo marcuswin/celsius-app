@@ -9,8 +9,7 @@ import get from 'lodash/get';
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
 
-
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { FONT_SCALE } from "../../../config/constants/style";
@@ -24,13 +23,12 @@ import { FONT_SCALE } from "../../../config/constants/style";
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 
 class WalletDetailsHeading extends Component {
-
-  static Proptypes = {
+  static propTypes = {
     type: Proptypes.oneOf(['total', 'single-coin']),
   }
 
@@ -41,7 +39,7 @@ class WalletDetailsHeading extends Component {
   onPressNavigation = (type) => {
     const screens = ['cel', 'eth', 'btc', 'total'];
 
-    const { currency } = this.props;
+    const { currency, actions } = this.props;
     const screenIndex = screens.findIndex(el => el === currency);
 
     const types = {
@@ -50,23 +48,23 @@ class WalletDetailsHeading extends Component {
     }
 
     if (screenIndex === screens.length - 1 && type === 'next') {
-      return this.props.navigateTo('WalletDetails', {currency: screens[0]})
+      return actions.navigateTo('WalletDetails', {currency: screens[0]})
     }
 
     if((screenIndex === screens.length - 2 && type === 'next') || (screenIndex === 0 && type === 'previous')) {
-      return this.props.navigateTo('WalletTotals')
+      return actions.navigateTo('WalletTotals')
     }
 
-    return this.props.navigateTo('WalletDetails', {currency: screens[types[type]]})
+    return actions.navigateTo('WalletDetails', {currency: screens[types[type]]})
 
   }
 
   goToAddFunds = () => {
-    const { appSettings, navigateTo, currency } = this.props;
+    const { appSettings, actions, currency } = this.props;
     if (appSettings.showSecureTransactionsScreen) {
-      navigateTo('SecureTransactions', { currency: currency.toLowerCase() })
+      actions.navigateTo('SecureTransactions', { currency: currency.toLowerCase() })
     } else {
-      navigateTo('AddFunds', { currency: currency.toLowerCase() })
+      actions.navigateTo('AddFunds', { currency: currency.toLowerCase() })
     }
   }
 
