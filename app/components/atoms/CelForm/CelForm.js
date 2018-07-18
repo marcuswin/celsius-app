@@ -54,12 +54,14 @@ class CelForm extends Component {
     if (nextProps.activeScreen === onScreen && !keyboardEventsAttached) {
       this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
       this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+      this.setState({ keyboardEventsAttached: true });
     }
 
     if (nextProps.activeScreen !== onScreen && keyboardEventsAttached) {
       if (keyboardHeight) this.keyboardDidHide();
       this.keyboardDidShowListener.remove();
       this.keyboardDidHideListener.remove();
+      this.setState({ keyboardEventsAttached: false });
       // clearInputLayouts();
     }
   }
