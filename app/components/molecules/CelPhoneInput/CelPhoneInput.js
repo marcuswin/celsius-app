@@ -25,6 +25,7 @@ class CelPhoneInput extends Component {
     theme: PropTypes.oneOf(["blue", "white"]),
     field: PropTypes.string.isRequired,
     labelText: PropTypes.string,
+    error: PropTypes.string,
     value: PropTypes.string,
     editable: PropTypes.bool
   };
@@ -100,7 +101,7 @@ class CelPhoneInput extends Component {
   };
 
   render() {
-    const { theme, value, editable, labelText } = this.props;
+    const { theme, value, editable, labelText, error } = this.props;
     const { showCountryModal } = this.state;
     const disabled = editable === false;
 
@@ -124,6 +125,7 @@ class CelPhoneInput extends Component {
     return (
       <InputErrorWrapper
         theme={theme}
+        error={error}
       >
         <View
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground]}

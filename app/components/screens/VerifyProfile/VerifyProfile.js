@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import _ from "lodash";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -20,6 +21,7 @@ import API from "../../../config/constants/API";
 @connect(
   state => ({
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
     user: state.users.user,
     kycDocuments: state.users.kycDocuments,
     callsInProgress: state.api.callsInProgress,
@@ -47,13 +49,18 @@ class VerifyProfile extends Component {
   // event hanlders
   validateForm = () => {
     const { formData, actions } = this.props;
+    const formErrors = {};
 
-    if (!formData.documentType) return actions.showMessage('error', 'Document Type is required!');
-    if (!formData.front) return actions.showMessage('error', 'Front side photo is required!');
-    if (!formData.back && formData.documentType !== 'passport') return actions.showMessage('error', 'Back side photo is required!');
-    if (!formData.cellphone) return actions.showMessage('error', 'Cell phone is required!');
+    if (!formData.documentType) formErrors.document_type = 'Document Type is required!';
+    if (!formData.front) formErrors.front = 'Front side photo is required!';
+    if (!formData.back && formData.documentType !== 'passport') formErrors.back = 'Back side photo is required!';
+    if (!formData.cellphone) formErrors.cellphone = 'Cell phone is required!';
 
-    return true;
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
   }
 
   submitForm = () => {
@@ -76,7 +83,7 @@ class VerifyProfile extends Component {
   }
   // rendering methods
   render() {
-    const { formData, callsInProgress } = this.props;
+    const { formData, formErrors, callsInProgress } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
 
@@ -91,18 +98,18 @@ class VerifyProfile extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isLoading}>
-          <CelSelect field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
+          <CelSelect error={formErrors.document_type} field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
-          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
           { formData.documentType !== 'passport' ? (
-            <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
+            <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
           ) : null }
 
           <Separator margin="20 0 15 0">PHONE</Separator>
 
-          <CelPhoneInput labelText="Phone Number" field="cellphone" value={formData.cellphone} />
+          <CelPhoneInput labelText="Phone Number" error={formErrors.cellphone} field="cellphone" value={formData.cellphone} />
         </CelForm>
 
         <CelButton

@@ -20,6 +20,7 @@ class CameraInput extends Component {
     cameraType: PropTypes.oneOf(["back", "front"]),
     cameraCopy: PropTypes.string,
     field: PropTypes.string.isRequired,
+    error: PropTypes.string,
     value: PropTypes.string,
     labelTextActive: PropTypes.string.isRequired,
     labelTextInactive: PropTypes.string.isRequired
@@ -45,7 +46,7 @@ class CameraInput extends Component {
 
   // rendering methods
   render() {
-    const { value, labelTextActive, labelTextInactive, theme } = this.props;
+    const { value, labelTextActive, labelTextInactive, theme, error } = this.props;
 
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
@@ -55,6 +56,7 @@ class CameraInput extends Component {
     return (
       <InputErrorWrapper
         theme={theme}
+        error={error}
       >
         <TouchableOpacity onPress={this.onPress}
                           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>

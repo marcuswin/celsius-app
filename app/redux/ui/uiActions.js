@@ -123,7 +123,7 @@ function setFormErrors(formErrors) {
     const timeout = setTimeout(() => {
       dispatch({ type: ACTIONS.CLEAR_FORM_ERRORS })
       clearTimeout(timeout)
-    }, 2000)
+    }, 5000)
     dispatch({
       type: ACTIONS.SET_FORM_ERRORS,
       formErrors,
