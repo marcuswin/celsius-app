@@ -29,8 +29,7 @@ class PortfolioScreen extends Component {
 
     this.state = {
       animatedHeading: {
-        text: "Deposit Coins",
-        subheading: "Earn interest"
+        text: "Hola",
       }
     };
     // binders
