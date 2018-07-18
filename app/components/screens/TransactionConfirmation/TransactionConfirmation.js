@@ -20,6 +20,7 @@ import API from "../../../config/constants/API";
     formData: state.ui.formData,
     ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
     btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
+    celOriginatingAddress: state.wallet.addresses.celOriginatingAddress,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -67,7 +68,7 @@ class TransactionConfirmation extends Component {
         bottomNavigation={false}
       >
         <MainHeader backButton/>
-        <CelHeading text="Withdraw ETH" />
+        <CelHeading text={`Withdraw ${formData.currency.toUpperCase()}`} />
         <Content>
           <View style={AmountInputStyle.inputWrapper}>
             <Text
