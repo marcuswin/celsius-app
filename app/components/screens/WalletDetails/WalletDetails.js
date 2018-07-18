@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
-import Message from "../../atoms/Message/Message";
 import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDetailsHeading";
 import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -82,7 +81,6 @@ class WalletDetails extends Component {
         <WalletDetailsHeading
           currency={currency}
         />
-        <Message />
         <Content>
           { currency !== 'cel' && (
             <WalletDetailsGraphContainer

@@ -12,7 +12,6 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
-import Message from "../../atoms/Message/Message";
 
 
 const images = [
@@ -115,7 +114,6 @@ class ProfileImage extends Component {
     return (
         <BasicLayout bottomNavigation>
           <MainHeader backButton />
-          <Message/>
           <ImageHeading image={activeImage}/>
 
           <Content>

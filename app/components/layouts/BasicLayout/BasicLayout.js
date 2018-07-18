@@ -3,6 +3,7 @@ import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
+import Message from "../../atoms/Message/Message";
 
 @connect(
   state => ({
@@ -47,6 +48,7 @@ class BasicLayout extends Component {
 
     return (
       <Container style={{ marginBottom, flex: 1 }}>
+        <Message />
         { this.props.children }
       </Container>
     )

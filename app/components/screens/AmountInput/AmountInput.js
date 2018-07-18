@@ -12,7 +12,6 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
-import Message from "../../atoms/Message/Message";
 
 const decimalForCurrency = {
   usd: 2,
@@ -145,7 +144,6 @@ class AmountInput extends Component {
           onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
         />
         <CelHeading text={`Withdraw ${formData.currency ? formData.currency.toUpperCase() : ''}`} />
-        <Message />
         <Content>
         <View style={AmountInputStyle.inputWrapper}>
           <Text style={AmountInputStyle.fiatAmount}>
