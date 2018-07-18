@@ -29,6 +29,7 @@ class CelSelect extends Component {
       PropTypes.string,
     ]),
     field: PropTypes.string,
+    error: PropTypes.string,
     labelText: PropTypes.string,
     margin: PropTypes.string,
   }
@@ -106,7 +107,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, margin } = this.props;
+    const { theme, labelText, margin, error } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -119,6 +120,7 @@ class CelSelect extends Component {
     return (
       <InputErrorWrapper
         theme={theme}
+        error={error}
       >
         <TouchableOpacity
           onPress={() => this.setState({ visible: !visible })}

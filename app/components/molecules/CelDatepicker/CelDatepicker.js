@@ -22,6 +22,7 @@ class CelDatepicker extends Component {
     theme: PropTypes.oneOf(["blue", "white"]),
     labelText: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
+    error: PropTypes.string,
     onDateChange: PropTypes.func,
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Date),
@@ -44,7 +45,7 @@ class CelDatepicker extends Component {
   };
 
   render() {
-    const { theme, value, labelText, format, minDate, maxDate, onOpenModal } = this.props;
+    const { theme, value, labelText, format, minDate, maxDate, onOpenModal, error } = this.props;
     const label = value && labelText ? labelText.toUpperCase() : labelText;
 
     let labelStyles = value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive;
@@ -56,6 +57,7 @@ class CelDatepicker extends Component {
       <View>
         <InputErrorWrapper
           theme={theme}
+          error={error}
         >
           <TouchableOpacity onPress={() => this.datePicker.onPressDate()}
                             style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], dateBackground]}>

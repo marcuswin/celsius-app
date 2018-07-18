@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import _ from 'lodash';
 
 import * as appActions from "../../../redux/actions";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -18,6 +19,7 @@ import API from "../../../config/constants/API";
 @connect(
   state => ({
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
@@ -47,15 +49,20 @@ class ProfileDetails extends Component {
 
   validateForm = () => {
     const { formData, actions } = this.props;
+    const formErrors = {};
 
-    if (!formData.title) return actions.showMessage('error', 'Title is required!');
-    if (!formData.firstName) return actions.showMessage('error', 'First Name Name is required!');
-    if (!formData.lastName) return actions.showMessage('error', 'Last Name is required!');
-    if (!formData.dateOfBirth) return actions.showMessage('error', 'Date of Birth is required!');
-    if (!formData.citizenship) return actions.showMessage('error', 'Citizenship is required!');
-    if (!formData.gender) return actions.showMessage('error', 'Gender is required!');
+    if (!formData.title) formErrors.title = 'Title is required!';
+    if (!formData.firstName) formErrors.first_name = 'First Name Name is required!';
+    if (!formData.lastName) formErrors.last_name = 'Last Name is required!';
+    if (!formData.dateOfBirth) formErrors.date_of_birth = 'Date of Birth is required!';
+    if (!formData.citizenship) formErrors.citizenship = 'Citizenship is required!';
+    if (!formData.gender) formErrors.gender = 'Gender is required!';
 
-    return true;
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
   }
 
   submitForm = () => {
@@ -94,7 +101,7 @@ class ProfileDetails extends Component {
   }
   // rendering methods
   render() {
-    const { formData, actions, callsInProgress } = this.props;
+    const { formData, actions, callsInProgress, formErrors } = this.props;
 
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
 
@@ -109,13 +116,14 @@ class ProfileDetails extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelSelect field="title" type="title" labelText="Title" value={formData.title} />
-          <CelInput value={formData.firstName} field="firstName" labelText="First Name" autoCapitalize="sentences" />
-          <CelInput value={formData.middleName} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
-          <CelInput value={formData.lastName} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
+          <CelSelect error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
+          <CelInput value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
+          <CelInput value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
+          <CelInput value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
 
           <CelDatepicker
             labelText="Date of birth"
+            error={formErrors.date_of_birth}
             field="dateOfBirth"
             format="Do MMM YYYY"
             minDate={moment().subtract(100, 'years').toDate()}
@@ -126,8 +134,8 @@ class ProfileDetails extends Component {
             value={formData.dateOfBirth}
           />
 
-          <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
-          <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
+          <CelSelect error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
+          <CelSelect error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
         </CelForm>
 
         <CelButton
