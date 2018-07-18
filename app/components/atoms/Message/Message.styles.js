@@ -1,10 +1,24 @@
 import { StyleSheet } from 'react-native';
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import device from "../../../utils/device-util";
+
+function messageDimensions() {
+  let messageHeight;
+
+  if (device.isiPhoneX()) {
+    messageHeight = 88;
+  } else {
+   messageHeight = 64;
+  }
+
+  return messageHeight
+
+}
 
 const MessageStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 64,
+    height: messageDimensions(),
     paddingTop: 20,
     paddingLeft: 20,
     paddingRight: 20,
