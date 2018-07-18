@@ -14,16 +14,17 @@ class InputErrorWrapper extends Component {
     theme: "blue"
   };
 
+
+
   render() {
     const { error, theme } = this.props;
 
     return (
-      <View>
+      <View style={[error ? {marginBottom: 8} : null]}>
         <View style={[error ? [globalStyles.errorInputWrapper] : null, { marginBottom: 20 }]}>
           {this.props.children}
-          {error ? <Text style={globalStyles[`${theme}ErrorText`]}>* {error}</Text> : null}
         </View>
-        {error ? <Text style={{ marginBottom: 8 }}>{""}</Text> : null}
+        {error ? <Text style={globalStyles[`${theme}ErrorText`]}>* {error}</Text> : null}
       </View>
     );
   }

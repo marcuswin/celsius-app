@@ -67,13 +67,13 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     alignItems: 'center'
   },
   blueErrorText: {
-    fontSize: FONT_SCALE * 16,
+    fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
     position: 'absolute',
     top: 65,
     color: '#fff'
   },
   whiteErrorText: {
-    fontSize: FONT_SCALE * 16,
+    fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
     position: 'absolute',
     top: 65,
     color: '#EF461A'
@@ -82,7 +82,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
   errorInputWrapper: {
       borderColor: '#EF461A',
       borderWidth: 1,
-      borderRadius: 8
+      borderRadius: 8,
   },
   inputWrapper: {
     paddingLeft: 18,
