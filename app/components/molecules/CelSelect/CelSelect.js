@@ -11,7 +11,6 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
-import stylesUtil from "../../../utils/styles-util";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
@@ -107,7 +106,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, margin, error } = this.props;
+    const { theme, labelText, error } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -115,7 +114,6 @@ class CelSelect extends Component {
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
-    const margins = stylesUtil.getMargins(margin);
 
     return (
       <InputErrorWrapper
@@ -124,7 +122,7 @@ class CelSelect extends Component {
       >
         <TouchableOpacity
           onPress={() => this.setState({ visible: !visible })}
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground, margins]}>
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
           <Text style={labelStyles}>{label}</Text>
           <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}

@@ -1,26 +1,29 @@
-import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import React, { Component } from "react";
+import { View, Text } from "react-native";
 
 import PropTypes from "prop-types";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 class InputErrorWrapper extends Component {
   static propTypes = {
-    theme: PropTypes.oneOf(['blue', 'white']),
-    error: PropTypes.string,
+    theme: PropTypes.oneOf(["blue", "white"]),
+    error: PropTypes.string
   };
 
   static defaultProps = {
-    theme: 'blue'
+    theme: "blue"
   };
 
   render() {
     const { error, theme } = this.props;
 
     return (
-      <View style= {[ error ? [globalStyles.errorInputWrapper, {marginBottom: 30}] : null, {marginBottom: 20}]}>
-        { this.props.children }
-        { error ? <Text style={globalStyles[`${theme}ErrorText`]}>* { error }</Text> : null}
+      <View>
+        <View style={[error ? [globalStyles.errorInputWrapper] : null, { marginBottom: 20 }]}>
+          {this.props.children}
+          {error ? <Text style={globalStyles[`${theme}ErrorText`]}>* {error}</Text> : null}
+        </View>
+        {error ? <Text style={{ marginBottom: 8 }}>{""}</Text> : null}
       </View>
     );
   }
