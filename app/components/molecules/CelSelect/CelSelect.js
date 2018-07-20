@@ -39,7 +39,7 @@ class CelSelect extends Component {
     items: [],
     labelText: '',
     theme: 'blue',
-    margin: '0 0 0 0',
+    margin: '0 0 15 0',
   }
 
   constructor(props) {
