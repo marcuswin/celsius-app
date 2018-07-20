@@ -17,6 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 const {ENV} = Constants.manifest.extra;
 
@@ -45,6 +46,7 @@ class TransactionDetails extends Component {
     actions.getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
     actions.getTransactionDetails(transactionId || activeTransactionId);
+    mixpanelActions.viewTransaction(transactionId || activeTransactionId);
   }
 
   renderCelHeading() {

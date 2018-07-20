@@ -12,6 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -89,6 +90,7 @@ class AddFunds extends Component {
     } else {
       actions.navigateBack();
     }
+    mixpanelActions.pressAddFunds();
   }
 
   copyAddress = (address) => {

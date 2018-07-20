@@ -14,6 +14,7 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -48,6 +49,7 @@ class TransactionConfirmation extends Component {
   confirmWithdrawal = () => {
     const { formData, actions } = this.props;
     actions.withdrawCrypto(formData.currency, formData.amountCrypto);
+    mixpanelActions.confirmWithdraw(formData.amountCrypto, formData.currency);
   }
   // rendering methods
   render() {

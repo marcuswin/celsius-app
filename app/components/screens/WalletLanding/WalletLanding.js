@@ -19,6 +19,7 @@ import TopPageLoader from "../../atoms/TopPageLoader/TopPageLoader";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 let shouldRefresh = true;
 let refreshTimeout;
@@ -65,6 +66,7 @@ class WalletLanding extends Component {
     } else {
       actions.navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
+    mixpanelActions.pressWalletCard(short);
   }
 
   refreshWallet = (e) => {
