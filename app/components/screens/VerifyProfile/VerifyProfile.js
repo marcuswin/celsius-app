@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import _ from "lodash";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES} from "../../../config/constants/style";
 import { CAMERA_COPY } from "../../../config/constants/common";
@@ -20,19 +21,20 @@ import API from "../../../config/constants/API";
 @connect(
   state => ({
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
     user: state.users.user,
     kycDocuments: state.users.kycDocuments,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class VerifyProfile extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getKYCDocuments } = this.props;
+    const { actions } = this.props;
 
-    getKYCDocuments();
+    actions.getKYCDocuments();
     this.initForm();
   }
 
@@ -46,28 +48,33 @@ class VerifyProfile extends Component {
 
   // event hanlders
   validateForm = () => {
-    const { formData, showMessage } = this.props;
+    const { formData, actions } = this.props;
+    const formErrors = {};
 
-    if (!formData.documentType) return showMessage('error', 'Document Type is required!');
-    if (!formData.front) return showMessage('error', 'Front side photo is required!');
-    if (!formData.back && formData.documentType !== 'passport') return showMessage('error', 'Back side photo is required!');
-    if (!formData.cellphone) return showMessage('error', 'Cell phone is required!');
+    if (!formData.documentType) formErrors.document_type = 'Document Type is required!';
+    if (!formData.front) formErrors.front = 'Front side photo is required!';
+    if (!formData.back && formData.documentType !== 'passport') formErrors.back = 'Back side photo is required!';
+    if (!formData.cellphone) formErrors.cellphone = 'Cell phone is required!';
 
-    return true;
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
   }
 
   submitForm = () => {
-    const { verifyKYCDocs } = this.props;
+    const { actions } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
-      verifyKYCDocs();
+      actions.verifyKYCDocs();
     }
   }
 
   initForm = () => {
-    const { initForm, user, kycDocuments } = this.props;
-    initForm({
+    const { actions, user, kycDocuments } = this.props;
+    actions.initForm({
       cellphone: user.cellphone,
       documentType: kycDocuments ? kycDocuments.type : undefined,
       front: kycDocuments ? kycDocuments.front : undefined,
@@ -76,7 +83,7 @@ class VerifyProfile extends Component {
   }
   // rendering methods
   render() {
-    const { formData, callsInProgress } = this.props;
+    const { formData, formErrors, callsInProgress } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
 
@@ -91,18 +98,18 @@ class VerifyProfile extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isLoading}>
-          <CelSelect field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
+          <CelSelect error={formErrors.document_type} field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
-          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
           { formData.documentType !== 'passport' ? (
-            <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
+            <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
           ) : null }
 
           <Separator margin="20 0 15 0">PHONE</Separator>
 
-          <CelPhoneInput labelText="Phone Number" field="cellphone" value={formData.cellphone} />
+          <CelPhoneInput labelText="Phone Number" error={formErrors.cellphone} field="cellphone" value={formData.cellphone} />
         </CelForm>
 
         <CelButton

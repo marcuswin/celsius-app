@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { actions as mixpanelActions } from '../../../services/mixpanel'
 
 import CalculatorStyle from "./Calculator.styles";
@@ -23,19 +23,20 @@ import CalculatorStyle from "./Calculator.styles";
     portfolio: state.portfolio.portfolio,
     portfolioFormData: state.ui.portfolioFormData,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class Calculator extends Component {
   constructor(props) {
+    const { actions } = props;
     super(props);
 
     if (!props.supportedCurrencies) {
-      props.getSupportedCurrencies();
+      actions.getSupportedCurrencies();
     }
 
     if (!props.portfolioFormData) {
-      props.updatePortfolioFormData(props.portfolio);
+      actions.updatePortfolioFormData(props.portfolio);
     }
 
     this.state = {
@@ -70,37 +71,58 @@ class Calculator extends Component {
 
 
   onChangeText = (amount, coin) => {
-    const formattedAmount = amount.replace(',', '.');
+    const { portfolioFormData, actions } = this.props;
+    let formattedAmount = amount.replace(',', '.');
 
-    const portfolioFormData =
-      this.props.portfolioFormData.map(selectedCoin => ({
+    if (!isNaN(formattedAmount)) {
+      const splitAmount = formattedAmount.split('.');
+
+      if (splitAmount.length > 1){
+        const maxDecimals = this.getCoinMaximumDecimals(coin);
+        formattedAmount = [splitAmount[0], splitAmount[1].substr(0, maxDecimals)].join('.');
+      }
+    }
+
+    const newPortfolioFormData =
+      portfolioFormData.map(selectedCoin => ({
         ...selectedCoin,
         amount: selectedCoin.currency.short === coin.currency.short && !isNaN(formattedAmount) ? formattedAmount : selectedCoin.amount
       }),
     );
 
-    this.props.updatePortfolioFormData(portfolioFormData);
+    actions.updatePortfolioFormData(newPortfolioFormData);
+  };
+
+  getCoinMaximumDecimals = (coin) => {
+    switch (coin.currency.short) {
+      case 'BTC':
+        return 5;
+      case 'ETH':
+        return 4;
+      default:
+        return 3;
+    }
   };
 
   updatePortfolio = () => {
-    const data = this.props.portfolioFormData
+    const { portfolioFormData, actions } = this.props
+    const data = portfolioFormData
       .filter(sc => sc.amount != null && sc.amount > 0)
       .map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
 
     if (data.length) {
-      this.props.updatePortfolio(data);
-      this.props.updatePortfolioFormData(this.props.portfolioFormData);
+      actions.updatePortfolio(data);
+      actions.updatePortfolioFormData(portfolioFormData);
     }
   };
 
   removeItem = item => {
-    const filtered = this.props.portfolioFormData.filter((el) => el.currency.short !== item.currency.short);
-    this.props.updatePortfolioFormData(filtered);
+    const { portfolioFormData, actions } = this.props;
+    const filtered = portfolioFormData.filter((el) => el.currency.short !== item.currency.short);
+    actions.updatePortfolioFormData(filtered);
 
     const data = filtered.map(sc => ({id: sc.currency.id, amount: Number(sc.amount)}));
-    this.props.updatePortfolio(data);
-
-    console.log({ filtered, data })
+    actions.updatePortfolio(data);
   };
 
   renderRemoveButton = item => [
@@ -112,7 +134,7 @@ class Calculator extends Component {
   ]
 
   render() {
-    const { navigateTo, portfolioFormData, supportedCurrencies } = this.props;
+    const { actions, portfolioFormData, supportedCurrencies } = this.props;
 
     const filteredSupportedCurrencies = supportedCurrencies != null
       ? supportedCurrencies.filter(sc => !portfolioFormData.map(x => x.currency.id).includes(sc.id))
@@ -127,15 +149,13 @@ class Calculator extends Component {
       });
     }
 
-    // const isFormDisabled = isEmpty(this.props.portfolioFormData);
     const selectedAllCoins = isEmpty(filteredSupportedCurrencies);
-    // const isLoading = apiUtil.areCallsInProgress([API.CREATE_PORTFOLIO_REQUEST], this.props.callsInProgress);
 
     return (
       <View style={{flex: 1}}>
           <View style={CalculatorStyle.container}>
             <List
-              dataArray={this.props.portfolioFormData}
+              dataArray={portfolioFormData}
               scrollEnabled={false}
               renderRow={(item) =>
               <Swipeable rightButtons={this.renderRemoveButton(item)}>
@@ -152,7 +172,7 @@ class Calculator extends Component {
                               style={[CalculatorStyle.input]}
                               onChangeText={(amount) => this.onChangeText(amount, item)}
                               onBlur={this.updatePortfolio}
-                              maxLength={7}
+                              maxLength={11}
                               value={`${item.amount}` || ''}
                               placeholder='0.00'
                               placeholderTextColor='#3D4853'
@@ -175,7 +195,7 @@ class Calculator extends Component {
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
                 mixpanelActions.addCoinButton();
-                navigateTo('AddCoins');
+                actions.navigateTo('AddCoins');
               }}
               disabled={selectedAllCoins}
             >

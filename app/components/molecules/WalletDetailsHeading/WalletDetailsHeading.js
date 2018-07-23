@@ -9,8 +9,7 @@ import get from 'lodash/get';
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
 
-
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { FONT_SCALE } from "../../../config/constants/style";
@@ -19,17 +18,17 @@ import { FONT_SCALE } from "../../../config/constants/style";
   state => ({
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    appSettings: state.users.appSettings,
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 
 class WalletDetailsHeading extends Component {
-
-  static Proptypes = {
+  static propTypes = {
     type: Proptypes.oneOf(['total', 'single-coin']),
   }
 
@@ -38,9 +37,9 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
-    const screens = ['eth', 'btc', 'total'];
+    const screens = ['cel', 'eth', 'btc', 'total'];
 
-    const { currency } = this.props;
+    const { currency, actions } = this.props;
     const screenIndex = screens.findIndex(el => el === currency);
 
     const types = {
@@ -49,20 +48,28 @@ class WalletDetailsHeading extends Component {
     }
 
     if (screenIndex === screens.length - 1 && type === 'next') {
-      return this.props.navigateTo('WalletDetails', {currency: screens[0]})
+      return actions.navigateTo('WalletDetails', {currency: screens[0]})
     }
 
     if((screenIndex === screens.length - 2 && type === 'next') || (screenIndex === 0 && type === 'previous')) {
-      return this.props.navigateTo('WalletTotals')
+      return actions.navigateTo('WalletTotals')
     }
 
-    return this.props.navigateTo('WalletDetails', {currency: screens[types[type]]})
+    return actions.navigateTo('WalletDetails', {currency: screens[types[type]]})
 
   }
 
+  goToAddFunds = () => {
+    const { appSettings, actions, currency } = this.props;
+    if (appSettings.showSecureTransactionsScreen) {
+      actions.navigateTo('SecureTransactions', { currency: currency.toLowerCase() })
+    } else {
+      actions.navigateTo('AddFunds', { currency: currency.toLowerCase() })
+    }
+  }
 
   render() {
-    const { currency, type, walletTotal, walletCurrencies, navigateTo } = this.props;
+    const { currency, type, walletTotal, walletCurrencies } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
@@ -73,7 +80,7 @@ class WalletDetailsHeading extends Component {
       <View style={{position: "relative", width: '100%'}}>
         <Text style={[WalletDetailsHeadingStyle.totalValueAmount, {fontSize: fiatTotalSize}]}>{formatter.usd(totalText)}</Text>
         <View style={WalletDetailsHeadingStyle.totalCoinAmountWrapper}>
-          {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" viewBox="0 0 49.23 49.23" style={{ opacity: .6 }} />}
+          {type === 'single-coin' && <Icon name={`Icon${walletDataCurrency.currency.short}`} height='25' width='25' fill="white" style={{ opacity: .6 }} />}
           <Text style={WalletDetailsHeadingStyle.totalCoinAmount}>
             {type === 'single-coin'
               ? formatter.crypto(walletDataCurrency.amount, currency.toUpperCase(), { precision: 5 })
@@ -89,7 +96,7 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton size="mini" white onPress={() => { navigateTo('AddFunds', { currency: currency.toLowerCase() }) }}>Add funds</CelButton>
+        <CelButton size="mini" white onPress={this.goToAddFunds}>Add funds</CelButton>
       </View>}
     </View>
   }

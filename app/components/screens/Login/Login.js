@@ -8,7 +8,7 @@ import {Constants} from "expo";
 import CelButton from '../../atoms/CelButton/CelButton';
 import LoginForm from "../../organisms/LoginForm/LoginForm";
 import LoginStyle from "./Login.styles";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {getSecureStoreKey} from '../../../utils/expo-storage';
 import Separator from "../../atoms/Separator/Separator";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
@@ -23,7 +23,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     user: state.users.user,
     dimensions: state.ui.dimensions,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class LoginScreen extends Component {
@@ -44,9 +44,9 @@ class LoginScreen extends Component {
   }
 
   componentWillMount = async () => {
-    const {navigateTo} = this.props;
+    const {actions} = this.props;
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    if (token) navigateTo('Home', true);
+    if (token) actions.navigateTo('Home', true);
   };
 
   getFormHeight = () => {
@@ -63,12 +63,12 @@ class LoginScreen extends Component {
   };
 
   handleLogin = async data => {
-    const {loginBorrower} = this.props;
-    await loginBorrower(data);
+    const {actions} = this.props;
+    await actions.loginBorrower(data);
   };
 
   render() {
-    const {navigateTo} = this.props;
+    const {actions} = this.props;
 
     const formHeight = this.getFormHeight();
 
@@ -98,7 +98,7 @@ class LoginScreen extends Component {
           size="small"
           transparent
           margin="25 0 60 0"
-          onPress={() => navigateTo('ForgottenPassword')}
+          onPress={() => actions.navigateTo('ForgottenPassword')}
         >
           Forgot password?
         </CelButton>

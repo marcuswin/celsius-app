@@ -4,25 +4,23 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import {Container} from 'native-base';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import TermsOfUseStyle from "./TermsOfUse.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { STYLES } from "../../../config/constants/style";
-// import SimpleLayoutStyle from "../../layouts/SimpleLayout/SimpleLayout.styles";
 
 @connect(
   (state) => ({
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TermsOfUse extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
       terms: [
         {
           // termsOfService: 'Terms of Service',
@@ -74,17 +72,15 @@ class TermsOfUse extends Component {
         },
       ]
     };
-
-    this.onPress = this.onPress.bind(this);
   }
 
   // lifecycle methods
   // event hanlders
-  onPress() {
-    const { toggleTermsOfUse, navigateBack } = this.props;
+  onPress = () => {
+    const { actions } = this.props;
 
-    toggleTermsOfUse();
-    navigateBack();
+    actions.toggleTermsOfUse();
+    actions.navigateBack();
   }
 
   // rendering methods
@@ -99,20 +95,18 @@ class TermsOfUse extends Component {
 
   render() {
     const { terms } = this.state;
-    const { navigateBack, agreedToTermsOfUse } = this.props;
+    const { actions, agreedToTermsOfUse } = this.props;
 
     return (
       <Container style={TermsOfUseStyle.buttonContainer}>
         <SimpleLayout
-          mainHeader={{ backButton: false, onCancel: navigateBack}}
+          mainHeader={{ backButton: false, onCancel: actions.navigateBack}}
           animatedHeading={{ text: 'Terms of Use' }}
           bottomNavigation={ false }
           background={STYLES.PRIMARY_BLUE}
 
         >
-
             {terms.map(this.renderScreen)}
-
         </SimpleLayout>
 
         { !agreedToTermsOfUse ? (

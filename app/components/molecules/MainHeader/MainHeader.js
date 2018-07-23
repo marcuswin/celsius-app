@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
-import { Button, Header, Left, Right, Text } from 'native-base';
+import { Button, Header, Left, Right, Text, View } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
 import {Image, TouchableOpacity} from 'react-native';
 
 import HeaderStyle from './MainHeader.styles';
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import {STYLES} from "../../../config/constants/style";
 
 @connect(
   state => ({
     nav: state.nav,
+    message: state.ui.message,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class MainHeader extends Component {
   static propTypes = {
@@ -33,27 +34,17 @@ class MainHeader extends Component {
     backgroundColor: STYLES.PRIMARY_BLUE,
   };
 
-  constructor() {
-    super();
-
-    this.state = {};
-
-    this.onPressBackButton = this.onPressBackButton.bind(this);
-    this.renderLeft = this.renderLeft.bind(this);
-    this.renderRight = this.renderRight.bind(this);
-  }
-
-  onPressBackButton() {
-    const { navigateBack, onPressBackButton } = this.props;
+  onPressBackButton = () => {
+    const { actions, onPressBackButton } = this.props;
     if (onPressBackButton) {
       return onPressBackButton();
     }
 
-    navigateBack();
+    actions.navigateBack();
   }
 
 
-  renderLeft() {
+  renderLeft = () => {
     const { left, backButton } = this.props;
 
     if (backButton) {
@@ -71,8 +62,8 @@ class MainHeader extends Component {
     return left;
   }
 
-  renderRight() {
-    const { right, rightLink, navigateTo, activeScreen } = this.props;
+  renderRight = () => {
+    const { right, rightLink, onCancel, homeButton, actions, activeScreen } = this.props;
 
     if (right) {
       return right;
@@ -80,25 +71,25 @@ class MainHeader extends Component {
 
     if (rightLink) {
       return (
-        <Button transparent onPress={() => navigateTo(rightLink.screen, true)}>
+        <Button transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
     }
 
-    if (this.props.onCancel) {
+    if (onCancel) {
       return (
-        <TouchableOpacity style={{opacity: .6}} onPress={this.props.onCancel}>
+        <TouchableOpacity style={{opacity: .6}} onPress={onCancel}>
           <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'}/>
         </TouchableOpacity>
       );
     }
 
-    if (this.props.homeButton) {
+    if (homeButton) {
       return (
         <TouchableOpacity onPress={() => {
           if (activeScreen !== 'Welcome' && activeScreen !== 'Login' && activeScreen !== 'Register') {
-            navigateTo('Home', true);
+            actions.navigateTo('Home', true);
           }
         }}>
           <Image
@@ -112,21 +103,24 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {right, left, backButton, backgroundColor} = this.props;
+    const {right, left, backButton, backgroundColor, message} = this.props;
 
     const styles = {
       backgroundColor,
     }
 
     return (
-      <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
-        <Left>
-          {this.renderLeft(left, backButton)}
-        </Left>
-        <Right>
-          {this.renderRight(right)}
-        </Right>
-      </Header>
+      <View>
+      { message ? null :
+          <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
+          <Left>
+            {this.renderLeft(left, backButton)}
+          </Left>
+          <Right>
+            {this.renderRight(right)}
+          </Right>
+        </Header> }
+      </View>
     );
   }
 }

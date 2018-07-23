@@ -4,7 +4,7 @@ import {Content} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import TransactionConfirmationStyle from "./TransactionConfirmation.styles";
 import AmountInputStyle from "../AmountInput/AmountInput.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -14,52 +14,42 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 @connect(
   state => ({
     formData: state.ui.formData,
     ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
     btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
+    celOriginatingAddress: state.wallet.addresses.celOriginatingAddress,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionConfirmation extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
-  }
-
   // lifecycle methods
   componentDidMount() {
-    const { btcOriginatingAddress, ethOriginatingAddress, formData, getCoinOriginatingAddress } = this.props;
+    const { formData, actions } = this.props;
 
-    if (!btcOriginatingAddress && formData.currency === 'btc') {
-      getCoinOriginatingAddress('btc');
-    }
-
-    if (!ethOriginatingAddress && formData.currency === 'eth') {
-      getCoinOriginatingAddress('eth');
+    if (!this.props[`${formData.currency}OriginatingAddress`]) {
+      actions.getCoinOriginatingAddress(formData.currency);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lastCompletedCall, navigateTo } = this.props;
+    const { lastCompletedCall, actions } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.WITHDRAW_CRYPTO) {
-      navigateTo('TransactionDetails')
+      actions.navigateTo('TransactionDetails')
     }
   }
 
   // event hanlders
   confirmWithdrawal = () => {
-    const { formData, withdrawCrypto } = this.props;
-    withdrawCrypto(formData.currency, formData.amountCrypto);
+    const { formData, actions } = this.props;
+    actions.withdrawCrypto(formData.currency, formData.amountCrypto);
+    mixpanelActions.confirmWithdraw(formData.amountCrypto, formData.currency);
   }
   // rendering methods
   render() {
@@ -80,7 +70,7 @@ class TransactionConfirmation extends Component {
         bottomNavigation={false}
       >
         <MainHeader backButton/>
-        <CelHeading text="Withdraw ETH" />
+        <CelHeading text={`Withdraw ${formData.currency.toUpperCase()}`} />
         <Content>
           <View style={AmountInputStyle.inputWrapper}>
             <Text

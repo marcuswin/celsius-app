@@ -3,8 +3,9 @@ import moment from 'moment';
 import { Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import _ from 'lodash';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -18,46 +19,54 @@ import API from "../../../config/constants/API";
 @connect(
   state => ({
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfileDetails extends Component {
   constructor(props) {
     super(props);
     this.initForm();
+    props.actions.getLoggedInBorrower();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { navigateTo, lastCompletedCall, activeScreen } = this.props;
+    const { actions, lastCompletedCall, activeScreen } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_PERSONAL_INFO) {
-      navigateTo('VerifyProfile');
+      actions.navigateTo('VerifyProfile');
     }
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
       this.initForm();
+      actions.getLoggedInBorrower();
     }
   }
 
   validateForm = () => {
-    const { formData, showMessage } = this.props;
+    const { formData, actions } = this.props;
+    const formErrors = {};
 
-    if (!formData.title) return showMessage('error', 'Title is required!');
-    if (!formData.firstName) return showMessage('error', 'First Name Name is required!');
-    if (!formData.lastName) return showMessage('error', 'Last Name is required!');
-    if (!formData.dateOfBirth) return showMessage('error', 'Date of Birth is required!');
-    if (!formData.citizenship) return showMessage('error', 'Citizenship is required!');
-    if (!formData.gender) return showMessage('error', 'Gender is required!');
+    if (!formData.title) formErrors.title = 'Title is required!';
+    if (!formData.firstName) formErrors.first_name = 'First Name Name is required!';
+    if (!formData.lastName) formErrors.last_name = 'Last Name is required!';
+    if (!formData.dateOfBirth) formErrors.date_of_birth = 'Date of Birth is required!';
+    if (!formData.citizenship) formErrors.citizenship = 'Citizenship is required!';
+    if (!formData.gender) formErrors.gender = 'Gender is required!';
 
-    return true;
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
   }
 
   submitForm = () => {
-    const { formData, updateProfileInfo } = this.props;
+    const { formData, actions } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
@@ -65,22 +74,24 @@ class ProfileDetails extends Component {
         title: formData.title,
         first_name: formData.firstName,
         last_name: formData.lastName,
+        middle_name: formData.middleName,
         date_of_birth: moment(formData.dateOfBirth).format('MM/DD/YYYY'),
         citizenship: formData.citizenship,
         gender: formData.gender,
       }
 
-      updateProfileInfo(updatedUser);
+      actions.updateProfileInfo(updatedUser);
     }
   }
 
   initForm = () => {
-    const { initForm, user } = this.props;
+    const { actions, user } = this.props;
 
     if (user) {
-      initForm({
+      actions.initForm({
         title: user.title,
         firstName: user.first_name,
+        middleName: user.middle_name,
         lastName: user.last_name,
         dateOfBirth: user.date_of_birth,
         citizenship: user.citizenship,
@@ -90,9 +101,9 @@ class ProfileDetails extends Component {
   }
   // rendering methods
   render() {
-    const { formData, updateFormField } = this.props;
+    const { formData, actions, callsInProgress, formErrors } = this.props;
 
-    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], this.props.callsInProgress);
+    const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
 
     return (
       <SimpleLayout
@@ -105,25 +116,26 @@ class ProfileDetails extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelSelect field="title" type="title" labelText="Title" value={formData.title} />
-          <CelInput value={formData.firstName} field="firstName" labelText="First Name" autoCapitalize="sentences" />
-          <CelInput value={formData.middleName} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
-          <CelInput value={formData.lastName} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
+          <CelSelect error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
+          <CelInput value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
+          <CelInput value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
+          <CelInput value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
 
           <CelDatepicker
             labelText="Date of birth"
+            error={formErrors.date_of_birth}
             field="dateOfBirth"
             format="Do MMM YYYY"
             minDate={moment().subtract(100, 'years').toDate()}
             maxDate={moment().subtract(18, 'years').toDate()}
             onModalOpen={() => {
-              if (!formData.dateOfBirth) updateFormField('dateOfBirth', moment().subtract(18, 'years').toDate())
+              if (!formData.dateOfBirth) actions.updateFormField('dateOfBirth', moment().subtract(18, 'years').toDate())
             }}
             value={formData.dateOfBirth}
           />
 
-          <CelSelect field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
-          <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
+          <CelSelect error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
+          <CelSelect error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
         </CelForm>
 
         <CelButton

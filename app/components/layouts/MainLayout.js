@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import {bindActionCreators} from "redux";
-import { BackHandler } from 'react-native';
+import { BackHandler, View } from "react-native";
 import { connect } from 'react-redux';
-import moment from "moment";
-import {Constants} from "expo";
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 import Navigator from '../../config/Navigator';
-import * as actions from "../../redux/actions";
-
-const {ENV, PUBLISH_TIME} = Constants.manifest.extra;
+import * as appActions from "../../redux/actions";
+import BottomNavigation from "../organisms/BottomNavigation/BottomNavigation";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -17,19 +14,12 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
   state => ({
     nav: state.nav,
   }),
-  dispatch => ({ dispatch, ...bindActionCreators(actions, dispatch) }),
+  dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class MainLayout extends Component {
-
   componentDidMount() {
-    const { showMessage } = this.props;
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
-
-    // flash date of deploy message
-    if (ENV !== 'PRODUCTION' && PUBLISH_TIME) {
-      showMessage('warning', `Dev Info: App published on ${ moment(PUBLISH_TIME).format('ddd, DD-MMM HH:mm Z') }GMT`)
-    }
   }
 
   componentWillUnmount() {
@@ -37,7 +27,7 @@ class MainLayout extends Component {
   }
 
   handleBackButton = () => {
-    this.props.navigateBack();
+    this.props.actions.navigateBack();
     return true;
   };
 
@@ -47,8 +37,14 @@ class MainLayout extends Component {
       state: this.props.nav,
       addListener: createReduxBoundAddListener("root"),
     };
+    const {displayBottomNavigation} = this.props.nav;
 
-    return <Navigator navigation={navigation} />;
+    return (
+      <View style={{flex: 1,}}>
+        <Navigator navigation={navigation} />
+        {displayBottomNavigation && <BottomNavigation/>}
+      </View>
+    );
   }
 }
 

@@ -2,18 +2,40 @@ import React, {Component} from 'react';
 import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import * as actions from "../../../redux/actions";
-
-import BottomNavigation from "../../organisms/BottomNavigation/BottomNavigation";
-
+import * as appActions from "../../../redux/actions";
+import Message from "../../atoms/Message/Message";
 
 @connect(
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BasicLayout extends Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      screen: props.activeScreen,
+    }
+  }
+
+  componentDidMount() {
+    const {bottomNavigation, actions} = this.props;
+
+    actions.displayBottomNavigation(!!bottomNavigation);
+  }
+
+  componentWillReceiveProps({ activeScreen }) {
+    const {bottomNavigation, actions} = this.props;
+    const {screen} = this.state;
+
+    if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
+      actions.displayBottomNavigation(!!bottomNavigation);
+    }
+  }
+
   render() {
     const { bottomNavigation, bottomNavigationDimensions } = this.props;
     let marginBottom;
@@ -25,9 +47,9 @@ class BasicLayout extends Component {
     }
 
     return (
-      <Container style={{ marginBottom }}>
+      <Container style={{ marginBottom, flex: 1 }}>
+        <Message />
         { this.props.children }
-        { bottomNavigation ? <BottomNavigation /> : null }
       </Container>
     )
   }

@@ -9,15 +9,16 @@ import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './LoginForm.styles'
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 @connect(
   state => ({
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class LoginForm extends Component {
   static propTypes = {
@@ -29,20 +30,19 @@ class LoginForm extends Component {
 
   onSubmit = () => {
     const {onSubmit, formData} = this.props;
-
     onSubmit(formData);
   };
 
   render() {
-    const {callsInProgress, formData} = this.props;
+    const {callsInProgress, formData, formErrors} = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER, API.LOGIN_BORROWER], callsInProgress);
 
     return (
       <View style={LoginFormStyles.wrapper}>
         <CelForm disabled={isLoading}>
-          <CelInput field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
-          <CelInput field="password" type="password" labelText="Password" value={formData.password} />
+          <CelInput error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
+          <CelInput error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
         </CelForm>
 
         <CelButton

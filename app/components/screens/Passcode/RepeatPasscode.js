@@ -3,18 +3,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Passcode from './Passcode'
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 
 @connect(
-  state => ({
-    nav: state.nav,
-    user: state.users.user,
-  }),
-  dispatch => bindActionCreators(actions, dispatch),
+  () => ({}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class RepeatPasscode extends Component {
-
   render() {
     return <Passcode type={'repeatPasscode'} />
   }

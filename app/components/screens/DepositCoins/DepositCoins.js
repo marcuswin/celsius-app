@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Loader from "../../atoms/Loader/Loader";
@@ -21,8 +21,9 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     portfolio: state.portfolio.portfolio,
     estimatedInterest: state.portfolio.estimatedInterest,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    callsInProgress: state.api.callsInProgress
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class DepositCoins extends Component {
   constructor(props) {
@@ -39,16 +40,16 @@ class DepositCoins extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedInterest, portfolio, getPortfolio } = this.props;
-    getEstimatedInterest();
-    if (!portfolio) getPortfolio();
+    const { actions, portfolio } = this.props;
+    actions.getEstimatedInterest();
+    if (!portfolio) actions.getPortfolio();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getEstimatedInterest, getPortfolio, activeScreen } = this.props;
+    const { actions, activeScreen } = this.props;
     if (nextProps.activeScreen === 'DepositCoins' && activeScreen !== nextProps.activeScreen) {
-      getEstimatedInterest();
-      if (!nextProps.portfolio) getPortfolio();
+      actions.getEstimatedInterest();
+      if (!nextProps.portfolio) actions.getPortfolio();
     }
   }
 
@@ -56,11 +57,13 @@ class DepositCoins extends Component {
   // rendering methods
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedInterest, portfolio, navigateTo } = this.props;
+    const { estimatedInterest, portfolio, actions } = this.props;
 
-    if (!estimatedInterest || !portfolio) return <Loader text="Estimating Interest on Coins" />;
+    if (!estimatedInterest || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader/>
+    </SimpleLayout>;
 
-    const portfolioData = get(portfolio, 'data', []);
+    const portfolioData = get(portfolio, "data", []);
 
     const letterSize = Math.round(estimatedInterest.lending_interest).toString().length >= 10 ?
       FONT_SCALE * 26 : FONT_SCALE * 36;
@@ -69,7 +72,7 @@ class DepositCoins extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState screen="DepositCoins" onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="DepositCoins" onPress={() => actions.navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 
@@ -79,7 +82,8 @@ class DepositCoins extends Component {
           renderContent={(textStyles) => (
             <Text style={textStyles}>
               <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
-              we plan to allow Celsius members to start earning interest later this year, for now, see how much interest you might be able to get.
+              we plan to allow Celsius members to start earning interest later this year, for now, see how much
+              interest you might be able to get.
             </Text>
           )}
         />

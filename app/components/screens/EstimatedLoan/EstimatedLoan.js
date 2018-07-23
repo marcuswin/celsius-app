@@ -5,14 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from 'lodash/get';
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import formatter from "../../../utils/formatter";
 import EstimatedLoanStyle from "./EstimatedLoan.styles";
 import Icon from "../../atoms/Icon/Icon";
 import Loader from "../../atoms/Loader/Loader";
-import Accordion from '../../molecules/Accordion/Accordion';
+import Accordion from "../../molecules/Accordion/Accordion";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import {FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Separator from "../../atoms/Separator/Separator";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
@@ -23,8 +23,9 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
     portfolio: state.portfolio.portfolio,
     estimatedLoan: state.portfolio.estimatedLoan,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    callsInProgress: state.api.callsInProgress
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class EstimatedLoan extends Component {
   constructor(props) {
@@ -41,17 +42,17 @@ class EstimatedLoan extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    const { getEstimatedLoan, portfolio, getPortfolio } = this.props;
-    getEstimatedLoan();
-    if (!portfolio) getPortfolio();
+    const { actions, portfolio} = this.props;
+    actions.getEstimatedLoan();
+    if (!portfolio) actions.getPortfolio();
   }
 
 
   componentWillReceiveProps(nextProps) {
-    const { getEstimatedLoan, getPortfolio, activeScreen } = this.props;
+    const { actions, activeScreen } = this.props;
     if (nextProps.activeScreen === 'EstimatedLoan' && activeScreen !== nextProps.activeScreen) {
-      getEstimatedLoan();
-      if (!nextProps.portfolio) getPortfolio();
+      actions.getEstimatedLoan();
+      if (!nextProps.portfolio) actions.getPortfolio();
     }
   }
 
@@ -106,17 +107,20 @@ class EstimatedLoan extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { estimatedLoan, portfolio, navigateTo } = this.props;
+    const { estimatedLoan, portfolio, actions } = this.props;
 
-    if (!estimatedLoan || !portfolio) return <Loader text="Estimating Loan"/>;
-    const portfolioData = get(portfolio, 'data', []);
+    if (!estimatedLoan || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
+      <Loader/>
+    </SimpleLayout>;
+
+    const portfolioData = get(portfolio, "data", []);
 
 
     if (!estimatedLoan.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
       >
-        <PortfolioEmptyState screen="EstimatedLoan" onPress={() => navigateTo('ManagePortfolio')}/>
+        <PortfolioEmptyState screen="EstimatedLoan" onPress={() => actions.navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 

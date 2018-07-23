@@ -6,7 +6,7 @@ import LoginScreen from "../components/screens/Login/Login";
 import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
 import HomeScreen from "../components/screens/Home/Home";
 import CalculatorScreen from "../components/screens/Calculator/Calculator";
-import ManagePortfolioScreen from "../components/screens/ManagePortfolio";
+import ManagePortfolioScreen from "../components/screens/ManagePortfolio/ManagePortfolio";
 import SignupOneScreen from "../components/screens/Signup/SignupOne";
 import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
 import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
@@ -31,10 +31,9 @@ import TransactionConfirmationScreen from "../components/screens/TransactionConf
 import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode";
 import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
 import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
-
 import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
-
 import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
+import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -165,6 +164,10 @@ const Navigator = createStackNavigator({
   WalletTotals: {
     screen: WalletTotalsScreen,
     title: 'WalletTotals',
+  },
+  SecureTransactions: {
+    screen: SecureTransactionsScreen,
+    title: 'SecureTransactions',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

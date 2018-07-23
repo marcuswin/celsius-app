@@ -2,11 +2,12 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import * as NavActions from '../nav/navActions';
-import {showMessage} from "../ui/uiActions";
+import { setFormErrors, showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { setSecureStoreKey } from "../../utils/expo-storage";
+import apiUtil from "../../utils/api-util";
 
 export {
   getProfileInfo,
@@ -47,7 +48,11 @@ function updateProfileInfo(profileInfo) {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
     } catch(err) {
-      dispatch(showMessage('error', err.msg));
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
       dispatch(updateProfileInfoError(err.raw_error));
       dispatch(apiError(API.UPDATE_USER_PERSONAL_INFO, err));
     }
@@ -217,7 +222,11 @@ function verifyKYCDocs() {
       dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
       dispatch(showMessage('success', 'SMS sent!'));
     } catch(err) {
-      dispatch(showMessage('error', err.msg));
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
       dispatch(apiError(callName, err));
     }
   }

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Proptypes from "prop-types";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import WalletTotalsStyle from "./WalletTotals.styles";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDetailsHeading";
@@ -14,7 +14,6 @@ import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/Prici
 import TransactionHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import formatter from "../../../utils/formatter";
 import {FONT_SCALE} from "../../../config/constants/style";
-
 
 @connect(
   state => ({
@@ -27,11 +26,10 @@ import {FONT_SCALE} from "../../../config/constants/style";
     portfolio: state.portfolio.portfolio,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletTotals extends Component {
-
-  static Proptypes = {
+  static propTypes = {
     type: Proptypes.oneOf(["total", "single-coin"]),
     onPressPrevious: Proptypes.func,
     onPressNext: Proptypes.func
@@ -41,28 +39,19 @@ class WalletTotals extends Component {
     type: "total"
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
-  }
-
   // lifecycle methods
   componentDidMount() {
-    const { getWalletDetails, getAllTransactions } = this.props;
-    getWalletDetails();
-    getAllTransactions();
+    const { actions } = this.props;
+    actions.getWalletDetails();
+    actions.getAllTransactions();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { activeScreen, getWalletDetails, getAllTransactions } = this.props;
+    const { activeScreen, actions } = this.props;
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'WalletTotals') {
-      getWalletDetails();
-      getAllTransactions();
+      actions.getWalletDetails();
+      actions.getAllTransactions();
     }
   }
 
@@ -101,7 +90,7 @@ class WalletTotals extends Component {
 
 
   render() {
-    const { walletBalances, supportedCurrencies, navigateTo, currencyRatesShort } = this.props;
+    const { walletBalances, supportedCurrencies, actions, currencyRatesShort } = this.props;
     const transactions = this.getTransactions();
 
     const ethereumTotal = this.renderBalance({
@@ -118,13 +107,20 @@ class WalletTotals extends Component {
       currency: 'BITCOIN',
       percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.price_change_usd['1d'],
     });
+    const celsiusTotal = this.renderBalance({
+      balance: walletBalances.filter(b => b.currency.short === 'CEL')[0].amount,
+      balanceUsd: walletBalances.filter(b => b.currency.short === 'CEL')[0].total,
+      short: 'CEL',
+      currency: 'CELSIUS',
+      percentage: supportedCurrencies.filter(sc => sc.short === 'CEL')[0].market.price_change_usd['1d'],
+    });
 
     return (
       <BasicLayout
         bottomNavigation
       >
         <MainHeader
-          onCancel={() => this.props.navigateTo('WalletLanding')}
+          onCancel={() => actions.navigateTo('WalletLanding')}
         />
         <WalletDetailsHeading
           type='total'
@@ -135,11 +131,12 @@ class WalletTotals extends Component {
 
           { bitcoinTotal }
           { ethereumTotal }
+          { celsiusTotal }
 
           <View style={WalletTotalsStyle.history}>
             <TransactionHistory
               transactions={transactions}
-              navigateTo={navigateTo}
+              navigateTo={actions.navigateTo}
               currencyRatesShort={currencyRatesShort}
             />
           </View>

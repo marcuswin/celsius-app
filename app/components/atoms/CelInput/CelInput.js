@@ -7,7 +7,9 @@ import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
 import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
 import SixDigitInput from "./SixDigitInput";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
+import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
+import PinInput from "./PinInput";
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -15,6 +17,7 @@ const INPUT_TYPES = {
   PHONE: 'PHONE',
   PASSWORD: 'PASSWORD',
   SIX_DIGIT: 'SIX_DIGIT',
+  PIN: 'PIN',
 }
 
 const inputTypes = [
@@ -24,17 +27,19 @@ const inputTypes = [
   INPUT_TYPES.PASSWORD, INPUT_TYPES.PASSWORD.toLowerCase(),
   // SIX_DIXIT, six-digit
   INPUT_TYPES.SIX_DIGIT, INPUT_TYPES.SIX_DIGIT.toLowerCase().replace('_', '-'),
+  INPUT_TYPES.PIN, INPUT_TYPES.PIN.toLowerCase(),
 ]
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelInput extends Component {
   static propTypes = {
     type: PropTypes.oneOf(inputTypes),
     theme: PropTypes.oneOf(['blue', 'white']),
     field: PropTypes.string.isRequired,
+    error: PropTypes.string,
 
     // inherited from CelInput
     labelText: PropTypes.string,
@@ -46,6 +51,7 @@ class CelInput extends Component {
     onPress: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    digits: PropTypes.number,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
     returnKeyType: PropTypes.string,
@@ -65,6 +71,7 @@ class CelInput extends Component {
     placeholder: '',
     editable: true,
     maxLength: 100,
+    digits: 4,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
     autoCapitalize: AUTO_CAPITALIZE.NONE,
@@ -73,45 +80,46 @@ class CelInput extends Component {
   }
 
   onFocus = () => {
-    const { onPress, scrollTo, field } = this.props;
+    const { onPress, actions, field } = this.props;
     if (onPress) {
       onPress();
     }
 
     // keyboard fires after focus
-    scrollTo({ field });
+    actions.scrollTo({ field });
 
     return false;
   };
 
   onChangeText = (text) => {
-    const { updateFormField, field, onChange } = this.props;
+    const { field, onChange, actions } = this.props;
     if (onChange) {
       onChange(field, text);
     } else {
-      updateFormField(field, text);
+      actions.updateFormField(field, text);
     }
   }
 
 
   handleLayout = (layout) => {
-    const { field, setInputLayout } = this.props;
-    setInputLayout(field, layout);
+    const { field, actions } = this.props;
+    actions.setInputLayout(field, layout);
   }
 
   // rendering methods
   render() {
+    const { theme, error, type } = this.props;
 
     this.state = {
       active: false,
     };
 
+    let inputField;
 
-
-    switch (this.props.type) {
+    switch (type) {
       case INPUT_TYPES.NUMBER:
       case INPUT_TYPES.NUMBER.toLowerCase():
-        return (
+        inputField = (
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
@@ -119,34 +127,49 @@ class CelInput extends Component {
             keyboardType={KEYBOARD_TYPE.NUMERIC}
             onLayout={this.handleLayout}
           />
-        )
+        );
+        break;
 
       case INPUT_TYPES.PASSWORD:
       case INPUT_TYPES.PASSWORD.toLowerCase():
-        return (
+        inputField = (
           <PasswordInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
           />
-        )
+        );
+        break;
 
       case INPUT_TYPES.SIX_DIGIT:
-      case 'six-digit':
-        return (
+      case "six-digit":
+        inputField = (
           <SixDigitInput
             { ...this.props }
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
           />
+        );
+        break;
+
+      case INPUT_TYPES.PIN:
+      case INPUT_TYPES.PIN.toLowerCase():
+        inputField = (
+          <PinInput
+            { ...this.props }
+            onChange={this.onChangeText}
+            onFocus={this.onFocus}
+            onLayout={this.handleLayout}
+          />
         )
+        break;
 
       case INPUT_TYPES.TEXT:
       case INPUT_TYPES.TEXT.toLowerCase():
       default:
-        return (
+        inputField = (
           <TextInput
             { ...this.props }
             onChange={this.onChangeText}
@@ -155,6 +178,15 @@ class CelInput extends Component {
           />
         )
     }
+
+    return (
+      <InputErrorWrapper
+        theme={theme}
+        error={error}
+      >
+        {inputField}
+      </InputErrorWrapper>
+    );
   }
 }
 

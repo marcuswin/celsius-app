@@ -11,7 +11,7 @@ import TotalCoinsHeader from '../../molecules/TotalCoinsHeader/TotalCoinsHeader'
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import CelButton from "../../atoms/CelButton/CelButton";
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import API from "../../../config/constants/API";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -19,6 +19,7 @@ import TopPageLoader from "../../atoms/TopPageLoader/TopPageLoader";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 let shouldRefresh = true;
 let refreshTimeout;
@@ -34,48 +35,44 @@ let refreshTimeout;
     activeScreen: state.nav.routes[state.nav.index].routeName,
     estimatedLoan: state.portfolio.estimatedLoan,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletLanding extends Component {
-
-  constructor() {
-    super();
-
-    this.state = {
-      infoBubble: true,
-    }
-  }
-
   componentDidMount() {
-    const { getWalletDetails, getSupportedCurrencies, getEstimatedLoan } = this.props;
-    getSupportedCurrencies();
-    getWalletDetails();
-    getEstimatedLoan();
+    const { actions } = this.props;
+    actions.getSupportedCurrencies();
+    actions.getWalletDetails();
+    actions.getEstimatedLoan();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { getWalletDetails, activeScreen, getEstimatedLoan } = this.props;
+    const { actions, activeScreen } = this.props;
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
-      getWalletDetails();
-      getEstimatedLoan();
+      actions.getWalletDetails();
+      actions.getEstimatedLoan();
     }
   }
 
-  onCloseInfo = () => this.props.updateUserAppSettings({ showWalletLandingInfoBox: false });
+  onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletLandingInfoBox: false });
 
   clickCard = (short, amount) => {
-    const { navigateTo } = this.props
+    const { actions, appSettings } = this.props;
     if (!amount) {
-      navigateTo('AddFunds', { currency: short.toLowerCase() });
+      if (appSettings.showSecureTransactionsScreen) {
+        actions.navigateTo('SecureTransactions', { currency: short.toLowerCase() })
+      } else {
+        actions.navigateTo('AddFunds', { currency: short.toLowerCase() })
+      }
     } else {
-      navigateTo('WalletDetails', { currency: short.toLowerCase() });
+      actions.navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
+    mixpanelActions.pressWalletCard(short);
   }
 
   refreshWallet = (e) => {
-    const { getWalletDetails, callsInProgress } = this.props;
+    const { actions, callsInProgress } = this.props;
     if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], callsInProgress) && e.nativeEvent.contentOffset.y < 0 && shouldRefresh) {
-      getWalletDetails();
+      actions.getWalletDetails();
 
       shouldRefresh = false;
       refreshTimeout = setTimeout(() => {
@@ -85,10 +82,19 @@ class WalletLanding extends Component {
     }
   }
 
-  render() {
-    const { navigateTo, walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan } = this.props;
+  goToAddFunds = () => {
+    const { appSettings, actions } = this.props;
+    if (appSettings.showSecureTransactionsScreen) {
+      actions.navigateTo('SecureTransactions')
+    } else {
+      actions.navigateTo('AddFunds')
+    }
+  }
 
-    const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], this.props.callsInProgress);
+  render() {
+    const { walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan, callsInProgress } = this.props;
+
+    const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
     const percentChange24h = get(walletTotal, 'quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange24h < 0;
@@ -104,7 +110,7 @@ class WalletLanding extends Component {
         <Content onScroll={this.refreshWallet}>
           <TotalCoinsHeader totalValue={totalValue}>
             {totalValue === 0
-              ? <CelButton size="small" color="green" margin="0 0 0 0" onPress={() => navigateTo('AddFunds')} >
+              ? <CelButton size="small" color="green" margin="0 0 0 0" onPress={this.goToAddFunds} >
                 Add funds
                 </CelButton>
               : <PricingChangeIndicator

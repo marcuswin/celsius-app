@@ -1,4 +1,5 @@
 import {NavigationActions, StackActions} from "react-navigation";
+import ACTIONS from "../../config/constants/ACTIONS";
 
 function navigateTo(routeName, screenProps) {
   return (dispatch) => {
@@ -21,4 +22,13 @@ function navigateBack() {
   }
 }
 
-export {navigateTo, navigateBack}
+function displayBottomNavigation(value) {
+  return (dispatch) => {
+    dispatch({
+      type: ACTIONS.DISPLAY_BOTTOM_NAVIGATION,
+      value,
+    })
+  }
+}
+
+export {navigateTo, navigateBack, displayBottomNavigation}

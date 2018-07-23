@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import { Constants } from "expo";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import WalletLanding from "../WalletLanding/WalletLanding";
 import NoKyc from "../NoKyc/NoKyc";
 import CreatePasscode from "../Passcode/CreatePasscode";
@@ -21,7 +21,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 
 class HomeScreen extends Component {
@@ -31,7 +31,7 @@ class HomeScreen extends Component {
       const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       // get user from db
       if (token) {
-        this.props.getProfileInfo();
+        this.props.actions.getProfileInfo();
       }
     } catch(err) {
       console.log(err);

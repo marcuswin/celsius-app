@@ -8,7 +8,7 @@ import apiUtil from '../../../utils/api-util';
 import Separator from '../../atoms/Separator/Separator';
 import CelButton from "../../atoms/CelButton/CelButton";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {STYLES} from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -21,25 +21,27 @@ import CelInput from "../../atoms/CelInput/CelInput";
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
+    formErrors: state.ui.formErrors,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SignupOne extends Component {
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    if (!this.props.user && nextProps.user) {
-      this.props.navigateTo('SignupTwo');
+    const { actions, user } = this.props;
+    if (!user && nextProps.user) {
+      actions.navigateTo('SignupTwo');
     }
   }
 
   onSubmit = () => {
-    const { registerUser, formData } = this.props;
-    registerUser(formData);
+    const { actions, formData } = this.props;
+    actions.registerUser(formData);
   };
 
   // rendering methods
   render() {
-    const {callsInProgress, formData } = this.props;
+    const {callsInProgress, formData, formErrors } = this.props;
     const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
@@ -60,16 +62,22 @@ class SignupOne extends Component {
 
           <View style={SignupOneStyle.formWrapper}>
             <CelForm disabled={isLoading}>
-              <CelInput field="email"
-                        labelText="E-mail"
-                        keyboardType='email-address'
-                        returnKeyType="next"
-                        value={formData.email}/>
-              <CelInput field="password"
-                        type="password"
-                        labelText="Password"
-                        returnKeyType="done"
-                        value={formData.password} />
+              <CelInput
+                error={formErrors.email}
+                field="email"
+                labelText="E-mail"
+                keyboardType='email-address'
+                returnKeyType="next"
+                value={formData.email}
+              />
+              <CelInput
+                error={formErrors.password}
+                field="password"
+                type="password"
+                labelText="Password"
+                returnKeyType="done"
+                value={formData.password}
+              />
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton

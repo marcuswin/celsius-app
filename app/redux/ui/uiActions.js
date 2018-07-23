@@ -15,6 +15,7 @@ export {
   // submitForm,
   initForm,
   clearForm,
+  setFormErrors,
   updateFormField,
   updatePortfolioFormData,
   setKeyboardHeight,
@@ -36,7 +37,7 @@ function showMessage(msgType, text, disableClear) {
         dispatch(clearMessage());
       }
       clearTimeout(msgTimeout);
-    }, 5000);
+    }, 4000);
 
     dispatch({
       type: ACTIONS.SHOW_MESSAGE,
@@ -117,6 +118,19 @@ function clearForm() {
   }
 }
 
+function setFormErrors(formErrors) {
+  return dispatch => {
+    const timeout = setTimeout(() => {
+      dispatch({ type: ACTIONS.CLEAR_FORM_ERRORS })
+      clearTimeout(timeout)
+    }, 5000)
+    dispatch({
+      type: ACTIONS.SET_FORM_ERRORS,
+      formErrors,
+    })
+  }
+}
+
 function updatePortfolioFormData(data) {
   return {
     type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
@@ -150,7 +164,9 @@ function scrollTo(scrollOptions = {}) {
 
   return (dispatch, getState) => {
 
-    const { screenHeight } = getState().ui.dimensions;
+    const { screenHeight, bottomNavigation } = getState().ui.dimensions;
+    const { displayBottomNavigation } = getState().nav;
+    const scrollBottomOffset = displayBottomNavigation ? 40 : bottomNavigation.height + 10;
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {
@@ -163,7 +179,7 @@ function scrollTo(scrollOptions = {}) {
     const fieldLayout = field ? getState().ui.formInputLayouts[field] : undefined;
     if (field && fieldLayout) {
       if (keyboardHeight) {
-        newY = fieldLayout.y - (screenHeight - keyboardHeight - 40);
+        newY = fieldLayout.y - (screenHeight - keyboardHeight - scrollBottomOffset);
         newY = newY < 0 ? 0 : newY;
         dispatch({ type: ACTIONS.SCROLL_TO, scrollTo: Math.round(newY) });
       } else {
@@ -171,7 +187,7 @@ function scrollTo(scrollOptions = {}) {
         const keyboardInterval = setInterval(() => {
           const kHeight = getState().ui.keyboardHeight;
           if (kHeight) {
-            newY = fieldLayout.y - (screenHeight - kHeight - 40);
+            newY = fieldLayout.y - (screenHeight - kHeight - scrollBottomOffset);
             newY = newY < 0 ? 0 : newY;
 
             clearInterval(keyboardInterval);

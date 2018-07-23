@@ -2,24 +2,25 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import {connect} from 'react-redux';
+import RNPickerSelect from 'react-native-picker-select';
 import {bindActionCreators} from "redux";
 import { lookup } from "country-data";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { GENDER, DOCUMENT_TYPE, PERSON_TITLE } from "../../../config/constants/common";
-import SelectModal from "../../organisms/SelectModal/SelectModal";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
+import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelSelect extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
-    type: PropTypes.oneOf(['gender', 'document', 'title', 'country']),
+    type: PropTypes.oneOf(['gender', 'document', 'title', 'country', 'native']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
@@ -27,15 +28,18 @@ class CelSelect extends Component {
       PropTypes.string,
     ]),
     field: PropTypes.string,
+    error: PropTypes.string,
     labelText: PropTypes.string,
+    margin: PropTypes.string,
   }
   static defaultProps = {
-    type: '',
+    type: 'native',
     value: '',
     field: '',
     items: [],
     labelText: '',
     theme: 'blue',
+    margin: '0 0 15 0',
   }
 
   constructor(props) {
@@ -80,22 +84,30 @@ class CelSelect extends Component {
       this.setState({ value: item });
     }
   }
+
   // event hanlders
   selectValue = (item) => {
-    const { updateFormField, field, type } = this.props;
+    const { actions, field, type } = this.props;
     if (item) {
       if (type === 'country') {
-        updateFormField(field, item.name);
+        actions.updateFormField(field, item.name);
       } else {
-        updateFormField(field, item.value);
+        actions.updateFormField(field, item.value);
       }
     }
     this.setState({ visible: false });
-  }
-  // rendering methods
-  render() {
-    const { theme, labelText, type } = this.props;
-    const { visible, items, value } = this.state;
+  };
+
+  handlePickerSelect = (value) => {
+    const { actions, field } = this.props;
+    if (value) {
+      actions.updateFormField(field, value);
+    }
+  };
+
+  renderSelect() {
+    const { theme, labelText, error, margin } = this.props;
+    const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
@@ -104,34 +116,49 @@ class CelSelect extends Component {
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     return (
-      <View>
+      <InputErrorWrapper
+        theme={theme}
+        error={error}
+        margin={margin}
+      >
         <TouchableOpacity
-          onPress={ () => this.setState({ visible: !visible })}
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}
-        >
-          <Text style={ labelStyles }>{ label }</Text>
+          onPress={() => this.setState({ visible: !visible })}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
+          <Text style={labelStyles}>{label}</Text>
           <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
-            { value && (value.label || value.name) }
+            {value && (value.label || value.name)}
           </Text>
 
           <View style={ globalStyles.inputIconRight }>
             <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
           </View>
         </TouchableOpacity>
+      </InputErrorWrapper>
+    );
+  }
 
-        { type === 'country' ? (
-          <SelectCountryModal
-            visible={ visible }
-            onClose={ this.selectValue }
-          />
-        ) : (
-          <SelectModal
-            visible={visible}
+  // rendering methods
+  render() {
+    const { type } = this.props;
+    const { visible, items, value } = this.state;
+
+    return (
+      <View>
+        { type !== 'country' ?
+          <RNPickerSelect
             items={items}
-            onClose={ this.selectValue }
-            modalTitle={ labelText }
-          />
-        )}
+            onValueChange={this.handlePickerSelect}
+            value={value ? value.value : null}>
+            {this.renderSelect()}
+          </RNPickerSelect> :
+          this.renderSelect()
+        }
+        { type === 'country' &&
+        <SelectCountryModal
+          visible={ visible }
+          onClose={ this.selectValue }
+        />
+        }
       </View>
     );
   }

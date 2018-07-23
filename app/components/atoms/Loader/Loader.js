@@ -1,28 +1,24 @@
 import React from 'react';
-import { Image, View, Text } from 'react-native';
+import { View, Dimensions } from 'react-native';
 
-import {STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import Icon from "../../atoms/Icon/Icon";
+
+const { width, height } = Dimensions.get('window');
 
 const wrapperStyles = {
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100%',
-  backgroundColor: STYLES.PRIMARY_BLUE,
-}
+  height: height/2,
+  width: width/2
+};
 
-const imageStyles = {
-  height: 200,
-  width: 200,
-}
 
-// const spinner = require('../../../../assets/images/icons/celsius-spinner.gif');
-const logo = require('../../../../assets/images/icons/celsius_symbol_white.png');
-
-const Loader = (props) =>
+const Loader = () =>
   <View style={wrapperStyles}>
-    <Image source={logo} style={imageStyles} />
-    { props.text ? <Text style={[globalStyles.heading, { color: 'white' }]}>{ props.text }</Text> : null }
-    <Text style={[globalStyles.normalText, { color: 'white' }]}>Please wait...</Text>
-  </View>
+      <Icon name='CelsiusWithCircle' width='150' height='150' fill={'#c8c8c8'}
+            style={{marginLeft: width/3}}
+      />
+  </View>;
+
 
 export default Loader;

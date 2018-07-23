@@ -1,9 +1,10 @@
 import axios from 'axios';
+import qs from 'qs';
 import apiUrl from './api-url';
+import cryptoUtil from '../utils/crypto-util';
 
 const walletService = {
   getWalletDetails,
-  getCoinBalance,
   getCoinAddress,
   getCoinOriginatingAddress,
   getCoinTransactions,
@@ -14,11 +15,8 @@ const walletService = {
 };
 
 function getWalletDetails() {
-  return axios.get(`${apiUrl}/wallet`);
-}
-
-function getCoinBalance(coin) {
-  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/balance`);
+  const params = { supported_coins: cryptoUtil.getEligibleCoins() };
+  return axios.get(`${apiUrl}/wallet?${qs.stringify(params)}`);
 }
 
 function getCoinAddress(coin) {

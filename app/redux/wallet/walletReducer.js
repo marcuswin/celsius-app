@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import ACTIONS from '../../config/constants/ACTIONS';
 
 function initialState() {
@@ -64,10 +66,11 @@ export default function walletReducer(state = initialState(), action) {
           total: action.wallet.meta,
           currencies: action.wallet.data.map(c => {
             const currency = c;
+            // round down crypto balances to 5 decimals, otherwise they get rounded wrong
+            const amountBN = new BigNumber(currency.amount);
             currency.amountRaw = currency.amount;
-
-            // floor crypto balances to 5 decimals, otherwise they get rounded wrong
-            currency.amount = Math.floor(currency.amountRaw * 100000) / 100000;
+            currency.amount = amountBN.toPrecision(5, 1);
+            currency.amountBN = amountBN;
 
             return currency;
           }),

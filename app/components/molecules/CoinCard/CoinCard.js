@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import Icon from "../../atoms/Icon/Icon";
@@ -124,12 +124,9 @@ const CoinCardStyle = StyleSheet.create({
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-
-
 class CoinCard extends Component {
-
   static propTypes = {
     type: PropTypes.oneOf(['default', 'wallet-card'])
   }
@@ -137,7 +134,6 @@ class CoinCard extends Component {
   static defaultProps = {
     type: 'default',
   }
-
 
   render() {
     const { type, currency, amount, total, supportedCurrencies } = this.props;

@@ -26,28 +26,6 @@ function getWalletDetailsSuccess(wallet) {
   }
 }
 
-export function getCoinBalance(coin) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_COIN_BALANCE));
-
-      const res = await walletService.getCoinBalance(coin);
-      dispatch(getCoinBalanceSuccess(res.data));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_COIN_BALANCE, err));
-    }
-  }
-}
-
-function getCoinBalanceSuccess(coinBalance) {
-  return {
-    type: ACTIONS.GET_COIN_BALANCE_SUCCESS,
-    callName: API.GET_COIN_BALANCE,
-    coinBalance,
-  }
-}
-
 export function getCoinAddress(coin) {
   return async dispatch => {
     try {

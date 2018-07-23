@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import { FONT_SCALE } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -17,6 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 const {ENV} = Constants.manifest.extra;
 
@@ -34,16 +35,18 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
+
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { getTransactionDetails, navigation, getSupportedCurrencies, activeTransactionId } = this.props;
-    getSupportedCurrencies();
+    const { actions, navigation, activeTransactionId } = this.props;
+    actions.getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
-    getTransactionDetails(transactionId || activeTransactionId);
+    actions.getTransactionDetails(transactionId || activeTransactionId);
+    mixpanelActions.viewTransaction(transactionId || activeTransactionId);
   }
 
   renderCelHeading() {
@@ -146,9 +149,14 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { supportedCurrencies, transaction, navigateTo, currencyRatesShort } = this.props;
+    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
 
-    if (!supportedCurrencies || !transaction) return <Loader text="Checking Data"/>;
+    if (!supportedCurrencies || !transaction) return <BasicLayout
+      bottomNavigation
+    >
+      <MainHeader backButton/>
+    <Loader/>
+    </BasicLayout>;
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
@@ -231,7 +239,7 @@ class TransactionDetails extends Component {
           )}
 
           <CelButton
-            onPress={() => navigateTo('Home')}
+            onPress={() => actions.navigateTo('Home')}
             margin='10 36 45 36'
           >
             Close

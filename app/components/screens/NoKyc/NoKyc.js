@@ -3,7 +3,7 @@ import { Image, Linking, Text, View } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -17,7 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
     activeScreen: state.nav.routes[state.nav.index].routeName,
     user: state.users.user,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class NoKyc extends Component {
   constructor(props) {
@@ -25,26 +25,26 @@ class NoKyc extends Component {
 
     this.state = {
       animatedHeading: {
-        text: `Welcome \n${this.props.user.first_name}!`
+        text: `Welcome \n${props.user.first_name}!`
       },
    }
 
-   props.getKYCStatus();
+   props.actions.getKYCStatus();
   }
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
-    const { activeScreen, getKYCStatus } = this.props;
+    const { activeScreen, actions } = this.props;
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
-      getKYCStatus();
+      actions.getKYCStatus();
     }
   }
   // event hanlders
   // rendering methods
 
   renderPending() {
-    const {navigateTo} = this.props;
+    const {actions} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -63,7 +63,7 @@ class NoKyc extends Component {
         <Text style={[NoKycStyle.textTwo, {marginTop: 10}]}>
           While you're waiting for your profile verification to finish(usually within 24 hours), you can add coins to watch in your portfolio or join our Telegram.</Text>
         <CelButton
-          onPress={() => navigateTo('ManagePortfolio')}
+          onPress={() => actions.navigateTo('ManagePortfolio')}
           margin='0 50 0 50'
         >
           Visit portfolio
@@ -85,7 +85,7 @@ class NoKyc extends Component {
   }
 
   renderRejected() {
-    const {navigateTo, kycErrors} = this.props;
+    const {actions, kycErrors} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -111,7 +111,7 @@ class NoKyc extends Component {
           Please, go through the KYC process again, or contact <Text onPress={()=> Linking.openURL('mailto:hello@celsius.network')} style={NoKycStyle.textButton}>Celsius support.</Text>
         </Text>
         <CelButton
-          onPress={() => navigateTo('ProfileDetails')}
+          onPress={() => actions.navigateTo('ProfileDetails')}
           margin='20 50 30 50'
         >
           Verify Again
@@ -121,7 +121,7 @@ class NoKyc extends Component {
   }
 
   renderNotStarted() {
-    const {navigateTo} = this.props;
+    const {actions} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -137,14 +137,14 @@ class NoKyc extends Component {
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
-          onPress={() => navigateTo('ProfileDetails')}
+          onPress={() => actions.navigateTo('ProfileDetails')}
           margin='0 50 0 50'
         >
           Verify profile
         </CelButton>
         <CelButton
           transparent
-          onPress={() => navigateTo('CryptoForPeople')}
+          onPress={() => actions.navigateTo('CryptoForPeople')}
           color="blue"
           size="small"
           margin="0 0 15 0"

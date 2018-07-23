@@ -7,11 +7,10 @@ import {Col, Grid} from "react-native-easy-grid";
 import {TWLoginButton} from 'react-native-simple-twitter';
 import {Constants, Facebook, Google} from "expo";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import ThirdPartyLoginSectionStyle from "./ThirdPartyLoginSection.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { actions as mixpanelActions } from '../../../services/mixpanel'
-
 
 const {
   GOOGLE_WEB_CLIENT_ID,
@@ -29,7 +28,7 @@ const {
     screenWidth: state.ui.dimensions.screenWidth,
     user: state.users.user,
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ThirdPartyLoginSection extends Component {
   static propTypes = {
@@ -39,24 +38,25 @@ class ThirdPartyLoginSection extends Component {
   // lifecycle methods
   // event handlers
   onOpenTwitter = () => {
-    if (this.props.type === 'signup') {
+    const { type, actions } = this.props;
+    if (type === 'signup') {
       mixpanelActions.startedSignup('oAuth');
     }
     this.fakeTwitterButton.onButtonPress();
-    this.props.twitterOpen();
+    actions.twitterOpen();
   };
 
   onTwitterSuccess = (twitterUser) => {
-    const {loginTwitter, user, type, twitterSuccess} = this.props;
+    const {user, type, actions} = this.props;
 
     const u = twitterUser;
     u.accessToken = user.twitter_oauth_token;
     u.secret_token = user.twitter_oauth_secret;
 
     if (type === 'login') {
-      loginTwitter(u);
+      actions.loginTwitter(u);
     } else {
-      twitterSuccess(u);
+      actions.twitterSuccess(u);
     }
   };
 
@@ -65,7 +65,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   googleAuth = async () => {
-    const {loginGoogle, type, googleSuccess} = this.props;
+    const {type, actions} = this.props;
 
     try {
       const result = await Google.logInAsync({
@@ -87,10 +87,10 @@ class ThirdPartyLoginSection extends Component {
         user.accessToken = result.accessToken;
 
         if (type === 'login') {
-          loginGoogle(user);
+          actions.loginGoogle(user);
         } else {
           mixpanelActions.startedSignup('oAuth');
-          googleSuccess(user);
+          actions.googleSuccess(user);
         }
       } else {
         return {cancelled: true};
@@ -101,7 +101,7 @@ class ThirdPartyLoginSection extends Component {
   };
 
   facebookAuth = async () => {
-    const {loginFacebook, facebookSuccess} = this.props;
+    const {actions} = this.props;
 
     try {
       const {type, token} = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
@@ -115,21 +115,21 @@ class ThirdPartyLoginSection extends Component {
         user.accessToken = token;
 
         if (this.props.type === 'login') {
-          loginFacebook(user);
+          actions.loginFacebook(user);
         } else {
           mixpanelActions.startedSignup('oAuth');
-          facebookSuccess(user);
+          actions.facebookSuccess(user);
         }
       }
     } catch (e) {
-      this.props.showMessage('error', e.message)
+      actions.showMessage('error', e.message)
     }
 
   };
 
   // rendering methods
   render() {
-    const {twitterClose, twitterGetAccessToken, screenWidth, type} = this.props;
+    const {twitterGetAccessToken, screenWidth, type, actions} = this.props;
 
     const iconSize = 0.2 * screenWidth;
     const action = type === 'login' ? 'Login with' : 'Sign up with';
@@ -174,7 +174,7 @@ class ThirdPartyLoginSection extends Component {
           onGetAccessToken={twitterGetAccessToken}
           onSuccess={this.onTwitterSuccess}
           closeText="< Back to Celsius"
-          onClose={twitterClose}
+          onClose={actions.twitterClose}
           onError={this.handleError}
         />
       </View>

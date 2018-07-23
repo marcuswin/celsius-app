@@ -10,6 +10,7 @@ let token;
 export default {
   initInterceptors,
   areCallsInProgress,
+  parseValidationErrors,
 }
 
 function initInterceptors() {
@@ -77,6 +78,17 @@ function initInterceptors() {
     });
 }
 
-function areCallsInProgress(callsToCheck, callsInProgress) {
+function areCallsInProgress(callsToCheck, callsInProgress = []) {
   return !!(callsInProgress.filter(cip => callsToCheck.indexOf(cip) !== -1).length);
+}
+
+function parseValidationErrors(serverError) {
+  const errKeys = Object.keys(serverError.raw_error);
+  const validationErrors = {};
+
+  errKeys.forEach(ek => {
+    validationErrors[ek] = serverError.raw_error[ek].msg;
+  })
+
+  return validationErrors;
 }
