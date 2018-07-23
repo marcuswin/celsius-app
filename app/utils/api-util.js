@@ -44,9 +44,9 @@ function initInterceptors() {
       }
 
       if (ENV === 'PRODUCTION') {
-        newRequest.headers['X-CLient-Version'] = CLIENT_VERSION;
+        newRequest.headers['X-Client-Version'] = CLIENT_VERSION;
       } else {
-        newRequest.headers['X-CLient-Version'] = ENV;
+        newRequest.headers['X-Client-Version'] = ENV;
       }
 
       /* eslint-disable no-underscore-dangle */
