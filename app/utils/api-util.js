@@ -4,7 +4,7 @@ import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 let token;
 
 export default {
@@ -41,6 +41,12 @@ function initInterceptors() {
         }
       } catch (err) {
         console.log(err);
+      }
+
+      if (ENV === 'PRODUCTION') {
+        newRequest.headers['X-CLient-Version'] = CLIENT_VERSION;
+      } else {
+        newRequest.headers['X-CLient-Version'] = ENV;
       }
 
       /* eslint-disable no-underscore-dangle */
