@@ -1,22 +1,13 @@
 import { StyleSheet } from "react-native";
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import { FONT_SCALE } from "../../../config/constants/style";
 
 const TransactionConfirmationStyle = StyleSheet.create({
-  contactText: {
-    color: STYLES.PRIMARY_BLUE
-
-  },
-  explanationText: {
-    fontFamily: "agile-light",
-    fontSize: FONT_SCALE * 18,
-    color: "rgba(61,72,83,1)",
-    marginTop: 30,
+  infoBubbleWrapper: {
     marginRight: 36,
-    marginLeft: 36
+    marginLeft: 36,
   },
   addresViewWrapper: {
     height: 85,
-    marginTop: 25,
     marginRight: 36,
     marginLeft: 36,
     backgroundColor: 'white',

@@ -15,6 +15,8 @@ import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import { actions as mixpanelActions } from "../../../services/mixpanel";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   state => ({
@@ -87,12 +89,20 @@ class TransactionConfirmation extends Component {
             </View>
           </View>
 
-          <Text style={TransactionConfirmationStyle.explanationText}>
-            This is the only address you can make withdrawals to. If you want to change the address, please <Text onPress={()=> Linking.openURL('mailto:hello@celsius.network')} style={TransactionConfirmationStyle.contactText}>contact Celsius support.</Text>
-          </Text>
+          <View style={TransactionConfirmationStyle.infoBubbleWrapper}>
+            <InfoBubble
+              renderContent={(textStyles) => (
+                <View>
+                  <Text style={textStyles}>
+                    Please confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address to send coins or tokens to. If you need to change your withdrawal address, <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.boldText}>please contact Celsius support.</Text>
+                  </Text>
+                </View>
+              )}
+            />
+          </View>
 
           <View style={TransactionConfirmationStyle.addresViewWrapper}>
-            <Text style={TransactionConfirmationStyle.toAddress}>TO ADDRESS</Text>
+            <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
             <Text style={TransactionConfirmationStyle.address}>{ originatingAddress }</Text>
           </View>
 
