@@ -72,6 +72,7 @@ class WalletDetails extends Component {
     const currency = navigation.getParam('currency').toLowerCase();
     const transactions = this.getTransactions();
     const walletData = (walletCurrencies != null) && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
+    const isCelCurrency = currency === 'cel';
 
     return (
       <BasicLayout bottomNavigation>
@@ -91,11 +92,15 @@ class WalletDetails extends Component {
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
             {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
-                title={`Deposit your ${currency.toUpperCase()}`}
+                title={isCelCurrency ? `Your CEL Price` : `Deposit your ${currency.toUpperCase()}`}
                 onPressClose={this.onCloseInfo}
               >
+
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100
+                  {isCelCurrency ?
+                    `The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.` :
+                    `Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100`
+                  }
                 </Text>
               </WalletInfoBubble>
             )}
