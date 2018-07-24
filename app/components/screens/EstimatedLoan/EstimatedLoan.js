@@ -160,7 +160,7 @@ class EstimatedLoan extends Component {
             <Text style={styles}>
               Your estimated loan amount is based on
               <Text style={[styles, globalStyles.boldText]}> 33.33% </Text>
-              of your BTC and ETH value. Please note that during 2018 we will cap all loans at $10,000 in order to allow as many people as possible to receive loans.
+              of your BTC and ETH value.
             </Text>
           }
         />
