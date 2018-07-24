@@ -110,7 +110,7 @@ class WalletDetails extends Component {
               currencyRatesShort={currencyRatesShort}
               />
 
-            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {actions.navigateTo('EnterPasscode', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
+            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {actions.navigateTo('AmountInput', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
           </View>
         </Content>
       </BasicLayout>

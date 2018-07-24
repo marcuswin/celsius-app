@@ -14,7 +14,6 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
-import { actions as mixpanelActions } from "../../../services/mixpanel";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
@@ -50,8 +49,10 @@ class TransactionConfirmation extends Component {
   // event hanlders
   confirmWithdrawal = () => {
     const { formData, actions } = this.props;
-    actions.withdrawCrypto(formData.currency, formData.amountCrypto);
-    mixpanelActions.confirmWithdraw(formData.amountCrypto, formData.currency);
+    actions.navigateTo('EnterPasscode', {
+      amountCrypto: formData.amountCrypto,
+      currency: formData.currency,
+    });
   }
   // rendering methods
   render() {

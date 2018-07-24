@@ -18,6 +18,7 @@ import { STYLES } from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
+import { actions as mixpanelActions } from "../../../services/mixpanel";
 
 const types = {
     createPasscode: {
@@ -58,7 +59,7 @@ class Passcode extends Component {
   };
 
   onPressButton = () => {
-    const { type, formData, currency, actions } = this.props;
+    const { type, formData, currency, amountCrypto, actions } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -69,9 +70,11 @@ class Passcode extends Component {
       // TODO(fj): move pin checking to action
       const pin = formData
       const checkPin = meService.checkPin(pin)
+
       checkPin.then(() => {
         actions.storePin(pin.pin);
-        actions.navigateTo('AmountInput', {currency})
+        actions.withdrawCrypto(currency, amountCrypto);
+        mixpanelActions.confirmWithdraw(amountCrypto, currency);
       }, (error) => {
         actions.showMessage('error', error.error);
       })

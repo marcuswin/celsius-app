@@ -13,7 +13,8 @@ import * as appActions from "../../../redux/actions";
 class EnterPasscode extends Component {
   render() {
     const currency = this.props.navigation.getParam('currency')
-    return <Passcode type={'enterPasscode'} currency={currency} />
+    const amountCrypto = this.props.navigation.getParam('amountCrypto')
+    return <Passcode type={'enterPasscode'} currency={currency} amountCrypto={amountCrypto} />
   }
 }
 
