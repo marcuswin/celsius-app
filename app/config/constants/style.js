@@ -95,8 +95,15 @@ export const GLOBAL_STYLE_DEFINITIONS = {
   },
   blueInputWrapper: { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
   blueInputWrapperActive: {backgroundColor: 'rgba(255,255,255,0.35)'},
+  blueInputWrapperDisabled: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    opacity: 0.4,
+  },
   whiteInputWrapper: { backgroundColor: 'rgba(255,255,255,0.5)' },
   whiteInputWrapperActive: { backgroundColor: STYLES.INPUT_COLOR_WHITE },
+  whiteInputWrapperDisabled: {
+    backgroundColor: 'rgba(206, 209, 212, 0.4)',
+  },
   inputItem: {
     borderBottomColor: 'transparent',
     marginTop: 0,

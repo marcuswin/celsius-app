@@ -92,9 +92,10 @@ class CelTextInput extends Component {
     }
 
     const inputBackground = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    const disabledStyles = !editable ? globalStyles[`${theme}InputWrapperDisabled`] : {};
 
     return (
-      <View style={[globalStyles.inputWrapper, inputBackground ]}>
+      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles ]}>
         <TextInput
           style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
           underlineColorAndroid={'rgba(0,0,0,0)'}
