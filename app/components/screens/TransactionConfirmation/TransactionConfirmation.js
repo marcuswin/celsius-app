@@ -85,7 +85,7 @@ class TransactionConfirmation extends Component {
             <View style={AmountInputStyle.newBalance}>
               <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
               <Text style={AmountInputStyle.newBalanceText}>{ formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 }) } = </Text>
-              <Text style={AmountInputStyle.newBalanceText}>{ formatter.usd(balanceUsd) }</Text>
+              <Text style={[AmountInputStyle.newBalanceText, globalStyles.mediumText]}>{ formatter.usd(balanceUsd) }</Text>
             </View>
           </View>
 

@@ -20,7 +20,7 @@ const AmountInputStyle = StyleSheet.create({
     margin: "auto",
     textAlign: 'center',
     marginBottom: 20,
-    marginTop: 35,
+    marginTop: 25,
     color: '#3D4853'
   },
   cryptoAmount: {

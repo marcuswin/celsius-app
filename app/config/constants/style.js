@@ -61,6 +61,7 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     marginTop: 10,
     marginBottom: 10,
   },
+  mediumText: { fontFamily: 'agile-medium' },
   boldText: { fontFamily: 'agile-bold' },
   centeredColumn: {
     justifyContent: 'center',
