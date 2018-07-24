@@ -10,6 +10,7 @@ import formatter from "../../../utils/formatter";
 import EstimatedLoanStyle from "./EstimatedLoan.styles";
 import Icon from "../../atoms/Icon/Icon";
 import Loader from "../../atoms/Loader/Loader";
+import CelButton from "../../atoms/CelButton/CelButton";
 import Accordion from "../../molecules/Accordion/Accordion";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -109,9 +110,11 @@ class EstimatedLoan extends Component {
     const { animatedHeading } = this.state;
     const { estimatedLoan, portfolio, actions } = this.props;
 
-    if (!estimatedLoan || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
-      <Loader/>
-    </SimpleLayout>;
+    if (!estimatedLoan || !portfolio) return (
+      <SimpleLayout animatedHeading={animatedHeading}>
+        <Loader/>
+      </SimpleLayout>
+    )
 
     const portfolioData = get(portfolio, "data", []);
 
@@ -131,10 +134,23 @@ class EstimatedLoan extends Component {
       >
         <InfoBubble
           renderContent={(textStyles) => (
-            <Text style={textStyles}>
-              <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
-              we plan to allow Celsius members to start borrowing dollars in a few months, for now, see how big a loan you'll be able to get. Initially based on your BTC and ETH deposits.
-            </Text>
+            <View>
+              <Text style={[textStyles, globalStyles.boldText, { textAlign: 'center' }]}>
+                Join Our Private Beta
+              </Text>
+              <Text style={[textStyles, { textAlign: 'center' }]}>
+                Click on the button below to see if you're eligible to be one of the first to borrow dollars against your crypto at 9% interest
+              </Text>
+              <CelButton
+                white
+                size="mini"
+                color="yellow"
+                margin="10 20 0 20"
+                onPress={() => Linking.openURL('https://bit.ly/2LxrlJU')}
+              >
+                Apply Now
+              </CelButton>
+            </View>
           )}
         />
 

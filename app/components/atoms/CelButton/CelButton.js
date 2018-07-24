@@ -10,7 +10,7 @@ import Icon from "../Icon/Icon";
 import {COLORS} from "../../../config/constants/style";
 import stylesUtil from "../../../utils/styles-util";
 
-const buttonColors = ['blue', 'green', 'pink'];
+const buttonColors = ['blue', 'green', 'pink', 'yellow'];
 const buttonSizes = ['mini', 'small', 'medium'];
 
 class CelButton extends Component {

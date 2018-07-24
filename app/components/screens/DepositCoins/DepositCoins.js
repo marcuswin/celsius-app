@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, Image, View } from 'react-native';
+import { Text, Image, View, Linking } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
@@ -7,6 +7,7 @@ import get from "lodash/get";
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import CelButton from "../../atoms/CelButton/CelButton";
 import Loader from "../../atoms/Loader/Loader";
 import CoinValueAccordion from "../../molecules/CoinValueAccordion/CoinValueAccordion";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -59,9 +60,11 @@ class DepositCoins extends Component {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, actions } = this.props;
 
-    if (!estimatedInterest || !portfolio) return <SimpleLayout animatedHeading={animatedHeading}>
-      <Loader/>
-    </SimpleLayout>;
+    if (!estimatedInterest || !portfolio) return (
+      <SimpleLayout animatedHeading={animatedHeading}>
+        <Loader/>
+      </SimpleLayout>
+    );
 
     const portfolioData = get(portfolio, "data", []);
 
@@ -80,11 +83,23 @@ class DepositCoins extends Component {
       <SimpleLayout animatedHeading={animatedHeading}>
         <InfoBubble
           renderContent={(textStyles) => (
-            <Text style={textStyles}>
-              <Text style={[textStyles, globalStyles.boldText]}>Coming soon: </Text>
-              we plan to allow Celsius members to start earning interest later this year, for now, see how much
-              interest you might be able to get.
-            </Text>
+            <View>
+              <Text style={[textStyles, globalStyles.boldText, { textAlign: 'center' }]}>
+                Join Our Private Beta
+              </Text>
+              <Text style={[textStyles, { textAlign: 'center' }]}>
+                Click on the button below to see if you're eligible to be one of the first to earn up to 5% interest annually using our platform
+              </Text>
+              <CelButton
+                white
+                size="mini"
+                color="yellow"
+                margin="10 20 0 20"
+                onPress={() => Linking.openURL('https://bit.ly/2JO3KzG')}
+              >
+                Apply Now
+              </CelButton>
+            </View>
           )}
         />
 
