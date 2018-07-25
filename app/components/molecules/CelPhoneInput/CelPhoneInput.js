@@ -50,21 +50,6 @@ class CelPhoneInput extends Component {
     });
   }
 
-  componentDidUpdate() {
-    const { value } = this.props;
-    // format '+000 000 000 000 000'
-    if (value) {
-      let phoneDisplay = [];
-      if (value.substring(0, 4)) phoneDisplay.push(value.substring(0, 4));
-      if (value.substring(4, 7)) phoneDisplay.push(value.substring(4, 7));
-      if (value.substring(7, 10)) phoneDisplay.push(value.substring(7, 10));
-      if (value.substring(10, 13)) phoneDisplay.push(value.substring(10, 13));
-      if (value.substring(13, 16)) phoneDisplay.push(value.substring(13, 16));
-      phoneDisplay = phoneDisplay.join(" ");
-      this.phone.inputPhone.setNativeProps({ text: phoneDisplay });
-    }
-  }
-
   onPressFlag = () => {
     if (this.props.editable) {
       this.setState({ showCountryModal: true });
@@ -122,13 +107,15 @@ class CelPhoneInput extends Component {
       borderRadius: 4,
     };
 
+    const disabledStyles = !editable ? globalStyles[`${theme}InputWrapperDisabled`] : {};
+
     return (
       <InputErrorWrapper
         theme={theme}
         error={error}
       >
         <View
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground]}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], phoneBackground, disabledStyles]}
         >
           <Label style={labelStyles}>{labelText.toUpperCase() || "PHONE"}</Label>
           <Item style={globalStyles.inputItem}>
@@ -142,6 +129,7 @@ class CelPhoneInput extends Component {
               onChangePhoneNumber={this.changePhoneNumber}
               disabled={disabled}
               flagStyle={flagStyles}
+              value={value}
             />
             <SelectCountryModal
               withPhones

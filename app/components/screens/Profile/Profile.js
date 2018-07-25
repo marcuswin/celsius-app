@@ -145,6 +145,7 @@ class ProfileScreen extends Component {
               theme="white"
               labelText={getError(error, 'cellphone', "Phone number")}
               field="cellphone"
+              editable={false}
               value={formData.cellphone}
             />
           </CelForm>
