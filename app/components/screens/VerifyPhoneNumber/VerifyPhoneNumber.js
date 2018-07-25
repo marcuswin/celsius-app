@@ -67,6 +67,7 @@ class VerifyPhoneNumber extends Component {
             <CelInput type="pin"
                       field="verificationCode"
                       value={pinValue}
+                      showDigits
                       digits={4}
                       onChange={this.onChange}/>
           </CelForm>

@@ -6,9 +6,9 @@ import { KEYBOARD_TYPE } from "../../../config/constants/common";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 const PinTextFontSizeMap = {
-  4: FONT_SCALE * 80,
-  5: FONT_SCALE * 56,
-  6: FONT_SCALE * 44
+  4: FONT_SCALE * 40,
+  5: FONT_SCALE * 28,
+  6: FONT_SCALE * 22,
 };
 
 // Please don't hate me for the name, we can rename it when we remove PinInput. :)
@@ -20,6 +20,20 @@ class PinInput extends Component {
       active: false
     };
   }
+
+  getDigitValue = value => {
+    const {showDigits} = this.props;
+
+    if (showDigits && value) {
+      return value;
+    }
+
+    if (value) {
+      return '•'
+    }
+
+    return '';
+  };
 
   saveLayout = () => {
     this.input.measureInWindow((x, y, width, height) => {
@@ -79,7 +93,7 @@ class PinInput extends Component {
             <View key={digit.index}
                   style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
               <Text style={[PinInputStyle.digitText, pinTextStyle]}>
-                {digit.value ? "·" : ""}
+                {this.getDigitValue(digit.value)}
               </Text>
             </View>
           )}
