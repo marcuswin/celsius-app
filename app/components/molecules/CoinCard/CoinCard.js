@@ -201,7 +201,7 @@ class CoinCard extends Component {
                 stroke={'#9DA3A9'}
                 fill={'rgba(255,255,255,0.5)'}
               />
-              <Text style={CoinCardStyle.lendingBorrowingInfoText}>Eligible soon for lending and borrowing</Text>
+              <Text style={CoinCardStyle.lendingBorrowingInfoText}>Now available for borrowing and lending</Text>
             </View>
           </Row>
         }
