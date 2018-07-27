@@ -33,7 +33,7 @@ let refreshTimeout;
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    estimatedLoan: state.portfolio.estimatedLoan,
+    estimatedInterest: state.portfolio.estimatedInterest,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -42,14 +42,14 @@ class WalletLanding extends Component {
     const { actions } = this.props;
     actions.getSupportedCurrencies();
     actions.getWalletDetails();
-    actions.getEstimatedLoan();
+    actions.getEstimatedInterest();
   }
 
   componentWillReceiveProps(nextProps) {
     const { actions, activeScreen } = this.props;
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
       actions.getWalletDetails();
-      actions.getEstimatedLoan();
+      actions.getEstimatedInterest()
     }
   }
 
@@ -92,7 +92,7 @@ class WalletLanding extends Component {
   }
 
   render() {
-    const { walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedLoan, callsInProgress } = this.props;
+    const { walletTotal, walletCurrencies, supportedCurrencies, appSettings, estimatedInterest, callsInProgress } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS, API.GET_ESTIMATED_LOAN], callsInProgress);
     const totalValue = get(walletTotal, 'quotes.USD.total', 0);
@@ -119,7 +119,7 @@ class WalletLanding extends Component {
               />
             }
           </TotalCoinsHeader>
-          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) && !!estimatedLoan && !!estimatedLoan.max_loan_amount &&
+          {(totalValue !== 0 && appSettings.showWalletLandingInfoBox) && !!estimatedInterest && !!estimatedInterest.lending_interest &&
             <View style={[contentPadding, { marginBottom: -15 }]}>
               <WalletInfoBubble
                 title="Did you know?"
@@ -127,7 +127,7 @@ class WalletLanding extends Component {
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   You could be earning
-                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(estimatedLoan.max_loan_amount) } </Text>
+                  <Text style={[globalStyles.boldText, { color: 'white' }]}> { formatter.usd(estimatedInterest.lending_interest) } </Text>
                   a year if you deposited all of your eligible crypto from your portfolio to your Celsius wallet.
                 </Text>
               </WalletInfoBubble>
