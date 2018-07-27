@@ -63,6 +63,9 @@ export const GLOBAL_STYLE_DEFINITIONS = {
   },
   mediumText: { fontFamily: 'agile-medium' },
   boldText: { fontFamily: 'agile-bold' },
+  underlinedText: {
+    textDecorationLine: 'underline',
+  },
   centeredColumn: {
     justifyContent: 'center',
     alignItems: 'center'
