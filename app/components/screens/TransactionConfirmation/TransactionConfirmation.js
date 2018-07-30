@@ -43,7 +43,7 @@ const WithdrawalAddressSetInfo = ({address}) => (
     </View>
 );
 
-const WithdrawalAddressNeededBox = ({value, onChange}) => (
+const WithdrawalAddressNeededBox = ({value, onChange, onScanClick}) => (
   <View style={TransactionConfirmationStyle.screenContentWrapper}>
     <Text style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
     <CelForm>
@@ -52,6 +52,7 @@ const WithdrawalAddressNeededBox = ({value, onChange}) => (
                 field="withdrawalAddress"
                 labelText="Withdrawal Address"
                 onChange={onChange}/>
+      <Text onPress={onScanClick}>Click to scan</Text>
     </CelForm>
     <InfoBubble
       renderContent={(textStyles) => (
@@ -114,6 +115,18 @@ class TransactionConfirmation extends Component {
     const { callsInProgress } = this.props;
 
     return apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO, API.GET_COIN_ORIGINATING_ADDRESS], callsInProgress);
+  };
+
+  handleScan = (code) => {
+    console.log('This is the code', code);
+  };
+
+  handleScanClick = () => {
+    const { actions } = this.props;
+
+    actions.navigateTo('QRScanner', {
+      onScan: this.handleScan,
+    });
   };
 
   // event hanlders
@@ -180,7 +193,9 @@ class TransactionConfirmation extends Component {
 
           {(!isLoading && withdrawalAddressSet) && <WithdrawalAddressSetInfo withdrawalAddress={withdrawalAddress.address}/>}
 
-          {(!isLoading && !withdrawalAddressSet) && <WithdrawalAddressNeededBox/>}
+          {(!isLoading && !withdrawalAddressSet) &&
+            <WithdrawalAddressNeededBox onScanClick={this.handleScanClick}/>
+          }
 
           <CelButton
             onPress={this.confirmWithdrawal}
