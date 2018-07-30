@@ -16,6 +16,8 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import CelForm from "../../atoms/CelForm/CelForm";
+import CelInput from "../../atoms/CelInput/CelInput";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -24,8 +26,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
  */
 
 const WithdrawalAddressSetInfo = ({address}) => (
-  <View>
-    <View style={TransactionConfirmationStyle.infoBubbleWrapper}>
+    <View style={TransactionConfirmationStyle.screenContentWrapper}>
       <InfoBubble
         renderContent={(textStyles) => (
           <View>
@@ -35,17 +36,35 @@ const WithdrawalAddressSetInfo = ({address}) => (
           </View>
         )}
       />
+      <View style={TransactionConfirmationStyle.addressViewWrapper}>
+        <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+        <Text style={TransactionConfirmationStyle.address}>{ address }</Text>
+      </View>
     </View>
-    <View style={TransactionConfirmationStyle.addressViewWrapper}>
-      <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-      <Text style={TransactionConfirmationStyle.address}>{ address }</Text>
-    </View>
-  </View>
 );
 
-const WithdrawalAddressNeededBox = () => (
-  <View>
-    <Text>Testing mah skills</Text>
+const WithdrawalAddressNeededBox = ({value, onChange}) => (
+  <View style={TransactionConfirmationStyle.screenContentWrapper}>
+    <Text>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
+    <CelForm>
+      <CelInput theme="white"
+                value={value}
+                field="withdrawalAddress"
+                labelText="Withdrawal Address"
+                onChange={onChange}/>
+    </CelForm>
+    <InfoBubble
+      renderContent={(textStyles) => (
+        <View>
+          <Text style={[textStyles, globalStyles.boldText]}>
+            Please note:
+          </Text>
+          <Text style={textStyles}>
+            Once you choose a wallet address to withdraw to you will not be able to change it in the future without contacting us at <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.underlinedText}>app@celsius.network</Text>.
+          </Text>
+        </View>
+      )}
+    />
   </View>
 );
 
