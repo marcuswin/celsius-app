@@ -45,7 +45,7 @@ const WithdrawalAddressSetInfo = ({address}) => (
 
 const WithdrawalAddressNeededBox = ({value, onChange}) => (
   <View style={TransactionConfirmationStyle.screenContentWrapper}>
-    <Text>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
+    <Text style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
     <CelForm>
       <CelInput theme="white"
                 value={value}
@@ -184,7 +184,7 @@ class TransactionConfirmation extends Component {
 
           <CelButton
             onPress={this.confirmWithdrawal}
-            margin='50 36 50 36'
+            margin='30 36 50 36'
             loading={isLoading}
             disabled={this.isConfirmButtonDisabled(withdrawalAddress)}
           >

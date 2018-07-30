@@ -6,6 +6,9 @@ const TransactionConfirmationStyle = StyleSheet.create({
     marginRight: 36,
     marginLeft: 36,
   },
+  withdrawalAddressNotSetText: {
+    marginVertical: 30,
+  },
   addressViewWrapper: {
     height: 85,
     backgroundColor: 'white',
