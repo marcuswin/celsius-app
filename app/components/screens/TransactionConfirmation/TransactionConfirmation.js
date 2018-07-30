@@ -73,9 +73,6 @@ const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
   state => ({
     formData: state.ui.formData,
     addresses: state.wallet.addresses,
-    ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
-    btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
-    celOriginatingAddress: state.wallet.addresses.celOriginatingAddress,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -84,9 +81,9 @@ const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
 class TransactionConfirmation extends Component {
   // lifecycle methods
   componentDidMount() {
-    const { formData, actions } = this.props;
+    const { formData, actions, addresses } = this.props;
 
-    if (!this.props[`${formData.currency}OriginatingAddress`]) {
+    if (!addresses[formData.currency]) {
       actions.getCoinWithdrawalAddress(formData.currency);
     }
   }
