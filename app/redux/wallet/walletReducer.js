@@ -7,9 +7,8 @@ function initialState() {
       addresses: {
         ethAddress: undefined,
         btcAddress: undefined,
-        ethOriginatingAddress: undefined,
-        btcOriginatingAddress: undefined,
       },
+      withdrawalAddresses: {},
       transactions: {},
       activeTransactionId: undefined,
       walletBalance: null,
@@ -23,7 +22,6 @@ export default function walletReducer(state = initialState(), action) {
 
     switch (action.type) {
       case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
-      case ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS:
           return {
             ...state,
             addresses: {
@@ -31,7 +29,15 @@ export default function walletReducer(state = initialState(), action) {
               ...action.address
             }
           };
-
+      case ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS:
+      case ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_SUCCESS:
+        return {
+          ...state,
+          withdrawalAddresses: {
+            ...state.withdrawalAddresses,
+            ...action.address,
+          }
+        };
       case ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS:
       case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
           return {

@@ -28,10 +28,6 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
   state => ({
     nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
-    originatingAddresses: {
-      eth: state.wallet.addresses.ethOriginatingAddress,
-      btc: state.wallet.addresses.btcOriginatingAddress,
-    },
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
