@@ -24,7 +24,7 @@ class QRScannerScreen extends Component{
 
   state = {
     hasCameraPermission: null,
-    scanned: false,
+    handleBarCodeRead: undefined,
   };
 
   async componentWillMount() {
@@ -34,20 +34,13 @@ class QRScannerScreen extends Component{
       permission = await Permissions.askAsync(Permissions.CAMERA);
     }
 
-    this.setState({ hasCameraPermission: permission.status === 'granted' });
+    this.setState({ hasCameraPermission: permission.status === 'granted', handleBarCodeRead: this.handleBarCodeRead, });
   }
-
-  scanDelay = () => new Promise((resolve) => {
-    setTimeout(() => resolve(), 300);
-  });
 
   handleBarCodeRead = async ({ data }) => {
     const { actions, formField, navigation } = this.props;
-    const { scanned } = this.state;
 
-    await this.scanDelay();
-
-    if (scanned) return;
+    this.setState({ handleBarCodeRead: undefined, });
 
     const onScan = navigation.getParam('onScan');
 
@@ -56,8 +49,6 @@ class QRScannerScreen extends Component{
     } else {
       actions.updateFormField(formField, data);
     }
-
-    this.setState({ scanned: true, });
 
     actions.navigateBack();
   };
@@ -74,7 +65,7 @@ class QRScannerScreen extends Component{
     return (
       <View style={{ flex: 1 }}>
         <BarCodeScanner
-          onBarCodeRead={this.handleBarCodeRead}
+          onBarCodeRead={this.state.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
         />
       </View>
