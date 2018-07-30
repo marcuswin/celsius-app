@@ -6,7 +6,7 @@ const TransactionConfirmationStyle = StyleSheet.create({
     marginRight: 36,
     marginLeft: 36,
   },
-  addresViewWrapper: {
+  addressViewWrapper: {
     height: 85,
     marginRight: 36,
     marginLeft: 36,

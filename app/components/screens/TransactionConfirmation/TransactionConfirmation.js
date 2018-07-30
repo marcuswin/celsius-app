@@ -17,6 +17,38 @@ import API from "../../../config/constants/API";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
+/**
+ * @typedef {Object} WithdrawalAddress
+ * @property {string} address
+ * @property {boolean} manually_set
+ */
+
+const WithdrawalAddressSetInfo = ({address}) => (
+  <View>
+    <View style={TransactionConfirmationStyle.infoBubbleWrapper}>
+      <InfoBubble
+        renderContent={(textStyles) => (
+          <View>
+            <Text style={textStyles}>
+              Please confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address to send coins or tokens to. If you need to change your withdrawal address, please contact Celsius support at <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.underlinedText}>app@celsius.network</Text>.
+            </Text>
+          </View>
+        )}
+      />
+    </View>
+    <View style={TransactionConfirmationStyle.addressViewWrapper}>
+      <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+      <Text style={TransactionConfirmationStyle.address}>{ address }</Text>
+    </View>
+  </View>
+);
+
+const WithdrawalAddressNeededBox = () => (
+  <View>
+    <Text>Testing mah skills</Text>
+  </View>
+);
+
 @connect(
   state => ({
     formData: state.ui.formData,
@@ -90,22 +122,9 @@ class TransactionConfirmation extends Component {
             </View>
           </View>
 
-          <View style={TransactionConfirmationStyle.infoBubbleWrapper}>
-            <InfoBubble
-              renderContent={(textStyles) => (
-                <View>
-                  <Text style={textStyles}>
-                    Please confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address to send coins or tokens to. If you need to change your withdrawal address, please contact Celsius support at <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.underlinedText}>app@celsius.network</Text>.
-                  </Text>
-                </View>
-              )}
-            />
-          </View>
+          {(!isLoading && withdrawalAddressSet) && <WithdrawalAddressSetInfo withdrawalAddress={withdrawalAddress.address}/>}
 
-          <View style={TransactionConfirmationStyle.addresViewWrapper}>
-            <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-            <Text style={TransactionConfirmationStyle.address}>{ originatingAddress }</Text>
-          </View>
+          {(!isLoading && !withdrawalAddressSet) && <WithdrawalAddressNeededBox/>}
 
           <CelButton
             onPress={this.confirmWithdrawal}
