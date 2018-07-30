@@ -52,6 +52,7 @@ const WithdrawalAddressNeededBox = () => (
 @connect(
   state => ({
     formData: state.ui.formData,
+    addresses: state.wallet.addresses,
     ethOriginatingAddress: state.wallet.addresses.ethOriginatingAddress,
     btcOriginatingAddress: state.wallet.addresses.btcOriginatingAddress,
     celOriginatingAddress: state.wallet.addresses.celOriginatingAddress,
@@ -78,6 +79,24 @@ class TransactionConfirmation extends Component {
     }
   }
 
+  /**
+   * @returns {WithdrawalAddress|{}}
+   */
+  getCoinWithdrawalAddressInfo = () => {
+    const { formData, addresses } = this.props;
+
+    return addresses[formData.currency.toLowerCase()] || {};
+  };
+
+  /**
+   * @returns {boolean}
+   */
+  isScreenLoading = () => {
+    const { callsInProgress } = this.props;
+
+    return apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO, API.GET_COIN_ORIGINATING_ADDRESS], callsInProgress);
+  };
+
   // event hanlders
   confirmWithdrawal = () => {
     const { formData, actions } = this.props;
@@ -85,10 +104,26 @@ class TransactionConfirmation extends Component {
       amountCrypto: formData.amountCrypto,
       currency: formData.currency,
     });
-  }
+  };
+
+  /**
+   * @param {WithdrawalAddress} withdrawalAddress
+   * @returns {boolean}
+   */
+  isConfirmButtonDisabled = (withdrawalAddress) => {
+    if (this.isScreenLoading()) {
+      return true;
+    }
+
+    if (!withdrawalAddress) {
+      return true;
+    }
+
+    return !withdrawalAddress.address || !withdrawalAddress.manually_set;
+  };
   // rendering methods
   render() {
-    const { formData, callsInProgress } = this.props;
+    const { formData } = this.props;
 
     const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
     const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
@@ -96,9 +131,11 @@ class TransactionConfirmation extends Component {
     const balanceCrypto = formData.balance - formData.amountCrypto;
     const balanceUsd = balanceCrypto * formData.rateUsd;
 
-    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO], callsInProgress);
+    const isLoading = this.isScreenLoading();
 
-    const originatingAddress = this.props[`${formData.currency.toLowerCase()}OriginatingAddress`];
+    const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
+
+    const withdrawalAddressSet = !!withdrawalAddress && !!withdrawalAddress.address && withdrawalAddress.manually_set;
 
     return (
       <BasicLayout
@@ -130,7 +167,7 @@ class TransactionConfirmation extends Component {
             onPress={this.confirmWithdrawal}
             margin='50 36 50 36'
             loading={isLoading}
-            disabled={isLoading}
+            disabled={this.isConfirmButtonDisabled(withdrawalAddress)}
           >
             Confirm withdrawal
           </CelButton>
