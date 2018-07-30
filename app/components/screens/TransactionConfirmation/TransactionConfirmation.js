@@ -43,13 +43,13 @@ const WithdrawalAddressSetInfo = ({address}) => (
     </View>
 );
 
-const WithdrawalAddressNeededBox = ({value, onChange, onScanClick}) => (
+const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
   <View style={TransactionConfirmationStyle.screenContentWrapper}>
     <Text style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
     <CelForm>
       <CelInput theme="white"
                 value={value}
-                field="withdrawalAddress"
+                field={`${coin}WithdrawalAddress`}
                 labelText="Withdrawal Address"
                 onChange={onChange}/>
       <Text onPress={onScanClick}>Click to scan</Text>
@@ -117,8 +117,17 @@ class TransactionConfirmation extends Component {
     return apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO, API.GET_COIN_ORIGINATING_ADDRESS], callsInProgress);
   };
 
+  handleWithdrawalAddressChange = (field, text) => {
+    const { actions } = this.props;
+
+    actions.updateFormField(field,text);
+  };
+
   handleScan = (code) => {
-    console.log('This is the code', code);
+    const { formData } = this.props;
+    const fieldName = `${formData.currency.toLowerCase()}WithdrawalAddress`;
+
+    this.handleWithdrawalAddressChange(fieldName, code);
   };
 
   handleScanClick = () => {
@@ -166,8 +175,8 @@ class TransactionConfirmation extends Component {
     const isLoading = this.isScreenLoading();
 
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
-
     const withdrawalAddressSet = !!withdrawalAddress && !!withdrawalAddress.address && withdrawalAddress.manually_set;
+    const withdrawalAddressValue = formData[`${formData.currency.toLowerCase()}WithdrawalAddress`];
 
     return (
       <BasicLayout
@@ -194,7 +203,10 @@ class TransactionConfirmation extends Component {
           {(!isLoading && withdrawalAddressSet) && <WithdrawalAddressSetInfo withdrawalAddress={withdrawalAddress.address}/>}
 
           {(!isLoading && !withdrawalAddressSet) &&
-            <WithdrawalAddressNeededBox onScanClick={this.handleScanClick}/>
+            <WithdrawalAddressNeededBox onScanClick={this.handleScanClick}
+                                        value={withdrawalAddressValue}
+                                        coin={formData.currency.toLowerCase()}
+                                        onChange={this.handleWithdrawalAddressChange}/>
           }
 
           <CelButton
