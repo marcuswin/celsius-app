@@ -95,7 +95,7 @@ class TransactionConfirmation extends Component {
               renderContent={(textStyles) => (
                 <View>
                   <Text style={textStyles}>
-                    Please confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address to send coins or tokens to. If you need to change your withdrawal address, <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.boldText}>please contact Celsius support.</Text>
+                    Please confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address to send coins or tokens to. If you need to change your withdrawal address, please contact Celsius support at <Text onPress={()=> Linking.openURL('mailto:app@celsius.network')} style={globalStyles.underlinedText}>app@celsius.network</Text>.
                   </Text>
                 </View>
               )}
