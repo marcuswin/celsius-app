@@ -34,7 +34,7 @@ class TransactionConfirmation extends Component {
     const { formData, actions } = this.props;
 
     if (!this.props[`${formData.currency}OriginatingAddress`]) {
-      actions.getCoinOriginatingAddress(formData.currency);
+      actions.getCoinWithdrawalAddress(formData.currency);
     }
   }
 

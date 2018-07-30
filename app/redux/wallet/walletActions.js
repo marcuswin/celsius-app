@@ -48,13 +48,18 @@ function getCoinAddressSuccess(address) {
   }
 }
 
-export function getCoinOriginatingAddress(coin) {
+export function getCoinWithdrawalAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
 
       const res = await walletService.getCoinOriginatingAddress(coin)
-      dispatch(getCoinOriginatingAddressSuccess({ [`${coin}OriginatingAddress`]: res.data.address }));
+      dispatch(getCoinOriginatingAddressSuccess({
+        [`${coin}OriginatingAddress`]: res.data.address,
+        [coin]: {
+          ...res.data,
+        },
+      }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_COIN_ORIGINATING_ADDRESS, err));
