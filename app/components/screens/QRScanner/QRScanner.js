@@ -54,7 +54,9 @@ class QRScannerScreen extends Component{
   };
 
   renderScanner = () => {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, navigation } = this.state;
+
+    const scanTitle = navigation.getParam('scanTitle');
 
     if (hasCameraPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -64,6 +66,7 @@ class QRScannerScreen extends Component{
 
     return (
       <View style={{ flex: 1 }}>
+        {!!scanTitle && <Text>{scanTitle}</Text>}
         <BarCodeScanner
           onBarCodeRead={this.state.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
