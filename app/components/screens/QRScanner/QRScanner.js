@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import * as appActions from "../../../redux/actions";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 
 @connect(
   () => ({}),
@@ -54,7 +55,8 @@ class QRScannerScreen extends Component{
   };
 
   renderScanner = () => {
-    const { hasCameraPermission, navigation } = this.state;
+    const { hasCameraPermission} = this.state;
+    const { navigation } = this.props;
 
     const scanTitle = navigation.getParam('scanTitle');
 
@@ -66,11 +68,17 @@ class QRScannerScreen extends Component{
 
     return (
       <View style={{ flex: 1 }}>
-        {!!scanTitle && <Text>{scanTitle}</Text>}
         <BarCodeScanner
           onBarCodeRead={this.state.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
-        />
+        >
+          <MainHeader
+            backgroundColor="transparent"
+            backButton
+          />
+          {!!scanTitle && <Text>{scanTitle}</Text>}
+          <Text>Please center the address’ QR code in the marked area.</Text>
+        </BarCodeScanner>
       </View>
     );
   };

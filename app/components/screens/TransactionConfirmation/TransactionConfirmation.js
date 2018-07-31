@@ -25,7 +25,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
  * @property {boolean} manually_set
  */
 
-const WithdrawalAddressSetInfo = ({address}) => (
+const WithdrawalAddressSetInfo = ({withdrawalAddress}) => (
     <View style={TransactionConfirmationStyle.screenContentWrapper}>
       <InfoBubble
         renderContent={(textStyles) => (
@@ -38,7 +38,7 @@ const WithdrawalAddressSetInfo = ({address}) => (
       />
       <View style={TransactionConfirmationStyle.addressViewWrapper}>
         <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-        <Text style={TransactionConfirmationStyle.address}>{ address }</Text>
+        <Text style={TransactionConfirmationStyle.address}>{ withdrawalAddress }</Text>
       </View>
     </View>
 );
@@ -72,7 +72,7 @@ const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
 @connect(
   state => ({
     formData: state.ui.formData,
-    addresses: state.wallet.addresses,
+    addresses: state.wallet.withdrawalAddresses,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -156,9 +156,16 @@ class TransactionConfirmation extends Component {
   // event hanlders
   confirmWithdrawal = () => {
     const { formData, actions } = this.props;
+
+    const coin = this.getCoinShorthand();
+    const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
+    const newWithdrawalAddress = formData[`${coin}WithdrawalAddress`];
+
     actions.navigateTo('EnterPasscode', {
       amountCrypto: formData.amountCrypto,
-      currency: formData.currency,
+      currency: coin,
+      withdrawalAddress,
+      newWithdrawalAddress,
     });
   };
 
@@ -167,12 +174,22 @@ class TransactionConfirmation extends Component {
    * @returns {boolean}
    */
   isConfirmButtonDisabled = (withdrawalAddress) => {
+    const { formData } = this.props;
+
+    const coin = this.getCoinShorthand();
+
     if (this.isScreenLoading()) {
       return true;
     }
 
     if (!withdrawalAddress) {
       return true;
+    }
+
+    const withdrawalAddressValue = formData[`${coin}WithdrawalAddress`];
+
+    if (withdrawalAddressValue) {
+      return false;
     }
 
     return !withdrawalAddress.address || !withdrawalAddress.manually_set;
