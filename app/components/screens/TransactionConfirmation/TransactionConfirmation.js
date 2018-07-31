@@ -97,12 +97,27 @@ class TransactionConfirmation extends Component {
   }
 
   /**
+   * @param {boolean} [uppercase]
+   * @returns {string}
+   */
+  getCoinShorthand = (uppercase = false) => {
+    const { formData } = this.props;
+
+    if (uppercase) {
+      return formData.currency.toUpperCase();
+    }
+
+    return formData.currency.toLowerCase();
+  };
+
+  /**
    * @returns {WithdrawalAddress|{}}
    */
   getCoinWithdrawalAddressInfo = () => {
-    const { formData, addresses } = this.props;
+    const { addresses } = this.props;
+    const coin = this.getCoinShorthand();
 
-    return addresses[formData.currency.toLowerCase()] || {};
+    return addresses[coin] || {};
   };
 
   /**
@@ -121,8 +136,8 @@ class TransactionConfirmation extends Component {
   };
 
   handleScan = (code) => {
-    const { formData } = this.props;
-    const fieldName = `${formData.currency.toLowerCase()}WithdrawalAddress`;
+    const coin = this.getCoinShorthand();
+    const fieldName = `${coin}WithdrawalAddress`;
 
     this.handleWithdrawalAddressChange(fieldName, code);
   };
@@ -130,8 +145,11 @@ class TransactionConfirmation extends Component {
   handleScanClick = () => {
     const { actions } = this.props;
 
+    const coin = this.getCoinShorthand(true);
+
     actions.navigateTo('QRScanner', {
       onScan: this.handleScan,
+      scanTitle: `Withdrawal ${coin} address`
     });
   };
 
@@ -163,8 +181,11 @@ class TransactionConfirmation extends Component {
   render() {
     const { formData } = this.props;
 
-    const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
-    const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
+    const coinUpperCase = this.getCoinShorthand(true);
+    const coinLowerCase = this.getCoinShorthand();
+
+    const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, coinUpperCase, { precision: 5 });
+    const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, coinUpperCase, { precision: 5 });
 
     const balanceCrypto = formData.balance - formData.amountCrypto;
     const balanceUsd = balanceCrypto * formData.rateUsd;
@@ -173,14 +194,14 @@ class TransactionConfirmation extends Component {
 
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     const withdrawalAddressSet = !!withdrawalAddress && !!withdrawalAddress.address && withdrawalAddress.manually_set;
-    const withdrawalAddressValue = formData[`${formData.currency.toLowerCase()}WithdrawalAddress`];
+    const withdrawalAddressValue = formData[`${coinLowerCase}WithdrawalAddress`];
 
     return (
       <BasicLayout
         bottomNavigation={false}
       >
         <MainHeader backButton/>
-        <CelHeading text={`Withdraw ${formData.currency.toUpperCase()}`} />
+        <CelHeading text={`Withdraw ${coinUpperCase}`} />
         <Content>
           <View style={AmountInputStyle.inputWrapper}>
             <Text
@@ -192,7 +213,7 @@ class TransactionConfirmation extends Component {
             <View style={AmountInputStyle.separator}/>
             <View style={AmountInputStyle.newBalance}>
               <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
-              <Text style={AmountInputStyle.newBalanceText}>{ formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 }) } = </Text>
+              <Text style={AmountInputStyle.newBalanceText}>{ formatter.crypto(balanceCrypto, coinUpperCase, { precision: 5 }) } = </Text>
               <Text style={[AmountInputStyle.newBalanceText, globalStyles.mediumText]}>{ formatter.usd(balanceUsd) }</Text>
             </View>
           </View>
@@ -202,7 +223,7 @@ class TransactionConfirmation extends Component {
           {(!isLoading && !withdrawalAddressSet) &&
             <WithdrawalAddressNeededBox onScanClick={this.handleScanClick}
                                         value={withdrawalAddressValue}
-                                        coin={formData.currency.toLowerCase()}
+                                        coin={coinLowerCase}
                                         onChange={this.handleWithdrawalAddressChange}/>
           }
 
