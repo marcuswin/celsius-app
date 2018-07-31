@@ -1,34 +1,27 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from "react-native";
 import {FONT_SCALE, STYLES} from "../../../config/constants/style";
-import device from "../../../utils/device-util";
 
-function messageDimensions() {
-  let messageHeight;
-
-  if (device.isiPhoneX()) {
-    messageHeight = 88;
-  } else {
-   messageHeight = 64;
-  }
-
-  return messageHeight
-
-}
+const { width } = Dimensions.get('window');
 
 const MessageStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: messageDimensions(),
-    paddingTop: 20,
+    position: 'absolute',
+    top: 0,
+    width,
+    zIndex: 100,
+    paddingTop: 40,
+    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
     alignItems: 'center',
     justifyContent: "space-between",
-    backgroundColor: '#273363'
+    backgroundColor: 'rgba(39, 51, 99, 0.9)'
   },
   messageWrapper: {
     flexDirection: "row",
     alignItems: 'center',
+    paddingRight: 5,
     width: "80%"
   },
   errorCircle: {
@@ -68,7 +61,7 @@ const MessageStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     color: 'white',
     fontSize: FONT_SCALE * 15,
-    textAlign: 'center',
+    textAlign: 'left',
   },
   errorText: {
     color: 'rgb(236, 66, 40)',
