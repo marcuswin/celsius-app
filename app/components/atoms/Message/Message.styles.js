@@ -61,7 +61,6 @@ const MessageStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     color: 'white',
     fontSize: FONT_SCALE * 15,
-    textAlign: 'left',
   },
   errorText: {
     color: 'rgb(236, 66, 40)',
