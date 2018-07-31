@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE } from "../../../config/constants/style";
 
 const TransactionConfirmationStyle = StyleSheet.create({
   screenContentWrapper: {
@@ -8,6 +8,10 @@ const TransactionConfirmationStyle = StyleSheet.create({
   },
   withdrawalAddressNotSetText: {
     marginVertical: 30,
+  },
+  scanQrCode: {
+    paddingVertical: 5,
+    color: COLORS.blue,
   },
   addressViewWrapper: {
     height: 85,

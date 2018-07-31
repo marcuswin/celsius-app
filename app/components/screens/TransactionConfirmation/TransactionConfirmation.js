@@ -52,7 +52,7 @@ const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
                 field={`${coin}WithdrawalAddress`}
                 labelText="Withdrawal Address"
                 onChange={onChange}/>
-      <Text onPress={onScanClick}>Click to scan</Text>
+      <Text onPress={onScanClick} style={[globalStyles.underlinedText, TransactionConfirmationStyle.scanQrCode]}>Scan QR Code</Text>
     </CelForm>
     <InfoBubble
       renderContent={(textStyles) => (
