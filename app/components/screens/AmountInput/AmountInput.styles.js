@@ -1,43 +1,42 @@
 import { StyleSheet ,Dimensions} from "react-native";
-import { FONT_SCALE } from "../../../config/constants/style";
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const AmountInputStyle = StyleSheet.create({
   inputWrapper: {
     width,
-    height: 170,
+    height: 0.2 * height,
     backgroundColor: 'white',
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
     shadowOpacity: 0.2,
     alignItems: 'center'
   },
-  fiatAmount: {
+  primaryAmount: {
     backgroundColor: 'white',
-    fontSize: FONT_SCALE * 36,
+    fontSize: 0.05 * height,
     fontFamily: 'agile-book',
     margin: "auto",
     textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 25,
+    marginBottom: 0.015 * height,
+    marginTop: 0.015 * height,
     color: '#3D4853'
   },
-  cryptoAmount: {
+  secondaryAmount: {
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
-    fontSize: FONT_SCALE * 14,
+    fontSize: 0.02 * height,
     textAlign: "center",
-    marginBottom: 17
+    marginBottom: 0.015 * height,
   },
   separator: {
-    // marginLeft: 36,
-    // marginRight: 36,
-    width: 300,
+    marginLeft: 0.25 * width,
+    marginRight: 0.25 * width,
+    width: 0.5 * width,
     height: 2,
     backgroundColor: 'rgba(200,200,200,0.3)',
-    marginBottom: 15
+    marginBottom: 0.01 * height,
   },
   newBalance: {
     flexDirection: 'row',
@@ -46,23 +45,25 @@ const AmountInputStyle = StyleSheet.create({
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
-    fontSize: FONT_SCALE * 14,
+    fontSize: 0.02 * height,
     textAlign: "center",
   },
   switchIcon: {
     position: 'absolute',
     right: 35,
-    top: 50
+    top: 0.1 * height - 18,
   },
   button: {
-    width: 60,
-    height: 60,
-    borderRadius: 60 / 2,
+    width: height * 0.09,
+    height: height * 0.09,
+    borderRadius: height * 0.09 / 2,
     backgroundColor: "white",
     marginLeft: 17,
     marginRight: 17,
-    marginTop: 17,
-    marginBottom: 17,
+    marginTop: height * 0.01,
+    marginBottom: height * 0.01,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   numberContent: {
     flexDirection: "row",
@@ -74,7 +75,7 @@ const AmountInputStyle = StyleSheet.create({
     fontFamily: "agile-light",
     margin: "auto",
     color: "rgba(61,72,83,1)",
-    fontSize: 44,
+    fontSize: height * 0.06,
     textAlign: "center"
   }
 });
