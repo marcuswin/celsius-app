@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import { BarCodeScanner, Permissions } from 'expo';
 import connect from "react-redux/es/connect/connect";
 import { bindActionCreators } from "redux";
@@ -8,6 +8,18 @@ import { bindActionCreators } from "redux";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import * as appActions from "../../../redux/actions";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
+
+import QRScannerStyle from './QRScanner.styles';
+
+const ScanOverlayBackground = () => (
+  <Image resizeMode="cover" source={require('../../../../assets/images/camera-mask-qr.png')} style={QRScannerStyle.overlayBackground} />
+);
+
+const ScanOverlayContent = ({children}) => (
+  <View style={QRScannerStyle.overlayContent}>
+    {children}
+  </View>
+);
 
 @connect(
   () => ({}),
@@ -72,12 +84,16 @@ class QRScannerScreen extends Component{
           onBarCodeRead={this.state.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
         >
-          <MainHeader
-            backgroundColor="transparent"
-            backButton
-          />
-          {!!scanTitle && <Text>{scanTitle}</Text>}
-          <Text>Please center the address’ QR code in the marked area.</Text>
+          { Platform.OS === 'ios' && <ScanOverlayBackground/> }
+          <ScanOverlayContent>
+            <MainHeader
+              backgroundColor="transparent"
+              backButton
+            />
+            {!!scanTitle && <Text style={[QRScannerStyle.scanText, QRScannerStyle.scanTitle]}>{scanTitle}</Text>}
+            <Text style={[QRScannerStyle.scanText, QRScannerStyle.scanInstructions]}>Please center the address’ QR code in the marked area.</Text>
+          </ScanOverlayContent>
+          { Platform.OS !== 'ios' && <ScanOverlayBackground/> }
         </BarCodeScanner>
       </View>
     );
