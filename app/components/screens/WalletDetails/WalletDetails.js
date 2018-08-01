@@ -52,6 +52,14 @@ class WalletDetails extends Component {
 
   onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletDetailsInfoBox: false });
 
+  onPressWithdraw = () => {
+    const { actions, navigation } = this.props;
+    const currency = navigation.getParam('currency').toLowerCase();
+
+    actions.initForm({ currency });
+    actions.navigateTo('WithdrawalInfo');
+  }
+
   getTransactions() {
     const { transactions, navigation } = this.props;
     const currency = navigation.getParam('currency').toLowerCase();
@@ -110,7 +118,14 @@ class WalletDetails extends Component {
               currencyRatesShort={currencyRatesShort}
               />
 
-            { walletData.amount !== '0' && <CelButton margin={'40 0 70 0'} onPress={() => {actions.navigateTo('AmountInput', { currency: currency.toLowerCase() })}}>Withdraw</CelButton> }
+            { walletData.amount !== '0' && (
+              <CelButton
+                margin={'40 0 70 0'}
+                onPress={this.onPressWithdraw}
+              >
+                Withdraw
+              </CelButton>
+            )}
           </View>
         </Content>
       </BasicLayout>

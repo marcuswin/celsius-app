@@ -36,7 +36,7 @@ class AmountInput extends Component {
   constructor(props) {
     super(props);
 
-    const currency = props.navigation.getParam('currency');
+    const currency = props.formData.currency;
     this.state = {
       numPad: [
         { label: '1', action: this.onPressNumber },
@@ -60,7 +60,7 @@ class AmountInput extends Component {
       inUsd: true,
       amountUsd: 0,
       amountCrypto: 0,
-      currency: props.navigation.getParam('currency'),
+      currency,
       rateUsd: props[`${currency}Usd`],
       balance: props[`${currency}Balance`],
     })
