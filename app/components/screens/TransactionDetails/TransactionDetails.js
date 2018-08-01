@@ -148,15 +148,22 @@ class TransactionDetails extends Component {
     ) : null;
   }
 
-  render() {
-    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
-
-    if (!supportedCurrencies || !transaction) return <BasicLayout
+  renderLoader = () => (
+    <BasicLayout
       bottomNavigation
     >
       <MainHeader backButton/>
-    <Loader/>
-    </BasicLayout>;
+      <CelHeading text="Transaction details..." />
+      <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <Loader/>
+      </View>
+    </BasicLayout>
+  )
+
+  render() {
+    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
+
+    if (!supportedCurrencies || !transaction) return this.renderLoader();
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
