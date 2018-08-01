@@ -72,12 +72,6 @@ class QRScannerScreen extends Component{
 
     const scanTitle = navigation.getParam('scanTitle');
 
-    if (hasCameraPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
-    } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    }
-
     return (
       <View style={{ flex: 1 }}>
         <BarCodeScanner
@@ -91,7 +85,11 @@ class QRScannerScreen extends Component{
               backButton
             />
             {!!scanTitle && <Text style={[QRScannerStyle.scanText, QRScannerStyle.scanTitle]}>{scanTitle}</Text>}
-            <Text style={[QRScannerStyle.scanText, QRScannerStyle.scanInstructions]}>Please center the address’ QR code in the marked area.</Text>
+            <Text style={[QRScannerStyle.scanText, QRScannerStyle.scanInstructions]}>
+              {hasCameraPermission === false ?
+              'Camera permission is needed in order to scan the QR Code.' :
+              'Please center the address’ QR code in the marked area.'}
+            </Text>
           </ScanOverlayContent>
           { Platform.OS !== 'ios' && <ScanOverlayBackground/> }
         </BarCodeScanner>
