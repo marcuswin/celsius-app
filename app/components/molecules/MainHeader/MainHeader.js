@@ -103,7 +103,7 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {right, left, backButton, backgroundColor, message} = this.props;
+    const {right, left, backButton, backgroundColor} = this.props;
 
     const styles = {
       backgroundColor,
@@ -111,15 +111,14 @@ class MainHeader extends Component {
 
     return (
       <View>
-      { message ? null :
-          <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
+        <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
           <Left>
             {this.renderLeft(left, backButton)}
           </Left>
           <Right>
             {this.renderRight(right)}
           </Right>
-        </Header> }
+        </Header>
       </View>
     );
   }

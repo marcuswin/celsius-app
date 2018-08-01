@@ -50,7 +50,7 @@ class Message extends Component {
     let containerStyles;
     let textStyles;
     let circleStyles;
-    let iconStyles;
+    let messageIcon;
 
     if (!connected) {
       containerStyles = [MessageStyle.container, MessageStyle.neutral];
@@ -59,7 +59,7 @@ class Message extends Component {
       containerStyles = [MessageStyle.container, MessageStyle[message.type || "error"]];
       circleStyles = MessageStyle[`${message.type}Circle` || "errorCircle"];
       textStyles = MessageStyle.text;
-      iconStyles = message.type === "success" ?
+      messageIcon = message.type === "success" ?
         <Icon
           name={"SuccessIcon"}
           width='15'
@@ -94,7 +94,7 @@ class Message extends Component {
       <Animated.View style={[containerStyles, {opacity}]}>
         <View style={MessageStyle.messageWrapper}>
           <View style={circleStyles}>
-            {iconStyles}
+            {messageIcon}
           </View>
           <Text style={textStyles}>
             {message.text}

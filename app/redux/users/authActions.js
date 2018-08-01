@@ -105,6 +105,9 @@ function getLoggedInBorrower() {
       const res = await borrowersService.getLoggedIn();
       dispatch(getLoggedInBorrowerSuccess(res.data));
     } catch (err) {
+      if (err.status === 422) {
+        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      }
       dispatch(apiError(API.GET_LOGGED_IN_BORROWER, err));
     }
   }
