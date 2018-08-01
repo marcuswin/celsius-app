@@ -44,6 +44,8 @@ class TransactionDetails extends Component {
     mixpanelActions.viewTransaction(transactionId || activeTransactionId);
   }
 
+  cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
+
   renderCelHeading() {
     const { supportedCurrencies, transaction } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
@@ -144,12 +146,14 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
+    const { supportedCurrencies, transaction, actions, currencyRatesShort, nav } = this.props;
+
+    const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
 
     if (!supportedCurrencies || !transaction) return <BasicLayout
       bottomNavigation
     >
-      <MainHeader backButton/>
+      <MainHeader backButton={showBackButton}/>
     <Loader/>
     </BasicLayout>;
 
@@ -161,7 +165,7 @@ class TransactionDetails extends Component {
       <BasicLayout
         bottomNavigation
       >
-        <MainHeader backButton/>
+        <MainHeader backButton={showBackButton}/>
         {this.renderCelHeading()}
 
         <Content>
