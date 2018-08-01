@@ -83,7 +83,7 @@ class TransactionConfirmation extends Component {
   componentDidMount() {
     const { formData, actions, addresses } = this.props;
 
-    if (!addresses[formData.currency]) {
+    if (!addresses[formData.currency] || !addresses[formData.currency].address) {
       actions.getCoinWithdrawalAddress(formData.currency);
     }
   }
