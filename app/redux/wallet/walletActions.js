@@ -48,17 +48,58 @@ function getCoinAddressSuccess(address) {
   }
 }
 
-export function getCoinOriginatingAddress(coin) {
+export function getCoinWithdrawalAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
 
       const res = await walletService.getCoinOriginatingAddress(coin)
-      dispatch(getCoinOriginatingAddressSuccess({ [`${coin}OriginatingAddress`]: res.data.address }));
+      dispatch(getCoinOriginatingAddressSuccess({
+        [coin]: {
+          address: res.data.address,
+          manually_set: res.data.manually_set,
+        },
+      }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_COIN_ORIGINATING_ADDRESS, err));
     }
+  }
+}
+
+/**
+ * @param {string} coin
+ * @param {string} address
+ */
+export function setCoinWithdrawalAddress(coin, address) {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
+
+      const response = await walletService.setCoinWithdrawalAddress(coin, address);
+      dispatch(setCoinWithdrawalAddressSuccess(coin, {
+          address: response.data.address,
+          manually_set: response.data.manually_set,
+      }));
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+      dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS, error));
+    }
+  }
+}
+
+/**
+ * @param {string} coin
+ * @param {WithdrawalAddress} address
+ * @returns {{type: string, callName: string, address: *}}
+ */
+function setCoinWithdrawalAddressSuccess(coin, address) {
+  return {
+    type: ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_SUCCESS,
+    callName: API.SET_COIN_WITHDRAWAL_ADDRESS,
+    address: {
+      [coin]: address
+    },
   }
 }
 

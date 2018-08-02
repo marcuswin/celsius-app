@@ -112,12 +112,28 @@ const CoinCardStyle = StyleSheet.create({
     fontFamily: 'agile-medium',
     fontSize: FONT_SCALE * 11,
     marginLeft: 9,
+    marginRight: 20,
   },
   row: {
     paddingLeft: 16,
     paddingRight: 16,
   },
 });
+
+const CoinCardInfo = ({text}) => (
+  <Row>
+    <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
+      <Icon
+        name={'EligibilityStarTwo'}
+        height='22'
+        width='22'
+        stroke={'#9DA3A9'}
+        fill={'rgba(255,255,255,0.5)'}
+      />
+      <Text style={CoinCardStyle.lendingBorrowingInfoText}>{text}</Text>
+    </View>
+  </Row>
+);
 
 @connect(
   state => ({
@@ -192,18 +208,10 @@ class CoinCard extends Component {
           </Row>
         }
         {(type !== "wallet-card" && ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
-          <Row>
-            <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
-              <Icon
-                name={'EligibilityStarTwo'}
-                height='22'
-                width='22'
-                stroke={'#9DA3A9'}
-                fill={'rgba(255,255,255,0.5)'}
-              />
-              <Text style={CoinCardStyle.lendingBorrowingInfoText}>Now available for borrowing and lending</Text>
-            </View>
-          </Row>
+          <CoinCardInfo text="Now available for borrowing and lending"/>
+        }
+        {(type !== "wallet-card" && currency.short === 'CEL') &&
+          <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange"/>
         }
       </Grid>
     </Card >;

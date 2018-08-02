@@ -19,6 +19,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import { actions as mixpanelActions } from "../../../services/mixpanel";
+import walletService from "../../../services/wallet-service";
 
 const types = {
     createPasscode: {
@@ -58,8 +59,8 @@ class Passcode extends Component {
     type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
   };
 
-  onPressButton = () => {
-    const { type, formData, currency, amountCrypto, actions } = this.props;
+  onPressButton = async () => {
+    const { type, formData, currency, amountCrypto, actions, withdrawalAddress, newWithdrawalAddress } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -68,18 +69,23 @@ class Passcode extends Component {
     }
     if (type === 'enterPasscode') {
       // TODO(fj): move pin checking to action
-      const pin = formData
-      const checkPin = meService.checkPin(pin)
+      const pin = formData;
 
-      checkPin.then(() => {
+      try {
+        await meService.checkPin(pin);
+
         actions.storePin(pin.pin);
+
+        if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
+          await walletService.setCoinWithdrawalAddress(currency, newWithdrawalAddress);
+        }
         actions.withdrawCrypto(currency, amountCrypto);
         mixpanelActions.confirmWithdraw(amountCrypto, currency);
-      }, (error) => {
+      } catch (error) {
         actions.showMessage('error', error.error);
-      })
+      }
     }
-  }
+  };
 
   onChange = (field, text) => {
     const { formData, actions } = this.props;

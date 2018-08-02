@@ -28,14 +28,9 @@ const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https:
   state => ({
     nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
-    originatingAddresses: {
-      eth: state.wallet.addresses.ethOriginatingAddress,
-      btc: state.wallet.addresses.btcOriginatingAddress,
-    },
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
-
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -48,6 +43,8 @@ class TransactionDetails extends Component {
     actions.getTransactionDetails(transactionId || activeTransactionId);
     mixpanelActions.viewTransaction(transactionId || activeTransactionId);
   }
+
+  cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
 
   renderCelHeading() {
     const { supportedCurrencies, transaction } = this.props;
@@ -148,15 +145,24 @@ class TransactionDetails extends Component {
     ) : null;
   }
 
-  render() {
-    const { supportedCurrencies, transaction, actions, currencyRatesShort } = this.props;
-
-    if (!supportedCurrencies || !transaction) return <BasicLayout
+  renderLoader = (showBackButton) => (
+    <BasicLayout
       bottomNavigation
     >
-      <MainHeader backButton/>
-    <Loader/>
-    </BasicLayout>;
+      <MainHeader backButton={showBackButton}/>
+      <CelHeading text="Transaction details..." />
+      <View style={{ paddingLeft: 20, paddingRight: 20 }}>
+        <Loader/>
+      </View>
+    </BasicLayout>
+  )
+
+  render() {
+    const { supportedCurrencies, transaction, actions, currencyRatesShort, nav } = this.props;
+
+    const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
+
+    if (!supportedCurrencies || !transaction) return this.renderLoader(showBackButton);
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
@@ -166,7 +172,7 @@ class TransactionDetails extends Component {
       <BasicLayout
         bottomNavigation
       >
-        <MainHeader backButton/>
+        <MainHeader backButton={showBackButton}/>
         {this.renderCelHeading()}
 
         <Content>

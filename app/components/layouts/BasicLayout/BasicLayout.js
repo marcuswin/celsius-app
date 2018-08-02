@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
+import {COLORS} from "../../../config/constants/style";
 import Message from "../../atoms/Message/Message";
 
 @connect(
@@ -13,6 +15,10 @@ import Message from "../../atoms/Message/Message";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BasicLayout extends Component {
+  static propTypes = {
+    background: PropTypes.oneOf(Object.keys(COLORS)),
+  }
+
   constructor (props) {
     super(props);
 
@@ -37,7 +43,7 @@ class BasicLayout extends Component {
   }
 
   render() {
-    const { bottomNavigation, bottomNavigationDimensions } = this.props;
+    const { bottomNavigation, bottomNavigationDimensions, background } = this.props;
     let marginBottom;
 
     if (bottomNavigation) {
@@ -46,8 +52,10 @@ class BasicLayout extends Component {
       marginBottom = 0;
     }
 
+    const backgroundColor = background ? { backgroundColor: COLORS[background] } : {};
+
     return (
-      <Container style={{ marginBottom, flex: 1 }}>
+      <Container style={[{ marginBottom, flex: 1 }, backgroundColor]}>
         <Message />
         { this.props.children }
       </Container>

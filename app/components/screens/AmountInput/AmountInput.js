@@ -4,6 +4,7 @@ import {Content} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import * as appActions from "../../../redux/actions";
 import AmountInputStyle from "./AmountInput.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -29,6 +30,8 @@ const decimalForCurrency = {
     btcUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'BTC')[0].market.quotes.USD.price,
     celUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'CEL')[0].market.quotes.USD.price,
     formData: state.ui.formData,
+    screenHeight: state.ui.dimensions.screenHeight,
+    screenWidth: state.ui.dimensions.screenWidth,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -36,7 +39,7 @@ class AmountInput extends Component {
   constructor(props) {
     super(props);
 
-    const currency = props.navigation.getParam('currency');
+    const currency = props.formData.currency;
     this.state = {
       numPad: [
         { label: '1', action: this.onPressNumber },
@@ -60,7 +63,7 @@ class AmountInput extends Component {
       inUsd: true,
       amountUsd: 0,
       amountCrypto: 0,
-      currency: props.navigation.getParam('currency'),
+      currency,
       rateUsd: props[`${currency}Usd`],
       balance: props[`${currency}Balance`],
     })
@@ -122,7 +125,7 @@ class AmountInput extends Component {
 
   render() {
     const { numPad } = this.state;
-    const { formData, actions } = this.props;
+    const { formData, actions, screenHeight } = this.props;
 
     if (!formData.currency) return null;
 
@@ -144,45 +147,51 @@ class AmountInput extends Component {
           onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
         />
         <CelHeading text={`Withdraw ${formData.currency ? formData.currency.toUpperCase() : ''}`} />
-        <Content>
-        <View style={AmountInputStyle.inputWrapper}>
-          <Text style={AmountInputStyle.fiatAmount}>
-            { mainAmountText }
-          </Text>
-          <Text style={AmountInputStyle.cryptoAmount}>
-            { secondaryAmountText }
-          </Text>
+        <Content bounces={false}>
+          <View style={{ height: 0.75 * screenHeight }}>
+            <View style={AmountInputStyle.inputWrapper}>
+              <Text style={AmountInputStyle.primaryAmount}>
+                { mainAmountText }
+              </Text>
+              <Text style={AmountInputStyle.secondaryAmount}>
+                { secondaryAmountText }
+              </Text>
 
-          <View style={AmountInputStyle.separator}/>
+              <View style={AmountInputStyle.separator}/>
 
-          <View style={AmountInputStyle.newBalance}>
-            <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
-            <Text style={AmountInputStyle.newBalanceText}>{ displayBalanceCrypto } = </Text>
-            <Text style={AmountInputStyle.newBalanceText}>{ displayBalanceUsd }</Text>
-          </View>
-          <TouchableOpacity style={AmountInputStyle.switchIcon} onPress={ this.switchCurrencies }>
-            <Icon name='SwitchIcon' width='36' height='36' fill='rgba(61,72,83,0.3)' stroke='white' />
-          </TouchableOpacity>
-        </View>
-        <View style={AmountInputStyle.numberContent}>
-          {numPad.map(item => (
-            <TouchableOpacity key={item.label} onPress={() => item.action(item.label)}>
-              <View style={AmountInputStyle.button}>
-                <Text style={AmountInputStyle.text}>
-                  {item.label}
-                </Text>
+              <View style={AmountInputStyle.newBalance}>
+                <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
+                <Text style={AmountInputStyle.newBalanceText}>{ displayBalanceCrypto } = </Text>
+                <Text style={[AmountInputStyle.newBalanceText, globalStyles.boldText]}>{ displayBalanceUsd }</Text>
               </View>
-            </TouchableOpacity>
-            )
-          )}
-        </View>
-        <CelButton
-          disabled={!formData.amountCrypto}
-          onPress={() => actions.navigateTo('TransactionConfirmation')}
-          margin='10 36 45 36'
-        >
-          Withdraw
-        </CelButton>
+              <TouchableOpacity style={AmountInputStyle.switchIcon} onPress={ this.switchCurrencies }>
+                <Icon name='SwitchIcon' width='36' height='36' fill='rgba(61,72,83,0.3)' stroke='white' />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ height: 0.55 * screenHeight, marginTop: 0.02 * screenHeight }}>
+              <View style={AmountInputStyle.numberContent}>
+                {numPad.map(item => (
+                  <TouchableOpacity key={item.label} onPress={() => item.action(item.label)}>
+                    <View style={AmountInputStyle.button}>
+                      <Text style={AmountInputStyle.text}>
+                        {item.label}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                  )
+                )}
+              </View>
+
+              <CelButton
+                disabled={!formData.amountCrypto}
+                onPress={() => actions.navigateTo('TransactionConfirmation')}
+                margin='5 36 5 36'
+              >
+                Withdraw
+              </CelButton>
+            </View>
+          </View>
         </Content>
       </BasicLayout>
     );
