@@ -36,6 +36,7 @@ import TransactionDetailsScreen from "../components/screens/TransactionDetails/T
 import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
 import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/WithdrawalInfo";
+import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -110,6 +111,10 @@ const Navigator = createStackNavigator({
   Camera: {
     screen: CameraScreen,
     title: 'Camera',
+  },
+  QRScanner: {
+    screen: QRScannerScreen,
+    title: 'QRScanner',
   },
   VerifyPhoneNumber: {
     screen: VerifyPhoneNumberScreen,

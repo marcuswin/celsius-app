@@ -7,6 +7,7 @@ const walletService = {
   getWalletDetails,
   getCoinAddress,
   getCoinOriginatingAddress,
+  setCoinWithdrawalAddress,
   getCoinTransactions,
   getCoinGraphData,
   getAllTransactions,
@@ -25,6 +26,17 @@ function getCoinAddress(coin) {
 
 function getCoinOriginatingAddress(coin) {
   return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/originating_address`);
+}
+
+/**
+ * @param {string} coin
+ * @param {string} address
+ * @returns {AxiosPromise<any>}
+ */
+function setCoinWithdrawalAddress(coin, address) {
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/originating_address`, {
+    address,
+  });
 }
 
 function getCoinTransactions(coin) {
