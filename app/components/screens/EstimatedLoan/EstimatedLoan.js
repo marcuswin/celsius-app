@@ -111,7 +111,10 @@ class EstimatedLoan extends Component {
     const { estimatedLoan, portfolio, actions } = this.props;
 
     if (!estimatedLoan || !portfolio) return (
-      <SimpleLayout animatedHeading={animatedHeading}>
+      <SimpleLayout
+        mainHeader={{ backButton: false }}
+        animatedHeading={animatedHeading}
+      >
         <Loader/>
       </SimpleLayout>
     )
@@ -122,6 +125,7 @@ class EstimatedLoan extends Component {
     if (!estimatedLoan.estimated_coin_value) return (
       <SimpleLayout
         animatedHeading={animatedHeading}
+        mainHeader={{ backButton: false }}
       >
         <PortfolioEmptyState screen="EstimatedLoan" onPress={() => actions.navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
@@ -131,6 +135,7 @@ class EstimatedLoan extends Component {
     return (
       <SimpleLayout
         animatedHeading={animatedHeading}
+        mainHeader={{ backButton: false }}
       >
         <InfoBubble
           renderContent={(textStyles) => (
