@@ -17,6 +17,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
+import { FONT_SCALE } from "../../../config/constants/style";
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
@@ -93,9 +94,11 @@ class ProfileScreen extends Component {
               <Text style={[{
                 color: 'white',
                 paddingLeft: 5,
+                textAlign: 'right',
                 opacity: 0.8,
-                marginTop: 3,
-                textAlign: 'right'
+                marginTop: 2,
+                fontSize: FONT_SCALE * 21,
+                fontFamily: 'agile-medium',
               }]}>Log out</Text>
             </TouchableOpacity>
           )}
@@ -161,23 +164,28 @@ class ProfileScreen extends Component {
 
           <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
             <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
-            <CelButton onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
-                       transparent
-                       color="blue"
-                       size="medium"
-                       margin="0 0 0 0"
-                       inverse
-            >Join our Telegram</CelButton>
+            <CelButton
+              onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
+              transparent
+              color="blue"
+              size="medium"
+              inverse
+            >
+              Join our Telegram
+            </CelButton>
           </View>
 
           <View style={{marginBottom: 30}}>
-            <CelButton onPress={() => actions.navigateTo('TermsOfUse')}
-                       transparent
-                       color="blue"
-                       size="small"
-                       margin="0 0 0 0"
-                       inverse
-            >See Terms of Use</CelButton>
+            <CelButton
+              onPress={() => actions.navigateTo('TermsOfUse')}
+              transparent
+              color="blue"
+              size="small"
+              margin="0 0 0 0"
+              inverse
+            >
+              See Terms of Use
+            </CelButton>
           </View>
         </Content>
       </BasicLayout>
