@@ -115,19 +115,20 @@ export default class App extends Component {
       }
     };
 
-    const initialUrl = await Linking.getInitialURL();
+    try {
+      const initialUrl = await Linking.getInitialURL();
 
-    Linking.addEventListener('url', handleUrl);
+      Linking.addEventListener('url', handleUrl);
 
-    Sentry.captureMessage("Initial URL Handling", {
-      level: 'info',
-      extra: {
-        initialUrl,
-        linkingUri: Constants.linkingUri,
-      },
-    });
+      Sentry.captureMessage("Initial URL Handling", {
+        level: 'info',
+        extra: {
+          initialUrl,
+          linkingUri: Constants.linkingUri,
+        },
+      });
 
-    const branchUniversalObject = await Branch.createBranchUniversalObject('testingCelsius', {
+      const branchUniversalObject = await Branch.createBranchUniversalObject('testingCelsius', {
         locallyIndex: true,
         title: 'Cool Content!',
         contentDescription: 'Cool Content Description',
@@ -138,36 +139,39 @@ export default class App extends Component {
             prop2: 'abc'
           }
         }
-    });
+      });
 
-    const linkProperties = {
-      feature: 'share',
-      channel: 'facebook'
-    };
+      const linkProperties = {
+        feature: 'share',
+        channel: 'facebook'
+      };
 
-    const controlParams = {
-      $desktop_url: 'http://desktop-url.com/monster/12345'
-    };
+      const controlParams = {
+        $desktop_url: 'http://desktop-url.com/monster/12345'
+      };
 
-    const {url} = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
+      const {url} = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
 
-    Sentry.captureMessage("Branch URL Generated", {
-      level: 'info',
-      extra: {
-        url,
-      },
-    });
+      Sentry.captureMessage("Branch URL Generated", {
+        level: 'info',
+        extra: {
+          url,
+        },
+      });
 
-    Branch.subscribe((bundle) => {
-      if (bundle && bundle.params && !bundle.error) {
-        Sentry.captureMessage("Branch Subscribe Handler", {
-          level: 'info',
-          extra: {
-            bundle,
-          },
-        });
-      }
-    });
+      Branch.subscribe((bundle) => {
+        if (bundle && bundle.params && !bundle.error) {
+          Sentry.captureMessage("Branch Subscribe Handler", {
+            level: 'info',
+            extra: {
+              bundle,
+            },
+          });
+        }
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+    }
 
     NetInfo.isConnected.addEventListener(
       "connectionChange",
