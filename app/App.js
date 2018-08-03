@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Constants} from 'expo';
+import {Asset, AppLoading, Font, Constants, DangerZone} from 'expo';
+// import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage, NetInfo } from 'react-native';
+import { Image, AsyncStorage, NetInfo, Linking } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
@@ -12,6 +13,10 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
+
+const { Branch } = DangerZone;
+//
+// console.log(Branch);
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
 
@@ -95,6 +100,55 @@ export default class App extends Component {
     const initialConnection = await NetInfo.isConnected.fetch();
 
     handleConnectivityChange(initialConnection);
+
+    const handleUrl = ({url}) => {
+      const queryString = url.replace(Constants.linkingUri, '');
+
+      if (queryString) {
+        console.log('handle url: ', queryString);
+      }
+    };
+
+    const initialUrl = await Linking.getInitialURL();
+
+    Linking.addEventListener('url', handleUrl);
+
+    console.log('test', initialUrl, Constants.linkingUri);
+
+    const branchUniversalObject = await Branch.createBranchUniversalObject('testingCelsius', {
+        locallyIndex: true,
+        title: 'Cool Content!',
+        contentDescription: 'Cool Content Description',
+        contentMetadata: {
+          ratingAverage: 4.2,
+          customMetadata: {
+            prop1: "test",
+            prop2: 'abc'
+          }
+        }
+    });
+
+    const linkProperties = {
+      feature: 'share',
+      channel: 'facebook'
+    };
+
+    const controlParams = {
+      $desktop_url: 'http://desktop-url.com/monster/12345'
+    };
+
+    const {url} = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
+
+    console.log(branchUniversalObject, url);
+
+
+    Branch.subscribe((bundle) => {
+      console.log('subscribe', bundle);
+      if (bundle && bundle.params && !bundle.error) {
+        // `bundle.params` contains all the info about the link.
+        console.log('bundle handle', bundle);
+      }
+    });
 
     NetInfo.isConnected.addEventListener(
       "connectionChange",
