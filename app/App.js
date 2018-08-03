@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Constants, DangerZone} from 'expo';
-// import Branch from 'react-native-branch';
+import { Asset, AppLoading, Font, Constants } from 'expo';
+import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
 import { Image, AsyncStorage, NetInfo, Linking } from 'react-native';
 import twitter from 'react-native-simple-twitter';
@@ -14,7 +14,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-const { Branch } = DangerZone;
+// const { Branch } = DangerZone;
 //
 // console.log(Branch);
 
@@ -161,6 +161,12 @@ export default class App extends Component {
       });
 
       Branch.subscribe((bundle) => {
+        Sentry.captureMessage("Branch Subscribe Before Handler", {
+          level: 'info',
+          extra: {
+            bundle,
+          },
+        });
         if (bundle && bundle.params && !bundle.error) {
           Sentry.captureMessage("Branch Subscribe Handler", {
             level: 'info',
