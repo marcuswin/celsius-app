@@ -21,6 +21,7 @@ const { Branch } = DangerZone;
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
+  Sentry.enableInExpoDevelopment = true;
   Sentry.config(SENTRY_DSN).install();
 }
 
