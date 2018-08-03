@@ -105,7 +105,13 @@ export default class App extends Component {
       const queryString = url.replace(Constants.linkingUri, '');
 
       if (queryString) {
-        console.log('handle url: ', queryString);
+        Sentry.captureMessage("Expo URL Handler", {
+          level: 'info',
+          extra: {
+            url,
+            queryString,
+          },
+        });
       }
     };
 
@@ -113,7 +119,13 @@ export default class App extends Component {
 
     Linking.addEventListener('url', handleUrl);
 
-    console.log('test', initialUrl, Constants.linkingUri);
+    Sentry.captureMessage("Initial URL Handling", {
+      level: 'info',
+      extra: {
+        initialUrl,
+        linkingUri: Constants.linkingUri,
+      },
+    });
 
     const branchUniversalObject = await Branch.createBranchUniversalObject('testingCelsius', {
         locallyIndex: true,
@@ -139,14 +151,21 @@ export default class App extends Component {
 
     const {url} = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
 
-    console.log(branchUniversalObject, url);
-
+    Sentry.captureMessage("Branch URL Generated", {
+      level: 'info',
+      extra: {
+        url,
+      },
+    });
 
     Branch.subscribe((bundle) => {
-      console.log('subscribe', bundle);
       if (bundle && bundle.params && !bundle.error) {
-        // `bundle.params` contains all the info about the link.
-        console.log('bundle handle', bundle);
+        Sentry.captureMessage("Branch Subscribe Handler", {
+          level: 'info',
+          extra: {
+            bundle,
+          },
+        });
       }
     });
 
