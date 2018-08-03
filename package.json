@@ -20,8 +20,8 @@
     "publish:beta": "npm run env:production && exp publish --release-channel celsius_beta",
     "publish:production:ios": "exp publish --release-channel production_ios",
     "publish:production:android": "exp publish --release-channel production_android",
-    "build:android:production": "exp build:android --release-channel production_android",
-    "build:ios:production": "exp build:ios --release-channel production_ios",
+    "build:android:production": "exp build:android --release-channel --no-publish production_android",
+    "build:ios:production": "exp build:ios --release-channel --no-publish production_ios",
     "build:ipa": "npm run env:production && npm run build:ios:production",
     "build:apk": "npm run env:production && npm run build:android:production",
     "plop": "plop"
