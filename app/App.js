@@ -86,6 +86,7 @@ export default class App extends Component {
     }
 
     store.dispatch(actions.getSupportedCurrencies())
+    store.dispatch(actions.getKYCDocTypes())
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);

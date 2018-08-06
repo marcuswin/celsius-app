@@ -34,22 +34,6 @@ export const PERSON_TITLE = [
   {label: 'Mrs.', value: 'mrs'}
 ];
 
-export const PURPOSE_OF_LOAN = [
-  {label: 'Personal Expenses', value: 'Personal Expenses'},
-  {label: 'Pay off debt', value: 'Pay off debt'},
-  {label: 'Stock/Bond Investment', value: 'Stock/Bond Investment'},
-  {label: 'Additional Crypto Investment', value: 'Additional Crypto Investment'},
-  {label: 'Real Estate', value: 'Real Estate'},
-  {label: 'Business Venture (starting a business)', value: 'Business Venture (starting a business)'},
-  {label: 'Other', value: 'Other'},
-];
-
-export const DOCUMENT_TYPE = [
-  {label: 'Passport', value: 'passport', bothSides: false},
-  {label: 'Driving Licence', value: 'driving_licence', bothSides: true},
-  {label: 'National Identity Card', value: 'identity_card', bothSides: true}
-];
-
 export const CAMERA_COPY = {
   DOCUMENT: 'Please center your document in the marked area. Ensure that there’s enough light in the room for better picture quality.',
   SELFIE: 'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.',
