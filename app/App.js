@@ -62,6 +62,17 @@ function handleConnectivityChange(isConnected) {
   store.dispatch(actions.setInternetConnectivity(isConnected));
 }
 
+// Branch.subscribe((bundle) => {
+//   if (bundle && bundle.params && !bundle.error) {
+//     Sentry.captureMessage("Branch Subscribe Handler Outside", {
+//       level: 'info',
+//       extra: {
+//         bundle,
+//       },
+//     });
+//   }
+// });
+
 export default class App extends Component {
   // Init Application
   static async initApp() {
@@ -129,29 +140,24 @@ export default class App extends Component {
         },
       });
 
-      const branchUniversalObject = await Branch.createBranchUniversalObject('testingCelsius', {
+      const branchUniversalObject = await Branch.createBranchUniversalObject('testing123Celsius', {
         locallyIndex: true,
-        title: 'Cool Content!',
-        contentDescription: 'Cool Content Description',
+        title: 'You got money!',
+        contentDescription: 'Filip has sent you money on Celsius Network',
         contentMetadata: {
-          ratingAverage: 4.2,
+          amount: 0.124,
+          currency: 'eth',
+          amountUsd: '$ 12.34',
           customMetadata: {
-            prop1: "test",
-            prop2: 'abc'
+            amount: 123.31,
+            hash: 'jhsadkfahsjkdfhjgashdjk123',
+            currency: 'cel',
+            amountUsd: '$ 21.43'
           }
         }
       });
 
-      const linkProperties = {
-        feature: 'share',
-        channel: 'facebook'
-      };
-
-      const controlParams = {
-        $desktop_url: 'http://desktop-url.com/monster/12345'
-      };
-
-      const {url} = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
+      const {url} = await branchUniversalObject.generateShortUrl();
 
       Sentry.captureMessage("Branch URL Generated", {
         level: 'info',
@@ -161,14 +167,9 @@ export default class App extends Component {
       });
 
       Branch.subscribe((bundle) => {
-        Sentry.captureMessage("Branch Subscribe Before Handler", {
-          level: 'info',
-          extra: {
-            bundle,
-          },
-        });
         if (bundle && bundle.params && !bundle.error) {
-          Sentry.captureMessage("Branch Subscribe Handler", {
+          const date = new Date().toISOString();
+          Sentry.captureMessage(`Branch Subscribe Handler [${date}]`, {
             level: 'info',
             extra: {
               bundle,
@@ -176,6 +177,7 @@ export default class App extends Component {
           });
         }
       });
+
     } catch (error) {
       Sentry.captureException(error);
     }
