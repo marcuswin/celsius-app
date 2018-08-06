@@ -166,6 +166,8 @@ export default class App extends Component {
         },
       });
 
+      Branch.initSessionTtl = 15000;
+
       Branch.subscribe((bundle) => {
         if (bundle && bundle.params && !bundle.error) {
           const date = new Date().toISOString();
