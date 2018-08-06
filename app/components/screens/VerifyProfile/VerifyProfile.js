@@ -26,6 +26,7 @@ import API from "../../../config/constants/API";
     kycDocuments: state.users.kycDocuments,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
+    kycDocTypes: state.generalData.kycDocTypes,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -83,9 +84,10 @@ class VerifyProfile extends Component {
   }
   // rendering methods
   render() {
-    const { formData, formErrors, callsInProgress } = this.props;
+    const { formData, formErrors, callsInProgress, user, kycDocTypes } = this.props;
 
     const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
+    const docs = mapDocs(kycDocTypes[user.citizenship]);
 
     return (
       <SimpleLayout
@@ -98,7 +100,7 @@ class VerifyProfile extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isLoading}>
-          <CelSelect error={formErrors.document_type} field="documentType" type="document" labelText="Document Type" value={formData.documentType}/>
+          <CelSelect error={formErrors.document_type} field="documentType" items={docs} labelText="Document Type" value={formData.documentType}/>
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
@@ -125,6 +127,17 @@ class VerifyProfile extends Component {
       </SimpleLayout>
     );
   }
+}
+
+function mapDocs(docs) {
+  const kycDocs = [];
+
+  if (!docs) return [{ value: 'passport', label: 'Passport' }];
+  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport' });
+  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: 'Driving Licence' });
+  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National Identity Card' });
+
+  return kycDocs;
 }
 
 export default VerifyProfile;
