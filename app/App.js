@@ -73,6 +73,20 @@ function handleConnectivityChange(isConnected) {
 //   }
 // });
 
+Branch.initSessionTtl = 15000;
+
+Branch.subscribe((bundle) => {
+  if (bundle && bundle.params && !bundle.error) {
+    const date = new Date().toISOString();
+    Sentry.captureMessage(`Branch Subscribe Handler [${date}]`, {
+      level: 'info',
+      extra: {
+        bundle,
+      },
+    });
+  }
+});
+
 export default class App extends Component {
   // Init Application
   static async initApp() {
@@ -164,20 +178,6 @@ export default class App extends Component {
         extra: {
           url,
         },
-      });
-
-      Branch.initSessionTtl = 15000;
-
-      Branch.subscribe((bundle) => {
-        if (bundle && bundle.params && !bundle.error) {
-          const date = new Date().toISOString();
-          Sentry.captureMessage(`Branch Subscribe Handler [${date}]`, {
-            level: 'info',
-            extra: {
-              bundle,
-            },
-          });
-        }
       });
 
     } catch (error) {
