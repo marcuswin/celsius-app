@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, ImageManipulator } from 'expo';
 
 import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
@@ -51,7 +51,6 @@ class CameraScreen extends Component {
     };
   }
 
-
   async componentWillMount() {
     this.getCameraPermissions()
   }
@@ -75,18 +74,22 @@ class CameraScreen extends Component {
       return await this.getCameraPermissions;
     }
 
-    const { actions, cameraType } = this.props;
+    const { actions } = this.props;
     try {
-      const quality = Camera.Constants.Type[cameraType] === Camera.Constants.Type.back ? 0.2 : 0.5;
       this.setState({ isLoading: true });
 
       const photo = await this.camera.takePictureAsync({
-        quality,
         base64: true,
         skipProcessing: true,
       })
 
-      const base64String = photo.base64.replace(/\s/g, "");
+      const resizedPhoto = await ImageManipulator.manipulate(
+        photo.uri,
+        [{ resize: { height: 3500 } }],
+        { compress: 0.95, format: "jpg", base64: true }
+      );
+
+      const base64String = resizedPhoto.base64.replace(/\s/g, "");
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
