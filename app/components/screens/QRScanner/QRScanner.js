@@ -58,7 +58,8 @@ class QRScannerScreen extends Component{
     const onScan = navigation.getParam('onScan');
 
     // scanning metamask address -> 'ethereum:0x...'
-    const address = data.indexOf(':') === -1 ? data : data.split(':')[1];
+    let address = data.indexOf(':') === -1 ? data : data.split(':')[1];
+    address = address.trim();
 
     if (onScan) {
       onScan(address);
