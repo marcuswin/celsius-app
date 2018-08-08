@@ -81,6 +81,7 @@ class WalletDetails extends Component {
     const transactions = this.getTransactions();
     const walletData = (walletCurrencies != null) && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const isCelCurrency = currency === 'cel';
+    const canWithdrawCrypto = !!Number(walletData.amount);
 
     return (
       <BasicLayout bottomNavigation>
@@ -112,13 +113,16 @@ class WalletDetails extends Component {
                 </Text>
               </WalletInfoBubble>
             )}
-            <TransactionsHistory
-              transactions={transactions}
-              navigateTo={actions.navigateTo}
-              currencyRatesShort={currencyRatesShort}
-              />
 
-            { walletData.amount !== '0' && (
+            { !!transactions.length && (
+              <TransactionsHistory
+                transactions={transactions}
+                navigateTo={actions.navigateTo}
+                currencyRatesShort={currencyRatesShort}
+              />
+            )}
+
+            { canWithdrawCrypto && (
               <CelButton
                 margin={'40 0 70 0'}
                 onPress={this.onPressWithdraw}
