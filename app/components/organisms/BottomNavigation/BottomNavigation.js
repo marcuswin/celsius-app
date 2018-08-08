@@ -35,7 +35,7 @@ class BottomNavigation extends Component {
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
     ],
     navItemsRight: [
-      { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
+      { label: 'Earn', screen: 'DepositCoins', icon: 'Lend', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }
