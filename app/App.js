@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage, NetInfo, Linking } from 'react-native';
+import { Image, AsyncStorage, NetInfo} from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
@@ -62,30 +62,21 @@ function handleConnectivityChange(isConnected) {
   store.dispatch(actions.setInternetConnectivity(isConnected));
 }
 
-// Branch.subscribe((bundle) => {
-//   if (bundle && bundle.params && !bundle.error) {
-//     Sentry.captureMessage("Branch Subscribe Handler Outside", {
-//       level: 'info',
-//       extra: {
-//         bundle,
-//       },
-//     });
-//   }
-// });
-
-Branch.initSessionTtl = 15000;
-
-Branch.subscribe((bundle) => {
-  if (bundle && bundle.params && !bundle.error) {
-    const date = new Date().toISOString();
-    Sentry.captureMessage(`Branch Subscribe Handler [${date}]`, {
-      level: 'info',
-      extra: {
-        bundle,
-      },
-    });
+function handleDeepLink(deepLink) {
+  if (!deepLink || !deepLink['+clicked_branch_link']) {
+    return;
   }
-});
+
+  const date = new Date().toISOString();
+
+  store.dispatch(actions.showMessage('error', 'Link recieved'));
+  Sentry.captureMessage(`Application read branch link [${date}]`, {
+    level: 'info',
+    extra: {
+      deepLink,
+    },
+  });
+}
 
 export default class App extends Component {
   // Init Application
@@ -127,59 +118,81 @@ export default class App extends Component {
 
     handleConnectivityChange(initialConnection);
 
-    const handleUrl = ({url}) => {
-      const queryString = url.replace(Constants.linkingUri, '');
-
-      if (queryString) {
-        Sentry.captureMessage("Expo URL Handler", {
-          level: 'info',
-          extra: {
-            url,
-            queryString,
-          },
-        });
-      }
-    };
+    // const handleUrl = ({url}) => {
+    //   const queryString = url.replace(Constants.linkingUri, '');
+    //
+    //   if (queryString) {
+    //     Sentry.captureMessage("Expo URL Handler", {
+    //       level: 'info',
+    //       extra: {
+    //         url,
+    //         queryString,
+    //       },
+    //     });
+    //   }
+    // };
 
     try {
-      const initialUrl = await Linking.getInitialURL();
+      // const initialUrl = await Linking.getInitialURL();
+      //
+      // Linking.addEventListener('url', handleUrl);
+      //
+      // Sentry.captureMessage("Initial URL Handling", {
+      //   level: 'info',
+      //   extra: {
+      //     initialUrl,
+      //     linkingUri: Constants.linkingUri,
+      //   },
+      // });
+      //
+      // const branchUniversalObject = await Branch.createBranchUniversalObject('testing123Celsius', {
+      //   locallyIndex: true,
+      //   title: 'You got money!',
+      //   contentDescription: 'Filip has sent you money on Celsius Network',
+      //   contentMetadata: {
+      //     amount: 0.124,
+      //     currency: 'eth',
+      //     amountUsd: '$ 12.34',
+      //     customMetadata: {
+      //       amount: 123.31,
+      //       hash: 'jhsadkfahsjkdfhjgashdjk123',
+      //       currency: 'cel',
+      //       amountUsd: '$ 21.43'
+      //     }
+      //   }
+      // });
+      //
+      // const {url} = await branchUniversalObject.generateShortUrl();
+      //
+      // Sentry.captureMessage("Branch URL Generated", {
+      //   level: 'info',
+      //   extra: {
+      //     url,
+      //   },
+      // });
 
-      Linking.addEventListener('url', handleUrl);
-
-      Sentry.captureMessage("Initial URL Handling", {
-        level: 'info',
-        extra: {
-          initialUrl,
-          linkingUri: Constants.linkingUri,
-        },
-      });
-
-      const branchUniversalObject = await Branch.createBranchUniversalObject('testing123Celsius', {
-        locallyIndex: true,
-        title: 'You got money!',
-        contentDescription: 'Filip has sent you money on Celsius Network',
-        contentMetadata: {
-          amount: 0.124,
-          currency: 'eth',
-          amountUsd: '$ 12.34',
-          customMetadata: {
-            amount: 123.31,
-            hash: 'jhsadkfahsjkdfhjgashdjk123',
-            currency: 'cel',
-            amountUsd: '$ 21.43'
+      // setTimeout(() => {
+        Branch.subscribe((deepLink) => {
+          const date = new Date().toISOString();
+          Sentry.captureMessage(`Subscribe called [${date}]`, {
+            level: 'info',
+            extra: {
+              deepLink,
+            },
+          });
+          if (deepLink.error || !deepLink.params) {
+            return;
           }
-        }
-      });
 
-      const {url} = await branchUniversalObject.generateShortUrl();
+          handleDeepLink(deepLink.params);
+        });
+      // }, 10000);
 
-      Sentry.captureMessage("Branch URL Generated", {
-        level: 'info',
-        extra: {
-          url,
-        },
-      });
+      // if (Platform.OS === 'ios') {
+      //   const lastDeepLink = await Branch.getLatestReferringParams();
 
+        // handleDeepLink(lastDeepLink);
+      // }
     } catch (error) {
       Sentry.captureException(error);
     }
