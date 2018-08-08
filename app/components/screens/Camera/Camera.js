@@ -79,7 +79,6 @@ class CameraScreen extends Component {
       this.setState({ isLoading: true });
 
       const photo = await this.camera.takePictureAsync({
-        base64: true,
         skipProcessing: true,
       })
 
