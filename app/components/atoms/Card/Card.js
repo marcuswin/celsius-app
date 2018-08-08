@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import PropTypes from "prop-types";
 
 const CardStyle = StyleSheet.create({
-  root: {
+  white: {
     width: '98%',
     marginLeft: 2,
     justifyContent: 'center',
@@ -13,10 +13,19 @@ const CardStyle = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
+  transparent: {
+    width: '98%',
+    marginLeft: 2,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  }
 })
 
 
-const Card = ({ children }) => <View style={CardStyle.root}>{children}</View>;
+const Card = ({ type, children }) => {
+  console.log({ type });
+  return <View style={CardStyle[type || 'white']}>{children}</View>
+};
 
 Card.propTypes = {
   children: PropTypes.node,

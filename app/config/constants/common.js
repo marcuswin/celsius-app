@@ -18,7 +18,7 @@ export const GENDER = [
   {label: 'Other', value: 'other'}
 ];
 
-export const ELIGIBLE_COINS = ['BTC', 'ETH'];
+export const ELIGIBLE_COINS = ['BTC', 'ETH', 'CEL'];
 export const KYC_STATUSES = {
   collecting: 'collecting',
   pending: 'pending',
