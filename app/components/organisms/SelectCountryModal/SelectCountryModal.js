@@ -86,7 +86,7 @@ class SelectCountryModal extends Component {
         visible={visible}
         onRequestClose={() => onClose(null)}
       >
-        <Header style={[SelectCountryStyles.header]}>
+        <Header style={[SelectCountryStyles.header]} iosBarStyle="light-content">
           <Left>
             <Button title='Back' transparent onPress={() => onClose(null)}>
               <Icon style={SelectCountryStyles.backArrow} name='arrow-back'/>
