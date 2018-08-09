@@ -4,7 +4,6 @@ import {bindActionCreators} from "redux";
 import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
-import WalletLanding from "../WalletLanding/WalletLanding";
 import NoKyc from "../NoKyc/NoKyc";
 import CreatePasscode from "../Passcode/CreatePasscode";
 import { KYC_STATUSES } from "../../../config/constants/common";
@@ -12,6 +11,7 @@ import WelcomeScreen from "../Welcome/Welcome";
 import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
+import WalletBalance from "../WalletBalance/WalletBalance";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -49,7 +49,7 @@ class HomeScreen extends Component {
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-    return <WalletLanding />;
+    return <WalletBalance />;
   }
 }
 
