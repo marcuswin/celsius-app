@@ -61,7 +61,10 @@ class DepositCoins extends Component {
     const { estimatedInterest, portfolio, actions } = this.props;
 
     if (!estimatedInterest || !portfolio) return (
-      <SimpleLayout animatedHeading={animatedHeading}>
+      <SimpleLayout
+        mainHeader={{ backButton: false }}
+        animatedHeading={animatedHeading}
+      >
         <Loader/>
       </SimpleLayout>
     );
@@ -73,6 +76,7 @@ class DepositCoins extends Component {
 
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
+        mainHeader={{ backButton: false }}
         animatedHeading={animatedHeading}
       >
         <PortfolioEmptyState screen="DepositCoins" onPress={() => actions.navigateTo('ManagePortfolio')}/>
@@ -80,7 +84,10 @@ class DepositCoins extends Component {
     );
 
     return (
-      <SimpleLayout animatedHeading={animatedHeading}>
+      <SimpleLayout
+        mainHeader={{ backButton: false }}
+        animatedHeading={animatedHeading}
+      >
         <InfoBubble
           renderContent={(textStyles) => (
             <View>

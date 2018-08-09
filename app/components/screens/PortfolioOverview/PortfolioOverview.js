@@ -30,8 +30,8 @@ class PortfolioScreen extends Component {
   render() {
     const { actions, portfolio, supportedCurrencies } = this.props;
     const animatedHeading = {
-      text: 'Tracker',
-      subheading: "Track your coins",
+      text: 'Track Coins',
+      subheading: 'Your coins watchlist',
     };
 
     const mainHeader = {
@@ -74,7 +74,7 @@ class PortfolioScreen extends Component {
               <CelButton
                 onPress={() => actions.navigateTo('ManagePortfolio')}
               >
-                Manage your coins
+                Manage coins
               </CelButton>
             </View>
           </View>

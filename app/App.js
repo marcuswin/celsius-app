@@ -18,15 +18,11 @@ import baseUrl from "./services/api-url";
 //
 // console.log(Branch);
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, ENV} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
   Sentry.config(SENTRY_DSN).install();
-}
-
-if (ENV !== 'PRODUCTION') {
-  GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 }
 
 AsyncStorage.removeItem('UserTemporaryId'); // reset temporary user id for mixpanel tracking
@@ -108,6 +104,7 @@ export default class App extends Component {
     }
 
     store.dispatch(actions.getSupportedCurrencies())
+    store.dispatch(actions.getKYCDocTypes())
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);

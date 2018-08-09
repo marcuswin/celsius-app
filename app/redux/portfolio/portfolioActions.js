@@ -2,7 +2,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import {startApiCall, apiError} from '../api/apiActions';
 import {showMessage} from '../ui/uiActions';
-import portfolioRequestService from '../../services/portfolio-requests-service';
+import portfolioService from '../../services/portfolio-service';
 
 import { actions as mixpanelActions } from '../../services/mixpanel';
 
@@ -21,7 +21,7 @@ function updatePortfolio(data) {
     dispatch(startApiCall(API.CREATE_PORTFOLIO_REQUEST));
 
     try {
-      const res = await portfolioRequestService.update(data);
+      const res = await portfolioService.update(data);
       const portfolio = res.data;
       dispatch(updatePortfolioRequestSuccess(portfolio));
 
@@ -45,7 +45,7 @@ function getPortfolio() {
     dispatch(startApiCall(API.GET_PORTFOLIO_REQUEST));
 
     try {
-      const res = await portfolioRequestService.get();
+      const res = await portfolioService.get();
       const portfolio = res;
       dispatch(getPortfolioRequestSuccess(portfolio));
     } catch (err) {
@@ -68,7 +68,7 @@ function getEstimatedLoan() {
     dispatch(startApiCall(API.GET_ESTIMATED_LOAN));
 
     try {
-      const res = await portfolioRequestService.getEstimatedLoan();
+      const res = await portfolioService.getEstimatedLoan();
       const estimatedLoan = res.data.estimated_loan;
       dispatch(getEstimatedLoanSuccess(estimatedLoan));
     } catch (err) {
@@ -91,7 +91,7 @@ function getEstimatedInterest() {
     dispatch(startApiCall(API.GET_ESTIMATED_INTEREST));
 
     try {
-      const res = await portfolioRequestService.getEstimatedInterest();
+      const res = await portfolioService.getEstimatedInterest();
       const estimatedInterest = res.data.estimated_interest;
       dispatch(getEstimatedInterestSuccess(estimatedInterest));
     } catch (err) {

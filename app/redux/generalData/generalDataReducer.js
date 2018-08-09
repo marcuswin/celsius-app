@@ -23,6 +23,12 @@ export default function generalDataReducer(state = initialState(), action) {
         currencyRatesShort,
       };
 
+    case ACTIONS.GET_KYC_DOC_TYPES_SUCCESS:
+      return {
+        ...state,
+        kycDocTypes: action.kycDocTypes,
+      };
+
   default:
     return state;
   }

@@ -120,20 +120,20 @@ const CoinCardStyle = StyleSheet.create({
   },
 });
 
-const CoinCardInfo = ({text}) => (
-  <Row>
-    <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
-      <Icon
-        name={'EligibilityStarTwo'}
-        height='22'
-        width='22'
-        stroke={'#9DA3A9'}
-        fill={'rgba(255,255,255,0.5)'}
-      />
-      <Text style={CoinCardStyle.lendingBorrowingInfoText}>{text}</Text>
-    </View>
-  </Row>
-);
+// const CoinCardInfo = ({text}) => (
+//   <Row>
+//     <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
+//       <Icon
+//         name={'EligibilityStarTwo'}
+//         height='22'
+//         width='22'
+//         stroke={'#9DA3A9'}
+//         fill={'rgba(255,255,255,0.5)'}
+//       />
+//       <Text style={CoinCardStyle.lendingBorrowingInfoText}>{text}</Text>
+//     </View>
+//   </Row>
+// );
 
 @connect(
   state => ({
@@ -164,39 +164,50 @@ class CoinCard extends Component {
     // eslint-disable-next-line
     const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
 
-
-    return <Card>
-      <Grid style={type === "wallet-card" && amount === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.6 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
-        <Row>
-          <Col style={{ width: '70%', justifyContent: 'center' }}>
-            <View>
+    const cardType = type === 'default' ? 'transparent' : 'white';
+    return (
+      <Card type={cardType}>
+        <Grid style={type === "wallet-card" && amount === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.6 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
+          <Row>
+            <Col style={{ width: '70%', justifyContent: 'center' }}>
+              <View>
+                <Text
+                  style={CoinCardStyle.label}>{currency.short.toUpperCase()} - {currency.name.toUpperCase()}</Text>
+                <Text style={[CoinCardStyle.text, {fontSize: letterSize}]}>{formatter.usd(total)}</Text>
+                <Text
+                  style={[CoinCardStyle.coinAmount, { fontFamily: 'agile-light' }]}>{ formatter.crypto(amount, currency.short.toUpperCase(), { precision: 5 }) }</Text>
+              </View>
+            </Col>
+            <Col style={{ width: '30%' }}>
+              <Image
+                source={{ uri: currency.image_url }}
+                style={CoinCardStyle.image}
+              />
+              { type !== "wallet-card" && ELIGIBLE_COINS.indexOf(currency.short) !== -1 ? (
+                <Icon
+                  style={{position: 'absolute', bottom: 0, right: 0 }}
+                  name={'EligibilityStar'}
+                  height='20'
+                  width='20'
+                  fill={STYLES.PRIMARY_BLUE}
+                  stroke={'white'}
+                />
+              ) : null }
+            </Col>
+          </Row>
+        </Grid>
+        <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: 'white'} : { borderColor: STYLES.GRAY_1 }]}>
+          <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
+            <View style={CoinCardStyle.wrapper}>
               <Text
-                style={CoinCardStyle.label}>{currency.short.toUpperCase()} - {currency.name.toUpperCase()}</Text>
-              <Text style={[CoinCardStyle.text, {fontSize: letterSize}]}>{formatter.usd(total)}</Text>
-              <Text
-                style={[CoinCardStyle.coinAmount, { fontFamily: 'agile-light' }]}>{ formatter.crypto(amount, currency.short.toUpperCase(), { precision: 5 }) }</Text>
+                style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {currency.short} = {formatter.usd(currency.market.quotes.USD.price)}</Text>
             </View>
-          </Col>
-          <Col style={{ width: '30%' }}>
-            <Image
-              source={{ uri: currency.image_url }}
-              style={CoinCardStyle.image}
+            <PricingChangeIndicator
+              isPercentChangeNegative={isPercentChangeNegative}
+              percentChange={percentChange}
             />
-          </Col>
-        </Row>
-      </Grid>
-      <Grid style={CoinCardStyle.coinData}>
-        <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
-          <View style={CoinCardStyle.wrapper}>
-            <Text
-              style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {currency.short} = {formatter.usd(currency.market.quotes.USD.price)}</Text>
-          </View>
-          <PricingChangeIndicator
-            isPercentChangeNegative={isPercentChangeNegative}
-            percentChange={percentChange}
-          />
-        </Row>
-        {graphDataPrices &&
+          </Row>
+          {graphDataPrices &&
           <Row style={[CoinCardStyle.row, { paddingBottom: 20 }]}>
             <View style={{ width: '100%' }}>
               <LineChart
@@ -206,15 +217,10 @@ class CoinCard extends Component {
               />
             </View>
           </Row>
-        }
-        {(type !== "wallet-card" && ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
-          <CoinCardInfo text="Now available for borrowing and lending"/>
-        }
-        {(type !== "wallet-card" && currency.short === 'CEL') &&
-          <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange"/>
-        }
-      </Grid>
-    </Card >;
+          }
+        </Grid>
+      </Card>
+    );
   }
 };
 

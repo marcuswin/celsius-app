@@ -18,7 +18,7 @@ export const GENDER = [
   {label: 'Other', value: 'other'}
 ];
 
-export const ELIGIBLE_COINS = ['BTC', 'ETH'];
+export const ELIGIBLE_COINS = ['BTC', 'ETH', 'CEL'];
 export const KYC_STATUSES = {
   collecting: 'collecting',
   pending: 'pending',
@@ -32,22 +32,6 @@ export const PERSON_TITLE = [
   {label: 'Mr.', value: 'mr'},
   {label: 'Ms.', value: 'ms'},
   {label: 'Mrs.', value: 'mrs'}
-];
-
-export const PURPOSE_OF_LOAN = [
-  {label: 'Personal Expenses', value: 'Personal Expenses'},
-  {label: 'Pay off debt', value: 'Pay off debt'},
-  {label: 'Stock/Bond Investment', value: 'Stock/Bond Investment'},
-  {label: 'Additional Crypto Investment', value: 'Additional Crypto Investment'},
-  {label: 'Real Estate', value: 'Real Estate'},
-  {label: 'Business Venture (starting a business)', value: 'Business Venture (starting a business)'},
-  {label: 'Other', value: 'Other'},
-];
-
-export const DOCUMENT_TYPE = [
-  {label: 'Passport', value: 'passport', bothSides: false},
-  {label: 'Driving Licence', value: 'driving_licence', bothSides: true},
-  {label: 'National Identity Card', value: 'identity_card', bothSides: true}
 ];
 
 export const CAMERA_COPY = {

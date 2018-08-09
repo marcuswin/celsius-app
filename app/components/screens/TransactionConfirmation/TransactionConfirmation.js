@@ -222,11 +222,11 @@ class TransactionConfirmation extends Component {
         <Content>
           <View style={AmountInputStyle.inputWrapper}>
             <Text
-              style={AmountInputStyle.fiatAmount}
+              style={AmountInputStyle.primaryAmount}
             >
               { mainAmountText }
             </Text>
-            <Text style={AmountInputStyle.cryptoAmount}>{ secondaryAmountText }</Text>
+            <Text style={AmountInputStyle.secondaryAmount}>{ secondaryAmountText }</Text>
             <View style={AmountInputStyle.separator}/>
             <View style={AmountInputStyle.newBalance}>
               <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>

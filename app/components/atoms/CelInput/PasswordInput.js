@@ -57,7 +57,7 @@ class PasswordInput extends Component {
   // rendering methods
   render() {
     const { visible } = this.state;
-    const { theme, onFocus } = this.props;
+    const { theme, onFocus, value } = this.props;
 
     // icon position adjustment (diff icon heights)
     const paddingTop = visible ? 0 : 3;
@@ -71,19 +71,22 @@ class PasswordInput extends Component {
                      this.setState({ active: true })}
                    }
         />
-        <TouchableOpacity
-          style={[ globalStyles.inputIconRight, { paddingTop } ]}
-          onPress={ () => this.setState({ visible: !visible })}
-        >
-          <Icon
-            name={ visible ? 'EyeHide' : 'EyeShow' }
-            height="30"
-            width="30"
-            viewBox="0 0 35 20"
-            fill={ theme === 'white' ? 'black' : 'white' }
-            stroke={ theme === 'white' ? 'black' : 'white' }
-          />
-        </TouchableOpacity>
+
+        { !!value && (
+          <TouchableOpacity
+            style={[ globalStyles.inputIconRight, { paddingTop } ]}
+            onPress={ () => this.setState({ visible: !visible })}
+          >
+            <Icon
+              name={ visible ? 'EyeHide' : 'EyeShow' }
+              height="30"
+              width="30"
+              viewBox="0 0 35 20"
+              fill={ theme === 'white' ? 'black' : 'white' }
+              stroke={ theme === 'white' ? 'black' : 'white' }
+            />
+          </TouchableOpacity>
+        )}
       </View>
     )
   }

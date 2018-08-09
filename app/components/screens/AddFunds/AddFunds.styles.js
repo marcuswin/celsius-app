@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import {FONT_SCALE} from "../../../config/constants/style";
 
 const AddFundsStyle = StyleSheet.create({
   textOne: {
@@ -32,28 +32,6 @@ const AddFundsStyle = StyleSheet.create({
     marginTop: 35,
     marginLeft: 'auto',
     marginRight: 'auto'
-  },
-  wrapperLogo: {
-    height: 62,
-    width: 62,
-    borderWidth: 8,
-    borderRadius: 62/2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    backgroundColor: STYLES.PRIMARY_BLUE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    zIndex: 1,
-    top: -35,
-    left: 130,
-  },
-  celsiusLogo: {
-    height: 63,
-    width: 63,
-    borderRadius: 63 / 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   qrCode: {
     width: 120,
