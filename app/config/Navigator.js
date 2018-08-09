@@ -38,6 +38,7 @@ import SecureTransactionsScreen from "../components/screens/SecureTransactions/S
 import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/WithdrawalInfo";
 import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
 import WalletBalanceScreen from "../components/screens/WalletBalance/WalletBalance";
+import WalletTransactionsScreen from "../components/screens/WalletTransactions/WalletTransactions";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -184,6 +185,10 @@ const Navigator = createStackNavigator({
   WalletBalance: {
     screen: WalletBalanceScreen,
     title: 'WalletBalance',
+  },
+  WalletTransactions: {
+    screen: WalletTransactionsScreen,
+    title: 'WalletTransactions',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
