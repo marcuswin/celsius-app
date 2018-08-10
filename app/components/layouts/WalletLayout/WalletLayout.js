@@ -36,7 +36,7 @@ class WalletLayout extends Component {
     const { walletTotal } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     return (
-      <BasicLayout>
+      <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
         <View style={WalletLayoutStyle.heading}>
           <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>

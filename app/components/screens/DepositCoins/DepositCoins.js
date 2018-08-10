@@ -32,8 +32,7 @@ class DepositCoins extends Component {
 
     this.state = {
       animatedHeading: {
-        text: 'Deposit Coins',
-        subheading: 'Earn interest',
+        text: 'Earn Interest',
       }
     };
     // binders
@@ -54,14 +53,22 @@ class DepositCoins extends Component {
     }
   }
 
+  tabs = [
+    { label: 'Calculator', screen: 'Home' },
+    { label: 'How I earn interest', screen: 'DepositCoins' },
+    // { label: 'Interest', screen: 'WalletInterest' },
+  ];
+
   // event hanlders
   // rendering methods
   render() {
     const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, actions } = this.props;
+    const tabs = this.tabs;
 
     if (!estimatedInterest || !portfolio) return (
       <SimpleLayout
+        tabs={tabs}
         mainHeader={{ backButton: false }}
         animatedHeading={animatedHeading}
       >
@@ -76,6 +83,7 @@ class DepositCoins extends Component {
 
     if (!estimatedInterest.estimated_coin_value) return (
       <SimpleLayout
+        tabs={tabs}
         mainHeader={{ backButton: false }}
         animatedHeading={animatedHeading}
       >
@@ -85,6 +93,7 @@ class DepositCoins extends Component {
 
     return (
       <SimpleLayout
+        tabs={tabs}
         mainHeader={{ backButton: false }}
         animatedHeading={animatedHeading}
       >
