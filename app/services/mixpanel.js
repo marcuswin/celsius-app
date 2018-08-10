@@ -62,8 +62,8 @@ export const actions = {
   saveCoinButton: () => sendEvent('Pressed save coin button'),
   navigation: (screenName) => sendEvent(`Pressed navigation - ${screenName}`),
   estimationExplanation: () => sendEvent(`Pressed estimation explanation`),
-  pressWalletCard: (coinShort) => sendEvent(`Pressed ${coinShort.toUpperCase} =wallet card`),
+  pressWalletCard: (coinShort) => sendEvent(`Pressed ${coinShort.toUpperCase()} =wallet card`),
   pressAddFunds: () => sendEvent(`Funds added`),
-  confirmWithdraw: (amount, coin) => sendEvent(`Withdrawn ${amount} ${coin.toUpperCase}`),
+  confirmWithdraw: (amount, coin) => sendEvent(`Withdrawn ${amount} ${coin.toUpperCase()}`),
   viewTransaction: (txId) => sendEvent(`Viewed transaction ${txId}`),
 }
