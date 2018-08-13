@@ -13,7 +13,7 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
-const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
+const walletScreens = ['NoKyc', 'WalletLanding', 'WalletBalance', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
 
 @connect(
   state => ({

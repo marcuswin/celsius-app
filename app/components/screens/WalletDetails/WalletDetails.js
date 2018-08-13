@@ -86,7 +86,7 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
-          onCancel={() => actions.navigateTo('WalletLanding')}
+          onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
           currency={currency}
