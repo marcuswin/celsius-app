@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import get from "lodash/get";
 
 import * as appActions from "../../../redux/actions";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Loader from "../../atoms/Loader/Loader";
@@ -27,17 +27,6 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class DepositCoins extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      animatedHeading: {
-        text: 'Earn Interest',
-      }
-    };
-    // binders
-  }
-
   // lifecycle methods
   componentDidMount() {
     const { actions, portfolio } = this.props;
@@ -53,27 +42,15 @@ class DepositCoins extends Component {
     }
   }
 
-  tabs = [
-    { label: 'Calculator', screen: 'Home' },
-    { label: 'How I earn interest', screen: 'DepositCoins' },
-    // { label: 'Interest', screen: 'WalletInterest' },
-  ];
-
   // event hanlders
   // rendering methods
   render() {
-    const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, actions } = this.props;
-    const tabs = this.tabs;
 
     if (!estimatedInterest || !portfolio) return (
-      <SimpleLayout
-        tabs={tabs}
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <EarnInterestLayout>
         <Loader/>
-      </SimpleLayout>
+      </EarnInterestLayout>
     );
 
     const portfolioData = get(portfolio, "data", []);
@@ -82,21 +59,13 @@ class DepositCoins extends Component {
       FONT_SCALE * 26 : FONT_SCALE * 36;
 
     if (!estimatedInterest.estimated_coin_value) return (
-      <SimpleLayout
-        tabs={tabs}
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <EarnInterestLayout>
         <PortfolioEmptyState screen="DepositCoins" onPress={() => actions.navigateTo('ManagePortfolio')}/>
-      </SimpleLayout>
+      </EarnInterestLayout>
     );
 
     return (
-      <SimpleLayout
-        tabs={tabs}
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <EarnInterestLayout>
         <InfoBubble
           renderContent={(textStyles) => (
             <View>
@@ -176,7 +145,7 @@ class DepositCoins extends Component {
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
           person in line eligible to lend out your coins and earn interest (when you transfer your coins and they are lent).
         </Text>
-      </SimpleLayout>
+      </EarnInterestLayout>
     );
   }
 }

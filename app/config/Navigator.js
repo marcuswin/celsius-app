@@ -39,6 +39,7 @@ import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/Withdrawa
 import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
 import WalletBalanceScreen from "../components/screens/WalletBalance/WalletBalance";
 import WalletTransactionsScreen from "../components/screens/WalletTransactions/WalletTransactions";
+import InterestCalculatorScreen from "../components/screens/InterestCalculator/InterestCalculator";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -93,6 +94,10 @@ const Navigator = createStackNavigator({
   DepositCoins: {
     screen: DepositCoinsScreen,
     title: 'DepositCoins',
+  },
+  InterestCalculator: {
+    screen: InterestCalculatorScreen,
+    title: 'InterestCalculator',
   },
   ProfileImage: {
     screen: ProfileImageScreen,
