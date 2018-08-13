@@ -13,6 +13,7 @@ function initialState() {
       activeTransactionId: undefined,
       walletBalance: null,
       total: null,
+      interest: {},
       currencies: null,
     };
 }
@@ -69,6 +70,7 @@ export default function walletReducer(state = initialState(), action) {
       case ACTIONS.GET_WALLET_DETAILS_SUCCESS:
         return {
           ...state,
+          interest: action.wallet.meta.interest,
           total: action.wallet.meta,
           currencies: action.wallet.data.map(c => {
             const currency = c;

@@ -10,9 +10,11 @@ import CoinCard from "../../molecules/CoinCard/CoinCard";
 import { actions as mixpanelActions } from "../../../services/mixpanel";
 import Card from "../../atoms/Card/Card";
 import WalletBalanceStyle from "./WalletBalance.styles";
+import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
+    interest: state.wallet.interest,
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -60,15 +62,21 @@ class WalletBalance extends Component {
   }
   // rendering methods
   render() {
-    const { walletCurrencies, supportedCurrencies } = this.props;
+    const { walletCurrencies, supportedCurrencies, interest } = this.props;
+
+    const lastInterestPerCoin = interest.last || {};
+    const totalInterestPerCoin = interest.total || {};
+
+    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, amount) => current + amount, 0);
+
     return (
       <WalletLayout>
-        <Card>
+        {(!!totalInterestEarned) && <Card>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
-            <Text style={WalletBalanceStyle.totalInterestValue}>120.00 CEL</Text>
+            <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
           </View>
-        </Card>
+        </Card>}
         { walletCurrencies && (
           <View>
             <List
@@ -78,7 +86,9 @@ class WalletBalance extends Component {
                 <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                   <Body>
                   <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
-                    <CoinCard type="wallet-card" {...item} supportedCurrencies={supportedCurrencies} />
+                    <CoinCard type="wallet-card" {...item}
+                              supportedCurrencies={supportedCurrencies}
+                              lastInterest={lastInterestPerCoin[item.currency.short.toUpperCase()]}/>
                   </TouchableOpacity>
                   </Body>
                 </ListItem>}
