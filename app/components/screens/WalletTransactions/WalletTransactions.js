@@ -13,7 +13,7 @@ import TransactionsHistory from "../../molecules/TransactionHistory/Transactions
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class WalletBalance extends Component {
+class WalletTransactions extends Component {
   // lifecycle methods
   componentDidMount() {
     const { actions } = this.props;
@@ -56,4 +56,4 @@ class WalletBalance extends Component {
   }
 }
 
-export default WalletBalance;
+export default WalletTransactions;
