@@ -51,7 +51,6 @@ const TransactionsHistory = (props) => {
 
   return (
     <View>
-      <Text style={TransactionsHistoryStyles.title}>Transaction History</Text>
       <List
         dataArray={transactionsDisplay}
         scrollEnabled={false}
