@@ -12,7 +12,7 @@ import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import Icon from "../../atoms/Icon/Icon";
 import Card from '../../atoms/Card/Card';
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 
@@ -97,6 +97,21 @@ const CoinCardStyle = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
+  lastInterestWrapper: {
+    backgroundColor: STYLES.PRIMARY_BLUE,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    marginHorizontal: 8,
+    marginBottom: 8,
+  },
+  lastInterestText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+    fontSize: FONT_SCALE * 16,
+  },
   lendingBorrowingInfoWrapper: {
     width: '100%',
     backgroundColor: STYLES.GRAY_4,
@@ -152,7 +167,7 @@ class CoinCard extends Component {
   }
 
   render() {
-    const { type, currency, amount, total, supportedCurrencies } = this.props;
+    const { type, currency, amount, total, supportedCurrencies, lastInterest } = this.props;
 
     const letterSize = Math.round(total).toString().length >= 7 ?
       FONT_SCALE * 20 : FONT_SCALE * 29;
@@ -219,6 +234,14 @@ class CoinCard extends Component {
           </Row>
           }
         </Grid>
+        {(!!lastInterest) && <View style={CoinCardStyle.lastInterestWrapper}>
+          <View>
+            <Text style={CoinCardStyle.lastInterestText}>Weekly interest on {currency.short.toUpperCase()}:</Text>
+          </View>
+          <View style={{flex: 0}}>
+            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest)}</Text>
+          </View>
+        </View>}
       </Card>
     );
   }
