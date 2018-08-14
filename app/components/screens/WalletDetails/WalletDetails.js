@@ -84,8 +84,6 @@ class WalletDetails extends Component {
     const isCelCurrency = currency === 'cel';
     const canWithdrawCrypto = !!Number(walletData.amount);
 
-    console.log(transactions);
-
     return (
       <BasicLayout bottomNavigation>
         <MainHeader

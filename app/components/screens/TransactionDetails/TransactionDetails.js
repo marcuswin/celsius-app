@@ -59,7 +59,7 @@ class TransactionDetails extends Component {
     } else if (isUserReceiving) {
       text = `Received ${ coin.short.toUpperCase()}`;
     } else {
-      text=`Withdrawn ${ coin.short.toUpperCase()}`
+      text = `Withdrawn ${ coin.short.toUpperCase()}`;
     }
 
     return (
