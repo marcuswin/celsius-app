@@ -51,9 +51,13 @@ class TransactionDetails extends Component {
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
 
     const isUserReceiving = transaction.type === 'incoming';
+    const isInterestIncome = isUserReceiving && transaction.nature === 'interest';
     let text;
 
-    if (isUserReceiving) {
+    if (isInterestIncome) {
+      text = `${ transaction.interest_coin.toUpperCase()} Interest`;
+    }
+    else if (isUserReceiving) {
       text = `Received ${ coin.short.toUpperCase()}`;
     } else {
       text=`Withdrawn ${ coin.short.toUpperCase()}`
