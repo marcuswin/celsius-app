@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import get from "lodash/get";
 
 import * as appActions from "../../../redux/actions";
-import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
+import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Loader from "../../atoms/Loader/Loader";
@@ -16,6 +16,11 @@ import Accordion from "../../molecules/Accordion/Accordion";
 import Separator from "../../atoms/Separator/Separator";
 import DepositCoinsStyle from "./DepositCoins.styles";
 import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyState";
+
+const headings = {
+  text: 'Deposit Coins',
+  subheading: 'Earn Interest',
+}
 
 @connect(
   state => ({
@@ -48,9 +53,9 @@ class DepositCoins extends Component {
     const { estimatedInterest, portfolio, actions } = this.props;
 
     if (!estimatedInterest || !portfolio) return (
-      <EarnInterestLayout>
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <Loader/>
-      </EarnInterestLayout>
+      </SimpleLayout>
     );
 
     const portfolioData = get(portfolio, "data", []);
@@ -59,13 +64,13 @@ class DepositCoins extends Component {
       FONT_SCALE * 26 : FONT_SCALE * 36;
 
     if (!estimatedInterest.estimated_coin_value) return (
-      <EarnInterestLayout>
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <PortfolioEmptyState screen="DepositCoins" onPress={() => actions.navigateTo('ManagePortfolio')}/>
-      </EarnInterestLayout>
+      </SimpleLayout>
     );
 
     return (
-      <EarnInterestLayout>
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <InfoBubble
           renderContent={(textStyles) => (
             <View>
@@ -145,7 +150,7 @@ class DepositCoins extends Component {
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.ordinalSuffixOf(estimatedInterest.position_in_line) } </Text>
           person in line eligible to lend out your coins and earn interest (when you transfer your coins and they are lent).
         </Text>
-      </EarnInterestLayout>
+      </SimpleLayout>
     );
   }
 }
