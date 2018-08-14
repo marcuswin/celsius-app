@@ -67,10 +67,11 @@ class WalletDetails extends Component {
     const transactionArray = [];
 
     transactionIds.forEach(tid => {
-      if (transactions[tid].coin === currency) {
-        transactionArray.push(transactions[tid]);
+      const transaction = transactions[tid];
+      if (transaction.coin === currency || transaction.interest_coin === currency) {
+        transactionArray.push(transaction);
       }
-    })
+    });
 
     return transactionArray;
   }
@@ -82,6 +83,8 @@ class WalletDetails extends Component {
     const walletData = (walletCurrencies != null) && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const isCelCurrency = currency === 'cel';
     const canWithdrawCrypto = !!Number(walletData.amount);
+
+    console.log(transactions);
 
     return (
       <BasicLayout bottomNavigation>
