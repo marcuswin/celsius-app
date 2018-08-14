@@ -56,8 +56,7 @@ class TransactionDetails extends Component {
 
     if (isInterestIncome) {
       text = `${ transaction.interest_coin.toUpperCase()} Interest`;
-    }
-    else if (isUserReceiving) {
+    } else if (isUserReceiving) {
       text = `Received ${ coin.short.toUpperCase()}`;
     } else {
       text=`Withdrawn ${ coin.short.toUpperCase()}`
