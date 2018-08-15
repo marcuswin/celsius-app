@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import * as appActions from "../../../redux/actions";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -19,6 +19,7 @@ import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 import { actions as mixpanelActions } from "../../../services/mixpanel";
 import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
+import Triangle from "../../atoms/Triangle/Triangle";
 
 const {ENV} = Constants.manifest.extra;
 
@@ -178,7 +179,17 @@ class TransactionDetails extends Component {
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
-    const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : formatter.usd(transaction.amount * currencyRatesShort[transaction.coin]);
+    const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
+    const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
+    const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
+    const interestChangePositive = interestChangePercentage > 0;
+    const interestChangeStyle = {
+      color: COLORS.yellow,
+    };
+
+    if (interestChangePositive) {
+      interestChangeStyle.color = COLORS.green;
+    }
 
     return (
       <BasicLayout
@@ -194,7 +205,7 @@ class TransactionDetails extends Component {
                 <Text
                   style={[TransactionDetailsStyle.fiatAmount, {fontSize: letterSize}]}
                 >
-                  { amountUsd }
+                  { formatter.usd(amountUsd) }
                 </Text>
                 <Text style={TransactionDetailsStyle.cryptoAmount}>{ formatter.crypto(transaction.amount, coin.short, { precision: 5 }) }</Text>
               </View>
@@ -262,16 +273,26 @@ class TransactionDetails extends Component {
               <HippoBubble
                 bubbleContent={textStyle =>
                   <View>
-                    <View>
-                      <Text style={textStyle}>Income</Text>
+                    <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
+                      <Text style={textStyle}>Initial interest value</Text>
+                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
                     </View>
-                    <View>
-                      <Text style={textStyle}>Expected</Text>
+                    <View style={TransactionDetailsStyle.interestValueTextWrapper}>
+                      <Text style={textStyle}>Today's value</Text>
+                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
                     </View>
                   </View>
                 }
                 sideContent={textStyle =>
-                  <Text style={textStyle}>Some side text</Text>
+                  <View>
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
+                      {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
+                      {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
+                      <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
+                      <Text style={textStyle}> change</Text>
+                    </View>
+                    <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
+                  </View>
                 }/>
             </View>
           }

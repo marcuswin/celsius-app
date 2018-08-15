@@ -105,6 +105,11 @@ const TransactionDetailsStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 14,
     color: "rgba(65,86,166,1)",
   },
+  interestValueTextWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 export default TransactionDetailsStyle;
