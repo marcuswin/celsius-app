@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
 // import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
@@ -13,7 +13,7 @@ import InterestExplanation from "../../organisms/InterestExplanation/InterestExp
 
 @connect(
   () => ({}),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HowToEarnInterest extends Component {
   constructor(props) {
