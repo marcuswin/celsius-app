@@ -28,6 +28,10 @@ const TransactionDetailsStyle = StyleSheet.create({
     marginTop: 50,
     color: '#3D4853'
   },
+  hippoInfoWrapper: {
+    marginHorizontal: 36,
+    marginVertical: 20,
+  },
   cryptoAmount: {
     fontFamily: "agile-light",
     margin: "auto",

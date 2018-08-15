@@ -18,6 +18,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 import { actions as mixpanelActions } from "../../../services/mixpanel";
+import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
 
 const {ENV} = Constants.manifest.extra;
 
@@ -175,8 +176,6 @@ class TransactionDetails extends Component {
 
     const isInterestIncome = this.isInterestIncomeTransaction();
 
-    console.log(isInterestIncome);
-
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : formatter.usd(transaction.amount * currencyRatesShort[transaction.coin]);
@@ -259,8 +258,21 @@ class TransactionDetails extends Component {
           )}
 
           { isInterestIncome &&
-            <View>
-              <Text>Hippo goes here</Text>
+            <View style={TransactionDetailsStyle.hippoInfoWrapper}>
+              <HippoBubble
+                bubbleContent={textStyle =>
+                  <View>
+                    <View>
+                      <Text style={textStyle}>Income</Text>
+                    </View>
+                    <View>
+                      <Text style={textStyle}>Expected</Text>
+                    </View>
+                  </View>
+                }
+                sideContent={textStyle =>
+                  <Text style={textStyle}>Some side text</Text>
+                }/>
             </View>
           }
 
