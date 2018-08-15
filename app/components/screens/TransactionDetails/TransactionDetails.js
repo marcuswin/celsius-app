@@ -46,12 +46,18 @@ class TransactionDetails extends Component {
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
 
+  isInterestIncomeTransaction = () => {
+    const { transaction } = this.props;
+
+    return transaction.type === 'incoming' && transaction.nature === 'interest';
+  };
+
   renderCelHeading() {
     const { supportedCurrencies, transaction } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
 
     const isUserReceiving = transaction.type === 'incoming';
-    const isInterestIncome = isUserReceiving && transaction.nature === 'interest';
+    const isInterestIncome = this.isInterestIncomeTransaction();
     let text;
 
     if (isInterestIncome) {
@@ -167,6 +173,10 @@ class TransactionDetails extends Component {
 
     if (!supportedCurrencies || !transaction) return this.renderLoader(showBackButton);
 
+    const isInterestIncome = this.isInterestIncomeTransaction();
+
+    console.log(isInterestIncome);
+
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : formatter.usd(transaction.amount * currencyRatesShort[transaction.coin]);
@@ -217,7 +227,7 @@ class TransactionDetails extends Component {
             <Separator/>
           </View>
 
-          { transaction.type === 'incoming' ? (
+          { (transaction.type === 'incoming' && !isInterestIncome) && (
             <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
               <View style={{ flexDirection: "column" }}>
                 <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>From:</Text>
@@ -231,7 +241,8 @@ class TransactionDetails extends Component {
                 {this.renderAddressLink()}
               </View>
             </View>
-          ) : (
+          )}
+          { transaction.type ==='outgoing' && (
             <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
               <View style={{ flexDirection: "column" }}>
                 <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>To:</Text>
@@ -246,6 +257,12 @@ class TransactionDetails extends Component {
               </View>
             </View>
           )}
+
+          { isInterestIncome &&
+            <View>
+              <Text>Hippo goes here</Text>
+            </View>
+          }
 
           <CelButton
             onPress={() => actions.navigateTo('Home')}
