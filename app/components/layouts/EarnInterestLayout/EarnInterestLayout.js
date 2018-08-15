@@ -4,7 +4,7 @@ import SimpleLayout from "../SimpleLayout/SimpleLayout";
 class EarnInterestLayout extends Component {
   tabs = [
     { label: 'Calculator', screen: 'InterestCalculator' },
-    { label: 'How I earn interest', screen: 'DepositCoins' },
+    { label: 'How I earn interest', screen: 'HowToEarnInterest' },
   ];
 
   heading = {
