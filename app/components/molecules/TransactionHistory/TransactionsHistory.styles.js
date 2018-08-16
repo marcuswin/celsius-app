@@ -35,7 +35,8 @@ const TransactionHistoryStyles = StyleSheet.create({
   },
   status: {
     fontFamily: 'agile-medium',
-    fontSize: FONT_SCALE * 14,
+    marginTop: 6,
+    fontSize: FONT_SCALE * 15,
   }
 });
 

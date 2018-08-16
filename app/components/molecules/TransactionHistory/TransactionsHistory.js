@@ -13,6 +13,7 @@ const colors = {
   "pending": STYLES.YELLOW,
   "incoming": STYLES.PRIMARY_GREEN,
   "outgoing": STYLES.PRIMARY_RED,
+  "interest": STYLES.PRIMARY_BLUE,
 }
 
 const statusText = {
@@ -27,6 +28,14 @@ const getTransactionStatusText = (transaction) => {
   }
 
   return statusText[transaction.status];
+};
+
+const getTransactionStatusColor = (transaction) => {
+  if (transaction.nature === 'interest') {
+    return colors[transaction.nature];
+  }
+
+  return colors[transaction.status];
 };
 
 const TransactionsHistory = (props) => {
@@ -99,7 +108,7 @@ const TransactionsHistory = (props) => {
                   <View style={{display: 'flex', alignSelf: 'flex-end'}}>
                     <Text style={[TransactionsHistoryStyles.time, { alignSelf: 'flex-end' }]}>{item.time}</Text>
                     <Text
-                      style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
+                      style={[TransactionsHistoryStyles.status, {color: getTransactionStatusColor(item)}]}>
                       {getTransactionStatusText(item)}
                     </Text>
                   </View>
