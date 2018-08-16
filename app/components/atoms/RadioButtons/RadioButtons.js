@@ -22,6 +22,7 @@ class RadioButtons extends Component {
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array).isRequired,
     margin: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     theme: PropTypes.oneOf(['grey', 'blue']),
   }
 
