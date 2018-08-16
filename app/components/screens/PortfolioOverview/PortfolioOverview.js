@@ -54,7 +54,7 @@ class PortfolioScreen extends Component {
               />
             </TotalCoinsHeader>
           }
-          <View style={{paddingLeft: 36, paddingRight: 36}}>
+          <View style={{paddingLeft: 14, paddingRight: 14}}>
             <View>
               <List
                 dataArray={portfolioData}
@@ -70,7 +70,7 @@ class PortfolioScreen extends Component {
                   </ListItem>
                 }/>
             </View>
-            <View style={{marginTop: 30, marginBottom: 40}}>
+            <View style={{marginTop: 30, marginBottom: 40, marginHorizontal: 22,}}>
               <CelButton
                 onPress={() => actions.navigateTo('ManagePortfolio')}
               >
