@@ -28,6 +28,10 @@ const TransactionDetailsStyle = StyleSheet.create({
     marginTop: 50,
     color: '#3D4853'
   },
+  hippoInfoWrapper: {
+    marginHorizontal: 36,
+    marginVertical: 20,
+  },
   cryptoAmount: {
     fontFamily: "agile-light",
     margin: "auto",
@@ -100,6 +104,11 @@ const TransactionDetailsStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
     color: "rgba(65,86,166,1)",
+  },
+  interestValueTextWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

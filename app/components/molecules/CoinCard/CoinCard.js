@@ -59,7 +59,6 @@ const CoinCardStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     color: '#181C21',
   },
-  bold: {},
   red: {
     ...commonStyles.percentageAmount,
     color: STYLES.PRIMARY_RED,
@@ -96,6 +95,7 @@ const CoinCardStyle = StyleSheet.create({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
+    marginLeft: 'auto',
   },
   lastInterestWrapper: {
     backgroundColor: STYLES.PRIMARY_BLUE,
@@ -182,7 +182,7 @@ class CoinCard extends Component {
     const cardType = type === 'default' ? 'transparent' : 'white';
     return (
       <Card type={cardType}>
-        <Grid style={type === "wallet-card" && amount === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.6 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
+        <Grid style={type === "wallet-card" && Number(amount) === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.4 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
           <Row>
             <Col style={{ width: '70%', justifyContent: 'center' }}>
               <View>
@@ -213,14 +213,17 @@ class CoinCard extends Component {
         </Grid>
         <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: 'white'} : { borderColor: STYLES.GRAY_1 }]}>
           <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
-            <View style={CoinCardStyle.wrapper}>
-              <Text
-                style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {currency.short} = {formatter.usd(currency.market.quotes.USD.price)}</Text>
-            </View>
             <PricingChangeIndicator
+              rootStyles={{marginLeft: 0,}}
               isPercentChangeNegative={isPercentChangeNegative}
               percentChange={percentChange}
             />
+            <View style={CoinCardStyle.wrapper}>
+              <Text
+                style={CoinCardStyle.coinAmount}>1 {currency.short} =
+              </Text>
+              <Text style={[CoinCardStyle.coinAmount, globalStyles.boldText]}>{formatter.usd(currency.market.quotes.USD.price)}</Text>
+            </View>
           </Row>
           {graphDataPrices &&
           <Row style={[CoinCardStyle.row, { paddingBottom: 20 }]}>
@@ -234,12 +237,12 @@ class CoinCard extends Component {
           </Row>
           }
         </Grid>
-        {(!!lastInterest) && <View style={CoinCardStyle.lastInterestWrapper}>
+        {(!!lastInterest && !!lastInterest.amount_usd) && <View style={CoinCardStyle.lastInterestWrapper}>
           <View>
             <Text style={CoinCardStyle.lastInterestText}>Weekly interest on {currency.short.toUpperCase()}:</Text>
           </View>
           <View style={{flex: 0}}>
-            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest)}</Text>
+            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest.amount_usd)}</Text>
           </View>
         </View>}
       </Card>

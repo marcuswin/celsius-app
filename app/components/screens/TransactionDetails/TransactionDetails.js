@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import * as appActions from "../../../redux/actions";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -18,6 +18,8 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 import { actions as mixpanelActions } from "../../../services/mixpanel";
+import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
+import Triangle from "../../atoms/Triangle/Triangle";
 
 const {ENV} = Constants.manifest.extra;
 
@@ -46,12 +48,18 @@ class TransactionDetails extends Component {
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
 
+  isInterestIncomeTransaction = () => {
+    const { transaction } = this.props;
+
+    return transaction.type === 'incoming' && transaction.nature === 'interest';
+  };
+
   renderCelHeading() {
     const { supportedCurrencies, transaction } = this.props;
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
 
     const isUserReceiving = transaction.type === 'incoming';
-    const isInterestIncome = isUserReceiving && transaction.nature === 'interest';
+    const isInterestIncome = this.isInterestIncomeTransaction();
     let text;
 
     if (isInterestIncome) {
@@ -167,9 +175,21 @@ class TransactionDetails extends Component {
 
     if (!supportedCurrencies || !transaction) return this.renderLoader(showBackButton);
 
+    const isInterestIncome = this.isInterestIncomeTransaction();
+
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
-    const amountUsd = transaction.amount_usd ? formatter.usd(transaction.amount_usd) : formatter.usd(transaction.amount * currencyRatesShort[transaction.coin]);
+    const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
+    const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
+    const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
+    const interestChangePositive = interestChangePercentage > 0;
+    const interestChangeStyle = {
+      color: COLORS.yellow,
+    };
+
+    if (interestChangePositive) {
+      interestChangeStyle.color = COLORS.green;
+    }
 
     return (
       <BasicLayout
@@ -185,7 +205,7 @@ class TransactionDetails extends Component {
                 <Text
                   style={[TransactionDetailsStyle.fiatAmount, {fontSize: letterSize}]}
                 >
-                  { amountUsd }
+                  { formatter.usd(amountUsd) }
                 </Text>
                 <Text style={TransactionDetailsStyle.cryptoAmount}>{ formatter.crypto(transaction.amount, coin.short, { precision: 5 }) }</Text>
               </View>
@@ -217,7 +237,7 @@ class TransactionDetails extends Component {
             <Separator/>
           </View>
 
-          { transaction.type === 'incoming' ? (
+          { (transaction.type === 'incoming' && !isInterestIncome) && (
             <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
               <View style={{ flexDirection: "column" }}>
                 <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>From:</Text>
@@ -231,7 +251,8 @@ class TransactionDetails extends Component {
                 {this.renderAddressLink()}
               </View>
             </View>
-          ) : (
+          )}
+          { transaction.type ==='outgoing' && (
             <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
               <View style={{ flexDirection: "column" }}>
                 <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>To:</Text>
@@ -246,6 +267,35 @@ class TransactionDetails extends Component {
               </View>
             </View>
           )}
+
+          { isInterestIncome &&
+            <View style={TransactionDetailsStyle.hippoInfoWrapper}>
+              <HippoBubble
+                bubbleContent={textStyle =>
+                  <View>
+                    <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
+                      <Text style={textStyle}>Initial interest value</Text>
+                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
+                    </View>
+                    <View style={TransactionDetailsStyle.interestValueTextWrapper}>
+                      <Text style={textStyle}>Today's value</Text>
+                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
+                    </View>
+                  </View>
+                }
+                sideContent={textStyle =>
+                  <View>
+                    <View style={{display: 'flex', flexDirection: 'row'}}>
+                      {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
+                      {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
+                      <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
+                      <Text style={textStyle}> change</Text>
+                    </View>
+                    <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
+                  </View>
+                }/>
+            </View>
+          }
 
           <CelButton
             onPress={() => actions.navigateTo('Home')}
