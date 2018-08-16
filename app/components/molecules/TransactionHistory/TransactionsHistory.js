@@ -21,6 +21,14 @@ const statusText = {
   "outgoing": 'Withdrawn',
 }
 
+const getTransactionStatusText = (transaction) => {
+  if (transaction.nature === 'interest') {
+    return `${transaction.interest_coin.toUpperCase()} Interest`;
+  }
+
+  return statusText[transaction.status];
+};
+
 const TransactionsHistory = (props) => {
   const { currencyRatesShort, transactions, navigateTo } = props;
 
@@ -42,6 +50,8 @@ const TransactionsHistory = (props) => {
     id: t.id,
     amount: t.amount,
     amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
+    nature: t.nature,
+    interest_coin: t.interest_coin,
     coin: t.coin,
     time: moment(t.time).isSame(moment(), 'day') ? moment(t.time).format('HH:mm') : moment(t.time).format('DD MMM YYYY'),
     status: t.is_confirmed ? t.type : 'pending',
@@ -90,7 +100,7 @@ const TransactionsHistory = (props) => {
                     <Text style={[TransactionsHistoryStyles.time, { alignSelf: 'flex-end' }]}>{item.time}</Text>
                     <Text
                       style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
-                      {statusText[item.status]}
+                      {getTransactionStatusText(item)}
                     </Text>
                   </View>
                 </Col>
