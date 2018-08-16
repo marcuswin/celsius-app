@@ -10,6 +10,7 @@ const commonStyles = {
   percentageAmount: {
     marginLeft: 3,
     marginRight: 3,
+    fontFamily: 'agile-medium',
   },
   triangle: {
     width: 9,
