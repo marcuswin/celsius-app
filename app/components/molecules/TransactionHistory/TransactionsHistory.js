@@ -88,7 +88,7 @@ const TransactionsHistory = (props) => {
                         stroke='white'
                       />
                     }
-                    { item.status === 'incoming' &&
+                    { (item.status === 'incoming' && item.nature !== 'interest') &&
                       <Icon
                         name='ReceiveArrow'
                         height='36'
@@ -97,6 +97,17 @@ const TransactionsHistory = (props) => {
                         fill={colors[item.status]}
                         stroke='white'
                       />
+                    }
+                    { (item.nature === 'interest') &&
+                      <View style={TransactionsHistoryStyles.interestIconWrapper}>
+                        <Icon
+                          name='CelsiusLogo'
+                          height='20'
+                          width='20'
+                          viewBox="0 0 32 32"
+                          fill={STYLES.WHITE_TEXT_COLOR}
+                        />
+                      </View>
                     }
                   </Col>
                   <Col style={{paddingLeft: 40}}>

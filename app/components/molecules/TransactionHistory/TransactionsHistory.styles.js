@@ -37,6 +37,17 @@ const TransactionHistoryStyles = StyleSheet.create({
     fontFamily: 'agile-medium',
     marginTop: 6,
     fontSize: FONT_SCALE * 15,
+  },
+  interestIconWrapper: {
+    backgroundColor: COLORS.blue,
+    width: 32,
+    height: 32,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'white',
   }
 });
 
