@@ -62,6 +62,7 @@ class HowToEarnInterest extends Component {
           <CelButton
             size="small"
             transparent
+            white
             margin="0 0 20 0"
             onPress={console.log}
           >

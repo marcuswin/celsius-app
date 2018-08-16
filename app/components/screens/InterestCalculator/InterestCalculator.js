@@ -13,6 +13,7 @@ import * as appActions from "../../../redux/actions";
 import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
 import CelSlider from "../../molecules/CelSlider/CelSlider";
+import CelForm from "../../atoms/CelForm/CelForm";
 
 const interestRates = {
   BTC: 3.75,
@@ -20,10 +21,10 @@ const interestRates = {
 }
 
 const interestPeriods = [
-  { value: '6m', label: '6 months' },
-  { value: '12m', label: '12 months' },
-  { value: '18m', label: '18 months' },
-  { value: '24m', label: '24 months' },
+  { value: 6, label: '6 months' },
+  { value: 12, label: '12 months' },
+  { value: 18, label: '18 months' },
+  { value: 24, label: '24 months' },
 ]
 
 @connect(
@@ -38,13 +39,18 @@ class InterestCalculatorScreen extends Component {
     actions.initForm({
       interestCurrency: 'BTC',
       interestAmount: 0,
+      interestPeriod: 6,
     })
   }
 
   render() {
     const { formData } = this.props;
 
+    const displayInterestRate = `${interestRates[formData.interestCurrency]}%`;
     const interest = formData.interestAmount * interestRates[formData.interestCurrency] / 100;
+    const interestPerWeek = interest / 52;
+    const interestPerMonth = interest / 12;
+    const interestPer6Months = interest / 2;
 
     return (
       <EarnInterestLayout>
@@ -66,25 +72,27 @@ class InterestCalculatorScreen extends Component {
             How much do you plan to deposit?
           </Text>
 
-          <CelInput
-            theme="white"
-            field="interestAmount"
-            type="number"C
-            placeholder={`${formData.interestCurrency} Amount in USD`}
-            margin="0 0 25 0"
-            value={formData.interestAmount}
-          />
+          <CelForm>
+            <CelInput
+              theme="white"
+              field="interestAmount"
+              type="number"C
+              placeholder={`${formData.interestCurrency} Amount in USD`}
+              margin="0 0 25 0"
+              value={formData.interestAmount}
+            />
+          </CelForm>
 
           <Text style={globalStyles.normalText}>For how long would you like to keep your coins deposited?</Text>
 
           <CelSlider field="interestPeriod" items={interestPeriods} value={formData.interestPeriod} />
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Interest per week (at 4.75% APR):
+            Interest per week (at { displayInterestRate } APR):
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
-              $XX.XX
+              { formatter.usd(interestPerWeek) }
             </Text>
           </View>
 
@@ -93,7 +101,7 @@ class InterestCalculatorScreen extends Component {
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
-              $XX.XX
+              { formatter.usd(interestPerMonth) }
             </Text>
           </View>
 
@@ -102,14 +110,14 @@ class InterestCalculatorScreen extends Component {
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
-              $XX.XX
+              { formatter.usd(interestPer6Months) }
             </Text>
           </View>
 
           <Separator margin="35 0 25 0"/>
 
           <Text style={globalStyles.heading}>
-            Up to { interestRates[formData.interestCurrency] }% interest
+            Up to { displayInterestRate } interest
           </Text>
           <Text style={[globalStyles.normalText, { textAlign: 'center'}]}>
             On a { formatter.usd(formData.interestAmount) } deposit of { formData.interestCurrency } you would get about { formatter.usd(interest) } a year in interest.

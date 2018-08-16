@@ -38,6 +38,7 @@ class CelSlider extends Component {
 
     return (
       <TouchableOpacity
+        key={item.value}
         style={{ width: `${width}%`, alignItems: 'center' }}
         onPress={() => actions.updateFormField(field, item.value)}
       >
