@@ -67,7 +67,7 @@ class WalletBalance extends Component {
     const lastInterestPerCoin = interest.last || {};
     const totalInterestPerCoin = interest.total || {};
 
-    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, amount) => current + amount, 0);
+    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + total.amount_usd, 0);
 
     return (
       <WalletLayout>

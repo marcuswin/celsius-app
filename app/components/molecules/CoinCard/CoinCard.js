@@ -234,12 +234,12 @@ class CoinCard extends Component {
           </Row>
           }
         </Grid>
-        {(!!lastInterest) && <View style={CoinCardStyle.lastInterestWrapper}>
+        {(!!lastInterest && !!lastInterest.amount_usd) && <View style={CoinCardStyle.lastInterestWrapper}>
           <View>
             <Text style={CoinCardStyle.lastInterestText}>Weekly interest on {currency.short.toUpperCase()}:</Text>
           </View>
           <View style={{flex: 0}}>
-            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest)}</Text>
+            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest.amount_usd)}</Text>
           </View>
         </View>}
       </Card>
