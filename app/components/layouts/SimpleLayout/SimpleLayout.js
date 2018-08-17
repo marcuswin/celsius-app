@@ -11,6 +11,7 @@ import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import * as appActions from "../../../redux/actions";
 import SimpleLayoutStyle from "./SimpleLayout.styles";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
+import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 
 const defaultMainHeader = {
   backButton: true,
@@ -70,6 +71,7 @@ class SimpleLayout extends Component {
       bottomNavigationDimensions,
       keyboardHeight,
       actions,
+      tabs,
     } = this.props;
 
     const mainHeaderProps = { ...defaultMainHeader, ...mainHeader };
@@ -95,7 +97,7 @@ class SimpleLayout extends Component {
         <MainHeader { ...mainHeaderProps } />
         <Message/>
         <CelHeading { ...animatedHeadingProps } />
-
+        {!!tabs && <TabNavigation tabs={tabs}/>}
 
         <ScrollView
           style={[SimpleLayoutStyle.content, contentStyles]}

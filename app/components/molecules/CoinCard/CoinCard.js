@@ -12,7 +12,7 @@ import formatter from '../../../utils/formatter';
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import Icon from "../../atoms/Icon/Icon";
 import Card from '../../atoms/Card/Card';
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 
@@ -59,7 +59,6 @@ const CoinCardStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     color: '#181C21',
   },
-  bold: {},
   red: {
     ...commonStyles.percentageAmount,
     color: STYLES.PRIMARY_RED,
@@ -96,6 +95,22 @@ const CoinCardStyle = StyleSheet.create({
   wrapper: {
     display: 'flex',
     flexDirection: 'row',
+    marginLeft: 'auto',
+  },
+  lastInterestWrapper: {
+    backgroundColor: STYLES.PRIMARY_BLUE,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+    marginHorizontal: 8,
+    marginBottom: 8,
+  },
+  lastInterestText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+    fontSize: FONT_SCALE * 16,
   },
   lendingBorrowingInfoWrapper: {
     width: '100%',
@@ -152,7 +167,7 @@ class CoinCard extends Component {
   }
 
   render() {
-    const { type, currency, amount, total, supportedCurrencies } = this.props;
+    const { type, currency, amount, total, supportedCurrencies, lastInterest } = this.props;
 
     const letterSize = Math.round(total).toString().length >= 7 ?
       FONT_SCALE * 20 : FONT_SCALE * 29;
@@ -167,7 +182,7 @@ class CoinCard extends Component {
     const cardType = type === 'default' ? 'transparent' : 'white';
     return (
       <Card type={cardType}>
-        <Grid style={type === "wallet-card" && amount === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.6 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
+        <Grid style={type === "wallet-card" && Number(amount) === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.4 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
           <Row>
             <Col style={{ width: '70%', justifyContent: 'center' }}>
               <View>
@@ -198,14 +213,17 @@ class CoinCard extends Component {
         </Grid>
         <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: 'white'} : { borderColor: STYLES.GRAY_1 }]}>
           <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
-            <View style={CoinCardStyle.wrapper}>
-              <Text
-                style={[CoinCardStyle.coinAmount, CoinCardStyle.bold]}>1 {currency.short} = {formatter.usd(currency.market.quotes.USD.price)}</Text>
-            </View>
             <PricingChangeIndicator
+              rootStyles={{marginLeft: 0,}}
               isPercentChangeNegative={isPercentChangeNegative}
               percentChange={percentChange}
             />
+            <View style={CoinCardStyle.wrapper}>
+              <Text
+                style={CoinCardStyle.coinAmount}>1 {currency.short} =
+              </Text>
+              <Text style={[CoinCardStyle.coinAmount, globalStyles.boldText]}>{formatter.usd(currency.market.quotes.USD.price)}</Text>
+            </View>
           </Row>
           {graphDataPrices &&
           <Row style={[CoinCardStyle.row, { paddingBottom: 20 }]}>
@@ -219,6 +237,14 @@ class CoinCard extends Component {
           </Row>
           }
         </Grid>
+        {(!!lastInterest && !!lastInterest.amount_usd) && <View style={CoinCardStyle.lastInterestWrapper}>
+          <View>
+            <Text style={CoinCardStyle.lastInterestText}>Weekly interest on {currency.short.toUpperCase()}:</Text>
+          </View>
+          <View style={{flex: 0}}>
+            <Text style={[CoinCardStyle.lastInterestText, globalStyles.boldText]}>{formatter.usd(lastInterest.amount_usd)}</Text>
+          </View>
+        </View>}
       </Card>
     );
   }

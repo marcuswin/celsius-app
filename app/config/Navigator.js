@@ -37,6 +37,10 @@ import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals"
 import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/WithdrawalInfo";
 import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
+import WalletBalanceScreen from "../components/screens/WalletBalance/WalletBalance";
+import WalletTransactionsScreen from "../components/screens/WalletTransactions/WalletTransactions";
+import InterestCalculatorScreen from "../components/screens/InterestCalculator/InterestCalculator";
+import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/HowToEarnInterest";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -91,6 +95,10 @@ const Navigator = createStackNavigator({
   DepositCoins: {
     screen: DepositCoinsScreen,
     title: 'DepositCoins',
+  },
+  InterestCalculator: {
+    screen: InterestCalculatorScreen,
+    title: 'InterestCalculator',
   },
   ProfileImage: {
     screen: ProfileImageScreen,
@@ -179,6 +187,18 @@ const Navigator = createStackNavigator({
   WithdrawalInfo: {
     screen: WithdrawalInfoScreen,
     title: 'WithdrawalInfo',
+  },
+  WalletBalance: {
+    screen: WalletBalanceScreen,
+    title: 'WalletBalance',
+  },
+  WalletTransactions: {
+    screen: WalletTransactionsScreen,
+    title: 'WalletTransactions',
+  },
+  HowToEarnInterest: {
+    screen: HowToEarnInterestScreen,
+    title: 'HowToEarnInterest',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

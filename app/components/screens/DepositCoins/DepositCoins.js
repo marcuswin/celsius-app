@@ -17,6 +17,11 @@ import Separator from "../../atoms/Separator/Separator";
 import DepositCoinsStyle from "./DepositCoins.styles";
 import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyState";
 
+const headings = {
+  text: 'Deposit Coins',
+  subheading: 'Earn Interest',
+}
+
 @connect(
   state => ({
     portfolio: state.portfolio.portfolio,
@@ -27,18 +32,6 @@ import PortfolioEmptyState from "../../atoms/PortfolioEmptyState/PortfolioEmptyS
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class DepositCoins extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      animatedHeading: {
-        text: 'Deposit Coins',
-        subheading: 'Earn interest',
-      }
-    };
-    // binders
-  }
-
   // lifecycle methods
   componentDidMount() {
     const { actions, portfolio } = this.props;
@@ -57,14 +50,10 @@ class DepositCoins extends Component {
   // event hanlders
   // rendering methods
   render() {
-    const { animatedHeading } = this.state;
     const { estimatedInterest, portfolio, actions } = this.props;
 
     if (!estimatedInterest || !portfolio) return (
-      <SimpleLayout
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <Loader/>
       </SimpleLayout>
     );
@@ -75,19 +64,13 @@ class DepositCoins extends Component {
       FONT_SCALE * 26 : FONT_SCALE * 36;
 
     if (!estimatedInterest.estimated_coin_value) return (
-      <SimpleLayout
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <PortfolioEmptyState screen="DepositCoins" onPress={() => actions.navigateTo('ManagePortfolio')}/>
       </SimpleLayout>
     );
 
     return (
-      <SimpleLayout
-        mainHeader={{ backButton: false }}
-        animatedHeading={animatedHeading}
-      >
+      <SimpleLayout animatedHeading={headings} mainHeader={{backButton: false}}>
         <InfoBubble
           renderContent={(textStyles) => (
             <View>
