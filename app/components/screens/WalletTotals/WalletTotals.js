@@ -120,7 +120,7 @@ class WalletTotals extends Component {
         bottomNavigation
       >
         <MainHeader
-          onCancel={() => actions.navigateTo('WalletLanding')}
+          onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
           type='total'

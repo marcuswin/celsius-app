@@ -138,15 +138,6 @@ class AddFunds extends Component {
         )}
 
         <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
-
-          {Platform.OS === "ios" ? (
-            <View style={AddFundsStyle.wrapperLogo}>
-              <View style={AddFundsStyle.celsiusLogo}>
-                <Icon name='CelsiusLogoV2' width='46' height='46' viewBox="0 0 49 49" fill='#FFFFFF'/>
-              </View>
-            </View>
-          ) : null}
-
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               {address &&

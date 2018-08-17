@@ -123,6 +123,17 @@ class AmountInput extends Component {
     actions.updateFormField('amountCrypto', amountCrypto);
   }
 
+  confirmTransaction = () => {
+    const { formData, actions } = this.props;
+    const amountUsd = formData.inUsd ? Number(formData.amount) : Number(formData.amount) * formData.rateUsd;
+
+    if (amountUsd < 1) {
+      actions.showMessage('info', 'Oops, you\'ve got to withdraw a minimum of $1 worth of crypto from your wallet');
+    } else {
+      actions.navigateTo('TransactionConfirmation');
+    }
+  }
+
   render() {
     const { numPad } = this.state;
     const { formData, actions, screenHeight } = this.props;
@@ -185,7 +196,7 @@ class AmountInput extends Component {
 
               <CelButton
                 disabled={!formData.amountCrypto}
-                onPress={() => actions.navigateTo('TransactionConfirmation')}
+                onPress={this.confirmTransaction}
                 margin='5 36 5 36'
               >
                 Withdraw

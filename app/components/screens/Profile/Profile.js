@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text, Linking } from "react-native";
+import { Constants } from 'expo';
+import { TouchableOpacity, Text, Linking, StyleSheet } from "react-native";
 import { View, Content } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
@@ -17,12 +18,21 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
-import { FONT_SCALE } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE } from "../../../config/constants/style";
+
+const { revisionId } = Constants.manifest;
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
   return _.get(errors, [field, 'msg'], def)
 };
+
+const ProfileStyle = StyleSheet.create({
+  appVersionText: {
+    textAlign: 'center',
+    color: COLORS.gray,
+  },
+});
 
 @connect(
   state => ({
@@ -175,7 +185,7 @@ class ProfileScreen extends Component {
             </CelButton>
           </View>
 
-          <View style={{marginBottom: 30}}>
+          <View>
             <CelButton
               onPress={() => actions.navigateTo('TermsOfUse')}
               transparent
@@ -187,6 +197,10 @@ class ProfileScreen extends Component {
               See Terms of Use
             </CelButton>
           </View>
+          {!!revisionId && <View style={{marginTop: 10,}}>
+            <Text style={ProfileStyle.appVersionText}>App Version - {revisionId}</Text>
+          </View>}
+          <View style={{marginBottom: 30,}}/>
         </Content>
       </BasicLayout>
     )

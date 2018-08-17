@@ -129,6 +129,10 @@ class TransactionConfirmation extends Component {
     return apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO, API.GET_COIN_ORIGINATING_ADDRESS], callsInProgress);
   };
 
+  /**
+   * @param {string} field
+   * @param {string} text
+   */
   handleWithdrawalAddressChange = (field, text) => {
     const { actions } = this.props;
 

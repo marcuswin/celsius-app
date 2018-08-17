@@ -19,8 +19,6 @@ export {
   loginUser,
   registerUser,
   updateUser,
-  registerBorrower,
-  registerExistingBorrower,
   registerUserTwitter,
   registerUserFacebook,
   registerUserGoogle,
@@ -102,7 +100,7 @@ function getLoggedInBorrower() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_LOGGED_IN_BORROWER));
     try {
-      const res = await borrowersService.getLoggedIn();
+      const res = await usersService.getPersonalInfo();
       dispatch(getLoggedInBorrowerSuccess(res.data));
     } catch (err) {
       if (err.status === 422) {
@@ -352,50 +350,6 @@ function updateUserSuccess(data) {
     type: ACTIONS.UPDATE_USER_SUCCESS,
     callName: API.UPDATE_USER,
     user: data.user,
-  }
-}
-
-function registerBorrower(borrower) {
-  return async dispatch => {
-    dispatch(startApiCall(API.REGISTER_BORROWER));
-    try {
-      const res = await borrowersService.register(borrower);
-      dispatch(registerBorrowerSuccess(res.data));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.REGISTER_BORROWER, err));
-    }
-  }
-}
-
-function registerBorrowerSuccess(data) {
-  return {
-    type: ACTIONS.REGISTER_BORROWER_SUCCESS,
-    callName: API.REGISTER_BORROWER,
-    user: data.user,
-    borrower: data.borrower,
-  }
-}
-
-function registerExistingBorrower(borrower) {
-  return async dispatch => {
-    dispatch(startApiCall(API.REGISTER_EXISTING_BORROWER));
-    try {
-      const res = await borrowersService.registerExisting(borrower);
-      dispatch(registerExistingBorrowerSuccess(res.data));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.REGISTER_EXISTING_BORROWER, err));
-    }
-  }
-}
-
-function registerExistingBorrowerSuccess(data) {
-  return {
-    type: ACTIONS.REGISTER_EXISTING_BORROWER_SUCCESS,
-    callName: API.REGISTER_EXISTING_BORROWER,
-    user: data.user,
-    borrower: data.borrower,
   }
 }
 

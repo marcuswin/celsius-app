@@ -13,6 +13,7 @@ const colors = {
   "pending": STYLES.YELLOW,
   "incoming": STYLES.PRIMARY_GREEN,
   "outgoing": STYLES.PRIMARY_RED,
+  "interest": STYLES.PRIMARY_BLUE,
 }
 
 const statusText = {
@@ -20,6 +21,22 @@ const statusText = {
   "incoming": 'Received',
   "outgoing": 'Withdrawn',
 }
+
+const getTransactionStatusText = (transaction) => {
+  if (transaction.nature === 'interest') {
+    return `${transaction.interest_coin.toUpperCase()} Interest`;
+  }
+
+  return statusText[transaction.status];
+};
+
+const getTransactionStatusColor = (transaction) => {
+  if (transaction.nature === 'interest') {
+    return colors[transaction.nature];
+  }
+
+  return colors[transaction.status];
+};
 
 const TransactionsHistory = (props) => {
   const { currencyRatesShort, transactions, navigateTo } = props;
@@ -42,6 +59,8 @@ const TransactionsHistory = (props) => {
     id: t.id,
     amount: t.amount,
     amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
+    nature: t.nature,
+    interest_coin: t.interest_coin,
     coin: t.coin,
     time: moment(t.time).isSame(moment(), 'day') ? moment(t.time).format('HH:mm') : moment(t.time).format('DD MMM YYYY'),
     status: t.is_confirmed ? t.type : 'pending',
@@ -51,7 +70,6 @@ const TransactionsHistory = (props) => {
 
   return (
     <View>
-      <Text style={TransactionsHistoryStyles.title}>Transaction History</Text>
       <List
         dataArray={transactionsDisplay}
         scrollEnabled={false}
@@ -70,7 +88,7 @@ const TransactionsHistory = (props) => {
                         stroke='white'
                       />
                     }
-                    { item.status === 'incoming' &&
+                    { (item.status === 'incoming' && item.nature !== 'interest') &&
                       <Icon
                         name='ReceiveArrow'
                         height='36'
@@ -79,6 +97,17 @@ const TransactionsHistory = (props) => {
                         fill={colors[item.status]}
                         stroke='white'
                       />
+                    }
+                    { (item.nature === 'interest') &&
+                      <View style={TransactionsHistoryStyles.interestIconWrapper}>
+                        <Icon
+                          name='CelsiusLogo'
+                          height='20'
+                          width='20'
+                          viewBox="0 0 32 32"
+                          fill={STYLES.WHITE_TEXT_COLOR}
+                        />
+                      </View>
                     }
                   </Col>
                   <Col style={{paddingLeft: 40}}>
@@ -90,8 +119,8 @@ const TransactionsHistory = (props) => {
                   <View style={{display: 'flex', alignSelf: 'flex-end'}}>
                     <Text style={[TransactionsHistoryStyles.time, { alignSelf: 'flex-end' }]}>{item.time}</Text>
                     <Text
-                      style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
-                      {statusText[item.status]}
+                      style={[TransactionsHistoryStyles.status, {color: getTransactionStatusColor(item)}]}>
+                      {getTransactionStatusText(item)}
                     </Text>
                   </View>
                 </Col>

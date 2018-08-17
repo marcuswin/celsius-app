@@ -13,7 +13,7 @@ import {STYLES} from "../../../config/constants/style";
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 
-const walletScreens = ['NoKyc', 'WalletLanding', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
+const walletScreens = ['NoKyc', 'WalletLanding', 'WalletTransactions', 'WalletBalance', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
 
 @connect(
   state => ({
@@ -35,7 +35,7 @@ class BottomNavigation extends Component {
       { label: 'Borrow', screen: 'EstimatedLoan', icon: 'Borrow', active: [] },
     ],
     navItemsRight: [
-      { label: 'Lend', screen: 'DepositCoins', icon: 'Lend', active: [] },
+      { label: 'Earn', screen: 'HowToEarnInterest', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator', 'DepositCoins'] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }

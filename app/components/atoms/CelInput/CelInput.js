@@ -45,7 +45,7 @@ class CelInput extends Component {
     labelText: PropTypes.string,
     floatingLabel: PropTypes.bool,
     // for Input
-    value: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     onPress: PropTypes.func,
