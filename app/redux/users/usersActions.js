@@ -194,17 +194,11 @@ function verifySMSSuccess() {
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().ui;
+    const { user } = getState().users;
     let callName;
     let res;
 
     try {
-      callName = API.UPDATE_USER_PERSONAL_INFO;
-      dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
-      res = await usersService.updateProfileInfo({
-        cellphone: formData.cellphone
-      });
-      dispatch(updateProfileInfoSuccess(res.data));
-
       callName = API.CREATE_KYC_DOCUMENTS;
       dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
       res = await meService.createKYCDocuments({
@@ -214,14 +208,32 @@ function verifyKYCDocs() {
       });
       dispatch(createKYCDocumentsSuccess(res.data));
 
-      callName = API.SEND_VERIFICATION_SMS;
-      dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
-      await meService.sendVerificationSMS();
-      dispatch(sendVerificationSMSSuccess());
+      if (user.cellphone !== formData.cellphone || !user.cellphone_verified) {
+        callName = API.UPDATE_USER_PERSONAL_INFO;
+        dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
+        res = await usersService.updateProfileInfo({
+          cellphone: formData.cellphone
+        });
+        dispatch(updateProfileInfoSuccess(res.data));
 
-      dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
-      dispatch(showMessage('success', 'SMS sent!'));
+        callName = API.SEND_VERIFICATION_SMS;
+        dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
+        await meService.sendVerificationSMS();
+        dispatch(sendVerificationSMSSuccess());
+
+        dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
+        dispatch(showMessage('success', 'SMS sent!'));
+      } else {
+        callName = API.START_KYC;
+        dispatch(startApiCall(API.START_KYC));
+        await meService.startKYC();
+        dispatch(startKYCSuccess());
+
+        dispatch(NavActions.navigateTo('NoKyc'));
+        dispatch(showMessage('success', 'KYC verification proccess has started!'));
+      }
     } catch(err) {
+      console.log({ err });
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
