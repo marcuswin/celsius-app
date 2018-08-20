@@ -86,7 +86,7 @@ class VerifyProfile extends Component {
   render() {
     const { formData, formErrors, callsInProgress, user, kycDocTypes } = this.props;
 
-    const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO, API.START_KYC, API.CREATE_KYC_DOCUMENTS], callsInProgress);
     const docs = mapDocs(kycDocTypes[user.citizenship]);
 
     return (
@@ -122,7 +122,7 @@ class VerifyProfile extends Component {
           white
           margin="0 0 60 0"
         >
-          Verify phone number
+          { user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC' }
         </CelButton>
       </SimpleLayout>
     );

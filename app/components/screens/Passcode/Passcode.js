@@ -19,7 +19,6 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import { actions as mixpanelActions } from "../../../services/mixpanel";
-import walletService from "../../../services/wallet-service";
 
 const types = {
     createPasscode: {
@@ -48,6 +47,7 @@ const codeLength = 4;
   state => ({
     nav: state.nav,
     user: state.users.user,
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -60,7 +60,7 @@ class Passcode extends Component {
   };
 
   onPressButton = async () => {
-    const { type, formData, currency, amountCrypto, actions, withdrawalAddress, newWithdrawalAddress } = this.props;
+    const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -70,6 +70,7 @@ class Passcode extends Component {
     if (type === 'enterPasscode') {
       // TODO(fj): move pin checking to action
       const pin = formData;
+      const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
         await meService.checkPin(pin);
@@ -77,9 +78,10 @@ class Passcode extends Component {
         actions.storePin(pin.pin);
 
         if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
-          await walletService.setCoinWithdrawalAddress(currency, newWithdrawalAddress);
+          await actions.setCoingWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
+        } else {
+          await actions.withdrawCrypto(currency, amountCrypto);
         }
-        actions.withdrawCrypto(currency, amountCrypto);
         mixpanelActions.confirmWithdraw(amountCrypto, currency);
       } catch (error) {
         actions.showMessage('error', error.error);
