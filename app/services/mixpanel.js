@@ -11,23 +11,27 @@ const urlRoot = "http://api.mixpanel.com";
 const { MIXPANEL_TOKEN } = Constants.manifest.extra;
 
 const sendEvent = async function(name, props = {}) {
-  const user = get(store.getState().users, 'user', null);
-  const databaseId = user && (user.id || user.facebook_id || user.google_id || user.twitter_id);
-  const temporaryId = await getUserTemporaryId();
-  const id = (name === "$create_alias") ? temporaryId : (databaseId || temporaryId);
+  try {
+    const user = get(store.getState().users, 'user', null);
+    const databaseId = user && (user.id || user.facebook_id || user.google_id || user.twitter_id);
+    const temporaryId = await getUserTemporaryId();
+    const id = (name === "$create_alias") ? temporaryId : (databaseId || temporaryId);
 
-  const data = {
-    "event": `${name}`,
-    "properties": {
-      "token": MIXPANEL_TOKEN,
-      "distinct_id": id,
-      ...props,
-    }
-  };
+    const data = {
+      "event": `${name}`,
+      "properties": {
+        "token": MIXPANEL_TOKEN,
+        "distinct_id": id,
+        ...props,
+      }
+    };
 
-  const encodedData = base64.encode((JSON.stringify(data)));
-  const url = `${urlRoot}/track/?data=${encodedData}`;
-  return axios.get(`${url}`);
+    const encodedData = base64.encode((JSON.stringify(data)));
+    const url = `${urlRoot}/track/?data=${encodedData}`;
+    return axios.get(`${url}`);
+  } catch (e) {
+    return;
+  }
 }
 
 const SetUserTemporaryId = () => {
