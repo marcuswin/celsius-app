@@ -90,6 +90,39 @@ export function setCoinWithdrawalAddress(coin, address) {
 
 /**
  * @param {string} coin
+ * @param {string} address
+ * @param {number} amount
+ */
+export function setCoingWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
+  let currentApiCall;
+
+  return async (dispatch, getState) => {
+    try {
+      currentApiCall = API.SET_COIN_WITHDRAWAL_ADDRESS;
+      dispatch(startApiCall(currentApiCall));
+
+      const response = await walletService.setCoinWithdrawalAddress(coin, address);
+
+      dispatch(setCoinWithdrawalAddressSuccess(coin, {
+        address: response.data.address,
+        manually_set: response.data.manually_set,
+      }));
+
+      currentApiCall = API.WITHDRAW_CRYPTO;
+      dispatch(startApiCall(currentApiCall));
+
+      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
+      dispatch(withdrawCryptoSuccess(res.data.transaction));
+      dispatch(getWalletDetails());
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+      dispatch(apiError(currentApiCall, error));
+    }
+  }
+}
+
+/**
+ * @param {string} coin
  * @param {WithdrawalAddress} address
  * @returns {{type: string, callName: string, address: *}}
  */

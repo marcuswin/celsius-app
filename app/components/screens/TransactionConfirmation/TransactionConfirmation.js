@@ -158,13 +158,11 @@ class TransactionConfirmation extends Component {
     const { formData, actions } = this.props;
 
     const coin = this.getCoinShorthand();
-    const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     const newWithdrawalAddress = formData[`${coin}WithdrawalAddress`];
 
     actions.navigateTo('EnterPasscode', {
       amountCrypto: formData.amountCrypto,
       currency: coin,
-      withdrawalAddress,
       newWithdrawalAddress,
     });
   };
