@@ -14,6 +14,7 @@ import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/Prici
 import TransactionHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import formatter from "../../../utils/formatter";
 import {FONT_SCALE} from "../../../config/constants/style";
+import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -67,8 +68,14 @@ class WalletTotals extends Component {
   }
 
   // rendering methods
-  renderBalance(coinData) {
-    const { balance, balanceUsd, short, currency, percentage } = coinData;
+  renderBalanceSection = (short) => {
+    const { walletBalances, supportedCurrencies } = this.props;
+
+    const balance = walletBalances.filter(b => b.currency.short === short)[0].amount;
+    const balanceUsd = walletBalances.filter(b => b.currency.short === short)[0].total;
+    const currency = supportedCurrencies.filter(sc => sc.short === short)[0].name.toUpperCase();
+    const percentage = supportedCurrencies.filter(sc => sc.short === short)[0].market.price_change_usd['1d'];
+
     const fiatLetterSize = balanceUsd.toString().length >= 10 ? FONT_SCALE * 24 : FONT_SCALE * 30;
 
     return (
@@ -90,30 +97,8 @@ class WalletTotals extends Component {
 
 
   render() {
-    const { walletBalances, supportedCurrencies, actions, currencyRatesShort } = this.props;
+    const { actions, currencyRatesShort } = this.props;
     const transactions = this.getTransactions();
-
-    const ethereumTotal = this.renderBalance({
-      balance: walletBalances.filter(b => b.currency.short === 'ETH')[0].amount,
-      balanceUsd: walletBalances.filter(b => b.currency.short === 'ETH')[0].total,
-      short: 'ETH',
-      currency: 'ETHEREUM',
-      percentage: supportedCurrencies.filter(sc => sc.short === 'ETH')[0].market.price_change_usd['1d'],
-    });
-    const bitcoinTotal = this.renderBalance({
-      balance: walletBalances.filter(b => b.currency.short === 'BTC')[0].amount,
-      balanceUsd: walletBalances.filter(b => b.currency.short === 'BTC')[0].total,
-      short: 'BTC',
-      currency: 'BITCOIN',
-      percentage: supportedCurrencies.filter(sc => sc.short === 'BTC')[0].market.price_change_usd['1d'],
-    });
-    const celsiusTotal = this.renderBalance({
-      balance: walletBalances.filter(b => b.currency.short === 'CEL')[0].amount,
-      balanceUsd: walletBalances.filter(b => b.currency.short === 'CEL')[0].total,
-      short: 'CEL',
-      currency: 'CELSIUS',
-      percentage: supportedCurrencies.filter(sc => sc.short === 'CEL')[0].market.price_change_usd['1d'],
-    });
 
     return (
       <BasicLayout
@@ -129,9 +114,7 @@ class WalletTotals extends Component {
 
         <Content>
 
-          { bitcoinTotal }
-          { ethereumTotal }
-          { celsiusTotal }
+          { ELIGIBLE_COINS.map(this.renderBalanceSection) }
 
           <View style={WalletTotalsStyle.history}>
             <TransactionHistory
