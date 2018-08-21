@@ -87,10 +87,11 @@ class AddFunds extends Component {
   // event hanlders
   // rendering methods
   setAddress = (currency) => {
-    const { walletAddresses } = this.props;
-    const address = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
-    console.log({ address })
-    return address;
+    if (currency) {
+      const { walletAddresses } = this.props;
+      const address = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
+      return address;
+    }
   };
 
   goBack = () => {
