@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
+import Loader from "../../atoms/Loader/Loader";
 import CelInput from "../../atoms/CelInput/CelInput";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -15,20 +16,24 @@ import formatter from "../../../utils/formatter";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
 
-const interestRates = {
-  BTC: 3.75,
-  ETH: 3.25,
-}
+// const interestRates = {
+//   BTC: 3.75,
+//   ETH: 3.25,
+// }
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    interestRates: state.interest.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class InterestCalculatorScreen extends Component {
   componentDidMount() {
-    const { actions } = this.props;
+    const { actions, interestRates } = this.props;
+
+    if (!interestRates) actions.getInterestRates();
+
     actions.initForm({
       interestCurrency: 'BTC',
       interestAmount: 0,
@@ -37,10 +42,18 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData } = this.props;
+    const { formData, interestRates, actions } = this.props;
 
-    const displayInterestRate = `${interestRates[formData.interestCurrency]}%`;
-    const interest = formData.interestAmount * interestRates[formData.interestCurrency] / 100;
+    if (!interestRates) return (
+      <EarnInterestLayout>
+        <Loader/>
+      </EarnInterestLayout>
+    )
+
+    console.log({ interestRates, formData })
+
+    const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
+    const interest = formData.interestAmount * interestRates[formData.interestCurrency];
     const interestPerWeek = interest / 52;
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
@@ -122,7 +135,7 @@ class InterestCalculatorScreen extends Component {
 
           <CelButton
             inverse
-            onPress={console.log}
+            onPress={() => actions.navigateTo('AddFunds')}
           >
             Deposit coins
           </CelButton>
