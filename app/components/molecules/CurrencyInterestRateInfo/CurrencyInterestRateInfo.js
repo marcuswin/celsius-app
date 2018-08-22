@@ -21,8 +21,6 @@ class CurrencyInterestRateInfo extends Component {
 
     const currencyInfo = walletCurrencies.find(wallet => wallet.currency.short.toUpperCase() === currency.toUpperCase()).currency;
 
-    console.log(currencyInfo, currencyInfo.image_url);
-
     return (
       <View style={CurrencyInterestRateInfoStyle.mainWrapper}>
         <View style={CurrencyInterestRateInfoStyle.imageWrapper}>
