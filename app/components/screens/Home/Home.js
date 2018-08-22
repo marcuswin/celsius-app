@@ -26,12 +26,18 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 class HomeScreen extends Component {
   async componentWillMount() {
+    const { actions } = this.props;
+
     try {
       // get user token
       const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       // get user from db
       if (token) {
-        this.props.actions.getProfileInfo();
+        await actions.getProfileInfo();
+
+        // Anything beyond this point is considered as the user has logged in.
+        registerForPushNotificationsAsync();
+        actions.getKYCDocTypes();
       }
     } catch(err) {
       console.log(err);
@@ -42,9 +48,6 @@ class HomeScreen extends Component {
     const { user } = this.props;
 
     if (!user) return <WelcomeScreen/>;
-
-    // Anything beyond this point is considered as the user has logged in.
-    registerForPushNotificationsAsync();
 
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
