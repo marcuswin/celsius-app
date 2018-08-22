@@ -13,6 +13,7 @@ import * as appActions from "../../../redux/actions";
 import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
 import CelForm from "../../atoms/CelForm/CelForm";
+import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
 
 const interestRates = {
   BTC: 3.75,
@@ -47,10 +48,6 @@ class InterestCalculatorScreen extends Component {
     return (
       <EarnInterestLayout>
         <View style={{ paddingTop: 30, paddingBottom: 30 }}>
-          <Text style={[globalStyles.normalText, { marginBottom: 35 }]}>
-            Calculate how much interest you are eligible to earn. Choose which currency you are thinking to deposit (BTC or ETH) and then enter the amount in USD:
-          </Text>
-
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <RadioButtons
               theme="grey"
@@ -59,6 +56,9 @@ class InterestCalculatorScreen extends Component {
               value={formData.interestCurrency}
             />
           </View>
+
+          <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at this rate:</Text>
+          <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate}/>
 
           <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>
             How much do you plan to deposit?
