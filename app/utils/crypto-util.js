@@ -1,13 +1,13 @@
+import { ELIGIBLE_COINS } from '../config/constants/common';
+
 export default {
   isERC20,
   getEligibleCoins,
   isEligibleCoin,
 }
 
-const ELIGIBLE_COINS = ['btc', 'eth', 'cel'];
-
 function isERC20(currency) {
-  return ['eth', 'cel'].indexOf(currency) !== -1;
+  return ['eth', 'cel'].indexOf(currency.toLowerCase()) !== -1;
 }
 
 function getEligibleCoins() {

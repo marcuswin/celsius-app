@@ -87,6 +87,7 @@ const AddFundsStyle = StyleSheet.create({
   buttonTextWrapper: {
     flexDirection: 'row',
     marginRight: 10,
+    marginLeft: 10,
   },
   buttonsText: {
     fontFamily: 'agile-book',
@@ -95,7 +96,7 @@ const AddFundsStyle = StyleSheet.create({
     color: 'white',
     paddingTop: 13,
     paddingLeft: 8,
-    marginLeft: 12
+    marginLeft: 5
   },
   secureTransactionsBtn: {
     marginLeft: 30,

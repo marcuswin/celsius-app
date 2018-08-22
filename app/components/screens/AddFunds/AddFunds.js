@@ -12,29 +12,43 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
+import { ELIGIBLE_COINS } from "../../../config/constants/common";
 import { actions as mixpanelActions } from "../../../services/mixpanel";
 
+const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === 'ETH').map(c => c.toLowerCase());
+
 @connect(
-  state => ({
-    formData: state.ui.formData,
-    btcAddress: state.wallet.addresses.btcAddress,
-    ethAddress: state.wallet.addresses.ethAddress,
-    activeScreen: state.nav.routes[state.nav.index].routeName,
-    routes: state.nav.routes,
-  }),
+  state => {
+    const walletAddresses = {};
+
+    possibleAddresses.forEach(pa => {
+      walletAddresses[pa] = state.wallet.addresses[`${pa}Address`];
+    })
+
+    return {
+      formData: state.ui.formData,
+      walletAddresses,
+      activeScreen: state.nav.routes[state.nav.index].routeName,
+      routes: state.nav.routes,
+      supportedCurrencies: state.generalData.supportedCurrencies,
+    }
+  },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class AddFunds extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      pickerItems: [
-        { label: "Celsius (CEL)", value: "cel" },
-        { label: "Bitcoin (BTC)", value: "btc" },
-        { label: "Ethereum (ETH)", value: "eth" }
-      ]
-    };
+    const pickerItems = ELIGIBLE_COINS.map(ec => {
+      const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
+      const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
+      return {
+        label: `${currencyName} (${ec})`,
+        value: ec.toLowerCase(),
+      }
+    })
+
+    this.state = { pickerItems };
   }
 
   // lifecycle methods
@@ -58,13 +72,14 @@ class AddFunds extends Component {
   }
 
   getAddress = (currency) => {
-    const { btcAddress, ethAddress, actions } = this.props;
+    const { actions, walletAddresses } = this.props;
 
-    if (!btcAddress && currency === "btc") {
-      actions.getCoinAddress("btc");
+    if (!walletAddresses[currency] && currency !== 'eth') {
+      actions.getCoinAddress(currency)
     }
 
-    if (!ethAddress && cryptoUtil.isERC20(currency)) {
+    // get erc20 token address
+    if (!walletAddresses.eth && cryptoUtil.isERC20(currency)) {
       actions.getCoinAddress("eth");
     }
   };
@@ -72,10 +87,11 @@ class AddFunds extends Component {
   // event hanlders
   // rendering methods
   setAddress = (currency) => {
-    const { btcAddress, ethAddress } = this.props;
-
-    if (currency === "btc") return btcAddress;
-    if (cryptoUtil.isERC20(currency)) return ethAddress;
+    if (currency) {
+      const { walletAddresses } = this.props;
+      const address = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
+      return address;
+    }
   };
 
   goBack = () => {
@@ -167,15 +183,15 @@ class AddFunds extends Component {
               }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
+                {Platform.OS === "ios" ? (<Icon
+                  style={{ marginTop: 17 }}
+                  name='ShareIcon'
+                  width='20' height='20'
+                  fill='rgba(255, 255, 255, 0.5)'
+                />) : null}
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  {Platform.OS === "ios" ? (<Icon
-                    style={{ marginTop: 17 }}
-                    name='ShareIcon'
-                    width='20' height='20'
-                    fill='rgba(255, 255, 255, 0.5)'
-                  />) : null}
                   Share
                 </Text>
               </View>
@@ -188,15 +204,15 @@ class AddFunds extends Component {
               }]}
             >
               <View style={AddFundsStyle.buttonTextWrapper}>
+                {Platform.OS === "ios" ? (<Icon
+                  style={{ marginTop: 17 }}
+                  name='CopyIcon'
+                  width='20' height='20'
+                  fill='rgba(255, 255, 255, 0.5)'
+                />) : null}
                 <Text
                   style={[AddFundsStyle.buttonsText, { color: "white" }]}
                 >
-                  {Platform.OS === "ios" ? (<Icon
-                    style={{ marginTop: 17 }}
-                    name='CopyIcon'
-                    width='20' height='20'
-                    fill='rgba(255, 255, 255, 0.5)'
-                  />) : null}
                   Copy
                 </Text>
               </View>
