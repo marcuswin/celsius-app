@@ -87,7 +87,9 @@ class InterestCalculatorScreen extends Component {
           </CelForm>
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Interest per week (at { displayInterestRate } APR):
+            Estimated interest
+            <Text style={globalStyles.boldText}> per week </Text>
+            at { displayInterestRate } APR:
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
@@ -96,7 +98,8 @@ class InterestCalculatorScreen extends Component {
           </View>
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Estimated interest per month:
+            Estimated interest
+            <Text style={globalStyles.boldText}> per month:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
@@ -105,7 +108,8 @@ class InterestCalculatorScreen extends Component {
           </View>
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Total interest for 6 months:
+            Estimated total interest
+            <Text style={globalStyles.boldText}> for 6 months:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
