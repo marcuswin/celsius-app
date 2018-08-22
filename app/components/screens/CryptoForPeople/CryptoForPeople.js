@@ -46,8 +46,7 @@ class CryptoForPeople extends Component {
           In order to do that, real products built by real teams have to provide real utility to the public.
         </Text>
         <Text style={CryptoForPeopleStyle.explanationText}>
-          We’re building Celsius to bring a new wave of financial products to the market designed, for the first time,
-          to always do what’s in the best interest of its members instead of trying to make as much profit as possible.
+          We’re building Celsius to bring a new wave of financial products to the market designed to always do what’s in the best interest of its members instead of trying to make as much profit as possible.
         </Text>
         <Text style={CryptoForPeopleStyle.explanationText}>
           We believe this will be crypto’s first ‘killer app.’

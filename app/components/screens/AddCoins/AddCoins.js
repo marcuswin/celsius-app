@@ -95,8 +95,7 @@ class AddCoins extends Component {
         animatedHeading={animatedHeading}
        >
         <Text style={AddCoinsStyle.text}>
-          Select a coin to add to your portfolio,
-          for now you can only add some of the coins listed below.
+          Select a coin to add to your portfolio.
         </Text>
         <View style={AddCoinsStyle.explanation}>
           <Icon

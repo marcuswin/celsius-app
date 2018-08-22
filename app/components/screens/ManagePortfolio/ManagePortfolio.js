@@ -60,7 +60,7 @@ class ManagePortfolio extends Component {
           <View style={{paddingTop: 30}}>
             {!userHasPortfolio &&
               <Text style={PortfolioStyle.subHeading}>
-                So, what coins are you HODLing?
+                Track your coins
               </Text>
             }
             { userHasPortfolio ? (
@@ -70,7 +70,7 @@ class ManagePortfolio extends Component {
             ) : (
               <View>
                 <Text style={PortfolioStyle.description2}>
-                  Let us know which coins you like to HODL so we can help you track their value and tell you how much estimated interest you could earn as well as how big an estimated loan you could apply for in the future.
+                  Add your portfolio coins so you can track the market, and get an overview of your assets.
                 </Text>
                 <Text style={PortfolioStyle.description}>
                   Please add at least one coin in order to proceed.

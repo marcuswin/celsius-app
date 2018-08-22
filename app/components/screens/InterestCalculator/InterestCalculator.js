@@ -68,7 +68,7 @@ class InterestCalculatorScreen extends Component {
             />
           </View>
 
-          <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at this rate:</Text>
+          <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at these rates:</Text>
           <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate}/>
 
           <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>
@@ -128,7 +128,7 @@ class InterestCalculatorScreen extends Component {
 
           <Separator margin="35 0 25 0"/>
 
-          <Text style={globalStyles.heading}>No Term Lengths</Text>
+          <Text style={globalStyles.heading}>Withdraw your crypto deposits...</Text>
           <Text style={[globalStyles.normalText, { textAlign: 'center'}]}>
             You can get your crypto deposits whenever you need them with no fees or penalties.
           </Text>
