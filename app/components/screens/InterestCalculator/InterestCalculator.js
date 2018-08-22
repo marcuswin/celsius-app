@@ -12,20 +12,12 @@ import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constant
 import * as appActions from "../../../redux/actions";
 import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
-import CelSlider from "../../molecules/CelSlider/CelSlider";
 import CelForm from "../../atoms/CelForm/CelForm";
 
 const interestRates = {
   BTC: 3.75,
   ETH: 3.25,
 }
-
-const interestPeriods = [
-  { value: 6, label: '6 months' },
-  { value: 12, label: '12 months' },
-  { value: 18, label: '18 months' },
-  { value: 24, label: '24 months' },
-]
 
 @connect(
   state => ({
@@ -82,10 +74,6 @@ class InterestCalculatorScreen extends Component {
               value={formData.interestAmount}
             />
           </CelForm>
-
-          <Text style={globalStyles.normalText}>For how long would you like to keep your coins deposited?</Text>
-
-          <CelSlider field="interestPeriod" items={interestPeriods} value={formData.interestPeriod} />
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
             Interest per week (at { displayInterestRate } APR):
