@@ -1,75 +1,66 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
-// import {} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
-// import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
+import Loader from "../../atoms/Loader/Loader";
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
-import CelButton from "../../atoms/CelButton/CelButton";
 import InterestExplanation from "../../organisms/InterestExplanation/InterestExplanation";
+// import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.ui.formData,
+    interestRates: state.interest.rates,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HowToEarnInterest extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
+  // lifecycle methods
+  componentDidMount() {
+    const { actions, interestRates } = this.props;
+    if (!interestRates) actions.getInterestRates();
   }
 
-  // lifecycle methods
   // event hanlders
   // rendering methods
   render() {
+    const { interestRates } = this.props;
+
+    if (!interestRates) return (
+      <EarnInterestLayout>
+        <Loader/>
+      </EarnInterestLayout>
+    )
+
     return (
       <EarnInterestLayout>
         <View style={{ paddingTop: 30 }}>
+          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
+            Earn up to 5% interest when you deposit ETH or BTC
+          </Text>
           <Text style={globalStyles.normalText}>
             By depositing coins on the Celsius Network, crypto asset holders will be able to earn up to 9% interest for their lent coins.
           </Text>
+
           <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
-            How we determine your interest rate
+            How we’ll determine your interest rate in the future
           </Text>
           <Text style={[globalStyles.normalText, { marginBottom: 15 }]}>
-            To get the maximum amount of interest you need to deposit coins with us, be a member of the community for as long as possible and HODL your CEL tokens.
+            While we're in beta, everyone who deposited before August 20th will be earning
+            <Text style={globalStyles.boldText}> { interestRates.ETH * 100 }% interest on ETH </Text>
+            and
+            <Text style={globalStyles.boldText}> { interestRates.BTC * 100 }% interest on BTC </Text>
+            retroactively.
           </Text>
           <Text style={[globalStyles.normalText, { marginBottom: 15 }]}>
-            Your current interest rate is based on a 50-25-25 formula, where:
+            We are also currently paying interest in ETH and BTC. Once version 2.0 of the app is released in September we will start paying interest in CEL and we'll be using the process below using the
+            <Text style={globalStyles.boldText}> 50-25-25 model.</Text>
           </Text>
 
           <InterestExplanation/>
-
-          <Text style={[globalStyles.normalText, { marginBottom: 15 }]}>
-            Need more information and want to deep dive into how we calculate and distribute interest? Visit our  website and find out more:
-          </Text>
-
-          <CelButton
-            inverse
-            onPress={console.log}
-            margin="20 0 20 0"
-          >
-            Learn More
-          </CelButton>
-
-          <CelButton
-            size="small"
-            transparent
-            white
-            margin="0 0 20 0"
-            onPress={console.log}
-          >
-            Read FAQ about interest
-          </CelButton>
-
-
         </View>
       </EarnInterestLayout>
     );

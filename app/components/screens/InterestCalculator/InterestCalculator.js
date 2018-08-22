@@ -50,8 +50,6 @@ class InterestCalculatorScreen extends Component {
       </EarnInterestLayout>
     )
 
-    console.log({ interestRates, formData })
-
     const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
     const interest = formData.interestAmount * interestRates[formData.interestCurrency];
     const interestPerWeek = interest / 52;
