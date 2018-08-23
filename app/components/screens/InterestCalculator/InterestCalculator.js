@@ -79,8 +79,8 @@ class InterestCalculatorScreen extends Component {
             <CelInput
               theme="white"
               field="interestAmount"
-              type="number"C
-              placeholder={`${formData.interestCurrency} Amount in USD`}
+              type="number"
+              placeholder={`Enter amount in USD`}
               margin="0 0 25 0"
               value={formData.interestAmount}
             />
