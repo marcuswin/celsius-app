@@ -99,6 +99,7 @@ class WalletDetailsHeading extends Component {
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
         <CelButton size="mini" white onPress={this.goToAddFunds}>Add funds</CelButton>
+        <CelButton size="mini" white onPress={this.goToAddFunds}>Send</CelButton>
       </View>}
     </View>
   }
