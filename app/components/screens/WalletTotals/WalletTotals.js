@@ -79,7 +79,7 @@ class WalletTotals extends Component {
     const fiatLetterSize = balanceUsd.toString().length >= 10 ? FONT_SCALE * 24 : FONT_SCALE * 30;
 
     return (
-      <List style={WalletTotalsStyle.list}>
+      <List style={WalletTotalsStyle.list} key={short}>
         <ListItem style={WalletTotalsStyle.listItem}>
             <View>
               <Text style={WalletTotalsStyle.name}>{short} - {currency}</Text>
