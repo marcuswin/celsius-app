@@ -3,6 +3,8 @@ import ACTIONS from '../../config/constants/ACTIONS';
 function initialState() {
   return {
     supportedCurrencies: undefined,
+    kycDocTypes: undefined,
+    backendStatus: undefined,
   };
 }
 
@@ -27,6 +29,12 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         kycDocTypes: action.kycDocTypes,
+      };
+
+    case ACTIONS.GET_BACKEND_STATUS_SUCCESS:
+      return {
+        ...state,
+        backendStatus: action.backendStatus,
       };
 
   default:

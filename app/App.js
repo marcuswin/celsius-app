@@ -81,12 +81,12 @@ export default class App extends Component {
       store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
     }
 
-    store.dispatch(actions.getSupportedCurrencies())
+    // get general data for te app
+    await store.dispatch(actions.getSupportedCurrencies())
+    await store.dispatch(actions.getBackendStatus())
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-
-    await store.dispatch(actions.getSupportedCurrencies());
 
     const initialConnection = await NetInfo.isConnected.fetch();
 

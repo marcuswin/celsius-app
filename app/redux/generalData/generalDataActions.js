@@ -8,6 +8,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 export {
   getSupportedCurrencies,
   getKYCDocTypes,
+  getBackendStatus,
 }
 
 function getSupportedCurrencies() {
@@ -53,5 +54,28 @@ function getKYCDocTypesSuccess(kycDocTypes) {
     type: ACTIONS.GET_KYC_DOC_TYPES_SUCCESS,
     callName: API.GET_KYC_DOC_TYPES,
     kycDocTypes,
+  }
+}
+
+function getBackendStatus() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_BACKEND_STATUS));
+
+    try {
+      const res = await generalDataService.getBackendStatus();
+      const backendStatus = res.data;
+      dispatch(getBackendStatusSuccess(backendStatus));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_BACKEND_STATUS, err));
+    }
+  }
+}
+
+function getBackendStatusSuccess(backendStatus) {
+  return {
+    type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
+    callName: API.GET_BACKEND_STATUS,
+    backendStatus,
   }
 }
