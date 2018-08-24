@@ -13,26 +13,34 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
+import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 const decimalForCurrency = {
   usd: 2,
   btc: 5,
   eth: 5,
   cel: 5,
+  ltc: 5,
 };
 
 @connect(
-  state => ({
-    ethBalance: state.wallet.currencies.filter(c => c.currency.short === 'ETH')[0].amount,
-    btcBalance: state.wallet.currencies.filter(c => c.currency.short === 'BTC')[0].amount,
-    celBalance: state.wallet.currencies.filter(c => c.currency.short === 'CEL')[0].amount,
-    ethUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'ETH')[0].market.quotes.USD.price,
-    btcUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'BTC')[0].market.quotes.USD.price,
-    celUsd: state.generalData.supportedCurrencies.filter(c => c.short === 'CEL')[0].market.quotes.USD.price,
-    formData: state.ui.formData,
-    screenHeight: state.ui.dimensions.screenHeight,
-    screenWidth: state.ui.dimensions.screenWidth,
-  }),
+  state => {
+    const balances = {};
+    const rates = {};
+
+    ELIGIBLE_COINS.forEach(ec => {
+      balances[`${ec.toLowerCase()}Balance`] = state.wallet.currencies.filter(c => c.currency.short === ec)[0].amount;
+      rates[`${ec.toLowerCase()}Usd`] = state.generalData.supportedCurrencies.filter(c => c.short === ec)[0].market.quotes.USD.price;
+    })
+
+    return {
+      balances,
+      rates,
+      formData: state.ui.formData,
+      screenHeight: state.ui.dimensions.screenHeight,
+      screenWidth: state.ui.dimensions.screenWidth,
+    }
+  },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class AmountInput extends Component {
@@ -64,8 +72,8 @@ class AmountInput extends Component {
       amountUsd: 0,
       amountCrypto: 0,
       currency,
-      rateUsd: props[`${currency}Usd`],
-      balance: props[`${currency}Balance`],
+      rateUsd: props.rates[`${currency}Usd`],
+      balance: props.balances[`${currency}Balance`],
     })
   }
 

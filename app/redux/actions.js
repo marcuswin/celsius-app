@@ -9,4 +9,5 @@ export * from './users/facebookActions'
 export * from './users/usersActions'
 export * from './generalData/generalDataActions'
 export * from './wallet/walletActions'
+export * from './interest/interestActions'
 // NOTE(fj): plop reduxGen importing new Actions here

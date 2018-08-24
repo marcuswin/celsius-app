@@ -13,6 +13,7 @@ import * as appActions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { FONT_SCALE } from "../../../config/constants/style";
+import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -37,7 +38,8 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
-    const screens = ['cel', 'eth', 'btc', 'total'];
+    const screens = ELIGIBLE_COINS.map(ec => ec.toLowerCase());
+    screens.push('total');
 
     const { currency, actions } = this.props;
     const screenIndex = screens.findIndex(el => el === currency);

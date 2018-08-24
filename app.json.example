@@ -4,7 +4,7 @@
     "description": "P2P Decentralized Lending & Borrowing for Cryptocurrency",
     "slug": "celsius",
     "privacy": "public",
-    "sdkVersion": "25.0.0",
+    "sdkVersion": "29.0.0",
     "platforms": [
       "ios",
       "android"

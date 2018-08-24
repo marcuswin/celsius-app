@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
+import Loader from "../../atoms/Loader/Loader";
 import CelInput from "../../atoms/CelInput/CelInput";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -12,30 +13,27 @@ import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constant
 import * as appActions from "../../../redux/actions";
 import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
-import CelSlider from "../../molecules/CelSlider/CelSlider";
 import CelForm from "../../atoms/CelForm/CelForm";
+import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
 
-const interestRates = {
-  BTC: 3.75,
-  ETH: 3.25,
-}
-
-const interestPeriods = [
-  { value: 6, label: '6 months' },
-  { value: 12, label: '12 months' },
-  { value: 18, label: '18 months' },
-  { value: 24, label: '24 months' },
-]
+// const interestRates = {
+//   BTC: 3.75,
+//   ETH: 3.25,
+// }
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    interestRates: state.interest.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class InterestCalculatorScreen extends Component {
   componentDidMount() {
-    const { actions } = this.props;
+    const { actions, interestRates } = this.props;
+
+    if (!interestRates) actions.getInterestRates();
+
     actions.initForm({
       interestCurrency: 'BTC',
       interestAmount: 0,
@@ -44,10 +42,16 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData } = this.props;
+    const { formData, interestRates, actions } = this.props;
 
-    const displayInterestRate = `${interestRates[formData.interestCurrency]}%`;
-    const interest = formData.interestAmount * interestRates[formData.interestCurrency] / 100;
+    if (!interestRates) return (
+      <EarnInterestLayout>
+        <Loader/>
+      </EarnInterestLayout>
+    )
+
+    const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
+    const interest = formData.interestAmount * interestRates[formData.interestCurrency];
     const interestPerWeek = interest / 52;
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
@@ -55,10 +59,6 @@ class InterestCalculatorScreen extends Component {
     return (
       <EarnInterestLayout>
         <View style={{ paddingTop: 30, paddingBottom: 30 }}>
-          <Text style={[globalStyles.normalText, { marginBottom: 35 }]}>
-            Calculate how much interest you are eligible to earn. Choose which currency you are thinking to deposit (BTC or ETH) and then enter the amount in USD:
-          </Text>
-
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <RadioButtons
               theme="grey"
@@ -68,6 +68,9 @@ class InterestCalculatorScreen extends Component {
             />
           </View>
 
+          <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at these rates:</Text>
+          <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate}/>
+
           <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>
             How much do you plan to deposit?
           </Text>
@@ -76,19 +79,17 @@ class InterestCalculatorScreen extends Component {
             <CelInput
               theme="white"
               field="interestAmount"
-              type="number"C
-              placeholder={`${formData.interestCurrency} Amount in USD`}
+              type="number"
+              placeholder={`Enter amount in USD`}
               margin="0 0 25 0"
               value={formData.interestAmount}
             />
           </CelForm>
 
-          <Text style={globalStyles.normalText}>For how long would you like to keep your coins deposited?</Text>
-
-          <CelSlider field="interestPeriod" items={interestPeriods} value={formData.interestPeriod} />
-
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Interest per week (at { displayInterestRate } APR):
+            Estimated interest
+            <Text style={globalStyles.boldText}> per week </Text>
+            at { displayInterestRate } APR:
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
@@ -97,7 +98,8 @@ class InterestCalculatorScreen extends Component {
           </View>
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Estimated interest per month:
+            Estimated interest
+            <Text style={globalStyles.boldText}> per month:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
@@ -106,7 +108,8 @@ class InterestCalculatorScreen extends Component {
           </View>
 
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
-            Total interest for 6 months:
+            Estimated total interest
+            <Text style={globalStyles.boldText}> for 6 months:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text style={InterestCalculatorStyle.amountText}>
@@ -125,7 +128,7 @@ class InterestCalculatorScreen extends Component {
 
           <Separator margin="35 0 25 0"/>
 
-          <Text style={globalStyles.heading}>No Term Lengths</Text>
+          <Text style={globalStyles.heading}>Withdraw your crypto deposits...</Text>
           <Text style={[globalStyles.normalText, { textAlign: 'center'}]}>
             You can get your crypto deposits whenever you need them with no fees or penalties.
           </Text>
@@ -134,7 +137,7 @@ class InterestCalculatorScreen extends Component {
 
           <CelButton
             inverse
-            onPress={console.log}
+            onPress={() => actions.navigateTo('AddFunds')}
           >
             Deposit coins
           </CelButton>

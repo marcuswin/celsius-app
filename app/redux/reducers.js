@@ -7,6 +7,7 @@ import portfolio from './portfolio/portfolioReducer';
 import users from './users/usersReducer';
 import generalData from './generalData/generalDataReducer';
 import wallet from './wallet/walletReducer';
+import interest from './interest/interestReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   portfolio,
   generalData,
   wallet,
+  interest,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 });

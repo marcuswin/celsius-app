@@ -129,7 +129,7 @@ class ThirdPartyLoginSection extends Component {
 
   // rendering methods
   render() {
-    const {twitterGetAccessToken, screenWidth, type, actions} = this.props;
+    const { screenWidth, type, actions} = this.props;
 
     const iconSize = 0.2 * screenWidth;
     const action = type === 'login' ? 'Login with' : 'Sign up with';
@@ -171,7 +171,7 @@ class ThirdPartyLoginSection extends Component {
         <TWLoginButton
           ref={this.setFakeTwitterButton}
           style={ThirdPartyLoginSectionStyle.fakeTwitterButton}
-          onGetAccessToken={twitterGetAccessToken}
+          onGetAccessToken={actions.twitterGetAccessToken}
           onSuccess={this.onTwitterSuccess}
           closeText="< Back to Celsius"
           onClose={actions.twitterClose}
