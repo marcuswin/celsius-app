@@ -7,7 +7,7 @@ export default {
 }
 
 function isERC20(currency) {
-  return ['eth', 'cel'].indexOf(currency.toLowerCase()) !== -1;
+  return ['eth', 'cel', 'omg'].indexOf(currency.toLowerCase()) !== -1;
 }
 
 function getEligibleCoins() {
