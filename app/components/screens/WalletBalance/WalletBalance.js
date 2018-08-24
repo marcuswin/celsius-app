@@ -78,7 +78,7 @@ class WalletBalance extends Component {
           </View>
         </Card>}
         { walletCurrencies && (
-          <View>
+          <View style={{marginBottom: 30,}}>
             <List
               dataArray={walletCurrencies}
               scrollable={false}
