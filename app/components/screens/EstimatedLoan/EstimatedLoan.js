@@ -226,9 +226,9 @@ class EstimatedLoan extends Component {
               With Celsius
               <Text style={[EstimatedLoanStyle.sectionText, { color: 'white' }, globalStyles.boldText]}> you would save </Text>
               <Text style={[EstimatedLoanStyle.sectionText, { color: 'white' }]}> { formatter.usd(estimatedLoan.competition_rates[0].interest_usd - estimatedLoan.yearly_interest) } </Text>
-              over your credit card and
+              over a {estimatedLoan.competition_rates[0].name} loan and
               <Text style={[EstimatedLoanStyle.sectionText, { color: 'white' }]}> { formatter.usd(estimatedLoan.competition_rates[1].interest_usd - estimatedLoan.yearly_interest) } </Text>
-              over a Payday loan.
+              over a {estimatedLoan.competition_rates[1].name} loan.
             </Text>
           </View>
           <View stye={{ justifyContent: 'center', alignItems: 'center' }}>
