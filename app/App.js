@@ -14,10 +14,6 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 
-// const { Branch } = DangerZone;
-//
-// console.log(Branch);
-
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
@@ -63,15 +59,7 @@ function handleDeepLink(deepLink) {
     return;
   }
 
-  const date = new Date().toISOString();
-
-  store.dispatch(actions.showMessage('error', 'Link recieved'));
-  Sentry.captureMessage(`Application read branch link [${date}]`, {
-    level: 'info',
-    extra: {
-      deepLink,
-    },
-  });
+  store.dispatch(actions.registerBranchLink(deepLink));
 }
 
 export default class App extends Component {
@@ -114,81 +102,14 @@ export default class App extends Component {
 
     handleConnectivityChange(initialConnection);
 
-    // const handleUrl = ({url}) => {
-    //   const queryString = url.replace(Constants.linkingUri, '');
-    //
-    //   if (queryString) {
-    //     Sentry.captureMessage("Expo URL Handler", {
-    //       level: 'info',
-    //       extra: {
-    //         url,
-    //         queryString,
-    //       },
-    //     });
-    //   }
-    // };
-
     try {
-      // const initialUrl = await Linking.getInitialURL();
-      //
-      // Linking.addEventListener('url', handleUrl);
-      //
-      // Sentry.captureMessage("Initial URL Handling", {
-      //   level: 'info',
-      //   extra: {
-      //     initialUrl,
-      //     linkingUri: Constants.linkingUri,
-      //   },
-      // });
-      //
-      // const branchUniversalObject = await Branch.createBranchUniversalObject('testing123Celsius', {
-      //   locallyIndex: true,
-      //   title: 'You got money!',
-      //   contentDescription: 'Filip has sent you money on Celsius Network',
-      //   contentMetadata: {
-      //     amount: 0.124,
-      //     currency: 'eth',
-      //     amountUsd: '$ 12.34',
-      //     customMetadata: {
-      //       amount: 123.31,
-      //       hash: 'jhsadkfahsjkdfhjgashdjk123',
-      //       currency: 'cel',
-      //       amountUsd: '$ 21.43'
-      //     }
-      //   }
-      // });
-      //
-      // const {url} = await branchUniversalObject.generateShortUrl();
-      //
-      // Sentry.captureMessage("Branch URL Generated", {
-      //   level: 'info',
-      //   extra: {
-      //     url,
-      //   },
-      // });
+      Branch.subscribe((deepLink) => {
+        if (deepLink.error || !deepLink.params) {
+          return;
+        }
 
-      // setTimeout(() => {
-        Branch.subscribe((deepLink) => {
-          const date = new Date().toISOString();
-          Sentry.captureMessage(`Subscribe called [${date}]`, {
-            level: 'info',
-            extra: {
-              deepLink,
-            },
-          });
-          if (deepLink.error || !deepLink.params) {
-            return;
-          }
-
-          handleDeepLink(deepLink.params);
-        });
-      // }, 10000);
-
-      // if (Platform.OS === 'ios') {
-      //   const lastDeepLink = await Branch.getLatestReferringParams();
-
-        // handleDeepLink(lastDeepLink);
-      // }
+        handleDeepLink(deepLink.params);
+      });
     } catch (error) {
       Sentry.captureException(error);
     }

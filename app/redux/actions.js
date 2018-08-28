@@ -1,6 +1,7 @@
 export * from './ui/uiActions'
 export * from './nav/navActions'
 export * from './api/apiActions'
+export * from './branch/branchActions'
 export * from './users/authActions'
 export * from './portfolio/portfolioActions'
 export * from './users/twitterActions'
