@@ -26,7 +26,7 @@
           "reservedClientId": "your reverse google client id"
         },
         "branch": {
-          "apiKey": "key_test_gbD4OTZVEqUs3SoxeQ08Mlaoqwi3z0Su"
+          "apiKey": "key_live_ejq7UK7PAxUD4Viyg5fpmaiovuj6s6IK"
         }
       }
     },
@@ -38,7 +38,7 @@
           "certificateHash": "your hash"
         },
         "branch": {
-          "apiKey": "key_test_gbD4OTZVEqUs3SoxeQ08Mlaoqwi3z0Su"
+          "apiKey": "key_live_ejq7UK7PAxUD4Viyg5fpmaiovuj6s6IK"
         }
       },
       "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
