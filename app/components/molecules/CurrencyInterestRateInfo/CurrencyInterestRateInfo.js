@@ -15,7 +15,7 @@ class CurrencyInterestRateInfo extends Component {
   render() {
     const {currency, rate, walletCurrencies} = this.props;
 
-    if (!currency) {
+    if (!currency || !walletCurrencies || !walletCurrencies.length) {
       return null;
     }
 
