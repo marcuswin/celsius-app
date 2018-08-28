@@ -49,6 +49,7 @@ export default {
 
   // root api calls
   GET_SUPPORTED_CURRENCIES: 'GET_SUPPORTED_CURRENCIES',
+  GET_BACKEND_STATUS: 'GET_BACKEND_STATUS',
   GET_KYC_DOC_TYPES: 'GET_KYC_DOC_TYPES',
 
   // interest api calls
