@@ -3,6 +3,7 @@
     "name": "Celsius",
     "description": "P2P Decentralized Lending & Borrowing for Cryptocurrency",
     "slug": "celsius",
+    "scheme": "cel",
     "privacy": "public",
     "sdkVersion": "29.0.0",
     "platforms": [
@@ -23,6 +24,9 @@
       "config": {
         "googleSignIn": {
           "reservedClientId": "your reverse google client id"
+        },
+        "branch": {
+          "apiKey": "key_test_gbD4OTZVEqUs3SoxeQ08Mlaoqwi3z0Su"
         }
       }
     },
@@ -32,6 +36,9 @@
         "googleSignIn": {
           "apiKey": "your api key",
           "certificateHash": "your hash"
+        },
+        "branch": {
+          "apiKey": "key_test_gbD4OTZVEqUs3SoxeQ08Mlaoqwi3z0Su"
         }
       },
       "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
