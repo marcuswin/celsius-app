@@ -64,10 +64,10 @@ class WalletBalance extends Component {
   render() {
     const { walletCurrencies, supportedCurrencies, interest } = this.props;
 
-    const lastInterestPerCoin = interest.last || {};
+    const estimatedInterestPerCoin = interest.estimate || {};
     const totalInterestPerCoin = interest.total || {};
 
-    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + total.amount_usd, 0);
+    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
     return (
       <WalletLayout>
@@ -88,7 +88,7 @@ class WalletBalance extends Component {
                   <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
                     <CoinCard type="wallet-card" {...item}
                               supportedCurrencies={supportedCurrencies}
-                              lastInterest={lastInterestPerCoin[item.currency.short.toUpperCase()]}/>
+                              lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}/>
                   </TouchableOpacity>
                   </Body>
                 </ListItem>}

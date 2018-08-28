@@ -114,19 +114,21 @@ const CoinCardStyle = StyleSheet.create({
   },
   lendingBorrowingInfoWrapper: {
     width: '100%',
-    backgroundColor: STYLES.GRAY_4,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 2},
     height: 46,
     display: 'flex',
     alignItems: 'center',
-    paddingLeft: 20,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
+    paddingLeft: 14,
   },
   lendingBorrowingInfoText: {
-    color: 'white',
     fontFamily: 'agile-medium',
-    fontSize: FONT_SCALE * 11,
+    fontSize: FONT_SCALE * 14,
     marginLeft: 9,
+    color: '#3D4853',
     marginRight: 20,
   },
   row: {
@@ -135,20 +137,20 @@ const CoinCardStyle = StyleSheet.create({
   },
 });
 
-// const CoinCardInfo = ({text}) => (
-//   <Row>
-//     <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
-//       <Icon
-//         name={'EligibilityStarTwo'}
-//         height='22'
-//         width='22'
-//         stroke={'#9DA3A9'}
-//         fill={'rgba(255,255,255,0.5)'}
-//       />
-//       <Text style={CoinCardStyle.lendingBorrowingInfoText}>{text}</Text>
-//     </View>
-//   </Row>
-// );
+const CoinCardInfo = ({text}) => (
+  <Row>
+    <View style={[CoinCardStyle.wrapper, CoinCardStyle.lendingBorrowingInfoWrapper]}>
+      <Icon
+        name={'EligibilityStar'}
+        height='26'
+        width='26'
+        fill={STYLES.PRIMARY_BLUE}
+        stroke={'white'}
+      />
+      <Text style={CoinCardStyle.lendingBorrowingInfoText}>{text}</Text>
+    </View>
+  </Row>
+);
 
 @connect(
   state => ({
@@ -180,8 +182,18 @@ class CoinCard extends Component {
     const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
 
     const cardType = type === 'default' ? 'transparent' : 'white';
+    let cardStyle = {};
+
+    if (type === 'default') {
+      cardStyle = {
+        borderBottomWidth: 1,
+        borderBottomColor: STYLES.GRAY_5,
+        paddingBottom: 30,
+      };
+    }
+
     return (
-      <Card type={cardType}>
+      <Card type={cardType} style={cardStyle}>
         <Grid style={type === "wallet-card" && Number(amount) === 0 ? [CoinCardStyle.row, { paddingTop: 10, opacity: 0.4 }] : [CoinCardStyle.row, { paddingTop: 10 }]}>
           <Row>
             <Col style={{ width: '70%', justifyContent: 'center' }}>
@@ -211,7 +223,7 @@ class CoinCard extends Component {
             </Col>
           </Row>
         </Grid>
-        <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: 'white'} : { borderColor: STYLES.GRAY_1 }]}>
+        <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: STYLES.GRAY_3} : { borderColor: STYLES.GRAY_1 }]}>
           <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
             <PricingChangeIndicator
               rootStyles={{marginLeft: 0,}}
@@ -236,8 +248,14 @@ class CoinCard extends Component {
             </View>
           </Row>
           }
+          {(type !== "wallet-card" && currency.short !== 'CEL'&& ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
+            <CoinCardInfo text="Now available for borrowing and lending"/>
+          }
+          {(type !== "wallet-card" && currency.short === 'CEL') &&
+            <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange"/>
+          }
         </Grid>
-        {(!!lastInterest && !!Number(lastInterest.amount_usd)) && <View style={CoinCardStyle.lastInterestWrapper}>
+        {(type === 'wallet-card' && !!lastInterest && !!Number(lastInterest.amount_usd)) && <View style={CoinCardStyle.lastInterestWrapper}>
           <View>
             <Text style={CoinCardStyle.lastInterestText}>Weekly interest on {currency.short.toUpperCase()}:</Text>
           </View>

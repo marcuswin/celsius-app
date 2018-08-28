@@ -22,7 +22,7 @@ const CardStyle = StyleSheet.create({
 })
 
 
-const Card = ({ type, children }) => <View style={CardStyle[type || 'white']}>{children}</View>;
+const Card = ({ type, children, style = {} }) => <View style={[CardStyle[type || 'white'], style]}>{children}</View>;
 
 Card.propTypes = {
   children: PropTypes.node,
