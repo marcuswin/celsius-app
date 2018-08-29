@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Asset, AppLoading, Font, Constants} from 'expo';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage, NetInfo } from 'react-native';
+import { Image, NetInfo, AppState } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 
@@ -12,14 +12,13 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
+import { mixpanelEvents } from './services/mixpanel';
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.config(SENTRY_DSN).install();
 }
-
-AsyncStorage.removeItem('UserTemporaryId'); // reset temporary user id for mixpanel tracking
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();
@@ -72,10 +71,10 @@ export default class App extends Component {
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
     if (token) {
-      await store.dispatch(actions.getLoggedInBorrower());
+      await store.dispatch(actions.getProfileInfo());
     }
 
-    // gete user app setting
+    // get user app settings
     const appSettings = await getSecureStoreKey('APP_SETTINGS');
     if (appSettings) {
       store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
@@ -96,6 +95,8 @@ export default class App extends Component {
       "connectionChange",
       handleConnectivityChange
     );
+
+    mixpanelEvents.openApp();
   }
 
   // Assets are cached differently depending on where
@@ -114,6 +115,18 @@ export default class App extends Component {
     this.state = {
       isReady: false,
     };
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  // fire mixpanel when app is activated from background
+  handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') mixpanelEvents.openApp();
   }
 
   render() {

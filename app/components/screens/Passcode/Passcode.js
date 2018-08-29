@@ -18,7 +18,7 @@ import { STYLES } from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
-import { actions as mixpanelActions } from "../../../services/mixpanel";
+import { mixpanelEvents } from "../../../services/mixpanel";
 
 const types = {
     createPasscode: {
@@ -78,11 +78,11 @@ class Passcode extends Component {
         actions.storePin(pin.pin);
 
         if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
-          await actions.setCoingWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
+          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
         } else {
           await actions.withdrawCrypto(currency, amountCrypto);
         }
-        mixpanelActions.confirmWithdraw(amountCrypto, currency);
+        mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
       } catch (error) {
         actions.showMessage('error', error.error);
       }

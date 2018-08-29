@@ -93,7 +93,7 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {string} address
  * @param {number} amount
  */
-export function setCoingWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
+export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
   let currentApiCall;
 
   return async (dispatch, getState) => {

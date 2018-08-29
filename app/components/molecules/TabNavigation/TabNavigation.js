@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 // import {STYLES} from "../../config/constants/style";
 import TabNavigationStyle from "./TabNavigation.styles";
 import * as appActions from "../../../redux/actions";
+import { mixpanelEvents } from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -23,13 +24,18 @@ class TabNavigation extends Component {
 
   // lifecycle methods
   // event hanlders
+  goToScreen = (tab) => {
+    this.props.actions.navigateTo(tab.screen);
+    mixpanelEvents.changeTab(tab.label)
+  }
+
   // rendering methods
   renderTab = (tab) => {
-    const { activeScreen, actions } = this.props;
+    const { activeScreen } = this.props;
     const tabStyle = tab.screen === activeScreen ? TabNavigationStyle.activeTab : TabNavigationStyle.inactiveTab;
     const textStyle = tab.screen === activeScreen ? TabNavigationStyle.activeText : TabNavigationStyle.inactiveText;
     return (
-      <TouchableOpacity key={ tab.label } onPress={() => actions.navigateTo(tab.screen)} style={tabStyle}>
+      <TouchableOpacity key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
         <Text style={textStyle}>{ tab.label.toUpperCase() }</Text>
       </TouchableOpacity>
     )
