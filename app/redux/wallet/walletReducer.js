@@ -77,7 +77,7 @@ export default function walletReducer(state = initialState(), action) {
             // round down crypto balances to 5 decimals, otherwise they get rounded wrong
             const amountBN = new BigNumber(currency.amount);
             currency.amountRaw = currency.amount;
-            currency.amount = amountBN.toPrecision(5, 1);
+            currency.amount = amountBN.toFixed(5, 1);
             currency.amountBN = amountBN;
 
             return currency;
