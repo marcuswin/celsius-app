@@ -24,6 +24,8 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
+  openModal,
+  closeModal,
 }
 
 let msgTimeout;
@@ -219,6 +221,19 @@ function setScrollPosition(scrollPosition) {
   return {
     type: ACTIONS.SET_SCROLL_POSITION,
     scrollPosition,
+  };
+}
+
+function openModal(modalName) {
+  return {
+    type: ACTIONS.OPEN_MODAL,
+    modal: modalName,
+  };
+}
+
+function closeModal() {
+  return {
+    type: ACTIONS.CLOSE_MODAL,
   };
 }
 
