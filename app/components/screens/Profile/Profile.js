@@ -19,6 +19,8 @@ import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
 import { COLORS, FONT_SCALE } from "../../../config/constants/style";
+import ReferralModal from "../../organisms/ReferralModal/ReferralModal";
+import { MODALS } from "../../../config/constants/common";
 
 const { revisionId } = Constants.manifest;
 
@@ -127,6 +129,14 @@ class ProfileScreen extends Component {
             Change avatar
           </CelButton>
 
+          <CelButton
+            inverse
+            margin="0 0 20 0"
+            onPress={() => actions.openModal(MODALS.REFERRAL_MODAL)}
+          >
+            Refer your friends
+          </CelButton>
+
           <CelForm disabled={isLoadingProfileInfo}>
             <CelInput
               theme="white"
@@ -202,6 +212,8 @@ class ProfileScreen extends Component {
           </View>}
           <View style={{marginBottom: 30,}}/>
         </Content>
+
+        <ReferralModal />
       </BasicLayout>
     )
   }

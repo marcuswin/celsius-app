@@ -38,3 +38,7 @@ export const CAMERA_COPY = {
   DOCUMENT: 'Please center your document in the marked area. Ensure that there’s enough light in the room for better picture quality.',
   SELFIE: 'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.',
 }
+
+export const MODALS = {
+  REFERRAL_MODAL: 'REFERRAL_MODAL',
+}

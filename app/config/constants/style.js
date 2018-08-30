@@ -62,6 +62,13 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     marginTop: 10,
     marginBottom: 10,
   },
+  largeHeading: {
+    color: '#3D4853',
+    fontFamily: 'agile-extra-bold',
+    fontSize: 36,
+    lineHeight: 41,
+    textAlign: 'center',
+  },
   mediumText: { fontFamily: 'agile-medium' },
   boldText: { fontFamily: 'agile-bold' },
   underlinedText: {
@@ -248,4 +255,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/pie-chart.png'),
   require('../../../assets/images/wallet-emptystate-ftux3x.png'),
   require('../../../assets/images/deer-confused3x.png'),
+  require('../../../assets/images/frenchy.png'),
 ];
