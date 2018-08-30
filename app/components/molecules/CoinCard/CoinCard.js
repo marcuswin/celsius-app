@@ -109,6 +109,7 @@ const CoinCardStyle = StyleSheet.create({
     marginBottom: 8,
   },
   lastInterestText: {
+    fontFamily: 'agile-light',
     color: STYLES.WHITE_TEXT_COLOR,
     fontSize: FONT_SCALE * 16,
   },
