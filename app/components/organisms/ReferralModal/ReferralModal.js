@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Text, View, Image, Platform, TouchableOpacity, Clipboard, Share } from "react-native";
 import {connect} from 'react-redux';
+import Branch from 'react-native-branch';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
@@ -15,6 +16,7 @@ import Icon from "../../atoms/Icon/Icon";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
+    user: state.users.user,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -29,16 +31,48 @@ class ReferralModal extends Component {
   }
 
   // lifecycle methods
+  async componentDidMount() {
+    const { user } = this.props;
+    try {
+      console.log(Branch)
+      const branchUniversalObject = await Branch.createBranchUniversalObject(
+        `referral:${user.email}`,
+        {
+          locallyIndex: true,
+          title: 'Join Celsius Madafakaaaa!',
+          contentDescription: 'HODL this Bitch!'
+        }
+      )
+
+      console.log({ branchUniversalObject });
+
+      // let linkProperties = {
+      //   feature: 'share',
+      //   channel: 'facebook'
+      // }
+      //
+      // let controlParams = {
+      //   $desktop_url: 'http://desktop-url.com/monster/12345'
+      // }
+
+      const { url } = await branchUniversalObject.generateShortUrl()
+
+      console.log({ url })
+      this.setState({ url })
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   // event hanlders
   copyLink = (link) => {
-    const { actions } = this.props;
-    actions.showMessage("success", "Referral Link copied to clipboard!");
     Clipboard.setString(link);
   };
 
   // rendering methods
   render() {
     const { actions } = this.props;
+    const { url } = this.state;
     return (
       <CelModal name={MODALS.REFERRAL_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -53,12 +87,12 @@ class ReferralModal extends Component {
 
         <View style={ReferralModalStyle.box}>
           <View style={ReferralModalStyle.linkWrapper}>
-            <Text style={ReferralModalStyle.link}>Referral Link</Text>
+            <Text style={ReferralModalStyle.link}>{ url }</Text>
           </View>
 
           <View style={ReferralModalStyle.boxButtonsWrapper}>
             <TouchableOpacity
-              onPress={() => Share.share({ message: 'Referral Link', title: "Wallet link" })}
+              onPress={() => Share.share({ message: url, title: 'Join Celsius' })}
               style={[ReferralModalStyle.buttons, {
                 borderBottomLeftRadius: 8,
                 borderRightWidth: 1,
@@ -75,16 +109,12 @@ class ReferralModal extends Component {
                     fill='#899099'
                   />
                 ) : null}
-                <Text
-                  style={ReferralModalStyle.buttonsText}
-                >
-                  Share
-                </Text>
+                <Text style={ReferralModalStyle.buttonsText}>Share</Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => this.copyLink('#Refferal Link')}
+              onPress={() => this.copyLink(url)}
               style={[ReferralModalStyle.buttons, {
                 borderBottomRightRadius: 8
               }]}
@@ -99,21 +129,13 @@ class ReferralModal extends Component {
                     fill='#899099'
                   />
                 ) : null}
-                <Text
-                  style={ReferralModalStyle.buttonsText}
-                >
-                  Copy
-                </Text>
+                <Text style={ReferralModalStyle.buttonsText}>Copy</Text>
               </View>
             </TouchableOpacity>
           </View>
         </View>
 
-        <CelButton
-          onPress={() => actions.closeModal()}
-        >
-          Done
-        </CelButton>
+        <CelButton onPress={() => actions.closeModal()}>Done</CelButton>
       </CelModal>
     );
   }
