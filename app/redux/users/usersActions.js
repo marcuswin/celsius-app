@@ -49,7 +49,7 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-      mixpanelEvents.profileDetailsAdded();
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));

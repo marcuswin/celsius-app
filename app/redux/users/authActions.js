@@ -358,7 +358,6 @@ function updateUser(user) {
 }
 
 function updateUserSuccess(data) {
-  mixpanelEvents.finishedSignup('Email');
   return {
     type: ACTIONS.UPDATE_USER_SUCCESS,
     callName: API.UPDATE_USER,

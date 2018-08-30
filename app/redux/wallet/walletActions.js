@@ -3,6 +3,8 @@ import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
+import { updateMixpanelBalances } from '../../services/mixpanel';
+
 
 export function getWalletDetails() {
   return async dispatch => {
@@ -19,6 +21,11 @@ export function getWalletDetails() {
 }
 
 function getWalletDetailsSuccess(wallet) {
+  const mixpanelBalances = {};
+  wallet.data.forEach(c => {
+    mixpanelBalances[`Balance ${c.currency.short}`] = c.amount;
+  });
+  updateMixpanelBalances(mixpanelBalances);
   return {
     type: ACTIONS.GET_WALLET_DETAILS_SUCCESS,
     callName: API.GET_WALLET_DETAILS,

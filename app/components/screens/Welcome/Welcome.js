@@ -8,7 +8,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
-import { getUserTemporaryId, mixpanelEvents } from '../../../services/mixpanel'
+import { mixpanelEvents } from '../../../services/mixpanel'
 
 @connect(
   state => ({
@@ -29,8 +29,6 @@ class WelcomeScreen extends Component {
     actions.displayBottomNavigation(false);
     if (user) {
       actions.navigateTo('Home')
-    } else {
-      getUserTemporaryId()
     }
   }
 

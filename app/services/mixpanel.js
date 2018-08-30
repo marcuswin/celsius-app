@@ -18,7 +18,7 @@ export const mixpanelEvents = {
   addCoinButton: () => mixpanelAnalytics.track('Pressed add another coin button on Tracker', { email: userEmail }),
   addCoinToTracker: (coinShort) => mixpanelAnalytics.track('Coin added to Tracker', { coin: coinShort, email: userEmail }),
   // KYC Events
-  profileDetailsAdded: () => mixpanelAnalytics.track('KYC Profile details successfully added', { email: userEmail }),
+  profileDetailsAdded,
   documentsAdded: () => mixpanelAnalytics.track('KYC Documents successfully uploaded', { email: userEmail }),
   phoneVerified: () => mixpanelAnalytics.track('Phone verified', { email: userEmail }),
   KYCStarted: () => mixpanelAnalytics.track('KYC Started', { email: userEmail }),
@@ -33,6 +33,10 @@ export const mixpanelEvents = {
   estimationExplanation: () => mixpanelAnalytics.track('Pressed Loan Estimation explanation', { email: userEmail }),
 }
 
+export const updateMixpanelBalances = async function(balances) {
+  return await mixpanelAnalytics.people_set(balances);
+}
+
 export const initMixpanelUser = async function(user) {
   if (mixpanelAnalytics.userId === user.email) return;
 
@@ -43,6 +47,8 @@ export const initMixpanelUser = async function(user) {
     "$first_name": user.first_name,
     "$last_name": user.last_name,
     "$email": user.email,
+    "Created At": user.created_at,
+    Citizenship: user.citizenship,
   })
 }
 
@@ -61,6 +67,14 @@ export const registerMixpanelUser = async function(user) {
     "$first_name": user.first_name,
     "$last_name": user.last_name,
     "$email": user.email,
-    registration_date: new Date(),
+    "Created At": user.created_at,
+  })
+}
+
+async function profileDetailsAdded(profileDetails) {
+  mixpanelAnalytics.track('KYC Profile details successfully added', { email: userEmail });
+
+  await mixpanelAnalytics.people_set({
+    Citizenship: profileDetails.citizenship,
   })
 }

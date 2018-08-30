@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 import { Image, NetInfo, AppState } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
+import uuid from 'uuid';
 
 import store from './redux/store';
 import apiUtil from './utils/api-util';
@@ -12,7 +13,7 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
-import { mixpanelEvents } from './services/mixpanel';
+import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -72,6 +73,8 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getProfileInfo());
+    } else {
+      mixpanelAnalytics.identify(uuid())
     }
 
     // get user app settings
