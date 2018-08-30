@@ -1,4 +1,5 @@
 import {Constants} from 'expo';
+import Branch from 'react-native-branch';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
@@ -412,6 +413,7 @@ function logoutUser() {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       logoutMixpanelUser();
+      Branch.logout();
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,

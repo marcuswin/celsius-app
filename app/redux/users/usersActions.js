@@ -1,3 +1,5 @@
+import Branch from 'react-native-branch';
+
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
@@ -33,8 +35,10 @@ function getProfileInfo() {
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
-      await initMixpanelUser(personalInfoRes.data.profile || personalInfoRes.data);
-      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile || personalInfoRes.data));
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+      await initMixpanelUser(personalInfo);
+      Branch.setIdentity(personalInfo.email);
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
