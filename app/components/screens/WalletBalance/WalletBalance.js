@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
-import { actions as mixpanelActions } from "../../../services/mixpanel";
+import { mixpanelEvents } from "../../../services/mixpanel";
 import Card from "../../atoms/Card/Card";
 import WalletBalanceStyle from "./WalletBalance.styles";
 import formatter from "../../../utils/formatter";
@@ -58,7 +58,7 @@ class WalletBalance extends Component {
     } else {
       actions.navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
-    mixpanelActions.pressWalletCard(short);
+    mixpanelEvents.pressWalletCard(short);
   }
   // rendering methods
   render() {

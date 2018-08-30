@@ -13,7 +13,7 @@ import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
-import { actions as mixpanelActions } from "../../../services/mixpanel";
+import { mixpanelEvents } from "../../../services/mixpanel";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === 'ETH').map(c => c.toLowerCase());
 
@@ -106,7 +106,7 @@ class AddFunds extends Component {
     } else {
       actions.navigateBack();
     }
-    mixpanelActions.pressAddFunds();
+    mixpanelEvents.pressAddFunds();
   }
 
   copyAddress = (address) => {

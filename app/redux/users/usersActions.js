@@ -8,6 +8,7 @@ import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
+import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
 
 export {
   getProfileInfo,
@@ -32,6 +33,7 @@ function getProfileInfo() {
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
+      await initMixpanelUser(personalInfoRes.data.profile || personalInfoRes.data);
       dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile || personalInfoRes.data));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
@@ -47,6 +49,7 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -207,6 +210,7 @@ function verifyKYCDocs() {
         type: formData.documentType,
       });
       dispatch(createKYCDocumentsSuccess(res.data));
+      mixpanelEvents.documentsAdded();
 
       if (user.cellphone !== formData.cellphone || !user.cellphone_verified) {
         callName = API.UPDATE_USER_PERSONAL_INFO;
@@ -231,6 +235,7 @@ function verifyKYCDocs() {
 
         dispatch(NavActions.navigateTo('NoKyc'));
         dispatch(showMessage('success', 'KYC verification proccess has started!'));
+        mixpanelEvents.KYCStarted();
       }
     } catch(err) {
       console.log({ err });
@@ -254,11 +259,13 @@ function finishKYCVerification() {
       dispatch(startApiCall(API.VERIFY_SMS));
       await meService.verifySMS(formData.verificationCode);
       dispatch(verifySMSSuccess());
+      mixpanelEvents.phoneVerified();
 
       callName = API.START_KYC;
       dispatch(startApiCall(API.START_KYC));
       await meService.startKYC();
       dispatch(startKYCSuccess());
+      mixpanelEvents.KYCStarted();
 
       dispatch(NavActions.navigateTo('NoKyc'));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));

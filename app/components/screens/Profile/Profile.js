@@ -52,7 +52,7 @@ const ProfileStyle = StyleSheet.create({
 class ProfileScreen extends Component {
   componentDidMount() {
     const { user, actions } = this.props;
-    actions.getLoggedInBorrower();
+    actions.getProfileInfo();
 
     actions.initForm({
       firstName: user && user.first_name ? user.first_name : undefined,
