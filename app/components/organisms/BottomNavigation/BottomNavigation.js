@@ -7,19 +7,32 @@ import {bindActionCreators} from "redux";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as appActions from "../../../redux/actions";
-import { actions as mixpanelActions } from '../../../services/mixpanel'
+import { mixpanelEvents } from '../../../services/mixpanel'
 import {STYLES} from "../../../config/constants/style";
 
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
+import { KYC_STATUSES } from "../../../config/constants/common";
 
-const walletScreens = ['NoKyc', 'WalletLanding', 'WalletTransactions', 'WalletBalance', 'WalletDetails', 'WalletTotals', 'Home', 'AmountInput', 'ConfirmTransaction', 'TransactionDetails'];
+const walletScreens = [
+  'NoKyc',
+  'WalletLanding',
+  'WalletTransactions',
+  'WalletBalance',
+  'WalletDetails',
+  'WalletTotals',
+  'Home',
+  'AmountInput',
+  'ConfirmTransaction',
+  'TransactionDetails'
+];
 
 @connect(
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
     screenHeight: state.ui.dimensions.screenHeight,
+    user: state.users.user,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -42,9 +55,24 @@ class BottomNavigation extends Component {
 
   // lifecycle methods
   // event hanlders
+  goToScreen = (navItem) => {
+    const { actions } = this.props;
+    actions.navigateTo(navItem.screen);
+    mixpanelEvents.navigation(navItem.label);
+  }
+
+  goToHomeScreen = () => {
+    const { actions, user } = this.props;
+    actions.navigateTo('Home');
+    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+      mixpanelEvents.navigation('No KYC');
+    } else {
+      mixpanelEvents.navigation('Wallet');
+    }
+  }
   // rendering methods
   renderNavItem = (navItem) => {
-    const { activeScreen, actions } = this.props;
+    const { activeScreen } = this.props;
     const state = (navItem.active && navItem.active.indexOf(activeScreen) !== -1) || navItem.screen === activeScreen ? 'Active' : 'Inactive';
 
     const iconFill = state === 'Active' ? STYLES.PRIMARY_BLUE : '#3D4853';
@@ -53,12 +81,8 @@ class BottomNavigation extends Component {
     return (
       <TouchableOpacity
         key={ navItem.label }
-        onPress={ () => {
-          mixpanelActions.navigation(navItem.label);
-          if (state !== 'Active') {
-            actions.navigateTo(navItem.screen)
-          }
-        }}>
+        onPress={ () => this.goToScreen(navItem) }
+      >
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
             <Icon style={iconStyle} height="25" width="25" name={ navItem.icon } fill={ iconFill } />
@@ -69,9 +93,8 @@ class BottomNavigation extends Component {
     )
   }
 
-  renderWalletButton(navItem) {
-
-    const { activeScreen, actions } = this.props;
+  renderHomeButton(navItem) {
+    const { activeScreen } = this.props;
 
     const ios = walletScreens.indexOf(activeScreen) !== -1 ? 'Active' : 'Inactive';
     const state = (navItem.active && navItem.active.indexOf(activeScreen) !== -1) || navItem.screen === activeScreen ? 'Active' : 'Inactive';
@@ -79,13 +102,11 @@ class BottomNavigation extends Component {
     const iconFill = state === 'Active' ? STYLES.PRIMARY_BLUE : '#3D4853';
     const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
 
-    if(Platform.OS === 'ios') {
+    if (Platform.OS === 'ios') {
       return (
       <TouchableOpacity
-        onPress={ () => {
-          mixpanelActions.navigation('Home');
-          actions.navigateTo('Home');
-        }}>
+        onPress={ () => this.goToHomeScreen()}
+      >
         <View style={BottomNavigationStyle.wallet} >
           <View style={BottomNavigationStyle.celWrapper}>
             <View style={BottomNavigationStyle[`celsius${ios}`]}>
@@ -98,14 +119,11 @@ class BottomNavigation extends Component {
       )
     }
 
-    if(Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       return (
         <TouchableOpacity
-          key={ navItem.label }
-          onPress={ () => {
-            mixpanelActions.navigation('Home');
-            actions.navigateTo('Home');
-          }}>
+          onPress={ () => this.goToHomeScreen()}
+        >
           <View style={BottomNavigationStyle[`item${state}`]} >
             <View style={BottomNavigationStyle.iconWrapper}>
               <Icon name="CelsiusLogo" width={25} height={25} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 0}]} fill={ iconFill } />
@@ -131,7 +149,7 @@ class BottomNavigation extends Component {
       <View style={[ BottomNavigationStyle.container, styles ]}>
         { navItemsLeft.map(this.renderNavItem) }
 
-        {this.renderWalletButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens })}
+        { this.renderHomeButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens }) }
 
         { navItemsRight.map(this.renderNavItem) }
       </View>

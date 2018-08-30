@@ -8,7 +8,7 @@ import {showMessage, setFormErrors} from '../ui/uiActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { actions as mixpanelActions } from '../../services/mixpanel'
+import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
@@ -121,7 +121,7 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  mixpanelActions.startedSignup('email');
+  mixpanelEvents.startedSignup('Email');
   return async dispatch => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -143,6 +143,10 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
+  mixpanelEvents.finishedSignup('Email');
+  // register user on mixpanel
+  registerMixpanelUser(data.user);
+
   return {
     type: ACTIONS.REGISTER_USER_SUCCESS,
     callName: API.REGISTER_USER,
@@ -169,7 +173,10 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelActions.finishedSignup('oAuth');
+  mixpanelEvents.finishedSignup('Twitter');
+  // register user on mixpanel
+  registerMixpanelUser(data.user);
+
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_TWITTER_SUCCESS,
@@ -227,41 +234,11 @@ function registerUserFacebook(user) {
   }
 }
 
-function registerUserGoogle(user) {
-  return async dispatch => {
-    dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
-    try {
-      const res = await usersService.registerGoogle(user);
-      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
-      dispatch(registerUserGoogleSuccess(res.data))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
-    }
-  }
-}
-
-function loginGoogle(user) {
-  return async dispatch => {
-    dispatch(startApiCall(API.LOGIN_USER_GOOGLE));
-    try {
-      const res = await usersService.googleLogin(user);
-
-      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
-
-      const userRes = await usersService.getPersonalInfo();
-      res.data.user = userRes.data;
-
-      dispatch(loginUserGoogleSuccess(res.data))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
-    }
-  }
-}
-
 function registerUserFacebookSuccess(data) {
-  mixpanelActions.finishedSignup('oAuth');
+  mixpanelEvents.finishedSignup('Facebook');
+  // register user on mixpanel
+  registerMixpanelUser(data.user);
+
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS,
@@ -302,14 +279,50 @@ function loginUserFacebookSuccess(data) {
   }
 }
 
+function registerUserGoogle(user) {
+  return async dispatch => {
+    dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
+    try {
+      const res = await usersService.registerGoogle(user);
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
+      dispatch(registerUserGoogleSuccess(res.data))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+    }
+  }
+}
+
 function registerUserGoogleSuccess(data) {
-  mixpanelActions.finishedSignup('oAuth');
+  mixpanelEvents.finishedSignup('Google');
+  // register user on mixpanel
+  registerMixpanelUser(data.user);
+
   return (dispatch) => {
     dispatch({
       type: ACTIONS.REGISTER_USER_GOOGLE_SUCCESS,
       callName: API.REGISTER_USER_GOOGLE,
       user: data.user,
     })
+  }
+}
+
+function loginGoogle(user) {
+  return async dispatch => {
+    dispatch(startApiCall(API.LOGIN_USER_GOOGLE));
+    try {
+      const res = await usersService.googleLogin(user);
+
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
+
+      const userRes = await usersService.getPersonalInfo();
+      res.data.user = userRes.data;
+
+      dispatch(loginUserGoogleSuccess(res.data))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+    }
   }
 }
 
@@ -345,7 +358,6 @@ function updateUser(user) {
 }
 
 function updateUserSuccess(data) {
-  mixpanelActions.finishedSignup('email');
   return {
     type: ACTIONS.UPDATE_USER_SUCCESS,
     callName: API.UPDATE_USER,
@@ -399,6 +411,7 @@ function logoutUser() {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      logoutMixpanelUser();
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,

@@ -31,7 +31,7 @@ class ProfileDetails extends Component {
   constructor(props) {
     super(props);
     this.initForm();
-    props.actions.getLoggedInBorrower();
+    props.actions.getProfileInfo();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,7 +43,7 @@ class ProfileDetails extends Component {
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
       this.initForm();
-      actions.getLoggedInBorrower();
+      actions.getProfileInfo();
     }
   }
 

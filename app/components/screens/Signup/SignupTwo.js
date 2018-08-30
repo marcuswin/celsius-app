@@ -4,8 +4,6 @@ import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import isEqual from "lodash/isEqual";
-import isNil from 'lodash/isNil'
-import has from 'lodash/has'
 
 import * as appActions from "../../../redux/actions";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -17,7 +15,6 @@ import API from "../../../config/constants/API";
 import {STYLES} from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
 
-import { actions as mixpanelActions } from '../../../services/mixpanel'
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 
@@ -39,26 +36,6 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
 class SignupTwo extends Component {
   componentDidMount() {
     const { user, actions } = this.props;
-
-    const userIdTypes = {
-      facebook_id: 'Facebook',
-      twitter_id: 'Twitter',
-      google_id: 'Google',
-      id: 'email',
-    }
-
-    const userIds = Object.keys(user)
-      .filter(key => has(userIdTypes, key))
-      .reduce((obj, key) => {
-        if (!isNil(user[key])) {
-          // eslint-disable-next-line
-          obj[key] = user[key];
-        }
-        return obj;
-      }, {});
-
-    const id = userIds[Object.keys(userIds)[0]];
-    mixpanelActions.createAlias(id);
 
     actions.initForm({
       firstName: user && user.first_name ? user.first_name : undefined,

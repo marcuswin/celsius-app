@@ -10,7 +10,7 @@ import isEmpty from 'lodash/isEmpty';
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import * as appActions from "../../../redux/actions";
-import { actions as mixpanelActions } from '../../../services/mixpanel'
+import { mixpanelEvents } from '../../../services/mixpanel'
 
 import CalculatorStyle from "./Calculator.styles";
 
@@ -194,7 +194,7 @@ class Calculator extends Component {
             <TouchableOpacity
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
-                mixpanelActions.addCoinButton();
+                mixpanelEvents.addCoinButton();
                 actions.navigateTo('AddCoins');
               }}
               disabled={selectedAllCoins}

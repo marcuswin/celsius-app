@@ -10,7 +10,7 @@ import {Constants, Facebook, Google} from "expo";
 import * as appActions from "../../../redux/actions";
 import ThirdPartyLoginSectionStyle from "./ThirdPartyLoginSection.styles";
 import Icon from "../../atoms/Icon/Icon";
-import { actions as mixpanelActions } from '../../../services/mixpanel'
+import { mixpanelEvents } from '../../../services/mixpanel'
 
 const {
   GOOGLE_WEB_CLIENT_ID,
@@ -40,7 +40,7 @@ class ThirdPartyLoginSection extends Component {
   onOpenTwitter = () => {
     const { type, actions } = this.props;
     if (type === 'signup') {
-      mixpanelActions.startedSignup('oAuth');
+      mixpanelEvents.startedSignup('Twitter');
     }
     this.fakeTwitterButton.onButtonPress();
     actions.twitterOpen();
@@ -89,7 +89,7 @@ class ThirdPartyLoginSection extends Component {
         if (type === 'login') {
           actions.loginGoogle(user);
         } else {
-          mixpanelActions.startedSignup('oAuth');
+          mixpanelEvents.startedSignup('Google');
           actions.googleSuccess(user);
         }
       } else {
@@ -117,7 +117,7 @@ class ThirdPartyLoginSection extends Component {
         if (this.props.type === 'login') {
           actions.loginFacebook(user);
         } else {
-          mixpanelActions.startedSignup('oAuth');
+          mixpanelEvents.startedSignup('Facebook');
           actions.facebookSuccess(user);
         }
       }

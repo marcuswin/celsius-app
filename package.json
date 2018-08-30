@@ -42,6 +42,7 @@
     "exp": "^56.0.0",
     "expo": "29.0.0",
     "expo-env": "^1.1.1",
+    "expo-mixpanel-analytics": "0.0.7",
     "hoek": "^5.0.3",
     "immutable": "3.8.2",
     "is-base64": "0.0.4",

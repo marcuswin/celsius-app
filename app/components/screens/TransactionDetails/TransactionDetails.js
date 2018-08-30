@@ -17,7 +17,6 @@ import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
-import { actions as mixpanelActions } from "../../../services/mixpanel";
 import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
 import Triangle from "../../atoms/Triangle/Triangle";
 
@@ -43,7 +42,6 @@ class TransactionDetails extends Component {
     actions.getSupportedCurrencies();
     const transactionId = navigation.getParam('id');
     actions.getTransactionDetails(transactionId || activeTransactionId);
-    mixpanelActions.viewTransaction(transactionId || activeTransactionId);
   }
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
