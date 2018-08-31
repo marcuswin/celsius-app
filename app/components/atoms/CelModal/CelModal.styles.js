@@ -22,13 +22,20 @@ const CelModalStyle = StyleSheet.create({
     maxHeight: 0.8 * height,
     backgroundColor: 'white',
     paddingTop: 50,
-    padding: 30,
+    paddingBottom: 30,
     borderRadius: 8,
   },
   closeBtn: {
     position: 'absolute',
     top: 16,
     right: 16,
+    width: 20,
+    height: 20,
+    backgroundColor: 'white',
+  },
+  scrollView: {
+    paddingLeft: 30,
+    paddingRight: 30,
   }
 });
 

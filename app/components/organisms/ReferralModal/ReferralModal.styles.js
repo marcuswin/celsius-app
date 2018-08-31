@@ -27,6 +27,7 @@ const ReferralModalStyle = StyleSheet.create({
     borderColor: 'rgba(137,144,153,0.15)',
     borderTopLeftRadius: 4,
     borderTopRightRadius: 4,
+    borderWidth: 1,
   },
   link: {
     fontSize: FONT_SCALE * 16,

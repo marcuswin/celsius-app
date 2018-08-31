@@ -34,7 +34,7 @@ class CelModal extends Component {
             <TouchableOpacity style={CelModalStyle.closeBtn} onPress={() => actions.closeModal()}>
               <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'#3D4853'}/>
             </TouchableOpacity>
-            <ScrollView>
+            <ScrollView style={CelModalStyle.scrollView}>
               { this.props.children }
             </ScrollView>
           </View>
