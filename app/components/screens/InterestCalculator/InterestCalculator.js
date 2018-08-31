@@ -15,6 +15,7 @@ import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
+import { KYC_STATUSES } from "../../../config/constants/common";
 
 // const interestRates = {
 //   BTC: 3.75,
@@ -24,6 +25,7 @@ import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/C
 @connect(
   state => ({
     formData: state.ui.formData,
+    user: state.users.user,
     interestRates: state.interest.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -42,7 +44,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData, interestRates, actions } = this.props;
+    const { formData, interestRates, actions, user } = this.props;
 
     if (!interestRates) return (
       <EarnInterestLayout>
@@ -135,12 +137,12 @@ class InterestCalculatorScreen extends Component {
 
           <Separator margin="35 0 25 0"/>
 
-          <CelButton
+          {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse
             onPress={() => actions.navigateTo('AddFunds')}
           >
             Deposit coins
-          </CelButton>
+          </CelButton>}
         </View>
       </EarnInterestLayout>
     );
