@@ -413,7 +413,7 @@ function logoutUser() {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       logoutMixpanelUser();
-      Branch.logout();
+      if (Constants.appOwnership === 'standalone') Branch.logout();
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,

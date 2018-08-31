@@ -19,13 +19,8 @@ class CelModal extends Component {
     name: PropTypes.string,
   }
 
-  closeModal = () => {
-    console.log(this.props);
-    this.props.actions.closeModal();
-  }
-
   render() {
-    const { openedModal, name } = this.props;
+    const { openedModal, name, actions } = this.props;
 
     return (
       <Modal
@@ -36,7 +31,7 @@ class CelModal extends Component {
         <View style={CelModalStyle.backdrop} />
         <View style={CelModalStyle.wrapper}>
           <View style={CelModalStyle.modal}>
-            <TouchableOpacity style={CelModalStyle.closeBtn} onPress={this.closeModal}>
+            <TouchableOpacity style={CelModalStyle.closeBtn} onPress={() => actions.closeModal()}>
               <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'#3D4853'}/>
             </TouchableOpacity>
             <ScrollView>

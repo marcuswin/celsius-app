@@ -25,16 +25,13 @@ class ReferralModal extends Component {
     super(props);
 
     this.state = {
-      // initial state
+      url: undefined
     };
-    // binders
   }
-
   // lifecycle methods
   async componentDidMount() {
     const { user } = this.props;
     try {
-      console.log(Branch)
       const branchUniversalObject = await Branch.createBranchUniversalObject(
         `referral:${user.email}`,
         {
@@ -44,20 +41,7 @@ class ReferralModal extends Component {
         }
       )
 
-      console.log({ branchUniversalObject });
-
-      // let linkProperties = {
-      //   feature: 'share',
-      //   channel: 'facebook'
-      // }
-      //
-      // let controlParams = {
-      //   $desktop_url: 'http://desktop-url.com/monster/12345'
-      // }
-
       const { url } = await branchUniversalObject.generateShortUrl()
-
-      console.log({ url })
       this.setState({ url })
     } catch(err) {
       console.log(err);

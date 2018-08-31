@@ -1,5 +1,5 @@
 import Branch from 'react-native-branch';
-
+import { Constants } from 'expo';
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
@@ -37,7 +37,7 @@ function getProfileInfo() {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
       await initMixpanelUser(personalInfo);
-      Branch.setIdentity(personalInfo.email);
+      if (Constants.appOwnership === 'standalone') Branch.setIdentity(personalInfo.email);
       dispatch(getUserPersonalInfoSuccess(personalInfo));
     } catch(err) {
       dispatch(showMessage('error', err.msg));

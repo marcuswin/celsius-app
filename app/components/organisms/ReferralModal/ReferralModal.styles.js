@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from "react-native";
 import {FONT_SCALE, COLORS} from "../../../config/constants/style";
+
+const {width} = Dimensions.get('window');
 
 const ReferralModalStyle = StyleSheet.create({
   box: {
-    width: 200,
+    width: 0.8 * width - 180,
     height: 95,
     borderRadius: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
@@ -39,7 +41,6 @@ const ReferralModalStyle = StyleSheet.create({
   boxButtonsWrapper: {
     // flex: 1,
     flexDirection: 'row',
-    width: 200,
     height: 47,
     borderColor: 'rgba(137,144,153,0.15)',
     borderBottomLeftRadius: 4,
