@@ -45,7 +45,7 @@ const WithdrawalAddressSetInfo = ({withdrawalAddress}) => (
 
 const WithdrawalAddressNeededBox = ({value, onChange, onScanClick, coin}) => (
   <View style={TransactionConfirmationStyle.screenContentWrapper}>
-    <Text style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your ETH withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
+    <Text style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your {coin.toUpperCase()} withdrawal address is not set. Please, enter the address, or scan QR code.</Text>
     <CelForm>
       <CelInput theme="white"
                 value={value}
