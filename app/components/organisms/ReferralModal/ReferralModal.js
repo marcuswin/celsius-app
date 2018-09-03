@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Text, View, Image, Platform, TouchableOpacity, Clipboard, Share } from "react-native";
 import {connect} from 'react-redux';
-import Branch from 'react-native-branch';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
@@ -16,39 +15,33 @@ import Icon from "../../atoms/Icon/Icon";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    user: state.users.user,
+    branch: state.branch,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ReferralModal extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      url: undefined
+      url: '',
     };
   }
   // lifecycle methods
   async componentDidMount() {
-    const { user } = this.props;
     try {
-      const branchUniversalObject = await Branch.createBranchUniversalObject(
-        `referral:${user.email}`,
-        {
-          locallyIndex: true,
-          title: 'Join Celsius Madafakaaaa!',
-          contentDescription: 'HODL this Bitch!'
-        }
-      )
+      const { branch: {referralObject} } = this.props;
 
-      const { url } = await branchUniversalObject.generateShortUrl()
-      this.setState({ url })
+      if (referralObject) {
+        const { url } = await referralObject.generateShortUrl();
+
+        this.setState({ url });
+      }
     } catch(err) {
       console.log(err);
     }
   }
 
-  // event hanlders
   copyLink = (link) => {
     Clipboard.setString(link);
   };

@@ -1,5 +1,3 @@
-import Branch from 'react-native-branch';
-import { Constants } from 'expo';
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
@@ -11,6 +9,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import { initializeBranch } from "../branch/branchActions";
 
 export {
   getProfileInfo,
@@ -30,14 +29,20 @@ export {
 }
 
 function getProfileInfo() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
       await initMixpanelUser(personalInfo);
-      if (Constants.appOwnership === 'standalone') Branch.setIdentity(personalInfo.email);
+
+      const {branch} = getState();
+
+      if (!branch.initialized) {
+        dispatch(initializeBranch(personalInfo));
+      }
+
       dispatch(getUserPersonalInfoSuccess(personalInfo));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
