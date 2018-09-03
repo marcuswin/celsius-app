@@ -26,6 +26,7 @@ class CelModal extends Component {
       <Modal
         animationType="slide"
         transparent
+        onRequestClose={() => actions.closeModal()}
         visible={openedModal === name}
       >
         <View style={CelModalStyle.backdrop} />
