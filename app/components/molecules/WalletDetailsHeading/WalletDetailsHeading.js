@@ -98,8 +98,8 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton size="mini" white onPress={this.goToAddFunds}>Add funds</CelButton>
-        <CelButton size="mini" white onPress={this.goToAddFunds} inverse margin="0 0 0 15">Send</CelButton>
+        <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton width={110} size="mini" white onPress={this.goToAddFunds} inverse margin="0 0 0 15">Send</CelButton>
       </View>}
     </View>
   }
