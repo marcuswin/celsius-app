@@ -105,6 +105,31 @@ class AmountInput extends Component {
     this.updateAmount(formData.amount.substring(0, formData.amount.length - 1));
   }
 
+  /**
+   * @param {string} purpose
+   * @param {string} currency
+   * @returns {string}
+   */
+  getHeadingText = (purpose, currency) => {
+    if (purpose === 'send') {
+      return `Send ${currency ? currency.toUpperCase() : ''}`;
+    }
+
+    return `Withdraw ${currency ? currency.toUpperCase() : ''}`;
+  };
+
+  /**
+   * @param {string} purpose
+   * @returns {string}
+   */
+  getMainButtonText = (purpose) => {
+    if (purpose === 'send') {
+      return `Choose recipient`;
+    }
+
+    return `Withdraw`;
+  };
+
   switchCurrencies = () => {
     const { formData, actions } = this.props;
     actions.updateFormField('inUsd', !formData.inUsd);
@@ -119,7 +144,7 @@ class AmountInput extends Component {
     this.setState({
       decimal: formData.inUsd ? decimalForCurrency[formData.currency] : decimalForCurrency.usd,
     })
-  }
+  };
 
   updateAmount = (amount) => {
     const { formData, actions } = this.props;
@@ -130,6 +155,26 @@ class AmountInput extends Component {
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd;
     actions.updateFormField('amountCrypto', amountCrypto);
   }
+
+  handleMainButtonClick = (purpose) => {
+    if (purpose === 'send') {
+      return this.chooseRecipient;
+    }
+
+    return this.confirmTransaction;
+  };
+
+  chooseRecipient = () => {
+    const { formData: {amountCrypto, currency}, actions, navigation } = this.props;
+
+    const purpose = navigation.getParam("purpose");
+
+    actions.navigateTo('EnterPasscode', {
+      amountCrypto,
+      currency,
+      purpose,
+    });
+  };
 
   confirmTransaction = () => {
     const { formData, actions } = this.props;
@@ -144,7 +189,9 @@ class AmountInput extends Component {
 
   render() {
     const { numPad } = this.state;
-    const { formData, actions, screenHeight } = this.props;
+    const { formData, actions, screenHeight, navigation } = this.props;
+
+    const purpose = navigation.getParam("purpose");
 
     if (!formData.currency) return null;
 
@@ -165,7 +212,7 @@ class AmountInput extends Component {
           backButton
           onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
         />
-        <CelHeading text={`Withdraw ${formData.currency ? formData.currency.toUpperCase() : ''}`} />
+        <CelHeading text={this.getHeadingText(purpose, formData.currency)} />
         <Content bounces={false}>
           <View style={{ height: 0.75 * screenHeight }}>
             <View style={AmountInputStyle.inputWrapper}>
@@ -204,10 +251,10 @@ class AmountInput extends Component {
 
               <CelButton
                 disabled={!formData.amountCrypto}
-                onPress={this.confirmTransaction}
+                onPress={this.handleMainButtonClick(purpose)}
                 margin='5 36 5 36'
               >
-                Withdraw
+                {this.getMainButtonText(purpose)}
               </CelButton>
             </View>
           </View>

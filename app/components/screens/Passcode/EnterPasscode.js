@@ -12,14 +12,18 @@ import * as appActions from "../../../redux/actions";
 
 class EnterPasscode extends Component {
   render() {
-    const currency = this.props.navigation.getParam('currency');
-    const amountCrypto = this.props.navigation.getParam('amountCrypto');
-    const withdrawalAddress = this.props.navigation.getParam('withdrawalAddress');
-    const newWithdrawalAddress = this.props.navigation.getParam('newWithdrawalAddress');
+    const {navigation} = this.props;
+
+    const currency = navigation.getParam('currency');
+    const amountCrypto = navigation.getParam('amountCrypto');
+    const withdrawalAddress = navigation.getParam('withdrawalAddress');
+    const newWithdrawalAddress = navigation.getParam('newWithdrawalAddress');
+    const purpose = navigation.getParam('purpose');
 
     return <Passcode type={'enterPasscode'}
                      currency={currency}
                      amountCrypto={amountCrypto}
+                     purpose={purpose}
                      newWithdrawalAddress={newWithdrawalAddress}
                      withdrawalAddress={withdrawalAddress} />
   }

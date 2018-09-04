@@ -167,6 +167,7 @@ class TransactionConfirmation extends Component {
     actions.navigateTo('EnterPasscode', {
       amountCrypto: formData.amountCrypto,
       currency: coin,
+      purpose: 'withdraw',
       newWithdrawalAddress,
     });
   };
