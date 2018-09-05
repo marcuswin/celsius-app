@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
 import { MODALS } from "../../../config/constants/common";
 import CurrencyInterestRateInfoTable from "../CurrencyInterestRateInfoTable/CurrencyInterestRateInfoTable";
+import CelButton from "../../atoms/CelButton/CelButton";
+import CelTouchable from "../../atoms/CelTouchable/CelTouchable";
 
 // import TodayRatesModalStyle from "./TodayRatesModal.styles";
 
@@ -27,14 +29,21 @@ class TodayRatesModal extends Component {
   };
 
   render() {
-    const { appSettings: { showTodayRatesModal } } = this.props;
+    const { actions, appSettings: { showTodayRatesModal } } = this.props;
 
     return (
       <CelModal name={MODALS.TODAY_RATES_MODAL}>
         <Text>Today is a good day</Text>
         <Text>Current state: {showTodayRatesModal ? 'true' : 'false'}</Text>
         <CurrencyInterestRateInfoTable style={{marginVertical: 30,}}/>
-        <Text onPress={this.toggleRatesModal}>Toggle this</Text>
+        <CelButton onPress={() => actions.closeModal()} size="small">
+          Go to wallet
+        </CelButton>
+        <CelTouchable onPress={this.toggleRatesModal}>
+          <View>
+            <Text>Don't show this on open</Text>
+          </View>
+        </CelTouchable>
       </CelModal>
     )
   }
