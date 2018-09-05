@@ -33,7 +33,7 @@ class TodayRatesModal extends Component {
       <CelModal name={MODALS.TODAY_RATES_MODAL}>
         <Text>Today is a good day</Text>
         <Text>Current state: {showTodayRatesModal ? 'true' : 'false'}</Text>
-        <CurrencyInterestRateInfoTable/>
+        <CurrencyInterestRateInfoTable style={{marginVertical: 30,}}/>
         <Text onPress={this.toggleRatesModal}>Toggle this</Text>
       </CelModal>
     )

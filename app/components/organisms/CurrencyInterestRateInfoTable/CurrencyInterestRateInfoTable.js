@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as actions from "../../../redux/actions";
+import * as appActions from "../../../redux/actions";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
 import CurrencyInterestRateInfoTableStyle from "./CurrencyInterestRateInfoTable.styles";
 
@@ -11,11 +11,13 @@ import CurrencyInterestRateInfoTableStyle from "./CurrencyInterestRateInfoTable.
   state => ({
     interestRates: state.interest.rates
   }),
-  dispatch => bindActionCreators(actions, dispatch)
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CurrencyInterestRateInfoTable extends Component {
 
   componentDidMount() {
+    const { actions } = this.props;
+
     actions.getInterestRates();
   }
 
@@ -35,6 +37,7 @@ class CurrencyInterestRateInfoTable extends Component {
       interestArray.map(interest =>
         <CurrencyInterestRateInfo
           key={interest.currency}
+          compact
           currency={interest.currency}
           rate={`${interest.rate * 100}%`}
         />
@@ -43,8 +46,12 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 
   render() {
+    const {style} = this.props;
+
+    const additionalStyle = style || {};
+
     return (
-      <View style={CurrencyInterestRateInfoTableStyle.wrapper}>
+      <View style={[CurrencyInterestRateInfoTableStyle.wrapper, additionalStyle]}>
         {this.props.interestRates ? this.renderInterestTable() : null}
       </View>
     );
