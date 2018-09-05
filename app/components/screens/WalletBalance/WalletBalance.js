@@ -11,6 +11,7 @@ import { mixpanelEvents } from "../../../services/mixpanel";
 import Card from "../../atoms/Card/Card";
 import WalletBalanceStyle from "./WalletBalance.styles";
 import formatter from "../../../utils/formatter";
+import { MODALS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -46,6 +47,12 @@ class WalletBalance extends Component {
     }
   }
 
+  openTodayRatesModal = () => {
+    const { actions } = this.props;
+
+    actions.openModal(MODALS.TODAY_RATES_MODAL);
+  };
+
   // event hanlders
   clickCard = (short, amount) => {
     const { actions, appSettings } = this.props;
@@ -75,6 +82,7 @@ class WalletBalance extends Component {
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
             <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
+            <Text style={WalletBalanceStyle.todayRatesText} onPress={this.openTodayRatesModal}>Today's rates</Text>
           </View>
         </Card>}
         { walletCurrencies && (

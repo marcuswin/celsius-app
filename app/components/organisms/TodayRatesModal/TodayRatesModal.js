@@ -6,6 +6,7 @@ import { Text } from "react-native";
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
 import { MODALS } from "../../../config/constants/common";
+import CurrencyInterestRateInfoTable from "../CurrencyInterestRateInfoTable/CurrencyInterestRateInfoTable";
 
 // import TodayRatesModalStyle from "./TodayRatesModal.styles";
 
@@ -32,6 +33,7 @@ class TodayRatesModal extends Component {
       <CelModal name={MODALS.TODAY_RATES_MODAL}>
         <Text>Today is a good day</Text>
         <Text>Current state: {showTodayRatesModal ? 'true' : 'false'}</Text>
+        <CurrencyInterestRateInfoTable/>
         <Text onPress={this.toggleRatesModal}>Toggle this</Text>
       </CelModal>
     )

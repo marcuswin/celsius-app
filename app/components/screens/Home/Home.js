@@ -42,7 +42,7 @@ class HomeScreen extends Component {
         registerForPushNotificationsAsync();
         actions.getKYCDocTypes();
 
-        if (!displayedRatesModal && !openedModal && showTodayRatesModal) {
+        if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
           actions.showTodaysRatesModal();
         }
       }
