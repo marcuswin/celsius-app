@@ -39,7 +39,10 @@ export function getCoinAddress(coin) {
       dispatch(startApiCall(API.GET_COIN_ADDRESS));
 
       const res = await walletService.getCoinAddress(coin)
-      dispatch(getCoinAddressSuccess({ [`${coin}Address`]: res.data.wallet.address }));
+      dispatch(getCoinAddressSuccess({
+        [`${coin}Address`]: res.data.wallet.address,
+        [`${coin}AlternateAddress`]: res.data.wallet.address_alt,
+      }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_COIN_ADDRESS, err));

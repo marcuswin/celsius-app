@@ -53,6 +53,11 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
   },
+  invertedNormalText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-extra-light',
+  },
   heading: {
     color: STYLES.GRAY_2,
     fontFamily: 'agile-bold',
