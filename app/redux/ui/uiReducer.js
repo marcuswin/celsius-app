@@ -51,6 +51,7 @@ const initialState = {
   portfolioFormData: [],
   formInputLayouts: {},
   scrollLayouts: {},
+  showedTodayRatesOnOpen: false,
   openedModal: undefined,
 };
 
@@ -235,6 +236,12 @@ export default (state = initialState, action) => {
           [action.element]: layout,
         }
       }
+
+    case ACTIONS.SHOW_TODAY_RATES_MODAL:
+      return {
+        ...state,
+        showedTodayRatesOnOpen: true,
+      };
 
     case ACTIONS.OPEN_MODAL:
       return {

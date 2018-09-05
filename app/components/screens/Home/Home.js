@@ -19,6 +19,8 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
   state => ({
     nav: state.nav,
     user: state.users.user,
+    displayedRatesModal: state.ui.showedTodayRatesOnOpen,
+    openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -26,7 +28,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions } = this.props;
+    const { actions, displayedRatesModal, openedModal } = this.props;
 
     try {
       // get user token
@@ -38,6 +40,10 @@ class HomeScreen extends Component {
         // Anything beyond this point is considered as the user has logged in.
         registerForPushNotificationsAsync();
         actions.getKYCDocTypes();
+
+        if (!displayedRatesModal && !openedModal) {
+          actions.showTodaysRatesModal();
+        }
       }
     } catch(err) {
       console.log(err);

@@ -41,4 +41,5 @@ export const CAMERA_COPY = {
 
 export const MODALS = {
   REFERRAL_MODAL: 'REFERRAL_MODAL',
-}
+  TODAY_RATES_MODAL: 'TODAY_RATES_MODAL',
+};
