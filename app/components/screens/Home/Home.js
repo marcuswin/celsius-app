@@ -20,6 +20,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     nav: state.nav,
     user: state.users.user,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
+    appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
   }),
@@ -28,7 +29,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, displayedRatesModal, openedModal } = this.props;
+    const { actions, displayedRatesModal, openedModal, appSettings: { showTodayRatesModal } } = this.props;
 
     try {
       // get user token
@@ -41,7 +42,7 @@ class HomeScreen extends Component {
         registerForPushNotificationsAsync();
         actions.getKYCDocTypes();
 
-        if (!displayedRatesModal && !openedModal) {
+        if (!displayedRatesModal && !openedModal && showTodayRatesModal) {
           actions.showTodaysRatesModal();
         }
       }
