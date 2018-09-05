@@ -22,8 +22,14 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
     const walletAddresses = {};
 
     possibleAddresses.forEach(pa => {
-      walletAddresses[pa] = state.wallet.addresses[`${pa}Address`];
-    })
+      walletAddresses[pa] = {
+        address: state.wallet.addresses[`${pa}Address`],
+        alternateAddress: state.wallet.addresses[`${pa}AlternateAddress`],
+      };
+    });
+    // possibleAddresses.forEach(pa => {
+    //   walletAddresses[pa] = state.wallet.addresses[`${pa}Address`];
+    // })
 
     return {
       formData: state.ui.formData,
@@ -48,7 +54,10 @@ class AddFunds extends Component {
       }
     })
 
-    this.state = { pickerItems };
+    this.state = {
+      pickerItems,
+      useAlternateAddress: false,
+    };
   }
 
   // lifecycle methods
@@ -74,12 +83,14 @@ class AddFunds extends Component {
   getAddress = (currency) => {
     const { actions, walletAddresses } = this.props;
 
-    if (!walletAddresses[currency] && currency !== 'eth') {
+    console.log()
+
+    if ((!walletAddresses[currency] || !walletAddresses[currency].address) && currency !== 'eth') {
       actions.getCoinAddress(currency)
     }
 
     // get erc20 token address
-    if (!walletAddresses.eth && cryptoUtil.isERC20(currency)) {
+    if ((!walletAddresses.eth || !walletAddresses.eth.address) && cryptoUtil.isERC20(currency)) {
       actions.getCoinAddress("eth");
     }
   };
@@ -89,9 +100,24 @@ class AddFunds extends Component {
   setAddress = (currency) => {
     if (currency) {
       const { walletAddresses } = this.props;
-      const address = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
-      return address;
+      const { useAlternateAddress } = this.state;
+
+      const cryptoAddress = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
+
+      if (useAlternateAddress && !!cryptoAddress.alternateAddress) {
+        return cryptoAddress.alternateAddress;
+      }
+
+      return cryptoAddress.address;
     }
+  };
+
+  switchAlternateAddress = () => {
+    const { useAlternateAddress } = this.state;
+
+    this.setState({
+      useAlternateAddress: !useAlternateAddress
+    });
   };
 
   goBack = () => {
@@ -116,18 +142,21 @@ class AddFunds extends Component {
   };
 
   render() {
-    const { pickerItems } = this.state;
+    const { pickerItems, useAlternateAddress } = this.state;
     const { formData, navigation, actions } = this.props;
 
     const navCurrency = navigation.getParam("currency");
     let address;
     let headingText;
+    let currentCurrency;
     if (navCurrency) {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
+      currentCurrency = navCurrency.toLowerCase();
     } else {
       address = this.setAddress(formData.currency);
       headingText = "Add funds";
+      currentCurrency = formData.currency;
     }
 
     return (
@@ -219,6 +248,18 @@ class AddFunds extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        {currentCurrency.toLowerCase() === 'ltc' && <View style={AddFundsStyle.alternateAddressWrapper}>
+          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't support {useAlternateAddress ? '3' : 'M'}-format addresses you can use a {useAlternateAddress ? 'M' : '3'}-format LTC address.</Text>
+          <CelButton
+            white
+            size="small"
+            onPress={this.switchAlternateAddress}
+            margin='0 10 0 10'
+          >
+            Use {useAlternateAddress ? 'M' : '3'}-format address
+          </CelButton>
+        </View>}
 
         <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn} onPress={() => actions.navigateTo('SecureTransactions', { currency: navCurrency })}>
           <Icon

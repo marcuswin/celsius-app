@@ -109,7 +109,21 @@ const AddFundsStyle = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
-  }
+  },
+  alternateAddressWrapper: {
+    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.12)',
+    borderRadius: 10,
+    marginTop: 30,
+    marginVertical: 10,
+  },
+  alternateAddressText: {
+    fontFamily: 'agile-light',
+    fontSize: FONT_SCALE * 16,
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 20,
+  },
 });
 
 export default AddFundsStyle;
