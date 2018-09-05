@@ -82,7 +82,6 @@ class WalletBalance extends Component {
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
             <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
-            <Text style={WalletBalanceStyle.todayRatesText} onPress={this.openTodayRatesModal}>Today's rates</Text>
           </View>
         </Card>}
         { walletCurrencies && (

@@ -43,7 +43,7 @@ class HomeScreen extends Component {
         actions.getKYCDocTypes();
 
         if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
-          actions.showTodaysRatesModal();
+          // actions.showTodaysRatesModal();
         }
       }
     } catch(err) {
