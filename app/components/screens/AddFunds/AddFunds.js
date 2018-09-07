@@ -249,7 +249,7 @@ class AddFunds extends Component {
           </View>
         </View>
 
-        {currentCurrency.toLowerCase() === 'ltc' && <View style={AddFundsStyle.alternateAddressWrapper}>
+        {(currentCurrency && currentCurrency.toLowerCase() === 'ltc') && <View style={AddFundsStyle.alternateAddressWrapper}>
           <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't support {useAlternateAddress ? '3' : 'M'}-format addresses you can use a {useAlternateAddress ? 'M' : '3'}-format LTC address.</Text>
           <CelButton
             white
