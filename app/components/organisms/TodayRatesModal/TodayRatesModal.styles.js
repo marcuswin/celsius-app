@@ -5,7 +5,6 @@ const TodayRatesModalStyle = StyleSheet.create({
   modalHeadingWrapper: {
     paddingVertical: 20,
     backgroundColor: STYLES.GRAY_1,
-    marginHorizontal: -30,
     alignItems: 'center',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,

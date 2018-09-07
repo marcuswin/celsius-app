@@ -32,27 +32,29 @@ class TodayRatesModal extends Component {
     const { actions, appSettings: { showTodayRatesModal } } = this.props;
 
     return (
-      <CelModal name={MODALS.TODAY_RATES_MODAL} modalStyle={{paddingTop:0,paddingBottom: 20,}}>
+      <CelModal name={MODALS.TODAY_RATES_MODAL} modalStyle={{paddingTop:0,paddingBottom: 20,}} contentStyle={{paddingLeft: 0, paddingRight: 0,}}>
         <View style={TodayRatesModalStyle.modalHeadingWrapper}>
           <Text style={TodayRatesModalStyle.mainHeadingText}>HODL</Text>
           <Text style={TodayRatesModalStyle.secondaryHeadingText}>with Celsius</Text>
         </View>
-        <View style={TodayRatesModalStyle.descriptionWrapper}>
-          <Text style={TodayRatesModalStyle.descriptionTitleText}>Today's interest rates</Text>
-          <Text style={TodayRatesModalStyle.descriptionText}>Deposit coins to your wallet now to start earning at these rates: </Text>
-        </View>
-        <CurrencyInterestRateInfoTable style={{marginVertical: 20,}}/>
-        <CelButton onPress={() => actions.closeModal()} size="small">
-          Go to wallet
-        </CelButton>
-        <View style={TodayRatesModalStyle.checkboxWrapper}>
-          <CelCheckbox
-            theme='blue'
-            size="small"
-            label="Don't show this on open"
-            value={!showTodayRatesModal}
-            onChange={this.toggleRatesModal}
-          />
+        <View style={{paddingLeft: 30, paddingRight: 30,}}>
+          <View style={TodayRatesModalStyle.descriptionWrapper}>
+            <Text style={TodayRatesModalStyle.descriptionTitleText}>Today's interest rates</Text>
+            <Text style={TodayRatesModalStyle.descriptionText}>Deposit coins to your wallet now to start earning at these rates: </Text>
+          </View>
+          <CurrencyInterestRateInfoTable style={{marginVertical: 20,}}/>
+          <CelButton onPress={() => actions.closeModal()} size="small">
+            Go to wallet
+          </CelButton>
+          <View style={TodayRatesModalStyle.checkboxWrapper}>
+            <CelCheckbox
+              theme='blue'
+              size="small"
+              label="Don't show this on open"
+              value={!showTodayRatesModal}
+              onChange={this.toggleRatesModal}
+            />
+          </View>
         </View>
       </CelModal>
     )
