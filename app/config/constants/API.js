@@ -54,4 +54,6 @@ export default {
 
   // interest api calls
   GET_INTEREST_RATES: 'GET_INTEREST_RATES',
+  GET_INTEREST_CHART_DATA: 'GET_INTEREST_CHART_DATA'
+
 }

@@ -41,6 +41,7 @@ import WalletBalanceScreen from "../components/screens/WalletBalance/WalletBalan
 import WalletTransactionsScreen from "../components/screens/WalletTransactions/WalletTransactions";
 import InterestCalculatorScreen from "../components/screens/InterestCalculator/InterestCalculator";
 import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/HowToEarnInterest";
+import WalletInterestScreen from "../components/screens/WalletInterest/WalletInterest";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -199,6 +200,10 @@ const Navigator = createStackNavigator({
   HowToEarnInterest: {
     screen: HowToEarnInterestScreen,
     title: 'HowToEarnInterest',
+  },
+  WalletInterest: {
+    screen: WalletInterestScreen,
+    title: 'WalletInterest',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

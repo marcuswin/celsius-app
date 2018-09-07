@@ -22,8 +22,8 @@ function calcFontScale() {
 export const COLORS = {
   blue: '#4156A6',
   green: '#4FB895',
-  pink: '#A866AA',
   yellow: '#E19F30',
+  pink: '#A866AA',
   gray: '#899099',
   gray2: '#3D4853',
 }
@@ -261,4 +261,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/wallet-emptystate-ftux3x.png'),
   require('../../../assets/images/deer-confused3x.png'),
   require('../../../assets/images/frenchy.png'),
+  require('../../../assets/images/interest-illu.png'),
 ];

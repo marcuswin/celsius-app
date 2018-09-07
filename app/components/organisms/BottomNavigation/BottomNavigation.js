@@ -21,6 +21,7 @@ const walletScreens = [
   'WalletBalance',
   'WalletDetails',
   'WalletTotals',
+  'WalletInterest',
   'Home',
   'AmountInput',
   'ConfirmTransaction',

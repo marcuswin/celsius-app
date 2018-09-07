@@ -6,6 +6,7 @@ import { apiError, startApiCall } from "../api/apiActions";
 
 export {
   getInterestRates,
+  getInterestChartData
 }
 
 function getInterestRates() {
@@ -28,5 +29,28 @@ function getInterestRatesSuccess(interestRates) {
     type: ACTIONS.GET_INTEREST_RATES_SUCCESS,
     callName: API.GET_INTEREST_RATES,
     interestRates,
+  }
+}
+
+
+function getInterestChartData(interval) {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_INTEREST_CHART_DATA));
+    try {
+      const res = await interestService.getInterestChartData(interval);
+      const chartData = res.data;
+      dispatch(getInterestChartDataSuccess(chartData));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_INTEREST_CHART_DATA, err));
+    }
+  }
+}
+
+function getInterestChartDataSuccess(chartData) {
+  return {
+    type: ACTIONS.GET_INTEREST_CHART_DATA_SUCCESS,
+    callName: API.GET_INTEREST_CHART_DATA,
+    chartData,
   }
 }
