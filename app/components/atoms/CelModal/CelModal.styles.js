@@ -31,7 +31,8 @@ const CelModalStyle = StyleSheet.create({
     right: 16,
     width: 20,
     height: 20,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
+    zIndex: 10,
   },
   scrollView: {
     paddingLeft: 30,

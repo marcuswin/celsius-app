@@ -32,10 +32,16 @@ class TodayRatesModal extends Component {
     const { actions, appSettings: { showTodayRatesModal } } = this.props;
 
     return (
-      <CelModal name={MODALS.TODAY_RATES_MODAL}>
-        <Text>Today is a good day</Text>
-        <Text>Current state: {showTodayRatesModal ? 'true' : 'false'}</Text>
-        <CurrencyInterestRateInfoTable style={{marginVertical: 30,}}/>
+      <CelModal name={MODALS.TODAY_RATES_MODAL} modalStyle={{paddingTop:0,paddingBottom: 20,}}>
+        <View style={TodayRatesModalStyle.modalHeadingWrapper}>
+          <Text style={TodayRatesModalStyle.mainHeadingText}>HODL</Text>
+          <Text style={TodayRatesModalStyle.secondaryHeadingText}>with Celsius</Text>
+        </View>
+        <View style={TodayRatesModalStyle.descriptionWrapper}>
+          <Text style={TodayRatesModalStyle.descriptionTitleText}>Today's interest rates</Text>
+          <Text style={TodayRatesModalStyle.descriptionText}>Deposit coins to your wallet now to start earning at these rates: </Text>
+        </View>
+        <CurrencyInterestRateInfoTable style={{marginVertical: 20,}}/>
         <CelButton onPress={() => actions.closeModal()} size="small">
           Go to wallet
         </CelButton>

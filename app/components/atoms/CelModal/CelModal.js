@@ -20,7 +20,9 @@ class CelModal extends Component {
   }
 
   render() {
-    const { openedModal, name, actions } = this.props;
+    const { openedModal, name, actions, modalStyle } = this.props;
+
+    const additionalModalStyle = modalStyle || {};
 
     return (
       <Modal
@@ -31,7 +33,7 @@ class CelModal extends Component {
       >
         <View style={CelModalStyle.backdrop} />
         <View style={CelModalStyle.wrapper}>
-          <View style={CelModalStyle.modal}>
+          <View style={[CelModalStyle.modal, additionalModalStyle]}>
             <TouchableOpacity style={CelModalStyle.closeBtn} onPress={() => actions.closeModal()}>
               <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'#3D4853'}/>
             </TouchableOpacity>
