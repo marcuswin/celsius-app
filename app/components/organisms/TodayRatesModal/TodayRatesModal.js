@@ -8,9 +8,9 @@ import CelModal from "../../atoms/CelModal/CelModal";
 import { MODALS } from "../../../config/constants/common";
 import CurrencyInterestRateInfoTable from "../CurrencyInterestRateInfoTable/CurrencyInterestRateInfoTable";
 import CelButton from "../../atoms/CelButton/CelButton";
-import CelTouchable from "../../atoms/CelTouchable/CelTouchable";
+import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 
-// import TodayRatesModalStyle from "./TodayRatesModal.styles";
+import TodayRatesModalStyle from "./TodayRatesModal.styles";
 
 @connect(
   state => ({
@@ -39,11 +39,15 @@ class TodayRatesModal extends Component {
         <CelButton onPress={() => actions.closeModal()} size="small">
           Go to wallet
         </CelButton>
-        <CelTouchable onPress={this.toggleRatesModal}>
-          <View>
-            <Text>Don't show this on open</Text>
-          </View>
-        </CelTouchable>
+        <View style={TodayRatesModalStyle.checkboxWrapper}>
+          <CelCheckbox
+            theme='blue'
+            size="small"
+            label="Don't show this on open"
+            value={!showTodayRatesModal}
+            onChange={this.toggleRatesModal}
+          />
+        </View>
       </CelModal>
     )
   }
