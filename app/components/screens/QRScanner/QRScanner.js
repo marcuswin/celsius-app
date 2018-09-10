@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import { BarCodeScanner, Permissions } from 'expo';
-import connect from "react-redux/es/connect/connect";
+import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";

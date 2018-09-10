@@ -7,10 +7,11 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
-import { actions as mixpanelActions } from "../../../services/mixpanel";
+import { mixpanelEvents } from "../../../services/mixpanel";
 import Card from "../../atoms/Card/Card";
 import WalletBalanceStyle from "./WalletBalance.styles";
 import formatter from "../../../utils/formatter";
+import { MODALS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -46,6 +47,12 @@ class WalletBalance extends Component {
     }
   }
 
+  openTodayRatesModal = () => {
+    const { actions } = this.props;
+
+    actions.openModal(MODALS.TODAY_RATES_MODAL);
+  };
+
   // event hanlders
   clickCard = (short, amount) => {
     const { actions, appSettings } = this.props;
@@ -58,16 +65,16 @@ class WalletBalance extends Component {
     } else {
       actions.navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
-    mixpanelActions.pressWalletCard(short);
+    mixpanelEvents.pressWalletCard(short);
   }
   // rendering methods
   render() {
     const { walletCurrencies, supportedCurrencies, interest } = this.props;
 
-    const lastInterestPerCoin = interest.last || {};
+    const estimatedInterestPerCoin = interest.estimate || {};
     const totalInterestPerCoin = interest.total || {};
 
-    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + total.amount_usd, 0);
+    const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
     return (
       <WalletLayout>
@@ -75,6 +82,7 @@ class WalletBalance extends Component {
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
             <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
+            <Text style={WalletBalanceStyle.todayRatesText} onPress={this.openTodayRatesModal}>Today's rates</Text>
           </View>
         </Card>}
         { walletCurrencies && (
@@ -88,7 +96,7 @@ class WalletBalance extends Component {
                   <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
                     <CoinCard type="wallet-card" {...item}
                               supportedCurrencies={supportedCurrencies}
-                              lastInterest={lastInterestPerCoin[item.currency.short.toUpperCase()]}/>
+                              lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}/>
                   </TouchableOpacity>
                   </Body>
                 </ListItem>}

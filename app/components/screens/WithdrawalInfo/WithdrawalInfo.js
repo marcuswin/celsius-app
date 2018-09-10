@@ -48,7 +48,7 @@ class WithdrawalInfo extends Component {
           <CelButton
             white
             margin="20 30 20 30"
-            onPress={() => actions.navigateTo('AmountInput')}
+            onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
           </CelButton>

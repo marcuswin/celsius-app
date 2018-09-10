@@ -40,7 +40,7 @@ class CelButton extends Component {
   };
 
   getButtonStyles() {
-    const { disabled, color, size, transparent, inverse, white, margin } = this.props;
+    const { disabled, color, size, transparent, inverse, white, margin, width } = this.props;
     const buttonStyles = [CelButtonStyles.baseButton];
 
     buttonStyles.push(CelButtonStyles[`${color}Button`]);
@@ -52,6 +52,8 @@ class CelButton extends Component {
     if (white) buttonStyles.push(CelButtonStyles.whiteButton);
     if (inverse && white) buttonStyles.push(CelButtonStyles.inverseButton);
     if (disabled) buttonStyles.push(CelButtonStyles.disabledButton);
+
+    if (width) buttonStyles.push({width,});
 
     return buttonStyles;
   }

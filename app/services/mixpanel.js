@@ -1,73 +1,80 @@
-import { AsyncStorage } from 'react-native';
-import axios from 'axios'
 import uuid from 'uuid'
-import base64 from 'base-64'
-import get from 'lodash/get'
 import { Constants } from 'expo';
+import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
 
-import store from '../redux/store';
-
-const urlRoot = "http://api.mixpanel.com";
 const { MIXPANEL_TOKEN } = Constants.manifest.extra;
 
-const sendEvent = async function(name, props = {}) {
-  try {
-    const user = get(store.getState().users, 'user', null);
-    const databaseId = user && (user.id || user.facebook_id || user.google_id || user.twitter_id);
-    const temporaryId = await getUserTemporaryId();
-    const id = (name === "$create_alias") ? temporaryId : (databaseId || temporaryId);
+export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
 
-    const data = {
-      "event": `${name}`,
-      "properties": {
-        "token": MIXPANEL_TOKEN,
-        "distinct_id": id,
-        ...props,
-      }
-    };
+let userEmail;
 
-    const encodedData = base64.encode((JSON.stringify(data)));
-    const url = `${urlRoot}/track/?data=${encodedData}`;
-    return axios.get(`${url}`);
-  } catch (e) {
-    return;
-  }
+export const mixpanelEvents = {
+  createAlias: (userId) => mixpanelAnalytics.track('$create_alias', { 'alias': userId, email: userEmail }),
+  // Signup Events
+  signupButton: () => mixpanelAnalytics.track('Pressed sign up button', { email: userEmail }),
+  startedSignup: (method) => mixpanelAnalytics.track('Started sign up', { method, email: userEmail }),
+  finishedSignup: (method) => mixpanelAnalytics.track('Finished sign up', { method, email: userEmail }),
+  // Tracker Events
+  addCoinButton: () => mixpanelAnalytics.track('Pressed add another coin button on Tracker', { email: userEmail }),
+  addCoinToTracker: (coinShort) => mixpanelAnalytics.track('Coin added to Tracker', { coin: coinShort, email: userEmail }),
+  // KYC Events
+  profileDetailsAdded,
+  documentsAdded: () => mixpanelAnalytics.track('KYC Documents successfully uploaded', { email: userEmail }),
+  phoneVerified: () => mixpanelAnalytics.track('Phone verified', { email: userEmail }),
+  KYCStarted: () => mixpanelAnalytics.track('KYC Started', { email: userEmail }),
+  // Wallet Events
+  pressWalletCard: (coinShort) => mixpanelAnalytics.track('Pressed wallet card', { coin: coinShort.toUpperCase(), email: userEmail }),
+  pressAddFunds: () => mixpanelAnalytics.track('Funds added', { email: userEmail }),
+  confirmWithdraw: ({ amountUsd, amountCrypto, currency }) => mixpanelAnalytics.track('Withdraw complete', { amountUsd, amountCrypto, currency, email: userEmail }),
+  // Other Events
+  changeTab: (tab) => mixpanelAnalytics.track(`Changed tab to ${tab}`, { email: userEmail }),
+  openApp: () => mixpanelAnalytics.track('App opened', { email: userEmail }),
+  navigation: (screenName) => mixpanelAnalytics.track(`Navigated to ${ screenName }`, { email: userEmail }),
+  estimationExplanation: () => mixpanelAnalytics.track('Pressed Loan Estimation explanation', { email: userEmail }),
 }
 
-const SetUserTemporaryId = () => {
-  const id = uuid();
-  AsyncStorage.setItem('UserTemporaryId', id);
-  return id;
+export const updateMixpanelBalances = async function(balances) {
+  return await mixpanelAnalytics.people_set(balances);
 }
 
-/* eslint-disable */
+export const initMixpanelUser = async function(user) {
+  if (mixpanelAnalytics.userId === user.email) return;
 
-export const getUserTemporaryId = async function() {
-  try {
-    const temporaryId = await AsyncStorage.getItem('UserTemporaryId');
-    if (temporaryId != null){
-      return temporaryId;
-    } else {
-      SetUserTemporaryId();
-    }
-  } catch (error) {
-    SetUserTemporaryId();
-  }
+  mixpanelAnalytics.identify(user.email);
+  userEmail = user.email;
+
+  await mixpanelAnalytics.people_set({
+    "$first_name": user.first_name,
+    "$last_name": user.last_name,
+    "$email": user.email,
+    "Created At": user.created_at,
+    Citizenship: user.citizenship,
+  })
 }
 
-/* eslint-enable  */
+export const logoutMixpanelUser = async function() {
+  userEmail = undefined;
+  mixpanelAnalytics.identify(uuid());
+}
 
-export const actions = {
-  signupButton: () => sendEvent('Pressed sign up button'),
-  startedSignup: (method) => sendEvent(`Started sign up with ${method}`),
-  finishedSignup: (method) => sendEvent(`Finished sign up with ${method}`),
-  createAlias: (userId) => sendEvent("$create_alias", {"alias": userId}),
-  addCoinButton: () => sendEvent('Pressed add another coin button'),
-  saveCoinButton: () => sendEvent('Pressed save coin button'),
-  navigation: (screenName) => sendEvent(`Pressed navigation - ${screenName}`),
-  estimationExplanation: () => sendEvent(`Pressed estimation explanation`),
-  pressWalletCard: (coinShort) => sendEvent(`Pressed ${coinShort.toUpperCase()} =wallet card`),
-  pressAddFunds: () => sendEvent(`Funds added`),
-  confirmWithdraw: (amount, coin) => sendEvent(`Withdrawn ${amount} ${coin.toUpperCase()}`),
-  viewTransaction: (txId) => sendEvent(`Viewed transaction ${txId}`),
+export const registerMixpanelUser = async function(user) {
+  await mixpanelEvents.createAlias(user.email);
+
+  mixpanelAnalytics.identify(user.email);
+  userEmail = user.email;
+
+  await mixpanelAnalytics.people_set({
+    "$first_name": user.first_name,
+    "$last_name": user.last_name,
+    "$email": user.email,
+    "Created At": user.created_at,
+  })
+}
+
+async function profileDetailsAdded(profileDetails) {
+  mixpanelAnalytics.track('KYC Profile details successfully added', { email: userEmail });
+
+  await mixpanelAnalytics.people_set({
+    Citizenship: profileDetails.citizenship,
+  })
 }

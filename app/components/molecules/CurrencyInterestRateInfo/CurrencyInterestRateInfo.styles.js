@@ -13,6 +13,10 @@ const CurrencyInterestRateInfoStyle = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 15,
   },
+  mainWrapperCompact: {
+    borderTopWidth: 0,
+    marginVertical: 0,
+  },
   imageWrapper: {
     width: currencyImageSize,
     height: currencyImageSize,

@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const WalletBalanceStyle = StyleSheet.create({
   card: {
     paddingTop: 10,
     paddingLeft: 16,
     paddingRight: 16,
-    // paddingBottom: 10,
+    position: 'relative',
   },
   totalInterestLabel: {
     color: '#3D4853',
@@ -20,6 +20,13 @@ const WalletBalanceStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 29,
     color: '#3D4853',
     fontFamily: 'agile-medium',
+  },
+  todayRatesText: {
+    position: 'absolute',
+    bottom: 13,
+    right: 16,
+    fontSize: FONT_SCALE * 16,
+    color: STYLES.PRIMARY_BLUE,
   }
 });
 

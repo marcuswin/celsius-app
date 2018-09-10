@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import Icon from "../../atoms/Icon/Icon";
-import { actions as mixpanelActions } from '../../../services/mixpanel'
+import { mixpanelEvents } from '../../../services/mixpanel'
 import AccordionStyles from "./Accordion.styles";
 import * as appActions from "../../../redux/actions";
 
@@ -35,7 +35,7 @@ class Accordion extends Component {
     const { isExpanded } = this.state;
     const { actions, name } = this.props;
     if (!isExpanded) {
-      mixpanelActions.estimationExplanation()
+      mixpanelEvents.estimationExplanation()
     }
     if (!isExpanded) actions.scrollTo({ accordion: name })
     this.setState({ isExpanded: !isExpanded })

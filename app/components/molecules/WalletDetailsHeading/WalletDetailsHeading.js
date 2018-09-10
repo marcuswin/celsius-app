@@ -68,7 +68,15 @@ class WalletDetailsHeading extends Component {
     } else {
       actions.navigateTo('AddFunds', { currency: currency.toLowerCase() })
     }
-  }
+  };
+
+  goToSend = () => {
+    const { actions, currency } = this.props;
+    actions.initForm({
+      currency: currency.toLowerCase(),
+    });
+    actions.navigateTo('AmountInput', { purpose: 'send' });
+  };
 
   render() {
     const { currency, type, walletTotal, walletCurrencies } = this.props;
@@ -98,7 +106,7 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton size="mini" white onPress={this.goToAddFunds}>Add funds</CelButton>
+        <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
       </View>}
     </View>
   }

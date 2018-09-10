@@ -3,6 +3,8 @@ import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
+import { updateMixpanelBalances } from '../../services/mixpanel';
+
 
 export function getWalletDetails() {
   return async dispatch => {
@@ -19,6 +21,11 @@ export function getWalletDetails() {
 }
 
 function getWalletDetailsSuccess(wallet) {
+  const mixpanelBalances = {};
+  wallet.data.forEach(c => {
+    mixpanelBalances[`Balance ${c.currency.short}`] = c.amount;
+  });
+  updateMixpanelBalances(mixpanelBalances);
   return {
     type: ACTIONS.GET_WALLET_DETAILS_SUCCESS,
     callName: API.GET_WALLET_DETAILS,
@@ -32,7 +39,10 @@ export function getCoinAddress(coin) {
       dispatch(startApiCall(API.GET_COIN_ADDRESS));
 
       const res = await walletService.getCoinAddress(coin)
-      dispatch(getCoinAddressSuccess({ [`${coin}Address`]: res.data.wallet.address }));
+      dispatch(getCoinAddressSuccess({
+        [`${coin}Address`]: res.data.wallet.address,
+        [`${coin}AlternateAddress`]: res.data.wallet.address_alt,
+      }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_COIN_ADDRESS, err));
@@ -93,7 +103,7 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {string} address
  * @param {number} amount
  */
-export function setCoingWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
+export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
   let currentApiCall;
 
   return async (dispatch, getState) => {

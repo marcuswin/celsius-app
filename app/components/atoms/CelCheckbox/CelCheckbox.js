@@ -1,9 +1,11 @@
 import React from 'react';
 import {Platform} from "react-native";
 import CheckBox from 'react-native-checkbox';
+import { STYLES } from "../../../config/constants/style";
 
-const labelStyle = { color: '#ffffff', fontSize: 16, fontFamily: 'agile-light' };
-const checkboxStyle = {
+const whiteLabelStyle = { color: '#ffffff', fontSize: 16, fontFamily: 'agile-light' };
+const blueLabelStyle = { color: STYLES.GRAY_2, fontSize: 14, fontFamily: 'agile-light' };
+const whiteCheckboxStyle = {
   backgroundColor: 'rgba(255,255,255,0.05)',
   resizeMode: 'center',
   height: 36,
@@ -11,8 +13,26 @@ const checkboxStyle = {
   borderRadius: 5
 };
 
-const checkboxStyleActive = {
+const whiteCheckboxStyleActive = {
   backgroundColor: 'rgba(255,255,255,0.35)',
+  resizeMode: 'center',
+  height: 36,
+  width: 36,
+  borderRadius: 5
+};
+
+const blueCheckboxStyle = {
+  borderColor: 'rgba(65,86,166,1)',
+  borderWidth: 2,
+  resizeMode: 'center',
+  height: 36,
+  width: 36,
+  borderRadius: 5
+};
+
+const blueCheckboxStyleActive = {
+  borderColor: 'rgba(65,86,166,1)',
+  backgroundColor: 'rgba(65,86,166,1)',
   resizeMode: 'center',
   height: 36,
   width: 36,
@@ -23,7 +43,20 @@ const checkedImage = Platform.OS === 'ios' ? require('../../../../assets/images/
 
 const CelCheckbox = (props) => {
 
-  const boxStyle = props.value ? checkboxStyleActive : checkboxStyle;
+  let boxStyle = props.value ? whiteCheckboxStyleActive : whiteCheckboxStyle;
+  let labelStyle = whiteLabelStyle;
+
+  if (props.theme === 'blue') {
+    boxStyle = props.value ? blueCheckboxStyleActive : blueCheckboxStyle;
+    labelStyle = blueLabelStyle;
+  }
+
+  if (props.size === 'small') {
+    boxStyle.width = 20;
+    boxStyle.height = 20;
+    boxStyle.borderWidth = 2;
+    boxStyle.resizeMode = 'contain';
+  }
 
   return (
     <CheckBox

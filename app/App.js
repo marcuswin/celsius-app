@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Asset, AppLoading, Font, Constants} from 'expo';
+import { Asset, AppLoading, Font, Constants } from 'expo';
+import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, AsyncStorage, NetInfo } from 'react-native';
+import { Image, NetInfo, AppState } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
+import uuid from 'uuid';
 
 import store from './redux/store';
 import apiUtil from './utils/api-util';
@@ -12,14 +14,14 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
+import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
+  Sentry.enableInExpoDevelopment = true;
   Sentry.config(SENTRY_DSN).install();
 }
-
-AsyncStorage.removeItem('UserTemporaryId'); // reset temporary user id for mixpanel tracking
 
 // Initialize axios interceptors
 apiUtil.initInterceptors();
@@ -52,6 +54,14 @@ function handleConnectivityChange(isConnected) {
   store.dispatch(actions.setInternetConnectivity(isConnected));
 }
 
+function handleDeepLink(deepLink) {
+  if (!deepLink || !deepLink['+clicked_branch_link']) {
+    return;
+  }
+
+  store.dispatch(actions.registerBranchLink(deepLink));
+}
+
 export default class App extends Component {
   // Init Application
   static async initApp() {
@@ -72,30 +82,46 @@ export default class App extends Component {
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
     if (token) {
-      await store.dispatch(actions.getLoggedInBorrower());
+      await store.dispatch(actions.getProfileInfo());
+    } else {
+      mixpanelAnalytics.identify(uuid())
     }
 
-    // gete user app setting
+    // get user app settings
     const appSettings = await getSecureStoreKey('APP_SETTINGS');
     if (appSettings) {
       store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
     }
 
-    store.dispatch(actions.getSupportedCurrencies())
+    // get general data for te app
+    await store.dispatch(actions.getSupportedCurrencies())
+    await store.dispatch(actions.getBackendStatus())
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-
-    await store.dispatch(actions.getSupportedCurrencies());
 
     const initialConnection = await NetInfo.isConnected.fetch();
 
     handleConnectivityChange(initialConnection);
 
+    try {
+      Branch.subscribe((deepLink) => {
+        if (deepLink.error || !deepLink.params) {
+          return;
+        }
+
+        handleDeepLink(deepLink.params);
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       handleConnectivityChange
     );
+
+    mixpanelEvents.openApp();
   }
 
   // Assets are cached differently depending on where
@@ -114,6 +140,18 @@ export default class App extends Component {
     this.state = {
       isReady: false,
     };
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  // fire mixpanel when app is activated from background
+  handleAppStateChange = (nextAppState) => {
+    if (nextAppState === 'active') mixpanelEvents.openApp();
   }
 
   render() {

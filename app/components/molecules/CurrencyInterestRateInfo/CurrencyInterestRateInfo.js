@@ -13,16 +13,18 @@ class CurrencyInterestRateInfo extends Component {
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
   render() {
-    const {currency, rate, walletCurrencies} = this.props;
+    const {currency, rate, walletCurrencies, compact} = this.props;
 
-    if (!currency) {
+    if (!currency || !walletCurrencies || !walletCurrencies.length) {
       return null;
     }
+
+    const additionalWrapperStyle = compact ? CurrencyInterestRateInfoStyle.mainWrapperCompact : {};
 
     const currencyInfo = walletCurrencies.find(wallet => wallet.currency.short.toUpperCase() === currency.toUpperCase()).currency;
 
     return (
-      <View style={CurrencyInterestRateInfoStyle.mainWrapper}>
+      <View style={[CurrencyInterestRateInfoStyle.mainWrapper, additionalWrapperStyle]}>
         <View style={CurrencyInterestRateInfoStyle.imageWrapper}>
           <Image
             source={{ uri: currencyInfo.image_url }}

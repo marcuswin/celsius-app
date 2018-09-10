@@ -28,13 +28,14 @@ class WalletLayout extends Component {
   tabs = [
     { label: 'Balance', screen: 'Home' },
     { label: 'Transactions', screen: 'WalletTransactions' },
-    // { label: 'Interest', screen: 'WalletInterest' },
-  ]
+    { label: 'Interest', screen: 'WalletInterest' },
+  ];
 
   // rendering methods
   render() {
     const { walletTotal } = this.props;
-    const total = get(walletTotal, 'quotes.USD.total', 0)
+    const total = get(walletTotal, 'quotes.USD.total', 0);
+
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />

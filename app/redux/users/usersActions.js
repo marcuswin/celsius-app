@@ -8,6 +8,8 @@ import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
+import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import { initializeBranch } from "../branch/branchActions";
 
 export {
   getProfileInfo,
@@ -27,12 +29,21 @@ export {
 }
 
 function getProfileInfo() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
 
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
-      dispatch(getUserPersonalInfoSuccess(personalInfoRes.data.profile || personalInfoRes.data));
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+      await initMixpanelUser(personalInfo);
+
+      const {branch} = getState();
+
+      if (!branch.initialized) {
+        dispatch(initializeBranch(personalInfo));
+      }
+
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
@@ -47,6 +58,7 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -207,6 +219,7 @@ function verifyKYCDocs() {
         type: formData.documentType,
       });
       dispatch(createKYCDocumentsSuccess(res.data));
+      mixpanelEvents.documentsAdded();
 
       if (user.cellphone !== formData.cellphone || !user.cellphone_verified) {
         callName = API.UPDATE_USER_PERSONAL_INFO;
@@ -231,6 +244,7 @@ function verifyKYCDocs() {
 
         dispatch(NavActions.navigateTo('NoKyc'));
         dispatch(showMessage('success', 'KYC verification proccess has started!'));
+        mixpanelEvents.KYCStarted();
       }
     } catch(err) {
       console.log({ err });
@@ -254,11 +268,13 @@ function finishKYCVerification() {
       dispatch(startApiCall(API.VERIFY_SMS));
       await meService.verifySMS(formData.verificationCode);
       dispatch(verifySMSSuccess());
+      mixpanelEvents.phoneVerified();
 
       callName = API.START_KYC;
       dispatch(startApiCall(API.START_KYC));
       await meService.startKYC();
       dispatch(startKYCSuccess());
+      mixpanelEvents.KYCStarted();
 
       dispatch(NavActions.navigateTo('NoKyc'));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));

@@ -101,10 +101,10 @@ const TransactionsHistory = (props) => {
                     { (item.nature === 'interest') &&
                       <View style={TransactionsHistoryStyles.interestIconWrapper}>
                         <Icon
-                          name='CelsiusLogo'
-                          height='20'
-                          width='20'
-                          viewBox="0 0 32 32"
+                          name='InterestIcon'
+                          height='24'
+                          width='24'
+                          viewBox="0 0 30 15"
                           fill={STYLES.WHITE_TEXT_COLOR}
                         />
                       </View>

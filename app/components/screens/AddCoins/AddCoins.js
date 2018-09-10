@@ -9,6 +9,7 @@ import AddCoinsStyle from "./AddCoins.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {STYLES} from "../../../config/constants/style";
 import {ELIGIBLE_COINS} from "../../../config/constants/common";
+import { mixpanelEvents } from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -49,6 +50,7 @@ class AddCoins extends Component {
         },
       }
     ];
+    mixpanelEvents.addCoinToTracker(coin.short);
     actions.updatePortfolioFormData(coinData);
     actions.navigateTo('ManagePortfolio');
   }

@@ -22,8 +22,8 @@ function calcFontScale() {
 export const COLORS = {
   blue: '#4156A6',
   green: '#4FB895',
-  pink: '#A866AA',
   yellow: '#E19F30',
+  pink: '#A866AA',
   gray: '#899099',
   gray2: '#3D4853',
 }
@@ -53,6 +53,11 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
   },
+  invertedNormalText: {
+    color: STYLES.WHITE_TEXT_COLOR,
+    fontSize: FONT_SCALE * 18,
+    fontFamily: 'agile-extra-light',
+  },
   heading: {
     color: STYLES.GRAY_2,
     fontFamily: 'agile-bold',
@@ -61,6 +66,13 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     lineHeight: FONT_SCALE * 25,
     marginTop: 10,
     marginBottom: 10,
+  },
+  largeHeading: {
+    color: '#3D4853',
+    fontFamily: 'agile-extra-bold',
+    fontSize: 36,
+    lineHeight: 41,
+    textAlign: 'center',
   },
   mediumText: { fontFamily: 'agile-medium' },
   boldText: { fontFamily: 'agile-bold' },
@@ -248,4 +260,6 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/pie-chart.png'),
   require('../../../assets/images/wallet-emptystate-ftux3x.png'),
   require('../../../assets/images/deer-confused3x.png'),
+  require('../../../assets/images/frenchy.png'),
+  require('../../../assets/images/interest-illu.png'),
 ];

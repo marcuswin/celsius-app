@@ -42,7 +42,7 @@ class HowToEarnInterest extends Component {
             Earn up to 5% interest when you deposit ETH or BTC
           </Text>
           <Text style={globalStyles.normalText}>
-            By depositing coins on the Celsius Network, crypto asset holders will be able to earn up to 9% interest for their lent coins.
+            By depositing coins on the Celsius Network, crypto asset holders will be able to earn up to 5% interest for their lent coins.
           </Text>
 
           <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>

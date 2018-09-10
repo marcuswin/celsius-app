@@ -1,9 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { FONT_SCALE, COLORS } from "../../../config/constants/style";
-
-const { width } = Dimensions.get('window');
-
 
 const WalletDetailsHeading = StyleSheet.create({
   root: {
@@ -35,7 +32,9 @@ const WalletDetailsHeading = StyleSheet.create({
   buttonWrapper: {
     display: 'flex',
     alignSelf: 'center',
-    width: width / 3,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 36,
     marginTop: 26,
   },
 });

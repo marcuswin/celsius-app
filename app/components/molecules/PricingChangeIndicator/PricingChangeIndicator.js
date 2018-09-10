@@ -26,7 +26,7 @@ const commonStyles = {
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
   }
-}
+};
 
 const styles = StyleSheet.create({
   text: {

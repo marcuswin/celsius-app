@@ -1,5 +1,6 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
+import { MODALS } from "../../config/constants/common";
 
 // TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
@@ -24,6 +25,9 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
+  showTodaysRatesModal,
+  openModal,
+  closeModal,
 }
 
 let msgTimeout;
@@ -219,6 +223,29 @@ function setScrollPosition(scrollPosition) {
   return {
     type: ACTIONS.SET_SCROLL_POSITION,
     scrollPosition,
+  };
+}
+
+function showTodaysRatesModal() {
+  return dispatch => {
+    dispatch({
+      type: ACTIONS.SHOW_TODAY_RATES_MODAL,
+    });
+
+    dispatch(openModal(MODALS.TODAY_RATES_MODAL));
+  }
+}
+
+function openModal(modalName) {
+  return {
+    type: ACTIONS.OPEN_MODAL,
+    modal: modalName,
+  };
+}
+
+function closeModal() {
+  return {
+    type: ACTIONS.CLOSE_MODAL,
   };
 }
 

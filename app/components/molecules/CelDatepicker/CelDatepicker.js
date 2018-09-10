@@ -76,8 +76,8 @@ class CelDatepicker extends Component {
             ref={(datePicker) => {
               this.datePicker = datePicker;
             }}
-            style={{ opacity: 0, height: 0, width: 0, position: "absolute", top: -111111 }}
-            customStyles={{ alignItems: "left", borderWidth: 0 }}
+            style={{ opacity: 0, position: "absolute" }}
+            customStyles={{ btnTextConfirm: { height: 20 }, btnTextCancel: { height: 20 } }}
             date={value}
             mode="date"
             format="MM/DD/YYYY"

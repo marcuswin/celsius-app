@@ -47,6 +47,7 @@ const TransactionHistoryStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     borderWidth: 1,
+    paddingLeft: 3,
     borderColor: 'white',
   }
 });

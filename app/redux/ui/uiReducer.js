@@ -51,6 +51,8 @@ const initialState = {
   portfolioFormData: [],
   formInputLayouts: {},
   scrollLayouts: {},
+  showedTodayRatesOnOpen: false,
+  openedModal: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -233,6 +235,24 @@ export default (state = initialState, action) => {
           ...state.scrollLayouts,
           [action.element]: layout,
         }
+      }
+
+    case ACTIONS.SHOW_TODAY_RATES_MODAL:
+      return {
+        ...state,
+        showedTodayRatesOnOpen: true,
+      };
+
+    case ACTIONS.OPEN_MODAL:
+      return {
+        ...state,
+        openedModal: action.modal,
+      }
+
+    case ACTIONS.CLOSE_MODAL:
+      return {
+        ...state,
+        openedModal: undefined,
       }
 
     default:

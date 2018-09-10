@@ -14,6 +14,7 @@ const initialState = {
     showWalletDetailsInfoBox: true,
     showWalletLandingInfoBox: true,
     showSecureTransactionsScreen: true,
+    showTodayRatesModal: true,
   }
 };
 
