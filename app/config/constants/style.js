@@ -58,6 +58,11 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
   },
+  italicText: {
+    fontFamily: 'agile-light-italic',
+    color: STYLES.GRAY_2,
+    fontSize: FONT_SCALE * 18
+  },
   heading: {
     color: STYLES.GRAY_2,
     fontFamily: 'agile-bold',
