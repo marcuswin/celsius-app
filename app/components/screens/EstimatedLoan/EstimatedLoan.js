@@ -141,7 +141,7 @@ class EstimatedLoan extends Component {
           renderContent={(textStyles) => (
             <View>
               <Text style={[textStyles, globalStyles.boldText, { textAlign: 'center' }]}>
-                Join Our Private Beta
+                Get a Loan at 9% Interest
               </Text>
               <Text style={[textStyles, { textAlign: 'center' }]}>
                 Click on the button below to see if you're eligible to be one of the first to borrow dollars against your crypto at 9% interest
