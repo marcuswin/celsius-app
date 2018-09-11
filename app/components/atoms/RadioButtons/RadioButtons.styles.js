@@ -2,15 +2,15 @@ import { StyleSheet } from 'react-native';
 import {FONT_SCALE} from "../../../config/constants/style";
 
 const baseButton = {
-  minWidth: 60,
+  minWidth: 30,
   justifyContent: 'center',
   alignItems: 'center',
-  paddingLeft: 25,
-  paddingRight: 25,
+  paddingLeft: 5,
+  paddingRight: 5,
 }
 
 const baseText = {
-  fontSize: FONT_SCALE * 18,
+  fontSize: FONT_SCALE * 17,
   fontFamily: 'agile-medium',
 }
 
