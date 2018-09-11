@@ -247,7 +247,7 @@ class WalletInterest extends Component {
                 transparent
                 inverse
               >
-                How I earn interest?
+                How do I earn interest?
               </CelButton>
             </View>
             :

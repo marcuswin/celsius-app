@@ -1,3 +1,5 @@
+import Sentry from 'sentry-expo';
+
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
@@ -36,6 +38,11 @@ function getProfileInfo() {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
       await initMixpanelUser(personalInfo);
+
+      Sentry.setUserContext({
+        email: personalInfo.email,
+        id: personalInfo.id,
+      });
 
       const {branch} = getState();
 
