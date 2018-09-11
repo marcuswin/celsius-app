@@ -170,9 +170,7 @@ export default class App extends Component {
         <AppLoading
           startAsync={App.initApp}
           onFinish={() => this.setState({isReady: true})}
-          /* eslint-disable no-console */
-          onError={console.warn}
-          /* eslint-disable no-console */
+          onError={error => {Sentry.captureException(error)}}
         />
       );
     }
