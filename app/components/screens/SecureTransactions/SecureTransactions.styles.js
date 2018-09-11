@@ -2,24 +2,24 @@ import { StyleSheet } from "react-native";
 import { FONT_SCALE } from "../../../config/constants/style";
 
 const SecureTransactionsStyle = StyleSheet.create({
-  content: { alignItems: "center" },
+  content: { alignItems: "flex-start" },
   title: {
-    fontFamily: "agile-bold",
-    fontSize: FONT_SCALE * 42,
-    color: "#fff",
-    textAlign: "center",
+    fontFamily: "agile-light",
+    fontSize: FONT_SCALE * 21,
+    color: 'rgba(255,255,255,0.5)',
+    textAlign: "left",
     marginBottom: 30
   },
   explanation: {
     fontFamily: "agile-light",
     fontSize: FONT_SCALE * 18,
     color: "#fff",
-    textAlign: "center",
-    marginBottom: 30
+    textAlign: "left",
+    marginBottom: 30,
   },
   suggestion: {
     fontFamily: "agile-light",
-    fontSize: FONT_SCALE * 16,
+    fontSize: FONT_SCALE * 18,
     color: "#fff",
     textAlign: "center",
   },
@@ -31,7 +31,8 @@ const SecureTransactionsStyle = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
-    marginBottom: 30
+    marginBottom: 30,
+    marginTop: 30
   }
 
 });

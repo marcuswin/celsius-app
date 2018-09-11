@@ -38,7 +38,7 @@ export default class WelcomeCarousel extends Component {
         {
           title: "Earn Interest",
           smallDescription: "PUT YOUR CRYPTO TO WORK",
-          largeDescription: "Find out how much interest you can earn as a Celsius member once we launch later this year."
+          largeDescription: "Woohoo! Deposit BTC, ETH, LTC or XRP and get between 3-5% interest annually paid to you every Monday in the app."
         },
         {
           title: "Join the Queue",
