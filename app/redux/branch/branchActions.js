@@ -23,7 +23,7 @@ export function initializeBranch(user) {
         {
           locallyIndex: true,
           title: 'Join Celsius!',
-          contentDescription: 'Start HODLing your crypto assets today using Celsius'
+          contentDescription: 'Deposit coins & earn up to 5% interest annually on your coins'
         }
       );
 
