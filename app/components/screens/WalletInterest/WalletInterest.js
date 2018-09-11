@@ -50,10 +50,9 @@ class WalletInterest extends Component {
   }
 
   setChartLines() {
-    const { chartDataSet } = this.state;
+    const { chartDataSet, coinsMaxValues } = this.state;
     const colors = Object.values(COLORS)
     const style = { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, height: 250 };
-    const insetsTop = this.getTopInsetsValues()
     return Object.keys(chartDataSet).map((coin, lineIndex) =>
            <LineChart
             key={coin}
@@ -61,30 +60,18 @@ class WalletInterest extends Component {
             data={chartDataSet[coin]}
             xAccessor={({index}) => index}
             yAccessor={({item}) => item.value}
+            yMin={0}
+            yMax={coinsMaxValues[coinsMaxValues.length - 1]}
             svg={{ stroke: colors[lineIndex] }}
-            contentInset={{ top: insetsTop[lineIndex], bottom: 20, left: 20, right: 60 }}
+            contentInset={{ top: 30, bottom: 20, left: 20, right: 60 }}
           />
     )
-  }
-
-  getTopInsetsValues() {
-    const { coinsMaxValues } = this.state;
-    const totalValue = coinsMaxValues[coinsMaxValues.length - 1].value;
-    const intests = [];
-      coinsMaxValues.forEach(coin => {
-        if (totalValue !== 0) {
-        intests.push(230 - (200 / (totalValue / coin.value)))
-        } else {
-          intests.push(50)
-        }
-      });
-    return intests;
   }
 
   getMaxValues(newDataSet) {
     const totalMaxValue = [];
     Object.values(newDataSet).forEach(coin => {
-      totalMaxValue.push(coin.reduce((prev, current) => (prev.y > current.y) ? prev : current ))
+      totalMaxValue.push(Math.max(...coin.map(b => b.value)))
     });
     this.setState({coinsMaxValues: totalMaxValue})
   }
@@ -161,7 +148,7 @@ class WalletInterest extends Component {
                 THIS WEEK YOU'VE EARNED
               </Text>
               <Text style={WalletInterestStyle.thisWeekInterest}>
-                {Object.values(chartDataSet)[0] ? formater.usd(coinsMaxValues[coinsMaxValues.length - 1].value) : formater.usd(0)}
+                {Object.values(chartDataSet)[0] ? formater.usd(coinsMaxValues[coinsMaxValues.length - 1]) : formater.usd(0)}
               </Text>
             </View>
             <Image
@@ -190,22 +177,22 @@ class WalletInterest extends Component {
                 }}
                 yAccessor={ ({ item }) => item.value }
                 numberOfTicks={ 4 }
-                style={{ position: 'absolute', right: 15, bottom: 10, height: 250}}
-                contentInset={{ top: 50, bottom: 10 }}
-                formatLabel={ (value) => `$${Math.round(value)}`}
+                style={{ position: 'absolute', right: 10, height: 250}}
+                contentInset={{ top: 30, bottom: 20 }}
+                formatLabel={ (value) => `$${value}`}
               />
               </View>
               <XAxis
-                data={ chartData.ETH }
+                data={ Object.values(chartDataSet)[0] }
                 svg={{
                   fill: 'rgba(137,144,153,1)',
                   fontSize: 8 * FONT_SCALE,
                   fontWeight: 'bold',
                 }}
                 xAccessor={ ({ index }) => index }
-                numberOfTicks={ chartData.ETH.length - 1 }
+                numberOfTicks={ Object.values(chartDataSet)[0].length - 1 }
                 contentInset={{ left: 30, right: 50 }}
-                formatLabel={(_, index) =>  activeTab === '1m' ? moment(chartData.ETH[index].date).format('DD MMM') : moment(chartData.ETH[index].date).format('MMM')}
+                formatLabel={(_, index) =>  activeTab === '1m' ? moment(Object.values(chartDataSet)[0][index].date).format('DD MMM') : moment(Object.values(chartDataSet)[0][index].date).format('MMM')}
               />
               <View style={WalletInterestStyle.dotWrapper}>
                 { Object.keys(chartDataSet).map((coin, lineIndex) =>
@@ -247,7 +234,7 @@ class WalletInterest extends Component {
                 transparent
                 inverse
               >
-                How I earn interest?
+                How do I earn interest?
               </CelButton>
             </View>
             :
