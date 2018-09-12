@@ -48,3 +48,9 @@ export const MODALS = {
 export const BRANCH_LINKS = {
   TRANSFER_RECEIVED: 'TRANSFER_RECEIVED',
 };
+
+export const TRANSFER_STATUSES = {
+  expired: 'expired',
+  claimed: 'claimed',
+  cleared: 'cleared',
+};

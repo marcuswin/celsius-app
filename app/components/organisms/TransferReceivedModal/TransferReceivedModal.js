@@ -7,7 +7,7 @@ import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { MODALS } from "../../../config/constants/common";
+import { KYC_STATUSES, MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
@@ -20,12 +20,12 @@ import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 )
 class TransferReceivedModal extends Component {
   closeAndGoToSignup = () => {
-    const { actions } = this.props;
+    const { actions, user } = this.props;
     actions.closeModal();
-    actions.navigateTo('SignupOne');
+    actions.navigateTo(!user ? 'SignupOne' : 'NoKyc');
   }
   // rendering methods
-  renderLoggedInUser = () => {
+  renderVerified = () => {
     const { actions } = this.props;
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
@@ -49,7 +49,7 @@ class TransferReceivedModal extends Component {
     );
   }
 
-  renderNewUser = () => (
+  renderUnverified = () => (
     <CelModal name={MODALS.TRANSFER_RECEIVED}>
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <Image source={require('../../../../assets/images/frenchy.png')} style={{ width: 120, height: 120 }} />
@@ -73,13 +73,15 @@ class TransferReceivedModal extends Component {
           </View>
         )}
       />
-      <CelButton onPress={this.closeAndGoToSignup}>Sign up</CelButton>
+      <CelButton onPress={this.closeAndGoToSignup}>
+        { !this.props.user ? 'Sign up'  : 'Verify profile' }
+      </CelButton>
     </CelModal>
   );
 
   render() {
     const { user } = this.props;
-    return user ? this.renderLoggedInUser() : this.renderNewUser();
+    return (user && user.kyc && user.kyc.status === KYC_STATUSES.passed) ? this.renderVerified() : this.renderUnverified();
   }
 }
 

@@ -15,6 +15,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
+import { MODALS, TRANSFER_STATUSES } from "./config/constants/common";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -83,6 +84,7 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getProfileInfo());
+      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -114,6 +116,11 @@ export default class App extends Component {
       });
     } catch (error) {
       Sentry.captureException(error);
+    }
+
+    const { branchHashes } = store.getState().transfers;
+    if (branchHashes && branchHashes.length) {
+      store.dispatch(actions.openModal(MODALS.TRANSFER_RECEIVED))
     }
 
     NetInfo.isConnected.addEventListener(
