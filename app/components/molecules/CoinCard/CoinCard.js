@@ -178,7 +178,7 @@ class CoinCard extends Component {
     const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange < 0;
     const graphDataObj = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.short)
-    const graphData = get(graphDataObj, '[0]market.price_usd.7d', null)
+    const graphData = get(graphDataObj, '[0]market.price_usd.1d', null)
     // eslint-disable-next-line
     const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
 
