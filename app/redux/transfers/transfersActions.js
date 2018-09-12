@@ -11,12 +11,12 @@ export {
   createTransfer,
 }
 
-function getAllTransfers() {
+function getAllTransfers(transferStatus) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_ALL_TRANSFERS));
 
     try {
-      const res = await transferService.getAll();
+      const res = await transferService.getAll(transferStatus);
       const transfers = res.data;
       dispatch(getAllTransfersSuccess(transfers));
     } catch (err) {
@@ -34,12 +34,12 @@ function getAllTransfersSuccess(transfers) {
   }
 }
 
-function getTransfer(transferId) {
+function getTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_TRANSFER));
 
     try {
-      const res = await transferService.get(transferId);
+      const res = await transferService.get(transferHash);
       const transfer = res.data;
       dispatch(getTransferSuccess(transfer));
     } catch (err) {
@@ -57,13 +57,16 @@ function getTransferSuccess(transfer) {
   }
 }
 
-function claimTransfer() {
+function claimTransfer(transferHash) {
   return async dispatch => {
+    console.log({ call: API.CLAIM_TRANSFER });
     dispatch(startApiCall(API.CLAIM_TRANSFER));
 
     try {
-      await transferService.claim();
-      dispatch(claimTransferSuccess());
+      // await transferService.claim(transferHash);
+      setTimeout(() => {
+        dispatch(claimTransferSuccess(transferHash));
+      }, 200)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CLAIM_TRANSFER, err));
@@ -71,10 +74,11 @@ function claimTransfer() {
   }
 }
 
-function claimTransferSuccess() {
+function claimTransferSuccess(transferHash) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
     callName: API.CLAIM_TRANSFER,
+    transferHash,
   }
 }
 

@@ -9,16 +9,17 @@ const transfersService = {
 };
 
 
-function getAll() {
-  return axios.get(`${apiUrl}/transfer`);
+// status = ['pending', 'returned'] ?
+function getAll(status) {
+  return axios.get(`${apiUrl}/transfer/${status}`);
 }
 
-function get(transferId) {
-  return axios.get(`${apiUrl}/transfer/${transferId}`);
+function get(transferHash) {
+  return axios.get(`${apiUrl}/transfer/${transferHash}`);
 }
 
-function claim(transferId) {
-  return axios.post(`${apiUrl}/transfer/${transferId}/claim`);
+function claim(transferHash) {
+  return axios.post(`${apiUrl}/transfer/${transferHash}/claim`);
 }
 
 function create(transfer) {
