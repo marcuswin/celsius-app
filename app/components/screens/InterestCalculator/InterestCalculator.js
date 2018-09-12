@@ -65,7 +65,7 @@ class InterestCalculatorScreen extends Component {
             <RadioButtons
               theme="grey"
               field='interestCurrency'
-              items={[{ label: 'Bitcoin', value: 'BTC'}, { label: 'Ethereum', value: 'ETH'} ]}
+              items={[{ label: 'Bitcoin', value: 'BTC'}, { label: 'Ethereum', value: 'ETH'}, { label: 'Litecoin', value: 'LTC'}, { label: 'Ripple', value: 'XRP'}, { label: 'Omisego', value: 'OMG'}]}
               value={formData.interestCurrency}
             />
           </View>

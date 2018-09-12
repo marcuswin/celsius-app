@@ -178,7 +178,7 @@ class CoinCard extends Component {
     const percentChange = get(currency, 'market.quotes.USD.percent_change_24h', 0);
     const isPercentChangeNegative = percentChange < 0;
     const graphDataObj = supportedCurrencies != null && supportedCurrencies.filter(supportedCurrencie => supportedCurrencie.short === currency.short)
-    const graphData = get(graphDataObj, '[0]market.price_usd.7d', null)
+    const graphData = get(graphDataObj, '[0]market.price_usd.1d', null)
     // eslint-disable-next-line
     const graphDataPrices = graphData != null ? graphData.map(([_timestamp, price]) => price) : null;
 
@@ -250,7 +250,7 @@ class CoinCard extends Component {
           </Row>
           }
           {(type !== "wallet-card" && currency.short !== 'CEL'&& ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
-            <CoinCardInfo text="Now available for borrowing and lending"/>
+            <CoinCardInfo text={`Earn interest or use ${currency.short} as collateral today`}/>
           }
           {(type !== "wallet-card" && currency.short === 'CEL') &&
             <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange"/>

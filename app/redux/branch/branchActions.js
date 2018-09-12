@@ -22,8 +22,9 @@ export function initializeBranch(user) {
         `referral:${user.email}`,
         {
           locallyIndex: true,
-          title: 'Join Celsius!',
-          contentDescription: 'Deposit coins & earn up to 5% interest annually on your coins'
+          title: 'Download the App Now to Earn Interest Like Me',
+          contentImageUrl: 'https://image.ibb.co/jWfnh9/referall_image.png',
+          contentDescription: 'Deposit coins & earn up to 5% interest annually on BTC, ETH, LTC and more.'
         }
       );
 
