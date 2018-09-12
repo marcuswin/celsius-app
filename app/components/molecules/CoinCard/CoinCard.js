@@ -250,7 +250,7 @@ class CoinCard extends Component {
           </Row>
           }
           {(type !== "wallet-card" && currency.short !== 'CEL'&& ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
-            <CoinCardInfo text="Now available for borrowing and lending"/>
+            <CoinCardInfo text={`Earn interest or use ${currency.short} as collateral today`}/>
           }
           {(type !== "wallet-card" && currency.short === 'CEL') &&
             <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange"/>
