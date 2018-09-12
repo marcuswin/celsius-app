@@ -60,7 +60,7 @@ class Passcode extends Component {
   };
 
   onPressButton = async () => {
-    const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress } = this.props;
+    const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -77,12 +77,18 @@ class Passcode extends Component {
 
         actions.storePin(pin.pin);
 
-        if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
-          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
-        } else {
-          await actions.withdrawCrypto(currency, amountCrypto);
+        console.log(purpose);
+
+        if (purpose === 'withdraw') {
+          if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
+            await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
+          } else {
+            await actions.withdrawCrypto(currency, amountCrypto);
+          }
+          mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
+        } else if (purpose === 'send') {
+          actions.navigateBack();
         }
-        mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
       } catch (error) {
         actions.showMessage('error', error.error);
       }
