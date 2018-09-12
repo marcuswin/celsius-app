@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Image, Linking, Text, View } from "react-native";
+import { Image, Linking, Text, View, TouchableOpacity } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -9,6 +9,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
 @connect(
   state => ({
@@ -16,6 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
     kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
     activeScreen: state.nav.routes[state.nav.index].routeName,
     user: state.users.user,
+    allTransfers: state.transfers.transfers,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -42,6 +44,59 @@ class NoKyc extends Component {
   }
   // event hanlders
   // rendering methods
+  renderInfoBubble = () => {
+    const { allTransfers, kycStatus, actions } = this.props;
+    const claimedTransfers = getClaimedTransfers(allTransfers);
+    console.log({ claimedTransfers, allTransfers });
+
+    if (kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.pending) {
+      return (
+        <InfoBubble
+          color="gray"
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={[textStyles, { textAlign: 'center' } ]}>
+                You have 3 more days to receive the money sent to you.
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+
+    if (claimedTransfers && claimedTransfers.length > 1) {
+      return (
+        <InfoBubble
+          color="gray"
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={[textStyles, { textAlign: 'center' } ]}>
+                You have several transactions on-hold.
+                <TouchableOpacity onPress={() => actions.navigateTo('Profile')}>
+                  <Text style={[textStyles, { textDecorationLine: 'underline' }]}>See all transactions</Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+
+    if (claimedTransfers) {
+      return (
+        <InfoBubble
+          color="gray"
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={[textStyles, { textAlign: 'center' } ]}>
+                Verify your profile now to get your crypto.
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+  }
 
   renderPending() {
     const {actions} = this.props;
@@ -52,6 +107,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
+        { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
         <Text style={NoKycStyle.textThree}>
           Profile verification status:
@@ -93,6 +149,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
+        { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-NoKYC3x.png')} style={[NoKycStyle.image, {marginTop: 5 }]}/>
         <Text style={[NoKycStyle.textThree, {marginTop: -5}]}>
           Profile verification status:
@@ -129,6 +186,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
+        { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/wallet-emptystate-ftux3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
           This is where you'll be able to add, send and receive coins
@@ -175,3 +233,13 @@ class NoKyc extends Component {
 }
 
 export default NoKyc;
+
+function getClaimedTransfers(allTransfers) {
+  const transfers = [];
+
+  Object.keys(allTransfers).forEach(t => {
+    if (allTransfers[t].status === 'claimed') transfers.push(allTransfers[t]);
+  })
+
+  return transfers
+}

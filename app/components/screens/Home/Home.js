@@ -23,13 +23,13 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
+    branchHashes: state.transfers.branchHashes,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, displayedRatesModal, openedModal, appSettings: { showTodayRatesModal } } = this.props;
+    const { actions, displayedRatesModal, openedModal, appSettings: { showTodayRatesModal }, branchHashes } = this.props;
 
     try {
       // get user token
@@ -42,13 +42,36 @@ class HomeScreen extends Component {
         registerForPushNotificationsAsync();
         actions.getKYCDocTypes();
 
-        if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
+        // claim branch transfers
+        if (branchHashes && branchHashes.length) {
+          console.log({ l: branchHashes.length, branchHashes })
+          branchHashes.forEach(bh => {
+            console.log('here');
+            actions.claimTransfer(bh);
+          })
+        } else if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
           actions.showTodaysRatesModal();
         }
       }
     } catch(err) {
       console.log(err);
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { user, branchHashes, actions } = this.props;
+
+    if (
+      // user logged in or registered
+      !user && nextProps.user && nextProps.branchHashes && nextProps.branchHashes.length ||
+      // new transfer link is pressed
+      branchHashes && branchHashes.length < nextProps.branchHashes.length
+    ) {
+      branchHashes.forEach(bh => {
+        actions.claimTransfer(bh);
+      })
+    }
+
   }
 
   render() {
