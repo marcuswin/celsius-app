@@ -11,13 +11,13 @@ const baseButton = {
 
 const baseText = {
   fontSize: FONT_SCALE * 17,
-  fontFamily: 'agile-medium',
+  fontFamily: 'agile-bold',
 }
 
 const RadioButtonsStyle = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 100,
     width: 'auto',
     height: 40,
