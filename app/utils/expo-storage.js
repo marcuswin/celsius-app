@@ -1,4 +1,5 @@
 import Expo from 'expo'
+import Sentry from 'sentry-expo';
 
 export {
   setSecureStoreKey,
@@ -16,7 +17,17 @@ export {
  * @return A promise that will reject if value cannot be stored on the device
  * */
 async function setSecureStoreKey(key, value) {
-  return await Expo.SecureStore.setItemAsync(key, value)
+  try {
+    return await Expo.SecureStore.setItemAsync(key, value)
+  } catch (error) {
+    Sentry.captureMessage(`Error: Failed setting SecureStore key [${key}]`, {
+      extra: {
+        key,
+        value,
+      }
+    });
+    return null;
+  }
 }
 
 /**
@@ -28,7 +39,16 @@ async function setSecureStoreKey(key, value) {
  * The promise will reject if an error occurred while retrieving the value.
  * */
 async function getSecureStoreKey(key) {
-  return Expo.SecureStore.getItemAsync(key)
+  try {
+    return await Expo.SecureStore.getItemAsync(key);
+  } catch (error) {
+    Sentry.captureMessage(`Error: Failed getting SecureStore key [${key}]`, {
+      extra: {
+        key,
+      }
+    });
+    return null;
+  }
 }
 
 /**
@@ -39,6 +59,15 @@ async function getSecureStoreKey(key) {
  * @return A promise that will reject if the value couldn’t be deleted.
  * */
 async function deleteSecureStoreKey(key) {
-  return Expo.SecureStore.deleteItemAsync(key)
+  try {
+    return await Expo.SecureStore.deleteItemAsync(key);
+  } catch (error) {
+    Sentry.captureMessage(`Error: Failed deleting SecureStore key [${key}]`, {
+      extra: {
+        key,
+      }
+    });
+    return null;
+  }
 }
 
