@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import Sentry from "sentry-expo";
 
 import reducer from '../redux/reducers';
 
@@ -18,7 +19,10 @@ if (__DEV__) {
   /* eslint-enable no-underscore-dangle */
 }
 
-const middleware = [thunk];
+const middleware =  [
+  thunk,
+  // sentryActionLogger,
+];
 
 const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
@@ -31,3 +35,28 @@ export default function configureStore(initialState) {
   }
   return store;
 }
+
+// Middleware used for branch.io debugging in testflight
+// logs every fifth action on sentry
+/* eslint-disable */
+let sentryActionAlerts = 1;
+function sentryActionLogger({ getState }) {
+  return (next) => (action) => {
+    console.log(`Action logger ${action.type} (${ sentryActionAlerts++ }) - ${ new Date().getTime() }`);
+    if (
+      sentryActionAlerts % 5 === 0
+    ) {
+      Sentry.captureMessage(`Action logger ${action.type} (${ sentryActionAlerts }) - ${ new Date().getTime() }`, {
+        level: 'info',
+        extra: {
+          action: { ...action },
+          state: { ...getState() },
+        },
+      });
+    }
+
+    return next(action);
+  }
+}
+
+
