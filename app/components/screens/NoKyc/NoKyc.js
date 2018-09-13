@@ -10,6 +10,7 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import {mixpanelEvents} from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -194,7 +195,10 @@ class NoKyc extends Component {
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
-          onPress={() => actions.navigateTo('ProfileDetails')}
+          onPress={() => {
+            mixpanelEvents.navigation('verifyProfile');
+            actions.navigateTo('ProfileDetails')
+          }}
           margin='0 50 0 50'
         >
           Verify profile
