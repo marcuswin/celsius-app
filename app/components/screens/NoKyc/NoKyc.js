@@ -47,7 +47,6 @@ class NoKyc extends Component {
   renderInfoBubble = () => {
     const { allTransfers, kycStatus, actions } = this.props;
     const claimedTransfers = getClaimedTransfers(allTransfers);
-    console.log({ claimedTransfers, allTransfers });
 
     if (kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.pending) {
       return (

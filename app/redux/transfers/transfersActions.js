@@ -59,7 +59,6 @@ function getTransferSuccess(transfer) {
 
 function claimTransfer(transferHash) {
   return async dispatch => {
-    console.log({ call: API.CLAIM_TRANSFER });
     dispatch(startApiCall(API.CLAIM_TRANSFER));
 
     try {

@@ -29,7 +29,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, displayedRatesModal, openedModal, appSettings: { showTodayRatesModal }, branchHashes } = this.props;
+    const { actions, branchHashes } = this.props;
 
     try {
       // get user token
@@ -44,13 +44,9 @@ class HomeScreen extends Component {
 
         // claim branch transfers
         if (branchHashes && branchHashes.length) {
-          console.log({ l: branchHashes.length, branchHashes })
           branchHashes.forEach(bh => {
-            console.log('here');
             actions.claimTransfer(bh);
           })
-        } else if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
-          actions.showTodaysRatesModal();
         }
       }
     } catch(err) {

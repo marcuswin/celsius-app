@@ -15,7 +15,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
-import { MODALS, TRANSFER_STATUSES } from "./config/constants/common";
+import { TRANSFER_STATUSES } from "./config/constants/common";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -118,10 +118,6 @@ export default class App extends Component {
       Sentry.captureException(error);
     }
 
-    const { branchHashes } = store.getState().transfers;
-    if (branchHashes && branchHashes.length) {
-      store.dispatch(actions.openModal(MODALS.TRANSFER_RECEIVED))
-    }
 
     NetInfo.isConnected.addEventListener(
       "connectionChange",
@@ -129,6 +125,7 @@ export default class App extends Component {
     );
 
     mixpanelEvents.openApp();
+    store.dispatch(actions.openInitialModal())
   }
 
   // Assets are cached differently depending on where

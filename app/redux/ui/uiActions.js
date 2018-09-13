@@ -25,7 +25,7 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
-  showTodaysRatesModal,
+  openInitialModal,
   openModal,
   closeModal,
 }
@@ -226,14 +226,20 @@ function setScrollPosition(scrollPosition) {
   };
 }
 
-function showTodaysRatesModal() {
-  return dispatch => {
-    dispatch({
-      type: ACTIONS.SHOW_TODAY_RATES_MODAL,
-    });
+function openInitialModal() {
+  return (dispatch, getState) => {
+    const openedModal = getState().ui.openedModal;
+    const appSettings = getState().users.appSettings;
+    const branchHashes = getState().transfers.branchHashes;
 
-    dispatch(openModal(MODALS.TODAY_RATES_MODAL));
-  }
+    if (branchHashes && branchHashes.length) {
+      return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
+    }
+
+    if (appSettings.showTodayRatesModal && !openedModal) {
+      return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
+    }
+  };
 }
 
 function openModal(modalName) {
