@@ -102,8 +102,12 @@ class TransactionsOnHold extends Component {
                       />
                     </Col>
                     <Col style={{paddingLeft: 40}}>
-                      <Text style={TransactionsHistoryStyles.usdAmount}>{formatter.usd(item.amount * currencyRatesShort[item.coin.toLowerCase()])}</Text>
-                      <Text style={TransactionsHistoryStyles.coinAmount}>{formatter.crypto(item.amount, item.coin.toUpperCase(), { precision: 5 })}</Text>
+                      <Text style={TransactionsHistoryStyles.usdAmount}>
+                        {formatter.usd(item.amount * currencyRatesShort[item.coin.toLowerCase()])}
+                      </Text>
+                      <Text style={TransactionsHistoryStyles.coinAmount}>
+                        {formatter.crypto(item.amount, item.coin.toUpperCase(), { precision: 5 })}
+                      </Text>
                     </Col>
                   </Col>
                   <Col size={50}>

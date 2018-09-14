@@ -10,6 +10,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import { KYC_STATUSES, MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
@@ -17,6 +18,7 @@ import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
     user: state.users.user,
     currencyRatesShort: state.generalData.currencyRatesShort,
     transfers: state.transfers.transfers,
+    branchHashes: state.transfers.branchHashes,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -28,17 +30,22 @@ class TransferReceivedModal extends Component {
   }
   // rendering methods
   renderVerified = () => {
-    const { actions } = this.props;
+    const { actions, transfers, currencyRatesShort, branchHashes } = this.props;
+    const transfer = transfers[branchHashes[0]];
+    const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
+
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../../../assets/images/frenchy.png')} style={{ width: 120, height: 120 }} />
+          <Image source={{ uri: transfer.from.profile_picture }} style={{ width: 120, height: 120, borderRadius: 60 }} />
         </View>
 
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Congrats!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Your friend Andrea Collins just sent you $2,500 worth of ETH. You can see it now in your wallet.
+          Your friend { transfer.from.name } just sent you
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
+          worth of { transfer.coin }. You can see it now in your wallet.
         </Text>
 
         <CelButton
@@ -52,20 +59,21 @@ class TransferReceivedModal extends Component {
   }
 
   renderUnverified = () => {
-    const { user, transfers, currencyRatesShort } = this.props;
-    console.log({ user, transfers, currencyRatesShort });
+    const { transfers, currencyRatesShort, branchHashes } = this.props;
+    const transfer = transfers[branchHashes[0]];
+    const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../../../assets/images/frenchy.png')} style={{ width: 120, height: 120 }} />
+          <Image source={{ uri: transfer.from.profile_picture }} style={{ width: 120, height: 120, borderRadius: 60 }} />
         </View>
 
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Your friend Andrea Collins have sent you
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> $2,500 </Text>
-          worth of ETH. To see it in your wallet, please sign up and verify your profile.
+          Your friend { transfer.from.name } have sent you
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
+          worth of { transfer.coin }. To see it in your wallet, please sign up and verify your profile.
         </Text>
 
         <InfoBubble
@@ -86,8 +94,13 @@ class TransferReceivedModal extends Component {
   };
 
   render() {
-    const { user } = this.props;
-    return (user && user.kyc && user.kyc.status === KYC_STATUSES.passed) ? this.renderVerified() : this.renderUnverified();
+    const { user, branchHashes, transfers } = this.props;
+    const transfer = transfers[branchHashes[0]];
+    if (transfer) {
+      return (transfer && user && user.kyc && user.kyc.status === KYC_STATUSES.passed) ? this.renderVerified() : this.renderUnverified();
+    }
+
+    return null;
   }
 }
 

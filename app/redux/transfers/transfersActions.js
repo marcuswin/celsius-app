@@ -19,7 +19,7 @@ function getAllTransfers(transferStatus) {
     try {
       const res = await transferService.getAll(transferStatus);
       const transfers = res.data;
-      dispatch(getAllTransfersSuccess(transfers));
+      dispatch(getAllTransfersSuccess(transfers.map(mapTransfer)));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_TRANSFERS, err));
@@ -63,8 +63,7 @@ function claimTransfer(transferHash) {
     dispatch(startApiCall(API.CLAIM_TRANSFER));
 
     try {
-      await transferService.claim(transferHash);
-      const res = await transferService.get(transferHash);
+      const res = await transferService.claim(transferHash);
       dispatch(claimTransferSuccess(res.data));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -116,7 +115,6 @@ function mapTransfer(transfer) {
     status = TRANSFER_STATUSES.expired;
   }
 
-  console.log({ status });
   return {
     ...transfer,
     status

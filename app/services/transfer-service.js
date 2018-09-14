@@ -11,7 +11,7 @@ const transfersService = {
 
 // status = ['pending', 'returned'] ?
 function getAll(status) {
-  return axios.get(`${apiUrl}/transfer/${status}`);
+  return axios.get(`${apiUrl}/transfers/${status}`);
 }
 
 function get(transferHash) {
