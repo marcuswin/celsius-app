@@ -72,7 +72,7 @@ class NoKyc extends Component {
             <View>
               <Text style={[textStyles, { textAlign: 'center' } ]}>
                 You have several transactions on-hold.
-                <TouchableOpacity onPress={() => actions.navigateTo('Profile')}>
+                <TouchableOpacity onPress={() => actions.navigateTo('TransactionsOnHold')}>
                   <Text style={[textStyles, { textDecorationLine: 'underline' }]}>See all transactions</Text>
                 </TouchableOpacity>
               </Text>
@@ -82,7 +82,7 @@ class NoKyc extends Component {
       )
     }
 
-    if (claimedTransfers) {
+    if (claimedTransfers && claimedTransfers.length) {
       return (
         <InfoBubble
           color="gray"
