@@ -38,7 +38,7 @@ const TransactionHistoryStyles = StyleSheet.create({
     marginTop: 6,
     fontSize: FONT_SCALE * 15,
   },
-  interestIconWrapper: {
+  iconWrapper: {
     backgroundColor: COLORS.blue,
     width: 32,
     height: 32,
@@ -47,7 +47,7 @@ const TransactionHistoryStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 16,
     borderWidth: 1,
-    paddingLeft: 3,
+    // paddingLeft: 3,
     borderColor: 'white',
   }
 });
