@@ -23,7 +23,7 @@ function claim(transferHash) {
 }
 
 function create(transfer) {
-  return axios.post(`${apiUrl}/transfer/`, { transfer });
+  return axios.put(`${apiUrl}/transfer/`, { transfer });
 }
 
 export default transfersService;

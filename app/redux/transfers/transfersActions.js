@@ -3,6 +3,7 @@ import API from '../../config/constants/API';
 import transferService from '../../services/transfer-service';
 import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
+import { TRANSFER_STATUSES } from "../../config/constants/common";
 
 export {
   getAllTransfers,
@@ -53,7 +54,7 @@ function getTransferSuccess(transfer) {
   return {
     type: ACTIONS.GET_TRANSFER_SUCCESS,
     callName: API.GET_TRANSFER,
-    transfer,
+    transfer: mapTransfer(transfer),
   }
 }
 
@@ -62,10 +63,9 @@ function claimTransfer(transferHash) {
     dispatch(startApiCall(API.CLAIM_TRANSFER));
 
     try {
-      // await transferService.claim(transferHash);
-      setTimeout(() => {
-        dispatch(claimTransferSuccess(transferHash));
-      }, 200)
+      await transferService.claim(transferHash);
+      const res = await transferService.get(transferHash);
+      dispatch(claimTransferSuccess(res.data));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CLAIM_TRANSFER, err));
@@ -73,11 +73,11 @@ function claimTransfer(transferHash) {
   }
 }
 
-function claimTransferSuccess(transferHash) {
+function claimTransferSuccess(transfer) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
     callName: API.CLAIM_TRANSFER,
-    transferHash,
+    transfer: mapTransfer(transfer),
   }
 }
 
@@ -101,5 +101,24 @@ function createTransferSuccess(transfer) {
     type: ACTIONS.CREATE_TRANSFER_SUCCESS,
     callName: API.CREATE_TRANSFER,
     transfer,
+  }
+}
+
+function mapTransfer(transfer) {
+  let status = TRANSFER_STATUSES.pending;
+  if (transfer.claimed_at && !transfer.cleared_at) {
+    status = TRANSFER_STATUSES.claimed;
+  }
+  if (transfer.cleared_at) {
+    status = TRANSFER_STATUSES.cleared;
+  }
+  if (transfer.expired_at) {
+    status = TRANSFER_STATUSES.expired;
+  }
+
+  console.log({ status });
+  return {
+    ...transfer,
+    status
   }
 }

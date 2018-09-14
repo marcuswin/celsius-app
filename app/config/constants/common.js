@@ -53,4 +53,5 @@ export const TRANSFER_STATUSES = {
   expired: 'expired',
   claimed: 'claimed',
   cleared: 'cleared',
+  pending: 'pending',
 };
