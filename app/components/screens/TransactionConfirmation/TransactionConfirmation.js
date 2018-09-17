@@ -156,29 +156,13 @@ class TransactionConfirmation extends Component {
     ) {
 
       const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].split('?dt=');
-      // if (nextProps.formData[`${formData.currency}WithdrawalAddress`].match(/(.+?)\?/g)) {
-
-        // const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].match(/(.+?)\?/g);
-
-        // const addressXrpArray = addressArray[0].split("?");
-        // const newAddress = addressXrpArray[0];
-        //
-        // const secondAddressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].match(/=(\d+)/g);
-        // // debugger
-        // const destinationTagArray = secondAddressArray[0].split("=");
-        // // debugger
-        // const newTag = destinationTagArray[1];
-
 
         const newAddress = addressArray[0];
         const newTag = addressArray[1] || nextProps.formData.coinTag;
-        //
-        console.log(newAddress, newTag);
 
         actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
         actions.updateFormField(`coinTag`, newTag);
 
-      // }
     }
   }
 
@@ -249,9 +233,15 @@ class TransactionConfirmation extends Component {
 
 
     const coin = this.getCoinShorthand();
+    const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
+    let newWithdrawalAddress;
 
-    const newWithdrawalAddress = formData.currency === "xrp" ? formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag)
-      : formData[`${coin}WithdrawalAddress`];
+    if (formData[`${coin}WithdrawalAddress`]) {
+      newWithdrawalAddress = formData.currency === "xrp" ? formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag)
+        : formData[`${coin}WithdrawalAddress`];
+    } else {
+      newWithdrawalAddress = withdrawalAddress.address;
+    }
 
     actions.navigateTo("EnterPasscode", {
       amountCrypto: formData.amountCrypto,
@@ -304,7 +294,8 @@ class TransactionConfirmation extends Component {
 
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     const withdrawalAddressSet = !!withdrawalAddress && !!withdrawalAddress.address && withdrawalAddress.manually_set;
-    // const withdrawalAddressValue = formData[`${coinLowerCase}WithdrawalAddress`];
+
+    console.log('yo', withdrawalAddress.address);
 
     return (
       <BasicLayout
