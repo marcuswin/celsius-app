@@ -231,18 +231,16 @@ class TransactionConfirmation extends Component {
   confirmWithdrawal = () => {
     const { formData, actions } = this.props;
 
-
     const coin = this.getCoinShorthand();
+
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     let newWithdrawalAddress;
-
     if (formData[`${coin}WithdrawalAddress`]) {
       newWithdrawalAddress = formData.currency === "xrp" ? formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag)
         : formData[`${coin}WithdrawalAddress`];
     } else {
       newWithdrawalAddress = withdrawalAddress.address;
     }
-
     actions.navigateTo("EnterPasscode", {
       amountCrypto: formData.amountCrypto,
       currency: coin,
@@ -294,8 +292,6 @@ class TransactionConfirmation extends Component {
 
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     const withdrawalAddressSet = !!withdrawalAddress && !!withdrawalAddress.address && withdrawalAddress.manually_set;
-
-    console.log('yo', withdrawalAddress.address);
 
     return (
       <BasicLayout

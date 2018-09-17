@@ -54,13 +54,23 @@ const codeLength = 4;
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class Passcode extends Component {
+export default class Passcode extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPressed: false,
+    };
+
+  }
+
   onPressButton = async () => {
     const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress } = this.props;
+
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -73,16 +83,18 @@ class Passcode extends Component {
       const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
-        await meService.checkPin(pin);
+          this.state.isPressed = true;
+          await meService.checkPin(pin);
 
-        actions.storePin(pin.pin);
+          actions.storePin(pin.pin);
 
-        if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
-          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
-        } else {
-          await actions.withdrawCrypto(currency, amountCrypto);
-        }
-        mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
+          if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
+            await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
+          } else {
+            await actions.withdrawCrypto(currency, amountCrypto);
+          }
+          mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
+
       } catch (error) {
         actions.showMessage('error', error.error);
       }
@@ -99,10 +111,11 @@ class Passcode extends Component {
     }
     actions.updateFormField('error', false)
     return actions.updateFormField(field, text);
-  }
+  };
 
   render() {
     const { activeScreen, type, formData, callsInProgress } = this.props;
+    const { isPressed } = this.state;
 
     const field = types[type].field;
     const disabled = (formData[field] == null || formData[field].length < codeLength) || formData.error;
@@ -125,7 +138,7 @@ class Passcode extends Component {
         <CelButton
           white
           loading={isLoading}
-          disabled={disabled || isLoading}
+          disabled={disabled || isLoading || isPressed}
           onPress={() => this.onPressButton()}>
           {types[type].buttonText}
         </CelButton>
@@ -134,4 +147,3 @@ class Passcode extends Component {
   }
 }
 
-export default Passcode;
