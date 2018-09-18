@@ -28,9 +28,14 @@ class TransferReceivedModal extends Component {
     actions.closeModal();
     actions.navigateTo(!user ? 'SignupOne' : 'NoKyc');
   }
+  closeAndGoToWallet = () => {
+    const { actions } = this.props;
+    actions.closeModal();
+    actions.navigateTo('Home');
+  }
   // rendering methods
   renderVerified = () => {
-    const { actions, transfers, currencyRatesShort, branchHashes } = this.props;
+    const { transfers, currencyRatesShort, branchHashes } = this.props;
     const transfer = transfers[branchHashes[0]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
 
@@ -49,7 +54,7 @@ class TransferReceivedModal extends Component {
         </Text>
 
         <CelButton
-          onPress={() => actions.closeModal()}
+          onPress={this.closeAndGoToWallet}
           margin="30 0 0 0"
         >
           Go to wallet

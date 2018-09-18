@@ -21,9 +21,6 @@ class InterestExplanation extends Component {
   // event hanlders
   activateTab = (tab) => {
     const { activeTab } = this.state;
-
-    console.log('activating')
-
     this.setState({ activeTab: activeTab === tab ? undefined : tab });
   }
   // rendering methods

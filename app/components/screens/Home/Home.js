@@ -54,22 +54,6 @@ class HomeScreen extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { user, branchHashes, actions } = this.props;
-
-    if (
-      // user logged in or registered
-      !user && nextProps.user && nextProps.branchHashes && nextProps.branchHashes.length ||
-      // new transfer link is pressed
-      branchHashes && branchHashes.length < nextProps.branchHashes.length
-    ) {
-      branchHashes.forEach(bh => {
-        actions.claimTransfer(bh);
-      })
-    }
-
-  }
-
   render() {
     const { user } = this.props;
 
