@@ -21,6 +21,7 @@ if (__DEV__) {
 
 const middleware =  [
   thunk,
+  // enable when debugging standalone app
   // sentryActionLogger,
 ];
 
@@ -39,18 +40,28 @@ export default function configureStore(initialState) {
 // Middleware used for branch.io debugging in testflight
 // logs every fifth action on sentry
 /* eslint-disable */
-let sentryActionAlerts = 1;
+let allActions = [];
 function sentryActionLogger({ getState }) {
   return (next) => (action) => {
-    console.log(`Action logger ${action.type} (${ sentryActionAlerts++ }) - ${ new Date().getTime() }`);
+    allActions.push(action.type);
+    console.log(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`);
     if (
-      sentryActionAlerts % 5 === 0
+      allActions.length % 5 === 0 ||
+      [
+        // add actions to log here
+      ].indexOf(action.type) !== -1
     ) {
-      Sentry.captureMessage(`Action logger ${action.type} (${ sentryActionAlerts }) - ${ new Date().getTime() }`, {
+      Sentry.captureMessage(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`, {
         level: 'info',
         extra: {
+          allActions,
           action: { ...action },
-          state: { ...getState() },
+          state: {
+            transfers: getState().transfers,
+            api: getState().api,
+            ui: getState().ui,
+            branch: getState().branch,
+          },
         },
       });
     }
