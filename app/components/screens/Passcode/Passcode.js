@@ -77,8 +77,6 @@ class Passcode extends Component {
 
         actions.storePin(pin.pin);
 
-        console.log(purpose);
-
         if (purpose === 'withdraw') {
           if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
             await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
@@ -87,7 +85,7 @@ class Passcode extends Component {
           }
           mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
         } else if (purpose === 'send') {
-          actions.navigateBack();
+          actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
         }
       } catch (error) {
         actions.showMessage('error', error.error);
