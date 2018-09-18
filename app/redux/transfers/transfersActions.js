@@ -1,15 +1,20 @@
+import { Share } from "react-native";
+
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import transferService from '../../services/transfer-service';
+import { navigateTo } from "../nav/navActions";
 import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { TRANSFER_STATUSES } from "../../config/constants/common";
+import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../config/constants/common";
+import { createBranchLink } from "../branch/branchActions";
 
 export {
   getAllTransfers,
   getTransfer,
   claimTransfer,
   createTransfer,
+  createBranchTransfer,
 }
 
 function getAllTransfers(transferStatus) {
@@ -80,14 +85,16 @@ function claimTransferSuccess(transfer) {
   }
 }
 
-function createTransfer(transfer) {
+function createTransfer(amount, coin) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_TRANSFER));
 
     try {
-      const res = await transferService.create(transfer);
-      const newTransfer = res.data;
-      dispatch(createTransferSuccess(newTransfer));
+      const res = await transferService.create({
+        amount: amount.toFixed(5),
+        coin: coin.toUpperCase()
+      });
+      dispatch(createTransferSuccess(res.data));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_TRANSFER, err));
@@ -100,6 +107,51 @@ function createTransferSuccess(transfer) {
     type: ACTIONS.CREATE_TRANSFER_SUCCESS,
     callName: API.CREATE_TRANSFER,
     transfer,
+  }
+}
+
+function createBranchTransfer(amount, coin) {
+  return async (dispatch, getState ) => {
+    dispatch(createTransfer(amount, coin))
+
+    // get newest transfer
+    const allTransferIds = Object.keys(getState().transfers.transfers);
+    const transfers = allTransferIds.map(tid => getState().transfers.transfers[tid]);
+    let newestTransfer = transfers[0];
+    transfers.forEach(t => {
+      if (newestTransfer.created_at < t.created_at) {
+        newestTransfer = t;
+      }
+    })
+
+    const { user } = getState().users;
+    const userName = `${user.first_name} ${user.last_name}`;
+    dispatch(createBranchLink(
+      BRANCH_LINKS.TRANSFER,
+      `transfer:${newestTransfer.hash}`,
+      {
+        locallyIndex: true,
+        title: 'You Got Money!',
+        contentImageUrl: 'https://image.ibb.co/jWfnh9/referall_image.png',
+        contentDescription: 'Click on link to get money!',
+        contentMetadata: {
+          customMetadata: {
+            amount: newestTransfer.amount,
+            coin: newestTransfer.coin,
+            from_name: userName,
+            from_profile_picture: user.profile_picture,
+            transfer_hash: newestTransfer.hash,
+            link_type: BRANCH_LINKS.TRANSFER,
+          }
+        }
+      }
+    ))
+
+    const { createdLinks } = getState().branch;
+    const url = createdLinks[createdLinks.length - 1].url;
+
+    Share.share({ message: `Hello, your money is waiting Sir! ${ url }`, title: 'Money!!!' });
+    dispatch(navigateTo('Home'));
   }
 }
 

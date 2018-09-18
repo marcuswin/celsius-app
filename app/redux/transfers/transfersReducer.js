@@ -13,13 +13,24 @@ export default function transfersReducer(state = initialState(), action) {
 
   switch (action.type) {
     case ACTIONS.BRANCH_LINK_REGISTERED:
-      if (action.link.link_type === BRANCH_LINKS.TRANSFER_RECEIVED) {
+      if (action.link.link_type === BRANCH_LINKS.TRANSFER) {
         return {
           ...state,
-          branchHashes: [...state.branchHashes, action.link.transfer_hash]
+          branchHashes: [...state.branchHashes, action.link.transfer_hash],
+          transfers: {
+            ...state.transfers,
+            [action.link.transfer_hash]: {
+              amount: action.link.amount,
+              coin: action.link.coin,
+              from: {
+                name: action.link.from_name,
+                profile_picture: action.link.from_profile_picture,
+              }
+            }
+          }
         };
       }
-      break;
+      return state;
 
     case ACTIONS.GET_ALL_TRANSFERS_SUCCESS:
       action.transfers.forEach(t => { transfers[t.hash] = t });
@@ -41,6 +52,7 @@ export default function transfersReducer(state = initialState(), action) {
       };
 
     case ACTIONS.CLAIM_TRANSFER_SUCCESS:
+    case ACTIONS.CREATE_TRANSFER_SUCCESS:
       return {
         ...state,
         transfers: {
@@ -49,8 +61,13 @@ export default function transfersReducer(state = initialState(), action) {
         }
       };
 
-    case ACTIONS.CREATE_TRANSFER_SUCCESS:
-      return { ...state };
+      // return {
+      //   ...state,
+      //   transfers: {
+      //     ...state.transfers,
+      //     [action.transfer.hash]: action.transfer,
+      //   }
+      // };
 
     default:
       return { ...state };

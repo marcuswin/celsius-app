@@ -46,7 +46,8 @@ export const MODALS = {
 };
 
 export const BRANCH_LINKS = {
-  TRANSFER_RECEIVED: 'TRANSFER_RECEIVED',
+  TRANSFER: 'TRANSFER',
+  REFERRAL: 'REFERRAL',
 };
 
 export const TRANSFER_STATUSES = {

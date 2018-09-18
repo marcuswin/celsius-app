@@ -7,11 +7,11 @@ import * as NavActions from '../nav/navActions';
 import { setFormErrors, showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
-import { KYC_STATUSES } from "../../config/constants/common";
+import { BRANCH_LINKS, KYC_STATUSES } from "../../config/constants/common";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
-import { initializeBranch } from "../branch/branchActions";
+import { createBranchReferralLink } from "../branch/branchActions";
 
 export {
   getProfileInfo,
@@ -44,13 +44,13 @@ function getProfileInfo() {
         id: personalInfo.id,
       });
 
-      const {branch} = getState();
-
-      if (!branch.initialized) {
-        dispatch(initializeBranch(personalInfo));
-      }
-
       dispatch(getUserPersonalInfoSuccess(personalInfo));
+
+      const { branch } = getState();
+      const referralLink = branch.createdLinks.filter(br => br.linkType === BRANCH_LINKS.REFERRAL);
+      if (!referralLink.length) {
+        dispatch(createBranchReferralLink(personalInfo));
+      }
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));

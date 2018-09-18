@@ -1,9 +1,11 @@
 import ACTIONS from "../../config/constants/ACTIONS";
 
 const initialState = {
-  allLinks: [],
   initialized: false,
-  referralObject: null
+  referralObject: null,
+
+  allLinks: [],
+  createdLinks: [],
 };
 
 export default function branchReducer(state = initialState, action) {
@@ -13,17 +15,16 @@ export default function branchReducer(state = initialState, action) {
         ...state,
         allLinks: [ ...state.allLinks, action.link ],
       };
-    case ACTIONS.BRANCH_LINK_INITIALIZED:
+
+    case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:
       return {
         ...state,
-        initialized: true,
-        referralObject: action.referralObject
+        createdLinks: [
+          ...state.createdLinks,
+          action.branchLink
+        ]
       };
-    case ACTIONS.BRANCH_LINK_INITIALIZED_DEV:
-      return {
-        ...state,
-        initialized: true,
-      };
+
     default:
       return state;
   }
