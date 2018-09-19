@@ -361,12 +361,10 @@ class AddFunds extends Component {
         <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
                           onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
           <Icon
-            name="Shield"
-            width={20}
+            name="ShieldBitGo"
+            width={25}
             height={25}
-            fill="white"
             stroke="white"
-            style={{ opacity: 0.5 }}
           />
           <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
         </TouchableOpacity>
