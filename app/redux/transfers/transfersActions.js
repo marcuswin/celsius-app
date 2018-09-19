@@ -7,7 +7,7 @@ import { navigateTo } from "../nav/navActions";
 import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../config/constants/common";
-import { createBranchLink } from "../branch/branchActions";
+import { createBUO } from "../branch/branchActions";
 
 export {
   getAllTransfers,
@@ -112,23 +112,22 @@ function createTransferSuccess(transfer) {
 
 function createBranchTransfer(amount, coin) {
   return async (dispatch, getState ) => {
-    dispatch(createTransfer(amount, coin))
-
-    // get newest transfer
-    const allTransferIds = Object.keys(getState().transfers.transfers);
-    const transfers = allTransferIds.map(tid => getState().transfers.transfers[tid]);
-    let newestTransfer = transfers[0];
-    transfers.forEach(t => {
-      if (newestTransfer.created_at < t.created_at) {
-        newestTransfer = t;
-      }
-    })
+    let apiCall = API.CREATE_TRANSFER;
+    dispatch(startApiCall(apiCall));
+    const res = await transferService.create({
+      amount: amount.toFixed(5),
+      coin: coin.toUpperCase()
+    });
+    const transfer = res.data;
+    dispatch(createTransferSuccess(transfer));
 
     const { user } = getState().users;
     const userName = `${user.first_name} ${user.last_name}`;
-    dispatch(createBranchLink(
-      BRANCH_LINKS.TRANSFER,
-      `transfer:${newestTransfer.hash}`,
+
+    apiCall = API.CREATE_BRANCH_LINK;
+    dispatch(startApiCall(apiCall));
+    const branchLink = await createBUO(
+      `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
         title: 'You Got Money!',
@@ -136,21 +135,26 @@ function createBranchTransfer(amount, coin) {
         contentDescription: 'Click on link to get money!',
         contentMetadata: {
           customMetadata: {
-            amount: newestTransfer.amount,
-            coin: newestTransfer.coin,
+            amount: transfer.amount,
+            coin: transfer.coin,
             from_name: userName,
             from_profile_picture: user.profile_picture,
-            transfer_hash: newestTransfer.hash,
+            transfer_hash: transfer.hash,
             link_type: BRANCH_LINKS.TRANSFER,
           }
         }
+      },
+      user.email
+    );
+    dispatch({
+      type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+      branchLink: {
+        ...branchLink,
+        linkType: BRANCH_LINKS.TRANSFER
       }
-    ))
+    });
 
-    const { createdLinks } = getState().branch;
-    const url = createdLinks[createdLinks.length - 1].url;
-
-    Share.share({ message: `Hello, your money is waiting Sir! ${ url }`, title: 'Money!!!' });
+    Share.share({ message: `Hello, your money is waiting Sir! ${ branchLink.url }`, title: 'Money!!!' });
     dispatch(navigateTo('Home'));
   }
 }

@@ -11,6 +11,7 @@ export {
   registerBranchLink,
   createBranchLink,
   createBranchReferralLink,
+  createBUO,
 }
 
 function createBranchLink(linkType, canonicalIdentifier, properties) {
@@ -20,25 +21,34 @@ function createBranchLink(linkType, canonicalIdentifier, properties) {
     try {
       dispatch(startApiCall(API.CREATE_BRANCH_LINK));
       const { user } = getState().users;
-      const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
-
-      Branch.setIdentity(user.email);
-      branchObject.logEvent(BranchEvent.ViewItem);
-
-      const { url } = await branchObject.generateShortUrl();
+      const branchLink = await createBUO(canonicalIdentifier, properties, user.email);
 
       dispatch({
         type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
         branchLink: {
           linkType,
-          branchObject,
-          url,
+          ...branchLink
         }
       });
     } catch(err) {
       dispatch(apiError(API.CREATE_BRANCH_LINK, err));
     }
   }
+}
+
+async function createBUO(canonicalIdentifier, properties, email) {
+  const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
+  Branch.setIdentity(email);
+  branchObject.logEvent(BranchEvent.ViewItem);
+
+  const { url } = await branchObject.generateShortUrl();
+
+  return {
+    branchObject,
+    url,
+  }
+
+
 }
 
 function createBranchReferralLink() {
