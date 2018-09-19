@@ -26,6 +26,7 @@ export const COLORS = {
   pink: '#A866AA',
   gray: '#899099',
   gray2: '#3D4853',
+  red: '#EF461A',
 }
 
 export const STYLES = {
