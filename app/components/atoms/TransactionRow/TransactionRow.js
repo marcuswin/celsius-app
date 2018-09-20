@@ -26,103 +26,66 @@ const TRANSACTION_TYPES = {
 }
 
 function getTransactionColor(transactionType) {
-  if ([
-    TRANSACTION_TYPES.DEPOSIT_PENDING,
-    TRANSACTION_TYPES.WITHDRAWAL_PENDING,
-    TRANSACTION_TYPES.TRANSFER_PENDING,
-    TRANSACTION_TYPES.TRANSFER_ONHOLD,
-  ].indexOf(transactionType) !== -1) return COLORS.yellow;
-  if ([
-    TRANSACTION_TYPES.DEPOSIT_CONFIRMED,
-  ].indexOf(transactionType) !== -1) return COLORS.green;
-  if ([
-    TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED,
-    TRANSACTION_TYPES.TRANSFER_RETURNED,
-    TRANSACTION_TYPES.TRANSFER_EXPIRED,
-  ].indexOf(transactionType) !== -1) return COLORS.red;
-  if ([
-    TRANSACTION_TYPES.INTEREST,
-    TRANSACTION_TYPES.COLLATERAL,
-    TRANSACTION_TYPES.TRANSFER_RECEIVED,
-    TRANSACTION_TYPES.TRANSFER_SENT,
-  ].indexOf(transactionType) !== -1) return COLORS.blue;
-}
-
-function getTransactionIcon(transactionType) {
-  // Arrow Down
-  if ([
-    TRANSACTION_TYPES.DEPOSIT_PENDING,
-    TRANSACTION_TYPES.DEPOSIT_CONFIRMED,
-    TRANSACTION_TYPES.TRANSFER_RECEIVED,
-    TRANSACTION_TYPES.TRANSFER_ONHOLD,
-    TRANSACTION_TYPES.TRANSFER_EXPIRED,
-  ].indexOf(transactionType) !== -1) {
-    return <Icon name='ReceiveArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
-  }
-
-  // Arrow Up
-  if ([
-    TRANSACTION_TYPES.WITHDRAWAL_PENDING,
-    TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED,
-    TRANSACTION_TYPES.TRANSFER_PENDING,
-    TRANSACTION_TYPES.TRANSFER_SENT,
-  ].indexOf(transactionType) !== -1) {
-    return <Icon name='SentArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
-  }
-
-  if ([
-    TRANSACTION_TYPES.INTEREST,
-  ].indexOf(transactionType) !== -1) {
-    return (
-      <View style={[TransactionRowStyle.iconWrapper, { paddingLeft: 3 }]}>
-        <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />
-      </View>
-    )
-  }
-
-  if ([
-    TRANSACTION_TYPES.COLLATERAL,
-  ].indexOf(transactionType) !== -1) {
-    return (
-      <View style={[TransactionRowStyle.iconWrapper, { paddingLeft: 1 }]}>
-        <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
-      </View>
-    )
-  }
-
-  if ([
-    TRANSACTION_TYPES.TRANSFER_RETURNED,
-  ].indexOf(transactionType) !== -1) {
-    return <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />
-  }
+  return {
+    DEPOSIT_PENDING: COLORS.yellow,
+    DEPOSIT_CONFIRMED: COLORS.green,
+    WITHDRAWAL_PENDING: COLORS.yellow,
+    WITHDRAWAL_CONFIRMED: COLORS.red,
+    INTEREST: COLORS.blue,
+    COLLATERAL: COLORS.blue,
+    TRANSFER_PENDING: COLORS.yellow,
+    TRANSFER_SENT: COLORS.blue,
+    TRANSFER_RECEIVED: COLORS.blue,
+    TRANSFER_RETURNED: COLORS.red,
+    TRANSFER_EXPIRED: COLORS.red,
+    TRANSFER_ONHOLD: COLORS.yellow,
+  }[transactionType];
 }
 
 function getTransactionStatusText(transactionType, transaction) {
-  switch (transactionType) {
-    case TRANSACTION_TYPES.DEPOSIT_PENDING:
-    case TRANSACTION_TYPES.WITHDRAWAL_PENDING:
-    case TRANSACTION_TYPES.TRANSFER_PENDING:
-      return 'Pending';
-    case TRANSACTION_TYPES.DEPOSIT_CONFIRMED:
-    case TRANSACTION_TYPES.TRANSFER_RECEIVED:
-      return 'Received';
-    case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED:
-      return 'Withdrawn';
-    case TRANSACTION_TYPES.INTEREST:
-      return `${transaction.interest_coin.toUpperCase()} interest`;
-    case TRANSACTION_TYPES.COLLATERAL:
-      return 'Loan Collateral';
-    case TRANSACTION_TYPES.TRANSFER_SENT:
-      return 'Sent';
-    case TRANSACTION_TYPES.TRANSFER_RETURNED:
-      return 'Returned';
-    case TRANSACTION_TYPES.TRANSFER_EXPIRED:
-      return 'Expired';
-    case TRANSACTION_TYPES.TRANSFER_ONHOLD:
-      return 'On hold';
-    default:
-      return '';
-  }
+  return {
+    DEPOSIT_PENDING: 'Pending',
+    DEPOSIT_CONFIRMED: 'Received',
+    WITHDRAWAL_PENDING: 'Pending',
+    WITHDRAWAL_CONFIRMED: 'Withdrawn',
+    INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
+    COLLATERAL: 'Loan Collateral',
+    TRANSFER_PENDING: 'Pending',
+    TRANSFER_SENT: 'Sent',
+    TRANSFER_RECEIVED: 'Received',
+    TRANSFER_RETURNED: 'Returned',
+    TRANSFER_EXPIRED: 'Expired',
+    TRANSFER_ONHOLD: 'On Hold',
+  }[transactionType];
+}
+
+function getTransactionIcon(transactionType) {
+  const receiveArrow = <Icon name='ReceiveArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
+  const sentArrow = <Icon name='SentArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
+
+  return {
+    DEPOSIT_PENDING: receiveArrow,
+    DEPOSIT_CONFIRMED: receiveArrow,
+    WITHDRAWAL_PENDING: sentArrow,
+    WITHDRAWAL_CONFIRMED: sentArrow,
+    INTEREST: (
+      <View style={[TransactionRowStyle.iconWrapper, { paddingLeft: 3 }]}>
+        <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
+    COLLATERAL: (
+      <View style={[TransactionRowStyle.iconWrapper, { paddingLeft: 1 }]}>
+        <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
+    TRANSFER_PENDING: sentArrow,
+    TRANSFER_SENT: sentArrow,
+    TRANSFER_RECEIVED: receiveArrow,
+    // TODO
+    TRANSFER_RETURNED: <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />,
+    TRANSFER_EXPIRED: receiveArrow,
+    TRANSFER_ONHOLD: receiveArrow,
+  }[transactionType];
 }
 
 function getTransactionType(transaction) {
@@ -133,7 +96,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
 
-  if (transaction.nature === 'inbound_transfer') return TRANSACTION_TYPES.TRANSFER_RECEIVED;
+  if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
   if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
     if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_PENDING;
     if (transaction.transfer_data.claimed_at && transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_SENT;
@@ -165,7 +128,9 @@ class TransactionRow extends Component {
   // rendering methods
   render() {
     const { transaction, onPress } = this.props;
-    const { color, icon, statusText } = this.state;
+    const { type, color, icon, statusText } = this.state;
+
+    if (!type) return null;
 
     return (
       <ListItem style={TransactionRowStyle.listItem}>
