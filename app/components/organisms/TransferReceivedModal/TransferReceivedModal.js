@@ -26,7 +26,7 @@ class TransferReceivedModal extends Component {
   closeAndGoToSignup = () => {
     const { actions, user } = this.props;
     actions.closeModal();
-    actions.navigateTo(!user ? 'SignupOne' : 'NoKyc');
+    actions.navigateTo(!user ? 'SignupOne' : 'ProfileDetails');
   }
   closeAndGoToWallet = () => {
     const { actions } = this.props;
@@ -64,7 +64,7 @@ class TransferReceivedModal extends Component {
   }
 
   renderUnverified = () => {
-    const { transfers, currencyRatesShort, branchHashes } = this.props;
+    const { transfers, currencyRatesShort, branchHashes, user } = this.props;
     const transfer = transfers[branchHashes[0]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
     return (
@@ -76,7 +76,7 @@ class TransferReceivedModal extends Component {
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Your friend { transfer.from.name } have sent you
+          Your friend { user ? transfer.from.name : '' } have sent you
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
           worth of { transfer.coin }. To see it in your wallet, please sign up and verify your profile.
         </Text>

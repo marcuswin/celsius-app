@@ -33,7 +33,9 @@ export default function transfersReducer(state = initialState(), action) {
       return state;
 
     case ACTIONS.GET_ALL_TRANSFERS_SUCCESS:
-      action.transfers.forEach(t => { transfers[t.hash] = t });
+      action.transfers.forEach(t => {
+        if (t.hash) transfers[t.hash] = t;
+      });
       return {
         ...state,
         transfers: {

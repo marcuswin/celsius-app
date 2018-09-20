@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Image, Linking, Text, View, TouchableOpacity } from "react-native";
+import { Image, Linking, Text, View } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -7,7 +7,7 @@ import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
-import { KYC_STATUSES } from "../../../config/constants/common";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import {mixpanelEvents} from "../../../services/mixpanel";
@@ -33,6 +33,7 @@ class NoKyc extends Component {
    }
 
    props.actions.getKYCStatus();
+   props.actions.getAllTransfers(TRANSFER_STATUSES.claimed);
   }
 
   // lifecycle methods
@@ -41,28 +42,14 @@ class NoKyc extends Component {
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
       actions.getKYCStatus();
+      actions.getAllTransfers(TRANSFER_STATUSES.claimed);
     }
   }
   // event hanlders
   // rendering methods
   renderInfoBubble = () => {
-    const { allTransfers, kycStatus, actions } = this.props;
+    const { allTransfers, actions } = this.props;
     const claimedTransfers = getClaimedTransfers(allTransfers);
-
-    if (kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.pending) {
-      return (
-        <InfoBubble
-          color="gray"
-          renderContent={(textStyles) => (
-            <View>
-              <Text style={[textStyles, { textAlign: 'center' } ]}>
-                You have 3 more days to receive the money sent to you.
-              </Text>
-            </View>
-          )}
-        />
-      )
-    }
 
     if (claimedTransfers && claimedTransfers.length > 1) {
       return (
@@ -72,9 +59,9 @@ class NoKyc extends Component {
             <View>
               <Text style={[textStyles, { textAlign: 'center' } ]}>
                 You have several transactions on-hold.
-                <TouchableOpacity onPress={() => actions.navigateTo('TransactionsOnHold')}>
-                  <Text style={[textStyles, { textDecorationLine: 'underline' }]}>See all transactions</Text>
-                </TouchableOpacity>
+                <Text onPress={() => actions.navigateTo('TransactionsOnHold')} style={[textStyles, { textDecorationLine: 'underline' }]}>
+                  See all transactions
+                </Text>
               </Text>
             </View>
           )}

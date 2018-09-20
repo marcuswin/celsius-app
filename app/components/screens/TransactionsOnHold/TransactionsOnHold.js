@@ -12,7 +12,7 @@ import * as appActions from "../../../redux/actions";
 // import TransactionsOnHoldStyle from "./TransactionsOnHold.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
-import TransactionsHistoryStyles from "../../molecules/TransactionHistory/TransactionsHistory.styles";
+import TransactionRowStyles from "../../atoms/TransactionRow/TransactionRow.styles";
 import { STYLES } from "../../../config/constants/style";
 import formatter from "../../../utils/formatter";
 import Icon from "../../atoms/Icon/Icon";
@@ -52,11 +52,11 @@ class TransactionsOnHold extends Component {
   }
 
   // event hanlders
-  getRemainingTime = (transfer) => {
+  getTimeDisplay = (transfer) => {
     const expirationDate = moment(transfer.created_at).add(7, 'd');
     let timeText;
-    if (expirationDate.isBefore(moment())) {
-      timeText = moment(expirationDate).format('DD MMM YYYY');
+    if (expirationDate.isBefore(moment()) || transfer.expired_at) {
+      timeText = moment(transfer.expired_at || expirationDate).format('DD MMM YYYY');
     } else {
       const dayDiff = expirationDate.diff(moment(), 'days');
       timeText = `${dayDiff} day${ dayDiff > 1 ? 's' : '' } left`;
@@ -88,7 +88,7 @@ class TransactionsOnHold extends Component {
             scrollEnabled={false}
             style={{marginBottom: 30}}
             renderRow={(item) =>
-              <ListItem style={TransactionsHistoryStyles.listItem}>
+              <ListItem style={TransactionRowStyles.listItem}>
                 <Grid style={{paddingLeft: 0, marginLeft: 0}}>
                   <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
                     <Col style={{ width: 40, position: "absolute" }}>
@@ -102,19 +102,19 @@ class TransactionsOnHold extends Component {
                       />
                     </Col>
                     <Col style={{paddingLeft: 40}}>
-                      <Text style={TransactionsHistoryStyles.usdAmount}>
+                      <Text style={TransactionRowStyles.usdAmount}>
                         {formatter.usd(item.amount * currencyRatesShort[item.coin.toLowerCase()])}
                       </Text>
-                      <Text style={TransactionsHistoryStyles.coinAmount}>
+                      <Text style={TransactionRowStyles.coinAmount}>
                         {formatter.crypto(item.amount, item.coin.toUpperCase(), { precision: 5 })}
                       </Text>
                     </Col>
                   </Col>
                   <Col size={50}>
                     <View style={{display: 'flex', alignSelf: 'flex-end'}}>
-                      <Text style={[TransactionsHistoryStyles.time, { alignSelf: 'flex-end' }]}>{ this.getRemainingTime(item) }</Text>
+                      <Text style={[TransactionRowStyles.time, { alignSelf: 'flex-end' }]}>{ this.getTimeDisplay(item) }</Text>
                       <Text
-                        style={[TransactionsHistoryStyles.status, {color: colors[item.status]}]}>
+                        style={[TransactionRowStyles.status, {color: colors[item.status]}]}>
                         { statusTexts[item.status] }
                       </Text>
                     </View>
