@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import * as appActions from "../../../redux/actions";
-import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -39,9 +39,9 @@ const TRANSACTION_TYPES = {
 
 function getHeading(transaction, type) {
   return {
-    DEPOSIT_PENDING: `Received ${transaction.coin && transaction.coin.toUpperCase()}`,
+    DEPOSIT_PENDING: `Receiving ${transaction.coin && transaction.coin.toUpperCase()}`,
     DEPOSIT_CONFIRMED: `Received ${transaction.coin && transaction.coin.toUpperCase()}`,
-    WITHDRAWAL_PENDING: `Withdrawn ${transaction.coin && transaction.coin.toUpperCase()}`,
+    WITHDRAWAL_PENDING: `Withdrawing ${transaction.coin && transaction.coin.toUpperCase()}`,
     WITHDRAWAL_CONFIRMED: `Withdrawn ${transaction.coin && transaction.coin.toUpperCase()}`,
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} Interest`,
     COLLATERAL: `${transaction.coin && transaction.coin.toUpperCase()} Collateral`,
@@ -65,11 +65,21 @@ function getIcon(transaction, type, supportedCurrencies) {
   const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
   const coinIcon = <Image source={{ uri: coin.image_url }} style={TransactionDetailsStyle.coinType}/>;
 
-  return (type === 'INTEREST') ? '' : coinIcon;
+  return coinIcon;
 }
 
 function getSmallIcon(transaction, type) {
   return {
+    INTEREST: (
+      <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.blue, paddingLeft: 3, alignItems: 'center', justifyContent: 'center' }]}>
+        <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
+    COLLATERAL: (
+      <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.blue, paddingLeft: 3, alignItems: 'center', justifyContent: 'center' }]}>
+        <Icon name='Lock' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
     DEPOSIT_PENDING: <Icon name="ReceiveArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     WITHDRAWAL_PENDING: <Icon name="SentArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
@@ -100,10 +110,10 @@ function getSections(transaction, type) {
     WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to'],
     INTEREST: ['date', 'time', 'status', 'hippo'],
     COLLATERAL: ['date', 'time'],
-    TRANSFER_PENDING: ['contact:to', 'date', 'time', 'status'],
-    TRANSFER_SENT: ['contact:to', 'date', 'time', 'status'],
-    TRANSFER_RECEIVED: ['contact:to', 'date', 'time', 'status'],
-    TRANSFER_RETURNED: ['contact:to', 'date', 'time', 'status'],
+    TRANSFER_PENDING: ['sent:to', 'date', 'time', 'status'],
+    TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
+    TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
+    TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
   }[type];
 }
 
@@ -174,12 +184,6 @@ class TransactionDetails extends Component {
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
 
-  isInterestIncomeTransaction = () => {
-    const { transaction } = this.props;
-
-    return transaction.type === 'incoming' && transaction.nature === 'interest';
-  };
-
   renderLoader = (showBackButton) => (
     <BasicLayout
       bottomNavigation
@@ -194,7 +198,8 @@ class TransactionDetails extends Component {
 
   renderSection = (sectionType) => {
     const { type } = this.state;
-    const { transaction } = this.props;
+    const { transaction, currencyRatesShort } = this.props;
+
     switch(sectionType) {
       case 'date':
         return <BasicSection key={sectionType} label="Date" value={moment(transaction.time).format("D MMM YYYY")} />;
@@ -210,37 +215,23 @@ class TransactionDetails extends Component {
         return transaction.transfer_data.claimer && <ContactSection key={sectionType} contact={transaction.transfer_data.claimer} text="Sent to"/>;
       case 'received:from':
         return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from"/>;
-      case 'interest':
-        return null;
+      case 'hippo':
+        return <HippoSection key={sectionType} transaction={transaction} currencyRatesShort={currencyRatesShort} />;
       default:
         return null;
     }
   }
 
   render() {
+    const { sections, heading, icon, smallIcon, badge } = this.state;
     const { supportedCurrencies, transaction, actions, currencyRatesShort, nav } = this.props;
 
     const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
     if (!supportedCurrencies || !transaction) return this.renderLoader(showBackButton);
 
-
-    const isInterestIncome = this.isInterestIncomeTransaction();
-
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
-    const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
-    const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
-    const interestChangePositive = interestChangePercentage > 0;
-    const interestChangeStyle = {
-      color: COLORS.yellow,
-    };
-
-    if (interestChangePositive) {
-      interestChangeStyle.color = COLORS.green;
-    }
-
-    const { sections, heading, icon, smallIcon, badge } = this.state;
 
     return (
       <BasicLayout
@@ -270,35 +261,6 @@ class TransactionDetails extends Component {
           </View>
 
           { sections.map(this.renderSection) }
-
-          { isInterestIncome &&
-            <View style={TransactionDetailsStyle.hippoInfoWrapper}>
-              <HippoBubble
-                bubbleContent={textStyle =>
-                  <View>
-                    <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
-                      <Text style={textStyle}>Initial interest value</Text>
-                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
-                    </View>
-                    <View style={TransactionDetailsStyle.interestValueTextWrapper}>
-                      <Text style={textStyle}>Today's value</Text>
-                      <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
-                    </View>
-                  </View>
-                }
-                sideContent={textStyle =>
-                  <View>
-                    <View style={{display: 'flex', flexDirection: 'row'}}>
-                      {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
-                      {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
-                      <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
-                      <Text style={textStyle}> change</Text>
-                    </View>
-                    <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
-                  </View>
-                }/>
-            </View>
-          }
 
           <CelButton
             onPress={() => actions.navigateTo('Home')}
@@ -356,66 +318,64 @@ const AddressSection = ({ text, address }) => (
 
 const ContactSection = ({ text, contact }) => (
   <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-    <View style={{ flexDirection: "column" }}>
+    <View style={[TransactionDetailsStyle.row, { flexDirection: 'column' }]}>
       <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
         { text }:
       </Text>
-      <Text
-        style={[TransactionDetailsStyle.info, {
-          textAlign: "left",
-          fontFamily: "inconsolata-regular",
-          marginBottom: 5
-        }]}
-      >
-        { contact.name }
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+        <Image source={{ uri: contact.profile_picture }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 20 }} />
+        <Text style={TransactionDetailsStyle.info}>
+          { contact.first_name } { contact.last_name }
+        </Text>
+      </View>
     </View>
+    <Separator/>
   </View>
 )
 
-// const HippoSection = ({ transaction }) => {
-//   const currencyRatesShort = {};
-//   const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
-//   const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
-//   const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
-//   const interestChangePositive = interestChangePercentage > 0;
-//   const interestChangeStyle = {
-//     color: COLORS.yellow,
-//   };
-//
-//   if (interestChangePositive) {
-//     interestChangeStyle.color = COLORS.green;
-//   }
-//   return (
-//     <View style={TransactionDetailsStyle.hippoInfoWrapper}>
-//       <HippoBubble
-//         bubbleContent={textStyle =>
-//           <View>
-//             <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
-//               <Text style={textStyle}>Initial interest value</Text>
-//               <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
-//             </View>
-//             <View style={TransactionDetailsStyle.interestValueTextWrapper}>
-//               <Text style={textStyle}>Today's value</Text>
-//               <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
-//             </View>
-//           </View>
-//         }
-//         sideContent={textStyle =>
-//           <View>
-//             <View style={{display: 'flex', flexDirection: 'row'}}>
-//               {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
-//               {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
-//               <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
-//               <Text style={textStyle}> change</Text>
-//             </View>
-//             <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
-//           </View>
-//         }/>
-//     </View>
-//   )
-// }
+const HippoSection = ({ transaction, currencyRatesShort }) => {
+  const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
+  const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
+  const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
+  const interestChangePositive = interestChangePercentage > 0;
+  const interestChangeStyle = {
+    color: COLORS.yellow,
+  };
 
+  if (interestChangePositive) {
+    interestChangeStyle.color = COLORS.green;
+  }
+  return (
+    <View style={TransactionDetailsStyle.hippoInfoWrapper}>
+      <HippoBubble
+        bubbleContent={textStyle =>
+          <View>
+            <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
+              <Text style={textStyle}>Initial interest value</Text>
+              <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
+            </View>
+            <View style={TransactionDetailsStyle.interestValueTextWrapper}>
+              <Text style={textStyle}>Today's value</Text>
+              <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
+            </View>
+          </View>
+        }
+        sideContent={textStyle =>
+          <View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
+              {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
+              <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
+              <Text style={textStyle}> change</Text>
+            </View>
+            <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
+          </View>
+        }/>
+    </View>
+  )
+}
+
+// TODO: create atom
 const Badge = ({ text, color }) => (
   <View style={{
     height: 20, borderRadius: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: color, justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start',

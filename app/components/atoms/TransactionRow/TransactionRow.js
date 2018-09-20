@@ -81,8 +81,11 @@ function getTransactionIcon(transactionType) {
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
     TRANSFER_RECEIVED: receiveArrow,
-    // TODO
-    TRANSFER_RETURNED: <Icon name='InterestIcon' height='24' width='24' viewBox="0 0 30 15" fill={STYLES.WHITE_TEXT_COLOR} />,
+    TRANSFER_RETURNED: (
+      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.red }]}>
+        <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
     TRANSFER_EXPIRED: receiveArrow,
     TRANSFER_ONHOLD: receiveArrow,
   }[transactionType];

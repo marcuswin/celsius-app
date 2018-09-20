@@ -32,8 +32,7 @@ const TransactionsHistory = (props) => {
     status: t.is_confirmed ? t.type : 'pending',
     type: t.type,
     transfer_data: t.transfer_data,
-  }))
-
+  })).filter(t => !(t.nature.includes('transfer') && !t.transfer_data))
 
   return (
     <View>
