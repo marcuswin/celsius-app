@@ -28,92 +28,70 @@ import DestinationTagExplanationModal
  * @property {boolean} manually_set
  */
 
-const WithdrawalAddressSetInfo = ({ withdrawalAddress }) => (
+const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, formData }) => (
   <View style={TransactionConfirmationStyle.screenContentWrapper}>
+    <Text
+      style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your {coin.toUpperCase()} withdrawal
+      address is not set. Please, enter the address, or scan QR code.</Text>
+    <CelForm>
+      <CelInput theme="white"
+                value={formData[`${coin}WithdrawalAddress`]}
+                field={`${coin}WithdrawalAddress`}
+                labelText="Withdrawal Address"
+                onChange={onChange}/>
+      <Text onPress={onScanClick} style={[TransactionConfirmationStyle.scanQrCode, {
+        fontFamily: "agile-book",
+        fontSize: 16,
+        color: "rgba(136,162,199,1)"
+      }]}>Scan
+        QR
+        Code</Text>
+    </CelForm>
+
+    {coin === "xrp" &&
+    <View style={{ marginTop: 35, marginBottom: 35, justifyContent: "flex-start" }}>
+      <Text style={[globalStyles.normalText, { marginBottom: 20 }]}>You need to enter a destination tag or turn off
+        this
+        option</Text>
+      <View>
+        <CelInput theme="white"
+                  value={formData.coinTag}
+                  field={`coinTag`}
+                  labelText="XRP Destination Tag"
+                  editable={!formData.hasTagValue}
+        />
+        <View style={{ position: "absolute", right: 14, top: 15 }}>
+          <Switch
+            onValueChange={() => actions.updateFormField("hasTagValue", !formData.hasTagValue)}
+            value={!formData.hasTagValue}
+          />
+        </View>
+      </View>
+      <TouchableOpacity
+        onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
+      >
+        <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 16 }}>
+          What is XRP Destination Tag?
+        </Text>
+      </TouchableOpacity>
+    </View>
+    }
+
     <InfoBubble
       renderContent={(textStyles) => (
         <View>
+          <Text style={[textStyles, globalStyles.boldText]}>
+            Please note:
+          </Text>
           <Text style={textStyles}>
-            Please confirm this is the address you wish to send your funds to. If you transferred money from an
-            exchange, this may not be the correct address to send coins or tokens to. If you need to change your
-            withdrawal address, please contact Celsius support at <Text
-            onPress={() => Linking.openURL("mailto:app@celsius.network")}
-            style={globalStyles.underlinedText}>app@celsius.network</Text>.
+            Once you choose a wallet address to withdraw to you will not be able to change it in the future without
+            contacting us at <Text onPress={() => Linking.openURL("mailto:app@celsius.network")}
+                                   style={globalStyles.underlinedText}>app@celsius.network</Text>.
           </Text>
         </View>
       )}
     />
-    <View style={TransactionConfirmationStyle.addressViewWrapper}>
-      <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-      <Text style={TransactionConfirmationStyle.address}>{withdrawalAddress}</Text>
-    </View>
   </View>
-);
-
-const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, formData }) => (
-    <View style={TransactionConfirmationStyle.screenContentWrapper}>
-      <Text
-        style={[globalStyles.normalText, TransactionConfirmationStyle.withdrawalAddressNotSetText]}>Your {coin.toUpperCase()} withdrawal
-        address is not set. Please, enter the address, or scan QR code.</Text>
-      <CelForm>
-        <CelInput theme="white"
-                  value={formData[`${coin}WithdrawalAddress`]}
-                  field={`${coin}WithdrawalAddress`}
-                  labelText="Withdrawal Address"
-                  onChange={onChange}/>
-        <Text onPress={onScanClick} style={[TransactionConfirmationStyle.scanQrCode, {
-          fontFamily: "agile-book",
-          fontSize: 16,
-          color: "rgba(136,162,199,1)"
-        }]}>Scan
-          QR
-          Code</Text>
-      </CelForm>
-
-      {coin === "xrp" &&
-      <View style={{ marginTop: 35, marginBottom: 35, justifyContent: "flex-start" }}>
-        <Text style={[globalStyles.normalText, { marginBottom: 20 }]}>You need to enter a destination tag or turn off
-          this
-          option</Text>
-        <View>
-          <CelInput theme="white"
-                    value={formData.coinTag}
-                    field={`coinTag`}
-                    labelText="XRP Destination Tag"
-                    editable={!formData.hasTagValue}
-          />
-          <View style={{ position: "absolute", right: 14, top: 15 }}>
-            <Switch
-              onValueChange={() => actions.updateFormField("hasTagValue", !formData.hasTagValue)}
-              value={!formData.hasTagValue}
-            />
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
-        >
-          <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 16 }}>
-            What is XRP Destination Tag?
-          </Text>
-        </TouchableOpacity>
-      </View>
-      }
-
-      <InfoBubble
-        renderContent={(textStyles) => (
-          <View>
-            <Text style={[textStyles, globalStyles.boldText]}>
-              Please note:
-            </Text>
-            <Text style={textStyles}>
-              Once you choose a wallet address to withdraw to you will not be able to change it in the future without
-              contacting us at <Text onPress={() => Linking.openURL("mailto:app@celsius.network")}
-                                     style={globalStyles.underlinedText}>app@celsius.network</Text>.
-            </Text>
-          </View>
-        )}
-      />
-    </View>
 );
 
 @connect(
@@ -126,6 +104,8 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class TransactionConfirmation extends Component {
+
+
   // lifecycle methods
   componentDidMount() {
     const { formData, actions, addresses } = this.props;
@@ -155,13 +135,13 @@ class TransactionConfirmation extends Component {
       formData[`${formData.currency}WithdrawalAddress`] !== nextProps.formData[`${formData.currency}WithdrawalAddress`]
     ) {
 
-      const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].split('?dt=');
+      const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].split("?dt=");
 
-        const newAddress = addressArray[0];
-        const newTag = addressArray[1] || nextProps.formData.coinTag;
+      const newAddress = addressArray[0];
+      const newTag = addressArray[1] || nextProps.formData.coinTag;
 
-        actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
-        actions.updateFormField(`coinTag`, newTag);
+      actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
+      actions.updateFormField(`coinTag`, newTag);
 
     }
   }
@@ -187,7 +167,9 @@ class TransactionConfirmation extends Component {
     const { addresses } = this.props;
     const coin = this.getCoinShorthand();
 
-    return addresses[coin] || {};
+    if (addresses[coin]) {
+      return addresses[coin] || {};
+    }
   };
 
   /**
@@ -232,15 +214,25 @@ class TransactionConfirmation extends Component {
     const { formData, actions } = this.props;
 
     const coin = this.getCoinShorthand();
-
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     let newWithdrawalAddress;
-    if (formData[`${coin}WithdrawalAddress`]) {
-      newWithdrawalAddress = formData.currency === "xrp" ? formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag)
-        : formData[`${coin}WithdrawalAddress`];
-    } else {
-      newWithdrawalAddress = withdrawalAddress.address;
+
+    if (formData.currency === "xrp") {
+      if (formData[`${coin}WithdrawalAddress`]) {
+        newWithdrawalAddress = formData.hasTagValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag);
+      } else {
+        newWithdrawalAddress = withdrawalAddress.address;
+      }
     }
+
+    if (formData.currency !== "xrp") {
+      if (formData[`${coin}WithdrawalAddress`]) {
+        newWithdrawalAddress = formData[`${coin}WithdrawalAddress`];
+      } else {
+        newWithdrawalAddress = withdrawalAddress.address;
+      }
+    }
+
     actions.navigateTo("EnterPasscode", {
       amountCrypto: formData.amountCrypto,
       currency: coin,
@@ -273,6 +265,50 @@ class TransactionConfirmation extends Component {
     }
 
     return !withdrawalAddress.address || !withdrawalAddress.manually_set;
+  };
+
+  withdrawalAddressSetInfo = () => {
+    const coin = this.getCoinShorthand();
+    const address = this.getCoinWithdrawalAddressInfo();
+
+    const addressArray = address.address.split("?dt=");
+    const newAddress = addressArray[0];
+    const newTag = addressArray[1];
+
+    return (
+      <View style={TransactionConfirmationStyle.screenContentWrapper}>
+        <InfoBubble
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={textStyles}>
+                Please confirm this is the address you wish to send your funds to. If you transferred money from an
+                exchange, this may not be the correct address to send coins or tokens to. If you need to change your
+                withdrawal address, please contact Celsius support at <Text
+                onPress={() => Linking.openURL("mailto:app@celsius.network")}
+                style={globalStyles.underlinedText}>app@celsius.network</Text>.
+              </Text>
+            </View>
+          )}
+        />
+        {coin === "xrp" ?
+          <View>
+            <View style={[TransactionConfirmationStyle.addressViewWrapper, {marginBottom:10}]}>
+              <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+              <Text style={TransactionConfirmationStyle.address}>{newAddress}</Text>
+            </View>
+            <View style={TransactionConfirmationStyle.addressViewWrapper}>
+              <Text style={TransactionConfirmationStyle.toAddress}>DESTINATION TAG</Text>
+              <Text style={TransactionConfirmationStyle.address}>{newTag}</Text>
+            </View>
+          </View>
+          :
+          <View style={TransactionConfirmationStyle.addressViewWrapper}>
+            <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+            <Text style={TransactionConfirmationStyle.address}>{address.address}</Text>
+          </View>
+        }
+      </View>
+    );
   };
 
   // rendering methods
@@ -317,8 +353,7 @@ class TransactionConfirmation extends Component {
             </View>
           </View>
 
-          {(!isLoading && withdrawalAddressSet) &&
-          <WithdrawalAddressSetInfo withdrawalAddress={withdrawalAddress.address}/>}
+          {(!isLoading && withdrawalAddressSet) && this.withdrawalAddressSetInfo()}
 
           {(!isLoading && !withdrawalAddressSet) &&
           <WithdrawalAddressNeededBox
@@ -334,7 +369,7 @@ class TransactionConfirmation extends Component {
             onPress={this.confirmWithdrawal}
             margin='30 36 50 36'
             loading={isLoading}
-            disabled={this.isConfirmButtonDisabled(withdrawalAddress)}
+            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (formData.hasTagValue === false && !formData.coinTag)}
           >
             Confirm withdrawal
           </CelButton>

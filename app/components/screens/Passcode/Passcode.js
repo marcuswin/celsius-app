@@ -88,7 +88,7 @@ export default class Passcode extends Component {
 
           actions.storePin(pin.pin);
 
-          if (!withdrawalAddress.manually_set && newWithdrawalAddress) {
+          if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
             await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
           } else {
             await actions.withdrawCrypto(currency, amountCrypto);

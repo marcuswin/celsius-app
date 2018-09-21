@@ -14,8 +14,7 @@ const TransactionConfirmationStyle = StyleSheet.create({
     color: COLORS.blue,
   },
   addressViewWrapper: {
-    height: 85,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(206, 209, 212, 0.4)',
     borderRadius: 8,
     shadowOpacity: 1,
     shadowRadius: 5,
@@ -23,7 +22,8 @@ const TransactionConfirmationStyle = StyleSheet.create({
     shadowColor: 'rgba(0,0,0,0.05)',
     paddingTop: 10,
     paddingLeft: 10,
-    paddingRight:10
+    paddingRight:10,
+    paddingBottom: 10
   },
   toAddress: {
     fontFamily: "agile-book",
