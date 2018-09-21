@@ -9,6 +9,7 @@ import * as appActions from "../../../redux/actions";
 import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import TransactionDetailsStyle from "./TransactionDetails.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
+import Badge from "../../../components/atoms/Badge/Badge";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
@@ -18,26 +19,13 @@ import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
 import Triangle from "../../atoms/Triangle/Triangle";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../config/constants/API";
 
 // const etherscanUrl = ENV === 'PRODUCTION' ? 'https://etherscan.io' : 'https://kovan.etherscan.io';
 // const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https://testnet.blockchain.info';
 
-const TRANSACTION_TYPES = {
-  DEPOSIT_PENDING: 'DEPOSIT_PENDING',
-  DEPOSIT_CONFIRMED: 'DEPOSIT_CONFIRMED',
-  WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
-  WITHDRAWAL_CONFIRMED: 'WITHDRAWAL_CONFIRMED',
-  INTEREST: 'INTEREST',
-  COLLATERAL: 'COLLATERAL',
-  TRANSFER_PENDING: 'TRANSFER_PENDING',
-  TRANSFER_SENT: 'TRANSFER_SENT',
-  TRANSFER_RECEIVED: 'TRANSFER_RECEIVED',
-  TRANSFER_RETURNED: 'TRANSFER_RETURNED',
-  TRANSFER_EXPIRED: 'TRANSFER_EXPIRED',
-  TRANSFER_ONHOLD: 'TRANSFER_ONHOLD',
-}
-
-function getHeading(transaction, type) {
+function getHeading(transaction) {
   return {
     DEPOSIT_PENDING: `Receiving ${transaction.coin && transaction.coin.toUpperCase()}`,
     DEPOSIT_CONFIRMED: `Received ${transaction.coin && transaction.coin.toUpperCase()}`,
@@ -49,26 +37,26 @@ function getHeading(transaction, type) {
     TRANSFER_SENT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
     TRANSFER_RECEIVED: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     TRANSFER_RETURNED: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
-  }[type];
+  }[transaction.type];
 }
 
-function getBadge(transaction, type) {
+function getBadge(transaction) {
   return {
     TRANSFER_PENDING: <Badge color={COLORS.yellow} text="Pending" />,
     TRANSFER_SENT: <Badge color={COLORS.green} text="Sent" />,
     TRANSFER_RECEIVED: <Badge color={COLORS.green} text="Received" />,
     TRANSFER_RETURNED: <Badge color={COLORS.blue} text="Returned" />,
-  }[type];
+  }[transaction.type];
 }
 
-function getIcon(transaction, type, supportedCurrencies) {
+function getIcon(transaction, supportedCurrencies) {
   const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
   const coinIcon = <Image source={{ uri: coin.image_url }} style={TransactionDetailsStyle.coinType}/>;
 
   return coinIcon;
 }
 
-function getSmallIcon(transaction, type) {
+function getSmallIcon(transaction) {
   return {
     INTEREST: (
       <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.blue, paddingLeft: 3, alignItems: 'center', justifyContent: 'center' }]}>
@@ -84,10 +72,10 @@ function getSmallIcon(transaction, type) {
     DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     WITHDRAWAL_PENDING: <Icon name="SentArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     WITHDRAWAL_CONFIRMED: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-  }[type];
+  }[transaction.type];
 }
 
-function getStatusText(transaction, type) {
+function getStatusText(transaction) {
   return {
     DEPOSIT_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>In Progress</Text>,
     DEPOSIT_CONFIRMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
@@ -99,10 +87,10 @@ function getStatusText(transaction, type) {
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
     TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
     TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
-  }[type];
+  }[transaction.type];
 }
 
-function getSections(transaction, type) {
+function getSections(transaction) {
   return {
     DEPOSIT_PENDING: ['date', 'time', 'status', 'address:from'],
     DEPOSIT_CONFIRMED: ['date', 'time', 'status', 'address:from'],
@@ -114,29 +102,14 @@ function getSections(transaction, type) {
     TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
     TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
-  }[type];
-}
-
-function getTransactionType(transaction) {
-  if (transaction.nature === 'deposit' && transaction.status === 'pending') return TRANSACTION_TYPES.DEPOSIT_PENDING;
-  if (transaction.nature === 'deposit' && transaction.status !== 'pending') return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
-  if (transaction.nature === 'withdrawal' && transaction.status === 'pending') return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
-  if (transaction.nature === 'withdrawal' && transaction.status !== 'pending') return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
-  if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
-  if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
-
-  if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
-  if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
-    if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_PENDING;
-    if (transaction.transfer_data.claimed_at && transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_SENT;
-    if (transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_RETURNED;
-  }
+  }[transaction.type];
 }
 
 @connect(
   state => ({
     nav: state.nav,
     supportedCurrencies: state.generalData.supportedCurrencies,
+    callsInProgress: state.api.callsInProgress,
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
     activeTransactionId: state.wallet.activeTransactionId,
     currencyRatesShort: state.generalData.currencyRatesShort,
@@ -169,15 +142,15 @@ class TransactionDetails extends Component {
     const { transaction, supportedCurrencies } = nextProps;
 
     if (transaction) {
-      const type = getTransactionType(transaction);
+      const type = transaction.type;
       this.setState({
         type,
-        heading: getHeading(transaction, type),
-        badge: getBadge(transaction, type),
-        icon: getIcon(transaction, type, supportedCurrencies),
-        smallIcon: getSmallIcon(transaction, type),
-        status: getStatusText(transaction, type),
-        sections: getSections(transaction, type) || [],
+        heading: getHeading(transaction),
+        badge: getBadge(transaction),
+        icon: getIcon(transaction, supportedCurrencies),
+        smallIcon: getSmallIcon(transaction),
+        status: getStatusText(transaction),
+        sections: getSections(transaction) || [],
       })
     }
   }
@@ -224,10 +197,11 @@ class TransactionDetails extends Component {
 
   render() {
     const { sections, heading, icon, smallIcon, badge } = this.state;
-    const { supportedCurrencies, transaction, actions, currencyRatesShort, nav } = this.props;
+    const { supportedCurrencies, transaction, actions, currencyRatesShort, nav, callsInProgress } = this.props;
 
     const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
-    if (!supportedCurrencies || !transaction) return this.renderLoader(showBackButton);
+    const isLoading = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
+    if (!supportedCurrencies || !transaction || isLoading) return this.renderLoader(showBackButton);
 
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
@@ -287,11 +261,11 @@ const BasicSection = ({ label, value }) => (
   </View>
 )
 
-const StatusSection = ({ transaction, type }) => (
+const StatusSection = ({ transaction }) => (
   <View style={TransactionDetailsStyle.infoDetail}>
     <View style={TransactionDetailsStyle.row}>
       <Text style={TransactionDetailsStyle.text}>Status:</Text>
-      { getStatusText(transaction, type) }
+      { getStatusText(transaction) }
     </View>
     <Separator/>
   </View>
@@ -374,19 +348,3 @@ const HippoSection = ({ transaction, currencyRatesShort }) => {
     </View>
   )
 }
-
-// TODO: create atom
-const Badge = ({ text, color }) => (
-  <View style={{
-    height: 20, borderRadius: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: color, justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start',
-  }}>
-    <Text style={{
-      fontSize: 12,
-      fontFamily: 'agile-medium',
-      color: 'white',
-      textAlign: 'center',
-    }}>
-      { text }
-    </Text>
-  </View>
-)

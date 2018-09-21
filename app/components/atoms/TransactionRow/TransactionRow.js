@@ -9,22 +9,6 @@ import formatter from "../../../utils/formatter";
 import { COLORS, STYLES } from "../../../config/constants/style";
 import Icon from "../Icon/Icon";
 
-
-const TRANSACTION_TYPES = {
-  DEPOSIT_PENDING: 'DEPOSIT_PENDING',
-  DEPOSIT_CONFIRMED: 'DEPOSIT_CONFIRMED',
-  WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
-  WITHDRAWAL_CONFIRMED: 'WITHDRAWAL_CONFIRMED',
-  INTEREST: 'INTEREST',
-  COLLATERAL: 'COLLATERAL',
-  TRANSFER_PENDING: 'TRANSFER_PENDING',
-  TRANSFER_SENT: 'TRANSFER_SENT',
-  TRANSFER_RECEIVED: 'TRANSFER_RECEIVED',
-  TRANSFER_RETURNED: 'TRANSFER_RETURNED',
-  TRANSFER_EXPIRED: 'TRANSFER_EXPIRED',
-  TRANSFER_ONHOLD: 'TRANSFER_ONHOLD',
-}
-
 function getTransactionColor(transactionType) {
   return {
     DEPOSIT_PENDING: COLORS.yellow,
@@ -42,7 +26,7 @@ function getTransactionColor(transactionType) {
   }[transactionType];
 }
 
-function getTransactionStatusText(transactionType, transaction) {
+function getTransactionStatusText(transaction) {
   return {
     DEPOSIT_PENDING: 'Pending',
     DEPOSIT_CONFIRMED: 'Received',
@@ -56,7 +40,7 @@ function getTransactionStatusText(transactionType, transaction) {
     TRANSFER_RETURNED: 'Returned',
     TRANSFER_EXPIRED: 'Expired',
     TRANSFER_ONHOLD: 'On Hold',
-  }[transactionType];
+  }[transaction.type];
 }
 
 function getTransactionIcon(transactionType) {
@@ -91,22 +75,6 @@ function getTransactionIcon(transactionType) {
   }[transactionType];
 }
 
-function getTransactionType(transaction) {
-  if (transaction.nature === 'deposit' && transaction.status === 'pending') return TRANSACTION_TYPES.DEPOSIT_PENDING;
-  if (transaction.nature === 'deposit' && transaction.status !== 'pending') return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
-  if (transaction.nature === 'withdrawal' && transaction.status === 'pending') return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
-  if (transaction.nature === 'withdrawal' && transaction.status !== 'pending') return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
-  if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
-  if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
-
-  if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
-  if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
-    if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_PENDING;
-    if (transaction.transfer_data.claimed_at && transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_SENT;
-    if (transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_RETURNED;
-  }
-}
-
 class TransactionRow extends Component {
   static propTypes = {
     transaction: PropTypes.instanceOf(Object)
@@ -115,12 +83,12 @@ class TransactionRow extends Component {
   constructor(props) {
     super(props);
 
-    const type = getTransactionType(props.transaction);
+    const type = props.transaction.type;
     this.state = {
       type,
       color: getTransactionColor(type),
       icon: getTransactionIcon(type),
-      statusText: getTransactionStatusText(type, props.transaction),
+      statusText: getTransactionStatusText(props.transaction),
     };
 
     // binders
