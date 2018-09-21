@@ -59,6 +59,15 @@ class Passcode extends Component {
     type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPressed: false,
+    };
+
+  }
+
   onPressButton = async () => {
     const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
     if (type === 'repeatPasscode') {
@@ -73,6 +82,7 @@ class Passcode extends Component {
       const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
+        this.state.isPressed = true;
         await meService.checkPin(pin);
 
         actions.storePin(pin.pin);
@@ -87,6 +97,7 @@ class Passcode extends Component {
         } else if (purpose === 'send') {
           actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
         }
+
       } catch (error) {
         actions.showMessage('error', error.error);
       }
@@ -107,6 +118,7 @@ class Passcode extends Component {
 
   render() {
     const { activeScreen, type, formData, callsInProgress } = this.props;
+    const { isPressed } = this.state;
 
     const field = types[type].field;
     const disabled = (formData[field] == null || formData[field].length < codeLength) || formData.error;
@@ -129,7 +141,7 @@ class Passcode extends Component {
         <CelButton
           white
           loading={isLoading}
-          disabled={disabled || isLoading}
+          disabled={disabled || isLoading || isPressed}
           onPress={() => this.onPressButton()}>
           {types[type].buttonText}
         </CelButton>

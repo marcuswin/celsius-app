@@ -43,6 +43,7 @@ import InterestCalculatorScreen from "../components/screens/InterestCalculator/I
 import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/HowToEarnInterest";
 import WalletInterestScreen from "../components/screens/WalletInterest/WalletInterest";
 import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/TransactionsOnHold";
+import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -209,6 +210,10 @@ const Navigator = createStackNavigator({
   TransactionsOnHold: {
     screen: TransactionsOnHoldScreen,
     title: 'TransactionsOnHold',
+  },
+  DestinationTagExplanationModal: {
+    screen: DestinationTagExplanationModalScreen,
+    title: 'DestinationTagExplanationModal',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {
