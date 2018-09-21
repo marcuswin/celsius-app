@@ -16,6 +16,7 @@ import formatter from "../../../utils/formatter";
 @connect(
   state => ({
     walletTotal: state.wallet.total,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -23,6 +24,15 @@ class WalletLayout extends Component {
   // lifecycle methods
   componentDidMount() {
     this.props.actions.displayBottomNavigation(true);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { activeScreen, actions } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen &&
+        ['WalletBalance', 'WalletTransactions', 'WalletInterest', 'Home']) {
+      actions.getWalletDetails();
+    }
   }
 
   tabs = [

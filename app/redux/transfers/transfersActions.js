@@ -130,9 +130,9 @@ function createBranchTransfer(amount, coin) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: 'You Got Money!',
-        contentImageUrl: 'https://image.ibb.co/jWfnh9/referall_image.png',
-        contentDescription: 'Click on link to get money!',
+        title: `You received ${amount.toFixed(5)} ${coin.toUpperCase()}`,
+        contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
+        contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
           customMetadata: {
             amount: transfer.amount,
@@ -154,7 +154,7 @@ function createBranchTransfer(amount, coin) {
       }
     });
 
-    Share.share({ message: `Hello, your money is waiting Sir! ${ branchLink.url }`, title: 'Money!!!' });
+    Share.share({ message: `Click on the link to claim your crypto ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
   }
 }
