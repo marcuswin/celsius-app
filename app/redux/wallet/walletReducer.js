@@ -5,10 +5,7 @@ import { TRANSACTION_TYPES } from "../../config/constants/common";
 
 function initialState() {
     return {
-      addresses: {
-        ethAddress: undefined,
-        btcAddress: undefined,
-      },
+      addresses: {},
       withdrawalAddresses: {},
       transactions: {},
       activeTransactionId: undefined,
@@ -16,11 +13,13 @@ function initialState() {
       total: null,
       interest: {},
       currencies: null,
+      coinOrder: [],
     };
 }
 
 export default function walletReducer(state = initialState(), action) {
     const newTransactions = {};
+    let currencies;
 
     switch (action.type) {
       case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
@@ -69,20 +68,23 @@ export default function walletReducer(state = initialState(), action) {
         }
 
       case ACTIONS.GET_WALLET_DETAILS_SUCCESS:
+        currencies = action.wallet.data.map(c => {
+          const currency = c;
+          // round down crypto balances to 5 decimals, otherwise they get rounded wrong
+          const amountBN = new BigNumber(currency.amount);
+          currency.amountRaw = currency.amount;
+          currency.amount = amountBN.toFixed(5, 1);
+          currency.amountBN = amountBN;
+
+          return currency;
+        }).sort((a,b) => (b.amount * b.market.quotes.USD.price - a.amount * a.market.quotes.USD.price));
+
         return {
           ...state,
           interest: action.wallet.meta.interest,
           total: action.wallet.meta,
-          currencies: action.wallet.data.map(c => {
-            const currency = c;
-            // round down crypto balances to 5 decimals, otherwise they get rounded wrong
-            const amountBN = new BigNumber(currency.amount);
-            currency.amountRaw = currency.amount;
-            currency.amount = amountBN.toFixed(5, 1);
-            currency.amountBN = amountBN;
-
-            return currency;
-          }),
+          currencies,
+          coinOrder: currencies.map(c => c.currency.short),
         }
 
       case ACTIONS.STORE_PIN:
