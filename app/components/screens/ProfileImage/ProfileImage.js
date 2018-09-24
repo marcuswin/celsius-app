@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Content} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -12,6 +11,7 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 
 const images = [
@@ -116,7 +116,7 @@ class ProfileImage extends Component {
           <MainHeader backButton />
           <ImageHeading image={activeImage}/>
 
-          <Content>
+          <CelScreenContent>
             <CelButton
               onPress={this.goToCamera}
               transparent
@@ -134,8 +134,8 @@ class ProfileImage extends Component {
               { images.map(this.renderImages) }
             </View>
 
-            <CelButton onPress={this.updateProfilePicture} margin="0 40 30 40" loading={isLoading}>Change avatar</CelButton>
-          </Content>
+            <CelButton onPress={this.updateProfilePicture} margin="0 40 0 40" loading={isLoading}>Change avatar</CelButton>
+          </CelScreenContent>
         </BasicLayout>
     );
   }

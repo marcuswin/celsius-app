@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -68,16 +67,14 @@ class ChangePassword extends Component {
           />
         </CelForm>
 
-        <View style={{marginTop: 40, marginBottom: 30}}>
-          <CelButton
-            color="blue"
-            loading={isLoading}
-            onPress={this.handleChangePassword}
-          >
-            Change password
-          </CelButton>
-        </View>
-
+        <CelButton
+          margin="40 0 0 0"
+          color="blue"
+          loading={isLoading}
+          onPress={this.handleChangePassword}
+        >
+          Change password
+        </CelButton>
       </SimpleLayout>
     );
   }

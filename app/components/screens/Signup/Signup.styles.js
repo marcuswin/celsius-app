@@ -12,7 +12,6 @@ const SignupOneStyle = StyleSheet.create({
   },
   formWrapper: {
     paddingTop: 46,
-    paddingBottom: 60,
     flex: 1,
     justifyContent: 'space-between',
   }

@@ -253,13 +253,11 @@ class WalletInterest extends Component {
           style={{marginBottom: 35}}
         />
 
-        <View style={{ marginBottom: 50 }}>
-          <CelButton
-            onPress={() => actions.navigateTo("AddFunds")}
-          >
-            Add more funds
-          </CelButton>
-        </View>
+        <CelButton
+          onPress={() => actions.navigateTo("AddFunds")}
+        >
+          Add more funds
+        </CelButton>
       </WalletLayout>
     );
   }

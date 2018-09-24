@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View, Image } from "react-native";
-import { Content } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
@@ -21,6 +20,7 @@ import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
 import Triangle from "../../atoms/Triangle/Triangle";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 // const etherscanUrl = ENV === 'PRODUCTION' ? 'https://etherscan.io' : 'https://kovan.etherscan.io';
 // const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https://testnet.blockchain.info';
@@ -214,7 +214,7 @@ class TransactionDetails extends Component {
         <MainHeader backButton={showBackButton}/>
         <CelHeading text={heading} />
 
-        <Content>
+        <CelScreenContent>
           <View style={TransactionDetailsStyle.inputWrapper}>
             <View style={TransactionDetailsStyle.amountStatus}>
               <View style={TransactionDetailsStyle.amount}>
@@ -238,12 +238,11 @@ class TransactionDetails extends Component {
 
           <CelButton
             onPress={() => actions.navigateTo('Home')}
-            margin='10 36 45 36'
+            margin='10 36 0 36'
           >
             Close
           </CelButton>
-
-        </Content>
+        </CelScreenContent>
       </BasicLayout>
     );
   }

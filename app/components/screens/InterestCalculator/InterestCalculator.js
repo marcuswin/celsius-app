@@ -60,7 +60,7 @@ class InterestCalculatorScreen extends Component {
 
     return (
       <EarnInterestLayout>
-        <View style={{ paddingTop: 30, paddingBottom: 30 }}>
+        <View style={{ paddingTop: 30 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
             <RadioButtons
               theme="grey"

@@ -85,8 +85,6 @@ class AddFunds extends Component {
   getAddress = (currency) => {
     const { actions, walletAddresses } = this.props;
 
-    console.log();
-
     if ((!walletAddresses[currency] || !walletAddresses[currency].address) && currency !== "eth") {
       actions.getCoinAddress(currency);
     }
@@ -376,7 +374,7 @@ class AddFunds extends Component {
         <CelButton
           white
           onPress={this.goBack}
-          margin='0 50 30 50'
+          margin='0 50 0 50'
         >
           Done
         </CelButton>

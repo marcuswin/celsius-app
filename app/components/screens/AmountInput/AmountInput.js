@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import {Content} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -14,6 +13,7 @@ import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 const decimalForCurrency = {
   usd: 2,
@@ -222,7 +222,7 @@ class AmountInput extends Component {
           onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
         />
         <CelHeading text={this.getHeadingText(purpose, formData.currency)} />
-        <Content bounces={false}>
+        <CelScreenContent padding='0 0 0 0'>
           <View style={{ height: 0.75 * screenHeight }}>
             <View style={AmountInputStyle.inputWrapper}>
               <Text style={AmountInputStyle.primaryAmount}>
@@ -267,7 +267,7 @@ class AmountInput extends Component {
               </CelButton>
             </View>
           </View>
-        </Content>
+        </CelScreenContent>
       </BasicLayout>
     );
   }

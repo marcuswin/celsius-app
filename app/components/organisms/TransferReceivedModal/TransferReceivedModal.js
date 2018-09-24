@@ -100,6 +100,7 @@ class TransferReceivedModal extends Component {
 
   render() {
     const { user, branchHashes, transfers } = this.props;
+    if (!branchHashes || !branchHashes.length) return null;
     const transfer = transfers[branchHashes[0]];
     if (transfer) {
       return (transfer && user && user.kyc && user.kyc.status === KYC_STATUSES.passed) ? this.renderVerified() : this.renderUnverified();

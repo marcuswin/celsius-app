@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
-import { Content } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
@@ -12,6 +11,7 @@ import BasicLayout from "../BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 @connect(
   state => ({
@@ -55,9 +55,9 @@ class WalletLayout extends Component {
         </View>
         <TabNavigation tabs={this.tabs}/>
 
-        <Content style={WalletLayoutStyle.content}>
+        <CelScreenContent>
           { this.props.children }
-        </Content>
+        </CelScreenContent>
       </BasicLayout>
     );
   }

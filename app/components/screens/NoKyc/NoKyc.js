@@ -118,7 +118,7 @@ class NoKyc extends Component {
                      transparent
                      color="blue"
                      size="medium"
-                     margin="0 0 5 0"
+                     margin="0 0 0 0"
                      inverse
           >Join our Telegram</CelButton>
         </View>
@@ -156,7 +156,7 @@ class NoKyc extends Component {
         </Text>
         <CelButton
           onPress={() => actions.navigateTo('ProfileDetails')}
-          margin='20 50 30 50'
+          margin='20 50 0 50'
         >
           Verify Again
         </CelButton>
@@ -195,7 +195,7 @@ class NoKyc extends Component {
           onPress={() => actions.navigateTo('CryptoForPeople')}
           color="blue"
           size="small"
-          margin="0 0 15 0"
+          margin="0 0 0 0"
           inverse
         >
           Learn more about Celsius

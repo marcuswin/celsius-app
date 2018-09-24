@@ -120,7 +120,7 @@ class VerifyProfile extends Component {
           loading={isLoading}
           disabled={isLoading}
           white
-          margin="0 0 60 0"
+          margin="0 0 0 0"
         >
           { user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC' }
         </CelButton>

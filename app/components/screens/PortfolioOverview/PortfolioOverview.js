@@ -70,13 +70,12 @@ class PortfolioScreen extends Component {
                   </ListItem>
                 }/>
             </View>
-            <View style={{marginTop: 30, marginBottom: 40, marginHorizontal: 22,}}>
-              <CelButton
-                onPress={() => actions.navigateTo('ManagePortfolio')}
-              >
-                Manage coins
-              </CelButton>
-            </View>
+            <CelButton
+              margin="30 22 0 22"
+              onPress={() => actions.navigateTo('ManagePortfolio')}
+            >
+              Manage coins
+            </CelButton>
           </View>
         </View>
       </SimpleLayout>
