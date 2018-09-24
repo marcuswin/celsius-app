@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Image } from "react-native";
+import { Text, Image, Linking } from "react-native";
 import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -13,7 +13,7 @@ import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
-import { STYLES } from "../../../config/constants/style";
+import { STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -145,6 +145,18 @@ class Passcode extends Component {
           onPress={() => this.onPressButton()}>
           {types[type].buttonText}
         </CelButton>
+
+        { type === 'enterPasscode' && (
+          <View style={{ marginTop: 20 }}>
+            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
+            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>
+              Get in touch with <Text
+                style={{ textDecorationLine: 'underline' }}
+                onPress={() => Linking.openURL("mailto:app@celsius.network")}>Celsius support</Text>
+            </Text>
+          </View>
+        ) }
+
       </View>
     </SimpleLayout>
   }
