@@ -32,7 +32,6 @@ import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode"
 import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
 import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
 import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
-import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
 import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/WithdrawalInfo";
 import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
@@ -173,10 +172,6 @@ const Navigator = createStackNavigator({
   TransactionDetails: {
     screen: TransactionDetailsScreen,
     title: 'TransactionDetails',
-  },
-  WalletTotals: {
-    screen: WalletTotalsScreen,
-    title: 'WalletTotals',
   },
   SecureTransactions: {
     screen: SecureTransactionsScreen,

@@ -19,7 +19,6 @@ const walletScreens = [
   'WalletTransactions',
   'WalletBalance',
   'WalletDetails',
-  'WalletTotals',
   'WalletInterest',
   'Home',
   'AmountInput',
