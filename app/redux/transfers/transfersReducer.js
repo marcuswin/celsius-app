@@ -63,13 +63,8 @@ export default function transfersReducer(state = initialState(), action) {
         }
       };
 
-      // return {
-      //   ...state,
-      //   transfers: {
-      //     ...state.transfers,
-      //     [action.transfer.hash]: action.transfer,
-      //   }
-      // };
+    case ACTIONS.LOGOUT_USER:
+      return { ...initialState }
 
     default:
       return { ...state };
