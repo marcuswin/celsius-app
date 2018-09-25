@@ -42,6 +42,7 @@ import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/How
 import WalletInterestScreen from "../components/screens/WalletInterest/WalletInterest";
 import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/TransactionsOnHold";
 import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
+import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -204,6 +205,10 @@ const Navigator = createStackNavigator({
   DestinationTagExplanationModal: {
     screen: DestinationTagExplanationModalScreen,
     title: 'DestinationTagExplanationModal',
+  },
+  LoginPasscode: {
+    screen: LoginPasscodeScreen,
+    title: 'LoginPasscode',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

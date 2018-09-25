@@ -39,6 +39,12 @@ const types = {
       buttonText: 'Confirm',
       field: 'pin',
     },
+    loginPasscode: {
+      title: 'Welcome to Celsius',
+      text: 'Please enter your PIN to start',
+      buttonText: 'Enter PIN',
+      field: 'pin'
+    }
 };
 
 const codeLength = 4;
@@ -51,12 +57,13 @@ const codeLength = 4;
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Passcode extends Component {
   static propTypes = {
-    type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
+    type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode', 'loginPasscode']).isRequired,
   };
 
   constructor(props) {
@@ -65,11 +72,13 @@ class Passcode extends Component {
     this.state = {
       isPressed: false,
     };
-
   }
 
+
+
+
   onPressButton = async () => {
-    const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
+    const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -96,10 +105,26 @@ class Passcode extends Component {
           mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
         } else if (purpose === 'send') {
           actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
+        } else if (purpose === 'login') {
+          actions.navigateTo('WalletBalance');
         }
 
       } catch (error) {
         actions.showMessage('error', error.error);
+      }
+    }
+
+    if (type === 'loginPasscode') {
+      const pin = formData;
+      try {
+        await meService.checkPin(pin);
+        if (previousScreen === null) {
+          actions.navigateTo('WalletBalance');
+        } else {
+          actions.navigateTo(previousScreen);
+        }
+      } catch (e) {
+        actions.showMessage('error', e.error);
       }
     }
   };
@@ -124,7 +149,8 @@ class Passcode extends Component {
     const disabled = (formData[field] == null || formData[field].length < codeLength) || formData.error;
     const pinValue = formData[field];
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
-    const mainHeader = { backButton: activeScreen !== 'Home' };
+
+    const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
 
     return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
@@ -146,7 +172,7 @@ class Passcode extends Component {
           {types[type].buttonText}
         </CelButton>
 
-        { type === 'enterPasscode' && (
+        { type === 'enterPasscode' || type === 'loginPasscode' && (
           <View style={{ marginTop: 20 }}>
             <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
             <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>

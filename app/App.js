@@ -143,11 +143,13 @@ export default class App extends Component {
 
     this.state = {
       isReady: false,
+      appState: AppState.currentState
     };
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
+
   }
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
@@ -155,8 +157,18 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') mixpanelEvents.openApp();
-  }
+    if ( nextAppState === 'active') {
+      mixpanelEvents.openApp();
+      clearTimeout(this.timeout);
+    }
+
+    if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+      this.timeout = setTimeout(() => {
+        store.dispatch(actions.navigateTo("LoginPasscode"))
+      }, 25000)
+    }
+    this.setState({appState: nextAppState});
+  };
 
   render() {
     if (!this.state.isReady) {

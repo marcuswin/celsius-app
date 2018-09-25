@@ -11,7 +11,7 @@ import WelcomeScreen from "../Welcome/Welcome";
 import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
-import WalletBalance from "../WalletBalance/WalletBalance";
+import Passcode from "../Passcode/Passcode";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -62,7 +62,9 @@ class HomeScreen extends Component {
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-    return <WalletBalance />;
+    return <Passcode
+      type={'loginPasscode'}
+    />;
   }
 }
 
