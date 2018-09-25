@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
-import RadioButtons from "../../atoms/RadioButtons/RadioButtons";
 import Loader from "../../atoms/Loader/Loader";
 import CelInput from "../../atoms/CelInput/CelInput";
 import Separator from "../../atoms/Separator/Separator";
@@ -15,22 +14,36 @@ import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
-import { KYC_STATUSES } from "../../../config/constants/common";
-
-// const interestRates = {
-//   BTC: 3.75,
-//   ETH: 3.25,
-// }
+import { INTEREST_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
+import CelSelect from "../../molecules/CelSelect/CelSelect";
 
 @connect(
   state => ({
     formData: state.ui.formData,
     user: state.users.user,
     interestRates: state.interest.rates,
+    supportedCurrencies: state.generalData.supportedCurrencies
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class InterestCalculatorScreen extends Component {
+  constructor(props) {
+    super(props);
+
+  const pickerItems = INTEREST_ELIGIBLE_COINS.map(ec => {
+    const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
+    const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
+    return {
+      label: `${currencyName} (${ec})`,
+      value: ec.toUpperCase()
+    };
+  });
+    this.state = {
+      pickerItems,
+    };
+  }
+
+
   componentDidMount() {
     const { actions, interestRates } = this.props;
 
@@ -45,12 +58,14 @@ class InterestCalculatorScreen extends Component {
 
   render() {
     const { formData, interestRates, actions, user } = this.props;
+    const { pickerItems } = this.state;
 
     if (!interestRates) return (
       <EarnInterestLayout>
         <Loader/>
       </EarnInterestLayout>
-    )
+    );
+
 
     const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
     const interest = formData.interestAmount * interestRates[formData.interestCurrency];
@@ -58,17 +73,17 @@ class InterestCalculatorScreen extends Component {
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
 
+
     return (
       <EarnInterestLayout>
         <View style={{ paddingTop: 30 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
-            <RadioButtons
-              theme="grey"
-              field='interestCurrency'
-              items={[{ label: 'Bitcoin', value: 'BTC'}, { label: 'Ethereum', value: 'ETH'}, { label: 'Litecoin', value: 'LTC'}, { label: 'Ripple', value: 'XRP'}, { label: 'Omisego', value: 'OMG'}]}
-              value={formData.interestCurrency}
-            />
-          </View>
+          <CelSelect field="interestCurrency"
+                     items={pickerItems}
+                     labelText="Select a currency"
+                     value={formData.interestCurrency}
+                     margin="10 0 20 0"
+                     theme={'white'}
+          />
 
           <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at these rates:</Text>
           <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate}/>
