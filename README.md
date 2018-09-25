@@ -14,9 +14,13 @@
 
 ### Dev environment setup
 
-* `npm install -g expo`
-* `npm install`
-* `npm run start:dev:staging`
+```
+yarn global add expo expo-cli
+
+yarn install
+
+yarn run start:dev:staging
+```
 
 ### Ask dev team for:
 
@@ -33,70 +37,70 @@
 ### Dev commands
 
 ```bash
-$ npm start
+$ yarn start
 ```
-- starts expo project (use one of `npm run start:dev` commands instead) 
+- starts expo project (use one of `yarn run start:dev` commands instead) 
 
 ```bash
-$ npm run start:dev
+$ yarn run start:dev
 ```
 - starts expo project with environment settings from `app.json` 
 
 
 ```bash
-$ npm run start:dev:local
+$ yarn run start:dev:local
 ```
 - updates `app.json` with local settings and starts expo project
 
 ```bash
-$ npm run start:dev:staging
+$ yarn run start:dev:staging
 ```
 - updates `app.json` with staging settings and starts expo project
 
 ```bash
-$ npm run kill:expo
+$ yarn run kill:expo
 ```
 ```bash
-$ npm run ios
+$ yarn run ios
 ```
 - starts ios simulator and react native debugger
 
 ```bash
-$ npm run android
+$ yarn run android
 ```
 
 ```bash
-$ npm run lint
+$ yarn run lint
 ```
 - checks the code for linting errors
 
 ```bash
-$ npm run env:local
+$ yarn run env:local
 ```
 - updates `app.json` with local environment variables
 
 ```bash
-$ npm run env:staging
+$ yarn run env:staging
 ```
 - updates `app.json` with staging environment variables
 
 ```bash
-$ npm run env:production
+$ yarn run env:production
 ```
 - updates `app.json` with production environment variables
 
 ```bash
-$ npm run publish:staging
+$ yarn run publish:staging
 ```
 - publishes staging app to expo
 
 ```bash
-$ npm run deploy:staging
+$ yarn run deploy:staging
 ```
 - sets staging environment variables and publishes app to staging
 
 ```bash
-$ npm run plop
+$ yarn run plop
 ```
 - runs plop [More...](https://github.com/amwmedia/plop). Available plops for: _TODO_
 
