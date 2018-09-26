@@ -22,6 +22,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
     formData: state.ui.formData,
     user: state.users.user,
     interestRates: state.interest.rates,
+    interestRatesDisplay: state.interest.ratesDisplay,
     supportedCurrencies: state.generalData.supportedCurrencies
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -57,7 +58,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData, interestRates, actions, user } = this.props;
+    const { formData, interestRates, interestRatesDisplay, actions, user } = this.props;
     const { pickerItems } = this.state;
 
     if (!interestRates) return (
@@ -67,7 +68,7 @@ class InterestCalculatorScreen extends Component {
     );
 
 
-    const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
+    const displayInterestRate = `${interestRatesDisplay[formData.interestCurrency]}%`;
     const interest = formData.interestAmount * interestRates[formData.interestCurrency];
     const interestPerWeek = interest / 52;
     const interestPerMonth = interest / 12;
