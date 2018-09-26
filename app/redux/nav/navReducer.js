@@ -3,6 +3,7 @@ import ACTIONS from "../../config/constants/ACTIONS";
 
 const initialState = {
   index: 0,
+  initializingApp: true,
   displayBottomNavigation: false,
   routes: [{ key: 'Init', routeName: 'Home' }],
 };
@@ -15,6 +16,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...newState,
+        initializingApp: state.initializingApp && state.index ? false : state.initializingApp,
         displayBottomNavigation: action.value,
       };
     case ACTIONS.LOGOUT_USER:
