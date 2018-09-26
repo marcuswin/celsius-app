@@ -225,6 +225,7 @@ class NoKyc extends Component {
 export default NoKyc;
 
 function getClaimedTransfers(allTransfers) {
+  if (!allTransfers) return [];
   const transfers = [];
 
   Object.keys(allTransfers).forEach(t => {
