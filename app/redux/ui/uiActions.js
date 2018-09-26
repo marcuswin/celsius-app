@@ -230,13 +230,14 @@ function openInitialModal() {
   return (dispatch, getState) => {
     const openedModal = getState().ui.openedModal;
     const appSettings = getState().users.appSettings;
+    const user = getState().users.user;
     const branchHashes = getState().transfers.branchHashes;
 
     if (branchHashes && branchHashes.length) {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
 
-    if (appSettings.showTodayRatesModal && !openedModal) {
+    if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
     }
   };
