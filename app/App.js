@@ -162,7 +162,7 @@ export default class App extends Component {
       clearTimeout(this.timeout);
     }
 
-    if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
       this.timeout = setTimeout(() => {
         store.dispatch(actions.navigateTo("LoginPasscode"))
       }, 25000)
