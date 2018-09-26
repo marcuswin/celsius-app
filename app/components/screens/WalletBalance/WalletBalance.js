@@ -78,7 +78,7 @@ class WalletBalance extends Component {
 
     return (
       <WalletLayout>
-        {(!!totalInterestEarned) && <Card>
+        {(!!totalInterestEarned) && <Card style={{marginTop: 15}}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
             <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
