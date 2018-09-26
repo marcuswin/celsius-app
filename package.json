@@ -12,6 +12,7 @@
     "lint": "eslint app test *.js",
     "env:local": "expo-env  --env=development --configPath=./config",
     "env:staging": "expo-env --env=staging --configPath=./config",
+    "env:preprod": "expo-env --env=pre-prod --configPath=./config",
     "env:production": "expo-env --env=production --configPath=./config",
     "publish:staging": "expo publish --release-channel staging",
     "deploy:staging": "npm run env:staging && npm run publish:staging",
