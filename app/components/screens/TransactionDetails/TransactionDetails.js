@@ -214,7 +214,7 @@ class TransactionDetails extends Component {
         <MainHeader backButton={showBackButton}/>
         <CelHeading text={heading} />
 
-        <CelScreenContent>
+        <CelScreenContent padding={"0 0 0 0"}>
           <View style={TransactionDetailsStyle.inputWrapper}>
             <View style={TransactionDetailsStyle.amountStatus}>
               <View style={TransactionDetailsStyle.amount}>
