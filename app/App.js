@@ -162,9 +162,9 @@ export default class App extends Component {
     }
 
     if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-      setTimeout(() => {
-        store.dispatch(actions.navigateTo("LoginPasscode"))
-        clearTimeout()
+      const timeout = setTimeout(() => {
+        store.dispatch(actions.navigateTo("LoginPasscode"));
+        clearTimeout(timeout)
       }, 25000)
     }
     this.setState({appState: nextAppState});
