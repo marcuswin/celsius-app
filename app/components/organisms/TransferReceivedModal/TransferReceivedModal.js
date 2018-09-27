@@ -36,13 +36,14 @@ class TransferReceivedModal extends Component {
   // rendering methods
   renderVerified = () => {
     const { transfers, currencyRatesShort, branchHashes } = this.props;
-    const transfer = transfers[branchHashes[0]];
+    const transfer = transfers[branchHashes[branchHashes.length - 1]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
+    const imageUri = transfer.from.profile_picture ? transfer.from.profile_picture : 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
 
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={{ uri: transfer.from.profile_picture }} style={{ width: 120, height: 120, borderRadius: 60 }} />
+          <Image source={{ uri: imageUri }} style={{ width: 120, height: 120, borderRadius: 60 }} />
         </View>
 
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Congrats!</Text>
@@ -65,12 +66,14 @@ class TransferReceivedModal extends Component {
 
   renderUnverified = () => {
     const { transfers, currencyRatesShort, branchHashes, user } = this.props;
-    const transfer = transfers[branchHashes[0]];
+    const transfer = transfers[branchHashes[branchHashes.length - 1]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
+    const imageUri = transfer.from.profile_picture ? transfer.from.profile_picture : 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
+
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={{ uri: transfer.from.profile_picture }} style={{ width: 120, height: 120, borderRadius: 60 }} />
+          <Image source={{ uri: imageUri }} style={{ width: 120, height: 120, borderRadius: 60 }} />
         </View>
 
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome!</Text>
