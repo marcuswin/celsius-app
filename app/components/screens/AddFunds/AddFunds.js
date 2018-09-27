@@ -161,7 +161,7 @@ class AddFunds extends Component {
       address = this.setAddress(navCurrency.toLowerCase());
 
       if (address) {
-        addressArray = address.split('?dt=');
+        addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
         console.log(address, addressXrp, destinationTag);
@@ -172,7 +172,7 @@ class AddFunds extends Component {
       address = this.setAddress(formData.currency);
 
       if (address) {
-        addressArray = address.split('?dt=');
+        addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
         console.log(address, addressXrp, destinationTag);
@@ -358,24 +358,27 @@ class AddFunds extends Component {
           </CelButton>
         </View>}
 
-        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
-                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
-          <Icon
-            name="ShieldBitGo"
-            width={25}
-            height={25}
-            stroke="white"
-          />
-          <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
-        </TouchableOpacity>
-
         <CelButton
           white
           onPress={this.goBack}
-          margin='0 50 0 50'
+          margin='20 50 0 50'
         >
           Done
         </CelButton>
+
+        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
+                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
+          <View style={{marginRight: 10}}>
+            <Icon
+              name="ShieldBitGo"
+              width={25}
+              height={25}
+              stroke="white"
+            />
+          </View>
+          <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
+        </TouchableOpacity>
+
         <DestinationTagExplanationModal/>
       </SimpleLayout>
 
