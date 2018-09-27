@@ -38,14 +38,6 @@ class WalletBalance extends Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getSupportedCurrencies();
-    actions.getWalletDetails();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { actions, activeScreen } = this.props;
-    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
-      actions.getWalletDetails();
-    }
   }
 
   openTodayRatesModal = () => {
