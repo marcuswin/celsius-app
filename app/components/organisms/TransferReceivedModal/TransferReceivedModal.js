@@ -38,7 +38,7 @@ class TransferReceivedModal extends Component {
     const { transfers, currencyRatesShort, branchHashes } = this.props;
     const transfer = transfers[branchHashes[branchHashes.length - 1]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
-    const imageUri = transfer.from.profile_picture ? transfer.from.profile_picture : 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
+    const imageUri = transfer.from.profile_picture || 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
 
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
@@ -68,7 +68,7 @@ class TransferReceivedModal extends Component {
     const { transfers, currencyRatesShort, branchHashes, user } = this.props;
     const transfer = transfers[branchHashes[branchHashes.length - 1]];
     const amountUsd = currencyRatesShort[transfer.coin.toLowerCase()] * transfer.amount;
-    const imageUri = transfer.from.profile_picture ? transfer.from.profile_picture : 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
+    const imageUri = transfer.from.profile_picture || 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg';
 
     return (
       <CelModal name={MODALS.TRANSFER_RECEIVED}>
