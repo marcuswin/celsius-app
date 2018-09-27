@@ -33,6 +33,7 @@ class WalletLayout extends Component {
         ['WalletBalance', 'WalletTransactions', 'WalletInterest', 'Home']) {
       actions.getWalletDetails();
     }
+    if (nextProps.activeScreen === 'Home') this.props.actions.displayBottomNavigation(true);
   }
 
   tabs = [
