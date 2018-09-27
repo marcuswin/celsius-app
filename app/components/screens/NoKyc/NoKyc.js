@@ -174,7 +174,7 @@ class NoKyc extends Component {
         mainHeader={{backButton: false}}
       >
         { this.renderInfoBubble() }
-        <Image source={require('../../../../assets/images/wallet-emptystate-ftux3x.png')} style={NoKycStyle.image}/>
+        <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
           This is where you'll be able to add, send and receive coins
         </Text>
