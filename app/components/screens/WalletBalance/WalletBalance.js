@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
+import Loader from "../../atoms/Loader/Loader";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import { mixpanelEvents } from "../../../services/mixpanel";
@@ -75,6 +76,12 @@ class WalletBalance extends Component {
     const totalInterestPerCoin = interest.total || {};
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
+
+    if (!walletCurrencies) return (
+      <WalletLayout>
+        <Loader/>
+      </WalletLayout>
+    );
 
     return (
       <WalletLayout>

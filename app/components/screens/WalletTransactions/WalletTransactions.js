@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
+import Loader from "../../atoms/Loader/Loader";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 
@@ -43,6 +44,12 @@ class WalletTransactions extends Component {
   render() {
     const { currencyRatesShort, actions } = this.props;
     const transactions = this.getTransactions();
+
+    if (!transactions.length) return (
+      <WalletLayout>
+        <Loader/>
+      </WalletLayout>
+    )
 
     return (
       <WalletLayout>
