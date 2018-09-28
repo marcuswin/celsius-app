@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import _ from "lodash";
+import {Col, Grid} from "react-native-easy-grid";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES} from "../../../config/constants/style";
-import { CAMERA_COPY } from "../../../config/constants/common";
-import CelSelect from "../../molecules/CelSelect/CelSelect";
+import {CAMERA_COPY} from "../../../config/constants/common";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CameraInput from "../../atoms/CameraInput/CameraInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
 import CelForm from "../../atoms/CelForm/CelForm";
+import Icon from "../../atoms/Icon/Icon";
+import VerifyProfileStyle from "./VerifyProfile.styles";
 
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
@@ -75,12 +77,27 @@ class VerifyProfile extends Component {
 
   initForm = () => {
     const { actions, user, kycDocuments } = this.props;
-    actions.initForm({
-      cellphone: user.cellphone,
-      documentType: kycDocuments ? kycDocuments.type : undefined,
-      front: kycDocuments ? kycDocuments.front : undefined,
-      back: kycDocuments ? kycDocuments.back : undefined,
-    })
+    if (kycDocuments) {
+      actions.initForm({
+        cellphone: user.cellphone,
+        documentType: kycDocuments.type ? kycDocuments.type : 'passport',
+        front: kycDocuments.front ? kycDocuments.front : undefined,
+        back: kycDocuments.back ? kycDocuments.back : undefined,
+      })
+    } else {
+      actions.initForm({
+        cellphone: user.cellphone,
+        documentType: undefined,
+        front: undefined,
+        back: undefined,
+      })
+    }
+  }
+
+  selectDocumentType = async (type) => {
+    const {actions} = this.props;
+
+    actions.updateFormField("documentType", type);
   }
   // rendering methods
   render() {
@@ -100,7 +117,22 @@ class VerifyProfile extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isLoading}>
-          <CelSelect error={formErrors.document_type} field="documentType" items={docs} labelText="Document Type" value={formData.documentType}/>
+
+          <Grid style={VerifyProfileStyle.documentsGrid}>
+            {formData.documentType ?
+              docs.map( document =>
+              <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
+                <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
+                  <View style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
+                    <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} fill='#FFFFFF'/>
+                    <View style={VerifyProfileStyle.documentTypeWrapper}>
+                      <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </Col> )
+              : null }
+          </Grid>
 
           <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
@@ -132,10 +164,10 @@ class VerifyProfile extends Component {
 function mapDocs(docs) {
   const kycDocs = [];
 
-  if (!docs) return [{ value: 'passport', label: 'Passport' }];
-  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport' });
-  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: 'Driving Licence' });
-  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National Identity Card' });
+  if (!docs) return [{ value: 'passport', label: 'Passport', icon: {name: 'Passport', viewBox: '0 0 38 30'}}];
+  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National ID card', icon: {name: 'IDcard', viewBox: '0 0 38 30'}});
+  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport', icon: {name: 'Passport', viewBox: '0 0 38 30'}});
+  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: "Driver's license", icon: {name: 'DrivingLicense', viewBox: '0 0 42 29'}});
 
   return kycDocs;
 }
