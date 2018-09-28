@@ -42,6 +42,8 @@ class TransactionsHistory extends Component {
       transfer_data: t.transfer_data,
     })).filter(t => !(t.nature.includes('transfer') && !t.transfer_data))
 
+    const totalTransactions = transactionsDisplay.length;
+
     if (!showAll) {
       transactionsDisplay = transactionsDisplay.slice(0,5);
     }
@@ -65,7 +67,7 @@ class TransactionsHistory extends Component {
           color="blue"
           inverse
         >
-          { showAll ? 'Show less' : 'Show all' }
+          { showAll && totalTransactions > 5 ? 'Show less' : 'Show all' }
         </CelButton>
       </View>
     )
