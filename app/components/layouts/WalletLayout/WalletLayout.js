@@ -24,15 +24,17 @@ class WalletLayout extends Component {
   // lifecycle methods
   componentDidMount() {
     this.props.actions.displayBottomNavigation(true);
+    this.props.actions.getWalletDetails();
   }
 
   componentWillReceiveProps(nextProps) {
     const { activeScreen, actions } = this.props;
 
     if (activeScreen !== nextProps.activeScreen &&
-        ['WalletBalance', 'WalletTransactions', 'WalletInterest', 'Home']) {
+        ['WalletBalance', 'WalletTransactions', 'WalletInterest', 'Home'].indexOf(nextProps.activeScreen) !== -1) {
       actions.getWalletDetails();
     }
+    if (nextProps.activeScreen === 'Home') this.props.actions.displayBottomNavigation(true);
   }
 
   tabs = [

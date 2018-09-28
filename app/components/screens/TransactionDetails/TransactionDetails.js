@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Linking, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
+import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
 import { COLORS, FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
@@ -21,9 +22,6 @@ import Triangle from "../../atoms/Triangle/Triangle";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
-
-// const etherscanUrl = ENV === 'PRODUCTION' ? 'https://etherscan.io' : 'https://kovan.etherscan.io';
-// const blockchainUrl = ENV === 'PRODUCTION' ? 'https://blockchain.info' : 'https://testnet.blockchain.info';
 
 function getHeading(transaction) {
   return {
@@ -90,12 +88,23 @@ function getStatusText(transaction) {
   }[transaction.type];
 }
 
+function getBlockExplorerLink(transaction) {
+  return {
+    eth: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
+    btc: { link: `https://blockchain.info/btc/tx/${ transaction.transaction_id }`, text: 'blockchain'},
+    ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${ transaction.transaction_id }`, text: 'chainz'},
+    xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${ transaction.transaction_id }`, text: 'xrpcharts'},
+    cel: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
+    omg: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
+  }[transaction.coin];
+}
+
 function getSections(transaction) {
   return {
-    DEPOSIT_PENDING: ['date', 'time', 'status', 'address:from'],
-    DEPOSIT_CONFIRMED: ['date', 'time', 'status', 'address:from'],
-    WITHDRAWAL_PENDING: ['date', 'time', 'status', 'address:to'],
-    WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to'],
+    DEPOSIT_PENDING: ['date', 'time', 'status', 'address:from', 'explorer'],
+    DEPOSIT_CONFIRMED: ['date', 'time', 'status', 'address:from', 'explorer'],
+    WITHDRAWAL_PENDING: ['date', 'time', 'status', 'address:to', 'explorer'],
+    WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to', 'explorer'],
     INTEREST: ['date', 'time', 'status', 'hippo'],
     COLLATERAL: ['date', 'time'],
     TRANSFER_PENDING: ['sent:to', 'date', 'time', 'status'],
@@ -170,9 +179,10 @@ class TransactionDetails extends Component {
   )
 
   renderSection = (sectionType) => {
+    const { ENV } = Constants;
     const { type } = this.state;
     const { transaction, currencyRatesShort } = this.props;
-
+    let shouldRenderSection;
     switch(sectionType) {
       case 'date':
         return <BasicSection key={sectionType} label="Date" value={moment(transaction.time).format("D MMM YYYY")} />;
@@ -188,6 +198,9 @@ class TransactionDetails extends Component {
         return transaction.transfer_data.claimer && <ContactSection key={sectionType} contact={transaction.transfer_data.claimer} text="Sent to"/>;
       case 'received:from':
         return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from"/>;
+      case 'explorer':
+        shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) && transaction.transaction_id;
+        return  shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction}/>;
       case 'hippo':
         return <HippoSection key={sectionType} transaction={transaction} currencyRatesShort={currencyRatesShort} />;
       default:
@@ -270,6 +283,22 @@ const StatusSection = ({ transaction }) => (
   </View>
 )
 
+const BlockExplorerSection = ({ transaction }) => (
+  <View style={TransactionDetailsStyle.infoDetail}>
+    <TouchableOpacity
+      style={[TransactionDetailsStyle.row, { alignItems: 'flex-start' }]}
+      onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
+      <Text
+        style={TransactionDetailsStyle.info}
+      >
+        View on {getBlockExplorerLink(transaction).text}
+      </Text>
+      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue}/>
+    </TouchableOpacity>
+    <Separator/>
+  </View>
+)
+
 const AddressSection = ({ text, address }) => (
   <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
     <View style={{ flexDirection: "column" }}>
@@ -296,7 +325,11 @@ const ContactSection = ({ text, contact }) => (
         { text }:
       </Text>
       <View style={{ flexDirection: 'row', alignItems: 'center'}}>
-        <Image source={{ uri: contact.profile_picture }} style={{ width: 40, height: 40, borderRadius: 20, marginRight: 20 }} />
+        <Image
+          source={{ uri: contact.profile_picture || 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg' }}
+          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 20 }}
+        />
+
         <Text style={TransactionDetailsStyle.info}>
           { contact.first_name } { contact.last_name }
         </Text>

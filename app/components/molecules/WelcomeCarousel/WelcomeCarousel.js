@@ -31,19 +31,19 @@ export default class WelcomeCarousel extends Component {
           largeDescription: "Let's get on the same team so crypto goes mainstream. Together, we can bring the next 100M people into Crypto (so you're not the only weirdo at parties)."
         },
         {
-          title: "Get a Loan in Dollars",
-          smallDescription: "NOW, YOU CAN HODL AND LIVE LARGE",
-          largeDescription: "Use our loan estimator to see how many dollars you could borrow against your crypto once we launch."
-        },
-        {
           title: "Earn Interest",
           smallDescription: "PUT YOUR CRYPTO TO WORK",
           largeDescription: "Woohoo! Deposit BTC, ETH, LTC or XRP and get between 3-5% interest annually paid to you every Monday in the app."
         },
         {
+          title: "Get a Loan in Dollars",
+          smallDescription: "NOW, YOU CAN HODL AND LIVE LARGE",
+          largeDescription: "Use our loan estimator to see how many dollars you could borrow at 9% interest against your crypto and apply for a loan."
+        },
+        {
           title: "Join the Queue",
           smallDescription: "EARLY BIRDS GET THE LOAN!",
-          largeDescription: "Join the line now to be one of the first to get a loan or interest on your crypto."
+          largeDescription: "Join the line now to be one of the first to get a loan."
         }
       ]
     };

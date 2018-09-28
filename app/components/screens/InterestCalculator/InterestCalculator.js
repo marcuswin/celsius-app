@@ -155,7 +155,7 @@ class InterestCalculatorScreen extends Component {
 
           {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse
-            onPress={() => actions.navigateTo('AddFunds')}
+            onPress={() => actions.navigateTo('AddFunds', { currency: formData.interestCurrency })}
           >
             Deposit coins
           </CelButton>}

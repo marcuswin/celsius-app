@@ -136,7 +136,7 @@ class AmountInput extends Component {
       return `Choose recipient`;
     }
 
-    return `Withdraw`;
+    return "Check Wallet Address";
   };
 
   switchCurrencies = () => {
