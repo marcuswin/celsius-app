@@ -47,10 +47,8 @@ const TransactionRowStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 16,
-    borderWidth: 1,
     // paddingLeft: 3,
-    borderColor: 'white',
-  }
+  },
 });
 
 export default TransactionRowStyle;

@@ -42,10 +42,9 @@ function getTransactionStatusText(transaction) {
     TRANSFER_ONHOLD: 'On Hold',
   }[transaction.type];
 }
-
 function getTransactionIcon(transactionType) {
-  const receiveArrow = <Icon name='ReceiveArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
-  const sentArrow = <Icon name='SentArrow' height='36' width='36' viewBox="0 0 36 36" fill={getTransactionColor(transactionType)} stroke='white' />;
+  const receiveArrow = <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}><Icon name='ReceiveArrowTransactions' height='20' width='20' viewBox="0 0 17 20.54" fill={'white'} /></View>;
+  const sentArrow = <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}><Icon name='SentArrowTransactions' height='20' width='20' viewBox="0 0 17 20.54" fill={'white'} /></View>;
 
   return {
     DEPOSIT_PENDING: receiveArrow,
@@ -108,7 +107,7 @@ class TransactionRow extends Component {
         <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
           <Grid style={{paddingLeft: 0, marginLeft: 0}}>
             <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
-              <Col style={{ width: 40, position: "absolute" }}>
+              <Col style={{ width: 40, position: 'absolute' }}>
                 { icon }
               </Col>
               <Col style={{paddingLeft: 40}}>
