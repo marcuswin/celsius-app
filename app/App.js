@@ -159,12 +159,13 @@ export default class App extends Component {
   handleAppStateChange = (nextAppState) => {
     if ( nextAppState === 'active') {
       mixpanelEvents.openApp();
+      clearTimeout(this.timeout)
     }
 
     if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-      const timeout = setTimeout(() => {
+      this.timeout = setTimeout(() => {
         store.dispatch(actions.navigateTo("LoginPasscode"));
-        clearTimeout(timeout)
+        clearTimeout(this.timeout)
       }, 25000)
     }
     this.setState({appState: nextAppState});
