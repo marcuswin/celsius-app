@@ -5,9 +5,6 @@ const VerifyProfileStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  documentsGrid: {
-    height: 101
-  },
   documentViewWrapper: {
     backgroundColor: '#5366ad',
     opacity: 0.7,

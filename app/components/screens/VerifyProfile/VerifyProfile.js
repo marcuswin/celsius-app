@@ -115,47 +115,48 @@ class VerifyProfile extends Component {
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
           Please take a photo of your ID or passport to confirm your identity.
         </Text>
+        {formData.documentType ?
+          <View>
+            <CelForm margin="30 0 35 0" disabled={isLoading}>
 
-        <CelForm margin="30 0 35 0" disabled={isLoading}>
+              <Grid>
+                {docs.map( document =>
+                  <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
+                    <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
+                      <View style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
+                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} fill='#FFFFFF'/>
+                        <View style={VerifyProfileStyle.documentTypeWrapper}>
+                          <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  </Col>
+                )}
+              </Grid>
 
-          <Grid style={VerifyProfileStyle.documentsGrid}>
-            {formData.documentType ?
-              docs.map( document =>
-              <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
-                <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
-                  <View style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
-                    <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} fill='#FFFFFF'/>
-                    <View style={VerifyProfileStyle.documentTypeWrapper}>
-                      <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </Col> )
-              : null }
-          </Grid>
+              <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
-          <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
+              <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
+              { formData.documentType !== 'passport' ? (
+                <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
+              ) : null }
 
-          <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
-          { formData.documentType !== 'passport' ? (
-            <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
-          ) : null }
+              <Separator margin="20 0 15 0">PHONE</Separator>
 
-          <Separator margin="20 0 15 0">PHONE</Separator>
+              <CelPhoneInput labelText="Phone Number" error={formErrors.cellphone} field="cellphone" value={formData.cellphone} />
+            </CelForm>
 
-          <CelPhoneInput labelText="Phone Number" error={formErrors.cellphone} field="cellphone" value={formData.cellphone} />
-        </CelForm>
-
-        <CelButton
-          onPress={this.submitForm}
-          iconRight="IconArrowRight"
-          loading={isLoading}
-          disabled={isLoading}
-          white
-          margin="0 0 0 0"
-        >
-          { user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC' }
-        </CelButton>
+            <CelButton
+              onPress={this.submitForm}
+              iconRight="IconArrowRight"
+              loading={isLoading}
+              disabled={isLoading}
+              white
+              margin="0 0 0 0"
+            >
+              { user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC' }
+            </CelButton>
+          </View> : null }
       </SimpleLayout>
     );
   }
