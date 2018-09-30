@@ -278,7 +278,7 @@ class AddFunds extends Component {
           </View>
         </View>
 
-        {formData.currency === "xrp" && <View style={{ alignItems: "center" }}>
+        {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
           <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
           <View style={[AddFundsStyle.box, { marginTop: 14 }]}>
             <View style={AddFundsStyle.addressWrapper}>
