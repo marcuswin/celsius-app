@@ -19,7 +19,6 @@ import formater from "../../../utils/formatter";
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
     formData: state.ui.formData,
-    interestRates: state.interest.rates,
     chartData: state.interest.chartData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

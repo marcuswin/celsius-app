@@ -5,17 +5,19 @@ import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 
 import * as appActions from "../../../redux/actions";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
 import AddFundsStyle from "./AddFunds.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
-import { ELIGIBLE_COINS } from "../../../config/constants/common";
+import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
 import { mixpanelEvents } from "../../../services/mixpanel";
+import DestinationTagExplanationModal
+  from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 
-const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === 'ETH').map(c => c.toLowerCase());
+const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
 @connect(
   state => {
@@ -24,7 +26,7 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
     possibleAddresses.forEach(pa => {
       walletAddresses[pa] = {
         address: state.wallet.addresses[`${pa}Address`],
-        alternateAddress: state.wallet.addresses[`${pa}AlternateAddress`],
+        alternateAddress: state.wallet.addresses[`${pa}AlternateAddress`]
       };
     });
     // possibleAddresses.forEach(pa => {
@@ -36,10 +38,10 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
       walletAddresses,
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,
-      supportedCurrencies: state.generalData.supportedCurrencies,
-    }
+      supportedCurrencies: state.generalData.supportedCurrencies
+    };
   },
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class AddFunds extends Component {
   constructor(props) {
@@ -50,13 +52,13 @@ class AddFunds extends Component {
       const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
       return {
         label: `${currencyName} (${ec})`,
-        value: ec.toLowerCase(),
-      }
-    })
+        value: ec.toLowerCase()
+      };
+    });
 
     this.state = {
       pickerItems,
-      useAlternateAddress: false,
+      useAlternateAddress: false
     };
   }
 
@@ -83,10 +85,10 @@ class AddFunds extends Component {
   getAddress = (currency) => {
     const { actions, walletAddresses } = this.props;
 
-    console.log()
+    console.log();
 
-    if ((!walletAddresses[currency] || !walletAddresses[currency].address) && currency !== 'eth') {
-      actions.getCoinAddress(currency)
+    if ((!walletAddresses[currency] || !walletAddresses[currency].address) && currency !== "eth") {
+      actions.getCoinAddress(currency);
     }
 
     // get erc20 token address
@@ -127,13 +129,13 @@ class AddFunds extends Component {
     const beforeLastRoute = routes[routes.length - 3];
 
     // Skip SecureTransactions screen
-    if (lastRoute.routeName === 'SecureTransactions') {
+    if (lastRoute.routeName === "SecureTransactions") {
       actions.navigateTo(beforeLastRoute.routeName, beforeLastRoute.params);
     } else {
       actions.navigateBack();
     }
     mixpanelEvents.pressAddFunds();
-  }
+  };
 
   copyAddress = (address) => {
     const { actions } = this.props;
@@ -147,17 +149,45 @@ class AddFunds extends Component {
 
     const navCurrency = navigation.getParam("currency");
     let address;
+    let addressXrp;
+    let addressArray;
+    let destinationTag;
     let headingText;
     let currentCurrency;
-    if (navCurrency) {
+    if (navCurrency && navCurrency !== "xrp") {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
       currentCurrency = navCurrency.toLowerCase();
+    } else if (navCurrency && navCurrency === "xrp") {
+      headingText = `Add more ${navCurrency.toUpperCase()}`;
+      address = this.setAddress(navCurrency.toLowerCase());
+
+      if (address) {
+        addressArray = address.split('?dt=');
+        addressXrp = addressArray[0];
+        destinationTag = addressArray[1];
+        console.log(address, addressXrp, destinationTag);
+      }
+
+      currentCurrency = navCurrency.toLowerCase();
+    } else if (formData.currency === "xrp") {
+      address = this.setAddress(formData.currency);
+
+      if (address) {
+        addressArray = address.split('?dt=');
+        addressXrp = addressArray[0];
+        destinationTag = addressArray[1];
+        console.log(address, addressXrp, destinationTag);
+      }
+
+      headingText = "Add funds";
+      currentCurrency = formData.currency;
     } else {
       address = this.setAddress(formData.currency);
       headingText = "Add funds";
       currentCurrency = formData.currency;
     }
+
 
     return (
       <SimpleLayout
@@ -179,7 +209,8 @@ class AddFunds extends Component {
         )}
 
         {!navCurrency && (
-          <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency} margin="25 50 15 50"/>
+          <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
+                     margin="25 50 15 50"/>
         )}
 
         <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
@@ -199,7 +230,7 @@ class AddFunds extends Component {
 
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text style={AddFundsStyle.address}>{address}</Text>
+            <Text style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
 
           <View style={AddFundsStyle.boxButtonsWrapper}>
@@ -227,7 +258,7 @@ class AddFunds extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => this.copyAddress(address)}
+              onPress={() => this.copyAddress(formData.currency === "xrp" ? addressXrp : address)}
               style={[AddFundsStyle.buttons, {
                 borderBottomRightRadius: 8
               }]}
@@ -249,19 +280,88 @@ class AddFunds extends Component {
           </View>
         </View>
 
-        {(currentCurrency && currentCurrency.toLowerCase() === 'ltc') && <View style={AddFundsStyle.alternateAddressWrapper}>
-          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't support {useAlternateAddress ? '3' : 'M'}-format addresses you can use a {useAlternateAddress ? 'M' : '3'}-format LTC address.</Text>
+        {formData.currency === "xrp" && <View style={{ alignItems: "center" }}>
+          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
+          <View style={[AddFundsStyle.box, { marginTop: 14 }]}>
+            <View style={AddFundsStyle.addressWrapper}>
+              <Text style={AddFundsStyle.address}>{destinationTag}</Text>
+            </View>
+
+            <View style={AddFundsStyle.boxButtonsWrapper}>
+              <TouchableOpacity
+                onPress={() => Share.share({ message: address, title: "Wallet address" })}
+                style={[AddFundsStyle.buttons, {
+                  borderBottomLeftRadius: 8,
+                  borderRightWidth: 1,
+                  borderRightColor: "rgba(255, 255, 255, 0.3)"
+                }]}
+              >
+                <View style={AddFundsStyle.buttonTextWrapper}>
+                  {Platform.OS === "ios" ? (<Icon
+                    style={{ marginTop: 17 }}
+                    name='ShareIcon'
+                    width='20' height='20'
+                    fill='rgba(255, 255, 255, 0.5)'
+                  />) : null}
+                  <Text
+                    style={[AddFundsStyle.buttonsText, { color: "white" }]}
+                  >
+                    Share
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => this.copyAddress(destinationTag)}
+                style={[AddFundsStyle.buttons, {
+                  borderBottomRightRadius: 8
+                }]}
+              >
+                <View style={AddFundsStyle.buttonTextWrapper}>
+                  {Platform.OS === "ios" ? (<Icon
+                    style={{ marginTop: 17 }}
+                    name='CopyIcon'
+                    width='20' height='20'
+                    fill='rgba(255, 255, 255, 0.5)'
+                  />) : null}
+                  <Text
+                    style={[AddFundsStyle.buttonsText, { color: "white" }]}
+                  >
+                    Copy
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
+            style={{ marginTop: 20, marginBottom: 30 }}
+          >
+            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>
+              What is XRP Destination Tag?
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        }
+
+        {(currentCurrency && currentCurrency.toLowerCase() === "ltc") &&
+        <View style={AddFundsStyle.alternateAddressWrapper}>
+          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
+            support {useAlternateAddress ? "3" : "M"}-format addresses you can use a {useAlternateAddress ? "M" : "3"}-format
+            LTC address.</Text>
           <CelButton
             white
             size="small"
             onPress={this.switchAlternateAddress}
             margin='0 10 0 10'
           >
-            Use {useAlternateAddress ? 'M' : '3'}-format address
+            Use {useAlternateAddress ? "M" : "3"}-format address
           </CelButton>
         </View>}
 
-        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn} onPress={() => actions.navigateTo('SecureTransactions', { currency: navCurrency })}>
+        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
+                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
           <Icon
             name="Shield"
             width={20}
@@ -280,7 +380,7 @@ class AddFunds extends Component {
         >
           Done
         </CelButton>
-
+        <DestinationTagExplanationModal/>
       </SimpleLayout>
 
     );
