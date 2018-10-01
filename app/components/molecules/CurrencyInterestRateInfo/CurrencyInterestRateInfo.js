@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Linking } from "react-native";
 import {connect} from "react-redux";
 
 import CurrencyInterestRateInfoStyle from './CurrencyInterestRateInfo.styles';
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   state => ({
@@ -25,19 +26,27 @@ class CurrencyInterestRateInfo extends Component {
 
     return (
       <View style={[CurrencyInterestRateInfoStyle.mainWrapper, additionalWrapperStyle]}>
-        <View style={CurrencyInterestRateInfoStyle.imageWrapper}>
-          <Image
-            source={{ uri: currencyInfo.image_url }}
-            style={CurrencyInterestRateInfoStyle.currencyImage}
-          />
+        <View style={CurrencyInterestRateInfoStyle.mainInfoWrapper}>
+          <View style={CurrencyInterestRateInfoStyle.imageWrapper}>
+            <Image
+              source={{ uri: currencyInfo.image_url }}
+              style={CurrencyInterestRateInfoStyle.currencyImage}
+            />
+          </View>
+          <View style={CurrencyInterestRateInfoStyle.infoWrapper}>
+            <Text style={CurrencyInterestRateInfoStyle.currencyName}>{this.capitalize(currencyInfo.name)}</Text>
+            <Text style={CurrencyInterestRateInfoStyle.currencyShort}>{currencyInfo.short}</Text>
+          </View>
+          <View style={CurrencyInterestRateInfoStyle.rateWrapper}>
+            <Text style={CurrencyInterestRateInfoStyle.rateText}>{rate}</Text>
+          </View>
         </View>
-        <View style={CurrencyInterestRateInfoStyle.infoWrapper}>
-          <Text style={CurrencyInterestRateInfoStyle.currencyName}>{this.capitalize(currencyInfo.name)}</Text>
-          <Text style={CurrencyInterestRateInfoStyle.currencyShort}>{currencyInfo.short}</Text>
-        </View>
-        <View style={CurrencyInterestRateInfoStyle.rateWrapper}>
-          <Text style={CurrencyInterestRateInfoStyle.rateText}>{rate}</Text>
-        </View>
+        {currencyInfo.short.toUpperCase() === 'USD' && <View style={CurrencyInterestRateInfoStyle.usdInfoWrapper}>
+          <Text style={globalStyles.lightText}>
+            Start earning interest for dollars by <Text onPress={() => Linking.openURL("mailto:app@celsius.network")}
+                  style={globalStyles.blueTextColor}>getting in touch</Text> with our team.
+          </Text>
+        </View>}
       </View>
     )
   }
