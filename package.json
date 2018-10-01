@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "expo start --clear",
-    "start:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" npm start",
+    "start:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn start",
     "start:dev:local": "yarn run env:local && yarn run start:dev",
     "start:dev:staging": "yarn run env:staging && yarn run start:dev",
     "kill:expo": "lsof -ti:19000 | xargs kill -9",
