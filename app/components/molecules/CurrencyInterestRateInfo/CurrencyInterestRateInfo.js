@@ -6,7 +6,7 @@ import CurrencyInterestRateInfoStyle from './CurrencyInterestRateInfo.styles';
 
 @connect(
   state => ({
-    walletCurrencies: state.wallet.currencies,
+    walletCurrencies: state.interest.ratesInfo,
   }),
 )
 class CurrencyInterestRateInfo extends Component {
@@ -15,13 +15,13 @@ class CurrencyInterestRateInfo extends Component {
   render() {
     const {currency, rate, walletCurrencies, compact} = this.props;
 
-    if (!currency || !walletCurrencies || !walletCurrencies.length) {
+    if (!currency || !walletCurrencies) {
       return null;
     }
 
     const additionalWrapperStyle = compact ? CurrencyInterestRateInfoStyle.mainWrapperCompact : {};
 
-    const currencyInfo = walletCurrencies.find(wallet => wallet.currency.short.toUpperCase() === currency.toUpperCase()).currency;
+    const currencyInfo = walletCurrencies[currency.toUpperCase()];
 
     return (
       <View style={[CurrencyInterestRateInfoStyle.mainWrapper, additionalWrapperStyle]}>
