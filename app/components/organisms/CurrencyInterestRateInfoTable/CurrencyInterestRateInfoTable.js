@@ -9,7 +9,8 @@ import CurrencyInterestRateInfoTableStyle from "./CurrencyInterestRateInfoTable.
 
 @connect(
   state => ({
-    interestRates: state.interest.rates
+    interestRates: state.interest.rates,
+    interestRatesDisplay: state.interest.ratesDisplay,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -22,13 +23,13 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 
   renderInterestTable() {
-    const { interestRates } = this.props;
+    const { interestRates, interestRatesDisplay } = this.props;
     const interestArray = [];
 
     Object.keys(interestRates).forEach((currency) => {
       const obj = {};
       obj.currency = currency;
-      obj.rate = interestRates[currency];
+      obj.rate = interestRatesDisplay[currency];
 
       interestArray.push(obj);
     });
@@ -39,7 +40,7 @@ class CurrencyInterestRateInfoTable extends Component {
           key={interest.currency}
           compact
           currency={interest.currency}
-          rate={`${interest.rate * 100}%`}
+          rate={`${interest.rate}%`}
         />
       )
     );

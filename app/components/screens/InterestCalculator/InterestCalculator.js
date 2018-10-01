@@ -27,6 +27,8 @@ import { KYC_STATUSES } from "../../../config/constants/common";
     formData: state.ui.formData,
     user: state.users.user,
     interestRates: state.interest.rates,
+    interestRatesDisplay: state.interest.ratesDisplay,
+    supportedCurrencies: state.generalData.supportedCurrencies
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -44,7 +46,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData, interestRates, actions, user } = this.props;
+    const { formData, interestRates, interestRatesDisplay, actions, user } = this.props;
 
     if (!interestRates) return (
       <EarnInterestLayout>
@@ -52,7 +54,7 @@ class InterestCalculatorScreen extends Component {
       </EarnInterestLayout>
     )
 
-    const displayInterestRate = `${interestRates[formData.interestCurrency] * 100}%`;
+    const displayInterestRate = `${interestRatesDisplay[formData.interestCurrency]}%`;
     const interest = formData.interestAmount * interestRates[formData.interestCurrency];
     const interestPerWeek = interest / 52;
     const interestPerMonth = interest / 12;
@@ -65,7 +67,7 @@ class InterestCalculatorScreen extends Component {
             <RadioButtons
               theme="grey"
               field='interestCurrency'
-              items={[{ label: 'Bitcoin', value: 'BTC'}, { label: 'Ethereum', value: 'ETH'} ]}
+              items={[{ label: 'Bitcoin', value: 'BTC'}, { label: 'Ethereum', value: 'ETH'}, { label: 'Litecoin', value: 'LTC'}, { label: 'Ripple', value: 'XRP'}, { label: 'Omisego', value: 'OMG'}]}
               value={formData.interestCurrency}
             />
           </View>
