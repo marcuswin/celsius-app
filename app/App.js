@@ -15,6 +15,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
+import { TRANSFER_STATUSES } from "./config/constants/common";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -83,6 +84,7 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getProfileInfo());
+      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -116,12 +118,14 @@ export default class App extends Component {
       Sentry.captureException(error);
     }
 
+
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       handleConnectivityChange
     );
 
     mixpanelEvents.openApp();
+    store.dispatch(actions.openInitialModal())
   }
 
   // Assets are cached differently depending on where
@@ -139,11 +143,13 @@ export default class App extends Component {
 
     this.state = {
       isReady: false,
+      appState: AppState.currentState
     };
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
+
   }
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
@@ -151,8 +157,19 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') mixpanelEvents.openApp();
-  }
+    if ( nextAppState === 'active') {
+      mixpanelEvents.openApp();
+      clearTimeout(this.timeout)
+    }
+
+    if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+      this.timeout = setTimeout(() => {
+        store.dispatch(actions.navigateTo("LoginPasscode"));
+        clearTimeout(this.timeout)
+      }, 25000)
+    }
+    this.setState({appState: nextAppState});
+  };
 
   render() {
     if (!this.state.isReady) {

@@ -26,6 +26,7 @@ export const COLORS = {
   pink: '#A866AA',
   gray: '#899099',
   gray2: '#3D4853',
+  red: '#EF461A',
 }
 
 export const STYLES = {
@@ -267,4 +268,6 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/deer-confused3x.png'),
   require('../../../assets/images/frenchy.png'),
   require('../../../assets/images/interest-illu.png'),
+  require('../../../assets/images/deerTransactionHistory.png'),
+  require('../../../assets/images/illuNoKYC3x.png'),
 ];

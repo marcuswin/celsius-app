@@ -97,7 +97,7 @@ class LoginScreen extends Component {
         <CelButton
           size="small"
           transparent
-          margin="25 0 60 0"
+          margin="25 0 0 0"
           onPress={() => actions.navigateTo('ForgottenPassword')}
         >
           Forgot password?

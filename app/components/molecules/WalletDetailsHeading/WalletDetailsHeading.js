@@ -13,7 +13,6 @@ import * as appActions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { FONT_SCALE } from "../../../config/constants/style";
-import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -23,6 +22,7 @@ import { ELIGIBLE_COINS } from "../../../config/constants/common";
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
+    coinOrder: state.wallet.coinOrder,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -30,7 +30,7 @@ import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 class WalletDetailsHeading extends Component {
   static propTypes = {
-    type: Proptypes.oneOf(['total', 'single-coin']),
+    type: Proptypes.oneOf(['single-coin']),
   }
 
   static defaultProps = {
@@ -38,11 +38,11 @@ class WalletDetailsHeading extends Component {
   }
 
   onPressNavigation = (type) => {
-    const screens = ELIGIBLE_COINS.map(ec => ec.toLowerCase());
-    screens.push('total');
+    const { coinOrder } = this.props;
+    const screens = coinOrder;
 
     const { currency, actions } = this.props;
-    const screenIndex = screens.findIndex(el => el === currency);
+    const screenIndex = screens.indexOf(currency.toUpperCase());
 
     const types = {
       next: screenIndex + 1,
@@ -53,12 +53,11 @@ class WalletDetailsHeading extends Component {
       return actions.navigateTo('WalletDetails', {currency: screens[0]})
     }
 
-    if((screenIndex === screens.length - 2 && type === 'next') || (screenIndex === 0 && type === 'previous')) {
-      return actions.navigateTo('WalletTotals')
+    if (screenIndex === 0 && type === 'previous') {
+      return actions.navigateTo('WalletDetails', {currency: screens[screens.length - 1]})
     }
 
     return actions.navigateTo('WalletDetails', {currency: screens[types[type]]})
-
   }
 
   goToAddFunds = () => {
@@ -107,6 +106,7 @@ class WalletDetailsHeading extends Component {
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
         <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton width={110} size="mini" white onPress={this.goToSend} inverse margin="0 0 0 15">Send</CelButton>
       </View>}
     </View>
   }

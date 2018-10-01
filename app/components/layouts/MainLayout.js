@@ -8,6 +8,7 @@ import Navigator from '../../config/Navigator';
 import * as appActions from "../../redux/actions";
 import BottomNavigation from "../organisms/BottomNavigation/BottomNavigation";
 import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
+import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -45,6 +46,7 @@ class MainLayout extends Component {
         <Navigator navigation={navigation} />
         {displayBottomNavigation && <BottomNavigation/>}
         <TodayRatesModal/>
+        <TransferReceivedModal/>
       </View>
     );
   }

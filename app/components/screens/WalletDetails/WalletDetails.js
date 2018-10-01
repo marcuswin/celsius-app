@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
-import { Content } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 
@@ -13,6 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 @connect(
   state => ({
@@ -92,7 +92,7 @@ class WalletDetails extends Component {
         <WalletDetailsHeading
           currency={currency}
         />
-        <Content>
+        <CelScreenContent padding='0 0 0 0'>
           { currency !== 'cel' && (
             <WalletDetailsGraphContainer
               currency={currency}
@@ -125,14 +125,14 @@ class WalletDetails extends Component {
 
             { canWithdrawCrypto && (
               <CelButton
-                margin={'40 0 70 0'}
+                margin={'40 0 0 0'}
                 onPress={this.onPressWithdraw}
               >
                 Withdraw
               </CelButton>
             )}
           </View>
-        </Content>
+        </CelScreenContent>
       </BasicLayout>
     )
   }

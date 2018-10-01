@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Platform, ScrollView } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -93,7 +93,7 @@ class SimpleLayout extends Component {
     contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
 
     return (
-      <Container style={{flex: 1,}}>
+      <Container style={{flex: 1 }}>
         <MainHeader { ...mainHeaderProps } />
         <Message/>
         <CelHeading { ...animatedHeadingProps } />
@@ -108,6 +108,7 @@ class SimpleLayout extends Component {
           onScrollEndDrag={e => { actions.setScrollPosition(e.nativeEvent.contentOffset.y) }}
         >
           { this.props.children }
+          <View style={{ height: 50 }}/>
         </ScrollView>
       </Container>
     )

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Linking, Text, View, Switch, TouchableOpacity } from "react-native";
-import { Content } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -21,6 +20,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import { MODALS } from "../../../config/constants/common";
 import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -335,7 +335,7 @@ class TransactionConfirmation extends Component {
       >
         <MainHeader backButton/>
         <CelHeading text={`Withdraw ${coinUpperCase}`}/>
-        <Content>
+        <CelScreenContent padding='0 0 0 0'>
           <View style={AmountInputStyle.inputWrapper}>
             <Text
               style={AmountInputStyle.primaryAmount}
@@ -373,7 +373,7 @@ class TransactionConfirmation extends Component {
           >
             Confirm withdrawal
           </CelButton>
-        </Content>
+        </CelScreenContent>
         <DestinationTagExplanationModal/>
       </BasicLayout>
     );

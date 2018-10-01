@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
-import { Content } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
@@ -12,10 +11,12 @@ import BasicLayout from "../BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 @connect(
   state => ({
     walletTotal: state.wallet.total,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -23,6 +24,17 @@ class WalletLayout extends Component {
   // lifecycle methods
   componentDidMount() {
     this.props.actions.displayBottomNavigation(true);
+    this.props.actions.getWalletDetails();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { activeScreen, actions } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen &&
+        ['WalletBalance', 'WalletTransactions', 'WalletInterest', 'Home'].indexOf(nextProps.activeScreen) !== -1) {
+      actions.getWalletDetails();
+    }
+    if (nextProps.activeScreen === 'Home') this.props.actions.displayBottomNavigation(true);
   }
 
   tabs = [
@@ -45,9 +57,9 @@ class WalletLayout extends Component {
         </View>
         <TabNavigation tabs={this.tabs}/>
 
-        <Content style={WalletLayoutStyle.content}>
+        <CelScreenContent>
           { this.props.children }
-        </Content>
+        </CelScreenContent>
       </BasicLayout>
     );
   }

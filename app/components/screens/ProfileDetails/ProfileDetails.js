@@ -144,7 +144,7 @@ class ProfileDetails extends Component {
           loading={isUpdatingProfileInfo}
           disabled={isUpdatingProfileInfo}
           iconRight="IconArrowRight"
-          margin="0 0 60 0"
+          margin="0 0 0 0"
         >
           Verify your profile
         </CelButton>

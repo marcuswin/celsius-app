@@ -23,7 +23,6 @@ import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/Ver
 import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
-import WalletLandingScreen from "../components/screens/WalletLanding/WalletLanding";
 import WalletDetailsScreen from "../components/screens/WalletDetails/WalletDetails";
 import PortfolioScreen from "../components/screens/Portfolio/Portfolio";
 import CryptoForPeopleScreen from "../components/screens/CryptoForPeople/CryptoForPeople";
@@ -33,7 +32,6 @@ import CreatePasscodeScreen from "../components/screens/Passcode/CreatePasscode"
 import RepeatPasscodeScreen from "../components/screens/Passcode/RepeatPasscode";
 import EnterPasscodeScreen from "../components/screens/Passcode/EnterPasscode";
 import TransactionDetailsScreen from "../components/screens/TransactionDetails/TransactionDetails";
-import WalletTotalsScreen from "../components/screens/WalletTotals/WalletTotals";
 import SecureTransactionsScreen from "../components/screens/SecureTransactions/SecureTransactions";
 import WithdrawalInfoScreen from "../components/screens/WithdrawalInfo/WithdrawalInfo";
 import QRScannerScreen from "../components/screens/QRScanner/QRScanner";
@@ -42,7 +40,9 @@ import WalletTransactionsScreen from "../components/screens/WalletTransactions/W
 import InterestCalculatorScreen from "../components/screens/InterestCalculator/InterestCalculator";
 import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/HowToEarnInterest";
 import WalletInterestScreen from "../components/screens/WalletInterest/WalletInterest";
+import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/TransactionsOnHold";
 import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
+import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 // NOTE(fj): plop screenGen importing new Screen here
 
 const Navigator = createStackNavigator({
@@ -138,10 +138,6 @@ const Navigator = createStackNavigator({
     screen: AddFundsScreen,
     title: 'AddFunds',
   },
-  WalletLanding: {
-    screen: WalletLandingScreen,
-    title: 'WalletLanding',
-  },
   WalletDetails: {
     screen: WalletDetailsScreen,
     title: 'WalletDetails',
@@ -178,10 +174,6 @@ const Navigator = createStackNavigator({
     screen: TransactionDetailsScreen,
     title: 'TransactionDetails',
   },
-  WalletTotals: {
-    screen: WalletTotalsScreen,
-    title: 'WalletTotals',
-  },
   SecureTransactions: {
     screen: SecureTransactionsScreen,
     title: 'SecureTransactions',
@@ -206,9 +198,17 @@ const Navigator = createStackNavigator({
     screen: WalletInterestScreen,
     title: 'WalletInterest',
   },
+  TransactionsOnHold: {
+    screen: TransactionsOnHoldScreen,
+    title: 'TransactionsOnHold',
+  },
   DestinationTagExplanationModal: {
     screen: DestinationTagExplanationModalScreen,
     title: 'DestinationTagExplanationModal',
+  },
+  LoginPasscode: {
+    screen: LoginPasscodeScreen,
+    title: 'LoginPasscode',
   },
   // NOTE(fj): plop screenGen inserting new Screen here
 }, {

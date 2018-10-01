@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
+import Loader from "../../atoms/Loader/Loader";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import { mixpanelEvents } from "../../../services/mixpanel";
@@ -37,14 +38,6 @@ class WalletBalance extends Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getSupportedCurrencies();
-    actions.getWalletDetails();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { actions, activeScreen } = this.props;
-    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
-      actions.getWalletDetails();
-    }
   }
 
   openTodayRatesModal = () => {
@@ -76,9 +69,15 @@ class WalletBalance extends Component {
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
+    if (!walletCurrencies) return (
+      <WalletLayout>
+        <Loader/>
+      </WalletLayout>
+    );
+
     return (
       <WalletLayout>
-        {(!!totalInterestEarned) && <Card>
+        {(!!totalInterestEarned) && <Card style={{marginTop: 15}}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
             <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
@@ -86,7 +85,7 @@ class WalletBalance extends Component {
           </View>
         </Card>}
         { walletCurrencies && (
-          <View style={{marginBottom: 30,}}>
+          <View>
             <List
               dataArray={walletCurrencies}
               scrollable={false}

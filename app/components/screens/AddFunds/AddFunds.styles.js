@@ -99,8 +99,8 @@ const AddFundsStyle = StyleSheet.create({
     marginLeft: 5
   },
   secureTransactionsBtn: {
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 50,
+    marginRight: 50,
     marginTop: 20,
     marginBottom: 25,
     backgroundColor: 'rgba(255,255,255,0.1)',

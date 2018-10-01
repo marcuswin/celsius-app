@@ -11,6 +11,7 @@ import WelcomeScreen from "../Welcome/Welcome";
 import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
+import Passcode from "../Passcode/Passcode";
 import WalletBalance from "../WalletBalance/WalletBalance";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
@@ -23,13 +24,13 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
+    branchHashes: state.transfers.branchHashes,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, displayedRatesModal, openedModal, appSettings: { showTodayRatesModal } } = this.props;
+    const { actions, branchHashes } = this.props;
 
     try {
       // get user token
@@ -42,8 +43,11 @@ class HomeScreen extends Component {
         registerForPushNotificationsAsync();
         actions.getKYCDocTypes();
 
-        if (showTodayRatesModal && !displayedRatesModal && !openedModal) {
-          actions.showTodaysRatesModal();
+        // claim branch transfers
+        if (branchHashes && branchHashes.length) {
+          branchHashes.forEach(bh => {
+            actions.claimTransfer(bh);
+          })
         }
       }
     } catch(err) {
@@ -52,14 +56,18 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, nav } = this.props;
 
     if (!user) return <WelcomeScreen/>;
 
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-    return <WalletBalance />;
+
+
+    if (nav.initializingApp) return <Passcode type={'loginPasscode'}/>;
+
+    return <WalletBalance/>;
   }
 }
 

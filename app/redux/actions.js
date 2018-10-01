@@ -11,4 +11,5 @@ export * from './users/usersActions'
 export * from './generalData/generalDataActions'
 export * from './wallet/walletActions'
 export * from './interest/interestActions'
+export * from './transfers/transfersActions'
 // NOTE(fj): plop reduxGen importing new Actions here
