@@ -25,7 +25,7 @@
     "build:ios:production": "expo build:ios --no-publish --release-channel production_ios",
     "build:ipa": "yarn run env:production && yarn run build:ios:production",
     "build:apk": "yarn run env:production && yarn run build:android:production",
-    "plop": "plop",
+    "plop": "plop"
   },
   "pre-commit": [
     "lint"
