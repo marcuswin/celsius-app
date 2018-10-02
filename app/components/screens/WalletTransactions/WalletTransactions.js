@@ -9,13 +9,17 @@ import TransactionsHistory from "../../molecules/TransactionHistory/Transactions
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
+import Loader from "../../atoms/Loader/Loader";
 import WalletTransactionsStyle from "./WalletTransactions.styles";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../config/constants/API";
 
 
 @connect(
   state => ({
     transactions: state.wallet.transactions,
-    currencyRatesShort: state.generalData.currencyRatesShort
+    currencyRatesShort: state.generalData.currencyRatesShort,
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -47,8 +51,15 @@ class WalletTransactions extends Component {
 
   // rendering methods
   render() {
-    const { currencyRatesShort, actions } = this.props;
+    const { currencyRatesShort, actions, callsInProgress } = this.props;
     const transactions = this.getTransactions();
+    const isLoading = apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress) && !transactions.length;
+
+    if (isLoading) return (
+      <WalletLayout>
+        <Loader/>
+      </WalletLayout>
+    )
 
     if (!transactions.length) return (
       <WalletLayout>
