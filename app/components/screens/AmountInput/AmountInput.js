@@ -215,7 +215,6 @@ class AmountInput extends Component {
 
     return (
       <BasicLayout
-        bottomNavigation={false}
       >
         <MainHeader
           backButton

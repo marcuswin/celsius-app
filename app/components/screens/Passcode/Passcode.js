@@ -152,7 +152,7 @@ class Passcode extends Component {
 
     const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
 
-    return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
+    return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />

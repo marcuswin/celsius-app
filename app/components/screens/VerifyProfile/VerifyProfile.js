@@ -110,7 +110,6 @@ class VerifyProfile extends Component {
       <SimpleLayout
         animatedHeading={{ text: 'Verify Profile'}}
         background={STYLES.PRIMARY_BLUE}
-        bottomNavigation={false}
       >
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
           Please take a photo of your ID or passport to confirm your identity.

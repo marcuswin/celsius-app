@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, NetInfo, AppState } from 'react-native';
+import { Image, NetInfo, AppState, Platform } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 import uuid from 'uuid';
@@ -85,6 +85,7 @@ export default class App extends Component {
     if (token) {
       await store.dispatch(actions.getProfileInfo());
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+      await store.dispatch(actions.navigateTo('LoginPasscode'));
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -159,14 +160,20 @@ export default class App extends Component {
   handleAppStateChange = (nextAppState) => {
     if ( nextAppState === 'active') {
       mixpanelEvents.openApp();
-      clearTimeout(this.timeout)
+      if (Platform.OS === "ios") {
+        clearTimeout(this.timeout)
+      }
     }
 
     if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-      this.timeout = setTimeout(() => {
-        store.dispatch(actions.navigateTo("LoginPasscode"));
-        clearTimeout(this.timeout)
-      }, 25000)
+        if (Platform.OS === "ios") {
+          this.timeout = setTimeout(() => {
+            store.dispatch(actions.navigateTo("LoginPasscode"));
+            clearTimeout(this.timeout)
+          }, 25000)
+        } else {
+          store.dispatch(actions.navigateTo("LoginPasscode"));
+        }
     }
     this.setState({appState: nextAppState});
   };

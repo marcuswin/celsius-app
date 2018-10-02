@@ -76,7 +76,6 @@ class LoginScreen extends Component {
       <SimpleLayout
         mainHeader={{ backButton: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
         animatedHeading={{ text: 'Welcome Back!' }}
-        bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}
       >
 

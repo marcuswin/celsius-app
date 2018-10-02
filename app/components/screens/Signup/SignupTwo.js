@@ -100,7 +100,6 @@ class SignupTwo extends Component {
       <SimpleLayout
         mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
-        bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}
       >
         <View>

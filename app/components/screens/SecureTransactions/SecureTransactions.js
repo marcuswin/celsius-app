@@ -43,7 +43,6 @@ class SecureTransactions extends Component {
 
       <SimpleLayout
         background={STYLES.PRIMARY_BLUE}
-        bottomNavigation={false}
       >
         <View style={SecureTransactionsStyle.content}>
 

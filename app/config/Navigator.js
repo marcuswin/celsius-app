@@ -45,7 +45,8 @@ import DestinationTagExplanationModalScreen from "../components/organisms/Destin
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 // NOTE(fj): plop screenGen importing new Screen here
 
-const Navigator = createStackNavigator({
+export const screens = {
+  // Welcom Screens
   Welcome: {
     screen: WelcomeScreen,
     title: 'Welcome',
@@ -58,18 +59,6 @@ const Navigator = createStackNavigator({
     screen: ForgottenPasswordScreen,
     title: 'ForgottenPassword',
   },
-  Home: {
-    screen: HomeScreen,
-    title: 'Home',
-  },
-  ManagePortfolio: {
-    screen: ManagePortfolioScreen,
-    title: 'ManagePortfolio',
-  },
-  Calculator: {
-    screen: CalculatorScreen,
-    title: 'Calculator',
-  },
   SignupOne: {
     screen: SignupOneScreen,
     title: 'SignupOne',
@@ -78,38 +67,78 @@ const Navigator = createStackNavigator({
     screen: SignupTwoScreen,
     title: 'SignupTwo',
   },
-  EstimatedLoan: {
-    screen: EstimatedLoanScreen,
-    title: 'EstimatedLoan',
-  },
   TermsOfUse: {
     screen: TermsOfUseScreen,
     title: 'TermsOfUse',
   },
-  Profile: {
-    screen: ProfileScreen,
-    title: 'Profile',
+
+  Home: {
+    screen: HomeScreen,
+    title: 'Home',
   },
-  ChangePassword: {
-    screen: ChangePasswordScreen,
-    title: 'ChangePassword',
+
+  // Portfolio/Tracker screens
+  Portfolio: {
+    screen: PortfolioScreen,
+    title: 'Portfolio',
+    bottomNavigation: true,
   },
-  DepositCoins: {
-    screen: DepositCoinsScreen,
-    title: 'DepositCoins',
-  },
-  InterestCalculator: {
-    screen: InterestCalculatorScreen,
-    title: 'InterestCalculator',
-  },
-  ProfileImage: {
-    screen: ProfileImageScreen,
-    title: 'ProfileImage',
+  ManagePortfolio: {
+    screen: ManagePortfolioScreen,
+    title: 'ManagePortfolio',
+    bottomNavigation: true,
   },
   AddCoins: {
     screen: AddCoinsScreen,
     title: 'AddCoins',
+    bottomNavigation: true,
   },
+
+  // Borrow and Lend/Interest screens
+  EstimatedLoan: {
+    screen: EstimatedLoanScreen,
+    title: 'EstimatedLoan',
+    bottomNavigation: true,
+  },
+  Calculator: {
+    screen: CalculatorScreen,
+    title: 'Calculator',
+    bottomNavigation: true,
+  },
+  DepositCoins: {
+    screen: DepositCoinsScreen,
+    title: 'DepositCoins',
+    bottomNavigation: true,
+  },
+  InterestCalculator: {
+    screen: InterestCalculatorScreen,
+    title: 'InterestCalculator',
+    bottomNavigation: true,
+  },
+  HowToEarnInterest: {
+    screen: HowToEarnInterestScreen,
+    title: 'HowToEarnInterest',
+    bottomNavigation: true,
+  },
+
+  // Profile screens
+  Profile: {
+    screen: ProfileScreen,
+    title: 'Profile',
+    bottomNavigation: true,
+  },
+  ChangePassword: {
+    screen: ChangePasswordScreen,
+    title: 'ChangePassword',
+    bottomNavigation: true,
+  },
+  ProfileImage: {
+    screen: ProfileImageScreen,
+    title: 'ProfileImage',
+    bottomNavigation: true,
+  },
+
+  // KYC screens
   ProfileDetails: {
     screen: ProfileDetailsScreen,
     title: 'ProfileDetails',
@@ -118,6 +147,27 @@ const Navigator = createStackNavigator({
     screen: VerifyProfileScreen,
     title: 'VerifyProfile',
   },
+  VerifyPhoneNumber: {
+    screen: VerifyPhoneNumberScreen,
+    title: 'VerifyPhoneNumber',
+  },
+  NoKyc: {
+    screen: NoKycScreen,
+    title: 'NoKyc',
+    bottomNavigation: true,
+  },
+  CryptoForPeople: {
+    screen: CryptoForPeopleScreen,
+    title: 'CryptoForPeople',
+    bottomNavigation: true,
+  },
+  TransactionsOnHold: {
+    screen: TransactionsOnHoldScreen,
+    title: 'TransactionsOnHold',
+    bottomNavigation: true,
+  },
+
+  // Other screens
   Camera: {
     screen: CameraScreen,
     title: 'Camera',
@@ -126,29 +176,11 @@ const Navigator = createStackNavigator({
     screen: QRScannerScreen,
     title: 'QRScanner',
   },
-  VerifyPhoneNumber: {
-    screen: VerifyPhoneNumberScreen,
-    title: 'VerifyPhoneNumber',
-  },
-  NoKyc: {
-    screen: NoKycScreen,
-    title: 'NoKyc',
-  },
+
+  // Deposit/Withdrawla screens
   AddFunds: {
     screen: AddFundsScreen,
     title: 'AddFunds',
-  },
-  WalletDetails: {
-    screen: WalletDetailsScreen,
-    title: 'WalletDetails',
-  },
-  Portfolio: {
-    screen: PortfolioScreen,
-    title: 'Portfolio',
-  },
-  CryptoForPeople: {
-    screen: CryptoForPeopleScreen,
-    title: 'CryptoForPeople',
   },
   AmountInput: {
     screen: AmountInputScreen,
@@ -158,6 +190,47 @@ const Navigator = createStackNavigator({
     screen: TransactionConfirmationScreen,
     title: 'TransactionConfirmation',
   },
+  TransactionDetails: {
+    screen: TransactionDetailsScreen,
+    title: 'TransactionDetails',
+    bottomNavigation: true,
+  },
+  SecureTransactions: {
+    screen: SecureTransactionsScreen,
+    title: 'SecureTransactions',
+  },
+  WithdrawalInfo: {
+    screen: WithdrawalInfoScreen,
+    title: 'WithdrawalInfo',
+  },
+  DestinationTagExplanationModal: {
+    screen: DestinationTagExplanationModalScreen,
+    title: 'DestinationTagExplanationModal',
+  },
+
+  // Wallet screens
+  WalletDetails: {
+    screen: WalletDetailsScreen,
+    title: 'WalletDetails',
+    bottomNavigation: true,
+  },
+  WalletBalance: {
+    screen: WalletBalanceScreen,
+    title: 'WalletBalance',
+    bottomNavigation: true,
+  },
+  WalletTransactions: {
+    screen: WalletTransactionsScreen,
+    title: 'WalletTransactions',
+    bottomNavigation: true,
+  },
+  WalletInterest: {
+    screen: WalletInterestScreen,
+    title: 'WalletInterest',
+    bottomNavigation: true,
+  },
+
+  // Passcode screens
   CreatePasscode: {
     screen: CreatePasscodeScreen,
     title: 'CreatePasscode',
@@ -170,48 +243,15 @@ const Navigator = createStackNavigator({
     screen: EnterPasscodeScreen,
     title: 'EnterPasscode',
   },
-  TransactionDetails: {
-    screen: TransactionDetailsScreen,
-    title: 'TransactionDetails',
-  },
-  SecureTransactions: {
-    screen: SecureTransactionsScreen,
-    title: 'SecureTransactions',
-  },
-  WithdrawalInfo: {
-    screen: WithdrawalInfoScreen,
-    title: 'WithdrawalInfo',
-  },
-  WalletBalance: {
-    screen: WalletBalanceScreen,
-    title: 'WalletBalance',
-  },
-  WalletTransactions: {
-    screen: WalletTransactionsScreen,
-    title: 'WalletTransactions',
-  },
-  HowToEarnInterest: {
-    screen: HowToEarnInterestScreen,
-    title: 'HowToEarnInterest',
-  },
-  WalletInterest: {
-    screen: WalletInterestScreen,
-    title: 'WalletInterest',
-  },
-  TransactionsOnHold: {
-    screen: TransactionsOnHoldScreen,
-    title: 'TransactionsOnHold',
-  },
-  DestinationTagExplanationModal: {
-    screen: DestinationTagExplanationModalScreen,
-    title: 'DestinationTagExplanationModal',
-  },
   LoginPasscode: {
     screen: LoginPasscodeScreen,
     title: 'LoginPasscode',
   },
-  // NOTE(fj): plop screenGen inserting new Screen here
-}, {
+}
+
+const Navigator = createStackNavigator(
+  screens,
+  {
   headerMode: 'none',
   transitionConfig: () => ({
     transitionSpec: {

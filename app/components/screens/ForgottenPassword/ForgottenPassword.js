@@ -41,7 +41,6 @@ class ForgottenPassword extends Component {
         mainHeader={{ backButton: true }}
         animatedHeading={{ text: 'Password forgotten' }}
         background={ STYLES.PRIMARY_BLUE }
-        bottomNavigation={ false }
       >
         <Text style={Styles.description}>
           Enter the email address you used to sign in to Celsius.

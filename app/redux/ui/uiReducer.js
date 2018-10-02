@@ -3,6 +3,9 @@ import {Camera} from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import device from "../../utils/device-util";
+import { screens } from '../../config/Navigator';
+import store from '../../redux/store';
+import { KYC_STATUSES } from "../../config/constants/common";
 
 const {width, height} = Dimensions.get('window');
 
@@ -22,6 +25,37 @@ function getBottomNavDimensions() {
     height: navHeight,
     paddingBottom: navPaddingBottom,
   }
+}
+
+
+function shouldShowBottomNavigation(action) {
+  const { type } = action;
+  const { nav } = store.getState();
+  const { user } = store.getState().users;
+  let routeName;
+
+  if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
+  if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
+  if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
+  if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
+
+  let showNav;
+
+  if (routeName !== 'Home') {
+    showNav = !!screens[routeName].bottomNavigation;
+  } else if (!user) {
+    showNav = false;
+  } else if (!user.first_name || !user.last_name) {
+    showNav = false;
+  } else if (!user.has_pin) {
+    showNav = false;
+  } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+    showNav = true;
+  } else {
+    showNav = true;
+  }
+
+  return showNav;
 }
 
 const initialState = {
@@ -44,6 +78,7 @@ const initialState = {
     photo: undefined,
     mask: undefined,
   },
+  hasBottomNavigation: false,
   scrollTo: undefined,
   scrollPosition: 0,
   formData: {},
@@ -74,7 +109,6 @@ export default (state = initialState, action) => {
         internetConnected: action.internetConnected
       };
 
-    case ACTIONS.NAVIGATE:
     case ACTIONS.CLEAR_MESSAGE:
       return {
         ...state,
@@ -247,6 +281,21 @@ export default (state = initialState, action) => {
         ...state,
         openedModal: undefined,
       }
+
+    case ACTIONS.NAVIGATE_BACK:
+    case ACTIONS.NAVIGATE:
+    case ACTIONS.NAVIGATION_RESET:
+    case ACTIONS.LOGOUT_USER:
+      console.log({ action })
+      return {
+        ...state,
+        hasBottomNavigation: shouldShowBottomNavigation(action),
+      }
+
+      // return {
+      //   ...state,
+      //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
+      // }
 
     default:
       return state;
