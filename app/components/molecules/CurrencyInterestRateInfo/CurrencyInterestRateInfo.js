@@ -43,7 +43,7 @@ class CurrencyInterestRateInfo extends Component {
         </View>
         {currencyInfo.short.toUpperCase() === 'USD' && <View style={CurrencyInterestRateInfoStyle.usdInfoWrapper}>
           <Text style={globalStyles.lightText}>
-            Start earning interest for dollars by <Text onPress={() => Linking.openURL("mailto:app@celsius.network")}
+            Start earning interest for dollars by <Text onPress={() => {Linking.openURL("mailto:sales@celsius.network")}}
                   style={globalStyles.blueTextColor}>getting in touch</Text> with our team.
           </Text>
         </View>}
