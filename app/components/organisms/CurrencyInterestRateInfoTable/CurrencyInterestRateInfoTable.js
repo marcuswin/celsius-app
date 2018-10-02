@@ -25,6 +25,7 @@ class CurrencyInterestRateInfoTable extends Component {
   renderInterestTable() {
     const { interestRates, interestRatesDisplay } = this.props;
     const interestArray = [];
+    const ratesPriority = ['ETH', 'BTC', 'USD'];
 
     Object.keys(interestRates).forEach((currency) => {
       const obj = {};
@@ -34,8 +35,20 @@ class CurrencyInterestRateInfoTable extends Component {
       interestArray.push(obj);
     });
 
+    const sortedRates = interestArray.sort((a, b) => {
+      if (ratesPriority.indexOf(a.currency) > ratesPriority.indexOf(b.currency)) {
+        return -1;
+      }
+
+      if (ratesPriority.indexOf(a.currency) < ratesPriority.indexOf(b.currency)) {
+        return 1;
+      }
+
+      return 0;
+    });
+
     return (
-      interestArray.map(interest =>
+      sortedRates.map(interest =>
         <CurrencyInterestRateInfo
           key={interest.currency}
           compact
@@ -47,13 +60,13 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 
   render() {
-    const {style} = this.props;
+    const {style, interestRates} = this.props;
 
     const additionalStyle = style || {};
 
     return (
       <View style={[CurrencyInterestRateInfoTableStyle.wrapper, additionalStyle]}>
-        {this.props.interestRates ? this.renderInterestTable() : null}
+        {interestRates ? this.renderInterestTable() : null}
       </View>
     );
   }
