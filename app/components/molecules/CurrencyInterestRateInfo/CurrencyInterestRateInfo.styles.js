@@ -1,21 +1,23 @@
 import { StyleSheet } from "react-native";
-import { COLORS, FONT_SCALE } from "../../../config/constants/style";
+import { COLORS, FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const currencyImageSize = 44;
 
 const CurrencyInterestRateInfoStyle = StyleSheet.create({
   mainWrapper: {
-    flexDirection: 'row',
     borderColor: 'rgba(200,200,200,0.3)',
     borderTopWidth: 1,
     borderBottomWidth: 1,
     paddingVertical: 11,
-    alignItems: 'center',
     marginVertical: 15,
   },
   mainWrapperCompact: {
     borderTopWidth: 0,
     marginVertical: 0,
+  },
+  mainInfoWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   imageWrapper: {
     width: currencyImageSize,
@@ -42,6 +44,12 @@ const CurrencyInterestRateInfoStyle = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
+  },
+  usdInfoWrapper: {
+    marginTop: 10,
+    backgroundColor: STYLES.GRAY_3,
+    borderRadius: 5,
+    padding: 10,
   },
   rateText: {
     color: '#fff',

@@ -54,6 +54,9 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-extra-light',
   },
+  blueTextColor: {
+    color: STYLES.PRIMARY_BLUE,
+  },
   invertedNormalText: {
     color: STYLES.WHITE_TEXT_COLOR,
     fontSize: FONT_SCALE * 18,
@@ -80,6 +83,8 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     lineHeight: 41,
     textAlign: 'center',
   },
+  extraLightText: { fontFamily: 'agile-extra-light' },
+  lightText: { fontFamily: 'agile-light' },
   mediumText: { fontFamily: 'agile-medium' },
   boldText: { fontFamily: 'agile-bold' },
   underlinedText: {
