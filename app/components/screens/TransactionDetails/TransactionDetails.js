@@ -32,6 +32,7 @@ function getHeading(transaction) {
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} Interest`,
     COLLATERAL: `${transaction.coin && transaction.coin.toUpperCase()} Collateral`,
     TRANSFER_PENDING: `${transaction.coin && transaction.coin.toUpperCase()} Sending`,
+    TRANSFER_CLAIMED: `${transaction.coin && transaction.coin.toUpperCase()} Claimed`,
     TRANSFER_SENT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
     TRANSFER_RECEIVED: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     TRANSFER_RETURNED: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
@@ -41,6 +42,7 @@ function getHeading(transaction) {
 function getBadge(transaction) {
   return {
     TRANSFER_PENDING: <Badge color={COLORS.yellow} text="Pending" />,
+    TRANSFER_CLAIMED: <Badge color={COLORS.yellow} text="Claimed" />,
     TRANSFER_SENT: <Badge color={COLORS.green} text="Sent" />,
     TRANSFER_RECEIVED: <Badge color={COLORS.green} text="Received" />,
     TRANSFER_RETURNED: <Badge color={COLORS.blue} text="Returned" />,
@@ -82,6 +84,7 @@ function getStatusText(transaction) {
     INTEREST: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
     COLLATERAL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Locked</Text>,
     TRANSFER_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Not claimed</Text>,
+    TRANSFER_CLAIMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Verifying user</Text>,
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
     TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
     TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
@@ -110,6 +113,7 @@ function getSections(transaction) {
     COLLATERAL: ['date', 'time'],
     TRANSFER_PENDING: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
+    TRANSFER_CLAIMED: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
     TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
   }[transaction.type];
@@ -165,7 +169,7 @@ class TransactionDetails extends Component {
     }
   }
 
-  cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation', false);
+  cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation' || route.routeName === 'EnterPasscode', false);
 
   renderLoader = (showBackButton) => (
     <BasicLayout
@@ -250,7 +254,7 @@ class TransactionDetails extends Component {
           { sections.map(this.renderSection) }
 
           <CelButton
-            onPress={() => actions.navigateTo('Home')}
+            onPress={() => actions.navigateTo('Home', true)}
             margin='10 36 0 36'
           >
             Close
