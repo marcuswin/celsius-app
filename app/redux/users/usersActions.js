@@ -1,4 +1,5 @@
 import Sentry from 'sentry-expo';
+import { Constants } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
@@ -8,10 +9,12 @@ import { setFormErrors, showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { BRANCH_LINKS, KYC_STATUSES } from "../../config/constants/common";
-import { setSecureStoreKey } from "../../utils/expo-storage";
+import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
 import { createBranchReferralLink } from "../branch/branchActions";
+
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 export {
   getProfileInfo,
@@ -52,6 +55,9 @@ function getProfileInfo() {
         dispatch(createBranchReferralLink(personalInfo));
       }
     } catch(err) {
+      if (err.status === 422) {
+        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      }
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
     }
