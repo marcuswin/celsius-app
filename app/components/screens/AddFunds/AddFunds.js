@@ -192,7 +192,6 @@ class AddFunds extends Component {
         mainHeader={{ onCancel: this.goBack, backButton: false }}
         animatedHeading={{ text: headingText, textAlign: "center" }}
         background={STYLES.PRIMARY_BLUE}
-        bottomNavigation={false}
       >
 
         {navCurrency ? (

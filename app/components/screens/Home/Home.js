@@ -11,14 +11,12 @@ import WelcomeScreen from "../Welcome/Welcome";
 import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
-import Passcode from "../Passcode/Passcode";
 import WalletBalance from "../WalletBalance/WalletBalance";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
-    nav: state.nav,
     user: state.users.user,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
     appSettings: state.users.appSettings,
@@ -56,7 +54,7 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const { user, nav } = this.props;
+    const { user } = this.props;
 
     if (!user) return <WelcomeScreen/>;
 
@@ -65,7 +63,7 @@ class HomeScreen extends Component {
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
 
 
-    if (nav.initializingApp) return <Passcode type={'loginPasscode'}/>;
+    // if (nav.initializingApp) return <Passcode type={'loginPasscode'}/>;
 
     return <WalletBalance/>;
   }

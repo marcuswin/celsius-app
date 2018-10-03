@@ -331,7 +331,6 @@ class TransactionConfirmation extends Component {
 
     return (
       <BasicLayout
-        bottomNavigation={false}
       >
         <MainHeader backButton/>
         <CelHeading text={`Withdraw ${coinUpperCase}`}/>

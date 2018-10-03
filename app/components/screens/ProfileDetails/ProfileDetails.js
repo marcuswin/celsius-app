@@ -109,7 +109,6 @@ class ProfileDetails extends Component {
       <SimpleLayout
         animatedHeading={{ text: 'Profile Details'}}
         background={STYLES.PRIMARY_BLUE}
-        bottomNavigation={false}
       >
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
           Please provide us with the information below to get started.

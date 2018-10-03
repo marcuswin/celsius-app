@@ -52,7 +52,6 @@ class VerifyPhoneNumber extends Component {
     return (
       <SimpleLayout
         animatedHeading={{ text : ''}}
-        bottomNavigation={false}
         background={STYLES.PRIMARY_BLUE}
       >
         <View>

@@ -11,6 +11,7 @@ import Message from "../../atoms/Message/Message";
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    hasBottomNavigation: state.ui.hasBottomNavigation,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -27,26 +28,11 @@ class BasicLayout extends Component {
     }
   }
 
-  componentDidMount() {
-    const {bottomNavigation, actions} = this.props;
-
-    actions.displayBottomNavigation(!!bottomNavigation);
-  }
-
-  componentWillReceiveProps({ activeScreen }) {
-    const {bottomNavigation, actions} = this.props;
-    const {screen} = this.state;
-
-    if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
-      actions.displayBottomNavigation(!!bottomNavigation);
-    }
-  }
-
   render() {
-    const { bottomNavigation, bottomNavigationDimensions, background } = this.props;
+    const { hasBottomNavigation, bottomNavigationDimensions, background } = this.props;
     let marginBottom;
 
-    if (bottomNavigation) {
+    if (hasBottomNavigation) {
       marginBottom = bottomNavigationDimensions.height;
     } else {
       marginBottom = 0;

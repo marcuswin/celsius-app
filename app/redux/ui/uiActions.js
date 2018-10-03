@@ -1,6 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 import { MODALS } from "../../config/constants/common";
+import { screens } from '../../config/Navigator';
 
 // TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
@@ -169,8 +170,8 @@ function scrollTo(scrollOptions = {}) {
   return (dispatch, getState) => {
 
     const { screenHeight, bottomNavigation } = getState().ui.dimensions;
-    const { displayBottomNavigation } = getState().nav;
-    const scrollBottomOffset = displayBottomNavigation ? 40 : bottomNavigation.height + 10;
+    const activeScreen = getState().nav.routes[getState().nav.index].routeName
+    const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {
