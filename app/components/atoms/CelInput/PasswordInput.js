@@ -65,7 +65,8 @@ class PasswordInput extends Component {
     return (
       <View>
         <TextInput {...this.props}
-                   secureTextEntry={!visible}
+                    testSelector={this.props.testSelector}
+                   secureTextEntry={!visible}                  
                    onFocus={() => {
                      if (onFocus) onFocus()
                      this.setState({ active: true })}

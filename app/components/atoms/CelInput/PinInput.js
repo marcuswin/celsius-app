@@ -99,6 +99,7 @@ class PinInput extends Component {
           )}
         </View>
         <TextInput style={[PinInputStyle.digitInput, pinInputStyle]}
+                    testSelector={this.props.testSelector}
                    value={value}
                    maxLength={digits}
                    ref={ref => {

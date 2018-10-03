@@ -2,9 +2,12 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View, Easing, Text, TextInput } from "react-native";
 // import { Input } from "native-base";
-
+import { hook } from 'cavy';
+ 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
+
+// const {ENV} = Constants.manifest.extra;
 
 class CelTextInput extends Component {
   static propTypes = {
@@ -13,13 +16,14 @@ class CelTextInput extends Component {
     // inherited from CelInput
     labelText: PropTypes.string,
     floatingLabel: PropTypes.bool,
-    // for Input
+    // for Input 
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     onLayout: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    testSelector: PropTypes.string,
     secureTextEntry: PropTypes.bool,
     returnKeyType: PropTypes.string,
     keyboardType: PropTypes.string,
@@ -39,6 +43,7 @@ class CelTextInput extends Component {
     placeholder: '',
     returnKeyType: null,
     editable: true,
+    testSelector: null,
     maxLength: 100,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
@@ -54,6 +59,16 @@ class CelTextInput extends Component {
       active: false,
       animatedValue: new Animated.Value(this.props.value ? 10 : 20),
     }
+  }
+  
+  getInputRef = () => {
+    const {generateTestHook, testSelector} = this.props;
+
+    if (testSelector) {
+      return generateTestHook(testSelector, ref => { this.input = ref });
+    }
+
+    return ref => { this.input = ref };
   }
 
   animateLabel(value) {
@@ -74,8 +89,11 @@ class CelTextInput extends Component {
     })
   }
 
+
   // rendering methods
   render() {
+    console.log( this.props.testSelector, '1212112');
+     
     const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;
@@ -103,7 +121,7 @@ class CelTextInput extends Component {
           maxLength={maxLength}
           autoCapitalize={autoCapitalize}
           editable={editable}
-          ref={ref => { this.input = ref }}
+          ref={this.getInputRef()}
           onLayout={ () => this.saveLayout()}
           onFocus={() => {
             if (onFocus) onFocus()
@@ -146,4 +164,6 @@ class CelTextInput extends Component {
   }
 }
 
-export default CelTextInput;
+// export default CelTextInput;
+const table = hook(CelTextInput)
+export default table;

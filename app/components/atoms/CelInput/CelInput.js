@@ -52,6 +52,7 @@ class CelInput extends Component {
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
     digits: PropTypes.number,
+    testSelector: PropTypes.string,
     showDigits: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
@@ -73,6 +74,7 @@ class CelInput extends Component {
     editable: true,
     maxLength: 100,
     digits: 4,
+    testSelector: null,
     showDigits: false,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
@@ -110,6 +112,8 @@ class CelInput extends Component {
 
   // rendering methods
   render() {
+    console.log(this.props.testSelector, 'dssdssd1111?????');
+    
     const { theme, error, type } = this.props;
 
     this.state = {
@@ -192,4 +196,6 @@ class CelInput extends Component {
   }
 }
 
+// const testable = hook(CelInput)
+// export default testable;
 export default CelInput;

@@ -4,6 +4,7 @@ import { LineChart, XAxis, YAxis } from "react-native-svg-charts";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
+import { hook } from 'cavy';
 
 import * as appActions from "../../../redux/actions";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
@@ -241,7 +242,9 @@ class WalletInterest extends Component {
           }
         </View>
 
-        <Text style={WalletInterestStyle.title}>
+        <Text style={WalletInterestStyle.title}
+       ref={this.props.generateTestHook('WalletInterests.popUp')}
+                            >
           Today's interest rates:
         </Text>
         <Text style={WalletInterestStyle.explanation}>
@@ -262,4 +265,6 @@ class WalletInterest extends Component {
   }
 }
 
-export default WalletInterest;
+// export default WalletInterest;
+const TestHook = hook(WalletInterest)
+export default TestHook;

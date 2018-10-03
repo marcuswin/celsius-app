@@ -3,6 +3,7 @@ import {View} from "native-base";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import { hook } from 'cavy';
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -41,11 +42,12 @@ class LoginForm extends Component {
     return (
       <View style={LoginFormStyles.wrapper}>
         <CelForm disabled={isLoading}>
-          <CelInput error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
-          <CelInput error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
+          <CelInput {...this.props} testSelector={'CelTextInput.email'} error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
+          <CelInput {...this.props} testSelector={'CelTextInput.pass'} error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
         </CelForm>
 
         <CelButton
+          ref={this.props.generateTestHook('LoginForm.button')}
           onPress={() => this.onSubmit()}
           disabled={!formData.email || !formData.password || formData.password.length < 8}
           loading={isLoading}
@@ -59,4 +61,6 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+// export default LoginForm;
+const TestHook = hook(LoginForm)
+export default TestHook;
