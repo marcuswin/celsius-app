@@ -39,7 +39,6 @@ class HomeScreen extends Component {
 
         // Anything beyond this point is considered as the user has logged in.
         registerForPushNotificationsAsync();
-        actions.getKYCDocTypes();
 
         // claim branch transfers
         if (branchHashes && branchHashes.length) {

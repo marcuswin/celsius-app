@@ -15,7 +15,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
-import { TRANSFER_STATUSES } from "./config/constants/common";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -86,6 +86,12 @@ export default class App extends Component {
       await store.dispatch(actions.getProfileInfo());
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
       await store.dispatch(actions.navigateTo('LoginPasscode'));
+
+      const { user } = store.getState().users;
+      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+        store.dispatch(actions.getKYCDocTypes());
+      }
+
     } else {
       mixpanelAnalytics.identify(uuid())
     }
