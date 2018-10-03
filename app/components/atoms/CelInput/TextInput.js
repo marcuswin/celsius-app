@@ -20,6 +20,7 @@ class CelTextInput extends Component {
     onLayout: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    isPassword: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
     returnKeyType: PropTypes.string,
     keyboardType: PropTypes.string,
@@ -37,6 +38,7 @@ class CelTextInput extends Component {
     // for Input
     value: '',
     placeholder: '',
+    isPassword: false,
     returnKeyType: null,
     editable: true,
     maxLength: 100,
@@ -76,7 +78,7 @@ class CelTextInput extends Component {
 
   // rendering methods
   render() {
-    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
+    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword} = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;
 
@@ -93,11 +95,12 @@ class CelTextInput extends Component {
 
     const inputBackground = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
     const disabledStyles = !editable ? globalStyles[`${theme}InputWrapperDisabled`] : {};
+    const additionalTextInputStyle = isPassword ? {} : globalStyles.nonPasswordInputStyle;
 
     return (
       <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles ]}>
         <TextInput
-          style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}
+          style={[globalStyles.input, globalStyles[`${theme}InputTextColor`], additionalTextInputStyle]}
           underlineColorAndroid={'rgba(0,0,0,0)'}
           underline={false}
           maxLength={maxLength}
