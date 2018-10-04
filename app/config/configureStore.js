@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import Sentry from "sentry-expo";
 
 import reducer from '../redux/reducers';
+import ACTIONS from "./constants/ACTIONS";
 
 /* eslint global-require: 0 */
 let composeEnhancers = compose;
@@ -46,9 +47,11 @@ function sentryActionLogger({ getState }) {
     allActions.push(action.type);
     console.log(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`);
     if (
-      allActions.length % 5 === 0 ||
+      allActions.length % 20 === 0 ||
       [
         // add actions to log here
+        ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+        ACTIONS.BRANCH_LINK_REGISTERED,
       ].indexOf(action.type) !== -1
     ) {
       Sentry.captureMessage(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`, {

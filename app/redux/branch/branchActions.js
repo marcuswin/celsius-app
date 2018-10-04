@@ -15,9 +15,8 @@ export {
 }
 
 function createBranchLink(linkType, canonicalIdentifier, properties) {
-  if (Constants.appOwnership !== 'standalone') return;
-
   return async (dispatch, getState) => {
+    if (Constants.appOwnership !== 'standalone') return dispatch(uiActions.showMessage('info', 'Cannot create referral link at this time!'));
     try {
       dispatch(startApiCall(API.CREATE_BRANCH_LINK));
       const { user } = getState().users;
@@ -56,12 +55,18 @@ function createBranchReferralLink() {
     const { user } = getState().users;
     dispatch(createBranchLink(
       BRANCH_LINKS.REFERRAL,
-      `referral:${user.email}`,
+      `referral:${user.id}`,
       {
         locallyIndex: true,
         title: 'Download the App Now to Earn Interest Like Me',
         contentImageUrl: 'https://image.ibb.co/jWfnh9/referall_image.png',
-        contentDescription: 'Deposit coins & earn up to 5% interest annually on BTC, ETH, LTC and more.'
+        contentDescription: 'Deposit coins & earn up to 5% interest annually on BTC, ETH, LTC and more.',
+        contentMetadata: {
+          customMetadata: {
+            referrer_id: user.id,
+            link_type: BRANCH_LINKS.REFERRAL,
+          }
+        }
       }
     ))
   }

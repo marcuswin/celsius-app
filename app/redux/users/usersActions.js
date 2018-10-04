@@ -8,11 +8,10 @@ import * as NavActions from '../nav/navActions';
 import { setFormErrors, showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
-import { BRANCH_LINKS, KYC_STATUSES } from "../../config/constants/common";
+import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
-import { createBranchReferralLink } from "../branch/branchActions";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -34,7 +33,7 @@ export {
 }
 
 function getProfileInfo() {
-  return async (dispatch, getState) => {
+  return async (dispatch) => {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
 
     try {
@@ -48,12 +47,6 @@ function getProfileInfo() {
       });
 
       dispatch(getUserPersonalInfoSuccess(personalInfo));
-
-      const { branch } = getState();
-      const referralLink = branch.createdLinks.filter(br => br.linkType === BRANCH_LINKS.REFERRAL);
-      if (!referralLink.length) {
-        dispatch(createBranchReferralLink(personalInfo));
-      }
     } catch(err) {
       if (err.status === 422) {
         deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
