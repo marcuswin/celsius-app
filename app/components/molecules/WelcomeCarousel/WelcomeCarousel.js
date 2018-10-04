@@ -15,7 +15,6 @@ const images = [
   require("../../../../assets/images/Welcome_Doggirl.png"),
   require("../../../../assets/images/Welcome_Whale.png"),
   require("../../../../assets/images/Welcome_Polar-Bear.png"),
-  require("../../../../assets/images/Welcome_Penguin.png")
 ];
 
 export default class WelcomeCarousel extends Component {
@@ -40,11 +39,6 @@ export default class WelcomeCarousel extends Component {
           smallDescription: "NOW, YOU CAN HODL AND LIVE LARGE",
           largeDescription: "Use our loan estimator to see how many dollars you could borrow at 9% interest against your crypto and apply for a loan."
         },
-        {
-          title: "Join the Queue",
-          smallDescription: "EARLY BIRDS GET THE LOAN!",
-          largeDescription: "Join the line now to be one of the first to get a loan."
-        }
       ]
     };
     this.handleScroll = this.handleScroll.bind(this);
@@ -54,12 +48,15 @@ export default class WelcomeCarousel extends Component {
 
   handleScroll(e) {
     const { contentOffset, contentSize } = e.nativeEvent;
+    const {screens} = this.state;
+
+    const screenNumber = screens.length;
 
     let nextScreen;
     if (contentOffset.x - this.state.xOffset < 0) {
-      nextScreen = Math.floor(contentOffset.x * 4 / contentSize.width);
+      nextScreen = Math.floor(contentOffset.x * screenNumber / contentSize.width);
     } else {
-      nextScreen = Math.ceil(contentOffset.x * 4 / contentSize.width);
+      nextScreen = Math.ceil(contentOffset.x * screenNumber / contentSize.width);
     }
 
 
@@ -82,7 +79,6 @@ export default class WelcomeCarousel extends Component {
           <View style={[ activeScreen === 0 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
           <View style={[ activeScreen === 1 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
           <View style={[ activeScreen === 2 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
-          <View style={[ activeScreen === 3 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
         </View>
 
     )
