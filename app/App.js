@@ -85,13 +85,14 @@ export default class App extends Component {
     if (token) {
       await store.dispatch(actions.getProfileInfo());
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
-      await store.dispatch(actions.navigateTo('LoginPasscode'));
 
       const { user } = store.getState().users;
-      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-        store.dispatch(actions.getKYCDocTypes());
+      if (user.has_pin) {
+        store.dispatch(actions.navigateTo('LoginPasscode'));
       }
-
+      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+        await store.dispatch(actions.getKYCDocTypes());
+      }
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -171,7 +172,8 @@ export default class App extends Component {
       }
     }
 
-    if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    const { user } = store.getState();
+    if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
         if (Platform.OS === "ios") {
           this.timeout = setTimeout(() => {
             store.dispatch(actions.navigateTo("LoginPasscode"));
