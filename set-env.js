@@ -39,7 +39,7 @@ if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
   fs.writeFileSync(dest, data);
   console.log(`Created app.json for ${CONFIG} environment successfully`);
   return true;
-} else {
-  console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
-  return false;
 }
+
+console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
+return false;
