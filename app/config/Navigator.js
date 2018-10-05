@@ -43,6 +43,7 @@ import WalletInterestScreen from "../components/screens/WalletInterest/WalletInt
 import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/TransactionsOnHold";
 import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
+import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -175,6 +176,10 @@ export const screens = {
   QRScanner: {
     screen: QRScannerScreen,
     title: 'QRScanner',
+  },
+  CameraRoll: {
+    screen: CameraRollScreen,
+    title: 'CameraRoll',
   },
 
   // Deposit/Withdrawla screens
