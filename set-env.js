@@ -42,4 +42,4 @@ if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
 }
 
 console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
-return false
+return false;

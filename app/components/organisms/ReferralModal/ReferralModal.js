@@ -23,9 +23,9 @@ import Icon from "../../atoms/Icon/Icon";
   }),
 )
 class ReferralModal extends Component {
-  componentDidMount() {
-    const { actions, referralLink } = this.props;
-    if (!referralLink) {
+  componentWillReceiveProps(nextProps) {
+    const { actions, referralLink, openedModal } = nextProps;
+    if (this.props.openedModale !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
       actions.createBranchReferralLink();
     }
   }
