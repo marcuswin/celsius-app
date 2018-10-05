@@ -50,7 +50,7 @@ $ yarn run start:dev
 ```bash
 $ yarn run start:dev:local
 ```
-- updates `app.json` with local settings and starts expo project
+- updates `app.json` with local/dev settings and starts expo project
 
 ```bash
 $ yarn run start:dev:staging
@@ -58,9 +58,15 @@ $ yarn run start:dev:staging
 - updates `app.json` with staging settings and starts expo project
 
 ```bash
-$ yarn run kill:expo
+$ yarn run start:dev:preprod
 ```
+- updates `app.json` with pre-prod settings and starts expo project
+
 ```bash
+$ yarn run start:dev:production
+```
+- updates `app.json` with production settings and starts expo project
+
 $ yarn run ios
 ```
 - starts ios simulator and react native debugger
@@ -75,29 +81,24 @@ $ yarn run lint
 - checks the code for linting errors
 
 ```bash
-$ yarn run env:local
+$ yarn run set:env:dev
 ```
 - updates `app.json` with local environment variables
 
 ```bash
-$ yarn run env:staging
+$ yarn run set:env:staging
 ```
 - updates `app.json` with staging environment variables
 
 ```bash
-$ yarn run env:production
+$ yarn run set:env:preprod
+```
+- updates `app.json` with pre-prod environment variables
+
+```bash
+$ yarn run set:env:production
 ```
 - updates `app.json` with production environment variables
-
-```bash
-$ yarn run publish:staging
-```
-- publishes staging app to expo
-
-```bash
-$ yarn run deploy:staging
-```
-- sets staging environment variables and publishes app to staging
 
 ```bash
 $ yarn run plop
@@ -108,56 +109,5 @@ $ yarn run plop
 
 * [React Native Debugger](https://github.com/jhen0409/react-native-debugger)
 * [Celsius API Docs](https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#bf6e3009-2736-4a6e-b1a0-c0928c704550)
+* Testflight for iPhone
 * Sentry
-
-### Dependencies used
-
-* [axios](https://www.npmjs.com/package/axios)
-* [base-64](https://www.npmjs.com/package/base-64)
-* [country-data](https://www.npmjs.com/package/country-data)
-* [currency-formatter](https://www.npmjs.com/package/currency-formatter)
-* [exp](https://www.npmjs.com/package/exp)
-* [expo](https://www.npmjs.com/package/expo)
-* [expo-env](https://www.npmjs.com/package/expo-env)
-* [hoek](https://www.npmjs.com/package/hoek)
-* [immutable](https://www.npmjs.com/package/immutable)
-* [lodash](https://www.npmjs.com/package/lodash)
-* [moment](https://www.npmjs.com/package/moment)
-* [native-base](https://www.npmjs.com/package/native-base)
-* [prop-types](https://www.npmjs.com/package/prop-types)
-* [qs](https://www.npmjs.com/package/qs)
-* [react](https://www.npmjs.com/package/react)
-* [react-native](https://www.npmjs.com/package/react-native)
-* [react-native-animatable](https://www.npmjs.com/package/react-native-animatable)
-* [react-native-auth0](https://www.npmjs.com/package/react-native-auth0)
-* [react-native-checkbox](https://www.npmjs.com/package/react-native-checkbox)
-* [react-native-datepicker](https://www.npmjs.com/package/react-native-datepicker)
-* [react-native-easy-grid](https://www.npmjs.com/package/react-native-easy-grid)
-* [react-native-google-signin](https://www.npmjs.com/package/react-native-google-signin)
-* [react-native-image-header-scroll-view](https://www.npmjs.com/package/react-native-image-header-scroll-view)
-* [react-native-qrcode](https://www.npmjs.com/package/react-native-qrcode)
-* [react-native-simple-twitter](https://www.npmjs.com/package/react-native-simple-twitter)
-* [react-native-svg](https://www.npmjs.com/package/react-native-svg)
-* [react-native-svg-charts](https://www.npmjs.com/package/react-native-svg-charts)
-* [react-native-svg-icon](https://www.npmjs.com/package/react-native-svg-icon)
-* [react-native-swipeable](https://www.npmjs.com/package/react-native-swipeable)
-* [react-navigation](https://www.npmjs.com/package/react-navigation)
-* [react-redux](https://www.npmjs.com/package/react-redux)
-* [redux](https://www.npmjs.com/package/redux)
-* [redux-logger](https://www.npmjs.com/package/redux-logger)
-* [redux-thunk](https://www.npmjs.com/package/redux-thunk)
-* [sentry-expo](https://www.npmjs.com/package/sentry-expo)
-* [uuid](https://www.npmjs.com/package/uuid)
-* [which-country](https://www.npmjs.com/package/which-country)
->Dev dependencies
-* [eslint](https://www.npmjs.com/package/eslint)
-* [eslint-config-equimper](https://www.npmjs.com/package/eslint-config-equimper)
-* [eslint-config-prettier](https://www.npmjs.com/package/eslint-config-prettier)
-* [plop](https://www.npmjs.com/package/plop)
-* [pre-commit](https://www.npmjs.com/package/pre-commit)
-* [prettier](https://www.npmjs.com/package/prettier)
-* [react-native-debugger-open](https://www.npmjs.com/package/react-native-debugger-open)
-* [react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv)
-* [react-test-renderer](https://www.npmjs.com/package/react-test-renderer)
-* [remote-redux-devtools](https://www.npmjs.com/package/remote-redux-devtools)
-* [remotedev-rn-debugger](https://www.npmjs.com/package/remotedev-rn-debugger)
