@@ -92,6 +92,7 @@ function getBlockExplorerLink(transaction) {
   return {
     eth: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
     btc: { link: `https://blockchain.info/btc/tx/${ transaction.transaction_id }`, text: 'blockchain'},
+    bch: { link: `https://blockdozer.com/tx/${ transaction.transaction_id }`, text: 'blockdozer'},
     ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${ transaction.transaction_id }`, text: 'chainz'},
     xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${ transaction.transaction_id }`, text: 'xrpcharts'},
     cel: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},

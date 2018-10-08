@@ -79,18 +79,26 @@ class TransactionRow extends Component {
     transaction: PropTypes.instanceOf(Object)
   }
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
+    this.setTransaction(this.props.transaction);
+  }
 
-    const type = props.transaction.type;
-    this.state = {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.transaction && this.props.transaction.id !== nextProps.transaction.id) {
+      this.setTransaction(nextProps.transaction);
+    }
+  }
+
+  setTransaction(transaction) {
+    if (!transaction) return;
+    const type = transaction.type;
+    console.log({ type })
+    this.setState({
       type,
       color: getTransactionColor(type),
       icon: getTransactionIcon(type),
-      statusText: getTransactionStatusText(props.transaction),
-    };
-
-    // binders
+      statusText: getTransactionStatusText(transaction),
+    })
   }
 
   // lifecycle methods
