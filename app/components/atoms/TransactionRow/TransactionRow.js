@@ -79,11 +79,8 @@ class TransactionRow extends Component {
     transaction: PropTypes.instanceOf(Object)
   }
 
-  constructor(props) {
-    super(props);
-
-    this.setTransaction(props.transaction);
-    // binders
+  componentWillMount() {
+    this.setTransaction(this.props.transaction);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,6 +92,7 @@ class TransactionRow extends Component {
   setTransaction(transaction) {
     if (!transaction) return;
     const type = transaction.type;
+    console.log({ type })
     this.setState({
       type,
       color: getTransactionColor(type),
