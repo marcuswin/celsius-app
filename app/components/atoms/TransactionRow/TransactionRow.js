@@ -82,15 +82,24 @@ class TransactionRow extends Component {
   constructor(props) {
     super(props);
 
-    const type = props.transaction.type;
-    this.state = {
+    this.setTransaction(props.transaction);
+    // binders
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.transaction && this.props.transaction.id !== nextProps.transaction.id) {
+      this.setTransaction(nextProps.transaction);
+    }
+  }
+
+  setTransaction(transaction) {
+    const type = transaction.type;
+    this.setState({
       type,
       color: getTransactionColor(type),
       icon: getTransactionIcon(type),
-      statusText: getTransactionStatusText(props.transaction),
-    };
-
-    // binders
+      statusText: getTransactionStatusText(transaction),
+    })
   }
 
   // lifecycle methods
