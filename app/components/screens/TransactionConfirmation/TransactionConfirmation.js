@@ -21,6 +21,7 @@ import { MODALS } from "../../../config/constants/common";
 import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import Icon from "../../atoms/Icon/Icon";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -74,6 +75,24 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
           What is XRP Destination Tag?
         </Text>
       </TouchableOpacity>
+      <View style={TransactionConfirmationStyle.messageWrapper}>
+        <View style={TransactionConfirmationStyle.errorCircle}>
+          <Icon
+            name={"ErrorIcon"}
+            width='15'
+            height='15'
+            fill={"white"}
+            stroke={"white"}
+            viewBox="0 0 14.2 12.87"
+          />
+        </View>
+        <View style={{width: '80%'}}>
+        {!formData.hasTagValue ?
+          <Text style={[globalStyles.normalText, {textAlign: 'left'}]}>To prevent a <Text style={{fontFamily: 'agile-book',}}>permanent loss</Text> of your funds, please specify a correct destination tag.</Text> :
+          <Text style={[globalStyles.normalText, {textAlign: 'left'}]}>To prevent a <Text style={{fontFamily: 'agile-book',}}>permanent loss</Text> of your funds, please check if your address has a destination tag.</Text>
+        }
+        </View>
+      </View>
     </View>
     }
 
@@ -292,7 +311,7 @@ class TransactionConfirmation extends Component {
         />
         {coin === "xrp" ?
           <View>
-            <View style={[TransactionConfirmationStyle.addressViewWrapper, {marginBottom:10}]}>
+            <View style={[TransactionConfirmationStyle.addressViewWrapper, { marginBottom: 10 }]}>
               <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
               <Text style={TransactionConfirmationStyle.address}>{newAddress}</Text>
             </View>

@@ -92,7 +92,7 @@ class CelPhoneInput extends Component {
 
     const labelStyles = [globalStyles.selectLabelActive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
-    const inputStyles = { ...globalStyles.input, ...globalStyles[`${theme}InputTextColor`] };
+    const inputStyles = { ...globalStyles.input, ...globalStyles.nonPasswordInputStyle, ...globalStyles[`${theme}InputTextColor`] };
     const phoneBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
     const phoneInputProps = {

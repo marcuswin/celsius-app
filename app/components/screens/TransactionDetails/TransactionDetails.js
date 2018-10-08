@@ -92,6 +92,7 @@ function getBlockExplorerLink(transaction) {
   return {
     eth: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
     btc: { link: `https://blockchain.info/btc/tx/${ transaction.transaction_id }`, text: 'blockchain'},
+    bch: { link: `https://blockdozer.com/tx/${ transaction.transaction_id }`, text: 'blockdozer'},
     ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${ transaction.transaction_id }`, text: 'chainz'},
     xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${ transaction.transaction_id }`, text: 'xrpcharts'},
     cel: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
@@ -199,7 +200,7 @@ class TransactionDetails extends Component {
       case 'received:from':
         return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from"/>;
       case 'explorer':
-        shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) && transaction.transaction_id;
+        shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) !== -1 && transaction.transaction_id;
         return  shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction}/>;
       case 'hippo':
         return <HippoSection key={sectionType} transaction={transaction} currencyRatesShort={currencyRatesShort} />;
@@ -215,7 +216,6 @@ class TransactionDetails extends Component {
     const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
     const isLoading = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
     if (!supportedCurrencies || !transaction || isLoading) return this.renderLoader(showBackButton);
-
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
