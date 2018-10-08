@@ -109,10 +109,10 @@ function mapTransaction(transaction) {
 }
 
 function getTransactionType(transaction) {
-  if (transaction.nature === 'deposit' && transaction.status === 'pending') return TRANSACTION_TYPES.DEPOSIT_PENDING;
-  if (transaction.nature === 'deposit' && transaction.status !== 'pending') return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
-  if (transaction.nature === 'withdrawal' && transaction.status === 'pending') return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
-  if (transaction.nature === 'withdrawal' && transaction.status !== 'pending') return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
+  if (transaction.nature === 'deposit' && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
+  if (transaction.nature === 'deposit' && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
+  if (transaction.nature === 'withdrawal' && !transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
+  if (transaction.nature === 'withdrawal' && transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
   if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
 
