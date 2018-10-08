@@ -25,9 +25,7 @@ class CameraRoll extends Component {
   // event handlers
   selectPhoto = (photo) => {
     const { actions } = this.props;
-    console.log('Hello');
     imageUtil.convertCameraRollToB64(photo, ({ base64 }) => {
-      console.log({ l: base64.length })
       actions.takeCameraPhoto(base64);
       actions.navigateBack();
     });
@@ -41,7 +39,7 @@ class CameraRoll extends Component {
     return (
       <SimpleLayout
         animatedHeading={{ text: 'Camera Photos' }}
-      > 
+      >
         <View style={CameraRollStyle.photoWrapper}>
           { cameraRoll.cameraRollPhotos.map(crp => (
             <TouchableOpacity key={crp.node.image.uri} onPress={() => this.selectPhoto(crp)}>
