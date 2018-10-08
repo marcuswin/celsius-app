@@ -15,14 +15,6 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
-const decimalForCurrency = {
-  usd: 2,
-  btc: 5,
-  eth: 5,
-  cel: 5,
-  ltc: 5,
-};
-
 @connect(
   state => {
     const balances = {};
@@ -63,7 +55,6 @@ class AmountInput extends Component {
         { label: '0', action: this.onPressNumber },
         { label: '\u2190', action: this.onPressErase },
       ],
-      decimal: decimalForCurrency.usd,
     };
 
     props.actions.initForm({
@@ -79,7 +70,7 @@ class AmountInput extends Component {
 
   onPressNumber = (number) => {
     const { formData, actions } = this.props;
-    const { decimal } = this.state;
+    const decimal = formData.inUsd ? 2 : 5;
 
     const amount = formData.amount + number;
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd
@@ -141,9 +132,6 @@ class AmountInput extends Component {
     }
 
     actions.updateFormField('amount', newAmount);
-    this.setState({
-      decimal: formData.inUsd ? decimalForCurrency[formData.currency] : decimalForCurrency.usd,
-    })
   };
 
   updateAmount = (amount) => {
