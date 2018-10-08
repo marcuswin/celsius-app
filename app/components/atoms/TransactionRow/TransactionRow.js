@@ -93,6 +93,7 @@ class TransactionRow extends Component {
   }
 
   setTransaction(transaction) {
+    if (!transaction) return;
     const type = transaction.type;
     this.setState({
       type,
