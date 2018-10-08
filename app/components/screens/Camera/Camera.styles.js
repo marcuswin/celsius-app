@@ -5,8 +5,6 @@ const { height, width } = Dimensions.get('window');
 
 const CameraStyle = StyleSheet.create({
   content: {
-    paddingLeft: 40,
-    paddingRight: 40,
     height,
   },
   camera: Platform.OS === 'ios' ? {
@@ -49,6 +47,7 @@ const CameraStyle = StyleSheet.create({
   cameraCopy: {
     color: 'white',
     textAlign: 'center',
+    marginHorizontal: 40,
   },
   bottomSection: {
     height: 0.3 * height,
@@ -81,6 +80,30 @@ const CameraStyle = StyleSheet.create({
     marginTop: 3,
     fontSize: FONT_SCALE * 24,
     fontFamily: 'agile-medium',
+  },
+  bottomControls: {
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 25,
+  },
+  outerCircle: {
+    height: 66,
+    width: 66,
+    borderRadius: 33,
+    borderWidth: 5,
+    padding: 5,
+    borderColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  innerCircle: {
+    height: 44,
+    width: 44,
+    borderRadius: 22,
+    backgroundColor: 'white',
   },
 });
 

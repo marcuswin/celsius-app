@@ -22,6 +22,8 @@ import imageUtil from "../../../utils/image-util";
     cameraType: state.ui.camera.cameraType,
     photo: state.ui.camera.photo,
     mask: state.ui.camera.mask,
+    cameraRollLastPhoto: state.cameraRoll.cameraRollPhotos[0],
+    bottomNavigationHeight: state.ui.dimensions.bottomNavigation,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -52,14 +54,25 @@ class CameraScreen extends Component {
   }
 
   async componentWillMount() {
-    this.getCameraPermissions()
+    this.getCameraPermissions();
+    this.props.actions.getCameraRollPhotos();
   }
 
   getCameraPermissions = async () => {
+    const { actions } = this.props;
     let perm = await Permissions.getAsync(Permissions.CAMERA);
 
+    console.log({ perm });
+
+
     if (perm.status !== 'granted') {
-      perm = await Permissions.askAsync(Permissions.CAMERA);
+      perm = await Permissions.getAsync(Permissions.CAMERA);
+    }
+
+    if (perm.status === 'denied') {
+      actions.showMessage('warning', 'It looks like you denied Celsius app access to your camera. Please enable it in your phone settings.')
+      actions.navigateBack();
+      return;
     }
 
     this.setState({ hasCameraPermission: perm.status === 'granted' });
@@ -71,7 +84,7 @@ class CameraScreen extends Component {
     if (!this.camera) return;
 
     if (!this.state.hasCameraPermission) {
-      return await this.getCameraPermissions;
+      return await this.getCameraPermissions();
     }
 
     const { actions } = this.props;
@@ -127,8 +140,7 @@ class CameraScreen extends Component {
     }
   }
   renderCameraScreen() {
-    const { cameraHeading, cameraType, actions, cameraCopy } = this.props;
-
+    const { cameraHeading, cameraType, actions, cameraCopy, bottomNavigationHeight, cameraRollLastPhoto } = this.props;
     const mask = this.renderMask();
 
     return (
@@ -142,30 +154,49 @@ class CameraScreen extends Component {
             <MainHeader
               backgroundColor="transparent"
               backButton
-              right={(
-                <TouchableOpacity
-                  onPress={actions.flipCamera}>
-                  <Image
-                    source={require('../../../../assets/images/icons/camera-flip.png')}
-                    style={CameraStyle.flipCameraImage}/>
-                </TouchableOpacity>
-              )}
             />
-            <Content style={CameraStyle.content}>
+            <Content style={CameraStyle.content} bounces={false}>
               <View style={CameraStyle.view}>
                 <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
                 <View style={CameraStyle.bottomSection}>
                   <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
-                  <CelButton
-                    onPress={() => { this.takeCameraPhoto() }}
-                    disabled={this.state.isLoading || !this.state.hasCameraPermission}
-                    loading={this.state.isLoading}
-                    white
-                    margin="20 0 20 0"
-                  >
-                    Take Photo
-                  </CelButton>
+
+                  <View style={[CameraStyle.bottomControls, {
+                    height: bottomNavigationHeight.height,
+                    paddingBottom: bottomNavigationHeight.paddingBottom,
+                  }]}>
+
+                      <TouchableOpacity style={{ width: '25%'}} onPress={() => actions.navigateTo('CameraRoll')}>
+                        { cameraRollLastPhoto && (
+                          <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }}/>
+                        )}
+                      </TouchableOpacity>
+
+                    <TouchableOpacity onPress={this.takeCameraPhoto}>
+                      <View style={CameraStyle.outerCircle}>
+                        { !this.state.isLoading && this.state.hasCameraPermission ? (
+                          <View style={CameraStyle.innerCircle}/>
+                        ) : (
+                          <View style={{
+                            height: 44,
+                            width: 44,
+                            borderRadius: 22,
+                            backgroundColor: 'orange',
+                          }}/>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={{ width: '25%'}}
+                      onPress={actions.flipCamera}
+                    >
+                      <Image
+                        source={require('../../../../assets/images/icons/camera-flip.png')}
+                        style={CameraStyle.flipCameraImage}/>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </Content>
@@ -198,8 +229,7 @@ class CameraScreen extends Component {
           )}
         />
 
-        <Content style={CameraStyle.content}>
-
+        <Content style={[CameraStyle.content, { paddingHorizontal: 40 }]}>
           <View style={CameraStyle.view}>
             <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
 
