@@ -82,6 +82,8 @@ const CameraStyle = StyleSheet.create({
     fontFamily: 'agile-medium',
   },
   bottomControls: {
+    position: 'absolute',
+    bottom: 0,
     backgroundColor: 'rgba(0,0,0,0.15)',
     width: '100%',
     flexDirection: 'row',
@@ -90,8 +92,8 @@ const CameraStyle = StyleSheet.create({
     paddingHorizontal: 25,
   },
   outerCircle: {
-    height: 66,
-    width: 66,
+    height: 50,
+    width: 50,
     borderRadius: 33,
     borderWidth: 5,
     padding: 5,
@@ -100,8 +102,8 @@ const CameraStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   innerCircle: {
-    height: 44,
-    width: 44,
+    height: 37,
+    width: 37,
     borderRadius: 22,
     backgroundColor: 'white',
   },

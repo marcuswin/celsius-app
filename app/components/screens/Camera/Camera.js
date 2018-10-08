@@ -49,33 +49,46 @@ class CameraScreen extends Component {
     this.state = {
       isLoading: false,
       hasCameraPermission: false,
+      hasCameraRollPermission: false,
       hasInitialPhoto: !!props.photo,
     };
   }
 
   async componentWillMount() {
     this.getCameraPermissions();
-    this.props.actions.getCameraRollPhotos();
+    this.getCameraRollPermissions();
   }
 
   getCameraPermissions = async () => {
     const { actions } = this.props;
     let perm = await Permissions.getAsync(Permissions.CAMERA);
 
-    console.log({ perm });
-
-
     if (perm.status !== 'granted') {
-      perm = await Permissions.getAsync(Permissions.CAMERA);
+      perm = await Permissions.askAsync(Permissions.CAMERA);
     }
 
-    if (perm.status === 'denied') {
+    if (perm.status === 'granted') {
+      this.setState({ hasCameraPermission: perm.status === 'granted' });
+    } else {
       actions.showMessage('warning', 'It looks like you denied Celsius app access to your camera. Please enable it in your phone settings.')
       actions.navigateBack();
-      return;
+    }
+  }
+
+  getCameraRollPermissions = async () => {
+    const { actions } = this.props;
+    let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     }
 
-    this.setState({ hasCameraPermission: perm.status === 'granted' });
+    if (perm.status === 'granted') {
+      actions.getCameraRollPhotos();
+      this.setState({ hasCameraPermission: perm.status === 'granted' });
+    } else {
+      actions.showMessage('warning', 'It looks like you denied Celsius app access to your camera roll. Please enable it in your phone settings.')
+    }
   }
 
   // lifecycle methods
@@ -162,44 +175,40 @@ class CameraScreen extends Component {
                 <View style={CameraStyle.bottomSection}>
                   <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
 
-                  <View style={[CameraStyle.bottomControls, {
-                    height: bottomNavigationHeight.height,
-                    paddingBottom: bottomNavigationHeight.paddingBottom,
-                  }]}>
-
-                      <TouchableOpacity style={{ width: '25%'}} onPress={() => actions.navigateTo('CameraRoll')}>
-                        { cameraRollLastPhoto && (
-                          <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }}/>
-                        )}
-                      </TouchableOpacity>
-
-                    <TouchableOpacity onPress={this.takeCameraPhoto}>
-                      <View style={CameraStyle.outerCircle}>
-                        { !this.state.isLoading && this.state.hasCameraPermission ? (
-                          <View style={CameraStyle.innerCircle}/>
-                        ) : (
-                          <View style={{
-                            height: 44,
-                            width: 44,
-                            borderRadius: 22,
-                            backgroundColor: 'orange',
-                          }}/>
-                        )}
-                      </View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={{ width: '25%'}}
-                      onPress={actions.flipCamera}
-                    >
-                      <Image
-                        source={require('../../../../assets/images/icons/camera-flip.png')}
-                        style={CameraStyle.flipCameraImage}/>
-                    </TouchableOpacity>
-                  </View>
                 </View>
               </View>
+
             </Content>
+            <View style={[CameraStyle.bottomControls, {
+              height: bottomNavigationHeight.height,
+              paddingBottom: bottomNavigationHeight.paddingBottom,
+            }]}>
+
+                <TouchableOpacity style={{ width: '15%'}} onPress={() => actions.navigateTo('CameraRoll')}>
+                  { cameraRollLastPhoto && (
+                    <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }}/>
+                  )}
+                </TouchableOpacity>
+
+              <TouchableOpacity onPress={this.takeCameraPhoto}>
+                <View style={CameraStyle.outerCircle}>
+                  { !this.state.isLoading && this.state.hasCameraPermission ? (
+                    <View style={CameraStyle.innerCircle}/>
+                  ) : (
+                    <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={{ height: 30, width: 30 }} />
+                  )}
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ width: '15%'}}
+                onPress={actions.flipCamera}
+              >
+                <Image
+                  source={require('../../../../assets/images/icons/camera-flip.png')}
+                  style={CameraStyle.flipCameraImage}/>
+              </TouchableOpacity>
+            </View>
 
             { mask }
           </View>
