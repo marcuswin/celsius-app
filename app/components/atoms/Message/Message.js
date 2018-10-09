@@ -77,16 +77,16 @@ class Message extends Component {
         />;
     }
 
-    if (!connected) {
-      return (
-        <View style={containerStyles}>
-          <Text style={textStyles}>
-            There's no internet connection. Please, make sure that your Wi-Fi or Cellular Data is turned on, then try
-            again.
-          </Text>
-        </View>
-      );
-    }
+    // if (!connected) {
+    //   return (
+    //     <View style={containerStyles}>
+    //       <Text style={textStyles}>
+    //         There's no internet connection. Please, make sure that your Wi-Fi or Cellular Data is turned on, then try
+    //         again.
+    //       </Text>
+    //     </View>
+    //   );
+    // }
 
     if (!message.text) return null;
 
