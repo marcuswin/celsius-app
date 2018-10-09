@@ -52,7 +52,6 @@ class MainLayout extends Component {
       return (
         <View style={{flex: 1,}}>
           <OfflineMode/>
-          {hasBottomNavigation && <BottomNavigation/>}
         </View>
       )
     }

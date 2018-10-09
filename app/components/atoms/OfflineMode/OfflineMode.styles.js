@@ -5,6 +5,8 @@ const {width, height} = Dimensions.get('window');
 
 const OfflineModeStyle = StyleSheet.create({
   background: {
+    height,
+    width,
     backgroundColor: STYLES.GRAY_1,
     flexDirection: "column",
     justifyContent: 'center',
