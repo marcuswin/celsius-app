@@ -286,7 +286,6 @@ export default (state = initialState, action) => {
     case ACTIONS.NAVIGATE:
     case ACTIONS.NAVIGATION_RESET:
     case ACTIONS.LOGOUT_USER:
-      console.log({ action })
       return {
         ...state,
         hasBottomNavigation: shouldShowBottomNavigation(action),
