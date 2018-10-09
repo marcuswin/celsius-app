@@ -76,7 +76,7 @@ class CameraScreen extends Component {
   }
 
   getCameraRollPermissions = async () => {
-    const { actions } = this.props;
+    const { actions, cameraRollLastPhoto } = this.props;
     let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL);
 
     if (perm.status !== 'granted') {
@@ -84,7 +84,7 @@ class CameraScreen extends Component {
     }
 
     if (perm.status === 'granted') {
-      actions.getCameraRollPhotos();
+      if (!cameraRollLastPhoto) actions.getCameraRollPhotos();
       this.setState({ hasCameraPermission: perm.status === 'granted' });
     } else {
       actions.showMessage('warning', 'It looks like you denied Celsius app access to your camera roll. Please enable it in your phone settings.')
