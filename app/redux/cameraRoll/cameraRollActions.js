@@ -14,7 +14,7 @@ function getCameraRollPhotos() {
   return async (dispatch, getState) => {
     const { cameraRoll } = getState();
 
-    if (!cameraRoll.hasMore) return dispatch(showMessage('info', 'No more photos!'));
+    if (!cameraRoll.hasMore) return;
 
     const config = {
       after: cameraRoll.lastPhotoCursor,
