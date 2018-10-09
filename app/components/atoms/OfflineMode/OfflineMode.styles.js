@@ -13,7 +13,6 @@ const OfflineModeStyle = StyleSheet.create({
     alignItems: 'center'
   },
   image: {
-    marginTop: 200,
     width: width/2,
     height: height/4
   },
