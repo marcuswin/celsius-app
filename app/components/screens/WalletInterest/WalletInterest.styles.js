@@ -82,7 +82,7 @@ const WalletInterestStyle = StyleSheet.create({
   },
   dotWrapper: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
     marginRight: 40,
     marginLeft: 40,
     marginTop: 30,
@@ -92,7 +92,8 @@ const WalletInterestStyle = StyleSheet.create({
     fontFamily: 'agile-light',
     fontSize: 12 * FONT_SCALE,
     textAlign: 'left',
-    color: 'rgba(137,144,153,1)'
+    color: 'rgba(137,144,153,1)',
+    marginRight: 5
   },
   dot: {
     ...dot,
@@ -141,6 +142,11 @@ const WalletInterestStyle = StyleSheet.create({
     color: 'white'
   },
    pillText,
+  dots: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10
+  }
 });
 
 export default WalletInterestStyle;
