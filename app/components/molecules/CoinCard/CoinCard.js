@@ -123,6 +123,7 @@ const CoinCardStyle = StyleSheet.create({
     height: 46,
     display: 'flex',
     alignItems: 'center',
+    paddingRight: 14,
     paddingLeft: 14,
   },
   lendingBorrowingInfoText: {
