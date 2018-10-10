@@ -22,6 +22,10 @@ import Triangle from "../../atoms/Triangle/Triangle";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import { BRANCH_LINKS, MODALS, TRANSACTION_TYPES } from "../../../config/constants/common";
+import { createBUO } from "../../../redux/branch/branchActions";
+import TransactionOptionsModal from "../../organisms/TransactionOptionsModal/TransactionOptionsModal";
 
 function getHeading(transaction) {
   return {
@@ -111,9 +115,9 @@ function getSections(transaction) {
     WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to', 'explorer'],
     INTEREST: ['date', 'time', 'status', 'hippo'],
     COLLATERAL: ['date', 'time'],
-    TRANSFER_PENDING: ['sent:to', 'date', 'time', 'status'],
-    TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
+    TRANSFER_PENDING: ['info', 'date', 'time', 'status', 'transfer-link'],
     TRANSFER_CLAIMED: ['sent:to', 'date', 'time', 'status'],
+    TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
     TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
   }[transaction.type];
@@ -122,6 +126,7 @@ function getSections(transaction) {
 @connect(
   state => ({
     nav: state.nav,
+    user: state.users.user,
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],
@@ -152,11 +157,12 @@ class TransactionDetails extends Component {
     actions.getTransactionDetails(transactionId || activeTransactionId);
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     const { transaction, supportedCurrencies } = nextProps;
 
     if (transaction) {
       const type = transaction.type;
+      const branchLink = await this.createTransferBranchLink();
       this.setState({
         type,
         heading: getHeading(transaction),
@@ -165,8 +171,37 @@ class TransactionDetails extends Component {
         smallIcon: getSmallIcon(transaction),
         status: getStatusText(transaction),
         sections: getSections(transaction) || [],
+        branchLink,
       })
     }
+  }
+
+  createTransferBranchLink = async () => {
+    const { transaction, user } = this.props;
+    if (transaction.type && transaction.type !== TRANSACTION_TYPES.TRANSFER_PENDING) return;
+
+    const branchLink = await createBUO(
+      `transfer:${transaction.transfer_data.hash}`,
+      {
+        locallyIndex: true,
+        title: `You received ${transaction.amount} ${transaction.coin.toUpperCase()}`,
+        contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
+        contentDescription: 'Click on the link to get your money!',
+        contentMetadata: {
+          customMetadata: {
+            amount: transaction.amount,
+            coin: transaction.coin,
+            from_name: `${user.first_name} ${user.last_name}`,
+            from_profile_picture: user.profile_picture,
+            transfer_hash: transaction.transfer_data.hash,
+            link_type: BRANCH_LINKS.TRANSFER,
+          }
+        }
+      },
+      user.email
+    );
+
+  return branchLink;
   }
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation' || route.routeName === 'EnterPasscode', false);
@@ -185,10 +220,12 @@ class TransactionDetails extends Component {
 
   renderSection = (sectionType) => {
     const { ENV } = Constants;
-    const { type } = this.state;
-    const { transaction, currencyRatesShort } = this.props;
+    const { type, branchLink } = this.state;
+    const { transaction, currencyRatesShort, actions } = this.props;
     let shouldRenderSection;
     switch(sectionType) {
+      case 'info':
+        return <InfoSection key={sectionType} transaction={transaction} />;
       case 'date':
         return <BasicSection key={sectionType} label="Date" value={moment(transaction.time).format("D MMM YYYY")} />;
       case 'time':
@@ -203,6 +240,15 @@ class TransactionDetails extends Component {
         return transaction.transfer_data.claimer && <ContactSection key={sectionType} contact={transaction.transfer_data.claimer} text="Sent to"/>;
       case 'received:from':
         return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from"/>;
+      case 'transfer-link':
+        return branchLink && (
+          <LinkSection
+            key={sectionType}
+            transaction={transaction}
+            url={branchLink.url}
+            onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)}
+          />
+        );
       case 'explorer':
         shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) !== -1 && transaction.transaction_id;
         return  shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction}/>;
@@ -214,12 +260,16 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { sections, heading, icon, smallIcon, badge } = this.state;
+    const { sections, heading, icon, smallIcon, badge, branchLink } = this.state;
     const { supportedCurrencies, transaction, actions, currencyRatesShort, nav, callsInProgress } = this.props;
 
     const showBackButton = !this.cameFromWithdrawalTransaction(nav.routes);
     const isLoading = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
-    if (!supportedCurrencies || !transaction || isLoading) return this.renderLoader(showBackButton);
+    if (
+      !supportedCurrencies || !transaction || isLoading ||
+      (transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && !branchLink && Constants.appOwnership === 'standalone')
+    ) return this.renderLoader(showBackButton);
+
     const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
@@ -260,6 +310,8 @@ class TransactionDetails extends Component {
             Close
           </CelButton>
         </CelScreenContent>
+
+        { transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
       </BasicLayout>
     );
   }
@@ -285,6 +337,49 @@ const StatusSection = ({ transaction }) => (
     </View>
     <Separator/>
   </View>
+)
+
+function getInfoSectionText(transaction) {
+  return {
+    TRANSFER_PENDING: 'This transaction is connected to the link you\'ve shared to a friend. If nobody accepts this transaction within 7 days the money will get back to you.',
+  }[transaction.type];
+}
+
+const InfoSection = ({ transaction }) => (
+  <View style={{ marginHorizontal: 30 }}>
+    <InfoBubble
+      color="gray"
+      renderContent={(textStyles) => (
+        <View>
+          <Text style={textStyles}>
+            { getInfoSectionText(transaction) }
+          </Text>
+        </View>
+      )}
+    />
+  </View>
+)
+
+const LinkSection = ({ url, onPress }) => (
+  <TouchableOpacity
+    style={TransactionDetailsStyle.infoDetail}
+    onPress={onPress}
+  >
+    <View style={[TransactionDetailsStyle.row, { flexDirection: 'column' }]}>
+      <Text style={TransactionDetailsStyle.text}>Transaction link:</Text>
+      <Text
+        style={[TransactionDetailsStyle.info, {
+          textAlign: "left",
+          fontFamily: "inconsolata-regular",
+          marginBottom: 5,
+          color: COLORS.blue,
+        }]}
+      >
+        { url }
+      </Text>
+    </View>
+    <Separator/>
+  </TouchableOpacity>
 )
 
 const BlockExplorerSection = ({ transaction }) => (
