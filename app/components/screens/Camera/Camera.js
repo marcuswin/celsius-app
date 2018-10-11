@@ -170,10 +170,10 @@ class CameraScreen extends Component {
             />
             <Content style={CameraStyle.content} bounces={false}>
               <View style={CameraStyle.view}>
-                <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
+                <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
 
                 <View style={CameraStyle.bottomSection}>
-                  <Text style={[globalStyles.normalText, CameraStyle.cameraCopy]}>{ cameraCopy }</Text>
+                  <Text allowFontScaling={false} style={[globalStyles.normalText, CameraStyle.cameraCopy]} >{ cameraCopy }</Text>
 
                 </View>
               </View>
@@ -240,8 +240,7 @@ class CameraScreen extends Component {
 
         <Content style={[CameraStyle.content, { paddingHorizontal: 40 }]}>
           <View style={CameraStyle.view}>
-            <Text style={CameraStyle.heading}>{ cameraHeading }</Text>
-
+            <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
             <View>
               <CelButton
                 onPress={actions.retakePhoto}
