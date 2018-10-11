@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
+import { hook } from 'cavy';
 
 import * as appActions from "../../../redux/actions";
 // import {STYLES} from "../../config/constants/style";
@@ -13,7 +14,7 @@ import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
-@connect(
+@connect( 
   state => ({
     walletTotal: state.wallet.total,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -45,7 +46,7 @@ class WalletLayout extends Component {
   render() {
     const { walletTotal } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0);
-
+    
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
@@ -53,7 +54,7 @@ class WalletLayout extends Component {
           <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
         </View>
-        <TabNavigation tabs={this.tabs}/>
+        <TabNavigation ref={this.props.generateTestHook('WalletLayout.q') } tabs={this.tabs} />
 
         <CelScreenContent>
           { this.props.children }
@@ -63,4 +64,6 @@ class WalletLayout extends Component {
   }
 }
 
-export default WalletLayout;
+// export default WalletLayout;
+const TestHook = hook(WalletLayout)
+export default TestHook;

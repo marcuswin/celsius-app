@@ -12,7 +12,7 @@ import * as appActions from "../../../redux/actions";
 
 class CreatePasscode extends Component {
   render() {
-    return <Passcode type={'createPasscode'} />
+    return <Passcode {...this.props} testSelector={'CreatePasscode.pin'}  type={'createPasscode'} />
   }
 }
 

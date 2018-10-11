@@ -6,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import isEqual from "lodash/isEqual";
+import { hook } from 'cavy';
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -103,8 +104,11 @@ class ProfileScreen extends Component {
       <BasicLayout bottomNavigation>
         <MainHeader
           right={(
-            <TouchableOpacity onPress={actions.logoutUser}>
-              <Text style={[{
+            <TouchableOpacity
+            ref={this.props.generateTestHook('ProfileScreen.LogOut')}
+            onPress={actions.logoutUser}>
+              <Text 
+                style={[{
                 color: 'white',
                 paddingLeft: 5,
                 textAlign: 'right',
@@ -218,4 +222,6 @@ class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+// export default ProfileScreen;
+const TestHook = hook(ProfileScreen)
+export default TestHook;

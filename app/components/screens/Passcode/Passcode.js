@@ -158,7 +158,8 @@ class Passcode extends Component {
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[type].text}</Text>
         <CelForm>
-          <CelInput type="pin"
+          <CelInput {...this.props} testSelector={'CreatePasscode.pin'} 
+                    type="pin"
                     value={pinValue}
                     digits={codeLength}
                     onChange={this.onChange}

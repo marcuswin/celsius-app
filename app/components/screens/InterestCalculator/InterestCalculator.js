@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { hook } from 'cavy';
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import Loader from "../../atoms/Loader/Loader";
@@ -77,7 +78,8 @@ class InterestCalculatorScreen extends Component {
 
     return (
       <EarnInterestLayout>
-        <View style={{ paddingTop: 30 }}>
+        <View   ref={this.props.generateTestHook('InterestCalculatorScreen.exist')}
+                style={{ paddingTop: 30 }}>
           <CelSelect field="interestCurrency"
                      items={pickerItems}
                      labelText="Select a currency"
@@ -165,4 +167,6 @@ class InterestCalculatorScreen extends Component {
   }
 }
 
-export default InterestCalculatorScreen;
+// export default InterestCalculatorScreen;
+const TestHook = hook(InterestCalculatorScreen)
+export default TestHook;

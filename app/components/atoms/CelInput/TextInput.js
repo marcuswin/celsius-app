@@ -91,9 +91,7 @@ class CelTextInput extends Component {
 
 
   // rendering methods
-  render() {
-    console.log( this.props.testSelector, '1212112');
-     
+  render() {     
     const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType} = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;

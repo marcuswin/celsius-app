@@ -4,6 +4,7 @@ import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import isEqual from "lodash/isEqual";
+import { hook } from 'cavy';
 
 import * as appActions from "../../../redux/actions";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -105,6 +106,7 @@ class SignupTwo extends Component {
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
+              {...this.props} testSelector={'SignupTwo.FirstName'}            
               error={formErrors.first_name}
               field="firstName"
               labelText="First Name"
@@ -112,6 +114,7 @@ class SignupTwo extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
+              {...this.props} testSelector={'SignupTwo.LastName'}
               error={formErrors.last_name}
               field="lastName"
               labelText="Last Name"
@@ -144,6 +147,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
+              ref={this.props.generateTestHook('SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
               onPress={this.onSubmit}
               loading={ isLoading }
@@ -159,4 +163,6 @@ class SignupTwo extends Component {
   }
 }
 
-export default SignupTwo;
+// export default SignupTwo;
+const TestHook = hook(SignupTwo)
+export default TestHook;

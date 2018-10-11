@@ -22,6 +22,7 @@ class EnterPasscode extends Component {
   render() {
 
     return <Passcode
+      {...this.props} testSelector={'CelTextInput.pin'}
       type={'loginPasscode'}
     />
   }

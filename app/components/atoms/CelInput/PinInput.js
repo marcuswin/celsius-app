@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Dimensions, Text, TextInput, View } from "react-native";
+import { hook } from 'cavy';
 
 import PinInputStyle from "./PinInput.styles";
 import { KEYBOARD_TYPE } from "../../../config/constants/common";
@@ -19,6 +20,17 @@ class PinInput extends Component {
     this.state = {
       active: false
     };
+  }
+
+  // Component graber for cavy
+  getInputRef = () => {
+    const {generateTestHook, testSelector} = this.props;
+
+    if (testSelector) {
+      return generateTestHook(testSelector, ref => { this.input = ref });
+    }
+
+    return ref => { this.input = ref };
   }
 
   getDigitValue = value => {
@@ -85,12 +97,13 @@ class PinInput extends Component {
     }));
 
     const digitBackgroundStyle = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
-
+    
     return (
       <View style={PinInputStyle.container}>
         <View style={PinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
-            <View key={digit.index}
+            <View 
+                  key={digit.index}
                   style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
               <Text style={[PinInputStyle.digitText, pinTextStyle]}>
                 {this.getDigitValue(digit.value)}
@@ -98,8 +111,9 @@ class PinInput extends Component {
             </View>
           )}
         </View>
-        <TextInput style={[PinInputStyle.digitInput, pinInputStyle]}
-                    testSelector={this.props.testSelector}
+        <TextInput 
+                   style={[PinInputStyle.digitInput, pinInputStyle]}
+                   testSelector={this.props.testSelector}
                    value={value}
                    maxLength={digits}
                    ref={ref => {
@@ -120,4 +134,6 @@ class PinInput extends Component {
   }
 }
 
-export default PinInput;
+// export default PinInput;
+const TestHook = hook(PinInput)
+export default TestHook;

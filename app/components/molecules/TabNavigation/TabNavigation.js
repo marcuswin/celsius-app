@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { hook } from 'cavy';
+
 // import {} from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+
 
 // import {STYLES} from "../../config/constants/style";
 import TabNavigationStyle from "./TabNavigation.styles";
@@ -35,7 +38,7 @@ class TabNavigation extends Component {
     const tabStyle = tab.screen === activeScreen ? TabNavigationStyle.activeTab : TabNavigationStyle.inactiveTab;
     const textStyle = tab.screen === activeScreen ? TabNavigationStyle.activeText : TabNavigationStyle.inactiveText;
     return (
-      <TouchableOpacity key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
+      <TouchableOpacity ref={this.props.generateTestHook(`TabNavigation.${tab.label}`)} key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
         <Text style={textStyle}>{ tab.label.toUpperCase() }</Text>
       </TouchableOpacity>
     )
@@ -51,4 +54,6 @@ class TabNavigation extends Component {
   }
 }
 
-export default TabNavigation;
+// export default TabNavigation;
+const TestHook = hook(TabNavigation)
+export default TestHook;

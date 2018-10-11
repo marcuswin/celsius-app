@@ -40,13 +40,12 @@ class WelcomeScreen extends Component {
         <Content bounces={false} style={WelcomeStyle.content}>
           <MainHeader/>
           <View style={[WelcomeStyle.view]}
-                    ref={this.props.generateTestHook('WelcomeScreen.first')}
-                    >
+                ref={this.props.generateTestHook('WelcomeScreen.first')}>
             <WelcomeCarousel />
 
             <View style={WelcomeStyle.buttonWrapper}>
               <CelButton
-                ref={this.props.generateTestHook('WelcomeScreen.CelButton')}
+                ref={this.props.generateTestHook('WelcomeScreen.SignUp')}
                 onPress={() => {
                   mixpanelEvents.signupButton();
                   actions.navigateTo('SignupOne')}

@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
@@ -112,7 +113,6 @@ class CelInput extends Component {
 
   // rendering methods
   render() {
-    console.log(this.props.testSelector, 'dssdssd1111?????');
     
     const { theme, error, type } = this.props;
 
@@ -164,7 +164,7 @@ class CelInput extends Component {
       case INPUT_TYPES.PIN.toLowerCase():
         inputField = (
           <PinInput
-            { ...this.props }
+            { ...this.props } 
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
@@ -196,6 +196,6 @@ class CelInput extends Component {
   }
 }
 
-// const testable = hook(CelInput)
-// export default testable;
-export default CelInput;
+const testable = hook(CelInput)
+export default testable;
+// export default CelInput;

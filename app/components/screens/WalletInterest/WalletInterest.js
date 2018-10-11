@@ -158,7 +158,7 @@ class WalletInterest extends Component {
           </View>
 
           { Object.values(chartDataSet)[0] ?
-            <View style={{
+            <View ref={this.props.generateTestHook('WalletInterest.chart')} style={{
               backgroundColor: "white",
               borderRadius: 8,
               shadowOffset: { width: 0, height: 3 },
@@ -205,7 +205,7 @@ class WalletInterest extends Component {
 
               <View>
                 <View style={[WalletInterestStyle.pillWrapper]}>
-                  <TouchableOpacity onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
+                  <TouchableOpacity ref={this.props.generateTestHook()} onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
                     <View
                       style={activeTab === "1m" ? WalletInterestStyle.monthWrapperActive : WalletInterestStyle.monthWrapper}>
                       <Text
