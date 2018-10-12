@@ -205,21 +205,21 @@ class WalletInterest extends Component {
 
               <View>
                 <View style={[WalletInterestStyle.pillWrapper]}>
-                  <TouchableOpacity ref={this.props.generateTestHook()} onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
+                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.1m')} onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
                     <View
                       style={activeTab === "1m" ? WalletInterestStyle.monthWrapperActive : WalletInterestStyle.monthWrapper}>
                       <Text
                         style={activeTab === "1m" ? WalletInterestStyle.pillTextActive : WalletInterestStyle.pillText}>1M</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.activateTab("3m")} style={WalletInterestStyle.threeMonthTO}>
+                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.3m')} onPress={() => this.activateTab("3m")} style={WalletInterestStyle.threeMonthTO}>
                     <View
                       style={activeTab === "3m" ? WalletInterestStyle.threeMonthWrapperActive : WalletInterestStyle.threeMonthWrapper}>
                       <Text
                         style={activeTab === "3m" ? WalletInterestStyle.pillTextActive : WalletInterestStyle.pillText}>3M</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.activateTab("1y")} style={WalletInterestStyle.yearTO}>
+                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.1y')} onPress={() => this.activateTab("1y")} style={WalletInterestStyle.yearTO}>
                     <View
                       style={activeTab === "1y" ? WalletInterestStyle.yearWrapperActive : WalletInterestStyle.yearWrapper}>
                       <Text
@@ -256,6 +256,7 @@ class WalletInterest extends Component {
         />
 
         <CelButton
+          ref={this.props.generateTestHook('WalletInterests.AddMoreFunds')}
           onPress={() => actions.navigateTo("AddFunds")}
         >
           Add more funds

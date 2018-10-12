@@ -1,10 +1,10 @@
+import { hook } from 'cavy'; 
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { LineChart } from "react-native-svg-charts";
 import get from 'lodash/get';
 import { Grid, Col, Row } from "react-native-easy-grid";
 import { COLORS } from "../../../config/constants/style";
-
 
 import formatter from "../../../utils/formatter";
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
@@ -103,7 +103,7 @@ class WalletDetailsGraphContainer extends Component {
       {graphData &&
         <Row style={WalletDetailsGraphContainerStyle.graphDataWrapper}>
           <View style={{ width: '100%' }}>
-            <LineChart
+            <LineChart ref={this.props.generateTestHook(`WalletDetailsGraphContainer.LineChart`)}
               style={{ height: 240 }}
               data={graphData}
               svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
@@ -114,6 +114,7 @@ class WalletDetailsGraphContainer extends Component {
       <Row style={WalletDetailsGraphContainerStyle.buttonsWrapper}>
         { periods.map(period =>
           <TouchableOpacity
+            ref={this.props.generateTestHook(`WalletDetailsGraphContainer.${period}`)}
             key={period}
             style={[WalletDetailsGraphContainerStyle.periodButton, this.state.activePeriod === period ? { backgroundColor: COLORS.gray } : null]}
             onPress={() => this.onPress(`${period}`)}
@@ -126,5 +127,6 @@ class WalletDetailsGraphContainer extends Component {
   }
 }
 
-export default WalletDetailsGraphContainer;
-
+// export default WalletDetailsGraphContainer;
+const TestHook = hook(WalletDetailsGraphContainer)
+export default TestHook;

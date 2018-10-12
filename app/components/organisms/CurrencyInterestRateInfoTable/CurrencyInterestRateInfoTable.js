@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
@@ -46,7 +47,7 @@ class CurrencyInterestRateInfoTable extends Component {
 
       return 0;
     });
-
+    
     return (
       sortedRates.map(interest =>
         <CurrencyInterestRateInfo
@@ -72,4 +73,7 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 }
 
-export default CurrencyInterestRateInfoTable;
+// export default CurrencyInterestRateInfoTable;
+const TestHook = hook(CurrencyInterestRateInfoTable)
+export default TestHook;
+

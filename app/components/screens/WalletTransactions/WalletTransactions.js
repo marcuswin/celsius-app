@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Image, Text, View } from "react-native";
 import { connect } from "react-redux";
@@ -62,6 +63,7 @@ class WalletTransactions extends Component {
           </View>
 
           <CelButton
+            ref={this.props.generateTestHook('WalletTransactions.AddFunds')}
             onPress={() => actions.navigateTo("AddFunds")}
           >
             Add Funds
@@ -83,4 +85,6 @@ class WalletTransactions extends Component {
   }
 }
 
-export default WalletTransactions;
+// export default WalletTransactions;
+const TestHook = hook(WalletTransactions)
+export default TestHook;

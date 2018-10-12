@@ -46,7 +46,6 @@ class WalletLayout extends Component {
   render() {
     const { walletTotal } = this.props;
     const total = get(walletTotal, 'quotes.USD.total', 0);
-    
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
@@ -54,7 +53,7 @@ class WalletLayout extends Component {
           <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
         </View>
-        <TabNavigation ref={this.props.generateTestHook('WalletLayout.q') } tabs={this.tabs} />
+        <TabNavigation tabs={this.tabs} />
 
         <CelScreenContent>
           { this.props.children }

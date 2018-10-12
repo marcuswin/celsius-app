@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { List, Body, ListItem } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import { hook } from 'cavy';
 
 import * as appActions from "../../../redux/actions";
 import Loader from "../../atoms/Loader/Loader";
@@ -92,7 +93,7 @@ class WalletBalance extends Component {
               renderRow={(item) =>
                 <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                   <Body>
-                  <TouchableOpacity onPress={() => this.clickCard(item.currency.short, item.amount) }>
+                  <TouchableOpacity ref={this.props.generateTestHook(`WalletBalance.${item.currency.short}`)}  onPress={() => this.clickCard(item.currency.short, item.amount) }>
                     <CoinCard type="wallet-card" {...item}
                               supportedCurrencies={supportedCurrencies}
                               lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}/>
@@ -107,4 +108,6 @@ class WalletBalance extends Component {
   }
 }
 
-export default WalletBalance;
+// export default WalletBalance;
+const TestHook = hook(WalletBalance)
+export default TestHook;

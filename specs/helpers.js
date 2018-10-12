@@ -14,4 +14,9 @@ export async function containsText(component, text) {
   }
 
 
+export async function test(component) {
+  console.log(component)
+  component.props.onCancel()
+}
+
   

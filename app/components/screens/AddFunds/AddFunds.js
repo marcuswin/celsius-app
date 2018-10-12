@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity, Clipboard, Share, Platform } from "react-native";
 import { connect } from "react-redux";
@@ -204,9 +205,10 @@ class AddFunds extends Component {
             Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
         )}
-
         {!navCurrency && (
-          <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
+          <CelSelect ref={this.props.generateTestHook(`AddFunds.${formData.currency}`)}
+                      
+                     field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
                      margin="25 50 15 50"/>
         )}
 
@@ -214,7 +216,8 @@ class AddFunds extends Component {
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               {address &&
-              <QRCode
+              <QRCode 
+                ref={this.props.generateTestHook('AddFunds.QRCode')}
                 value={address}
                 size={120}
                 bgColor='black'
@@ -227,7 +230,7 @@ class AddFunds extends Component {
 
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
+            <Text ref={this.props.generateTestHook('AddFunds.address')} style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
 
           <View style={AddFundsStyle.boxButtonsWrapper}>
@@ -358,6 +361,7 @@ class AddFunds extends Component {
         </View>}
 
         <CelButton
+          ref={this.props.generateTestHook('AddFunds.Done')}
           white
           onPress={this.goBack}
           margin='20 50 0 50'
@@ -385,4 +389,6 @@ class AddFunds extends Component {
   }
 }
 
-export default AddFunds;
+// export default AddFunds;
+const TestHook = hook(AddFunds)
+export default TestHook;

@@ -1,3 +1,4 @@
+import { hook } from 'cavy'; 
 import React, { Component } from "react";
 import { View, Text } from "native-base";
 import { TouchableOpacity } from 'react-native';
@@ -105,11 +106,13 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton ref={this.props.generateTestHook(`WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
         <CelButton width={110} size="mini" white onPress={this.goToSend} inverse margin="0 0 0 15">Send</CelButton>
       </View>}
     </View>
   }
 }
 
-export default WalletDetailsHeading;
+// export default WalletDetailsHeading;
+const TestHook = hook(WalletDetailsHeading)
+export default TestHook;

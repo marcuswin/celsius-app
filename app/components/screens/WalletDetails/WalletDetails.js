@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { bindActionCreators } from "redux";
@@ -87,6 +88,7 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
+          ref={this.props.generateTestHook('WalletDetails.iks')}
           onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
@@ -138,4 +140,6 @@ class WalletDetails extends Component {
   }
 }
 
-export default WalletDetails;
+// export default WalletDetails;
+const TestHook = hook(WalletDetails)
+export default TestHook;
