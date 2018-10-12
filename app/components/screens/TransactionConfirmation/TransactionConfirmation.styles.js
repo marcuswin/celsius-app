@@ -35,6 +35,27 @@ const TransactionConfirmationStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 18,
     color: "rgba(61,72,83,1)",
     textAlign: 'left'
+  },
+  errorCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgb(236, 66, 40)',
+    marginRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  messageWrapper: {
+    marginTop: 30,
+    flexDirection: 'row',
+    borderRadius: 8,
+    backgroundColor: 'white',
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    shadowOffset: {width: 0, height: 3},
+    shadowColor: 'rgba(0,0,0,0.05)',
+    alignItems: 'center',
+    padding: 16,
   }
 });
 

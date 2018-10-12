@@ -196,7 +196,7 @@ class WalletInterest extends Component {
               />
               <View style={WalletInterestStyle.dotWrapper}>
                 { Object.keys(chartDataSet).map((coin, lineIndex) =>
-                  <View key={coin} style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View key={coin} style={WalletInterestStyle.dots}>
                     <View style={[WalletInterestStyle.dot, {backgroundColor: Object.values(COLORS)[lineIndex]}]}/>
                     <Text style={WalletInterestStyle.dotText}>{coin}</Text>
                   </View>

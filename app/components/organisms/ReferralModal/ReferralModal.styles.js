@@ -4,7 +4,7 @@ import {FONT_SCALE, COLORS} from "../../../config/constants/style";
 
 const ReferralModalStyle = StyleSheet.create({
   box: {
-    height: 95,
+    minHeight: 95,
     borderRadius: 8,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     alignItems: 'center',
@@ -17,10 +17,8 @@ const ReferralModalStyle = StyleSheet.create({
   },
   linkWrapper: {
     width: 200,
-    height: 47,
+    minHeight: 47,
     margin: 'auto',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'rgba(137,144,153,0.15)',
     borderColor: 'rgba(137,144,153,0.15)',
     borderTopLeftRadius: 4,
@@ -35,7 +33,7 @@ const ReferralModalStyle = StyleSheet.create({
     paddingTop: 5,
     paddingLeft: 7,
     paddingRight: 7,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   boxButtonsWrapper: {
     // flex: 1,

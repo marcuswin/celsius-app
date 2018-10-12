@@ -122,7 +122,7 @@ class CelSelect extends Component {
           onPress={() => this.setState({ visible: !visible })}
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
           <Text style={labelStyles}>{label}</Text>
-          <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>
+          <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}
           </Text>
 

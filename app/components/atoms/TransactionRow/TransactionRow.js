@@ -18,6 +18,7 @@ function getTransactionColor(transactionType) {
     INTEREST: COLORS.blue,
     COLLATERAL: COLORS.blue,
     TRANSFER_PENDING: COLORS.yellow,
+    TRANSFER_CLAIMED: COLORS.yellow,
     TRANSFER_SENT: COLORS.blue,
     TRANSFER_RECEIVED: COLORS.blue,
     TRANSFER_RETURNED: COLORS.red,
@@ -35,6 +36,7 @@ function getTransactionStatusText(transaction) {
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
     COLLATERAL: 'Loan Collateral',
     TRANSFER_PENDING: 'Pending',
+    TRANSFER_CLAIMED: 'Claimed',
     TRANSFER_SENT: 'Sent',
     TRANSFER_RECEIVED: 'Received',
     TRANSFER_RETURNED: 'Returned',
@@ -63,6 +65,7 @@ function getTransactionIcon(transactionType) {
     ),
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
+    TRANSFER_CLAIMED: sentArrow,
     TRANSFER_RECEIVED: receiveArrow,
     TRANSFER_RETURNED: (
       <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.red }]}>
@@ -79,18 +82,26 @@ class TransactionRow extends Component {
     transaction: PropTypes.instanceOf(Object)
   }
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
+    this.setTransaction(this.props.transaction);
+  }
 
-    const type = props.transaction.type;
-    this.state = {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.transaction && this.props.transaction.id !== nextProps.transaction.id) {
+      this.setTransaction(nextProps.transaction);
+    }
+  }
+
+  setTransaction(transaction) {
+    if (!transaction) return;
+    const type = transaction.type;
+    console.log({ type })
+    this.setState({
       type,
       color: getTransactionColor(type),
       icon: getTransactionIcon(type),
-      statusText: getTransactionStatusText(props.transaction),
-    };
-
-    // binders
+      statusText: getTransactionStatusText(transaction),
+    })
   }
 
   // lifecycle methods

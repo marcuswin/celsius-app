@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, NetInfo, AppState, Platform } from 'react-native';
+import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 import uuid from 'uuid';
@@ -15,7 +15,7 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
-import { TRANSFER_STATUSES } from "./config/constants/common";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -72,6 +72,14 @@ export default class App extends Component {
       console.error('NO SECURITY_STORAGE_AUTH_KEY')
     }
 
+    // disables letter sizing in phone's Accessibility menu
+    if (Text.defaultProps == null) Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+
+    // same same as with Text, but different
+    if (TextInput.defaultProps == null) TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
+
     // logout user if backend environment has changed
     const previousBaseUrl = await getSecureStoreKey('BASE_URL');
     if (previousBaseUrl !== baseUrl) {
@@ -85,7 +93,14 @@ export default class App extends Component {
     if (token) {
       await store.dispatch(actions.getProfileInfo());
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
-      await store.dispatch(actions.navigateTo('LoginPasscode'));
+
+      const { user } = store.getState().users;
+      if (user.has_pin) {
+        store.dispatch(actions.navigateTo('LoginPasscode'));
+      }
+      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+        await store.dispatch(actions.getKYCDocTypes());
+      }
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -165,7 +180,8 @@ export default class App extends Component {
       }
     }
 
-    if (store.getState().users.user && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    const { user } = store.getState();
+    if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
         if (Platform.OS === "ios") {
           this.timeout = setTimeout(() => {
             store.dispatch(actions.navigateTo("LoginPasscode"));

@@ -140,8 +140,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     zIndex: 0,
     marginRight: 0,
   },
-  input: {
+  nonPasswordInputStyle: {
     fontFamily: 'agile-medium',
+  },
+  input: {
     fontSize: FONT_SCALE * 20,
     marginTop: 4,
     marginBottom: 0,
@@ -275,4 +277,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/interest-illu.png'),
   require('../../../assets/images/deerTransactionHistory.png'),
   require('../../../assets/images/illuNoKYC3x.png'),
+  require('../../../assets/images/OfflineMode/deer-tangled3x.png'),
 ];

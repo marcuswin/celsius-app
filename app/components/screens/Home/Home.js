@@ -13,7 +13,7 @@ import { registerForPushNotificationsAsync } from "../../../utils/push-notificat
 import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
 
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -23,12 +23,13 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
     openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
+    backendStatus: state.generalData.backendStatus,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes } = this.props;
+    const { actions, branchHashes, backendStatus } = this.props;
 
     try {
       // get user token
@@ -39,7 +40,6 @@ class HomeScreen extends Component {
 
         // Anything beyond this point is considered as the user has logged in.
         registerForPushNotificationsAsync();
-        actions.getKYCDocTypes();
 
         // claim branch transfers
         if (branchHashes && branchHashes.length) {
@@ -51,6 +51,12 @@ class HomeScreen extends Component {
     } catch(err) {
       console.log(err);
     }
+
+    if (CLIENT_VERSION !== backendStatus.version) {
+      actions.showMessage('warning', 'When Update?\n' +
+        '\n' +
+        'Right now! Please head to the app store and download the newest update. Stay cool.')
+    }
   }
 
   render() {
@@ -61,7 +67,6 @@ class HomeScreen extends Component {
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-
 
     // if (nav.initializingApp) return <Passcode type={'loginPasscode'}/>;
 

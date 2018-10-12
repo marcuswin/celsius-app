@@ -54,7 +54,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       position: 'absolute',
-      left : (SCREEN_WIDTH - 80)/2 - 64,
+      left : (SCREEN_WIDTH - 80)/2 - 48,
       top: 160
     },
 });

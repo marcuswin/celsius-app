@@ -20,10 +20,12 @@ const usersService = {
   addExpoPushToken
 };
 
-function register({ email, password }) {
+function register({ email, password, referrerId }) {
+  console.log({ referrerId })
   return axios.post(`${apiUrl}/users/register`, {
     email,
     password,
+    referrer_id: referrerId,
   });
 }
 
@@ -37,7 +39,8 @@ function registerTwitter(twitterUser) {
     twitter_screen_name: twitterUser.twitter_screen_name,
     profile_picture: twitterUser.profile_picture,
     access_token: twitterUser.twitter_oauth_token,
-    secret_token: twitterUser.twitter_oauth_secret
+    secret_token: twitterUser.twitter_oauth_secret,
+    referrer_id: twitterUser.referrerId,
   });
 }
 
@@ -48,7 +51,8 @@ function registerFacebook(facebookUser) {
     first_name: firstName,
     last_name: lastName,
     facebook_id: facebookUser.facebook_id,
-    access_token: facebookUser.access_token
+    access_token: facebookUser.access_token,
+    referrer_id: facebookUser.referrerId,
   });
 }
 
@@ -60,7 +64,8 @@ function registerGoogle(googleUser) {
     last_name: lastName,
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
-    access_token: googleUser.access_token
+    access_token: googleUser.access_token,
+    referrer_id: googleUser.referrerId,
   });
 }
 

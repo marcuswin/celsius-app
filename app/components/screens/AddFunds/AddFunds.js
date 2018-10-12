@@ -360,6 +360,21 @@ class AddFunds extends Component {
           </CelButton>
         </View>}
 
+        {(currentCurrency && currentCurrency.toLowerCase() === "bch") &&
+        <View style={AddFundsStyle.alternateAddressWrapper}>
+          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
+            support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
+            BCH address.</Text>
+          <CelButton
+            white
+            size="small"
+            onPress={this.switchAlternateAddress}
+            margin='0 10 0 10'
+          >
+            Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
+          </CelButton>
+        </View>}
+
         <CelButton
           ref={this.props.generateTestHook('AddFunds.Done')}
           white

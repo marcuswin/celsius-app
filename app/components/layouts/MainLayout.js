@@ -9,6 +9,7 @@ import * as appActions from "../../redux/actions";
 import BottomNavigation from "../organisms/BottomNavigation/BottomNavigation";
 import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
+import OfflineMode from "../atoms/OfflineMode/OfflineMode";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -18,6 +19,7 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
     user: state.users.user,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     hasBottomNavigation: state.ui.hasBottomNavigation,
+    connected: state.ui.internetConnected
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -37,7 +39,7 @@ class MainLayout extends Component {
   };
 
   render() {
-    const { hasBottomNavigation } = this.props
+    const { hasBottomNavigation, connected } = this.props
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
@@ -45,6 +47,14 @@ class MainLayout extends Component {
     };
 
     // const displayBottomNavigation = this.shouldRenderBottomNavigation();
+
+    if (!connected) {
+      return (
+        <View style={{flex: 1,}}>
+          <OfflineMode/>
+        </View>
+      )
+    }
 
     return (
       <View style={{flex: 1,}}>

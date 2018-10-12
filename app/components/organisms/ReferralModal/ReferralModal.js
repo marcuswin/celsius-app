@@ -23,19 +23,10 @@ import Icon from "../../atoms/Icon/Icon";
   }),
 )
 class ReferralModal extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      url: '',
-    };
-  }
-  // lifecycle methods
-  async componentDidMount() {
-    const { referralLink } = this.props;
-
-    if (referralLink) {
-      this.setState({ url: referralLink.url });
+  componentWillReceiveProps(nextProps) {
+    const { actions, referralLink, openedModal } = nextProps;
+    if (this.props.openedModale !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
+      actions.createBranchReferralLink();
     }
   }
 
@@ -45,8 +36,11 @@ class ReferralModal extends Component {
 
   // rendering methods
   render() {
-    const { actions } = this.props;
-    const { url } = this.state;
+    const { actions, referralLink } = this.props;
+
+    if (!referralLink) return null;
+    const { url } = referralLink;
+
     return (
       <CelModal name={MODALS.REFERRAL_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
