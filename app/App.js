@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, NetInfo, AppState, Platform } from 'react-native';
+import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 import uuid from 'uuid';
@@ -71,6 +71,14 @@ export default class App extends Component {
     if (!SECURITY_STORAGE_AUTH_KEY) {
       console.error('NO SECURITY_STORAGE_AUTH_KEY')
     }
+
+    // disables letter sizing in phone's Accessibility menu
+    if (Text.defaultProps == null) Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+
+    // same same as with Text, but different
+    if (TextInput.defaultProps == null) TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
 
     // logout user if backend environment has changed
     const previousBaseUrl = await getSecureStoreKey('BASE_URL');
