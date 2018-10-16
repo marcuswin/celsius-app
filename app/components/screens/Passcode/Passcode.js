@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, Image, Linking } from "react-native";
 import { View } from "native-base";
@@ -26,12 +27,14 @@ const types = {
       text: `Please create a 4-digit PIN${'\n'}to make your transactions even${'\n'} more secure.`,
       buttonText: 'Repeat PIN',
       field: 'pin',
+      testSelector: 'pin',
     },
     repeatPasscode: {
       title: `Repeat your${'\n'} PIN`,
       text: `Please type your PIN number${'\n'}one more time to confirm`,
       buttonText: 'Confirm',
       field: 'pin_confirm',
+      testSelector: 'pinRepeat',
     },
     enterPasscode: {
       title: `Enter your${'\n'} PIN`,
@@ -73,6 +76,7 @@ class Passcode extends Component {
       isPressed: false,
     };
   }
+
 
 
 
@@ -158,7 +162,8 @@ class Passcode extends Component {
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[type].text}</Text>
         <CelForm>
-          <CelInput {...this.props} testSelector={'CreatePasscode.pin'} 
+          <CelInput {...this.props}
+                    testSelector={`passcode.${types[type].field}`}
                     type="pin"
                     value={pinValue}
                     digits={codeLength}
@@ -166,6 +171,7 @@ class Passcode extends Component {
                     field={types[type].field}/>
         </CelForm>
         <CelButton
+          ref={this.props.generateTestHook(`Passcode.${types[type].buttonText}`)}
           white
           loading={isLoading}
           disabled={disabled || isLoading || isPressed}
@@ -189,4 +195,6 @@ class Passcode extends Component {
   }
 }
 
-export default Passcode;
+// export default Passcode;
+const TestHook = hook(Passcode)
+export default TestHook;

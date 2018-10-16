@@ -1,3 +1,4 @@
+import { hook } from 'cavy'; 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -28,6 +29,7 @@ class CelSelect extends Component {
       PropTypes.string,
     ]),
     field: PropTypes.string,
+    testSelector: PropTypes.string,
     error: PropTypes.string,
     labelText: PropTypes.string,
     margin: PropTypes.string,
@@ -111,7 +113,7 @@ class CelSelect extends Component {
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
-
+    
     return (
       <InputErrorWrapper
         theme={theme}
@@ -161,6 +163,9 @@ class CelSelect extends Component {
   }
 }
 
-export default CelSelect;
+// export default CelSelect;
+const TestHook = hook(CelSelect)
+export default TestHook;
+
 
 // function getSelectItems(type) {}

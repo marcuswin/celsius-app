@@ -185,6 +185,7 @@ class NoKyc extends Component {
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
+          ref={this.props.generateTestHook('NoKyc.VerifyProfile')}
           onPress={() => {
             mixpanelEvents.navigation('verifyProfile');
             actions.navigateTo('ProfileDetails')

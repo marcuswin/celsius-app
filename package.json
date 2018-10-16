@@ -29,6 +29,7 @@
     "axios": "0.18.0",
     "base-64": "^0.1.0",
     "bignumber.js": "^7.2.1",
+    "cavy": "^0.6.1",
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
     "exp": "^56.0.0",

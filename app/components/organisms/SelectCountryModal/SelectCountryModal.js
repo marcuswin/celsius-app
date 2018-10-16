@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Body, Button, Header, Icon, Left, List, ListItem, Text, Title, View} from "native-base";
 import PropTypes from "prop-types";
@@ -99,6 +100,7 @@ class SelectCountryModal extends Component {
 
         <View style={SelectCountryStyles.searchBox} >
           <TextInput
+          ref={this.props.generateTestHook('SelectCountryModal.country')}
             style={SelectCountryStyles.search}
             onChangeText={this.filterCountries}
             placeholder={'eg. Japan'}
@@ -117,7 +119,7 @@ class SelectCountryModal extends Component {
                     <Text>{country.emoji}</Text>
                   </Left>
                   <Body>
-                  <TouchableOpacity onPress={() => onClose(country)}>
+                  <TouchableOpacity ref={this.props.generateTestHook('SelectCountryModal.select')} onPress={() => onClose(country)}>
                     <Text style={SelectCountryStyles.coinTitle}>
                       {country.name}
                       { withPhones && country.countryCallingCodes ? ` (${country.countryCallingCodes[0]})` : '' }
@@ -143,4 +145,6 @@ class SelectCountryModal extends Component {
   }
 }
 
-export default SelectCountryModal;
+// export default SelectCountryModal;
+const TestHook = hook(SelectCountryModal)
+export default TestHook;

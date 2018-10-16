@@ -9,7 +9,7 @@ export async function containsText(component, text) {
 
 
  export async function fillIn2(identifier, str) {
-    const component =  findComponent(identifier);
+    const component = findComponent(identifier);
     component.props.onChange(str);
   }
 
@@ -19,4 +19,8 @@ export async function test(component) {
   component.props.onCancel()
 }
 
+export async function formField(field, item ) {
+  actions.updateFormField(field, item.name);
+  component.props.onValueChange();
+}
   

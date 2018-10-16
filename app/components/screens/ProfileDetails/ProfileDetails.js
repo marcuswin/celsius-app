@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import moment from 'moment';
 import { Text } from 'react-native';
@@ -138,6 +139,7 @@ class ProfileDetails extends Component {
         </CelForm>
 
         <CelButton
+          ref={this.props.generateTestHook('ProfileDetails.verifyYourProfile')}
           white
           onPress={this.submitForm}
           loading={isUpdatingProfileInfo}
@@ -152,4 +154,6 @@ class ProfileDetails extends Component {
   }
 }
 
-export default ProfileDetails;
+// export default ProfileDetails;
+const TestHook = hook(ProfileDetails)
+export default TestHook;

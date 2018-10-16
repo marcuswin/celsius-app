@@ -116,9 +116,7 @@ class PinInput extends Component {
                    testSelector={this.props.testSelector}
                    value={value}
                    maxLength={digits}
-                   ref={ref => {
-                     this.input = ref;
-                   }}
+                   ref={this.getInputRef()}
                    onLayout={() => this.saveLayout()}
                    keyboardType={KEYBOARD_TYPE.NUMERIC}
                    onChangeText={this.handlePinChange}
