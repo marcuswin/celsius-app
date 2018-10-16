@@ -145,7 +145,8 @@ const WalletInterestStyle = StyleSheet.create({
   dots: {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 10
+    marginRight: 10,
+    marginBottom: 5
   }
 });
 
