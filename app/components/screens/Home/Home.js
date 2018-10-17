@@ -13,7 +13,7 @@ import { registerForPushNotificationsAsync } from "../../../utils/push-notificat
 import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -23,13 +23,12 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
     openedModal: state.ui.openedModal,
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
-    backendStatus: state.generalData.backendStatus,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes, backendStatus } = this.props;
+    const { actions, branchHashes } = this.props;
 
     try {
       // get user token
@@ -50,12 +49,6 @@ class HomeScreen extends Component {
       }
     } catch(err) {
       console.log(err);
-    }
-
-    if (CLIENT_VERSION !== backendStatus.version) {
-      actions.showMessage('warning', 'When Update?\n' +
-        '\n' +
-        'Right now! Please head to the app store and download the newest update. Stay cool.')
     }
   }
 
