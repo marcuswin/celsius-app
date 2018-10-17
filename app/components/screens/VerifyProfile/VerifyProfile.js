@@ -34,6 +34,12 @@ import API from "../../../config/constants/API";
 )
 class VerifyProfile extends Component {
   // lifecycle methods
+
+  componentWillMount() {
+    const { actions } = this.props;
+     actions.getKYCDocTypes();
+  }
+
   componentDidMount() {
     const { actions } = this.props;
 
@@ -103,8 +109,13 @@ class VerifyProfile extends Component {
   render() {
     const { formData, formErrors, callsInProgress, user, kycDocTypes } = this.props;
 
-    const isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO, API.START_KYC, API.CREATE_KYC_DOCUMENTS], callsInProgress);
-    const docs = mapDocs(kycDocTypes[user.citizenship]);
+    let isLoading = false;
+    let docs;
+
+    if (kycDocTypes) {
+      isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO, API.START_KYC, API.CREATE_KYC_DOCUMENTS], callsInProgress);
+      docs = mapDocs(kycDocTypes[user.citizenship]);
+    }
 
     return (
       <SimpleLayout
@@ -118,12 +129,14 @@ class VerifyProfile extends Component {
           <View>
             <CelForm margin="30 0 35 0" disabled={isLoading}>
 
-              <Grid>
-                {docs.map( document =>
+              {docs && <Grid>
+                {docs.map(document =>
                   <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
                     <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
-                      <View style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
-                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} fill='#FFFFFF'/>
+                      <View
+                        style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
+                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}
+                              fill='#FFFFFF'/>
                         <View style={VerifyProfileStyle.documentTypeWrapper}>
                           <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
                         </View>
@@ -132,6 +145,7 @@ class VerifyProfile extends Component {
                   </Col>
                 )}
               </Grid>
+              }
 
               <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
