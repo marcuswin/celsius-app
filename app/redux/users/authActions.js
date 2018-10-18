@@ -127,11 +127,12 @@ function registerUser(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.link_type === BRANCH_LINKS.REFERRAL)[0];
-      console.log({ referralLink })
+      // const referralLink = getState().branch.allLinks.filter(bl => bl.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
       const res = await usersService.register({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        // referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -166,7 +167,7 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0];
 
       const res = await usersService.registerTwitter({
         ...user,
@@ -233,7 +234,7 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0];
 
       const res = await usersService.registerFacebook({
         ...user,
@@ -300,7 +301,7 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0];
 
       const res = await usersService.registerGoogle({
         ...user,
