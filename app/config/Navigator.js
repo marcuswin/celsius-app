@@ -45,7 +45,7 @@ import DestinationTagExplanationModalScreen from "../components/organisms/Destin
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import SettingsScreen from "../components/screens/Settings/Settings";
-import TwoFaAuthorizationScreen from "../components/screens/TwoFaAuthorization/TwoFaAuthorization";
+import TwoFAInfoScreen from "../components/screens/TwiFAInfo/TwoFAInfo";
 
 // NOTE(fj): plop screenGen importing new Screen here
 
@@ -131,9 +131,9 @@ export const screens = {
     title: 'Settings',
     bottomNavigation: true,
   },
-  TwoFaAuthorization: {
-    screen: TwoFaAuthorizationScreen,
-    title: 'TwoFaAuthorization',
+  TwoFAInfo: {
+    screen: TwoFAInfoScreen,
+    title: 'TwoFAInfo',
     bottomNavigation: true,
   },
   Profile: {
