@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {Content} from 'native-base';
 import {connect} from 'react-redux';
+import {Constants} from 'expo';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
@@ -12,18 +12,20 @@ import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
+const {API_URL} = Constants.manifest.extra;
 
 const images = [
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg' },
-  { url: 'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg' },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-bear.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-cat.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-deer.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-hippo.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-monkey.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-mouse-girl.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-monkey-girl.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-girl-dog.jpg` },
+  { url: `${API_URL.replace('/api/v1', '')}/profile-images/avatar/avatar-sheep.jpg` },
 ];
 
 @connect(
@@ -116,7 +118,7 @@ class ProfileImage extends Component {
           <MainHeader backButton />
           <ImageHeading image={activeImage}/>
 
-          <Content>
+          <CelScreenContent>
             <CelButton
               onPress={this.goToCamera}
               transparent
@@ -134,8 +136,8 @@ class ProfileImage extends Component {
               { images.map(this.renderImages) }
             </View>
 
-            <CelButton onPress={this.updateProfilePicture} margin="0 40 30 40" loading={isLoading}>Change avatar</CelButton>
-          </Content>
+            <CelButton onPress={this.updateProfilePicture} margin="0 40 0 40" loading={isLoading}>Change avatar</CelButton>
+          </CelScreenContent>
         </BasicLayout>
     );
   }

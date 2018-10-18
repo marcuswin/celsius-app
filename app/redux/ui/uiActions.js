@@ -1,6 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 import { MODALS } from "../../config/constants/common";
+import { screens } from '../../config/Navigator';
 
 // TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
@@ -25,7 +26,7 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
-  showTodaysRatesModal,
+  openInitialModal,
   openModal,
   closeModal,
 }
@@ -169,8 +170,8 @@ function scrollTo(scrollOptions = {}) {
   return (dispatch, getState) => {
 
     const { screenHeight, bottomNavigation } = getState().ui.dimensions;
-    const { displayBottomNavigation } = getState().nav;
-    const scrollBottomOffset = displayBottomNavigation ? 40 : bottomNavigation.height + 10;
+    const activeScreen = getState().nav.routes[getState().nav.index].routeName
+    const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {
@@ -226,14 +227,21 @@ function setScrollPosition(scrollPosition) {
   };
 }
 
-function showTodaysRatesModal() {
-  return dispatch => {
-    dispatch({
-      type: ACTIONS.SHOW_TODAY_RATES_MODAL,
-    });
+function openInitialModal() {
+  return (dispatch, getState) => {
+    const openedModal = getState().ui.openedModal;
+    const appSettings = getState().users.appSettings;
+    const user = getState().users.user;
+    const branchHashes = getState().transfers.branchHashes;
 
-    dispatch(openModal(MODALS.TODAY_RATES_MODAL));
-  }
+    if (branchHashes && branchHashes.length) {
+      return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
+    }
+
+    if (user && appSettings.showTodayRatesModal && !openedModal) {
+      return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
+    }
+  };
 }
 
 function openModal(modalName) {

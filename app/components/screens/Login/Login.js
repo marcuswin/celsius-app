@@ -76,7 +76,6 @@ class LoginScreen extends Component {
       <SimpleLayout
         mainHeader={{ backButton: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
         animatedHeading={{ text: 'Welcome Back!' }}
-        bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}
       >
 
@@ -97,7 +96,7 @@ class LoginScreen extends Component {
         <CelButton
           size="small"
           transparent
-          margin="25 0 60 0"
+          margin="25 0 0 0"
           onPress={() => actions.navigateTo('ForgottenPassword')}
         >
           Forgot password?

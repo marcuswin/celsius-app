@@ -2,22 +2,29 @@ import ACTIONS from "../../config/constants/ACTIONS";
 
 const initialState = {
   initialized: false,
-  referralObject: null
+  referralObject: null,
+
+  allLinks: [],
+  createdLinks: [],
 };
 
 export default function branchReducer(state = initialState, action) {
   switch (action.type) {
-    case ACTIONS.BRANCH_LINK_INITIALIZED:
+    case ACTIONS.BRANCH_LINK_REGISTERED:
       return {
         ...state,
-        initialized: true,
-        referralObject: action.referralObject
+        allLinks: [ ...state.allLinks, action.link ],
       };
-    case ACTIONS.BRANCH_LINK_INITIALIZED_DEV:
+
+    case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:
       return {
         ...state,
-        initialized: true,
+        createdLinks: [
+          ...state.createdLinks,
+          action.branchLink
+        ]
       };
+
     default:
       return state;
   }

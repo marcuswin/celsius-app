@@ -16,11 +16,9 @@ import { KYC_STATUSES } from "../../../config/constants/common";
 
 const walletScreens = [
   'NoKyc',
-  'WalletLanding',
   'WalletTransactions',
   'WalletBalance',
   'WalletDetails',
-  'WalletTotals',
   'WalletInterest',
   'Home',
   'AmountInput',

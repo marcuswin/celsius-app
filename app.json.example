@@ -5,7 +5,7 @@
     "slug": "celsius",
     "scheme": "cel",
     "privacy": "public",
-    "sdkVersion": "29.0.0",
+    "sdkVersion": "30.0.0",
     "platforms": [
       "ios",
       "android"

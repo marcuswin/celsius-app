@@ -7,8 +7,10 @@ import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
-import { KYC_STATUSES } from "../../../config/constants/common";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import {mixpanelEvents} from "../../../services/mixpanel";
 
 @connect(
   state => ({
@@ -16,6 +18,7 @@ import Icon from "../../atoms/Icon/Icon";
     kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
     activeScreen: state.nav.routes[state.nav.index].routeName,
     user: state.users.user,
+    allTransfers: state.transfers.transfers,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -30,6 +33,7 @@ class NoKyc extends Component {
    }
 
    props.actions.getKYCStatus();
+   props.actions.getAllTransfers(TRANSFER_STATUSES.claimed);
   }
 
   // lifecycle methods
@@ -38,10 +42,48 @@ class NoKyc extends Component {
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'Home') {
       actions.getKYCStatus();
+      actions.getAllTransfers(TRANSFER_STATUSES.claimed);
     }
   }
   // event hanlders
   // rendering methods
+  renderInfoBubble = () => {
+    const { allTransfers, actions } = this.props;
+    const claimedTransfers = getClaimedTransfers(allTransfers);
+
+    if (claimedTransfers && claimedTransfers.length > 1) {
+      return (
+        <InfoBubble
+          color="gray"
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={[textStyles, { textAlign: 'center' } ]}>
+                You have several transactions on-hold.
+                <Text onPress={() => actions.navigateTo('TransactionsOnHold')} style={[textStyles, { textDecorationLine: 'underline' }]}>
+                  See all transactions
+                </Text>
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+
+    if (claimedTransfers && claimedTransfers.length) {
+      return (
+        <InfoBubble
+          color="gray"
+          renderContent={(textStyles) => (
+            <View>
+              <Text style={[textStyles, { textAlign: 'center' } ]}>
+                Verify your profile now to get your crypto.
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+  }
 
   renderPending() {
     const {actions} = this.props;
@@ -52,6 +94,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
+        { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
         <Text style={NoKycStyle.textThree}>
           Profile verification status:
@@ -75,7 +118,7 @@ class NoKyc extends Component {
                      transparent
                      color="blue"
                      size="medium"
-                     margin="0 0 5 0"
+                     margin="0 0 0 0"
                      inverse
           >Join our Telegram</CelButton>
         </View>
@@ -93,6 +136,7 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
+        { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-NoKYC3x.png')} style={[NoKycStyle.image, {marginTop: 5 }]}/>
         <Text style={[NoKycStyle.textThree, {marginTop: -5}]}>
           Profile verification status:
@@ -112,7 +156,7 @@ class NoKyc extends Component {
         </Text>
         <CelButton
           onPress={() => actions.navigateTo('ProfileDetails')}
-          margin='20 50 30 50'
+          margin='20 50 0 50'
         >
           Verify Again
         </CelButton>
@@ -129,7 +173,8 @@ class NoKyc extends Component {
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
       >
-        <Image source={require('../../../../assets/images/wallet-emptystate-ftux3x.png')} style={NoKycStyle.image}/>
+        { this.renderInfoBubble() }
+        <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}>
           This is where you'll be able to add, send and receive coins
         </Text>
@@ -137,7 +182,10 @@ class NoKyc extends Component {
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
-          onPress={() => actions.navigateTo('ProfileDetails')}
+          onPress={() => {
+            mixpanelEvents.navigation('verifyProfile');
+            actions.navigateTo('ProfileDetails')
+          }}
           margin='0 50 0 50'
         >
           Verify profile
@@ -147,7 +195,7 @@ class NoKyc extends Component {
           onPress={() => actions.navigateTo('CryptoForPeople')}
           color="blue"
           size="small"
-          margin="0 0 15 0"
+          margin="0 0 0 0"
           inverse
         >
           Learn more about Celsius
@@ -175,3 +223,14 @@ class NoKyc extends Component {
 }
 
 export default NoKyc;
+
+function getClaimedTransfers(allTransfers) {
+  if (!allTransfers) return [];
+  const transfers = [];
+
+  Object.keys(allTransfers).forEach(t => {
+    if (allTransfers[t].status === 'claimed') transfers.push(allTransfers[t]);
+  })
+
+  return transfers
+}

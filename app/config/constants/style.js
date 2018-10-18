@@ -26,6 +26,7 @@ export const COLORS = {
   pink: '#A866AA',
   gray: '#899099',
   gray2: '#3D4853',
+  red: '#EF461A',
 }
 
 export const STYLES = {
@@ -246,15 +247,6 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Welcome_Polar-Bear.png'),
   require('../../../assets/images/Welcome_Whale.png'),
   require('../../../assets/images/polar-bear_large.png'),
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-bear.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-deer.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-hippo.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-mouse-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-monkey-girl.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-girl-dog.jpg',
-  'https://api.staging.celsius.network/profile-images/avatar/avatar-sheep.jpg',
   require('../../../assets/images/avatar-bear.jpg'),
   require('../../../assets/images/avatar-cat.jpg'),
   require('../../../assets/images/avatar-deer.jpg'),
@@ -274,4 +266,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/deer-confused3x.png'),
   require('../../../assets/images/frenchy.png'),
   require('../../../assets/images/interest-illu.png'),
+  require('../../../assets/images/deerTransactionHistory.png'),
+  require('../../../assets/images/illuNoKYC3x.png'),
+  require('../../../assets/images/OfflineMode/deer-tangled3x.png'),
 ];

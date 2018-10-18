@@ -13,7 +13,6 @@ import * as appActions from "../../../redux/actions";
 import WalletDetailsHeadingStyle from "./WalletDetailsHeading.styles";
 import Icon from "../../atoms/Icon/Icon";
 import { FONT_SCALE } from "../../../config/constants/style";
-import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -23,6 +22,7 @@ import { ELIGIBLE_COINS } from "../../../config/constants/common";
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
+    coinOrder: state.wallet.coinOrder,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -30,19 +30,41 @@ import { ELIGIBLE_COINS } from "../../../config/constants/common";
 
 class WalletDetailsHeading extends Component {
   static propTypes = {
-    type: Proptypes.oneOf(['total', 'single-coin']),
+    type: Proptypes.oneOf(['single-coin']),
   }
 
   static defaultProps = {
     type: 'single-coin'
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isPressed: false,
+    };
+  }
+
+  componentDidMount() {
+      this.setState({
+        isPressed: false,
+      })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {activeScreen} = this.props;
+
+    if ((activeScreen !== nextProps.activeScreen && nextProps.activeScreen === "WalletDetails")) {
+      this.componentDidMount();
+    }
+  }
+
   onPressNavigation = (type) => {
-    const screens = ELIGIBLE_COINS.map(ec => ec.toLowerCase());
-    screens.push('total');
+    const { coinOrder } = this.props;
+    const screens = coinOrder;
 
     const { currency, actions } = this.props;
-    const screenIndex = screens.findIndex(el => el === currency);
+    const screenIndex = screens.indexOf(currency.toUpperCase());
 
     const types = {
       next: screenIndex + 1,
@@ -53,12 +75,11 @@ class WalletDetailsHeading extends Component {
       return actions.navigateTo('WalletDetails', {currency: screens[0]})
     }
 
-    if((screenIndex === screens.length - 2 && type === 'next') || (screenIndex === 0 && type === 'previous')) {
-      return actions.navigateTo('WalletTotals')
+    if (screenIndex === 0 && type === 'previous') {
+      return actions.navigateTo('WalletDetails', {currency: screens[screens.length - 1]})
     }
 
     return actions.navigateTo('WalletDetails', {currency: screens[types[type]]})
-
   }
 
   goToAddFunds = () => {
@@ -76,10 +97,12 @@ class WalletDetailsHeading extends Component {
       currency: currency.toLowerCase(),
     });
     actions.navigateTo('AmountInput', { purpose: 'send' });
+    this.state.isPressed = true;
   };
 
   render() {
     const { currency, type, walletTotal, walletCurrencies } = this.props;
+    const { isPressed } = this.state;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
@@ -107,6 +130,7 @@ class WalletDetailsHeading extends Component {
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
         <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton width={110} size="mini" white onPress={this.goToSend} inverse margin="0 0 0 15" disabled={isPressed}>Send</CelButton>
       </View>}
     </View>
   }

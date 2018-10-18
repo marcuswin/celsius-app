@@ -64,7 +64,7 @@ class CelDatepicker extends Component {
 
             <Text style={labelStyles}>{label}</Text>
             {value ? <Text
-              style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>{moment(value).format(format)}</Text> : null}
+              style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>{moment(value).format(format)}</Text> : null}
 
             <View style={globalStyles.inputIconRight}>
               <Icon name='CalendarIcon' height='29' width='29' viewBox="0 0 32 32" fill={"#fff"}/>

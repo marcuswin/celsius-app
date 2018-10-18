@@ -8,37 +8,25 @@ import CelModal from "../../atoms/CelModal/CelModal";
 
 import ReferralModalStyle from "./ReferralModal.styles";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { MODALS } from "../../../config/constants/common";
+import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    branch: state.branch,
+    referralLink: state.branch.createdLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0],
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({
+    actions: bindActionCreators(appActions, dispatch),
+    dispatch,
+  }),
 )
 class ReferralModal extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      url: '',
-    };
-  }
-  // lifecycle methods
-  async componentDidMount() {
-    try {
-      const { branch: {referralObject} } = this.props;
-
-      if (referralObject) {
-        const { url } = await referralObject.generateShortUrl();
-
-        this.setState({ url });
-      }
-    } catch(err) {
-      console.log(err);
+  componentWillReceiveProps(nextProps) {
+    const { actions, referralLink, openedModal } = nextProps;
+    if (this.props.openedModale !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
+      actions.createBranchReferralLink();
     }
   }
 
@@ -48,8 +36,11 @@ class ReferralModal extends Component {
 
   // rendering methods
   render() {
-    const { actions } = this.props;
-    const { url } = this.state;
+    const { actions, referralLink } = this.props;
+
+    if (!referralLink) return null;
+    const { url } = referralLink;
+
     return (
       <CelModal name={MODALS.REFERRAL_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>

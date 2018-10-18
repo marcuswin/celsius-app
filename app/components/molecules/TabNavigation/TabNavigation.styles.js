@@ -41,6 +41,7 @@ const TabNavigationStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 10,
   },
 });
 

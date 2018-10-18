@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Constants } from 'expo';
 import { TouchableOpacity, Text, Linking, StyleSheet } from "react-native";
-import { View, Content } from 'native-base';
+import { View } from 'native-base';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 import _ from 'lodash';
@@ -21,6 +21,7 @@ import Icon from "../../atoms/Icon/Icon";
 import { COLORS, FONT_SCALE } from "../../../config/constants/style";
 import ReferralModal from "../../organisms/ReferralModal/ReferralModal";
 import { MODALS } from "../../../config/constants/common";
+import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 const { revisionId } = Constants.manifest;
 
@@ -117,7 +118,7 @@ class ProfileScreen extends Component {
         />
         <ImageHeading image={user.profile_picture} />
 
-        <Content style={{ paddingLeft: 40, paddingRight: 40 }} enableOnAndroid>
+        <CelScreenContent>
           <CelButton
             onPress={() => actions.navigateTo('ProfileImage')}
             transparent
@@ -210,9 +211,7 @@ class ProfileScreen extends Component {
           {!!revisionId && <View style={{marginTop: 10,}}>
             <Text style={ProfileStyle.appVersionText}>App Version - {revisionId}</Text>
           </View>}
-          <View style={{marginBottom: 30,}}/>
-        </Content>
-
+        </CelScreenContent>
         <ReferralModal />
       </BasicLayout>
     )

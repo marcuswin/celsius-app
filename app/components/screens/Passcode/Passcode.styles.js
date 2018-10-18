@@ -8,7 +8,6 @@ const imageSize = SCREEN_WIDTH / 2.5;
 const PassCodeStyle = StyleSheet.create({
   root: {
     backgroundColor: STYLES.PRIMARY_BLUE,
-    paddingBottom: 50,
   },
   text: {
     fontFamily: 'agile-light',

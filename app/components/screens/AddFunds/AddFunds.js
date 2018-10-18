@@ -85,8 +85,6 @@ class AddFunds extends Component {
   getAddress = (currency) => {
     const { actions, walletAddresses } = this.props;
 
-    console.log();
-
     if ((!walletAddresses[currency] || !walletAddresses[currency].address) && currency !== "eth") {
       actions.getCoinAddress(currency);
     }
@@ -163,7 +161,7 @@ class AddFunds extends Component {
       address = this.setAddress(navCurrency.toLowerCase());
 
       if (address) {
-        addressArray = address.split('?dt=');
+        addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
         console.log(address, addressXrp, destinationTag);
@@ -174,7 +172,7 @@ class AddFunds extends Component {
       address = this.setAddress(formData.currency);
 
       if (address) {
-        addressArray = address.split('?dt=');
+        addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
         console.log(address, addressXrp, destinationTag);
@@ -194,7 +192,6 @@ class AddFunds extends Component {
         mainHeader={{ onCancel: this.goBack, backButton: false }}
         animatedHeading={{ text: headingText, textAlign: "center" }}
         background={STYLES.PRIMARY_BLUE}
-        bottomNavigation={false}
       >
 
         {navCurrency ? (
@@ -280,7 +277,7 @@ class AddFunds extends Component {
           </View>
         </View>
 
-        {formData.currency === "xrp" && <View style={{ alignItems: "center" }}>
+        {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
           <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
           <View style={[AddFundsStyle.box, { marginTop: 14 }]}>
             <View style={AddFundsStyle.addressWrapper}>
@@ -360,26 +357,42 @@ class AddFunds extends Component {
           </CelButton>
         </View>}
 
-        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
-                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
-          <Icon
-            name="Shield"
-            width={20}
-            height={25}
-            fill="white"
-            stroke="white"
-            style={{ opacity: 0.5 }}
-          />
-          <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
-        </TouchableOpacity>
+        {(currentCurrency && currentCurrency.toLowerCase() === "bch") &&
+        <View style={AddFundsStyle.alternateAddressWrapper}>
+          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
+            support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
+            BCH address.</Text>
+          <CelButton
+            white
+            size="small"
+            onPress={this.switchAlternateAddress}
+            margin='0 10 0 10'
+          >
+            Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
+          </CelButton>
+        </View>}
 
         <CelButton
           white
           onPress={this.goBack}
-          margin='0 50 30 50'
+          margin='20 50 0 50'
         >
           Done
         </CelButton>
+
+        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
+                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
+          <View style={{marginRight: 10}}>
+            <Icon
+              name="ShieldBitGo"
+              width={25}
+              height={25}
+              stroke="white"
+            />
+          </View>
+          <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
+        </TouchableOpacity>
+
         <DestinationTagExplanationModal/>
       </SimpleLayout>
 

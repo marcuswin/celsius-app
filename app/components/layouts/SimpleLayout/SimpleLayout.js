@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Platform, ScrollView } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -25,6 +25,7 @@ const defaultAnimatedHeading = {
 @connect(
   state => ({
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
+    hasBottomNavigation: state.ui.hasBottomNavigation,
     scrollToY: state.ui.scrollTo,
     keyboardHeight: state.ui.keyboardHeight,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -41,14 +42,7 @@ class SimpleLayout extends Component {
     }
   }
 
-  componentDidMount() {
-    const {bottomNavigation, actions} = this.props;
-
-    actions.displayBottomNavigation(!(bottomNavigation === false));
-  }
-
   componentWillReceiveProps({ scrollToY, activeScreen }) {
-    const {bottomNavigation, actions} = this.props;
     const {screen} = this.state;
 
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
@@ -57,13 +51,12 @@ class SimpleLayout extends Component {
 
     if (activeScreen === screen && activeScreen !== this.props.activeScreen) {
       this.scrollView.scrollTo({ y: 0, animated: false });
-      actions.displayBottomNavigation(!(bottomNavigation === false));
     }
   }
 
   render() {
     const {
-      bottomNavigation,
+      hasBottomNavigation,
       mainHeader,
       animatedHeading,
       background,
@@ -80,7 +73,7 @@ class SimpleLayout extends Component {
     const contentStyles = {};
     contentStyles.backgroundColor = background || undefined;
 
-    if (bottomNavigation === false) {
+    if (!hasBottomNavigation) {
       contentStyles.marginBottom = 0;
     } else {
       contentStyles.marginBottom = bottomNavigationDimensions.height;
@@ -93,7 +86,7 @@ class SimpleLayout extends Component {
     contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
 
     return (
-      <Container style={{flex: 1,}}>
+      <Container style={{flex: 1 }}>
         <MainHeader { ...mainHeaderProps } />
         <Message/>
         <CelHeading { ...animatedHeadingProps } />
@@ -108,6 +101,7 @@ class SimpleLayout extends Component {
           onScrollEndDrag={e => { actions.setScrollPosition(e.nativeEvent.contentOffset.y) }}
         >
           { this.props.children }
+          <View style={{ height: 50 }}/>
         </ScrollView>
       </Container>
     )

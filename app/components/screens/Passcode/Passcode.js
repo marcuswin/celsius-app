@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Image } from "react-native";
+import { Text, Image, Linking } from "react-native";
 import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
@@ -13,7 +13,7 @@ import meService from "../../../services/me-service"
 
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import PasscodeStyle from "./Passcode.styles";
-import { STYLES } from "../../../config/constants/style";
+import { STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -39,6 +39,12 @@ const types = {
       buttonText: 'Confirm',
       field: 'pin',
     },
+    loginPasscode: {
+      title: 'Welcome to Celsius',
+      text: 'Please enter your PIN to start',
+      buttonText: 'Enter PIN',
+      field: 'pin'
+    }
 };
 
 const codeLength = 4;
@@ -51,12 +57,13 @@ const codeLength = 4;
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-export default class Passcode extends Component {
+class Passcode extends Component {
   static propTypes = {
-    type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode']).isRequired,
+    type: PropTypes.oneOf(['enterPasscode', 'repeatPasscode', 'createPasscode', 'loginPasscode']).isRequired,
   };
 
   constructor(props) {
@@ -65,12 +72,13 @@ export default class Passcode extends Component {
     this.state = {
       isPressed: false,
     };
-
   }
 
-  onPressButton = async () => {
-    const { type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress } = this.props;
 
+
+
+  onPressButton = async () => {
+    const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -83,20 +91,40 @@ export default class Passcode extends Component {
       const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
-          this.state.isPressed = true;
-          await meService.checkPin(pin);
+        this.state.isPressed = true;
+        await meService.checkPin(pin);
 
-          actions.storePin(pin.pin);
+        actions.storePin(pin.pin);
 
+        if (purpose === 'withdraw') {
           if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
             await actions.setCoinWithdrawalAddressAndWithdrawCrypto(currency, newWithdrawalAddress, amountCrypto);
           } else {
             await actions.withdrawCrypto(currency, amountCrypto);
           }
           mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
+        } else if (purpose === 'send') {
+          actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
+        } else if (purpose === 'login') {
+          actions.navigateTo('WalletBalance');
+        }
 
       } catch (error) {
         actions.showMessage('error', error.error);
+      }
+    }
+
+    if (type === 'loginPasscode') {
+      const pin = formData;
+      try {
+        await meService.checkPin(pin);
+        if (previousScreen === null) {
+          actions.navigateTo('WalletBalance');
+        } else {
+          actions.navigateTo(previousScreen);
+        }
+      } catch (e) {
+        actions.showMessage('error', e.error);
       }
     }
   };
@@ -111,7 +139,7 @@ export default class Passcode extends Component {
     }
     actions.updateFormField('error', false)
     return actions.updateFormField(field, text);
-  };
+  }
 
   render() {
     const { activeScreen, type, formData, callsInProgress } = this.props;
@@ -121,9 +149,10 @@ export default class Passcode extends Component {
     const disabled = (formData[field] == null || formData[field].length < codeLength) || formData.error;
     const pinValue = formData[field];
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
-    const mainHeader = { backButton: activeScreen !== 'Home' };
 
-    return <SimpleLayout mainHeader={mainHeader} bottomNavigation={false} background={STYLES.PRIMARY_BLUE}>
+    const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
+
+    return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
@@ -142,8 +171,21 @@ export default class Passcode extends Component {
           onPress={() => this.onPressButton()}>
           {types[type].buttonText}
         </CelButton>
+
+        { type === 'enterPasscode' || type === 'loginPasscode' && (
+          <View style={{ marginTop: 20 }}>
+            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
+            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>
+              Get in touch with <Text
+                style={{ textDecorationLine: 'underline' }}
+                onPress={() => Linking.openURL("mailto:app@celsius.network")}>Celsius support</Text>
+            </Text>
+          </View>
+        ) }
+
       </View>
     </SimpleLayout>
   }
 }
 
+export default Passcode;

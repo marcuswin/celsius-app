@@ -206,7 +206,6 @@ class TermsOfUse extends Component {
         <SimpleLayout
           mainHeader={{ backButton: false, onCancel: actions.navigateBack}}
           animatedHeading={{ text: 'Terms of Use' }}
-          bottomNavigation={ false }
           background={STYLES.PRIMARY_BLUE}
 
         >

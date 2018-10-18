@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, NetInfo, AppState } from 'react-native';
+import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
 import uuid from 'uuid';
@@ -15,8 +15,9 @@ import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -71,6 +72,14 @@ export default class App extends Component {
       console.error('NO SECURITY_STORAGE_AUTH_KEY')
     }
 
+    // disables letter sizing in phone's Accessibility menu
+    if (Text.defaultProps == null) Text.defaultProps = {};
+    Text.defaultProps.allowFontScaling = false;
+
+    // same same as with Text, but different
+    if (TextInput.defaultProps == null) TextInput.defaultProps = {};
+    TextInput.defaultProps.allowFontScaling = false;
+
     // logout user if backend environment has changed
     const previousBaseUrl = await getSecureStoreKey('BASE_URL');
     if (previousBaseUrl !== baseUrl) {
@@ -83,6 +92,15 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getProfileInfo());
+      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+
+      const { user } = store.getState().users;
+      if (user.has_pin) {
+        store.dispatch(actions.navigateTo('LoginPasscode'));
+      }
+      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+        await store.dispatch(actions.getKYCDocTypes());
+      }
     } else {
       mixpanelAnalytics.identify(uuid())
     }
@@ -116,12 +134,22 @@ export default class App extends Component {
       Sentry.captureException(error);
     }
 
+
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       handleConnectivityChange
     );
 
     mixpanelEvents.openApp();
+    store.dispatch(actions.openInitialModal());
+
+
+    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+      store.dispatch(actions.showMessage(
+        'warning',
+        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
+      ));
+    }
   }
 
   // Assets are cached differently depending on where
@@ -139,11 +167,13 @@ export default class App extends Component {
 
     this.state = {
       isReady: false,
+      appState: AppState.currentState
     };
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
+
   }
   componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
@@ -151,8 +181,26 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
-    if (nextAppState === 'active') mixpanelEvents.openApp();
-  }
+    if ( nextAppState === 'active') {
+      mixpanelEvents.openApp();
+      if (Platform.OS === "ios") {
+        clearTimeout(this.timeout)
+      }
+    }
+
+    const { user } = store.getState();
+    if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+        if (Platform.OS === "ios") {
+          this.timeout = setTimeout(() => {
+            store.dispatch(actions.navigateTo("LoginPasscode"));
+            clearTimeout(this.timeout)
+          }, 25000)
+        } else {
+          store.dispatch(actions.navigateTo("LoginPasscode"));
+        }
+    }
+    this.setState({appState: nextAppState});
+  };
 
   render() {
     if (!this.state.isReady) {

@@ -14,6 +14,10 @@ const TransactionDetailsStyle = StyleSheet.create({
   },
   amount: {
     flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 36,
+    height: 170,
   },
   amountStatus: {
     flexDirection: 'row',
@@ -22,10 +26,10 @@ const TransactionDetailsStyle = StyleSheet.create({
     backgroundColor: 'white',
     fontSize: FONT_SCALE * 36,
     fontFamily: 'agile-medium',
-    marginLeft: 36,
+    // marginLeft: 36,
     textAlign: 'center',
     marginBottom: 5,
-    marginTop: 50,
+    // marginTop: 50,
     color: '#3D4853'
   },
   hippoInfoWrapper: {
@@ -38,7 +42,7 @@ const TransactionDetailsStyle = StyleSheet.create({
     color: "rgba(61,72,83,1)",
     fontSize: FONT_SCALE * 14,
     textAlign: "left",
-    marginLeft: 36,
+    // marginLeft: 36,
     marginBottom: 17
   },
   infoDetail: {

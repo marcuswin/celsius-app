@@ -64,7 +64,7 @@ class CameraInput extends Component {
           <Text style={labelStyles}>
             {value ? labelTextActive.toUpperCase() : labelTextInactive}
           </Text>
-          {value ? <Text style={[globalStyles.input, globalStyles[`${theme}InputTextColor`]]}>Photo Taken</Text> : null}
+          {value ? <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>Photo Taken</Text> : null}
 
           {!value ? (
             <View style={globalStyles.inputIconRight}>

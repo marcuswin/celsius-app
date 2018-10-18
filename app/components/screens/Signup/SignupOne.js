@@ -50,7 +50,6 @@ class SignupOne extends Component {
       <SimpleLayout
         mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
         animatedHeading={{ text: 'Sign up' }}
-        bottomNavigation={ false }
         background={STYLES.PRIMARY_BLUE}
       >
         <View>

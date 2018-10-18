@@ -1,8 +1,10 @@
 import { Platform } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import Sentry from "sentry-expo";
 
 import reducer from '../redux/reducers';
+import ACTIONS from "./constants/ACTIONS";
 
 /* eslint global-require: 0 */
 let composeEnhancers = compose;
@@ -18,7 +20,11 @@ if (__DEV__) {
   /* eslint-enable no-underscore-dangle */
 }
 
-const middleware = [thunk];
+const middleware =  [
+  thunk,
+  // enable when debugging standalone app
+  // sentryActionLogger,
+];
 
 const enhancer = composeEnhancers(applyMiddleware(...middleware));
 
@@ -31,3 +37,40 @@ export default function configureStore(initialState) {
   }
   return store;
 }
+
+// Middleware used for branch.io debugging in testflight
+// logs every fifth action on sentry
+/* eslint-disable */
+let allActions = [];
+function sentryActionLogger({ getState }) {
+  return (next) => (action) => {
+    allActions.push(action.type);
+    console.log(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`);
+    if (
+      allActions.length % 20 === 0 ||
+      [
+        // add actions to log here
+        ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+        ACTIONS.BRANCH_LINK_REGISTERED,
+      ].indexOf(action.type) !== -1
+    ) {
+      Sentry.captureMessage(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`, {
+        level: 'info',
+        extra: {
+          allActions,
+          action: { ...action },
+          state: {
+            transfers: getState().transfers,
+            api: getState().api,
+            ui: getState().ui,
+            branch: getState().branch,
+          },
+        },
+      });
+    }
+
+    return next(action);
+  }
+}
+
+
