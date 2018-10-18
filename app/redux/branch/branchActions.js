@@ -3,6 +3,7 @@ import { Constants } from 'expo';
 import ACTIONS from "../../config/constants/ACTIONS";
 import * as transfersActions from '../transfers/transfersActions';
 import * as uiActions from '../ui/uiActions';
+import branchService from '../../services/branch-service';
 import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -12,6 +13,7 @@ export {
   createBranchLink,
   createBranchReferralLink,
   createBUO,
+  saveBranchLink,
 }
 
 function createBranchLink(linkType, canonicalIdentifier, properties) {
@@ -35,6 +37,22 @@ function createBranchLink(linkType, canonicalIdentifier, properties) {
   }
 }
 
+function saveBranchLink(rawLink) {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.SAVE_BRANCH_LINK));
+      const branchLink = await branchService.create(rawLink);
+
+      dispatch({
+        type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
+        branchLink: branchLink.data,
+      });
+    } catch(err) {
+      dispatch(apiError(API.SAVE_BRANCH_LINK, err));
+    }
+  }
+}
+
 async function createBUO(canonicalIdentifier, properties, email) {
   const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
   Branch.setIdentity(email);
@@ -54,7 +72,7 @@ function createBranchReferralLink() {
   return (dispatch, getState) => {
     const { user } = getState().users;
     dispatch(createBranchLink(
-      BRANCH_LINKS.REFERRAL,
+      BRANCH_LINKS.INDIVIDUAL_REFERRAL,
       `referral:${user.id}`,
       {
         locallyIndex: true,
@@ -64,7 +82,7 @@ function createBranchReferralLink() {
         contentMetadata: {
           customMetadata: {
             referrer_id: user.id,
-            link_type: BRANCH_LINKS.REFERRAL,
+            link_type: BRANCH_LINKS.INDIVIDUAL_REFERRAL,
           }
         }
       }
@@ -85,6 +103,10 @@ function registerBranchLink(deepLink) {
         if (getState().users.user) {
           dispatch(transfersActions.claimTransfer(deepLink.transfer_hash));
         }
+        break;
+
+      case BRANCH_LINKS.COMPANY_REFERRAL:
+        dispatch(saveBranchLink(deepLink));
         break;
       default:
 

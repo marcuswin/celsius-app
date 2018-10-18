@@ -20,12 +20,11 @@ const usersService = {
   addExpoPushToken
 };
 
-function register({ email, password, referrerId }) {
-  console.log({ referrerId })
+function register(user) {
   return axios.post(`${apiUrl}/users/register`, {
-    email,
-    password,
-    referrer_id: referrerId,
+    email: user.email,
+    password: user.password,
+    referral_link_id: user.referralLinkId,
   });
 }
 

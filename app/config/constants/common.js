@@ -51,6 +51,7 @@ export const MODALS = {
 export const BRANCH_LINKS = {
   TRANSFER: 'TRANSFER',
   REFERRAL: 'REFERRAL',
+  COMPANY_REFERRAL: 'COMPANY_REFERRAL',
 };
 
 export const TRANSFER_STATUSES = {
