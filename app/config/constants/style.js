@@ -269,4 +269,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/deerTransactionHistory.png'),
   require('../../../assets/images/illuNoKYC3x.png'),
   require('../../../assets/images/OfflineMode/deer-tangled3x.png'),
+  require('../../../assets/images/security_dog3x.png'),
 ];
