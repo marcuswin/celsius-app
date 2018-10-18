@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
@@ -250,6 +251,7 @@ class CameraScreen extends Component {
                 Retake Photo
               </CelButton>
               <CelButton
+                ref={this.props.generateTestHook('CameraScreen.usePhoto')}
                 onPress={this.savePhoto}
                 white
                 margin="20 0 20 0"
@@ -275,4 +277,6 @@ class CameraScreen extends Component {
 
 }
 
-export default CameraScreen;
+// export default CameraScreen;
+const TestHook = hook(CameraScreen)
+export default TestHook;

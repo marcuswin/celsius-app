@@ -89,7 +89,7 @@ class SelectCountryModal extends Component {
       >
         <Header style={[SelectCountryStyles.header]} iosBarStyle="light-content">
           <Left>
-            <Button title='Back' transparent onPress={() => onClose(null)}>
+            <Button ref={this.props.generateTestHook('SelectCountryModal.country')} title='Back' transparent onPress={() => onClose(null)}>
               <Icon style={SelectCountryStyles.backArrow} name='arrow-back'/>
             </Button>
           </Left>
@@ -100,7 +100,7 @@ class SelectCountryModal extends Component {
 
         <View style={SelectCountryStyles.searchBox} >
           <TextInput
-          ref={this.props.generateTestHook('SelectCountryModal.country')}
+          
             style={SelectCountryStyles.search}
             onChangeText={this.filterCountries}
             placeholder={'eg. Japan'}

@@ -99,6 +99,7 @@ class SignupTwo extends Component {
 
     return (
       <SimpleLayout
+      ref={this.props.generateTestHook('SignupTwo.screen')}
         mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}

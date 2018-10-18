@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
@@ -132,7 +133,7 @@ class VerifyProfile extends Component {
               {docs && <Grid>
                 {docs.map(document =>
                   <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
-                    <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
+                    <TouchableOpacity ref={this.props.generateTestHook(`VerifyProfile.National ID card`)} onPress={() => this.selectDocumentType(document.value)}>
                       <View
                         style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
                         <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}
@@ -160,6 +161,7 @@ class VerifyProfile extends Component {
             </CelForm>
 
             <CelButton
+              ref={this.props.generateTestHook('VerifyProfile.verify')}
               onPress={this.submitForm}
               iconRight="IconArrowRight"
               loading={isLoading}
@@ -186,4 +188,6 @@ function mapDocs(docs) {
   return kycDocs;
 }
 
-export default VerifyProfile;
+// export default VerifyProfile;
+const TestHook = hook(VerifyProfile)
+export default TestHook;

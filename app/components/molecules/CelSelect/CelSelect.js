@@ -121,6 +121,7 @@ class CelSelect extends Component {
         margin={margin}
       >
         <TouchableOpacity
+          ref={this.props.generateTestHook('CelSelect.fillName')}
           onPress={() => this.setState({ visible: !visible })}
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
           <Text style={labelStyles}>{label}</Text>

@@ -78,8 +78,6 @@ class BottomNavigation extends Component {
     const iconFill = state === 'Active' ? STYLES.PRIMARY_BLUE : '#3D4853';
     const iconStyle = state === 'Active' ? { opacity: 1 } : { opacity: 0.5 };
 
-    console.log('navItem.label', 'Sdadasdasda!!!!!!');
-
     return (
       <TouchableOpacity
       ref={this.props.generateTestHook(`BottomNavigation.${navItem.label}`)} 

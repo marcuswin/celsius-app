@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, View } from "react-native";
@@ -58,7 +59,8 @@ class CameraInput extends Component {
         theme={theme}
         error={error}
       >
-        <TouchableOpacity onPress={this.onPress}
+        <TouchableOpacity ref={this.props.generateTestHook('CameraInput.frontSidePhoto')}
+                          onPress={this.onPress}
                           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
 
           <Text style={labelStyles}>
@@ -83,4 +85,6 @@ class CameraInput extends Component {
   }
 }
 
-export default CameraInput;
+// export default CameraInput;
+const TestHook = hook(CameraInput)
+export default TestHook;

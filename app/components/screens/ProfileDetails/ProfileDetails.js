@@ -116,12 +116,13 @@ class ProfileDetails extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelSelect error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
+          <CelSelect ref={this.props.generateTestHook(`ProfileDetails.${formErrors.title}`)} error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
           <CelInput value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
           <CelInput value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
           <CelInput value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
 
           <CelDatepicker
+            ref={this.props.generateTestHook(`ProfileDetails.${formErrors.date_of_birth}`)}
             labelText="Date of birth"
             error={formErrors.date_of_birth}
             field="dateOfBirth"
@@ -134,8 +135,8 @@ class ProfileDetails extends Component {
             value={formData.dateOfBirth}
           />
 
-          <CelSelect error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
-          <CelSelect error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
+          <CelSelect ref={this.props.generateTestHook('ProfileDetails.Citizenship is required!')} error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
+          <CelSelect ref={this.props.generateTestHook('ProfileDetails.Gender is required!')} error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
         </CelForm>
 
         <CelButton
