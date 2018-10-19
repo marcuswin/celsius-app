@@ -133,7 +133,7 @@ class VerifyProfile extends Component {
               {docs && <Grid>
                 {docs.map(document =>
                   <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
-                    <TouchableOpacity ref={this.props.generateTestHook(`VerifyProfile.National ID card`)} onPress={() => this.selectDocumentType(document.value)}>
+                    <TouchableOpacity ref={this.props.generateTestHook(`VerifyProfile.${document.value}`)} onPress={() => this.selectDocumentType(document.value)}>
                       <View
                         style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
                         <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}

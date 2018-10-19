@@ -244,6 +244,7 @@ class CameraScreen extends Component {
             <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
             <View>
               <CelButton
+                ref={this.props.generateTestHook('CameraScreen.retakePhoto')}
                 onPress={actions.retakePhoto}
                 white
                 inverse

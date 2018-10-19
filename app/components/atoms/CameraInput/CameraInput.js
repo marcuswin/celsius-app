@@ -59,7 +59,7 @@ class CameraInput extends Component {
         theme={theme}
         error={error}
       >
-        <TouchableOpacity ref={this.props.generateTestHook('CameraInput.frontSidePhoto')}
+        <TouchableOpacity ref={this.props.generateTestHook(`CameraInput.${this.props.field}`)}
                           onPress={this.onPress}
                           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
 

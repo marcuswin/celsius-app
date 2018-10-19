@@ -202,7 +202,7 @@ function verifySMS(verificationCode) {
   }
 }
 
-function verifySMSSuccess() {
+export function verifySMSSuccess() {
   return {
     type: ACTIONS.VERIFY_SMS_SUCCESS,
     callName: API.VERIFY_SMS,
