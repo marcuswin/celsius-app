@@ -46,7 +46,8 @@ import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import SettingsScreen from "../components/screens/Settings/Settings";
 import TwoFAInfoScreen from "../components/screens/TwiFAInfo/TwoFAInfo";
-
+import TwoFaWelcomeScreen from "../components/screens/TwoFaWelcome/TwoFaWelcome";
+import TwoFaAuthAppConfirmationScreen from "../components/screens/TwoFaAuthAppConfirmation/TwoFaAuthAppConfirmation";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -134,6 +135,16 @@ export const screens = {
   TwoFAInfo: {
     screen: TwoFAInfoScreen,
     title: 'TwoFAInfo',
+    bottomNavigation: true,
+  },
+  TwoFaAuthAppConfirmation: {
+  screen: TwoFaAuthAppConfirmationScreen,
+    title: 'TwoFaAuthAppConfirmation',
+    bottomNavigation: true,
+},
+  TwoFaWelcome: {
+    screen: TwoFaWelcomeScreen,
+    title: 'TwoFaWelcome',
     bottomNavigation: true,
   },
   Profile: {
