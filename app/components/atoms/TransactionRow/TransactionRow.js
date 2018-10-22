@@ -95,7 +95,6 @@ class TransactionRow extends Component {
   setTransaction(transaction) {
     if (!transaction) return;
     const type = transaction.type;
-    console.log({ type })
     this.setState({
       type,
       color: getTransactionColor(type),
