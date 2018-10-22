@@ -26,7 +26,6 @@ class TwoFaWelcome extends Component {
     this.state = {
       // initial state
       authActivated: true,
-      modalVisible: false,
     };
     // binders
   }

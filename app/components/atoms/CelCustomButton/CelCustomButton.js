@@ -1,14 +1,23 @@
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 
 // import {STYLES} from "../../config/constants/style";
 import CelCustomButtonStyle from "./CelCustomButton.styles";
 import Icon from "../Icon/Icon";
+import CelButton from "../CelButton/CelButton";
+import * as appActions from "../../../redux/actions";
 
 
 const buttonColors = ["blue", "white"];
 const buttonSizes = ["small", "normal", "large"];
+
+@connect(
+  () => ({}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+)
 
 class CelCustomButton extends Component {
   static propTypes = {
@@ -120,7 +129,7 @@ class CelCustomButton extends Component {
   }
 
   renderLarge() {
-    const { iconRight, color, title, explanation, iconLeft, activated, onCancel } = this.props;
+    const { iconRight, color, title, explanation, iconLeft, activated, onCancel, actions } = this.props;
 
     return (
       <View style={[CelCustomButtonStyle.largeButton, { backgroundColor: color }]}>
@@ -131,7 +140,6 @@ class CelCustomButton extends Component {
 
         <View style={CelCustomButtonStyle.buttonTextWrapper}>
 
-
           {activated ?
             <View style={CelCustomButtonStyle.activeWrapper}>
               <Text style={CelCustomButtonStyle.activated}>ACTIVE</Text>
@@ -141,18 +149,31 @@ class CelCustomButton extends Component {
             </View>
             : null}
 
-        <View style={CelCustomButtonStyle.titleIcon}>
-          {title ? this.renderTitle() : null}
-          <View style={CelCustomButtonStyle.largeButtonRightIcon}>
-            {iconRight ? this.renderIconRight() : null}
+          <View style={CelCustomButtonStyle.titleIcon}>
+            {title ? this.renderTitle() : null}
+            <View style={CelCustomButtonStyle.largeButtonRightIcon}>
+              {iconRight ? this.renderIconRight() : null}
+            </View>
           </View>
-        </View>
 
-        <View>
-          {explanation ? this.renderExplanation() : null}
-        </View>
+          <View>
+            {explanation ? this.renderExplanation() : null}
+          </View>
 
-      </View>
+          {activated ?
+            <View style={{marginRight: '10%'}}>
+              <CelButton onPress={() => actions.navigateTo("TwoFaAuthAppConfirmation")}
+                         size={"letter"}
+                         inverse
+                         transparent
+
+              >
+                Change auth app
+              </CelButton>
+            </View>
+            : null}
+
+        </View>
 
       </View>
     );
