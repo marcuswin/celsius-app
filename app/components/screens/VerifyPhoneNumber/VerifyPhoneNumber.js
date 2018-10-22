@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Image} from 'react-native';
 import {View, Text} from 'native-base';
@@ -63,7 +64,9 @@ class VerifyPhoneNumber extends Component {
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
           <CelForm disabled={isLoading}>
-            <CelInput type="pin"
+            <CelInput testSelector={`VerifyPhoneNumber.sms`}
+                      {...this.props}
+                      type="pin"
                       field="verificationCode"
                       value={pinValue}
                       showDigits
@@ -71,6 +74,7 @@ class VerifyPhoneNumber extends Component {
                       onChange={this.onChange}/>
           </CelForm>
           <CelButton
+            ref={this.props.generateTestHook('VerifyPhoneNumber.finish')}
             margin='20 0 0 0'
             white
             onPress={this.verifyCode}
@@ -95,4 +99,6 @@ class VerifyPhoneNumber extends Component {
   }
 }
 
-export default VerifyPhoneNumber;
+// export default VerifyPhoneNumber;
+const TestHook = hook(VerifyPhoneNumber)
+export default TestHook;

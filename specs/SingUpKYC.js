@@ -171,11 +171,12 @@ export default function(spec) {
         
         await spec.press('VerifyProfile.verify')
 
-        //
-        // store.dispatch(actions.verifySMS(verificationCode))
-        store.dispatch(actions.verifySMSSuccess());
+        await spec.pause(5000)
+        
+        await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+        await spec.press('VerifyPhoneNumber.finish')
 
-        // store.dispatch(actions.getBackendStatusSuccess(`backendStatus`));
+        store.dispatch(actions.verifySMSSuccess());
 
         await spec.pause(300000)
 
