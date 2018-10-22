@@ -9,6 +9,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
 import { mixpanelEvents } from '../../../services/mixpanel'
+import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 
 @connect(
   state => ({
@@ -35,36 +36,38 @@ class WelcomeScreen extends Component {
     const {actions} = this.props;
 
     return (
-      <Container style={{ backgroundColor: 'black' }}>
-        <Content bounces={false} style={WelcomeStyle.content}>
-          <MainHeader/>
-          <View style={[WelcomeStyle.view]}>
-            <WelcomeCarousel />
+      <BasicLayout>
+        <Container style={{ backgroundColor: 'black' }}>
+          <Content bounces={false} style={WelcomeStyle.content}>
+            <MainHeader/>
+            <View style={[WelcomeStyle.view]}>
+              <WelcomeCarousel />
 
-            <View style={WelcomeStyle.buttonWrapper}>
-              <CelButton
-                onPress={() => {
-                  mixpanelEvents.signupButton();
-                  actions.navigateTo('SignupOne')}
-                }
-                white
-                iconRight="IconArrowRight"
-              >
-                Sign up
-              </CelButton>
+              <View style={WelcomeStyle.buttonWrapper}>
+                <CelButton
+                  onPress={() => {
+                    mixpanelEvents.signupButton();
+                    actions.navigateTo('SignupOne')}
+                  }
+                  white
+                  iconRight="IconArrowRight"
+                >
+                  Sign up
+                </CelButton>
 
-              <CelButton
-                onPress={() => actions.navigateTo('Login', true)}
-                transparent
-                size="small"
-                margin="25 0 20 0"
-              >
-                Already have an account?
-              </CelButton>
+                <CelButton
+                  onPress={() => actions.navigateTo('Login', true)}
+                  transparent
+                  size="small"
+                  margin="25 0 20 0"
+                >
+                  Already have an account?
+                </CelButton>
+              </View>
             </View>
-          </View>
-        </Content>
-      </Container>
+          </Content>
+        </Container>
+      </BasicLayout>
     );
   }
 }

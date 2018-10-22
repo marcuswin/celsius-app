@@ -4,7 +4,7 @@ import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY} = Constants.manifest.extra;
 let token;
 
 export default {
@@ -43,7 +43,7 @@ function initInterceptors() {
         console.log(err);
       }
 
-      if (ENV === 'PRODUCTION') {
+      if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
         newRequest.headers['X-Client-Version'] = CLIENT_VERSION;
       } else {
         newRequest.headers['X-Client-Version'] = ENV;
@@ -60,11 +60,28 @@ function initInterceptors() {
 
   axios.interceptors.response.use(
     res => {
+
+      const sign = res.headers['x-cel-sign'];
+      const data = res.data;
+
+      if (verifyKey(data, sign, PUBLIC_KEY)) {
+        /* eslint-disable no-underscore-dangle */
+        console.log({RESPONSE: res});
+        /* eslint-enable no-underscore-dangle */
+
+        return res;
+      }
+
+      const err = {
+        type: 'Sign Error',
+        msg: 'Wrong API key',
+      };
+
       /* eslint-disable no-underscore-dangle */
-      console.log({RESPONSE: res});
+      console.log({API_ERROR: err});
       /* eslint-enable no-underscore-dangle */
 
-      return res;
+      return Promise.reject(err);
     },
     error => {
       const defaultMsg = 'Oops, it looks like something went wrong.';
@@ -97,4 +114,12 @@ function parseValidationErrors(serverError) {
   })
 
   return validationErrors;
+}
+
+// function verifyKey(data, sign, publicKey) {
+function verifyKey() {
+  // const verifier = crypto.createVerify('sha256');
+  // verifier.update(data);
+  // return verifier.verify(publicKey, sign, 'base64');
+  return true;
 }
