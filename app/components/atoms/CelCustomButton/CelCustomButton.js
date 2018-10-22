@@ -154,7 +154,7 @@ class CelCustomButton extends Component {
 
       </View>
 
-      < /View>
+      </View>
     );
   }
 
