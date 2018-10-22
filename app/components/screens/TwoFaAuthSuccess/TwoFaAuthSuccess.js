@@ -63,7 +63,7 @@ class TwoFaAuthSuccess extends Component {
         </View>
 
         <CelButton
-          onPress={() => console.log("J")}
+          onPress={() => actions.navigateTo("TwoFaWelcome")}
           margin={"40 60 0 60"}
         >
           Done

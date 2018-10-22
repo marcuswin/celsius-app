@@ -177,9 +177,9 @@ class ProfileScreen extends Component {
           { !user.facebook_id && !user.google_id && !user.twitter_id ? (
             <View style={{marginTop: 40, marginBottom: 30}}>
               <CelButton
-                onPress={() => actions.navigateTo('ChangePassword')}
+                onPress={() => actions.navigateTo('ProfileSettings')}
                 color="blue"
-              >Change password</CelButton>
+              >Settings</CelButton>
             </View>
           ) : null}
 

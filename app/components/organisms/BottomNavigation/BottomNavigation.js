@@ -48,7 +48,7 @@ class BottomNavigation extends Component {
     ],
     navItemsRight: [
       { label: 'Earn', screen: 'InterestCalculator', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator', 'DepositCoins'] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['TwoFAInfo', "ProfileSettings", 'ProfileImage', "TwoFaAuthAppConfirmation", "TwoFaAuthAppConfirmationCode", "TwoFaWelcome", "TwoFaAuthSuccess"] },
     ]
   }
 
