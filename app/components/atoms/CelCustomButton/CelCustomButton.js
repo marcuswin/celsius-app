@@ -13,6 +13,7 @@ const buttonSizes = ["small", "normal", "large"];
 class CelCustomButton extends Component {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
+    onCancel: PropTypes.func,
     iconRight: PropTypes.string,
     iconLeft: PropTypes.string,
     titleIcon: PropTypes.string,
@@ -110,7 +111,7 @@ class CelCustomButton extends Component {
         <View style={CelCustomButtonStyle.valueIcon}>
           {value ? this.renderValue() : null}
           <View style={CelCustomButtonStyle.valueIconRight}>
-          {iconRight ? this.renderIconRight() : null}
+            {iconRight ? this.renderIconRight() : null}
           </View>
         </View>
 
@@ -119,7 +120,7 @@ class CelCustomButton extends Component {
   }
 
   renderLarge() {
-    const { iconRight, color, title, explanation, iconLeft, activated} = this.props;
+    const { iconRight, color, title, explanation, iconLeft, activated, onCancel } = this.props;
 
     return (
       <View style={[CelCustomButtonStyle.largeButton, { backgroundColor: color }]}>
@@ -130,22 +131,30 @@ class CelCustomButton extends Component {
 
         <View style={CelCustomButtonStyle.buttonTextWrapper}>
 
-          {activated ? <Text style={CelCustomButtonStyle.activated}>ACTIVE</Text> : null}
 
-          <View style={CelCustomButtonStyle.titleIcon}>
-            {title ? this.renderTitle() : null}
-            <View style={CelCustomButtonStyle.largeButtonRightIcon}>
-              {iconRight ? this.renderIconRight() : null}
+          {activated ?
+            <View style={CelCustomButtonStyle.activeWrapper}>
+              <Text style={CelCustomButtonStyle.activated}>ACTIVE</Text>
+              <TouchableOpacity onPress={onCancel}>
+                <Icon name='xIcon' height='15' width='15' viewBox="0 0 1000 1000" fill={"rgba(61,72,83,0.4)"}/>
+              </TouchableOpacity>
             </View>
-          </View>
+            : null}
 
-          <View>
-            {explanation ? this.renderExplanation() : null}
+        <View style={CelCustomButtonStyle.titleIcon}>
+          {title ? this.renderTitle() : null}
+          <View style={CelCustomButtonStyle.largeButtonRightIcon}>
+            {iconRight ? this.renderIconRight() : null}
           </View>
+        </View>
 
+        <View>
+          {explanation ? this.renderExplanation() : null}
         </View>
 
       </View>
+
+      < /View>
     );
   }
 

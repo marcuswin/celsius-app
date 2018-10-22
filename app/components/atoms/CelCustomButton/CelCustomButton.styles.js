@@ -45,6 +45,10 @@ const CelCustomButtonStyle = StyleSheet.create({
     width: "70%",
     justifyContent: "center"
   },
+  activeWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
   activated: {
     fontSize: FONT_SCALE * 16,
     fontFamily: "agile-extra-light",

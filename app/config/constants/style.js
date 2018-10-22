@@ -199,6 +199,12 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     alignItems: 'center',
     opacity: 0.4,
   },
+  shadow: {
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    borderRadius: 8
+  }
 
 };
 
@@ -270,4 +276,6 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/illuNoKYC3x.png'),
   require('../../../assets/images/OfflineMode/deer-tangled3x.png'),
   require('../../../assets/images/security_dog3x.png'),
+  require('../../../assets/images/Group_232-3x.png'),
+  require('../../../assets/images/authSuccess3x.png'),
 ];
