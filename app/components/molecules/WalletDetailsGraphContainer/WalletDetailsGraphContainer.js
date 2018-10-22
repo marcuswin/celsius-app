@@ -124,6 +124,7 @@ class WalletDetailsGraphContainer extends Component {
         <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, {flexDirection: 'column'}]}>
           <View style={{ width: '100%', height: 240, flexDirection: 'row'}}>
             <LineChart
+              ref={this.props.generateTestHook('WalletDetailsGraphContainer.LineChart1d')}
               style={{ width: '85%' }}
               data={ graphData }
               svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
@@ -162,6 +163,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, {flexDirection: 'column'}]}>
         <View style={{ width: '100%', height: 240, flexDirection: 'row'}}>
           <LineChart
+            ref={this.props.generateTestHook('WalletDetailsGraphContainer.LineChart7d')}
             style={{ width: '85%' }}
             data={ graphData }
             svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
@@ -200,6 +202,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, {flexDirection: 'column'}]}>
         <View style={{ width: '100%', height: 240, flexDirection: 'row'}}>
           <LineChart
+            ref={this.props.generateTestHook('WalletDetailsGraphContainer.LineChart1m')}
             style={{ width: '85%' }}
             data={ graphData }
             svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
@@ -238,6 +241,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, {flexDirection: 'column'}]}>
         <View style={{ width: '100%', height: 240, flexDirection: 'row'}}>
           <LineChart
+            ref={this.props.generateTestHook('WalletDetailsGraphContainer.LineChart3m')}
             style={{ width: '85%' }}
             data={ graphData }
             svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}
@@ -276,6 +280,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, {flexDirection: 'column'}]}>
         <View style={{ width: '100%', height: 240, flexDirection: 'row'}}>
           <LineChart
+            ref={this.props.generateTestHook('WalletDetailsGraphContainer.LineChart1y')}
             style={{ width: '85%' }}
             data={ graphData }
             svg={{ stroke: isPercentChangeNegative ? '#EF461A' : '#4FB895' }}

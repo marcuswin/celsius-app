@@ -1,3 +1,4 @@
+import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
@@ -192,6 +193,7 @@ class Calculator extends Component {
                 </Swipeable>
               }/>
             <TouchableOpacity
+              ref={this.props.generateTestHook('Calculator.addCoins')}
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
                 mixpanelEvents.addCoinButton();
@@ -219,4 +221,6 @@ class Calculator extends Component {
   }
 }
 
-export default Calculator;
+// export default Calculator;
+const TestHook = hook(Calculator)
+export default TestHook;

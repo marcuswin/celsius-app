@@ -1,7 +1,12 @@
 import { test } from './helpers';
 
+import store from '../app/redux/store';
+import * as actions from '../app/redux/actions';
+
 export default function(spec) {
     
+    store.dispatch(actions.logoutUser());
+
     // WelcomeScreen exist; press logIn
     spec.describe('LogIn', function() {
       spec.it('Existing user', async function() {
@@ -15,8 +20,7 @@ export default function(spec) {
         await spec.fillIn('CelTextInput.email','krstonic.nemanja123@gmail.com')
         await spec.fillIn('CelTextInput.pass','test1234')
         await spec.press('LoginForm.button')
-        await spec.pause(2000)
-
+        await spec
         // Test Wallet page
 
         // ETH
@@ -24,19 +28,19 @@ export default function(spec) {
         await spec.exists('WalletBalance.ETH')
         await spec.press('WalletBalance.ETH')
         await spec.press('WalletDetailsGraphContainer.1d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
         await spec.press('WalletDetailsGraphContainer.7d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
         await spec.press('WalletDetailsGraphContainer.1m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
         await spec.press('WalletDetailsGraphContainer.3m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
         await spec.press('WalletDetailsGraphContainer.1y')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
         await spec.press('WalletDetailsHeading.add')
         await spec.exists('AddFunds.QRCode')
@@ -48,117 +52,118 @@ export default function(spec) {
         
         await spec.pause(2000)
 
-        // // BTC 
-        await spec.exists('WalletBalance.BTC')
-        await spec.press('WalletBalance.BTC')
-        await spec.press('WalletDetailsGraphContainer.1d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // // // BTC 
+        // await spec.exists('WalletBalance.BTC')
+        // await spec.press('WalletBalance.BTC')
+        // await spec.press('WalletDetailsGraphContainer.1d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
-        await spec.press('WalletDetailsGraphContainer.7d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.7d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
-        await spec.press('WalletDetailsGraphContainer.1m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
-        await spec.press('WalletDetailsGraphContainer.3m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.3m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
-        await spec.press('WalletDetailsGraphContainer.1y')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1y')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
-        await spec.press('WalletDetailsHeading.add')
-        await spec.exists('AddFunds.QRCode')
-        await spec.exists('AddFunds.address')
-        await spec.press('AddFunds.Done')
+        // await spec.press('WalletDetailsHeading.add')
+        // await spec.exists('AddFunds.QRCode')
+        // await spec.exists('AddFunds.address')
+        // await spec.press('AddFunds.Done')
 
-        comp = await spec.findComponent('WalletDetails.iks')
-        await test(comp)
+        // comp = await spec.findComponent('WalletDetails.iks')
+        // await test(comp)
         
-        await spec.pause(2000)
+        // await spec.pause(2000)
 
-        // LTC
-        await spec.exists('WalletBalance.LTC')
-        await spec.press('WalletBalance.LTC')
-        await spec.press('WalletDetailsGraphContainer.1d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // // LTC
+        // await spec.exists('WalletBalance.LTC')
+        // await spec.press('WalletBalance.LTC')
+        // await spec.press('WalletDetailsGraphContainer.1d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
-        await spec.press('WalletDetailsGraphContainer.7d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.7d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
-        await spec.press('WalletDetailsGraphContainer.1m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
-        await spec.press('WalletDetailsGraphContainer.3m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.3m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
-        await spec.press('WalletDetailsGraphContainer.1y')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1y')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
-        await spec.press('WalletDetailsHeading.add')
-        await spec.exists('AddFunds.QRCode')
-        await spec.exists('AddFunds.address')
-        await spec.press('AddFunds.Done')
+        // await spec.press('WalletDetailsHeading.add')
+        // await spec.exists('AddFunds.QRCode')
+        // await spec.exists('AddFunds.address')
+        // await spec.press('AddFunds.Done')
 
-        comp = await spec.findComponent('WalletDetails.iks')
-        await test(comp)
+        // comp = await spec.findComponent('WalletDetails.iks')
+        // await test(comp)
         
-        await spec.pause(2000)
+        // await spec.pause(2000)
 
-        // XRP
-        await spec.exists('WalletBalance.XRP')
-        await spec.press('WalletBalance.XRP')
-        await spec.press('WalletDetailsGraphContainer.1d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // // XRP
+        // await spec.exists('WalletBalance.XRP')
+        // await spec.press('WalletBalance.XRP')
+        // await spec.press('WalletDetailsGraphContainer.1d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
-        await spec.press('WalletDetailsGraphContainer.7d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.7d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
-        await spec.press('WalletDetailsGraphContainer.1m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
-        await spec.press('WalletDetailsGraphContainer.3m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.3m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
-        await spec.press('WalletDetailsGraphContainer.1y')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1y')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
-        await spec.press('WalletDetailsHeading.add')
-        await spec.exists('AddFunds.QRCode')
-        await spec.exists('AddFunds.address')
-        await spec.press('AddFunds.Done')
+        // await spec.press('WalletDetailsHeading.add')
+        // await spec.exists('AddFunds.QRCode')
+        // await spec.exists('AddFunds.address')
+        // await spec.press('AddFunds.Done')
 
-        comp = await spec.findComponent('WalletDetails.iks')
-        await test(comp)
+        // comp = await spec.findComponent('WalletDetails.iks')
+        // await test(comp)
         
-        await spec.pause(2000)
+        // await spec.pause(2000)
 
-        // OMG
-        await spec.exists('WalletBalance.OMG')
-        await spec.press('WalletBalance.OMG')
-        await spec.press('WalletDetailsGraphContainer.1d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // // OMG
+        // await spec.exists('WalletBalance.OMG')
+        // await spec.press('WalletBalance.OMG')
+        // await spec.press('WalletDetailsGraphContainer.1d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
-        await spec.press('WalletDetailsGraphContainer.7d')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.7d')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
-        await spec.press('WalletDetailsGraphContainer.1m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
-        await spec.press('WalletDetailsGraphContainer.3m')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.3m')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
-        await spec.press('WalletDetailsGraphContainer.1y')
-        await spec.exists('WalletDetailsGraphContainer.LineChart')
+        // await spec.press('WalletDetailsGraphContainer.1y')
+        // await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
-        await spec.press('WalletDetailsHeading.add')
-        await spec.exists('AddFunds.QRCode')
-        await spec.exists('AddFunds.address')
-        await spec.press('AddFunds.Done')
+        // await spec.press('WalletDetailsHeading.add')
+        // await spec.exists('AddFunds.QRCode')
+        // await spec.exists('AddFunds.address')
+        // await spec.press('AddFunds.Done')
 
-        comp = await spec.findComponent('WalletDetails.iks')
-        await test(comp)
+        // comp = await spec.findComponent('WalletDetails.iks')
+        // await test(comp)
         
-        await spec.pause(2000)
+        // await spec.pause(2000).pause(2000)
+
 
         // CEL
         await spec.exists('WalletBalance.CEL')
@@ -202,7 +207,7 @@ export default function(spec) {
         await spec.exists('InterestCalculatorScreen.exist')
         await spec.press('TabNavigation.How to earn')
         await spec.exists('HowToEarnInterest.exist')
-        await spec.pause(5000)
+        await spec.pause(1000)
         await spec.press('InterestExplanation.BalancePress')
         await spec.exists('InterestExplanation.Balance')
         await spec.pause(1000)
@@ -214,11 +219,16 @@ export default function(spec) {
 
         //Test earn page, calculator tab
         await spec.press('TabNavigation.Calculator')
-
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // await spec.fillIn('InterestCalculatorScreen.interestAmount', 100)
         await spec.pause(5000)
+        await spec.exists('InterestCalculatorScreen.perWeek')
+        await spec.exists('InterestCalculatorScreen.perMonth')
+        await spec.exists('InterestCalculatorScreen.per6Months')
 
         //Test Tracker page
         await spec.press('BottomNavigation.Tracker')
+        await spec.press('Calculator.addCoins')
 
         //Test Borower page
         await spec.press('BottomNavigation.Borrow')

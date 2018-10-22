@@ -120,7 +120,7 @@ class InterestCalculatorScreen extends Component {
             at { displayInterestRate } APR:
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text style={InterestCalculatorStyle.amountText}>
+            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.perWeek')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPerWeek) }
             </Text>
           </View>
@@ -130,7 +130,7 @@ class InterestCalculatorScreen extends Component {
             <Text style={globalStyles.boldText}> per month:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text style={InterestCalculatorStyle.amountText}>
+            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.perMonth')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPerMonth) }
             </Text>
           </View>
@@ -140,7 +140,7 @@ class InterestCalculatorScreen extends Component {
             <Text style={globalStyles.boldText}> for 6 months:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text style={InterestCalculatorStyle.amountText}>
+            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.per6Months')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPer6Months) }
             </Text>
           </View>

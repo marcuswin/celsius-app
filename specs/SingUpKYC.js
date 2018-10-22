@@ -6,10 +6,6 @@ import * as actions from '../app/redux/actions';
 import API from "../app/config/constants/API"
 
 export default function(spec) {
-            // console.log(store.getKYCStatusSuccess(status), 'Get KYC STATUS');
-         
-    // WelcomeScreen exist; press logIn
-
     console.log(store.getState().users);
     console.log(store.getState().ui);
     console.log(actions);      
@@ -17,48 +13,48 @@ export default function(spec) {
     store.dispatch(actions.logoutUser());
     
     spec.describe('SingUpKYC', function() {
-      spec.it('111', async function() {
+      spec.it('', async function() {
 
 
           
 
         // signUp with no email, pass
-        await spec.press('WelcomeScreen.SignUp')
-        await spec.press('SignupOne.button')
-        await spec.notExists('SignupTwo.screen')
+        // await spec.press('WelcomeScreen.SignUp')
+        // await spec.press('SignupOne.button')
+        // await spec.notExists('SignupTwo.screen')
 
-        await spec.pause(5000)
+        // await spec.pause(5000)
 
-         // signUp with no pass
-         await spec.press('WelcomeScreen.SignUp')
-         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+        //  // signUp with no pass
+        //  await spec.press('WelcomeScreen.SignUp')
+        //  await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+        //  await spec.press('SignupOne.button')
+        //  await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+        //  store.dispatch(actions.logoutUser());
  
-         await spec.pause(5000)
+        //  await spec.pause(5000)
 
-         // signUp with no email
-         await spec.press('WelcomeScreen.SignUp')
-         await spec.fillIn('SignupOne.pass','1234567')
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+        //  // signUp with no email
+        //  await spec.press('WelcomeScreen.SignUp')
+        //  await spec.fillIn('SignupOne.pass','1234567')
+        //  await spec.press('SignupOne.button')
+        //  await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+        //  store.dispatch(actions.logoutUser());
 
-         await spec.pause(5000)
+        //  await spec.pause(5000)
  
-         // signUp with weak paass
-         await spec.press('WelcomeScreen.SignUp')
-         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.fillIn('SignupOne.pass','1234')
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+        //  // signUp with weak paass
+        //  await spec.press('WelcomeScreen.SignUp')
+        //  await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+        //  await spec.fillIn('SignupOne.pass','1234')
+        //  await spec.press('SignupOne.button')
+        //  await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+        //  store.dispatch(actions.logoutUser());
 
-         await spec.pause(5000)
+        //  await spec.pause(5000)
  
         // signUp
         await spec.press('WelcomeScreen.SignUp')
@@ -72,57 +68,50 @@ export default function(spec) {
         await spec.fillIn('SignupTwo.LastName', 'Krstonic')
         await spec.press('SignupTwo.CreatePin')
 
-
         await spec.fillIn('passcode.pin','1111')
         await spec.press('Passcode.Repeat PIN')
         await spec.fillIn('passcode.pin_confirm','1111')
         await spec.press('Passcode.Confirm')
         await spec.pause(1000)
 
-
-        // kyc, page 1, 
+        // // kyc, page 1, 
         await spec.press('NoKyc.VerifyProfile')
-        await spec.pause(5000)
 
-  
+        await spec.pause(5000)
 
         await spec.press('ProfileDetails.verifyYourProfile')
 
-        await spec.exists('ProfileDetails.Title is required!')
-        await spec.exists('ProfileDetails.Date of Birth is required!')
-        await spec.exists('ProfileDetails.Citizenship is required!')
-        await spec.exists('ProfileDetails.Gender is required!')
+        // await spec.exists('ProfileDetails.Title is required!')
+        // await spec.exists('ProfileDetails.Date of Birth is required!')
+        // await spec.exists('ProfileDetails.Citizenship is required!')
+        // await spec.exists('ProfileDetails.Gender is required!')
 
+        // await spec.pause(5000)
 
-        await spec.pause(5000)
+        // // kyc, page 1, test empty, title filled
+        // store.dispatch(actions.updateFormField('title', 'mr' ));
+        // await spec.press('ProfileDetails.verifyYourProfile')
+        // await spec.notExists('ProfileDetails.Title is required!')
+        // await spec.exists('ProfileDetails.Date of Birth is required!')
+        // await spec.exists('ProfileDetails.Citizenship is required!')
+        // await spec.exists('ProfileDetails.Gender is required!')
 
-        // kyc, page 1, test empty, title filled
-        store.dispatch(actions.updateFormField('title', 'mr' ));
+        // await spec.pause(5000)
 
-        await spec.press('ProfileDetails.verifyYourProfile')
+        // // kyc, page 1, test empty, title, dateOfBirth filled 
+        // store.dispatch(actions.updateFormField('title', 'mr' ));
+        // store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
 
-        await spec.notExists('ProfileDetails.Title is required!')
-        await spec.exists('ProfileDetails.Date of Birth is required!')
-        await spec.exists('ProfileDetails.Citizenship is required!')
-        await spec.exists('ProfileDetails.Gender is required!')
+        // await spec.press('ProfileDetails.verifyYourProfile')
 
-        await spec.pause(5000)
+        // await spec.notExists('ProfileDetails.Title is required!')
+        // await spec.notExists('ProfileDetails.Date of Birth is required!')
+        // await spec.exists('ProfileDetails.Citizenship is required!')
+        // await spec.exists('ProfileDetails.Gender is required!')
 
-        // kyc, page 1, test empty, title, dateOfBirth filled 
-        store.dispatch(actions.updateFormField('title', 'mr' ));
-        store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
-
-        await spec.press('ProfileDetails.verifyYourProfile')
-
-        await spec.notExists('ProfileDetails.Title is required!')
-        await spec.notExists('ProfileDetails.Date of Birth is required!')
-        await spec.exists('ProfileDetails.Citizenship is required!')
-        await spec.exists('ProfileDetails.Gender is required!')
-
-        await spec.pause(5000)
- 
+        // await spec.pause(5000)
      
-        // kyc, page 1, title, dateOfBirth, citizenship filled 
+        // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
         store.dispatch(actions.updateFormField('title', 'mr' ));
         store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
         store.dispatch(actions.updateFormField('citizenship','Serbia'));
@@ -134,21 +123,11 @@ export default function(spec) {
         // await spec.notEexists('ProfileDetails.Gender is required!')
 
         await spec.pause(8000)
-    
 
-         //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
-         await spec.press('ProfileDetails.verifyYourProfile')
+        //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
+        await spec.press('ProfileDetails.verifyYourProfile')
 
-         await spec.pause(5000)
-
-        // press input front side photo field
-        // await spec.press('CameraInput.back')
-
-        // take a pic
-        // store.dispatch(actions.takeCameraPhoto('photo'));
-
-        // // click use photo button 
-        // await spec.press('CameraScreen.usePhoto')
+        await spec.pause(5000)
         
         // navigate on drivers licence field
         await spec.press('VerifyProfile.identity_card')
@@ -159,7 +138,7 @@ export default function(spec) {
         await spec.press('CameraInput.front')
 
         // take a pic
-        store.dispatch(actions.takeCameraPhoto('photo'));
+        await spec.press('CameraScreen.takePhoto')
 
         await spec.pause(2000)
 
@@ -169,42 +148,37 @@ export default function(spec) {
         await spec.pause(2000)
 
         await spec.press('CameraInput.back')
-
-        store.dispatch(actions.takeCameraPhoto('photo1'));
+        await spec.press('CameraScreen.takePhoto')
 
         await spec.pause(2000)
 
         // click use photo button 
         await spec.press('CameraScreen.usePhoto')
+        store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
 
-
-        store.dispatch(actions.updateFormField('cellphone', '1234567'))
-
-        await spec.pause(50000)
-
-        await spec.press('VerifyProfile.verify')
-
-        await spec.pause(5000)
+        await spec.pause(3000)
 
         //repeat front input 
         await spec.press('CameraInput.front')
         await spec.press('CameraScreen.retakePhoto')
-        store.dispatch(actions.takeCameraPhoto('photo1'));
+        await spec.press('CameraScreen.takePhoto')
 
         await spec.press('CameraInput.back')
         await spec.press('CameraScreen.retakePhoto')
-        store.dispatch(actions.takeCameraPhoto('photo1'));
-        await spec.pause(5000)
+        await spec.press('CameraScreen.takePhoto')
+
+        await spec.pause(3000)
+        
         await spec.press('VerifyProfile.verify')
 
         //
-        store.dispatch(actions.startApiCall(API.VERIFY_SMS));
-        
-        await spec.pause(2000)
-
+        // store.dispatch(actions.verifySMS(verificationCode))
         store.dispatch(actions.verifySMSSuccess());
 
-        await spec.pause(500000)
+        // store.dispatch(actions.getBackendStatusSuccess(`backendStatus`));
+
+        await spec.pause(300000)
+
   
     });
 });
