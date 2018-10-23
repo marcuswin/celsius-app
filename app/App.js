@@ -177,7 +177,7 @@ export default class App extends Component {
       }
     }
 
-    const { user } = store.getState();
+    const { user } = store.getState().users;
     if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
         if (Platform.OS === "ios") {
           this.timeout = setTimeout(() => {
