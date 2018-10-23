@@ -17,6 +17,7 @@ function getTransactionColor(transactionType) {
     WITHDRAWAL_CONFIRMED: COLORS.red,
     INTEREST: COLORS.blue,
     COLLATERAL: COLORS.blue,
+    BONUS_TOKEN: COLORS.green,
     TRANSFER_PENDING: COLORS.yellow,
     TRANSFER_CLAIMED: COLORS.yellow,
     TRANSFER_SENT: COLORS.blue,
@@ -24,6 +25,9 @@ function getTransactionColor(transactionType) {
     TRANSFER_RETURNED: COLORS.red,
     TRANSFER_EXPIRED: COLORS.red,
     TRANSFER_ONHOLD: COLORS.yellow,
+
+    IN: COLORS.green,
+    OUT: COLORS.red,
   }[transactionType];
 }
 
@@ -35,6 +39,7 @@ function getTransactionStatusText(transaction) {
     WITHDRAWAL_CONFIRMED: 'Withdrawn',
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
     COLLATERAL: 'Loan Collateral',
+    BONUS_TOKEN: 'Bonus',
     TRANSFER_PENDING: 'Pending',
     TRANSFER_CLAIMED: 'Claimed',
     TRANSFER_SENT: 'Sent',
@@ -42,6 +47,9 @@ function getTransactionStatusText(transaction) {
     TRANSFER_RETURNED: 'Returned',
     TRANSFER_EXPIRED: 'Expired',
     TRANSFER_ONHOLD: 'On Hold',
+
+    IN: 'Received',
+    OUT: 'Sent',
   }[transaction.type];
 }
 function getTransactionIcon(transactionType) {
@@ -63,6 +71,7 @@ function getTransactionIcon(transactionType) {
         <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
+    BONUS_TOKEN: receiveArrow,
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
     TRANSFER_CLAIMED: sentArrow,
@@ -74,6 +83,9 @@ function getTransactionIcon(transactionType) {
     ),
     TRANSFER_EXPIRED: receiveArrow,
     TRANSFER_ONHOLD: receiveArrow,
+
+    IN: receiveArrow,
+    OUT: sentArrow,
   }[transactionType];
 }
 
