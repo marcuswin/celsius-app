@@ -36,6 +36,8 @@ function createBranchLink(linkType, canonicalIdentifier, properties) {
 }
 
 async function createBUO(canonicalIdentifier, properties, email) {
+  if (Constants.appOwnership !== 'standalone') return;
+
   const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
   Branch.setIdentity(email);
   branchObject.logEvent(BranchEvent.ViewItem);

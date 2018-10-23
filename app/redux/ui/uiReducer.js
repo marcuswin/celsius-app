@@ -59,6 +59,9 @@ function shouldShowBottomNavigation(action) {
 }
 
 const initialState = {
+  userActions: {
+    enteredInitialPin: false,
+  },
   keyboardHeight: 0,
   message: undefined,
   internetConnected: true,
@@ -280,6 +283,15 @@ export default (state = initialState, action) => {
       return {
         ...state,
         openedModal: undefined,
+      }
+
+    case ACTIONS.FIRE_USER_ACTION:
+      return {
+        ...state,
+        userActions: {
+          ...state.userActions,
+          [action.name]: true,
+        },
       }
 
     case ACTIONS.NAVIGATE_BACK:

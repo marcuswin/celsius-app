@@ -95,9 +95,6 @@ export default class App extends Component {
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
 
       const { user } = store.getState().users;
-      if (user.has_pin) {
-        store.dispatch(actions.navigateTo('LoginPasscode'));
-      }
       if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
         await store.dispatch(actions.getKYCDocTypes());
       }
@@ -141,7 +138,6 @@ export default class App extends Component {
     );
 
     mixpanelEvents.openApp();
-    store.dispatch(actions.openInitialModal());
 
 
     if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
