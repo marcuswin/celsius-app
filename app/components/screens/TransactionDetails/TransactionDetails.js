@@ -142,9 +142,9 @@ class TransactionDetails extends Component {
     this.state = {
       type: '',
       heading: '',
-      badge: '',
-      icon: '',
-      smallIcon: '',
+      badge: undefined,
+      icon: undefined,
+      smallIcon: undefined,
       status: '',
       sections: [],
     }
@@ -274,6 +274,8 @@ class TransactionDetails extends Component {
     const letterSize = transaction.amount_usd && transaction.amount_usd.toString().length >= 10 ? FONT_SCALE * 32 : FONT_SCALE * 36;
     const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
 
+    console.log({ badge, smallIcon, icon, type: transaction.type })
+
     return (
       <BasicLayout
         bottomNavigation
@@ -311,7 +313,7 @@ class TransactionDetails extends Component {
           </CelButton>
         </CelScreenContent>
 
-        { transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
+        { branchLink && transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
       </BasicLayout>
     );
   }
