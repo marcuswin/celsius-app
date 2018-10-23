@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import { Dimensions, Text, TextInput, View } from "react-native";
-import { hook } from 'cavy';
 
 import PinInputStyle from "./PinInput.styles";
 import { KEYBOARD_TYPE } from "../../../config/constants/common";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import testUtil from "../../../utils/test-util";
 
 const PinTextFontSizeMap = {
   4: FONT_SCALE * 40,
@@ -132,6 +132,4 @@ class PinInput extends Component {
   }
 }
 
-// export default PinInput;
-const TestHook = hook(PinInput)
-export default TestHook;
+export default testUtil.hookComponent(PinInput);

@@ -1,8 +1,8 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -88,7 +88,7 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
-          ref={this.props.generateTestHook('WalletDetails.iks')}
+          ref={testUtil.generateTestHook(this, 'WalletDetails.iks')}
           onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
@@ -140,6 +140,5 @@ class WalletDetails extends Component {
   }
 }
 
-// export default WalletDetails;
-const TestHook = hook(WalletDetails)
-export default TestHook;
+export default testUtil.hookComponent(WalletDetails);
+

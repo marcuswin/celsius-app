@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, View } from "react-native";
@@ -9,6 +8,7 @@ import * as appActions from "../../../redux/actions";
 import Icon from "../Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   () => ({}),
@@ -59,7 +59,7 @@ class CameraInput extends Component {
         theme={theme}
         error={error}
       >
-        <TouchableOpacity ref={this.props.generateTestHook(`CameraInput.${this.props.field}`)}
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `CameraInput.${this.props.field}`)}
                           onPress={this.onPress}
                           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
 
@@ -85,6 +85,4 @@ class CameraInput extends Component {
   }
 }
 
-// export default CameraInput;
-const TestHook = hook(CameraInput)
-export default TestHook;
+export default testUtil.hookComponent(CameraInput);

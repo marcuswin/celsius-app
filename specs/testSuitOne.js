@@ -17,11 +17,15 @@ export default function(spec) {
         await spec.press('WelcomeScreen.acc')
         
         //LogIn
-        await spec.fillIn('CelTextInput.email','krstonic.nemanja123@gmail.com')
-        await spec.fillIn('CelTextInput.pass','test1234')
+        await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')
+        await spec.fillIn('CelTextInput.pass','filip123')
         await spec.press('LoginForm.button')
         await spec
         // Test Wallet page
+
+        await spec.fillIn('passcode.pin','1111')
+        await spec.press('Passcode.Enter PIN')
+
 
         // ETH
         await spec.press('TabNavigation.Balance')
@@ -181,11 +185,11 @@ export default function(spec) {
         // Transaction tab, wallet page
 
         await spec.press('TabNavigation.Transactions')
-        await spec.press('WalletTransactions.AddFunds')
-        await spec.exists('AddFunds.QRCode')
-        await spec.exists('AddFunds.address')
+        // await spec.press('WalletTransactions.AddFunds')
+        // await spec.exists('AddFunds.QRCode')
+        // await spec.exists('AddFunds.address')
         // await spec.press('AddFunds.BTC')
-        await spec.press('AddFunds.Done')
+        // await spec.press('AddFunds.Done')
 
 
         await spec.press('TabNavigation.Interest')
@@ -218,8 +222,26 @@ export default function(spec) {
         await spec.exists('InterestExplanation.Hodl')
 
         //Test earn page, calculator tab
-        await spec.press('TabNavigation.Calculator')
+      await spec.press('TabNavigation.Calculator')
+        // Select a currency
+        // BTC
+        store.dispatch(actions.updateFormField('interestCurrency', 'Bitcoin'))
         store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // ETH
+        store.dispatch(actions.updateFormField('interestCurrency', 'Ethereum'))
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // LTC
+        store.dispatch(actions.updateFormField('interestCurrency', 'Litecoin'))
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // XRP
+        store.dispatch(actions.updateFormField('interestCurrency', 'Ripple'))
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // OMG
+        store.dispatch(actions.updateFormField('interestCurrency', 'Omisego'))
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))
+        // BCH
+        store.dispatch(actions.updateFormField('interestCurrency', 'Bitcoin cash'))
+        store.dispatch(actions.updateFormField('interestAmount', `${ new Date().getTime() }`))  
         // await spec.fillIn('InterestCalculatorScreen.interestAmount', 100)
         await spec.pause(5000)
         await spec.exists('InterestCalculatorScreen.perWeek')

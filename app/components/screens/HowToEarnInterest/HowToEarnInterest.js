@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -39,7 +39,7 @@ class HowToEarnInterest extends Component {
 
     return (
       <EarnInterestLayout>
-        <View   ref={this.props.generateTestHook('HowToEarnInterest.exist')}
+        <View   ref={testUtil.generateTestHook(this, 'HowToEarnInterest.exist')}
                 style={{ paddingTop: 30 }}>
           <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
             Earn up to 5% interest when you deposit ETH or BTC
@@ -84,6 +84,4 @@ class HowToEarnInterest extends Component {
   }
 }
 
-// export default HowToEarnInterest;
-const TestHook = hook(HowToEarnInterest)
-export default TestHook;
+export default testUtil.hookComponent(HowToEarnInterest);

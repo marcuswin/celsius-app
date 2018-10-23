@@ -1,9 +1,9 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity, Clipboard, Share, Platform } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
@@ -206,7 +206,7 @@ class AddFunds extends Component {
           </Text>
         )}
         {!navCurrency && (
-          <CelSelect ref={this.props.generateTestHook(`AddFunds.${formData.currency}`)}
+          <CelSelect ref={testUtil.generateTestHook(this, `AddFunds.${formData.currency}`)}
                       
                      field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
                      margin="25 50 15 50"/>
@@ -217,7 +217,7 @@ class AddFunds extends Component {
             <View style={AddFundsStyle.qrBackground}>
               {address &&
               <QRCode 
-                ref={this.props.generateTestHook('AddFunds.QRCode')}
+                ref={testUtil.generateTestHook(this, 'AddFunds.QRCode')}
                 value={address}
                 size={120}
                 bgColor='black'
@@ -230,7 +230,7 @@ class AddFunds extends Component {
 
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text ref={this.props.generateTestHook('AddFunds.address')} style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
+            <Text ref={testUtil.generateTestHook(this, 'AddFunds.address')} style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
 
           <View style={AddFundsStyle.boxButtonsWrapper}>
@@ -376,7 +376,7 @@ class AddFunds extends Component {
         </View>}
 
         <CelButton
-          ref={this.props.generateTestHook('AddFunds.Done')}
+          ref={testUtil.generateTestHook(this, 'AddFunds.Done')}
           white
           onPress={this.goBack}
           margin='20 50 0 50'
@@ -404,6 +404,4 @@ class AddFunds extends Component {
   }
 }
 
-// export default AddFunds;
-const TestHook = hook(AddFunds)
-export default TestHook;
+export default testUtil.hookComponent(AddFunds);

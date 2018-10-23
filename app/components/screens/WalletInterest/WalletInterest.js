@@ -4,7 +4,7 @@ import { LineChart, XAxis, YAxis } from "react-native-svg-charts";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import moment from "moment";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
@@ -160,7 +160,7 @@ class WalletInterest extends Component {
           </View>
 
           { Object.values(chartDataSet)[0] ?
-            <View ref={this.props.generateTestHook('WalletInterest.chart')} style={{
+            <View ref={testUtil.generateTestHook(this, 'WalletInterest.chart')} style={{
               backgroundColor: "white",
               borderRadius: 8,
               shadowOffset: { width: 0, height: 3 },
@@ -281,21 +281,21 @@ class WalletInterest extends Component {
 
               <View>
                 <View style={[WalletInterestStyle.pillWrapper]}>
-                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.1m')} onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
+                  <TouchableOpacity ref={testUtil.generateTestHook(this, 'WalletInterest.1m')} onPress={() => this.activateTab("1m")} style={WalletInterestStyle.monthTO}>
                     <View
                       style={activeTab === "1m" ? WalletInterestStyle.monthWrapperActive : WalletInterestStyle.monthWrapper}>
                       <Text
                         style={activeTab === "1m" ? WalletInterestStyle.pillTextActive : WalletInterestStyle.pillText}>1M</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.3m')} onPress={() => this.activateTab("3m")} style={WalletInterestStyle.threeMonthTO}>
+                  <TouchableOpacity ref={testUtil.generateTestHook(this, 'WalletInterest.3m')} onPress={() => this.activateTab("3m")} style={WalletInterestStyle.threeMonthTO}>
                     <View
                       style={activeTab === "3m" ? WalletInterestStyle.threeMonthWrapperActive : WalletInterestStyle.threeMonthWrapper}>
                       <Text
                         style={activeTab === "3m" ? WalletInterestStyle.pillTextActive : WalletInterestStyle.pillText}>3M</Text>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity ref={this.props.generateTestHook('WalletInterest.1y')} onPress={() => this.activateTab("1y")} style={WalletInterestStyle.yearTO}>
+                  <TouchableOpacity ref={testUtil.generateTestHook(this, 'WalletInterest.1y')} onPress={() => this.activateTab("1y")} style={WalletInterestStyle.yearTO}>
                     <View
                       style={activeTab === "1y" ? WalletInterestStyle.yearWrapperActive : WalletInterestStyle.yearWrapper}>
                       <Text
@@ -319,7 +319,7 @@ class WalletInterest extends Component {
         </View>
 
         <Text style={WalletInterestStyle.title}
-       ref={this.props.generateTestHook('WalletInterests.popUp')}
+       ref={testUtil.generateTestHook(this, 'WalletInterests.popUp')}
                             >
           Today's interest rates:
         </Text>
@@ -332,7 +332,7 @@ class WalletInterest extends Component {
         />
 
         <CelButton
-          ref={this.props.generateTestHook('WalletInterests.AddMoreFunds')}
+          ref={testUtil.generateTestHook(this, 'WalletInterests.AddMoreFunds')}
           onPress={() => actions.navigateTo("AddFunds")}
         >
           Add more funds
@@ -342,6 +342,5 @@ class WalletInterest extends Component {
   }
 }
 
-// export default WalletInterest;
-const TestHook = hook(WalletInterest)
-export default TestHook;
+export default testUtil.hookComponent(WalletInterest);
+

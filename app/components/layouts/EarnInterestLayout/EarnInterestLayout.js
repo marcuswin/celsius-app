@@ -1,8 +1,7 @@
-import { hook } from 'cavy';
-
-
 import React, {Component} from 'react';
 import SimpleLayout from "../SimpleLayout/SimpleLayout";
+import testUtil from "../../../utils/test-util";
+
 
 class EarnInterestLayout extends Component {
   tabs = [
@@ -30,6 +29,4 @@ console.log('tabs.label', '111111111111');
   }
 }
 
-// export default EarnInterestLayout;
-const TestHook = hook(EarnInterestLayout)
-export default TestHook;
+export default testUtil.hookComponent(EarnInterestLayout);

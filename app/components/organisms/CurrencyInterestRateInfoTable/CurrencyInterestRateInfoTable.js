@@ -1,8 +1,8 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
@@ -73,7 +73,5 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 }
 
-// export default CurrencyInterestRateInfoTable;
-const TestHook = hook(CurrencyInterestRateInfoTable)
-export default TestHook;
+export default testUtil.hookComponent(CurrencyInterestRateInfoTable);
 

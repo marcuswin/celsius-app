@@ -1,10 +1,10 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { Text, Image, Linking } from "react-native";
 import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -176,7 +176,7 @@ class Passcode extends Component {
                     field={types[type].field}/>
         </CelForm>
         <CelButton
-          ref={this.props.generateTestHook(`Passcode.${types[type].buttonText}`)}
+          ref={testUtil.generateTestHook(this, `Passcode.${types[type].buttonText}`)}
           white
           loading={isLoading}
           disabled={disabled || isLoading || isPressed}
@@ -200,6 +200,4 @@ class Passcode extends Component {
   }
 }
 
-// export default Passcode;
-const TestHook = hook(Passcode)
-export default TestHook;
+export default testUtil.hookComponent(Passcode);

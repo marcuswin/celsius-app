@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Image} from 'react-native';
 import {View, Text} from 'native-base';
@@ -14,6 +13,7 @@ import API from "../../../config/constants/API";
 import apiUtil from "../../../utils/api-util";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CelInput from "../../atoms/CelInput/CelInput";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -74,7 +74,7 @@ class VerifyPhoneNumber extends Component {
                       onChange={this.onChange}/>
           </CelForm>
           <CelButton
-            ref={this.props.generateTestHook('VerifyPhoneNumber.finish')}
+            ref={testUtil.generateTestHook(this, 'VerifyPhoneNumber.finish')}
             margin='20 0 0 0'
             white
             onPress={this.verifyCode}
@@ -99,6 +99,4 @@ class VerifyPhoneNumber extends Component {
   }
 }
 
-// export default VerifyPhoneNumber;
-const TestHook = hook(VerifyPhoneNumber)
-export default TestHook;
+export default testUtil.hookComponent(VerifyPhoneNumber);

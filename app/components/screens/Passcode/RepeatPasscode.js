@@ -1,8 +1,8 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Passcode from './Passcode'
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 
@@ -18,6 +18,4 @@ class RepeatPasscode extends Component {
   }
 }
 
-// export default RepeatPasscode;
-const TestHook = hook(RepeatPasscode)
-export default TestHook;
+export default testUtil.hookComponent(RepeatPasscode);

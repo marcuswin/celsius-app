@@ -1,4 +1,3 @@
-import { hook } from 'cavy'; 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -13,6 +12,7 @@ import { GENDER, PERSON_TITLE } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   () => ({}),
@@ -121,7 +121,7 @@ class CelSelect extends Component {
         margin={margin}
       >
         <TouchableOpacity
-          ref={this.props.generateTestHook('CelSelect.fillName')}
+         ref={testUtil.generateTestHook(this, 'CelSelect.fillName')}
           onPress={() => this.setState({ visible: !visible })}
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
           <Text style={labelStyles}>{label}</Text>
@@ -164,9 +164,6 @@ class CelSelect extends Component {
   }
 }
 
-// export default CelSelect;
-const TestHook = hook(CelSelect)
-export default TestHook;
+export default testUtil.hookComponent(CelSelect);
 
 
-// function getSelectItems(type) {}

@@ -3,7 +3,7 @@ import {View} from "native-base";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -61,6 +61,4 @@ class LoginForm extends Component {
   }
 }
 
-// export default LoginForm;
-const TestHook = hook(LoginForm)
-export default TestHook;
+export default testUtil.hookComponent(LoginForm);

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import Loader from "../../atoms/Loader/Loader";
@@ -86,7 +86,7 @@ class InterestCalculatorScreen extends Component {
 
     return (
       <EarnInterestLayout>
-        <View   ref={this.props.generateTestHook('InterestCalculatorScreen.exist')}
+        <View   ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}
                 style={{ paddingTop: 30 }}>
           <CelSelect field="interestCurrency"
                      items={pickerItems}
@@ -120,7 +120,7 @@ class InterestCalculatorScreen extends Component {
             at { displayInterestRate } APR:
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.perWeek')} style={InterestCalculatorStyle.amountText}>
+            <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.perWeek')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPerWeek) }
             </Text>
           </View>
@@ -130,7 +130,7 @@ class InterestCalculatorScreen extends Component {
             <Text style={globalStyles.boldText}> per month:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.perMonth')} style={InterestCalculatorStyle.amountText}>
+            <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.perMonth')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPerMonth) }
             </Text>
           </View>
@@ -140,7 +140,7 @@ class InterestCalculatorScreen extends Component {
             <Text style={globalStyles.boldText}> for 6 months:</Text>
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
-            <Text ref={this.props.generateTestHook('InterestCalculatorScreen.per6Months')} style={InterestCalculatorStyle.amountText}>
+            <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.per6Months')} style={InterestCalculatorStyle.amountText}>
               { formatter.usd(interestPer6Months) }
             </Text>
           </View>
@@ -175,6 +175,4 @@ class InterestCalculatorScreen extends Component {
   }
 }
 
-// export default InterestCalculatorScreen;
-const TestHook = hook(InterestCalculatorScreen)
-export default TestHook;
+export default testUtil.hookComponent(InterestCalculatorScreen);

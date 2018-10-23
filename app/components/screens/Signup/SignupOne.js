@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -83,7 +83,7 @@ class SignupOne extends Component {
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
-                ref={this.props.generateTestHook('SignupOne.button')}
+                ref={testUtil.generateTestHook(this, 'SignupOne.button')}
                 disabled={!email || !password || password.length < 8 }
                 loading={ isLoading }
                 onPress={this.onSubmit}
@@ -100,6 +100,4 @@ class SignupOne extends Component {
   }
 }
 
-// export default SignupOne;
-const TestHook = hook(SignupOne)
-export default TestHook;
+export default testUtil.hookComponent(SignupOne);

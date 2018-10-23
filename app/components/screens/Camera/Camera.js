@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
@@ -6,6 +5,7 @@ import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
 import { Camera, Permissions, ImageManipulator } from 'expo';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
@@ -191,7 +191,7 @@ class CameraScreen extends Component {
                   )}
                 </TouchableOpacity>
 
-              <TouchableOpacity ref={this.props.generateTestHook('CameraScreen.takePhoto')} onPress={this.takeCameraPhoto}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')} onPress={this.takeCameraPhoto}>
                 <View style={CameraStyle.outerCircle}>
                   { !this.state.isLoading && this.state.hasCameraPermission ? (
                     <View style={CameraStyle.innerCircle}/>
@@ -244,7 +244,7 @@ class CameraScreen extends Component {
             <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
             <View>
               <CelButton
-                ref={this.props.generateTestHook('CameraScreen.retakePhoto')}
+                ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
                 onPress={actions.retakePhoto}
                 white
                 inverse
@@ -252,7 +252,7 @@ class CameraScreen extends Component {
                 Retake Photo
               </CelButton>
               <CelButton
-                ref={this.props.generateTestHook('CameraScreen.usePhoto')}
+                ref={testUtil.generateTestHook(this, 'CameraScreen.usePhoto')}
                 onPress={this.savePhoto}
                 white
                 margin="20 0 20 0"
@@ -278,6 +278,4 @@ class CameraScreen extends Component {
 
 }
 
-// export default CameraScreen;
-const TestHook = hook(CameraScreen)
-export default TestHook;
+export default testUtil.hookComponent(CameraScreen);

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import WelcomeStyle from "./Welcome.styles";
@@ -40,12 +40,12 @@ class WelcomeScreen extends Component {
         <Content bounces={false} style={WelcomeStyle.content}>
           <MainHeader/>
           <View style={[WelcomeStyle.view]}
-                ref={this.props.generateTestHook('WelcomeScreen.first')}>
+                ref={testUtil.generateTestHook(this, 'WelcomeScreen.first')}>
             <WelcomeCarousel />
 
             <View style={WelcomeStyle.buttonWrapper}>
               <CelButton
-                ref={this.props.generateTestHook('WelcomeScreen.SignUp')}
+                ref={testUtil.generateTestHook(this, 'WelcomeScreen.SignUp')}
                 onPress={() => {
                   mixpanelEvents.signupButton();
                   actions.navigateTo('SignupOne')}
@@ -57,7 +57,7 @@ class WelcomeScreen extends Component {
               </CelButton>
 
               <CelButton
-                ref={this.props.generateTestHook('WelcomeScreen.acc')}
+                ref={testUtil.generateTestHook(this, 'WelcomeScreen.acc')}
                 onPress={() => actions.navigateTo('Login', true)}
                 transparent
                 size="small"
@@ -73,6 +73,4 @@ class WelcomeScreen extends Component {
   }
 }
 
-// export default WelcomeScreen;
-const TestHook = hook(WelcomeScreen)
-export default TestHook;
+export default testUtil.hookComponent(WelcomeScreen);

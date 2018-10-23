@@ -1,9 +1,10 @@
-import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Body, Button, Header, Icon, Left, List, ListItem, Text, Title, View} from "native-base";
 import PropTypes from "prop-types";
 import {Modal, TouchableOpacity, TextInput} from "react-native";
 import {countries} from "country-data";
+import testUtil from "../../../utils/test-util";
+
 
 import SelectCountryStyles from "./SelectCountryModal.styles";
 
@@ -89,7 +90,7 @@ class SelectCountryModal extends Component {
       >
         <Header style={[SelectCountryStyles.header]} iosBarStyle="light-content">
           <Left>
-            <Button ref={this.props.generateTestHook('SelectCountryModal.country')} title='Back' transparent onPress={() => onClose(null)}>
+            <Button ref={testUtil.generateTestHook(this, 'SelectCountryModal.country')} title='Back' transparent onPress={() => onClose(null)}>
               <Icon style={SelectCountryStyles.backArrow} name='arrow-back'/>
             </Button>
           </Left>
@@ -119,7 +120,7 @@ class SelectCountryModal extends Component {
                     <Text>{country.emoji}</Text>
                   </Left>
                   <Body>
-                  <TouchableOpacity ref={this.props.generateTestHook('SelectCountryModal.select')} onPress={() => onClose(country)}>
+                  <TouchableOpacity ref={testUtil.generateTestHook(this, 'SelectCountryModal.select')} onPress={() => onClose(country)}>
                     <Text style={SelectCountryStyles.coinTitle}>
                       {country.name}
                       { withPhones && country.countryCallingCodes ? ` (${country.countryCallingCodes[0]})` : '' }
@@ -145,6 +146,4 @@ class SelectCountryModal extends Component {
   }
 }
 
-// export default SelectCountryModal;
-const TestHook = hook(SelectCountryModal)
-export default TestHook;
+export default testUtil.hookComponent(SelectCountryModal);

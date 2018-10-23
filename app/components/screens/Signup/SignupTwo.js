@@ -4,7 +4,7 @@ import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import isEqual from "lodash/isEqual";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -99,7 +99,7 @@ class SignupTwo extends Component {
 
     return (
       <SimpleLayout
-      ref={this.props.generateTestHook('SignupTwo.screen')}
+      ref={testUtil.generateTestHook(this, 'SignupTwo.screen')}
         mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}
@@ -148,7 +148,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
-              ref={this.props.generateTestHook('SignupTwo.CreatePin')}
+              ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
               onPress={this.onSubmit}
               loading={ isLoading }
@@ -164,6 +164,4 @@ class SignupTwo extends Component {
   }
 }
 
-// export default SignupTwo;
-const TestHook = hook(SignupTwo)
-export default TestHook;
+export default testUtil.hookComponent(SignupTwo);

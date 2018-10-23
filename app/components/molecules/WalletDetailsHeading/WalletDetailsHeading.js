@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, { Component } from "react";
 import { View, Text } from "native-base";
 import { TouchableOpacity } from 'react-native';
@@ -6,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Proptypes from 'prop-types';
 import get from 'lodash/get';
+import testUtil from "../../../utils/test-util";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
@@ -128,13 +128,12 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton ref={this.props.generateTestHook(`WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
         <CelButton width={110} size="mini" white onPress={this.goToSend} inverse margin="0 0 0 15" disabled={isPressed}>Send</CelButton>
       </View>}
     </View>
   }
 }
 
-// export default WalletDetailsHeading;
-const TestHook = hook(WalletDetailsHeading)
-export default TestHook;
+export default testUtil.hookComponent(WalletDetailsHeading);
+

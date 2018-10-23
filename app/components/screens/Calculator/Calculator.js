@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, {Component} from 'react';
 import {Image, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
@@ -7,6 +6,7 @@ import {bindActionCreators} from "redux";
 import {Grid, Col} from "react-native-easy-grid";
 import Swipeable from 'react-native-swipeable';
 import isEmpty from 'lodash/isEmpty';
+import testUtil from "../../../utils/test-util";
 
 import Icon from "../../atoms/Icon/Icon";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
@@ -193,7 +193,7 @@ class Calculator extends Component {
                 </Swipeable>
               }/>
             <TouchableOpacity
-              ref={this.props.generateTestHook('Calculator.addCoins')}
+              ref={testUtil.generateTestHook(this, 'Calculator.addCoins')}
               style={selectedAllCoins ? CalculatorStyle.disabledAddButton : CalculatorStyle.addButton}
               onPress={() => {
                 mixpanelEvents.addCoinButton();
@@ -221,6 +221,4 @@ class Calculator extends Component {
   }
 }
 
-// export default Calculator;
-const TestHook = hook(Calculator)
-export default TestHook;
+export default testUtil.hookComponent(Calculator);

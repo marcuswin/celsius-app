@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View, Easing, Text, TextInput } from "react-native";
 // import { Input } from "native-base";
-import { hook } from 'cavy';
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
+import testUtil from "../../../utils/test-util";
 
 // const {ENV} = Constants.manifest.extra;
 
@@ -165,6 +165,4 @@ class CelTextInput extends Component {
   }
 }
 
-// export default CelTextInput;
-const table = hook(CelTextInput)
-export default table;
+export default testUtil.hookComponent(CelTextInput);

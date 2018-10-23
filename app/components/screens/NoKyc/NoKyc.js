@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Image, Linking, Text, View } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import { hook } from 'cavy';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
@@ -177,7 +177,7 @@ class NoKyc extends Component {
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={NoKycStyle.image}/>
         <Text style={NoKycStyle.textOne}
-               ref={this.props.generateTestHook('NoKyc.screen')}
+               ref={testUtil.generateTestHook(this, 'NoKyc.screen')}
                >
           This is where you'll be able to add, send and receive coins
         </Text>
@@ -185,7 +185,7 @@ class NoKyc extends Component {
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
-          ref={this.props.generateTestHook('NoKyc.VerifyProfile')}
+          ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
           onPress={() => {
             mixpanelEvents.navigation('verifyProfile');
             actions.navigateTo('ProfileDetails')
@@ -226,9 +226,8 @@ class NoKyc extends Component {
   }
 }
 
-// export default NoKyc;
-const TestHook = hook(NoKyc)
-export default TestHook;
+export default testUtil.hookComponent(NoKyc);
+
 
 function getClaimedTransfers(allTransfers) {
   if (!allTransfers) return [];

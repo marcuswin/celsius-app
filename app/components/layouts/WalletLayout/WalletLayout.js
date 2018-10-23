@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
-import { hook } from 'cavy';
 
 import * as appActions from "../../../redux/actions";
 // import {STYLES} from "../../config/constants/style";
@@ -13,6 +12,7 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import testUtil from "../../../utils/test-util";
 
 @connect( 
   state => ({
@@ -63,6 +63,4 @@ class WalletLayout extends Component {
   }
 }
 
-// export default WalletLayout;
-const TestHook = hook(WalletLayout)
-export default TestHook;
+export default testUtil.hookComponent(WalletLayout);
