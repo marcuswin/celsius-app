@@ -112,8 +112,7 @@ class CelInput extends Component {
   }
 
   // rendering methods
-  render() {
-    
+  render() {    
     const { theme, error, type } = this.props;
 
     this.state = {
