@@ -17,7 +17,7 @@ import baseUrl from "./services/api-url";
 import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -95,9 +95,6 @@ export default class App extends Component {
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
 
       const { user } = store.getState().users;
-      if (user.has_pin) {
-        store.dispatch(actions.navigateTo('LoginPasscode'));
-      }
       if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
         await store.dispatch(actions.getKYCDocTypes());
       }
@@ -141,7 +138,14 @@ export default class App extends Component {
     );
 
     mixpanelEvents.openApp();
-    store.dispatch(actions.openInitialModal())
+
+
+    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+      store.dispatch(actions.showMessage(
+        'warning',
+        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
+      ));
+    }
   }
 
   // Assets are cached differently depending on where

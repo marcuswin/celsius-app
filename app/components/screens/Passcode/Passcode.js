@@ -57,6 +57,7 @@ const codeLength = 4;
     nav: state.nav,
     user: state.users.user,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
+    userActions: state.ui.userActions,
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -82,7 +83,7 @@ class Passcode extends Component {
 
 
   onPressButton = async () => {
-    const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose } = this.props;
+    const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose, userActions } = this.props;
     if (type === 'repeatPasscode') {
       return actions.setPin(formData);
     }
@@ -126,6 +127,10 @@ class Passcode extends Component {
           actions.navigateTo('WalletBalance');
         } else {
           actions.navigateTo(previousScreen);
+        }
+        if (!userActions.enteredInitialPin) {
+          actions.fireUserAction('enteredInitialPin');
+          actions.openInitialModal();
         }
       } catch (e) {
         actions.showMessage('error', e.error);

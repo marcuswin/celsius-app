@@ -12,8 +12,9 @@ import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
+import Passcode from "../Passcode/Passcode";
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -21,15 +22,15 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
     appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
+    userActions: state.ui.userActions,
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
-    backendStatus: state.generalData.backendStatus,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes, backendStatus } = this.props;
+    const { actions, branchHashes } = this.props;
 
     try {
       // get user token
@@ -51,16 +52,10 @@ class HomeScreen extends Component {
     } catch(err) {
       console.log(err);
     }
-
-    if (CLIENT_VERSION !== backendStatus.version) {
-      actions.showMessage('warning', 'When Update?\n' +
-        '\n' +
-        'Right now! Please head to the app store and download the newest update. Stay cool.')
-    }
   }
 
   render() {
-    const { user } = this.props;
+    const { user, userActions } = this.props;
 
     if (!user) return <WelcomeScreen/>;
 
@@ -68,7 +63,7 @@ class HomeScreen extends Component {
     if (!user.has_pin) return <CreatePasscode />;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
 
-    // if (nav.initializingApp) return <Passcode type={'loginPasscode'}/>;
+    if (!userActions.enteredInitialPin) return <Passcode type={'loginPasscode'}/>;
 
     return <WalletBalance/>;
   }
