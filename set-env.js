@@ -7,6 +7,7 @@ const { CONFIG } = process.env;
 const ALL_CONFIGS = {
   DEV: 'DEV',
   STAGING: 'STAGING',
+  TEST: 'TEST',
   PREPROD: 'PREPROD',
   PRODUCTION: 'PRODUCTION'
 };
@@ -18,6 +19,9 @@ if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
   switch (CONFIG) {
     case ALL_CONFIGS.STAGING:
       src = path.resolve(__dirname, `../celsius-creds/staging/celsius-app/app.json`);
+      break;
+    case ALL_CONFIGS.TEST:
+      src = path.resolve(__dirname, `../celsius-creds/test/celsius-app/app.json`);
       break;
     case ALL_CONFIGS.PREPROD:
       src = path.resolve(__dirname, `../celsius-creds/pre-prod/celsius-app/app.json`);

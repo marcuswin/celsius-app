@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "expo start --clear",
+    "test": "yarn run set:env:test && yarn run start:dev",
     "start:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn start",
     "start:dev:local": "yarn run set:env:dev && yarn run start:dev",
     "start:dev:staging": "yarn run set:env:staging && yarn run start:dev",
@@ -14,6 +15,7 @@
     "set:env": "node set-env",
     "set:env:dev": "CONFIG=DEV node set-env",
     "set:env:staging": "CONFIG=STAGING node set-env",
+    "set:env:test": "CONFIG=TEST node set-env",
     "set:env:preprod": "CONFIG=PREPROD node set-env",
     "set:env:production": "CONFIG=PRODUCTION node set-env",
     "plop": "plop"
