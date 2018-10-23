@@ -13,8 +13,9 @@ import { registerForPushNotificationsAsync } from "../../../utils/push-notificat
 import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
 import Passcode from "../Passcode/Passcode";
+import store from "../../../redux/store";
 
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -52,6 +53,14 @@ class HomeScreen extends Component {
     } catch(err) {
       console.log(err);
     }
+
+    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+      store.dispatch(actions.showMessage(
+        'warning',
+        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
+      ));
+    }
+
   }
 
   render() {
