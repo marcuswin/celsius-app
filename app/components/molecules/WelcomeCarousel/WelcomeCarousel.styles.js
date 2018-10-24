@@ -40,14 +40,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
       width: 8,
       height: 8,
       borderRadius: 8/2,
-      backgroundColor: 'rgba(255,255,255,0.2)',
-    },
-    circleActive: {
-      margin: 12,
-      width: 8,
-      height: 8,
-      borderRadius: 8/2,
-      backgroundColor: 'rgba(255,255,255,0.6)',
+      backgroundColor: 'rgba(255,255,255,1)',
     },
     circleWrapper: {
       flexDirection: 'row',
