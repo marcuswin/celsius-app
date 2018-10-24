@@ -100,6 +100,7 @@ export default class App extends Component {
       }
     } else {
       mixpanelAnalytics.identify(uuid())
+      store.dispatch(actions.fireUserAction("enteredInitialPin"))
     }
 
     // get user app settings
