@@ -30,6 +30,7 @@ export {
   sendResetLink,
   resetPassword,
   logoutUser,
+  expireSession,
 }
 
 
@@ -413,7 +414,8 @@ function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
-      await usersService.resetPassword(currentPassword, newPassword);
+      const {data} =  await usersService.resetPassword(currentPassword, newPassword);
+      console.log(data);
       dispatch(showMessage('success', 'Password successfully changed.'));
       dispatch(resetPasswordSuccess());
     } catch (err) {
@@ -439,6 +441,18 @@ function logoutUser() {
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,
+      });
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+
+function expireSession() {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: ACTIONS.EXPIRE_SESSION,
       });
     } catch(err) {
       console.log(err);
