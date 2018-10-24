@@ -78,7 +78,7 @@ export default class WelcomeCarousel extends Component {
                 extrapolate: "clamp"
               });
               return (
-                <View style={WelcomeCarouselStyle.scrollPage}>
+                <View style={WelcomeCarouselStyle.scrollPage} key={source.title}>
                   <View style={WelcomeCarouselStyle.image}>
                     <Animated.Image
                       style={{ opacity, height: imageHeight, width: imageWidth }}
@@ -106,6 +106,7 @@ export default class WelcomeCarousel extends Component {
               });
               return (
                 <Animated.View
+                  key={_.title}
                   style={[WelcomeCarouselStyle.circle, { opacity }]}
                 />
               );
