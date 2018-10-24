@@ -139,8 +139,9 @@ export default class App extends Component {
 
     mixpanelEvents.openApp();
 
+    const {generalData: {backendStatus: {client_version: backedClientVersion}}} = store.getState();
 
-    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+    if (backedClientVersion !== 'DEVELOPMENT' && CLIENT_VERSION !== backedClientVersion) {
       store.dispatch(actions.showMessage(
         'warning',
         ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
