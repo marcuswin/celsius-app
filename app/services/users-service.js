@@ -39,7 +39,7 @@ function registerTwitter(twitterUser) {
     profile_picture: twitterUser.profile_picture,
     access_token: twitterUser.twitter_oauth_token,
     secret_token: twitterUser.twitter_oauth_secret,
-    referrer_id: twitterUser.referrerId,
+    referral_link_id: twitterUser.referralLinkId,
   });
 }
 
@@ -51,7 +51,7 @@ function registerFacebook(facebookUser) {
     last_name: lastName,
     facebook_id: facebookUser.facebook_id,
     access_token: facebookUser.access_token,
-    referrer_id: facebookUser.referrerId,
+    referral_link_id: facebookUser.referralLinkId,
   });
 }
 
@@ -64,7 +64,7 @@ function registerGoogle(googleUser) {
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
     access_token: googleUser.access_token,
-    referrer_id: googleUser.referrerId,
+    referral_link_id: googleUser.referralLinkId,
   });
 }
 
