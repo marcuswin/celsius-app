@@ -44,6 +44,7 @@ import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/T
 import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
+import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -119,6 +120,11 @@ export const screens = {
   HowToEarnInterest: {
     screen: HowToEarnInterestScreen,
     title: 'HowToEarnInterest',
+    bottomNavigation: true,
+  },
+  LoanApplication: {
+    screen: LoanApplicationScreen,
+    title: 'LoanApplication',
     bottomNavigation: true,
   },
 

@@ -15,7 +15,7 @@ import WalletBalance from "../WalletBalance/WalletBalance";
 import Passcode from "../Passcode/Passcode";
 import store from "../../../redux/store";
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -54,7 +54,9 @@ class HomeScreen extends Component {
       console.log(err);
     }
 
-    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
+      CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+
       store.dispatch(actions.showMessage(
         'warning',
         ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
