@@ -6,6 +6,9 @@ import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
+import store from '../redux/store';
+import * as actions from '../redux/actions';
+
 const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY} = Constants.manifest.extra;
 let token;
 
@@ -85,7 +88,7 @@ function initInterceptors() {
 
       return Promise.reject(err);
     },
-    error => {
+    async error => {
       const defaultMsg = 'Oops, it looks like something went wrong.';
       const err = error.response ? error.response.data : {
         type: 'Unknown Server Error',
@@ -94,6 +97,10 @@ function initInterceptors() {
       };
 
       if (!err.msg) err.msg = defaultMsg;
+
+      if (err.status === 401 && err.slug === "SESSION_EXPIRED") {
+        store.dispatch(actions.expireSession());
+      }
 
       /* eslint-disable no-underscore-dangle */
       console.log({API_ERROR: err});
