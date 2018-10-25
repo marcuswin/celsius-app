@@ -415,7 +415,10 @@ function resetPassword(currentPassword, newPassword) {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
       const {data} =  await usersService.resetPassword(currentPassword, newPassword);
-      console.log(data);
+      const {auth0: {id_token: newAuthToken}} = data;
+
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
+
       dispatch(showMessage('success', 'Password successfully changed.'));
       dispatch(resetPasswordSuccess());
     } catch (err) {
