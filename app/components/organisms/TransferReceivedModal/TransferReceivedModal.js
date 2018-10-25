@@ -89,7 +89,7 @@ class TransferReceivedModal extends Component {
           renderContent={(textStyles) => (
             <View>
               <Text style={textStyles}>
-                If you don't finish the signup process within 7 days of Andrea sending you crypto, it will be returned to them.
+                If you don't finish the signup process within 7 days of { transfer.from.name } sending you crypto, it will be returned to them.
               </Text>
             </View>
           )}
