@@ -1,5 +1,7 @@
 import axios from 'axios';
 import qs from "qs";
+import { Buffer } from "buffer";
+import r from "jsrsasign";
 import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
@@ -64,7 +66,7 @@ function initInterceptors() {
       const sign = res.headers['x-cel-sign'];
       const data = res.data;
 
-      if (verifyKey(data, sign, PUBLIC_KEY)) {
+      if (verifyKey(data, sign)) {
         /* eslint-disable no-underscore-dangle */
         console.log({RESPONSE: res});
         /* eslint-enable no-underscore-dangle */
@@ -116,10 +118,10 @@ function parseValidationErrors(serverError) {
   return validationErrors;
 }
 
-// function verifyKey(data, sign, publicKey) {
-function verifyKey() {
-  // const verifier = crypto.createVerify('sha256');
-  // verifier.update(data);
-  // return verifier.verify(publicKey, sign, 'base64');
-  return true;
+function verifyKey(data, sign) {
+  const sig2 = new r.KJUR.crypto.Signature({ alg: "SHA256withRSA" });
+  sig2.init(PUBLIC_KEY);
+  sig2.updateString(JSON.stringify(data));
+  const isValid = sig2.verify(Buffer.from(sign, 'base64').toString('hex'));
+  return isValid;
 }

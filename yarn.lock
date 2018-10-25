@@ -967,14 +967,6 @@ asap@~2.0.3:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
 
-asn1.js@^4.0.0:
-  version "4.10.1"
-  resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
-  dependencies:
-    bn.js "^4.0.0"
-    inherits "^2.0.1"
-    minimalistic-assert "^1.0.0"
-
 asn1@~0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
@@ -1920,10 +1912,6 @@ blueimp-md5@^2.5.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/blueimp-md5/-/blueimp-md5-2.10.0.tgz#02f0843921f90dca14f5b8920a38593201d6964d"
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
-  version "4.11.8"
-  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
-
 body-parser@1.18.2, body-parser@^1.15.0:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
@@ -2002,57 +1990,6 @@ braces@^2.3.1:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-brorand@^1.0.1:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
-
-browserify-aes@^1.0.0, browserify-aes@^1.0.4:
-  version "1.2.0"
-  resolved "http://registry.npmjs.org/browserify-aes/-/browserify-aes-1.2.0.tgz#326734642f403dabc3003209853bb70ad428ef48"
-  dependencies:
-    buffer-xor "^1.0.3"
-    cipher-base "^1.0.0"
-    create-hash "^1.1.0"
-    evp_bytestokey "^1.0.3"
-    inherits "^2.0.1"
-    safe-buffer "^5.0.1"
-
-browserify-cipher@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/browserify-cipher/-/browserify-cipher-1.0.1.tgz#8d6474c1b870bfdabcd3bcfcc1934a10e94f15f0"
-  dependencies:
-    browserify-aes "^1.0.4"
-    browserify-des "^1.0.0"
-    evp_bytestokey "^1.0.0"
-
-browserify-des@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/browserify-des/-/browserify-des-1.0.2.tgz#3af4f1f59839403572f1c66204375f7a7f703e9c"
-  dependencies:
-    cipher-base "^1.0.1"
-    des.js "^1.0.0"
-    inherits "^2.0.1"
-    safe-buffer "^5.1.2"
-
-browserify-rsa@^4.0.0:
-  version "4.0.1"
-  resolved "http://registry.npmjs.org/browserify-rsa/-/browserify-rsa-4.0.1.tgz#21e0abfaf6f2029cf2fafb133567a701d4135524"
-  dependencies:
-    bn.js "^4.1.0"
-    randombytes "^2.0.1"
-
-browserify-sign@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/browserify-sign/-/browserify-sign-4.0.4.tgz#aa4eb68e5d7b658baa6bf6a57e630cbd7a93d298"
-  dependencies:
-    bn.js "^4.1.1"
-    browserify-rsa "^4.0.0"
-    create-hash "^1.1.0"
-    create-hmac "^1.1.2"
-    elliptic "^6.0.0"
-    inherits "^2.0.1"
-    parse-asn1 "^5.0.0"
-
 bser@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/bser/-/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"
@@ -2082,13 +2019,16 @@ buffer-shims@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-shims/-/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
 
-buffer-xor@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/buffer-xor/-/buffer-xor-1.0.3.tgz#26e61ed1422fb70dd42e6e36729ed51d855fe8d9"
-
 buffer@^5.0.8:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.0.tgz#53cf98241100099e9eeae20ee6d51d21b16e541e"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+
+buffer@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
@@ -2237,13 +2177,6 @@ charenc@~0.0.1:
 chownr@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
-
-cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.4.tgz#8760e4ecc272f4c363532f926d874aae2c1397de"
-  dependencies:
-    inherits "^2.0.1"
-    safe-buffer "^5.0.1"
 
 circular-json@^0.3.1:
   version "0.3.3"
@@ -2541,39 +2474,11 @@ country-data@0.0.31:
     currency-symbol-map "~2"
     underscore ">1.4.4"
 
-create-ecdh@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/create-ecdh/-/create-ecdh-4.0.3.tgz#c9111b6f33045c4697f144787f9254cdc77c45ff"
-  dependencies:
-    bn.js "^4.1.0"
-    elliptic "^6.0.0"
-
 create-error-class@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
   dependencies:
     capture-stack-trace "^1.0.0"
-
-create-hash@^1.1.0, create-hash@^1.1.2:
-  version "1.2.0"
-  resolved "http://registry.npmjs.org/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
-  dependencies:
-    cipher-base "^1.0.1"
-    inherits "^2.0.1"
-    md5.js "^1.3.4"
-    ripemd160 "^2.0.1"
-    sha.js "^2.4.0"
-
-create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
-  version "1.1.7"
-  resolved "http://registry.npmjs.org/create-hmac/-/create-hmac-1.1.7.tgz#69170c78b3ab957147b2b8b04572e47ead2243ff"
-  dependencies:
-    cipher-base "^1.0.3"
-    create-hash "^1.1.0"
-    inherits "^2.0.1"
-    ripemd160 "^2.0.0"
-    safe-buffer "^5.0.1"
-    sha.js "^2.4.8"
 
 create-react-class@^15.6.0, create-react-class@^15.6.3:
   version "15.6.3"
@@ -2835,13 +2740,6 @@ depd@~1.1.1, depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
 
-des.js@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/des.js/-/des.js-1.0.0.tgz#c074d2e2aa6a8a9a07dbd61f9a15c2cd83ec8ecc"
-  dependencies:
-    inherits "^2.0.1"
-    minimalistic-assert "^1.0.0"
-
 destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
@@ -2863,14 +2761,6 @@ detect-libc@^1.0.2:
 detect-newline@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-2.1.0.tgz#f41f1c10be4b00e87b5f13da680759f2c5bfd3e2"
-
-diffie-hellman@^5.0.0:
-  version "5.0.3"
-  resolved "http://registry.npmjs.org/diffie-hellman/-/diffie-hellman-5.0.3.tgz#40e8ee98f55a2149607146921c63e1ae5f3d2875"
-  dependencies:
-    bn.js "^4.1.0"
-    miller-rabin "^4.0.0"
-    randombytes "^2.0.0"
 
 dir-glob@^2.0.0:
   version "2.0.0"
@@ -2936,18 +2826,6 @@ ee-first@1.1.1:
 ejs@^2.4.1:
   version "2.5.7"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.7.tgz#cc872c168880ae3c7189762fd5ffc00896c9518a"
-
-elliptic@^6.0.0:
-  version "6.4.1"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.1.tgz#c2d0b7776911b86722c632c3c06c60f2f819939a"
-  dependencies:
-    bn.js "^4.4.0"
-    brorand "^1.0.1"
-    hash.js "^1.0.0"
-    hmac-drbg "^1.0.0"
-    inherits "^2.0.1"
-    minimalistic-assert "^1.0.0"
-    minimalistic-crypto-utils "^1.0.0"
 
 emoji-regex@^6.1.0:
   version "6.5.1"
@@ -3332,13 +3210,6 @@ event-target-shim@^1.0.5:
 eventemitter3@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.0.0.tgz#fc29ecf233bd19fbd527bb4089bbf665dc90c1e3"
-
-evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/evp_bytestokey/-/evp_bytestokey-1.0.3.tgz#7fcbdb198dc71959432efe13842684e0525acb02"
-  dependencies:
-    md5.js "^1.3.4"
-    safe-buffer "^5.1.1"
 
 exec-async@^2.2.0:
   version "2.2.0"
@@ -4513,20 +4384,6 @@ hasbin@^1.2.3:
   dependencies:
     async "~1.5"
 
-hash-base@^3.0.0:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/hash-base/-/hash-base-3.0.4.tgz#5fc8686847ecd73499403319a6b0a3f3f6ae4918"
-  dependencies:
-    inherits "^2.0.1"
-    safe-buffer "^5.0.1"
-
-hash.js@^1.0.0, hash.js@^1.0.3:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.5.tgz#e38ab4b85dfb1e0c40fe9265c0e9b54854c23812"
-  dependencies:
-    inherits "^2.0.3"
-    minimalistic-assert "^1.0.1"
-
 hawk@3.1.3, hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -4542,14 +4399,6 @@ header-case@^1.0.0:
   dependencies:
     no-case "^2.2.0"
     upper-case "^1.1.3"
-
-hmac-drbg@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
-  dependencies:
-    hash.js "^1.0.3"
-    minimalistic-assert "^1.0.0"
-    minimalistic-crypto-utils "^1.0.1"
 
 hoek@2.x.x:
   version "2.16.3"
@@ -4694,7 +4543,7 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1, inherits@~2.0.3:
+inherits@2, inherits@2.0.3, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
 
@@ -5275,6 +5124,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.3.6"
 
+jsrsasign@^8.0.12:
+  version "8.0.12"
+  resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.12.tgz#22abb9656d34a30b9530436720835e89c2e5c316"
+
 jsx-ast-utils@^2.0.0, jsx-ast-utils@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-2.0.1.tgz#e801b1b39985e20fffc87b40e3748080e2dcac7f"
@@ -5647,14 +5500,6 @@ md5-file@^3.2.3:
   dependencies:
     buffer-alloc "^1.1.0"
 
-md5.js@^1.3.4:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
-  dependencies:
-    hash-base "^3.0.0"
-    inherits "^2.0.1"
-    safe-buffer "^5.1.2"
-
 md5@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
@@ -5861,13 +5706,6 @@ micromatch@^3.0.4, micromatch@^3.1.8:
     snapdragon "^0.8.1"
     to-regex "^3.0.2"
 
-miller-rabin@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/miller-rabin/-/miller-rabin-4.0.1.tgz#f080351c865b0dc562a8462966daa53543c78a4d"
-  dependencies:
-    bn.js "^4.0.0"
-    brorand "^1.0.1"
-
 "mime-db@>= 1.34.0 < 2", mime-db@~1.35.0:
   version "1.35.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.35.0.tgz#0569d657466491283709663ad379a99b90d9ab47"
@@ -5925,14 +5763,6 @@ min-document@^2.19.0:
   resolved "https://registry.yarnpkg.com/min-document/-/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
   dependencies:
     dom-walk "^0.1.0"
-
-minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
-
-minimalistic-crypto-utils@^1.0.0, minimalistic-crypto-utils@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
 
 "minimatch@2 || 3", minimatch@^3.0.0, minimatch@^3.0.2, minimatch@^3.0.3, minimatch@^3.0.4:
   version "3.0.4"
@@ -6436,16 +6266,6 @@ param-case@^2.1.0:
   dependencies:
     no-case "^2.2.0"
 
-parse-asn1@^5.0.0:
-  version "5.1.1"
-  resolved "http://registry.npmjs.org/parse-asn1/-/parse-asn1-5.1.1.tgz#f6bf293818332bd0dab54efb16087724745e6ca8"
-  dependencies:
-    asn1.js "^4.0.0"
-    browserify-aes "^1.0.0"
-    create-hash "^1.1.0"
-    evp_bytestokey "^1.0.0"
-    pbkdf2 "^3.0.3"
-
 parse-filepath@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/parse-filepath/-/parse-filepath-1.0.2.tgz#a632127f53aaf3d15876f5872f3ffac763d6c891"
@@ -6555,22 +6375,6 @@ path-type@^3.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
   dependencies:
     pify "^3.0.0"
-
-pbkdf2@3.0.8:
-  version "3.0.8"
-  resolved "http://registry.npmjs.org/pbkdf2/-/pbkdf2-3.0.8.tgz#2f8abf16ebecc82277945d748aba1d78761f61e2"
-  dependencies:
-    create-hmac "^1.1.2"
-
-pbkdf2@^3.0.3:
-  version "3.0.17"
-  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
-  dependencies:
-    create-hash "^1.1.2"
-    create-hmac "^1.1.4"
-    ripemd160 "^2.0.1"
-    safe-buffer "^5.0.1"
-    sha.js "^2.4.8"
 
 pegjs@^0.10.0:
   version "0.10.0"
@@ -6803,17 +6607,6 @@ pseudomap@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
 
-public-encrypt@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/public-encrypt/-/public-encrypt-4.0.3.tgz#4fcc9d77a07e48ba7527e7cbe0de33d0701331e0"
-  dependencies:
-    bn.js "^4.1.0"
-    browserify-rsa "^4.0.0"
-    create-hash "^1.1.0"
-    parse-asn1 "^5.0.0"
-    randombytes "^2.0.1"
-    safe-buffer "^5.1.2"
-
 punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
@@ -6866,12 +6659,6 @@ randomatic@^1.1.3:
   dependencies:
     is-number "^3.0.0"
     kind-of "^4.0.0"
-
-randombytes@^2.0.0, randombytes@^2.0.1:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
-  dependencies:
-    safe-buffer "^5.1.0"
 
 range-parser@~1.2.0:
   version "1.2.0"
@@ -6963,20 +6750,6 @@ react-native-checkbox@2.0.0:
   resolved "https://registry.yarnpkg.com/react-native-checkbox/-/react-native-checkbox-2.0.0.tgz#453bbfd2e055a21e69ebe7842414a055d50ff449"
   dependencies:
     prop-types "^15.5.10"
-
-react-native-crypto@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-crypto/-/react-native-crypto-2.1.2.tgz#cfe68cad51cd1f73a4202b7ac164f96c1144cb2a"
-  dependencies:
-    browserify-cipher "^1.0.0"
-    browserify-sign "^4.0.4"
-    create-ecdh "^4.0.0"
-    create-hash "^1.1.0"
-    create-hmac "^1.1.0"
-    diffie-hellman "^5.0.0"
-    inherits "^2.0.1"
-    pbkdf2 "3.0.8"
-    public-encrypt "^4.0.0"
 
 react-native-datepicker@^1.6.0:
   version "1.6.0"
@@ -7765,13 +7538,6 @@ rimraf@~2.4.0:
   dependencies:
     glob "^6.0.1"
 
-ripemd160@^2.0.0, ripemd160@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
-  dependencies:
-    hash-base "^3.0.0"
-    inherits "^2.0.1"
-
 rn-host-detect@^1.0.1:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/rn-host-detect/-/rn-host-detect-1.1.4.tgz#e661427e269f1ac89672f293e20c523651912097"
@@ -7816,7 +7582,7 @@ safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, s
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
 
-safe-buffer@5.1.2, safe-buffer@^5.1.0, safe-buffer@^5.1.2:
+safe-buffer@5.1.2, safe-buffer@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
 
@@ -8038,13 +7804,6 @@ setprototypeof@1.0.3:
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
-
-sha.js@^2.4.0, sha.js@^2.4.8:
-  version "2.4.11"
-  resolved "http://registry.npmjs.org/sha.js/-/sha.js-2.4.11.tgz#37a5cf0b81ecbc6943de109ba2960d1b26584ae7"
-  dependencies:
-    inherits "^2.0.1"
-    safe-buffer "^5.0.1"
 
 shebang-command@^1.2.0:
   version "1.2.0"
