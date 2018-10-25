@@ -46,7 +46,7 @@ async function createBUO(canonicalIdentifier, properties, email) {
 
   return {
     branchObject,
-    url,
+    url: `${url}/`,
   }
 
 
