@@ -43,11 +43,11 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItemsLeft: [
-      { label: 'Tracker', screen: 'Portfolio', icon: 'Portfolio', active: ['ManagePortfolio', 'AddCoins'] },
       { label: 'Borrow', screen: 'LoanApplication', icon: 'Borrow', active: [] },
+      { label: 'Earn', screen: 'InterestCalculator', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator'] },
     ],
     navItemsRight: [
-      { label: 'Earn', screen: 'InterestCalculator', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator', 'DepositCoins'] },
+      { label: 'Pay', screen: 'SelectCoin', icon: 'Portfolio', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }
