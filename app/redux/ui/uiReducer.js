@@ -65,6 +65,7 @@ const initialState = {
   keyboardHeight: 0,
   message: undefined,
   internetConnected: true,
+  maintenanceMode: false,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
