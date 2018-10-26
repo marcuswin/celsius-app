@@ -64,8 +64,8 @@ class LoanApplication extends Component {
           return {
             label: `${currencyName} (${ec})`,
             value: ec.toLowerCase(),
-            image: walletCurrency.currency.image_url,
-            subtext: `${ formatter.crypto(walletCurrency.amount, ec, { precision: 5 }) } = ${ formatter.usd(walletCurrency.total) }`,
+            // image: walletCurrency.currency.image_url,
+            // subtext: `${ formatter.crypto(walletCurrency.amount, ec, { precision: 5 }) } = ${ formatter.usd(walletCurrency.total) }`,
           };
         });
       }
@@ -76,7 +76,7 @@ class LoanApplication extends Component {
         return {
           label: `${currencyName} (${ec})`,
           value: ec.toLowerCase(),
-          image: currency.image_url,
+          // image: currency.image_url,
         };
       });
     }

@@ -22,7 +22,6 @@ class CelSelect extends Component {
     theme: PropTypes.oneOf(['blue', 'white']),
     type: PropTypes.oneOf(['gender', 'title', 'country', 'native']),
     // array of { label, value } objects
-    // array of { label, value, image, subtext } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
@@ -113,8 +112,6 @@ class CelSelect extends Component {
 
     const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
 
-    console.log({ value })
-
     return (
       <InputErrorWrapper
         theme={theme}
@@ -124,19 +121,10 @@ class CelSelect extends Component {
         <TouchableOpacity
           onPress={() => this.setState({ visible: !visible })}
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
-
           <Text style={labelStyles}>{label}</Text>
-
           <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}
           </Text>
-
-          { value && value.subtext && (
-            <Text style={{ fontFamily: 'inconsolata-regular', fontSize: 12, opacity: 0.7, position: 'absolute', bottom: 0, left: 18 }}>
-              { value.subtext }
-            </Text>
-          )}
-
           <View style={ globalStyles.inputIconRight }>
             <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
           </View>
