@@ -127,6 +127,7 @@ class WalletDetails extends Component {
 
             { canWithdrawCrypto && (
               <CelButton
+                ref={testUtil.generateTestHook(this, 'WalletDetails.withdraw')}
                 margin={'40 0 0 0'}
                 onPress={this.onPressWithdraw}
               >

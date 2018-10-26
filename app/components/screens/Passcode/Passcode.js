@@ -160,7 +160,6 @@ class Passcode extends Component {
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
 
     const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
-
     return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>

@@ -1,5 +1,3 @@
-// import SignUpKYC from './SignUpKYC'
-
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
 

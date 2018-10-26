@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Content } from "native-base";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -46,6 +47,7 @@ class WithdrawalInfo extends Component {
           </Text>
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'WithdrawalInfo.continue')}
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
@@ -58,4 +60,5 @@ class WithdrawalInfo extends Component {
   }
 }
 
-export default WithdrawalInfo;
+export default testUtil.hookComponent(WithdrawalInfo);
+
