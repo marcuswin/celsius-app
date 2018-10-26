@@ -127,7 +127,7 @@ class LoanApplication extends Component {
         mainHeader={{ backButton: false }}
         animatedHeading={{ text: 'Apply for a Loan', textAlign: 'center' }}
       >
-        <CelScreenContent padding="15 0 40 0">
+        <CelScreenContent padding="15 0 0 0">
 
           <Text style={globalStyles.normalText}>
             Celsius Network offers the
@@ -149,7 +149,7 @@ class LoanApplication extends Component {
           <Separator margin="20 0 20 0"/>
           <Text style={globalStyles.normalText}>Enter the amount of collateral:</Text>
 
-          <CelForm margin="25 0 15 0">
+          <CelForm margin="25 0 0 0">
             <CelInput
               field="amountCollateralUSD"
               theme="white"
@@ -169,12 +169,12 @@ class LoanApplication extends Component {
                   style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountCard, LoanApplicationStyle.loanAmountCardActive] : LoanApplicationStyle.loanAmountCard}
                 >
                   <Text
-                    style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountText, { color: 'white' }] : LoanApplicationStyle.loanAmountText}
+                    style={ltv === formData.ltv ? [LoanApplicationStyle.mainText, { color: 'white' }] : LoanApplicationStyle.mainText}
                   >
                     { formatter.usd(formData.amountCollateralUSD ? formData.amountCollateralUSD * ltv.percent : 0) }
                   </Text>
                   <Text
-                    style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountPercentage, { color: 'white' }] : LoanApplicationStyle.loanAmountPercentage}
+                    style={ltv === formData.ltv ? [LoanApplicationStyle.subText, { color: 'white' }] : LoanApplicationStyle.subText}
                   >
                     { 100 * ltv.percent }% LTV
                   </Text>
@@ -185,18 +185,22 @@ class LoanApplication extends Component {
 
           <Separator margin="20 0 20 0"/>
 
-          <Card style={{ padding: 20, flexDirection: 'row' }}>
-            <View style={{ marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={LoanApplicationStyle.loanAmountText}>{ formData.ltv.interest * 100 }%</Text>
-              <Text style={LoanApplicationStyle.loanAmountPercentage}>Annual interest rate</Text>
+          <Card style={LoanApplicationStyle.bottomCard}>
+            <View style={LoanApplicationStyle.leftBox}>
+              <Text style={[LoanApplicationStyle.mainText, { width: '80%', textAlign: 'center' }]}>{ formData.ltv.interest * 100 }%</Text>
+              <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Annual interest rate</Text>
             </View>
-            <View style={{ marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={LoanApplicationStyle.loanAmountText}>$80</Text>
-              <Text style={LoanApplicationStyle.loanAmountPercentage}>Monthly payment</Text>
+            <View style={LoanApplicationStyle.rightBox}>
+              <Text style={[LoanApplicationStyle.mainText, { width: '80%', textAlign: 'center' }]}>$80</Text>
+              <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Monthly payment</Text>
             </View>
           </Card>
 
-          <CelButton onPress={this.applyForLoan} loading={isLoading}>
+          <CelButton
+            onPress={this.applyForLoan}
+            loading={isLoading}
+            margin="20 0 0 0"
+          >
             Apply for a loan
           </CelButton>
         </CelScreenContent>

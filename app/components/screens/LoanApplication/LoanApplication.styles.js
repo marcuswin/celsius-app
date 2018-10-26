@@ -21,18 +21,21 @@ const LoanApplicationStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  loanAmountText: {
+  mainText: {
     color: '#3D4853',
     fontFamily: 'agile-medium',
     fontSize: 20,
     lineHeight: 25,
   },
-  loanAmountPercentage: {
+  subText: {
     color: '#3D4853',
     fontFamily: 'agile-light',
     fontSize: 14,
     lineHeight: 20,
-  }
+  },
+  bottomCard: { padding: 20, flexDirection: 'row' },
+  leftBox: { marginHorizontal: 5, alignItems: 'center', justifyContent: 'center', borderRightWidth: 1, borderRightColor: '#3D4853' },
+  rightBox: { marginHorizontal: 5, alignItems: 'center', justifyContent: 'center' }
 });
 
 export default LoanApplicationStyle;
