@@ -11,6 +11,7 @@ import interest from './interest/interestReducer';
 import branch from './branch/branchReducer';
 import transfers from './transfers/transfersReducer';
 import cameraRoll from './cameraRoll/cameraRollReducer';
+import loans from './loans/loansReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 export default combineReducers({
@@ -25,5 +26,6 @@ export default combineReducers({
   branch,
   transfers,
   cameraRoll,
+  loans,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 });

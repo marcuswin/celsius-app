@@ -123,4 +123,7 @@ export default {
 
   // cameraRoll actions
   GET_CAMERA_ROLL_SUCCESS: 'GET_CAMERA_ROLL_SUCCESS',
+
+  // loan calls
+  APPLY_FOR_LOAN_SUCCESS: 'APPLY_FOR_LOAN_SUCCESS',
 }
