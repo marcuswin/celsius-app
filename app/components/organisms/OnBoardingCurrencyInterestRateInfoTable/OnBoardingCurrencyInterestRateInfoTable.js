@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import OnBoardingCurrencyInterestRateInfoTableStyle from "./OnBoardingCurrencyInterestRateInfoTable.styles";
 import OnBoardingCurrencyInterestRateInfo
   from "../../molecules/OnboardingCurrencyInterestRateInfo/OnboardingCurrencyInterestRateInfo";
 
@@ -61,12 +60,10 @@ class OnBoardingCurrencyInterestRateInfoTable extends Component {
   }
 
   render() {
-    const {style, interestRates} = this.props;
-
-    const additionalStyle = style || {};
+    const {interestRates} = this.props;
 
     return (
-      <View style={[OnBoardingCurrencyInterestRateInfoTableStyle.wrapper, additionalStyle]}>
+      <View>
         {interestRates ? this.renderInterestTable() : null}
       </View>
     );

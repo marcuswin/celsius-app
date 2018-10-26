@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLORS, FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-
+import {normalize} from "../../../utils/styles-util";
 
 const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
   mainWrapper: {
@@ -13,8 +13,8 @@ const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
     backgroundColor: "rgba(92,110,180,1)",
     paddingLeft: widthPercentageToDP("4.53%"),
     paddingRight: widthPercentageToDP("4.53%"),
-    paddingTop: heightPercentageToDP("1.75%"),
-    paddingBottom: heightPercentageToDP("1.75%"),
+    paddingTop: heightPercentageToDP("1.2%"),
+
   },
   mainWrapperCompact: {
     borderTopWidth: 0,
@@ -34,11 +34,11 @@ const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
   infoWrapper: {},
   currencyName: {
     fontFamily: 'agile-medium',
-    fontSize: FONT_SCALE * 17,
+    fontSize: normalize(17),
     color: '#fff',
   },
   currencyShort: {
-    fontSize: FONT_SCALE * 12,
+    fontSize: normalize(12),
     color: "white",
   },
   rateWrapper: {
@@ -57,7 +57,9 @@ const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
     padding: 10,
   },
   rateText: {
+    fontFamily: "inconsolata-regular",
     color: '#fff',
+    fontSize: normalize(15)
   },
 });
 

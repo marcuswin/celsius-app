@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import {normalize} from "../../../utils/styles-util";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -12,7 +13,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
   },
   title: {
     fontFamily: "agile-extra-bold",
-    fontSize: FONT_SCALE * 42,
+    fontSize: normalize(38),
     color: "#FFFFFF",
     textAlign: "center",
     marginTop: heightPercentageToDP("10%"),
@@ -20,30 +21,29 @@ const WelcomeCarouselStyle = StyleSheet.create({
   },
   contentWrapper: {
     height: heightPercentageToDP("40.4%"),
-    marginTop: heightPercentageToDP("8.62%"),
+    marginTop: heightPercentageToDP("8.52%"),
     width: SCREEN_WIDTH - 80,
     alignItems:"center"
   },
   smallDescription: {
     fontFamily: "agile-bold",
-    fontSize: FONT_SCALE * 16,
+    fontSize: normalize(12),
     color: "#88A2C7",
     marginBottom: heightPercentageToDP("0.74%"),
     textAlign: "center"
   },
   largeDescription: {
     fontFamily: "agile-light",
-    fontSize: FONT_SCALE * 18,
+    fontSize: normalize(14),
     color: STYLES.WHITE_TEXT_COLOR,
     textAlign: "center",
     marginBottom: heightPercentageToDP("2.22%")
   },
   disclaimer: {
-    fontSize: FONT_SCALE * 16,
+    fontSize: normalize(12),
     fontFamily: 'agile-light-italic',
     color: "rgba(136,162,199,1)",
     textAlign: "center",
-    marginBottom: heightPercentageToDP("2.34%")
   },
   circle: {
     margin: widthPercentageToDP("3.2%"),
@@ -60,7 +60,6 @@ const WelcomeCarouselStyle = StyleSheet.create({
     marginTop: heightPercentageToDP("1.93%"),
     left: (SCREEN_WIDTH - 80) / 2 - 48,
     top: heightPercentageToDP("48%")
-
   },
   table: {
     marginTop: heightPercentageToDP("8.62%"),

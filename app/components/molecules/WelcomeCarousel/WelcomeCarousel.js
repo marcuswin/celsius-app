@@ -28,7 +28,7 @@ const imageTwo = () => (
   <ScrollView
     scrollEnabled={false}
   >
-    <Image style={{ height: heightPercentageToDP("40.4%"), width: width - 80}} source={require('../../../../assets/images/Conversation3x.png')}/>
+    <Image style={{ resizeMode: 'contain',height: heightPercentageToDP("44.4%"), width: widthPercentageToDP("75%")}} source={require('../../../../assets/images/Conversation3x.png')}/>
   </ScrollView>
 );
 
@@ -104,11 +104,11 @@ export default class WelcomeCarousel extends Component {
                   >
                     {source.image}
                   </Animated.View>
-                  <View>
+                  <Animated.View style={{opacity: opaque}}>
                     <Text style={WelcomeCarouselStyle.title}>{source.title}</Text>
                     <Text style={WelcomeCarouselStyle.largeDescription}>{source.largeDescription}</Text>
                     <Text style={WelcomeCarouselStyle.disclaimer}>{source.disclaimer}</Text>
-                  </View>
+                  </Animated.View>
                 </View>
               )
             }
