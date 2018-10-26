@@ -45,6 +45,7 @@ import DestinationTagExplanationModalScreen from "../components/organisms/Destin
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
+import SelectCoinScreen from "../components/screens/SelectCoin/SelectCoin";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -217,6 +218,11 @@ export const screens = {
   DestinationTagExplanationModal: {
     screen: DestinationTagExplanationModalScreen,
     title: 'DestinationTagExplanationModal',
+  },
+  SelectCoin: {
+    screen: SelectCoinScreen,
+    title: 'SelectCoin',
+    bottomNavigation: true,
   },
 
   // Wallet screens
