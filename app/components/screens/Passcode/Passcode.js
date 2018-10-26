@@ -120,7 +120,7 @@ class Passcode extends Component {
       try {
         await meService.checkPin(pin);
         if (previousScreen === null) {
-          actions.navigateTo('WalletBalance');
+          actions.navigateTo('Home');
         } else {
           actions.navigateTo(previousScreen);
         }
