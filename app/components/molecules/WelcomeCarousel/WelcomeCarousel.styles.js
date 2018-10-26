@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
 import {normalize} from "../../../utils/styles-util";
 
