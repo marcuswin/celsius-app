@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import OnBoardingCurrencyInterestRateInfoStyle from "./OnboardingCurrencyInterestRateInfo.styles";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
+import CountTo from "../../atoms/Counter/Counter";
 
 @connect(
   state => ({
@@ -27,6 +28,10 @@ class OnBoardingCurrencyInterestRateInfo extends Component {
 
     const currencyName = currencyInfo.name === "bitcoin cash" ? "BCash" : currencyInfo.name;
 
+    const animatedNo = value => <Text style={OnBoardingCurrencyInterestRateInfoStyle.rateText}>{`${value}%`}</Text>;
+
+    const rateNo = rate.split("%");
+
     return (
       <View style={[OnBoardingCurrencyInterestRateInfoStyle.mainWrapper, additionalWrapperStyle]}>
         <View style={OnBoardingCurrencyInterestRateInfoStyle.mainInfoWrapper}>
@@ -38,7 +43,12 @@ class OnBoardingCurrencyInterestRateInfo extends Component {
             <Text style={OnBoardingCurrencyInterestRateInfoStyle.currencyShort}>{currencyInfo.short}</Text>
           </View>
           <View style={OnBoardingCurrencyInterestRateInfoStyle.rateWrapper}>
-            <Text style={OnBoardingCurrencyInterestRateInfoStyle.rateText}>{rate}</Text>
+            <CountTo
+              to={Number(rateNo[0])}
+              speed={1000}
+            >
+              {animatedNo}
+            </CountTo>
           </View>
         </View>
         {currencyInfo.short.toUpperCase() === "USD" &&
