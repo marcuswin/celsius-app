@@ -14,7 +14,7 @@ const OfflineModeStyle = StyleSheet.create({
   },
   image: {
     width: width/2,
-    height: height/4
+    height: width/2 * 0.96,
   },
   header: {
     textAlign: 'center',

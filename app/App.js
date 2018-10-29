@@ -63,6 +63,12 @@ function handleDeepLink(deepLink) {
   store.dispatch(actions.registerBranchLink(deepLink));
 }
 
+function pollBackendStatus() {
+  setInterval(async () => {
+    await store.dispatch(actions.getBackendStatus());
+  }, 30000);
+}
+
 export default class App extends Component {
   // Init Application
   static async initApp() {
@@ -112,6 +118,8 @@ export default class App extends Component {
     // get general data for te app
     await store.dispatch(actions.getSupportedCurrencies())
     await store.dispatch(actions.getBackendStatus())
+
+    pollBackendStatus();
 
     // init twitter login service
     twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
