@@ -15,7 +15,6 @@ class EarnInterestLayout extends Component {
 
   render() {
     const {children} = this.props;
-console.log('tabs.label', '111111111111');
 
     return (
       <SimpleLayout

@@ -26,6 +26,7 @@ import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import { BRANCH_LINKS, MODALS, TRANSACTION_TYPES } from "../../../config/constants/common";
 import { createBUO } from "../../../redux/branch/branchActions";
 import TransactionOptionsModal from "../../organisms/TransactionOptionsModal/TransactionOptionsModal";
+import testUtil from "../../../utils/test-util";
 
 function getHeading(transaction) {
   return {
@@ -318,6 +319,7 @@ class TransactionDetails extends Component {
           { sections.map(this.renderSection) }
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'TransactionsDetails.closeButton')}
             onPress={() => actions.navigateTo('Home', true)}
             margin='10 36 0 36'
           >
@@ -331,7 +333,7 @@ class TransactionDetails extends Component {
   }
 }
 
-export default TransactionDetails;
+export default testUtil.hookComponent(TransactionDetails);
 
 const BasicSection = ({ label, value }) => (
   <View style={TransactionDetailsStyle.infoDetail}>

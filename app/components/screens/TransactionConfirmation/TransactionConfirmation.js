@@ -318,7 +318,7 @@ class TransactionConfirmation extends Component {
             </View>
             <View style={TransactionConfirmationStyle.addressViewWrapper}>
               <Text style={TransactionConfirmationStyle.toAddress}>DESTINATION TAG</Text>
-              <Text style={TransactionConfirmationStyle.address}>{newTag}</Text>
+              <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newTag}</Text>
             </View>
           </View>
           :

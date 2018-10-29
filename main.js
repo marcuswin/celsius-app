@@ -5,6 +5,7 @@ import App from './app/App';
 
 // import SingUpKYC from './specs/SingUpKYC';
 import testSuitOne from './specs/testSuitOne';
+// import TestInterestCalculator from './specs/TestInterestCalculator'
 
 const { ENV } = Expo.Constants.manifest.extra;
 
