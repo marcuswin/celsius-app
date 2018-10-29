@@ -114,7 +114,7 @@ class LoanApplication extends Component {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: 'Apply for a Loan', textAlign: 'center' }}
+          animatedHeading={{ text: 'CelBorrow', textAlign: 'center' }}
         >
           <Loader />
         </SimpleLayout>
@@ -128,14 +128,14 @@ class LoanApplication extends Component {
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
-        animatedHeading={{ text: 'Apply for a Loan', textAlign: 'center' }}
+        animatedHeading={{ text: 'CelBorrow', textAlign: 'center' }}
       >
         <CelScreenContent padding="15 0 0 0">
 
           <Text style={globalStyles.normalText}>
-            Celsius Network offers the
+            Celsius Network guarantees the
             <Text style={[globalStyles.boldText]}> lowest interest rates</Text>
-            . Fill out this form for a member of our sales team to coordinate your loan for you today!
+            . Submit your application today!
           </Text>
 
           <Separator margin="20 0 20 0"/>
@@ -206,7 +206,7 @@ class LoanApplication extends Component {
             </View>
             <View style={LoanApplicationStyle.rightBox}>
               <Text style={[LoanApplicationStyle.mainText, { width: '80%', textAlign: 'center' }]}>$80</Text>
-              <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Monthly payment</Text>
+              <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Monthly interest payment</Text>
             </View>
           </Card>
 

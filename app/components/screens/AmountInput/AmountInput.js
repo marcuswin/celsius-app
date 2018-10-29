@@ -112,7 +112,7 @@ class AmountInput extends Component {
    */
   getHeadingText = (purpose, currency) => {
     if (purpose === 'send' || purpose === 'confirm-send') {
-      return `Send ${currency ? currency.toUpperCase() : ''}`;
+      return `CelPay ${currency ? currency.toUpperCase() : ''}`;
     }
 
     return `Withdraw ${currency ? currency.toUpperCase() : ''}`;

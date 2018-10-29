@@ -23,7 +23,7 @@ class SelectCoin extends Component {
     this.state = {
       // initial state
       animatedHeading: {
-        text: 'Choose a coin to send'
+        text: 'CelPay'
       },
     };
   }
