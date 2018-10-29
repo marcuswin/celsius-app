@@ -101,13 +101,25 @@ class LoanApplication extends Component {
     const { actions, currencyRatesShort, formData } = this.props;
 
     actions.updateFormField('amountCollateralUSD', text);
+    const loanAmount = text * formData.ltv.percent;
+    actions.updateFormField('loanAmount', loanAmount);
+    actions.updateFormField('monthlyRate', loanAmount * formData.ltv.interest / 12);
     if (formData.coin) {
       actions.updateFormField('amountCollateralCrypto', text / currencyRatesShort[formData.coin]);
     }
   }
 
+  clickCard = (ltv) => {
+    const { actions, formData } = this.props;
+
+    actions.updateFormField('ltv', ltv);
+    const loanAmount = formData.amountCollateralUSD * ltv.percent;
+    actions.updateFormField('loanAmount', loanAmount);
+    actions.updateFormField('monthlyRate', loanAmount * ltv.interest / 12);
+  }
+
   render() {
-    const { formData, actions, callsInProgress, walletCurrencies } = this.props;
+    const { formData, callsInProgress, walletCurrencies } = this.props;
     const { pickerItems } = this.state;
 
     if (!pickerItems || !formData.ltv) {
@@ -176,7 +188,7 @@ class LoanApplication extends Component {
           <Text style={globalStyles.normalText}>Choose one of these loan amounts:</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
             { LTVs.map((ltv) => (
-              <TouchableOpacity onPress={() => actions.updateFormField('ltv', ltv)} key={ltv.percent.toString()}>
+              <TouchableOpacity onPress={() => this.clickCard(ltv)} key={ltv.percent.toString()}>
                 <Card
                   style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountCard, LoanApplicationStyle.loanAmountCardActive] : LoanApplicationStyle.loanAmountCard}
                 >
@@ -205,7 +217,7 @@ class LoanApplication extends Component {
               <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Annual interest rate</Text>
             </View>
             <View style={LoanApplicationStyle.rightBox}>
-              <Text style={[LoanApplicationStyle.mainText, { width: '80%', textAlign: 'center' }]}>$80</Text>
+              <Text style={[LoanApplicationStyle.mainText, { width: '80%', textAlign: 'center' }]}>{ formatter.usd(formData.monthlyRate || 0) }</Text>
               <Text style={[LoanApplicationStyle.subText, { width: '80%', textAlign: 'center' }]}>Monthly interest payment</Text>
             </View>
           </Card>
