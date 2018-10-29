@@ -47,7 +47,7 @@ class BottomNavigation extends Component {
       { label: 'Earn', screen: 'InterestCalculator', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator'] },
     ],
     navItemsRight: [
-      { label: 'Pay', screen: 'SelectCoin', icon: 'Portfolio', active: [] },
+      { label: 'Pay', screen: 'SelectCoin', icon: 'Pay', active: [] },
       { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
     ]
   }
@@ -132,7 +132,6 @@ class BottomNavigation extends Component {
         </TouchableOpacity>
       )
     }
-
   };
 
   render() {
