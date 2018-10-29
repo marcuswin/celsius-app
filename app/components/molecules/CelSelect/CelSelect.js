@@ -125,7 +125,6 @@ class CelSelect extends Component {
           <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}
           </Text>
-
           <View style={ globalStyles.inputIconRight }>
             <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
           </View>

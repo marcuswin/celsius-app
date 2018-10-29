@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
+import { ImageBackground } from "react-native";
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 
-import {MainHeader} from '../../molecules/MainHeader/MainHeader';
 import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
 import { mixpanelEvents } from '../../../services/mixpanel'
-import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+
 
 @connect(
   state => ({
@@ -36,38 +36,28 @@ class WelcomeScreen extends Component {
     const {actions} = this.props;
 
     return (
-      <BasicLayout>
-        <Container style={{ backgroundColor: 'black' }}>
-          <Content bounces={false} style={WelcomeStyle.content}>
-            <MainHeader/>
-            <View style={[WelcomeStyle.view]}>
-              <WelcomeCarousel />
+      <Container style={{ backgroundColor: 'black' }}>
+        <Content bounces={false} style={WelcomeStyle.content}>
 
-              <View style={WelcomeStyle.buttonWrapper}>
-                <CelButton
-                  onPress={() => {
-                    mixpanelEvents.signupButton();
-                    actions.navigateTo('SignupOne')}
-                  }
-                  white
-                  iconRight="IconArrowRight"
-                >
-                  Sign up
-                </CelButton>
+          <ImageBackground source={require('../../../../assets/images/Onboarding_background3x.png')} style={[WelcomeStyle.view]}>
+            <WelcomeCarousel />
 
-                <CelButton
-                  onPress={() => actions.navigateTo('Login', true)}
-                  transparent
-                  size="small"
-                  margin="25 0 20 0"
-                >
-                  Already have an account?
-                </CelButton>
-              </View>
+            <View style={WelcomeStyle.buttonWrapper}>
+              <CelButton
+                // TODO(ns): see when to redirect to login instead of sign up
+              onPress={() => {
+                actions.navigateTo('SignupOne');
+                mixpanelEvents.signupButton()
+              }}
+                transparent
+                size="medium"
+              >
+               Skip
+              </CelButton>
             </View>
-          </Content>
-        </Container>
-      </BasicLayout>
+          </ImageBackground>
+        </Content>
+      </Container>
     );
   }
 }

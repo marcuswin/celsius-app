@@ -199,7 +199,11 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     alignItems: 'center',
     opacity: 0.4,
   },
-
+  shadow: {
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 2},
+  }
 };
 
 export const FONTS = [
@@ -269,4 +273,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/deerTransactionHistory.png'),
   require('../../../assets/images/illuNoKYC3x.png'),
   require('../../../assets/images/OfflineMode/deer-tangled3x.png'),
+  require('../../../assets/images/Onboarding_background3x.png'),
+  require('../../../assets/images/interactivePart3x.png'),
+  require('../../../assets/images/Conversation3x.png'),
 ];

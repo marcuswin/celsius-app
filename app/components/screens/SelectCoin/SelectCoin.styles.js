@@ -5,7 +5,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const smallImageSize = SCREEN_WIDTH / 4.9;
 
-const AddCoinsStyle = StyleSheet.create({
+const SelectCoinStyle = StyleSheet.create({
 
   text: {
     marginTop: 30,
@@ -47,8 +47,10 @@ const AddCoinsStyle = StyleSheet.create({
   coinWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 8,
-    marginRight: 8
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 25,
+    maxWidth: '29%',
   },
   coin: {
     justifyContent: 'center',
@@ -76,12 +78,16 @@ const AddCoinsStyle = StyleSheet.create({
     color: '#3D4853',
     fontSize: FONT_SCALE * 14,
   },
-  coinNameShort: {
-    fontFamily: 'agile-light',
+  amountTextUSD: {
+    fontFamily: 'inconsolata-regular',
     color: '#3D4853',
     fontSize: FONT_SCALE * 14,
-    marginBottom: 25,
+  },
+  amountText: {
+    fontFamily: 'inconsolata-regular',
+    color: '#899099',
+    fontSize: FONT_SCALE * 14,
   },
 });
 
-export default AddCoinsStyle;
+export default SelectCoinStyle;
