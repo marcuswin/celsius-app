@@ -19,6 +19,7 @@ import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelForm from "../../atoms/CelForm/CelForm";
+import Icon from "../../atoms/Icon/Icon";
 
 const LTVs = [
   { percent: 0.2, interest: 0.05 },
@@ -30,6 +31,7 @@ const LTVs = [
 @connect(
   state => ({
     supportedCurrencies: state.generalData.supportedCurrencies,
+    currencyRatesShort: state.generalData.currencyRatesShort,
     walletCurrencies: state.wallet.currencies,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -61,23 +63,14 @@ class LoanApplication extends Component {
         pickerItems = ELIGIBLE_COINS.map(ec => {
           const walletCurrency = walletCurrencies.find(w => w.currency.short === ec)
           const currencyName = walletCurrency.currency.name[0].toUpperCase() + walletCurrency.currency.name.slice(1);
-          return {
-            label: `${currencyName} (${ec})`,
-            value: ec.toLowerCase(),
-            // image: walletCurrency.currency.image_url,
-            // subtext: `${ formatter.crypto(walletCurrency.amount, ec, { precision: 5 }) } = ${ formatter.usd(walletCurrency.total) }`,
-          };
+          return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
         });
       }
     } else {
       pickerItems = ELIGIBLE_COINS.map(ec => {
         const currency = supportedCurrencies.find(sc => sc.short === ec)
         const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
-        return {
-          label: `${currencyName} (${ec})`,
-          value: ec.toLowerCase(),
-          // image: currency.image_url,
-        };
+        return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
       });
     }
 
@@ -94,7 +87,7 @@ class LoanApplication extends Component {
       return actions.showMessage('error', 'Please select a currency')
     }
     if (!formData.amountCollateralUSD) {
-      return actions.showMessage('error', 'Please select an amount between %500.00 and $10,000.00')
+      return actions.showMessage('error', 'Please select an amount between $500.00 and $10,000.00')
     }
 
     if (Number(formData.amountCollateralUSD) < 500) {
@@ -104,8 +97,17 @@ class LoanApplication extends Component {
     actions.applyForALoan();
   }
 
+  updateAmounts = (field, text) => {
+    const { actions, currencyRatesShort, formData } = this.props;
+
+    actions.updateFormField('amountCollateralUSD', text);
+    if (formData.coin) {
+      actions.updateFormField('amountCollateralCrypto', text / currencyRatesShort[formData.coin]);
+    }
+  }
+
   render() {
-    const { formData, actions, callsInProgress } = this.props;
+    const { formData, actions, callsInProgress, walletCurrencies } = this.props;
     const { pickerItems } = this.state;
 
     if (!pickerItems || !formData.ltv) {
@@ -121,6 +123,7 @@ class LoanApplication extends Component {
     }
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
+    const walletCurrency = walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin)
 
     return (
       <SimpleLayout
@@ -145,10 +148,14 @@ class LoanApplication extends Component {
             value={formData.coin}
             margin="25 0 15 0"
           />
+          { walletCurrency && (
+            <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
+              Balance: { formatter.crypto(walletCurrency.amount, walletCurrency.currency.short, { precision: 5 }) } = { formatter.usd(walletCurrency.total) }
+            </Text>
+          ) }
 
           <Separator margin="20 0 20 0"/>
           <Text style={globalStyles.normalText}>Enter the amount of collateral:</Text>
-
           <CelForm margin="25 0 0 0">
             <CelInput
               field="amountCollateralUSD"
@@ -156,12 +163,17 @@ class LoanApplication extends Component {
               value={formData.amountCollateralUSD}
               placeholder="eg. $1,500.00"
               type="number"
+              onChange={this.updateAmounts}
             />
           </CelForm>
+          { formData.amountCollateralCrypto && (
+            <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
+              Amount: { formatter.crypto(formData.amountCollateralCrypto, walletCurrency.currency.short, { precision: 5 }) }
+            </Text>
+          ) }
 
           <Separator margin="20 0 20 0"/>
           <Text style={globalStyles.normalText}>Choose one of these loan amounts:</Text>
-
           <View style={LoanApplicationStyle.cardWrapper}>
             { LTVs.map((ltv) => (
               <TouchableOpacity onPress={() => actions.updateFormField('ltv', ltv)} key={ltv.percent.toString()}>
@@ -178,6 +190,8 @@ class LoanApplication extends Component {
                   >
                     { 100 * ltv.percent }% LTV
                   </Text>
+
+                  { ltv === formData.ltv  && <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" style={{ position: 'absolute', bottom: 5, right: 5 }}/> }
                 </Card>
               </TouchableOpacity>
             )) }

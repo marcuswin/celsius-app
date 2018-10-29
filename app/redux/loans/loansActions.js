@@ -18,7 +18,7 @@ function applyForALoan() {
       const loanApplication = {
         coin: formData.coin,
         collateral_amount_usd: formData.amountCollateralUSD,
-        collateral_amount_crypto: formData.amountCollateralUSD,
+        collateral_amount_crypto: formData.amountCollateralCrypto,
         ltv: formData.ltv.percent,
         interest: formData.ltv.interest,
         monthly_payment: formData.monthlyPayment || 10,

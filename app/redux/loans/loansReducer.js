@@ -7,11 +7,7 @@ function initialState() {
 }
 
 export default function loansReducer($$state = initialState(), action) {
-  console.log(action.type);
   switch (action.type) {
-    // case ACTIONS.TEST_ACTION:
-    //     return { ...$$state };
-
     default:
       return { ...$$state };
   }
