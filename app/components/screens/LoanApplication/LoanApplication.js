@@ -135,7 +135,7 @@ class LoanApplication extends Component {
     }
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
-    const walletCurrency = walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin)
+    const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
 
     return (
       <SimpleLayout
@@ -180,7 +180,7 @@ class LoanApplication extends Component {
           </CelForm>
           { formData.amountCollateralCrypto && (
             <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
-              Amount: { formatter.crypto(formData.amountCollateralCrypto, walletCurrency.currency.short, { precision: 5 }) }
+              Amount: { formatter.crypto(formData.amountCollateralCrypto, formData.coin.toUpperCase(), { precision: 5 }) }
             </Text>
           ) }
 
