@@ -20,6 +20,7 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extr
 @connect(
   state => ({
     user: state.users.user,
+    expiredSession: state.users.expiredSession,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
     appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
@@ -31,27 +32,31 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extr
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes } = this.props;
+    const { actions, branchHashes, expiredSession } = this.props;
 
-    try {
-      // get user token
-      const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      // get user from db
-      if (token) {
-        await actions.getProfileInfo();
+    if (expiredSession) {
+      await actions.logoutUser();
+    } else {
+      try {
+        // get user token
+        const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        // get user from db
+        if (token) {
+          await actions.getProfileInfo();
 
-        // Anything beyond this point is considered as the user has logged in.
-        registerForPushNotificationsAsync();
+          // Anything beyond this point is considered as the user has logged in.
+          registerForPushNotificationsAsync();
 
-        // claim branch transfers
-        if (branchHashes && branchHashes.length) {
-          branchHashes.forEach(bh => {
-            actions.claimTransfer(bh);
-          })
+          // claim branch transfers
+          if (branchHashes && branchHashes.length) {
+            branchHashes.forEach(bh => {
+              actions.claimTransfer(bh);
+            })
+          }
         }
+      } catch(err) {
+        console.log(err);
       }
-    } catch(err) {
-      console.log(err);
     }
 
     if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&

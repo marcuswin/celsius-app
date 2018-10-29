@@ -1,10 +1,15 @@
 import axios from 'axios';
 import qs from "qs";
+import { Buffer } from "buffer";
+import r from "jsrsasign";
 import {Constants} from 'expo';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
+import store from '../redux/store';
+import * as actions from '../redux/actions';
+
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY} = Constants.manifest.extra;
 let token;
 
 export default {
@@ -43,7 +48,7 @@ function initInterceptors() {
         console.log(err);
       }
 
-      if (ENV === 'PRODUCTION') {
+      if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
         newRequest.headers['X-Client-Version'] = CLIENT_VERSION;
       } else {
         newRequest.headers['X-Client-Version'] = ENV;
@@ -60,13 +65,30 @@ function initInterceptors() {
 
   axios.interceptors.response.use(
     res => {
+
+      const sign = res.headers['x-cel-sign'];
+      const data = res.data;
+
+      if (verifyKey(data, sign)) {
+        /* eslint-disable no-underscore-dangle */
+        console.log({RESPONSE: res});
+        /* eslint-enable no-underscore-dangle */
+
+        return res;
+      }
+
+      const err = {
+        type: 'Sign Error',
+        msg: 'Wrong API key',
+      };
+
       /* eslint-disable no-underscore-dangle */
-      console.log({RESPONSE: res});
+      console.log({API_ERROR: err});
       /* eslint-enable no-underscore-dangle */
 
-      return res;
+      return Promise.reject(err);
     },
-    error => {
+    async error => {
       const defaultMsg = 'Oops, it looks like something went wrong.';
       const err = error.response ? error.response.data : {
         type: 'Unknown Server Error',
@@ -75,6 +97,10 @@ function initInterceptors() {
       };
 
       if (!err.msg) err.msg = defaultMsg;
+
+      if (err.status === 401 && err.slug === "SESSION_EXPIRED") {
+        store.dispatch(actions.expireSession());
+      }
 
       /* eslint-disable no-underscore-dangle */
       console.log({API_ERROR: err});
@@ -97,4 +123,12 @@ function parseValidationErrors(serverError) {
   })
 
   return validationErrors;
+}
+
+function verifyKey(data, sign) {
+  const sig2 = new r.KJUR.crypto.Signature({ alg: "SHA256withRSA" });
+  sig2.init(PUBLIC_KEY);
+  sig2.updateString(JSON.stringify(data));
+  const isValid = sig2.verify(Buffer.from(sign, 'base64').toString('hex'));
+  return isValid;
 }
