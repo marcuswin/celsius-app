@@ -6,25 +6,19 @@ import WelcomeScreen from '../components/screens/Welcome/Welcome';
 import LoginScreen from "../components/screens/Login/Login";
 import ForgottenPasswordScreen from "../components/screens/ForgottenPassword/ForgottenPassword";
 import HomeScreen from "../components/screens/Home/Home";
-import CalculatorScreen from "../components/screens/Calculator/Calculator";
-import ManagePortfolioScreen from "../components/screens/ManagePortfolio/ManagePortfolio";
 import SignupOneScreen from "../components/screens/Signup/SignupOne";
 import SignupTwoScreen from "../components/screens/Signup/SignupTwo";
-import EstimatedLoanScreen from "../components/screens/EstimatedLoan/EstimatedLoan";
 import TermsOfUseScreen from "../components/screens/TermsOfUse/TermsOfUse";
 import ProfileScreen from '../components/screens/Profile/Profile';
 import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePassword";
-import DepositCoinsScreen from "../components/screens/DepositCoins/DepositCoins";
 import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
 import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDetails";
 import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
 import CameraScreen from "../components/screens/Camera/Camera";
 import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
-import AddCoinsScreen from "../components/screens/AddCoins/AddCoins";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
 import AddFundsScreen from "../components/screens/AddFunds/AddFunds";
 import WalletDetailsScreen from "../components/screens/WalletDetails/WalletDetails";
-import PortfolioScreen from "../components/screens/Portfolio/Portfolio";
 import CryptoForPeopleScreen from "../components/screens/CryptoForPeople/CryptoForPeople";
 import AmountInputScreen from "../components/screens/AmountInput/AmountInput";
 import TransactionConfirmationScreen from "../components/screens/TransactionConfirmation/TransactionConfirmation";
@@ -80,39 +74,7 @@ export const screens = {
     title: 'Home',
   },
 
-  // Portfolio/Tracker screens
-  Portfolio: {
-    screen: PortfolioScreen,
-    title: 'Portfolio',
-    bottomNavigation: true,
-  },
-  ManagePortfolio: {
-    screen: ManagePortfolioScreen,
-    title: 'ManagePortfolio',
-    bottomNavigation: true,
-  },
-  AddCoins: {
-    screen: AddCoinsScreen,
-    title: 'AddCoins',
-    bottomNavigation: true,
-  },
-
   // Borrow and Lend/Interest screens
-  EstimatedLoan: {
-    screen: EstimatedLoanScreen,
-    title: 'EstimatedLoan',
-    bottomNavigation: true,
-  },
-  Calculator: {
-    screen: CalculatorScreen,
-    title: 'Calculator',
-    bottomNavigation: true,
-  },
-  DepositCoins: {
-    screen: DepositCoinsScreen,
-    title: 'DepositCoins',
-    bottomNavigation: true,
-  },
   InterestCalculator: {
     screen: InterestCalculatorScreen,
     title: 'InterestCalculator',
