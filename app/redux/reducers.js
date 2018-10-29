@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 import nav from './nav/navReducer';
 import api from './api/apiReducer';
 import ui from './ui/uiReducer';
-import portfolio from './portfolio/portfolioReducer';
 import users from './users/usersReducer';
 import generalData from './generalData/generalDataReducer';
 import wallet from './wallet/walletReducer';
@@ -19,7 +18,6 @@ export default combineReducers({
   nav,
   users,
   ui,
-  portfolio,
   generalData,
   wallet,
   interest,
