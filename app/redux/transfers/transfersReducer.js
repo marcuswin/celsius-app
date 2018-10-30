@@ -17,17 +17,6 @@ export default function transfersReducer(state = initialState(), action) {
         return {
           ...state,
           branchHashes: [...state.branchHashes, action.link.transfer_hash],
-          transfers: {
-            ...state.transfers,
-            [action.link.transfer_hash]: {
-              amount: action.link.amount,
-              coin: action.link.coin,
-              from: {
-                name: action.link.from_name,
-                profile_picture: action.link.from_profile_picture,
-              }
-            }
-          }
         };
       }
       return state;
@@ -47,9 +36,11 @@ export default function transfersReducer(state = initialState(), action) {
     case ACTIONS.GET_TRANSFER_SUCCESS:
       return {
         ...state,
-        transfers: {
+        transfers: action.transfer ? {
           ...state.transfers,
           [action.transfer.hash]: action.transfer,
+        } : {
+          ...state.transfers,
         }
       };
 
