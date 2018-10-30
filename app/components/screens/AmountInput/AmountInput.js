@@ -15,7 +15,6 @@ import formatter from '../../../utils/formatter';
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import testUtil from "../../../utils/test-util";
-// import { Item } from "native-base";
 
 @connect(
   state => {
@@ -79,7 +78,6 @@ class AmountInput extends Component {
     }
   }
 
-
   onPressNumber = (number) => {
     const { formData, actions } = this.props;
     const decimal = formData.inUsd ? 2 : 5;
@@ -114,7 +112,7 @@ class AmountInput extends Component {
    */
   getHeadingText = (purpose, currency) => {
     if (purpose === 'send' || purpose === 'confirm-send') {
-      return `Send ${currency ? currency.toUpperCase() : ''}`;
+      return `CelPay ${currency ? currency.toUpperCase() : ''}`;
     }
 
     return `Withdraw ${currency ? currency.toUpperCase() : ''}`;
@@ -188,7 +186,7 @@ class AmountInput extends Component {
 
   render() {
     const { numPad } = this.state;
-    const { formData, actions, screenHeight, navigation } = this.props;
+    const { formData, screenHeight, navigation } = this.props;
 
     const purpose = navigation.getParam("purpose");
 
@@ -202,15 +200,11 @@ class AmountInput extends Component {
 
     const displayBalanceCrypto = formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 });
     const displayBalanceUsd = formatter.usd(balanceUsd);
-    
+
     return (
       <BasicLayout
       >
-        <MainHeader
-          ref={testUtil.generateTestHook(this, `AmountInput.back`)}
-          backButton
-          onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
-        />
+        <MainHeader backButton ref={testUtil.generateTestHook(this, `AmountInput.back`)} />
         <CelHeading text={this.getHeadingText(purpose, formData.currency)} />
         <CelScreenContent padding='0 0 0 0'>
           <View style={{ height: 0.75 * screenHeight }}>

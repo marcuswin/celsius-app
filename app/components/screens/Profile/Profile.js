@@ -21,7 +21,6 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
 import { COLORS, FONT_SCALE } from "../../../config/constants/style";
 import ReferralModal from "../../organisms/ReferralModal/ReferralModal";
-import { MODALS } from "../../../config/constants/common";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 
 const { revisionId } = Constants.manifest;
@@ -132,14 +131,6 @@ class ProfileScreen extends Component {
             inverse
           >
             Change avatar
-          </CelButton>
-
-          <CelButton
-            inverse
-            margin="0 0 20 0"
-            onPress={() => actions.openModal(MODALS.REFERRAL_MODAL)}
-          >
-            Refer your friends
           </CelButton>
 
           <CelForm disabled={isLoadingProfileInfo}>

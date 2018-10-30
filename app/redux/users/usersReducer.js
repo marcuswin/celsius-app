@@ -7,6 +7,7 @@ const initialState = {
   user: undefined,
   error: null,
   borrower: undefined,
+  expiredSession: false,
   agreedToTermsOfUse: true,
   kycStatus: undefined,
   kycDocuments: undefined,
@@ -20,6 +21,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ACTIONS.EXPIRE_SESSION:
+      return {
+        ...state,
+        expiredSession: true,
+      };
     case ACTIONS.LOGIN_USER_SUCCESS:
       return {
         ...state,

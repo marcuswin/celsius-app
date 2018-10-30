@@ -11,6 +11,7 @@ export default (state = initialState, action) => {
 
   switch (action.type) {
     case ACTIONS.LOGOUT_USER:
+    case ACTIONS.EXPIRE_SESSION:
       return initialState;
     default:
       return newState || state;

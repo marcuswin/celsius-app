@@ -27,6 +27,8 @@ import { FONT_SCALE } from "../../../config/constants/style";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
+
+
 class WalletDetailsHeading extends Component {
   static propTypes = {
     type: Proptypes.oneOf(['single-coin']),
@@ -36,27 +38,27 @@ class WalletDetailsHeading extends Component {
     type: 'single-coin'
   }
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
+  //
+  //   this.state = {
+  //     isPressed: false,
+  //   };
+  // }
+  //
+  // componentDidMount() {
+  //     this.setState({
+  //       isPressed: false,
+  //     })
+  // }
 
-    this.state = {
-      isPressed: false,
-    };
-  }
-
-  componentDidMount() {
-      this.setState({
-        isPressed: false,
-      })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {activeScreen} = this.props;
-
-    if ((activeScreen !== nextProps.activeScreen && nextProps.activeScreen === "WalletDetails")) {
-      this.componentDidMount();
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const {activeScreen} = this.props;
+  //
+  //   if ((activeScreen !== nextProps.activeScreen && nextProps.activeScreen === "WalletDetails")) {
+  //     this.componentDidMount();
+  //   }
+  // }
 
   onPressNavigation = (type) => {
     const { coinOrder } = this.props;
@@ -90,18 +92,18 @@ class WalletDetailsHeading extends Component {
     }
   };
 
-  goToSend = () => {
-    const { actions, currency } = this.props;
-    actions.initForm({
-      currency: currency.toLowerCase(),
-    });
-    actions.navigateTo('AmountInput', { purpose: 'send' });
-    this.state.isPressed = true;
-  };
+  // goToSend = () => {
+  //   const { actions, currency } = this.props;
+  //   actions.initForm({
+  //     currency: currency.toLowerCase(),
+  //   });
+  //   actions.navigateTo('AmountInput', { purpose: 'send' });
+  //   this.state.isPressed = true;
+  // };
 
   render() {
     const { currency, type, walletTotal, walletCurrencies } = this.props;
-    const { isPressed } = this.state;
+    // const { isPressed } = this.state;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
     const fiatTotalSize = total.toString().length >= 10 ? FONT_SCALE * 31 : FONT_SCALE * 40;
@@ -129,7 +131,6 @@ class WalletDetailsHeading extends Component {
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
         <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
-        <CelButton width={110} size="mini" white onPress={this.goToSend} inverse margin="0 0 0 15" disabled={isPressed}>Send</CelButton>
       </View>}
     </View>
   }
