@@ -4,19 +4,41 @@ import * as actions from '../app/redux/actions';
 export default function(spec) {    
 
     store.dispatch(actions.logoutUser());
-    
-    spec.describe('SingUpKYC', function() {
-      spec.it('', async function() {
+
+    spec.describe('SingUp with 3rd party', function() {
+      spec.it('google, ', async function() {
+        
+        await spec.press('Welcome.skipButton')
+        await spec.press('ThirdPartyLoginSection.google')
+        store.dispatch(actions.loginUserGoogleSuccess('data'))
+        await spec.pause(5000000)
+
+      });
+    }); 
+
+    spec.describe('SingUp with 3rd party', function() {
+      spec.it('google, ', async function() {
+
+
+    spec.describe('SingUp', function() {
+      spec.it('No username, no password, ', async function() {
 
         // signUp with no email, pass
-         await spec.press('WelcomeScreen.SignUp')
+         await spec.pause(5000)
+         await spec.press('Welcome.skipButton')
          await spec.press('SignupOne.button')
          await spec.notExists('SignupTwo.screen')
 
          await spec.pause(5000)
 
-        // signUp with no pass
-         await spec.press('WelcomeScreen.SignUp')
+          
+       });
+     });  
+
+    spec.describe('SingUp', function() {
+      spec.it('No password', async function() {
+
+         // signUp with no pass
          await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
          await spec.press('SignupOne.button')
          await spec.notExists('SignupTwo.screen')
@@ -25,9 +47,16 @@ export default function(spec) {
  
          await spec.pause(5000)
 
-        // signUp with no email
-         await spec.press('WelcomeScreen.SignUp')
-         await spec.fillIn('SignupOne.pass','1234567')
+       });
+     });  
+      
+      spec.describe('SingUp', function() {
+        spec.it('No username', async function() {
+
+         // signUp with no email
+         await spec.press('Welcome.skipButton')
+         store.dispatch(actions.clearForm());
+         await spec.fillIn('SignupOne.password','12345678')
          await spec.press('SignupOne.button')
          await spec.notExists('SignupTwo.screen')
 
@@ -35,10 +64,16 @@ export default function(spec) {
 
          await spec.pause(5000)
  
+        });
+      });  
+      
+      spec.describe('SingUp', function() {
+        spec.it('Weak password', async function() {
+
          // signUp with weak paass
-         await spec.press('WelcomeScreen.SignUp')
+         await spec.press('Welcome.skipButton')
          await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.fillIn('SignupOne.pass','1234')
+         await spec.fillIn('SignupOne.password','1234')
          await spec.press('SignupOne.button')
          await spec.notExists('SignupTwo.screen')
 
@@ -46,10 +81,16 @@ export default function(spec) {
 
          await spec.pause(5000)
  
+        });
+      });  
+      
+      spec.describe('SingUp screen two', function() {
+        spec.it('Create pin', async function() {
+
         // signUp
-         await spec.press('WelcomeScreen.SignUp')
+         await spec.press('Welcome.skipButton')
          await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.fillIn('SignupOne.pass','12345678')
+         await spec.fillIn('SignupOne.password','12345678')
          await spec.press('SignupOne.button')
 
          await spec.pause(5000)
@@ -64,6 +105,12 @@ export default function(spec) {
          await spec.press('Passcode.Confirm')
          await spec.pause(1000)
 
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
+
         // kyc, page 1
          await spec.press('NoKyc.VerifyProfile')
 
@@ -77,10 +124,16 @@ export default function(spec) {
          await spec.exists('ProfileDetails.Gender is required!')
 
          await spec.pause(5000)
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('No dateOfBirth, no chitizenship, no gender', async function() {
 
-        // kyc, page 1, test empty, title filled
-        store.dispatch(actions.updateFormField('title', 'mr' ));
+         // kyc, page 1, test empty, title filled
+         store.dispatch(actions.updateFormField('title', 'mr' ));
          await spec.press('ProfileDetails.verifyYourProfile')
+         await spec.pause(3003)
          await spec.notExists('ProfileDetails.Title is required!')
          await spec.exists('ProfileDetails.Date of Birth is required!')
          await spec.exists('ProfileDetails.Citizenship is required!')
@@ -88,12 +141,18 @@ export default function(spec) {
 
          await spec.pause(5000)
 
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('no chitizenship, no gender', async function() {
+
         // kyc, page 1, test empty, title, dateOfBirth filled 
         store.dispatch(actions.updateFormField('title', 'mr' ));
         store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
 
          await spec.press('ProfileDetails.verifyYourProfile')
-
+         await spec.pause(3003)
          await spec.notExists('ProfileDetails.Title is required!')
          await spec.notExists('ProfileDetails.Date of Birth is required!')
          await spec.exists('ProfileDetails.Citizenship is required!')
@@ -101,18 +160,33 @@ export default function(spec) {
 
          await spec.pause(5000)
      
-        // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
-        store.dispatch(actions.updateFormField('title', 'mr' ));
-        store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
-        store.dispatch(actions.updateFormField('citizenship','Serbia'));
-        store.dispatch(actions.updateFormField('gender', 'Male' ));
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('All informations filled', async function() {
 
+         // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
+         store.dispatch(actions.updateFormField('title', 'mr' ));
+         store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+         store.dispatch(actions.updateFormField('citizenship','Serbia'));
+         store.dispatch(actions.updateFormField('gender', 'Male' ));
+
+         await spec.press('ProfileDetails.verifyYourProfile')
+
+         await spec.pause(3003)
          await spec.notExists('ProfileDetails.Title is required!')
          await spec.notExists('ProfileDetails.Date of Birth is required!')
-         await spec.exists('ProfileDetails.Citizenship is required!')
-         await spec.exists('ProfileDetails.Gender is required!')
+         await spec.notExists('ProfileDetails.Citizenship is required!')
+         await spec.notExists('ProfileDetails.Gender is required!')
 
          await spec.pause(5000)
+
+        });
+      });  
+      
+      spec.describe('KYC 2', function() {
+        spec.it('Take camera pictures', async function() {
 
         //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
          await spec.press('ProfileDetails.verifyYourProfile')
@@ -141,6 +215,12 @@ export default function(spec) {
          await spec.press('CameraScreen.takePhoto')
          await spec.press('CameraScreen.usePhoto')
 
+        });
+      });  
+      
+      spec.describe('KYC 2', function() {
+        spec.it('Retake driving licence', async function() {
+
         // Drivings licence retake photo
          await spec.press('VerifyProfile.driving_licence')
 
@@ -158,7 +238,7 @@ export default function(spec) {
 
          await spec.pause(2000)
         
-        store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+         store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
 
          await spec.pause(2000)
         
@@ -174,8 +254,11 @@ export default function(spec) {
          await spec.pause(3000)
 
   
-//     });
-// });     
+ });
+      });  
+      
+      spec.describe('SingUpKYC', function() {
+        spec.it('', async function() {    
 
 store.dispatch(actions.logoutUser());
 

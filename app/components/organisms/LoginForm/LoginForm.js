@@ -3,7 +3,6 @@ import {View} from "native-base";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -12,6 +11,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from "../../../redux/actions";
 import CelForm from "../../atoms/CelForm/CelForm";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({

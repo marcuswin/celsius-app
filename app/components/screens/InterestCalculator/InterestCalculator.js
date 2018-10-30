@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import testUtil from "../../../utils/test-util";
 
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
 import Loader from "../../atoms/Loader/Loader";
@@ -17,6 +16,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
 import { INTEREST_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({

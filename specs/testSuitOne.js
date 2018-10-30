@@ -7,26 +7,502 @@ export default function(spec) {
     
   store.dispatch(actions.logoutUser());
 
+  spec.describe('SingUp', function() {
+    spec.it('No username, no password, ', async function() {
+
+      // signUp with no email, pass
+       await spec.pause(5000)
+       await spec.press('Welcome.skipButton')
+       await spec.press('SignupOne.button')
+       await spec.notExists('SignupTwo.screen')
+
+       await spec.pause(5000)
+
+        
+     });
+   });  
+
+  spec.describe('SingUp', function() {
+    spec.it('No password', async function() {
+
+       // signUp with no pass
+       await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+       await spec.press('SignupOne.button')
+       await spec.notExists('SignupTwo.screen')
+
+       store.dispatch(actions.logoutUser());
+
+       await spec.pause(5000)
+
+     });
+   });  
+    
+    spec.describe('SingUp', function() {
+      spec.it('No username', async function() {
+
+       // signUp with no email
+       await spec.press('Welcome.skipButton')
+       store.dispatch(actions.clearForm());
+       await spec.fillIn('SignupOne.password','12345678')
+       await spec.press('SignupOne.button')
+       await spec.notExists('SignupTwo.screen')
+
+       store.dispatch(actions.logoutUser());
+
+       await spec.pause(5000)
+
+      });
+    });  
+    
+    spec.describe('SingUp', function() {
+      spec.it('Weak password', async function() {
+
+       // signUp with weak paass
+       await spec.press('Welcome.skipButton')
+       await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+       await spec.fillIn('SignupOne.password','1234')
+       await spec.press('SignupOne.button')
+       await spec.notExists('SignupTwo.screen')
+
+       store.dispatch(actions.logoutUser());
+
+       await spec.pause(5000)
+
+      });
+    });  
+    
+    spec.describe('SingUp screen two', function() {
+      spec.it('Create pin', async function() {
+
+      // signUp
+       await spec.press('Welcome.skipButton')
+       await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+       await spec.fillIn('SignupOne.password','12345678')
+       await spec.press('SignupOne.button')
+
+       await spec.pause(5000)
+
+       await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+       await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+       await spec.press('SignupTwo.CreatePin')
+
+       await spec.fillIn('passcode.pin','1111')
+       await spec.press('Passcode.Repeat PIN')
+       await spec.fillIn('passcode.pin_confirm','1111')
+       await spec.press('Passcode.Confirm')
+       await spec.pause(1000)
+
+      });
+    });  
+    
+    spec.describe('KYC', function() {
+      spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
+
+      // kyc, page 1
+       await spec.press('NoKyc.VerifyProfile')
+
+       await spec.pause(5000)
+       
+       await spec.press('ProfileDetails.verifyYourProfile')
+
+      //  await spec.exists('ProfileDetails.Title is required!')
+      //  await spec.exists('ProfileDetails.Date of Birth is required!')
+      //  await spec.exists('ProfileDetails.Citizenship is required!')
+      //  await spec.exists('ProfileDetails.Gender is required!')
+
+       await spec.pause(5000)
+      });
+    });  
+    
+    spec.describe('KYC', function() {
+      spec.it('No dateOfBirth, no chitizenship, no gender', async function() {
+
+       // kyc, page 1, test empty, title filled
+       store.dispatch(actions.updateFormField('title', 'mr' ));
+       await spec.press('ProfileDetails.verifyYourProfile')
+       await spec.pause(3003)
+      //  await spec.notExists('ProfileDetails.Title is required!')
+      //  await spec.exists('ProfileDetails.Date of Birth is required!')
+      //  await spec.exists('ProfileDetails.Citizenship is required!')
+      //  await spec.exists('ProfileDetails.Gender is required!')
+
+       await spec.pause(5000)
+
+      });
+    });  
+    
+    spec.describe('KYC', function() {
+      spec.it('no chitizenship, no gender', async function() {
+
+      // kyc, page 1, test empty, title, dateOfBirth filled 
+      store.dispatch(actions.updateFormField('title', 'mr' ));
+      store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
+
+       await spec.press('ProfileDetails.verifyYourProfile')
+       await spec.pause(3003)
+      //  await spec.notExists('ProfileDetails.Title is required!')
+      //  await spec.notExists('ProfileDetails.Date of Birth is required!')
+      //  await spec.exists('ProfileDetails.Citizenship is required!')
+      //  await spec.exists('ProfileDetails.Gender is required!')
+
+       await spec.pause(5000)
+   
+      });
+    });  
+    
+    spec.describe('KYC', function() {
+      spec.it('All informations filled', async function() {
+
+       // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
+       store.dispatch(actions.updateFormField('title', 'mr' ));
+       store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+       store.dispatch(actions.updateFormField('citizenship','Serbia'));
+       store.dispatch(actions.updateFormField('gender', 'Male' ));
+
+       await spec.press('ProfileDetails.verifyYourProfile')
+
+       await spec.pause(3003)
+      //  await spec.notExists('ProfileDetails.Title is required!')
+      //  await spec.notExists('ProfileDetails.Date of Birth is required!')
+      //  await spec.notExists('ProfileDetails.Citizenship is required!')
+      //  await spec.notExists('ProfileDetails.Gender is required!')
+
+       await spec.pause(5000)
+
+      });
+    });  
+    
+    spec.describe('KYC 2', function() {
+      spec.it('Take camera pictures', async function() {
+
+      //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
+       await spec.press('ProfileDetails.verifyYourProfile')
+
+       await spec.pause(5000)
+      
+      // ID card take take photo
+       await spec.press('VerifyProfile.identity_card')
+
+       await spec.press('CameraInput.front')
+       await spec.press('CameraScreen.takePhoto')
+       await spec.press('CameraScreen.usePhoto')
+
+       await spec.pause(5000)
+
+       await spec.press('CameraInput.back')
+       await spec.press('CameraScreen.takePhoto')
+       await spec.press('CameraScreen.usePhoto')
+
+       await spec.pause(2000)
+
+       await spec.press('VerifyProfile.passport')
+
+       await spec.press('CameraInput.front')
+       await spec.press('CameraScreen.retakePhoto')
+       await spec.press('CameraScreen.takePhoto')
+       await spec.press('CameraScreen.usePhoto')
+
+      });
+    });  
+    
+    spec.describe('KYC 2', function() {
+      spec.it('Retake driving licence', async function() {
+
+      // Drivings licence retake photo
+       await spec.press('VerifyProfile.driving_licence')
+
+       await spec.press('CameraInput.front')
+       await spec.press('CameraScreen.retakePhoto')
+       await spec.press('CameraScreen.takePhoto')
+      //  await spec.press('CameraScreen.usePhoto')
+
+       await spec.pause(2000)
+
+       await spec.press('CameraInput.back')
+       await spec.press('CameraScreen.retakePhoto')
+       await spec.press('CameraScreen.takePhoto')
+       await spec.press('CameraScreen.usePhoto')
+
+       await spec.pause(2000)
+      
+       store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+
+       await spec.pause(2000)
+      
+       await spec.press('VerifyProfile.verify')
+
+       await spec.pause(5000)
+
+       await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+       await spec.press('VerifyPhoneNumber.finish')
+
+      store.dispatch(actions.verifySMSSuccess());
+
+       await spec.pause(3000)
+
+      });
+    });  
+
+
+    spec.describe('SingUp', function() {
+      spec.it('No username, no password, ', async function() {
+
+        // signUp with no email, pass
+         await spec.pause(5000)
+         await spec.press('Welcome.skipButton')
+         await spec.press('SignupOne.button')
+         await spec.notExists('SignupTwo.screen')
+
+         await spec.pause(5000)
+
+          
+       });
+     });  
+
+    spec.describe('SingUp', function() {
+      spec.it('No password', async function() {
+
+         // signUp with no pass
+         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+         await spec.press('SignupOne.button')
+         await spec.notExists('SignupTwo.screen')
+
+         store.dispatch(actions.logoutUser());
+ 
+         await spec.pause(5000)
+
+       });
+     });  
+      
+      spec.describe('SingUp', function() {
+        spec.it('No username', async function() {
+
+         // signUp with no email
+         await spec.press('Welcome.skipButton')
+         store.dispatch(actions.clearForm());
+         await spec.fillIn('SignupOne.password','12345678')
+         await spec.press('SignupOne.button')
+         await spec.notExists('SignupTwo.screen')
+
+         store.dispatch(actions.logoutUser());
+
+         await spec.pause(5000)
+ 
+        });
+      });  
+      
+      spec.describe('SingUp', function() {
+        spec.it('Weak password', async function() {
+
+         // signUp with weak paass
+         await spec.press('Welcome.skipButton')
+         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+         await spec.fillIn('SignupOne.password','1234')
+         await spec.press('SignupOne.button')
+         await spec.notExists('SignupTwo.screen')
+
+         store.dispatch(actions.logoutUser());
+
+         await spec.pause(5000)
+ 
+        });
+      });  
+      
+      spec.describe('SingUp screen two', function() {
+        spec.it('Create pin', async function() {
+
+        // signUp
+         await spec.press('Welcome.skipButton')
+         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+         await spec.fillIn('SignupOne.password','12345678')
+         await spec.press('SignupOne.button')
+
+         await spec.pause(5000)
+
+         await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+         await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+         await spec.press('SignupTwo.CreatePin')
+
+         await spec.fillIn('passcode.pin','1111')
+         await spec.press('Passcode.Repeat PIN')
+         await spec.fillIn('passcode.pin_confirm','1111')
+         await spec.press('Passcode.Confirm')
+         await spec.pause(1000)
+
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
+
+        // kyc, page 1
+         await spec.press('NoKyc.VerifyProfile')
+
+         await spec.pause(5000)
+         
+         await spec.press('ProfileDetails.verifyYourProfile')
+
+         await spec.exists('ProfileDetails.Title is required!')
+         await spec.exists('ProfileDetails.Date of Birth is required!')
+         await spec.exists('ProfileDetails.Citizenship is required!')
+         await spec.exists('ProfileDetails.Gender is required!')
+
+         await spec.pause(5000)
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('No dateOfBirth, no chitizenship, no gender', async function() {
+
+         // kyc, page 1, test empty, title filled
+         store.dispatch(actions.updateFormField('title', 'mr' ));
+         await spec.press('ProfileDetails.verifyYourProfile')
+         await spec.pause(3003)
+         await spec.notExists('ProfileDetails.Title is required!')
+         await spec.exists('ProfileDetails.Date of Birth is required!')
+         await spec.exists('ProfileDetails.Citizenship is required!')
+         await spec.exists('ProfileDetails.Gender is required!')
+
+         await spec.pause(5000)
+
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('no chitizenship, no gender', async function() {
+
+        // kyc, page 1, test empty, title, dateOfBirth filled 
+        store.dispatch(actions.updateFormField('title', 'mr' ));
+        store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
+
+         await spec.press('ProfileDetails.verifyYourProfile')
+         await spec.pause(3003)
+         await spec.notExists('ProfileDetails.Title is required!')
+         await spec.notExists('ProfileDetails.Date of Birth is required!')
+         await spec.exists('ProfileDetails.Citizenship is required!')
+         await spec.exists('ProfileDetails.Gender is required!')
+
+         await spec.pause(5000)
+     
+        });
+      });  
+      
+      spec.describe('KYC', function() {
+        spec.it('All informations filled', async function() {
+
+         // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
+         store.dispatch(actions.updateFormField('title', 'mr' ));
+         store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+         store.dispatch(actions.updateFormField('citizenship','Serbia'));
+         store.dispatch(actions.updateFormField('gender', 'Male' ));
+
+         await spec.press('ProfileDetails.verifyYourProfile')
+
+         await spec.pause(3003)
+         await spec.notExists('ProfileDetails.Title is required!')
+         await spec.notExists('ProfileDetails.Date of Birth is required!')
+         await spec.notExists('ProfileDetails.Citizenship is required!')
+         await spec.notExists('ProfileDetails.Gender is required!')
+
+         await spec.pause(5000)
+
+        });
+      });  
+      
+      spec.describe('KYC 2', function() {
+        spec.it('Take camera pictures', async function() {
+
+        //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
+         await spec.press('ProfileDetails.verifyYourProfile')
+
+         await spec.pause(5000)
+        
+        // ID card take take photo
+         await spec.press('VerifyProfile.identity_card')
+
+         await spec.press('CameraInput.front')
+         await spec.press('CameraScreen.takePhoto')
+         await spec.press('CameraScreen.usePhoto')
+
+         await spec.pause(5000)
+
+         await spec.press('CameraInput.back')
+         await spec.press('CameraScreen.takePhoto')
+         await spec.press('CameraScreen.usePhoto')
+
+         await spec.pause(2000)
+
+         await spec.press('VerifyProfile.passport')
+
+         await spec.press('CameraInput.front')
+         await spec.press('CameraScreen.retakePhoto')
+         await spec.press('CameraScreen.takePhoto')
+         await spec.press('CameraScreen.usePhoto')
+
+        });
+      });  
+      
+      spec.describe('KYC 2', function() {
+        spec.it('Retake driving licence', async function() {
+
+        // Drivings licence retake photo
+         await spec.press('VerifyProfile.driving_licence')
+
+         await spec.press('CameraInput.front')
+         await spec.press('CameraScreen.retakePhoto')
+         await spec.press('CameraScreen.takePhoto')
+        //  await spec.press('CameraScreen.usePhoto')
+
+         await spec.pause(2000)
+
+         await spec.press('CameraInput.back')
+         await spec.press('CameraScreen.retakePhoto')
+         await spec.press('CameraScreen.takePhoto')
+         await spec.press('CameraScreen.usePhoto')
+
+         await spec.pause(2000)
+        
+         store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+
+         await spec.pause(2000)
+        
+         await spec.press('VerifyProfile.verify')
+
+         await spec.pause(5000)
+
+         await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+         await spec.press('VerifyPhoneNumber.finish')
+
+        store.dispatch(actions.verifySMSSuccess());
+
+         await spec.pause(3000)
+
+  
+        });
+      });  
+
     // WelcomeScreen exist; press logIn
     spec.describe('LogIn', function() {
       spec.it('Existing user', async function() {
         
         await spec.pause(2000)
-        await spec.exists('WelcomeScreen.first')
+        // await spec.exists('WelcomeScreen.first')
+        // await spec.pause(2000)
+        // await spec.press('WelcomeScreen.acc')
+        await spec.press('Welcome.skipButton')
         await spec.pause(2000)
-        await spec.press('WelcomeScreen.acc')
-        
+
         // LogIn
         await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')
         await spec.fillIn('CelTextInput.pass','filip123')
         await spec.press('LoginForm.button')
-        await spec
+        await spec.pause(2000)
 
-        // Test Wallet page
-        await spec.fillIn('passcode.pin','1111')
-        await spec.press('Passcode.Enter PIN')
-        await spec.pause(5000)
-        await spec.press('TodayRatesModal.popUP')
+        // // Test Wallet page
+        // await spec.fillIn('passcode.pin','1111')
+        // await spec.press('Passcode.Enter PIN')
+        // await spec.pause(5000)
+        // await spec.press('TodayRatesModal.popUP')
 
       });
     });
@@ -153,6 +629,7 @@ export default function(spec) {
         await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
         await spec.press('WalletDetailsHeading.add')
+        await spec.pause(2002)
         await spec.exists('AddFunds.QRCode')
         await spec.exists('AddFunds.address')
         await spec.press('AddFunds.Done')
@@ -328,6 +805,7 @@ export default function(spec) {
       spec.it('Chart exists', async function() {
 
         // XRP
+        await spec.pause(2002)
         await spec.exists('WalletBalance.XRP')
         await spec.press('WalletBalance.XRP')
         await spec.press('WalletDetailsGraphContainer.1d')
@@ -357,6 +835,7 @@ export default function(spec) {
       spec.it('Can`t withdraw less than $1', async function() {
 
       // Withdraw less then $1
+        await spec.pause(2002)
         await spec.press('WalletDetails.withdraw')
         await spec.press('WithdrawalInfo.continue')
 
@@ -377,6 +856,7 @@ export default function(spec) {
       spec.it('Can`t withdraw over &20k', async function() {
 
         // Withdraw more than $20k
+        await spec.pause(2002)
         await spec.press('WalletDetails.withdraw')
         await spec.press('WithdrawalInfo.continue')
         await spec.pause(2000)
@@ -639,7 +1119,7 @@ export default function(spec) {
         });
       });
 
-    spec.describe('Add more funds', function() {
+    spec.describe('How earn', function() {
       spec.it('', async function() {
 
         await spec.press('TabNavigation.How to earn')

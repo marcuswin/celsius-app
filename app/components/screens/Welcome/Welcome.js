@@ -46,6 +46,7 @@ class WelcomeScreen extends Component {
             <View style={WelcomeStyle.buttonWrapper}>
               <CelButton
                 // TODO(ns): see when to redirect to login instead of sign up
+                ref={testUtil.generateTestHook(this, 'Welcome.skipButton')}
               onPress={() => {
                 actions.navigateTo('SignupOne');
                 mixpanelEvents.signupButton()
