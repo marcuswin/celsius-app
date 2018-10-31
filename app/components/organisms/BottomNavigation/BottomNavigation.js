@@ -48,7 +48,7 @@ class BottomNavigation extends Component {
     ],
     navItemsRight: [
       { label: 'Pay', screen: 'SelectCoin', icon: 'Pay', active: [] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['TwoFAInfo', "ProfileSettings", 'ProfileImage', "TwoFaAuthAppConfirmation", "TwoFaAuthAppConfirmationCode", "TwoFaWelcome", "TwoFaAuthSuccess"] },
     ]
   }
 

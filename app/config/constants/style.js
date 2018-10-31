@@ -200,10 +200,12 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     opacity: 0.4,
   },
   shadow: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    borderRadius: 8
   }
+
 };
 
 export const FONTS = [
@@ -276,4 +278,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Onboarding_background3x.png'),
   require('../../../assets/images/interactivePart3x.png'),
   require('../../../assets/images/Conversation3x.png'),
+  require('../../../assets/images/security_dog3x.png'),
+  require('../../../assets/images/Group_232-3x.png'),
+  require('../../../assets/images/authSuccess3x.png'),
 ];

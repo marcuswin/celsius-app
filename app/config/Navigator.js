@@ -40,6 +40,12 @@ import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
 import SelectCoinScreen from "../components/screens/SelectCoin/SelectCoin";
+import SettingsScreen from "../components/screens/Settings/Settings";
+import TwoFAInfoScreen from "../components/screens/TwiFAInfo/TwoFAInfo";
+import TwoFaWelcomeScreen from "../components/screens/TwoFaWelcome/TwoFaWelcome";
+import TwoFaAuthAppConfirmationScreen from "../components/screens/TwoFaAuthAppConfirmation/TwoFaAuthAppConfirmation";
+import TwoFaAuthAppConfirmationCodeScreen from "../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode";
+import TwoFaAuthSuccessScreen from "../components/screens/TwoFaAuthSuccess/TwoFaAuthSuccess";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -92,6 +98,36 @@ export const screens = {
   },
 
   // Profile screens
+  ProfileSettings: {
+    screen: SettingsScreen,
+    title: 'Settings',
+    bottomNavigation: true,
+  },
+  TwoFAInfo: {
+    screen: TwoFAInfoScreen,
+    title: 'TwoFAInfo',
+    bottomNavigation: true,
+  },
+  TwoFaAuthAppConfirmation: {
+  screen: TwoFaAuthAppConfirmationScreen,
+    title: 'TwoFaAuthAppConfirmation',
+    bottomNavigation: true,
+},
+  TwoFaAuthAppConfirmationCode: {
+    screen: TwoFaAuthAppConfirmationCodeScreen,
+    title: 'TwoFaAuthAppConfirmationCode',
+    bottomNavigation: true,
+  },
+  TwoFaWelcome: {
+    screen: TwoFaWelcomeScreen,
+    title: 'TwoFaWelcome',
+    bottomNavigation: true,
+  },
+  TwoFaAuthSuccess: {
+    screen: TwoFaAuthSuccessScreen,
+    title: 'TwoFaAuthSuccess',
+    bottomNavigation: true,
+  },
   Profile: {
     screen: ProfileScreen,
     title: 'Profile',
