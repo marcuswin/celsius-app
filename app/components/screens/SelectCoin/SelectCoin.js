@@ -8,6 +8,7 @@ import Loader from "../../atoms/Loader/Loader";
 import SelectCoinStyle from "./SelectCoin.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import formatter from "../../../utils/formatter";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -43,12 +44,11 @@ class SelectCoin extends Component {
 
   // rendering methods
   renderCoin = (walletCurrency) => {
-    const { currency } = walletCurrency;
-
+    const { currency } = walletCurrency;    
     const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
     return (
       <View key={currency.id} style={wrapperStyle}>
-        <TouchableOpacity key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `SelectCoin.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
           <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin}/>
         </TouchableOpacity>
         <Text style={SelectCoinStyle.coinName}>{this.capitalize(currency.name)}</Text>
@@ -91,4 +91,5 @@ class SelectCoin extends Component {
   }
 }
 
-export default SelectCoin;
+export default testUtil.hookComponent(SelectCoin);
+

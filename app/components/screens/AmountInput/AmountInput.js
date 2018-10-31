@@ -201,6 +201,8 @@ class AmountInput extends Component {
     const displayBalanceCrypto = formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 });
     const displayBalanceUsd = formatter.usd(balanceUsd);
 
+    console.log(purpose)
+
     return (
       <BasicLayout
       >
@@ -243,7 +245,7 @@ class AmountInput extends Component {
               </View>
 
               <CelButton
-                ref={testUtil.generateTestHook(this, `AmountInput.send`)}
+                ref={testUtil.generateTestHook(this, `AmountInput.${purpose}`)}
                 disabled={!formData.amountCrypto}
                 onPress={this.handleMainButtonClick(purpose)}
                 margin='5 36 5 36'

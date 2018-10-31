@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import Expo from 'expo';
 import App from './app/App';
 
-// import SingUpKYC from './specs/SingUpKYC';
-import testSuitOne from './specs/testSuitOne';
+import SingUpKYC from './specs/SingUpKYC';
+// import testSuitOne from './specs/testSuitOne';
 // import TestInterestCalculator from './specs/TestInterestCalculator'
 
 const { ENV } = Expo.Constants.manifest.extra;
@@ -22,7 +22,7 @@ export default class AppWrapper extends Component {
 
       if (ENV === 'TEST') {
         return (
-          <Tester specs={[testSuitOne]} store={testHookStore} waitTime={4000} startDelay={3000} >
+          <Tester specs={[SingUpKYC]} store={testHookStore} waitTime={4000} startDelay={3000} >
             <App />
           </Tester>
         )
