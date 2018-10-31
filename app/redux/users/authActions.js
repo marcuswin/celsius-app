@@ -48,6 +48,7 @@ function loginUser({email, password}) {
       dispatch(loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
+      dispatch(navigateTo('Home', true));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));
