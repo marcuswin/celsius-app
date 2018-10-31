@@ -116,7 +116,7 @@ export default class App extends Component {
     }
 
     // get general data for te app
-    await store.dispatch(actions.getSupportedCurrencies())
+    // await store.dispatch(actions.getSupportedCurrencies())
     await store.dispatch(actions.getBackendStatus())
 
     pollBackendStatus();
