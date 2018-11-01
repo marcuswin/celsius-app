@@ -3,7 +3,7 @@ import { Constants } from 'expo';
 import ACTIONS from "../../config/constants/ACTIONS";
 import * as transfersActions from '../transfers/transfersActions';
 import * as uiActions from '../ui/uiActions';
-import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
+import { BRANCH_LINKS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 
@@ -48,8 +48,6 @@ async function createBUO(canonicalIdentifier, properties, email) {
     branchObject,
     url: `${url}/`,
   }
-
-
 }
 
 function createBranchReferralLink() {
@@ -75,7 +73,7 @@ function createBranchReferralLink() {
 }
 
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink,
@@ -83,10 +81,7 @@ function registerBranchLink(deepLink) {
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(uiActions.openModal(MODALS.TRANSFER_RECEIVED));
-        if (getState().users.user) {
-          dispatch(transfersActions.claimTransfer(deepLink.transfer_hash));
-        }
+        dispatch(transfersActions.registerTransferLink(deepLink));
         break;
       default:
 

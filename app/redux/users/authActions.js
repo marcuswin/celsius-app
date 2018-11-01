@@ -6,6 +6,7 @@ import API from '../../config/constants/API';
 import {startApiCall, apiError} from '../api/apiActions';
 import {navigateTo} from '../nav/navActions';
 import {showMessage, setFormErrors} from '../ui/uiActions';
+import {claimAllBranchTransfers} from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
@@ -30,6 +31,7 @@ export {
   sendResetLink,
   resetPassword,
   logoutUser,
+  expireSession,
 }
 
 
@@ -44,7 +46,9 @@ function loginUser({email, password}) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       dispatch(loginUserSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
 
+      dispatch(navigateTo('Home', true));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));
@@ -75,6 +79,7 @@ function loginBorrower({email, password}) {
       res.data.user = userRes.data;
 
       dispatch(loginBorrowerSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true))
     } catch (err) {
@@ -138,6 +143,7 @@ function registerUser(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       dispatch(registerUserSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -177,6 +183,7 @@ function registerUserTwitter(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
 
       dispatch(registerUserTwitterSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -210,6 +217,7 @@ function loginTwitter(user) {
       res.data.user = userRes.data;
 
       dispatch(loginUserTwitterSuccess(res.data))
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER_TWITTER, err))
@@ -244,6 +252,7 @@ function registerUserFacebook(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
 
       dispatch(registerUserFacebookSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -277,6 +286,7 @@ function loginFacebook(user) {
       res.data.user = userRes.data;
 
       dispatch(loginUserFacebookSuccess(res.data))
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
@@ -309,6 +319,7 @@ function registerUserGoogle(user) {
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -342,6 +353,7 @@ function loginGoogle(user) {
       res.data.user = userRes.data;
 
       dispatch(loginUserGoogleSuccess(res.data))
+      dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -413,7 +425,11 @@ function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
-      await usersService.resetPassword(currentPassword, newPassword);
+      const {data} =  await usersService.resetPassword(currentPassword, newPassword);
+      const {auth0: {id_token: newAuthToken}} = data;
+
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
+
       dispatch(showMessage('success', 'Password successfully changed.'));
       dispatch(resetPasswordSuccess());
     } catch (err) {
@@ -439,6 +455,18 @@ function logoutUser() {
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,
+      });
+    } catch(err) {
+      console.log(err);
+    }
+  }
+}
+
+function expireSession() {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: ACTIONS.EXPIRE_SESSION,
       });
     } catch(err) {
       console.log(err);

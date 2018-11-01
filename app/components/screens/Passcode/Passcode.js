@@ -92,7 +92,7 @@ class Passcode extends Component {
       const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
-        this.state.isPressed = true;
+        this.setState({ isPressed: true });
         await meService.checkPin(pin);
 
         actions.storePin(pin.pin);
@@ -109,9 +109,10 @@ class Passcode extends Component {
         } else if (purpose === 'login') {
           actions.navigateTo('WalletBalance');
         }
-
+        this.setState({ isPressed: false });
       } catch (error) {
         actions.showMessage('error', error.error);
+        this.setState({ isPressed: false });
       }
     }
 

@@ -69,7 +69,7 @@ class WalletBalance extends Component {
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
-    if (!walletCurrencies) return (
+    if (!walletCurrencies || !supportedCurrencies) return (
       <WalletLayout>
         <Loader/>
       </WalletLayout>

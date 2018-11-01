@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "axios": "0.18.0",
-    "base-64": "^0.1.0",
     "bignumber.js": "^7.2.1",
     "country-data": "0.0.31",
     "currency-formatter": "1.4.1",
@@ -38,6 +37,8 @@
     "hoek": "^5.0.3",
     "immutable": "3.8.2",
     "is-base64": "0.0.4",
+    "js-base64": "^2.4.9",
+    "jsrsasign": "^8.0.12",
     "lodash": "4.17.5",
     "moment": "^2.22.1",
     "native-base": "2.3.8",

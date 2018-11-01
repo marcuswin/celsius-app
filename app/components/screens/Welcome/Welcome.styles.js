@@ -14,8 +14,8 @@ const WelcomeStyle = StyleSheet.create({
     paddingRight: 40,
   },
   buttonWrapper: {
-    paddingTop: 20,
-    justifyContent: 'center'
+    justifyContent: 'center',
+
   },
 });
 

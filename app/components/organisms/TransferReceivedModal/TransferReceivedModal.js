@@ -19,6 +19,7 @@ import formatter from "../../../utils/formatter";
     currencyRatesShort: state.generalData.currencyRatesShort,
     transfers: state.transfers.transfers,
     branchHashes: state.transfers.branchHashes,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -29,9 +30,11 @@ class TransferReceivedModal extends Component {
     actions.navigateTo(!user ? 'SignupOne' : 'ProfileDetails');
   }
   closeAndGoToWallet = () => {
-    const { actions } = this.props;
+    const { actions, activeScreen } = this.props;
     actions.closeModal();
-    actions.navigateTo('Home');
+    if (activeScreen !== 'LoginPasscode') {
+      actions.navigateTo('Home');
+    }
   }
   // rendering methods
   renderVerified = () => {

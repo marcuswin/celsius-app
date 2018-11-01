@@ -15,11 +15,12 @@ import WalletBalance from "../WalletBalance/WalletBalance";
 import Passcode from "../Passcode/Passcode";
 import store from "../../../redux/store";
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
+const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 
 @connect(
   state => ({
     user: state.users.user,
+    expiredSession: state.users.expiredSession,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
     appSettings: state.users.appSettings,
     openedModal: state.ui.openedModal,
@@ -31,30 +32,29 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION} = Constants.manifest.extra;
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes } = this.props;
+    const { actions, expiredSession } = this.props;
 
-    try {
-      // get user token
-      const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      // get user from db
-      if (token) {
-        await actions.getProfileInfo();
+    if (expiredSession) {
+      await actions.logoutUser();
+    } else {
+      try {
+        // get user token
+        const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+        // get user from db
+        if (token) {
+          await actions.getProfileInfo();
 
-        // Anything beyond this point is considered as the user has logged in.
-        registerForPushNotificationsAsync();
-
-        // claim branch transfers
-        if (branchHashes && branchHashes.length) {
-          branchHashes.forEach(bh => {
-            actions.claimTransfer(bh);
-          })
+          // Anything beyond this point is considered as the user has logged in.
+          registerForPushNotificationsAsync();
         }
+      } catch(err) {
+        console.log(err);
       }
-    } catch(err) {
-      console.log(err);
     }
 
-    if (CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
+      CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+
       store.dispatch(actions.showMessage(
         'warning',
         ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
