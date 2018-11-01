@@ -59,9 +59,13 @@ function shouldShowBottomNavigation(action) {
 }
 
 const initialState = {
+  userActions: {
+    enteredInitialPin: false,
+  },
   keyboardHeight: 0,
   message: undefined,
   internetConnected: true,
+  maintenanceMode: false,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
@@ -280,6 +284,19 @@ export default (state = initialState, action) => {
       return {
         ...state,
         openedModal: undefined,
+      }
+    case ACTIONS.GET_BACKEND_STATUS_SUCCESS:
+      return {
+        ...state,
+        maintenanceMode: action.backendStatus.maintenance || false,
+      };
+    case ACTIONS.FIRE_USER_ACTION:
+      return {
+        ...state,
+        userActions: {
+          ...state.userActions,
+          [action.name]: true,
+        },
       }
 
     case ACTIONS.NAVIGATE_BACK:

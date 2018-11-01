@@ -1,123 +1,138 @@
 import React, { Component } from "react";
-import { Text, View, Animated, Image } from "react-native";
+import { Text, View, Animated, ScrollView, Dimensions, Image } from "react-native";
 import WelcomeCarouselStyle from "./WelcomeCarousel.styles";
+import OnBoardingCurrencyInterestRateInfoTable
+  from "../../organisms/OnBoardingCurrencyInterestRateInfoTable/OnBoardingCurrencyInterestRateInfoTable";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
 
-const xOffset = new Animated.Value(0);
+const { width } = Dimensions.get("window");
 
-// const gifs = [
-//   require("../../../../assets/images/Welcome_Doggirl.gif"),
-//   require("../../../../assets/images/Welcome_Whale.gif"),
-//   require("../../../../assets/images/Welcome_Polar-Bear.gif"),
-//   require("../../../../assets/images/Welcome_Penguin.gif")
-// ];
+const scroll = () => (
+    <ScrollView
+      // style={WelcomeCarouselStyle.table}
+      showsVerticalScrollIndicator={false}
+    >
+      <OnBoardingCurrencyInterestRateInfoTable/>
+    </ScrollView>
+  );
 
-const images = [
-  require("../../../../assets/images/Welcome_Doggirl.png"),
-  require("../../../../assets/images/Welcome_Whale.png"),
-  require("../../../../assets/images/Welcome_Polar-Bear.png"),
-];
+const imageOne = () => (
+  <ScrollView
+    scrollEnabled={false}
+  >
+    <Image style={{ height: heightPercentageToDP("40.4%"), width: widthPercentageToDP("65%")}} source={require('../../../../assets/images/interactivePart3x.png')}/>
+  </ScrollView>
+);
+
+const imageTwo = () => (
+  <ScrollView
+    scrollEnabled={false}
+  >
+    <Image style={{ resizeMode: 'contain',height: heightPercentageToDP("44.4%"), width: widthPercentageToDP("75%")}} source={require('../../../../assets/images/Conversation3x.png')}/>
+  </ScrollView>
+);
 
 export default class WelcomeCarousel extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      activeScreen: 0,
-      xOffset: 0,
+      xOffset: new Animated.Value(0),
       screens: [
         {
-          title: "Welcome to Celsius",
-          smallDescription: "YOU'RE ONE IN A MILLION",
-          largeDescription: "Let's get on the same team so crypto goes mainstream. Together, we can bring the next 100M people into Crypto (so you're not the only weirdo at parties)."
-        },
-        {
+          image: scroll(),
           title: "Earn Interest",
-          smallDescription: "PUT YOUR CRYPTO TO WORK",
-          largeDescription: "Woohoo! Deposit BTC, ETH, LTC or XRP and get between 3-5% interest annually paid to you every Monday in the app."
+          // smallDescription: "GET COINS FOR YOUR COINS",
+          largeDescription: "Earn up to 7%APR* on your favorite digital assets. Interest is distributed every Monday. We know, Mondays have never looked so good.",
+          disclaimer: "*interest rates are subject to change"
         },
         {
+          image: imageOne(),
           title: "Get a Loan in Dollars",
-          smallDescription: "NOW, YOU CAN HODL AND LIVE LARGE",
-          largeDescription: "Use our loan estimator to see how many dollars you could borrow at 9% interest against your crypto and apply for a loan."
+          // smallDescription: "YOU CAN HODL AND LIVE LARGE",
+          largeDescription: "Fiat loans start at just 5%APR*. We are committed to offering the best interest rates you can find. Apply easily in the app and get your loan today!",
+          disclaimer: "*interest rates are subject to change"
         },
+        {
+          image: imageTwo(),
+          title: "Send Instantly with CelPay",
+          // smallDescription: "NOW, YOU CAN HODL AND LIVE LARGE",
+          largeDescription: "Owe your friend $3? Pay them back with your favorite asset via CelPay, whether they have a wallet or not.",
+          disclaimer: " "
+        }
       ]
     };
     this.handleScroll = this.handleScroll.bind(this);
-    this.renderScreen = this.renderScreen.bind(this);
-    this.renderScrollIndicators = this.renderScrollIndicators.bind(this);
   }
 
+
   handleScroll(e) {
-    const { contentOffset, contentSize } = e.nativeEvent;
-    const {screens} = this.state;
-
-    const screenNumber = screens.length;
-
-    let nextScreen;
-    if (contentOffset.x - this.state.xOffset < 0) {
-      nextScreen = Math.floor(contentOffset.x * screenNumber / contentSize.width);
-    } else {
-      nextScreen = Math.ceil(contentOffset.x * screenNumber / contentSize.width);
-    }
-
+    const { contentOffset } = e.nativeEvent;
 
     this.setState({
-      activeScreen: nextScreen,
-      xOffset: contentOffset.x,
+      xOffset: contentOffset.x
     });
 
     Animated.event(
-      [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+      [{ nativeEvent: { contentOffset: { x: this.state.xOffset } } }],
       { useNativeDriver: true }
     );
   }
 
-  renderScrollIndicators() {
-    const { activeScreen } = this.state;
-
-    return (
-        <View style={[WelcomeCarouselStyle.circleWrapper]}>
-          <View style={[ activeScreen === 0 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
-          <View style={[ activeScreen === 1 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
-          <View style={[ activeScreen === 2 ? WelcomeCarouselStyle.circleActive : WelcomeCarouselStyle.circle ]}/>
-        </View>
-
-    )
-  }
-
-  renderScreen(screen, index) {
-
-    return (
-      <View style={WelcomeCarouselStyle.scrollPage} key={index}>
-
-        <Image source={images[index]} style={WelcomeCarouselStyle.image}/>
-
-        <Text style={WelcomeCarouselStyle.title}>{screen.title}</Text>
-        <Text style={WelcomeCarouselStyle.smallDescription}>{screen.smallDescription}</Text>
-        <Text style={WelcomeCarouselStyle.largeDescription}>{screen.largeDescription}</Text>
-
-      </View>
-    );
-  }
-
   render() {
+    const position = Animated.divide(this.state.xOffset, width - 80);
     const { screens } = this.state;
 
     return (
       <View>
-        <Animated.ScrollView
-          scrollEventThrottle={16}
-          onScroll={this.handleScroll}
+        <ScrollView
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
+          onScroll={this.handleScroll}
+          scrollEventThrottle={16}
         >
-          {screens.map(this.renderScreen)}
-        </Animated.ScrollView>
-
-        {this.renderScrollIndicators()}
-
+          {screens.map((source, index) => {
+              const opaque = position.interpolate({
+                inputRange: [index - 1, index, index + 1],
+                outputRange: [0, 1, 0],
+                extrapolate: "clamp"
+              });
+              return (
+                <View key={screens[index].title} style={WelcomeCarouselStyle.scrollPage}>
+                  <Animated.View style={[WelcomeCarouselStyle.contentWrapper, {opacity: opaque}]}
+                  >
+                    {source.image}
+                  </Animated.View>
+                  <Animated.View style={{opacity: opaque}}>
+                    <Text style={WelcomeCarouselStyle.title}>{source.title}</Text>
+                    <Text style={WelcomeCarouselStyle.largeDescription}>{source.largeDescription}</Text>
+                    <Text style={WelcomeCarouselStyle.disclaimer}>{source.disclaimer}</Text>
+                  </Animated.View>
+                </View>
+              )
+            }
+          )}
+        </ScrollView>
+        <View
+          style={WelcomeCarouselStyle.circleWrapper}
+        >
+          {screens.map((_, index) => {
+              const opacity = position.interpolate({
+                inputRange: [index - 1, index, index + 1],
+                outputRange: [0.2, 0.6, 0.2],
+                extrapolate: "clamp"
+              });
+              return (
+                <Animated.View
+                  key={screens[index].title}
+                  style={[WelcomeCarouselStyle.circle, { opacity }]}
+                />
+              );
+            }
+          )}
+        </View>
       </View>
-
     );
   }
 }

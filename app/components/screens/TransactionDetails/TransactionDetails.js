@@ -35,11 +35,14 @@ function getHeading(transaction) {
     WITHDRAWAL_CONFIRMED: `Withdrawn ${transaction.coin && transaction.coin.toUpperCase()}`,
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} Interest`,
     COLLATERAL: `${transaction.coin && transaction.coin.toUpperCase()} Collateral`,
+    BONUS_TOKEN: 'Bonus Tokens',
     TRANSFER_PENDING: `${transaction.coin && transaction.coin.toUpperCase()} Sending`,
     TRANSFER_CLAIMED: `${transaction.coin && transaction.coin.toUpperCase()} Claimed`,
     TRANSFER_SENT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
     TRANSFER_RECEIVED: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     TRANSFER_RETURNED: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
+    IN: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
+    OUT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
   }[transaction.type];
 }
 
@@ -72,10 +75,13 @@ function getSmallIcon(transaction) {
         <Icon name='Lock' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
+    BONUS_TOKEN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     DEPOSIT_PENDING: <Icon name="ReceiveArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     WITHDRAWAL_PENDING: <Icon name="SentArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
     WITHDRAWAL_CONFIRMED: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
+    IN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
+    OUT: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
   }[transaction.type];
 }
 
@@ -87,11 +93,15 @@ function getStatusText(transaction) {
     WITHDRAWAL_CONFIRMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Withdrawn</Text>,
     INTEREST: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
     COLLATERAL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Locked</Text>,
+    BONUS_TOKEN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>ICO Bonus Received</Text>,
     TRANSFER_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Not claimed</Text>,
     TRANSFER_CLAIMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Verifying user</Text>,
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
     TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
     TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
+
+    IN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Received</Text>,
+    OUT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>• Sent</Text>,
   }[transaction.type];
 }
 
@@ -115,11 +125,15 @@ function getSections(transaction) {
     WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to', 'explorer'],
     INTEREST: ['date', 'time', 'status', 'hippo'],
     COLLATERAL: ['date', 'time'],
+    BONUS_TOKEN: ['date', 'time', 'status'],
     TRANSFER_PENDING: ['info', 'date', 'time', 'status', 'transfer-link'],
     TRANSFER_CLAIMED: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
     TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
+
+    IN: ['date', 'time'],
+    OUT: ['date', 'time'],
   }[transaction.type];
 }
 
@@ -142,9 +156,9 @@ class TransactionDetails extends Component {
     this.state = {
       type: '',
       heading: '',
-      badge: '',
-      icon: '',
-      smallIcon: '',
+      badge: undefined,
+      icon: undefined,
+      smallIcon: undefined,
       status: '',
       sections: [],
     }
@@ -311,7 +325,7 @@ class TransactionDetails extends Component {
           </CelButton>
         </CelScreenContent>
 
-        { transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
+        { branchLink && transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
       </BasicLayout>
     );
   }

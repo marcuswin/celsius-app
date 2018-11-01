@@ -112,7 +112,7 @@ class AmountInput extends Component {
    */
   getHeadingText = (purpose, currency) => {
     if (purpose === 'send' || purpose === 'confirm-send') {
-      return `Send ${currency ? currency.toUpperCase() : ''}`;
+      return `CelPay ${currency ? currency.toUpperCase() : ''}`;
     }
 
     return `Withdraw ${currency ? currency.toUpperCase() : ''}`;
@@ -186,7 +186,7 @@ class AmountInput extends Component {
 
   render() {
     const { numPad } = this.state;
-    const { formData, actions, screenHeight, navigation } = this.props;
+    const { formData, screenHeight, navigation } = this.props;
 
     const purpose = navigation.getParam("purpose");
 
@@ -204,10 +204,7 @@ class AmountInput extends Component {
     return (
       <BasicLayout
       >
-        <MainHeader
-          backButton
-          onPressBackButton={() => actions.navigateTo('WalletDetails', { curency: formData.currency })}
-        />
+        <MainHeader backButton />
         <CelHeading text={this.getHeadingText(purpose, formData.currency)} />
         <CelScreenContent padding='0 0 0 0'>
           <View style={{ height: 0.75 * screenHeight }}>

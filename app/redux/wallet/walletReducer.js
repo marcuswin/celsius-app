@@ -115,6 +115,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === 'withdrawal' && transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
   if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
+  if (transaction.nature === 'bonus_token') return TRANSACTION_TYPES.BONUS_TOKEN;
 
   if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
   if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
@@ -123,5 +124,8 @@ function getTransactionType(transaction) {
     if (transaction.transfer_data.claimed_at && transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_SENT;
     if (transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_RETURNED;
   }
+
+  if (transaction.type === 'incoming') return TRANSACTION_TYPES.IN;
+  if (transaction.type === 'outgoing') return TRANSACTION_TYPES.OUT;
 }
 

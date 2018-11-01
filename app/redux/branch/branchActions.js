@@ -4,7 +4,7 @@ import ACTIONS from "../../config/constants/ACTIONS";
 import * as transfersActions from '../transfers/transfersActions';
 import * as uiActions from '../ui/uiActions';
 import branchService from '../../services/branch-service';
-import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
+import { BRANCH_LINKS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 
@@ -54,6 +54,8 @@ function saveBranchLink(rawLink) {
 }
 
 async function createBUO(canonicalIdentifier, properties, email) {
+  if (Constants.appOwnership !== 'standalone') return;
+
   const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
   Branch.setIdentity(email);
   branchObject.logEvent(BranchEvent.ViewItem);
@@ -62,10 +64,8 @@ async function createBUO(canonicalIdentifier, properties, email) {
 
   return {
     branchObject,
-    url,
+    url: `${url}/`,
   }
-
-
 }
 
 function createBranchReferralLink() {
@@ -91,7 +91,7 @@ function createBranchReferralLink() {
 }
 
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink,
@@ -99,10 +99,7 @@ function registerBranchLink(deepLink) {
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(uiActions.openModal(MODALS.TRANSFER_RECEIVED));
-        if (getState().users.user) {
-          dispatch(transfersActions.claimTransfer(deepLink.transfer_hash));
-        }
+        dispatch(transfersActions.registerTransferLink(deepLink));
         break;
 
       case BRANCH_LINKS.COMPANY_REFERRAL:

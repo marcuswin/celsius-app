@@ -1,6 +1,9 @@
+import { Dimensions, Platform, PixelRatio } from 'react-native';
+
 export default {
   getMargins,
   getPadding,
+  normalize
 }
 
 function getMargins(margin) {
@@ -29,4 +32,21 @@ function getPadding(padding) {
     paddingBottom: Number(paddings[2]),
     paddingLeft: Number(paddings[3]),
   }
+}
+
+const {
+  width: SCREEN_WIDTH,
+  // height: SCREEN_HEIGHT,
+} = Dimensions.get('window');
+
+// based on iphone X's scale
+const scale = SCREEN_WIDTH / 375;
+
+export function normalize(size) {
+  const newSize = size * scale;
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  }
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+
 }

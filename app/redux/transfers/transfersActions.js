@@ -4,9 +4,9 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import transferService from '../../services/transfer-service';
 import { navigateTo } from "../nav/navActions";
-import { showMessage } from "../ui/uiActions";
+import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../config/constants/common";
+import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
 import { createBUO } from "../branch/branchActions";
 
 export {
@@ -15,6 +15,8 @@ export {
   claimTransfer,
   createTransfer,
   createBranchTransfer,
+  registerTransferLink,
+  claimAllBranchTransfers,
 }
 
 function getAllTransfers(transferStatus) {
@@ -130,12 +132,12 @@ function createBranchTransfer(amount, coin) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${amount.toFixed(5)} ${coin.toUpperCase()}`,
+        title: `You received ${Math.abs(amount.toFixed(5))} ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
           customMetadata: {
-            amount: transfer.amount,
+            amount: Math.abs(transfer.amount),
             coin: transfer.coin,
             from_name: userName,
             from_profile_picture: user.profile_picture,
@@ -156,6 +158,54 @@ function createBranchTransfer(amount, coin) {
 
     Share.share({ message: `Click on the link to claim your crypto ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
+  }
+}
+
+function registerTransferLink(deepLink) {
+  return async (dispatch, getState) => {
+    try {
+      const { userActions } = getState().ui;
+      const { user } = getState().users;
+
+      if (user) {
+        dispatch(startApiCall(API.GET_TRANSFER));
+        const res = await transferService.get(deepLink.transfer_hash);
+        const transfer = res.data;
+
+        if (!transfer.claimed_at) {
+          dispatch(getTransferSuccess(transfer));
+
+          dispatch(claimTransfer(transfer.hash));
+          if (userActions.enteredInitialPin) {
+            dispatch(openModal(MODALS.TRANSFER_RECEIVED));
+          }
+        } else {
+          dispatch(getTransferSuccess());
+          dispatch(showMessage('warning', 'Link has already been claimed!'));
+        }
+      } else {
+        dispatch(getTransferSuccess({
+          hash: deepLink.transfer_hash,
+          amount: deepLink.amount,
+          coin: deepLink.coin,
+          from: {
+            name: deepLink.from_name,
+            profile_picture: deepLink.profile_picture,
+          },
+        }));
+        dispatch(openModal(MODALS.TRANSFER_RECEIVED));
+      }
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_TRANSFER, err));
+    }
+  }
+}
+
+function claimAllBranchTransfers() {
+  return (dispatch, getState) => {
+    const { branchHashes } = getState().transfers;
+    branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
   }
 }
 

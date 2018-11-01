@@ -29,6 +29,7 @@ export {
   openInitialModal,
   openModal,
   closeModal,
+  fireUserAction,
 }
 
 let msgTimeout;
@@ -254,6 +255,13 @@ function openModal(modalName) {
 function closeModal() {
   return {
     type: ACTIONS.CLOSE_MODAL,
+  };
+}
+
+function fireUserAction(name) {
+  return {
+    type: ACTIONS.FIRE_USER_ACTION,
+    name,
   };
 }
 
