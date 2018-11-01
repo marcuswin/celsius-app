@@ -9,7 +9,8 @@ const LoanApplicationStyle = StyleSheet.create({
   loanAmountCard: {
     paddingHorizontal: widthPercentageToDP("7.5%"),
     paddingVertical: heightPercentageToDP("1.8%"),
-    width: widthPercentageToDP("34%"),
+    width: widthPercentageToDP("33%"),
+    minWidth: 130,
     marginHorizontal: widthPercentageToDP("4.53%"),
     marginVertical: heightPercentageToDP("1.29%"),
     alignItems: 'center',
