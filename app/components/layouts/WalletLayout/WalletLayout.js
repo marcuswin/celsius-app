@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import get from "lodash/get";
@@ -50,7 +50,8 @@ class WalletLayout extends Component {
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
         <View style={WalletLayoutStyle.heading}>
-          <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>
+          {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>}
+          {!walletTotal && <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={WalletLayoutStyle.totalLoader} />}
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
         </View>
         <TabNavigation tabs={this.tabs} />

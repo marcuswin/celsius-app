@@ -2026,14 +2026,6 @@ buffer@^5.0.8:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-buffer@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
-  integrity sha512-c+Ko0loDaFfuPWiL02ls9Xd3GO3cPVmUobQ6t3rXNUk304u6hGq+8N/kFi+QEIKhzK3uwolVhLzszmfLmMLnqg==
-  dependencies:
-    base64-js "^1.0.2"
-    ieee754 "^1.1.4"
-
 builtin-modules@^1.0.0, builtin-modules@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
@@ -5033,6 +5025,10 @@ join-component@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/join-component/-/join-component-1.1.0.tgz#b8417b750661a392bee2c2537c68b2a9d4977cd5"
 
+js-base64@^2.4.9:
+  version "2.4.9"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.9.tgz#748911fb04f48a60c4771b375cac45a80df11c03"
+
 js-data@^2.9.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/js-data/-/js-data-2.10.0.tgz#8ddaa1b5e5b81384b29bc4d949bc8cc09be16d84"
@@ -5136,7 +5132,6 @@ jsprim@^1.2.2:
 jsrsasign@^8.0.12:
   version "8.0.12"
   resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-8.0.12.tgz#22abb9656d34a30b9530436720835e89c2e5c316"
-  integrity sha1-Iqu5ZW00owuVMENnIINeicLlwxY=
 
 jsx-ast-utils@^2.0.0, jsx-ast-utils@^2.0.1:
   version "2.0.1"

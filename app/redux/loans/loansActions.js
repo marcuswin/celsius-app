@@ -21,6 +21,7 @@ function applyForALoan() {
         collateral_amount_crypto: formData.amountCollateralCrypto,
         ltv: formData.ltv.percent,
         interest: formData.ltv.interest,
+        loan_amount: formData.loanAmount,
         monthly_payment: formData.monthlyPayment || 10,
       }
 

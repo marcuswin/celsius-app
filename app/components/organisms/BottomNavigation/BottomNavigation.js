@@ -58,7 +58,7 @@ class BottomNavigation extends Component {
   goToScreen = (navItem) => {
     const { actions } = this.props;
     actions.navigateTo(navItem.screen);
-    mixpanelEvents.navigation(navItem.label);
+    mixpanelEvents.navigation(navItem.label, true);
   }
 
   goToHomeScreen = () => {
