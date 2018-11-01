@@ -132,12 +132,12 @@ function createBranchTransfer(amount, coin) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${amount.toFixed(5)} ${coin.toUpperCase()}`,
+        title: `You received ${Math.abs(amount.toFixed(5))} ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
           customMetadata: {
-            amount: transfer.amount,
+            amount: Math.abs(transfer.amount),
             coin: transfer.coin,
             from_name: userName,
             from_profile_picture: user.profile_picture,
