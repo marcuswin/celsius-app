@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
-import { Camera, Permissions, ImageManipulator } from 'expo';
+import { Constants, Camera, Permissions, ImageManipulator } from 'expo';
 
 import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
@@ -96,21 +96,26 @@ class CameraScreen extends Component {
   takeCameraPhoto = async () => {
     if (!this.camera) return;
 
-    if (!this.state.hasCameraPermission) {
-      return await this.getCameraPermissions();
-    }
-
     const { actions } = this.props;
     try {
-      this.setState({ isLoading: true });
 
+      this.setState({ isLoading: true });
+      if (!this.state.hasCameraPermission) {
+        return await this.getCameraPermissions();
+      }
       const photo = await this.camera.takePictureAsync({
         skipProcessing: true,
-      })
+      });
 
-      const resizedPhoto = await ImageManipulator.manipulate(
+      const deviceBrand = Constants.deviceName.slice(0,2);
+
+      const resizedPhoto = deviceBrand !== 'SM' ? await ImageManipulator.manipulate(
         photo.uri,
         [{ resize: { height: 3500 } }],
+        { compress: 0.95, format: "jpg", base64: true }
+      ) : await ImageManipulator.manipulate(
+        photo.uri,
+        [{ resize: { height: 3500 } }, { rotate: 90 }, { flip: { vertical: true }}],
         { compress: 0.95, format: "jpg", base64: true }
       );
 
