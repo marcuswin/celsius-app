@@ -20,6 +20,7 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
+import {normalize} from "../../../utils/styles-util";
 
 const LTVs = [
   { percent: 0.2, interest: 0.05 },
@@ -144,36 +145,36 @@ class LoanApplication extends Component {
       >
         <CelScreenContent padding="15 0 0 0">
 
-          <Text style={globalStyles.normalText}>
+          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>
             Celsius Network guarantees the
             <Text style={[globalStyles.boldText]}> lowest interest rates</Text>
             . Submit your application today!
           </Text>
 
           <Separator margin="20 0 20 0"/>
-          <Text style={globalStyles.normalText}>Choose the coin you would like to use as a collateral:</Text>
+          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Choose the coin you would like to use as a collateral:</Text>
           <CelSelect
             field="coin"
             theme="white"
             items={pickerItems}
             labelText="Pick a currency"
             value={formData.coin}
-            margin="25 0 15 0"
+            margin="25 0 22 0"
           />
           { walletCurrency && (
-            <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
+            <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center', fontSize: normalize(18) }]}>
               Balance: { formatter.crypto(walletCurrency.amount, walletCurrency.currency.short, { precision: 5 }) } = { formatter.usd(walletCurrency.total) }
             </Text>
           ) }
 
-          <Separator margin="20 0 20 0"/>
-          <Text style={globalStyles.normalText}>Enter the amount of collateral:</Text>
+          <Separator margin="15 0 24 0"/>
+          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Enter the amount of collateral:</Text>
           <CelForm margin="25 0 0 0">
             <CelInput
               field="amountCollateralUSD"
               theme="white"
               value={formData.amountCollateralUSD}
-              placeholder="eg. $1,500.00"
+              placeholder="i.e. $1,500.00"
               type="number"
               onChange={this.updateAmounts}
             />
@@ -184,8 +185,8 @@ class LoanApplication extends Component {
             </Text>
           ) }
 
-          <Separator margin="20 0 20 0"/>
-          <Text style={globalStyles.normalText}>Choose one of these loan amounts:</Text>
+          <Separator margin="24 0 24 0"/>
+          <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>Choose one of these loan amounts:</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
             { LTVs.map((ltv) => (
               <TouchableOpacity onPress={() => this.clickCard(ltv)} key={ltv.percent.toString()}>
@@ -209,7 +210,7 @@ class LoanApplication extends Component {
             )) }
           </View>
 
-          <Separator margin="20 0 20 0"/>
+          <Separator margin="24 0 24 0"/>
 
           <Card style={LoanApplicationStyle.bottomCard}>
             <View style={LoanApplicationStyle.leftBox}>

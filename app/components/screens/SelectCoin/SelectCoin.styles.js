@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import {normalize} from "../../../utils/styles-util";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -8,55 +9,31 @@ const smallImageSize = SCREEN_WIDTH / 4.9;
 const SelectCoinStyle = StyleSheet.create({
 
   text: {
-    marginTop: 30,
+    marginTop: heightPercentageToDP("3%"),
     fontFamily: 'agile-light',
     textAlign: 'left',
-    fontSize: FONT_SCALE * 18,
+    fontSize: normalize(18),
     color: '#3D4853',
-  },
-  explanation: {
-    flexDirection: 'row',
-    margin: 'auto',
-    height: 52,
-    backgroundColor: 'white',
-    shadowColor: '#000000',
-    shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 3},
-    borderRadius: 8,
-    marginTop: 25,
-    marginBottom: 30,
-    paddingLeft: 13,
-    paddingRight: 13,
-    alignItems: 'center'
-  },
-  explanationText: {
-    fontSize: FONT_SCALE * 15,
-    marginLeft: 13,
-    marginRight: 13,
-    fontFamily: 'agile-light',
-    color: '#3D4853',
-    textAlign: 'left',
   },
   coinContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: heightPercentageToDP("3%"),
   },
   coinWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 5,
-    marginRight: 5,
-    marginBottom: 25,
-    maxWidth: '29%',
+    marginLeft: widthPercentageToDP("2%"),
+    marginRight: widthPercentageToDP("2%"),
+    marginBottom: heightPercentageToDP("1.21%"),
   },
   coin: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: smallImageSize / 1.5,
-    height: smallImageSize / 1.5,
+    width: widthPercentageToDP("13.13%"),
+    height: heightPercentageToDP("7.4%"),
     borderWidth: 3,
     borderColor: 'transparent',
   },
@@ -70,23 +47,24 @@ const SelectCoinStyle = StyleSheet.create({
     shadowColor: '#000000',
     shadowOpacity: 0.2,
     shadowOffset: {width: 0, height: 3},
-    shadowRadius: 5
+    shadowRadius: 5,
   },
   coinName: {
-    marginTop: 15,
+    marginTop: heightPercentageToDP("2.21%"),
     fontFamily: 'agile-bold',
     color: '#3D4853',
-    fontSize: FONT_SCALE * 14,
+    fontSize: normalize(13),
   },
   amountTextUSD: {
     fontFamily: 'inconsolata-regular',
     color: '#3D4853',
-    fontSize: FONT_SCALE * 14,
+    fontSize: normalize(13),
   },
   amountText: {
     fontFamily: 'inconsolata-regular',
     color: '#899099',
-    fontSize: FONT_SCALE * 14,
+    fontSize: normalize(13),
+    marginBottom: heightPercentageToDP("2.21%")
   },
 });
 
