@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -65,10 +65,8 @@ class SelectCoin extends Component {
     const {animatedHeading} = this.state;
     const {walletCurrencies, user} = this.props;
 
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      return (
-        <EmptyState/>
-      )
+    if (Platform.os === 'android' || (user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed))) {
+      return <EmptyState/>
     }
 
     if (!walletCurrencies) {
