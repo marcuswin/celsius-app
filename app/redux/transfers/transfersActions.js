@@ -93,7 +93,7 @@ function createTransfer(amount, coin) {
 
     try {
       const res = await transferService.create({
-        amount: amount.toFixed(5),
+        amount: Number(amount).toFixed(5),
         coin: coin.toUpperCase()
       });
       dispatch(createTransferSuccess(res.data));
@@ -117,7 +117,7 @@ function createBranchTransfer(amount, coin) {
     let apiCall = API.CREATE_TRANSFER;
     dispatch(startApiCall(apiCall));
     const res = await transferService.create({
-      amount: amount.toFixed(5),
+      amount: Number(amount).toFixed(5),
       coin: coin.toUpperCase()
     });
     const transfer = res.data;
@@ -132,7 +132,7 @@ function createBranchTransfer(amount, coin) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${ amount.toFixed(5) } ${coin.toUpperCase()}`,
+        title: `You received ${ Number(amount).toFixed(5) } ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
@@ -205,11 +205,13 @@ function registerTransferLink(deepLink) {
 function claimAllBranchTransfers() {
   return (dispatch, getState) => {
     const { branchHashes } = getState().transfers;
-    branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
+    if (branchHashes && branchHashes.length) branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
   }
 }
 
 function mapTransfer(transfer) {
+  if (!transfer) return;
+
   let status = TRANSFER_STATUSES.pending;
   if (transfer.claimed_at && !transfer.cleared_at) {
     status = TRANSFER_STATUSES.claimed;
