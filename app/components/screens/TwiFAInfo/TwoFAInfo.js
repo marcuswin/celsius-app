@@ -82,7 +82,7 @@ class TwoFAInfo extends Component {
           </View>
 
           <CelButton
-            onPress={() => actions.navigateTo("LoginPasscode")}
+            onPress={() => actions.navigateTo("VerifyIdentity")}
           >
             Get started
           </CelButton>
