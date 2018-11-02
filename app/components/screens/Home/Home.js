@@ -63,6 +63,18 @@ class HomeScreen extends Component {
 
   }
 
+  /**
+   * @param {Object} data
+   * @returns {boolean}
+   */
+  shouldRenderInitialIdVerification(data) {
+    if (Constants.appOwnership === "expo" && !Constants.isDevice) {
+      return false;
+    }
+
+    return !data.enteredInitialPin;
+  }
+
   render() {
     const { user, userActions } = this.props;
 
@@ -70,7 +82,7 @@ class HomeScreen extends Component {
 
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
-    if (!userActions.enteredInitialPin) return <Passcode type={'loginPasscode'}/>;
+    if (this.shouldRenderInitialIdVerification(userActions)) return <Passcode type={'loginPasscode'}/>;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
 
     return <WalletBalance/>;
