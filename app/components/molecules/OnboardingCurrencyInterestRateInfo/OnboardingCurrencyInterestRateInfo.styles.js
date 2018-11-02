@@ -11,10 +11,9 @@ const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
     borderRadius: 8,
     ...globalStyles.shadow,
     backgroundColor: "rgba(92,110,180,1)",
+    justifyContent: 'center',
     paddingLeft: widthPercentageToDP("4.53%"),
     paddingRight: widthPercentageToDP("4.53%"),
-    paddingTop: heightPercentageToDP("1.2%"),
-
   },
   mainWrapperCompact: {
     borderTopWidth: 0,
@@ -47,8 +46,8 @@ const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
     marginLeft: 'auto',
     backgroundColor: COLORS.green,
     borderRadius: 8,
-    paddingVertical: heightPercentageToDP("0.67%"),
-    paddingLeft: widthPercentageToDP("2.2%")
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   usdInfoWrapper: {
     marginTop: 10,

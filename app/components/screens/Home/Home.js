@@ -32,7 +32,7 @@ const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extr
 )
 class HomeScreen extends Component {
   async componentWillMount() {
-    const { actions, branchHashes, expiredSession } = this.props;
+    const { actions, expiredSession } = this.props;
 
     if (expiredSession) {
       await actions.logoutUser();
@@ -46,13 +46,6 @@ class HomeScreen extends Component {
 
           // Anything beyond this point is considered as the user has logged in.
           registerForPushNotificationsAsync();
-
-          // claim branch transfers
-          if (branchHashes && branchHashes.length) {
-            branchHashes.forEach(bh => {
-              actions.claimTransfer(bh);
-            })
-          }
         }
       } catch(err) {
         console.log(err);

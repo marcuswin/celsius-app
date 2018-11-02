@@ -1,16 +1,14 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import { heightPercentageToDP } from "../../../utils/scale";
 // import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const { width } = Dimensions.get('window');
 
-const PortfolioEmptyStateStyle = StyleSheet.create({
+const EmptyStateStyle = StyleSheet.create({
   wrapper: {
-    marginTop: 20,
-    alignItems: 'center'
-  },
-  imageWrapper: {
-    justifyContent: 'center',
+    marginTop: heightPercentageToDP("25%"),
     alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     height: width * 0.4,
@@ -18,4 +16,4 @@ const PortfolioEmptyStateStyle = StyleSheet.create({
   }
 });
 
-export default PortfolioEmptyStateStyle;
+export default EmptyStateStyle;

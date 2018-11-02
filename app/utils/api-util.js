@@ -1,8 +1,9 @@
 import axios from 'axios';
 import qs from "qs";
-import { Buffer } from "buffer";
 import r from "jsrsasign";
 import {Constants} from 'expo';
+import { Base64 } from 'js-base64';
+import Sentry from "sentry-expo";
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
@@ -126,9 +127,36 @@ function parseValidationErrors(serverError) {
 }
 
 function verifyKey(data, sign) {
-  const sig2 = new r.KJUR.crypto.Signature({ alg: "SHA256withRSA" });
-  sig2.init(PUBLIC_KEY);
-  sig2.updateString(JSON.stringify(data));
-  const isValid = sig2.verify(Buffer.from(sign, 'base64').toString('hex'));
-  return isValid;
+  try {
+    const sig2 = new r.KJUR.crypto.Signature({ alg: "SHA256withRSA" });
+    sig2.init(Base64.decode(PUBLIC_KEY));
+    sig2.updateString(JSON.stringify(data));
+    const isValid = sig2.verify(sign);
+
+    if (ENV === 'PRODUCTION' && !isValid) {
+      Sentry.captureMessage(`Key signing failed`, {
+        level: 'info',
+        extra: {
+          signature: sign,
+          publicKey: Base64.decode(PUBLIC_KEY),
+        },
+      });
+    }
+
+    return ENV === 'PRODUCTION' ? true : isValid;
+
+  } catch(err) {
+    if (ENV === 'PRODUCTION') {
+      Sentry.captureMessage(`Key signing failed`, {
+        level: 'info',
+        extra: {
+          signature: sign,
+          publicKey: Base64.decode(PUBLIC_KEY),
+          error: err,
+        },
+      });
+    }
+
+    return true;
+  }
 }

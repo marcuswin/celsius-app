@@ -22,6 +22,11 @@ const WalletLayoutStyle = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
+  totalLoader: {
+    width: 32,
+    height: 32,
+    marginBottom: 16,
+  },
   content: {
     paddingTop: 15,
     paddingLeft: 30,
