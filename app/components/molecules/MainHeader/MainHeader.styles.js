@@ -22,8 +22,7 @@ const HeaderStyle = StyleSheet.create({
     color: 'white',
     opacity: 0.8,
     marginTop: 2,
-    fontSize: FONT_SCALE * 21,
-    fontFamily: 'agile-medium',
+    fontSize: FONT_SCALE * 18,
   },
   logo: {
     width: 30,
