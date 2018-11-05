@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Clipboard, Share, Platform } from "react-native";
+import { Text, View, TouchableOpacity, Clipboard, Share, Platform, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -210,18 +210,19 @@ class AddFunds extends Component {
                      margin="25 50 15 50"/>
         )}
 
-        <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
+        <View style={[AddFundsStyle.imageWrapper]}>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
-            <View style={AddFundsStyle.qrBackground}>
-              {address &&
-              <QRCode
-                value={address}
-                size={120}
-                bgColor='black'
-                fgColor='white'
-              />
-              }
-            </View>
+
+            {address ?
+              <View style={[AddFundsStyle.qrBackground]}>
+                <QRCode
+                  value={address}
+                  size={120}
+                  bgColor='black'
+                  fgColor='white'
+                />
+              </View> : <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
+                               style={AddFundsStyle.loader}/>}
           </View>
         </View>
 
@@ -360,7 +361,8 @@ class AddFunds extends Component {
         {(currentCurrency && currentCurrency.toLowerCase() === "bch") &&
         <View style={AddFundsStyle.alternateAddressWrapper}>
           <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
-            support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
+            support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use
+            a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
             BCH address.</Text>
           <CelButton
             white
@@ -382,7 +384,7 @@ class AddFunds extends Component {
 
         <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
                           onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
-          <View style={{marginRight: 10}}>
+          <View style={{ marginRight: 10 }}>
             <Icon
               name="ShieldBitGo"
               width={25}

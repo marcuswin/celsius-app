@@ -81,7 +81,7 @@ class AmountInput extends Component {
     const { formData, actions } = this.props;
     const decimal = formData.inUsd ? 2 : 5;
 
-    const amount = formData.amount + number;
+    const amount = formData.amount ? formData.amount + number : number;
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd
     const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd
     if (amountUsd > 20000) {
