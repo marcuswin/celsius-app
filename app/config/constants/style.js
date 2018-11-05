@@ -222,6 +222,7 @@ export const FONTS = [
 export const CACHE_IMAGES = [
   require('../../../assets/images/icons/celsius_symbol_white.png'),
   require('../../../assets/images/icons/animated-spinner.gif'),
+  require('../../../assets/images/icons/white_spinner.gif'),
   require('../../../assets/images/icons/icon-check.png'),
   require('../../../assets/images/icons/camera-flip.png'),
   require('../../../assets/images/two-thumbs-up.png'),

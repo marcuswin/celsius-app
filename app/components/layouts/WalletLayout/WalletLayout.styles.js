@@ -25,7 +25,7 @@ const WalletLayoutStyle = StyleSheet.create({
   totalLoader: {
     width: 32,
     height: 32,
-    marginBottom: 16,
+    marginBottom: 7,
   },
   content: {
     paddingTop: 15,
