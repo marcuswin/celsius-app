@@ -124,6 +124,10 @@ const AddFundsStyle = StyleSheet.create({
     color: 'white',
     marginBottom: 20,
   },
+  loader: {
+    width: 50,
+    height: 50,
+  },
 });
 
 export default AddFundsStyle;

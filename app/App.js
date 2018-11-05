@@ -24,6 +24,8 @@ if (SENTRY_DSN) {
   Sentry.config(SENTRY_DSN).install();
 }
 
+let startOfBackgroundTimer;
+
 // Initialize axios interceptors
 apiUtil.initInterceptors();
 
@@ -179,10 +181,14 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
+    const askForPinAfter = 25000
     if ( nextAppState === 'active') {
       mixpanelEvents.openApp();
       if (Platform.OS === "ios") {
         clearTimeout(this.timeout)
+      } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
+        startOfBackgroundTimer = null;
+        store.dispatch(actions.navigateTo("LoginPasscode"));
       }
     }
 
@@ -192,9 +198,9 @@ export default class App extends Component {
           this.timeout = setTimeout(() => {
             store.dispatch(actions.navigateTo("LoginPasscode"));
             clearTimeout(this.timeout)
-          }, 25000)
+          }, askForPinAfter)
         } else {
-          store.dispatch(actions.navigateTo("LoginPasscode"));
+          startOfBackgroundTimer = new Date().getTime();
         }
     }
     this.setState({appState: nextAppState});
