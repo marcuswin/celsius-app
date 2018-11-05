@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { ImageBackground } from "react-native";
+import { ImageBackground, StatusBar } from "react-native";
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -37,6 +37,10 @@ class WelcomeScreen extends Component {
 
     return (
       <Container style={{ backgroundColor: 'black' }}>
+        <StatusBar
+          backgroundColor="blue"
+          barStyle="light-content"
+        />
         <Content bounces={false} style={WelcomeStyle.content}>
 
           <ImageBackground source={require('../../../../assets/images/Onboarding_background3x.png')} style={[WelcomeStyle.view]}>
