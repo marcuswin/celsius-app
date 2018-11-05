@@ -9,6 +9,7 @@ import HeaderStyle from './MainHeader.styles';
 import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import {STYLES} from "../../../config/constants/style";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -18,7 +19,7 @@ import {STYLES} from "../../../config/constants/style";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class MainHeader extends Component {
+class MainHeader2 extends Component {
   static propTypes = {
     right: PropTypes.element,
     rightLink: PropTypes.instanceOf(Object),
@@ -71,7 +72,7 @@ class MainHeader extends Component {
 
     if (rightLink) {
       return (
-        <Button transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
+        <Button ref={testUtil.generateTestHook(this, `MainHeader.Login`)} transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
@@ -123,5 +124,7 @@ class MainHeader extends Component {
     );
   }
 }
-
+const MainHeader = testUtil.hookComponent(MainHeader2);
 export {MainHeader};
+// export default testUtil.hookComponent(MainHeader);
+

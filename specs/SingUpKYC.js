@@ -1,4 +1,4 @@
-import { test } from './helpers';
+import { test, submit } from './helpers';
 
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
@@ -12,15 +12,17 @@ export default function(spec) {
         
         await spec.press('Welcome.skipButton')
         await spec.pause(2000)
+        await spec.press('MainHeader.Login')
+        // comp = await spec.findComponent('LoginScreen.loginButton')
+        // await submit(comp)
 
-        comp = await spec.findComponent('SignupOne.login')
-        await spec.press(comp)
-
+        // await spec.press('LoginScreen.loginButton')
         // LogIn
         await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')
         await spec.fillIn('CelTextInput.pass','filip123')
-        await spec.press('LoginForm.button')
         await spec.pause(2000)
+        await spec.press('LoginForm.button')
+        await spec.pause(30000)
 
         await spec.press('BottomNavigation.Pay')
         await spec.press('SelectCoin.BTC')
@@ -34,6 +36,7 @@ export default function(spec) {
         await spec.pause(2000)
         await spec.fillIn('passcode.pin','1111')
         await spec.press('Passcode.Confirm')
+        await spec.pause(2000)
         await spec.press('AmountInput.confirm-send')
         await spec.pause(2000)
         await spec.press('TransactionConfirmation.confirmWithdraw')
@@ -46,9 +49,9 @@ export default function(spec) {
     spec.describe('Cel pay', function() {
       spec.it('ETH', async function() {
         
-        store.dispatch(actions.logoutUser());
         await spec.press('Welcome.skipButton')
         await spec.pause(2000)
+        await spec.press('MainHeader.Login')
 
         comp = await spec.findComponent('WalletDetails.iks')
         await test(comp)
@@ -90,6 +93,7 @@ export default function(spec) {
         store.dispatch(actions.logoutUser());
         await spec.press('Welcome.skipButton')
         await spec.pause(2000)
+        await spec.press('MainHeader.Login')
 
         // LogIn
         await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')
@@ -124,6 +128,7 @@ export default function(spec) {
         store.dispatch(actions.logoutUser());
         await spec.press('Welcome.skipButton')
         await spec.pause(2000)
+        await spec.press('MainHeader.Login')
 
         // LogIn
         await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')

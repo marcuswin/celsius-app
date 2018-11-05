@@ -46,10 +46,9 @@ class SignupOne extends Component {
     const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
-
+    console.log()
     return (
       <SimpleLayout
-        ref={testUtil.generateTestHook(this, 'SignupOne.login')}
         mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
         animatedHeading={{ text: 'Sign up' }}
         background={STYLES.PRIMARY_BLUE}

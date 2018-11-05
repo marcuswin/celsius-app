@@ -492,6 +492,7 @@ export default function(spec) {
         // await spec.press('WelcomeScreen.acc')
         await spec.press('Welcome.skipButton')
         await spec.pause(2000)
+        await spec.press('MainHeader.Login')
 
         // LogIn
         await spec.fillIn('CelTextInput.email','filip.jovakaric+wlt@mvpworkshop.co')
@@ -553,7 +554,7 @@ export default function(spec) {
         await spec.press('AmountInput.period')
         await spec.press('AmountInput.one')
         await spec.press('AmountInput.nine')
-        await spec.pause(5000)
+        await spec.pause(2000)
         await spec.press('AmountInput.send')
         await spec.pause(2000)
 
@@ -1149,4 +1150,3 @@ export default function(spec) {
       });
     });
 }
-  

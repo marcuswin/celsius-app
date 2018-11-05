@@ -245,7 +245,7 @@ class AmountInput extends Component {
               </View>
 
               <CelButton
-                ref={testUtil.generateTestHook(this, `AmountInput.${purpose}`)}
+                ref={testUtil.generateTestHook(this, `AmountInput.send`)}
                 disabled={!formData.amountCrypto}
                 onPress={this.handleMainButtonClick(purpose)}
                 margin='5 36 5 36'

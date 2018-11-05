@@ -14,6 +14,7 @@ import Separator from "../../atoms/Separator/Separator";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import {STYLES} from "../../../config/constants/style";
+import testUtil from "../../../utils/test-util";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -90,7 +91,7 @@ class LoginScreen extends Component {
         <Separator margin='35 0 5 0'>OR LOGIN WITH E-MAIL</Separator>
 
         <View style={[LoginStyle.formWrapper, {height: formHeight}]}>
-          <LoginForm onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
+          <LoginForm ref={testUtil.generateTestHook(this, `LoginScreen.loginButton`)} onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
         </View>
 
         <CelButton
@@ -106,4 +107,5 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+export default testUtil.hookComponent(LoginScreen);
+

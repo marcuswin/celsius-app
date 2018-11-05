@@ -19,6 +19,11 @@ export async function test(component) {
   component.props.onCancel()
 }
 
+export async function submit(component) {
+  console.log(component)
+  component.props.onSubmit()
+}
+
 export async function formField(field, item ) {
   actions.updateFormField(field, item.name);
   component.props.onValueChange();
