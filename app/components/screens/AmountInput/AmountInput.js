@@ -202,8 +202,6 @@ class AmountInput extends Component {
     const displayBalanceCrypto = formatter.crypto(balanceCrypto, formData.currency.toUpperCase(), { precision: 5 });
     const displayBalanceUsd = formatter.usd(balanceUsd);
 
-    console.log(purpose)
-
     return (
       <BasicLayout
       >

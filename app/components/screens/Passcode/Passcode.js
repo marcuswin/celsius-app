@@ -78,10 +78,6 @@ class Passcode extends Component {
     };
   }
 
-
-
-
-
   onPressButton = async () => {
     const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose, userActions } = this.props;
     if (type === 'repeatPasscode') {

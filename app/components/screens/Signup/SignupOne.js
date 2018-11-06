@@ -46,7 +46,6 @@ class SignupOne extends Component {
     const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
-    console.log()
     return (
       <SimpleLayout
         mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
@@ -63,7 +62,7 @@ class SignupOne extends Component {
           <View style={SignupOneStyle.formWrapper}>
             <CelForm disabled={isLoading}>
               <CelInput
-                {...this.props} testSelector={'SignupOne.email'}             
+                {...this.props} testSelector={'SignupOne.email'}
                 error={formErrors.email}
                 field="email"
                 labelText="E-mail"

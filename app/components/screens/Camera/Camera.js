@@ -14,6 +14,7 @@ import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import {MainHeader} from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import imageUtil from "../../../utils/image-util";
+import logger from "../../../utils/logger-util";
 
 @connect(
   state => ({
@@ -129,7 +130,7 @@ class CameraScreen extends Component {
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
     } catch(err) {
-      console.log(err);
+      logger.log(err);
       this.setState({ isLoading: false });
     }
   };

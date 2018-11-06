@@ -1,6 +1,7 @@
 import axios from 'axios';
 import apiUrl from './api-url';
 import imageUtil from '../utils/image-util';
+import logger from '../utils/logger-util';
 
 const usersService = {
   register,
@@ -21,7 +22,7 @@ const usersService = {
 };
 
 function register({ email, password, referrerId }) {
-  console.log({ referrerId })
+  logger.log({ referrerId })
   return axios.post(`${apiUrl}/users/register`, {
     email,
     password,

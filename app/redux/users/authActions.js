@@ -13,6 +13,7 @@ import borrowersService from '../../services/borrowers-service';
 import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 import { BRANCH_LINKS } from "../../config/constants/common";
+import logger from '../../utils/logger-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -133,7 +134,7 @@ function registerUser(user) {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
       const referralLink = getState().branch.allLinks.filter(bl => bl.link_type === BRANCH_LINKS.REFERRAL)[0];
-      console.log({ referralLink })
+      logger.log({ referralLink })
       const res = await usersService.register({
         ...user,
         referrerId: referralLink ? referralLink.referrer_id : undefined,
@@ -457,7 +458,7 @@ function logoutUser() {
         type: ACTIONS.LOGOUT_USER,
       });
     } catch(err) {
-      console.log(err);
+      logger.log(err);
     }
   }
 }
@@ -469,7 +470,7 @@ function expireSession() {
         type: ACTIONS.EXPIRE_SESSION,
       });
     } catch(err) {
-      console.log(err);
+      logger.log(err);
     }
   }
 }

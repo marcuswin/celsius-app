@@ -130,8 +130,6 @@ class WalletInterest extends Component {
     const { actions, chartData } = this.props;
     const { activeTab, chartDataSet, coinsMaxValues } = this.state;
 
-    console.log({ chartDataSet }, chartData.total);
-
     return (
       <WalletLayout>
         <View style={WalletInterestStyle.graphAndInterestWrapper}>

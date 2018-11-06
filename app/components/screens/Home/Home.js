@@ -14,6 +14,7 @@ import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
 import Passcode from "../Passcode/Passcode";
 import store from "../../../redux/store";
+import logger from "../../../utils/logger-util";
 
 const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 
@@ -48,7 +49,7 @@ class HomeScreen extends Component {
           registerForPushNotificationsAsync();
         }
       } catch(err) {
-        console.log(err);
+        logger.log(err);
       }
     }
 

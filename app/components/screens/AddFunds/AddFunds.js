@@ -165,7 +165,6 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
-        console.log(address, addressXrp, destinationTag);
       }
 
       currentCurrency = navCurrency.toLowerCase();
@@ -176,7 +175,6 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
-        console.log(address, addressXrp, destinationTag);
       }
 
       headingText = "Add funds";
@@ -218,7 +216,7 @@ class AddFunds extends Component {
             {address ?
               <View style={[AddFundsStyle.qrBackground]}>
                 <QRCode
-                  ref={testUtil.generateTestHook(this, 'AddFunds.QRCode')}
+                  ref={testUtil.generateTestHook(this, "AddFunds.QRCode")}
                   value={address}
                   size={120}
                   bgColor='black'
@@ -231,7 +229,8 @@ class AddFunds extends Component {
 
         <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
-            <Text ref={testUtil.generateTestHook(this, 'AddFunds.address')} style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
+            <Text ref={testUtil.generateTestHook(this, "AddFunds.address")}
+                  style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
 
           <View style={AddFundsStyle.boxButtonsWrapper}>
@@ -378,7 +377,7 @@ class AddFunds extends Component {
         </View>}
 
         <CelButton
-          ref={testUtil.generateTestHook(this, 'AddFunds.Done')}
+          ref={testUtil.generateTestHook(this, "AddFunds.Done")}
           white
           onPress={this.goBack}
           margin='20 50 0 50'

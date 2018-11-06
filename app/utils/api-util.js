@@ -4,6 +4,7 @@ import r from "jsrsasign";
 import {Constants} from 'expo';
 import { Base64 } from 'js-base64';
 import Sentry from "sentry-expo";
+import logger from './logger-util';
 
 import {getSecureStoreKey} from '../utils/expo-storage';
 
@@ -46,7 +47,7 @@ function initInterceptors() {
           };
         }
       } catch (err) {
-        console.log(err);
+        logger.log(err);
       }
 
       if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
@@ -56,7 +57,7 @@ function initInterceptors() {
       }
 
       /* eslint-disable no-underscore-dangle */
-      console.log({[req.method.toUpperCase()]: newRequest});
+      logger.log({[req.method.toUpperCase()]: newRequest});
       /* eslint-enable no-underscore-dangle */
 
       return newRequest;
@@ -72,7 +73,7 @@ function initInterceptors() {
 
       if (verifyKey(data, sign)) {
         /* eslint-disable no-underscore-dangle */
-        console.log({RESPONSE: res});
+        logger.log({RESPONSE: res});
         /* eslint-enable no-underscore-dangle */
 
         return res;
@@ -84,7 +85,7 @@ function initInterceptors() {
       };
 
       /* eslint-disable no-underscore-dangle */
-      console.log({API_ERROR: err});
+      logger.log({API_ERROR: err});
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err);
@@ -104,7 +105,7 @@ function initInterceptors() {
       }
 
       /* eslint-disable no-underscore-dangle */
-      console.log({API_ERROR: err});
+      logger.log({API_ERROR: err});
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err);

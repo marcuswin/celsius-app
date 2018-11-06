@@ -12,6 +12,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import logger from '../../utils/logger-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -253,7 +254,7 @@ function verifyKYCDocs() {
         mixpanelEvents.KYCStarted();
       }
     } catch(err) {
-      console.log({ err });
+      logger.log({ err });
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
@@ -370,7 +371,7 @@ function updateUserAppSettings(appSettings) {
         appSettings: newAppSettings,
       });
     } catch(err) {
-      console.log(err)
+      logger.log(err)
     }
   }
 }

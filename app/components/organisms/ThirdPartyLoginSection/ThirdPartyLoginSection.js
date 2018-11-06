@@ -116,8 +116,6 @@ class ThirdPartyLoginSection extends Component {
         const user = await response.json();
         user.accessToken = token;
 
-        console.log({ user })
-
         if (this.props.type === 'login') {
           actions.loginFacebook(user);
         } else {
