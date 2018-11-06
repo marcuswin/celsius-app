@@ -4,7 +4,7 @@ import ACTIONS from "../../config/constants/ACTIONS";
 import * as transfersActions from '../transfers/transfersActions';
 import * as uiActions from '../ui/uiActions';
 import branchService from '../../services/branch-service';
-import { BRANCH_LINKS } from "../../config/constants/common";
+import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 
@@ -91,7 +91,7 @@ function createBranchReferralLink() {
 }
 
 function registerBranchLink(deepLink) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink,
@@ -104,6 +104,9 @@ function registerBranchLink(deepLink) {
 
       case BRANCH_LINKS.COMPANY_REFERRAL:
         dispatch(saveBranchLink(deepLink));
+        if (!getState().users.user) {
+          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+        }
         break;
       default:
 
