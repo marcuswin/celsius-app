@@ -7,69 +7,69 @@ export default function(spec) {
     
   store.dispatch(actions.logoutUser());
 
-  spec.describe('SingUp', function() {
-    spec.it('No username, no password, ', async function() {
+  // spec.describe('SingUp', function() {
+  //   spec.it('No Email, no password, ', async function() {
 
-      // signUp with no email, pass
-       await spec.pause(5000)
-       await spec.press('Welcome.skipButton')
-       await spec.press('SignupOne.button')
-       await spec.notExists('SignupTwo.screen')
+  //     // signUp with no email, pass
+  //      await spec.pause(5000)
+  //      await spec.press('Welcome.skipButton')
+  //      await spec.press('SignupOne.button')
+  //      await spec.notExists('SignupTwo.screen')
 
-       await spec.pause(5000)
+  //      await spec.pause(5000)
 
         
-     });
-   });  
+  //    });
+  //  });  
 
-  spec.describe('SingUp', function() {
-    spec.it('No password', async function() {
+  // spec.describe('SingUp', function() {
+  //   spec.it('No password', async function() {
 
-       // signUp with no pass
-       await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-       await spec.press('SignupOne.button')
-       await spec.notExists('SignupTwo.screen')
+  //      // signUp with no pass
+  //      await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+  //      await spec.press('SignupOne.button')
+  //      await spec.notExists('SignupTwo.screen')
 
-       store.dispatch(actions.logoutUser());
+  //      store.dispatch(actions.logoutUser());
 
-       await spec.pause(5000)
+  //      await spec.pause(5000)
 
-     });
-   });  
+  //    });
+  //  });  
     
-    spec.describe('SingUp', function() {
-      spec.it('No username', async function() {
+  //   spec.describe('SingUp', function() {
+  //     spec.it('No email', async function() {
 
-       // signUp with no email
-       await spec.press('Welcome.skipButton')
-       store.dispatch(actions.clearForm());
-       await spec.fillIn('SignupOne.password','12345678')
-       await spec.press('SignupOne.button')
-       await spec.notExists('SignupTwo.screen')
+  //      // signUp with no email
+  //      await spec.press('Welcome.skipButton')
+  //      store.dispatch(actions.clearForm());
+  //      await spec.fillIn('SignupOne.password','12345678')
+  //      await spec.press('SignupOne.button')
+  //      await spec.notExists('SignupTwo.screen')
 
-       store.dispatch(actions.logoutUser());
+  //      store.dispatch(actions.logoutUser());
 
-       await spec.pause(5000)
+  //      await spec.pause(5000)
 
-      });
-    });  
+  //     });
+  //   });  
     
-    spec.describe('SingUp', function() {
-      spec.it('Weak password', async function() {
+  //   spec.describe('SingUp', function() {
+  //     spec.it('Weak password', async function() {
 
-       // signUp with weak paass
-       await spec.press('Welcome.skipButton')
-       await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-       await spec.fillIn('SignupOne.password','1234')
-       await spec.press('SignupOne.button')
-       await spec.notExists('SignupTwo.screen')
+  //      // signUp with weak paass
+  //      await spec.press('Welcome.skipButton')
+  //      await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+  //      await spec.fillIn('SignupOne.password','1234')
+  //      await spec.press('SignupOne.button')
+  //      await spec.notExists('SignupTwo.screen')
 
-       store.dispatch(actions.logoutUser());
+  //      store.dispatch(actions.logoutUser());
 
-       await spec.pause(5000)
+  //      await spec.pause(5000)
 
-      });
-    });  
+  //     });
+  //   });  
     
     spec.describe('SingUp screen two', function() {
       spec.it('Create pin', async function() {
@@ -99,10 +99,9 @@ export default function(spec) {
       spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
 
       // kyc, page 1
-       await spec.press('NoKyc.VerifyProfile')
-
        await spec.pause(5000)
-       
+       await spec.press('NoKyc.VerifyProfile')
+       await spec.pause(5000)
        await spec.press('ProfileDetails.verifyYourProfile')
 
       //  await spec.exists('ProfileDetails.Title is required!')
@@ -154,21 +153,20 @@ export default function(spec) {
       spec.it('All informations filled', async function() {
 
        // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
+       await spec.pause(5000)
        store.dispatch(actions.updateFormField('title', 'mr' ));
-       store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+       store.dispatch(actions.updateFormField('dateOfBirth', "01-01-1994" ));
        store.dispatch(actions.updateFormField('citizenship','Serbia'));
        store.dispatch(actions.updateFormField('gender', 'Male' ));
+       await spec.pause(5000)
 
        await spec.press('ProfileDetails.verifyYourProfile')
+       await spec.pause(5000)
 
-       await spec.pause(3003)
       //  await spec.notExists('ProfileDetails.Title is required!')
       //  await spec.notExists('ProfileDetails.Date of Birth is required!')
       //  await spec.notExists('ProfileDetails.Citizenship is required!')
       //  await spec.notExists('ProfileDetails.Gender is required!')
-
-       await spec.pause(5000)
-
       });
     });  
     
@@ -176,11 +174,10 @@ export default function(spec) {
       spec.it('Take camera pictures', async function() {
 
       //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
-       await spec.press('ProfileDetails.verifyYourProfile')
-
-       await spec.pause(5000)
+      //  await spec.press('ProfileDetails.verifyYourProfile')
       
       // ID card take take photo
+       await spec.pause(5000)
        await spec.press('VerifyProfile.identity_card')
 
        await spec.press('CameraInput.front')
@@ -198,27 +195,25 @@ export default function(spec) {
        await spec.press('VerifyProfile.passport')
 
        await spec.press('CameraInput.front')
+       await spec.pause(2000)
        await spec.press('CameraScreen.retakePhoto')
        await spec.press('CameraScreen.takePhoto')
        await spec.press('CameraScreen.usePhoto')
 
-      });
-    });  
-    
-    spec.describe('KYC 2', function() {
-      spec.it('Retake driving licence', async function() {
-
       // Drivings licence retake photo
+       await spec.pause(2000)
        await spec.press('VerifyProfile.driving_licence')
 
        await spec.press('CameraInput.front')
+       await spec.pause(2000)
        await spec.press('CameraScreen.retakePhoto')
        await spec.press('CameraScreen.takePhoto')
-      //  await spec.press('CameraScreen.usePhoto')
+       await spec.press('CameraScreen.usePhoto')
 
        await spec.pause(2000)
 
        await spec.press('CameraInput.back')
+       await spec.pause(2000)
        await spec.press('CameraScreen.retakePhoto')
        await spec.press('CameraScreen.takePhoto')
        await spec.press('CameraScreen.usePhoto')
@@ -244,248 +239,250 @@ export default function(spec) {
     });  
 
 
-    spec.describe('SingUp', function() {
-      spec.it('No username, no password, ', async function() {
+    // spec.describe('SingUp', function() {
+    //   spec.it('No username, no password, ', async function() {
 
-        // signUp with no email, pass
-         await spec.pause(5000)
-         await spec.press('Welcome.skipButton')
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+    //     // signUp with no email, pass
+    //      await spec.pause(5000)
+    //      await spec.press('Welcome.skipButton')
+    //      await spec.press('SignupOne.button')
+    //      await spec.notExists('SignupTwo.screen')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
           
-       });
-     });  
+    //    });
+    //  });  
 
-    spec.describe('SingUp', function() {
-      spec.it('No password', async function() {
+    // spec.describe('SingUp', function() {
+    //   spec.it('No password', async function() {
 
-         // signUp with no pass
-         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+    //      // signUp with no pass
+    //      await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+    //      await spec.press('SignupOne.button')
+    //      await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+    //      store.dispatch(actions.logoutUser());
  
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-       });
-     });  
+    //    });
+    //  });  
       
-      spec.describe('SingUp', function() {
-        spec.it('No username', async function() {
+    //   spec.describe('SingUp', function() {
+    //     spec.it('No username', async function() {
 
-         // signUp with no email
-         await spec.press('Welcome.skipButton')
-         store.dispatch(actions.clearForm());
-         await spec.fillIn('SignupOne.password','12345678')
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+    //      // signUp with no email
+    //      await spec.press('Welcome.skipButton')
+    //      store.dispatch(actions.clearForm());
+    //      await spec.fillIn('SignupOne.password','12345678')
+    //      await spec.press('SignupOne.button')
+    //      await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+    //      store.dispatch(actions.logoutUser());
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
  
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('SingUp', function() {
-        spec.it('Weak password', async function() {
+    //   spec.describe('SingUp', function() {
+    //     spec.it('Weak password', async function() {
 
-         // signUp with weak paass
-         await spec.press('Welcome.skipButton')
-         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.fillIn('SignupOne.password','1234')
-         await spec.press('SignupOne.button')
-         await spec.notExists('SignupTwo.screen')
+    //      // signUp with weak paass
+    //      await spec.press('Welcome.skipButton')
+    //      await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+    //      await spec.fillIn('SignupOne.password','1234')
+    //      await spec.press('SignupOne.button')
+    //      await spec.notExists('SignupTwo.screen')
 
-         store.dispatch(actions.logoutUser());
+    //      store.dispatch(actions.logoutUser());
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
  
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('SingUp screen two', function() {
-        spec.it('Create pin', async function() {
+    //   spec.describe('SingUp screen two', function() {
+    //     spec.it('Create pin', async function() {
 
-        // signUp
-         await spec.press('Welcome.skipButton')
-         await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
-         await spec.fillIn('SignupOne.password','12345678')
-         await spec.press('SignupOne.button')
+    //     // signUp
+    //      await spec.press('Welcome.skipButton')
+    //      await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@gmail.com`)
+    //      await spec.fillIn('SignupOne.password','12345678')
+    //      await spec.press('SignupOne.button')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-         await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
-         await spec.fillIn('SignupTwo.LastName', 'Krstonic')
-         await spec.press('SignupTwo.CreatePin')
+    //      await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+    //      await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+    //      await spec.press('SignupTwo.CreatePin')
 
-         await spec.fillIn('passcode.pin','1111')
-         await spec.press('Passcode.Repeat PIN')
-         await spec.fillIn('passcode.pin_confirm','1111')
-         await spec.press('Passcode.Confirm')
-         await spec.pause(1000)
+    //      await spec.fillIn('passcode.pin','1111')
+    //      await spec.press('Passcode.Repeat PIN')
+    //      await spec.fillIn('passcode.pin_confirm','1111')
+    //      await spec.press('Passcode.Confirm')
+    //      await spec.pause(1000)
 
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('KYC', function() {
-        spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
+    //   spec.describe('KYC', function() {
+    //     spec.it('No title, no dateOfBirth, no chitizenship, no gender', async function() {
 
-        // kyc, page 1
-         await spec.press('NoKyc.VerifyProfile')
+    //     // kyc, page 1
+    //      await spec.press('NoKyc.VerifyProfile')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
          
-         await spec.press('ProfileDetails.verifyYourProfile')
+    //      await spec.press('ProfileDetails.verifyYourProfile')
 
-        //  await spec.exists('ProfileDetails.Title is required!')
-        //  await spec.exists('ProfileDetails.Date of Birth is required!')
-        //  await spec.exists('ProfileDetails.Citizenship is required!')
-        //  await spec.exists('ProfileDetails.Gender is required!')
+    //     //  await spec.exists('ProfileDetails.Title is required!')
+    //     //  await spec.exists('ProfileDetails.Date of Birth is required!')
+    //     //  await spec.exists('ProfileDetails.Citizenship is required!')
+    //     //  await spec.exists('ProfileDetails.Gender is required!')
 
-         await spec.pause(5000)
-        });
-      });  
+    //      await spec.pause(5000)
+    //     });
+    //   });  
       
-      spec.describe('KYC', function() {
-        spec.it('No dateOfBirth, no chitizenship, no gender', async function() {
+    //   spec.describe('KYC', function() {
+    //     spec.it('No dateOfBirth, no chitizenship, no gender', async function() {
 
-         // kyc, page 1, test empty, title filled
-         store.dispatch(actions.updateFormField('title', 'mr' ));
-         await spec.press('ProfileDetails.verifyYourProfile')
-         await spec.pause(3003)
-        //  await spec.notExists('ProfileDetails.Title is required!')
-        //  await spec.exists('ProfileDetails.Date of Birth is required!')
-        //  await spec.exists('ProfileDetails.Citizenship is required!')
-        //  await spec.exists('ProfileDetails.Gender is required!')
+    //      // kyc, page 1, test empty, title filled
+    //      store.dispatch(actions.updateFormField('title', 'mr' ));
+    //      await spec.press('ProfileDetails.verifyYourProfile')
+    //      await spec.pause(3003)
+    //     //  await spec.notExists('ProfileDetails.Title is required!')
+    //     //  await spec.exists('ProfileDetails.Date of Birth is required!')
+    //     //  await spec.exists('ProfileDetails.Citizenship is required!')
+    //     //  await spec.exists('ProfileDetails.Gender is required!')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('KYC', function() {
-        spec.it('no chitizenship, no gender', async function() {
+    //   spec.describe('KYC', function() {
+    //     spec.it('no chitizenship, no gender', async function() {
 
-        // kyc, page 1, test empty, title, dateOfBirth filled 
-        store.dispatch(actions.updateFormField('title', 'mr' ));
-        store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
+    //     // kyc, page 1, test empty, title, dateOfBirth filled 
+    //     store.dispatch(actions.updateFormField('title', 'mr' ));
+    //     store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
 
-         await spec.press('ProfileDetails.verifyYourProfile')
-         await spec.pause(3003)
-        //  await spec.notExists('ProfileDetails.Title is required!')
-        //  await spec.notExists('ProfileDetails.Date of Birth is required!')
-        //  await spec.exists('ProfileDetails.Citizenship is required!')
-        //  await spec.exists('ProfileDetails.Gender is required!')
+    //      await spec.press('ProfileDetails.verifyYourProfile')
+    //      await spec.pause(3003)
+    //     //  await spec.notExists('ProfileDetails.Title is required!')
+    //     //  await spec.notExists('ProfileDetails.Date of Birth is required!')
+    //     //  await spec.exists('ProfileDetails.Citizenship is required!')
+    //     //  await spec.exists('ProfileDetails.Gender is required!')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
      
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('KYC', function() {
-        spec.it('All informations filled', async function() {
+    //   spec.describe('KYC', function() {
+    //     spec.it('All informations filled', async function() {
 
-         // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
-         store.dispatch(actions.updateFormField('title', 'mr' ));
-         store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
-         store.dispatch(actions.updateFormField('citizenship','Serbia'));
-         store.dispatch(actions.updateFormField('gender', 'Male' ));
-         await spec.pause(5000)
+    //      // kyc, page 1, title, dateOfBirth, citizenship, gender filled 
+    //      store.dispatch(actions.updateFormField('title', 'mr' ));
+    //      store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+    //      store.dispatch(actions.updateFormField('citizenship','Serbia'));
+    //      store.dispatch(actions.updateFormField('gender', 'Male' ));
+    //      await spec.pause(5000)
 
-         await spec.press('ProfileDetails.verifyYourProfile')
+    //      await spec.press('ProfileDetails.verifyYourProfile')
 
-         await spec.pause(3003)
-        //  await spec.notExists('ProfileDetails.Title is required!')
-        //  await spec.notExists('ProfileDetails.Date of Birth is required!')
-        //  await spec.notExists('ProfileDetails.Citizenship is required!')
-        //  await spec.notExists('ProfileDetails.Gender is required!')
+    //      await spec.pause(3003)
+    //     //  await spec.notExists('ProfileDetails.Title is required!')
+    //     //  await spec.notExists('ProfileDetails.Date of Birth is required!')
+    //     //  await spec.notExists('ProfileDetails.Citizenship is required!')
+    //     //  await spec.notExists('ProfileDetails.Gender is required!')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('KYC 2', function() {
-        spec.it('Take camera pictures', async function() {
+    //   spec.describe('KYC 2', function() {
+    //     spec.it('Take camera pictures', async function() {
 
-        //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
-         await spec.press('ProfileDetails.verifyYourProfile')
+    //     //kyc, page 2, NOT SURE WHAT HAPPEDNS HERE
+    //      await spec.press('ProfileDetails.verifyYourProfile')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
         
-        // ID card take take photo
-         await spec.press('VerifyProfile.identity_card')
+    //     // ID card take take photo
+    //      await spec.press('VerifyProfile.identity_card')
 
-         await spec.press('CameraInput.front')
-         await spec.press('CameraScreen.takePhoto')
-         await spec.press('CameraScreen.usePhoto')
+    //      await spec.press('CameraInput.front')
+    //      await spec.press('CameraScreen.takePhoto')
+    //      await spec.press('CameraScreen.usePhoto')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-         await spec.press('CameraInput.back')
-         await spec.press('CameraScreen.takePhoto')
-         await spec.press('CameraScreen.usePhoto')
+    //      await spec.press('CameraInput.back')
+    //      await spec.press('CameraScreen.takePhoto')
+    //      await spec.press('CameraScreen.usePhoto')
 
-         await spec.pause(2000)
+    //      await spec.pause(2000)
 
-         await spec.press('VerifyProfile.passport')
+    //      await spec.press('VerifyProfile.passport')
 
-         await spec.press('CameraInput.front')
-         await spec.press('CameraScreen.retakePhoto')
-         await spec.press('CameraScreen.takePhoto')
-         await spec.press('CameraScreen.usePhoto')
+    //      await spec.press('CameraInput.front')
+    //      await spec.press('CameraScreen.retakePhoto')
+    //      await spec.press('CameraScreen.takePhoto')
+    //      await spec.press('CameraScreen.usePhoto')
 
-        });
-      });  
+    //     });
+    //   });  
       
-      spec.describe('KYC 2', function() {
-        spec.it('Retake driving licence', async function() {
+    //   spec.describe('KYC 2', function() {
+    //     spec.it('Retake driving licence', async function() {
 
-        // Drivings licence retake photo
-         await spec.press('VerifyProfile.driving_licence')
+    //     // Drivings licence retake photo
+    //      await spec.press('VerifyProfile.driving_licence')
 
-         await spec.press('CameraInput.front')
-         await spec.press('CameraScreen.retakePhoto')
-         await spec.press('CameraScreen.takePhoto')
-        //  await spec.press('CameraScreen.usePhoto')
+    //      await spec.press('CameraInput.front')
+    //      await spec.press('CameraScreen.retakePhoto')
+    //      await spec.press('CameraScreen.takePhoto')
+    //     //  await spec.press('CameraScreen.usePhoto')
 
-         await spec.pause(2000)
+    //      await spec.pause(2000)
 
-         await spec.press('CameraInput.back')
-         await spec.press('CameraScreen.retakePhoto')
-         await spec.press('CameraScreen.takePhoto')
-         await spec.press('CameraScreen.usePhoto')
+    //      await spec.press('CameraInput.back')
+    //      await spec.press('CameraScreen.retakePhoto')
+    //      await spec.press('CameraScreen.takePhoto')
+    //      await spec.press('CameraScreen.usePhoto')
 
-         await spec.pause(2000)
+    //      await spec.pause(2000)
         
-         store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+    //      store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
 
-         await spec.pause(2000)
+    //      await spec.pause(2000)
         
-         await spec.press('VerifyProfile.verify')
+    //      await spec.press('VerifyProfile.verify')
 
-         await spec.pause(5000)
+    //      await spec.pause(5000)
 
-         await spec.fillIn('VerifyPhoneNumber.sms', '1111')
-         await spec.press('VerifyPhoneNumber.finish')
+    //      await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+    //      await spec.press('VerifyPhoneNumber.finish')
 
-        store.dispatch(actions.verifySMSSuccess());
+    //     store.dispatch(actions.verifySMSSuccess());
 
-         await spec.pause(3000)
+    //      await spec.pause(3000)
 
   
-        });
-      });  
+    //     });
+    //   });  
 
     // WelcomeScreen exist; press logIn
     spec.describe('LogIn', function() {
       spec.it('Existing user', async function() {
         
+        store.dispatch(actions.logoutUser());
+
         await spec.pause(2000)
         // await spec.exists('WelcomeScreen.first')
         // await spec.pause(2000)
@@ -687,7 +684,7 @@ export default function(spec) {
       spec.it('Withdraw $4', async function() {
       
         // Withdraw $4
-        await spec.pause(2002)
+        await spec.pause(2000)
         await spec.press('WalletDetails.withdraw')
         await spec.press('WithdrawalInfo.continue')
         await spec.pause(2000)
@@ -710,7 +707,7 @@ export default function(spec) {
       spec.it('Charts exists', async function() {
 
         // LTC
-        await spec.pause(2002)
+        await spec.pause(2000)
         await spec.exists('WalletBalance.LTC')
         await spec.press('WalletBalance.LTC')
         await spec.press('WalletDetailsGraphContainer.1d')
@@ -740,7 +737,7 @@ export default function(spec) {
       spec.it('Can`t withdraw less than $1', async function() {
 
         // Withdraw less then $1
-        await spec.pause(2002)
+        await spec.pause(2000)
         await spec.press('WalletDetails.withdraw')
         await spec.press('WithdrawalInfo.continue')
 
@@ -761,7 +758,7 @@ export default function(spec) {
       spec.it('Can`t withdraw over &20k', async function() {
 
         // Withdraw more than $20k
-        await spec.pause(2002)
+        await spec.pause(2000)
         await spec.press('WalletDetails.withdraw')
         await spec.press('WithdrawalInfo.continue')
         await spec.pause(2000)
@@ -903,75 +900,75 @@ export default function(spec) {
       });
     });
 
-    // spec.describe('Wallet screen for OMG', function() {
-    //   spec.it('Chart exists', async function() {
+    spec.describe('Wallet screen for OMG', function() {
+      spec.it('Chart exists', async function() {
 
-    //     // OMG
-    //     await spec.exists('WalletBalance.OMG')
-    //     await spec.press('WalletBalance.OMG')
-    //     await spec.press('WalletDetailsGraphContainer.1d')
-    //     await spec.exists('WalletDetailsGraphContainer.LineChart1d')
+        // OMG
+        await spec.exists('WalletBalance.OMG')
+        await spec.press('WalletBalance.OMG')
+        await spec.press('WalletDetailsGraphContainer.1d')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
-    //     await spec.press('WalletDetailsGraphContainer.7d')
-    //     await spec.exists('WalletDetailsGraphContainer.LineChart7d')
+        await spec.press('WalletDetailsGraphContainer.7d')
+        await spec.exists('WalletDetailsGraphContainer.LineChart7d')
 
-    //     await spec.press('WalletDetailsGraphContainer.1m')
-    //     await spec.exists('WalletDetailsGraphContainer.LineChart1m')
+        await spec.press('WalletDetailsGraphContainer.1m')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1m')
 
-    //     await spec.press('WalletDetailsGraphContainer.3m')
-    //     await spec.exists('WalletDetailsGraphContainer.LineChart3m')
+        await spec.press('WalletDetailsGraphContainer.3m')
+        await spec.exists('WalletDetailsGraphContainer.LineChart3m')
 
-    //     await spec.press('WalletDetailsGraphContainer.1y')
-    //     await spec.exists('WalletDetailsGraphContainer.LineChart1y')
+        await spec.press('WalletDetailsGraphContainer.1y')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1y')
 
-    //     await spec.press('WalletDetailsHeading.add')
-    //     await spec.exists('AddFunds.QRCode')
-    //     await spec.exists('AddFunds.address')
-    //     await spec.press('AddFunds.Done')
-    //     await spec.pause(5000)
+        await spec.press('WalletDetailsHeading.add')
+        await spec.exists('AddFunds.QRCode')
+        await spec.exists('AddFunds.address')
+        await spec.press('AddFunds.Done')
+        await spec.pause(5000)
 
-    //   });
-    // });
+      });
+    });
 
-    // spec.describe('Withdraw screen for OMG', function() {
-    //   spec.it('Can`t withdraw less than $1', async function() {
+    spec.describe('Withdraw screen for OMG', function() {
+      spec.it('Can`t withdraw less than $1', async function() {
 
-    //     // Withdraw less then $1
-    //     await spec.press('WalletDetails.withdraw')
-    //     await spec.press('WithdrawalInfo.continue')
+        // Withdraw less then $1
+        await spec.press('WalletDetails.withdraw')
+        await spec.press('WithdrawalInfo.continue')
 
-    //     await spec.press('AmountInput.zero')
-    //     await spec.press('AmountInput.period')
-    //     await spec.press('AmountInput.zero')
-    //     await spec.press('AmountInput.zero')
-    //     await spec.press('AmountInput.zero')
-    //     await spec.press('AmountInput.one')
-    //     await spec.press('AmountInput.one')
-    //     await spec.press('AmountInput.send')
-    //     await spec.pause(5000)
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.period')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.one')
+        await spec.press('AmountInput.one')
+        await spec.press('AmountInput.send')
+        await spec.pause(5000)
 
-    //   });
-    // });
+      });
+    });
 
-    // spec.describe('Withdraw screen for OMG', function() {
-    //   spec.it('Can`t withdraw over &20k', async function() {
+    spec.describe('Withdraw screen for OMG', function() {
+      spec.it('Can`t withdraw over &20k', async function() {
 
-    //   // Withdraw more than $20k
-    //   await spec.press('WalletDetails.withdraw')
-    //   await spec.press('WithdrawalInfo.continue')
-    //   await spec.pause(2000)
+      // Withdraw more than $20k
+      await spec.press('WalletDetails.withdraw')
+      await spec.press('WithdrawalInfo.continue')
+      await spec.pause(2000)
       
-    //   await spec.press('AmountInput.one')
-    //   await spec.press('AmountInput.one')
-    //   await spec.press('AmountInput.zero')
-    //   await spec.press('AmountInput.zero')
-    //   await spec.press('AmountInput.zero')
-    //   await spec.press('AmountInput.zero')
-    //   await spec.press('AmountInput.send')
-    //   await spec.pause(5000)
+      await spec.press('AmountInput.one')
+      await spec.press('AmountInput.one')
+      await spec.press('AmountInput.zero')
+      await spec.press('AmountInput.zero')
+      await spec.press('AmountInput.zero')
+      await spec.press('AmountInput.zero')
+      await spec.press('AmountInput.send')
+      await spec.pause(5000)
 
-    //   });
-    // });
+      });
+    });
 
     // spec.describe('Withdraw screen for OMG', function() {
     //   spec.it('Withdraw $2', async function() {
@@ -1015,11 +1012,84 @@ export default function(spec) {
       });
     });
 
+    spec.describe('Wallet screen for BCH', function() {
+      spec.it('Chart exists', async function() {
+
+        // BCH
+        await spec.pause(2002)
+        await spec.exists('WalletBalance.BCH')
+        await spec.press('WalletBalance.BCH')
+        await spec.press('WalletDetailsGraphContainer.1d')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1d')
+
+        await spec.press('WalletDetailsGraphContainer.7d')
+        await spec.exists('WalletDetailsGraphContainer.LineChart7d')
+
+        await spec.press('WalletDetailsGraphContainer.1m')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1m')
+
+        await spec.press('WalletDetailsGraphContainer.3m')
+        await spec.exists('WalletDetailsGraphContainer.LineChart3m')
+
+        await spec.press('WalletDetailsGraphContainer.1y')
+        await spec.exists('WalletDetailsGraphContainer.LineChart1y')
+
+        await spec.press('WalletDetailsHeading.add')
+        await spec.exists('AddFunds.QRCode')
+        await spec.exists('AddFunds.address')
+        await spec.press('AddFunds.Done')
+
+      });
+    });
+
+    spec.describe('Withdraw screen for BCH', function() {
+      spec.it('Can`t withdraw less than $1', async function() {
+
+      // Withdraw less then $1
+        await spec.pause(2002)
+        await spec.press('WalletDetails.withdraw')
+        await spec.press('WithdrawalInfo.continue')
+
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.period')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.one')
+        await spec.press('AmountInput.one')
+
+        await spec.pause(5000)
+      
+      });
+    });
+
+    spec.describe('Withdraw screen for BCH', function() {
+      spec.it('Can`t withdraw over &20k', async function() {
+
+        // Withdraw more than $20k
+        await spec.pause(2002)
+        await spec.press('WalletDetails.withdraw')
+        await spec.press('WithdrawalInfo.continue')
+        await spec.pause(2000)
+      
+        await spec.press('AmountInput.one')
+        await spec.press('AmountInput.one')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+        await spec.press('AmountInput.zero')
+
+        await spec.pause(5000)
+        await spec.press('AmountInput.send')
+
+      });
+    });
+
     spec.describe('Wallet page, transactions and interest', function() {
       spec.it('Addresses and QR codes exists', async function() {
 
 
-        // Transaction tab, wallet page
+        // Wallet page, interest tab
         await spec.press('TabNavigation.Transactions')
 
         await spec.pause(2000)
@@ -1065,7 +1135,7 @@ export default function(spec) {
 			});
 
 
-    spec.describe('Earn page, interest currnecy', function() {
+    spec.describe('Earn page, calculator', function() {
       spec.it('', async function() {
   
         // Select a currency
@@ -1121,30 +1191,25 @@ export default function(spec) {
         });
       });
 
-    spec.describe('How earn', function() {
-      spec.it('', async function() {
-
-        await spec.press('TabNavigation.How to earn')
-        await spec.exists('HowToEarnInterest.exist')
-        await spec.pause(1000)
-        await spec.press('InterestExplanation.BalancePress')
-        await spec.exists('InterestExplanation.Balance')
-        await spec.pause(1000)
-        await spec.press('InterestExplanation.TimePress')
-        await spec.exists('InterestExplanation.Time')
-        await spec.pause(1000)
-        await spec.press('InterestExplanation.HodlPress')
-        await spec.exists('InterestExplanation.Hodl')
-
-        //Test Tracker page
-        await spec.press('BottomNavigation.Tracker')
+    spec.describe('Profile tab', function() {
+      spec.it('Change info', async function() {
 
         //Test Borower page
         await spec.press('BottomNavigation.Borrow')
 
         //Test Profile page
         await spec.press('BottomNavigation.Profile')
-        
+        await spec.exists('ProfileScreen.firstName')
+        store.dispatch(actions.clearForm());
+        await spec.fillIn('ProfileScreen.firstName',`Wallet +${ new Date().getTime() }`)
+        await spec.exists('ProfileScreen.lastName')
+        store.dispatch(actions.clearForm());
+        await spec.fillIn('ProfileScreen.lastName',`Wallet +${ new Date().getTime() }`)
+        await spec.exists('ProfileScreen.email')
+        await spec.exists('ProfileScreen.cellphone')
+        await spec.press('ProfileScreen.changeAvatar')
+
+        await spec.press('ProfileScreen.LogOut')
 
         await spec.press('ProfileScreen.LogOut')
       });

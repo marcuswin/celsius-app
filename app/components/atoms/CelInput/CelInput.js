@@ -1,4 +1,3 @@
-import { hook } from 'cavy';
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
@@ -11,6 +10,8 @@ import SixDigitInput from "./SixDigitInput";
 import * as appActions from "../../../redux/actions";
 import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
 import PinInput from "./PinInput";
+import testUtil from "../../../utils/test-util";
+
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -195,6 +196,8 @@ class CelInput extends Component {
   }
 }
 
-const testable = hook(CelInput)
-export default testable;
+// const testable = hook(CelInput)
+// export default testable;
+export default testUtil.hookComponent(CelInput);
+
 // export default CelInput;
