@@ -103,9 +103,16 @@ function registerBranchLink(deepLink) {
         break;
 
       case BRANCH_LINKS.COMPANY_REFERRAL:
-        dispatch(saveBranchLink(deepLink));
-        if (!getState().users.user) {
-          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
+          if (!getState().users.user) {
+            // TODO: should save all branch links
+            dispatch(saveBranchLink(deepLink));
+            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+          } else {
+            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
+          }
+        } else {
+          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
         }
         break;
       default:

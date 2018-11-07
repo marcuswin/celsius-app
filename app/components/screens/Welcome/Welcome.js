@@ -10,6 +10,7 @@ import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
 import { mixpanelEvents } from '../../../services/mixpanel'
 import ReferralReceivedModal from "../../organisms/ReferralReceivedModal/ReferralReceivedModal";
+import Message from "../../atoms/Message/Message";
 
 
 @connect(
@@ -43,8 +44,9 @@ class WelcomeScreen extends Component {
           barStyle="light-content"
         />
         <Content bounces={false} style={WelcomeStyle.content}>
-
           <ImageBackground source={require('../../../../assets/images/Onboarding_background3x.png')} style={[WelcomeStyle.view]}>
+            <Message/>
+
             <WelcomeCarousel />
 
             <View style={WelcomeStyle.buttonWrapper}>
