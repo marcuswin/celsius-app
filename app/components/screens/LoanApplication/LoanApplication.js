@@ -11,7 +11,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
-import { ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
+import { LOAN_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Card from "../../atoms/Card/Card";
@@ -61,14 +61,14 @@ class LoanApplication extends Component {
       if (!walletCurrencies) {
         if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], callsInProgress)) actions.getWalletDetails();
       } else {
-        pickerItems = ELIGIBLE_COINS.map(ec => {
+        pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
           const walletCurrency = walletCurrencies.find(w => w.currency.short === ec)
           const currencyName = walletCurrency.currency.name[0].toUpperCase() + walletCurrency.currency.name.slice(1);
           return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
         });
       }
     } else {
-      pickerItems = ELIGIBLE_COINS.map(ec => {
+      pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
         const currency = supportedCurrencies.find(sc => sc.short === ec)
         const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
         return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
@@ -119,6 +119,8 @@ class LoanApplication extends Component {
     actions.updateFormField('monthlyRate', loanAmount * ltv.interest / 12);
   }
 
+
+
   render() {
     const { formData, callsInProgress, walletCurrencies } = this.props;
     const { pickerItems } = this.state;
@@ -134,6 +136,8 @@ class LoanApplication extends Component {
 
       )
     }
+
+    console.log("formData.coin", formData.coin);
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
     const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
