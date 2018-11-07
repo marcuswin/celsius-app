@@ -137,15 +137,13 @@ class LoanApplication extends Component {
       )
     }
 
-    console.log("formData.coin", formData.coin);
-
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
     const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
 
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
-        animatedHeading={{ text: 'CelBorrow', textAlign: 'center' }}
+        animatedHeading={{ text: 'CelBorrow' }}
       >
         <CelScreenContent padding="15 0 0 0">
 
