@@ -26,6 +26,7 @@ function charts(spec){
 		await spec.pause(3000)
 		await spec.press('WalletBalance.CEL')
 		await spec.press('WalletDetailsHeading.add')
+		await spec.pause(3000)
 		await spec.press('MainHeader.BackButton')
 		await spec.press('WalletDetailsHeading.add')
 		await spec.exists('AddFunds.QRCode')

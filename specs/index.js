@@ -10,6 +10,7 @@ import CELcharts from './CELcharts';
 import Interest from './Interest';
 import calculator from './calculator';
 import profile from './profile';
+import borrow from './borrow';
 
 export default function(spec) {
   spec.describe('Signup Flow', () => {
@@ -111,8 +112,14 @@ export default function(spec) {
 
   })
 
-  spec.describe('Cel pay', () => {
-    
+  spec.describe('Borrow page', () => {
+    spec.it('Calculate colleteral BTC', borrow.inputBTC(spec))
+    spec.it('Calculate colleteral ETH', borrow.inputETH(spec))
+    spec.it('Calculate colleteral LTC', borrow.inputLTC(spec))
+    spec.it('Calculate colleteral XRP', borrow.inputXRP(spec))
+    spec.it('Calculate colleteral OMG', borrow.inputOMG(spec))
+    spec.it('Calculate colleteral BCH', borrow.inputBCH(spec))
+
   })
 
 }

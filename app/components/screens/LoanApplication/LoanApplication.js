@@ -21,12 +21,13 @@ import API from "../../../config/constants/API";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
 import {normalize} from "../../../utils/styles-util";
+import testUtil from "../../../utils/test-util";
 
 const LTVs = [
-  { percent: 0.2, interest: 0.05 },
-  { percent: 0.33, interest: 0.09 },
-  { percent: 0.5, interest: 0.12 },
-  { percent: 0.75, interest: 0.15 },
+  { percent: 0.2, label: 'two', interest: 0.05 },
+  { percent: 0.33, label: 'three', interest: 0.09 },
+  { percent: 0.5, label: 'five', interest: 0.12 },
+  { percent: 0.75, label: 'seven', interest: 0.15 },
 ]
 
 @connect(
@@ -189,7 +190,7 @@ class LoanApplication extends Component {
           <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>Choose one of these loan amounts:</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
             { LTVs.map((ltv) => (
-              <TouchableOpacity onPress={() => this.clickCard(ltv)} key={ltv.percent.toString()}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, `LoanApplication.${ltv.label}`)} onPress={() => this.clickCard(ltv)} key={ltv.percent.toString()}>
                 <Card
                   style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountCard, LoanApplicationStyle.loanAmountCardActive] : LoanApplicationStyle.loanAmountCard}
                 >
@@ -236,4 +237,4 @@ class LoanApplication extends Component {
   }
 }
 
-export default LoanApplication;
+export default testUtil.hookComponent(LoanApplication);
