@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
@@ -25,14 +25,27 @@ class ReferralReceivedModal extends Component {
   render() {
     const { referralLink } = this.props;
 
+    if (!referralLink) return null;
+
+    let text;
+    if (referralLink.referred_award_trigger === 'first-deposit') {
+      text = 'To see it in your wallet, please sign up, verify your profile and make a first deposit.';
+    } else {
+      text = 'To see it in your wallet, please sign up and verify your profile.';
+    }
+
     return (
       <CelModal name={MODALS.REFERRAL_RECEIVED_MODAL}>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Image source={require('../../../../assets/images/hodl-bear.png') } style={{ width: 120, height: 120, borderRadius: 60 }} />
+        </View>
+
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome to Celsius!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
           You have been referred by { referralLink.company_name } and received
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { referralLink.referred_award_amount } { referralLink.referred_award_coin } </Text>
-          as a reward. To see it in your wallet, please sign up and verify your profile.
+          as a reward. { text }
         </Text>
 
         <CelButton

@@ -24,7 +24,7 @@ function register(user) {
   return axios.post(`${apiUrl}/users/register`, {
     email: user.email,
     password: user.password,
-    referral_link_id: user.referralLinkId,
+    referral_link_id: user.referralLinkId || undefined,
   });
 }
 
@@ -39,7 +39,7 @@ function registerTwitter(twitterUser) {
     profile_picture: twitterUser.profile_picture,
     access_token: twitterUser.twitter_oauth_token,
     secret_token: twitterUser.twitter_oauth_secret,
-    referral_link_id: twitterUser.referralLinkId,
+    referral_link_id: twitterUser.referralLinkId || undefined,
   });
 }
 
@@ -51,7 +51,7 @@ function registerFacebook(facebookUser) {
     last_name: lastName,
     facebook_id: facebookUser.facebook_id,
     access_token: facebookUser.access_token,
-    referral_link_id: facebookUser.referralLinkId,
+    referral_link_id: facebookUser.referralLinkId || undefined,
   });
 }
 
@@ -64,7 +64,7 @@ function registerGoogle(googleUser) {
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
     access_token: googleUser.access_token,
-    referral_link_id: googleUser.referralLinkId,
+    referral_link_id: googleUser.referralLinkId || undefined,
   });
 }
 
