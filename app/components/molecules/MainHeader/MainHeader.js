@@ -50,7 +50,7 @@ class MainHeader2 extends Component {
 
     if (backButton) {
       return (
-        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `MainHeader.BackButton`)} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
           <Icon
             name='IconChevronLeft'
             height='20' width='20' fill="rgba(255,255,255,0.5)" viewBox="0 0 22 19"

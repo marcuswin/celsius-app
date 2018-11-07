@@ -84,9 +84,10 @@ function signUp(spec) {
  
 function inputUserName(spec) {
   return async () => {
+    await spec.pause(5000)
     await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
-       await spec.fillIn('SignupTwo.LastName', 'Krstonic')
-       await spec.press('SignupTwo.CreatePin')
+    await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+    await spec.press('SignupTwo.CreatePin')
   }
 }
 

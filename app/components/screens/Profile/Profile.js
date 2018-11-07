@@ -123,6 +123,7 @@ class ProfileScreen extends Component {
 
         <CelScreenContent>
           <CelButton
+            ref={testUtil.generateTestHook(this, `ProfileScreen.changeAvatar`)}
             onPress={() => actions.navigateTo('ProfileImage')}
             transparent
             color="blue"
@@ -135,6 +136,7 @@ class ProfileScreen extends Component {
 
           <CelForm disabled={isLoadingProfileInfo}>
             <CelInput
+              ref={testUtil.generateTestHook(this, `ProfileScreen.firstName`)}
               theme="white"
               labelText={getError(error, 'first_name', "First name")}
               value={formData.firstName}
@@ -144,6 +146,7 @@ class ProfileScreen extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
+              ref={testUtil.generateTestHook(this, `ProfileScreen.lastName`)}
               theme="white"
               labelText={getError(error, 'last_name', "Last name")}
               value={formData.lastName}
@@ -153,6 +156,7 @@ class ProfileScreen extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
+              ref={testUtil.generateTestHook(this, `ProfileScreen.email`)}
               theme="white"
               labelText="E-mail"
               value={formData.email}
@@ -161,6 +165,7 @@ class ProfileScreen extends Component {
               field="email"
             />
             <CelPhoneInput
+              ref={testUtil.generateTestHook(this, `ProfileScreen.cellphone`)}
               theme="white"
               labelText={getError(error, 'cellphone', "Phone number")}
               field="cellphone"

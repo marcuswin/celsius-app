@@ -29,3 +29,8 @@ export async function formField(field, item ) {
   component.props.onValueChange();
 }
   
+
+export async function onChange(field, item) {
+  actions.updateFormField(field, item.name);
+  component.props.onChange();
+}

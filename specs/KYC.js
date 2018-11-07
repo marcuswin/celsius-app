@@ -27,7 +27,7 @@ function startKYC(spec){
 function startKYC2(spec){
 	return async () => {
 		
-		await spec.pause(3000)
+		await spec.pause(9000)
 		store.dispatch(actions.updateFormField('title', 'mr' ));
 		await spec.press('ProfileDetails.verifyYourProfile')
 	
@@ -37,9 +37,9 @@ function startKYC2(spec){
 function startKYC3(spec){
 	return async () => {
 
-		await spec.pause(3000)
+		await spec.pause(9000)
 		store.dispatch(actions.updateFormField('title', 'mr' ));
-		store.dispatch(actions.updateFormField('dateOfBirth', '04 04 1994' ));
+		store.dispatch(actions.updateFormField('dateOfBirth', '1994-01-01T00:00:00-06:00' ));
 
 		await spec.press('ProfileDetails.verifyYourProfile')
 		await spec.pause(3003)
@@ -54,9 +54,9 @@ function startKYC3(spec){
 function startKYC4(spec){
 	return async () => {
 
-		await spec.pause(3000)
+		await spec.pause(9000)
 		store.dispatch(actions.updateFormField('title', 'mr' ));
-    store.dispatch(actions.updateFormField('dateOfBirth', "01-01-1994" ));
+    store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01T00:00:00-06:00" ));
 		store.dispatch(actions.updateFormField('citizenship','Serbia'));
 		
 		await spec.press('ProfileDetails.verifyYourProfile')
@@ -67,9 +67,9 @@ function startKYC4(spec){
 function startKYC5(spec){
 	return async () => {
 
-		await spec.pause(3000)
+		await spec.pause(9000)
 		store.dispatch(actions.updateFormField('title', 'mr' ));
-		store.dispatch(actions.updateFormField('dateOfBirth', "01-01-1994" ));
+		store.dispatch(actions.updateFormField('dateOfBirth', "2016-01-01T00:00:00-06:00" ));
 		store.dispatch(actions.updateFormField('citizenship','Serbia'));
 		store.dispatch(actions.updateFormField('gender', 'Male' ));
 		await spec.pause(5000)
@@ -136,7 +136,7 @@ function drivingLicenceRetakePhoto(spec){
 
 function verifySMS(spec){
 	return async () => {
-		
+
     await spec.press('VerifyProfile.identity_card')
 
 		await spec.press('CameraInput.front')
