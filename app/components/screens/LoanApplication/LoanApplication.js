@@ -153,6 +153,19 @@ class LoanApplication extends Component {
             . Submit your application today!
           </Text>
 
+          <Separator margin="15 0 24 0"/>
+          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Enter the amount of collateral:</Text>
+          <CelForm margin="25 0 0 0">
+            <CelInput
+              field="amountCollateralUSD"
+              theme="white"
+              value={formData.amountCollateralUSD}
+              placeholder="i.e. $1,500.00"
+              type="number"
+              onChange={this.updateAmounts}
+            />
+          </CelForm>
+
           <Separator margin="20 0 20 0"/>
           <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Choose the coin you would like to use as a collateral:</Text>
           <CelSelect
@@ -169,18 +182,6 @@ class LoanApplication extends Component {
             </Text>
           ) }
 
-          <Separator margin="15 0 24 0"/>
-          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Enter the amount of collateral:</Text>
-          <CelForm margin="25 0 0 0">
-            <CelInput
-              field="amountCollateralUSD"
-              theme="white"
-              value={formData.amountCollateralUSD}
-              placeholder="i.e. $1,500.00"
-              type="number"
-              onChange={this.updateAmounts}
-            />
-          </CelForm>
           { formData.amountCollateralCrypto && (
             <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
               Amount: { formatter.crypto(formData.amountCollateralCrypto, formData.coin.toUpperCase(), { precision: 5 }) }
