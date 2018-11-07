@@ -18,6 +18,7 @@ function getTransactionColor(transactionType) {
     INTEREST: COLORS.blue,
     COLLATERAL: COLORS.blue,
     BONUS_TOKEN: COLORS.green,
+    REFERRED_AWARD: COLORS.green,
     TRANSFER_PENDING: COLORS.yellow,
     TRANSFER_CLAIMED: COLORS.yellow,
     TRANSFER_SENT: COLORS.blue,
@@ -40,6 +41,7 @@ function getTransactionStatusText(transaction) {
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
     COLLATERAL: 'Loan Collateral',
     BONUS_TOKEN: 'Bonus',
+    REFERRED_AWARD: 'Referral award',
     TRANSFER_PENDING: 'Pending',
     TRANSFER_CLAIMED: 'Claimed',
     TRANSFER_SENT: 'Sent',
@@ -72,6 +74,11 @@ function getTransactionIcon(transactionType) {
       </View>
     ),
     BONUS_TOKEN: receiveArrow,
+    REFERRED_AWARD: (
+      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.green }]}>
+        <Icon name='Gift' width='14' height='14' fill={'#FFFFFF'} />
+      </View>
+    ),
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
     TRANSFER_CLAIMED: sentArrow,
