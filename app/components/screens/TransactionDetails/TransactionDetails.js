@@ -85,7 +85,7 @@ function getSmallIcon(transaction) {
     ),
     REFERRED_AWARD: (
       <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.green, alignItems: 'center', justifyContent: 'center' }]}>
-        <Icon name='Gift' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
+        <Icon name='Gift' width='20' height='20' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
     BONUS_TOKEN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,

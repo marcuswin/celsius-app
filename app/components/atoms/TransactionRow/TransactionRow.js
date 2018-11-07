@@ -76,7 +76,7 @@ function getTransactionIcon(transactionType) {
     BONUS_TOKEN: receiveArrow,
     REFERRED_AWARD: (
       <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.green }]}>
-        <Icon name='Gift' width='14' height='14' fill={'#FFFFFF'} />
+        <Icon name='Gift' width='16' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
     TRANSFER_PENDING: sentArrow,
