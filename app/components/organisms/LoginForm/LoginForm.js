@@ -47,7 +47,7 @@ class LoginForm extends Component {
         </CelForm>
 
         <CelButton
-          ref={this.props.generateTestHook('LoginForm.button')}
+          ref={testUtil.generateTestHook('LoginForm.button')}
           onPress={() => this.onSubmit()}
           disabled={!formData.email || !formData.password || formData.password.length < 8}
           loading={isLoading}

@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 import Expo from 'expo';
 import App from './app/App';
 
-// import SingUpKYC from './specs/SingUpKYC';
 import specs from './specs';
-// import testSuitOne from './specs/testSuitOne';
-// import TestInterestCalculator from './specs/TestInterestCalculator'
 
 const { ENV } = Expo.Constants.manifest.extra;
 

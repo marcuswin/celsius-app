@@ -64,12 +64,13 @@ class CelTextInput extends Component {
   }
 
   getInputRef = () => {
-    const {generateTestHook, testSelector} = this.props;
+    const {testSelector} = this.props;
 
-    if (testSelector) {
-      return generateTestHook(testSelector, ref => { this.input = ref });
-    }
+    // if (testSelector) {
+    //   return testUtil.generateTestHook(testSelector, ref => { this.input = ref });
+    // }
 
+    testUtil.generateTestHook(testSelector);
     return ref => { this.input = ref };
   }
 
