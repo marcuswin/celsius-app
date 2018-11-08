@@ -15,6 +15,7 @@ function hookComponent(component) {
 }
 
 function generateTestHook(component, selector) {
+	console.log({ ENV })
 	if (ENV === 'TEST') return component.props.generateTestHook(selector);
 
 	return null;

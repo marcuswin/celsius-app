@@ -196,8 +196,5 @@ class CelInput extends Component {
   }
 }
 
-// const testable = hook(CelInput)
-// export default testable;
 export default testUtil.hookComponent(CelInput);
 
-// export default CelInput;
