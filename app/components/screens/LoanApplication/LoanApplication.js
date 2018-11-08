@@ -11,7 +11,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
-import { ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
+import { LOAN_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Card from "../../atoms/Card/Card";
@@ -62,14 +62,14 @@ class LoanApplication extends Component {
       if (!walletCurrencies) {
         if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], callsInProgress)) actions.getWalletDetails();
       } else {
-        pickerItems = ELIGIBLE_COINS.map(ec => {
+        pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
           const walletCurrency = walletCurrencies.find(w => w.currency.short === ec)
           const currencyName = walletCurrency.currency.name[0].toUpperCase() + walletCurrency.currency.name.slice(1);
           return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
         });
       }
     } else {
-      pickerItems = ELIGIBLE_COINS.map(ec => {
+      pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
         const currency = supportedCurrencies.find(sc => sc.short === ec)
         const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
         return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
@@ -120,6 +120,8 @@ class LoanApplication extends Component {
     actions.updateFormField('monthlyRate', loanAmount * ltv.interest / 12);
   }
 
+
+
   render() {
     const { formData, callsInProgress, walletCurrencies } = this.props;
     const { pickerItems } = this.state;
@@ -142,7 +144,7 @@ class LoanApplication extends Component {
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
-        animatedHeading={{ text: 'CelBorrow', textAlign: 'center' }}
+        animatedHeading={{ text: 'CelBorrow' }}
       >
         <CelScreenContent padding="15 0 0 0">
 
@@ -151,6 +153,19 @@ class LoanApplication extends Component {
             <Text style={[globalStyles.boldText]}> lowest interest rates</Text>
             . Submit your application today!
           </Text>
+
+          <Separator margin="15 0 24 0"/>
+          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Enter the amount of collateral:</Text>
+          <CelForm margin="25 0 0 0">
+            <CelInput
+              field="amountCollateralUSD"
+              theme="white"
+              value={formData.amountCollateralUSD}
+              placeholder="i.e. $1,500.00"
+              type="number"
+              onChange={this.updateAmounts}
+            />
+          </CelForm>
 
           <Separator margin="20 0 20 0"/>
           <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Choose the coin you would like to use as a collateral:</Text>
@@ -168,18 +183,6 @@ class LoanApplication extends Component {
             </Text>
           ) }
 
-          <Separator margin="15 0 24 0"/>
-          <Text style={[globalStyles.normalText, {fontSize: normalize(18),}]}>Enter the amount of collateral:</Text>
-          <CelForm margin="25 0 0 0">
-            <CelInput
-              field="amountCollateralUSD"
-              theme="white"
-              value={formData.amountCollateralUSD}
-              placeholder="i.e. $1,500.00"
-              type="number"
-              onChange={this.updateAmounts}
-            />
-          </CelForm>
           { formData.amountCollateralCrypto && (
             <Text style={[globalStyles.normalText, { fontFamily: 'inconsolata-regular', textAlign: 'center' }]}>
               Amount: { formatter.crypto(formData.amountCollateralCrypto, formData.coin.toUpperCase(), { precision: 5 }) }
