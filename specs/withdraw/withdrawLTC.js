@@ -1,5 +1,5 @@
-import store from '../app/redux/store';
-import * as actions from '../app/redux/actions';
+import store from '../../app/redux/store';
+import * as actions from '../../app/redux/actions';
 
 
 export default {
@@ -7,7 +7,7 @@ export default {
 	charts,
 	withdrawLessThanOne,
 	withdrawOver20K,
-	withdraw5$,
+	withdraw2$,
 
 }
 
@@ -33,10 +33,10 @@ function loginUser(spec){
 function charts(spec){
 	return async () => {
 
-		// BTC 
+		// LTC 
 		await spec.pause(5000)
-		await spec.exists('WalletBalance.BTC')
-		await spec.press('WalletBalance.BTC')
+		await spec.exists('WalletBalance.LTC')
+		await spec.press('WalletBalance.LTC')
 		await spec.press('WalletDetailsGraphContainer.1d')
 		await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
@@ -103,24 +103,26 @@ function withdrawOver20K(spec){
 	}
 }
 
-function withdraw5$(spec){
+function withdraw2$(spec){
 	return async () => {
 
-		// Withdraw $5
+		// Withdraw $2
 		await spec.pause(2002)
 		await spec.press('WalletDetails.withdraw')
 		await spec.press('WithdrawalInfo.continue')
 		await spec.pause(2000)
-		
-		await spec.press('AmountInput.one')
+				
+		await spec.press('AmountInput.two')
 
 		await spec.press('AmountInput.send')
-		await spec.pause(2000)
+		await spec.pause(5000)
 		await spec.press('TransactionConfirmation.confirmWithdraw')
 		await spec.pause(2000)
 		await spec.fillIn('passcode.pin','1111')
 		await spec.press('Passcode.Confirm')
 		await spec.pause(5000)
+		await spec.press('TransactionsDetails.closeButton')
+
 
 	}
 }

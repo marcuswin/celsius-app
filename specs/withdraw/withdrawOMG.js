@@ -1,13 +1,13 @@
-import store from '../app/redux/store';
-import * as actions from '../app/redux/actions';
+import store from '../../app/redux/store';
+import * as actions from '../../app/redux/actions';
 
 
 export default {
 	loginUser,
 	charts,
 	withdrawLessThanOne,
-	insuficientFunds,
-	withdraw1$,
+	withdrawOver20K,
+	withdraw2$,
 
 }
 
@@ -33,10 +33,10 @@ function loginUser(spec){
 function charts(spec){
 	return async () => {
 
-		// XRP 
+		// LTC 
 		await spec.pause(5000)
-		await spec.exists('WalletBalance.XRP')
-		await spec.press('WalletBalance.XRP')
+		await spec.exists('WalletBalance.OMG')
+		await spec.press('WalletBalance.OMG')
 		await spec.press('WalletDetailsGraphContainer.1d')
 		await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 
@@ -80,7 +80,7 @@ function withdrawLessThanOne(spec){
 	}
 }
 
-function insuficientFunds(spec){
+function withdrawOver20K(spec){
 	return async () => {
 
 		 // Withdraw more than $20k
@@ -103,27 +103,25 @@ function insuficientFunds(spec){
 	}
 }
 
-function withdraw1$(spec){
+function withdraw2$(spec){
 	return async () => {
 
-		// Withdraw $1.10
-		await spec.pause(2002)
-		await spec.press('WalletDetails.withdraw')
-		await spec.press('WithdrawalInfo.continue')
-		await spec.pause(2000)
+		// // Withdraw $2
+		// await spec.pause(2002)
+		// await spec.press('WalletDetails.withdraw')
+		// await spec.press('WithdrawalInfo.continue')
+		// await spec.pause(2000)
 				
-		await spec.press('AmountInput.one')
-		await spec.press('AmountInput.period')
-		await spec.press('AmountInput.one')
+		// await spec.press('AmountInput.two')
 
-		await spec.press('AmountInput.send')
-		await spec.pause(5000)
-		await spec.press('TransactionConfirmation.confirmWithdraw')
-		await spec.pause(2000)
-		await spec.fillIn('passcode.pin','1111')
-		await spec.press('Passcode.Confirm')
-		await spec.pause(5000)
-		await spec.press('TransactionsDetails.closeButton')
+		// await spec.press('AmountInput.send')
+		// await spec.pause(5000)
+		// await spec.press('TransactionConfirmation.confirmWithdraw')
+		// await spec.pause(2000)
+		// await spec.fillIn('passcode.pin','1111')
+		// await spec.press('Passcode.Confirm')
+		// await spec.pause(5000)
+		// await spec.press('TransactionsDetails.closeButton')
 
 
 	}

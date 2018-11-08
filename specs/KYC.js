@@ -140,11 +140,13 @@ function verifySMS(spec){
     await spec.press('VerifyProfile.identity_card')
 
 		await spec.press('CameraInput.front')
-    await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.pause(3000)
     await spec.press('CameraScreen.usePhoto')
 
 		await spec.press('CameraInput.back')
-    await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.pause(3000)
     await spec.press('CameraScreen.usePhoto')
 
 		store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))

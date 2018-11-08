@@ -1,5 +1,5 @@
-import store from '../app/redux/store';
-import * as actions from '../app/redux/actions';
+import store from '../../app/redux/store';
+import * as actions from '../../app/redux/actions';
 
 
 export default {
