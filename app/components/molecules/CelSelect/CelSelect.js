@@ -8,7 +8,7 @@ import { lookup } from "country-data";
 
 import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { GENDER, PERSON_TITLE } from "../../../config/constants/common";
+import { GENDER, PERSON_TITLE, STATE } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
@@ -20,7 +20,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 class CelSelect extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native']),
+    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
@@ -53,6 +53,9 @@ class CelSelect extends Component {
         break;
       case 'gender':
         items = GENDER;
+        break;
+        case 'state':
+        items = STATE;
         break;
       default:
         items = props.items;

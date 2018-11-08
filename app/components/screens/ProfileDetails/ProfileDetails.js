@@ -38,7 +38,7 @@ class ProfileDetails extends Component {
     const { actions, lastCompletedCall, activeScreen } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_PERSONAL_INFO) {
-      actions.navigateTo('VerifyProfile');
+      actions.navigateTo('AddressInformation');
     }
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ProfileDetails') {
@@ -52,7 +52,7 @@ class ProfileDetails extends Component {
     const formErrors = {};
 
     if (!formData.title) formErrors.title = 'Title is required!';
-    if (!formData.firstName) formErrors.first_name = 'First Name Name is required!';
+    if (!formData.firstName) formErrors.first_name = 'First Name is required!';
     if (!formData.lastName) formErrors.last_name = 'Last Name is required!';
     if (!formData.dateOfBirth) formErrors.date_of_birth = 'Date of Birth is required!';
     if (!formData.citizenship) formErrors.citizenship = 'Citizenship is required!';
@@ -78,6 +78,7 @@ class ProfileDetails extends Component {
         date_of_birth: moment(formData.dateOfBirth).format('MM/DD/YYYY'),
         citizenship: formData.citizenship,
         gender: formData.gender,
+        company_name: formData.companyName,
       }
 
       actions.updateProfileInfo(updatedUser);
@@ -96,6 +97,7 @@ class ProfileDetails extends Component {
         dateOfBirth: user.date_of_birth,
         citizenship: user.citizenship,
         gender: user.gender,
+        companyName: user.company_name
       })
     }
   }
@@ -135,6 +137,7 @@ class ProfileDetails extends Component {
 
           <CelSelect error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
           <CelSelect error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
+          <CelInput value={formData.companyName} error={formErrors.company_name} field="companyName" labelText="Company Name (optional)" autoCapitalize="sentences" />
         </CelForm>
 
         <CelButton
@@ -145,7 +148,7 @@ class ProfileDetails extends Component {
           iconRight="IconArrowRight"
           margin="0 0 0 0"
         >
-          Verify your profile
+          Add your Address
         </CelButton>
       </SimpleLayout>
     );
