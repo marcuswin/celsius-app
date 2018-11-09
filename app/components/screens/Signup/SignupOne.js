@@ -51,6 +51,7 @@ class SignupOne extends Component {
         mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
         animatedHeading={{ text: 'Sign up' }}
         background={STYLES.PRIMARY_BLUE}
+        ref={testUtil.generateTestHook(this, `SignupOne.screen`)}
       >
         <View>
           <View>

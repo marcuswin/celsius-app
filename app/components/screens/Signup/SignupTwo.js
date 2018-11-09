@@ -99,7 +99,7 @@ class SignupTwo extends Component {
 
     return (
       <SimpleLayout
-      ref={testUtil.generateTestHook(this, 'SignupTwo.screen')}
+        ref={testUtil.generateTestHook(this, 'SignupTwo.screen')}
         mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}
@@ -107,7 +107,7 @@ class SignupTwo extends Component {
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
-              {...this.props} testSelector={'SignupTwo.FirstName'}            
+              {...this.props} testSelector={'SignupTwo.FirstName'}
               error={formErrors.first_name}
               field="firstName"
               labelText="First Name"

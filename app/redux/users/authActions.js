@@ -22,6 +22,7 @@ export {
   getLoggedInBorrower,
   loginUser,
   registerUser,
+  registerUserSuccess,
   updateUser,
   registerUserTwitter,
   registerUserFacebook,

@@ -25,9 +25,7 @@ class PinInput extends Component {
   // Component graber for cavy
   getInputRef = () => {
     const {testSelector} = this.props;
-
-    testUtil.generateTestHook(testSelector);
-    return ref => { this.input = ref };
+    return testUtil.generateTestHook(this, testSelector, ref => { this.input = ref });
   }
 
   getDigitValue = value => {
@@ -94,12 +92,12 @@ class PinInput extends Component {
     }));
 
     const digitBackgroundStyle = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
-    
+
     return (
       <View style={PinInputStyle.container}>
         <View style={PinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
-            <View 
+            <View
                   key={digit.index}
                   style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
               <Text style={[PinInputStyle.digitText, pinTextStyle]}>
@@ -108,7 +106,7 @@ class PinInput extends Component {
             </View>
           )}
         </View>
-        <TextInput 
+        <TextInput
                    style={[PinInputStyle.digitInput, pinInputStyle]}
                    testSelector={this.props.testSelector}
                    value={value}

@@ -10,13 +10,12 @@ export default {
 
 function hookComponent(component) {
 	if (ENV === 'TEST') return hook(component);
-	
+
 	return component;
 }
 
-function generateTestHook(component, selector) {
-	console.log({ ENV })
-	if (ENV === 'TEST') return component.props.generateTestHook(selector);
+function generateTestHook(component, selector, ref = undefined) {
+	if (ENV === 'TEST') return component.props.generateTestHook(selector, ref);
 
-	return null;
+	return ref || null;
 }
