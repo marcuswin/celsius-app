@@ -20,6 +20,7 @@ export const GENDER = [
 
 export const ELIGIBLE_COINS = ['CEL', 'BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH'];
 export const INTEREST_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH'];
+export const LOAN_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP'];
 export const KYC_STATUSES = {
   collecting: 'collecting',
   pending: 'pending',

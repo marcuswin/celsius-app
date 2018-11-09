@@ -120,8 +120,12 @@ function createBranchTransfer(amount, coin) {
       amount: Number(amount).toFixed(5),
       coin: coin.toUpperCase()
     });
+
     const transfer = res.data;
     dispatch(createTransferSuccess(transfer));
+
+    const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
+    const usdAmount = currencyAmount * amount;
 
     const { user } = getState().users;
     const userName = `${user.first_name} ${user.last_name}`;
@@ -156,7 +160,7 @@ function createBranchTransfer(amount, coin) {
       }
     });
 
-    Share.share({ message: `Click on the link to claim your crypto ${ branchLink.url }` });
+    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
   }
 }
