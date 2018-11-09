@@ -12,7 +12,6 @@ import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
 import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
-import { BRANCH_LINKS } from "../../config/constants/common";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -132,11 +131,10 @@ function registerUser(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.link_type === BRANCH_LINKS.REFERRAL)[0];
-      console.log({ referralLink })
+      const referralLinkId = getState().branch.referralLinkId;
       const res = await usersService.register({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -172,11 +170,11 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerTwitter({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -241,11 +239,11 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerFacebook({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -310,11 +308,11 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerGoogle({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
