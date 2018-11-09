@@ -70,7 +70,6 @@ function disableWhenNoEmail(spec) {
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.password','12345678')
 
-    debugger
     const btn = await spec.findComponent('SignupOne.button')
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
