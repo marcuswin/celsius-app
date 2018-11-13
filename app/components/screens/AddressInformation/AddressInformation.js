@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import _ from 'lodash';
 
 import * as appActions from "../../../redux/actions";
-import {STYLES } from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -35,7 +35,7 @@ class AddressInformation extends Component {
     const { actions, lastCompletedCall, activeScreen, formData } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_ADDRESS_INFO) {
-      if(formData.country === "United States") {
+      if (formData.country === "United States") {
         actions.navigateTo('TaxpayerID');
       } else {
         actions.navigateTo('VerifyProfile');
@@ -52,12 +52,13 @@ class AddressInformation extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if (!formData.addressLine1) formErrors.address_line_1 = 'Address line 1 is required!';
-    if (!formData.addressLine2) formErrors.address_line_2 = 'Address line 2 is required!';
+    if (!formData.street) formErrors.street = 'Street is required!';
+    if (!formData.buildingNumber) formErrors.building_number = 'Building number is required!';
+    if (!formData.flatNumber) formErrors.flat_number = 'Flat number is required!';
     if (!formData.city) formErrors.city = 'City is required!';
     if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
     if (!formData.country) formErrors.country = 'Country is required!';
-    if(formData.country === "United States" && !formData.state) formErrors.state = 'State is required!';
+    if (formData.country === "United States" && !formData.state) formErrors.state = 'State is required!';
 
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);
@@ -72,14 +73,13 @@ class AddressInformation extends Component {
     let updatedUser;
     if (isFormValid === true) {
       updatedUser = {
-        addressLine1: formData.addressLine1,
-        addressLine2: formData.addressLine2,
+        street: formData.street,
+        building_number: formData.buildingNumber,
+        flat_number: formData.flatNumber,
         city: formData.city,
         zip: formData.zip,
-        country: formData.country
-      }
-      if(formData.country === "United States") {
-        updatedUser.state = formData.state
+        country: formData.country,
+        state: formData.country === "United States" ? formData.state : ""
       }
       actions.updateProfileAddressInfo(updatedUser);
     }
@@ -90,9 +90,11 @@ class AddressInformation extends Component {
 
     if (user) {
       actions.initForm({
-        addressLine1: user.address_line_1,
-        addressLine2: user.address_line_2,
+        street: user.street,
+        buildingNumber: user.building_number,
+        flatNumber: user.flat_number,
         city: user.city,
+        state: user.state,
         zip: user.zip,
         country: user.country ? user.country : user.citizenship
       })
@@ -103,20 +105,18 @@ class AddressInformation extends Component {
     const { formData, callsInProgress, formErrors } = this.props;
 
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
-console.log(formData.country)
     return (
       <SimpleLayout
-        animatedHeading={{ text: 'Address Information'}}
+        animatedHeading={{ text: 'Address Information' }}
         background={STYLES.PRIMARY_BLUE}
       >
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelInput value={formData.addressLine1} error={formErrors.address_line_1} field="addressLine1" labelText="Address line 1" autoCapitalize="sentences" />
-          <CelInput value={formData.addressLine2} error={formErrors.address_line_2} field="addressLine2" labelText="Address line 2" autoCapitalize="sentences" />
+          <CelInput value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+          <CelInput value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+          <CelInput value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
           <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-          {formData.country === "United States" ? 
-            <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
-          :null}
+          <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} hide={formData.country !== "United States"} />
           <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
           <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
         </CelForm>
