@@ -28,7 +28,7 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 
 class MainLayout extends Component {
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackButton.bind(this));
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
   }
 
   componentWillUnmount() {

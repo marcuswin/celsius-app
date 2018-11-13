@@ -116,6 +116,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
   if (transaction.nature === 'bonus_token') return TRANSACTION_TYPES.BONUS_TOKEN;
+  if (transaction.nature === 'referred_award') return TRANSACTION_TYPES.REFERRED_AWARD;
 
   if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
   if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {

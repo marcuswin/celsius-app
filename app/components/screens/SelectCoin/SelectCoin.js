@@ -66,9 +66,7 @@ class SelectCoin extends Component {
     const {walletCurrencies, user} = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      return (
-        <EmptyState/>
-      )
+      return <EmptyState/>
     }
 
     if (!walletCurrencies) {

@@ -51,7 +51,7 @@ class WalletLayout extends Component {
         <MainHeader backButton={false} />
         <View style={WalletLayoutStyle.heading}>
           {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>}
-          {!walletTotal && <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={WalletLayoutStyle.totalLoader} />}
+          {!walletTotal && <Image source={require('../../../../assets/images/icons/white_spinner.gif')} style={WalletLayoutStyle.totalLoader} />}
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
         </View>
         <TabNavigation tabs={this.tabs}/>

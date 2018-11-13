@@ -15,7 +15,7 @@ import Icon from "../../atoms/Icon/Icon";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    referralLink: state.branch.createdLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0],
+    referralLink: state.branch.createdLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0],
   }),
   dispatch => ({
     actions: bindActionCreators(appActions, dispatch),

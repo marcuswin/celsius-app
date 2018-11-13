@@ -3,7 +3,8 @@ import { Constants } from 'expo';
 import ACTIONS from "../../config/constants/ACTIONS";
 import * as transfersActions from '../transfers/transfersActions';
 import * as uiActions from '../ui/uiActions';
-import { BRANCH_LINKS } from "../../config/constants/common";
+import branchService from '../../services/branch-service';
+import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 
@@ -12,6 +13,7 @@ export {
   createBranchLink,
   createBranchReferralLink,
   createBUO,
+  saveBranchLink,
 }
 
 function createBranchLink(linkType, canonicalIdentifier, properties) {
@@ -35,6 +37,22 @@ function createBranchLink(linkType, canonicalIdentifier, properties) {
   }
 }
 
+function saveBranchLink(rawLink) {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.SAVE_BRANCH_LINK));
+      const branchLink = await branchService.create(rawLink);
+
+      dispatch({
+        type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
+        branchLink: branchLink.data,
+      });
+    } catch(err) {
+      dispatch(apiError(API.SAVE_BRANCH_LINK, err));
+    }
+  }
+}
+
 async function createBUO(canonicalIdentifier, properties, email) {
   if (Constants.appOwnership !== 'standalone') return;
 
@@ -54,7 +72,7 @@ function createBranchReferralLink() {
   return (dispatch, getState) => {
     const { user } = getState().users;
     dispatch(createBranchLink(
-      BRANCH_LINKS.REFERRAL,
+      BRANCH_LINKS.INDIVIDUAL_REFERRAL,
       `referral:${user.id}`,
       {
         locallyIndex: true,
@@ -64,7 +82,7 @@ function createBranchReferralLink() {
         contentMetadata: {
           customMetadata: {
             referrer_id: user.id,
-            link_type: BRANCH_LINKS.REFERRAL,
+            link_type: BRANCH_LINKS.INDIVIDUAL_REFERRAL,
           }
         }
       }
@@ -73,7 +91,7 @@ function createBranchReferralLink() {
 }
 
 function registerBranchLink(deepLink) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink,
@@ -82,6 +100,20 @@ function registerBranchLink(deepLink) {
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
         dispatch(transfersActions.registerTransferLink(deepLink));
+        break;
+
+      case BRANCH_LINKS.COMPANY_REFERRAL:
+        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
+          if (!getState().users.user) {
+            // TODO: should save all branch links
+            dispatch(saveBranchLink(deepLink));
+            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+          } else {
+            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
+          }
+        } else {
+          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
+        }
         break;
       default:
 

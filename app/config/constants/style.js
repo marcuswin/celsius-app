@@ -205,7 +205,6 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     shadowRadius: 2,
     borderRadius: 8
   }
-
 };
 
 export const FONTS = [
@@ -224,6 +223,7 @@ export const FONTS = [
 export const CACHE_IMAGES = [
   require('../../../assets/images/icons/celsius_symbol_white.png'),
   require('../../../assets/images/icons/animated-spinner.gif'),
+  require('../../../assets/images/icons/white_spinner.gif'),
   require('../../../assets/images/icons/icon-check.png'),
   require('../../../assets/images/icons/camera-flip.png'),
   require('../../../assets/images/two-thumbs-up.png'),
@@ -253,4 +253,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/security_dog3x.png'),
   require('../../../assets/images/Group_232-3x.png'),
   require('../../../assets/images/authSuccess3x.png'),
+  require('../../../assets/images/hodl-bear.png'),
 ];

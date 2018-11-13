@@ -135,8 +135,7 @@ class VerifyProfile extends Component {
                     <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
                       <View
                         style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
-                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}
-                              fill='#FFFFFF'/>
+                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}/>
                         <View style={VerifyProfileStyle.documentTypeWrapper}>
                           <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
                         </View>

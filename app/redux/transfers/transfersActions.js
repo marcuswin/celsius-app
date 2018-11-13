@@ -93,7 +93,7 @@ function createTransfer(amount, coin) {
 
     try {
       const res = await transferService.create({
-        amount: amount.toFixed(5),
+        amount: Number(amount).toFixed(5),
         coin: coin.toUpperCase()
       });
       dispatch(createTransferSuccess(res.data));
@@ -117,11 +117,15 @@ function createBranchTransfer(amount, coin) {
     let apiCall = API.CREATE_TRANSFER;
     dispatch(startApiCall(apiCall));
     const res = await transferService.create({
-      amount: amount.toFixed(5),
+      amount: Number(amount).toFixed(5),
       coin: coin.toUpperCase()
     });
+
     const transfer = res.data;
     dispatch(createTransferSuccess(transfer));
+
+    const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
+    const usdAmount = currencyAmount * amount;
 
     const { user } = getState().users;
     const userName = `${user.first_name} ${user.last_name}`;
@@ -132,12 +136,12 @@ function createBranchTransfer(amount, coin) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${Math.abs(amount.toFixed(5))} ${coin.toUpperCase()}`,
+        title: `You received ${ Number(amount).toFixed(5) } ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
           customMetadata: {
-            amount: Math.abs(transfer.amount),
+            amount: transfer.amount,
             coin: transfer.coin,
             from_name: userName,
             from_profile_picture: user.profile_picture,
@@ -156,7 +160,7 @@ function createBranchTransfer(amount, coin) {
       }
     });
 
-    Share.share({ message: `Click on the link to claim your crypto ${ branchLink.url }` });
+    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
   }
 }
@@ -205,11 +209,13 @@ function registerTransferLink(deepLink) {
 function claimAllBranchTransfers() {
   return (dispatch, getState) => {
     const { branchHashes } = getState().transfers;
-    branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
+    if (branchHashes && branchHashes.length) branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
   }
 }
 
 function mapTransfer(transfer) {
+  if (!transfer) return;
+
   let status = TRANSFER_STATUSES.pending;
   if (transfer.claimed_at && !transfer.cleared_at) {
     status = TRANSFER_STATUSES.claimed;
