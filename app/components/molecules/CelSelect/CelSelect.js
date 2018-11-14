@@ -32,7 +32,8 @@ class CelSelect extends Component {
     labelText: PropTypes.string,
     margin: PropTypes.string,
     hide: PropTypes.bool,
-    flex: PropTypes.bool
+    flex: PropTypes.number,
+    onlyError: PropTypes.bool
   }
   static defaultProps = {
     type: 'native',
@@ -42,7 +43,8 @@ class CelSelect extends Component {
     labelText: '',
     theme: 'blue',
     margin: '0 0 15 0',
-    hide: false
+    hide: false,
+    onlyError: false
   }
 
   constructor(props) {
@@ -134,7 +136,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, error, margin } = this.props;
+    const { theme, labelText, error, margin, onlyError } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -148,6 +150,7 @@ class CelSelect extends Component {
         theme={theme}
         error={error}
         margin={margin}
+        onlyError={onlyError}
       >
         <TouchableOpacity
           onPress={() => this.setState({ visible: !visible })}
@@ -170,7 +173,7 @@ class CelSelect extends Component {
     const { visible, items, value } = this.state;
 
     return (!hide &&
-      <View style={flex && { flex: 1 }}>
+      <View style={flex ? { flex } : null}>
         {type !== 'country' ?
           <RNPickerSelect
             items={items}
