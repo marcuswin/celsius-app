@@ -30,11 +30,11 @@ export function testSignupFlow(spec) {
     spec.it('should go to EnterPasscode screen when all info is valid', signupFlow.stepTwoSuccess(spec))
 
     // EnterPasscode screen tests
-    spec.it('should disable button click when 3 digits are entered', signupFlow.createPasscode(spec))
-    spec.it('should go to RepeatPasscode screen when 4 digits are entered', signupFlow.repeatPasscode(spec))
-    // spec.it('should disable button click when 3 digits are entered', testPassed(spec))
-    // spec.it('should show error when different pin is entered', testPassed(spec))
-    // spec.it('should go to NoKYC screen when repeated pin is valid', testPassed(spec))
+    spec.it('should disable button click when 3 digits are entered', signupFlow.disableCreatePasscode(spec))
+    spec.it('should go to RepeatPasscode screen when 4 digits are entered', signupFlow.createPasscode(spec))
+    spec.it('should disable button click when 3 digits are entered', signupFlow.disableRepeatPasscode(spec))
+    spec.it('should show error when different pin is entered', signupFlow.disableWrongPasscode(spec))
+    spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.finishPasscode(spec))
 
     // // User exited registration process after first step
     // spec.it('should go to SignupTwo screen on app open if user hasn\'t entered his name', testPassed(spec))

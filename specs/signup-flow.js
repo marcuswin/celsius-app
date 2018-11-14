@@ -5,7 +5,6 @@ import Welcome from '../app/components/screens/Welcome/Welcome';
 import SignupOne from '../app/components/screens/Signup/SignupOne';
 import SignupTwo from '../app/components/screens/Signup/SignupTwo';
 import Passcode from '../app/components/screens/Passcode/Passcode';
-import { ENOSPC } from 'constants';
 
 const { dispatch, getState } = store;
 
@@ -24,8 +23,11 @@ export default {
   disableWhenNoLastName,
   disableWhenNoFirstName,
   stepTwoSuccess,
+  disableCreatePasscode,
   createPasscode,
-  repeatPasscode,
+  disableRepeatPasscode,
+  disableWrongPasscode,
+  finishPasscode,
 }
 
 dispatch(actions.logoutUser());
@@ -204,7 +206,7 @@ function stepTwoSuccess(spec) {
   }
 }
 
-function createPasscode(spec) {
+function disableCreatePasscode(spec) {
   return async () => {
     createPinSetup();
 
@@ -221,13 +223,44 @@ function createPasscode(spec) {
   }
 }
 
-function repeatPasscode(spec) {
+function createPasscode(spec) {
   return async () => {
     createPinSetup();
 
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Repeat PIN')
-    await spec.exists('repeatPasscode')
 
+  }
+}
+
+function disableRepeatPasscode(spec) {
+  return async () => {
+
+    await spec.fillIn('passcode.pin','111')
+    await spec.press('Passcode.Repeat PIN')
+
+    const btn = await spec.findComponent('Passcode.Repeat PIN')
+
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+
+      
+    }
+  }
+}
+
+function disableWrongPasscode(spec) {
+  return async () => {
+
+    await spec.fillIn('passcode.pin','1234')
+    await spec.press('Passcode.Confirm')
+  }
+}
+
+function finishPasscode(spec) {
+  return async () => {
+
+    await spec.fillIn('passcode.pin','1111')
+    await spec.press('Passcode.Confirm')
   }
 }
