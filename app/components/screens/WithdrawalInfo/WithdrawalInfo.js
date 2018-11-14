@@ -12,14 +12,17 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
+import BitcoinCashForkInfo from "../../organisms/BitcoinCashForkInfo/BitcoinCashForkInfo";
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.ui.formData,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawalInfo extends Component {
   render() {
-    const { actions } = this.props;
+    const { actions, formData: {currency} } = this.props;
     return (
       <BasicLayout background="blue">
         <MainHeader
@@ -32,26 +35,35 @@ class WithdrawalInfo extends Component {
         </View>
 
         <CelHeading
-          text="Are You Sure?"
+          text={currency === 'bch' ? 'Withdraw Funds' : "Are You Sure?"}
           textAlign="center"
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {currency !== "bch" && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
-          </Text>
+          </Text>}
 
-          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {currency !== "bch" && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             Withdrawing your funds will reduce the amount of interest you could potentially earn.
-          </Text>
+          </Text>}
 
-          <CelButton
+          {currency === "bch" && <BitcoinCashForkInfo/>}
+
+          {currency !== "bch" && <CelButton
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
-          </CelButton>
+          </CelButton>}
+          {currency === "bch" && <CelButton
+            white
+            margin="20 30 20 30"
+            onPress={() => actions.navigateBack()}
+          >
+            I Understand
+          </CelButton>}
         </Content>
       </BasicLayout>
     );
