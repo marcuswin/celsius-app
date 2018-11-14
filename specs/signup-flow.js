@@ -1,6 +1,11 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import { resetTests } from "./helpers";
+import { resetTests, signupOneSetup, signupTwoSetup, createPinSetup } from "./helpers"
+import Welcome from '../app/components/screens/Welcome/Welcome';
+import SignupOne from '../app/components/screens/Signup/SignupOne';
+import SignupTwo from '../app/components/screens/Signup/SignupTwo';
+import Passcode from '../app/components/screens/Passcode/Passcode';
+import { ENOSPC } from 'constants';
 
 const { dispatch, getState } = store;
 
@@ -13,24 +18,29 @@ export default {
   errorWhenPasswordWeak,
   stepOneSuccess,
   errorWhenUserExists,
-
+  signupOneSetup,
+  signupTwoSetup,
   disableWhenNoNames,
+  disableWhenNoLastName,
+  disableWhenNoFirstName,
+  stepTwoSuccess,
+  createPasscode,
+  repeatPasscode,
 }
+
+dispatch(actions.logoutUser());
+
 
 // Welcome screen tests
 function pressSkipIntro(spec) {
   return async () => {
     resetTests()
+    dispatch(actions.navigateTo('Welcome'));
 
     await spec.press('Welcome.skipButton')
     await spec.exists('SignupOne.screen')
 
   }
-}
-
-// SignupOne screen tests
-function signupOneSetup() {
-  dispatch(actions.navigateTo('SignupOne'));
 }
 
 function disableWhenNoData(spec) {
@@ -47,13 +57,13 @@ function disableWhenNoData(spec) {
   }
 }
 
-function disableWhenNoPassword(spec) {
+function disableWhenNoEmail(spec) {
   return async () => {
     resetTests();
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
-    await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@mvpworkshop.co`)
+    await spec.fillIn('SignupOne.password','12345678')
 
     const btn = await spec.findComponent('SignupOne.button')
     if (!btn.props.disabled) {
@@ -62,13 +72,15 @@ function disableWhenNoPassword(spec) {
   }
 }
 
-function disableWhenNoEmail(spec) {
+function disableWhenNoPassword(spec) {
   return async () => {
     resetTests();
     signupOneSetup();
 
+    dispatch(actions.clearForm());
+    await spec.pause(5000)
     await spec.exists('SignupOne.screen')
-    await spec.fillIn('SignupOne.password','12345678')
+    await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@mvpworkshop.co`)
 
     const btn = await spec.findComponent('SignupOne.button')
     if (!btn.props.disabled) {
@@ -96,9 +108,10 @@ function errorWhenPasswordWeak(spec) {
     resetTests();
     signupOneSetup();
 
+    await spec.pause(5000)
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email','valid.email@mvpworkshop.co')
-    await spec.fillIn('SignupOne.password','celsius123')
+    await spec.fillIn('SignupOne.password','cel')
     await spec.press('SignupOne.button')
 
     await spec.notExists('SignupTwo.screen')
@@ -133,43 +146,88 @@ function stepOneSuccess(spec) {
   }
 }
 
-// SignupTwo screen tests
-function signupTwoSetup() {
-  dispatch(actions.registerUserSuccess({ user: {
-    "id": "c2732b75-04df-4bb1-acca-ddb88e88bb00",
-    "referral_link_id": null,
-    "phone_contacts_connected": false,
-    "twitter_friends_connected": false,
-    "facebook_friends_connected": false,
-    "session_invalid_before": null,
-    "partner_id": "Celsius",
-    "created_at": "2018-11-09T10:49:28.631Z",
-    "updated_at": "2018-11-09T10:49:28.631Z",
-    "email": "no.name@mvpworkshop.co",
-    "auth0_user_id": "auth0|5be56638ec312320f5624735",
-    "first_name": null,
-    "last_name": null,
-    "country": null,
-    "twitter_id": null,
-    "twitter_screen_name": null,
-    "profile_picture": null,
-    "facebook_id": null,
-    "google_id": null,
-    "pin": null,
-    "expo_push_tokens": null,
-    "api_token": null,
-    "two_factor_enabled": null,
-    "two_factor_secret": null
-  }}));
-  dispatch(actions.navigateTo('Home'))
-}
-
 function disableWhenNoNames(spec) {
   return async () => {
     resetTests();
     signupTwoSetup();
 
+    await spec.pause(3000)
     await spec.exists('SignupTwo.screen')
   }
 }
 
+function disableWhenNoLastName(spec) {
+  return async () => {
+    resetTests();
+    signupTwoSetup();
+
+    await spec.pause(3000)
+    await spec.exists('SignupTwo.screen')
+    await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+    const btn = await spec.findComponent('SignupTwo.CreatePin')
+
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+
+  }
+}
+
+function disableWhenNoFirstName(spec) {
+  return async () => {
+    resetTests();
+    signupTwoSetup();
+
+    await spec.pause(3000)
+    await spec.exists('SignupTwo.screen')
+    await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+
+    const btn = await spec.findComponent('SignupTwo.CreatePin')
+
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+
+  }
+}
+
+function stepTwoSuccess(spec) {
+  return async () => {
+    resetTests();
+    signupTwoSetup();
+
+    await spec.pause(3000)
+    await spec.exists('SignupTwo.screen')
+    await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+    await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+    await spec.press('SignupTwo.CreatePin')
+  }
+}
+
+function createPasscode(spec) {
+  return async () => {
+    createPinSetup();
+
+    await spec.fillIn('passcode.pin','111')
+    await spec.press('Passcode.Repeat PIN')
+
+    const btn = await spec.findComponent('Passcode.Repeat PIN')
+
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+
+      
+    }
+  }
+}
+
+function repeatPasscode(spec) {
+  return async () => {
+    createPinSetup();
+
+    await spec.fillIn('passcode.pin','1111')
+    await spec.press('Passcode.Repeat PIN')
+    await spec.exists('repeatPasscode')
+
+  }
+}
