@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Content } from "native-base";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import moment from "moment";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -21,8 +22,17 @@ import BitcoinCashForkInfo from "../../organisms/BitcoinCashForkInfo/BitcoinCash
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawalInfo extends Component {
+  shouldHideBCH = () => {
+    const { formData: {currency} } = this.props;
+
+    const currentTimestamp = moment.utc(Date.now());
+    const bitcoinCashForkTimestamp = moment.utc('2018-11-15T04:40:00+0000');
+
+    return currency === 'bch' && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
+  };
+
   render() {
-    const { actions, formData: {currency} } = this.props;
+    const { actions } = this.props;
     return (
       <BasicLayout background="blue">
         <MainHeader
@@ -35,29 +45,29 @@ class WithdrawalInfo extends Component {
         </View>
 
         <CelHeading
-          text={currency === 'bch' ? 'Withdraw Funds' : "Are You Sure?"}
+          text={this.shouldHideBCH() ? 'Withdraw Funds' : "Are You Sure?"}
           textAlign="center"
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-          {currency !== "bch" && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
           </Text>}
 
-          {currency !== "bch" && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             Withdrawing your funds will reduce the amount of interest you could potentially earn.
           </Text>}
 
-          {currency === "bch" && <BitcoinCashForkInfo/>}
+          {this.shouldHideBCH() && <BitcoinCashForkInfo/>}
 
-          {currency !== "bch" && <CelButton
+          {!this.shouldHideBCH() && <CelButton
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
           </CelButton>}
-          {currency === "bch" && <CelButton
+          {this.shouldHideBCH() && <CelButton
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateBack()}

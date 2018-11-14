@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Clipboard, Share, Platform } from "react-
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
+import moment from "moment";
 
 import * as appActions from "../../../redux/actions";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
@@ -113,6 +114,13 @@ class AddFunds extends Component {
     }
   };
 
+  shouldHideBCH = (currency) => {
+    const currentTimestamp = moment.utc(Date.now());
+    const bitcoinCashForkTimestamp = moment.utc('2018-11-14T04:40:00+0000');
+
+    return currency && currency.toLowerCase() === "bch" && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
+  };
+
   switchAlternateAddress = () => {
     const { useAlternateAddress } = this.state;
 
@@ -195,7 +203,7 @@ class AddFunds extends Component {
         background={STYLES.PRIMARY_BLUE}
       >
 
-        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && (navCurrency ? (
+        {!this.shouldHideBCH(currentCurrency) && (navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
             Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
             address.
@@ -211,7 +219,7 @@ class AddFunds extends Component {
                      margin="25 50 15 50"/>
         )}
 
-        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
+        {!this.shouldHideBCH(currentCurrency) && <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               {address &&
@@ -226,7 +234,7 @@ class AddFunds extends Component {
           </View>
         </View>}
 
-        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <View style={AddFundsStyle.box}>
+        {!this.shouldHideBCH(currentCurrency) && <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
             <Text style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
@@ -372,18 +380,18 @@ class AddFunds extends Component {
             Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
           </CelButton>
         </View>}
-        {(currentCurrency && currentCurrency.toLowerCase() === "bch") && <BitcoinCashForkInfo/>}
+        {this.shouldHideBCH(currentCurrency) && <BitcoinCashForkInfo/>}
 
         <CelButton
           white
           onPress={this.goBack}
           margin='20 50 0 50'
         >
-          {(currentCurrency && currentCurrency.toLowerCase() === "bch") && "I Understand"}
-          {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && "Done"}
+          {this.shouldHideBCH(currentCurrency) && "I Understand"}
+          {!this.shouldHideBCH(currentCurrency) && "Done"}
         </CelButton>
 
-        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
+        {!this.shouldHideBCH(currentCurrency) && <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
                           onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
           <View style={{marginRight: 10}}>
             <Icon
