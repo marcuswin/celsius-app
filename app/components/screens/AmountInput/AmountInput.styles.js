@@ -1,4 +1,5 @@
 import { StyleSheet ,Dimensions} from "react-native";
+import { widthPercentageToDP } from "../../../utils/scale";
 
 const { width, height } = Dimensions.get('window');
 
@@ -66,6 +67,8 @@ const AmountInputStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   numberContent: {
+    marginRight: widthPercentageToDP("5.2%"),
+    marginLeft: widthPercentageToDP("5.2%"),
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: 'center',
