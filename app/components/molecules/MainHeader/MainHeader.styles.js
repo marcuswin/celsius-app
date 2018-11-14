@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {FONT_SCALE} from "../../../config/constants/style";
+import { heightPercentageToDP } from "../../../utils/scale";
 
 const HeaderStyle = StyleSheet.create({
   header: {
@@ -8,7 +9,8 @@ const HeaderStyle = StyleSheet.create({
     paddingLeft: 20,
     borderBottomColor: 'transparent',
     elevation: 0,
-    paddingTop: 30
+    // height: Platform.OS === "ios" ? 0 : heightPercentageToDP("10%"),
+    paddingTop: Platform.OS === "ios" ? 0 : heightPercentageToDP("4.8%")
   },
   headerTitle: {
     color: 'white',
@@ -21,8 +23,7 @@ const HeaderStyle = StyleSheet.create({
   backButtonText: {
     color: 'white',
     opacity: 0.8,
-    marginTop: 2,
-    fontSize: FONT_SCALE * 21,
+    fontSize: FONT_SCALE * 20,
     fontFamily: 'agile-medium',
   },
   logo: {
