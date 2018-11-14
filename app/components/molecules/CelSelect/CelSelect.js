@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from "redux";
 import { lookup } from "country-data";
 
 import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { GENDER, PERSON_TITLE } from "../../../config/constants/common";
+import { GENDER, PERSON_TITLE, STATE, YEARS, MONTHS, DAYS } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
@@ -20,7 +20,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 class CelSelect extends Component {
   static propTypes = {
     theme: PropTypes.oneOf(['blue', 'white']),
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native']),
+    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year']),
     // array of { label, value } objects
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
@@ -31,6 +31,9 @@ class CelSelect extends Component {
     error: PropTypes.string,
     labelText: PropTypes.string,
     margin: PropTypes.string,
+    hide: PropTypes.bool,
+    flex: PropTypes.number,
+    onlyError: PropTypes.bool
   }
   static defaultProps = {
     type: 'native',
@@ -40,6 +43,8 @@ class CelSelect extends Component {
     labelText: '',
     theme: 'blue',
     margin: '0 0 15 0',
+    hide: false,
+    onlyError: false
   }
 
   constructor(props) {
@@ -54,6 +59,18 @@ class CelSelect extends Component {
       case 'gender':
         items = GENDER;
         break;
+      case 'state':
+        items = STATE;
+        break;
+      case 'day':
+        items = DAYS;
+        break;
+      case 'year':
+        items = YEARS;
+        break;
+      case 'month':
+        items = MONTHS;
+        break;
       default:
         items = props.items;
     }
@@ -65,6 +82,22 @@ class CelSelect extends Component {
     };
   }
 
+  componentDidMount = () => {
+    const { value, type } = this.props;
+    const { items } = this.state;
+
+    if (value) {
+      let item;
+      if (type === 'country') {
+        item = lookup.countries({ name: value })[0]
+      } else {
+        item = items.filter(i => i.value === value)[0];
+      }
+
+      this.setState({ value: item });
+    }
+  }
+
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
     const { value, type } = this.props;
@@ -73,7 +106,7 @@ class CelSelect extends Component {
     if (nextProps.value && value !== nextProps.value) {
       let item;
       if (type === 'country') {
-        item = lookup.countries({name: nextProps.value})[0]
+        item = lookup.countries({ name: nextProps.value })[0]
       } else {
         item = items.filter(i => i.value === nextProps.value)[0];
       }
@@ -103,7 +136,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, error, margin } = this.props;
+    const { theme, labelText, error, margin, onlyError } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -117,6 +150,7 @@ class CelSelect extends Component {
         theme={theme}
         error={error}
         margin={margin}
+        onlyError={onlyError}
       >
         <TouchableOpacity
           onPress={() => this.setState({ visible: !visible })}
@@ -125,7 +159,7 @@ class CelSelect extends Component {
           <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}
           </Text>
-          <View style={ globalStyles.inputIconRight }>
+          <View style={globalStyles.inputIconRight}>
             <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
           </View>
         </TouchableOpacity>
@@ -135,12 +169,12 @@ class CelSelect extends Component {
 
   // rendering methods
   render() {
-    const { type } = this.props;
+    const { type, hide, flex } = this.props;
     const { visible, items, value } = this.state;
 
-    return (
-      <View>
-        { type !== 'country' ?
+    return (!hide &&
+      <View style={flex ? { flex } : null}>
+        {type !== 'country' ?
           <RNPickerSelect
             items={items}
             onValueChange={this.handlePickerSelect}
@@ -149,11 +183,11 @@ class CelSelect extends Component {
           </RNPickerSelect> :
           this.renderSelect()
         }
-        { type === 'country' &&
-        <SelectCountryModal
-          visible={ visible }
-          onClose={ this.selectValue }
-        />
+        {type === 'country' &&
+          <SelectCountryModal
+            visible={visible}
+            onClose={this.selectValue}
+          />
         }
       </View>
     );
