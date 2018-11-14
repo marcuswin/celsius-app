@@ -116,7 +116,7 @@ class AddFunds extends Component {
 
   shouldHideBCH = (currency) => {
     const currentTimestamp = moment.utc(Date.now());
-    const bitcoinCashForkTimestamp = moment.utc('2018-11-14T04:40:00+0000');
+    const bitcoinCashForkTimestamp = moment.utc('2018-11-15T04:40:00+0000');
 
     return currency && currency.toLowerCase() === "bch" && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
   };
