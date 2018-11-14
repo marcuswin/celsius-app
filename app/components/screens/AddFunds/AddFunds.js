@@ -16,6 +16,7 @@ import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
 import { mixpanelEvents } from "../../../services/mixpanel";
 import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
+import BitcoinCashForkInfo from "../../organisms/BitcoinCashForkInfo/BitcoinCashForkInfo";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
@@ -194,7 +195,7 @@ class AddFunds extends Component {
         background={STYLES.PRIMARY_BLUE}
       >
 
-        {navCurrency ? (
+        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && (navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
             Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
             address.
@@ -203,14 +204,14 @@ class AddFunds extends Component {
           <Text style={AddFundsStyle.textOne}>
             Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-        )}
+        ))}
 
         {!navCurrency && (
           <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
                      margin="25 50 15 50"/>
         )}
 
-        <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
+        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <View style={[AddFundsStyle.imageWrapper, { opacity: address ? 1 : 0.2 }]}>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
             <View style={AddFundsStyle.qrBackground}>
               {address &&
@@ -223,9 +224,9 @@ class AddFunds extends Component {
               }
             </View>
           </View>
-        </View>
+        </View>}
 
-        <View style={AddFundsStyle.box}>
+        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <View style={AddFundsStyle.box}>
           <View style={AddFundsStyle.addressWrapper}>
             <Text style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
           </View>
@@ -275,7 +276,7 @@ class AddFunds extends Component {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </View>}
 
         {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
           <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
@@ -351,13 +352,13 @@ class AddFunds extends Component {
             white
             size="small"
             onPress={this.switchAlternateAddress}
-            margin='0 10 0 10'
+            margin='20 10 0 10'
           >
             Use {useAlternateAddress ? "M" : "3"}-format address
           </CelButton>
         </View>}
 
-        {(currentCurrency && currentCurrency.toLowerCase() === "bch") &&
+        {(currentCurrency && currentCurrency.toLowerCase() === "bch" && false) &&
         <View style={AddFundsStyle.alternateAddressWrapper}>
           <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
             support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
@@ -366,21 +367,23 @@ class AddFunds extends Component {
             white
             size="small"
             onPress={this.switchAlternateAddress}
-            margin='0 10 0 10'
+            margin='20 10 0 10'
           >
             Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
           </CelButton>
         </View>}
+        {(currentCurrency && currentCurrency.toLowerCase() === "bch") && <BitcoinCashForkInfo/>}
 
         <CelButton
           white
           onPress={this.goBack}
           margin='20 50 0 50'
         >
-          Done
+          {(currentCurrency && currentCurrency.toLowerCase() === "bch") && "I Understand"}
+          {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && "Done"}
         </CelButton>
 
-        <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
+        {(currentCurrency && currentCurrency.toLowerCase() !== "bch") && <TouchableOpacity style={AddFundsStyle.secureTransactionsBtn}
                           onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
           <View style={{marginRight: 10}}>
             <Icon
@@ -391,7 +394,7 @@ class AddFunds extends Component {
             />
           </View>
           <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
 
         <DestinationTagExplanationModal/>
       </SimpleLayout>

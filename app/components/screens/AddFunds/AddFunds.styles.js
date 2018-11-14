@@ -122,7 +122,6 @@ const AddFundsStyle = StyleSheet.create({
     fontSize: FONT_SCALE * 16,
     textAlign: 'center',
     color: 'white',
-    marginBottom: 20,
   },
 });
 
