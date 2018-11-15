@@ -49,7 +49,7 @@ class WalletLayout extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false} />
-        <View style={WalletLayoutStyle.heading}>
+        <View ref={testUtil.generateTestHook(this, `WalletLayout.home`)} style={WalletLayoutStyle.heading}>
           {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{ formatter.usd(total) }</Text>}
           {!walletTotal && <Image source={require('../../../../assets/images/icons/white_spinner.gif')} style={WalletLayoutStyle.totalLoader} />}
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>

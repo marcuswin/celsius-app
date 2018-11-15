@@ -1,9 +1,12 @@
 import signupFlow from './signup-flow';
+import loginFlow from './login-flow';
+import kycFlow from './KYC-flow';
 import { testPassed } from './helpers';
 
+
 export default function(spec) {
-  testSignupFlow(spec);
-  testLoginFlow(spec);
+  // testSignupFlow(spec);
+  // testLoginFlow(spec);
   testKYCFlow(spec);
 
   // spec.describe('Single test', () => { spec.it('should pass', signupFlow.createPasscode(spec)) })
@@ -12,7 +15,7 @@ export default function(spec) {
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
     // Welcome screen tests
-    spec.it('should go to SignupOne screen when button is pressed', signupFlow.pressSkipIntro(spec))
+    // spec.it('should go to SignupOne screen when button is pressed', signupFlow.pressSkipIntro(spec))
 
     // SignupOne screen tests
     spec.it('button should be disabled when no email and password entered', signupFlow.disableWhenNoData(spec))
@@ -47,35 +50,35 @@ export function testSignupFlow(spec) {
 
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
-    // // Login screen tests
-    // spec.it('button should be disabled when no email and password entered', testPassed(spec))
-    // spec.it('button should be disabled when no email entered', testPassed(spec))
-    // spec.it('button should be disabled when no password entered', testPassed(spec))
-    // spec.it('should show error when wrong credentials', testPassed(spec))
-    // spec.it('should show error when user doesn\'t exist', testPassed(spec))
-    // spec.it('should go to Home screen when all info is valid', testPassed(spec))
+    // Login screen tests
+    spec.it('button should be disabled when no email and password entered', loginFlow.disableWhenNoLoginData(spec))
+    spec.it('button should be disabled when no email entered', loginFlow.disableWhenNoEmail(spec))
+    spec.it('button should be disabled when no password entered', loginFlow.disableWhenNoPassword(spec))
+    spec.it('should show error when wrong credentials', loginFlow.disableWhenWrongCredentials(spec))
+    spec.it('should show error when user doesn\'t exist', loginFlow.errUserDoesNotExists(spec))
+    spec.it('should go to Home screen when all info is valid', loginFlow.loginSuccess(spec))
 
     // // TODO Third party login
   })
 }
 
 export function testKYCFlow(spec) {
-  spec.describe('Login Flow', () => {
-    // // NoKYC screen
-    // spec.it('should go to ProfileDetails screen when button is pressed', testPassed(spec))
+  spec.describe('KYC flow', () => {
+    // NoKYC screen
+    // spec.it('should go to ProfileDetails screen when button is pressed', kycFlow.profileDetails(spec))
 
     // // ProfileDetails screen tests
-    // spec.it('should prepopulate first name and last name', testPassed(spec))
-    // spec.it('should show error when no title', testPassed(spec))
-    // spec.it('should show error when no date of birth', testPassed(spec))
-    // spec.it('should show error when no citizenship', testPassed(spec))
-    // spec.it('should show error when no gender', testPassed(spec))
-    // spec.it('should show error when no first name', testPassed(spec))
-    // spec.it('should show error when no last name', testPassed(spec))
-    // spec.it('should go to VerifyProfile screen when all info is valid', testPassed(spec))
+    spec.it('should prepopulate first name and last name', kycFlow.firstAndLastNameExist(spec))
+    spec.it('should show error when no title', kycFlow.noTitle(spec))
+    spec.it('should show error when no date of birth', kycFlow.noDateOfBirth(spec))
+    spec.it('should show error when no citizenship', kycFlow.noCitizenship(spec))
+    spec.it('should show error when no gender', kycFlow.noGender(spec))
+    spec.it('should show error when no first name', kycFlow.noFirstName(spec))
+    spec.it('should show error when no last name', kycFlow.noLastName(spec))
+    spec.it('should go to VerifyProfile screen when all info is valid', kycFlow.kycSuccess(spec))
 
-    // // VerifyPRofile screen tests
-    // spec.it('should prepopulate available document types', testPassed(spec))
+    // VerifyPRofile screen tests
+    spec.it('should prepopulate available document types', kycFlow.identityCardPicture(spec))
 
   })
 }

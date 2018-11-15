@@ -96,3 +96,15 @@ export function signupTwoSetup() {
 export function createPinSetup() {
   dispatch(actions.navigateTo('CreatePasscode'))
 }
+
+export function loginSetup() {
+  dispatch(actions.navigateTo('Login'))
+  dispatch(actions.clearForm());
+
+}
+
+export function kycSetup() {
+  dispatch(actions.navigateTo('ProfileDetails'))
+  dispatch(actions.clearForm());
+
+}

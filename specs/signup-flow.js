@@ -1,10 +1,7 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
 import { resetTests, signupOneSetup, signupTwoSetup, createPinSetup } from "./helpers"
-import Welcome from '../app/components/screens/Welcome/Welcome';
-import SignupOne from '../app/components/screens/Signup/SignupOne';
-import SignupTwo from '../app/components/screens/Signup/SignupTwo';
-import Passcode from '../app/components/screens/Passcode/Passcode';
+
 
 const { dispatch, getState } = store;
 
@@ -210,6 +207,7 @@ function disableCreatePasscode(spec) {
   return async () => {
     createPinSetup();
 
+    await spec.pause(2000)
     await spec.fillIn('passcode.pin','111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -226,7 +224,8 @@ function disableCreatePasscode(spec) {
 function createPasscode(spec) {
   return async () => {
     createPinSetup();
-
+  
+    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -236,6 +235,7 @@ function createPasscode(spec) {
 function disableRepeatPasscode(spec) {
   return async () => {
 
+    await spec.pause(2000)
     await spec.fillIn('passcode.pin','111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -252,6 +252,7 @@ function disableRepeatPasscode(spec) {
 function disableWrongPasscode(spec) {
   return async () => {
 
+    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1234')
     await spec.press('Passcode.Confirm')
   }
@@ -260,7 +261,9 @@ function disableWrongPasscode(spec) {
 function finishPasscode(spec) {
   return async () => {
 
+    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Confirm')
+    // await spec.exists('NoKyc.screen')
   }
 }
