@@ -1,14 +1,10 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import signupFlow from './signup-flow';
-import { resetTests, kycSetup, submit } from "./helpers"
-import NoKyc from '../app/components/screens/NoKyc/NoKyc';
-import { startKYC } from '../app/redux/actions';
+import { resetTests, kycSetup, kycPassed, submit } from "./helpers"
 
-const { dispatch, getState } = store;
+const { dispatch } = store;
 
 export default {
-	profileDetails,
 	firstAndLastNameExist,
 	noTitle,
 	noDateOfBirth,
@@ -18,20 +14,13 @@ export default {
 	noLastName,
 	kycSuccess,
 	identityCardPicture,
+	drivingLicencePicutre,
+	passportPicture,
+	finishKycFlow,
 }
 
 dispatch(actions.logoutUser());
 
-function profileDetails(spec) {
-	return async () => {
-		// dispatch(actions.navigateTo('ProfileDetails'))
-
-    spec.it('should go to SignupTwo screen when all info is valid', signupFlow.stepOneSuccess(spec))
-    spec.it('should go to EnterPasscode screen when all info is valid', signupFlow.stepTwoSuccess(spec))
-		spec.it('should go to RepeatPasscode screen when 4 digits are entered', signupFlow.createPasscode(spec))
-		spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.finishPasscode(spec))
-	}
-}
 
 function firstAndLastNameExist(spec) {
 	return async () => {
@@ -149,31 +138,22 @@ function noLastName(spec) {
 	}
 }
 
+// Can't call this separatly
 function kycSuccess(spec) {
 	return async () => {
-		kycSetup() 
-
-
-		await spec.pause(3000)
-		store.dispatch(actions.updateFormField('firstName', "Nemanja" ));
-		store.dispatch(actions.updateFormField('lastName', "Krstonic" ));
-		store.dispatch(actions.updateFormField('middleName', "krrr" ));
-		await spec.pause(3000)
-		store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
-		await spec.pause(3000)
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		await spec.pause(3000)
-		store.dispatch(actions.updateFormField('gender', 'male' ));
-		store.dispatch(actions.updateFormField('title', 'mr' ));
+		await spec.pause(10000)
+		kycPassed()
 
 		await spec.press('ProfileDetails.verifyYourProfile')
-		await spec.pause(4000)
+		await spec.pause(10000)
 		await spec.exists('VerifyProfile.verify')
 	}
 }
 
 function identityCardPicture(spec) {
 	return async () => {
+		await spec.pause(5000)
+
 		await spec.press('VerifyProfile.identity_card')
 
 		await spec.press('CameraInput.front')
@@ -188,13 +168,63 @@ function identityCardPicture(spec) {
 		
 		await spec.pause(2000)
 		
-		await spec.press('VerifyProfile.passport')
-		
+
+	}
+}
+
+function drivingLicencePicutre(spec) {
+	return async () => {
+
+		await spec.pause(5000)
+
+		await spec.press('VerifyProfile.driving_licence')
+
 		await spec.press('CameraInput.front')
-		await spec.press('CameraScreen.retakePhoto')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
 		
+		await spec.pause(2000)
+		
+		await spec.press('CameraInput.back')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+	}
+}
 
+function passportPicture(spec){
+	return async () => {
+		await spec.pause(5000)
+		await spec.press('VerifyProfile.passport')
+		
+		await spec.press('CameraInput.front')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+	
+	}
+
+}
+function finishKycFlow(spec) {
+	return async () => {
+
+		await spec.pause(5000)
+
+		await spec.press('VerifyProfile.passport')
+		
+		await spec.press('CameraInput.front')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+		store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+		await spec.press('VerifyProfile.verify')
+
+		await spec.pause(5000)
+
+  	await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+    await spec.press('VerifyPhoneNumber.finish')
+    await spec.pause(3000)
+
+		store.dispatch(actions.verifySMSSuccess());
+
+    await spec.pause(3000)
 	}
 }

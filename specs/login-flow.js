@@ -47,6 +47,7 @@ function disableWhenNoPassword(spec) {
 
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
+		await spec.pause(20000)
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
@@ -58,8 +59,9 @@ function disableWhenWrongCredentials(spec) {
 	return async () => {
 		loginSetup() 
 
-		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+		await spec.pause(9000)
     await spec.fillIn('CelTextInput.pass','filip1234')
+		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
 		await spec.pause(5000)
 		await spec.notExists('WalletLayout.home')
@@ -70,6 +72,7 @@ function errUserDoesNotExists(spec) {
 	return async () => {
 		loginSetup() 
 
+		await spec.pause(5000)
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt11122313@mvpworkshop.co')
     await spec.fillIn('CelTextInput.pass','filip1234')
 

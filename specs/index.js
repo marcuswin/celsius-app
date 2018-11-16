@@ -5,9 +5,9 @@ import { testPassed } from './helpers';
 
 
 export default function(spec) {
-  // testSignupFlow(spec);
+  testSignupFlow(spec);
   // testLoginFlow(spec);
-  testKYCFlow(spec);
+  // testKYCFlow(spec);
 
   // spec.describe('Single test', () => { spec.it('should pass', signupFlow.createPasscode(spec)) })
 }
@@ -15,7 +15,7 @@ export default function(spec) {
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
     // Welcome screen tests
-    // spec.it('should go to SignupOne screen when button is pressed', signupFlow.pressSkipIntro(spec))
+    spec.it('should go to SignupOne screen when button is pressed', signupFlow.pressSkipIntro(spec))
 
     // SignupOne screen tests
     spec.it('button should be disabled when no email and password entered', signupFlow.disableWhenNoData(spec))
@@ -65,9 +65,8 @@ export function testLoginFlow(spec) {
 export function testKYCFlow(spec) {
   spec.describe('KYC flow', () => {
     // NoKYC screen
-    // spec.it('should go to ProfileDetails screen when button is pressed', kycFlow.profileDetails(spec))
 
-    // // ProfileDetails screen tests
+    // ProfileDetails screen tests
     spec.it('should prepopulate first name and last name', kycFlow.firstAndLastNameExist(spec))
     spec.it('should show error when no title', kycFlow.noTitle(spec))
     spec.it('should show error when no date of birth', kycFlow.noDateOfBirth(spec))
@@ -75,10 +74,17 @@ export function testKYCFlow(spec) {
     spec.it('should show error when no gender', kycFlow.noGender(spec))
     spec.it('should show error when no first name', kycFlow.noFirstName(spec))
     spec.it('should show error when no last name', kycFlow.noLastName(spec))
+
+    // KYC success 
+    spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.signupKYCSuccess(spec))
     spec.it('should go to VerifyProfile screen when all info is valid', kycFlow.kycSuccess(spec))
 
     // VerifyPRofile screen tests
-    spec.it('should prepopulate available document types', kycFlow.identityCardPicture(spec))
+    spec.it('should take front and back picture of ID card', kycFlow.identityCardPicture(spec))
+    spec.it('should retake picture of driving licence', kycFlow.drivingLicencePicutre(spec))
+    spec.it('should retake picture of passport', kycFlow.passportPicture(spec))
+    spec.it('should retake picture of driving licence', kycFlow.finishKycFlow(spec))
+
 
   })
 }

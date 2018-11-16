@@ -25,6 +25,7 @@ export default {
   disableRepeatPasscode,
   disableWrongPasscode,
   finishPasscode,
+  signupKYCSuccess,
 }
 
 dispatch(actions.logoutUser());
@@ -267,3 +268,38 @@ function finishPasscode(spec) {
     // await spec.exists('NoKyc.screen')
   }
 }
+
+function signupKYCSuccess(spec) {
+  return async () => {
+    resetTests()
+    dispatch(actions.navigateTo('Welcome'));
+
+    await spec.press('Welcome.skipButton')
+    await spec.exists('SignupOne.screen')
+
+    await spec.exists('SignupOne.screen')
+    await spec.fillIn('SignupOne.email', `email+${ new Date().getTime() }@mvpworkshop.co`)
+    await spec.fillIn('SignupOne.password', 'Celsius123')
+    await spec.press('SignupOne.button')
+
+    await spec.exists('SignupTwo.screen')
+    await spec.pause(3000)
+    await spec.exists('SignupTwo.screen')
+    await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
+    await spec.fillIn('SignupTwo.LastName', 'Krstonic')
+    await spec.press('SignupTwo.CreatePin')
+  
+    await spec.pause(2000)
+    await spec.fillIn('passcode.pin','1111')
+    await spec.press('Passcode.Repeat PIN')
+
+    await spec.pause(2000)
+    await spec.fillIn('passcode.pin_confirm','1111')
+    await spec.press('Passcode.Confirm')
+
+    await spec.pause(2000)
+
+    await spec.press('NoKyc.VerifyProfile')
+
+  }
+} 

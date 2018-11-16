@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
-import { AppRegistry, TextInput } from 'react-native';
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
 import ACTIONS from "../app/config/constants/ACTIONS";
-import SignupOne from '../app/components/screens/Signup/SignupOne';
-import CreatePasscode from '../app/components/screens/Passcode/CreatePasscode';
+
 
 const { dispatch, getState } = store;
 
@@ -98,8 +95,9 @@ export function createPinSetup() {
 }
 
 export function loginSetup() {
-  dispatch(actions.navigateTo('Login'))
+  dispatch({ type: ACTIONS.LOGOUT_USER });
   dispatch(actions.clearForm());
+  dispatch(actions.navigateTo('Login'))
 
 }
 
@@ -107,4 +105,23 @@ export function kycSetup() {
   dispatch(actions.navigateTo('ProfileDetails'))
   dispatch(actions.clearForm());
 
+}
+
+export function kycPassed() {
+  store.dispatch(actions.updateFormField('firstName', "Nemanja" ));
+  store.dispatch(actions.updateFormField('lastName', "Krstonic" ));
+  store.dispatch(actions.updateFormField('middleName', "krrr" ));
+  store.dispatch(actions.updateFormField('dateOfBirth', "1994-01-01" ));
+  store.dispatch(actions.updateFormField('citizenship','Serbia'));
+  store.dispatch(actions.updateFormField('gender', 'male' ));
+  store.dispatch(actions.updateFormField('title', 'mr' ));
+}
+
+export function resetBeforeEach() {
+
+  dispatch(actions.logoutUser());
+  dispatch(actions.clearForm());
+
+  spec.pause(10000)
+  console.log(`Starting test suit +`)
 }
