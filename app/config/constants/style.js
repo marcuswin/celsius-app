@@ -100,6 +100,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     top: 65,
     color: '#fff'
   },
+  errorText:{
+    fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
+    color: '#fff'
+  },
   whiteErrorText: {
     fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
     position: 'absolute',
