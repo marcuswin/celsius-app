@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Image, Platform, ImageEditor } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -96,31 +96,14 @@ class CameraScreen extends Component {
 
   pickImage = async () => {
     const { actions } = this.props;
-    console.log("ALOOO");
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
       base64: true,
     });
     if (result.cancelled) {
-      console.log('got here');
       return;
     }
-    console.log(result);
-
-    const resizedUri = await new Promise((resolve, reject) => {
-      ImageEditor.cropImage(result.uri,
-        {
-          offset: { x: 0, y: 0 },
-          size: { width: result.width, height: result.height },
-          displaySize: { width: 50, height: 50 },
-          resizeMode: 'contain',
-        },
-        (uri) => resolve(uri),
-        () => reject(),
-      );
-    });
-    console.log(resizedUri);
     actions.takeCameraPhoto(result.base64.replace(/\n|\r/g, ""));
   };
 
