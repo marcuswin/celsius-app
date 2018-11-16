@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import {bindActionCreators} from "redux";
-import { Camera, Permissions, ImageManipulator } from 'expo';
+import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo';
 
 import * as appActions from "../../../redux/actions";
 import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
@@ -93,7 +93,21 @@ class CameraScreen extends Component {
 
   // lifecycle methods
   // event hanlders
-  takeCameraPhoto = async () => {
+
+  pickImage = async () => {
+    const {actions} = this.props;
+    console.log("ALOOO");
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+    // console.log(result.base64, result);
+    // console.log(result.base64.replace(/(?:\r\n|\r|\n)/g, ''));
+    actions.takeCameraPhoto(result.base64);
+  };
+
+  takePhoto = async () => {
     if (!this.camera) return;
 
     const { actions } = this.props;
@@ -193,13 +207,13 @@ class CameraScreen extends Component {
               paddingBottom: bottomNavigationHeight.paddingBottom,
             }]}>
 
-                <TouchableOpacity style={{ width: '15%'}} onPress={() => actions.navigateTo('CameraRoll')}>
+                <TouchableOpacity style={{ width: '15%'}} onPress={() => Platform.OS === "ios" ? this.pickImage : actions.navigateTo("CameraRoll")}>
                   { cameraRollLastPhoto && (
                     <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }}/>
                   )}
                 </TouchableOpacity>
 
-              <TouchableOpacity onPress={this.takeCameraPhoto}>
+              <TouchableOpacity onPress={this.takePhoto}>
                 <View style={CameraStyle.outerCircle}>
                   { !this.state.isLoading && this.state.hasCameraPermission ? (
                     <View style={CameraStyle.innerCircle}/>
