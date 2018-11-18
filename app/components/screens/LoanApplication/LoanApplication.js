@@ -124,6 +124,7 @@ class LoanApplication extends Component {
   render() {
     const { formData, callsInProgress, walletCurrencies } = this.props;
     const { pickerItems } = this.state;
+    let amountError;
 
     if (!pickerItems || !formData.ltv) {
       return (
@@ -136,6 +137,8 @@ class LoanApplication extends Component {
 
       )
     }
+
+    if(formData.amountCollateralUSD < 5000) amountError = "The loan amount should be $5,000 or higher.";
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
     const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
@@ -160,9 +163,10 @@ class LoanApplication extends Component {
               field="amountCollateralUSD"
               theme="white"
               value={formData.amountCollateralUSD}
-              placeholder="i.e. $1,500.00"
+              placeholder="$5,000.00 is minimal amount"
               type="number"
               onChange={this.updateAmounts}
+              error={amountError}
             />
           </CelForm>
 
@@ -230,6 +234,7 @@ class LoanApplication extends Component {
             onPress={this.applyForLoan}
             loading={isLoading}
             margin="20 0 0 0"
+            disabled={formData.amountCollateralUSD < 5000 || !formData.amountCollateralUSD}
           >
             Apply for a loan
           </CelButton>
