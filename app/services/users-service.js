@@ -15,7 +15,11 @@ const usersService = {
   sendResetLink,
   resetPassword,
   getPersonalInfo,
+  getProfileAddressInfo,
   updateProfileInfo,
+  getProfileTaxpayerInfo,
+  updateProfileAddressInfo,
+  updateProfileTaxpayerInfo,
   setProfileImage,
   addExpoPushToken
 };
@@ -130,8 +134,24 @@ function getPersonalInfo() {
   return axios.get(`${apiUrl}/me`);
 }
 
+function getProfileAddressInfo() {
+  return axios.get(`${apiUrl}/me/address`);
+}
+
+function getProfileTaxpayerInfo() {
+  return axios.get(`${apiUrl}/me/taxpayer_info`);
+}
+
 function updateProfileInfo(profileInfo) {
   return axios.patch(`${apiUrl}/me`, profileInfo);
+}
+
+function updateProfileAddressInfo(profileAddressInfo) {
+  return axios.post(`${apiUrl}/me/address`, profileAddressInfo);
+}
+
+function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo);
 }
 
 function setProfileImage(image) {

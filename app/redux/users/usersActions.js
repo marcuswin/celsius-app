@@ -18,6 +18,8 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 export {
   getProfileInfo,
   updateProfileInfo,
+  updateProfileAddressInfo,
+  updateProfileTaxpayerInfo,
   toggleTermsOfUse,
   updateProfilePicture,
   getKYCDocuments,
@@ -77,6 +79,46 @@ function updateProfileInfo(profileInfo) {
   }
 }
 
+function updateProfileAddressInfo(profileAddressInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER_ADDRESS_INFO));
+
+    try {
+      const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo); 
+      dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
+    } catch(err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(updateProfileAddressInfoError(err.raw_error));
+      dispatch(apiError(API.UPDATE_USER_ADDRESS_INFO, err));
+    }
+  }
+}
+
+function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
+
+    try {
+      const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
+      dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
+    } catch(err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(updateProfileTaxpayerInfoError(err.raw_error));
+      dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
+    }
+  }
+}
+
 function updateProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
@@ -88,6 +130,35 @@ function updateProfileInfoSuccess(personalInfo) {
 function updateProfileInfoError(err) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR,
+    error: err,
+  }
+}
+
+function updateProfileAddressInfoSuccess(addressInfo) {
+  return {
+    type: ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS,
+    callName: API.UPDATE_USER_ADDRESS_INFO,
+    addressInfo,
+  }
+}
+
+function updateProfileAddressInfoError(err) {
+  return {
+    type: ACTIONS.UPDATE_USER_ADDRESS_INFO_ERROR,
+    error: err,
+  }
+}
+function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
+  return {
+    type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS,
+    callName: API.UPDATE_USER_TAXPAYER_INFO,
+    taxpayerInfo,
+  }
+}
+
+function updateProfileTaxpayerInfoError(err) {
+  return {
+    type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_ERROR,
     error: err,
   }
 }

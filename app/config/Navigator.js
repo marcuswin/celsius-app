@@ -14,6 +14,8 @@ import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePas
 import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
 import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDetails";
 import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
+import AddressInformationScreen from "../components/screens/AddressInformation/AddressInformation";
+import TaxpayerIDScreen from "../components/screens/TaxpayerID/TaxpayerID";
 import CameraScreen from "../components/screens/Camera/Camera";
 import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
@@ -153,6 +155,14 @@ export const screens = {
   VerifyProfile: {
     screen: VerifyProfileScreen,
     title: 'VerifyProfile',
+  },
+  AddressInformation:{
+    screen: AddressInformationScreen,
+    title: 'AddressInformation',
+  },
+  TaxpayerID:{
+    screen: TaxpayerIDScreen,
+    title: 'TaxprayerID',
   },
   VerifyPhoneNumber: {
     screen: VerifyPhoneNumberScreen,

@@ -245,7 +245,7 @@ class AmountInput extends Component {
               <CelButton
                 disabled={!formData.amountCrypto}
                 onPress={this.handleMainButtonClick(purpose)}
-                margin='5 36 5 36'
+                margin='10 36 5 36'
               >
                 {this.getMainButtonText(purpose)}
               </CelButton>

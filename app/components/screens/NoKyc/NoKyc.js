@@ -86,7 +86,6 @@ class NoKyc extends Component {
   }
 
   renderPending() {
-    const {actions} = this.props;
     const {animatedHeading} = this.state;
 
     return (
@@ -103,14 +102,9 @@ class NoKyc extends Component {
           <View style={NoKycStyle.circleYellow}/>
           <Text style={NoKycStyle.yellowText}>In progress</Text>
         </View>
-        <Text style={[NoKycStyle.textTwo, {marginTop: 10}]}>
-          While you're waiting for your profile verification to finish(usually within 24 hours), you can add coins to watch in your portfolio or join our Telegram.</Text>
-        <CelButton
-          onPress={() => actions.navigateTo('ManagePortfolio')}
-          margin='0 50 0 50'
-        >
-          Visit portfolio
-        </CelButton>
+        <Text style={[NoKycStyle.textTwo, {marginTop: 10, marginBottom: 30}]}>
+          While you're waiting for your profile verification to finish(usually within 24 hours), you can add coins to watch in your portfolio or join our Telegram.
+        </Text>
 
         <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
           <Icon name='TelegramIcon' height='25' width='25' viewBox="0 0 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
