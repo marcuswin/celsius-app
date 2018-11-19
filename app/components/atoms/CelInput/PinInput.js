@@ -21,10 +21,16 @@ class PinInput extends Component {
     };
   }
 
-  getDigitValue = value => {
-    const {showDigits} = this.props;
+  /**
+   * @param {string} value
+   * @param {number} index
+   * @return {string}
+   */
+  getDigitValue = (value, index) => {
+    const {showDigits, value: inputValue} = this.props;
+    const {active} = this.state;
 
-    if (showDigits && value) {
+    if (showDigits && value || (index === inputValue.length && active)) {
       return value;
     }
 
@@ -90,6 +96,7 @@ class PinInput extends Component {
     }
 
     const digitsMap = [...Array(digits)].map((mapValue, index) => ({
+      active: (index === value.length || (value.length === digits && index + 1 === digits)) && active,
       index: index + 1,
       value: value[index]
     }));
@@ -101,9 +108,14 @@ class PinInput extends Component {
         <View style={PinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
             <View key={digit.index}
-                  style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
+                  style={[
+                    PinInputStyle.digitWrapper,
+                    digitWrapperStyle,
+                    digitBackgroundStyle,
+                    digit.active ? PinInputStyle.digitWrapperActive : {},
+                  ]}>
               <Text style={[PinInputStyle.digitText, pinTextStyle]}>
-                {this.getDigitValue(digit.value)}
+                {this.getDigitValue(digit.value, digit.index)}
               </Text>
             </View>
           )}
