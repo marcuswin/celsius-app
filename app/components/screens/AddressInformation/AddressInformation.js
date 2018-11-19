@@ -32,14 +32,10 @@ class AddressInformation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { actions, lastCompletedCall, activeScreen, formData } = this.props;
+    const { actions, lastCompletedCall, activeScreen } = this.props;
 
     if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPDATE_USER_ADDRESS_INFO) {
-      if (formData.country === "United States") {
-        actions.navigateTo('TaxpayerID');
-      } else {
-        actions.navigateTo('VerifyProfile');
-      }
+      actions.navigateTo('TaxpayerID');
     }
 
     if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'AddressInformation') {
@@ -79,7 +75,7 @@ class AddressInformation extends Component {
         city: formData.city,
         zip: formData.zip,
         country: formData.country,
-        state: formData.country === "United States" ? formData.state : ""
+        state: formData.country === "United States" ? formData.state : "",
       }
       actions.updateProfileAddressInfo(updatedUser);
     }
@@ -94,7 +90,7 @@ class AddressInformation extends Component {
         buildingNumber: user.building_number,
         flatNumber: user.flat_number,
         city: user.city,
-        state: user.state,
+        state: user.country === "United States" ? user.state : "",
         zip: user.zip,
         country: user.country ? user.country : user.citizenship
       })
@@ -116,7 +112,9 @@ class AddressInformation extends Component {
           <CelInput value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
           <CelInput value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
           <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-          <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} hide={formData.country !== "United States"} />
+          {formData.country === "United States" ?
+            <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
+            : null}
           <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
           <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
         </CelForm>
