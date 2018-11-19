@@ -51,6 +51,16 @@ class PinInput extends Component {
     }
   };
 
+  handleInputBlur = () => {
+    this.setState({ active: false });
+
+    const {onBlur} = this.props;
+
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   render() {
     const { digits, value, onFocus, theme } = this.props;
     const { active } = this.state;
@@ -113,7 +123,7 @@ class PinInput extends Component {
                      }
                      this.setState({ active: true });
                    }}
-                   onBlur={() => this.setState({ active: false })}/>
+                   onBlur={this.handleInputBlur}/>
       </View>
     );
   }
