@@ -31,11 +31,11 @@ const CurrencyInterestRateInfoStyle = StyleSheet.create({
   infoWrapper: {},
   currencyName: {
     fontFamily: 'agile-medium',
-    fontSize: FONT_SCALE * 21,
+    fontSize: FONT_SCALE * 15,
     marginBottom: 2,
   },
   currencyShort: {
-    fontSize: FONT_SCALE * 16,
+    fontSize: FONT_SCALE * 18,
     color: COLORS.gray,
   },
   rateWrapper: {
