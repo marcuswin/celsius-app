@@ -31,7 +31,6 @@ class CelSelect extends Component {
     error: PropTypes.string,
     labelText: PropTypes.string,
     margin: PropTypes.string,
-    hide: PropTypes.bool,
     flex: PropTypes.number,
     onlyError: PropTypes.bool
   }
@@ -43,7 +42,6 @@ class CelSelect extends Component {
     labelText: '',
     theme: 'blue',
     margin: '0 0 15 0',
-    hide: false,
     onlyError: false
   }
 
@@ -100,6 +98,7 @@ class CelSelect extends Component {
 
   // lifecycle methods
   componentWillReceiveProps(nextProps) {
+
     const { value, type } = this.props;
     const { items } = this.state;
 
@@ -120,6 +119,7 @@ class CelSelect extends Component {
     const { actions, field, type } = this.props;
     if (item) {
       if (type === 'country') {
+        actions.updateFormField(field, item.name);
         actions.updateFormField(field, item.name);
       } else {
         actions.updateFormField(field, item.value);
@@ -169,10 +169,10 @@ class CelSelect extends Component {
 
   // rendering methods
   render() {
-    const { type, hide, flex } = this.props;
+    const { type, flex } = this.props;
     const { visible, items, value } = this.state;
 
-    return (!hide &&
+    return (
       <View style={flex ? { flex } : null}>
         {type !== 'country' ?
           <RNPickerSelect

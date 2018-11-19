@@ -48,8 +48,7 @@ class TaxpayerID extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if (!formData.ssn) formErrors.ssn = 'ssn is required!';
-    if (!formData.nationalId) formErrors.national_id = 'National id is required!';
+    if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);
@@ -74,13 +73,14 @@ class TaxpayerID extends Component {
   }
 
   initForm = () => {
-    const { actions, user } = this.props;
+    const { actions, user, formData } = this.props;
 
     if (user) {
       actions.initForm({
         ssn: user.ssn,
         itin: user.itin,
-        nationalId: user.national_id
+        nationalId: user.national_id,
+        country: formData.country || user.country,
       })
     }
   }
@@ -98,11 +98,15 @@ class TaxpayerID extends Component {
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
           We require this information due to ani-money laundering (AML) regulations and background checks.
         </Text>
-
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
-          <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
-          <CelInput value={formData.nationalId} error={formErrors.national_id} field="nationalId" labelText="National ID Number" autoCapitalize="sentences" />
+          {formData.country === "United States" ?
+            <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+            :
+            <React.Fragment>
+              <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
+              <CelInput value={formData.nationalId} error={formErrors.national_id} field="nationalId" labelText="National ID Number (optional)" autoCapitalize="sentences" />
+            </React.Fragment>
+          }
         </CelForm>
 
         <CelButton
@@ -112,9 +116,8 @@ class TaxpayerID extends Component {
           disabled={isUpdatingProfileInfo}
           iconRight="IconArrowRight"
           margin="0 0 0 0"
-        >
-          Verify your profile
-        </CelButton>
+        >Verify your profile
+            </CelButton>
       </SimpleLayout>
     );
   }
