@@ -13,11 +13,12 @@ const PinTextFontSizeMap = {
 
 // Please don't hate me for the name, we can rename it when we remove PinInput. :)
 class PinInput extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      active: false
+      active: false,
+      deactivateTimeout: null,
     };
   }
 
@@ -41,6 +42,14 @@ class PinInput extends Component {
     return '';
   };
 
+  componentWillDismount() {
+    const {deactivateTimeout} = this.state;
+
+    if (deactivateTimeout) {
+      clearTimeout(deactivateTimeout);
+    }
+  }
+
   saveLayout = () => {
     this.input.measureInWindow((x, y, width, height) => {
       this.props.onLayout({ x, y, width, height });
@@ -58,7 +67,14 @@ class PinInput extends Component {
   };
 
   handleInputBlur = () => {
-    this.setState({ active: false });
+    const timeout = setTimeout(() => {
+      this.setState({
+        active: false,
+        deactivateTimeout: null,
+      });
+    }, 500);
+
+    this.setState({ deactivateTimeout: timeout});
 
     const {onBlur} = this.props;
 
