@@ -1,6 +1,6 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import { loginSetup, resetTests, createPinSetup, submit } from "./helpers"
+import { loginSetup, resetTests, resetBeforeEach, submit } from "./helpers"
 
 const { dispatch, getState } = store;
 
@@ -13,13 +13,15 @@ export default {
 	loginSuccess,
 }
 
-dispatch(actions.logoutUser());
+function reset(spec) {
+	return async () => {
+		resetBeforeEach()
+	}
+}
 
 function disableWhenNoLoginData(spec) {
   return async () => {	
 		loginSetup()
-
-		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
@@ -31,7 +33,8 @@ function disableWhenNoLoginData(spec) {
 function disableWhenNoEmail(spec) {
 	return async () => {
 		loginSetup() 
-
+		
+		await spec.pause(3000)
     await spec.fillIn('CelTextInput.pass','filip123')
 
 		const btn = await spec.findComponent('LoginForm.button')
@@ -45,9 +48,10 @@ function disableWhenNoPassword(spec) {
 	return async () => {
 		loginSetup() 
 
+		await spec.pause(3000)
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
-		await spec.pause(20000)
+		await spec.pause(2000)
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);

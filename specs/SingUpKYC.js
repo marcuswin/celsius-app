@@ -419,12 +419,14 @@
 // //       await spec.fillIn('CelTextInput.pass','test1234')
 // //       await spec.press('LoginForm.button')
 // //       await spec
+
 // //       // Test Wallet page
 
 // //       // ETH
 // //       await spec.press('TabNavigation.Balance')
 // //       await spec.exists('WalletBalance.ETH')
 // //       await spec.press('WalletBalance.ETH')
+
 // //       await spec.press('WalletDetailsGraphContainer.1d')
 // //       await spec.exists('WalletDetailsGraphContainer.LineChart1d')
 

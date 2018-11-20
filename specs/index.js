@@ -1,13 +1,16 @@
 import signupFlow from './signup-flow';
 import loginFlow from './login-flow';
 import kycFlow from './KYC-flow';
+import addFunds from './addFunds-flow'
 import { testPassed } from './helpers';
+import addFundsFlow from './addFunds-flow';
 
 
 export default function(spec) {
-  testSignupFlow(spec);
+  // testSignupFlow(spec);
   // testLoginFlow(spec);
   // testKYCFlow(spec);
+  testAddFundsFlow(spec);
 
   // spec.describe('Single test', () => { spec.it('should pass', signupFlow.createPasscode(spec)) })
 }
@@ -50,6 +53,7 @@ export function testSignupFlow(spec) {
 
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
+    
     // Login screen tests
     spec.it('button should be disabled when no email and password entered', loginFlow.disableWhenNoLoginData(spec))
     spec.it('button should be disabled when no email entered', loginFlow.disableWhenNoEmail(spec))
@@ -85,6 +89,44 @@ export function testKYCFlow(spec) {
     spec.it('should retake picture of passport', kycFlow.passportPicture(spec))
     spec.it('should retake picture of driving licence', kycFlow.finishKycFlow(spec))
 
+  })
+}
 
+
+export function testAddFundsFlow(spec) {
+  spec.describe('Add funds flow', () => {
+
+    // Login existing user with kyc
+
+    // Add eth
+
+    spec.it('should login user', addFundsFlow.logins(spec))
+
+    spec.it('should navigate to ETH balance', addFundsFlow.eth(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+
+    spec.it('should navigate to BTC balance', addFundsFlow.btc(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+
+    spec.it('should navigate to LTC balance', addFundsFlow.ltc(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+
+    spec.it('should navigate to OMG balance', addFundsFlow.omg(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+
+    spec.it('should navigate to XRP balance', addFundsFlow.xrp(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+
+    spec.it('should navigate to BCH balance', addFundsFlow.bch(spec))
+    spec.it('line charts should exist for different time', addFundsFlow.graphs(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
+    
+    spec.it('should navigate to CEL balance', addFundsFlow.cel(spec))
+    spec.it('address and QR code should exists on add funds page', addFundsFlow.addressAndQR(spec))
   })
 }

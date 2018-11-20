@@ -87,6 +87,7 @@ export function signupTwoSetup() {
     "two_factor_enabled": null,
     "two_factor_secret": null
   }}));
+  
   dispatch(actions.navigateTo('Home'))
 }
 
@@ -118,10 +119,6 @@ export function kycPassed() {
 }
 
 export function resetBeforeEach() {
-
-  dispatch(actions.logoutUser());
-  dispatch(actions.clearForm());
-
-  spec.pause(10000)
+  dispatch(actions.navigateTo('home'))
   console.log(`Starting test suit +`)
 }
