@@ -103,7 +103,7 @@ class NoKyc extends Component {
           <Text style={NoKycStyle.yellowText}>In progress</Text>
         </View>
         <Text style={[NoKycStyle.textTwo, {marginTop: 10, marginBottom: 30}]}>
-          While you're waiting for your profile verification to finish(usually within 24 hours), you can add coins to watch in your portfolio or join our Telegram.
+          While you're waiting for your profile verification to finish(usually within 24 hours), you can look around or join our Telegram.
         </Text>
 
         <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
@@ -168,7 +168,7 @@ class NoKyc extends Component {
         mainHeader={{backButton: false}}
       >
         { this.renderInfoBubble() }
-        <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={NoKycStyle.image}/>
+        <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={[NoKycStyle.image, {resizeMode: "contain"}]}/>
         <Text style={NoKycStyle.textOne}>
           This is where you'll be able to add, send and receive coins
         </Text>
