@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, TouchableOpacity, View, Platform, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-// import { QRCode } from "react-native-qrcode";
+import QRCode from "react-native-qrcode";
 
 import * as appActions from "../../../redux/actions";
 import TwoFaAuthAppConfirmationStyle from "./TwoFaAuthAppConfirmation.styles";
@@ -11,8 +11,7 @@ import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "..
 import Icon from "../../atoms/Icon/Icon";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
-
-
+import TwoFactorService from "../../../services/two-factor-service";
 
 @connect(
   () => ({
@@ -25,10 +24,26 @@ class TwoFaAuthAppConfirmation extends Component {
     super(props);
 
     this.state = {
-      // initial state
+      secretLoaded: false,
+      secret: 'XC2J LUL2 AZSI GHTR 56LK UH89 JKJU PO12',
       isPressed: false
     };
     // binders
+  }
+
+  async componentDidMount() {
+    const {navigation} = this.props;
+
+    const pin = navigation.getParam("pin");
+
+    const secret = await TwoFactorService.beginTwoFactorActivation(pin);
+
+    if (secret) {
+      this.setState({
+        secret,
+        secretLoaded: true,
+      })
+    }
   }
 
   // lifecycle methods
@@ -39,6 +54,7 @@ class TwoFaAuthAppConfirmation extends Component {
   // rendering methods
   render() {
     const { actions } = this.props;
+    const { secret, secretLoaded } = this.state;
 
     const logoutButton = () => (
 
@@ -68,13 +84,18 @@ class TwoFaAuthAppConfirmation extends Component {
 
           <View style={TwoFaAuthAppConfirmationStyle.qrCodeBackground}>
             <View style={TwoFaAuthAppConfirmationStyle.qrCodeWrapper}>
-              <Text>QR code</Text>
+              {secretLoaded && <QRCode
+                value={secret}
+                size={141}
+                bgColor='black'
+                fgColor='white'
+              />}
             </View>
           </View>
 
           <View style={TwoFaAuthAppConfirmationStyle.box}>
             <View style={TwoFaAuthAppConfirmationStyle.addressWrapper}>
-              <Text style={TwoFaAuthAppConfirmationStyle.address}>{"XC2J LUL2 AZSI GHTR 56LK UH89 JKJU PO12"}</Text>
+              {secretLoaded && <Text style={TwoFaAuthAppConfirmationStyle.address}>{secret}</Text>}
             </View>
 
 
