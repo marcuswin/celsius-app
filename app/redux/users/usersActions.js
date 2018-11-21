@@ -443,6 +443,11 @@ function enableTwoFactor(code) {
         dispatch(showMessage('error', "lalal"));
       }
 
+      const personalInfoRes = await usersService.getPersonalInfo();
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
+
       return success;
     } catch (error) {
       dispatch(showMessage('error', error.msg));

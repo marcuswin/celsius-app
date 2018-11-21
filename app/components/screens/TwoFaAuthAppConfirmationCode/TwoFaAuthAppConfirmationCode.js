@@ -30,6 +30,15 @@ class TwoFaAuthAppConfirmationCode extends Component {
   }
 
   // lifecycle methods
+  verifyAuthCode = async () => {
+    const { actions, formData } = this.props;
+
+    const success = await actions.enableTwoFactor(formData.confirmationCode);
+
+    if (success) {
+      actions.navigateTo('TwoFaAuthSuccess');
+    }
+  };
   // event hanlders
   // rendering methods
   render() {
@@ -73,7 +82,8 @@ class TwoFaAuthAppConfirmationCode extends Component {
        </View>
 
        <CelButton
-         onPress={() => actions.navigateTo('TwoFaAuthSuccess')}
+         onPress={this.verifyAuthCode}
+         disabled={!formData.confirmationCode}
        >
          Verify authentication app
        </CelButton>
