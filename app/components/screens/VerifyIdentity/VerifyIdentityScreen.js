@@ -137,7 +137,9 @@ class VerifyIdentity extends Component {
             {capitalize(actionLabel)}
           </CelButton>
           {showHelp && <View style={{ marginTop: 20 }}>
-            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
+            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>
+              {verificationType === VERIFY_IDENTITY_TYPES.PIN ? 'Forgot PIN?' : 'Lost your code?'}
+            </Text>
             <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>
               Please <Text
               style={{ textDecorationLine: 'underline' }}
