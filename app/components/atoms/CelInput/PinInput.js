@@ -8,7 +8,7 @@ import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../c
 const PinTextFontSizeMap = {
   4: FONT_SCALE * 40,
   5: FONT_SCALE * 28,
-  6: FONT_SCALE * 22,
+  6: FONT_SCALE * 24,
 };
 
 // Please don't hate me for the name, we can rename it when we remove PinInput. :)
@@ -90,7 +90,7 @@ class PinInput extends Component {
 
     const width = Dimensions.get("window").width - 72;
 
-    const pinSize = (width - 12 * (digits - 1)) / digits;
+    const pinSize = (width - (48 / digits) * (digits - 1)) / digits;
 
     const digitWrapperStyle = {
       width: pinSize,
