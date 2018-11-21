@@ -12,6 +12,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import TwoFactorService from "../../services/two-factor-service";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -32,6 +33,8 @@ export {
   getKYCStatus,
   setPin,
   updateUserAppSettings,
+  getTwoFactorSecret,
+  enableTwoFactor,
 }
 
 function getProfileInfo() {
@@ -415,6 +418,34 @@ function setPin(pinData) {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+function getTwoFactorSecret(pin) {
+  return async dispatch => {
+    try {
+      const secret = await TwoFactorService.beginTwoFactorActivation(pin);
+
+      return secret;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+    }
+  }
+}
+
+function enableTwoFactor(code) {
+  return async dispatch => {
+    try {
+      const success = await TwoFactorService.enableTwoFactor(code);
+
+      if (!success) {
+        dispatch(showMessage('error', "lalal"));
+      }
+
+      return success;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
     }
   }
 }
