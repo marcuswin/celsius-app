@@ -75,24 +75,24 @@ class AddressInformation extends Component {
         city: formData.city,
         zip: formData.zip,
         country: formData.country,
-        state: formData.country === "United States" ? formData.state : "",
+        state: formData.state,
       }
       actions.updateProfileAddressInfo(updatedUser);
     }
   }
 
   initForm = () => {
-    const { actions, user } = this.props;
+    const { actions, user, formData } = this.props;
 
     if (user) {
       actions.initForm({
-        street: user.street,
-        buildingNumber: user.building_number,
-        flatNumber: user.flat_number,
-        city: user.city,
-        state: user.country === "United States" ? user.state : "",
-        zip: user.zip,
-        country: user.country ? user.country : user.citizenship
+        street: formData.street || user.street,
+        buildingNumber: formData.buildingNumber || user.building_number,
+        flatNumber: formData.flatNumber || user.flat_number,
+        city: formData.city || user.city,
+        state: formData.state || user.state,
+        zip: formData.zip || user.zip,
+        country: user.country ? (formData.country || user.country) : (formData.citizenship || user.citizenship)
       })
     }
   }
@@ -114,7 +114,9 @@ class AddressInformation extends Component {
           <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
           {formData.country === "United States" ?
             <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
-            : null}
+            :
+            <CelInput value={formData.state} error={formErrors.state} field="state" labelText="State" autoCapitalize="sentences" />
+          }
           <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
           <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
         </CelForm>
