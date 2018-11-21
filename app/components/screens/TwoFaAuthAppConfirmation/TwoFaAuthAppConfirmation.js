@@ -11,7 +11,6 @@ import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "..
 import Icon from "../../atoms/Icon/Icon";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
-import TwoFactorService from "../../../services/two-factor-service";
 
 @connect(
   () => ({
@@ -32,11 +31,11 @@ class TwoFaAuthAppConfirmation extends Component {
   }
 
   async componentDidMount() {
-    const {navigation} = this.props;
+    const {navigation, actions} = this.props;
 
     const pin = navigation.getParam("pin");
 
-    const secret = await TwoFactorService.beginTwoFactorActivation(pin);
+    const secret = await actions.getTwoFactorSecret(pin);
 
     if (secret) {
       this.setState({
@@ -134,6 +133,7 @@ class TwoFaAuthAppConfirmation extends Component {
 
           <CelButton
             onPress={() => actions.navigateTo('TwoFaAuthAppConfirmationCode')}
+            disabled={!secretLoaded}
             margin={"40 40 0 40"}
           >
             Continue
