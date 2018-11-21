@@ -13,8 +13,8 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 
 @connect(
-  () => ({
-    // map state to props
+  state => ({
+    user: state.users.user,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -24,7 +24,7 @@ class TwoFaAuthAppConfirmation extends Component {
 
     this.state = {
       secretLoaded: false,
-      secret: 'XC2J LUL2 AZSI GHTR 56LK UH89 JKJU PO12',
+      secret: null,
       isPressed: false
     };
     // binders
@@ -50,6 +50,16 @@ class TwoFaAuthAppConfirmation extends Component {
 
   }
 
+  /**
+   * @param {string} secret
+   * @return {string}
+   */
+  getQRCode = secret => {
+    const {user} = this.props;
+
+    return `otpauth://totp/Celsius:${user.email}?secret=${secret}&issuer=Celsius`;
+  };
+
   copyTwoFactorSecret = () => {
     const { actions } = this.props;
     const { secret, secretLoaded } = this.state;
@@ -60,6 +70,7 @@ class TwoFaAuthAppConfirmation extends Component {
       Clipboard.setString(secret);
     }
   };
+
   // event hanlders
   // rendering methods
   render() {
@@ -95,7 +106,7 @@ class TwoFaAuthAppConfirmation extends Component {
           <View style={TwoFaAuthAppConfirmationStyle.qrCodeBackground}>
             <View style={TwoFaAuthAppConfirmationStyle.qrCodeWrapper}>
               {secretLoaded && <QRCode
-                value={secret}
+                value={this.getQRCode(secret)}
                 size={141}
                 bgColor='black'
                 fgColor='white'
