@@ -11,6 +11,7 @@ import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "..
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
+import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
 
 @connect(
   () => ({
@@ -31,6 +32,12 @@ class TwoFAInfo extends Component {
   // lifecycle methods
   // event hanlders
   // rendering methods
+
+  verificationCallback = () => {
+    const { actions } = this.props;
+
+    actions.navigateTo('TwoFaWelcome');
+  };
 
   render() {
     const { actions } = this.props;
@@ -82,7 +89,10 @@ class TwoFAInfo extends Component {
           </View>
 
           <CelButton
-            onPress={() => actions.navigateTo("VerifyIdentity")}
+            onPress={() => actions.navigateTo("VerifyIdentity", {
+              verificationType: VERIFY_IDENTITY_TYPES.PIN,
+              verificationCallback: this.verificationCallback,
+            })}
           >
             Get started
           </CelButton>
