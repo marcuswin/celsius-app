@@ -60,14 +60,16 @@ class Settings extends Component {
 
         <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>SECURITY</Separator>
 
-       <CelCustomButton
-         onPress={() => actions.navigateTo('ChangePassword')}
-         iconRight={"IconChevronRight"}
-         iconRightColor={'rgba(137,144,153,0.6)'}
-         iconRightHeight={'20'}
-       >
-         Change password
-       </CelCustomButton>
+       { !user.facebook_id && !user.google_id && !user.twitter_id ? (
+         <CelCustomButton
+           onPress={() => actions.navigateTo('ChangePassword')}
+           iconRight={"IconChevronRight"}
+           iconRightColor={'rgba(137,144,153,0.6)'}
+           iconRightHeight={'20'}
+         >
+           Change password
+         </CelCustomButton>
+       ) : null}
 
        <CelCustomButton
          onPress={() => actions.navigateTo('TwoFAInfo')}

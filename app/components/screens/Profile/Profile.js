@@ -165,14 +165,12 @@ class ProfileScreen extends Component {
             />
           </CelForm>
 
-          { !user.facebook_id && !user.google_id && !user.twitter_id ? (
-            <View style={{marginTop: 40, marginBottom: 30}}>
-              <CelButton
-                onPress={() => actions.navigateTo('ProfileSettings')}
-                color="blue"
-              >Settings</CelButton>
-            </View>
-          ) : null}
+          <View style={{marginTop: 40, marginBottom: 30}}>
+            <CelButton
+              onPress={() => actions.navigateTo('ProfileSettings')}
+              color="blue"
+            >Settings</CelButton>
+          </View>
 
           <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
             <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
