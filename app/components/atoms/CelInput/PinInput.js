@@ -22,6 +22,14 @@ class PinInput extends Component {
     };
   }
 
+  componentWillUnmount() {
+    const {deactivateTimeout} = this.state;
+
+    if (deactivateTimeout) {
+      clearTimeout(deactivateTimeout);
+    }
+  }
+
   /**
    * @param {string} value
    * @param {number} index
@@ -41,14 +49,6 @@ class PinInput extends Component {
 
     return '';
   };
-
-  componentWillDismount() {
-    const {deactivateTimeout} = this.state;
-
-    if (deactivateTimeout) {
-      clearTimeout(deactivateTimeout);
-    }
-  }
 
   saveLayout = () => {
     this.input.measureInWindow((x, y, width, height) => {
