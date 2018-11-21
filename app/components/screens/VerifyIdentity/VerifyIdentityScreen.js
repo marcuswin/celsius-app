@@ -76,7 +76,7 @@ class VerifyIdentity extends Component {
           pin: value,
         });
 
-        verificationCallback();
+        verificationCallback(value);
       } else {
         await verificationAction(value);
       }

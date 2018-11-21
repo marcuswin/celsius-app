@@ -33,10 +33,12 @@ class TwoFAInfo extends Component {
   // event hanlders
   // rendering methods
 
-  verificationCallback = () => {
+  verificationCallback = (value) => {
     const { actions } = this.props;
 
-    actions.navigateTo('TwoFaWelcome');
+    actions.navigateTo('TwoFaWelcome', {
+      pin: value,
+    });
   };
 
   render() {

@@ -21,9 +21,9 @@ import { MODALS } from "../../../config/constants/common";
 )
 class TwoFaWelcome extends Component {
   constructor(props) {
-    super(props);
+    super();
 
-    const {user} = this.props;
+    const {user} = props;
 
     const twoFactorEnabled = !!user.two_factor_enabled;
 
@@ -47,6 +47,16 @@ class TwoFaWelcome extends Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
+
+  enableTwoFactor = () => {
+    const {actions, navigation} = this.props;
+
+    const pin = navigation.getParam("pin");
+
+    actions.navigateTo("TwoFaAuthAppConfirmation", {
+      pin,
+    })
+  };
 
   render() {
     const { authActivated } = this.state;
@@ -83,7 +93,7 @@ class TwoFaWelcome extends Component {
 
         <View style={TwoFaWelcomeStyle.authenticator}>
           <CelCustomButton
-            onPress={() => actions.navigateTo("TwoFaAuthAppConfirmation")}
+            onPress={this.enableTwoFactor}
             size={"large"}
             iconLeft={"LockIcon"}
             iconLeftColor={"white"}
