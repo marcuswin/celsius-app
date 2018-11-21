@@ -31,7 +31,8 @@ const TwoFaAuthAppConfirmationStyle = StyleSheet.create({
   },
   address: {
     fontSize: FONT_SCALE * 16,
-    color: "rgba(61,72,83,1)",
+    color: STYLES.PRIMARY_BLUE,
+    textDecorationLine: 'underline',
     textAlign: 'center',
     fontFamily: 'inconsolata-regular',
     paddingTop: 5,

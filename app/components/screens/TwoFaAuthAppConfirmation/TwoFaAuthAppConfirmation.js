@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, TouchableOpacity, View, Platform, Image, Clipboard } from "react-native";
+import { Text, TouchableOpacity, View, Platform, Image, Clipboard, Linking } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -54,11 +54,7 @@ class TwoFaAuthAppConfirmation extends Component {
    * @param {string} secret
    * @return {string}
    */
-  getQRCode = secret => {
-    const {user} = this.props;
-
-    return `otpauth://totp/Celsius:${user.email}?secret=${secret}&issuer=Celsius`;
-  };
+  getQRCode = secret => `otpauth://totp/Celsius?secret=${secret}&issuer=Celsius`;
 
   copyTwoFactorSecret = () => {
     const { actions } = this.props;
@@ -116,7 +112,7 @@ class TwoFaAuthAppConfirmation extends Component {
 
           <View style={TwoFaAuthAppConfirmationStyle.box}>
             <View style={TwoFaAuthAppConfirmationStyle.addressWrapper}>
-              {secretLoaded && <Text style={TwoFaAuthAppConfirmationStyle.address}>{secret}</Text>}
+              {secretLoaded && <Text onPress={() => Linking.openURL(this.getQRCode(secret))} style={TwoFaAuthAppConfirmationStyle.address}>{secret}</Text>}
             </View>
 
 
