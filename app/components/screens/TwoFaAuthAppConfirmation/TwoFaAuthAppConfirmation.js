@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, TouchableOpacity, View, Platform, Image } from "react-native";
+import { Text, TouchableOpacity, View, Platform, Image, Clipboard } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -50,6 +50,17 @@ class TwoFaAuthAppConfirmation extends Component {
   componentWillReceiveProps() {
 
   }
+
+  copyTwoFactorSecret = () => {
+    const { actions } = this.props;
+    const { secret, secretLoaded } = this.state;
+
+    if (secretLoaded) {
+      actions.showMessage("success", "Secret copied to clipboard!");
+
+      Clipboard.setString(secret);
+    }
+  };
   // event hanlders
   // rendering methods
   render() {
@@ -100,8 +111,7 @@ class TwoFaAuthAppConfirmation extends Component {
 
 
             <TouchableOpacity
-              onPress={() => console.log("JAO")}
-              //  this.copyAddress("10")
+              onPress={this.copyTwoFactorSecret}
               style={TwoFaAuthAppConfirmationStyle.button}
             >
               <View style={TwoFaAuthAppConfirmationStyle.icon}>
