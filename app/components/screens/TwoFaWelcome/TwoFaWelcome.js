@@ -14,8 +14,8 @@ import { MODALS } from "../../../config/constants/common";
 
 
 @connect(
-  () => ({
-    // map state to props
+  state => ({
+    user: state.users.user,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -23,12 +23,23 @@ class TwoFaWelcome extends Component {
   constructor(props) {
     super(props);
 
+    const {user} = this.props;
+
+    const twoFactorEnabled = !!user.two_factor_enabled;
+
     this.state = {
       // initial state
-      authActivated: true,
+      authActivated: twoFactorEnabled,
     };
-    // binders
   }
+
+  onPressBackButton = () => {
+    const {actions} = this.props;
+
+    console.log()
+
+    actions.navigateTo('ProfileSettings');
+  };
 
   // lifecycle methods
   // event hanlders
@@ -58,7 +69,11 @@ class TwoFaWelcome extends Component {
 
     return (
       <SimpleLayout
-        mainHeader={{ backButton: true, right: logoutButton() }}
+        mainHeader={{
+          backButton: true,
+          onPressBackButton: this.onPressBackButton,
+          right: logoutButton(),
+        }}
         animatedHeading={{ text: "Setting up 2FA Verification" }}
         background={STYLES.GRAY_1}
         bottomNavigation

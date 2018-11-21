@@ -61,7 +61,7 @@ class Settings extends Component {
         <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>SECURITY</Separator>
 
        <CelCustomButton
-         onPress={() => console.log('j')}
+         onPress={() => actions.navigateTo('ChangePassword')}
          iconRight={"IconChevronRight"}
          iconRightColor={'rgba(137,144,153,0.6)'}
          iconRightHeight={'20'}
@@ -77,15 +77,6 @@ class Settings extends Component {
          iconRightHeight={'20'}
        >
          Two-Factor Verification
-       </CelCustomButton>
-
-       <CelCustomButton
-         onPress={() => console.log('j')}
-         iconRight={"IconChevronRight"}
-         iconRightColor={'rgba(137,144,153,0.6)'}
-         iconRightHeight={'20'}
-       >
-         Change PIN
        </CelCustomButton>
 
      </SimpleLayout>
