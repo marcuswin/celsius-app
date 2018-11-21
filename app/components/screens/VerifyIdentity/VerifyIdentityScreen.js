@@ -11,6 +11,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import meService from "../../../services/me-service";
 import * as appActions from "../../../redux/actions";
 import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
+import VerifyIdentityScreenStyle from "./VerifyIdentityScreen.styles";
 
 @connect(
   state => ({
@@ -81,12 +82,14 @@ class VerifyIdentity extends Component {
         }
       }
     } catch (error) {
-      actions.showMessage('error', error.error);
+      this.setState({inProgress: false,});
+      console.log(error);
+      actions.showMessage('error', error.msg);
     }
   };
 
   render() {
-    const {navigation, user, type, help, label} = this.props;
+    const {navigation, user, type, help, label, title, backButton} = this.props;
     const {value, inProgress} = this.state;
 
     const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
@@ -95,15 +98,26 @@ class VerifyIdentity extends Component {
     const disabled = !value || value.length !== pinLength || inProgress;
 
     const actionLabel = navigation && navigation.getParam("actionLabel") || label;
+    const screenTitle = navigation && navigation.getParam("screenTitle") || title;
     const showHelp = navigation && navigation.getParam("showHelp") || help;
 
     return (
       <SimpleLayout
+        mainHeader={{
+          backButton,
+        }}
         background={STYLES.PRIMARY_BLUE}>
         <View>
-          <Text>Please type your code from your authentication application to {actionLabel}</Text>
+          <Text style={VerifyIdentityScreenStyle.title}>{screenTitle}</Text>
+          {verificationType === VERIFY_IDENTITY_TYPES.PIN && <Text style={VerifyIdentityScreenStyle.description}>
+            Please enter your PIN to {actionLabel}
+          </Text>}
+          {verificationType === VERIFY_IDENTITY_TYPES.TWO_FACTOR && <Text style={VerifyIdentityScreenStyle.description}>
+            Please type your code from your authentication application to {actionLabel}
+          </Text>}
           <CelInput type="pin"
                     value={value}
+                    showDigits={verificationType === VERIFY_IDENTITY_TYPES.TWO_FACTOR}
                     digits={pinLength}
                     onChange={this.handleInputChange}
                     field="verifyIdentityValue"/>
@@ -128,7 +142,9 @@ class VerifyIdentity extends Component {
 
 VerifyIdentity.defaultProps = {
   verificationAction: async () => null,
+  backButton: true,
   label: 'continue',
+  title: 'Verification Required',
 };
 
 export default VerifyIdentity;
