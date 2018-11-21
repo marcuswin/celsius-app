@@ -49,6 +49,7 @@ class TaxpayerID extends Component {
     const formErrors = {};
 
     if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    if (formData.country !== "United States" && !formData.national_id) formErrors.national_id = 'National id is required!';
 
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);
@@ -58,14 +59,14 @@ class TaxpayerID extends Component {
   }
 
   submitForm = () => {
-    const { formData, actions } = this.props;
+    const { user, actions } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
       const updatedUser = {
-        ssn: formData.ssn,
-        itin: formData.itin,
-        national_id: formData.nationalId
+        ssn: user.ssn,
+        itin: user.itin,
+        national_id: user.national_id
       }
 
       actions.updateProfileTaxpayerInfo(updatedUser);
@@ -77,9 +78,9 @@ class TaxpayerID extends Component {
 
     if (user) {
       actions.initForm({
-        ssn: user.ssn,
-        itin: user.itin,
-        nationalId: user.national_id,
+        ssn: formData.ssn || user.ssn,
+        itin: formData.itin || user.itin,
+        national_id: formData.national_id || user.national_id,
         country: formData.country || user.country,
       })
     }
@@ -104,7 +105,7 @@ class TaxpayerID extends Component {
             :
             <React.Fragment>
               <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
-              <CelInput value={formData.nationalId} error={formErrors.national_id} field="nationalId" labelText="National ID Number (optional)" autoCapitalize="sentences" />
+              <CelInput value={formData.national_id} error={formErrors.national_id} field="national_id" labelText="National ID Number" autoCapitalize="sentences" />
             </React.Fragment>
           }
         </CelForm>

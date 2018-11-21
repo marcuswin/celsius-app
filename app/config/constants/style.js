@@ -258,4 +258,7 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Group_232-3x.png'),
   require('../../../assets/images/authSuccess3x.png'),
   require('../../../assets/images/hodl-bear.png'),
+  require('../../../assets/images/7pie.png'),
+  require('../../../assets/images/9pie.png'),
+  require('../../../assets/images/12pie.png'),
 ];
