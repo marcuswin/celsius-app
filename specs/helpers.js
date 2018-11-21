@@ -122,3 +122,18 @@ export function resetBeforeEach() {
   dispatch(actions.navigateTo('home'))
   console.log(`Starting test suit +`)
 }
+
+export function WalletDetailsSetup() {
+
+  dispatch(actions.navigateTo('Home'))
+}
+
+export function loginUserSetup() {
+  dispatch(actions.loginBorrower( {
+    
+      email: 'filip.jovakaric+wlt@mvpworkshop.co',
+      password: 'filip123',
+  }));
+  
+  dispatch(actions.navigateTo('home'))
+}

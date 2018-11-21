@@ -17,6 +17,8 @@ export default {
 	cel,
 }
 
+dispatch(actions.logoutUser());
+
 function graphs(spec) {
 	return async () => {
 
@@ -68,6 +70,7 @@ function logins(spec) {
 	  await spec.press('TabNavigation.Transactions')
 	}
 }
+
 
 function eth(spec) {
 	return async () => {
