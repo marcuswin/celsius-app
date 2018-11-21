@@ -35,6 +35,7 @@ export {
   updateUserAppSettings,
   getTwoFactorSecret,
   enableTwoFactor,
+  disableTwoFactor,
 }
 
 function getProfileInfo() {
@@ -442,6 +443,23 @@ function enableTwoFactor(code) {
       if (!success) {
         dispatch(showMessage('error', "lalal"));
       }
+
+      const personalInfoRes = await usersService.getPersonalInfo();
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
+
+      return success;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+    }
+  }
+}
+
+function disableTwoFactor(pin) {
+  return async dispatch => {
+    try {
+      const success = await TwoFactorService.disableTwoFactor(pin);
 
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;

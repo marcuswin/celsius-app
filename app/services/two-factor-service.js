@@ -34,16 +34,12 @@ class TwoFactorService {
    * @param {number} pin
    * @return {Promise<void>}
    */
-  static async disabledTwoFactor(pin) {
-    try {
-      const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
-        pin,
-      });
+  static async disableTwoFactor(pin) {
+    const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
+      pin,
+    });
 
-      return response.data;
-    } catch (error) {
-      return error;
-    }
+    return response.data;
   }
 }
 

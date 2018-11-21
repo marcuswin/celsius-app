@@ -20,16 +20,11 @@ import { MODALS } from "../../../config/constants/common";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class TwoFaWelcome extends Component {
-  constructor(props) {
+  constructor() {
     super();
-
-    const {user} = props;
-
-    const twoFactorEnabled = !!user.two_factor_enabled;
 
     this.state = {
       // initial state
-      authActivated: twoFactorEnabled,
     };
   }
 
@@ -55,12 +50,23 @@ class TwoFaWelcome extends Component {
 
     actions.navigateTo("TwoFaAuthAppConfirmation", {
       pin,
-    })
+    });
+  };
+
+  changeAuthApp = async () => {
+    const {actions, navigation} = this.props;
+
+    const pin = navigation.getParam("pin");
+
+    await actions.disableTwoFactor(pin);
+
+    actions.navigateTo("TwoFaAuthAppConfirmation", {
+      pin,
+    });
   };
 
   render() {
-    const { authActivated } = this.state;
-    const { actions } = this.props;
+    const { actions, user } = this.props;
 
     const logoutButton = () => (
 
@@ -105,7 +111,8 @@ class TwoFaWelcome extends Component {
             titleColor={STYLES.PRIMARY_BLUE}
             explanation={"Install a Google Authenticator or Authy to generate security codes."}
             explanationColor={STYLES.GRAY_2}
-            activated={authActivated}
+            activated={!!user.two_factor_enabled}
+            onChangeButton={this.changeAuthApp}
             onCancel={() => actions.openModal(MODALS.REMOVE_AUTHAPP)}
           />
         </View>

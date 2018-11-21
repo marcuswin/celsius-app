@@ -23,6 +23,7 @@ class CelCustomButton extends Component {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
     onCancel: PropTypes.func,
+    onChangeButton: PropTypes.func,
     iconRight: PropTypes.string,
     iconLeft: PropTypes.string,
     titleIcon: PropTypes.string,
@@ -57,6 +58,14 @@ class CelCustomButton extends Component {
     };
     // binders
   }
+
+  handleChangeButton = () => {
+    const {onChangeButton} = this.props;
+
+    if (onChangeButton) {
+      onChangeButton();
+    }
+  };
 
   // rendering methods
   renderTitle() {
@@ -129,7 +138,7 @@ class CelCustomButton extends Component {
   }
 
   renderLarge() {
-    const { iconRight, color, title, explanation, iconLeft, activated, onCancel, actions } = this.props;
+    const { iconRight, color, title, explanation, iconLeft, activated, onCancel } = this.props;
 
     return (
       <View style={[CelCustomButtonStyle.largeButton, { backgroundColor: color }]}>
@@ -162,7 +171,7 @@ class CelCustomButton extends Component {
 
           {activated ?
             <View style={{marginRight: '10%'}}>
-              <CelButton onPress={() => actions.navigateTo("TwoFaAuthAppConfirmation")}
+              <CelButton onPress={this.handleChangeButton}
                          size={"letter"}
                          inverse
                          transparent
