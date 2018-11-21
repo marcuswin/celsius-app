@@ -58,13 +58,15 @@ class VerifyIdentity extends Component {
     const onVerificationAction = navigation && navigation && navigation.getParam("verificationAction") || verificationAction;
     const onVerificationCallback = navigation && navigation.getParam("verificationCallback") || verificationCallback;
 
-    const {actions, user} = this.props;
+    const {actions, user, type} = this.props;
 
     this.setState({inProgress: true,});
 
+    const hasVerificationType = !!(navigation && navigation.getParam("verificationType") || type);
+
     try {
       if (onVerificationCallback) {
-        if (user.two_factor_enabled) {
+        if (user.two_factor_enabled && !hasVerificationType) {
           await meService.checkTwoFactor(value);
         } else {
           await meService.checkPin({

@@ -41,6 +41,7 @@ function shouldShowBottomNavigation(action) {
   if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
   if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
   if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
+  if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
 
   let showNav;
 
@@ -308,6 +309,7 @@ export default (state = initialState, action) => {
     case ACTIONS.NAVIGATE_BACK:
     case ACTIONS.NAVIGATE:
     case ACTIONS.NAVIGATION_RESET:
+    case ACTIONS.REFRESH_BOTTOM_NAVIGATION:
     case ACTIONS.LOGOUT_USER:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
       return {

@@ -64,6 +64,12 @@ class HomeScreen extends Component {
 
   }
 
+  componentDidUpdate() {
+    const { actions } = this.props;
+
+    actions.refreshBottomNavigation();
+  }
+
   verificationCallback = () => {
     const { actions, userActions } = this.props;
 

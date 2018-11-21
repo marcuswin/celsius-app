@@ -19,6 +19,7 @@ export {
   clearForm,
   setFormErrors,
   updateFormField,
+  refreshBottomNavigation,
   updatePortfolioFormData,
   setKeyboardHeight,
   setInputLayout,
@@ -255,6 +256,12 @@ function openModal(modalName) {
 function closeModal() {
   return {
     type: ACTIONS.CLOSE_MODAL,
+  };
+}
+
+function refreshBottomNavigation() {
+  return {
+    type: ACTIONS.REFRESH_BOTTOM_NAVIGATION,
   };
 }
 
