@@ -112,14 +112,14 @@ function createTransferSuccess(transfer) {
   }
 }
 
-function createBranchTransfer(amount, coin) {
+function createBranchTransfer(amount, coin, verification) {
   return async (dispatch, getState ) => {
     let apiCall = API.CREATE_TRANSFER;
     dispatch(startApiCall(apiCall));
     const res = await transferService.create({
       amount: Number(amount).toFixed(5),
-      coin: coin.toUpperCase()
-    });
+      coin: coin.toUpperCase(),
+    }, verification);
 
     const transfer = res.data;
     dispatch(createTransferSuccess(transfer));
