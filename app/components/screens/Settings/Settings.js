@@ -13,8 +13,8 @@ import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
 
 
 @connect(
-  () => ({
-  // map state to props
+  state => ({
+    user: state.users.user,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -33,7 +33,7 @@ class Settings extends Component {
   // rendering methods
 
   render() {
-    const {actions} = this.props;
+    const {actions, user} = this.props;
 
     const logoutButton = () => (
 
@@ -73,7 +73,7 @@ class Settings extends Component {
          onPress={() => actions.navigateTo('TwoFAInfo')}
          iconRight={"IconChevronRight"}
          iconRightColor={'rgba(137,144,153,0.6)'}
-         value={"OFF"}
+         value={user.two_factor_enabled ? "ON" : "OFF"}
          iconRightHeight={'20'}
        >
          Two-Factor Verification
