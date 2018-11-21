@@ -201,5 +201,16 @@ export const TRANSACTION_TYPES = {
 
   IN: 'IN',
   OUT: 'OUT',
-}
+};
+
+export const VERIFY_IDENTITY_TYPES = {
+  TWO_FACTOR: 'TWO_FACTOR',
+  PIN: 'PIN',
+};
+
+export const VERIFY_IDENTITY_ACTION_TYPES = {
+  DEFAULT: 'DEFAULT',
+  SET_PIN: 'SET_PIN',
+  CONFIRM_SET_PIN: 'CONFIRM_SET_PIN',
+};
 
