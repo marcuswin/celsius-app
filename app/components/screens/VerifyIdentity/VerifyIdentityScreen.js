@@ -132,6 +132,7 @@ class VerifyIdentity extends Component {
                     onChange={this.handleInputChange}
                     field="verifyIdentityValue"/>
           <CelButton white
+                     loading={inProgress}
                      disabled={disabled}
                      onPress={this.handleConfirmButton}>
             {capitalize(actionLabel)}
