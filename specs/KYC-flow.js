@@ -1,6 +1,6 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import { resetTests, kycSetup, kycPassed, submit } from "./helpers"
+import { kycSetup, kycPassed } from "./helpers"
 
 const { dispatch } = store;
 
