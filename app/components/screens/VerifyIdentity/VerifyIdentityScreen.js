@@ -19,26 +19,12 @@ import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class VerifyIdentity extends Component {
-  constructor(props) {
+  constructor() {
     super();
-
-    const {navigation, user, verificationAction, verificationCallback} = props;
-
-    const actionLabel = navigation.getParam("actionLabel");
-    const showHelp = navigation.getParam("showHelp");
-    const navVerificationAction = navigation.getParam("verificationAction");
-    const navVerificationCallback = navigation.getParam("verificationCallback");
-
-    const verificationType = navigation.getParam("verificationType") || this.getUserPrefferredVerificationType(user);
 
     this.state = {
       inProgress: false,
       value: '',
-      pinLength: verificationType === VERIFY_IDENTITY_TYPES.PIN ? 4 : 6,
-      actionLabel: actionLabel || 'continue',
-      showHelp,
-      verificationAction: navVerificationAction || verificationAction,
-      verificationCallback: navVerificationCallback || verificationCallback,
     };
   }
 
@@ -65,32 +51,51 @@ class VerifyIdentity extends Component {
   };
 
   handleConfirmButton = async () => {
-    const {verificationAction, verificationCallback, value} = this.state;
-    const {actions} = this.props;
+    const {verificationAction, verificationCallback, navigation} = this.props;
+    const {value} = this.state;
+
+    const onVerificationAction = navigation && navigation && navigation.getParam("verificationAction") || verificationAction;
+    const onVerificationCallback = navigation && navigation.getParam("verificationCallback") || verificationCallback;
+
+    const {actions, user} = this.props;
 
     this.setState({inProgress: true,});
 
     try {
-      if (verificationCallback) {
-        await meService.checkPin({
-          pin: value,
-        });
+      if (onVerificationCallback) {
+        if (user.two_factor_enabled) {
+          await meService.checkTwoFactor(value);
+        } else {
+          await meService.checkPin({
+            pin: value,
+          });
+        }
 
-        verificationCallback(value);
+        this.setState({inProgress: false,});
+        onVerificationCallback(value);
       } else {
-        await verificationAction(value);
+        const stay = await onVerificationAction(value);
+
+        if (stay) {
+          this.setState({inProgress: false,});
+        }
       }
     } catch (error) {
       actions.showMessage('error', error.error);
     }
-
-    this.setState({inProgress: false,});
   };
 
   render() {
-    const {value, pinLength, showHelp, actionLabel, inProgress} = this.state;
+    const {navigation, user, type, help, label} = this.props;
+    const {value, inProgress} = this.state;
+
+    const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
+    const pinLength = verificationType === VERIFY_IDENTITY_TYPES.PIN ? 4 : 6;
 
     const disabled = !value || value.length !== pinLength || inProgress;
+
+    const actionLabel = navigation && navigation.getParam("actionLabel") || label;
+    const showHelp = navigation && navigation.getParam("showHelp") || help;
 
     return (
       <SimpleLayout
@@ -123,6 +128,7 @@ class VerifyIdentity extends Component {
 
 VerifyIdentity.defaultProps = {
   verificationAction: async () => null,
+  label: 'continue',
 };
 
 export default VerifyIdentity;
