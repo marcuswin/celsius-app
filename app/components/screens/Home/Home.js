@@ -12,8 +12,9 @@ import SignupTwo from "../Signup/SignupTwo";
 import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
 import { getSecureStoreKey } from "../../../utils/expo-storage";
 import WalletBalance from "../WalletBalance/WalletBalance";
-import Passcode from "../Passcode/Passcode";
 import store from "../../../redux/store";
+import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
+import VerifyIdentity from "../VerifyIdentity/VerifyIdentityScreen";
 
 const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 
@@ -63,17 +64,14 @@ class HomeScreen extends Component {
 
   }
 
-  /**
-   * @param {Object} data
-   * @returns {boolean}
-   */
-  shouldRenderInitialIdVerification(data) {
-    if (Constants.appOwnership === "expo" && !Constants.isDevice) {
-      return false;
-    }
+  verificationCallback = () => {
+    const { actions, userActions } = this.props;
 
-    return !data.enteredInitialPin;
-  }
+    if (!userActions.enteredInitialPin) {
+      actions.fireUserAction('enteredInitialPin');
+      actions.openInitialModal();
+    }
+  };
 
   render() {
     const { user, userActions } = this.props;
@@ -82,7 +80,7 @@ class HomeScreen extends Component {
 
     if (!user.first_name || !user.last_name) return <SignupTwo/>;
     if (!user.has_pin) return <CreatePasscode />;
-    if (this.shouldRenderInitialIdVerification(userActions)) return <Passcode type={'loginPasscode'}/>;
+    if (shouldRenderInitialIdVerification(userActions)) return <VerifyIdentity verificationCallback={this.verificationCallback} label="login"/>;
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
 
     return <WalletBalance/>;

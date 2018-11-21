@@ -6,6 +6,7 @@ import device from "../../utils/device-util";
 import { screens } from '../../config/Navigator';
 import store from '../../redux/store';
 import { KYC_STATUSES } from "../../config/constants/common";
+import { shouldRenderInitialIdVerification } from "../../utils/user-util";
 
 const {width, height} = Dimensions.get('window');
 
@@ -32,13 +33,14 @@ function shouldShowBottomNavigation(action) {
   const { type } = action;
   const { nav } = store.getState();
   const { user } = store.getState().users;
+  const { userActions } = store.getState().ui;
   let routeName;
 
   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
   if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
   if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
   if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
-  if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS) routeName = nav.routes[nav.routes.length - 1].routeName;
+  if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
 
   let showNav;
 
@@ -49,6 +51,8 @@ function shouldShowBottomNavigation(action) {
   } else if (!user.first_name || !user.last_name) {
     showNav = false;
   } else if (!user.has_pin) {
+    showNav = false;
+  } else if (shouldRenderInitialIdVerification(userActions)) {
     showNav = false;
   } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
     showNav = true;
@@ -294,6 +298,7 @@ export default (state = initialState, action) => {
     case ACTIONS.FIRE_USER_ACTION:
       return {
         ...state,
+        hasBottomNavigation: true,
         userActions: {
           ...state.userActions,
           [action.name]: true,
