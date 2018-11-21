@@ -63,6 +63,7 @@ class VerifyIdentity extends Component {
     this.setState({inProgress: true,});
 
     const hasVerificationType = !!(navigation && navigation.getParam("verificationType") || type);
+    const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
 
     try {
       if (onVerificationCallback) {
@@ -77,7 +78,14 @@ class VerifyIdentity extends Component {
         this.setState({inProgress: false,});
         onVerificationCallback(value);
       } else {
-        const stay = await onVerificationAction(value);
+        const verificationCode = {};
+        if (verificationType === VERIFY_IDENTITY_TYPES.TWO_FACTOR) {
+          verificationCode.twoFactorCode = value;
+        } else if (verificationType === VERIFY_IDENTITY_TYPES.PIN) {
+          verificationCode.pin = value;
+        }
+
+        const stay = await onVerificationAction(verificationCode);
 
         if (stay) {
           this.setState({inProgress: false,});

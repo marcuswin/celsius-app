@@ -22,6 +22,7 @@ import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Icon from "../../atoms/Icon/Icon";
+import { mixpanelEvents } from "../../../services/mixpanel";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -228,10 +229,9 @@ class TransactionConfirmation extends Component {
     });
   };
 
-  // event hanlders
-  confirmWithdrawal = () => {
+  withdrawFunds = async (verificationCode) => {
     const { formData, actions } = this.props;
-
+    //
     const coin = this.getCoinShorthand();
     const withdrawalAddress = this.getCoinWithdrawalAddressInfo();
     let newWithdrawalAddress;
@@ -252,11 +252,31 @@ class TransactionConfirmation extends Component {
       }
     }
 
-    actions.navigateTo("EnterPasscode", {
-      amountCrypto: formData.amountCrypto,
-      currency: coin,
-      purpose: "withdraw",
-      newWithdrawalAddress
+    try {
+        if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
+          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto);
+        } else {
+          await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
+        }
+
+        mixpanelEvents.confirmWithdraw({
+          amountUsd: formData.amountUsd,
+          amountCrypto: formData.amountCrypto,
+          coin,
+        });
+    } catch (error) {
+      actions.showMessage('error', error.error);
+      return true;
+    }
+  };
+
+  // event hanlders
+  confirmWithdrawal = () => {
+    const {actions} = this.props;
+
+    actions.navigateTo("VerifyIdentity", {
+      actionLabel: 'withdraw',
+      verificationAction: this.withdrawFunds,
     });
   };
 
