@@ -66,7 +66,9 @@ class TwoFaWelcome extends Component {
   };
 
   render() {
-    const { actions, user } = this.props;
+    const { actions, user, navigation } = this.props;
+
+    const pin = navigation.getParam("pin");
 
     const logoutButton = () => (
 
@@ -117,7 +119,7 @@ class TwoFaWelcome extends Component {
           />
         </View>
 
-        <RemoveTwoFaModal/>
+        <RemoveTwoFaModal pin={pin}/>
 
       </SimpleLayout>
     );

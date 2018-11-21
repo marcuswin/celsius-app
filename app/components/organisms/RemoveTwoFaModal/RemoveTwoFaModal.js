@@ -26,6 +26,14 @@ class RemoveTwoFaModal extends Component {
     // binders
   }
 
+  removeTwoFactor = async () => {
+    const {actions, pin} = this.props;
+
+    await actions.disableTwoFactor(pin);
+
+    actions.closeModal();
+  };
+
   // lifecycle methods
   // event hanlders
   // rendering methods
@@ -37,7 +45,7 @@ class RemoveTwoFaModal extends Component {
           <Text style={[RemoveTwoFaModalStyle.text]}>If you remove authentication application you will lose a second step of verification. Are you sure you want to proceed?</Text>
           <View>
           <CelButton
-            onPress={() => console.log("L")}
+            onPress={this.removeTwoFactor}
             margin={"20 0 20 0"}
           >
             Remove
