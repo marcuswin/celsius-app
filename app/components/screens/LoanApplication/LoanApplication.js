@@ -189,6 +189,8 @@ class LoanApplication extends Component {
 
     const ltvType = formData.coin === "xrp" || formData.coin === "ltc";
 
+    const loanAmountText = ltvType ? "Click on loan amount:" : "Choose one of these loan amounts:";
+
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
@@ -241,10 +243,10 @@ class LoanApplication extends Component {
             <Text style={[globalStyles.normalText, { fontFamily: "inconsolata-regular", textAlign: "left" }]}>
               Amount: {formatter.crypto(formData.amountCollateralCrypto, formData.coin.toUpperCase(), { precision: 5 })}
             </Text>
-          )}
+          )}e
 
           <Separator margin="24 0 24 0"/>
-          <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>Choose one of these loan amounts:</Text>
+          <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>{loanAmountText}</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
             {ltvType ? LTVs20.map((ltv) => (
               this.renderCard(ltv)
