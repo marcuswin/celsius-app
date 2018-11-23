@@ -89,7 +89,8 @@ class SelectCoin extends Component {
         <Text style={SelectCoinStyle.text}>
           Select a coin to send to your friends.
         </Text>
-        <View style={SelectCoinStyle.coinContent}>
+        <View ref={testUtil.generateTestHook(this, `SelectCoin.main`)}
+          style={SelectCoinStyle.coinContent}>
           {walletCurrencies.map(this.renderCoin)}
         </View>
       </SimpleLayout>

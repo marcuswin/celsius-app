@@ -135,5 +135,5 @@ export function loginUserSetup() {
       password: 'filip123',
   }));
   
-  dispatch(actions.navigateTo('home'))
+  dispatch(actions.navigateTo('Home'))
 }

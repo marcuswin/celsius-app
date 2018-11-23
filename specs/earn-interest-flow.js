@@ -1,6 +1,6 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import { findComponent } from "./helpers"
+import { loginUserSetup } from "./helpers"
 
 const { dispatch } = store;
 
@@ -15,9 +15,11 @@ dispatch(actions.logoutUser());
 function navigateToEarnTab(spec){
 	return async () => {
 
+		loginUserSetup()
+
 		await spec.pause(1000)
 		await spec.press('BottomNavigation.Earn')
-    await spec.exists('InterestCalculatorScreen.interestCurrency')
+    // await spec.exists('InterestCalculatorScreen.interestCurrency')
     
 	}
 }

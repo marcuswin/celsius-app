@@ -12,12 +12,12 @@ export default {
 	withdraw$5,
 	withdraw$2XRP,
 
-	withdrawETH,
-	withdrawBTC,
-	withdrawOMG,
-	withdrawXRP,
-	withdrawLTC,
-	withdrawBCH,
+	selectETH,
+	selectBTC,
+	selectOMG,
+	selectXRP,
+	selectLTC,
+	selectBCH,
 }
 
 dispatch(actions.logoutUser());
@@ -118,18 +118,19 @@ function withdraw$5(spec){
 	}
 }
 
-function withdrawETH(spec) {
+function selectETH(spec) {
 	return async () => {
 
 		loginUserSetup()
 		await spec.pause(5000)
 		await spec.exists('WalletBalance.ETH')
 		await spec.press('WalletBalance.ETH')
+		await spec.pause(2000)
 
 	}
 }
 
-function withdrawBTC(spec) {
+function selectBTC(spec) {
 	return async () => {
 
 		loginUserSetup()
@@ -140,7 +141,7 @@ function withdrawBTC(spec) {
 	}
 }
 
-function withdrawXRP(spec) {
+function selectXRP(spec) {
 	return async () => {
 
 		loginUserSetup()
@@ -151,7 +152,7 @@ function withdrawXRP(spec) {
 	}
 }
 
-function withdrawOMG(spec) {
+function selectOMG(spec) {
 	return async () => {
 
 		loginUserSetup()
@@ -162,7 +163,7 @@ function withdrawOMG(spec) {
 	}
 }
 
-function withdrawLTC(spec) {
+function selectLTC(spec) {
 	return async () => {
 
 		loginUserSetup()
@@ -173,7 +174,7 @@ function withdrawLTC(spec) {
 	}
 }
 
-function withdrawBCH(spec) {
+function selectBCH(spec) {
 	return async () => {
 
 		loginUserSetup()

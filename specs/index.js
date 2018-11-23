@@ -4,14 +4,17 @@ import kycFlow from './KYC-flow';
 import walletDetails from './walletDetails-flow';
 import earnInerestFlow from './earn-interest-flow';
 import withdrawFlow from './withdraw-flow'
+import celPayFlow from './celpay-flow';
+import celpayFlow from './celpay-flow';
 
 export default function(spec) {
   // testSignupFlow(spec);
   // testLoginFlow(spec);
   // testKYCFlow(spec);
   // testWalletDetailsFlow(spec);
-  testWithdrawFlow(spec);
-  // testEarnFlow(spec);
+  // testWithdrawFlow(spec);
+  // testCelPayFlow(spec)
+  testEarnFlow(spec);
   
 
   // spec.describe('Single test', () => { spec.it('should pass', signupFlow.createPasscode(spec)) })
@@ -134,60 +137,82 @@ export function testWalletDetailsFlow(spec) {
 }
 
 export function testWithdrawFlow(spec) {
-  spec.describe('Test withdraw flow', () =>{
+  spec.describe('Test withdraw flow', () => {
 
-    // spec.it('should login user', walletDetails.logins(spec)) 
+    // spec.it('should login user', waletDetails.logins(spec)) 
 
     // Withdraw ETH
-    spec.it('should navigate to ETH wallet', withdrawFlow.withdrawETH(spec))
+    spec.it('should navigate to ETH wallet', withdrawFlow.selectETH(spec))
     spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     spec.it('should withdraw $2 ETH', withdrawFlow.withdraw$2(spec))
 
     // Withdraw BTC
-    spec.it('should navigate to BTC wallet', withdrawFlow.withdrawBTC(spec))
+    spec.it('should navigate to BTC wallet', withdrawFlow.selectBTC(spec))
     spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     spec.it('should withdraw $2 BTC', withdrawFlow.withdraw$2(spec))
 
     // Withdraw LTC
-    spec.it('should navigate to LTC wallet', withdrawFlow.withdrawLTC(spec))
+    spec.it('should navigate to LTC wallet', withdrawFlow.selectLTC(spec))
     spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     // spec.it('should withdraw $2 LTC', withdrawFlow.withdraw$2(spec))
 
     // Withdraw OMG
-    // spec.it('should navigate to OMG wallet', withdrawFlow.withdrawOMG(spec))
+    // spec.it('should navigate to OMG wallet', withdrawFlow.selectOMG(spec))
     // spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     // spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     // spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     // spec.it('should withdraw $5 OMG', withdrawFlow.withdraw$5(spec))
 
     // Withdraw XRP
-    spec.it('should navigate to XRP wallet', withdrawFlow.withdrawXRP(spec))
+    spec.it('should navigate to XRP wallet', withdrawFlow.selectXRP(spec))
     spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     spec.it('should withdraw $2 XRP', withdrawFlow.withdraw$2(spec))
 
     // Withdraw BCH
-    // spec.it('should navigate to BCH wallet', withdrawFlow.withdrawBCH(spec))
-    // spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
+    // spec.it('should navigate to BCH wallet', withdrawFlow.selectBCH(spec))
+  // spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     // spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     // spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     // spec.it('should withdraw $2 BCH', withdrawFlow.withdraw$2(spec))
 
-
   }) 
+}
+
+export function testCelPayFlow(spec) {
+  spec.describe('Test Cel pay flow', () => {
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select btc', celPayFlow.selectCoinBTC(spec))
+    spec.it('test', celpayFlow.celPayLessThan$1(spec))
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select ETH', celPayFlow.selectCoinETH(spec))
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select LTC', celPayFlow.selectCoinLTC(spec))
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select XRP', celPayFlow.selectCoinXRP(spec))
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select BCH', celPayFlow.selectCoinBCH(spec))
+
+    spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
+    spec.it('should select OMG', celPayFlow.selectCoinOMG(spec))
+
+  })
 }
 
 export function testEarnFlow(spec) {
   spec.describe('Calculator page', () => {
-
-    spec.it('should login user', addFundsFlow.logins(spec))
 
     spec.it('should navigate to earn tab', earnInerestFlow.navigateToEarnTab(spec))
     spec.it('11111111111', earnInerestFlow.selectCurrency(spec))
