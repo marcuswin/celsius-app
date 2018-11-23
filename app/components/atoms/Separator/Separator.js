@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Text, View} from 'native-base';
-import {Col, Grid} from 'react-native-easy-grid';
+import React, { Component } from 'react';
+import { Text, View } from 'native-base';
+import { Col, Grid } from 'react-native-easy-grid';
 import PropTypes from 'prop-types';
 
 import SeparatorStyles from './Separator.styles';
@@ -17,6 +17,7 @@ class Separator extends Component {
 
   static defaultProps = {
     margin: '0 0 0 0',
+    separatorSize: 2,
   };
 
   constructor() {
@@ -25,7 +26,7 @@ class Separator extends Component {
   }
 
   render() {
-    const { children, margin, color, separatorColor, separatorSize} = this.props;
+    const { children, margin, color, separatorColor, separatorSize } = this.props;
     const separatorStyles = [SeparatorStyles.dummyBorder];
     const textStyles = [SeparatorStyles.middleBorderText];
 
@@ -33,21 +34,21 @@ class Separator extends Component {
 
     if (!children) return <View style={[SeparatorStyles.separator, marginStyles]} />;
 
-    if (color)  textStyles.push({color});
-    if (separatorColor)  separatorStyles.push({backgroundColor: separatorColor});
-    const size = separatorSize || 2;
+    if (color) textStyles.push({ color });
+    if (separatorColor) separatorStyles.push({ backgroundColor: separatorColor });
 
     return (
       <View style={marginStyles}>
         <Grid>
           <Col style={SeparatorStyles.centeredColumn}>
-            <View style={separatorStyles}/>
+            <View style={separatorStyles} />
           </Col>
-          <Col style={SeparatorStyles.textColumn} size={size}>
-            <Text style={textStyles}>{ this.props.children }</Text>
+
+          <Col style={SeparatorStyles.textColumn} size={separatorSize}>
+            <Text style={textStyles}>{this.props.children}</Text>
           </Col>
           <Col style={SeparatorStyles.centeredColumn}>
-            <View style={separatorStyles}/>
+            <View style={separatorStyles} />
           </Col>
         </Grid>
       </View>

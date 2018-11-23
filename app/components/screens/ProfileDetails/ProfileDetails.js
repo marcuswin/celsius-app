@@ -94,18 +94,27 @@ class ProfileDetails extends Component {
   }
 
   initForm = () => {
-    const { actions, user } = this.props;
-    const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
+    const { actions, user, formData } = this.props;
+    let date;
+    if( formData.date_of_birth) {
+      date = formData.date_of_birth.split('-');
+    } else if(user.date_of_birth) {
+      date =  user.date_of_birth.split('-');
+    } else {
+      date = ['', '', ''];
+    }
+
     if (user) {
       actions.initForm({
-        title: user.title,
-        firstName: user.first_name,
-        middleName: user.middle_name,
-        lastName: user.last_name,
-        dateOfBirth: user.date_of_birth,
-        citizenship: user.citizenship,
-        gender: user.gender,
-        companyName: user.company_name,
+        ...formData,
+        title: formData.title || user.title,
+        firstName: formData.first_name || user.first_name,
+        middleName: formData.middle_name || user.middle_name,
+        lastName: formData.last_name || user.last_name,
+        dateOfBirth: formData.date_of_birth || user.date_of_birth,
+        citizenship: formData.citizenship || user.citizenship,
+        gender: formData.gender || user.gender,
+        companyName: formData.company_name || user.company_name,
         month: date[1],
         day: date[2],
         year: date[0],

@@ -32,7 +32,8 @@ class CelSelect extends Component {
     labelText: PropTypes.string,
     margin: PropTypes.string,
     flex: PropTypes.number,
-    onlyError: PropTypes.bool
+    onlyError: PropTypes.bool,
+    disabled: PropTypes.bool
   }
   static defaultProps = {
     type: 'native',
@@ -42,7 +43,8 @@ class CelSelect extends Component {
     labelText: '',
     theme: 'blue',
     margin: '0 0 15 0',
-    onlyError: false
+    onlyError: false,
+    disabled: false
   }
 
   constructor(props) {
@@ -136,14 +138,21 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, error, margin, onlyError } = this.props;
+    const { theme, labelText, error, margin, onlyError, disabled } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
-    const inputBackground = value ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    let inputBackground;
+    if(disabled) {
+      inputBackground = globalStyles[`${theme}InputWrapperDisabled`];
+    } else if(value){
+      inputBackground = globalStyles[`${theme}InputWrapperActive`];
+    } else {
+      inputBackground = globalStyles[`${theme}InputWrapper`];
+    }
 
     return (
       <InputErrorWrapper
@@ -169,13 +178,14 @@ class CelSelect extends Component {
 
   // rendering methods
   render() {
-    const { type, flex } = this.props;
+    const { type, flex, disabled } = this.props;
     const { visible, items, value } = this.state;
-
+    const propVisible = (typeof this.props.disabled !== 'undefined' && this.props.disabled) ?  false : visible;
     return (
       <View style={flex ? { flex } : null}>
         {type !== 'country' ?
           <RNPickerSelect
+            disabled={disabled}
             items={items}
             onValueChange={this.handlePickerSelect}
             value={value ? value.value : null}>
@@ -185,7 +195,7 @@ class CelSelect extends Component {
         }
         {type === 'country' &&
           <SelectCountryModal
-            visible={visible}
+            visible={propVisible}
             onClose={this.selectValue}
           />
         }

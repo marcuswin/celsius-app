@@ -51,6 +51,11 @@ class TaxpayerID extends Component {
     if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
     if (formData.country !== "United States" && !formData.national_id) formErrors.national_id = 'National id is required!';
 
+    if (formData.country === "United States" && formData.ssn) {
+      const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
+      if (!regex.exec(formData.ssn)) formErrors.ssn = 'ssn is not valid!';
+    }
+
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);
     } else {
@@ -59,14 +64,14 @@ class TaxpayerID extends Component {
   }
 
   submitForm = () => {
-    const { user, actions } = this.props;
+    const { user, actions, formData } = this.props;
     const isFormValid = this.validateForm();
 
     if (isFormValid === true) {
       const updatedUser = {
-        ssn: user.ssn,
-        itin: user.itin,
-        national_id: user.national_id
+        ssn: formData.ssn || user.ssn,
+        itin: formData.itin || user.itin,
+        national_id: formData.national_id || user.national_id
       }
 
       actions.updateProfileTaxpayerInfo(updatedUser);
@@ -75,9 +80,9 @@ class TaxpayerID extends Component {
 
   initForm = () => {
     const { actions, user, formData } = this.props;
-
     if (user) {
       actions.initForm({
+        ...formData,
         ssn: formData.ssn || user.ssn,
         itin: formData.itin || user.itin,
         national_id: formData.national_id || user.national_id,

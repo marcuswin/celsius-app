@@ -86,6 +86,7 @@ class AddressInformation extends Component {
 
     if (user) {
       actions.initForm({
+        ...formData,
         street: formData.street || user.street,
         buildingNumber: formData.buildingNumber || user.building_number,
         flatNumber: formData.flatNumber || user.flat_number,
