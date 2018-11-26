@@ -403,7 +403,7 @@ class AddFunds extends Component {
           onPress={this.goBack}
           margin='20 50 0 50'
         >
-          "Done"
+          Done
         </CelButton>
 
         <TouchableOpacity style={[AddFundsStyle.secureTransactionsBtn, {paddingLeft: 20, paddingRight: 20}]}
