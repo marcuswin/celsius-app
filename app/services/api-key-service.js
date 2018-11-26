@@ -4,7 +4,7 @@ import apiUrl from './api-url';
 const apiKeyService = {
   getAll,
   create,
-  revoke,
+  remove,
 };
 
 
@@ -13,11 +13,13 @@ function getAll() {
 }
 
 function create(apiKey) {
-  return axios.get(`${apiUrl}/api_key`, apiKey);
+  return axios.post(`${apiUrl}/api_key`, apiKey);
 }
 
-function revoke(keyId) {
-  return axios.get(`${apiUrl}/api_key/${keyId}`);
+function remove(keyId) {
+  return axios.delete(`${apiUrl}/api_key`, {
+    data: { api_key: keyId },
+  });
 }
 
 export default apiKeyService;
