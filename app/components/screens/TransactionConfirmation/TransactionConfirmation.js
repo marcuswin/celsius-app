@@ -254,7 +254,7 @@ class TransactionConfirmation extends Component {
 
     try {
         if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
-          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto);
+          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
         } else {
           await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
         }
