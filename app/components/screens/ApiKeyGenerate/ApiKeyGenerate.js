@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity } from "react-native";
-
+import { View } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -8,7 +8,6 @@ import * as appActions from "../../../redux/actions";
 // import SettingsStyle from "./Settings.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { View } from 'native-base';
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelCheckbox from '../../atoms/CelCheckbox/CelCheckbox';
 import { heightPercentageToDP } from '../../../utils/scale';

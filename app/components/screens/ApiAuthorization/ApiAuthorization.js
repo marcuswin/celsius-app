@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity } from "react-native";
-
+import { View } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -8,9 +8,6 @@ import * as appActions from "../../../redux/actions";
 // import SettingsStyle from "./Settings.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import Separator from "../../atoms/Separator/Separator";
-import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
-import { View } from 'native-base';
 import CelButton from '../../atoms/CelButton/CelButton';
 
 
@@ -30,7 +27,7 @@ class ApiAuthorization extends Component {
   }
 
   render() {
-    const { actions, user } = this.props;
+    const { actions } = this.props;
 
     const logoutButton = () => (
 
