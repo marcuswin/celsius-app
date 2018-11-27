@@ -17,9 +17,7 @@ function create(apiKey) {
 }
 
 function remove(keyId) {
-  return axios.delete(`${apiUrl}/api_key`, {
-    data: { api_key: keyId },
-  });
+  return axios.delete(`${apiUrl}/api_key/${keyId}`);
 }
 
 export default apiKeyService;
