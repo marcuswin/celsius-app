@@ -78,7 +78,7 @@ class Settings extends Component {
          value={user.two_factor_enabled ? "ON" : "OFF"}
          iconRightHeight={'20'}
        >
-         Two-Factor Verification
+         Two-Factor Verif.
        </CelCustomButton>
 
      </SimpleLayout>
