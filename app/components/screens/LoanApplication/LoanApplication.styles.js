@@ -7,14 +7,12 @@ const { width } = Dimensions.get('window')
 
 const LoanApplicationStyle = StyleSheet.create({
   loanAmountCard: {
-    paddingHorizontal: widthPercentageToDP("7.5%"),
     paddingVertical: heightPercentageToDP("1.8%"),
-    width: widthPercentageToDP("33%"),
-    minWidth: 130,
-    marginHorizontal: widthPercentageToDP("4.53%"),
-    marginVertical: heightPercentageToDP("1.29%"),
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: widthPercentageToDP("76%"),
+    borderRadius: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   loanAmountCardActive: {
     backgroundColor: COLORS.green,
@@ -38,6 +36,7 @@ const LoanApplicationStyle = StyleSheet.create({
     color: '#3D4853',
     fontFamily: 'agile-light',
     fontSize: normalize(14),
+    marginRight: 5
   },
   bottomCard: { paddingVertical: heightPercentageToDP("2%"), flexDirection: 'row' },
   leftBox: {paddingLeft: widthPercentageToDP("10%"), width: width/2, alignItems: 'center', justifyContent: 'center', borderRightWidth: 1, borderRightColor: '#3D4853' },

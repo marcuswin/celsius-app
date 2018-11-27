@@ -52,6 +52,7 @@ class WalletDetails extends Component {
   }
 
   onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletDetailsInfoBox: false });
+  onCloseBCHInfo = () => this.props.actions.updateUserAppSettings({ showBchExplanationInfoBox: false });
 
   onPressWithdraw = () => {
     const { actions, navigation } = this.props;
@@ -102,12 +103,27 @@ class WalletDetails extends Component {
             />
           )}
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
+            {(appSettings.showBchExplanationInfoBox && currency === "bch") && (
+              <WalletInfoBubble
+                title={"BCH in your wallet is now BCHABC"}
+                onPressClose={this.onCloseBCHInfo}
+                color={"gray"}
+              >
+                <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                  {"After latest fork, we have merged Bitcoin Cash (BCH) and Bitcoin Cash ABC (BCHABC)."}
+                </Text>
+                <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
+                  {"If you had BCH deposited before November 14th at 11:40 PM EST you will get your Bitcoin Cash SV (BCHSV) once it becomes supported."}
+                </Text>
+
+              </WalletInfoBubble>
+              )}
             {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
                 title={isCelCurrency ? `Your CEL Price` : `Deposit your ${currency.toUpperCase()}`}
                 onPressClose={this.onCloseInfo}
+                color={"gray"}
               >
-
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   {isCelCurrency ?
                     `The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.` :

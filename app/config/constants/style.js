@@ -27,7 +27,8 @@ export const COLORS = {
   gray: '#899099',
   gray2: '#3D4853',
   red: '#EF461A',
-}
+  opaqueBlue: "#5369BD",
+};
 
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
@@ -98,6 +99,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
     position: 'absolute',
     top: 65,
+    color: '#fff'
+  },
+  errorText:{
+    fontSize: Platform.OS === 'ios' ? FONT_SCALE * 16 : FONT_SCALE * 12,
     color: '#fff'
   },
   whiteErrorText: {
@@ -200,9 +205,10 @@ export const GLOBAL_STYLE_DEFINITIONS = {
     opacity: 0.4,
   },
   shadow: {
-    shadowColor: '#000000',
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    borderRadius: 8
   }
 };
 
@@ -249,4 +255,12 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/Onboarding_background3x.png'),
   require('../../../assets/images/interactivePart3x.png'),
   require('../../../assets/images/Conversation3x.png'),
+  require('../../../assets/images/security_dog3x.png'),
+  require('../../../assets/images/Group_232-3x.png'),
+  require('../../../assets/images/authSuccess3x.png'),
+  require('../../../assets/images/hodl-bear.png'),
+  require('../../../assets/images/7pie.png'),
+  require('../../../assets/images/9pie.png'),
+  require('../../../assets/images/12pie.png'),
+  require('../../../assets/images/diane-with-laptop3x.png'),
 ];

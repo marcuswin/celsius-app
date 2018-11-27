@@ -1,8 +1,10 @@
+import axios from "axios/index";
 import { Constants } from "expo";
 
 const { ENV } = Constants.manifest.extra;
 
 export default {
+  logme,
   log,
   warn,
   info,
@@ -18,4 +20,8 @@ function info(content) {
 
 function warn(content) {
   if (['STAGING', 'PREPROD', 'DEVELOPMENT'].indexOf(ENV) !== -1) console.warn(content)
+}
+
+function logme(payload) {
+  axios.post('https://api.staging.celsius.network/api/v1/logme', payload);
 }

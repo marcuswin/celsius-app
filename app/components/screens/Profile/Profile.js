@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Constants } from 'expo';
 import { TouchableOpacity, Text, Linking, StyleSheet } from "react-native";
 import { View } from 'native-base';
-import {bindActionCreators} from "redux";
-import {connect} from 'react-redux';
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
 import _ from 'lodash';
-import isEqual from "lodash/isEqual";
 import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
@@ -13,15 +12,18 @@ import apiUtil from '../../../utils/api-util';
 import * as appActions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
-import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES, COLORS, FONT_SCALE } from "../../../config/constants/style";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
-import { COLORS, FONT_SCALE } from "../../../config/constants/style";
 import ReferralModal from "../../organisms/ReferralModal/ReferralModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import CelSelect from "../../molecules/CelSelect/CelSelect";
+import ProfileStyle from "../Profile/Profile.styles";
+import Separator from "../../atoms/Separator/Separator";
 
 const { revisionId } = Constants.manifest;
 
@@ -30,7 +32,7 @@ const getError = (errors, field, def = null) => {
   return _.get(errors, [field, 'msg'], def)
 };
 
-const ProfileStyle = StyleSheet.create({
+const ProfileDetailsStyle = StyleSheet.create({
   appVersionText: {
     textAlign: 'center',
     color: COLORS.gray,
@@ -42,6 +44,7 @@ const ProfileStyle = StyleSheet.create({
     nav: state.nav,
     user: state.users.user,
     error: state.users.error,
+    formErrors: state.ui.formErrors,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
@@ -51,53 +54,138 @@ const ProfileStyle = StyleSheet.create({
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfileScreen extends Component {
-  componentDidMount() {
-    const { user, actions } = this.props;
-    actions.getProfileInfo();
-
-    actions.initForm({
-      firstName: user && user.first_name ? user.first_name : undefined,
-      email: user && user.email ? user.email : undefined,
-      lastName: user && user.last_name ? user.last_name : undefined,
-      cellphone: user && user.cellphone ? user.cellphone : undefined,
-    })
-  }
-
-  // lifecycle methods
-  componentWillReceiveProps(nextProps) {
-    const { user, actions } = this.props;
-
-    if (!isEqual(user, nextProps.user)) {
-      actions.initForm({
-        firstName: nextProps.user && nextProps.user.first_name ? nextProps.user.first_name : undefined,
-        email: nextProps.user && nextProps.user.email ? nextProps.user.email : undefined,
-        lastName: nextProps.user && nextProps.user.last_name ? nextProps.user.last_name : undefined,
-        cellphone: nextProps.user && nextProps.user.cellphone ? nextProps.user.cellphone : undefined,
-      })
+  constructor(props) {
+    super(props);
+    this.state = {
+      addressEditable: false,
+      taxpayerEditable: false
     }
   }
 
-  onSubmit = () => {
+  componentDidMount = () => {
+    this.initForm();
+    this.props.actions.getProfileInfo();
+  }
+
+  validateAddressInformationForm = () => {
     const { formData, actions } = this.props;
+    const formErrors = {};
 
-    actions.updateProfileInfo({
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      email: formData.email,
-      cellphone: formData.cellphone,
-    })
-  };
+    if (!formData.street) formErrors.street = 'Street is required!';
+    if (!formData.buildingNumber) formErrors.building_number = 'Building number is required!';
+    if (!formData.flatNumber) formErrors.flat_number = 'Flat number is required!';
+    if (!formData.city) formErrors.city = 'City is required!';
+    if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
+    if (!formData.country) formErrors.country = 'Country is required!';
+    if (formData.country === "United States" && !formData.state) formErrors.state = 'State is required!';
 
-  handleUserNameChange = (field, text) => {
-    const { actions } = this.props;
-    // prevent user to insert numbers in first name or last name field
-    if (/\d/.test(text)) return;
-    actions.updateFormField(field, text);
-  };
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
+  }
+
+  validateTaxpayerForm = () => {
+    const { formData, actions } = this.props;
+    const formErrors = {};
+
+    if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    if (formData.country !== "United States" && !formData.national_id) formErrors.national_id = 'National id is required!';
+
+    if (formData.country === "United States" && formData.ssn) {
+      const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
+      if (!regex.exec(formData.ssn)) formErrors.ssn = 'ssn is not valid!';
+    }
+
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    } else {
+      return true;
+    }
+  }
+
+  submitAddressInformationForm = () => {
+    const { formData, actions } = this.props;
+    const isFormValid = this.validateAddressInformationForm();
+
+    let updatedUser;
+    if (isFormValid === true) {
+      updatedUser = {
+        street: formData.street,
+        building_number: formData.buildingNumber,
+        flat_number: formData.flatNumber,
+        city: formData.city,
+        zip: formData.zip,
+        country: formData.country,
+        state: formData.state,
+      }
+      actions.updateProfileAddressInfo(updatedUser);
+      this.setState({ addressEditable: false });
+    }
+  }
+
+  submitTaxpayerForm = () => {
+    const { formData, actions } = this.props;
+    const isFormValid = this.validateTaxpayerForm();
+
+    if (isFormValid === true) {
+      const updatedUser = {
+        ssn: formData.ssn,
+        itin: formData.itin,
+        national_id: formData.national_id
+      }
+      actions.updateProfileTaxpayerInfo(updatedUser);
+      this.setState({ taxpayerEditable: false });
+    }
+  }
+
+  initForm = () => {
+    const { actions, user, formData } = this.props;
+    const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
+    if (user) {
+      const data = {
+        ...formData,
+        title: user.title,
+        firstName: user.first_name,
+        middleName: user.middle_name,
+        lastName: user.last_name,
+        dateOfBirth: user.date_of_birth,
+        citizenship: user.citizenship,
+        gender: user.gender,
+        companyName: user.company_name,
+        month: date[1],
+        day: date[2],
+        year: date[0],
+        email: user.email,
+        cellphone: user.cellphone,
+        street: user.street,
+        buildingNumber: user.building_number,
+        flatNumber: user.flat_number,
+        city: user.city,
+        state: user.state,
+        zip: user.zip,
+        country: user.country ? user.country : user.citizenship,
+        ssn: user.ssn,
+        itin: user.itin,
+        national_id: user.national_id,
+      }
+      actions.initForm(data)
+      if (!data.street && !data.building_number && !data.flat_number && !data.city && user.kyc.status === "passed") {
+        this.setState({ addressEditable: true });
+      }
+      if (((data.country === "United States" && !data.ssn) || (data.country !== "United States" && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
+        this.setState({ taxpayerEditable: true });
+      }
+    }
+  }
 
   render() {
-    const { user, formData, actions, callsInProgress, error } = this.props;
+    const { user, formData, actions, callsInProgress, error, formErrors } = this.props;
+    const { addressEditable, taxpayerEditable } = this.state;
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
+    const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
+    const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
 
     return (
       <BasicLayout bottomNavigation>
@@ -106,7 +194,7 @@ class ProfileScreen extends Component {
             <TouchableOpacity
             ref={testUtil.generateTestHook(this, 'ProfileScreen.LogOut')}
             onPress={actions.logoutUser}>
-              <Text 
+              <Text
                 style={[{
                 color: 'white',
                 paddingLeft: 5,
@@ -134,56 +222,95 @@ class ProfileScreen extends Component {
             Change avatar
           </CelButton>
 
+          <View style={{ marginBottom: 30 }}>
+            <CelButton
+              onPress={() => actions.navigateTo('ProfileSettings')}
+              color="blue"
+            >Settings</CelButton>
+          </View>
+
+          <Separator separatorSize={1.2} margin='5 0 20 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>PROFILE DETAILS</Separator>
+
           <CelForm disabled={isLoadingProfileInfo}>
-            <CelInput
-              ref={testUtil.generateTestHook(this, `ProfileScreen.firstName`)}
-              theme="white"
-              labelText={getError(error, 'first_name', "First name")}
-              value={formData.firstName}
-              field="firstName"
-              onChange={this.handleUserNameChange}
-              editable={false}
-              autoCapitalize={'sentences'}
-            />
-            <CelInput
-              ref={testUtil.generateTestHook(this, `ProfileScreen.lastName`)}
-              theme="white"
-              labelText={getError(error, 'last_name', "Last name")}
-              value={formData.lastName}
-              field="lastName"
-              onChange={this.handleUserNameChange}
-              editable={false}
-              autoCapitalize={'sentences'}
-            />
-            <CelInput
-              ref={testUtil.generateTestHook(this, `ProfileScreen.email`)}
-              theme="white"
-              labelText="E-mail"
-              value={formData.email}
-              keyboardType='email-address'
-              editable={false}
-              field="email"
-            />
-            <CelPhoneInput
-              ref={testUtil.generateTestHook(this, `ProfileScreen.cellphone`)}
-              theme="white"
-              labelText={getError(error, 'cellphone', "Phone number")}
-              field="cellphone"
-              editable={false}
-              value={formData.cellphone}
-            />
+            <CelSelect disabled theme="white" error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
+            <CelInput editable={false} theme="white" value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
+            <CelInput editable={false} theme="white" value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
+            <CelInput editable={false} theme="white" value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
+            <CelInput editable={false} theme="white" labelText="E-mail" value={formData.email} keyboardType='email-address' field="email" />
+            <CelPhoneInput editable={false} theme="white" labelText={getError(error, 'cellphone', "Phone number")} field="cellphone" value={formData.cellphone} />
+
+            <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText]}>
+              Date of birth
+          </Text>
+            <View style={ProfileStyle.dateOfBirthContainer}>
+              <View style={ProfileStyle.dateOfBirthInnerContainer}>
+                <CelSelect disabled theme="white" onlyError error={formErrors.month} field="month" type="month" labelText="Month" value={formData.month} flex={1.4} margin={"0 15 2 0"} />
+                <CelSelect disabled theme="white" onlyError error={formErrors.day} field="day" type="day" labelText="Day" value={formData.day} flex={1.1} margin={"0 15 2 0"} />
+                <CelSelect disabled theme="white" onlyError error={formErrors.year} field="year" type="year" labelText="Year" value={formData.year} flex={1} margin={"0 0 2 0"} />
+              </View>
+              {formErrors.dateOfBirth ? <Text style={globalStyles.errorText}>* {formErrors.dateOfBirth}</Text> : null}
+            </View>
+
+            <CelSelect disabled theme="white" error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
+            <CelSelect disabled theme="white" error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
+            <CelInput editable={false} theme="white" value={formData.companyName} error={formErrors.company_name} field="companyName" labelText="Company Name (optional)" autoCapitalize="sentences" />
+
+            <Separator separatorSize={0.6} margin='5 0 15 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>ADDRESS</Separator>
+
+            {addressEditable &&
+              <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText, { marginBottom: 20 }]}>
+                Due to Anti-Money Laundering laws and regulations, we must collect the information below.
+        </Text>
+            }
+
+            <CelInput editable={addressEditable} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
+            {formData.country === "United States" ?
+              <CelSelect disabled={!addressEditable} theme="white" error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
+              :
+              <CelInput editable={addressEditable} theme="white" value={formData.state} error={formErrors.state} field="state" labelText="State" autoCapitalize="sentences" />
+            }
+            <CelInput editable={addressEditable} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
+            <CelSelect disabled={!addressEditable} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+
+            {addressEditable &&
+              <View style={{ marginTop: 15, marginBottom: 30 }}>
+                <CelButton
+                  onPress={this.submitAddressInformationForm}
+                  color="blue"
+                  loading={isUpdatingAddressInfo}
+                  disabled={isUpdatingAddressInfo}
+                >Submit address</CelButton>
+              </View>
+            }
+            {(!(formData.country === "United States" && !taxpayerEditable) && !addressEditable) &&
+              <React.Fragment>
+                <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER ID</Separator>
+                {formData.country === "United States" ?
+                  <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+                  :
+                  <React.Fragment>
+                    <CelInput editable={taxpayerEditable} theme="white" value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
+                    <CelInput editable={taxpayerEditable} theme="white" value={formData.national_id} error={formErrors.national_id} field="national_id" labelText="National ID Number" autoCapitalize="sentences" />
+                  </React.Fragment>
+                }
+                {taxpayerEditable &&
+                  <View style={{ marginTop: 15, marginBottom: 30 }}>
+                    <CelButton
+                      onPress={this.submitTaxpayerForm}
+                      color="blue"
+                      loading={isUpdatingTaxpayerInfo}
+                      disabled={isUpdatingTaxpayerInfo}
+                    >Submit Taxpayer id</CelButton>
+                  </View>
+                }
+              </React.Fragment>
+            }
           </CelForm>
 
-          { !user.facebook_id && !user.google_id && !user.twitter_id ? (
-            <View style={{marginTop: 40, marginBottom: 30}}>
-              <CelButton
-                onPress={() => actions.navigateTo('ChangePassword')}
-                color="blue"
-              >Change password</CelButton>
-            </View>
-          ) : null}
-
-          <View style={{marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}}>
+          <View style={{ marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
             <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
             <CelButton
               onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
@@ -208,8 +335,8 @@ class ProfileScreen extends Component {
               See Terms of Use
             </CelButton>
           </View>
-          {!!revisionId && <View style={{marginTop: 10,}}>
-            <Text style={ProfileStyle.appVersionText}>App Version - {revisionId}</Text>
+          {!!revisionId && <View style={{ marginTop: 10, }}>
+            <Text style={ProfileDetailsStyle.appVersionText}>App Version - {revisionId}</Text>
           </View>}
         </CelScreenContent>
         <ReferralModal />

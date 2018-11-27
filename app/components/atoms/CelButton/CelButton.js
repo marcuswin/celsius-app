@@ -11,7 +11,7 @@ import {COLORS} from "../../../config/constants/style";
 import stylesUtil from "../../../utils/styles-util";
 
 const buttonColors = ['blue', 'green', 'pink', 'yellow'];
-const buttonSizes = ['mini', 'small', 'medium'];
+const buttonSizes = ["letter", 'micro', 'mini', 'small', 'medium'];
 
 class CelButton extends Component {
   static propTypes = {

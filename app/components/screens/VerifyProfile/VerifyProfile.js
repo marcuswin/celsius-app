@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import _ from "lodash";
-import {Col, Grid} from "react-native-easy-grid";
+import { Col, Grid } from "react-native-easy-grid";
 import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES} from "../../../config/constants/style";
-import {CAMERA_COPY} from "../../../config/constants/common";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
+import { CAMERA_COPY } from "../../../config/constants/common";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CameraInput from "../../atoms/CameraInput/CameraInput";
@@ -38,7 +38,7 @@ class VerifyProfile extends Component {
 
   componentWillMount() {
     const { actions } = this.props;
-     actions.getKYCDocTypes();
+    actions.getKYCDocTypes();
   }
 
   componentDidMount() {
@@ -83,9 +83,10 @@ class VerifyProfile extends Component {
   }
 
   initForm = () => {
-    const { actions, user, kycDocuments } = this.props;
+    const { actions, user, kycDocuments, formData } = this.props;
     if (kycDocuments) {
       actions.initForm({
+        ...formData,
         cellphone: user.cellphone,
         documentType: kycDocuments.type ? kycDocuments.type : 'passport',
         front: kycDocuments.front ? kycDocuments.front : undefined,
@@ -93,6 +94,7 @@ class VerifyProfile extends Component {
       })
     } else {
       actions.initForm({
+        ...formData,
         cellphone: user.cellphone,
         documentType: undefined,
         front: undefined,
@@ -102,7 +104,7 @@ class VerifyProfile extends Component {
   }
 
   selectDocumentType = async (type) => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.updateFormField("documentType", type);
   }
@@ -120,7 +122,7 @@ class VerifyProfile extends Component {
 
     return (
       <SimpleLayout
-        animatedHeading={{ text: 'Verify Profile'}}
+        animatedHeading={{ text: 'Verify Profile' }}
         background={STYLES.PRIMARY_BLUE}
       >
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
@@ -136,7 +138,7 @@ class VerifyProfile extends Component {
                     <TouchableOpacity ref={testUtil.generateTestHook(this, `VerifyProfile.${document.value}`)} onPress={() => this.selectDocumentType(document.value)}>
                       <View
                         style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
-                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox}/>
+                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} />
                         <View style={VerifyProfileStyle.documentTypeWrapper}>
                           <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
                         </View>
@@ -150,9 +152,9 @@ class VerifyProfile extends Component {
               <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
 
               <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
-              { formData.documentType !== 'passport' ? (
+              {formData.documentType !== 'passport' ? (
                 <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
-              ) : null }
+              ) : null}
 
               <Separator margin="20 0 15 0">PHONE</Separator>
 
@@ -168,9 +170,9 @@ class VerifyProfile extends Component {
               white
               margin="0 0 0 0"
             >
-              { user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC' }
+              {user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC'}
             </CelButton>
-          </View> : null }
+          </View> : null}
       </SimpleLayout>
     );
   }
@@ -179,10 +181,10 @@ class VerifyProfile extends Component {
 function mapDocs(docs) {
   const kycDocs = [];
 
-  if (!docs) return [{ value: 'passport', label: 'Passport', icon: {name: 'Passport', viewBox: '0 0 38 30'}}];
-  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National ID card', icon: {name: 'IDcard', viewBox: '0 0 38 30'}});
-  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport', icon: {name: 'Passport', viewBox: '0 0 38 30'}});
-  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: "Driver's license", icon: {name: 'DrivingLicense', viewBox: '0 0 42 29'}});
+  if (!docs) return [{ value: 'passport', label: 'Passport', icon: { name: 'Passport', viewBox: '0 0 38 30' } }];
+  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National ID card', icon: { name: 'IDcard', viewBox: '0 0 38 30' } });
+  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport', icon: { name: 'Passport', viewBox: '0 0 38 30' } });
+  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: "Driver's license", icon: { name: 'DrivingLicense', viewBox: '0 0 42 29' } });
 
   return kycDocs;
 }

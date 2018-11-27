@@ -72,7 +72,7 @@ class SecureTransactions extends Component {
 
         <View style={SecureTransactionsStyle.suggestionWrapper}>
           <Text style={SecureTransactionsStyle.suggestion}>For your security, if you would like to withdraw more
-            than <Text style={{ fontFamily: "agile-bold" }}>$20.000</Text> worth of {currencyCopy} you will be
+            than <Text style={{ fontFamily: "agile-bold" }}>$20,000</Text> worth of {currencyCopy} you will be
             required to contact us at <Text style={{ fontFamily: "agile-bold" }}>app@celsius.network</Text> so that we
             can verify your identity prior to transferring your funds.</Text>
         </View>

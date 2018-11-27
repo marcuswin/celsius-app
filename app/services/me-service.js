@@ -10,6 +10,7 @@ const meService = {
   getKYCStatus,
   setPin,
   checkPin,
+  checkTwoFactor,
 };
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#76d35f2e-d523-4f2a-858e-ca33cc173f55
@@ -51,5 +52,10 @@ function checkPin(pin) {
   return axios.post(`${apiUrl}/me/pin/check`, pin);
 }
 
+function checkTwoFactor(code) {
+  return axios.post(`${apiUrl}/me/twoFactor/check`, {
+    twoFactorCode: code,
+  });
+}
 
 export default meService;

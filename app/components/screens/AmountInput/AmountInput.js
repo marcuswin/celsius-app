@@ -69,15 +69,6 @@ class AmountInput extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { actions, formData } = nextProps;
-    const purpose = nextProps.navigation.getParam("purpose")
-    const oldPurpose = this.props.navigation.getParam("purpose")
-    if (purpose === 'confirm-send' && oldPurpose !== purpose) {
-      actions.createBranchTransfer(formData.amountCrypto, formData.currency);
-    }
-  }
-
   onPressNumber = (number) => {
     const { formData, actions } = this.props;
     const decimal = formData.inUsd ? 2 : 5;
@@ -162,15 +153,24 @@ class AmountInput extends Component {
     return this.confirmTransaction;
   };
 
+  goToSendScreen = async (verificationCode) => {
+    const { formData, actions } = this.props;
+
+    actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
+
+    try {
+      actions.createBranchTransfer(formData.amountCrypto, formData.currency, verificationCode);
+    } catch (e) {
+      return true;
+    }
+  };
+
   chooseRecipient = () => {
-    const { formData: {amountCrypto, currency}, actions, navigation } = this.props;
+    const { actions } = this.props;
 
-    const purpose = navigation.getParam("purpose");
-
-    actions.navigateTo('EnterPasscode', {
-      amountCrypto,
-      currency,
-      purpose,
+    actions.navigateTo("VerifyIdentity", {
+      actionLabel: 'withdraw',
+      verificationCallback: this.goToSendScreen,
     });
   };
 
@@ -247,7 +247,7 @@ class AmountInput extends Component {
                 ref={testUtil.generateTestHook(this, `AmountInput.send`)}
                 disabled={!formData.amountCrypto}
                 onPress={this.handleMainButtonClick(purpose)}
-                margin='5 36 5 36'
+                margin='10 36 5 36'
               >
                 {this.getMainButtonText(purpose)}
               </CelButton>

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { Button, Header, Left, Right, Text, View } from 'native-base';
+import { Button, Header, Left, Right, Text } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from 'prop-types';
-import {Image, TouchableOpacity} from 'react-native';
+import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 
 import HeaderStyle from './MainHeader.styles';
 import * as appActions from "../../../redux/actions";
@@ -111,8 +111,8 @@ class MainHeader2 extends Component {
     }
 
     return (
-      <View>
-        <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
+      <SafeAreaView style={[styles]}>
+        <Header style={[HeaderStyle.header]} iosBarStyle="light-content">
           <Left>
             {this.renderLeft(left, backButton)}
           </Left>
@@ -120,7 +120,7 @@ class MainHeader2 extends Component {
             {this.renderRight(right)}
           </Right>
         </Header>
-      </View>
+      </SafeAreaView>
     );
   }
 }

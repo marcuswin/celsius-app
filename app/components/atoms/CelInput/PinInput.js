@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import { Dimensions, Text, TextInput, View } from "react-native";
 
 import PinInputStyle from "./PinInput.styles";
@@ -9,17 +9,26 @@ import testUtil from "../../../utils/test-util";
 const PinTextFontSizeMap = {
   4: FONT_SCALE * 40,
   5: FONT_SCALE * 28,
-  6: FONT_SCALE * 22,
+  6: FONT_SCALE * 24,
 };
 
 // Please don't hate me for the name, we can rename it when we remove PinInput. :)
 class PinInput extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
-      active: false
+      active: false,
+      deactivateTimeout: null,
     };
+  }
+
+  componentWillUnmount() {
+    const {deactivateTimeout} = this.state;
+
+    if (deactivateTimeout) {
+      clearTimeout(deactivateTimeout);
+    }
   }
 
   // Component graber for cavy
@@ -28,10 +37,16 @@ class PinInput extends Component {
     return testUtil.generateTestHook(this, testSelector, ref => { this.input = ref });
   }
 
-  getDigitValue = value => {
-    const {showDigits} = this.props;
+  /**
+   * @param {string} value
+   * @param {number} index
+   * @return {string}
+   */
+  getDigitValue = (value, index) => {
+    const {showDigits, value: inputValue} = this.props;
+    const {active} = this.state;
 
-    if (showDigits && value) {
+    if (showDigits && value || (index === inputValue.length && active)) {
       return value;
     }
 
@@ -58,6 +73,23 @@ class PinInput extends Component {
     }
   };
 
+  handleInputBlur = () => {
+    const timeout = setTimeout(() => {
+      this.setState({
+        active: false,
+        deactivateTimeout: null,
+      });
+    }, 500);
+
+    this.setState({ deactivateTimeout: timeout});
+
+    const {onBlur} = this.props;
+
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   render() {
     const { digits, value, onFocus, theme } = this.props;
     const { active } = this.state;
@@ -65,7 +97,7 @@ class PinInput extends Component {
 
     const width = Dimensions.get("window").width - 72;
 
-    const pinSize = (width - 12 * (digits - 1)) / digits;
+    const pinSize = (width - (48 / digits) * (digits - 1)) / digits;
 
     const digitWrapperStyle = {
       width: pinSize,
@@ -87,6 +119,7 @@ class PinInput extends Component {
     }
 
     const digitsMap = [...Array(digits)].map((mapValue, index) => ({
+      active: (index === value.length || (value.length === digits && index + 1 === digits)) && active,
       index: index + 1,
       value: value[index]
     }));
@@ -97,11 +130,15 @@ class PinInput extends Component {
       <View style={PinInputStyle.container}>
         <View style={PinInputStyle.digitsWrapper}>
           {digitsMap.map(digit =>
-            <View
-                  key={digit.index}
-                  style={[PinInputStyle.digitWrapper, digitWrapperStyle, digitBackgroundStyle]}>
+            <View key={digit.index}
+                  style={[
+                    PinInputStyle.digitWrapper,
+                    digitWrapperStyle,
+                    digitBackgroundStyle,
+                    digit.active ? PinInputStyle.digitWrapperActive : {},
+                  ]}>
               <Text style={[PinInputStyle.digitText, pinTextStyle]}>
-                {this.getDigitValue(digit.value)}
+                {this.getDigitValue(digit.value, digit.index)}
               </Text>
             </View>
           )}
@@ -121,7 +158,7 @@ class PinInput extends Component {
                      }
                      this.setState({ active: true });
                    }}
-                   onBlur={() => this.setState({ active: false })}/>
+                   onBlur={this.handleInputBlur}/>
       </View>
     );
   }

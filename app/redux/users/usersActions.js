@@ -12,6 +12,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
@@ -19,6 +20,8 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 export {
   getProfileInfo,
   updateProfileInfo,
+  updateProfileAddressInfo,
+  updateProfileTaxpayerInfo,
   toggleTermsOfUse,
   updateProfilePicture,
   getKYCDocuments,
@@ -31,6 +34,9 @@ export {
   getKYCStatus,
   setPin,
   updateUserAppSettings,
+  getTwoFactorSecret,
+  enableTwoFactor,
+  disableTwoFactor,
 }
 
 function getProfileInfo() {
@@ -78,6 +84,46 @@ function updateProfileInfo(profileInfo) {
   }
 }
 
+function updateProfileAddressInfo(profileAddressInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER_ADDRESS_INFO));
+
+    try {
+      const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
+      dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
+    } catch(err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(updateProfileAddressInfoError(err.raw_error));
+      dispatch(apiError(API.UPDATE_USER_ADDRESS_INFO, err));
+    }
+  }
+}
+
+function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
+
+    try {
+      const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
+      dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
+      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
+    } catch(err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(updateProfileTaxpayerInfoError(err.raw_error));
+      dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
+    }
+  }
+}
+
 function updateProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
@@ -89,6 +135,35 @@ function updateProfileInfoSuccess(personalInfo) {
 function updateProfileInfoError(err) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR,
+    error: err,
+  }
+}
+
+function updateProfileAddressInfoSuccess(addressInfo) {
+  return {
+    type: ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS,
+    callName: API.UPDATE_USER_ADDRESS_INFO,
+    addressInfo,
+  }
+}
+
+function updateProfileAddressInfoError(err) {
+  return {
+    type: ACTIONS.UPDATE_USER_ADDRESS_INFO_ERROR,
+    error: err,
+  }
+}
+function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
+  return {
+    type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS,
+    callName: API.UPDATE_USER_TAXPAYER_INFO,
+    taxpayerInfo,
+  }
+}
+
+function updateProfileTaxpayerInfoError(err) {
+  return {
+    type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_ERROR,
     error: err,
   }
 }
@@ -345,6 +420,56 @@ function setPin(pinData) {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+function getTwoFactorSecret(pin) {
+  return async dispatch => {
+    try {
+      const secret = await TwoFactorService.beginTwoFactorActivation(pin);
+
+      return secret;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+    }
+  }
+}
+
+function enableTwoFactor(code) {
+  return async dispatch => {
+    try {
+      const success = await TwoFactorService.enableTwoFactor(code);
+
+      if (!success) {
+        dispatch(showMessage('error', "lalal"));
+      }
+
+      const personalInfoRes = await usersService.getPersonalInfo();
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
+
+      return success;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+    }
+  }
+}
+
+function disableTwoFactor(pin) {
+  return async dispatch => {
+    try {
+      const success = await TwoFactorService.disableTwoFactor(pin);
+
+      const personalInfoRes = await usersService.getPersonalInfo();
+      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
+
+      dispatch(getUserPersonalInfoSuccess(personalInfo));
+
+      return success;
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
     }
   }
 }

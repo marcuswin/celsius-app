@@ -102,11 +102,12 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {string} coin
  * @param {string} address
  * @param {number} amount
+ * @param {Object} verification
  */
-export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
+export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;
 
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
       currentApiCall = API.SET_COIN_WITHDRAWAL_ADDRESS;
       dispatch(startApiCall(currentApiCall));
@@ -121,7 +122,7 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount)
       currentApiCall = API.WITHDRAW_CRYPTO;
       dispatch(startApiCall(currentApiCall));
 
-      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
+      const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch (error) {
@@ -154,12 +155,12 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
-export function withdrawCrypto(coin, amount) {
-  return async (dispatch, getState) => {
+export function withdrawCrypto(coin, amount, verification) {
+  return async dispatch => {
     try {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
+      const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch(err) {

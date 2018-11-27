@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { Content } from "native-base";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import moment from "moment";
 import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
@@ -13,12 +14,24 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
+import BitcoinCashForkInfo from "../../organisms/BitcoinCashForkInfo/BitcoinCashForkInfo";
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.ui.formData,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawalInfo extends Component {
+  shouldHideBCH = () => {
+    const { formData: {currency} } = this.props;
+
+    const currentTimestamp = moment.utc(Date.now());
+    const bitcoinCashForkTimestamp = moment.utc('2018-11-15T04:40:00+0000');
+
+    return currency === 'bch' && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
+  };
+
   render() {
     const { actions } = this.props;
     return (
@@ -33,27 +46,36 @@ class WithdrawalInfo extends Component {
         </View>
 
         <CelHeading
-          text="Are You Sure?"
+          text={this.shouldHideBCH() ? 'Withdraw Funds' : "Are You Sure?"}
           textAlign="center"
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
-          </Text>
+          </Text>}
 
-          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             Withdrawing your funds will reduce the amount of interest you could potentially earn.
-          </Text>
+          </Text>}
 
-          <CelButton
+          {this.shouldHideBCH() && <BitcoinCashForkInfo/>}
+
+          {!this.shouldHideBCH() && <CelButton
             ref={testUtil.generateTestHook(this, 'WithdrawalInfo.continue')}
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
-          </CelButton>
+          </CelButton>}
+          {this.shouldHideBCH() && <CelButton
+            white
+            margin="20 30 20 30"
+            onPress={() => actions.navigateBack()}
+          >
+            I Understand
+          </CelButton>}
         </Content>
       </BasicLayout>
     );

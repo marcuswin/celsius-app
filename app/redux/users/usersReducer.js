@@ -16,6 +16,7 @@ const initialState = {
     showWalletLandingInfoBox: true,
     showSecureTransactionsScreen: true,
     showTodayRatesModal: true,
+    showBchExplanationInfoBox: true,
   }
 };
 
@@ -131,6 +132,22 @@ export default (state = initialState, action) => {
         user: {
           ...state.user,
           ...action.personalInfo,
+        },
+      };
+      case ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.addressInfo,
+        },
+      };
+      case ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.taxpayerInfo,
         },
       };
     case ACTIONS.SET_PIN_SUCCESS:

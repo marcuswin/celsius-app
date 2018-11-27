@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import {FONT_SCALE, STYLES, COLORS} from "../../../config/constants/style";
+
+const {width} = Dimensions.get('window');
 
 const CelButtonStyle = StyleSheet.create({
   baseButton: {
@@ -38,6 +40,11 @@ const CelButtonStyle = StyleSheet.create({
   },
   whiteBtnTitle: { color: 'transparent', margin: 'auto' },
 
+  letterButton: { borderRadius: 15, height: 30, width: width/3, borderWidth: 0, justifyContent: 'flex-start', paddingLeft: 0 },
+  letterBtnTitle: { fontSize: FONT_SCALE * 13, fontFamily: 'agile-medium', margin: 'auto' },
+
+  microButton: { borderRadius: 15, height: 30, width: width/3, borderWidth: 1 },
+  microBtnTitle: { fontSize: FONT_SCALE * 13, fontFamily: 'agile-medium', margin: 'auto' },
   miniButton: { borderRadius: 20, height: 40, paddingLeft: 10, paddingRight: 10, },
   miniBtnTitle: { fontSize: FONT_SCALE * 16, fontFamily: 'agile-medium', margin: 'auto' },
   smallButton: { borderRadius: 25, height: 50 },
