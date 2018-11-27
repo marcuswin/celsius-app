@@ -20,7 +20,7 @@ export default {
 	selectBCH,
 }
 
-dispatch(actions.logoutUser());
+// dispatch(actions.logoutUser());
 
 function navigateToWithdrawPage(spec){
 	return async () => {
@@ -61,7 +61,7 @@ function withdrawInsufficientFunds(spec){
 		await spec.press('AmountInput.zero')
 		await spec.pause(5000)
 		await spec.press('AmountInput.send')
-		
+
 		// Add showMessage when insufficient funds
 	}
 }
@@ -69,7 +69,7 @@ function withdrawInsufficientFunds(spec){
 function withdraw$2(spec){
 	return async () => {
 
-		await spec.pause(2000)	
+		await spec.pause(2000)
 		await spec.press('AmountInput.two')
 		await spec.press('AmountInput.send')
 		await spec.pause(5000)
@@ -85,7 +85,7 @@ function withdraw$2(spec){
 function withdraw$2XRP(spec){
 	return async () => {
 
-		await spec.pause(2000)	
+		await spec.pause(2000)
 		await spec.press('AmountInput.two')
 		await spec.press('AmountInput.send')
 		await spec.pause(5000)
@@ -106,7 +106,7 @@ function withdraw$5(spec){
 
 		await spec.pause(2000)
 		await spec.press('AmountInput.five')
-		
+
 		await spec.press('AmountInput.send')
 		await spec.pause(5000)
 		await spec.press('TransactionConfirmation.confirmWithdraw')

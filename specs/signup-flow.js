@@ -28,9 +28,6 @@ export default {
   signupKYCSuccess,
 }
 
-dispatch(actions.logoutUser());
-
-
 // Welcome screen tests
 function pressSkipIntro(spec) {
   return async () => {
@@ -217,7 +214,7 @@ function disableCreatePasscode(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
 
-      
+
     }
   }
 }
@@ -225,7 +222,7 @@ function disableCreatePasscode(spec) {
 function createPasscode(spec) {
   return async () => {
     createPinSetup();
-  
+
     await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Repeat PIN')
@@ -245,7 +242,7 @@ function disableRepeatPasscode(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
 
-      
+
     }
   }
 }
@@ -288,7 +285,7 @@ function signupKYCSuccess(spec) {
     await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
     await spec.fillIn('SignupTwo.LastName', 'Krstonic')
     await spec.press('SignupTwo.CreatePin')
-  
+
     await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Repeat PIN')
@@ -302,4 +299,4 @@ function signupKYCSuccess(spec) {
     await spec.press('NoKyc.VerifyProfile')
 
   }
-} 
+}

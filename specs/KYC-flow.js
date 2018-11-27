@@ -19,18 +19,18 @@ export default {
 	finishKycFlow,
 }
 
-dispatch(actions.logoutUser());
+// dispatch(actions.logoutUser());
 
 
 function firstAndLastNameExist(spec) {
 	return async () => {
-	
+
 	}
 }
 
 function noTitle(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		await spec.pause(3000)
 		store.dispatch(actions.updateFormField('firstName', "Nemanja" ));
@@ -48,7 +48,7 @@ function noTitle(spec) {
 
 function noDateOfBirth(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		store.dispatch(actions.updateFormField('title','mr'));
 		await spec.pause(3000)
@@ -66,7 +66,7 @@ function noDateOfBirth(spec) {
 
 function noCitizenship(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		store.dispatch(actions.updateFormField('title','mr'));
 		await spec.pause(3000)
@@ -84,7 +84,7 @@ function noCitizenship(spec) {
 
 function noGender(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		store.dispatch(actions.updateFormField('title','mr'));
 		await spec.pause(3000)
@@ -102,7 +102,7 @@ function noGender(spec) {
 
 function noFirstName(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		store.dispatch(actions.updateFormField('title','mr'));
 		await spec.pause(3000)
@@ -121,7 +121,7 @@ function noFirstName(spec) {
 
 function noLastName(spec) {
 	return async () => {
-		kycSetup() 
+		kycSetup()
 
 		store.dispatch(actions.updateFormField('title','mr'));
 		await spec.pause(3000)
@@ -159,15 +159,15 @@ function identityCardPicture(spec) {
 		await spec.press('CameraInput.front')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
-		
+
 		await spec.pause(5000)
-		
+
 		await spec.press('CameraInput.back')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
-		
+
 		await spec.pause(2000)
-		
+
 
 	}
 }
@@ -182,9 +182,9 @@ function drivingLicencePicutre(spec) {
 		await spec.press('CameraInput.front')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
-		
+
 		await spec.pause(2000)
-		
+
 		await spec.press('CameraInput.back')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
@@ -195,11 +195,11 @@ function passportPicture(spec){
 	return async () => {
 		await spec.pause(5000)
 		await spec.press('VerifyProfile.passport')
-		
+
 		await spec.press('CameraInput.front')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
-	
+
 	}
 
 }
@@ -209,7 +209,7 @@ function finishKycFlow(spec) {
 		await spec.pause(5000)
 
 		await spec.press('VerifyProfile.passport')
-		
+
 		await spec.press('CameraInput.front')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')

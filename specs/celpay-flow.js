@@ -17,7 +17,7 @@ export default {
 	celPay$2,
 }
 
-dispatch(actions.logoutUser());
+// dispatch(actions.logoutUser());
 
 function navigateToCelPay(spec){
 	return async () => {
@@ -26,7 +26,7 @@ function navigateToCelPay(spec){
 		await spec.pause(4000)
 		await spec.press('BottomNavigation.Pay')
 		await spec.exists('SelectCoin.main')
-		
+
 	}
 }
 
@@ -60,7 +60,7 @@ function celPayInsufficientFunds(spec){
 		await spec.press('AmountInput.zero')
 		await spec.pause(5000)
 		await spec.press('AmountInput.send')
-		
+
 		// Add showMessage when insufficient funds
 	}
 }
@@ -68,7 +68,7 @@ function celPayInsufficientFunds(spec){
 function celPay$2(spec){
 	return async () => {
 
-		await spec.pause(2000)	
+		await spec.pause(2000)
 		await spec.press('AmountInput.two')
 		await spec.press('AmountInput.send')
 		await spec.pause(5000)
@@ -87,7 +87,7 @@ function selectCoinBTC(spec) {
 		const btn = await spec.findComponent('SelectCoin.BTC')
     if (!btn.props.disabled) {
 			await spec.press('SelectCoin.BTC')
-		}	
+		}
 	}
 }
 

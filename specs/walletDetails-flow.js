@@ -17,7 +17,7 @@ export default {
 	cel,
 }
 
-dispatch(actions.logoutUser());
+// dispatch(actions.logoutUser());
 
 function graphs(spec) {
 	return async () => {
@@ -74,7 +74,7 @@ function logins(spec) {
 
 function eth(spec) {
 	return async () => {
-		
+
 		await spec.pause(5000)
 		await spec.exists('WalletBalance.ETH')
 		await spec.press('WalletBalance.ETH')

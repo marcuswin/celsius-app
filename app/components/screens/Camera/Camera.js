@@ -215,7 +215,7 @@ class CameraScreen extends Component {
                 )}
               </TouchableOpacity>
 
-              <TouchableOpacity ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')} onPress={this.takeCameraPhoto}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')} onPress={this.takePhoto}>
                 <View style={CameraStyle.outerCircle}>
                   {!this.state.isLoading && this.state.hasCameraPermission ? (
                     <View style={CameraStyle.innerCircle} />

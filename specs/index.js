@@ -5,7 +5,6 @@ import walletDetails from './walletDetails-flow';
 import earnInerestFlow from './earn-interest-flow';
 import withdrawFlow from './withdraw-flow'
 import celPayFlow from './celpay-flow';
-import celpayFlow from './celpay-flow';
 
 export default function(spec) {
   // testSignupFlow(spec);
@@ -15,7 +14,7 @@ export default function(spec) {
   // testWithdrawFlow(spec);
   // testCelPayFlow(spec)
   testEarnFlow(spec);
-  
+
 
   // spec.describe('Single test', () => { spec.it('should pass', signupFlow.createPasscode(spec)) })
 }
@@ -58,7 +57,7 @@ export function testSignupFlow(spec) {
 
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
-    
+
     // Login screen tests
     spec.it('button should be disabled when no email and password entered', loginFlow.disableWhenNoLoginData(spec))
     spec.it('button should be disabled when no email entered', loginFlow.disableWhenNoEmail(spec))
@@ -84,7 +83,7 @@ export function testKYCFlow(spec) {
     spec.it('should show error when no first name', kycFlow.noFirstName(spec))
     spec.it('should show error when no last name', kycFlow.noLastName(spec))
 
-    // KYC success 
+    // KYC success
     spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.signupKYCSuccess(spec))
     spec.it('should go to VerifyProfile screen when all info is valid', kycFlow.kycSuccess(spec))
 
@@ -129,7 +128,7 @@ export function testWalletDetailsFlow(spec) {
     spec.it('should navigate to BCH balance', walletDetails.bch(spec))
     spec.it('line charts should exist for different time', walletDetails.graphs(spec))
     spec.it('address and QR code for BCH should exists on add funds page', walletDetails.addressAndQR(spec))
-    
+
     // CEL Wallet details
     spec.it('should navigate to CEL balance', walletDetails.cel(spec))
     spec.it('address and QR code for CEL should exists on add funds page', walletDetails.addressAndQR(spec))
@@ -139,7 +138,7 @@ export function testWalletDetailsFlow(spec) {
 export function testWithdrawFlow(spec) {
   spec.describe('Test withdraw flow', () => {
 
-    // spec.it('should login user', waletDetails.logins(spec)) 
+    // spec.it('should login user', waletDetails.logins(spec))
 
     // Withdraw ETH
     spec.it('should navigate to ETH wallet', withdrawFlow.selectETH(spec))
@@ -178,12 +177,12 @@ export function testWithdrawFlow(spec) {
 
     // Withdraw BCH
     // spec.it('should navigate to BCH wallet', withdrawFlow.selectBCH(spec))
-  // spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
+    // spec.it('should navigate to withdraw screen', withdrawFlow.navigateToWithdrawPage(spec))
     // spec.it('should throw error when withdraw less then $1', withdrawFlow.withdrawLessThan$1(spec))
     // spec.it('should throw error when insufficient funds', withdrawFlow.withdrawInsufficientFunds(spec))
     // spec.it('should withdraw $2 BCH', withdrawFlow.withdraw$2(spec))
 
-  }) 
+  })
 }
 
 export function testCelPayFlow(spec) {
@@ -191,7 +190,7 @@ export function testCelPayFlow(spec) {
 
     spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
     spec.it('should select btc', celPayFlow.selectCoinBTC(spec))
-    spec.it('test', celpayFlow.celPayLessThan$1(spec))
+    spec.it('test', celPayFlow.celPayLessThan$1(spec))
 
     spec.it('should navigate to cel pay screen', celPayFlow.navigateToCelPay(spec))
     spec.it('should select ETH', celPayFlow.selectCoinETH(spec))
@@ -216,7 +215,7 @@ export function testEarnFlow(spec) {
 
     spec.it('should navigate to earn tab', earnInerestFlow.navigateToEarnTab(spec))
     spec.it('11111111111', earnInerestFlow.selectCurrency(spec))
-    
+
   })
 }
 
