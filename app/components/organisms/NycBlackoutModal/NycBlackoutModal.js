@@ -10,6 +10,9 @@ import CelModal from "../../atoms/CelModal/CelModal";
 import { MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 
+// TODO(ns): determine starting and ending date
+const currentTimestamp = moment.utc(Date.now());
+const NycBlackoutTimestamp = moment.utc("2018-11-27T04:40:00+0000");
 
 @connect(
   state => ({
@@ -36,7 +39,7 @@ class NycBlackoutModal extends Component {
   click = () => {
     const { actions, user } = this.props;
 
-    if (user.state === "New York") {
+    if (user.state === "New York" || currentTimestamp.isAfter(NycBlackoutTimestamp)) {
       Linking.openURL("mailto:app@celsius.network");
     } else {
       actions.navigateTo("Profile");
@@ -48,11 +51,6 @@ class NycBlackoutModal extends Component {
   render() {
     const { actions, user, openedModal } = this.props;
 
-    const currentTimestamp = moment.utc(Date.now());
-
-    // TODO(ns): determine starting and ending date
-
-    const NycBlackoutTimestamp = moment.utc("2018-11-30T04:40:00+0000");
     let cancelDisabled = false;
     let heading;
     let additionalText;

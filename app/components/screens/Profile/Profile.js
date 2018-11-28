@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
+import moment from "moment/moment";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import * as appActions from "../../../redux/actions";
@@ -23,6 +24,7 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
+
 
 const { revisionId } = Constants.manifest;
 
@@ -142,6 +144,9 @@ class ProfileScreen extends Component {
   initForm = () => {
     const { actions, user, formData } = this.props;
     const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
+    const NycBlackoutTimestamp = moment.utc("2018-11-27T04:40:00+0000");
+    const currentTimestamp = moment.utc(Date.now());
+
     if (user) {
       const data = {
         ...formData,
@@ -170,8 +175,13 @@ class ProfileScreen extends Component {
         national_id: user.national_id,
       }
       actions.initForm(data)
+
+
       if (!data.street && !data.city && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
+        if(currentTimestamp.isAfter(NycBlackoutTimestamp)) {
+          this.setState({ addressEditable: false });
+        }
       }
       if (((data.country === "United States" && !data.ssn) || (data.country !== "United States" && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
         this.setState({ taxpayerEditable: true });
