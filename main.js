@@ -10,8 +10,10 @@ const testHookStore = new TestHookStore();
 export default class AppWrapper extends Component {
     render() {
       if (ENV === 'TEST') {
+        const specs = require('./specs');
+
         return (
-          <Tester specs={[require('./specs')]} store={testHookStore} waitTime={4000} startDelay={3000} >
+          <Tester specs={[specs.testSignupFlow]} store={testHookStore} startDelay={10000} waitTime={4000}>
             <App />
           </Tester>
         )

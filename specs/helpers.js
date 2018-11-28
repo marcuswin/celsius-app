@@ -36,10 +36,9 @@ export async function onChange(field, item) {
   component.props.onChange();
 }
 
-export function resetTests() {
+export async function resetTests() {
   dispatch(actions.clearForm());
-  dispatch({ type: ACTIONS.LOGOUT_USER });
-
+  await dispatch(actions.logoutUser());
 }
 
 export function testPassed(spec) {
@@ -87,8 +86,8 @@ export function signupTwoSetup() {
     "two_factor_enabled": null,
     "two_factor_secret": null
   }}));
-  
-  dispatch(actions.navigateTo('Home'))
+
+  dispatch(actions.navigateTo('SignupTwo'))
 }
 
 export function createPinSetup() {
@@ -130,10 +129,10 @@ export function WalletDetailsSetup() {
 
 export function loginUserSetup() {
   dispatch(actions.loginBorrower( {
-    
+
       email: 'filip.jovakaric+wlt@mvpworkshop.co',
       password: 'filip123',
   }));
-  
+
   dispatch(actions.navigateTo('Home'))
 }

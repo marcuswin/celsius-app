@@ -31,18 +31,16 @@ export default {
 // Welcome screen tests
 function pressSkipIntro(spec) {
   return async () => {
-    resetTests()
-    dispatch(actions.navigateTo('Welcome'));
+    await resetTests();
 
     await spec.press('Welcome.skipButton')
     await spec.exists('SignupOne.screen')
-
   }
 }
 
 function disableWhenNoData(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
@@ -51,12 +49,13 @@ function disableWhenNoData(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
     }
+
   }
 }
 
 function disableWhenNoEmail(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
@@ -66,16 +65,15 @@ function disableWhenNoEmail(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
     }
+
   }
 }
 
 function disableWhenNoPassword(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
 
-    dispatch(actions.clearForm());
-    await spec.pause(5000)
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@mvpworkshop.co`)
 
@@ -83,12 +81,13 @@ function disableWhenNoPassword(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
     }
+
   }
 }
 
 function errorWhenEmailInvalid(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
@@ -97,13 +96,15 @@ function errorWhenEmailInvalid(spec) {
     await spec.press('SignupOne.button')
 
     await spec.notExists('SignupTwo.screen')
+
   }
 }
 
 function errorWhenPasswordWeak(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
+    await spec.pause(1000)
 
     await spec.pause(5000)
     await spec.exists('SignupOne.screen')
@@ -117,8 +118,9 @@ function errorWhenPasswordWeak(spec) {
 
 function errorWhenUserExists(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
+    await spec.pause(1000)
 
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email','filip.jovakaric+wlt@mvpworkshop.co')
@@ -131,7 +133,7 @@ function errorWhenUserExists(spec) {
 
 function stepOneSuccess(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
@@ -145,20 +147,22 @@ function stepOneSuccess(spec) {
 
 function disableWhenNoNames(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupTwoSetup();
 
-    await spec.pause(3000)
     await spec.exists('SignupTwo.screen')
+    const btn = await spec.findComponent('SignupTwo.CreatePin')
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
   }
 }
 
 function disableWhenNoLastName(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupTwoSetup();
 
-    await spec.pause(3000)
     await spec.exists('SignupTwo.screen')
     await spec.fillIn('SignupTwo.LastName', 'Krstonic')
     const btn = await spec.findComponent('SignupTwo.CreatePin')
@@ -172,10 +176,9 @@ function disableWhenNoLastName(spec) {
 
 function disableWhenNoFirstName(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupTwoSetup();
 
-    await spec.pause(3000)
     await spec.exists('SignupTwo.screen')
     await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
 
@@ -190,10 +193,9 @@ function disableWhenNoFirstName(spec) {
 
 function stepTwoSuccess(spec) {
   return async () => {
-    resetTests();
+    await resetTests();
     signupTwoSetup();
 
-    await spec.pause(3000)
     await spec.exists('SignupTwo.screen')
     await spec.fillIn('SignupTwo.FirstName', 'Nemanja')
     await spec.fillIn('SignupTwo.LastName', 'Krstonic')
@@ -205,7 +207,6 @@ function disableCreatePasscode(spec) {
   return async () => {
     createPinSetup();
 
-    await spec.pause(2000)
     await spec.fillIn('passcode.pin','111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -223,7 +224,6 @@ function createPasscode(spec) {
   return async () => {
     createPinSetup();
 
-    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -233,7 +233,6 @@ function createPasscode(spec) {
 function disableRepeatPasscode(spec) {
   return async () => {
 
-    await spec.pause(2000)
     await spec.fillIn('passcode.pin','111')
     await spec.press('Passcode.Repeat PIN')
 
@@ -249,8 +248,6 @@ function disableRepeatPasscode(spec) {
 
 function disableWrongPasscode(spec) {
   return async () => {
-
-    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1234')
     await spec.press('Passcode.Confirm')
   }
@@ -258,8 +255,6 @@ function disableWrongPasscode(spec) {
 
 function finishPasscode(spec) {
   return async () => {
-
-    await spec.pause(2000)
     await spec.fillIn('passcode.pin','1111')
     await spec.press('Passcode.Confirm')
     // await spec.exists('NoKyc.screen')
