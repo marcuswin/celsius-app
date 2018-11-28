@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
+import store from '../../../redux/store';
 import EmptyStateStyle from "./EmptyState.styles";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
@@ -8,11 +9,12 @@ const EmptyState = (props) => {
 
   let title;
   let text;
+  const { user } = store.getState().users;
 
   switch (props.purpose) {
     case "NycBlackout":
-      title = "Looks like we’re missing some information from you.";
-      text = "Please contact app@celsius.network to gain access back to your account.";
+      title = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time." : "Looks like we’re missing some information from you.";
+      text = user.state === "New York" ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
       break;
     default:
       title = "From here you can pay your friends back with crypto";
