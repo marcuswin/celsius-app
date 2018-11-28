@@ -57,22 +57,20 @@ class ProfileScreen extends Component {
     super(props);
     this.state = {
       addressEditable: false,
-      taxpayerEditable: false
+      taxpayerEditable: false,
     }
   }
 
   componentDidMount = () => {
     this.initForm();
     this.props.actions.getProfileInfo();
-  }
+  };
 
   validateAddressInformationForm = () => {
     const { formData, actions } = this.props;
     const formErrors = {};
 
     if (!formData.street) formErrors.street = 'Street is required!';
-    if (!formData.buildingNumber) formErrors.building_number = 'Building number is required!';
-    if (!formData.flatNumber) formErrors.flat_number = 'Flat number is required!';
     if (!formData.city) formErrors.city = 'City is required!';
     if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
     if (!formData.country) formErrors.country = 'Country is required!';
@@ -84,6 +82,8 @@ class ProfileScreen extends Component {
       return true;
     }
   }
+
+
 
   validateTaxpayerForm = () => {
     const { formData, actions } = this.props;
@@ -170,14 +170,14 @@ class ProfileScreen extends Component {
         national_id: user.national_id,
       }
       actions.initForm(data)
-      if (!data.street && !data.building_number && !data.flat_number && !data.city && user.kyc.status === "passed") {
+      if (!data.street && !data.city && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
       }
       if (((data.country === "United States" && !data.ssn) || (data.country !== "United States" && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
         this.setState({ taxpayerEditable: true });
       }
     }
-  }
+  };
 
   render() {
     const { user, formData, actions, callsInProgress, error, formErrors } = this.props;
@@ -236,7 +236,8 @@ class ProfileScreen extends Component {
 
             <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText]}>
               Date of birth
-          </Text>
+            </Text>
+
             <View style={ProfileStyle.dateOfBirthContainer}>
               <View style={ProfileStyle.dateOfBirthInnerContainer}>
                 <CelSelect disabled theme="white" onlyError error={formErrors.month} field="month" type="month" labelText="Month" value={formData.month} flex={1.4} margin={"0 15 2 0"} />
@@ -255,20 +256,20 @@ class ProfileScreen extends Component {
             {addressEditable &&
               <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText, { marginBottom: 20 }]}>
                 Due to Anti-Money Laundering laws and regulations, we must collect the information below.
-        </Text>
+              </Text>
             }
 
-            <CelInput editable={addressEditable} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
+            <CelSelect disabled={!addressEditable} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
             {formData.country === "United States" ?
               <CelSelect disabled={!addressEditable} theme="white" error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
               :
-              <CelInput editable={addressEditable} theme="white" value={formData.state} error={formErrors.state} field="state" labelText="State" autoCapitalize="sentences" />
+             null
             }
+            <CelInput editable={addressEditable} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
             <CelInput editable={addressEditable} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-            <CelSelect disabled={!addressEditable} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+            <CelInput editable={addressEditable} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
 
             {addressEditable &&
               <View style={{ marginTop: 15, marginBottom: 30 }}>
