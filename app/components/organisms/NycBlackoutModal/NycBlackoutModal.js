@@ -74,11 +74,13 @@ class NycBlackoutModal extends Component {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
       additionalText = "Please withdraw your funds within seven days or contact app@celsius.network for support.";
       cancelDisabled = true;
+      actions.updateUserAppSettings({ declineAccess: false });
     } else {
       heading = user.country === "United States" ? "Hey there! To comply with federal laws and regulations, please press continue to enter your residential address and Social Security Number." :
         "Hey! We're missing some important info from you!";
       additionalText = user.country !== "United States" ? "Please complete this within 7 days to avoid a freeze on your account." :
         "Please complete your profile.";
+      actions.updateUserAppSettings({ declineAccess: false });
     }
 
     return (
