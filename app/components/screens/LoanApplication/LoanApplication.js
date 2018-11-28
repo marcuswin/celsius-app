@@ -243,7 +243,7 @@ class LoanApplication extends Component {
             <Text style={[globalStyles.normalText, { fontFamily: "inconsolata-regular", textAlign: "left" }]}>
               Amount: {formatter.crypto(formData.amountCollateralCrypto, formData.coin.toUpperCase(), { precision: 5 })}
             </Text>
-          )}e
+          )}
 
           <Separator margin="24 0 24 0" />
           <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>{loanAmountText}</Text>
