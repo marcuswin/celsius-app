@@ -1,5 +1,8 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+import device from "../../../utils/device-util";
+
+console.log(device.isiPhoneX())
 
 const { height } = Dimensions.get('window');
 
@@ -9,7 +12,7 @@ const SelectCountryStyles = StyleSheet.create({
     paddingRight: 40,
     paddingLeft: 20,
     borderBottomColor: 'transparent',
-    height: 60,
+    height: device.isiPhoneX() ? 90 : 60
   },
   headerTitle: {
     color: 'white',
@@ -53,7 +56,7 @@ const SelectCountryStyles = StyleSheet.create({
   },
   content: {
     height: height - 120,
-    paddingBottom: 10,
+    paddingBottom: 10
   }
 });
 

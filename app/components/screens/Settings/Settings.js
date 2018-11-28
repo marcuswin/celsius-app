@@ -44,7 +44,7 @@ class Settings extends Component {
           textAlign: 'right',
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: 'agile-medium',
         }]}>Log out</Text>
       </TouchableOpacity>

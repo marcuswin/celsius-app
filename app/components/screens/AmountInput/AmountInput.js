@@ -3,17 +3,19 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, COLORS } from "../../../config/constants/style";
 import * as appActions from "../../../redux/actions";
 import AmountInputStyle from "./AmountInput.styles";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
-import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+
+const predefinedAmounts = ["20", "50", "100", "All"];
 
 @connect(
   state => {
@@ -68,6 +70,27 @@ class AmountInput extends Component {
     })
   }
 
+  onPressPredefinedAmount = (number) => {
+    const { formData, actions } = this.props;
+    let amount;
+
+    if (number === 'All') {
+      amount = formData.inUsd ? (formData.balance * formData.rateUsd).toString() : formData.balance;
+    } else {
+      amount = formData.inUsd ? number : (Number(number) / formData.rateUsd).toString()
+    }
+
+    const amountUsd = Number(amount);
+    const amountCrypto = Number(number) / formData.rateUsd;
+    if (amountUsd > 20000) {
+      actions.showMessage('info', 'Maximum amount to withdraw is $20,000.00');
+    } else if (amountCrypto > formData.balance) {
+      actions.showMessage('info', 'Insufficient funds');
+    } else {
+      this.updateAmount(amount);
+    }
+  }
+
   onPressNumber = (number) => {
     const { formData, actions } = this.props;
     const decimal = formData.inUsd ? 2 : 5;
@@ -93,7 +116,17 @@ class AmountInput extends Component {
 
   onPressErase = () => {
     const { formData } = this.props;
-    this.updateAmount(formData.amount.substring(0, formData.amount.length - 1));
+    const decimal = formData.inUsd ? 2 : 5;
+    let amount = formData.amount;
+    if (formData.amount.indexOf('.') > 0 && amount.length - amount.indexOf('.') > decimal + 1) {
+      amount = amount.substring(0, amount.length - (amount.length - amount.indexOf('.') - decimal));
+    } else {
+      amount = amount.substring(0, amount.length - 1);
+    }
+    if (amount.length - 1 === amount.indexOf('.')) {
+      amount = amount.substring(0, amount.length - 1);
+    }
+    this.updateAmount(amount);
   }
 
   /**
@@ -125,7 +158,7 @@ class AmountInput extends Component {
     const { formData, actions } = this.props;
     actions.updateFormField('inUsd', !formData.inUsd);
 
-    let newAmount = formData.inUsd ? formData.amountCrypto.toFixed(5).toString() : formData.amountUsd.toFixed(2).toString();
+    let newAmount = formData.inUsd ? formData.amountCrypto.toString() : formData.amountUsd.toString();
 
     if (Number(newAmount) === 0) {
       newAmount = '';
@@ -140,7 +173,7 @@ class AmountInput extends Component {
     actions.updateFormField('amount', amount);
     const amountUsd = formData.inUsd ? Number(amount) : Number(amount) * formData.rateUsd;
     actions.updateFormField('amountUsd', amountUsd);
-    const amountCrypto = !formData.inUsd ? Number(amount) : Number(amount) / formData.rateUsd;
+    const amountCrypto = !formData.inUsd ? amount : Number(amount) / formData.rateUsd;
     actions.updateFormField('amountCrypto', amountCrypto);
   }
 
@@ -192,7 +225,7 @@ class AmountInput extends Component {
 
     if (!formData.currency) return null;
 
-    const mainAmountText = formData.inUsd ? `$${formData.amount || '0.00'}` : `${formData.amount || '0.00000'} ${formData.currency.toUpperCase()}`;
+    const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd || '0.00') : formatter.crypto(formData.amountCrypto || '0.00000', formData.currency.toUpperCase(), { precision: 5 });
     const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, formData.currency.toUpperCase(), { precision: 5 });
 
     const balanceCrypto = formData.balance - formData.amountCrypto;
@@ -210,25 +243,46 @@ class AmountInput extends Component {
           <View style={{ height: 0.75 * screenHeight }}>
             <View style={AmountInputStyle.inputWrapper}>
               <Text style={AmountInputStyle.primaryAmount}>
-                { mainAmountText }
+                {mainAmountText}
               </Text>
               <Text style={AmountInputStyle.secondaryAmount}>
-                { secondaryAmountText }
+                {secondaryAmountText}
               </Text>
 
-              <View style={AmountInputStyle.separator}/>
-
-              <View style={AmountInputStyle.newBalance}>
-                <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
-                <Text style={AmountInputStyle.newBalanceText}>{ displayBalanceCrypto } = </Text>
-                <Text style={[AmountInputStyle.newBalanceText, globalStyles.boldText]}>{ displayBalanceUsd }</Text>
+              <View style={[AmountInputStyle.buttonsWrapper, { flexDirection: "row" }]}>
+                {predefinedAmounts.map(predefinedAmount =>
+                  (Number(predefinedAmount) / formData.rateUsd > formData.balance && predefinedAmount !== 'All') ?
+                    <View
+                      key={predefinedAmount}
+                      style={[AmountInputStyle.periodButtonDisabled, this.state.activePeriod === predefinedAmount ? { backgroundColor: COLORS.gray } : null]}
+                    >
+                      <Text style={AmountInputStyle.periodButtonText}>{predefinedAmount !== "All" ? `$${predefinedAmount}` : "All"}</Text>
+                    </View>
+                    :
+                    <TouchableOpacity
+                      key={predefinedAmount}
+                      style={[AmountInputStyle.periodButton, this.state.activePeriod === predefinedAmount ? { backgroundColor: COLORS.gray } : null]}
+                      onPress={() => this.onPressPredefinedAmount(`${predefinedAmount}`)}
+                    >
+                      <Text style={AmountInputStyle.periodButtonText}>{predefinedAmount !== "All" ? `$${predefinedAmount}` : "All"}</Text>
+                    </TouchableOpacity>
+                )
+                }
               </View>
-              <TouchableOpacity style={AmountInputStyle.switchIcon} onPress={ this.switchCurrencies }>
+
+              <TouchableOpacity style={AmountInputStyle.switchIcon} onPress={this.switchCurrencies}>
                 <Icon name='SwitchIcon' width='36' height='36' fill='rgba(61,72,83,0.3)' stroke='white' />
               </TouchableOpacity>
             </View>
 
             <View style={{ height: 0.55 * screenHeight, marginTop: 0.02 * screenHeight }}>
+
+              <View style={AmountInputStyle.newBalance}>
+                <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
+                <Text style={AmountInputStyle.newBalanceText}>{displayBalanceCrypto} = </Text>
+                <Text style={[AmountInputStyle.newBalanceText, globalStyles.boldText]}>{displayBalanceUsd}</Text>
+              </View>
+
               <View style={AmountInputStyle.numberContent}>
                 {numPad.map(item => (
                   <TouchableOpacity key={item.label} onPress={() => item.action(item.label)}>
@@ -238,7 +292,7 @@ class AmountInput extends Component {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                  )
+                )
                 )}
               </View>
 

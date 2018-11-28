@@ -4,14 +4,14 @@ import { COLORS, FONT_SCALE } from "../../../config/constants/style";
 const TransactionConfirmationStyle = StyleSheet.create({
   screenContentWrapper: {
     marginRight: 36,
-    marginLeft: 36,
+    marginLeft: 36
   },
   withdrawalAddressNotSetText: {
-    marginVertical: 30,
+    marginVertical: 10
   },
   scanQrCode: {
     paddingVertical: 5,
-    color: COLORS.blue,
+    color: COLORS.blue
   },
   addressViewWrapper: {
     backgroundColor: 'rgba(206, 209, 212, 0.4)',
@@ -28,7 +28,7 @@ const TransactionConfirmationStyle = StyleSheet.create({
   toAddress: {
     fontFamily: "agile-book",
     fontSize: FONT_SCALE * 11,
-    color: "rgba(61,72,83,0.3)",
+    color: "rgba(61,72,83,0.3)"
   },
   address: {
     fontFamily: "agile-book",
@@ -43,7 +43,7 @@ const TransactionConfirmationStyle = StyleSheet.create({
     backgroundColor: 'rgb(236, 66, 40)',
     marginRight: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   messageWrapper: {
     marginTop: 30,
@@ -55,7 +55,7 @@ const TransactionConfirmationStyle = StyleSheet.create({
     shadowOffset: {width: 0, height: 3},
     shadowColor: 'rgba(0,0,0,0.05)',
     alignItems: 'center',
-    padding: 16,
+    padding: 16
   }
 });
 

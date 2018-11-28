@@ -146,12 +146,10 @@ class CelSelect extends Component {
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
 
     let inputBackground;
-    if(disabled) {
+    if (disabled) {
       inputBackground = globalStyles[`${theme}InputWrapperDisabled`];
-    } else if(value){
-      inputBackground = globalStyles[`${theme}InputWrapperActive`];
     } else {
-      inputBackground = globalStyles[`${theme}InputWrapper`];
+      inputBackground = globalStyles[`${theme}InputWrapperActive`];
     }
 
     return (
@@ -168,9 +166,11 @@ class CelSelect extends Component {
           <Text style={[globalStyles.input, globalStyles.nonPasswordInputStyle, globalStyles[`${theme}InputTextColor`]]}>
             {value && (value.label || value.name)}
           </Text>
-          <View style={globalStyles.inputIconRight}>
-            <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
-          </View>
+          {!disabled &&
+            <View style={globalStyles.inputIconRight}>
+              <Icon name='CaretDown' height='9' width='15' fill={globalStyles[`${theme}InputTextColor`].color} />
+            </View>
+          }
         </TouchableOpacity>
       </InputErrorWrapper>
     );
@@ -180,7 +180,7 @@ class CelSelect extends Component {
   render() {
     const { type, flex, disabled } = this.props;
     const { visible, items, value } = this.state;
-    const propVisible = (typeof this.props.disabled !== 'undefined' && this.props.disabled) ?  false : visible;
+    const propVisible = (typeof this.props.disabled !== 'undefined' && this.props.disabled) ? false : visible;
     return (
       <View style={flex ? { flex } : null}>
         {type !== 'country' ?
