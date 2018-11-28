@@ -34,9 +34,9 @@ class NycBlackoutModal extends Component {
   // rendering methods
 
   click = () => {
-    const { actions, user, formData } = this.props;
+    const { actions, user } = this.props;
 
-    if (user.state === "New York" || formData.state === "New York") {
+    if (user.state === "New York") {
       Linking.openURL("mailto:app@celsius.network");
     } else {
       actions.navigateTo("Profile");
