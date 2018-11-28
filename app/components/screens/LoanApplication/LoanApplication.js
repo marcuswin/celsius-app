@@ -23,6 +23,7 @@ import Icon from "../../atoms/Icon/Icon";
 import { normalize } from "../../../utils/styles-util";
 import LtvModal from "../../organisms/LtvModal/LtvModal";
 import { heightPercentageToDP } from "../../../utils/scale";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 const LTVs = [
   { percent: 0.2, interest: 0.05 },
@@ -42,7 +43,8 @@ const LTVs20 = [
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     callsInProgress: state.api.callsInProgress,
-    hasPassedKYC: state.users.user.kyc && state.users.user.kyc.status === KYC_STATUSES.passed
+    hasPassedKYC: state.users.user.kyc && state.users.user.kyc.status === KYC_STATUSES.passed,
+    appSettings: state.users.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -129,8 +131,8 @@ class LoanApplication extends Component {
     const { formData } = this.props;
     let direction;
 
-    if(Number(formData.amountCollateralUSD) > 999999999) {
-      direction = {flexDirection: "column", justifyContent: "center"};
+    if (Number(formData.amountCollateralUSD) > 999999999) {
+      direction = { flexDirection: "column", justifyContent: "center" };
     }
 
     return (
@@ -166,15 +168,26 @@ class LoanApplication extends Component {
 
 
   render() {
-    const { formData, callsInProgress, walletCurrencies, actions } = this.props;
+    const { formData, callsInProgress, walletCurrencies, actions, appSettings } = this.props;
     const { pickerItems } = this.state;
     let amountError;
+
+    if (appSettings.declineAccess) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={{ text: "CelBorrow" }}
+        >
+          <EmptyState purpose={"NycBlackout"}/>
+        </SimpleLayout>
+      );
+    }
 
     if (!pickerItems || !formData.ltv) {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "CelBorrow", textAlign: "center" }}
+          animatedHeading={{ text: "CelBorrow" }}
         >
           <Loader/>
         </SimpleLayout>
