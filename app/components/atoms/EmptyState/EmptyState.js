@@ -9,10 +9,10 @@ const EmptyState = (props) => {
   let title;
   let text;
 
-  switch (props.screen) {
-    case "SelectCoin":
-      title = "From here you can pay your friends back with crypto";
-      text = "To send your favorite coins to your favorite people, please verify your identity first.";
+  switch (props.purpose) {
+    case "NycBlackout":
+      title = "Looks like we’re missing some information from you.";
+      text = "Please contact app@celsius.network to gain access back to your account.";
       break;
     default:
       title = "From here you can pay your friends back with crypto";
