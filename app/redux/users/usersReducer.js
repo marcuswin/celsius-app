@@ -17,6 +17,7 @@ const initialState = {
     showSecureTransactionsScreen: true,
     showTodayRatesModal: true,
     showBchExplanationInfoBox: true,
+    declineAccess: false,
   }
 };
 

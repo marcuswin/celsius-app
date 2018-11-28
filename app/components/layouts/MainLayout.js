@@ -11,6 +11,7 @@ import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
 import OfflineMode from "../atoms/OfflineMode/OfflineMode";
 import MaintenanceMode from "../atoms/OfflineMode/MaintenanceMode";
+import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -27,6 +28,7 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 )
 
 class MainLayout extends Component {
+
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
   }
@@ -42,6 +44,7 @@ class MainLayout extends Component {
 
   render() {
     const { hasBottomNavigation, connected, maintenance } = this.props;
+
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
@@ -71,6 +74,7 @@ class MainLayout extends Component {
         <Navigator navigation={navigation} />
         {hasBottomNavigation && <BottomNavigation/>}
         <TodayRatesModal/>
+        <NycBlackoutModal/>
         <TransferReceivedModal/>
       </View>
     );
