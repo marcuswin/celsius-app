@@ -24,6 +24,7 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
+import { KYC_STATUSES } from "../../../config/constants/common";
 
 
 const { revisionId } = Constants.manifest;
@@ -51,6 +52,7 @@ const ProfileDetailsStyle = StyleSheet.create({
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    kycRealStatus: KYC_STATUSES.ico_passed // state.users.user.kyc ? state.users.user.kyc.realStatus : null,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -60,6 +62,7 @@ class ProfileScreen extends Component {
     this.state = {
       addressEditable: false,
       taxpayerEditable: false,
+      isBlackout: true,
     }
   }
 
@@ -180,7 +183,7 @@ class ProfileScreen extends Component {
       if (!data.street && !data.city && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
         if(currentTimestamp.isAfter(NycBlackoutTimestamp)) {
-          this.setState({ addressEditable: false });
+          this.setState({ isBlackout: false });
         }
       }
       if (((data.country === "United States" && !data.ssn) || (data.country !== "United States" && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
@@ -191,7 +194,7 @@ class ProfileScreen extends Component {
 
   render() {
     const { user, formData, actions, callsInProgress, error, formErrors } = this.props;
-    const { addressEditable, taxpayerEditable } = this.state;
+    const { addressEditable, taxpayerEditable, isBlackout } = this.state;
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
@@ -269,17 +272,17 @@ class ProfileScreen extends Component {
               </Text>
             }
 
-            <CelSelect disabled={!addressEditable} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+            <CelSelect disabled={!addressEditable || !isBlackout} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
             {formData.country === "United States" ?
               <CelSelect disabled={!addressEditable} theme="white" error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
               :
              null
             }
-            <CelInput editable={addressEditable} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
 
             {addressEditable &&
               <View style={{ marginTop: 15, marginBottom: 30 }}>

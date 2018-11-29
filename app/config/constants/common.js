@@ -146,6 +146,7 @@ export const KYC_STATUSES = {
   sent: 'sent',
   passed: 'passed',
   rejected: 'rejected',
+  ico_passed: "ico_passed"
 };
 
 export const PERSON_TITLE = [
