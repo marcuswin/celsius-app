@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import {FONT_SCALE, COLORS} from "../../../config/constants/style";
+import { FONT_SCALE, COLORS } from "../../../config/constants/style";
 
 
 const ReferralModalStyle = StyleSheet.create({

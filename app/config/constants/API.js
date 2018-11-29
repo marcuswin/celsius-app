@@ -66,4 +66,9 @@ export default {
 
   // loan calls
   APPLY_FOR_LOAN: 'APPLY_FOR_LOAN',
+
+  // apy key calls
+  CREATE_API_KEY: 'CREATE_API_KEY',
+  DELETE_API_KEY: 'DELETE_API_KEY',
+  GET_API_KEYS: 'GET_API_KEYS',
 }

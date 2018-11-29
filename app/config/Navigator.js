@@ -49,6 +49,8 @@ import TwoFaAuthAppConfirmationScreen from "../components/screens/TwoFaAuthAppCo
 import TwoFaAuthAppConfirmationCodeScreen from "../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode";
 import TwoFaAuthSuccessScreen from "../components/screens/TwoFaAuthSuccess/TwoFaAuthSuccess";
 import VerifyIdentityScreen from "../components/screens/VerifyIdentity/VerifyIdentityScreen";
+import ApiAuthorizationScreen from "../components/screens/ApiAuthorization/ApiAuthorization";
+import ApiKeyGenerateScreen from "../components/screens/ApiKeyGenerate/ApiKeyGenerate";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -104,6 +106,16 @@ export const screens = {
   ProfileSettings: {
     screen: SettingsScreen,
     title: 'Settings',
+    bottomNavigation: true,
+  },
+  ApiAuthorization: {
+    screen: ApiAuthorizationScreen,
+    title: 'API Auth',
+    bottomNavigation: true,
+  },
+  ApiKeyGenerate: {
+    screen: ApiKeyGenerateScreen,
+    title: 'API Auth',
     bottomNavigation: true,
   },
   TwoFAInfo: {

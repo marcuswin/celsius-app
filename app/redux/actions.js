@@ -13,4 +13,5 @@ export * from './interest/interestActions'
 export * from './transfers/transfersActions'
 export * from './cameraRoll/cameraRollActions'
 export * from './loans/loansActions'
+export * from './apiKeys/apiKeysActions'
 // NOTE(fj): plop reduxGen importing new Actions here

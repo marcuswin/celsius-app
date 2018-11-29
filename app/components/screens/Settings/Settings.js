@@ -81,6 +81,16 @@ class Settings extends Component {
          Two-Factor Verif.
        </CelCustomButton>
 
+       <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>API</Separator>
+       <CelCustomButton
+           onPress={() => actions.navigateTo('ApiAuthorization')}
+           iconRight={"IconChevronRight"}
+           iconRightColor={'rgba(137,144,153,0.6)'}
+           iconRightHeight={'20'}
+         >
+          API Authorization
+         </CelCustomButton>
+
      </SimpleLayout>
     );
   }

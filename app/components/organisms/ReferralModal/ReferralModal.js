@@ -1,16 +1,15 @@
-import React, {Component} from 'react';
-import { Text, View, Image, Platform, TouchableOpacity, Clipboard, Share } from "react-native";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { Text, View, Image, Clipboard } from "react-native";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
 
-import ReferralModalStyle from "./ReferralModal.styles";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
-import Icon from "../../atoms/Icon/Icon";
+import ShareCopy from '../ShareCopy/ShareCopy';
 
 @connect(
   state => ({
@@ -53,54 +52,8 @@ class ReferralModal extends Component {
           Invite your friends to join Celsius with the link below.
         </Text>
 
-        <View style={ReferralModalStyle.box}>
-          <View style={ReferralModalStyle.linkWrapper}>
-            <Text style={ReferralModalStyle.link}>{ url }</Text>
-          </View>
-
-          <View style={ReferralModalStyle.boxButtonsWrapper}>
-            <TouchableOpacity
-              onPress={() => Share.share({ message: url, title: 'Join Celsius' })}
-              style={[ReferralModalStyle.buttons, {
-                borderBottomLeftRadius: 8,
-                borderRightWidth: 1,
-                borderRightColor: "rgba(137,144,153,0.15)"
-              }]}
-            >
-              <View style={ReferralModalStyle.buttonTextWrapper}>
-                {Platform.OS === "ios" ? (
-                  <Icon
-                    style={{ marginTop: 17 }}
-                    name='ShareIcon'
-                    width='16'
-                    height='16'
-                    fill='#899099'
-                  />
-                ) : null}
-                <Text style={ReferralModalStyle.buttonsText}>Share</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => this.copyLink(url)}
-              style={[ReferralModalStyle.buttons, {
-                borderBottomRightRadius: 8
-              }]}
-            >
-              <View style={ReferralModalStyle.buttonTextWrapper}>
-                {Platform.OS === "ios" ? (
-                  <Icon
-                    style={{ marginTop: 17 }}
-                    name='CopyIcon'
-                    width='16'
-                    height='16'
-                    fill='#899099'
-                  />
-                ) : null}
-                <Text style={ReferralModalStyle.buttonsText}>Copy</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+        <View style={{ marginTop: 30, marginBottom: 35 }}>
+          <ShareCopy displayValue={url} theme={'white'} link />
         </View>
 
         <CelButton onPress={() => actions.closeModal()}>Done</CelButton>
