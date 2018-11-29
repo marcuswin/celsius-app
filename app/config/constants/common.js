@@ -146,6 +146,7 @@ export const KYC_STATUSES = {
   sent: 'sent',
   passed: 'passed',
   rejected: 'rejected',
+  ico_passed: "ico_passed"
 };
 
 export const PERSON_TITLE = [
@@ -167,7 +168,8 @@ export const MODALS = {
   TRANSACTION_OPTIONS: 'TRANSACTION_OPTIONS',
   REMOVE_AUTHAPP: "REMOVE_AUTHAPP",
   REFERRAL_RECEIVED_MODAL: 'REFERRAL_RECEIVED_MODAL',
-  LTV_MODAL: "LTV_MODAL"
+  LTV_MODAL: "LTV_MODAL",
+  NYC_BLACKOUT: "NYC_BLACKOUT"
 };
 
 export const BRANCH_LINKS = {

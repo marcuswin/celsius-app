@@ -220,7 +220,7 @@ class AddFunds extends Component {
           </WalletInfoBubble>
         )}
 
-        {navCurrency ? (
+         (navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
             Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
             address.
@@ -229,7 +229,7 @@ class AddFunds extends Component {
           <Text style={AddFundsStyle.textOne}>
             Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-        )}
+        ))
 
         {!navCurrency && (
           <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
@@ -405,7 +405,7 @@ class AddFunds extends Component {
           onPress={this.goBack}
           margin='20 50 0 50'
         >
-          Done
+          "Done"
         </CelButton>
 
         <TouchableOpacity style={[AddFundsStyle.secureTransactionsBtn, {paddingLeft: 20, paddingRight: 20}]}

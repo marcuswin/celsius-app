@@ -30,6 +30,7 @@ export const COLORS = {
   opaqueBlue: "#5369BD",
 };
 
+
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
   PRIMARY_GREEN: '#4FB895',

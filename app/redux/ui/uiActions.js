@@ -240,6 +240,13 @@ function openInitialModal() {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
 
+    if (user) {
+      if (user.state === "New York") return dispatch(openModal(MODALS.NYC_BLACKOUT));
+      if ((!user.street && !user.zip && !user.city && !user.country) || ((user.country === "United States" && !user.ssn))) {
+        return dispatch(openModal(MODALS.NYC_BLACKOUT));
+      }
+    }
+
     if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
     }

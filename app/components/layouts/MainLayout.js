@@ -11,6 +11,7 @@ import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
 import OfflineMode from "../atoms/OfflineMode/OfflineMode";
 import MaintenanceMode from "../atoms/OfflineMode/MaintenanceMode";
+import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -76,6 +77,7 @@ class MainLayout extends Component {
           <Navigator navigation={navigation} />
           {hasBottomNavigation && <BottomNavigation />}
           <TodayRatesModal />
+          <NycBlackoutModal/>
           <TransferReceivedModal />
         </View>
       </ScrollView>

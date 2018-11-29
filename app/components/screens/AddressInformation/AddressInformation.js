@@ -49,8 +49,6 @@ class AddressInformation extends Component {
     const formErrors = {};
 
     if (!formData.street) formErrors.street = 'Street is required!';
-    if (!formData.buildingNumber) formErrors.building_number = 'Building number is required!';
-    if (!formData.flatNumber) formErrors.flat_number = 'Flat number is required!';
     if (!formData.city) formErrors.city = 'City is required!';
     if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
     if (!formData.country) formErrors.country = 'Country is required!';
@@ -109,17 +107,15 @@ class AddressInformation extends Component {
       >
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
+          <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+          {formData.country === "United States" ?
+            <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
+            : null }
+          <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
+          <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
           <CelInput value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
           <CelInput value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
           <CelInput value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
-          <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-          {formData.country === "United States" ?
-            <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
-            :
-            <CelInput value={formData.state} error={formErrors.state} field="state" labelText="State" autoCapitalize="sentences" />
-          }
-          <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-          <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
         </CelForm>
 
         <CelButton

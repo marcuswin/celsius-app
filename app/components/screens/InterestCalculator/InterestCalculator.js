@@ -25,6 +25,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
     interestRatesDisplay: state.interest.ratesDisplay,
     supportedCurrencies: state.generalData.supportedCurrencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    appSettings: state.users.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -66,7 +67,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData, interestRates, interestRatesDisplay, actions, user } = this.props;
+    const { formData, interestRates, interestRatesDisplay, actions, user, appSettings } = this.props;
     const { pickerItems } = this.state;
 
     if (!interestRates) return (
@@ -81,7 +82,7 @@ class InterestCalculatorScreen extends Component {
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
 
-
+    console.log(!appSettings.declineAccess)
 
     return (
       <EarnInterestLayout>
@@ -164,6 +165,7 @@ class InterestCalculatorScreen extends Component {
           {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse
             onPress={() => actions.navigateTo('AddFunds', { currency: formData.interestCurrency.toLowerCase() })}
+            disabled={appSettings.declineAccess}
           >
             Deposit coins
           </CelButton>}
