@@ -12,7 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 
 // TODO(ns): determine starting and ending date
 const currentTimestamp = moment.utc(Date.now());
-const NycBlackoutTimestamp = moment.utc("2018-11-27T04:40:00+0000");
+const NycBlackoutTimestamp = moment.utc("2018-12-02T04:40:00+0000");
 
 @connect(
   state => ({
