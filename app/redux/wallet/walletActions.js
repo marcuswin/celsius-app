@@ -102,6 +102,7 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {string} coin
  * @param {string} address
  * @param {number} amount
+ * @param {Object} verification
  */
 export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;

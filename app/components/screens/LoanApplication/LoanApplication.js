@@ -137,7 +137,7 @@ class LoanApplication extends Component {
 
     return (
       <TouchableOpacity onPress={() => this.clickCard(ltv)} key={ltv.percent.toString()}
-                        style={{ marginTop: heightPercentageToDP("1.23%") }}>
+        style={{ marginTop: heightPercentageToDP("1.23%") }}>
         <Card
           style={ltv === formData.ltv ? [LoanApplicationStyle.loanAmountCard, LoanApplicationStyle.loanAmountCardActive, direction] : [LoanApplicationStyle.loanAmountCard, direction]}
         >
@@ -159,7 +159,7 @@ class LoanApplication extends Component {
 
 
             {ltv === formData.ltv &&
-            <Icon name='WhiteCheck' height='20' width='20' viewBox="0 0 37 37"/>}
+              <Icon name='WhiteCheck' height='20' width='20' viewBox="0 0 37 37" />}
           </View>
         </Card>
       </TouchableOpacity>
@@ -189,7 +189,7 @@ class LoanApplication extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={{ text: "CelBorrow" }}
         >
-          <Loader/>
+          <Loader />
         </SimpleLayout>
 
       );
@@ -209,7 +209,7 @@ class LoanApplication extends Component {
         mainHeader={{ backButton: false }}
         animatedHeading={{ text: "CelBorrow" }}
       >
-        <CelScreenContent padding="15 0 0 0">
+        <CelScreenContent padding="15 0 0 0" scrollDisabled>
 
           <Text style={[globalStyles.normalText, { fontSize: normalize(18) }]}>
             Celsius Network guarantees the
@@ -217,7 +217,7 @@ class LoanApplication extends Component {
             . Submit your application today!
           </Text>
 
-          <Separator margin="15 0 24 0"/>
+          <Separator margin="15 0 24 0" />
           <Text style={[globalStyles.normalText, { fontSize: normalize(18) }]}>Enter the amount of collateral:</Text>
           <CelForm margin="25 0 0 0">
             <CelInput
@@ -231,7 +231,7 @@ class LoanApplication extends Component {
             />
           </CelForm>
 
-          <Separator margin="20 0 20 0"/>
+          <Separator margin="20 0 20 0" />
           <Text style={[globalStyles.normalText, { fontSize: normalize(18) }]}>Choose the coin you would like to use as
             a collateral:</Text>
           <CelSelect
@@ -258,7 +258,7 @@ class LoanApplication extends Component {
             </Text>
           )}
 
-          <Separator margin="24 0 24 0"/>
+          <Separator margin="24 0 24 0" />
           <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>{loanAmountText}</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
             {ltvType ? LTVs20.map((ltv) => (
@@ -270,11 +270,11 @@ class LoanApplication extends Component {
 
           <View style={{ alignItems: "center", marginTop: 10 }}>
             <Text onPress={() => actions.openModal(MODALS.LTV_MODAL)}
-                  style={[{ fontFamily: "agile-light", fontSize: normalize(18), color: STYLES.PRIMARY_BLUE }]}>What is
+              style={[{ fontFamily: "agile-light", fontSize: normalize(18), color: STYLES.PRIMARY_BLUE }]}>What is
               LTV?</Text>
           </View>
 
-          <Separator margin="24 0 24 0"/>
+          <Separator margin="24 0 24 0" />
 
           <Card style={LoanApplicationStyle.bottomCard}>
             <View style={LoanApplicationStyle.leftBox}>
@@ -304,7 +304,7 @@ class LoanApplication extends Component {
             Apply for a loan
           </CelButton>
         </CelScreenContent>
-        <LtvModal/>
+        <LtvModal />
       </SimpleLayout>
     );
   }

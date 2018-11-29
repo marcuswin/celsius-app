@@ -29,7 +29,7 @@ class TwoFaWelcome extends Component {
   }
 
   onPressBackButton = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     console.log()
 
@@ -40,11 +40,11 @@ class TwoFaWelcome extends Component {
   // event hanlders
   // rendering methods
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
 
   enableTwoFactor = () => {
-    const {actions, navigation} = this.props;
+    const { actions, navigation } = this.props;
 
     const pin = navigation.getParam("pin");
 
@@ -54,7 +54,7 @@ class TwoFaWelcome extends Component {
   };
 
   changeAuthApp = async () => {
-    const {actions, navigation} = this.props;
+    const { actions, navigation } = this.props;
 
     const pin = navigation.getParam("pin");
 
@@ -79,7 +79,7 @@ class TwoFaWelcome extends Component {
           textAlign: "right",
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: "agile-medium"
         }]}>Log out</Text>
       </TouchableOpacity>
@@ -119,7 +119,7 @@ class TwoFaWelcome extends Component {
           />
         </View>
 
-        <RemoveTwoFaModal pin={pin}/>
+        <RemoveTwoFaModal pin={pin} />
 
       </SimpleLayout>
     );

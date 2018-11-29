@@ -9,9 +9,9 @@ const sizes = {
 }
 
 export default {
-  isiPhoneX,
+  isiPhoneX
 }
 
 function isiPhoneX() {
-  return (platform === 'ios' && width === sizes.iPhoneX.width && height === sizes.iPhoneX.height );
+  return (platform === 'ios' && width === sizes.iPhoneX.width && height === sizes.iPhoneX.height);
 }

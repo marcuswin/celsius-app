@@ -27,6 +27,8 @@ export const COLORS = {
   gray: '#899099',
   gray2: '#3D4853',
   red: '#EF461A',
+  opaqueBlue: "#5369BD",
+};
   opaqueBlue: "#5369BD"
 };
 

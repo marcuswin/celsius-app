@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from "redux";
-import { BackHandler, View } from "react-native";
+import { bindActionCreators } from "redux";
+import { BackHandler, View, ScrollView } from "react-native";
 import { connect } from 'react-redux';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
@@ -28,7 +28,6 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 )
 
 class MainLayout extends Component {
-
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
   }
@@ -44,7 +43,6 @@ class MainLayout extends Component {
 
   render() {
     const { hasBottomNavigation, connected, maintenance } = this.props;
-
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
@@ -55,28 +53,34 @@ class MainLayout extends Component {
 
     if (!connected) {
       return (
-        <View style={{flex: 1,}}>
-          <OfflineMode/>
-        </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+          <View style={{ flex: 1, }}>
+            <OfflineMode />
+          </View>
+        </ScrollView>
       )
     }
 
     if (maintenance) {
       return (
-        <View style={{flex: 1,}}>
-          <MaintenanceMode/>
-        </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+          <View style={{ flex: 1, }}>
+            <MaintenanceMode />
+          </View>
+        </ScrollView>
       );
     }
 
     return (
-      <View style={{flex: 1,}}>
-        <Navigator navigation={navigation} />
-        {hasBottomNavigation && <BottomNavigation/>}
-        <TodayRatesModal/>
-        <NycBlackoutModal/>
-        <TransferReceivedModal/>
-      </View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+        <View style={{ flex: 1 }}>
+          <Navigator navigation={navigation} />
+          {hasBottomNavigation && <BottomNavigation />}
+          <TodayRatesModal />
+          <NycBlackoutModal/>
+          <TransferReceivedModal />
+        </View>
+      </ScrollView>
     );
   }
 }
