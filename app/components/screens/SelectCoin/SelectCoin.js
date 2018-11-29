@@ -68,7 +68,14 @@ class SelectCoin extends Component {
     const { walletCurrencies, user, appSettings } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      return <EmptyState/>;
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={animatedHeading}
+        >
+          <EmptyState/>
+        </SimpleLayout>
+      )
     }
 
     if (appSettings.declineAccess) {

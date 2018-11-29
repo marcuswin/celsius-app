@@ -242,7 +242,7 @@ function openInitialModal() {
 
     if (user) {
       if (user.state === "New York") return dispatch(openModal(MODALS.NYC_BLACKOUT));
-      if ((!user.street && !user.zip && !user.city && !user.country) || ((user.country === "United States" && !user.ssn) || (user.country !== "United States" && !user.national_id))) {
+      if ((!user.street && !user.zip && !user.city && !user.country) || ((user.country === "United States" && !user.ssn))) {
         return dispatch(openModal(MODALS.NYC_BLACKOUT));
       }
     }
