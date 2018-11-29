@@ -11,11 +11,13 @@ import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "..
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelCheckbox from '../../atoms/CelCheckbox/CelCheckbox';
 import { heightPercentageToDP } from '../../../utils/scale';
+import GenerateApiKeyModal from '../../organisms/GenerateApiKeyModal/GenerateApiKeyModal';
 
 
 @connect(
   state => ({
     user: state.users.user,
+    apiKey: state.apiKeys.lastGeneratedKey
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -51,8 +53,20 @@ class ApiKeyGenerate extends Component {
     ))
   }
 
-  render() {
+  generateApiKey = () => {
+    const { agreedWalletBalance, agreedReadDeposit, agreedReadTransaction, agreedReadWithdraw } = this.state;
     const { actions } = this.props;
+    const permissions = {
+      read_balance: agreedWalletBalance,
+      read_transactions: agreedReadTransaction,
+      read_deposit_address: agreedReadDeposit,
+      withdraw: agreedReadWithdraw
+    }
+    actions.createAPIKey(permissions);
+  }
+
+  render() {
+    const { actions, apiKey } = this.props;
     const { agreedWalletBalance, agreedReadDeposit, agreedReadTransaction, agreedReadWithdraw } = this.state;
 
     const logoutButton = () => (
@@ -70,6 +84,7 @@ class ApiKeyGenerate extends Component {
       </TouchableOpacity>
     )
 
+    console.log('Api:', apiKey);
     return (
       <SimpleLayout
         mainHeader={{ backButton: true, right: logoutButton() }}
@@ -118,10 +133,11 @@ class ApiKeyGenerate extends Component {
         </View>
         <View>
           <CelButton
-            onPress={() => actions.navigateTo('ApiKeyGenerate')}
+            onPress={this.generateApiKey}
             color="blue"
           >Generate API key</CelButton>
         </View>
+        <GenerateApiKeyModal />
       </SimpleLayout >
     );
   }

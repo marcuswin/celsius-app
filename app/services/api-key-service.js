@@ -12,8 +12,8 @@ function getAll() {
   return axios.get(`${apiUrl}/api_key`);
 }
 
-function create(apiKey) {
-  return axios.post(`${apiUrl}/api_key`, apiKey);
+function create(permissions) {
+  return axios.post(`${apiUrl}/api_key`, permissions);
 }
 
 function remove(keyId) {

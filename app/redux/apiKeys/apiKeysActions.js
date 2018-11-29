@@ -1,8 +1,9 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../config/constants/API";
-import { showMessage } from "../ui/uiActions";
+import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
+import { MODALS } from '../../config/constants/common';
 
 export function createAPIKey(permissions) {
   return async dispatch => {
@@ -15,7 +16,8 @@ export function createAPIKey(permissions) {
         type: ACTIONS.CREATE_API_KEY_SUCCESS,
         apiKey: apiKeyRes.data.api_key,
       })
-    } catch(err) {
+      dispatch(openModal(MODALS.GENERATE_API_KEY))
+    } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_API_KEY, err));
     }
@@ -33,7 +35,8 @@ export function revokeAPIKey(keyId) {
         type: ACTIONS.DELETE_API_KEY_SUCCESS,
         keyId,
       })
-    } catch(err) {
+      getAllAPIKeys();
+    } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.DELETE_API_KEY, err));
     }
@@ -51,7 +54,7 @@ export function getAllAPIKeys() {
         type: ACTIONS.GET_API_KEYS_SUCCESS,
         apiKeys: apiKeysRes.data.api_keys,
       })
-    } catch(err) {
+    } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_API_KEYS, err));
     }

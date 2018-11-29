@@ -7,55 +7,55 @@ const whiteLabelStyle = { color: '#ffffff', fontSize: 16, fontFamily: 'agile-lig
 const blueLabelStyle = { color: STYLES.GRAY_2, fontSize: 14, fontFamily: 'agile-light' };
 const blueTransparentLabelStyle = { color: STYLES.GRAY_2, fontSize: 18, fontFamily: 'agile-light' };
 const whiteCheckboxStyle = {
+  borderRadius: 5,
   backgroundColor: 'rgba(255,255,255,0.05)',
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const whiteCheckboxStyleActive = {
+  borderRadius: 5,
   backgroundColor: 'rgba(255,255,255,0.35)',
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const blueCheckboxStyle = {
+  borderRadius: 5,
   borderColor: 'rgba(65,86,166,1)',
   borderWidth: 2,
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const blueTransparentCheckboxStyle = {
+  borderRadius: 5,
   borderColor: 'rgba(65,86,166,1)',
   borderWidth: 2,
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const blueCheckboxStyleActive = {
+  borderRadius: 5,
   borderColor: 'rgba(65,86,166,1)',
   backgroundColor: 'rgba(65,86,166,1)',
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const blueTransparentCheckboxStyleActive = {
+  borderRadius: 5,
   borderColor: 'rgba(65,86,166,1)',
   borderWidth: 2,
   resizeMode: 'center',
   height: 36,
-  width: 36,
-  borderRadius: 5
+  width: 36
 };
 
 const checkedImage = Platform.OS === 'ios' ? require('../../../../assets/images/icons/icon-check.png') : require('../../../../assets/images/icons/icon-check2x.png');

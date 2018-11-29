@@ -9,11 +9,15 @@ import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelButton from '../../atoms/CelButton/CelButton';
+import Separator from '../../atoms/Separator/Separator';
+import CelApiDropdown from '../../organisms/CelApiDropdown/CelApiDropdown';
 
 
 @connect(
   state => ({
     user: state.users.user,
+    apiKeys: state.apiKeys.keys,
+    activeScreen: state.nav.routes[state.nav.index].routeName
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -26,8 +30,23 @@ class ApiAuthorization extends Component {
     };
   }
 
-  render() {
+  componentDidMount = () => {
     const { actions } = this.props;
+    actions.getAllAPIKeys();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    const { actions, activeScreen } = this.props;
+
+    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ApiAuthorization') {
+      actions.getAllAPIKeys();
+    }
+  }
+
+
+  render() {
+    const { actions, apiKeys } = this.props;
 
     const logoutButton = () => (
 
@@ -60,6 +79,18 @@ class ApiAuthorization extends Component {
             color="blue"
           >Generate API key</CelButton>
         </View>
+        {apiKeys.length &&
+          <View>
+            <Separator margin="35 0 25 0" />
+            {
+              apiKeys.map(apiKey => (
+                <CelApiDropdown apiKey={apiKey} key={apiKey.id}>
+                  {apiKey.lastFourCharacters}
+                </CelApiDropdown>
+              ))
+            }
+          </View>
+        }
       </SimpleLayout >
     );
   }
