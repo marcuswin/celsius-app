@@ -29,8 +29,7 @@ export const COLORS = {
   red: '#EF461A',
   opaqueBlue: "#5369BD",
 };
-  opaqueBlue: "#5369BD"
-};
+
 
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
