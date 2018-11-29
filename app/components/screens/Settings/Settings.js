@@ -44,7 +44,7 @@ class Settings extends Component {
           textAlign: 'right',
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: 'agile-medium',
         }]}>Log out</Text>
       </TouchableOpacity>
@@ -78,7 +78,7 @@ class Settings extends Component {
          value={user.two_factor_enabled ? "ON" : "OFF"}
          iconRightHeight={'20'}
        >
-         Two-Factor Verification
+         Two-Factor Verif.
        </CelCustomButton>
 
        <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>API</Separator>

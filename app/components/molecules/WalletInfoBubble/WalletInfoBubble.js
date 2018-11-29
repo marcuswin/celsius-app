@@ -6,9 +6,9 @@ import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, FONT_SCALE } from "../../../config/constants/style";
 
-const WalletInfoBubble = (props) => 
+const WalletInfoBubble = (props) =>
   <InfoBubble
-    color="gray"
+    color={props.color}
     renderContent={(textStyles) => (
       <View>
         <Text style={[textStyles, globalStyles.boldText, {marginBottom: 7, fontSize: FONT_SCALE * 18}]}>{props.title}</Text>
@@ -16,7 +16,7 @@ const WalletInfoBubble = (props) =>
           <Icon name='xIcon' height='11' width='11' viewBox="0 0 1000 1000" fill={'white'}/>
         </TouchableOpacity>
           {props.children}
-      </View> 
+      </View>
     )}
   />
 

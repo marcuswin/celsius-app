@@ -27,7 +27,9 @@ export const COLORS = {
   gray: '#899099',
   gray2: '#3D4853',
   red: '#EF461A',
-}
+  opaqueBlue: "#5369BD",
+};
+
 
 export const STYLES = {
   PRIMARY_BLUE: '#4156A6',
@@ -261,4 +263,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/7pie.png'),
   require('../../../assets/images/9pie.png'),
   require('../../../assets/images/12pie.png'),
+  require('../../../assets/images/diane-with-laptop3x.png'),
 ];

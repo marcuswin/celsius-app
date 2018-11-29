@@ -91,14 +91,14 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, screenIndex, actions } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
     return (
       <SimpleLayout
-        mainHeader={{ backButton: !!screenIndex }}
+        mainHeader={{ backButton: false }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}
       >

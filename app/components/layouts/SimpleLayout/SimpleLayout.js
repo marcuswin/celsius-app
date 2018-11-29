@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Platform, ScrollView, View } from "react-native";
 import { Container } from 'native-base';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import Message from '../../atoms/Message/Message';
-import {MainHeader} from '../../molecules/MainHeader/MainHeader';
+import { MainHeader } from '../../molecules/MainHeader/MainHeader';
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayoutStyle from "./SimpleLayout.styles";
@@ -15,11 +15,11 @@ import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 
 const defaultMainHeader = {
   backButton: true,
-  customStyle: {backgroundColor: STYLES.PRIMARY_BLUE},
+  customStyle: { backgroundColor: STYLES.PRIMARY_BLUE },
 }
 
 const defaultAnimatedHeading = {
-  containerCustomStyles: {backgroundColor: STYLES.PRIMARY_BLUE},
+  containerCustomStyles: { backgroundColor: STYLES.PRIMARY_BLUE },
 }
 
 @connect(
@@ -33,7 +33,7 @@ const defaultAnimatedHeading = {
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SimpleLayout extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     props.actions.setScrollPosition(0);
 
@@ -43,7 +43,7 @@ class SimpleLayout extends Component {
   }
 
   componentWillReceiveProps({ scrollToY, activeScreen }) {
-    const {screen} = this.state;
+    const { screen } = this.state;
 
     if (!isNaN(scrollToY) && scrollToY !== this.props.scrollToY) {
       this.scrollView.scrollTo({ y: scrollToY, animated: true });
@@ -86,13 +86,14 @@ class SimpleLayout extends Component {
     contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
 
     return (
-      <Container style={{flex: 1 }}>
-        <MainHeader { ...mainHeaderProps } />
-        <Message/>
-        <CelHeading { ...animatedHeadingProps } />
-        {!!tabs && <TabNavigation tabs={tabs}/>}
+      <Container style={{ flex: 1 }}>
+        <MainHeader {...mainHeaderProps} />
+        <Message />
+        <CelHeading {...animatedHeadingProps} />
+        {!!tabs && <TabNavigation tabs={tabs} />}
 
         <ScrollView
+          keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'
           style={[SimpleLayoutStyle.content, contentStyles]}
           enableOnAndroid
           ref={component => { this.scrollView = component }}
@@ -100,8 +101,8 @@ class SimpleLayout extends Component {
           scrollEventThrottle={0}
           onScrollEndDrag={e => { actions.setScrollPosition(e.nativeEvent.contentOffset.y) }}
         >
-          { this.props.children }
-          <View style={{ height: 50 }}/>
+          {this.props.children}
+          <View style={{ height: 50 }} />
         </ScrollView>
       </Container>
     )

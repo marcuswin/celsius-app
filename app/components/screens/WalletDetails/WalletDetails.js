@@ -51,6 +51,7 @@ class WalletDetails extends Component {
   }
 
   onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletDetailsInfoBox: false });
+  onCloseBCHInfo = () => this.props.actions.updateUserAppSettings({ showBchExplanationInfoBox: false });
 
   onPressWithdraw = () => {
     const { actions, navigation } = this.props;
@@ -100,12 +101,27 @@ class WalletDetails extends Component {
             />
           )}
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
+            {(appSettings.showBchExplanationInfoBox && currency === "bch") && (
+              <WalletInfoBubble
+                title={"Add more BCH-ABC."}
+                onPressClose={this.onCloseBCHInfo}
+                color={"gray"}
+              >
+                <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                  {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
+                </Text>
+                <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
+                  {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
+                </Text>
+
+              </WalletInfoBubble>
+              )}
             {appSettings.showWalletDetailsInfoBox && (
               <WalletInfoBubble
                 title={isCelCurrency ? `Your CEL Price` : `Deposit your ${currency.toUpperCase()}`}
                 onPressClose={this.onCloseInfo}
+                color={"gray"}
               >
-
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
                   {isCelCurrency ?
                     `The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.` :
