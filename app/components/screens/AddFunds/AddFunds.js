@@ -206,15 +206,15 @@ class AddFunds extends Component {
 
         {(appSettings.showBchExplanationInfoBox && navCurrency === "bch") && (
           <WalletInfoBubble
-            title={"BCH in your wallet is now BCHABC"}
+            title={"Add more BCH-ABC."}
             onPressClose={this.onCloseBCHInfo}
             color={"opaqueBlue"}
           >
             <Text style={[globalStyles.normalText, { color: 'white' }]}>
-              {"After latest fork, we have merged Bitcoin Cash (BCH) and Bitcoin Cash ABC (BCHABC)."}
+              {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
             </Text>
             <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
-              {"If you had BCH deposited before November 14th at 11:40 PM EST you will get your Bitcoin Cash SV (BCHSV) once it becomes supported."}
+              {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
             </Text>
 
           </WalletInfoBubble>
