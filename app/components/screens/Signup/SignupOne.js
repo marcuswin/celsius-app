@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -45,12 +46,12 @@ class SignupOne extends Component {
     const { email, password } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
-
     return (
       <SimpleLayout
         mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
         animatedHeading={{ text: 'Sign up' }}
         background={STYLES.PRIMARY_BLUE}
+        ref={testUtil.generateTestHook(this, `SignupOne.screen`)}
       >
         <View>
           <View>
@@ -62,6 +63,7 @@ class SignupOne extends Component {
           <View style={SignupOneStyle.formWrapper}>
             <CelForm disabled={isLoading}>
               <CelInput
+                {...this.props} testSelector={'SignupOne.email'}
                 error={formErrors.email}
                 field="email"
                 labelText="E-mail"
@@ -70,6 +72,7 @@ class SignupOne extends Component {
                 value={formData.email}
               />
               <CelInput
+                {...this.props} testSelector={'SignupOne.password'}
                 error={formErrors.password}
                 field="password"
                 type="password"
@@ -80,6 +83,7 @@ class SignupOne extends Component {
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
+                ref={testUtil.generateTestHook(this, 'SignupOne.button')}
                 disabled={!email || !password || password.length < 8 }
                 loading={ isLoading }
                 onPress={this.onSubmit}
@@ -96,4 +100,4 @@ class SignupOne extends Component {
   }
 }
 
-export default SignupOne;
+export default testUtil.hookComponent(SignupOne);

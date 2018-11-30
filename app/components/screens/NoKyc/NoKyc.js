@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Image, Linking, Text, View } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
@@ -92,6 +93,7 @@ class NoKyc extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
+        ref={testUtil.generateTestHook(this, 'NoKyc.screen')}
       >
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
@@ -169,13 +171,14 @@ class NoKyc extends Component {
       >
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={[NoKycStyle.image, {resizeMode: "contain"}]}/>
-        <Text style={NoKycStyle.textOne}>
+        <Text style={NoKycStyle.textOne} ref={testUtil.generateTestHook(this, 'NoKyc.screen')}>
           This is where you'll be able to add, send and receive coins
         </Text>
         <Text style={[NoKycStyle.textTwo,{marginTop: 10}]}>
           But first, please verify your identity to unlock all of the Celsius wallet features. Verification usually takes less than 24 hours - we'll send you a notification once you've passed.
         </Text>
         <CelButton
+          ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
           onPress={() => {
             mixpanelEvents.navigation('verifyProfile');
             actions.navigateTo('ProfileDetails')
@@ -216,7 +219,8 @@ class NoKyc extends Component {
   }
 }
 
-export default NoKyc;
+export default testUtil.hookComponent(NoKyc);
+
 
 function getClaimedTransfers(allTransfers) {
   if (!allTransfers) return [];

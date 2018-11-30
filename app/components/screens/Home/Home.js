@@ -15,6 +15,7 @@ import WalletBalance from "../WalletBalance/WalletBalance";
 import store from "../../../redux/store";
 import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
 import VerifyIdentity from "../VerifyIdentity/VerifyIdentityScreen";
+import logger from "../../../utils/logger-util";
 
 const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV} = Constants.manifest.extra;
 
@@ -49,7 +50,7 @@ class HomeScreen extends Component {
           registerForPushNotificationsAsync();
         }
       } catch(err) {
-        console.log(err);
+        logger.log(err);
       }
     }
 

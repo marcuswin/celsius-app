@@ -14,6 +14,7 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
 import { ELIGIBLE_COINS } from "../../../config/constants/common";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import testUtil from "../../../utils/test-util";
 
 const predefinedAmounts = ["20", "50", "100", "All"];
 
@@ -44,18 +45,18 @@ class AmountInput extends Component {
     const currency = props.formData.currency;
     this.state = {
       numPad: [
-        { label: '1', action: this.onPressNumber },
-        { label: '2', action: this.onPressNumber },
-        { label: '3', action: this.onPressNumber },
-        { label: '4', action: this.onPressNumber },
-        { label: '5', action: this.onPressNumber },
-        { label: '6', action: this.onPressNumber },
-        { label: '7', action: this.onPressNumber },
-        { label: '8', action: this.onPressNumber },
-        { label: '9', action: this.onPressNumber },
-        { label: '.', action: this.onPressDecimal },
-        { label: '0', action: this.onPressNumber },
-        { label: '\u2190', action: this.onPressErase },
+        { label: '1', testLabel: 'one', action: this.onPressNumber },
+        { label: '2', testLabel: 'two', action: this.onPressNumber },
+        { label: '3', testLabel: 'three', action: this.onPressNumber },
+        { label: '4', testLabel: 'four', action: this.onPressNumber },
+        { label: '5', testLabel: 'five', action: this.onPressNumber },
+        { label: '6', testLabel: 'six', action: this.onPressNumber },
+        { label: '7', testLabel: 'seven',action: this.onPressNumber },
+        { label: '8', testLabel: 'eight', action: this.onPressNumber },
+        { label: '9', testLabel: 'nine', action: this.onPressNumber },
+        { label: '.', testLabel: 'period',action: this.onPressDecimal },
+        { label: '0', testLabel: 'zero', action: this.onPressNumber },
+        { label: '\u2190', testLabel: 'backslash', action: this.onPressErase },
       ],
     };
 
@@ -237,7 +238,7 @@ class AmountInput extends Component {
     return (
       <BasicLayout
       >
-        <MainHeader backButton />
+        <MainHeader backButton ref={testUtil.generateTestHook(this, `AmountInput.back`)} />
         <CelHeading text={this.getHeadingText(purpose, formData.currency)} />
         <CelScreenContent padding='0 0 0 0'>
           <View style={{ height: 0.75 * screenHeight }}>
@@ -269,8 +270,7 @@ class AmountInput extends Component {
                 )
                 }
               </View>
-
-              <TouchableOpacity style={AmountInputStyle.switchIcon} onPress={this.switchCurrencies}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'AmountInput.switch')} style={AmountInputStyle.switchIcon} onPress={ this.switchCurrencies }>
                 <Icon name='SwitchIcon' width='36' height='36' fill='rgba(61,72,83,0.3)' stroke='white' />
               </TouchableOpacity>
             </View>
@@ -285,7 +285,7 @@ class AmountInput extends Component {
 
               <View style={AmountInputStyle.numberContent}>
                 {numPad.map(item => (
-                  <TouchableOpacity key={item.label} onPress={() => item.action(item.label)}>
+                  <TouchableOpacity ref={testUtil.generateTestHook(this, `AmountInput.${item.testLabel}`)} key={item.label} onPress={() => item.action(item.label)}>
                     <View style={AmountInputStyle.button}>
                       <Text style={AmountInputStyle.text}>
                         {item.label}
@@ -297,6 +297,7 @@ class AmountInput extends Component {
               </View>
 
               <CelButton
+                ref={testUtil.generateTestHook(this, `AmountInput.send`)}
                 disabled={!formData.amountCrypto}
                 onPress={this.handleMainButtonClick(purpose)}
                 margin='10 36 5 36'
@@ -311,4 +312,4 @@ class AmountInput extends Component {
   }
 }
 
-export default AmountInput;
+export default testUtil.hookComponent(AmountInput);

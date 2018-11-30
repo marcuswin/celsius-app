@@ -11,6 +11,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from "../../../redux/actions";
 import CelForm from "../../atoms/CelForm/CelForm";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -41,11 +42,12 @@ class LoginForm extends Component {
     return (
       <View style={LoginFormStyles.wrapper}>
         <CelForm disabled={isLoading}>
-          <CelInput error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
-          <CelInput error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
+          <CelInput {...this.props} testSelector={'CelTextInput.email'} error={formErrors.email} field="email" labelText="E-mail" keyboardType='email-address' value={formData.email}/>
+          <CelInput {...this.props} testSelector={'CelTextInput.pass'} error={formErrors.password} field="password" type="password" labelText="Password" value={formData.password} />
         </CelForm>
 
         <CelButton
+          ref={testUtil.generateTestHook(this, 'LoginForm.button')}
           onPress={() => this.onSubmit()}
           disabled={!formData.email || !formData.password || formData.password.length < 8}
           loading={isLoading}
@@ -59,4 +61,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default testUtil.hookComponent(LoginForm);

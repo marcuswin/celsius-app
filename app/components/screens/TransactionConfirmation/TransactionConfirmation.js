@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Linking, Text, View, Switch, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import TransactionConfirmationStyle from "./TransactionConfirmation.styles";
@@ -337,7 +338,7 @@ class TransactionConfirmation extends Component {
             </View>
             <View style={TransactionConfirmationStyle.addressViewWrapper}>
               <Text style={TransactionConfirmationStyle.toAddress}>DESTINATION TAG</Text>
-              <Text style={TransactionConfirmationStyle.address}>{newTag}</Text>
+              <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newTag}</Text>
             </View>
           </View>
           :
@@ -433,6 +434,7 @@ class TransactionConfirmation extends Component {
           }
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'TransactionConfirmation.confirmWithdraw')}
             onPress={this.confirmWithdrawal}
             margin='30 36 50 36'
             loading={isLoading}
@@ -447,4 +449,4 @@ class TransactionConfirmation extends Component {
   }
 }
 
-export default TransactionConfirmation;
+export default testUtil.hookComponent(TransactionConfirmation);

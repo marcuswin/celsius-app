@@ -12,6 +12,7 @@ import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
 import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
+import logger from '../../utils/logger-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -20,6 +21,7 @@ export {
   getLoggedInBorrower,
   loginUser,
   registerUser,
+  registerUserSuccess,
   updateUser,
   registerUserTwitter,
   registerUserFacebook,
@@ -455,7 +457,7 @@ function logoutUser() {
         type: ACTIONS.LOGOUT_USER,
       });
     } catch(err) {
-      console.log(err);
+      logger.log(err);
     }
   }
 }
@@ -467,7 +469,7 @@ function expireSession() {
         type: ACTIONS.EXPIRE_SESSION,
       });
     } catch(err) {
-      console.log(err);
+      logger.log(err);
     }
   }
 }

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Proptypes from 'prop-types';
 import get from 'lodash/get';
+import testUtil from "../../../utils/test-util";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
@@ -129,10 +130,11 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
       </View>}
     </View>
   }
 }
 
-export default WalletDetailsHeading;
+export default testUtil.hookComponent(WalletDetailsHeading);
+

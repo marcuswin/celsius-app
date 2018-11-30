@@ -4,6 +4,7 @@ import {View} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import isEqual from "lodash/isEqual";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -91,20 +92,22 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
     return (
       <SimpleLayout
-        mainHeader={{ backButton: false }}
+        ref={testUtil.generateTestHook(this, 'SignupTwo.screen')}
+        mainHeader={{ backButton: !!screenIndex }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}
       >
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
+              {...this.props} testSelector={'SignupTwo.FirstName'}
               error={formErrors.first_name}
               field="firstName"
               labelText="First Name"
@@ -112,6 +115,7 @@ class SignupTwo extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
+              {...this.props} testSelector={'SignupTwo.LastName'}
               error={formErrors.last_name}
               field="lastName"
               labelText="Last Name"
@@ -144,6 +148,7 @@ class SignupTwo extends Component {
 
           <View style={{marginTop: 40, paddingBottom: 100}}>
             <CelButton
+              ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
               onPress={this.onSubmit}
               loading={ isLoading }
@@ -159,4 +164,4 @@ class SignupTwo extends Component {
   }
 }
 
-export default SignupTwo;
+export default testUtil.hookComponent(SignupTwo);

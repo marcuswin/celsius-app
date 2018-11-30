@@ -23,6 +23,7 @@ import Icon from "../../atoms/Icon/Icon";
 import { normalize } from "../../../utils/styles-util";
 import LtvModal from "../../organisms/LtvModal/LtvModal";
 import { heightPercentageToDP } from "../../../utils/scale";
+import testUtil from "../../../utils/test-util";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 const LTVs = [
@@ -310,4 +311,4 @@ class LoanApplication extends Component {
   }
 }
 
-export default LoanApplication;
+export default testUtil.hookComponent(LoanApplication);

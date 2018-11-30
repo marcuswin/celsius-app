@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
 import moment from "moment";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
@@ -233,8 +234,14 @@ class AddFunds extends Component {
         ))
 
         {!navCurrency && (
-          <CelSelect field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
-            margin="25 50 15 50" />
+          <CelSelect
+            ref={testUtil.generateTestHook(this, `AddFunds.${formData.currency}`)}
+            field="currency"
+            items={pickerItems}
+            labelText="Pick a currency"
+            value={formData.currency}
+            margin="25 50 15 50"
+          />
         )}
 
         <View style={[AddFundsStyle.imageWrapper]}>
@@ -243,6 +250,7 @@ class AddFunds extends Component {
             {address ?
               <View style={[AddFundsStyle.qrBackground]}>
                 <QRCode
+                  ref={testUtil.generateTestHook(this, "AddFunds.QRCode")}
                   value={address}
                   size={120}
                   bgColor='black'
@@ -306,6 +314,7 @@ class AddFunds extends Component {
           </View>}
 
         <CelButton
+          ref={testUtil.generateTestHook(this, "AddFunds.Done")}
           white
           onPress={this.goBack}
           margin='20 50 0 50'
@@ -333,4 +342,4 @@ class AddFunds extends Component {
   }
 }
 
-export default AddFunds;
+export default testUtil.hookComponent(AddFunds);

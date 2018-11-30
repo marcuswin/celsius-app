@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, Platform } from 'react-native';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as appActions from "../../../redux/actions";
@@ -79,8 +80,11 @@ class BottomNavigation extends Component {
 
     return (
       <TouchableOpacity
+      ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)} 
+          
         key={ navItem.label }
         onPress={ () => this.goToScreen(navItem) }
+      
       >
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
@@ -155,4 +159,4 @@ class BottomNavigation extends Component {
   }
 }
 
-export default BottomNavigation;
+export default testUtil.hookComponent(BottomNavigation);

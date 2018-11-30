@@ -12,6 +12,7 @@ import { GENDER, PERSON_TITLE, STATE, YEARS, MONTHS, DAYS } from "../../../confi
 import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   () => ({}),
@@ -28,6 +29,7 @@ class CelSelect extends Component {
       PropTypes.string,
     ]),
     field: PropTypes.string,
+    testSelector: PropTypes.string,
     error: PropTypes.string,
     labelText: PropTypes.string,
     margin: PropTypes.string,
@@ -160,6 +162,7 @@ class CelSelect extends Component {
         onlyError={onlyError}
       >
         <TouchableOpacity
+         ref={testUtil.generateTestHook(this, 'CelSelect.fillName')}
           onPress={() => this.setState({ visible: !visible })}
           style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], inputBackground]}>
           <Text style={labelStyles}>{label}</Text>
@@ -204,6 +207,6 @@ class CelSelect extends Component {
   }
 }
 
-export default CelSelect;
+export default testUtil.hookComponent(CelSelect);
 
-// function getSelectItems(type) {}
+

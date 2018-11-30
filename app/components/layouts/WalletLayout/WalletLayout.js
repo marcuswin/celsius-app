@@ -12,6 +12,7 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import testUtil from "../../../utils/test-util";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
@@ -66,13 +67,16 @@ class WalletLayout extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader backButton={false}/>
-        <View style={WalletLayoutStyle.heading}>
+        <View
+          ref={testUtil.generateTestHook(this, `WalletLayout.home`)}
+          style={WalletLayoutStyle.heading}
+        >
           {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{formatter.usd(total)}</Text>}
           {!walletTotal && <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
                                   style={WalletLayoutStyle.totalLoader}/>}
           <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
         </View>
-        <TabNavigation tabs={this.tabs}/>
+        <TabNavigation tabs={this.tabs} />
 
         <CelScreenContent>
           {this.props.children}
@@ -83,4 +87,4 @@ class WalletLayout extends Component {
   }
 }
 
-export default WalletLayout;
+export default testUtil.hookComponent(WalletLayout);

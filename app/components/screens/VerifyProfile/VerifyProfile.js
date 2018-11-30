@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
 import { Col, Grid } from "react-native-easy-grid";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -134,7 +135,7 @@ class VerifyProfile extends Component {
               {docs && <Grid>
                 {docs.map(document =>
                   <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
-                    <TouchableOpacity onPress={() => this.selectDocumentType(document.value)}>
+                    <TouchableOpacity ref={testUtil.generateTestHook(this, `VerifyProfile.${document.value}`)} onPress={() => this.selectDocumentType(document.value)}>
                       <View
                         style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
                         <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} />
@@ -161,6 +162,7 @@ class VerifyProfile extends Component {
             </CelForm>
 
             <CelButton
+              ref={testUtil.generateTestHook(this, 'VerifyProfile.verify')}
               onPress={this.submitForm}
               iconRight="IconArrowRight"
               loading={isLoading}
@@ -187,4 +189,4 @@ function mapDocs(docs) {
   return kycDocs;
 }
 
-export default VerifyProfile;
+export default testUtil.hookComponent(VerifyProfile);

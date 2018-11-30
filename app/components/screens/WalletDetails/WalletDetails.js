@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -88,6 +89,7 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
+          ref={testUtil.generateTestHook(this, 'WalletDetails.iks')}
           onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
@@ -141,6 +143,7 @@ class WalletDetails extends Component {
 
             { canWithdrawCrypto && (
               <CelButton
+                ref={testUtil.generateTestHook(this, 'WalletDetails.withdraw')}
                 margin={'40 0 0 0'}
                 onPress={this.onPressWithdraw}
               >
@@ -154,4 +157,5 @@ class WalletDetails extends Component {
   }
 }
 
-export default WalletDetails;
+export default testUtil.hookComponent(WalletDetails);
+

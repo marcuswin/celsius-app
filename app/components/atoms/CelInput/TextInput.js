@@ -4,7 +4,10 @@ import { Animated, View, Easing, Text, TextInput } from "react-native";
 // import { Input } from "native-base";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
-import { AUTO_CAPITALIZE, KEYBOARD_TYPE } from "../../../config/constants/common";
+import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
+import testUtil from "../../../utils/test-util";
+
+// const {ENV} = Constants.manifest.extra;
 
 class CelTextInput extends Component {
   static propTypes = {
@@ -20,6 +23,7 @@ class CelTextInput extends Component {
     onLayout: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    testSelector: PropTypes.string,
     isPassword: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
     returnKeyType: PropTypes.string,
@@ -41,6 +45,7 @@ class CelTextInput extends Component {
     isPassword: false,
     returnKeyType: null,
     editable: true,
+    testSelector: null,
     maxLength: 100,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
@@ -56,6 +61,11 @@ class CelTextInput extends Component {
       active: false,
       animatedValue: new Animated.Value(this.props.value ? 10 : 20),
     }
+  }
+
+  getInputRef = () => {
+    const {testSelector} = this.props;
+    return testUtil.generateTestHook(this, testSelector, ref => { this.input = ref });
   }
 
   animateLabel(value) {
@@ -75,6 +85,7 @@ class CelTextInput extends Component {
       this.props.onLayout({ x, y, width, height });
     })
   }
+
 
   // rendering methods
   render() {
@@ -106,8 +117,8 @@ class CelTextInput extends Component {
           maxLength={maxLength}
           autoCapitalize={autoCapitalize}
           editable={editable}
-          ref={ref => { this.input = ref }}
-          onLayout={() => this.saveLayout()}
+          ref={this.getInputRef()}
+          onLayout={ () => this.saveLayout()}
           onFocus={() => {
             if (onFocus) onFocus()
             this.setState({ active: true })
@@ -150,4 +161,4 @@ class CelTextInput extends Component {
   }
 }
 
-export default CelTextInput;
+export default testUtil.hookComponent(CelTextInput);

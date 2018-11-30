@@ -3,6 +3,7 @@ import { ImageBackground, StatusBar } from "react-native";
 import {connect} from 'react-redux';
 import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
+import testUtil from "../../../utils/test-util";
 
 import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -38,7 +39,10 @@ class WelcomeScreen extends Component {
     const {actions} = this.props;
 
     return (
-      <Container style={{ backgroundColor: 'black' }}>
+      <Container
+        ref={testUtil.generateTestHook(this, `Welcome.screen`)}
+        style={{ backgroundColor: 'black' }}
+      >
         <StatusBar
           backgroundColor="blue"
           barStyle="light-content"
@@ -52,6 +56,7 @@ class WelcomeScreen extends Component {
             <View style={WelcomeStyle.buttonWrapper}>
               <CelButton
                 // TODO(ns): see when to redirect to login instead of sign up
+                ref={testUtil.generateTestHook(this, 'Welcome.skipButton')}
               onPress={() => {
                 actions.navigateTo('SignupOne');
                 mixpanelEvents.signupButton()
@@ -70,4 +75,4 @@ class WelcomeScreen extends Component {
   }
 }
 
-export default WelcomeScreen;
+export default testUtil.hookComponent(WelcomeScreen);

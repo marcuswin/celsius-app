@@ -1,5 +1,6 @@
 import isBase64 from "is-base64";
 import {Platform, ImageEditor, ImageStore} from 'react-native';
+import logger from './logger-util';
 
 const isiOS = Platform.OS === 'ios';
 
@@ -37,9 +38,9 @@ function convertCameraRollToB64(cameraRollImage, onSuccess) {
     (res) => {
       ImageStore.getBase64ForTag(res,
         (base64) => onSuccess({ base64 }),
-        (failure) => console.log(failure),
+        (failure) => logger.log(failure),
       )
     },
-    (failure) => console.log(failure)
+    (failure) => logger.log(failure)
   );
 }

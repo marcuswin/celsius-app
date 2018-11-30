@@ -4,6 +4,7 @@ import { Dimensions, Text, TextInput, View } from "react-native";
 import PinInputStyle from "./PinInput.styles";
 import { KEYBOARD_TYPE } from "../../../config/constants/common";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import testUtil from "../../../utils/test-util";
 
 const PinTextFontSizeMap = {
   4: FONT_SCALE * 40,
@@ -28,6 +29,12 @@ class PinInput extends Component {
     if (deactivateTimeout) {
       clearTimeout(deactivateTimeout);
     }
+  }
+
+  // Component graber for cavy
+  getInputRef = () => {
+    const {testSelector} = this.props;
+    return testUtil.generateTestHook(this, testSelector, ref => { this.input = ref });
   }
 
   /**
@@ -136,12 +143,12 @@ class PinInput extends Component {
             </View>
           )}
         </View>
-        <TextInput style={[PinInputStyle.digitInput, pinInputStyle]}
+        <TextInput
+                   style={[PinInputStyle.digitInput, pinInputStyle]}
+                   testSelector={this.props.testSelector}
                    value={value}
                    maxLength={digits}
-                   ref={ref => {
-                     this.input = ref;
-                   }}
+                   ref={this.getInputRef()}
                    onLayout={() => this.saveLayout()}
                    keyboardType={KEYBOARD_TYPE.NUMERIC}
                    onChangeText={this.handlePinChange}
@@ -157,4 +164,4 @@ class PinInput extends Component {
   }
 }
 
-export default PinInput;
+export default testUtil.hookComponent(PinInput);

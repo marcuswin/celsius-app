@@ -32,6 +32,7 @@ import {
   ContactSection,
   HippoSection,
 } from './TransactionDetailsSections';
+import testUtil from "../../../utils/test-util";
 
 function getHeading(transaction) {
   return {
@@ -300,6 +301,7 @@ class TransactionDetails extends Component {
           { sections.map(this.renderSection) }
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'TransactionsDetails.closeButton')}
             onPress={() => actions.navigateTo('Home', true)}
             margin='10 36 0 36'
           >
@@ -313,4 +315,4 @@ class TransactionDetails extends Component {
   }
 }
 
-export default TransactionDetails;
+export default testUtil.hookComponent(TransactionDetails);

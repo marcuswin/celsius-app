@@ -10,6 +10,8 @@ import SixDigitInput from "./SixDigitInput";
 import * as appActions from "../../../redux/actions";
 import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
 import PinInput from "./PinInput";
+import testUtil from "../../../utils/test-util";
+
 
 const INPUT_TYPES = {
   TEXT: 'TEXT',
@@ -52,6 +54,7 @@ class CelInput extends Component {
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
     digits: PropTypes.number,
+    testSelector: PropTypes.string,
     showDigits: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
     keyboardType: PropTypes.string,
@@ -73,6 +76,7 @@ class CelInput extends Component {
     editable: true,
     maxLength: 100,
     digits: 4,
+    testSelector: null,
     showDigits: false,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
@@ -109,7 +113,7 @@ class CelInput extends Component {
   }
 
   // rendering methods
-  render() {
+  render() {    
     const { theme, error, type } = this.props;
 
     this.state = {
@@ -160,7 +164,7 @@ class CelInput extends Component {
       case INPUT_TYPES.PIN.toLowerCase():
         inputField = (
           <PinInput
-            { ...this.props }
+            { ...this.props } 
             onChange={this.onChangeText}
             onFocus={this.onFocus}
             onLayout={this.handleLayout}
@@ -192,4 +196,5 @@ class CelInput extends Component {
   }
 }
 
-export default CelInput;
+export default testUtil.hookComponent(CelInput);
+

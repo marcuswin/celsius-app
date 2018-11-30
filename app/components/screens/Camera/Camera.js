@@ -5,6 +5,7 @@ import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -13,6 +14,7 @@ import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import imageUtil from "../../../utils/image-util";
+import logger from "../../../utils/logger-util";
 
 @connect(
   state => ({
@@ -141,8 +143,8 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
-    } catch (err) {
-      console.log(err);
+    } catch(err) {
+      logger.log(err);
       this.setState({ isLoading: false });
     }
   };
@@ -213,7 +215,7 @@ class CameraScreen extends Component {
                 )}
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={this.takePhoto}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')} onPress={this.takePhoto}>
                 <View style={CameraStyle.outerCircle}>
                   {!this.state.isLoading && this.state.hasCameraPermission ? (
                     <View style={CameraStyle.innerCircle} />
@@ -266,6 +268,7 @@ class CameraScreen extends Component {
             <Text allowFontScaling={false} style={CameraStyle.heading}>{cameraHeading}</Text>
             <View>
               <CelButton
+                ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
                 onPress={actions.retakePhoto}
                 white
                 inverse
@@ -273,6 +276,7 @@ class CameraScreen extends Component {
                 Retake Photo
               </CelButton>
               <CelButton
+                ref={testUtil.generateTestHook(this, 'CameraScreen.usePhoto')}
                 onPress={this.savePhoto}
                 white
                 margin="20 0 20 0"
@@ -298,4 +302,4 @@ class CameraScreen extends Component {
 
 }
 
-export default CameraScreen;
+export default testUtil.hookComponent(CameraScreen);

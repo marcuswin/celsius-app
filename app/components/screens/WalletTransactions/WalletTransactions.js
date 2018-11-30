@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Image, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
@@ -73,6 +74,7 @@ class WalletTransactions extends Component {
           </View>
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'WalletTransactions.AddFunds')}
             onPress={() => actions.navigateTo("AddFunds")}
           >
             Add Funds
@@ -94,4 +96,5 @@ class WalletTransactions extends Component {
   }
 }
 
-export default WalletTransactions;
+export default testUtil.hookComponent(WalletTransactions);
+

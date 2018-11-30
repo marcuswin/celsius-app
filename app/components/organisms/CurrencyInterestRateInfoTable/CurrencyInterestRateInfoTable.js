@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
@@ -46,7 +47,7 @@ class CurrencyInterestRateInfoTable extends Component {
 
       return 0;
     });
-
+    
     return (
       sortedRates.map(interest =>
         <CurrencyInterestRateInfo
@@ -72,4 +73,5 @@ class CurrencyInterestRateInfoTable extends Component {
   }
 }
 
-export default CurrencyInterestRateInfoTable;
+export default testUtil.hookComponent(CurrencyInterestRateInfoTable);
+

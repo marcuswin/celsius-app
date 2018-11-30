@@ -5,8 +5,9 @@ import { View } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import _ from 'lodash';
-
 import moment from "moment/moment";
+
+import testUtil from "../../../utils/test-util";
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
 import * as appActions from "../../../redux/actions";
@@ -202,8 +203,11 @@ class ProfileScreen extends Component {
       <BasicLayout bottomNavigation>
         <MainHeader
           right={(
-            <TouchableOpacity onPress={actions.logoutUser}>
-              <Text style={[{
+            <TouchableOpacity
+            ref={testUtil.generateTestHook(this, 'ProfileScreen.LogOut')}
+            onPress={actions.logoutUser}>
+              <Text
+                style={[{
                 color: 'white',
                 paddingLeft: 5,
                 textAlign: 'right',
@@ -219,6 +223,7 @@ class ProfileScreen extends Component {
 
         <CelScreenContent>
           <CelButton
+            ref={testUtil.generateTestHook(this, `ProfileScreen.changeAvatar`)}
             onPress={() => actions.navigateTo('ProfileImage')}
             transparent
             color="blue"
@@ -353,4 +358,4 @@ class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+export default testUtil.hookComponent(ProfileScreen);

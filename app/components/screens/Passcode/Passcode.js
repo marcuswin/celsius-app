@@ -4,6 +4,7 @@ import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
 import apiUtil from '../../../utils/api-util';
@@ -26,12 +27,14 @@ const types = {
       text: `Please create a 4-digit PIN${'\n'}to make your transactions even${'\n'} more secure.`,
       buttonText: 'Repeat PIN',
       field: 'pin',
+      testSelector: 'pin',
     },
     repeatPasscode: {
       title: `Repeat your${'\n'} PIN`,
       text: `Please type your PIN number${'\n'}one more time to confirm`,
       buttonText: 'Confirm',
       field: 'pin_confirm',
+      testSelector: 'pinRepeat',
     },
     enterPasscode: {
       title: `Enter your${'\n'} PIN`,
@@ -74,9 +77,6 @@ class Passcode extends Component {
       isPressed: false,
     };
   }
-
-
-
 
   onPressButton = async () => {
     const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose, userActions } = this.props;
@@ -150,7 +150,7 @@ class Passcode extends Component {
 
 
   render() {
-    const { activeScreen, type, formData, callsInProgress } = this.props;
+    const { activeScreen, type, formData, callsInProgress, testSelector } = this.props;
     const { isPressed } = this.state;
 
     const field = types[type].field;
@@ -159,20 +159,22 @@ class Passcode extends Component {
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
 
     const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
-
-    return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE}>
+    return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE} ref={testUtil.generateTestHook(this, testSelector)}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[type].text}</Text>
         <CelForm>
-          <CelInput type="pin"
+          <CelInput {...this.props}
+                    testSelector={`passcode.${types[type].field}`}
+                    type="pin"
                     value={pinValue}
                     digits={codeLength}
                     onChange={this.onChange}
                     field={types[type].field}/>
         </CelForm>
         <CelButton
+          ref={testUtil.generateTestHook(this, `Passcode.${types[type].buttonText}`)}
           white
           loading={isLoading}
           disabled={disabled || isLoading || isPressed}
@@ -196,4 +198,4 @@ class Passcode extends Component {
   }
 }
 
-export default Passcode;
+export default testUtil.hookComponent(Passcode);

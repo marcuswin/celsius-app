@@ -13,6 +13,7 @@ import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storag
 import apiUtil from "../../utils/api-util";
 import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
 import TwoFactorService from "../../services/two-factor-service";
+import logger from '../../utils/logger-util';
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -88,7 +89,7 @@ function updateProfileAddressInfo(profileAddressInfo) {
     dispatch(startApiCall(API.UPDATE_USER_ADDRESS_INFO));
 
     try {
-      const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo); 
+      const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
       mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
@@ -123,7 +124,7 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
   }
 }
 
-function updateProfileInfoSuccess(personalInfo) {
+export function updateProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
     callName: API.UPDATE_USER_PERSONAL_INFO,
@@ -167,7 +168,7 @@ function updateProfileTaxpayerInfoError(err) {
   }
 }
 
-function getUserPersonalInfoSuccess(personalInfo) {
+export function getUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
     callName: API.GET_USER_PERSONAL_INFO,
@@ -277,7 +278,7 @@ function verifySMS(verificationCode) {
   }
 }
 
-function verifySMSSuccess() {
+export function verifySMSSuccess() {
   return {
     type: ACTIONS.VERIFY_SMS_SUCCESS,
     callName: API.VERIFY_SMS,
@@ -328,7 +329,7 @@ function verifyKYCDocs() {
         mixpanelEvents.KYCStarted();
       }
     } catch(err) {
-      console.log({ err });
+      logger.log({ err });
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
@@ -495,7 +496,7 @@ function updateUserAppSettings(appSettings) {
         appSettings: newAppSettings,
       });
     } catch(err) {
-      console.log(err)
+      logger.log(err)
     }
   }
 }

@@ -8,6 +8,7 @@ import * as appActions from "../../../redux/actions";
 import Icon from "../Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   () => ({}),
@@ -58,8 +59,11 @@ class CameraInput extends Component {
         theme={theme}
         error={error}
       >
-        <TouchableOpacity onPress={this.onPress}
-          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
+        <TouchableOpacity
+          ref={testUtil.generateTestHook(this, `CameraInput.${this.props.field}`)}
+          onPress={this.onPress}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}
+        >
 
           <Text style={labelStyles}>
             {value ? labelTextActive.toUpperCase() : labelTextInactive}
@@ -83,4 +87,4 @@ class CameraInput extends Component {
   }
 }
 
-export default CameraInput;
+export default testUtil.hookComponent(CameraInput);
