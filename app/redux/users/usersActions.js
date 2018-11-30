@@ -124,7 +124,7 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
   }
 }
 
-function updateProfileInfoSuccess(personalInfo) {
+export function updateProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
     callName: API.UPDATE_USER_PERSONAL_INFO,
@@ -168,7 +168,7 @@ function updateProfileTaxpayerInfoError(err) {
   }
 }
 
-function getUserPersonalInfoSuccess(personalInfo) {
+export function getUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
     callName: API.GET_USER_PERSONAL_INFO,

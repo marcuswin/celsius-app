@@ -14,7 +14,7 @@ import * as appActions from "../../../redux/actions";
 class RepeatPasscode extends Component {
   render() {
     return <Passcode {...this.props}
-    testSelector={'repeatPasscode.pin'}  type={'repeatPasscode'} />
+    testSelector={'RepeatPasscode.screen'}  type={'repeatPasscode'} />
   }
 }
 

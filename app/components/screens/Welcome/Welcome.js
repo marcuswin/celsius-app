@@ -39,7 +39,10 @@ class WelcomeScreen extends Component {
     const {actions} = this.props;
 
     return (
-      <Container style={{ backgroundColor: 'black' }}>
+      <Container
+        ref={testUtil.generateTestHook(this, `Welcome.screen`)}
+        style={{ backgroundColor: 'black' }}
+      >
         <StatusBar
           backgroundColor="blue"
           barStyle="light-content"

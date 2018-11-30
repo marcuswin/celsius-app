@@ -93,6 +93,7 @@ class NoKyc extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
+        ref={testUtil.generateTestHook(this, 'NoKyc.screen')}
       >
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
