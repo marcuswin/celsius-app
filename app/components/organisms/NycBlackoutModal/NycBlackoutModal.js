@@ -82,7 +82,7 @@ class NycBlackoutModal extends Component {
     }
 
     return (
-      <CelModal name={MODALS.NYC_BLACKOUT}>Se
+      <CelModal name={MODALS.NYC_BLACKOUT}>
         <View style={NycBlackoutModalStyle.modalWrapper}>
           <Image style={NycBlackoutModalStyle.image}
                  source={require("../../../../assets/images/diane-with-laptop3x.png")}/>
