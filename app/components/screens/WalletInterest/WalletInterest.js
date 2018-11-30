@@ -11,10 +11,10 @@ import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 import WalletInterestStyle from "./WalletInterest.styles";
-import { FONT_SCALE, STYLES, COLORS } from "../../../config/constants/style";
-import Icon from "../../atoms/Icon/Icon";
+import { FONT_SCALE, COLORS } from "../../../config/constants/style";
 import CurrencyInterestRateInfoTable from "../../organisms/CurrencyInterestRateInfoTable/CurrencyInterestRateInfoTable";
 import formater from "../../../utils/formatter";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
 
 @connect(
   state => ({
@@ -129,31 +129,34 @@ class WalletInterest extends Component {
   render() {
     const { actions, chartData } = this.props;
     const { activeTab, chartDataSet, coinsMaxValues } = this.state;
+    let earnedText;
+
+    if (activeTab === "1m") {
+      earnedText = "THIS MONTH YOU'VE EARNED";
+    } else if (activeTab === "3m") {
+      earnedText = "PAST 3 MONTHS YOU'VE EARNED";
+    } else if (activeTab === "1y") {
+      earnedText = "THIS YEAR YOU'VE EARNED";
+    }
+
 
     return (
       <WalletLayout>
         <View style={WalletInterestStyle.graphAndInterestWrapper}>
           <View style={WalletInterestStyle.thisWeekInterestWrapper}>
-            <View style={WalletInterestStyle.interestIconWrapper}>
-              <Icon
-                name='InterestIcon'
-                height='24'
-                width='24'
-                viewBox="0 0 30 15"
-                fill={STYLES.WHITE_TEXT_COLOR}
-              />
-            </View>
-            <View style={WalletInterestStyle.interestTextWrapper}>
-              <Text style={WalletInterestStyle.thisWeekText}>
-                THIS WEEK YOU'VE EARNED
-              </Text>
-              <Text style={WalletInterestStyle.thisWeekInterest}>
-                {Object.values(chartDataSet)[0] ? formater.usd(coinsMaxValues[coinsMaxValues.length - 1]) : formater.usd(0)}
-              </Text>
+            <View style={{ flexDirection: "row", paddingHorizontal: 7 }}>
+              <View style={WalletInterestStyle.interestTextWrapper}>
+                <Text style={WalletInterestStyle.thisWeekText}>
+                  {earnedText}
+                </Text>
+                <Text style={WalletInterestStyle.thisWeekInterest}>
+                  {Object.values(chartDataSet)[0] ? formater.usd(coinsMaxValues[coinsMaxValues.length - 1]) : formater.usd(0)}
+                </Text>
+              </View>
             </View>
             <Image
               source={require("../../../../assets/images/interest-illu.png")}
-              style={{ marginRight: 20 }}
+              style={{ resizeMode: "contain", marginRight: widthPercentageToDP("8%"), marginTop: heightPercentageToDP("1.2%"), height: heightPercentageToDP("9.1%"), width: widthPercentageToDP("22%") }}
             />
           </View>
 
