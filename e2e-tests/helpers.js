@@ -17,7 +17,7 @@ async function waitForWelcomeScreen(spec) {
   let tryCount = 1;
 
   dispatch(actions.navigateTo('Welcome'));
-  while (!welcome || activeScreen !== 'Welcome' || tryCount < 20) {
+  while ((!welcome || activeScreen !== 'Welcome') && tryCount < 20) {
     try {
       activeScreen = getState().nav.routes[getState().nav.index].routeName
       welcome = await spec.exists('Welcome.screen')
@@ -33,6 +33,7 @@ async function waitForWelcomeScreen(spec) {
 }
 
 export async function resetTests(spec) {
+  // TODO: clear secureStorage
   dispatch(actions.clearForm());
   await dispatch(actions.logoutUser());
   await waitForWelcomeScreen(spec);
@@ -41,7 +42,7 @@ export async function resetTests(spec) {
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
   let lastCompletedCall = getState().api.lastCompletedCall;
-  while (lastCompletedCall !== callName || tryCount < 20) {
+  while (lastCompletedCall !== callName && tryCount < 20) {
     console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
     await spec.pause(200)
     lastCompletedCall = getState().api.lastCompletedCall;
