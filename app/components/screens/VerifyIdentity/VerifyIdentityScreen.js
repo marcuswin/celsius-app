@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Linking, Text, View } from "react-native";
-import { capitalize } from "lodash";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -48,19 +47,23 @@ class VerifyIdentity extends Component {
   handleInputChange = (field, value) => {
     this.setState({
       value,
+    }, () => {
+      if (value.length === 4) {
+        this.handleConfirmButton();
+      }
     })
   };
 
   handleConfirmButton = async () => {
-    const {verificationAction, verificationCallback, navigation} = this.props;
-    const {value} = this.state;
+    const { verificationAction, verificationCallback, navigation } = this.props;
+    const { value } = this.state;
 
     const onVerificationAction = navigation && navigation && navigation.getParam("verificationAction") || verificationAction;
     const onVerificationCallback = navigation && navigation.getParam("verificationCallback") || verificationCallback;
 
-    const {actions, user, type} = this.props;
+    const { actions, user, type } = this.props;
 
-    this.setState({inProgress: true,});
+    this.setState({ inProgress: true });
 
     const hasVerificationType = !!(navigation && navigation.getParam("verificationType") || type);
     const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
@@ -75,7 +78,7 @@ class VerifyIdentity extends Component {
           });
         }
 
-        this.setState({inProgress: false,});
+        this.setState({ inProgress: false });
         onVerificationCallback(value);
       } else {
         const verificationCode = {};
@@ -88,19 +91,19 @@ class VerifyIdentity extends Component {
         const stay = await onVerificationAction(verificationCode);
 
         if (stay) {
-          this.setState({inProgress: false,});
+          this.setState({ inProgress: false });
         }
       }
     } catch (error) {
-      this.setState({inProgress: false,});
+      this.setState({ inProgress: false });
       console.log(error);
       actions.showMessage('error', error.msg);
     }
   };
 
   render() {
-    const {navigation, user, type, help, label, title, backButton} = this.props;
-    const {value, inProgress} = this.state;
+    const { navigation, user, type, help, label, title, backButton } = this.props;
+    const { value, inProgress } = this.state;
 
     const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
     const pinLength = verificationType === VERIFY_IDENTITY_TYPES.PIN ? 4 : 6;
@@ -126,25 +129,26 @@ class VerifyIdentity extends Component {
             Please type your code from your authentication application to {actionLabel}
           </Text>}
           <CelInput type="pin"
-                    value={value}
-                    showDigits={verificationType === VERIFY_IDENTITY_TYPES.TWO_FACTOR}
-                    digits={pinLength}
-                    onChange={this.handleInputChange}
-                    field="verifyIdentityValue"/>
-          <CelButton white
-                     loading={inProgress}
-                     disabled={disabled}
-                     onPress={this.handleConfirmButton}>
-            {capitalize(actionLabel)}
-          </CelButton>
+            value={value}
+            showDigits={verificationType === VERIFY_IDENTITY_TYPES.TWO_FACTOR}
+            digits={pinLength}
+            onChange={this.handleInputChange}
+            field="verifyIdentityValue" />
+          <CelButton
+            white
+            inverse
+            loading={inProgress}
+            disabled={disabled}
+            hideBorder
+            onPress={this.handleConfirmButton} />
           {showHelp && <View style={{ marginTop: 20 }}>
-            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>
+            <Text style={[globalStyles.normalText, { color: 'white', textAlign: 'center', opacity: 0.8 }]}>
               {verificationType === VERIFY_IDENTITY_TYPES.PIN ? 'Forgot PIN?' : 'Lost your code?'}
             </Text>
-            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>
+            <Text style={[globalStyles.normalText, { color: 'white', textAlign: 'center' }]}>
               Please <Text
-              style={{ textDecorationLine: 'underline' }}
-              onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact Celsius support</Text>
+                style={{ textDecorationLine: 'underline' }}
+                onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact Celsius support</Text>
             </Text>
           </View>}
         </View>

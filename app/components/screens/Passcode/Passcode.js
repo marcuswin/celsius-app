@@ -22,32 +22,32 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import { mixpanelEvents } from "../../../services/mixpanel";
 
 const types = {
-    createPasscode: {
-      title: `Create a${'\n'} PIN`,
-      text: `Please create a 4-digit PIN${'\n'}to make your transactions even${'\n'} more secure.`,
-      buttonText: 'Repeat PIN',
-      field: 'pin',
-      testSelector: 'pin',
-    },
-    repeatPasscode: {
-      title: `Repeat your${'\n'} PIN`,
-      text: `Please type your PIN number${'\n'}one more time to confirm`,
-      buttonText: 'Confirm',
-      field: 'pin_confirm',
-      testSelector: 'pinRepeat',
-    },
-    enterPasscode: {
-      title: `Enter your${'\n'} PIN`,
-      text: `To continue with your withdrawal${'\n'} please enter your 4-digit PIN.`,
-      buttonText: 'Confirm',
-      field: 'pin',
-    },
-    loginPasscode: {
-      title: 'Welcome to Celsius',
-      text: 'Please enter your PIN to start',
-      buttonText: 'Enter PIN',
-      field: 'pin'
-    }
+  createPasscode: {
+    title: `Create a${'\n'} PIN`,
+    text: `Please create a 4-digit PIN${'\n'}to make your transactions even${'\n'} more secure.`,
+    buttonText: 'Repeat PIN',
+    field: 'pin',
+    testSelector: 'pin',
+  },
+  repeatPasscode: {
+    title: `Repeat your${'\n'} PIN`,
+    text: `Please type your PIN number${'\n'}one more time to confirm`,
+    buttonText: 'Confirm',
+    field: 'pin_confirm',
+    testSelector: 'pinRepeat',
+  },
+  enterPasscode: {
+    title: `Enter your${'\n'} PIN`,
+    text: `To continue with your withdrawal${'\n'} please enter your 4-digit PIN.`,
+    buttonText: 'Confirm',
+    field: 'pin',
+  },
+  loginPasscode: {
+    title: 'Welcome to Celsius',
+    text: 'Please enter your PIN to start',
+    buttonText: 'Enter PIN',
+    field: 'pin'
+  }
 };
 
 const codeLength = 4;
@@ -61,7 +61,7 @@ const codeLength = 4;
     formData: state.ui.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null,
+    previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -78,17 +78,26 @@ class Passcode extends Component {
     };
   }
 
-  onPressButton = async () => {
+  onPressButton = async (pinRepeat = "") => {
     const { previousScreen, type, formData, currency, amountCrypto, actions, withdrawalAddresses, newWithdrawalAddress, purpose, userActions } = this.props;
+    let newFormData;
+    if (pinRepeat) {
+      newFormData = {
+        ...formData,
+        pin_confirm: pinRepeat
+      }
+    } else {
+      newFormData = formData;
+    }
     if (type === 'repeatPasscode') {
-      return actions.setPin(formData);
+      return actions.setPin(newFormData);
     }
     if (type === 'createPasscode') {
       actions.navigateTo('RepeatPasscode');
     }
     if (type === 'enterPasscode') {
       // TODO(fj): move pin checking to action
-      const pin = formData;
+      const pin = newFormData;
       const withdrawalAddress = withdrawalAddresses[currency.toLowerCase()];
 
       try {
@@ -103,7 +112,7 @@ class Passcode extends Component {
           } else {
             await actions.withdrawCrypto(currency, amountCrypto);
           }
-          mixpanelEvents.confirmWithdraw({ amountUsd: formData.amountUsd, amountCrypto, currency });
+          mixpanelEvents.confirmWithdraw({ amountUsd: newFormData.amountUsd, amountCrypto, currency });
         } else if (purpose === 'send') {
           actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
         } else if (purpose === 'login') {
@@ -117,7 +126,7 @@ class Passcode extends Component {
     }
 
     if (type === 'loginPasscode') {
-      const pin = formData;
+      const pin = newFormData;
       try {
         await meService.checkPin(pin);
         if (previousScreen === null) {
@@ -136,7 +145,7 @@ class Passcode extends Component {
   };
 
   onChange = (field, text) => {
-    const { formData, actions } = this.props;
+    const { formData, actions, type } = this.props;
     if (field === 'pin_confirm' && text.length === codeLength) {
       if (formData.pin !== text) {
         actions.updateFormField(field, text)
@@ -145,7 +154,15 @@ class Passcode extends Component {
       }
     }
     actions.updateFormField('error', false)
-    return actions.updateFormField(field, text);
+    actions.updateFormField(field, text);
+
+    if (text.length === 4 && type !== 'createPasscode') {
+      if (type === "repeatPasscode") {
+        this.onPressButton(text);
+      } else {
+        this.onPressButton();
+      }
+    }
   }
 
 
@@ -158,40 +175,41 @@ class Passcode extends Component {
     const pinValue = formData[field];
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
 
-    const mainHeader = type === 'loginPasscode' ? {backButton: false} : { backButton: activeScreen !== 'Home' };
+    const mainHeader = type === 'loginPasscode' ? { backButton: false } : { backButton: activeScreen !== 'Home' };
     return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE} ref={testUtil.generateTestHook(this, testSelector)}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>
         <Image style={PasscodeStyle.image} source={CatImage} />
         <Text style={PasscodeStyle.text}>{types[type].text}</Text>
         <CelForm>
-          <CelInput {...this.props}
-                    testSelector={`passcode.${types[type].field}`}
-                    type="pin"
-                    value={pinValue}
-                    digits={codeLength}
-                    onChange={this.onChange}
-                    field={types[type].field}/>
+          <CelInput type="pin"
+            testSelector={`passcode.${types[type].field}`}
+            value={pinValue}
+            digits={codeLength}
+            onChange={this.onChange}
+            field={types[type].field} />
         </CelForm>
         <CelButton
           ref={testUtil.generateTestHook(this, `Passcode.${types[type].buttonText}`)}
           white
+          inverse={type !== 'createPasscode'}
           loading={isLoading}
           disabled={disabled || isLoading || isPressed}
+          hideBorder={type !== 'createPasscode'}
           onPress={() => this.onPressButton()}>
-          {types[type].buttonText}
+          {type === 'createPasscode' && types[type].buttonText}
         </CelButton>
 
-        { type === 'enterPasscode' || type === 'loginPasscode' && (
+        {type === 'enterPasscode' || type === 'loginPasscode' && (
           <View style={{ marginTop: 20 }}>
-            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
-            <Text style={[globalStyles.normalText, { color : 'white', textAlign: 'center' }]}>
+            <Text style={[globalStyles.normalText, { color: 'white', textAlign: 'center', opacity: 0.8 }]}>Forgot PIN?</Text>
+            <Text style={[globalStyles.normalText, { color: 'white', textAlign: 'center' }]}>
               Get in touch with <Text
                 style={{ textDecorationLine: 'underline' }}
                 onPress={() => Linking.openURL("mailto:app@celsius.network")}>Celsius support</Text>
             </Text>
           </View>
-        ) }
+        )}
 
       </View>
     </SimpleLayout>

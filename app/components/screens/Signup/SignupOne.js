@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View } from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import _ from 'lodash';
 import testUtil from "../../../utils/test-util";
 
 import API from '../../../config/constants/API';
@@ -10,7 +11,7 @@ import Separator from '../../atoms/Separator/Separator';
 import CelButton from "../../atoms/CelButton/CelButton";
 
 import * as appActions from "../../../redux/actions";
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import SignupOneStyle from "./Signup.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
@@ -37,25 +38,35 @@ class SignupOne extends Component {
 
   onSubmit = () => {
     const { actions, formData } = this.props;
-    actions.registerUser(formData);
+
+    const formErrors = {};
+    if (formData.password === formData.passwordRepeat) {
+      actions.registerUser(formData);
+    } else {
+      formErrors.password_repeat = 'Passwords don\'t match!';
+    }
+
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors);
+    }
   };
 
   // rendering methods
   render() {
-    const {callsInProgress, formData, formErrors } = this.props;
-    const { email, password } = formData;
+    const { callsInProgress, formData, formErrors } = this.props;
+    const { email, password, passwordRepeat } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
     return (
       <SimpleLayout
-        mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' }}}
+        mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' } }}
         animatedHeading={{ text: 'Sign up' }}
         background={STYLES.PRIMARY_BLUE}
         ref={testUtil.generateTestHook(this, `SignupOne.screen`)}
       >
         <View>
           <View>
-            <ThirdPartyLoginSection type="signup"/>
+            <ThirdPartyLoginSection type="signup" />
           </View>
 
           <Separator margin='35 0 -15 0'>OR SIGN UP WITH E-MAIL</Separator>
@@ -77,15 +88,23 @@ class SignupOne extends Component {
                 field="password"
                 type="password"
                 labelText="Password"
-                returnKeyType="done"
+                returnKeyType="next"
                 value={formData.password}
+              />
+              <CelInput
+                error={formErrors.password_repeat}
+                field="passwordRepeat"
+                type="password"
+                labelText="Repeat password"
+                returnKeyType="done"
+                value={formData.passwordRepeat}
               />
             </CelForm>
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
                 ref={testUtil.generateTestHook(this, 'SignupOne.button')}
-                disabled={!email || !password || password.length < 8 }
-                loading={ isLoading }
+                disabled={!email || !password || password.length < 8 || !passwordRepeat || passwordRepeat.length < 8}
+                loading={isLoading}
                 onPress={this.onSubmit}
                 white
                 iconRight="IconArrowRight"

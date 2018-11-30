@@ -96,7 +96,7 @@ class WalletDetails extends Component {
           currency={currency}
         />
         <CelScreenContent padding='0 0 0 0'>
-          { currency !== 'cel' && (
+          {currency !== 'cel' && (
             <WalletDetailsGraphContainer
               currency={currency}
               supportedCurrencies={supportedCurrencies}
@@ -117,23 +117,20 @@ class WalletDetails extends Component {
                 </Text>
 
               </WalletInfoBubble>
-              )}
-            {appSettings.showWalletDetailsInfoBox && (
+            )}
+            {appSettings.showWalletDetailsInfoBox && isCelCurrency && (
               <WalletInfoBubble
-                title={isCelCurrency ? `Your CEL Price` : `Deposit your ${currency.toUpperCase()}`}
+                title={`Your CEL Price`}
                 onPressClose={this.onCloseInfo}
                 color={"gray"}
               >
                 <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  {isCelCurrency ?
-                    `The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.` :
-                    `Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100`
-                  }
+                  The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.
                 </Text>
               </WalletInfoBubble>
             )}
 
-            { !!transactions.length && (
+            {!!transactions.length && (
               <TransactionsHistory
                 transactions={transactions}
                 navigateTo={actions.navigateTo}
@@ -141,7 +138,7 @@ class WalletDetails extends Component {
               />
             )}
 
-            { canWithdrawCrypto && (
+            {canWithdrawCrypto && (
               <CelButton
                 ref={testUtil.generateTestHook(this, 'WalletDetails.withdraw')}
                 margin={'40 0 0 0'}
