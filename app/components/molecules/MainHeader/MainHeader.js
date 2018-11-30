@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Button, Header, Left, Right, Text } from 'native-base';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
 import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 
@@ -80,8 +80,8 @@ class MainHeader2 extends Component {
 
     if (onCancel) {
       return (
-        <TouchableOpacity style={{opacity: .6}} onPress={onCancel}>
-          <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'}/>
+        <TouchableOpacity style={{ opacity: .6 }} onPress={onCancel}>
+          <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'} />
         </TouchableOpacity>
       );
     }
@@ -95,7 +95,7 @@ class MainHeader2 extends Component {
         }}>
           <Image
             source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-            style={HeaderStyle.logo}/>
+            style={HeaderStyle.logo} />
         </TouchableOpacity>
       );
     }
@@ -104,7 +104,7 @@ class MainHeader2 extends Component {
   }
 
   render() {
-    const {right, left, backButton, backgroundColor} = this.props;
+    const { right, left, backButton, backgroundColor } = this.props;
 
     const styles = {
       backgroundColor,

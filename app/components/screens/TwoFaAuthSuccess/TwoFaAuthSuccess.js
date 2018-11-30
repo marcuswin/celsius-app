@@ -41,7 +41,7 @@ class TwoFaAuthSuccess extends Component {
           textAlign: "right",
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: "agile-medium"
         }]}>Log out</Text>
       </TouchableOpacity>
@@ -54,12 +54,12 @@ class TwoFaAuthSuccess extends Component {
         background={STYLES.GRAY_1}
         bottomNavigation
       >
-        <View style={{alignItems: "center"}}>
+        <View style={{ alignItems: "center" }}>
           <Image resizeMode={"contain"}
-                 style={TwoFaAuthSuccessStyle.image}
-                 source={require("../../../../assets/images/authSuccess3x.png")}/>
-          <Text style={[globalStyles.heading, {marginTop: 25}]}>You have successfully turned Two-Factor Verification on</Text>
-          <Text style={[globalStyles.normalText, {textAlign: "center"}]}>You will now be asked for a verification code, every time you want to login or make a transaction.</Text>
+            style={TwoFaAuthSuccessStyle.image}
+            source={require("../../../../assets/images/authSuccess3x.png")} />
+          <Text style={[globalStyles.heading, { marginTop: 25 }]}>You have successfully turned Two-Factor Verification on</Text>
+          <Text style={[globalStyles.normalText, { textAlign: "center" }]}>You will now be asked for a verification code, every time you want to login or make a transaction.</Text>
         </View>
 
         <CelButton

@@ -59,9 +59,11 @@ class CameraInput extends Component {
         theme={theme}
         error={error}
       >
-        <TouchableOpacity ref={testUtil.generateTestHook(this, `CameraInput.${this.props.field}`)}
-                          onPress={this.onPress}
-                          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
+        <TouchableOpacity
+          ref={testUtil.generateTestHook(this, `CameraInput.${this.props.field}`)}
+          onPress={this.onPress}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}
+        >
 
           <Text style={labelStyles}>
             {value ? labelTextActive.toUpperCase() : labelTextInactive}
@@ -71,13 +73,13 @@ class CameraInput extends Component {
           {!value ? (
             <View style={globalStyles.inputIconRight}>
               <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={"#fff"}
-                    style={{ opacity: 0.5 }}/>
+                style={{ opacity: 0.5 }} />
             </View>
           ) : (
-            <View style={[globalStyles.inputIconRight, { opacity: 1 }]}>
-              <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37"/>
-            </View>
-          )}
+              <View style={[globalStyles.inputIconRight, { opacity: 1 }]}>
+                <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" />
+              </View>
+            )}
 
         </TouchableOpacity>
       </InputErrorWrapper>

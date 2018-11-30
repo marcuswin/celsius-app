@@ -139,6 +139,7 @@ class Passcode extends Component {
     const { formData, actions } = this.props;
     if (field === 'pin_confirm' && text.length === codeLength) {
       if (formData.pin !== text) {
+        actions.updateFormField(field, text)
         actions.updateFormField('error', true)
         return actions.showMessage('error', 'Pin code should be the same');
       }
@@ -146,6 +147,7 @@ class Passcode extends Component {
     actions.updateFormField('error', false)
     return actions.updateFormField(field, text);
   }
+
 
   render() {
     const { activeScreen, type, formData, callsInProgress, testSelector } = this.props;

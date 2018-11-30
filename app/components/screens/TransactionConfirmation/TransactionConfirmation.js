@@ -38,64 +38,64 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
       address is not set. Please, enter the address, or scan QR code.</Text>
     <CelForm>
       <CelInput theme="white"
-                value={formData[`${coin}WithdrawalAddress`]}
-                field={`${coin}WithdrawalAddress`}
-                labelText="Withdrawal Address"
-                onChange={onChange}/>
+        value={formData[`${coin}WithdrawalAddress`]}
+        field={`${coin}WithdrawalAddress`}
+        labelText="Withdrawal Address"
+        onChange={onChange} />
       <Text onPress={onScanClick} style={[TransactionConfirmationStyle.scanQrCode, {
         fontFamily: "agile-book",
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-        QR
+                                                                              QR
         Code</Text>
     </CelForm>
 
     {coin === "xrp" &&
-    <View style={{ marginTop: 35, marginBottom: 35, justifyContent: "flex-start" }}>
-      <Text style={[globalStyles.normalText, { marginBottom: 20 }]}>You need to enter a destination tag or turn off
-        this
+      <View style={{ marginTop: 35, marginBottom: 35, justifyContent: "flex-start" }}>
+        <Text style={[globalStyles.normalText, { marginBottom: 20 }]}>You need to enter a destination tag or turn off
+          this
         option</Text>
-      <View>
-        <CelInput theme="white"
-                  value={formData.coinTag}
-                  field={`coinTag`}
-                  labelText="XRP Destination Tag"
-                  editable={!formData.hasTagValue}
-        />
-        <View style={{ position: "absolute", right: 14, top: 15 }}>
-          <Switch
-            onValueChange={() => actions.updateFormField("hasTagValue", !formData.hasTagValue)}
-            value={!formData.hasTagValue}
+        <View>
+          <CelInput theme="white"
+            value={formData.coinTag}
+            field={`coinTag`}
+            labelText="XRP Destination Tag"
+            editable={!formData.hasTagValue}
           />
+          <View style={{ position: "absolute", right: 14, top: 15 }}>
+            <Switch
+              onValueChange={() => actions.updateFormField("hasTagValue", !formData.hasTagValue)}
+              value={!formData.hasTagValue}
+            />
+          </View>
         </View>
-      </View>
-      <TouchableOpacity
-        onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
-      >
-        <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 16 }}>
-          What is XRP Destination Tag?
+        <TouchableOpacity
+          onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
+        >
+          <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 16 }}>
+            What is XRP Destination Tag?
         </Text>
-      </TouchableOpacity>
-      <View style={TransactionConfirmationStyle.messageWrapper}>
-        <View style={TransactionConfirmationStyle.errorCircle}>
-          <Icon
-            name={"ErrorIcon"}
-            width='15'
-            height='15'
-            fill={"white"}
-            stroke={"white"}
-            viewBox="0 0 14.2 12.87"
-          />
-        </View>
-        <View style={{width: '80%'}}>
-        {!formData.hasTagValue ?
-          <Text style={[globalStyles.normalText, {textAlign: 'left'}]}>To prevent a <Text style={{fontFamily: 'agile-book',}}>permanent loss</Text> of your funds, please specify a correct destination tag.</Text> :
-          <Text style={[globalStyles.normalText, {textAlign: 'left'}]}>To prevent a <Text style={{fontFamily: 'agile-book',}}>permanent loss</Text> of your funds, please check if your address has a destination tag.</Text>
-        }
+        </TouchableOpacity>
+        <View style={TransactionConfirmationStyle.messageWrapper}>
+          <View style={TransactionConfirmationStyle.errorCircle}>
+            <Icon
+              name={"ErrorIcon"}
+              width='15'
+              height='15'
+              fill={"white"}
+              stroke={"white"}
+              viewBox="0 0 14.2 12.87"
+            />
+          </View>
+          <View style={{ width: '80%' }}>
+            {!formData.hasTagValue ?
+              <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please specify a correct destination tag.</Text> :
+              <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please check if your address has a destination tag.</Text>
+            }
+          </View>
         </View>
       </View>
-    </View>
     }
 
     <InfoBubble
@@ -107,7 +107,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
           <Text style={textStyles}>
             Once you choose a wallet address to withdraw to you will not be able to change it in the future without
             contacting us at <Text onPress={() => Linking.openURL("mailto:app@celsius.network")}
-                                   style={globalStyles.underlinedText}>app@celsius.network</Text>.
+              style={globalStyles.underlinedText}>app@celsius.network</Text>.
           </Text>
         </View>
       )}
@@ -254,17 +254,17 @@ class TransactionConfirmation extends Component {
     }
 
     try {
-        if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
-          await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
-        } else {
-          await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
-        }
+      if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
+        await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
+      } else {
+        await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
+      }
 
-        mixpanelEvents.confirmWithdraw({
-          amountUsd: formData.amountUsd,
-          amountCrypto: formData.amountCrypto,
-          coin,
-        });
+      mixpanelEvents.confirmWithdraw({
+        amountUsd: formData.amountUsd,
+        amountCrypto: formData.amountCrypto,
+        coin,
+      });
     } catch (error) {
       actions.showMessage('error', error.error);
       return true;
@@ -273,7 +273,7 @@ class TransactionConfirmation extends Component {
 
   // event hanlders
   confirmWithdrawal = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.navigateTo("VerifyIdentity", {
       actionLabel: 'withdraw',
@@ -324,8 +324,8 @@ class TransactionConfirmation extends Component {
                 Please confirm this is the address you wish to send your funds to. If you transferred money from an
                 exchange, this may not be the correct address to send coins or tokens to. If you need to change your
                 withdrawal address, please contact Celsius support at <Text
-                onPress={() => Linking.openURL("mailto:app@celsius.network")}
-                style={globalStyles.underlinedText}>app@celsius.network</Text>.
+                  onPress={() => Linking.openURL("mailto:app@celsius.network")}
+                  style={globalStyles.underlinedText}>app@celsius.network</Text>.
               </Text>
             </View>
           )}
@@ -357,9 +357,24 @@ class TransactionConfirmation extends Component {
 
     const coinUpperCase = this.getCoinShorthand(true);
     const coinLowerCase = this.getCoinShorthand();
+    const decimal = formData.inUsd ? 2 : 5;
+    const secondaryDecimal = formData.inUsd ? 5 : 2;
 
-    const mainAmountText = formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, coinUpperCase, { precision: 5 });
-    const secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.crypto(formData.amountCrypto, coinUpperCase, { precision: 5 });
+    let mainAmountText;
+    mainAmountText = formData.inUsd ? formatter.usd(formData.amount) : formatter.round(formData.amount, { precision: 5 });
+    if (!formData.inUsd) {
+      mainAmountText += ` ${formData.currency.toUpperCase()}`;
+    }
+
+    const amountCryptoStr = formData.amountCrypto ? formData.amountCrypto.toString() : "";
+    let secondaryAmountText;
+    secondaryAmountText = !formData.inUsd ? formatter.usd(formData.amountUsd) : formatter.round(formData.amountCrypto, { precision: 5 });
+    if (formData.amountCrypto && formData.inUsd && amountCryptoStr.indexOf('.') > 0 && (amountCryptoStr.length - amountCryptoStr.indexOf('.') > secondaryDecimal + 1)) {
+      secondaryAmountText = `*${secondaryAmountText}`;
+    }
+    if (formData.inUsd) {
+      secondaryAmountText += ` ${formData.currency.toUpperCase()}`;
+    }
 
     const balanceCrypto = formData.balance - formData.amountCrypto;
     const balanceUsd = balanceCrypto * formData.rateUsd;
@@ -372,17 +387,22 @@ class TransactionConfirmation extends Component {
     return (
       <BasicLayout
       >
-        <MainHeader backButton/>
-        <CelHeading text={`Withdraw ${coinUpperCase}`}/>
+        <MainHeader backButton />
+        <CelHeading text={`Withdraw ${coinUpperCase}`} />
         <CelScreenContent padding='0 0 0 0'>
           <View style={AmountInputStyle.inputWrapper}>
-            <Text
-              style={AmountInputStyle.primaryAmount}
-            >
-              {mainAmountText}
-            </Text>
+            {(formData.amount && !formData.inUsd && formData.amount.indexOf('.') > 0 && (formData.amount.length - formData.amount.indexOf('.') > decimal + 1)) ?
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={[AmountInputStyle.primaryAmount, AmountInputStyle.primaryAmountAsterix]}>*</Text>
+                <Text style={AmountInputStyle.primaryAmount}>{mainAmountText}</Text>
+              </View>
+              :
+              <Text style={AmountInputStyle.primaryAmount}>
+                {mainAmountText}
+              </Text>
+            }
             <Text style={AmountInputStyle.secondaryAmount}>{secondaryAmountText}</Text>
-            <View style={AmountInputStyle.separator}/>
+            <View style={AmountInputStyle.separator} />
             <View style={AmountInputStyle.newBalance}>
               <Text style={AmountInputStyle.newBalanceText}> New balance:</Text>
               <Text
@@ -391,17 +411,26 @@ class TransactionConfirmation extends Component {
                 style={[AmountInputStyle.newBalanceText, globalStyles.mediumText]}>{formatter.usd(balanceUsd)}</Text>
             </View>
           </View>
+          {(formData.amountCrypto && amountCryptoStr.indexOf('.') > 0 && (amountCryptoStr.length - amountCryptoStr.indexOf('.') > 5 + 1)) &&
+            <View style={[TransactionConfirmationStyle.screenContentWrapper, { marginTop: 20, marginBottom: 20 }]}>
+              <Text style={[globalStyles.normalText]}>*This is the full amount to withdraw:</Text>
+              <Text style={[globalStyles.normalText]}>
+                {`${amountCryptoStr} ${formData.currency.toUpperCase()}`}
+              </Text>
+            </View>
+          }
+          <View style={AmountInputStyle.separator} />
 
           {(!isLoading && withdrawalAddressSet) && this.withdrawalAddressSetInfo()}
 
           {(!isLoading && !withdrawalAddressSet) &&
-          <WithdrawalAddressNeededBox
-            onScanClick={this.handleScanClick}
-            formData={formData}
-            actions={actions}
-            coin={coinLowerCase}
-            onChange={this.handleWithdrawalAddressChange}
-          />
+            <WithdrawalAddressNeededBox
+              onScanClick={this.handleScanClick}
+              formData={formData}
+              actions={actions}
+              coin={coinLowerCase}
+              onChange={this.handleWithdrawalAddressChange}
+            />
           }
 
           <CelButton
@@ -414,8 +443,8 @@ class TransactionConfirmation extends Component {
             Confirm withdrawal
           </CelButton>
         </CelScreenContent>
-        <DestinationTagExplanationModal/>
-      </BasicLayout>
+        <DestinationTagExplanationModal />
+      </BasicLayout >
     );
   }
 }

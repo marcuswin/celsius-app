@@ -37,7 +37,7 @@ class TwoFAInfo extends Component {
     const { actions } = this.props;
 
     actions.navigateTo('TwoFaWelcome', {
-      pin: value,
+      pin: value
     });
   };
 
@@ -53,7 +53,7 @@ class TwoFAInfo extends Component {
           textAlign: "right",
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: "agile-medium"
         }]}>Log out</Text>
       </TouchableOpacity>
@@ -76,13 +76,13 @@ class TwoFAInfo extends Component {
               Add an extra layer of security to prevent the risk of an unwanted access to your account, even if your
               login information is compromised.
             </Text>
-            <Separator margin={"30 0 30 0"}/>
+            <Separator margin={"30 0 30 0"} />
           </View>
 
           <View style={TwoFAInfoStyle.imageTextWrapper}>
             <Image resizeMode={"contain"}
-                   style={TwoFAInfoStyle.image}
-                   source={require("../../../../assets/images/security_dog3x.png")}/>
+              style={TwoFAInfoStyle.image}
+              source={require("../../../../assets/images/security_dog3x.png")} />
             <View style={TwoFAInfoStyle.textWrapper}>
               <Text style={[globalStyles.normalText, TwoFAInfoStyle.imageText]}>
                 To secure your account and transactions you can use either SMS, Authentication apps or biometrics.

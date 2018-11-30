@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Text, TouchableOpacity, View } from "react-native";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import TwoFaAuthAppConfirmationCodeStyle from "./TwoFaAuthAppConfirmationCode.styles";
@@ -13,7 +13,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   state => ({
-  // map state to props
+    // map state to props
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
   }),
@@ -53,42 +53,42 @@ class TwoFaAuthAppConfirmationCode extends Component {
           textAlign: "right",
           opacity: 0.8,
           marginTop: 2,
-          fontSize: FONT_SCALE * 21,
+          fontSize: FONT_SCALE * 18,
           fontFamily: "agile-medium"
         }]}>Log out</Text>
       </TouchableOpacity>
     );
 
     return (
-     <SimpleLayout
-       mainHeader={{ backButton: true, right: logoutButton() }}
-       animatedHeading={{ text: "Auth App" }}
-       background={STYLES.GRAY_1}
-       bottomNavigation
-     >
+      <SimpleLayout
+        mainHeader={{ backButton: true, right: logoutButton() }}
+        animatedHeading={{ text: "Auth App" }}
+        background={STYLES.GRAY_1}
+        bottomNavigation
+      >
 
-       <Text style={[globalStyles.normalText, TwoFaAuthAppConfirmationCodeStyle.title]}>Please enter the confirmation code from your authentication app:</Text>
+        <Text style={[globalStyles.normalText, TwoFaAuthAppConfirmationCodeStyle.title]}>Please enter the confirmation code from your authentication app:</Text>
 
-       <View style={TwoFaAuthAppConfirmationCodeStyle.input}>
-        <CelInput
-          style={[globalStyles.shadow]}
-          theme="white"
-          field="confirmationCode"
-          type="number"
-          placeholder={"Confirmation code"}
-          margin="0 0 25 0"
-          value={formData.confirmationCode}
-        />
-       </View>
+        <View style={TwoFaAuthAppConfirmationCodeStyle.input}>
+          <CelInput
+            style={[globalStyles.shadow]}
+            theme="white"
+            field="confirmationCode"
+            type="number"
+            placeholder={"Confirmation code"}
+            margin="0 0 25 0"
+            value={formData.confirmationCode}
+          />
+        </View>
 
-       <CelButton
-         onPress={this.verifyAuthCode}
-         disabled={!formData.confirmationCode}
-       >
-         Verify authentication app
+        <CelButton
+          onPress={this.verifyAuthCode}
+          disabled={!formData.confirmationCode}
+        >
+          Verify authentication app
        </CelButton>
 
-     </SimpleLayout>
+      </SimpleLayout>
     )
   }
 }

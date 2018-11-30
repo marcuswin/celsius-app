@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 
 const EmptyStateStyle = StyleSheet.create({
   wrapper: {
-    marginTop: heightPercentageToDP("25%"),
+    marginTop: heightPercentageToDP("10%"),
     alignItems: 'center',
     justifyContent: 'center',
   },

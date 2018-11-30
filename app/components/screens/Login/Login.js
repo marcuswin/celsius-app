@@ -66,6 +66,7 @@ class LoginScreen extends Component {
   handleLogin = async data => {
     const {actions} = this.props;
     await actions.loginBorrower(data);
+    actions.openInitialModal();
   };
 
   render() {

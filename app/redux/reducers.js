@@ -11,6 +11,7 @@ import branch from './branch/branchReducer';
 import transfers from './transfers/transfersReducer';
 import cameraRoll from './cameraRoll/cameraRollReducer';
 import loans from './loans/loansReducer';
+import apiKeys from './apiKeys/apiKeysReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 export default combineReducers({
@@ -25,5 +26,6 @@ export default combineReducers({
   transfers,
   cameraRoll,
   loans,
+  apiKeys,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 });

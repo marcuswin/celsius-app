@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Clipboard, Share, Platform, Image } from "react-native";
+import { Text, View, TouchableOpacity, Clipboard, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import QRCode from "react-native-qrcode";
@@ -19,6 +19,7 @@ import { mixpanelEvents } from "../../../services/mixpanel";
 import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
+import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
@@ -175,6 +176,7 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
+        console.log(address, addressXrp, destinationTag);
       }
 
       currentCurrency = navCurrency.toLowerCase();
@@ -185,6 +187,7 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
+        console.log(address, addressXrp, destinationTag);
       }
 
       headingText = "Add funds";
@@ -205,36 +208,40 @@ class AddFunds extends Component {
 
         {(appSettings.showBchExplanationInfoBox && navCurrency === "bch") && (
           <WalletInfoBubble
-            title={"BCH in your wallet is now BCHABC"}
+            title={"Add more BCH-ABC."}
             onPressClose={this.onCloseBCHInfo}
             color={"opaqueBlue"}
           >
             <Text style={[globalStyles.normalText, { color: 'white' }]}>
-              {"After latest fork, we have merged Bitcoin Cash (BCH) and Bitcoin Cash ABC (BCHABC)."}
+              {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
             </Text>
             <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
-              {"If you had BCH deposited before November 14th at 11:40 PM EST you will get your Bitcoin Cash SV (BCHSV) once it becomes supported."}
+              {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
             </Text>
 
           </WalletInfoBubble>
         )}
 
-        {navCurrency ? (
+        (navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
-            Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
-            address.
+          Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
+          address.
           </Text>
         ) : (
           <Text style={AddFundsStyle.textOne}>
-            Transfer your coins from another wallet by selecting the coin you want to transfer.
+          Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-        )}
+        ))
 
         {!navCurrency && (
-          <CelSelect ref={testUtil.generateTestHook(this, `AddFunds.${formData.currency}`)}
-
-                     field="currency" items={pickerItems} labelText="Pick a currency" value={formData.currency}
-                     margin="25 50 15 50"/>
+          <CelSelect
+            ref={testUtil.generateTestHook(this, `AddFunds.${formData.currency}`)}
+            field="currency"
+            items={pickerItems}
+            labelText="Pick a currency"
+            value={formData.currency}
+            margin="25 50 15 50"
+          />
         )}
 
         <View style={[AddFundsStyle.imageWrapper]}>
@@ -250,115 +257,18 @@ class AddFunds extends Component {
                   fgColor='white'
                 />
               </View> : <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
-                               style={AddFundsStyle.loader}/>}
+                style={AddFundsStyle.loader} />}
           </View>
         </View>
 
-        <View style={AddFundsStyle.box}>
-          <View style={AddFundsStyle.addressWrapper}>
-            <Text ref={testUtil.generateTestHook(this, "AddFunds.address")}
-                  style={AddFundsStyle.address}>{formData.currency === "xrp" ? addressXrp : address}</Text>
-          </View>
-
-          <View style={AddFundsStyle.boxButtonsWrapper}>
-            <TouchableOpacity
-              onPress={() => Share.share({ message: address, title: "Wallet address" })}
-              style={[AddFundsStyle.buttons, {
-                borderBottomLeftRadius: 8,
-                borderRightWidth: 1,
-                borderRightColor: "rgba(255, 255, 255, 0.3)"
-              }]}
-            >
-              <View style={AddFundsStyle.buttonTextWrapper}>
-                {Platform.OS === "ios" ? (<Icon
-                  style={{ marginTop: 17 }}
-                  name='ShareIcon'
-                  width='20' height='20'
-                  fill='rgba(255, 255, 255, 0.5)'
-                />) : null}
-                <Text
-                  style={[AddFundsStyle.buttonsText, { color: "white" }]}
-                >
-                  Share
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => this.copyAddress(formData.currency === "xrp" ? addressXrp : address)}
-              style={[AddFundsStyle.buttons, {
-                borderBottomRightRadius: 8
-              }]}
-            >
-              <View style={AddFundsStyle.buttonTextWrapper}>
-                {Platform.OS === "ios" ? (<Icon
-                  style={{ marginTop: 17 }}
-                  name='CopyIcon'
-                  width='20' height='20'
-                  fill='rgba(255, 255, 255, 0.5)'
-                />) : null}
-                <Text
-                  style={[AddFundsStyle.buttonsText, { color: "white" }]}
-                >
-                  Copy
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+        <View style={{ alignItems: "center", marginTop: 30 }}>
+          <ShareCopy displayValue={formData.currency === "xrp" ? addressXrp : address} copyShareValue={address} theme={'blue'} size={"small"} />
         </View>
 
         {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
           <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
-          <View style={[AddFundsStyle.box, { marginTop: 14 }]}>
-            <View style={AddFundsStyle.addressWrapper}>
-              <Text style={AddFundsStyle.address}>{destinationTag}</Text>
-            </View>
-
-            <View style={AddFundsStyle.boxButtonsWrapper}>
-              <TouchableOpacity
-                onPress={() => Share.share({ message: address, title: "Wallet address" })}
-                style={[AddFundsStyle.buttons, {
-                  borderBottomLeftRadius: 8,
-                  borderRightWidth: 1,
-                  borderRightColor: "rgba(255, 255, 255, 0.3)"
-                }]}
-              >
-                <View style={AddFundsStyle.buttonTextWrapper}>
-                  {Platform.OS === "ios" ? (<Icon
-                    style={{ marginTop: 17 }}
-                    name='ShareIcon'
-                    width='20' height='20'
-                    fill='rgba(255, 255, 255, 0.5)'
-                  />) : null}
-                  <Text
-                    style={[AddFundsStyle.buttonsText, { color: "white" }]}
-                  >
-                    Share
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => this.copyAddress(destinationTag)}
-                style={[AddFundsStyle.buttons, {
-                  borderBottomRightRadius: 8
-                }]}
-              >
-                <View style={AddFundsStyle.buttonTextWrapper}>
-                  {Platform.OS === "ios" ? (<Icon
-                    style={{ marginTop: 17 }}
-                    name='CopyIcon'
-                    width='20' height='20'
-                    fill='rgba(255, 255, 255, 0.5)'
-                  />) : null}
-                  <Text
-                    style={[AddFundsStyle.buttonsText, { color: "white" }]}
-                  >
-                    Copy
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
+          <View style={{ marginTop: 14 }}>
+            <ShareCopy displayValue={destinationTag} copyShareValue={address} theme={'blue'} size={"small"} />
           </View>
           <TouchableOpacity
             onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
@@ -373,35 +283,35 @@ class AddFunds extends Component {
         }
 
         {(currentCurrency && currentCurrency.toLowerCase() === "ltc") &&
-        <View style={AddFundsStyle.alternateAddressWrapper}>
-          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
+          <View style={AddFundsStyle.alternateAddressWrapper}>
+            <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
             support {useAlternateAddress ? "3" : "M"}-format addresses you can use a {useAlternateAddress ? "M" : "3"}-format
             LTC address.</Text>
-          <CelButton
-            white
-            size="small"
-            onPress={this.switchAlternateAddress}
-            margin='20 10 0 10'
-          >
-            Use {useAlternateAddress ? "M" : "3"}-format address
+            <CelButton
+              white
+              size="small"
+              onPress={this.switchAlternateAddress}
+              margin='20 10 0 10'
+            >
+              Use {useAlternateAddress ? "M" : "3"}-format address
           </CelButton>
-        </View>}
+          </View>}
 
         {(currentCurrency && currentCurrency.toLowerCase() === "bch") &&
-        <View style={AddFundsStyle.alternateAddressWrapper}>
-          <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
+          <View style={AddFundsStyle.alternateAddressWrapper}>
+            <Text style={AddFundsStyle.alternateAddressText}>If your wallet doesn't
             support {useAlternateAddress ? "Cash Address" : "Bitcoin"}-format addresses you can use
             a {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format
             BCH address.</Text>
-          <CelButton
-            white
-            size="small"
-            onPress={this.switchAlternateAddress}
-            margin='20 10 0 10'
-          >
-            Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
+            <CelButton
+              white
+              size="small"
+              onPress={this.switchAlternateAddress}
+              margin='20 10 0 10'
+            >
+              Use {useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address
           </CelButton>
-        </View>}
+          </View>}
 
         <CelButton
           ref={testUtil.generateTestHook(this, "AddFunds.Done")}
@@ -412,8 +322,8 @@ class AddFunds extends Component {
           Done
         </CelButton>
 
-        <TouchableOpacity style={[AddFundsStyle.secureTransactionsBtn, {paddingLeft: 20, paddingRight: 20}]}
-                          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
+        <TouchableOpacity style={[AddFundsStyle.secureTransactionsBtn, { paddingLeft: 20, paddingRight: 20 }]}
+          onPress={() => actions.navigateTo("SecureTransactions", { currency: navCurrency })}>
           <View style={{ marginRight: 30 }}>
             <Icon
               name="ShieldBitGo"
@@ -425,7 +335,7 @@ class AddFunds extends Component {
           <Text style={AddFundsStyle.textTwo}>Transactions are secure</Text>
         </TouchableOpacity>
 
-        <DestinationTagExplanationModal/>
+        <DestinationTagExplanationModal />
       </SimpleLayout>
 
     );

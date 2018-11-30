@@ -22,7 +22,7 @@ const TwoFaAuthorizationStyle = StyleSheet.create({
   },
   textWrapper: {
     width: 170,
-    height: 100,
+    minHeight: 100,
     padding: 10
   },
   imageText: {

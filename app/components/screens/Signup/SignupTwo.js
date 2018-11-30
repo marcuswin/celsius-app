@@ -92,7 +92,7 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, screenIndex, actions } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);

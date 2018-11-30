@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View, Easing, Text, TextInput } from "react-native";
 // import { Input } from "native-base";
@@ -89,7 +89,7 @@ class CelTextInput extends Component {
 
   // rendering methods
   render() {
-    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword} = this.props;
+    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword } = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;
 
@@ -104,12 +104,12 @@ class CelTextInput extends Component {
       this.animateLabel(20);
     }
 
-    const inputBackground = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    const inputBackground = globalStyles[`${theme}InputWrapperActive`];
     const disabledStyles = !editable ? globalStyles[`${theme}InputWrapperDisabled`] : {};
     const additionalTextInputStyle = isPassword ? {} : globalStyles.nonPasswordInputStyle;
 
     return (
-      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles ]}>
+      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles]}>
         <TextInput
           style={[globalStyles.input, globalStyles[`${theme}InputTextColor`], additionalTextInputStyle]}
           underlineColorAndroid={'rgba(0,0,0,0)'}
@@ -121,9 +121,10 @@ class CelTextInput extends Component {
           onLayout={ () => this.saveLayout()}
           onFocus={() => {
             if (onFocus) onFocus()
-            this.setState({ active: true })}
+            this.setState({ active: true })
           }
-          selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE }
+          }
+          selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE}
           onBlur={() => this.setState({ active: false })}
           returnKeyType={returnKeyType}
           autoCorrect={autoCorrect}
@@ -131,7 +132,7 @@ class CelTextInput extends Component {
           keyboardType={keyboardType}
           multiline={multiline}
           spellCheck={spellCheck}
-          onChangeText={(text) => this.props.onChange(text) }
+          onChangeText={(text) => this.props.onChange(text)}
           value={value || ''}
         />
         <Animated.View pointerEvents={'none'} style={{
@@ -153,7 +154,7 @@ class CelTextInput extends Component {
             }),
           }],
         }}>
-          <Text style={labelStyles}>{ label }</Text>
+          <Text style={labelStyles}>{label}</Text>
         </Animated.View>
       </View>
     )

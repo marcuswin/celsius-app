@@ -54,7 +54,7 @@ class TransferReceivedModal extends Component {
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
           Your friend { transfer.from.name } just sent you
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
-          worth of { transfer.coin }. You can see it now in your wallet.
+          worth of { transfer.coin }. It's already earning interest in your wallet which will be paid out on a weekly basis. Go to your wallet to find out more about interest rates.
         </Text>
 
         <CelButton
