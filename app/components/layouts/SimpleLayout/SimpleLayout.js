@@ -93,7 +93,6 @@ class SimpleLayout extends Component {
         {!!tabs && <TabNavigation tabs={tabs} />}
 
         <ScrollView
-          keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'
           style={[SimpleLayoutStyle.content, contentStyles]}
           enableOnAndroid
           ref={component => { this.scrollView = component }}

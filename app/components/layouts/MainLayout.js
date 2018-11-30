@@ -53,7 +53,7 @@ class MainLayout extends Component {
 
     if (!connected) {
       return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
           <View style={{ flex: 1, }}>
             <OfflineMode />
           </View>
@@ -63,7 +63,7 @@ class MainLayout extends Component {
 
     if (maintenance) {
       return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
           <View style={{ flex: 1, }}>
             <MaintenanceMode />
           </View>
@@ -72,7 +72,7 @@ class MainLayout extends Component {
     }
 
     return (
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={false}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
         <View style={{ flex: 1 }}>
           <Navigator navigation={navigation} />
           {hasBottomNavigation && <BottomNavigation />}
