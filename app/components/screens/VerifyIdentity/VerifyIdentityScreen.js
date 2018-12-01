@@ -45,10 +45,16 @@ class VerifyIdentity extends Component {
    * @param {string} value
    */
   handleInputChange = (field, value) => {
+    const { user, type, navigation } = this.props;
+
+    const verificationType = navigation && navigation.getParam("verificationType") || type || this.getUserPrefferredVerificationType(user);
+
+    const pinLength = verificationType === VERIFY_IDENTITY_TYPES.PIN ? 4 : 6;
+
     this.setState({
       value,
     }, () => {
-      if (value.length === 4) {
+      if (value.length === pinLength) {
         this.handleConfirmButton();
       }
     })
