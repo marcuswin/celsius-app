@@ -4,7 +4,8 @@ import Sentry from 'sentry-expo';
 export {
   setSecureStoreKey,
   getSecureStoreKey,
-  deleteSecureStoreKey
+  deleteSecureStoreKey,
+  clearSecureStorage,
 };
 
 /**
@@ -67,6 +68,21 @@ async function deleteSecureStoreKey(key) {
         key,
       }
     });
+    return null;
+  }
+}
+
+/**
+ * @name clear
+ * @description Delete the value associated with the provided key.
+ *
+ * @return A promise that will reject if the value couldn’t be deleted.
+ * */
+async function clearSecureStorage() {
+  try {
+    return await Expo.SecureStore.clear();
+  } catch (error) {
+    Sentry.captureMessage('Error: Failed clearing SecureStore');
     return null;
   }
 }

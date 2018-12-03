@@ -1,5 +1,6 @@
 import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
+import { clearSecureStorage } from "../app/utils/expo-storage";
 
 const { dispatch, getState } = store;
 
@@ -33,7 +34,7 @@ async function waitForWelcomeScreen(spec) {
 }
 
 export async function resetTests(spec) {
-  // TODO: clear secureStorage
+  await clearSecureStorage();
   dispatch(actions.clearForm());
   await dispatch(actions.logoutUser());
   await waitForWelcomeScreen(spec);
