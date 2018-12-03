@@ -1,5 +1,6 @@
 import signupFlow from './flows/signup-flow';
 import helpers from './helpers';
+import loginFlow from "../specs/login-flow";
 
 export default function(spec) {
   testSignupFlow(spec);
@@ -7,9 +8,7 @@ export default function(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should disable button click when 3 digits are entered', signupFlow.disableRepeatPasscode(spec))
-    spec.it('should show error when different pin is entered', signupFlow.disableWrongPasscode(spec))
-    spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.finishPasscode(spec))
+    spec.it('button should be disabled when no repeat password entered', helpers.testFailed(spec))
   })
 }
 
@@ -47,5 +46,33 @@ export function testSignupFlow(spec) {
     spec.it('should disable button click when 3 digits are entered', signupFlow.disableRepeatPasscode(spec))
     spec.it('should show error when different pin is entered', signupFlow.disableWrongPasscode(spec))
     spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.finishPasscode(spec))
+  })
+}
+
+export function testLoginFlow(spec) {
+  spec.describe('Login Flow', () => {
+    // Successful flow
+    spec.it('should go to NoKYC screen when flow is successful', helpers.testFailed(spec))
+
+    // Welcome screen
+    spec.it('should go to Login screen when skip intro and login pressed', helpers.testFailed(spec))
+
+    // Login screen
+    spec.it('should go to Login screen when forgot password pressed', helpers.testFailed(spec))
+    spec.it('button should be disabled when no email and password entered', helpers.testFailed(spec))
+    spec.it('button should be disabled when no email entered', helpers.testFailed(spec))
+    spec.it('button should be disabled when no password entered', helpers.testFailed(spec))
+    spec.it('should show error when wrong credentials', helpers.testFailed(spec))
+    spec.it('should show error when user doesn\'t exist', helpers.testFailed(spec))
+    spec.it('should go to LoginPasscode? screen when all info is valid', helpers.testFailed(spec))
+
+    // LoginPasscode Screen
+    spec.it('check how this works', helpers.testFailed(spec))
+    // TODO: 2FA
+
+    // ForgottenPassword screen
+    spec.it('should show error message when not existing email is entered', helpers.testFailed(spec))
+    spec.it('should show error message when wrong email format is entered', helpers.testFailed(spec))
+    spec.it('should show info message when existing email is entered', helpers.testFailed(spec))
   })
 }
