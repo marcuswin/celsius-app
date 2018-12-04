@@ -34,9 +34,7 @@ async function waitForWelcomeScreen(spec) {
 }
 
 export async function resetTests(spec) {
-  await clearSecureStorage();
-  dispatch(actions.clearForm());
-  await dispatch(actions.logoutUser());
+  await dispatch(actions.resetApp());
   await waitForWelcomeScreen(spec);
 }
 
