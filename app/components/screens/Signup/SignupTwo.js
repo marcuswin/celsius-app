@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {View} from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
+import { View, Text } from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import isEqual from "lodash/isEqual";
 import testUtil from "../../../utils/test-util";
 
@@ -13,7 +13,8 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
+import SignupStyle from './Signup.styles'
 import Icon from "../../atoms/Icon/Icon";
 
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -67,21 +68,21 @@ class SignupTwo extends Component {
   onSubmit = () => {
     const { formData, user, actions } = this.props;
 
-    const data = { ...formData};
+    const data = { ...formData };
 
     // register twitter user
     if (user && user.twitter_id) {
-      return actions.registerUserTwitter({...user, ...data});
+      return actions.registerUserTwitter({ ...user, ...data });
     }
 
     // register facebook user
     if (user && user.facebook_id) {
-      return actions.registerUserFacebook({...user, ...data});
+      return actions.registerUserFacebook({ ...user, ...data });
     }
 
     // register google user
     if (user && user.google_id) {
-      return actions.registerUserGoogle({...user, ...data});
+      return actions.registerUserGoogle({ ...user, ...data });
     }
 
     // update user
@@ -129,9 +130,11 @@ class SignupTwo extends Component {
                 labelText="Email"
                 value={email}
               />
-            : null}
+              : null}
 
-            <View style={{ justifyContent: 'space-between', flexDirection:'row', alignItems: 'center', height: 36 }}>
+            <Text style={SignupStyle.disclaimer}>* Note that you should be 18 years or older in order to use Celsius services.</Text>
+
+            <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', height: 36 }}>
               <CelCheckbox
                 label="I agree to Terms of Use"
                 value={agreedToTermsOfUse}
@@ -140,18 +143,18 @@ class SignupTwo extends Component {
 
               <View style={{ height: 36, marginTop: -15 }}>
                 <TouchableOpacity onPress={() => actions.navigateTo('TermsOfUse')}>
-                  <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }}/>
+                  <Icon name="QuestionMarkCircle" fill='#FFFFFF' heigh="24" width="24" viewBox="0 0 30 30" style={{ opacity: 0.5 }} />
                 </TouchableOpacity>
               </View>
             </View>
           </CelForm>
 
-          <View style={{marginTop: 40, paddingBottom: 100}}>
+          <View style={{ marginTop: 40, paddingBottom: 100 }}>
             <CelButton
               ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
               onPress={this.onSubmit}
-              loading={ isLoading }
+              loading={isLoading}
               white
               iconRight="IconArrowRight"
             >

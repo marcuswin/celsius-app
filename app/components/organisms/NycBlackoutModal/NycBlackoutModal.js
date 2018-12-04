@@ -12,7 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 
 // TODO(ns): determine starting and ending date
 const currentTimestamp = moment.utc(Date.now());
-const NycBlackoutTimestamp = moment.utc("2018-12-02T04:40:00+0000");
+const NycBlackoutTimestamp = moment.utc(new Date('01-01-2019'));
 
 @connect(
   state => ({
@@ -59,7 +59,8 @@ class NycBlackoutModal extends Component {
       return null;
     }
 
-    if (openedModal !== MODALS.NYC_BLACKOUT) {
+    if (!openedModal || openedModal !== MODALS.NYC_BLACKOUT ) {
+      actions.updateUserAppSettings({ declineAccess: false });
       return null
     }
 

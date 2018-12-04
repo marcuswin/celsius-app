@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -143,7 +143,7 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
-    } catch(err) {
+    } catch (err) {
       logger.log(err);
       this.setState({ isLoading: false });
     }
@@ -247,7 +247,6 @@ class CameraScreen extends Component {
     const { cameraHeading, photo, actions } = this.props;
 
     const imageSource = imageUtil.getSource(photo);
-    const mask = this.renderMask();
 
     return (
       <BasicLayout>
@@ -264,8 +263,15 @@ class CameraScreen extends Component {
         />
 
         <Content style={[CameraStyle.content, { paddingHorizontal: 40 }]}>
-          <View style={CameraStyle.view}>
+          <View style={CameraStyle.previewView}>
             <Text allowFontScaling={false} style={CameraStyle.heading}>{cameraHeading}</Text>
+            <View style={{ marginTop: 30, marginBottom: 30 }}>
+              <Image
+                resizeMethod="resize"
+                source={imageSource}
+                style={CameraStyle.image}
+              />
+            </View>
             <View>
               <CelButton
                 ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
@@ -285,12 +291,8 @@ class CameraScreen extends Component {
               </CelButton>
             </View>
           </View>
-
         </Content>
-
-        {Platform.OS === 'ios' ? mask : null}
-        <Image source={imageSource} style={CameraStyle.cameraPhoto} />
-        {Platform.OS !== 'ios' ? mask : null}
+        <View style={CameraStyle.imageView} />
       </BasicLayout>
     );
   }
