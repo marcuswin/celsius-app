@@ -59,7 +59,8 @@ class NycBlackoutModal extends Component {
       return null;
     }
 
-    if (openedModal !== MODALS.NYC_BLACKOUT) {
+    if (!openedModal || openedModal !== MODALS.NYC_BLACKOUT ) {
+      actions.updateUserAppSettings({ declineAccess: false });
       return null
     }
 

@@ -125,9 +125,12 @@ class ProfileScreen extends Component {
         state: formData.state,
       }
       actions.updateProfileAddressInfo(updatedUser);
+      if (formData.country !== "United States") {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
       this.setState({ addressEditable: false });
     }
-  }
+  };
 
   submitTaxpayerForm = () => {
     const { formData, actions } = this.props;
@@ -140,9 +143,10 @@ class ProfileScreen extends Component {
         national_id: formData.national_id
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
+      actions.updateUserAppSettings({ declineAccess: false });
       this.setState({ taxpayerEditable: false });
     }
-  }
+  };
 
   initForm = () => {
     const { actions, user, formData } = this.props;
@@ -180,7 +184,7 @@ class ProfileScreen extends Component {
       actions.initForm(data)
 
 
-      if (!data.street && !data.city && user.kyc.status === "passed") {
+      if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
         if(currentTimestamp.isAfter(NycBlackoutTimestamp)) {
           this.setState({ isBlackout: false });
@@ -294,7 +298,7 @@ class ProfileScreen extends Component {
                   onPress={this.submitAddressInformationForm}
                   color="blue"
                   loading={isUpdatingAddressInfo}
-                  disabled={isUpdatingAddressInfo}
+                  disabled={isUpdatingAddressInfo || !isBlackout}
                 >Submit address</CelButton>
               </View>
             }
@@ -315,7 +319,7 @@ class ProfileScreen extends Component {
                       onPress={this.submitTaxpayerForm}
                       color="blue"
                       loading={isUpdatingTaxpayerInfo}
-                      disabled={isUpdatingTaxpayerInfo}
+                      disabled={isUpdatingTaxpayerInfo || !isBlackout}
                     >Submit Taxpayer id</CelButton>
                   </View>
                 }
