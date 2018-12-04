@@ -1,6 +1,6 @@
 import store from '../../app/redux/store';
 import * as actions from '../../app/redux/actions';
-import { resetTests, callToComplete } from "../helpers";
+import helpers, { resetTests, callToComplete, containsText } from "../helpers";
 import constants from "../constants";
 import ACTIONS from "../../app/config/constants/ACTIONS";
 import API from "../../app/config/constants/API";
@@ -18,8 +18,10 @@ export default {
   disableWhenNoData,
   disableWhenNoEmail,
   disableWhenNoPassword,
+  disabledWhenNoRepeatPassword,
   errorWhenEmailInvalid,
   errorWhenPasswordWeak,
+  errorWhenPasswordsDifferent,
   stepOneSuccess,
 
   // SignupTwo screen
@@ -47,7 +49,8 @@ function successfulFlow(spec) {
     await spec.exists('SignupOne.screen')
 
     await spec.fillIn('SignupOne.email', `email+${ new Date().getTime() }@mvpworkshop.co`)
-    await spec.fillIn('SignupOne.password', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordOne', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordTwo', 'Celsius123')
     await spec.press('SignupOne.button')
     await callToComplete(spec, API.REGISTER_USER)
 
@@ -63,7 +66,6 @@ function successfulFlow(spec) {
 
     await spec.exists('RepeatPasscode.screen')
     await spec.fillIn('passcode.pin_confirm','1111')
-    await spec.press('Passcode.Confirm')
     await callToComplete(spec, API.SET_PIN)
 
     await spec.exists('NoKyc.screen')
@@ -95,6 +97,7 @@ function disableWhenNoData(spec) {
 
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
+
     }
   }
 }
@@ -105,8 +108,9 @@ function disableWhenNoEmail(spec) {
     signupOneSetup();
 
     await spec.exists('SignupOne.screen')
-    await spec.fillIn('SignupOne.password','12345678')
-
+    await spec.fillIn('SignupOne.passwordOne', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordTwo', 'Celsius123')
+    
     const btn = await spec.findComponent('SignupOne.button')
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
@@ -131,6 +135,22 @@ function disableWhenNoPassword(spec) {
   }
 }
 
+function disabledWhenNoRepeatPassword(spec){
+  return async () => {
+    await resetTests(spec);
+    signupOneSetup();
+
+    await spec.exists('SignupOne.screen')
+    await spec.fillIn('SignupOne.email',`nemanjatest+${ new Date().getTime() }@mvpworkshop.co`)
+    await spec.fillIn('SignupOne.passwordOne', 'Celsius123')
+
+    const btn = await spec.findComponent('SignupOne.button')
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+  }
+}
+
 function errorWhenEmailInvalid(spec) {
   return async () => {
     await resetTests(spec);
@@ -138,10 +158,15 @@ function errorWhenEmailInvalid(spec) {
 
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email','wrong email format')
-    await spec.fillIn('SignupOne.password','Celsius123')
+    await spec.fillIn('SignupOne.passwordOne', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordTwo', 'Celsius123')
     await spec.press('SignupOne.button')
 
     await spec.notExists('SignupTwo.screen')
+
+    await spec.exists('InputErrorWrapper.email')
+    const text = await spec.findComponent('InputErrorWrapper.email');
+      await containsText(text, `Oops, looks like you didn't enter something right.`);
   }
 }
 
@@ -152,10 +177,15 @@ function errorWhenPasswordWeak(spec) {
 
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email','valid.email@mvpworkshop.co')
-    await spec.fillIn('SignupOne.password','cel')
+    await spec.fillIn('SignupOne.passwordOne', 'Cels')
+    await spec.fillIn('SignupOne.passwordTwo', 'Cels')
     await spec.press('SignupOne.button')
 
     await spec.notExists('SignupTwo.screen')
+
+    await spec.exists('InputErrorWrapper.password')
+    const text = await spec.findComponent('InputErrorWrapper.password');
+      await containsText(text, `Password must have at least 8 characters!`);
   }
 }
 
@@ -167,12 +197,35 @@ function errorWhenUserExists(spec) {
 
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email','filip.jovakaric+wlt@mvpworkshop.co')
-    await spec.fillIn('SignupOne.password','filip123')
+    await spec.fillIn('SignupOne.passwordOne', 'filip123')
+    await spec.fillIn('SignupOne.passwordTwo', 'filip123')
     await spec.press('SignupOne.button')
 
+    await helpers.callToComplete(API.REGISTER_USER)
     await spec.notExists('SignupTwo.screen')
+    await spec.exists('Message.msg')
+
+    const text = await spec.findComponent('Message.msg');
+      await containsText(text, `It looks like you've already created an account.`);
+
   }
 }
+
+function errorWhenPasswordsDifferent(spec){
+  return async () => {
+    await resetTests(spec);
+    signupOneSetup();
+
+    await spec.exists('SignupOne.screen')
+    await spec.fillIn('SignupOne.email','filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('SignupOne.passwordOne', 'filip123')
+    await spec.fillIn('SignupOne.passwordTwo', 'filip123456')
+
+    await spec.pause(200000)
+    
+  }
+}
+
 
 function stepOneSuccess(spec) {
   return async () => {
@@ -181,7 +234,8 @@ function stepOneSuccess(spec) {
 
     await spec.exists('SignupOne.screen')
     await spec.fillIn('SignupOne.email', `email+${ new Date().getTime() }@mvpworkshop.co`)
-    await spec.fillIn('SignupOne.password', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordOne', 'Celsius123')
+    await spec.fillIn('SignupOne.passwordTwo', 'Celsius123')
     await spec.press('SignupOne.button')
 
     await callToComplete(spec, API.REGISTER_USER)
@@ -271,6 +325,7 @@ function disableCreatePasscode(spec) {
     await spec.fillIn('passcode.pin','111')
     await spec.press('Passcode.Repeat PIN')
     const btn = await spec.findComponent('Passcode.Repeat PIN')
+
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
     }
@@ -303,12 +358,7 @@ function disableRepeatPasscode(spec) {
 
     await spec.exists('RepeatPasscode.screen')
     await spec.fillIn('passcode.pin','111')
-    await spec.press('Passcode.Repeat PIN')
 
-    const btn = await spec.findComponent('Passcode.Repeat PIN')
-    if (!btn.props.disabled) {
-      throw new Error(`Signup Button enabled`);
-    }
   }
 }
 
@@ -318,7 +368,8 @@ function disableWrongPasscode(spec) {
     repeatPasscodeSetup()
 
     await spec.fillIn('passcode.pin','1234')
-    await spec.press('Passcode.Confirm')
+
+    //check for err msg
   }
 }
 
@@ -329,7 +380,6 @@ function finishPasscode(spec) {
 
     await spec.exists('RepeatPasscode.screen')
     await spec.fillIn('passcode.pin_confirm','1111')
-    await spec.press('Passcode.Confirm')
     await callToComplete(spec, API.SET_PIN)
 
     await spec.exists('NoKyc.screen')

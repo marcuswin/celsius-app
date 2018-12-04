@@ -22,19 +22,6 @@ import Message from "../../atoms/Message/Message";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WelcomeScreen extends Component {
-  constructor() {
-    super();
-
-    this.state = {};
-  }
-
-  componentWillMount() {
-    const {actions, user} = this.props;
-    if (user) {
-      actions.navigateTo('Home')
-    }
-  }
-
   render() {
     const {actions} = this.props;
 

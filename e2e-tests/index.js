@@ -8,8 +8,8 @@ export default function(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('button should be disabled when no repeat password entered', helpers.testFailed(spec))
-  })
+    spec.it('button should be disabled when repeat password not same as password', signupFlow.dispabledWhenRepeatPasswordDifferent(spec))
+    })
 }
 
 export function testSignupFlow(spec) {
@@ -24,11 +24,11 @@ export function testSignupFlow(spec) {
     spec.it('button should be disabled when no email and password entered', signupFlow.disableWhenNoData(spec))
     spec.it('button should be disabled when no email entered', signupFlow.disableWhenNoEmail(spec))
     spec.it('button should be disabled when no password entered', signupFlow.disableWhenNoPassword(spec))
-    spec.it('button should be disabled when no repeat password entered', helpers.testFailed(spec))
+    spec.it('button should be disabled when no repeat password entered', signupFlow.disabledWhenNoRepeatPassword(spec))
     spec.it('should show error when invalid email entered', signupFlow.errorWhenEmailInvalid(spec))
     spec.it('should show error when when weak password', signupFlow.errorWhenPasswordWeak(spec))
     spec.it('should show error when user exists', signupFlow.errorWhenUserExists(spec))
-    spec.it('button should be disabled when repeat password not same as password', helpers.testFailed(spec))
+    spec.it('should show error when repeat password not same as password', signupFlow.erroeWhenPasswordsDifferent(spec))
     spec.it('should go to SignupTwo screen when all info is valid', signupFlow.stepOneSuccess(spec))
 
     // SignupTwo screen tests
