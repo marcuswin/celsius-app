@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
 import { Asset, AppLoading, Font, Constants } from 'expo';
-import Branch from 'react-native-branch';
 import {Provider} from 'react-redux';
-import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
-import twitter from 'react-native-simple-twitter';
+import { Image, AppState, Platform } from 'react-native';
 import Sentry from 'sentry-expo';
-import uuid from 'uuid';
 
 import store from './redux/store';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
-import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
-import baseUrl from "./services/api-url";
-import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
-import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
+import { mixpanelEvents } from "./services/mixpanel";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const {SENTRY_DSN} = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -53,110 +47,16 @@ function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
 
-function handleConnectivityChange(isConnected) {
-  store.dispatch(actions.setInternetConnectivity(isConnected));
-}
-
-function handleDeepLink(deepLink) {
-  if (!deepLink || !deepLink['+clicked_branch_link']) {
-    return;
-  }
-
-  store.dispatch(actions.registerBranchLink(deepLink));
-}
-
-function pollBackendStatus() {
-  setInterval(async () => {
-    await store.dispatch(actions.getBackendStatus());
-  }, 30000);
-}
-
 export default class App extends Component {
   // Init Application
   static async initApp() {
     await App.loadAssetsAsync();
-
-    if (!SECURITY_STORAGE_AUTH_KEY) {
-      console.error('NO SECURITY_STORAGE_AUTH_KEY')
-    }
-
-    // disables letter sizing in phone's Accessibility menu
-    if (Text.defaultProps == null) Text.defaultProps = {};
-    Text.defaultProps.allowFontScaling = false;
-
-    // same same as with Text, but different
-    if (TextInput.defaultProps == null) TextInput.defaultProps = {};
-    TextInput.defaultProps.allowFontScaling = false;
-
-    // logout user if backend environment has changed
-    const previousBaseUrl = await getSecureStoreKey('BASE_URL');
-    if (previousBaseUrl !== baseUrl) {
-      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      await setSecureStoreKey('BASE_URL', baseUrl);
-    }
-
-    // get user token
-    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    // get user from db
-    if (token) {
-      await store.dispatch(actions.getProfileInfo());
-      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
-
-      const { user } = store.getState().users;
-      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-        await store.dispatch(actions.getKYCDocTypes());
-      }
-    } else {
-      mixpanelAnalytics.identify(uuid())
-      store.dispatch(actions.fireUserAction("enteredInitialPin"))
-    }
-
-    // get user app settings
-    const appSettings = await getSecureStoreKey('APP_SETTINGS');
-    if (appSettings) {
-      store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
-    }
-
-    // get general data for te app
-    await store.dispatch(actions.getSupportedCurrencies())
-    await store.dispatch(actions.getBackendStatus())
-
-    pollBackendStatus();
-
-    // init twitter login service
-    twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-
-    const initialConnection = await NetInfo.isConnected.fetch();
-
-    handleConnectivityChange(initialConnection);
-
-    try {
-      Branch.subscribe((deepLink) => {
-        if (deepLink.error || !deepLink.params) {
-          return;
-        }
-
-        handleDeepLink(deepLink.params);
-      });
-    } catch (error) {
-      Sentry.captureException(error);
-    }
-
-
-    NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      handleConnectivityChange
-    );
-
-    mixpanelEvents.openApp();
-
   }
 
   // Assets are cached differently depending on where
   // they’re stored and how they’re used.
   static async loadAssetsAsync() {
     const imageAssets = cacheImages(CACHE_IMAGES);
-
     const fontAssets = cacheFonts(FONTS);
 
     await Promise.all([...imageAssets, ...fontAssets]);
