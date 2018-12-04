@@ -101,7 +101,7 @@ class TaxpayerID extends Component {
       >
 
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
-          We require this information due to ani-money laundering (AML) regulations and background checks.
+          We require this information due to anti-money laundering (AML) regulations and background checks.
         </Text>
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
           {formData.country === "United States" ?
