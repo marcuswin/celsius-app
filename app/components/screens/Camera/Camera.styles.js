@@ -1,35 +1,40 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 const { height, width } = Dimensions.get('window');
+const imageSize = width - 60
 
 const CameraStyle = StyleSheet.create({
   content: {
-    height,
+    flex: 1
   },
   camera: Platform.OS === 'ios' ? {
     flex: 1,
   } : {
-    height,
-    width: 1.24 * width,
-    position: 'absolute',
-    left: -0.12 * width,
-    paddingLeft: 0.12 * width,
-    paddingRight: 0.12 * width,
-  },
+      height,
+      width: 1.24 * width,
+      position: 'absolute',
+      left: -0.12 * width,
+      paddingLeft: 0.12 * width,
+      paddingRight: 0.12 * width,
+    },
   androidWrapper: Platform.OS === 'ios' ? {
     flex: 1,
   } : {
-    position: 'absolute',
-    height,
-    width,
-    left: 0.12 * width,
-    paddingBottom: 20,
-    zIndex: 20,
-  },
+      position: 'absolute',
+      height,
+      width,
+      left: 0.12 * width,
+      paddingBottom: 20,
+      zIndex: 20,
+    },
   view: {
     height: 0.88 * height,
     justifyContent: 'space-between',
+  },
+  previewView: {
+    // height: 0.88 * height,
+    // justifyContent: 'space-between',
   },
   flipCameraImage: {
     width: 40,
@@ -59,6 +64,14 @@ const CameraStyle = StyleSheet.create({
     height,
     zIndex: -4,
   },
+  cameraView: {
+    position: 'absolute',
+    width,
+    height,
+    zIndex: -4,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   maskImageTransparent: {
     position: 'absolute',
     width,
@@ -68,17 +81,16 @@ const CameraStyle = StyleSheet.create({
     zIndex: -5,
   },
   cameraPhoto: {
-    position: 'absolute',
-    width,
-    height,
-    zIndex: -5,
+    width: imageSize,
+    height: imageSize
   },
   backBtn: {
     color: 'white',
     paddingLeft: 5,
+    textAlign: 'right',
     opacity: 0.8,
-    marginTop: 3,
-    fontSize: FONT_SCALE * 24,
+    marginTop: 2,
+    fontSize: FONT_SCALE * 18,
     fontFamily: 'agile-medium',
   },
   bottomControls: {
@@ -106,6 +118,21 @@ const CameraStyle = StyleSheet.create({
     width: 37,
     borderRadius: 22,
     backgroundColor: 'white',
+  },
+  imageView: {
+    backgroundColor: STYLES.PRIMARY_BLUE,
+    position: 'absolute',
+    width,
+    height,
+    zIndex: -5
+  },
+  image: {
+    width: imageSize,
+    height: imageSize,
+    borderRadius: imageSize / 2,
+    borderWidth: 5,
+    borderColor: "#4a5eaa",
+    alignSelf: 'center'
   },
 });
 
