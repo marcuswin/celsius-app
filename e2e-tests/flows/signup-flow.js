@@ -2,11 +2,11 @@ import store from '../../app/redux/store';
 import * as actions from '../../app/redux/actions';
 import helpers, { resetTests, callToComplete, containsText } from "../helpers";
 import constants from "../constants";
-import ACTIONS from "../../app/config/constants/ACTIONS";
+import { setSecureStoreKey, getSecureStoreKey } from '../../app/utils/expo-storage'
 import API from "../../app/config/constants/API";
 
 
-const { dispatch, getState } = store;
+const { dispatch } = store;
 
 export default {
   successfulFlow,
@@ -21,7 +21,7 @@ export default {
   disabledWhenNoRepeatPassword,
   errorWhenEmailInvalid,
   errorWhenPasswordWeak,
-  errorWhenPasswordsDifferent,
+  errorWPasswordsDifferent,
   stepOneSuccess,
 
   // SignupTwo screen
@@ -29,6 +29,7 @@ export default {
   disableWhenNoNames,
   disableWhenNoLastName,
   disableWhenNoFirstName,
+  disabledWhenNoCheckbox,
   stepTwoSuccess,
 
   // CreatePasscode screen
@@ -211,7 +212,7 @@ function errorWhenUserExists(spec) {
   }
 }
 
-function errorWhenPasswordsDifferent(spec){
+function errorWPasswordsDifferent(spec){
   return async () => {
     await resetTests(spec);
     signupOneSetup();
@@ -220,8 +221,6 @@ function errorWhenPasswordsDifferent(spec){
     await spec.fillIn('SignupOne.email','filip.jovakaric+wlt@mvpworkshop.co')
     await spec.fillIn('SignupOne.passwordOne', 'filip123')
     await spec.fillIn('SignupOne.passwordTwo', 'filip123456')
-
-    await spec.pause(200000)
     
   }
 }
@@ -249,6 +248,7 @@ export function signupTwoSetup() {
   dispatch(actions.registerUserSuccess({
     user: constants.userWithoutName
   }));
+  setSecureStoreKey('id_token', constants.bearerToken);
   dispatch(actions.navigateTo('SignupTwo'))
 }
 
@@ -298,6 +298,21 @@ function disableWhenNoFirstName(spec) {
   }
 }
 
+function disabledWhenNoCheckbox(spec) {
+  return async () => {
+    await resetTests(spec);
+    signupTwoSetup();
+
+    dispatch(actions.toggleTermsOfUse())
+
+    const btn = await spec.findComponent('SignupTwo.CreatePin')
+
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+  }
+}
+
 function stepTwoSuccess(spec) {
   return async () => {
     await resetTests(spec);
@@ -313,6 +328,7 @@ function stepTwoSuccess(spec) {
 // CreatePasscode screen tests
 export function createPasscodeSetup() {
   dispatch(actions.updateProfileInfoSuccess({ user: constants.userWithName }));
+  setSecureStoreKey('id_token', constants.bearerToken);
   dispatch(actions.navigateTo('CreatePasscode'))
 }
 
@@ -323,7 +339,7 @@ function disableCreatePasscode(spec) {
 
     await spec.exists('CreatePasscode.screen')
     await spec.fillIn('passcode.pin','111')
-    await spec.press('Passcode.Repeat PIN')
+
     const btn = await spec.findComponent('Passcode.Repeat PIN')
 
     if (!btn.props.disabled) {
@@ -345,8 +361,8 @@ function createPasscode(spec) {
 }
 
 // RepeatPasscode screen tests
-function repeatPasscodeSetup() {
-  dispatch(actions.updateProfileInfoSuccess({ user: constants.userWithName }));
+async function repeatPasscodeSetup() {
+  await dispatch(actions.registerUser({ email: `filip+${ new Date().getTime() }@mvpworkshop.co`, password: 'Filip123' }))
   dispatch(actions.updateFormField('pin', '1111'))
   dispatch(actions.navigateTo('RepeatPasscode'))
 
@@ -367,16 +383,20 @@ function disableWrongPasscode(spec) {
     await resetTests(spec)
     repeatPasscodeSetup()
 
-    await spec.fillIn('passcode.pin','1234')
+    await spec.fillIn('passcode.pin_confirm','1234')
 
-    //check for err msg
+    await spec.exists('Message.msg')
+
+    const text = await spec.findComponent('Message.msg');
+      await containsText(text, `Pin code should be the same`);
+    
   }
 }
 
 function finishPasscode(spec) {
   return async () => {
     await resetTests(spec)
-    repeatPasscodeSetup()
+    await repeatPasscodeSetup()
 
     await spec.exists('RepeatPasscode.screen')
     await spec.fillIn('passcode.pin_confirm','1111')

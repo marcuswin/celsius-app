@@ -4,13 +4,11 @@ import loginFlow from "../specs/login-flow";
 
 export default function(spec) {
   testSignupFlow(spec);
+  testLoginFlow(spec);
+  testSingleSuite(spec);
 }
 
-export function testSingleSuite(spec) {
-  spec.describe('Single test', () => {
-    spec.it('button should be disabled when repeat password not same as password', signupFlow.dispabledWhenRepeatPasswordDifferent(spec))
-    })
-}
+
 
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
@@ -28,14 +26,14 @@ export function testSignupFlow(spec) {
     spec.it('should show error when invalid email entered', signupFlow.errorWhenEmailInvalid(spec))
     spec.it('should show error when when weak password', signupFlow.errorWhenPasswordWeak(spec))
     spec.it('should show error when user exists', signupFlow.errorWhenUserExists(spec))
-    spec.it('should show error when repeat password not same as password', signupFlow.erroeWhenPasswordsDifferent(spec))
+    spec.it('should show error when repeat password not same as password', signupFlow.errorWPasswordsDifferent(spec))
     spec.it('should go to SignupTwo screen when all info is valid', signupFlow.stepOneSuccess(spec))
 
     // SignupTwo screen tests
     spec.it('button should be disabled when no first and last name entered', signupFlow.disableWhenNoNames(spec))
     spec.it('button should be disabled when no first name entered', signupFlow.disableWhenNoLastName(spec))
     spec.it('button should be disabled when no last name entered', signupFlow.disableWhenNoFirstName(spec))
-    spec.it('button should be disabled when terms not agreed to', helpers.testFailed(spec))
+    spec.it('button should be disabled when terms not agreed to', signupFlow.disabledWhenNoCheckbox(spec))
     spec.it('should go to EnterPasscode screen when all info is valid', signupFlow.stepTwoSuccess(spec))
 
     // CreatePasscode screen tests
@@ -43,9 +41,14 @@ export function testSignupFlow(spec) {
     spec.it('should go to RepeatPasscode screen when 4 digits are entered', signupFlow.createPasscode(spec))
 
     // RepeatPasscode screen tests
-    spec.it('should disable button click when 3 digits are entered', signupFlow.disableRepeatPasscode(spec))
     spec.it('should show error when different pin is entered', signupFlow.disableWrongPasscode(spec))
     spec.it('should go to NoKYC screen when repeated pin is valid', signupFlow.finishPasscode(spec))
+  })
+}
+
+export function testSingleSuite(spec) {
+  spec.describe('Single test', () => {
+    spec.it('should go to Login screen when skip intro and login pressed', loginFlow.pressSkipIntro(spec))
   })
 }
 
@@ -55,7 +58,7 @@ export function testLoginFlow(spec) {
     spec.it('should go to NoKYC screen when flow is successful', helpers.testFailed(spec))
 
     // Welcome screen
-    spec.it('should go to Login screen when skip intro and login pressed', helpers.testFailed(spec))
+    spec.it('should go to Login screen when skip intro and login pressed', loginFlow.pressSkipIntro(spec))
 
     // Login screen
     spec.it('should go to Login screen when forgot password pressed', helpers.testFailed(spec))

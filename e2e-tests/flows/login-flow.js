@@ -12,9 +12,37 @@ export default {
   successfulFlow,
 
   // Welcome screen
+  pressSkipIntro,
+  
   // Login screen
+
   // LoginPasscode screen
   // ForgottenPassword screen
 }
 
-function successfulFlow(spec) {}
+function successfulFlow(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+
+    await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('CelTextInput.pass','filip123')
+		await spec.press('LoginForm.button')
+
+		await spec.pause(5000)
+		await spec.exists('WalletLayout.home')
+
+  }
+}
+
+function pressSkipIntro(spec) {
+  return async () => {
+    // await resetTests(spec);
+
+    // await spec.press('Welcome.skipButton')
+    // dispatch(actions.navigateTo('Login'))
+
+  }
+}
