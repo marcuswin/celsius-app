@@ -26,6 +26,7 @@ function getTransactionColor(transactionType) {
     TRANSFER_RETURNED: COLORS.red,
     TRANSFER_EXPIRED: COLORS.red,
     TRANSFER_ONHOLD: COLORS.yellow,
+    CANCELED: COLORS.red,
 
     IN: COLORS.green,
     OUT: COLORS.red,
@@ -49,6 +50,7 @@ function getTransactionStatusText(transaction) {
     TRANSFER_RETURNED: 'Returned',
     TRANSFER_EXPIRED: 'Expired',
     TRANSFER_ONHOLD: 'On Hold',
+    CANCELED: 'Canceled',
 
     IN: 'Received',
     OUT: 'Sent',
@@ -85,6 +87,11 @@ function getTransactionIcon(transactionType) {
     TRANSFER_RECEIVED: receiveArrow,
     TRANSFER_RETURNED: (
       <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.red }]}>
+        <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
+    CANCELED: (
+      <View style={[TransactionRowStyle.iconWrapper]}>
         <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),

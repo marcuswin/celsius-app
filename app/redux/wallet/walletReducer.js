@@ -118,6 +118,8 @@ function getTransactionType(transaction) {
   if (transaction.nature === 'bonus_token') return TRANSACTION_TYPES.BONUS_TOKEN;
   if (transaction.nature === 'referred_award') return TRANSACTION_TYPES.REFERRED_AWARD;
 
+  if (transaction.nature === 'canceled') return TRANSACTION_TYPES.CANCELED;
+
   if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
   if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
     if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_PENDING;

@@ -13,10 +13,11 @@ export {
   getAllTransfers,
   getTransfer,
   claimTransfer,
+  cancelTransfer,
   createTransfer,
   createBranchTransfer,
   registerTransferLink,
-  claimAllBranchTransfers,
+  claimAllBranchTransfers
 }
 
 function getAllTransfers(transferStatus) {
@@ -83,6 +84,28 @@ function claimTransferSuccess(transfer) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
     callName: API.CLAIM_TRANSFER,
+    transfer: mapTransfer(transfer),
+  }
+}
+
+function cancelTransfer(transferHash) {
+  return async dispatch => {
+    dispatch(startApiCall(API.cancel_TRANSFER));
+
+    try {
+      const res = await transferService.cancel(transferHash);
+      dispatch(cancelTransferSuccess(res.data));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CANCEL_TRANSFER, err));
+    }
+  }
+}
+
+function cancelTransferSuccess(transfer) {
+  return {
+    type: ACTIONS.CANCEL_TRANSFER_SUCCESS,
+    callName: API.CANCEL_TRANSFER,
     transfer: mapTransfer(transfer),
   }
 }
