@@ -10,9 +10,10 @@ import {claimAllBranchTransfers} from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
+import { registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -129,7 +130,7 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  mixpanelEvents.startedSignup('Email');
+  analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -156,7 +157,7 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
-  mixpanelEvents.finishedSignup('Email');
+  analyticsEvents.finishedSignup('Email');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -192,7 +193,7 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelEvents.finishedSignup('Twitter');
+  analyticsEvents.finishedSignup('Twitter');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -261,7 +262,7 @@ function registerUserFacebook(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  mixpanelEvents.finishedSignup('Facebook');
+  analyticsEvents.finishedSignup('Facebook');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -328,7 +329,7 @@ function registerUserGoogle(user) {
 }
 
 function registerUserGoogleSuccess(data) {
-  mixpanelEvents.finishedSignup('Google');
+  analyticsEvents.finishedSignup('Google');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 

@@ -11,9 +11,10 @@ import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
-import { initMixpanelUser, mixpanelEvents } from "../../services/mixpanel";
+import { initMixpanelUser } from "../../services/mixpanel";
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -71,7 +72,7 @@ function updateProfileInfo(profileInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
+      analyticsEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -91,7 +92,6 @@ function updateProfileAddressInfo(profileAddressInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
-      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -111,7 +111,6 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
       dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
-      mixpanelEvents.profileDetailsAdded(updatedProfileData.data);
     } catch(err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -301,7 +300,7 @@ function verifyKYCDocs() {
         type: formData.documentType,
       });
       dispatch(createKYCDocumentsSuccess(res.data));
-      mixpanelEvents.documentsAdded();
+      analyticsEvents.documentsAdded();
 
       if (user.cellphone !== formData.cellphone || !user.cellphone_verified) {
         callName = API.UPDATE_USER_PERSONAL_INFO;
@@ -326,7 +325,7 @@ function verifyKYCDocs() {
 
         dispatch(NavActions.navigateTo('NoKyc'));
         dispatch(showMessage('success', 'KYC verification proccess has started!'));
-        mixpanelEvents.KYCStarted();
+        analyticsEvents.KYCStarted();
       }
     } catch(err) {
       logger.log({ err });
@@ -350,13 +349,13 @@ function finishKYCVerification() {
       dispatch(startApiCall(API.VERIFY_SMS));
       await meService.verifySMS(formData.verificationCode);
       dispatch(verifySMSSuccess());
-      mixpanelEvents.phoneVerified();
+      analyticsEvents.phoneVerified();
 
       callName = API.START_KYC;
       dispatch(startApiCall(API.START_KYC));
       await meService.startKYC();
       dispatch(startKYCSuccess());
-      mixpanelEvents.KYCStarted();
+      analyticsEvents.KYCStarted();
 
       dispatch(NavActions.navigateTo('NoKyc'));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
