@@ -12,7 +12,7 @@ export default class AppWrapper extends Component {
       if (ENV === 'TEST') {
         const specs = require('./e2e-tests');
         return (
-          <Tester specs={[specs.testSingleSuite]} store={testHookStore} startDelay={10000} waitTime={4000}>
+          <Tester specs={[specs.testLoginFlow]} store={testHookStore} startDelay={10000} waitTime={4000}>
             <App />
           </Tester>
         )

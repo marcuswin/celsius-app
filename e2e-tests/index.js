@@ -1,14 +1,12 @@
 import signupFlow from './flows/signup-flow';
 import helpers from './helpers';
-import loginFlow from "../specs/login-flow";
+import loginFlow from "./flows/login-flow";
 
 export default function(spec) {
-  testSignupFlow(spec);
   testLoginFlow(spec);
-  testSingleSuite(spec);
+  testSignupFlow(spec);
+
 }
-
-
 
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
@@ -48,34 +46,34 @@ export function testSignupFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should go to Login screen when skip intro and login pressed', loginFlow.pressSkipIntro(spec))
+    spec.it('should show info message when existing email is entered', loginFlow.ForgottenPasswordSuccessMsg(spec))
   })
 }
 
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
     // Successful flow
-    spec.it('should go to NoKYC screen when flow is successful', helpers.testFailed(spec))
+    spec.it('should go to NoKYC screen when flow is successful', loginFlow.successfulFlow(spec))
 
     // Welcome screen
     spec.it('should go to Login screen when skip intro and login pressed', loginFlow.pressSkipIntro(spec))
 
     // Login screen
-    spec.it('should go to Login screen when forgot password pressed', helpers.testFailed(spec))
-    spec.it('button should be disabled when no email and password entered', helpers.testFailed(spec))
-    spec.it('button should be disabled when no email entered', helpers.testFailed(spec))
-    spec.it('button should be disabled when no password entered', helpers.testFailed(spec))
-    spec.it('should show error when wrong credentials', helpers.testFailed(spec))
-    spec.it('should show error when user doesn\'t exist', helpers.testFailed(spec))
-    spec.it('should go to LoginPasscode? screen when all info is valid', helpers.testFailed(spec))
+    spec.it('should go to Login screen when forgot password pressed', loginFlow.ForgottenPassword(spec))
+    spec.it('button should be disabled when no email and password entered', loginFlow.disableWhenNoLoginData(spec))
+    spec.it('button should be disabled when no email entered', loginFlow.disableWhenNoEmail(spec))
+    spec.it('button should be disabled when no password entered', loginFlow.disableWhenNoPassword(spec))
+    spec.it('should show error when wrong credentials', loginFlow.errWhenWrongCredentials(spec))
+    spec.it('should show error when user doesn\'t exist', loginFlow.errUserDoesNotExists(spec))
+    spec.it('should go to LoginPasscode? screen when all info is valid', loginFlow.loginSuccess(spec))
 
     // LoginPasscode Screen
     spec.it('check how this works', helpers.testFailed(spec))
     // TODO: 2FA
 
     // ForgottenPassword screen
-    spec.it('should show error message when not existing email is entered', helpers.testFailed(spec))
-    spec.it('should show error message when wrong email format is entered', helpers.testFailed(spec))
-    spec.it('should show info message when existing email is entered', helpers.testFailed(spec))
+    spec.it('should show error message when not existing email is entered', loginFlow.ForgottenPasswordErrWrongEmail(spec))
+    spec.it('should show error message when wrong email format is entered', loginFlow.ForgottenPasswordErrWrongEmailFormat(spec))
+    spec.it('should show info message when existing email is entered', loginFlow.ForgottenPasswordSuccessMsg(spec))
   })
 }
