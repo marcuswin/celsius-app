@@ -52,7 +52,7 @@ export const analyticsEvents = {
 
   pressWalletCard: (coinShort) => {
     const { user } = store.getState().users;
-    mixpanelEvents.pressWalletCard()
+    mixpanelEvents.pressWalletCard(coinShort)
     branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: user.id, metadata: { coin: coinShort } })
   },
   pressAddFunds: () => {
@@ -71,7 +71,7 @@ export const analyticsEvents = {
     const { user } = store.getState().users;
     mixpanelEvents.changeTab(tab)
     const metadata = { tab };
-    branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: user.id, metadata })
+    branchService.createEvent({ event: 'CHANGE_TAB', identity: user.id, metadata })
   },
   openApp: () => {
     const { user } = store.getState().users;
