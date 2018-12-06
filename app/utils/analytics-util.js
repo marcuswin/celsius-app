@@ -51,7 +51,7 @@ export const analyticsEvents = {
   pressAddFunds: () => {
     const { user } = store.getState().users;
     mixpanelEvents.pressAddFunds()
-    const metadata = { btn: 'Skip Intro', screen: 'Welcome' }
+    const metadata = { btn: 'Add funds', screen: 'AddFunds' }
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: user.id, metadata })
   },
   confirmWithdraw: (withdrawInfo) => {
@@ -69,7 +69,7 @@ export const analyticsEvents = {
   openApp: () => {
     const { user } = store.getState().users;
     mixpanelEvents.openApp()
-    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: user ? user.id : 'no-user' })
+    branchService.createEvent({ event: 'APP_OPENED', identity: user ? user.id : 'no-user' })
   },
   navigation: (screenName) => {
     const { user } = store.getState().users;
