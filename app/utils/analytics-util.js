@@ -1,6 +1,7 @@
 import { mixpanelEvents } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';
+import { branchEvents } from "./branch-util";
 
 
 export const analyticsEvents = {
@@ -17,8 +18,7 @@ export const analyticsEvents = {
   finishedSignup: (method) => {
     const { user } = store.getState().users;
     mixpanelEvents.finishedSignup(method)
-    const metadata = { method };
-    branchService.createEvent({ event: 'FINISHED_SIGNUP', identity: user.id, metadata })
+    branchEvents.completeRegistration(user.id, method)
   },
 
   profileDetailsAdded: (profileDetails) => {
@@ -34,14 +34,15 @@ export const analyticsEvents = {
     branchService.createEvent({ event: 'PROFILE_DETAILS_ADDED', identity: user.id, metadata })
   },
   documentsAdded: () => {
-    const { user } = store.getState().users;
     mixpanelEvents.documentsAdded()
+    const { user } = store.getState().users;
     branchService.createEvent({ event: 'DOCUMENTS_ADDED', identity: user.id })
   },
   phoneVerified: () => {
     const { user } = store.getState().users;
     mixpanelEvents.phoneVerified()
     branchService.createEvent({ event: 'PHONE_VERIFIED', identity: user.id })
+    branchEvents.achieveLevel(user.id, 'completed')
   },
   KYCStarted: () => {
     const { user } = store.getState().users;
