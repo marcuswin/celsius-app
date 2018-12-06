@@ -19,7 +19,7 @@ import { STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../confi
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
-import { mixpanelEvents } from "../../../services/mixpanel";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 const types = {
   createPasscode: {
@@ -112,7 +112,7 @@ class Passcode extends Component {
           } else {
             await actions.withdrawCrypto(currency, amountCrypto);
           }
-          mixpanelEvents.confirmWithdraw({ amountUsd: newFormData.amountUsd, amountCrypto, currency });
+          analyticsEvents.confirmWithdraw({ amountUsd: newFormData.amountUsd, amountCrypto, currency });
         } else if (purpose === 'send') {
           actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
         } else if (purpose === 'login') {

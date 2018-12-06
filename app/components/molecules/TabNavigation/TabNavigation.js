@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-
-// import {} from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-// import {STYLES} from "../../config/constants/style";
 import TabNavigationStyle from "./TabNavigation.styles";
 import * as appActions from "../../../redux/actions";
-import { mixpanelEvents } from "../../../services/mixpanel";
 import testUtil from "../../../utils/test-util";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
@@ -28,7 +25,7 @@ class TabNavigation extends Component {
   // event hanlders
   goToScreen = (tab) => {
     this.props.actions.navigateTo(tab.screen);
-    mixpanelEvents.changeTab(tab.label)
+    analyticsEvents.changeTab(tab.label)
   }
 
   // rendering methods

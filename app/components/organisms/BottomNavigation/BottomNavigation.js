@@ -8,12 +8,12 @@ import testUtil from "../../../utils/test-util";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as appActions from "../../../redux/actions";
-import { mixpanelEvents } from '../../../services/mixpanel'
 import {STYLES} from "../../../config/constants/style";
 
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
 import { KYC_STATUSES } from "../../../config/constants/common";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 const walletScreens = [
   'NoKyc',
@@ -58,16 +58,16 @@ class BottomNavigation extends Component {
   goToScreen = (navItem) => {
     const { actions } = this.props;
     actions.navigateTo(navItem.screen);
-    mixpanelEvents.navigation(navItem.label, true);
+    analyticsEvents.navigation(navItem.label, true);
   }
 
   goToHomeScreen = () => {
     const { actions, user } = this.props;
     actions.navigateTo('Home');
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      mixpanelEvents.navigation('No KYC');
+      analyticsEvents.navigation('No KYC');
     } else {
-      mixpanelEvents.navigation('Wallet');
+      analyticsEvents.navigation('Wallet');
     }
   }
   // rendering methods
@@ -80,11 +80,11 @@ class BottomNavigation extends Component {
 
     return (
       <TouchableOpacity
-      ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)} 
-          
+      ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)}
+
         key={ navItem.label }
         onPress={ () => this.goToScreen(navItem) }
-      
+
       >
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>

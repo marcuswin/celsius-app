@@ -14,8 +14,9 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
-import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
+import { mixpanelAnalytics } from "./services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
+import { analyticsEvents } from "./utils/analytics-util";
 
 const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -148,7 +149,7 @@ export default class App extends Component {
       handleConnectivityChange
     );
 
-    mixpanelEvents.openApp();
+    analyticsEvents.openApp();
 
   }
 
@@ -183,7 +184,7 @@ export default class App extends Component {
   handleAppStateChange = (nextAppState) => {
     const askForPinAfter = 25000
     if ( nextAppState === 'active') {
-      mixpanelEvents.openApp();
+      analyticsEvents.openApp();
       if (Platform.OS === "ios") {
         clearTimeout(this.timeout)
       } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {

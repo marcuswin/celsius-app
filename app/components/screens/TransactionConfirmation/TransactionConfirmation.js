@@ -23,7 +23,7 @@ import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Icon from "../../atoms/Icon/Icon";
-import { mixpanelEvents } from "../../../services/mixpanel";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -260,7 +260,7 @@ class TransactionConfirmation extends Component {
         await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
       }
 
-      mixpanelEvents.confirmWithdraw({
+      analyticsEvents.confirmWithdraw({
         amountUsd: formData.amountUsd,
         amountCrypto: formData.amountCrypto,
         coin,

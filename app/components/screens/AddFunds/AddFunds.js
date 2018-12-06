@@ -15,11 +15,11 @@ import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
 import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
-import { mixpanelEvents } from "../../../services/mixpanel";
 import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
@@ -144,7 +144,7 @@ class AddFunds extends Component {
     } else {
       actions.navigateBack();
     }
-    mixpanelEvents.pressAddFunds();
+    analyticsEvents.pressAddFunds();
   };
 
   copyAddress = (address) => {
