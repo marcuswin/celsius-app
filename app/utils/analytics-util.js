@@ -24,7 +24,13 @@ export const analyticsEvents = {
   profileDetailsAdded: (profileDetails) => {
     const { user } = store.getState().users;
     mixpanelEvents.profileDetailsAdded(profileDetails)
-    const metadata = profileDetails;
+    const metadata = {
+      "First Name": profileDetails.first_name,
+      "Last Name": profileDetails.last_name,
+      "Date of Birth": profileDetails.date_of_birth,
+      "Gender": profileDetails.gender,
+      Citizenship: profileDetails.citizenship
+    }
     branchService.createEvent({ event: 'PROFILE_DETAILS_ADDED', identity: user.id, metadata })
   },
   documentsAdded: () => {
@@ -46,7 +52,7 @@ export const analyticsEvents = {
   pressWalletCard: (coinShort) => {
     const { user } = store.getState().users;
     mixpanelEvents.pressWalletCard()
-    branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: user.id, metadata: { coin: coinShort }})
+    branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: user.id, metadata: { coin: coinShort } })
   },
   pressAddFunds: () => {
     const { user } = store.getState().users;
@@ -77,7 +83,6 @@ export const analyticsEvents = {
     const metadata = { screen: screenName };
     branchService.createEvent({ event: 'NAVIGATE_TO', identity: user.id, metadata })
   },
-
   celPayTransfer: (celPayInfo) => {
     const { user } = store.getState().users;
     mixpanelEvents.celPayTransfer(celPayInfo);
@@ -89,7 +94,25 @@ export const analyticsEvents = {
     mixpanelEvents.applyForLoan(loanData);
     const metadata = loanData;
     branchService.createEvent({ event: 'APPLY_FOR_LOAN', identity: user.id, metadata })
+  },
+  profileAddressAdded: (profileAddress) => {
+    const { user } = store.getState().users;
+    mixpanelEvents.profileAddressAdded(profileAddress)
+    const metadata = {
+      "Country": profileAddress.address.country,
+      "Address filled": true
+    }
+    branchService.createEvent({ event: 'PROFILE_ADDRESS_ADDED', identity: user.id, metadata })
+  },
+  profileTaxpayerInfoAdded: (profileTaxpayerInfo) => {
+    const { user } = store.getState().users;
+    mixpanelEvents.profileTaxpayerInfoAdded(user.country, profileTaxpayerInfo)
+    const metadata = {};
+    if (user.country === "United States") {
+      metadata["SSN filled"] = true;
+    } else if (profileTaxpayerInfo.taxpayer_info.itin) {
+      metadata["Tax ID"] = true;
+    }
+    branchService.createEvent({ event: 'PROFILE_TAXPAYERINFO_ADDED', identity: user.id, metadata })
   }
-
-
 }
