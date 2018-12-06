@@ -48,15 +48,26 @@ export const initMixpanelUser = async function (user) {
   mixpanelAnalytics.identify(user.email);
   userEmail = user.email;
 
-  await mixpanelAnalytics.people_set({
+  const metaData = {
     "$first_name": user.first_name,
     "$last_name": user.last_name,
     "$email": user.email,
     "Created At": user.created_at,
     Citizenship: user.citizenship,
     "KYC Country": user.country,
-    "KYC City": user.city
-  })
+    "KYC City": user.city,
+    "Date of Birth": user.date_of_birth,
+    "Gender": user.gender,
+    "Phone verified": user.cellphone_verified
+  }
+  if (user.ssn) {
+    metaData["SSN filled"] = true;
+  }
+  if (user.itin) {
+    metaData["Tax ID"] = true;
+  }
+
+  await mixpanelAnalytics.people_set(metaData)
 }
 
 export const logoutMixpanelUser = async function () {
