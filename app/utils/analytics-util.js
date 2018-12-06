@@ -75,7 +75,7 @@ export const analyticsEvents = {
     const { user } = store.getState().users;
     mixpanelEvents.navigation(screenName)
     const metadata = { screen: screenName };
-    branchService.createEvent({ event: 'CONFIRM_WITHDRAW', identity: user.id, metadata })
+    branchService.createEvent({ event: 'NAVIGATE_TO', identity: user.id, metadata })
   },
 
 
