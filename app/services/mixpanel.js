@@ -31,6 +31,9 @@ export const mixpanelEvents = {
   openApp: () => mixpanelAnalytics.track('App opened', { email: userEmail }),
   navigation: (screenName) => mixpanelAnalytics.track(`Navigated to ${ screenName }`, { email: userEmail }),
   estimationExplanation: () => mixpanelAnalytics.track('Pressed Loan Estimation explanation', { email: userEmail }),
+
+  applyForLoan: (loanData) => mixpanelAnalytics.track('Applied for loan', { email: userEmail, ...loanData }),
+  celPayTransfer: (celPayData) => mixpanelAnalytics.track('CelPay initialized', { email: userEmail, ...celPayData }),
 }
 
 export const updateMixpanelBalances = async function(balances) {

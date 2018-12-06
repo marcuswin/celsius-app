@@ -28,9 +28,9 @@ function applyForALoan() {
 
       await loansService.apply(loanApplication);
       dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS });
+      analyticsEvents.applyForLoan(loanApplication)
       dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
       dispatch(navigateTo('Home'));
-      analyticsEvents.applyForLoan(loanApplication)
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
