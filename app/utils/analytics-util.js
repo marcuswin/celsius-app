@@ -78,5 +78,18 @@ export const analyticsEvents = {
     branchService.createEvent({ event: 'NAVIGATE_TO', identity: user.id, metadata })
   },
 
+  celPayTransfer: (celPayInfo) => {
+    const { user } = store.getState().users;
+    // mixpanelEvents.celPayTransfer(celPayInfo);
+    const metadata = celPayInfo;
+    branchService.createEvent({ event: 'CEL_PAY_TRANSFER', identity: user.id, metadata })
+  },
+  applyForLoan: (loanData) => {
+    const { user } = store.getState().users;
+    // mixpanelEvents.applyForLoan(loanData);
+    const metadata = loanData;
+    branchService.createEvent({ event: 'APPLY_FOR_LOAN', identity: user.id, metadata })
+  }
+
 
 }

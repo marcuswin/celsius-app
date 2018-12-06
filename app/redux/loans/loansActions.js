@@ -4,6 +4,7 @@ import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
+import { analyticsEvents } from "../../utils/analytics-util";
 
 export {
   applyForALoan,
@@ -29,6 +30,7 @@ function applyForALoan() {
       dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS });
       dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
       dispatch(navigateTo('Home'));
+      analyticsEvents.applyForLoan(loanApplication)
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));

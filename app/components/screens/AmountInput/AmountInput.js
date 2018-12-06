@@ -190,9 +190,8 @@ class AmountInput extends Component {
     const { formData, actions } = this.props;
 
     actions.navigateTo('AmountInput', { purpose: 'confirm-send' });
-
     try {
-      actions.createBranchTransfer(formData.amountCrypto, formData.currency, verificationCode);
+      actions.createBranchTransfer(formData.amountCrypto, formData.amountUsd, formData.currency, verificationCode);
     } catch (e) {
       return true;
     }

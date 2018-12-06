@@ -8,6 +8,7 @@ import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
 import { createBUO } from "../branch/branchActions";
+import { analyticsEvents } from "../../utils/analytics-util";
 
 export {
   getAllTransfers,
@@ -112,7 +113,7 @@ function createTransferSuccess(transfer) {
   }
 }
 
-function createBranchTransfer(amount, coin, verification) {
+function createBranchTransfer(amount, amountUsd, coin, verification) {
   return async (dispatch, getState ) => {
     let apiCall = API.CREATE_TRANSFER;
     dispatch(startApiCall(apiCall));
@@ -162,6 +163,7 @@ function createBranchTransfer(amount, coin, verification) {
 
     Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
+    analyticsEvents.celPayTransfer({ amount, amountUsd, coin })
   }
 }
 
