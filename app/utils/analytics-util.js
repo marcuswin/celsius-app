@@ -64,7 +64,8 @@ export const analyticsEvents = {
   confirmWithdraw: (withdrawInfo) => {
     const { user } = store.getState().users;
     mixpanelEvents.confirmWithdraw(withdrawInfo)
-    branchService.createEvent({ event: 'CONFIRM_WITHDRAW', identity: user.id, metadata: withdrawInfo })
+    // branchService.createEvent({ event: 'CONFIRM_WITHDRAW', identity: user.id, metadata: withdrawInfo })
+    branchEvents.addToWishlist(user.id, withdrawInfo)
   },
 
   changeTab: (tab) => {
@@ -87,14 +88,12 @@ export const analyticsEvents = {
   celPayTransfer: (celPayInfo) => {
     const { user } = store.getState().users;
     mixpanelEvents.celPayTransfer(celPayInfo);
-    const metadata = celPayInfo;
-    branchService.createEvent({ event: 'CEL_PAY_TRANSFER', identity: user.id, metadata })
+    branchEvents.spendCredits(user.id, celPayInfo);
   },
   applyForLoan: (loanData) => {
     const { user } = store.getState().users;
     mixpanelEvents.applyForLoan(loanData);
-    const metadata = loanData;
-    branchService.createEvent({ event: 'APPLY_FOR_LOAN', identity: user.id, metadata })
+    branchEvents.addToCart(user.id, loanData);
   },
   profileAddressAdded: (profileAddress) => {
     const { user } = store.getState().users;

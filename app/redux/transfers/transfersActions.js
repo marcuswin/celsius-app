@@ -163,7 +163,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
 
     Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
     dispatch(navigateTo('Home'));
-    analyticsEvents.celPayTransfer({ amount, amountUsd, coin })
+    analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
   }
 }
 
