@@ -63,9 +63,13 @@ export const analyticsEvents = {
   },
   confirmWithdraw: (withdrawInfo) => {
     const { user } = store.getState().users;
-    mixpanelEvents.confirmWithdraw(withdrawInfo)
-    // branchService.createEvent({ event: 'CONFIRM_WITHDRAW', identity: user.id, metadata: withdrawInfo })
-    branchEvents.addToWishlist(user.id, withdrawInfo)
+    const { currencyRatesShort } = store.getState().generalData;
+    const info = {
+      ...withdrawInfo,
+      amountUsd: withdrawInfo.amount * currencyRatesShort[withdrawInfo.coin],
+    }
+    mixpanelEvents.confirmWithdraw(info)
+    branchEvents.addToWishlist(user.id, info)
   },
 
   changeTab: (tab) => {

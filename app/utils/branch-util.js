@@ -51,13 +51,13 @@ export const branchEvents = {
       currency: 'USD',
     },
     content_items: [{
-      $product_name: withdrawInfo.currency,
-      $sku: withdrawInfo.hash,
+      $product_name: withdrawInfo.coin,
+      $sku: withdrawInfo.id,
     }],
     custom_data: {
       amount_usd: withdrawInfo.amountUsd.toString(),
-      amount_crypto: withdrawInfo.amountCrypto.toString(),
-      coin: withdrawInfo.currency,
+      amount_crypto: withdrawInfo.amount.toString(),
+      coin: withdrawInfo.coin,
     }
   }),
 }

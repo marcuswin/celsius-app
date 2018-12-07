@@ -23,7 +23,6 @@ import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Icon from "../../atoms/Icon/Icon";
-import { analyticsEvents } from "../../../utils/analytics-util";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -259,12 +258,6 @@ class TransactionConfirmation extends Component {
       } else {
         await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
       }
-
-      analyticsEvents.confirmWithdraw({
-        amountUsd: formData.amountUsd,
-        amountCrypto: formData.amountCrypto,
-        coin,
-      });
     } catch (error) {
       actions.showMessage('error', error.error);
       return true;
