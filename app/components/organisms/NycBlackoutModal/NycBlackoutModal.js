@@ -11,14 +11,16 @@ import { MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 // TODO(ns): determine starting and ending date
-const currentTimestamp = moment.utc(Date.now());
-const NycBlackoutTimestamp = moment.utc(new Date('01-01-2019'));
+// const currentTimestamp = moment.utc(Date.now());
+// const NycBlackoutTimestamp = moment.utc(new Date('12-10-2018'));
+// const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
 
 @connect(
   state => ({
     user: state.users.user,
     formData: state.ui.formData,
     openedModal: state.ui.openedModal,
+    appSettings: state.users.appSettings,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
@@ -38,9 +40,14 @@ class NycBlackoutModal extends Component {
 
   click = () => {
     const { actions, user } = this.props;
+    const currentTimestamp = moment.utc(Date.now());
+    const NycBlackoutTimestamp = moment.utc(new Date('12-10-2018'));
+    const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
 
-    if (user.state === "New York" || currentTimestamp.isAfter(NycBlackoutTimestamp)) {
+    if (user.state === "New York" && days && days < 1) {
       Linking.openURL("mailto:app@celsius.network");
+    } else if (user.state === "New York") {
+      actions.closeModal();
     } else {
       actions.navigateTo("Profile");
       actions.closeModal();
@@ -50,8 +57,12 @@ class NycBlackoutModal extends Component {
 
   render() {
     const { actions, user, openedModal } = this.props;
+    const currentTimestamp = moment.utc(Date.now());
+    const userClickedOn = user && user.blocked_at ? `${user.blocked_at.slice(5, 10)}-${user.blocked_at.slice(0,4)}` : null;
+    const NycBlackoutTimestamp = moment.utc(new Date(userClickedOn));
+    const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
 
-    let cancelDisabled = false;
+    let disabled = false;
     let heading;
     let additionalText;
 
@@ -60,30 +71,36 @@ class NycBlackoutModal extends Component {
     }
 
     if (!openedModal || openedModal !== MODALS.NYC_BLACKOUT ) {
-      actions.updateUserAppSettings({ declineAccess: false });
       return null
     }
 
-    if (currentTimestamp.isAfter(NycBlackoutTimestamp)) {
-      heading = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time." : "Looks like we’re missing some information from you.";
-      additionalText = user.state === "New York" ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
-      cancelDisabled = true;
+    if ( user.state === "New York" && days && days < 1 ) {
+      heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
+      additionalText = "Please contact app@celsius.network.";
+      disabled = true;
       actions.updateUserAppSettings({ declineAccess: true });
     } else if (user.state === "New York") {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
-      additionalText = "Please withdraw your funds within seven days or contact app@celsius.network for support.";
-      cancelDisabled = true;
-      actions.updateUserAppSettings({ declineAccess: false });
+      additionalText = `Please withdraw your funds within ${Math.round(days)} day(s) or contact app@celsius.network for support.`;
+      actions.updateUserAppSettings({ declineAccess: true });
+    } else if (user.citizenship === "United States" || user.country === "United States") {
+      heading =  "Hey! We're missing some important info from you!";
+      additionalText = "Please complete your profile.";
+      actions.updateUserAppSettings({ declineAccess: true });
+      disabled = true;
     } else {
-      heading = user.country === "United States" ? "Hey there! To comply with federal laws and regulations, please press continue to enter your residential address and Social Security Number." :
-        "Hey! We're missing some important info from you!";
-      additionalText = user.country !== "United States" ? "Please complete this within 7 days to avoid a freeze on your account." :
-        "Please complete your profile.";
+      heading =  "Hey! We're missing some important info from you!";
+      additionalText = "Please complete your profile.";
       actions.updateUserAppSettings({ declineAccess: false });
+      disabled = true;
     }
 
+
     return (
-      <CelModal name={MODALS.NYC_BLACKOUT}>
+      <CelModal
+        name={MODALS.NYC_BLACKOUT}
+        shouldRenderCloseButton={!disabled}
+      >
         <View style={NycBlackoutModalStyle.modalWrapper}>
           <Image style={NycBlackoutModalStyle.image}
                  source={require("../../../../assets/images/diane-with-laptop3x.png")}/>
@@ -94,13 +111,6 @@ class NycBlackoutModal extends Component {
           onPress={() => this.click()}
         >
           Continue
-        </CelButton>
-        <CelButton
-          onPress={() => actions.closeModal()}
-          white
-          disabled={cancelDisabled}
-        >
-          Cancel
         </CelButton>
       </CelModal>
     );
