@@ -34,6 +34,7 @@ function shouldShowBottomNavigation(action) {
   const { nav } = store.getState();
   const { user } = store.getState().users;
   const { userActions } = store.getState().ui;
+  const { appSettings } = store.getState().users;
   let routeName;
 
   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
@@ -45,7 +46,9 @@ function shouldShowBottomNavigation(action) {
 
   let showNav;
 
-  if (routeName !== 'Home') {
+  // console.log(user.state)
+
+  if (routeName !== 'Home' && routeName !== 'Profile') {
     showNav = !!screens[routeName].bottomNavigation;
   } else if (!user) {
     showNav = false;
@@ -57,9 +60,13 @@ function shouldShowBottomNavigation(action) {
     showNav = false;
   } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
     showNav = true;
+  } else if (routeName === "Profile" && appSettings.declineAccess && (user.country === "United States" || user.citizenship === "United States")) {
+    showNav = false;
   } else {
     showNav = true;
   }
+
+
 
   return showNav;
 }
