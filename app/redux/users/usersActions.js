@@ -415,6 +415,7 @@ function setPin(pinData) {
     dispatch(startApiCall(API.SET_PIN));
     try {
       await meService.setPin(pinData);
+      analyticsEvents.pinSet();
       dispatch(setPinSuccess());
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(NavActions.navigateTo('NoKyc'));

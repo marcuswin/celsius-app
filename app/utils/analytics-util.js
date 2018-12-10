@@ -15,12 +15,17 @@ export const analyticsEvents = {
     const metadata = { method }
     branchService.createEvent({ event: 'STARTED_SIGNUP', identity: 'no-user', metadata })
   },
-  finishedSignup: (method) => {
+  finishedSignup: (method, referralLinkId) => {
     const { user } = store.getState().users;
-    mixpanelEvents.finishedSignup(method)
-    branchEvents.completeRegistration(user.id, method)
+    mixpanelEvents.finishedSignup(method, referralLinkId)
+    branchEvents.completeRegistration(user.id, method, referralLinkId)
   },
-
+  pinSet: () => {
+    const { user } = store.getState().users;
+    mixpanelEvents.pinSet();
+    const metadata = { has_pin: true };
+    branchEvents.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
+  },
   profileDetailsAdded: (profileDetails) => {
     const { user } = store.getState().users;
     mixpanelEvents.profileDetailsAdded(profileDetails)

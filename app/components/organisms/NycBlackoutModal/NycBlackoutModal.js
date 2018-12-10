@@ -41,8 +41,12 @@ class NycBlackoutModal extends Component {
   click = () => {
     const { actions, user } = this.props;
     const currentTimestamp = moment.utc(Date.now());
-    const NycBlackoutTimestamp = moment.utc(new Date('12-10-2018'));
-    const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
+    let NycBlackoutTimestamp;
+    let days;
+    if (user && user.blocked_at) {
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
+      days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
+    }
 
     if (user.state === "New York" && days && days < 1) {
       Linking.openURL("mailto:app@celsius.network");
@@ -58,9 +62,12 @@ class NycBlackoutModal extends Component {
   render() {
     const { actions, user, openedModal } = this.props;
     const currentTimestamp = moment.utc(Date.now());
-    const userClickedOn = user && user.blocked_at ? `${user.blocked_at.slice(5, 10)}-${user.blocked_at.slice(0,4)}` : null;
-    const NycBlackoutTimestamp = moment.utc(new Date(userClickedOn));
-    const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
+    let NycBlackoutTimestamp;
+    let days;
+    if (user && user.blocked_at) {
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
+      days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
+    }
 
     let disabled = false;
     let heading;
@@ -81,7 +88,7 @@ class NycBlackoutModal extends Component {
       actions.updateUserAppSettings({ declineAccess: true });
     } else if (user.state === "New York") {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
-      additionalText = `Please withdraw your funds within ${Math.round(days)} day(s) or contact app@celsius.network for support.`;
+      additionalText = `Please withdraw your funds within ${days} day(s) or contact app@celsius.network for support.`;
       actions.updateUserAppSettings({ declineAccess: true });
     } else if (user.citizenship === "United States" || user.country === "United States") {
       heading =  "Hey! We're missing some important info from you!";

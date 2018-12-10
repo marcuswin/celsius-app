@@ -13,7 +13,7 @@ export const mixpanelEvents = {
   // Signup Events
   signupButton: () => mixpanelAnalytics.track('Pressed sign up button', { email: userEmail }),
   startedSignup: (method) => mixpanelAnalytics.track('Started sign up', { method, email: userEmail }),
-  finishedSignup: (method) => mixpanelAnalytics.track('Finished sign up', { method, email: userEmail }),
+  finishedSignup,
   // Tracker Events
   addCoinButton: () => mixpanelAnalytics.track('Pressed add another coin button on Tracker', { email: userEmail }),
   addCoinToTracker: (coinShort) => mixpanelAnalytics.track('Coin added to Tracker', { coin: coinShort, email: userEmail }),
@@ -23,6 +23,7 @@ export const mixpanelEvents = {
   profileTaxpayerInfoAdded,
   documentsAdded,
   phoneVerified,
+  pinSet,
   KYCStarted: () => mixpanelAnalytics.track('KYC Started', { email: userEmail }),
   // Wallet Events
   pressWalletCard: (coinShort) => mixpanelAnalytics.track('Pressed wallet card', { coin: coinShort.toUpperCase(), email: userEmail }),
@@ -66,6 +67,13 @@ export const initMixpanelUser = async function (user) {
   if (user.itin) {
     metaData["Tax ID"] = true;
   }
+  if (user.has_pin) {
+    metaData.has_pin = true;
+  }
+  if (user.referral_link_id) {
+    metaData.referral_id = user.referral_link_id;
+  }
+
 
   await mixpanelAnalytics.people_set(metaData)
 }
@@ -147,4 +155,27 @@ async function phoneVerified() {
   await mixpanelAnalytics.people_set({
     "Phone Verified": true
   })
+}
+
+async function pinSet() {
+  mixpanelAnalytics.track('Pin set', {
+    email: userEmail
+  })
+
+  await mixpanelAnalytics.people_set({
+    "has_pin": true
+  })
+}
+
+async function finishedSignup(method, referralLinkId) {
+  mixpanelAnalytics.track('Finished sign up', {
+    method,
+    email: userEmail
+  })
+
+  if (referralLinkId) {
+    await mixpanelAnalytics.people_set({
+      "referral_id": referralLinkId
+    })
+  }
 }

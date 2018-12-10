@@ -34,7 +34,7 @@ const LoanApplicationStyle = StyleSheet.create({
   },
   subText: {
     color: '#3D4853',
-    fontFamily: 'agile-light',
+    fontFamily: 'inconsolata-regular',
     fontSize: normalize(14),
     marginRight: 5
   },

@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import LoanApplicationStyle from "./LoanApplication.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
-import { LOAN_ELIGIBLE_COINS, KYC_STATUSES, MODALS } from "../../../config/constants/common";
+import { LOAN_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Card from "../../atoms/Card/Card";
@@ -159,7 +159,7 @@ class LoanApplication extends Component {
             <Text
               style={ltv === formData.ltv ? [LoanApplicationStyle.subText, { color: "white" }] : LoanApplicationStyle.subText}
             >
-              {100 * ltv.percent}% LTV
+              {100 * ltv.interest}% interest
             </Text>
 
 
@@ -173,7 +173,7 @@ class LoanApplication extends Component {
 
 
   render() {
-    const { formData, callsInProgress, walletCurrencies, actions, appSettings } = this.props;
+    const { formData, callsInProgress, walletCurrencies, appSettings } = this.props;
     const { pickerItems } = this.state;
     let amountError;
 
@@ -271,12 +271,6 @@ class LoanApplication extends Component {
             )) : LTVs.map((ltv) => (
               this.renderCard(ltv)
             ))}
-          </View>
-
-          <View style={{ alignItems: "center", marginTop: 10 }}>
-            <Text onPress={() => actions.openModal(MODALS.LTV_MODAL)}
-              style={[{ fontFamily: "agile-light", fontSize: normalize(18), color: STYLES.PRIMARY_BLUE }]}>What is
-              LTV?</Text>
           </View>
 
           <Separator margin="24 0 24 0" />
