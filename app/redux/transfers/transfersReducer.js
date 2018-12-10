@@ -45,6 +45,7 @@ export default function transfersReducer(state = initialState(), action) {
       };
 
     case ACTIONS.CLAIM_TRANSFER_SUCCESS:
+    case ACTIONS.CANCEL_TRANSFER_SUCCESS:
     case ACTIONS.CREATE_TRANSFER_SUCCESS:
       return {
         ...state,

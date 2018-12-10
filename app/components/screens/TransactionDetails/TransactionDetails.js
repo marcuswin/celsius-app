@@ -26,11 +26,14 @@ import {
   BasicSection,
   StatusSection,
   InfoSection,
-  LinkSection,
+  // LinkSection,
   BlockExplorerSection,
   AddressSection,
   ContactSection,
   HippoSection,
+  TransactionLinkSection,
+  ManageTransactionSection,
+  CanceledTransactionLinkSection,
 } from './TransactionDetailsSections';
 import testUtil from "../../../utils/test-util";
 
@@ -49,6 +52,7 @@ function getHeading(transaction) {
     TRANSFER_RECEIVED: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     TRANSFER_RETURNED: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
     REFERRED_AWARD: `${transaction.coin && transaction.coin.toUpperCase()} Award`,
+    CANCELED: `${transaction.coin && transaction.coin.toUpperCase()} Sending Canceled`,
 
     IN: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     OUT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
@@ -62,12 +66,13 @@ function getBadge(transaction) {
     TRANSFER_SENT: <Badge color={COLORS.green} text="Sent" />,
     TRANSFER_RECEIVED: <Badge color={COLORS.green} text="Received" />,
     TRANSFER_RETURNED: <Badge color={COLORS.blue} text="Returned" />,
+    CANCELED: <Badge color={COLORS.yellow} text="Canceled" />
   }[transaction.type];
 }
 
 function getIcon(transaction, supportedCurrencies) {
   const coin = supportedCurrencies.filter(sc => sc.short.toLowerCase() === transaction.coin)[0];
-  const coinIcon = <Image source={{ uri: coin.image_url }} style={TransactionDetailsStyle.coinType}/>;
+  const coinIcon = <Image source={{ uri: coin.image_url }} style={TransactionDetailsStyle.coinType} />;
 
   return coinIcon;
 }
@@ -89,13 +94,13 @@ function getSmallIcon(transaction) {
         <Icon name='Gift' width='20' height='20' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
-    BONUS_TOKEN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    DEPOSIT_PENDING: <Icon name="ReceiveArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    WITHDRAWAL_PENDING: <Icon name="SentArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    WITHDRAWAL_CONFIRMED: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    IN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
-    OUT: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32"/>,
+    BONUS_TOKEN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    DEPOSIT_PENDING: <Icon name="ReceiveArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    WITHDRAWAL_PENDING: <Icon name="SentArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    WITHDRAWAL_CONFIRMED: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    IN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
+    OUT: <Icon name="SentArrow" fill={COLORS.red} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
   }[transaction.type];
 }
 
@@ -114,6 +119,7 @@ function getSections(transaction) {
     TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
     TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
+    CANCELED: ['date', 'time', 'status', 'canceled-transfer-link'],
 
     IN: ['date', 'time'],
     OUT: ['date', 'time'],
@@ -196,7 +202,7 @@ class TransactionDetails extends Component {
       user.email
     );
 
-  return branchLink;
+    return branchLink;
   }
 
   cameFromWithdrawalTransaction = routes => routes.reduce((hasRoute, route) => hasRoute || route.routeName === 'TransactionConfirmation' || route.routeName === 'EnterPasscode', false);
@@ -205,10 +211,10 @@ class TransactionDetails extends Component {
     <BasicLayout
       bottomNavigation
     >
-      <MainHeader backButton={showBackButton}/>
+      <MainHeader backButton={showBackButton} />
       <CelHeading text="Transaction details..." />
       <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <Loader/>
+        <Loader />
       </View>
     </BasicLayout>
   )
@@ -218,7 +224,7 @@ class TransactionDetails extends Component {
     const { type, branchLink } = this.state;
     const { transaction, currencyRatesShort, actions } = this.props;
     let shouldRenderSection;
-    switch(sectionType) {
+    switch (sectionType) {
       case 'info':
         return <InfoSection key={sectionType} transaction={transaction} />;
       case 'date':
@@ -230,25 +236,36 @@ class TransactionDetails extends Component {
       case 'status':
         return <StatusSection key={sectionType} type={type} transaction={transaction} />;
       case 'address:to':
-        return transaction.to_address && <AddressSection key={sectionType} address={transaction.to_address} text="To"/>;
+        return transaction.to_address && <AddressSection key={sectionType} address={transaction.to_address} text="To" />;
       case 'address:from':
-        return transaction.from_address && <AddressSection key={sectionType} address={transaction.from_address} text="From"/>;
+        return transaction.from_address && <AddressSection key={sectionType} address={transaction.from_address} text="From" />;
       case 'sent:to':
-        return transaction.transfer_data.claimer && <ContactSection key={sectionType} contact={transaction.transfer_data.claimer} text="Sent to"/>;
+        return transaction.transfer_data.claimer && <ContactSection key={sectionType} contact={transaction.transfer_data.claimer} text="Sent to" />;
       case 'received:from':
-        return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from"/>;
+        return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from" />;
       case 'transfer-link':
         return branchLink && (
-          <LinkSection
-            key={sectionType}
-            transaction={transaction}
-            url={branchLink.url}
-            onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)}
-          />
+          <React.Fragment>
+            {/* <LinkSection
+              key={sectionType}
+              transaction={transaction}
+              url={branchLink.url}
+              onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)}
+            /> */}
+            <TransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />;
+            <ManageTransactionSection key={sectionType} onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)} />;
+          </React.Fragment>
+        );
+      case 'canceled-transfer-link':
+        // return branchLink && (
+        //   <CanceledTransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />
+        // );
+        return (
+          <CanceledTransactionLinkSection key={sectionType} transactionLink={"https://celsiusnetwork.test-app.link/SSFiA8gpgS/"} />
         );
       case 'explorer':
         shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) !== -1 && transaction.transaction_id;
-        return  shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction}/>;
+        return shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction} />;
       case 'hippo':
         return <HippoSection key={sectionType} transaction={transaction} currencyRatesShort={currencyRatesShort} />;
       default:
@@ -275,30 +292,30 @@ class TransactionDetails extends Component {
       <BasicLayout
         bottomNavigation
       >
-        <MainHeader backButton={showBackButton}/>
+        <MainHeader backButton={showBackButton} />
         <CelHeading text={heading} />
 
         <CelScreenContent padding={"0 0 0 0"}>
           <View style={TransactionDetailsStyle.inputWrapper}>
             <View style={TransactionDetailsStyle.amountStatus}>
               <View style={TransactionDetailsStyle.amount}>
-                { badge }
+                {badge}
                 <Text
-                  style={[TransactionDetailsStyle.fiatAmount, {fontSize: letterSize}]}
+                  style={[TransactionDetailsStyle.fiatAmount, { fontSize: letterSize }]}
                 >
-                  { formatter.usd(amountUsd) }
+                  {formatter.usd(amountUsd)}
                 </Text>
-                <Text style={TransactionDetailsStyle.cryptoAmount}>{ formatter.crypto(transaction.amount, coin.short, { precision: 5 }) }</Text>
+                <Text style={TransactionDetailsStyle.cryptoAmount}>{formatter.crypto(transaction.amount, coin.short, { precision: 5 })}</Text>
               </View>
 
               <View style={TransactionDetailsStyle.imageWrapper}>
-                { icon }
-                { smallIcon && <View style={TransactionDetailsStyle.iconBackground}>{smallIcon}</View> }
+                {icon}
+                {smallIcon && <View style={TransactionDetailsStyle.iconBackground}>{smallIcon}</View>}
               </View>
             </View>
           </View>
 
-          { sections.map(this.renderSection) }
+          {sections.map(this.renderSection)}
 
           <CelButton
             ref={testUtil.generateTestHook(this, 'TransactionsDetails.closeButton')}
@@ -307,9 +324,22 @@ class TransactionDetails extends Component {
           >
             Close
           </CelButton>
+          {transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING &&
+            <CelButton
+              // ref={testUtil.generateTestHook(this, 'TransactionsDetails.cancelTransferButton')} // Treba dodati za testiranje
+              onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)}
+              transparent
+              color="blue"
+              size="small"
+              margin="0 0 0 0"
+              inverse
+            >
+              Cancel transaction
+          </CelButton>
+          }
         </CelScreenContent>
 
-        { branchLink && transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
+        {branchLink && transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING && <TransactionOptionsModal link={branchLink.url} hash={transaction.transfer_data.hash} />}
       </BasicLayout>
     );
   }
