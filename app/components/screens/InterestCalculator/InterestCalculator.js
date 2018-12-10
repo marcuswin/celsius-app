@@ -89,6 +89,16 @@ class InterestCalculatorScreen extends Component {
       <EarnInterestLayout>
         <View   ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}
                 style={{ paddingTop: 30 }}>
+
+          {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
+            inverse
+            onPress={() => actions.navigateTo('AddFunds', { currency: formData.interestCurrency.toLowerCase() })}
+            disabled={appSettings.declineAccess}
+            margin="10 0 20 0"
+          >
+            Deposit coins
+          </CelButton>}
+
           <CelSelect field="interestCurrency"
                      items={pickerItems}
                      labelText="Select a currency"
@@ -162,15 +172,6 @@ class InterestCalculatorScreen extends Component {
             You can get your crypto deposits whenever you need them with no fees or penalties.
           </Text>
 
-          <Separator margin="35 0 25 0"/>
-
-          {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
-            inverse
-            onPress={() => actions.navigateTo('AddFunds', { currency: formData.interestCurrency.toLowerCase() })}
-            disabled={appSettings.declineAccess}
-          >
-            Deposit coins
-          </CelButton>}
         </View>
       </EarnInterestLayout>
     );
