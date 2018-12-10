@@ -24,7 +24,7 @@ function claim(transferHash) {
 }
 
 function cancel(transferHash) {
-  return axios.post(`${apiUrl}/transfer/${transferHash}/claim`);
+  return axios.post(`${apiUrl}/transfer/${transferHash}/cancel`);
 }
 
 function create(transfer, verification) {

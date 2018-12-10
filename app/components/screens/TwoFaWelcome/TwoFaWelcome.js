@@ -30,9 +30,6 @@ class TwoFaWelcome extends Component {
 
   onPressBackButton = () => {
     const { actions } = this.props;
-
-    console.log()
-
     actions.navigateTo('ProfileSettings');
   };
 

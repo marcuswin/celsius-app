@@ -139,6 +139,9 @@ export const TransactionLinkSection = ({ transactionLink }) => (
 
 export const CanceledTransactionLinkSection = ({ transactionLink }) => (
   <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
+  <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
+        Transaction link:
+      </Text>
     <Text
       style={[TransactionDetailsStyle.info, {
         textAlign: "left",
@@ -229,7 +232,7 @@ function getStatusText(transaction) {
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
     TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
     TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
-    CANCELED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>• Canceled</Text>,
+    CANCELED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Canceled</Text>,
 
     IN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Received</Text>,
     OUT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>• Sent</Text>,

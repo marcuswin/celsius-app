@@ -3,11 +3,12 @@ import { Share } from "react-native";
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import transferService from '../../services/transfer-service';
-import { navigateTo } from "../nav/navActions";
+import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
 import { createBUO } from "../branch/branchActions";
+import { getAllTransactions } from "../wallet/walletActions";
 
 export {
   getAllTransfers,
@@ -73,6 +74,9 @@ function claimTransfer(transferHash) {
     try {
       const res = await transferService.claim(transferHash);
       dispatch(claimTransferSuccess(res.data));
+      dispatch(showMessage('success', "Transaction claimed"));
+      dispatch(getAllTransactions())
+      dispatch(navigateBack());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CLAIM_TRANSFER, err));
@@ -95,6 +99,9 @@ function cancelTransfer(transferHash) {
     try {
       const res = await transferService.cancel(transferHash);
       dispatch(cancelTransferSuccess(res.data));
+      dispatch(showMessage('success', "Transaction canceled"));
+      dispatch(getAllTransactions())
+      dispatch(navigateBack());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_TRANSFER, err));
@@ -136,7 +143,7 @@ function createTransferSuccess(transfer) {
 }
 
 function createBranchTransfer(amount, coin, verification) {
-  return async (dispatch, getState ) => {
+  return async (dispatch, getState) => {
     let apiCall = API.CREATE_TRANSFER;
     dispatch(startApiCall(apiCall));
     const res = await transferService.create({
@@ -159,7 +166,7 @@ function createBranchTransfer(amount, coin, verification) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${ Number(amount).toFixed(5) } ${coin.toUpperCase()}`,
+        title: `You received ${Number(amount).toFixed(5)} ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
@@ -183,7 +190,7 @@ function createBranchTransfer(amount, coin, verification) {
       }
     });
 
-    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
+    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
     dispatch(navigateTo('Home'));
   }
 }

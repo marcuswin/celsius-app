@@ -66,7 +66,7 @@ function getBadge(transaction) {
     TRANSFER_SENT: <Badge color={COLORS.green} text="Sent" />,
     TRANSFER_RECEIVED: <Badge color={COLORS.green} text="Received" />,
     TRANSFER_RETURNED: <Badge color={COLORS.blue} text="Returned" />,
-    CANCELED: <Badge color={COLORS.blue} text="Canceled" />
+    CANCELED: <Badge color={COLORS.yellow} text="Canceled" />
   }[transaction.type];
 }
 
@@ -257,8 +257,11 @@ class TransactionDetails extends Component {
           </React.Fragment>
         );
       case 'canceled-transfer-link':
-        return branchLink && (
-          <CanceledTransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />
+        // return branchLink && (
+        //   <CanceledTransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />
+        // );
+        return (
+          <CanceledTransactionLinkSection key={sectionType} transactionLink={"https://celsiusnetwork.test-app.link/SSFiA8gpgS/"} />
         );
       case 'explorer':
         shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) !== -1 && transaction.transaction_id;
@@ -324,7 +327,7 @@ class TransactionDetails extends Component {
           {transaction.type === TRANSACTION_TYPES.TRANSFER_PENDING &&
             <CelButton
               // ref={testUtil.generateTestHook(this, 'TransactionsDetails.cancelTransferButton')} // Treba dodati za testiranje
-              onPress={() => actions.cancelTransfer(this.props.hash)}
+              onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)}
               transparent
               color="blue"
               size="small"

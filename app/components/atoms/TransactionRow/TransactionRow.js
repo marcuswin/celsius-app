@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from "react-native";
 import { ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
+import isEqual from "lodash/isEqual";
 
 import TransactionRowStyle from "./TransactionRow.styles";
 import formatter from "../../../utils/formatter";
@@ -26,7 +27,7 @@ function getTransactionColor(transactionType) {
     TRANSFER_RETURNED: COLORS.red,
     TRANSFER_EXPIRED: COLORS.red,
     TRANSFER_ONHOLD: COLORS.yellow,
-    CANCELED: COLORS.red,
+    CANCELED: COLORS.yellow,
 
     IN: COLORS.green,
     OUT: COLORS.red,
@@ -91,7 +92,7 @@ function getTransactionIcon(transactionType) {
       </View>
     ),
     CANCELED: (
-      <View style={[TransactionRowStyle.iconWrapper]}>
+      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}>
         <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
@@ -113,7 +114,7 @@ class TransactionRow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.transaction && this.props.transaction.id !== nextProps.transaction.id) {
+    if (this.props.transaction && !isEqual(this.props.transaction, nextProps.transaction)) {
       this.setTransaction(nextProps.transaction);
     }
   }
@@ -140,23 +141,23 @@ class TransactionRow extends Component {
 
     return (
       <ListItem style={TransactionRowStyle.listItem}>
-        <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
-          <Grid style={{paddingLeft: 0, marginLeft: 0}}>
-            <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
+        <TouchableOpacity style={{ width: '100%' }} onPress={onPress}>
+          <Grid style={{ paddingLeft: 0, marginLeft: 0 }}>
+            <Col size={70} style={{ paddingLeft: 0, marginLeft: 0 }}>
               <Col style={{ width: 40, position: 'absolute' }}>
-                { icon }
+                {icon}
               </Col>
-              <Col style={{paddingLeft: 40}}>
+              <Col style={{ paddingLeft: 40 }}>
                 <Text style={TransactionRowStyle.usdAmount}>{formatter.usd(transaction.amount_usd)}</Text>
                 <Text style={TransactionRowStyle.coinAmount}>{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</Text>
               </Col>
             </Col>
             <Col size={50}>
-              <View style={{display: 'flex', alignSelf: 'flex-end'}}>
+              <View style={{ display: 'flex', alignSelf: 'flex-end' }}>
                 <Text style={[TransactionRowStyle.time, { alignSelf: 'flex-end' }]}>{transaction.time}</Text>
                 <Text
                   style={[TransactionRowStyle.status, { color }]}>
-                  { statusText }
+                  {statusText}
                 </Text>
               </View>
             </Col>

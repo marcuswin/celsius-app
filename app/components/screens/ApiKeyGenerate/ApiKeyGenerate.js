@@ -66,7 +66,7 @@ class ApiKeyGenerate extends Component {
   }
 
   render() {
-    const { actions, apiKey } = this.props;
+    const { actions } = this.props;
     const { agreedWalletBalance, agreedReadDeposit, agreedReadTransaction, agreedReadWithdraw } = this.state;
 
     const logoutButton = () => (
@@ -84,7 +84,6 @@ class ApiKeyGenerate extends Component {
       </TouchableOpacity>
     )
 
-    console.log('Api:', apiKey);
     return (
       <SimpleLayout
         mainHeader={{ backButton: true, right: logoutButton() }}
