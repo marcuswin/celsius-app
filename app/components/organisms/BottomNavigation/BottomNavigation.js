@@ -12,8 +12,6 @@ import {STYLES} from "../../../config/constants/style";
 
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
-import { KYC_STATUSES } from "../../../config/constants/common";
-import { analyticsEvents } from "../../../utils/analytics-util";
 
 const walletScreens = [
   'NoKyc',
@@ -58,17 +56,11 @@ class BottomNavigation extends Component {
   goToScreen = (navItem) => {
     const { actions } = this.props;
     actions.navigateTo(navItem.screen);
-    analyticsEvents.navigation(navItem.label, true);
   }
 
   goToHomeScreen = () => {
-    const { actions, user } = this.props;
+    const { actions } = this.props;
     actions.navigateTo('Home');
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      analyticsEvents.navigation('No KYC');
-    } else {
-      analyticsEvents.navigation('Wallet');
-    }
   }
   // rendering methods
   renderNavItem = (navItem) => {
