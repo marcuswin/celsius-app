@@ -92,7 +92,7 @@ export const analyticsEvents = {
     const { user } = store.getState().users;
     mixpanelEvents.navigation(screenName)
     const metadata = { screen: screenName };
-    branchService.createEvent({ event: 'NAVIGATE_TO', identity: user.id, metadata })
+    branchService.createEvent({ event: 'NAVIGATE_TO', identity: user ? user.id : 'no-user', metadata })
   },
   celPayTransfer: (celPayInfo) => {
     const { user } = store.getState().users;
