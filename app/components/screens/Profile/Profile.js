@@ -162,9 +162,13 @@ class ProfileScreen extends Component {
   initForm = () => {
     const { actions, user, formData } = this.props;
     const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
-    const NycBlackoutTimestamp = moment.utc(new Date('01-01-2019'));
     const currentTimestamp = moment.utc(Date.now());
-    const days = (NycBlackoutTimestamp.diff(currentTimestamp) / 86400000) + 1;
+    let NycBlackoutTimestamp;
+    let days;
+    if (user && user.blocked_at) {
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
+      days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
+    }
 
     if (user) {
       const data = {
@@ -198,7 +202,7 @@ class ProfileScreen extends Component {
 
       if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
-        if(days < 1) {
+        if( days && days < 1) {
           this.setState({ isBlackout: false });
         }
       }
