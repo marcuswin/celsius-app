@@ -5,7 +5,8 @@ const transfersService = {
   getAll,
   get,
   claim,
-  create,
+  cancel,
+  create
 };
 
 
@@ -20,6 +21,10 @@ function get(transferHash) {
 
 function claim(transferHash) {
   return axios.post(`${apiUrl}/transfer/${transferHash}/claim`);
+}
+
+function cancel(transferHash) {
+  return axios.post(`${apiUrl}/transfer/${transferHash}/cancel`);
 }
 
 function create(transfer, verification) {

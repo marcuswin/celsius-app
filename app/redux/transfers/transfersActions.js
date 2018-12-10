@@ -3,21 +3,23 @@ import { Share } from "react-native";
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import transferService from '../../services/transfer-service';
-import { navigateTo } from "../nav/navActions";
+import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
 import { createBUO } from "../branch/branchActions";
+import { getAllTransactions } from "../wallet/walletActions";
 import { analyticsEvents } from "../../utils/analytics-util";
 
 export {
   getAllTransfers,
   getTransfer,
   claimTransfer,
+  cancelTransfer,
   createTransfer,
   createBranchTransfer,
   registerTransferLink,
-  claimAllBranchTransfers,
+  claimAllBranchTransfers
 }
 
 function getAllTransfers(transferStatus) {
@@ -73,6 +75,9 @@ function claimTransfer(transferHash) {
     try {
       const res = await transferService.claim(transferHash);
       dispatch(claimTransferSuccess(res.data));
+      dispatch(showMessage('success', "Transaction claimed"));
+      dispatch(getAllTransactions())
+      dispatch(navigateBack());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CLAIM_TRANSFER, err));
@@ -84,6 +89,31 @@ function claimTransferSuccess(transfer) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
     callName: API.CLAIM_TRANSFER,
+    transfer: mapTransfer(transfer),
+  }
+}
+
+function cancelTransfer(transferHash) {
+  return async dispatch => {
+    dispatch(startApiCall(API.cancel_TRANSFER));
+
+    try {
+      const res = await transferService.cancel(transferHash);
+      dispatch(cancelTransferSuccess(res.data));
+      dispatch(showMessage('success', "Transaction canceled"));
+      dispatch(getAllTransactions())
+      dispatch(navigateBack());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CANCEL_TRANSFER, err));
+    }
+  }
+}
+
+function cancelTransferSuccess(transfer) {
+  return {
+    type: ACTIONS.CANCEL_TRANSFER_SUCCESS,
+    callName: API.CANCEL_TRANSFER,
     transfer: mapTransfer(transfer),
   }
 }
@@ -137,7 +167,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
       `transfer:${transfer.hash}`,
       {
         locallyIndex: true,
-        title: `You received ${ Number(amount).toFixed(5) } ${coin.toUpperCase()}`,
+        title: `You received ${Number(amount).toFixed(5)} ${coin.toUpperCase()}`,
         contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
         contentDescription: 'Click on the link to get your money!',
         contentMetadata: {
@@ -161,7 +191,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
       }
     });
 
-    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${ branchLink.url }` });
+    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
     dispatch(navigateTo('Home'));
     analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
   }

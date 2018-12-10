@@ -176,7 +176,6 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
-        console.log(address, addressXrp, destinationTag);
       }
 
       currentCurrency = navCurrency.toLowerCase();
@@ -187,7 +186,6 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
-        console.log(address, addressXrp, destinationTag);
       }
 
       headingText = "Add funds";
