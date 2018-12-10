@@ -35,7 +35,8 @@ class CelSelect extends Component {
     margin: PropTypes.string,
     flex: PropTypes.number,
     onlyError: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    shadow: PropTypes.bool,
   }
   static defaultProps = {
     type: 'native',
@@ -46,7 +47,8 @@ class CelSelect extends Component {
     theme: 'blue',
     margin: '0 0 15 0',
     onlyError: false,
-    disabled: false
+    disabled: false,
+    shadow: false
   }
 
   constructor(props) {
@@ -156,7 +158,7 @@ class CelSelect extends Component {
 
     return (
       <InputErrorWrapper
-        field={field}  
+        field={field}
         theme={theme}
         error={error}
         margin={margin}
@@ -182,11 +184,18 @@ class CelSelect extends Component {
 
   // rendering methods
   render() {
-    const { type, flex, disabled } = this.props;
+    const { type, flex, disabled, shadow } = this.props;
     const { visible, items, value } = this.state;
     const propVisible = (typeof this.props.disabled !== 'undefined' && this.props.disabled) ? false : visible;
+
+    const shadowStyle = shadow ? {
+      shadowColor: '#000000',
+      shadowOpacity: 0.2,
+      shadowOffset: {width: 0, height: 2},
+      shadowRadius: 2 } : null;
+
     return (
-      <View style={flex ? { flex } : null}>
+      <View style={[flex ? { flex } : null, shadowStyle ]}>
         {type !== 'country' ?
           <RNPickerSelect
             disabled={disabled}
