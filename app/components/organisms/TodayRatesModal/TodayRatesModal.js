@@ -31,7 +31,6 @@ class TodayRatesModal extends Component {
 
   render() {
     const { actions, appSettings: { showTodayRatesModal } } = this.props;
-    actions.updateUserAppSettings({ declineAccess: false });
     return (
       <CelModal name={MODALS.TODAY_RATES_MODAL} modalStyle={{paddingTop:0,paddingBottom: 20,}} contentStyle={{paddingLeft: 0, paddingRight: 0,}}>
         <View style={TodayRatesModalStyle.modalHeadingWrapper}>
