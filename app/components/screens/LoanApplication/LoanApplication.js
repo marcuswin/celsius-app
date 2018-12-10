@@ -181,7 +181,7 @@ class LoanApplication extends Component {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "CelBorrow" }}
+          animatedHeading={{ text: "Borrow Dollars" }}
         >
           <EmptyState purpose={"NycBlackout"}/>
         </SimpleLayout>
@@ -192,7 +192,7 @@ class LoanApplication extends Component {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "CelBorrow" }}
+          animatedHeading={{ text: "Borrow Dollars" }}
         >
           <Loader />
         </SimpleLayout>
@@ -212,7 +212,7 @@ class LoanApplication extends Component {
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
-        animatedHeading={{ text: "CelBorrow" }}
+        animatedHeading={{ text: "Borrow Dollars" }}
       >
         <CelScreenContent padding="15 0 0 0" scrollDisabled>
 
