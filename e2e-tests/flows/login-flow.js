@@ -1,6 +1,6 @@
 import store from '../../app/redux/store';
 import * as actions from '../../app/redux/actions';
-import { resetTests, callToComplete } from "../helpers";
+import { resetTests, callToComplete, containsText, findComponent} from "../helpers";
 import constants from "../constants";
 import ACTIONS from "../../app/config/constants/ACTIONS";
 import API from "../../app/config/constants/API";
@@ -12,9 +12,206 @@ export default {
   successfulFlow,
 
   // Welcome screen
+  pressSkipIntro,
+  
   // Login screen
+  ForgottenPassword,
+  disableWhenNoLoginData,
+  disableWhenNoEmail,
+  disableWhenNoPassword,
+  errWhenWrongCredentials,
+  errUserDoesNotExists,
+  loginSuccess,
+
   // LoginPasscode screen
+
   // ForgottenPassword screen
+  ForgottenPasswordErrWrongEmail,
+  ForgottenPasswordErrWrongEmailFormat,
+  ForgottenPasswordSuccessMsg,
 }
 
-function successfulFlow(spec) {}
+function successfulFlow(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+
+    await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('CelTextInput.pass','filip123')
+		await spec.press('LoginForm.button')
+
+		await spec.pause(5000)
+		await spec.exists('WalletLayout.home')
+
+  }
+}
+
+function pressSkipIntro(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+
+  }
+}
+
+function ForgottenPassword(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+    await spec.press('LoginScreen.forgotPassword')
+
+    await spec.exists('ForgottenPassword.getResetLink')
+  
+  }
+}
+
+export function loginSetup() {
+  dispatch({ type: ACTIONS.LOGOUT_USER });
+  dispatch(actions.clearForm());
+  dispatch(actions.navigateTo('Login'))
+
+}
+
+function disableWhenNoLoginData(spec) {
+  return async () => {	
+    await resetTests(spec);
+    await loginSetup()
+
+		const btn = await spec.findComponent('LoginForm.button')
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+	}
+}
+
+function disableWhenNoEmail(spec) {
+	return async () => {
+    await resetTests(spec);		
+    await loginSetup() 
+
+		await spec.pause(3000)
+    await spec.fillIn('CelTextInput.pass','filip123')
+
+		const btn = await spec.findComponent('LoginForm.button')
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+	}
+}
+
+function disableWhenNoPassword(spec) {
+	return async () => {
+    await resetTests(spec);
+		loginSetup() 
+
+		await spec.pause(3000)
+		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+
+		await spec.pause(2000)
+		const btn = await spec.findComponent('LoginForm.button')
+    if (!btn.props.disabled) {
+      throw new Error(`Signup Button enabled`);
+    }
+	}
+}
+
+function errWhenWrongCredentials(spec) {
+	return async () => {
+    await resetTests(spec); 
+		loginSetup() 
+
+		await spec.pause(9000)
+    await spec.fillIn('CelTextInput.pass','filip1234')
+		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+		await spec.press('LoginForm.button')
+
+    const text = await spec.findComponent('Message.msg');
+    await containsText(text, `Uhoh, looks like your username or password don't match.`);
+
+		await spec.notExists('WalletLayout.home')
+	}
+}
+
+function errUserDoesNotExists(spec) {
+	return async () => {
+    await resetTests(spec);
+		loginSetup() 
+
+		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt11122313@mvpworkshop.co')
+    await spec.fillIn('CelTextInput.pass','filip1234')
+    await spec.press('LoginForm.button')
+
+    const text = await spec.findComponent('Message.msg');
+    await containsText(text, `Uhoh, looks like your username or password don't match.`);
+
+		await spec.notExists('WalletLayout.home')
+	}
+}
+
+function loginSuccess(spec) { 
+	return async () => {
+    await resetTests(spec);
+		loginSetup() 
+
+		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('CelTextInput.pass','filip123')
+		await spec.press('LoginForm.button')
+
+		await spec.pause(5000)
+		await spec.exists('WalletLayout.home')
+	}
+}
+
+function ForgottenPasswordErrWrongEmail(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+    await spec.press('LoginScreen.forgotPassword')
+
+    dispatch(actions.updateFormField('email','filip.jovakaric+wl111t@mvpworkshop.co'))
+    await spec.press('ForgottenPassword.getResetLink')
+
+    const text = await spec.findComponent('Message.msg');
+    await containsText(text, `Sorry, but it looks like this user doesn't exist.`);
+  }
+}
+
+function ForgottenPasswordErrWrongEmailFormat(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+    await spec.press('LoginScreen.forgotPassword')
+
+    dispatch(actions.updateFormField('email','filip.jovakap.co'))
+    await spec.press('ForgottenPassword.getResetLink')
+
+    const text = await spec.findComponent('Message.msg');
+    await containsText(text, `Oops, looks like you didn't enter something right.`);
+  }
+}
+
+function ForgottenPasswordSuccessMsg(spec) {
+  return async () => {
+    await resetTests(spec);
+
+    await spec.press('Welcome.skipButton')
+    dispatch(actions.navigateTo('Login'))
+    await spec.press('LoginScreen.forgotPassword')
+
+    dispatch(actions.updateFormField('email','filip.jovakaric+wlt@mvpworkshop.co'))
+    await spec.press('ForgottenPassword.getResetLink')
+
+    const text2 = await spec.findComponent('Message.msg');
+      await containsText(text2, `Email sent!`);
+  }
+}

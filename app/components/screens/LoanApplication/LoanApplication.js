@@ -92,7 +92,7 @@ class LoanApplication extends Component {
   };
 
   applyForLoan = () => {
-    const { actions, formData } = this.props;
+    const { actions, formData, currencyRatesShort } = this.props;
     if (!formData.coin) {
       return actions.showMessage("error", "Please select a currency");
     }
@@ -102,6 +102,10 @@ class LoanApplication extends Component {
 
     if (Number(formData.amountCollateralUSD) < 500) {
       return actions.showMessage("warning", "Minimum amount for a loan is $500.00");
+    }
+
+    if (!formData.amountCollateralCrypto) {
+      actions.updateFormField("amountCollateralCrypto", formData.amountCollateralUSD / currencyRatesShort[formData.coin])
     }
 
     actions.applyForALoan();
@@ -177,7 +181,7 @@ class LoanApplication extends Component {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "CelBorrow" }}
+          animatedHeading={{ text: "Borrow Dollars" }}
         >
           <EmptyState purpose={"NycBlackout"}/>
         </SimpleLayout>
@@ -188,7 +192,7 @@ class LoanApplication extends Component {
       return (
         <SimpleLayout
           mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "CelBorrow" }}
+          animatedHeading={{ text: "Borrow Dollars" }}
         >
           <Loader />
         </SimpleLayout>
@@ -208,7 +212,7 @@ class LoanApplication extends Component {
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
-        animatedHeading={{ text: "CelBorrow" }}
+        animatedHeading={{ text: "Borrow Dollars" }}
       >
         <CelScreenContent padding="15 0 0 0" scrollDisabled>
 

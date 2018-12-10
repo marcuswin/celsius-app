@@ -26,7 +26,7 @@ function initInterceptors() {
       const newRequest = {...req};
 
       // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
-      if (req.method === 'post') {
+      if (req.method === 'post' && !req.url.includes('branch.io')) {
         newRequest.data = qs.stringify(req.data);
         newRequest.headers = {
           ...newRequest.headers,

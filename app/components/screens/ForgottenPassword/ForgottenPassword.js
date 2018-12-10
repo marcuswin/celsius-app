@@ -13,6 +13,7 @@ import API from "../../../config/constants/API";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -56,6 +57,7 @@ class ForgottenPassword extends Component {
         </CelForm>
 
         <CelButton
+          ref={testUtil.generateTestHook(this, 'ForgottenPassword.getResetLink')}
           loading={isLoading}
           white
           onPress={() => this.onSubmit()}
@@ -67,4 +69,4 @@ class ForgottenPassword extends Component {
   }
 }
 
-export default ForgottenPassword;
+export default testUtil.hookComponent(ForgottenPassword);

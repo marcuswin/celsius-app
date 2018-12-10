@@ -131,4 +131,3 @@ function getTransactionType(transaction) {
   if (transaction.type === 'incoming') return TRANSACTION_TYPES.IN;
   if (transaction.type === 'outgoing') return TRANSACTION_TYPES.OUT;
 }
-

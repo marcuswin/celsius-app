@@ -10,9 +10,10 @@ import {claimAllBranchTransfers} from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
+import { registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
 
 const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -129,7 +130,7 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  mixpanelEvents.startedSignup('Email');
+  analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -144,6 +145,7 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Email');
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -156,7 +158,6 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
-  mixpanelEvents.finishedSignup('Email');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -184,6 +185,7 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Twitter');
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -192,7 +194,6 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelEvents.finishedSignup('Twitter');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -253,6 +254,7 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Facebook');
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -261,7 +263,6 @@ function registerUserFacebook(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  mixpanelEvents.finishedSignup('Facebook');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -320,6 +321,7 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Google');
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -328,7 +330,6 @@ function registerUserGoogle(user) {
 }
 
 function registerUserGoogleSuccess(data) {
-  mixpanelEvents.finishedSignup('Google');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 

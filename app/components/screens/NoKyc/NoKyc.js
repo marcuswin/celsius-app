@@ -11,7 +11,7 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
-import {mixpanelEvents} from "../../../services/mixpanel";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
@@ -180,7 +180,7 @@ class NoKyc extends Component {
         <CelButton
           ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
           onPress={() => {
-            mixpanelEvents.navigation('verifyProfile');
+            analyticsEvents.navigation('verifyProfile');
             actions.navigateTo('ProfileDetails')
           }}
           margin='0 50 0 50'

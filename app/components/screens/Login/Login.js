@@ -96,6 +96,7 @@ class LoginScreen extends Component {
         </View>
 
         <CelButton
+          ref={testUtil.generateTestHook(this, 'LoginScreen.forgotPassword')}
           size="small"
           transparent
           margin="25 0 0 0"

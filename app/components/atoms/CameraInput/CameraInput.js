@@ -47,7 +47,7 @@ class CameraInput extends Component {
 
   // rendering methods
   render() {
-    const { value, labelTextActive, labelTextInactive, theme, error } = this.props;
+    const { value, labelTextActive, labelTextInactive, theme, error, field } = this.props;
 
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
@@ -56,6 +56,7 @@ class CameraInput extends Component {
 
     return (
       <InputErrorWrapper
+        field={field}
         theme={theme}
         error={error}
       >

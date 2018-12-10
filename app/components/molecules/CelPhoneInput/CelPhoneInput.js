@@ -86,7 +86,7 @@ class CelPhoneInput extends Component {
   };
 
   render() {
-    const { theme, value, editable, labelText, error } = this.props;
+    const { theme, value, editable, labelText, error, field } = this.props;
     const { showCountryModal } = this.state;
     const disabled = editable === false;
 
@@ -111,6 +111,7 @@ class CelPhoneInput extends Component {
 
     return (
       <InputErrorWrapper
+        field={field}
         theme={theme}
         error={error}
       >

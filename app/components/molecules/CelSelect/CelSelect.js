@@ -140,7 +140,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { theme, labelText, error, margin, onlyError, disabled } = this.props;
+    const { theme, labelText, error, margin, onlyError, disabled, field } = this.props;
     const { visible, value } = this.state;
 
     const label = value && labelText ? labelText.toUpperCase() : labelText;
@@ -156,6 +156,7 @@ class CelSelect extends Component {
 
     return (
       <InputErrorWrapper
+        field={field}  
         theme={theme}
         error={error}
         margin={margin}

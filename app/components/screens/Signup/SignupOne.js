@@ -83,7 +83,7 @@ class SignupOne extends Component {
                 value={formData.email}
               />
               <CelInput
-                {...this.props} testSelector={'SignupOne.password'}
+                {...this.props} testSelector={'SignupOne.passwordOne'}
                 error={formErrors.password}
                 field="password"
                 type="password"
@@ -92,6 +92,7 @@ class SignupOne extends Component {
                 value={formData.password}
               />
               <CelInput
+                {...this.props} testSelector={'SignupOne.passwordTwo'}
                 error={formErrors.password_repeat}
                 field="passwordRepeat"
                 type="password"

@@ -9,7 +9,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 import * as appActions from '../../../redux/actions';
 import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
-import { mixpanelEvents } from '../../../services/mixpanel'
+import { analyticsEvents } from '../../../utils/analytics-util';
 import ReferralReceivedModal from "../../organisms/ReferralReceivedModal/ReferralReceivedModal";
 import Message from "../../atoms/Message/Message";
 
@@ -22,19 +22,6 @@ import Message from "../../atoms/Message/Message";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WelcomeScreen extends Component {
-  constructor() {
-    super();
-
-    this.state = {};
-  }
-
-  componentWillMount() {
-    const {actions, user} = this.props;
-    if (user) {
-      actions.navigateTo('Home')
-    }
-  }
-
   render() {
     const {actions} = this.props;
 
@@ -59,7 +46,7 @@ class WelcomeScreen extends Component {
                 ref={testUtil.generateTestHook(this, 'Welcome.skipButton')}
               onPress={() => {
                 actions.navigateTo('SignupOne');
-                mixpanelEvents.signupButton()
+                analyticsEvents.signupButton()
               }}
                 transparent
                 size="medium"

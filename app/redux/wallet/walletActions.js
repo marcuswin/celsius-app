@@ -4,6 +4,7 @@ import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
+import { analyticsEvents } from "../../utils/analytics-util";
 
 
 export function getWalletDetails() {
@@ -171,10 +172,18 @@ export function withdrawCrypto(coin, amount, verification) {
 }
 
 function withdrawCryptoSuccess(transaction) {
-  return {
-    type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-    callName: API.WITHDRAW_CRYPTO,
-    transaction,
+  return (dispatch) => {
+    dispatch({
+      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
+      callName: API.WITHDRAW_CRYPTO,
+      transaction,
+    });
+
+    analyticsEvents.confirmWithdraw({
+      id: transaction.id,
+      amount: transaction.amount,
+      coin: transaction.coin
+    });
   }
 }
 

@@ -45,7 +45,7 @@ class CelDatepicker extends Component {
   };
 
   render() {
-    const { theme, value, labelText, format, minDate, maxDate, onOpenModal, error } = this.props;
+    const { theme, value, labelText, format, minDate, maxDate, onOpenModal, error, field } = this.props;
     const label = value && labelText ? labelText.toUpperCase() : labelText;
 
     let labelStyles = value ? globalStyles.selectLabelActive : globalStyles.selectLabelInactive;
@@ -56,6 +56,7 @@ class CelDatepicker extends Component {
     return (
       <View>
         <InputErrorWrapper
+          field={field}
           theme={theme}
           error={error}
         >
