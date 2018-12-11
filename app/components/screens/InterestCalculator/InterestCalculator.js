@@ -83,8 +83,6 @@ class InterestCalculatorScreen extends Component {
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
 
-    console.log(!appSettings.declineAccess)
-
     return (
       <EarnInterestLayout>
         <View   ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}

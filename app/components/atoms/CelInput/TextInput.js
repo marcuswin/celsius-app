@@ -32,6 +32,7 @@ class CelTextInput extends Component {
     autoCapitalize: PropTypes.string,
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
+    shadow: PropTypes.bool
   }
 
   static defaultProps = {
@@ -52,6 +53,7 @@ class CelTextInput extends Component {
     autoCapitalize: AUTO_CAPITALIZE.NONE,
     autoCorrect: false,
     spellCheck: false,
+    shadow: false
   }
 
   constructor(props) {
@@ -89,7 +91,7 @@ class CelTextInput extends Component {
 
   // rendering methods
   render() {
-    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword } = this.props;
+    const { theme, editable, maxLength, secureTextEntry, shadow, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword } = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;
 
@@ -97,6 +99,12 @@ class CelTextInput extends Component {
     label = (isActiveInput) ? label.toUpperCase() : label;
 
     const labelStyles = { ...globalStyles.inputLabel, ...globalStyles[`${theme}InputTextColor`] };
+
+    const shadowStyle = shadow ? {
+      shadowColor: '#000000',
+      shadowOpacity: 0.2,
+      shadowOffset: {width: 0, height: 2},
+      shadowRadius: 2 } : null;
 
     if (isActiveInput) {
       this.animateLabel(10);
@@ -109,7 +117,7 @@ class CelTextInput extends Component {
     const additionalTextInputStyle = isPassword ? {} : globalStyles.nonPasswordInputStyle;
 
     return (
-      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles]}>
+      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles, shadowStyle]}>
         <TextInput
           style={[globalStyles.input, globalStyles[`${theme}InputTextColor`], additionalTextInputStyle]}
           underlineColorAndroid={'rgba(0,0,0,0)'}

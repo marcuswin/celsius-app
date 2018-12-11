@@ -24,6 +24,7 @@ export const mixpanelEvents = {
   documentsAdded,
   phoneVerified,
   pinSet,
+  buttonPressed,
   KYCStarted: () => mixpanelAnalytics.track('KYC Started', { email: userEmail }),
   // Wallet Events
   pressWalletCard: (coinShort) => mixpanelAnalytics.track('Pressed wallet card', { coin: coinShort.toUpperCase(), email: userEmail }),
@@ -178,4 +179,12 @@ async function finishedSignup(method, referralLinkId) {
       "referral_id": referralLinkId
     })
   }
+}
+
+async function buttonPressed(btnCopy, screen) {
+  mixpanelAnalytics.track("Button Pressed", {
+    email: userEmail,
+    "button text": btnCopy,
+    "screen": screen
+  })
 }

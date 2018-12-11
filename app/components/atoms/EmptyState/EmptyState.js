@@ -13,7 +13,7 @@ const EmptyState = (props) => {
 
   switch (props.purpose) {
     case "NycBlackout":
-      title = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time, please withdraw your money." : "Looks like we’re missing some information from you.";
+      title = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time." : "Looks like we’re missing some information from you.";
       text = user.state === "New York" ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
       break;
     default:

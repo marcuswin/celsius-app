@@ -56,6 +56,7 @@ class NoKyc extends Component {
       return (
         <InfoBubble
           color="gray"
+          margin={"22 0 25 0"}
           renderContent={(textStyles) => (
             <View>
               <Text style={[textStyles, { textAlign: 'center' } ]}>
@@ -74,6 +75,7 @@ class NoKyc extends Component {
       return (
         <InfoBubble
           color="gray"
+          margin={"22 0 25 0"}
           renderContent={(textStyles) => (
             <View>
               <Text style={[textStyles, { textAlign: 'center' } ]}>

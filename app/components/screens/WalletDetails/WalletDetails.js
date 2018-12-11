@@ -10,10 +10,10 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDetailsHeading";
 import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
-import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
 @connect(
   state => ({
@@ -104,30 +104,38 @@ class WalletDetails extends Component {
           )}
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
             {(appSettings.showBchExplanationInfoBox && currency === "bch") && (
-              <WalletInfoBubble
+              <InfoBubble
                 title={"Add more BCH-ABC."}
+                shouldClose
                 onPressClose={this.onCloseBCHInfo}
                 color={"gray"}
-              >
-                <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
-                </Text>
-                <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
-                  {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
-                </Text>
-
-              </WalletInfoBubble>
+                renderContent={() => (
+                  <View>
+                    <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                      {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
+                    </Text>
+                    <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
+                      {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
+                    </Text>
+                  </View>
+                )}
+              />
             )}
             {appSettings.showWalletDetailsInfoBox && isCelCurrency && (
-              <WalletInfoBubble
+              <InfoBubble
                 title={`Your CEL Price`}
+                shouldClose
                 onPressClose={this.onCloseInfo}
                 color={"gray"}
-              >
-                <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.
+                margin={"22 0 25 0"}
+                renderContent={() => (
+                  <View>
+                    <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                      The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.
                 </Text>
-              </WalletInfoBubble>
+                  </View>
+                )}
+              />
             )}
 
             {!!transactions.length && (

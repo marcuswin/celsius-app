@@ -9,6 +9,8 @@ import CelButtonStyles from './CelButton.styles';
 import Icon from "../Icon/Icon";
 import { COLORS } from "../../../config/constants/style";
 import stylesUtil from "../../../utils/styles-util";
+import store from '../../../redux/store';
+import { analyticsEvents } from '../../../utils/analytics-util';
 
 const buttonColors = ['blue', 'green', 'pink', 'yellow'];
 const buttonSizes = ["letter", 'micro', 'mini', 'small', 'medium'];
@@ -41,7 +43,7 @@ class CelButton extends Component {
     hideBorder: false
   };
 
-  getButtonStyles() {
+  getButtonStyles = () => {
     const { disabled, color, size, transparent, inverse, white, margin, width } = this.props;
     const buttonStyles = [CelButtonStyles.baseButton];
 
@@ -60,7 +62,7 @@ class CelButton extends Component {
     return buttonStyles;
   }
 
-  getTitleStyles() {
+  getTitleStyles = () => {
     const { disabled, color, size, transparent, inverse, white } = this.props;
     const titleStyles = [CelButtonStyles.baseTitle];
 
@@ -75,7 +77,19 @@ class CelButton extends Component {
     return titleStyles;
   }
 
-  renderIconRight() {
+  sendAnalyticsData = (buttonCopy) => {
+    const activeScreen = store.getState().nav.routes[store.getState().nav.index].routeName;
+    // if the buttonCopy have multiple word, react parse it as an Array so we use join to stringify them nicely
+    let buttonCopyText;
+    if (buttonCopy instanceof Array) {
+      buttonCopyText = buttonCopy.join('');
+    } else {
+      buttonCopyText = buttonCopy;
+    }
+    analyticsEvents.buttonPressed(buttonCopyText, activeScreen);
+  }
+
+  renderIconRight = () => {
     const { iconRight, color, white, disabled } = this.props;
     return (
       <Icon
@@ -101,7 +115,7 @@ class CelButton extends Component {
     const titleStyles = this.getTitleStyles();
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading}>
+      <TouchableOpacity onPress={() => { this.sendAnalyticsData(children || this.props.title); onPress(); }} disabled={disabled || loading}>
         {loading ? (
           <View style={buttonStyles}>
             <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={CelButtonStyles.loader} />

@@ -4,9 +4,7 @@ import {FONT_SCALE} from "../../../config/constants/style";
 const InfoBubbleStyle = StyleSheet.create({
   infoWrapper: {
     borderRadius: 8,
-    padding: 15,
-    marginTop: 22,
-    marginBottom: 25,
+    padding: 15
   },
   infoText: {
     color: '#FFFFFF',

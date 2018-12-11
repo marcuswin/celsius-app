@@ -10,6 +10,12 @@ export const analyticsEvents = {
     const metadata = { btn: 'Skip Intro', screen: 'Welcome' }
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: 'no-user', metadata })
   },
+  buttonPressed: (btn, screen) => {
+    const { user } = store.getState().users;
+    mixpanelEvents.buttonPressed(btn, screen)
+    const metadata = { btn, screen }
+    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: (user ? user.id : 'no-user'), metadata })
+  },
   startedSignup: (method) => {
     mixpanelEvents.startedSignup(method);
     const metadata = { method }
@@ -92,7 +98,7 @@ export const analyticsEvents = {
     const { user } = store.getState().users;
     mixpanelEvents.navigation(screenName)
     const metadata = { screen: screenName };
-    branchService.createEvent({ event: 'NAVIGATE_TO', identity: user.id, metadata })
+    branchService.createEvent({ event: 'NAVIGATE_TO', identity: (user ? user.id : 'no-user'), metadata })
   },
   celPayTransfer: (celPayInfo) => {
     const { user } = store.getState().users;

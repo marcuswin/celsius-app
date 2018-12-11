@@ -252,7 +252,7 @@ class TransactionDetails extends Component {
               url={branchLink.url}
               onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)}
             /> */}
-            <TransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />;
+            <TransactionLinkSection key={sectionType} transactionLink={branchLink.url} />;
             <ManageTransactionSection key={sectionType} onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)} />;
           </React.Fragment>
         );
