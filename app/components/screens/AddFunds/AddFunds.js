@@ -15,11 +15,10 @@ import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
 import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
-import DestinationTagExplanationModal
-  from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
-import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
+import DestinationTagExplanationModal from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
 import { analyticsEvents } from "../../../utils/analytics-util";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
@@ -86,6 +85,8 @@ class AddFunds extends Component {
       this.componentDidMount();
     }
   }
+
+  onCloseBCHInfo = () => this.props.actions.updateUserAppSettings({ showBchExplanationInfoBox: false });
 
   getAddress = (currency) => {
     const { actions, walletAddresses } = this.props;
@@ -205,31 +206,34 @@ class AddFunds extends Component {
       >
 
         {(appSettings.showBchExplanationInfoBox && navCurrency === "bch") && (
-          <WalletInfoBubble
+          <InfoBubble
             title={"Add more BCH-ABC."}
+            shouldClose
             onPressClose={this.onCloseBCHInfo}
             color={"opaqueBlue"}
-          >
-            <Text style={[globalStyles.normalText, { color: 'white' }]}>
-              {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
-            </Text>
-            <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
-              {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
-            </Text>
-
-          </WalletInfoBubble>
+            renderContent={() => (
+              <View>
+                <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                  {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
+                </Text>
+                <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
+                  {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
+                </Text>
+              </View>
+            )}
+          />
         )}
 
         {navCurrency ? (
           <Text style={AddFundsStyle.textOne}>
-          Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
-          address.
+            Use the wallet address below to transfer {navCurrency.toUpperCase()} to your unique Celsius wallet
+            address.
           </Text>
         ) : (
-          <Text style={AddFundsStyle.textOne}>
-          Transfer your coins from another wallet by selecting the coin you want to transfer.
+            <Text style={AddFundsStyle.textOne}>
+              Transfer your coins from another wallet by selecting the coin you want to transfer.
           </Text>
-        )}
+          )}
 
         {!navCurrency && (
           <CelSelect

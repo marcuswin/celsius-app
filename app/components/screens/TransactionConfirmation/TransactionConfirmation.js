@@ -23,6 +23,7 @@ import DestinationTagExplanationModal
   from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Icon from "../../atoms/Icon/Icon";
+import cryptoUtil from "../../../utils/crypto-util";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -46,7 +47,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-                                                                              QR
+                                                                                        QR
         Code</Text>
     </CelForm>
 
@@ -310,6 +311,21 @@ class TransactionConfirmation extends Component {
 
     return (
       <View style={TransactionConfirmationStyle.screenContentWrapper}>
+        {cryptoUtil.isERC20(coin) &&
+          <InfoBubble
+            title={"Warning"}
+            shouldClose
+            onPressClose={this.onCloseBCHInfo}
+            color={"gray"}
+            renderContent={() => (
+              <View>
+                <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                  {"Withdrawals are made via a "}<Text style={[globalStyles.boldText, { color: 'white' }]}>smart contract</Text>{", please make sure your account provider supports smart-contract deposits."}
+                </Text>
+              </View>
+            )}
+          />
+        }
         <InfoBubble
           renderContent={(textStyles) => (
             <View>

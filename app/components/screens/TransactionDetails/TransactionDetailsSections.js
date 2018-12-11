@@ -34,6 +34,7 @@ export const InfoSection = ({ transaction }) => (
   <View style={{ marginHorizontal: 30 }}>
     <InfoBubble
       color="gray"
+      margin={"22 0 25 0"}
       renderContent={(textStyles) => (
         <View>
           <Text style={textStyles}>

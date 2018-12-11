@@ -75,6 +75,7 @@ class TransactionsOnHold extends Component {
       >
         <InfoBubble
           color="gray"
+          margin={"22 0 25 0"}
           renderContent={(textStyles) => (
             <Text style={[textStyles, { textAlign: 'center' }]}>
               You have up to 7 days to accept transactions. To do that, please verify your profile.
