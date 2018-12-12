@@ -36,6 +36,7 @@ const appReducers = combineReducers({
 function rootReducer(state, action) {
   let newState = state;
   if (action.type === ACTIONS.RESET_APP) newState = undefined;
+  if (action.type === ACTIONS.LOGOUT_USER) newState = undefined;
   return appReducers(newState, action)
 }
 

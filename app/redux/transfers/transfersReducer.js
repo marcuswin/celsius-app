@@ -55,9 +55,6 @@ export default function transfersReducer(state = initialState(), action) {
         }
       };
 
-    case ACTIONS.LOGOUT_USER:
-      return { ...initialState }
-
     default:
       return { ...state };
   }
