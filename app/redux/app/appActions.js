@@ -25,7 +25,6 @@ const {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Co
 export function resetApp() {
   return async (dispatch) => {
     try {
-      console.log({ reset: 'app' })
       dispatch({ type: ACTIONS.RESET_APP })
       dispatch(actions.showMessage('warning', 'Reseting Celsius App!'))
 
@@ -41,20 +40,22 @@ export function resetApp() {
 }
 
 export function appInitStart() {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      dispatch({ type: ACTIONS.APP_INIT_START });
-      disableAccessibilityFontScaling();
-      twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-      await initInternetConnectivityListener();
-      await pollBackendStatus();
-      await logoutOnEnvChange();
-      await initAppData()
-      await initAppUserSettings();
-      await initBranch();
-      analyticsEvents.openApp();
+      if (!getState().app.appInitializing) {
+        dispatch({ type: ACTIONS.APP_INIT_START });
+        disableAccessibilityFontScaling();
+        twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
+        await initInternetConnectivityListener();
+        await pollBackendStatus();
+        await logoutOnEnvChange();
+        await initAppData()
+        await initAppUserSettings();
+        await initBranch();
+        analyticsEvents.openApp();
 
-      dispatch({ type: ACTIONS.APP_INIT_DONE });
+        dispatch({ type: ACTIONS.APP_INIT_DONE });
+      }
     } catch (e) {
       console.log(e)
     }
@@ -104,7 +105,7 @@ async function initAppData() {
   const { expiredSession } = store.getState().users;
 
   if (token && !expiredSession) {
-    await registerForPushNotificationsAsync();
+    registerForPushNotificationsAsync();
 
     // get all KYC document types and claimed transfers for non-verified users
     const { user } = store.getState().users;
@@ -141,8 +142,9 @@ async function initAppUserSettings() {
 
 // Listen for Breaks in Internet Connection
 async function initInternetConnectivityListener() {
-  const initialConnection = await NetInfo.isConnected.fetch();
-  handleConnectivityChange(initialConnection);
+  // NOTE: for some reason initial connectivity is always false, which causes the app to glitch on offlinemode screen
+  // const initialConnection = await NetInfo.isConnected.fetch();
+  // handleConnectivityChange(initialConnection);
 
   NetInfo.isConnected.addEventListener(
     "connectionChange",

@@ -5,15 +5,9 @@ import { bindActionCreators } from "redux";
 import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
-import NoKyc from "../NoKyc/NoKyc";
-import CreatePasscode from "../Passcode/CreatePasscode";
 import { KYC_STATUSES } from "../../../config/constants/common";
-import WelcomeScreen from "../Welcome/Welcome";
-import SignupTwo from "../Signup/SignupTwo";
-import WalletBalance from "../WalletBalance/WalletBalance";
 import store from "../../../redux/store";
 import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
-import VerifyIdentity from "../VerifyIdentity/VerifyIdentityScreen";
 import Message from "../../atoms/Message/Message";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
@@ -29,6 +23,7 @@ const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
     userActions: state.ui.userActions,
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -45,7 +40,13 @@ class HomeScreen extends Component {
         ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
       ));
     }
+  }
 
+  componentWillReceiveProps = (nextProps) => {
+    const { appInitialized } = this.props
+    if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
+      return this.navigateToFirstScreen();
+    }
   }
 
   componentDidUpdate() {
@@ -59,8 +60,29 @@ class HomeScreen extends Component {
     if (!userActions.enteredInitialPin) {
       actions.fireUserAction('enteredInitialPin');
       actions.openInitialModal();
+      actions.navigateTo('Home');
     }
   };
+
+  navigateToFirstScreen = () => {
+    const { user, userActions, actions } = this.props;
+
+    if (!user) return actions.navigateTo('Welcome');
+
+    if (!user.first_name || !user.last_name) return actions.navigateTo('SignupTwo');
+    if (!user.has_pin) return actions.navigateTo('CreatePasscode');
+    if (shouldRenderInitialIdVerification(userActions)) {
+      return actions.navigateTo('VerifyIdentity', {
+        verificationCallback: this.loginPasscode,
+        label: "login",
+        help: true,
+        backButton: false,
+      });
+    }
+
+    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return actions.navigateTo('NoKyc');
+    return actions.navigateTo('WalletBalance');
+  }
 
   renderLoadingScreen = () => (
     <View>
@@ -70,18 +92,10 @@ class HomeScreen extends Component {
   )
 
   render() {
-    const { user, userActions, appInitialized } = this.props;
-
-    if (!appInitialized) return this.renderLoadingScreen();
-
-    if (!user) return <WelcomeScreen />;
-
-    if (!user.first_name || !user.last_name) return <SignupTwo />;
-    if (!user.has_pin) return <CreatePasscode />;
-    if (shouldRenderInitialIdVerification(userActions)) return <VerifyIdentity verificationCallback={this.loginPasscode} label="login" help backButton={false} />;
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-
-    return <WalletBalance />;
+    // const { appInitialized } = this.props;
+    // if (!appInitialized) return this.renderLoadingScreen();
+    // return null;
+    return this.renderLoadingScreen();
   }
 }
 
