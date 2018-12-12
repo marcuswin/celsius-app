@@ -134,7 +134,7 @@ class NycBlackoutModal extends Component {
 
   initForm = () => {
     const { actions, user, formData } = this.props;
-    const date = user.date_of_birth ? user.date_of_birth.split("-") : ["", "", ""];
+    const date = user && user.date_of_birth ? user.date_of_birth.split("-") : ["", "", ""];
 
     if (user) {
       const data = {
