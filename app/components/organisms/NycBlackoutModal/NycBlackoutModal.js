@@ -25,7 +25,7 @@ import { analyticsEvents } from "../../../utils/analytics-util";
     appSettings: state.users.appSettings,
     formErrors: state.ui.formErrors,
     callsInProgress: state.api.callsInProgress,
-    kycRealStatus: state.users.user.kyc ? state.users.user.kyc.realStatus : null,
+    kycRealStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.realStatus : null,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
@@ -45,7 +45,7 @@ class NycBlackoutModal extends Component {
 
   componentDidMount = () => {
     this.initForm();
-    this.props.actions.getProfileInfo();
+    // this.props.actions.getProfileInfo();
   };
 
   validateAddressInformationForm = () => {
