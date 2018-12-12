@@ -78,7 +78,7 @@ export function testLoginFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should show error when no citizenship', kycFlow.noCitizenship(spec))
+    spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
   })
 }
 
@@ -111,8 +111,9 @@ export function testKycFlow(spec) {
     spec.it('should go to taxpayer ID screen when all info filled', kycFlow.addressInfoValid(spec))
 
     // // Taxpayer ID Screen
-    // spec.it('should have mandatory SSN input if country is USA', kycFlow.noDateOfBirth(spec))
-    // spec.it('should not have mandatory SSN input if country is not USA', kycFlow.noDateOfBirth(spec))
+    spec.it('should throw error when no SSN input', kycFlow.TaxpayerIDNoSSN(spec))
+    spec.it('should throw error when SSN input is invalid', kycFlow.TaxpayerIDInvalidSSN(spec))
+    spec.it('should go to Verify profile when SSN is valid', kycFlow.TaxpayerIDValidSSN(spec))
     spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
 
     // // VerifyDocuments Screen
