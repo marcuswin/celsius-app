@@ -45,7 +45,9 @@ export default {
 	TaxpayerIDSuccess,
 
 	// Verify documents screen
-	takeFrontAndBackPictureofID,
+	takePassportPicture,
+	takeFrontAndBackofDrivingLicence,
+	takeFrontAndBackofIdentityCard,
 
 }
 
@@ -460,19 +462,69 @@ function profileDetailsFinish(spec){
 			}
 		}	
 
+		// Verify profile page
 		
-		function takeFrontAndBackPictureofID(spec){
+		function takePassportPicture(spec){
 			return async () => {
+				await resetKYC(spec);
+
+				store.dispatch(actions.clearForm());
+				store.dispatch(actions.navigateTo('VerifyProfile'))
+
+				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+				await spec.press('CameraInput.front')
+    		// await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.usePhoto')
+				
+				await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+				await spec.press('VerifyProfile.verify')
+
+
+  			await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+				await spec.press('VerifyPhoneNumber.finish')
+
+				await store.dispatch(actions.verifySMSSuccess());
+			}
+		}
+
+		function takeFrontAndBackofDrivingLicence(spec){
+			return async () => {
+				await resetKYC(spec);
 
 				store.dispatch(actions.navigateTo('VerifyProfile'))
 
+				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+				await spec.press('VerifyProfile.driving_licence')
+
 				await spec.press('CameraInput.front')
-    		await spec.press('CameraScreen.takePhoto')
+				// await spec.press('CameraScreen.takePhoto')
 				await spec.press('CameraScreen.usePhoto')
-		
+
 				await spec.press('CameraInput.back')
-    		await spec.press('CameraScreen.takePhoto')
-    		await spec.press('CameraScreen.usePhoto')
+				await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.usePhoto')
+
+			}
+		}
+
+		function takeFrontAndBackofIdentityCard(spec){
+			return async () => {
+				await resetKYC(spec);
+
+				store.dispatch(actions.navigateTo('VerifyProfile'))
+
+				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+				await spec.press('VerifyProfile.identity_card')
+
+				await spec.press('CameraInput.front')
+				// await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.usePhoto')
+
+				await spec.press('CameraInput.back')
+				await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.takePhoto')
+				await spec.press('CameraScreen.usePhoto')
 
 			}
 		}

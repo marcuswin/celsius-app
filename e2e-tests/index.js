@@ -78,7 +78,7 @@ export function testLoginFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
+    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
   })
 }
 
@@ -117,9 +117,8 @@ export function testKycFlow(spec) {
     spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
 
     // // VerifyDocuments Screen
-    spec.it('should take front and back picture of ID card', kycFlow.takeFrontAndBackPictureofID(spec))
-    // spec.it('should retake picture of driving licence', kycFlow.drivingLicencePicutre(spec))
-    // spec.it('should retake picture of passport', kycFlow.passportPicture(spec))
-    // spec.it('should retake picture of driving licence', kycFlow.finishKycFlow(spec))
+    spec.it('should take front picture of passport and finish KYC', kycFlow.takePassportPicture(spec))
+    spec.it('should take picture of driving licence', kycFlow.takeFrontAndBackofDrivingLicence(spec))
+    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
   })
 }
