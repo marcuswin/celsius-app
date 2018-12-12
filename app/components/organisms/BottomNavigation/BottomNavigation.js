@@ -60,7 +60,7 @@ class BottomNavigation extends Component {
 
   goToHomeScreen = () => {
     const { actions } = this.props;
-    actions.navigateTo('Home');
+    actions.navigateTo('Home', true);
   }
   // rendering methods
   renderNavItem = (navItem) => {
