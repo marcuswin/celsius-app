@@ -79,7 +79,7 @@ class ApiAuthorization extends Component {
             color="blue"
           >Generate API key</CelButton>
         </View>
-        {apiKeys.length &&
+        {apiKeys.length > 0 &&
           <View>
             <Separator margin="35 0 25 0" />
             {
