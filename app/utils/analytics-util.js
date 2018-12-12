@@ -129,5 +129,11 @@ export const analyticsEvents = {
       metadata["Tax ID"] = true;
     }
     branchService.createEvent({ event: 'PROFILE_TAXPAYERINFO_ADDED', identity: user.id, metadata })
+  },
+  sessionStart: () => {
+    mixpanelEvents.sessionStart();
+  },
+  sessionEnd: async () => {
+    await mixpanelEvents.sessionEnd();
   }
 }
