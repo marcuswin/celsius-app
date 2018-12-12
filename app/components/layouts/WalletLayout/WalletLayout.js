@@ -46,10 +46,11 @@ class WalletLayout extends Component {
 
   // rendering methods
   render() {
-    const { walletTotal, appSettings } = this.props;
+    const { walletTotal, appSettings, activeScreen } = this.props;
     const total = get(walletTotal, "quotes.USD.total", 0);
 
-    if (appSettings.declineAccess) {
+
+    if (appSettings.declineAccess && activeScreen !== "Home") {
       return (
         <BasicLayout bottomNavigation>
           <MainHeader backButton={false}/>
@@ -59,6 +60,7 @@ class WalletLayout extends Component {
                                     style={WalletLayoutStyle.totalLoader}/>}
             <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
           </View>
+          <TabNavigation tabs={this.tabs} />
           <EmptyState purpose={"NycBlackout"}/>
         </BasicLayout>
       )

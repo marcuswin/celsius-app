@@ -1,20 +1,21 @@
-import {Constants} from 'expo';
+import { Constants } from 'expo';
 import Branch from 'react-native-branch';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
-import {startApiCall, apiError} from '../api/apiActions';
-import {navigateTo} from '../nav/navActions';
-import {showMessage, setFormErrors} from '../ui/uiActions';
-import {claimAllBranchTransfers} from '../transfers/transfersActions';
+import { startApiCall, apiError } from '../api/apiActions';
+import { navigateTo } from '../nav/navActions';
+import { showMessage, setFormErrors } from '../ui/uiActions';
+import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
+import { registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
 
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
   loginBorrower,
@@ -36,12 +37,12 @@ export {
 }
 
 
-function loginUser({email, password}) {
+function loginUser({ email, password }) {
   return async dispatch => {
     dispatch(startApiCall(API.LOGIN_USER));
 
     try {
-      const res = await usersService.login({email, password});
+      const res = await usersService.login({ email, password });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
@@ -67,11 +68,11 @@ function loginUserSuccess(data) {
 }
 
 
-function loginBorrower({email, password}) {
+function loginBorrower({ email, password }) {
   return async dispatch => {
     dispatch(startApiCall(API.LOGIN_BORROWER));
     try {
-      const res = await borrowersService.login({email, password});
+      const res = await borrowersService.login({ email, password });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
@@ -129,7 +130,7 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  mixpanelEvents.startedSignup('Email');
+  analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -144,6 +145,7 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Email', referralLinkId);
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -156,7 +158,6 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
-  mixpanelEvents.finishedSignup('Email');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -184,6 +185,7 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Twitter', referralLinkId);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -192,7 +194,6 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelEvents.finishedSignup('Twitter');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -253,6 +254,7 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Facebook', referralLinkId);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -261,7 +263,6 @@ function registerUserFacebook(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  mixpanelEvents.finishedSignup('Facebook');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -320,6 +321,7 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Google', referralLinkId);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -328,7 +330,6 @@ function registerUserGoogle(user) {
 }
 
 function registerUserGoogleSuccess(data) {
-  mixpanelEvents.finishedSignup('Google');
   // register user on mixpanel
   registerMixpanelUser(data.user);
 
@@ -425,8 +426,8 @@ function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
-      const {data} =  await usersService.resetPassword(currentPassword, newPassword);
-      const {auth0: {id_token: newAuthToken}} = data;
+      const { data } = await usersService.resetPassword(currentPassword, newPassword);
+      const { auth0: { id_token: newAuthToken } } = data;
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
 
@@ -456,7 +457,7 @@ function logoutUser() {
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
-    } catch(err) {
+    } catch (err) {
       logger.log(err);
     }
   }
@@ -468,7 +469,7 @@ function expireSession() {
       dispatch({
         type: ACTIONS.EXPIRE_SESSION,
       });
-    } catch(err) {
+    } catch (err) {
       logger.log(err);
     }
   }

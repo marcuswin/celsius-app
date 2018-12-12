@@ -9,7 +9,7 @@ import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
-import { mixpanelEvents } from "./services/mixpanel";
+import { analyticsEvents } from "./utils/analytics-util";
 
 const {SENTRY_DSN} = Constants.manifest.extra;
 
@@ -83,7 +83,7 @@ export default class App extends Component {
   handleAppStateChange = (nextAppState) => {
     const askForPinAfter = 25000
     if ( nextAppState === 'active') {
-      mixpanelEvents.openApp();
+      analyticsEvents.openApp();
       if (Platform.OS === "ios") {
         clearTimeout(this.timeout)
       } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {

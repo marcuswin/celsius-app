@@ -53,7 +53,8 @@ const ProfileDetailsStyle = StyleSheet.create({
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    kycRealStatus: KYC_STATUSES.ico_passed // state.users.user.kyc ? state.users.user.kyc.realStatus : null,
+    kycRealStatus: KYC_STATUSES.ico_passed, // state.users.user.kyc ? state.users.user.kyc.realStatus : null,
+    appSettings: state.users.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -87,7 +88,7 @@ class ProfileScreen extends Component {
     } else {
       return true;
     }
-  }
+  };
 
 
 
@@ -95,9 +96,9 @@ class ProfileScreen extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
-    if (formData.country === "United States" && formData.ssn) {
+    if ((formData.country === "United States" || formData.citizenship === "United States" ) && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
       if (!regex.exec(formData.ssn)) formErrors.ssn = 'ssn is not valid!';
     }
@@ -107,7 +108,7 @@ class ProfileScreen extends Component {
     } else {
       return true;
     }
-  }
+  };
 
   submitAddressInformationForm = () => {
     const { formData, actions } = this.props;
@@ -123,11 +124,19 @@ class ProfileScreen extends Component {
         zip: formData.zip,
         country: formData.country,
         state: formData.state,
-      }
+      };
       actions.updateProfileAddressInfo(updatedUser);
+      if (formData.country !== "United States" && formData.citizenship !== "United States") {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
+
+      if (formData.country === "United States" || formData.citizenship === "United States" ) {
+        actions.updateUserAppSettings({ declineAccess: true });
+      }
+
       this.setState({ addressEditable: false });
     }
-  }
+  };
 
   submitTaxpayerForm = () => {
     const { formData, actions } = this.props;
@@ -140,15 +149,26 @@ class ProfileScreen extends Component {
         national_id: formData.national_id
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
+      if (formData.state === "New York") {
+        actions.updateUserAppSettings({ declineAccess: true });
+        actions.navigateTo("Home")
+      } else {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
       this.setState({ taxpayerEditable: false });
     }
-  }
+  };
 
   initForm = () => {
     const { actions, user, formData } = this.props;
     const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
-    const NycBlackoutTimestamp = moment.utc("2018-12-02T04:40:00+0000");
     const currentTimestamp = moment.utc(Date.now());
+    let NycBlackoutTimestamp;
+    let days;
+    if (user && user.blocked_at) {
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
+      days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
+    }
 
     if (user) {
       const data = {
@@ -180,24 +200,25 @@ class ProfileScreen extends Component {
       actions.initForm(data)
 
 
-      if (!data.street && !data.city && user.kyc.status === "passed") {
+      if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
         this.setState({ addressEditable: true });
-        if(currentTimestamp.isAfter(NycBlackoutTimestamp)) {
+        if( days && days < 1) {
           this.setState({ isBlackout: false });
         }
       }
-      if (((data.country === "United States" && !data.ssn) || (data.country !== "United States" && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
+      if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
         this.setState({ taxpayerEditable: true });
       }
     }
   };
 
   render() {
-    const { user, formData, actions, callsInProgress, error, formErrors } = this.props;
+    const { user, formData, actions, callsInProgress, error, formErrors, appSettings } = this.props;
     const { addressEditable, taxpayerEditable, isBlackout } = this.state;
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
+
 
     return (
       <BasicLayout bottomNavigation>
@@ -230,6 +251,7 @@ class ProfileScreen extends Component {
             size="small"
             margin="0 0 10 0"
             inverse
+            disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
           >
             Change avatar
           </CelButton>
@@ -238,6 +260,7 @@ class ProfileScreen extends Component {
             <CelButton
               onPress={() => actions.navigateTo('ProfileSettings')}
               color="blue"
+              disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
             >Settings</CelButton>
           </View>
 
@@ -294,14 +317,14 @@ class ProfileScreen extends Component {
                   onPress={this.submitAddressInformationForm}
                   color="blue"
                   loading={isUpdatingAddressInfo}
-                  disabled={isUpdatingAddressInfo}
+                  disabled={isUpdatingAddressInfo || !isBlackout}
                 >Submit address</CelButton>
               </View>
             }
-            {(!(formData.country === "United States" && !taxpayerEditable) && !addressEditable) &&
+            {(!((formData.country === "United States" || formData.citizenship === "United States") && !taxpayerEditable) && !addressEditable) &&
               <React.Fragment>
                 <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER ID</Separator>
-                {formData.country === "United States" ?
+                {(formData.country === "United States" || formData.citizenship === "United States" ) ?
                   <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
                   :
                   <React.Fragment>
@@ -315,7 +338,7 @@ class ProfileScreen extends Component {
                       onPress={this.submitTaxpayerForm}
                       color="blue"
                       loading={isUpdatingTaxpayerInfo}
-                      disabled={isUpdatingTaxpayerInfo}
+                      disabled={isUpdatingTaxpayerInfo || !isBlackout}
                     >Submit Taxpayer id</CelButton>
                   </View>
                 }

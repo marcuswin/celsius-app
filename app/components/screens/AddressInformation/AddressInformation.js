@@ -12,6 +12,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -95,6 +96,7 @@ class AddressInformation extends Component {
       })
     }
   }
+
   // rendering methods
   render() {
     const { formData, callsInProgress, formErrors } = this.props;
@@ -102,23 +104,25 @@ class AddressInformation extends Component {
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     return (
       <SimpleLayout
+        ref={testUtil.generateTestHook(this, `AddressInformation.home`)}
         animatedHeading={{ text: 'Address Information' }}
         background={STYLES.PRIMARY_BLUE}
       >
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelSelect error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+          <CelSelect ref={testUtil.generateTestHook(this, `AddressInformation.country`)} error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
           {formData.country === "United States" ?
-            <CelSelect error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
+            <CelSelect ref={testUtil.generateTestHook(this, `AddressInformation.state`)} error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
             : null }
-          <CelInput value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-          <CelInput value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-          <CelInput value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
-          <CelInput value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-          <CelInput value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.city`)} value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.zip`)}  value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.street`)}  value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.buildingNumber`)} value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.flatNumber`)} value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
         </CelForm>
 
         <CelButton
+          ref={testUtil.generateTestHook(this, `AddressInformation.yourTaxpayerID`)}
           white
           onPress={this.submitForm}
           loading={isUpdatingProfileInfo}
@@ -133,4 +137,4 @@ class AddressInformation extends Component {
   }
 }
 
-export default AddressInformation;
+export default testUtil.hookComponent(AddressInformation);

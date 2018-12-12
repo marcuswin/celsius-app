@@ -35,7 +35,7 @@ class TransactionOptionsModal extends Component {
   // event hanlders
   shareLink = () => Share.share({ message: `Click on the link to claim your crypto ${ this.props.link }` });
   openLink = () => {
-    this.props.actions.claimTransfer(this.props.hash);
+    this.props.actions.cancelTransfer(this.props.hash);
     this.props.actions.closeModal();
   }
   // rendering methods
@@ -59,7 +59,7 @@ class TransactionOptionsModal extends Component {
             inverse
             onPress={this.openLink}
           >
-            Refund transaction
+            Cancel transaction
           </CelButton>
         </View>
       </CelModal>

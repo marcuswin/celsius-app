@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View, Image } from "react-native";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
@@ -52,9 +52,9 @@ class TransferReceivedModal extends Component {
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Congrats!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Your friend { transfer.from.name } just sent you
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
-          worth of { transfer.coin }. It's already earning interest in your wallet which will be paid out on a weekly basis. Go to your wallet to find out more about interest rates.
+          Your friend {transfer.from.name} just sent you
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> {formatter.usd(amountUsd)} </Text>
+          worth of {transfer.coin}. It's already earning interest in your wallet which will be paid out on a weekly basis. Go to your wallet to find out more about interest rates.
         </Text>
 
         <CelButton
@@ -82,23 +82,24 @@ class TransferReceivedModal extends Component {
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Your friend { user ? transfer.from.name : '' } have sent you
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { formatter.usd(amountUsd) } </Text>
-          worth of { transfer.coin }. To see it in your wallet, please sign up and verify your profile.
+          Your friend {user ? transfer.from.name : ''} have sent you
+          <Text style={[globalStyles.normalText, globalStyles.boldText]}> {formatter.usd(amountUsd)} </Text>
+          worth of {transfer.coin}. To see it in your wallet, please sign up and verify your profile.
         </Text>
 
         <InfoBubble
           color="gray"
+          margin={"22 0 25 0"}
           renderContent={(textStyles) => (
             <View>
               <Text style={textStyles}>
-                If you don't finish the signup process within 7 days of { transfer.from.name } sending you crypto, it will be returned to them.
+                If you don't finish the signup process within 7 days of {transfer.from.name} sending you crypto, it will be returned to them.
               </Text>
             </View>
           )}
         />
         <CelButton onPress={this.closeAndGoToSignup}>
-          { !this.props.user ? 'Sign up'  : 'Verify profile' }
+          {!this.props.user ? 'Sign up' : 'Verify profile'}
         </CelButton>
       </CelModal>
     )

@@ -14,10 +14,11 @@ import {
   clearSecureStorage
 } from "../../utils/expo-storage";
 import baseUrl from "../../services/api-url";
-import { mixpanelAnalytics, mixpanelEvents } from "../../services/mixpanel";
+import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
 import ACTIONS from '../../config/constants/ACTIONS';
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
+import { analyticsEvents } from "../../utils/analytics-util";
 
 const {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 
@@ -51,7 +52,7 @@ export function appInitStart() {
       await initAppData()
       await initAppUserSettings();
       await initBranch();
-      mixpanelEvents.openApp();
+      analyticsEvents.openApp();
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {

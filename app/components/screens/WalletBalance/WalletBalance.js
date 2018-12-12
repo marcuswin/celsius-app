@@ -9,11 +9,11 @@ import * as appActions from "../../../redux/actions";
 import Loader from "../../atoms/Loader/Loader";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
-import { mixpanelEvents } from "../../../services/mixpanel";
 import Card from "../../atoms/Card/Card";
 import WalletBalanceStyle from "./WalletBalance.styles";
 import formatter from "../../../utils/formatter";
 import { MODALS } from "../../../config/constants/common";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
@@ -59,7 +59,7 @@ class WalletBalance extends Component {
     } else {
       actions.navigateTo('WalletDetails', { currency: short.toLowerCase() });
     }
-    mixpanelEvents.pressWalletCard(short);
+    analyticsEvents.pressWalletCard(short);
   }
   // rendering methods
   render() {
@@ -77,7 +77,7 @@ class WalletBalance extends Component {
     );
 
     return (
-      <WalletLayout>
+      <WalletLayout ref={testUtil.generateTestHook(this, `WalletBalance.screen`)}>
         {(!!totalInterestEarned) && <Card style={{marginTop: 15}}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>

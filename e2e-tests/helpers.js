@@ -2,6 +2,10 @@ import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
 import { clearSecureStorage } from "../app/utils/expo-storage";
 
+import axios from "axios";
+import { Constants } from "expo";
+const {API_URL} = Constants.manifest.extra;
+
 const { dispatch, getState } = store;
 
 export default {
@@ -40,11 +44,11 @@ export async function resetTests(spec) {
 
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
-  let lastCompletedCall = getState().api.lastCompletedCall;
-  while (lastCompletedCall !== callName && tryCount < 20) {
+  let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
+  while (lastCompletedCall.includes(callName) && tryCount < 20) {
     console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
-    await spec.pause(200)
-    lastCompletedCall = getState().api.lastCompletedCall;
+    await spec.pause(500)
+    lastCompletedCall = getState().api.history[getState().api.history.length - 1];
   }
 
   if (tryCount === 20) throw new Error('Too many tries!');
@@ -62,4 +66,22 @@ export function testFailed(spec) {
     await resetTests(spec);
     await spec.exists('SignupTwo.screen')
   }
+}
+
+export async function containsText(component, text) {
+  if (!component.props.children.includes(text)) {
+    throw new Error(`Could not find text ${text}`);
+  };
+}
+
+export async function resetNonUser(){
+  return axios.get(API_URL + '/test/reset_non_user')
+}
+
+export async function resetNonKycUser(){
+  return axios.get(API_URL + '/test/reset_non_kyc_user')
+}
+
+export async function resetKycUser(){
+  return axios.post(API_URL + '/test/reset_kyc_user')
 }

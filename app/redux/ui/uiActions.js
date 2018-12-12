@@ -240,9 +240,9 @@ function openInitialModal() {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
 
-    if (user) {
+    if (user && user.kyc.status === "passed") {
       if (user.state === "New York") return dispatch(openModal(MODALS.NYC_BLACKOUT));
-      if ((!user.street && !user.zip && !user.city && !user.country) || ((user.country === "United States" && !user.ssn))) {
+      if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
         return dispatch(openModal(MODALS.NYC_BLACKOUT));
       }
     }
@@ -273,6 +273,7 @@ function refreshBottomNavigation() {
 }
 
 function fireUserAction(name) {
+
   return {
     type: ACTIONS.FIRE_USER_ACTION,
     name,

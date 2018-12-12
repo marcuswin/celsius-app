@@ -13,8 +13,8 @@ import Triangle from "../../atoms/Triangle/Triangle";
 export const BasicSection = ({ label, value }) => (
   <View style={TransactionDetailsStyle.infoDetail}>
     <View style={TransactionDetailsStyle.row}>
-      <Text style={TransactionDetailsStyle.text}>{ label }:</Text>
-      <Text style={TransactionDetailsStyle.info}>{ value }</Text>
+      <Text style={TransactionDetailsStyle.text}>{label}:</Text>
+      <Text style={TransactionDetailsStyle.info}>{value}</Text>
     </View>
     <Separator />
   </View>
@@ -24,9 +24,9 @@ export const StatusSection = ({ transaction }) => (
   <View style={TransactionDetailsStyle.infoDetail}>
     <View style={TransactionDetailsStyle.row}>
       <Text style={TransactionDetailsStyle.text}>Status:</Text>
-      { getStatusText(transaction) }
+      {getStatusText(transaction)}
     </View>
-    <Separator/>
+    <Separator />
   </View>
 )
 
@@ -34,10 +34,11 @@ export const InfoSection = ({ transaction }) => (
   <View style={{ marginHorizontal: 30 }}>
     <InfoBubble
       color="gray"
+      margin={"22 0 25 0"}
       renderContent={(textStyles) => (
         <View>
           <Text style={textStyles}>
-            { getInfoSectionText(transaction) }
+            {getInfoSectionText(transaction)}
           </Text>
         </View>
       )}
@@ -60,10 +61,10 @@ export const LinkSection = ({ url, onPress }) => (
           color: COLORS.blue,
         }]}
       >
-        { url }
+        {url}
       </Text>
     </View>
-    <Separator/>
+    <Separator />
   </TouchableOpacity>
 )
 
@@ -77,9 +78,25 @@ export const BlockExplorerSection = ({ transaction }) => (
       >
         View on {getBlockExplorerLink(transaction).text}
       </Text>
-      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue}/>
+      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue} />
     </TouchableOpacity>
-    <Separator/>
+    <Separator />
+  </View>
+)
+
+export const ManageTransactionSection = ({ onPress }) => (
+  <View style={TransactionDetailsStyle.infoDetail}>
+    <TouchableOpacity
+      style={[TransactionDetailsStyle.row, { alignItems: 'flex-start' }]}
+      onPress={onPress}>
+      <Text
+        style={TransactionDetailsStyle.info}
+      >
+        Manage transaction
+      </Text>
+      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue} />
+    </TouchableOpacity>
+    <Separator />
   </View>
 )
 
@@ -87,7 +104,7 @@ export const AddressSection = ({ text, address }) => (
   <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
     <View style={{ flexDirection: "column" }}>
       <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        { text }:
+        {text}:
       </Text>
       <Text
         style={[TransactionDetailsStyle.info, {
@@ -96,9 +113,45 @@ export const AddressSection = ({ text, address }) => (
           marginBottom: 5
         }]}
       >
-        { address }
+        {address}
       </Text>
     </View>
+  </View>
+)
+
+export const TransactionLinkSection = ({ transactionLink }) => (
+  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
+    <View style={{ flexDirection: "column" }}>
+      <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
+        Transaction link:
+      </Text>
+      <Text
+        style={[TransactionDetailsStyle.info, {
+          textAlign: "left",
+          fontFamily: "inconsolata-regular",
+          marginBottom: 5
+        }]}
+      >
+        {transactionLink}
+      </Text>
+    </View>
+  </View>
+)
+
+export const CanceledTransactionLinkSection = ({ transactionLink }) => (
+  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
+  <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
+        Transaction link:
+      </Text>
+    <Text
+      style={[TransactionDetailsStyle.info, {
+        textAlign: "left",
+        fontFamily: "inconsolata-regular",
+        marginBottom: 5
+      }]}
+    >
+      {transactionLink}
+    </Text>
   </View>
 )
 
@@ -106,20 +159,20 @@ export const ContactSection = ({ text, contact }) => (
   <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
     <View style={[TransactionDetailsStyle.row, { flexDirection: 'column' }]}>
       <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        { text }:
+        {text}:
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Image
           source={{ uri: contact.profile_picture || 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg' }}
           style={{ width: 40, height: 40, borderRadius: 20, marginRight: 20 }}
         />
 
         <Text style={TransactionDetailsStyle.info}>
-          { contact.first_name } { contact.last_name }
+          {contact.first_name} {contact.last_name}
         </Text>
       </View>
     </View>
-    <Separator/>
+    <Separator />
   </View>
 )
 
@@ -140,27 +193,27 @@ export const HippoSection = ({ transaction, currencyRatesShort }) => {
       <HippoBubble
         bubbleContent={textStyle =>
           <View>
-            <View style={[TransactionDetailsStyle.interestValueTextWrapper, {marginBottom: 10}]}>
+            <View style={[TransactionDetailsStyle.interestValueTextWrapper, { marginBottom: 10 }]}>
               <Text style={textStyle}>Initial interest value</Text>
-              <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(amountUsd) }</Text>
+              <Text style={[textStyle, globalStyles.boldText]}>{formatter.usd(amountUsd)}</Text>
             </View>
             <View style={TransactionDetailsStyle.interestValueTextWrapper}>
               <Text style={textStyle}>Today's value</Text>
-              <Text style={[textStyle, globalStyles.boldText]}>{ formatter.usd(currentInterestAmount) }</Text>
+              <Text style={[textStyle, globalStyles.boldText]}>{formatter.usd(currentInterestAmount)}</Text>
             </View>
           </View>
         }
         sideContent={textStyle =>
           <View>
-            <View style={{display: 'flex', flexDirection: 'row'}}>
-              {interestChangePositive && <Triangle direction="up" color={COLORS.green}/>}
-              {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow}/>}
+            <View style={{ display: 'flex', flexDirection: 'row' }}>
+              {interestChangePositive && <Triangle direction="up" color={COLORS.green} />}
+              {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow} />}
               <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
               <Text style={textStyle}> change</Text>
             </View>
             <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
           </View>
-        }/>
+        } />
     </View>
   )
 }
@@ -180,6 +233,7 @@ function getStatusText(transaction) {
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
     TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
     TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
+    CANCELED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Canceled</Text>,
 
     IN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Received</Text>,
     OUT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>• Sent</Text>,
@@ -188,13 +242,13 @@ function getStatusText(transaction) {
 
 function getBlockExplorerLink(transaction) {
   return {
-    eth: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
-    btc: { link: `https://blockchain.info/btc/tx/${ transaction.transaction_id }`, text: 'blockchain'},
-    bch: { link: `https://blockdozer.com/tx/${ transaction.transaction_id }`, text: 'blockdozer'},
-    ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${ transaction.transaction_id }`, text: 'chainz'},
-    xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${ transaction.transaction_id }`, text: 'xrpcharts'},
-    cel: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
-    omg: { link: `https://etherscan.io/tx/${ transaction.transaction_id }`, text: 'etherscan'},
+    eth: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
+    btc: { link: `https://blockchain.info/btc/tx/${transaction.transaction_id}`, text: 'blockchain' },
+    bch: { link: `https://blockdozer.com/tx/${transaction.transaction_id}`, text: 'blockdozer' },
+    ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${transaction.transaction_id}`, text: 'chainz' },
+    xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' },
+    cel: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
+    omg: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
   }[transaction.coin];
 }
 

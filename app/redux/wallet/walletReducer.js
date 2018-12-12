@@ -109,6 +109,8 @@ function mapTransaction(transaction) {
 }
 
 function getTransactionType(transaction) {
+  if (["canceled", "removed", "rejected"].includes(transaction.state)) return TRANSACTION_TYPES.CANCELED;
+  
   if (transaction.nature === 'deposit' && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
   if (transaction.nature === 'deposit' && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
   if (transaction.nature === 'withdrawal' && !transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
@@ -129,4 +131,3 @@ function getTransactionType(transaction) {
   if (transaction.type === 'incoming') return TRANSACTION_TYPES.IN;
   if (transaction.type === 'outgoing') return TRANSACTION_TYPES.OUT;
 }
-

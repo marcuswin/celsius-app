@@ -61,6 +61,8 @@ function shouldShowBottomNavigation(action) {
     showNav = true;
   }
 
+
+
   return showNav;
 }
 
