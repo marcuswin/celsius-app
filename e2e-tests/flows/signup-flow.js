@@ -167,7 +167,8 @@ function errorWhenEmailInvalid(spec) {
 
     await spec.exists('InputErrorWrapper.email')
     const text = await spec.findComponent('InputErrorWrapper.email');
-      await containsText(text, `Oops, looks like you didn't enter something right.`);
+    await containsText(text, `Oops, looks like you didn't enter something right.`);
+  
   }
 }
 

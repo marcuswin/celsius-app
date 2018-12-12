@@ -12,6 +12,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -96,6 +97,7 @@ class TaxpayerID extends Component {
 
     return (
       <SimpleLayout
+        ref={testUtil.generateTestHook(this, `TaxpayerID.home`)}
         animatedHeading={{ text: 'Taxpayer ID' }}
         background={STYLES.PRIMARY_BLUE}
       >
@@ -105,7 +107,7 @@ class TaxpayerID extends Component {
         </Text>
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
           {formData.country === "United States" ?
-            <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+            <CelInput  value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
             :
             <React.Fragment>
               <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
@@ -115,6 +117,7 @@ class TaxpayerID extends Component {
         </CelForm>
 
         <CelButton
+          ref={testUtil.generateTestHook(this, `TaxpayerID.verifyYourProfile`)}
           white
           onPress={this.submitForm}
           loading={isUpdatingProfileInfo}
@@ -128,4 +131,4 @@ class TaxpayerID extends Component {
   }
 }
 
-export default TaxpayerID;
+export default testUtil.hookComponent(TaxpayerID);

@@ -2,6 +2,10 @@ import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
 import { clearSecureStorage } from "../app/utils/expo-storage";
 
+import axios from "axios";
+import { Constants } from "expo";
+const {API_URL} = Constants.manifest.extra;
+
 const { dispatch, getState } = store;
 
 export default {
@@ -70,4 +74,16 @@ export async function containsText(component, text) {
   if (!component.props.children.includes(text)) {
     throw new Error(`Could not find text ${text}`);
   };
+}
+
+export async function resetNonUser(){
+  return axios.get(API_URL + '/test/reset_non_user')
+}
+
+export async function resetNonKycUser(){
+  return axios.get(API_URL + '/test/reset_non_kyc_user')
+}
+
+export async function resetKycUser(){
+  return axios.post(API_URL + '/test/reset_kyc_user')
 }

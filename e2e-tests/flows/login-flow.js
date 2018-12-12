@@ -12,10 +12,10 @@ export default {
   successfulFlow,
 
   // Welcome screen
-  pressSkipIntro,
+  initFlow,
   
   // Login screen
-  ForgottenPassword,
+  forgottenPassword,
   disableWhenNoLoginData,
   disableWhenNoEmail,
   disableWhenNoPassword,
@@ -26,14 +26,15 @@ export default {
   // LoginPasscode screen
 
   // ForgottenPassword screen
-  ForgottenPasswordErrWrongEmail,
-  ForgottenPasswordErrWrongEmailFormat,
-  ForgottenPasswordSuccessMsg,
+  forgottenPasswordErrWrongEmail,
+  forgottenPasswordErrWrongEmailFormat,
+  forgottenPasswordSuccessMsg,
 }
 
 function successfulFlow(spec) {
   return async () => {
     await resetTests(spec);
+    // loginSetup();
 
     await spec.press('Welcome.skipButton')
     dispatch(actions.navigateTo('Login'))
@@ -42,40 +43,41 @@ function successfulFlow(spec) {
     await spec.fillIn('CelTextInput.pass','filip123')
 		await spec.press('LoginForm.button')
 
-		await spec.pause(5000)
-		await spec.exists('WalletLayout.home')
+    // await spec.pause(5000)
+    await callToComplete(API.LOGIN_BORROWER)
 
+    // await spec.exists('WalletLayout.home')
+    await spec.exists('WalletBalance.screen')
+    
+    // await spec.press('TodayRatesModal.popUP')
   }
 }
 
-function pressSkipIntro(spec) {
+function initFlow(spec) {
   return async () => {
     await resetTests(spec);
 
     await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
+    await spec.exists('SignupOne.screen')
 
+    await spec.press('SignupOne.loginButton')
+    await spec.exists('Login.screen')
+    // dispatch(actions.navigateTo('Login'))
   }
 }
 
-function ForgottenPassword(spec) {
+function forgottenPassword(spec) {
   return async () => {
     await resetTests(spec);
+    loginSetup();
 
-    await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
     await spec.press('LoginScreen.forgotPassword')
-
-    await spec.exists('ForgottenPassword.getResetLink')
-  
+    await spec.exists('ForgottenPassword.getResetLink')  
   }
 }
 
 export function loginSetup() {
-  dispatch({ type: ACTIONS.LOGOUT_USER });
-  dispatch(actions.clearForm());
   dispatch(actions.navigateTo('Login'))
-
 }
 
 function disableWhenNoLoginData(spec) {
@@ -85,7 +87,7 @@ function disableWhenNoLoginData(spec) {
 
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
-      throw new Error(`Signup Button enabled`);
+      throw new Error(`Login Button enabled`);
     }
 	}
 }
@@ -95,12 +97,12 @@ function disableWhenNoEmail(spec) {
     await resetTests(spec);		
     await loginSetup() 
 
-		await spec.pause(3000)
+		// await spec.pause(3000)
     await spec.fillIn('CelTextInput.pass','filip123')
 
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
-      throw new Error(`Signup Button enabled`);
+      throw new Error(`Login Button enabled`);
     }
 	}
 }
@@ -110,13 +112,12 @@ function disableWhenNoPassword(spec) {
     await resetTests(spec);
 		loginSetup() 
 
-		await spec.pause(3000)
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
-		await spec.pause(2000)
+		// await spec.pause(2000)
 		const btn = await spec.findComponent('LoginForm.button')
     if (!btn.props.disabled) {
-      throw new Error(`Signup Button enabled`);
+      throw new Error(`Login Button enabled`);
     }
 	}
 }
@@ -126,7 +127,7 @@ function errWhenWrongCredentials(spec) {
     await resetTests(spec); 
 		loginSetup() 
 
-		await spec.pause(9000)
+		// await spec.pause(9000)
     await spec.fillIn('CelTextInput.pass','filip1234')
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 		await spec.press('LoginForm.button')
@@ -134,7 +135,8 @@ function errWhenWrongCredentials(spec) {
     const text = await spec.findComponent('Message.msg');
     await containsText(text, `Uhoh, looks like your username or password don't match.`);
 
-		await spec.notExists('WalletLayout.home')
+    // await spec.notExists('WalletLayout.home')
+    await spec.notExists('WalletBalance.screen')
 	}
 }
 
@@ -150,7 +152,8 @@ function errUserDoesNotExists(spec) {
     const text = await spec.findComponent('Message.msg');
     await containsText(text, `Uhoh, looks like your username or password don't match.`);
 
-		await spec.notExists('WalletLayout.home')
+    // await spec.notExists('WalletLayout.home')
+    await spec.notExists('WalletBalance.screen')
 	}
 }
 
@@ -163,18 +166,22 @@ function loginSuccess(spec) {
     await spec.fillIn('CelTextInput.pass','filip123')
 		await spec.press('LoginForm.button')
 
-		await spec.pause(5000)
-		await spec.exists('WalletLayout.home')
+		// await spec.pause(5000)
+    // await spec.exists('WalletLayout.home')
+    await callToComplete(API.LOGIN_BORROWER)
+    await spec.notExists('WalletBalance.screen')
 	}
 }
 
-function ForgottenPasswordErrWrongEmail(spec) {
+// ForgottenPassword screen tests
+function forgottenPasswordSetup() {
+  dispatch(actions.navigateTo('ForgottenPassword'))
+}
+
+function forgottenPasswordErrWrongEmail(spec) {
   return async () => {
     await resetTests(spec);
-
-    await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
-    await spec.press('LoginScreen.forgotPassword')
+    forgottenPasswordSetup()
 
     dispatch(actions.updateFormField('email','filip.jovakaric+wl111t@mvpworkshop.co'))
     await spec.press('ForgottenPassword.getResetLink')
@@ -184,13 +191,13 @@ function ForgottenPasswordErrWrongEmail(spec) {
   }
 }
 
-function ForgottenPasswordErrWrongEmailFormat(spec) {
+function forgottenPasswordErrWrongEmailFormat(spec) {
   return async () => {
     await resetTests(spec);
-
-    await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
-    await spec.press('LoginScreen.forgotPassword')
+    forgottenPasswordSetup();
+    // await spec.press('Welcome.skipButton')
+    // dispatch(actions.navigateTo('Login'))
+    // await spec.press('LoginScreen.forgotPassword')
 
     dispatch(actions.updateFormField('email','filip.jovakap.co'))
     await spec.press('ForgottenPassword.getResetLink')
@@ -200,13 +207,14 @@ function ForgottenPasswordErrWrongEmailFormat(spec) {
   }
 }
 
-function ForgottenPasswordSuccessMsg(spec) {
+function forgottenPasswordSuccessMsg(spec) {
   return async () => {
     await resetTests(spec);
+    forgottenPasswordSetup();
 
-    await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
-    await spec.press('LoginScreen.forgotPassword')
+    // await spec.press('Welcome.skipButton')
+    // dispatch(actions.navigateTo('Login'))
+    // await spec.press('LoginScreen.forgotPassword')
 
     dispatch(actions.updateFormField('email','filip.jovakaric+wlt@mvpworkshop.co'))
     await spec.press('ForgottenPassword.getResetLink')
