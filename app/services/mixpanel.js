@@ -1,6 +1,9 @@
 import uuid from 'uuid'
 import { Constants } from 'expo';
+import moment from 'moment';
 import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
+import { setSecureStoreKey, getSecureStoreKey } from '../utils/expo-storage';
+import usersService from './users-service';
 
 const { MIXPANEL_TOKEN } = Constants.manifest.extra;
 
@@ -25,6 +28,8 @@ export const mixpanelEvents = {
   phoneVerified,
   pinSet,
   buttonPressed,
+  sessionStart,
+  sessionEnd,
   KYCStarted: () => mixpanelAnalytics.track('KYC Started', { email: userEmail }),
   // Wallet Events
   pressWalletCard: (coinShort) => mixpanelAnalytics.track('Pressed wallet card', { coin: coinShort.toUpperCase(), email: userEmail }),
@@ -32,7 +37,9 @@ export const mixpanelEvents = {
   confirmWithdraw: ({ amountUsd, amountCrypto, currency }) => mixpanelAnalytics.track('Withdraw complete', { amountUsd, amountCrypto, currency, email: userEmail }),
   // Other Events
   changeTab: (tab) => mixpanelAnalytics.track(`Changed tab to ${tab}`, { email: userEmail }),
-  openApp: () => mixpanelAnalytics.track('App opened', { email: userEmail }),
+  openApp: () => {
+    mixpanelAnalytics.track('App opened', { email: userEmail });
+  },
   navigation: (screenName) => mixpanelAnalytics.track(`Navigated to ${screenName}`, { email: userEmail }),
   estimationExplanation: () => mixpanelAnalytics.track('Pressed Loan Estimation explanation', { email: userEmail }),
 
@@ -186,5 +193,44 @@ async function buttonPressed(btnCopy, screen) {
     email: userEmail,
     "button text": btnCopy,
     "screen": screen
+  })
+}
+
+async function sessionStart() {
+  if (!userEmail) {
+    const personalInfoRes = await usersService.getPersonalInfo();
+    const user = personalInfoRes.data.profile || personalInfoRes.data;
+    await initMixpanelUser(user);
+  }
+  const dateNow = moment.utc(Date.now());
+  await setSecureStoreKey('SESSION_START', dateNow.toString())
+  let sessionEndTime = await getSecureStoreKey('SESSION_END');
+  if (!sessionEndTime) {
+    sessionEndTime = dateNow;
+  } else {
+    sessionEndTime = moment.utc(Date.parse(sessionEndTime));
+  }
+  const sessionInterval = dateNow.diff(sessionEndTime, 'minutes', true);
+  mixpanelAnalytics.track('Session started', {
+    email: userEmail,
+    "session interval": `${sessionInterval} minutes`,
+    timestamp: new Date()
+  })
+}
+
+async function sessionEnd() {
+  const dateNow = moment.utc(Date.now())
+  await setSecureStoreKey('SESSION_END', dateNow.toString())
+  let sessionStartTime = await getSecureStoreKey('SESSION_START');
+  if (!sessionStartTime) {
+    sessionStartTime = dateNow;
+  } else {
+    sessionStartTime = moment.utc(Date.parse(sessionStartTime));
+  }
+  const sessionDuration = dateNow.diff(sessionStartTime, 'minutes', true);
+  mixpanelAnalytics.track('Session ended', {
+    email: userEmail,
+    "session length": `${sessionDuration} minutes`,
+    timestamp: new Date()
   })
 }
