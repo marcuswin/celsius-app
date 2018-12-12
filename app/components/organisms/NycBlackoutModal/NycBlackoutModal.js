@@ -14,6 +14,8 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import testUtil from "../../../utils/test-util";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
@@ -22,7 +24,8 @@ import API from "../../../config/constants/API";
     openedModal: state.ui.openedModal,
     appSettings: state.users.appSettings,
     formErrors: state.ui.formErrors,
-    callsInProgress: state.api.callsInProgress
+    callsInProgress: state.api.callsInProgress,
+    kycRealStatus: state.users.user.kyc ? state.users.user.kyc.realStatus : null,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
@@ -197,7 +200,7 @@ class NycBlackoutModal extends Component {
   };
 
   render() {
-    const { user, openedModal, formData, formErrors, callsInProgress } = this.props;
+    const { user, openedModal, formData, formErrors, callsInProgress, kycRealStatus, actions } = this.props;
     const { initial, address, taxNo, finish } = this.state;
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
@@ -245,11 +248,23 @@ class NycBlackoutModal extends Component {
             <Text style={[NycBlackoutModalStyle.heading]}>{heading}</Text>
             <Text style={NycBlackoutModalStyle.explanation}>{additionalText}</Text>
           </View>
-          <CelButton
-            onPress={() => this.goToAddressInformationForm()}
-          >
-            Continue
-          </CelButton>
+          { kycRealStatus === "ico_passed" ?
+            <CelButton
+              ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
+              onPress={() => {
+                analyticsEvents.navigation('verifyProfile');
+                actions.navigateTo('ProfileDetails');
+                actions.closeModal();
+              }}
+            >
+              Verify profile
+            </CelButton>
+            : <CelButton
+              onPress={() => this.goToAddressInformationForm()}
+            >
+              Continue
+            </CelButton>
+          }
         </View>
         }
 

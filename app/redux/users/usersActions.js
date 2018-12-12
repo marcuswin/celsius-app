@@ -38,6 +38,7 @@ export {
   getTwoFactorSecret,
   enableTwoFactor,
   disableTwoFactor,
+  getIcoUsersProfileInfo,
 }
 
 function getProfileInfo() {
@@ -500,6 +501,29 @@ function updateUserAppSettings(appSettings) {
     } catch (err) {
       logger.log(err)
     }
+  }
+}
+
+function getIcoUsersProfileInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_ICO_USERS_INFO));
+
+    try {
+      const res = await usersService.getIcoPersonalInfo();
+      const personalInfo = res.data;
+      dispatch(getIcoUsersProfileInfoSuccess(personalInfo));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ICO_USERS_INFO, err));
+    }
+  }
+}
+
+function getIcoUsersProfileInfoSuccess(personalInfo) {
+  return {
+    type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
+    personalInfo,
+    callName: API.GET_ICO_USERS_INFO,
   }
 }
 

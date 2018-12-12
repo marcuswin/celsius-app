@@ -21,7 +21,8 @@ const usersService = {
   updateProfileAddressInfo,
   updateProfileTaxpayerInfo,
   setProfileImage,
-  addExpoPushToken
+  addExpoPushToken,
+  getIcoPersonalInfo
 };
 
 function register(user) {
@@ -164,6 +165,10 @@ async function addExpoPushToken(token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
     expo_push_token: token,
   });
+}
+
+function getIcoPersonalInfo() {
+  return axios.get(`${apiUrl}/me/kyc/ico_data`)
 }
 
 export default usersService;
