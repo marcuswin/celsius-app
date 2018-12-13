@@ -10,6 +10,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 import Separator from "../../atoms/Separator/Separator";
 import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
+import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
 
 
 @connect(
@@ -31,6 +32,13 @@ class Settings extends Component {
   // lifecycle methods
   // event hanlders
   // rendering methods
+  verificationCallback = (value) => {
+    const { actions } = this.props;
+
+    actions.navigateTo('TwoFaWelcome', {
+      pin: value
+    });
+  };
 
   render() {
     const {actions, user} = this.props;
@@ -72,7 +80,10 @@ class Settings extends Component {
        ) : null}
 
        <CelCustomButton
-         onPress={() => actions.navigateTo('TwoFAInfo')}
+         onPress={() => actions.navigateTo("VerifyIdentity", {
+           verificationType: VERIFY_IDENTITY_TYPES.PIN,
+           verificationCallback: this.verificationCallback,
+         })}
          iconRight={"IconChevronRight"}
          iconRightColor={'rgba(137,144,153,0.6)'}
          value={user.two_factor_enabled ? "ON" : "OFF"}
