@@ -4,19 +4,11 @@ import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
 export default function(spec) {
-  testSignupFlow(spec);
-  testLoginFlow(spec);
-  testKycFlow(spec);
-  // testSingleSuite(spec);
+  // testSignupFlow(spec);
+  // testLoginFlow(spec);
+  // testKycFlow(spec);
+  testSingleSuite(spec);
 }
-
-export function testSingleSuite(spec) {
-  spec.describe('Single test', () => {
-    spec.it('should got to NoKyc with pending screen when flow is successful', loginFlow.successfulFlow(spec))
-  })
-}
-
-
 
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
@@ -57,7 +49,7 @@ export function testSignupFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should go to Login screen when skip intro and login pressed', loginFlow.initFlow(spec))
+    spec.it('should go to NoKYC screen when all info is valid', loginFlow.loginSuccess(spec))
   })
 }
 
@@ -79,10 +71,6 @@ export function testLoginFlow(spec) {
     spec.it('should show error when user doesn\'t exist', loginFlow.errUserDoesNotExists(spec))
     spec.it('should go to NoKYC screen when all info is valid', loginFlow.loginSuccess(spec))
 
-    // LoginPasscode Screen
-    spec.it('check how this works', helpers.testFailed(spec))
-    // TODO: 2FA
-
     // ForgottenPassword screen
     spec.it('should show error message when not existing email is entered', loginFlow.forgottenPasswordErrWrongEmail(spec))
     spec.it('should show error message when wrong email format is entered', loginFlow.forgottenPasswordErrWrongEmailFormat(spec))
@@ -90,11 +78,6 @@ export function testLoginFlow(spec) {
   })
 }
 
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
 export function testKycFlow(spec) {
   spec.describe('KYC Flow', () => {
 

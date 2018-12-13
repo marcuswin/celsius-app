@@ -47,7 +47,7 @@ class SignupOne extends Component {
     }
 
     if (!_.isEmpty(formErrors)) {
-      actions.setFormErrors(formErrors);
+      actions.setFormErrors(formErrors); 
     }
   };
 

@@ -57,9 +57,8 @@ function initFlow(spec) {
     await spec.press('Welcome.skipButton')
     await spec.exists('SignupOne.screen')
 
-    await spec.press('SignupOne.loginButton')
+    await spec.press('MainHeader.RightLink')
     await spec.exists('Login.screen')
-    // dispatch(actions.navigateTo('Login'))
   }
 }
 
@@ -142,7 +141,7 @@ function errUserDoesNotExists(spec) {
     await resetTests(spec);
 		loginSetup()
 
-		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt11122313@mvpworkshop.co')
+		await spec.fillIn('CelTextInput.email', `filip.jovakaric${ new Date().getTime() }@mvpworkshop.co`)
     await spec.fillIn('CelTextInput.pass','filip1234')
     await spec.press('LoginForm.button')
 
@@ -159,12 +158,10 @@ function loginSuccess(spec) {
     await resetTests(spec);
 		loginSetup()
 
-		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
-    await spec.fillIn('CelTextInput.pass','filip123')
+		await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co' )
+    await spec.fillIn('CelTextInput.pass','Cel51u5!?')
 		await spec.press('LoginForm.button')
 
-		// await spec.pause(5000)
-    // await spec.exists('WalletLayout.home')
     await callToComplete(API.LOGIN_BORROWER)
     await spec.notExists('WalletBalance.screen')
 	}
