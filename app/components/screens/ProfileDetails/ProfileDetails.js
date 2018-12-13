@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import moment from 'moment';
 import _ from 'lodash';
-import testUtil from "../../../utils/test-util";
-
 
 import * as appActions from "../../../redux/actions";
 import { STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -17,6 +15,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -122,10 +121,10 @@ class ProfileDetails extends Component {
       })
     }
   }
+  
   // rendering methods
   render() {
     const { formData, callsInProgress, formErrors } = this.props;
-
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO], callsInProgress);
     return (
       <SimpleLayout
@@ -137,7 +136,7 @@ class ProfileDetails extends Component {
         </Text>
 
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
-          <CelSelect ref={testUtil.generateTestHook(this, `ProfileDetails.${formErrors.title}`)} error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
+          <CelSelect ref={testUtil.generateTestHook(this, `ProfileDetails.title`)} error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
           <CelInput value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
           <CelInput value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
           <CelInput value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
@@ -160,7 +159,7 @@ class ProfileDetails extends Component {
         </CelForm>
 
         <CelButton
-          ref={testUtil.generateTestHook(this, 'ProfileDetails.verifyYourProfile')}
+          ref={testUtil.generateTestHook(this, 'ProfileDetails.addYourAddress')}
           white
           onPress={this.submitForm}
           loading={isUpdatingProfileInfo}
@@ -171,6 +170,7 @@ class ProfileDetails extends Component {
           Add your Address
         </CelButton>
       </SimpleLayout>
+
     );
   }
 }

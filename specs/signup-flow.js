@@ -65,7 +65,6 @@ function disableWhenNoEmail(spec) {
     if (!btn.props.disabled) {
       throw new Error(`Signup Button enabled`);
     }
-
   }
 }
 

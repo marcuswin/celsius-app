@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Image, Linking, Text, View } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
@@ -11,6 +10,7 @@ import CelButton from "../../../components/atoms/CelButton/CelButton";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import testUtil from "../../../utils/test-util";
 import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(

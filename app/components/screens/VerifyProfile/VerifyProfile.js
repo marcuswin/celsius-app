@@ -122,6 +122,7 @@ class VerifyProfile extends Component {
 
     return (
       <SimpleLayout
+      ref={testUtil.generateTestHook(this, `VerifyProfile.home`)}
         animatedHeading={{ text: 'Verify Profile' }}
         background={STYLES.PRIMARY_BLUE}
       >
