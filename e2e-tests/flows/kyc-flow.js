@@ -1,6 +1,6 @@
 import store from '../../app/redux/store';
 import * as actions from '../../app/redux/actions';
-import { resetTests, containsText, findComponent, resetKycUser, callToComplete } from "../helpers";
+import { resetTests, containsText, findComponent, resetKycUser, resetNonKycUser, callToComplete } from "../helpers";
 import constants from "../constants";
 import ACTIONS from "../../app/config/constants/ACTIONS";
 import API from "../../app/config/constants/API";
@@ -70,68 +70,68 @@ function startKyc(spec) {
 	}
 }
 
-function successKYCflow(spec){
-	return async () => {	
+async function kycSetup(spec) {
 	await resetNonKycUser();
-
+	await resetTests(spec);
 	await dispatch(actions.loginBorrower({
 		email: 'testing+non_kyc_user@mvpworkshop.co',
 		password: 'Cel51u5!?',
 	}))
 	
+	await spec.exists('NoKyc.screen')
 	await spec.press('NoKyc.VerifyProfile')
+	
+	await spec.exists('ProfileDetails.screen')
+}
 
-	store.dispatch(actions.updateFormField('title', "mr" ));
-	store.dispatch(actions.updateFormField('month', "01" ));
-	store.dispatch(actions.updateFormField('day', "01" ));
-	store.dispatch(actions.updateFormField('year', "1994" ));
-	store.dispatch(actions.updateFormField('citizenship','Serbia'));
-	store.dispatch(actions.updateFormField('gender', 'male' ));
+function successKYCflow(spec){
+	return async () => {	
+		await kycSetup(spec)
 
-	await spec.press('ProfileDetails.addYourAddress')
-	await spec.exists('AddressInformation.home')
-
-	store.dispatch(actions.navigateTo('AddressInformation'))
+		// switch to fill
+		store.dispatch(actions.updateFormField('title', "mr" ));
+		store.dispatch(actions.updateFormField('month', "01" ));
+		store.dispatch(actions.updateFormField('day', "01" ));
+		store.dispatch(actions.updateFormField('year', "1994" ));
+		store.dispatch(actions.updateFormField('citizenship','Serbia'));
+		store.dispatch(actions.updateFormField('gender', 'male' ));
+		
+		await spec.press('ProfileDetails.addYourAddress')
+		await callToComplete(spec, API.UPDATE_USER_PERSONAL_INFO)
+		await spec.exists('AddressInformation.screen')
 				
-	store.dispatch(actions.updateFormField('country', 'Serbia'))
-	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-	store.dispatch(actions.updateFormField('zip','442'))
-	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+		// switch to fill
 
-	await spec.press('AddressInformation.yourTaxpayerID')
-				
-	await spec.exists('TaxpayerID.home')
+		store.dispatch(actions.updateFormField('country', 'Serbia'))
+		store.dispatch(actions.updateFormField('city','Novi Beograd'))
+		store.dispatch(actions.updateFormField('zip','442'))
+		store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
-	store.dispatch(actions.navigateTo('AddressInformation'))
+		await spec.press('AddressInformation.yourTaxpayerID')
+		await callToComplete(spec, API.UPDATE_USER_PERSONAL_INFO)
+		await spec.exists('TaxpayerID.home')
 
-	store.dispatch(actions.updateFormField('country', 'Serbia'))
-	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-	store.dispatch(actions.updateFormField('zip','442'))
-	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+		store.dispatch(actions.updateFormField('national_id','110319415136'))
 
-	await spec.press('AddressInformation.yourTaxpayerID')
+		await spec.press('TaxpayerID.verifyYourProfile')					
+					
+		await spec.exists('VerifyProfile.home')
 
-	store.dispatch(actions.updateFormField('national_id','110319415136'))
+		store.dispatch(actions.clearForm());
 
-	await spec.press('TaxpayerID.verifyYourProfile')					
-				
-	await spec.exists('VerifyProfile.home')
+		//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+		await spec.press('CameraInput.front')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+					
+		await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime()}`))
+		await spec.press('VerifyProfile.verify')
 
-	store.dispatch(actions.clearForm());
-	store.dispatch(actions.navigateTo('VerifyProfile'))
+		await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+		await spec.press('VerifyPhoneNumber.finish')
 
-	//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
-	await spec.press('CameraInput.front')
-  // await spec.press('CameraScreen.takePhoto')
-	await spec.press('CameraScreen.usePhoto')
-				
-	await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime()}`))
-	await spec.press('VerifyProfile.verify')
-
-	await spec.fillIn('VerifyPhoneNumber.sms', '1111')
-	await spec.press('VerifyPhoneNumber.finish')
-
-	await store.dispatch(actions.verifySMSSuccess());
+		await store.dispatch(actions.verifySMSSuccess());
 	}
 }
 
@@ -426,8 +426,10 @@ function profileDetailsFinish(spec){
 		function addressInfoValid(spec){
 			return async () => {
 				await resetKYC(spec);
+
 				store.dispatch(actions.navigateTo('AddressInformation'))
-				
+				await callToComplete(API.GET_USER_PERSONAL_INFO)
+
 				store.dispatch(actions.updateFormField('country', 'Serbia'))
 				store.dispatch(actions.updateFormField('city','Novi Beograd'))
 				store.dispatch(actions.updateFormField('zip','442'))

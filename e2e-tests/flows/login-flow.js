@@ -46,7 +46,7 @@ function successfulFlow(spec) {
 		await spec.press('LoginForm.button')
 
     await callToComplete(spec, API.LOGIN_BORROWER)
-    await spec.exists('WalletBalance.screen')
+    // await spec.exists('WalletBalance.screen')
   }
 }
 
@@ -72,6 +72,7 @@ function forgottenPassword(spec) {
     await resetTests(spec);
     loginSetup();
 
+    await spec.pause(2000)
     await spec.press('LoginScreen.forgotPassword')
     await spec.exists('ForgottenPassword.screen')
   }
@@ -157,7 +158,7 @@ function loginSuccess(spec) {
     await spec.fillIn('CelTextInput.pass','Cel51u5!?')
 		await spec.press('LoginForm.button')
 
-    await callToComplete(API.LOGIN_BORROWER)
+    await callToComplete(spec, API.LOGIN_BORROWER)
     await spec.exists('NoKyc.screen')
 	}
 }
@@ -175,7 +176,7 @@ function forgottenPasswordErrWrongEmail(spec) {
     await spec.fillIn('CelTextInput.email', 'notexisting@mvpworkshop.co' )
     await spec.press('ForgottenPassword.getResetLink')
     
-    await callToComplete(API.SEND_RESET_LINK)
+    await callToComplete(spec, API.SEND_RESET_LINK)
     const text = await spec.findComponent('Message.msg');
     await containsText(text, `Sorry, but it looks like this user doesn't exist.`);
   }
@@ -189,7 +190,7 @@ function forgottenPasswordErrWrongEmailFormat(spec) {
     await spec.fillIn('CelTextInput.email', 'filip.jovakap.co' )
     await spec.press('ForgottenPassword.getResetLink')
     
-    await callToComplete(API.SEND_RESET_LINK)
+    await callToComplete(spec, API.SEND_RESET_LINK)
     const text = await spec.findComponent('Message.msg');
     await containsText(text, `Oops, looks like you didn't enter something right.`);
   }

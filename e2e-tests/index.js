@@ -4,10 +4,10 @@ import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
 export default function(spec) {
-  // testSignupFlow(spec);
-  // testLoginFlow(spec);
+  testSignupFlow(spec);
+  testLoginFlow(spec);
   // testKycFlow(spec);
-  testSingleSuite(spec);
+  // testSingleSuite(spec);
 }
 
 export function testSignupFlow(spec) {
@@ -49,7 +49,7 @@ export function testSignupFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should go to NoKYC screen when all info is valid', loginFlow.loginSuccess(spec))
+    spec.it('should go to Login screen when forgot password pressed', loginFlow.forgottenPassword(spec))
   })
 }
 

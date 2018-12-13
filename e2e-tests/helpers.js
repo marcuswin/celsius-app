@@ -79,11 +79,11 @@ export async function containsText(component, text) {
 }
 
 export async function resetNonUser(){
-  return axios.get(API_URL + '/test/reset_non_user')
+  return axios.post(API_URL + '/test/reset_non_user')
 }
 
 export async function resetNonKycUser(){
-  return axios.get(API_URL + '/test/reset_non_kyc_user')
+  return axios.post(API_URL + '/test/reset_non_kyc_user')
 }
 
 export async function resetKycUser(){
