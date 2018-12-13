@@ -16,6 +16,8 @@ export function testSingleSuite(spec) {
   })
 }
 
+
+
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
 
@@ -53,6 +55,12 @@ export function testSignupFlow(spec) {
   })
 }
 
+export function testSingleSuite(spec) {
+  spec.describe('Single test', () => {
+    spec.it('should go to Login screen when skip intro and login pressed', loginFlow.initFlow(spec))
+  })
+}
+
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
 
@@ -82,6 +90,11 @@ export function testLoginFlow(spec) {
   })
 }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 export function testKycFlow(spec) {
   spec.describe('KYC Flow', () => {
 
