@@ -8,7 +8,8 @@ import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import Loader from "../../atoms/Loader/Loader";
 import EarnInterestLayout from "../../layouts/EarnInterestLayout/EarnInterestLayout";
-// import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
+import { MODALS } from "../../../config/constants/common";
+import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
 
 @connect(
   state => ({
@@ -26,6 +27,12 @@ class HowToEarnInterest extends Component {
 
   // event hanlders
   // rendering methods
+  openTodayRatesModal = () => {
+    const { actions } = this.props;
+
+    actions.openModal(MODALS.TODAY_RATES_MODAL);
+  };
+
   render() {
     const { interestRates } = this.props;
 
@@ -39,21 +46,22 @@ class HowToEarnInterest extends Component {
       <EarnInterestLayout>
         <View   ref={testUtil.generateTestHook(this, 'HowToEarnInterest.exist')}
                 style={{ paddingTop: 30 }}>
-          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
+          <Text style={[HowToEarnInterestStyle.todayRatesText, {marginBottom: 15}]} onPress={this.openTodayRatesModal}>Check out interest rates</Text>
+          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 15, marginBottom: 16 }]}>
             Earn up to 7% APR* on your deposits.
           </Text>
           <Text style={globalStyles.normalText}>
             All you have to do is deposit your assets and we’ll take care of the rest. Interest is distributed every Monday in the same collateral you deposited. Check out this week’s interest rates.
           </Text>
 
-          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
+          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 30, marginBottom: 16 }]}>
             How do we calculate the interest you earn?
           </Text>
-          <Text style={[globalStyles.normalText, { marginBottom: 15 }]}>
+          <Text style={[globalStyles.normalText, ]}>
             Our interest rates are based on market demand for the specific collateral. We are committed to guaranteeing interest rates at 3%APR or higher. Pretty good, huh?
           </Text>
 
-          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
+          <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 30, marginBottom: 16 }]}>
             Want to know more?
           </Text>
 
