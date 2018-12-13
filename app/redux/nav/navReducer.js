@@ -10,7 +10,6 @@ export default (state = initialState, action) => {
   const newState = AppNavigator.router.getStateForAction(action, state);
 
   switch (action.type) {
-    case ACTIONS.LOGOUT_USER:
     case ACTIONS.EXPIRE_SESSION:
       return initialState;
     default:

@@ -12,9 +12,11 @@ import transfers from './transfers/transfersReducer';
 import cameraRoll from './cameraRoll/cameraRollReducer';
 import loans from './loans/loansReducer';
 import apiKeys from './apiKeys/apiKeysReducer';
+import app from './app/appReducer';
+import ACTIONS from "../config/constants/ACTIONS";
 // NOTE(fj): plop reduxGen importing new Reducer here
 
-export default combineReducers({
+const appReducers = combineReducers({
   api,
   nav,
   users,
@@ -27,5 +29,16 @@ export default combineReducers({
   cameraRoll,
   loans,
   apiKeys,
+  app,
   // NOTE(fj): plop reduxGen inserting new Reducer here
-});
+})
+
+function rootReducer(state, action) {
+  let newState = state;
+  if (action.type === ACTIONS.RESET_APP) newState = undefined;
+  if (action.type === ACTIONS.LOGOUT_USER) newState = undefined;
+  return appReducers(newState, action)
+}
+
+export default rootReducer;
+

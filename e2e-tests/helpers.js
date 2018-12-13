@@ -1,11 +1,11 @@
 import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
-import { clearSecureStorage } from "../app/utils/expo-storage";
-
 import axios from "axios";
 import { Constants } from "expo";
-const {API_URL} = Constants.manifest.extra;
 
+import { clearSecureStorage } from "../app/utils/expo-storage";
+
+const {API_URL} = Constants.manifest.extra;
 const { dispatch, getState } = store;
 
 export default {
@@ -30,7 +30,8 @@ async function waitForWelcomeScreen(spec) {
       dispatch(actions.navigateTo('Welcome'))
       welcome = null
     }
-    console.log(`Try: ${ tryCount++ } | ${ activeScreen }`)
+    tryCount++
+    console.log(`Try: ${ tryCount } | ${ activeScreen }`)
     if (!welcome) await spec.pause(1000)
   }
 
@@ -38,17 +39,18 @@ async function waitForWelcomeScreen(spec) {
 }
 
 export async function resetTests(spec) {
-  await clearSecureStorage();
-  dispatch(actions.clearForm());
-  await dispatch(actions.logoutUser());
+  await dispatch(actions.resetApp());
   await waitForWelcomeScreen(spec);
 }
 
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
   let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
+  console.log(`Try: ${ tryCount } | ${ lastCompletedCall }`)
   while (lastCompletedCall.includes(callName) && tryCount < 20) {
-    console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
+    console.log(`Try: ${ tryCount } | ${ lastCompletedCall }`)
+    tryCount++
+    // tryCount++;
     await spec.pause(500)
     lastCompletedCall = getState().api.history[getState().api.history.length - 1];
   }

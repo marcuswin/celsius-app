@@ -119,11 +119,13 @@ class VerifyIdentity extends Component {
     const actionLabel = navigation && navigation.getParam("actionLabel") || label;
     const screenTitle = navigation && navigation.getParam("screenTitle") || title;
     const showHelp = navigation && navigation.getParam("showHelp") || help;
+    const showBackButton = navigation && typeof navigation.getParam("backButton") !== 'undefined' ? navigation.getParam("backButton") : backButton;
 
     return (
       <SimpleLayout
         mainHeader={{
-          backButton,
+          backButton: showBackButton,
+
         }}
         background={STYLES.PRIMARY_BLUE}>
         <View>

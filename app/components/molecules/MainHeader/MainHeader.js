@@ -72,7 +72,7 @@ class MainHeader2 extends Component {
 
     if (rightLink) {
       return (
-        <Button ref={testUtil.generateTestHook(this, `MainHeader.Login`)} transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
+        <Button ref={testUtil.generateTestHook(this, `MainHeader.RightLink`)} transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );

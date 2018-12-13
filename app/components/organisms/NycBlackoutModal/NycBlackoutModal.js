@@ -42,7 +42,6 @@ class NycBlackoutModal extends Component {
 
   componentDidMount = () => {
     this.initForm();
-    this.props.actions.getProfileInfo();
   };
 
   validateAddressInformationForm = () => {

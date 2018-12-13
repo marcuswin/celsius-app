@@ -198,9 +198,6 @@ export default (state = initialState, action) => {
         kycDocuments: action.documents,
       }
 
-    case ACTIONS.LOGOUT_USER:
-      return { ...initialState }
-
     case ACTIONS.UPDATE_USER_APP_SETTINGS:
       return {
         ...state,

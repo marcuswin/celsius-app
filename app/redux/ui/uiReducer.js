@@ -312,7 +312,6 @@ export default (state = initialState, action) => {
     case ACTIONS.NAVIGATE:
     case ACTIONS.NAVIGATION_RESET:
     case ACTIONS.REFRESH_BOTTOM_NAVIGATION:
-    case ACTIONS.LOGOUT_USER:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
