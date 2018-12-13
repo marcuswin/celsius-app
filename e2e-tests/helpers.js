@@ -30,7 +30,8 @@ async function waitForWelcomeScreen(spec) {
       dispatch(actions.navigateTo('Welcome'))
       welcome = null
     }
-    console.log(`Try: ${ tryCount++ } | ${ activeScreen }`)
+    // console.log(`Try: ${ tryCount++ } | ${ activeScreen }`)
+    tryCount++;
     if (!welcome) await spec.pause(1000)
   }
 
@@ -46,7 +47,8 @@ export async function callToComplete(spec, callName) {
   let tryCount = 1;
   let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
   while (lastCompletedCall.includes(callName) && tryCount < 20) {
-    console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
+    // console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
+    tryCount++;
     await spec.pause(500)
     lastCompletedCall = getState().api.history[getState().api.history.length - 1];
   }

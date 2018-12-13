@@ -90,8 +90,6 @@ class Message extends Component {
     // }
 
     if (!message.text) return null;
-
-    console.log(message.text)
     return (
       <Animated.View style={[containerStyles, {opacity}]}>
         <View style={MessageStyle.messageWrapper}>

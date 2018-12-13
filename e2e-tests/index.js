@@ -4,10 +4,10 @@ import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
 export default function(spec) {
-  // testLoginFlow(spec);
-  // testSignupFlow(spec);
-  // testKycFlow(spec);
-  testSingleSuite(spec);
+  testSignupFlow(spec);
+  testLoginFlow(spec);
+  testKycFlow(spec);
+  // testSingleSuite(spec);
 }
 
 export function testSignupFlow(spec) {
@@ -90,7 +90,7 @@ export function testKycFlow(spec) {
 
     // NoKYC screen
     // spec.it('should go to Profile details screen when verify profile is pressed', kycFlow.startKyc(spec))
-   
+
     // Profile details screen
     spec.it('should prepopulate first name and last name', kycFlow.profileDetails(spec))
     spec.it('should show error when no title', kycFlow.noTitle(spec))
