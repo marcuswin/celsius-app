@@ -1,4 +1,13 @@
+import { Constants } from 'expo'
+import { Platform } from 'react-native'
 import branchService from "../services/branch-service";
+
+const deviceId = Constants.deviceId || Constants.installationId
+const userData = {
+  os: Platform.OS === 'ios' ? 'iOS' : 'Android',
+  android_id: Platform.OS === 'android' ? deviceId : undefined,
+  idfv: Platform.OS === 'ios' ? deviceId : undefined,
+}
 
 export const branchEvents = {
   completeRegistration: (userId, method, referralLinkId) => {
@@ -9,9 +18,9 @@ export const branchEvents = {
     if (referralLinkId) {
       customData.referral_id = referralLinkId;
     }
-    branchService.createBranchEvent({ name: 'COMPLETE_REGISTRATION', user_data: { developer_identity: userId }, custom_data: customData })
+    branchService.createBranchEvent({ name: 'COMPLETE_REGISTRATION', user_data: { ...userData, developer_identity: userId }, custom_data: customData })
   },
-  achieveLevel: (userId, description) => branchService.createBranchEvent({ name: 'ACHIEVE_LEVEL', user_data: { developer_identity: userId }, content_items: [{ $og_description: description, description }] }),
+  achieveLevel: (userId, description) => branchService.createBranchEvent({ name: 'ACHIEVE_LEVEL', user_data: { ...userData, developer_identity: userId }, content_items: [{ $og_description: description, description }] }),
   addToCart: (userId, loanApplication) => branchService.createBranchEvent({
     name: 'ADD_TO_CART',
     user_data: { developer_identity: userId },
