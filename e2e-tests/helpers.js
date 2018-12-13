@@ -31,7 +31,7 @@ async function waitForWelcomeScreen(spec) {
       welcome = null
     }
     tryCount++
-    console.log(`Try: ${ tryCount } | ${ activeScreen }`)
+    // console.log(`Try: ${ tryCount } | ${ activeScreen }`)
     if (!welcome) await spec.pause(1000)
   }
 
@@ -46,9 +46,9 @@ export async function resetTests(spec) {
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
   let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
-  console.log(`Try: ${ tryCount } | ${ lastCompletedCall }`)
+  // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
   while (lastCompletedCall.includes(callName) && tryCount < 20) {
-    console.log(`Try: ${ tryCount } | ${ lastCompletedCall }`)
+    // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
     tryCount++
     // tryCount++;
     await spec.pause(500)

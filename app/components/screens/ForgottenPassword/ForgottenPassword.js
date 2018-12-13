@@ -42,6 +42,7 @@ class ForgottenPassword extends Component {
         mainHeader={{ backButton: true }}
         animatedHeading={{ text: 'Password forgotten' }}
         background={ STYLES.PRIMARY_BLUE }
+        ref={testUtil.generateTestHook(this, 'ForgottenPassword.screen')}
       >
         <Text style={Styles.description}>
           Enter the email address you used to sign in to Celsius.
@@ -50,6 +51,7 @@ class ForgottenPassword extends Component {
         <CelForm disabled={isLoading} margin="30 0 20 0">
           <CelInput
             labelText={'Email'}
+            testSelector={'CelTextInput.email'}
             keyboardType={KEYBOARD_TYPE.EMAIL}
             value={email}
             field="email"
