@@ -307,7 +307,7 @@ class NycBlackoutModal extends Component {
             <View>
               <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security Number</Text>
               <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn"
-                        labelText="Social Security Number (SSN)" autoCapitalize="sentences" type={"password"}/>
+                        labelText="SSN" autoCapitalize="sentences" type={"password"}/>
             </View>
             :
             <React.Fragment>

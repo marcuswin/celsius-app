@@ -25,7 +25,6 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
-import { KYC_STATUSES } from "../../../config/constants/common";
 
 
 const { revisionId } = Constants.manifest;
@@ -53,7 +52,6 @@ const ProfileDetailsStyle = StyleSheet.create({
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    kycRealStatus: KYC_STATUSES.ico_passed, // state.users.user.kyc ? state.users.user.kyc.realStatus : null,
     appSettings: state.users.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
