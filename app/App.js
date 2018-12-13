@@ -81,9 +81,14 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
+
+    const { user } = store.getState().users;
     const askForPinAfter = 25000
-    if ( nextAppState === 'active') {
+    if (nextAppState === 'active') {
       analyticsEvents.openApp();
+      if (user) {
+        analyticsEvents.sessionStart();
+      }
       if (Platform.OS === "ios") {
         clearTimeout(this.timeout)
       } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
@@ -92,18 +97,18 @@ export default class App extends Component {
       }
     }
 
-    const { user } = store.getState().users;
     if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-        if (Platform.OS === "ios") {
-          this.timeout = setTimeout(() => {
-            store.dispatch(actions.navigateTo("LoginPasscode"));
-            clearTimeout(this.timeout)
-          }, askForPinAfter)
-        } else {
-          startOfBackgroundTimer = new Date().getTime();
-        }
+      analyticsEvents.sessionEnd();
+      if (Platform.OS === "ios") {
+        this.timeout = setTimeout(() => {
+          store.dispatch(actions.navigateTo("LoginPasscode"));
+          clearTimeout(this.timeout)
+        }, askForPinAfter)
+      } else {
+        startOfBackgroundTimer = new Date().getTime();
+      }
     }
-    this.setState({appState: nextAppState});
+    this.setState({ appState: nextAppState });
   };
 
   render() {
@@ -129,7 +134,7 @@ export default class App extends Component {
 
     return (
       <Provider store={store}>
-        <MainLayout/>
+        <MainLayout />
       </Provider>
     );
   }

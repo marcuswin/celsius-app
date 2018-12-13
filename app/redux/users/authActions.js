@@ -59,6 +59,7 @@ function loginUser({ email, password }) {
 }
 
 function loginUserSuccess(data) {
+  analyticsEvents.sessionStart();
   return {
     type: ACTIONS.LOGIN_USER_SUCCESS,
     callName: API.LOGIN_USER,
@@ -96,6 +97,7 @@ function loginBorrower({ email, password }) {
 }
 
 function loginBorrowerSuccess(data) {
+  analyticsEvents.sessionStart();
   return {
     type: ACTIONS.LOGIN_BORROWER_SUCCESS,
     callName: API.LOGIN_BORROWER,
@@ -160,6 +162,7 @@ function registerUser(user) {
 function registerUserSuccess(data) {
   // register user on mixpanel
   registerMixpanelUser(data.user);
+  analyticsEvents.sessionStart();
 
   return {
     type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -227,6 +230,7 @@ function loginTwitter(user) {
 }
 
 function loginUserTwitterSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
@@ -296,6 +300,7 @@ function loginFacebook(user) {
 }
 
 function loginUserFacebookSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
@@ -363,6 +368,7 @@ function loginGoogle(user) {
 }
 
 function loginUserGoogleSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,
@@ -451,6 +457,7 @@ function logoutUser() {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      await analyticsEvents.sessionEnd();
       logoutMixpanelUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
 

@@ -78,7 +78,7 @@ export function testLoginFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should show error when no citizenship', kycFlow.noCitizenship(spec))
+    spec.it('should got to NoKyc with pending screen when flow is successful', kycFlow.successKYCflow(spec))
   })
 }
 
@@ -86,13 +86,13 @@ export function testKycFlow(spec) {
   spec.describe('KYC Flow', () => {
 
     // Successful flow
-    // spec.it('should got to NoKyc with pending screen when flow is successful', tes)
+    spec.it('should got to NoKyc with pending screen when flow is successful', kycFlow.successKYCflow(spec))
 
     // NoKYC screen
-    // spec.it('should go to Profile details screen when verify profile is pressed', kycFlow.startKyc(spec))
+    spec.it('should go to Profile details screen when verify profile is pressed', kycFlow.startKyc(spec))
 
     // Profile details screen
-    spec.it('should prepopulate first name and last name', kycFlow.profileDetails(spec))
+    spec.it('should prepopulate first name and last name', kycFlow.prepopulateFirstAndLastName(spec))
     spec.it('should show error when no title', kycFlow.noTitle(spec))
     spec.it('should show error when no first name', kycFlow.noFirstName(spec))
     spec.it('should show error when no last name', kycFlow.noLastName(spec))
@@ -111,14 +111,14 @@ export function testKycFlow(spec) {
     spec.it('should go to taxpayer ID screen when all info filled', kycFlow.addressInfoValid(spec))
 
     // // Taxpayer ID Screen
-    // spec.it('should have mandatory SSN input if country is USA', kycFlow.noDateOfBirth(spec))
-    // spec.it('should not have mandatory SSN input if country is not USA', kycFlow.noDateOfBirth(spec))
+    spec.it('should throw error when no SSN input', kycFlow.TaxpayerIDNoSSN(spec))
+    spec.it('should throw error when SSN input is invalid', kycFlow.TaxpayerIDInvalidSSN(spec))
+    spec.it('should go to Verify profile when SSN is valid', kycFlow.TaxpayerIDValidSSN(spec))
     spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
 
-    // // VerifyDocuments Screen
-    spec.it('should take front and back picture of ID card', kycFlow.takeFrontAndBackPictureofID(spec))
-    // spec.it('should retake picture of driving licence', kycFlow.drivingLicencePicutre(spec))
-    // spec.it('should retake picture of passport', kycFlow.passportPicture(spec))
-    // spec.it('should retake picture of driving licence', kycFlow.finishKycFlow(spec))
+    // // Verify Documents Screen
+    spec.it('should take front picture of passport and finish KYC', kycFlow.takePassportPicture(spec))
+    spec.it('should take picture of driving licence', kycFlow.takeFrontAndBackofDrivingLicence(spec))
+    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
   })
 }

@@ -53,6 +53,9 @@ export function appInitStart() {
         await initAppUserSettings();
         await initBranch();
         analyticsEvents.openApp();
+        if (getState().users.user) {
+          analyticsEvents.sessionStart();
+        }
 
         dispatch({ type: ACTIONS.APP_INIT_DONE });
       }
