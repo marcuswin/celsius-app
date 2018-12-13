@@ -77,7 +77,7 @@ class WalletBalance extends Component {
     );
 
     return (
-      <WalletLayout ref={testUtil.generateTestHook(this, `WalletBalance.screen`)}>
+      <WalletLayout ref={testUtil.generateTestHook(this, 'WalletBalance.screen')}>
         {(!!totalInterestEarned) && <Card style={{marginTop: 15}}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>

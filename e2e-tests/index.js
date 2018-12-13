@@ -10,6 +10,12 @@ export default function(spec) {
   // testSingleSuite(spec);
 }
 
+export function testSingleSuite(spec) {
+  spec.describe('Single test', () => {
+    spec.it('should got to NoKyc with pending screen when flow is successful', loginFlow.successfulFlow(spec))
+  })
+}
+
 export function testSignupFlow(spec) {
   spec.describe('Signup Flow', () => {
 
@@ -73,12 +79,6 @@ export function testLoginFlow(spec) {
     spec.it('should show error message when not existing email is entered', loginFlow.forgottenPasswordErrWrongEmail(spec))
     spec.it('should show error message when wrong email format is entered', loginFlow.forgottenPasswordErrWrongEmailFormat(spec))
     spec.it('should show info message when existing email is entered', loginFlow.forgottenPasswordSuccessMsg(spec))
-  })
-}
-
-export function testSingleSuite(spec) {
-  spec.describe('Single test', () => {
-    spec.it('should got to NoKyc with pending screen when flow is successful', kycFlow.successKYCflow(spec))
   })
 }
 

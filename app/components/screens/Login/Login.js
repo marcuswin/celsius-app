@@ -79,6 +79,7 @@ class LoginScreen extends Component {
         mainHeader={{ backButton: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
         animatedHeading={{ text: 'Welcome Back!' }}
         background={STYLES.PRIMARY_BLUE}
+        ref={testUtil.generateTestHook(this, 'Login.screen')}
       >
 
         <Text style={LoginStyle.description}>

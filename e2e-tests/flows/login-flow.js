@@ -13,7 +13,7 @@ export default {
 
   // Welcome screen
   initFlow,
-  
+
   // Login screen
   forgottenPassword,
   disableWhenNoLoginData,
@@ -34,22 +34,19 @@ export default {
 function successfulFlow(spec) {
   return async () => {
     await resetTests(spec);
-    // loginSetup();
 
     await spec.press('Welcome.skipButton')
-    dispatch(actions.navigateTo('Login'))
+    await spec.exists('SignupOne.screen')
+
+    await spec.press('MainHeader.RightLink')
+    await spec.exists('Login.screen')
 
     await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
     await spec.fillIn('CelTextInput.pass','filip123')
 		await spec.press('LoginForm.button')
 
-    // await spec.pause(5000)
-    await callToComplete(API.LOGIN_BORROWER)
-
-    // await spec.exists('WalletLayout.home')
+    await callToComplete(spec, API.LOGIN_BORROWER)
     await spec.exists('WalletBalance.screen')
-    
-    // await spec.press('TodayRatesModal.popUP')
   }
 }
 
@@ -72,7 +69,7 @@ function forgottenPassword(spec) {
     loginSetup();
 
     await spec.press('LoginScreen.forgotPassword')
-    await spec.exists('ForgottenPassword.getResetLink')  
+    await spec.exists('ForgottenPassword.getResetLink')
   }
 }
 
@@ -81,7 +78,7 @@ export function loginSetup() {
 }
 
 function disableWhenNoLoginData(spec) {
-  return async () => {	
+  return async () => {
     await resetTests(spec);
     await loginSetup()
 
@@ -94,8 +91,8 @@ function disableWhenNoLoginData(spec) {
 
 function disableWhenNoEmail(spec) {
 	return async () => {
-    await resetTests(spec);		
-    await loginSetup() 
+    await resetTests(spec);
+    await loginSetup()
 
 		// await spec.pause(3000)
     await spec.fillIn('CelTextInput.pass','filip123')
@@ -110,7 +107,7 @@ function disableWhenNoEmail(spec) {
 function disableWhenNoPassword(spec) {
 	return async () => {
     await resetTests(spec);
-		loginSetup() 
+		loginSetup()
 
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
 
@@ -124,8 +121,8 @@ function disableWhenNoPassword(spec) {
 
 function errWhenWrongCredentials(spec) {
 	return async () => {
-    await resetTests(spec); 
-		loginSetup() 
+    await resetTests(spec);
+		loginSetup()
 
 		// await spec.pause(9000)
     await spec.fillIn('CelTextInput.pass','filip1234')
@@ -143,7 +140,7 @@ function errWhenWrongCredentials(spec) {
 function errUserDoesNotExists(spec) {
 	return async () => {
     await resetTests(spec);
-		loginSetup() 
+		loginSetup()
 
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt11122313@mvpworkshop.co')
     await spec.fillIn('CelTextInput.pass','filip1234')
@@ -157,10 +154,10 @@ function errUserDoesNotExists(spec) {
 	}
 }
 
-function loginSuccess(spec) { 
+function loginSuccess(spec) {
 	return async () => {
     await resetTests(spec);
-		loginSetup() 
+		loginSetup()
 
 		await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
     await spec.fillIn('CelTextInput.pass','filip123')

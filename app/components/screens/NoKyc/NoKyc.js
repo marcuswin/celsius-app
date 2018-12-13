@@ -15,8 +15,8 @@ import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
-    kycStatus: state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
-    kycErrors: state.users.user.kyc ? state.users.user.kyc.errors : [],
+    kycStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
+    kycErrors: state.users.user && state.users.user.kyc ? state.users.user.kyc.errors : [],
     activeScreen: state.nav.routes[state.nav.index].routeName,
     user: state.users.user,
     allTransfers: state.transfers.transfers,
