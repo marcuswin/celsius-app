@@ -53,41 +53,34 @@ export default {
 }
 
 async function resetKYC(spec){
-	// await resetKycUser();
-	// await resetTests(spec);
-	await dispatch(actions.loginUser({
-		email: 'testing+non_kyc_user@mvpworkshop.co',
-		password: 'Cel51u5!?',
-	}))
-	resetNonKycUser(spec);
-}
-
-function startKyc(spec) {
-  return async () => {
-		await resetTests(spec);
-
-		await dispatch(actions.navigateTo('Home'))
-		await spec.press('NoKyc.VerifyProfile')
-	}
-}
-
-async function kycSetup(spec) {
-	await resetNonKycUser();
+	await resetNonKycUser(spec);
 	await resetTests(spec);
-	await dispatch(actions.loginUser({
+	await dispatch(actions.loginBorrower({
 		email: 'testing+non_kyc_user@mvpworkshop.co',
 		password: 'Cel51u5!?',
 	}))
-	
 	await spec.exists('NoKyc.screen')
 	await spec.press('NoKyc.VerifyProfile')
-	
 	await spec.exists('ProfileDetails.screen')
 }
 
+// async function kycSetup(spec) {
+// 	await resetNonKycUser();
+// 	await resetTests(spec);
+// 	await dispatch(actions.loginUser({
+// 		email: 'testing+non_kyc_user@mvpworkshop.co',
+// 		password: 'Cel51u5!?',
+// 	}))
+	
+// 	await spec.exists('NoKyc.screen')
+// 	await spec.press('NoKyc.VerifyProfile')
+	
+// 	await spec.exists('ProfileDetails.screen')
+// }
+
 function successKYCflow(spec){
 	return async () => {	
-		await kycSetup(spec)
+		await resetKYC(spec)
 
 		// switch to fill
 		store.dispatch(actions.updateFormField('title', "mr" ));
@@ -102,21 +95,20 @@ function successKYCflow(spec){
 		await spec.exists('AddressInformation.screen')
 				
 		// switch to fill
-
 		store.dispatch(actions.updateFormField('country', 'Serbia'))
 		store.dispatch(actions.updateFormField('city','Novi Beograd'))
 		store.dispatch(actions.updateFormField('zip','442'))
 		store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 		await spec.press('AddressInformation.yourTaxpayerID')
-		await callToComplete(spec, API.UPDATE_USER_PERSONAL_INFO)
+		await callToComplete(spec, API.UPDATE_USER_ADDRESS_INFO)
 		await spec.exists('TaxpayerID.home')
 
 		store.dispatch(actions.updateFormField('national_id','110319415136'))
-
 		await spec.press('TaxpayerID.verifyYourProfile')					
-					
-		await spec.exists('VerifyProfile.home')
+		
+		await callToComplete(spec, API.UPDATE_USER_TAXPAYER_INFO)
+		await spec.exists('VerifyProfile.screen')
 
 		store.dispatch(actions.clearForm());
 
@@ -129,10 +121,20 @@ function successKYCflow(spec){
 		await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime()}`))
 		await spec.press('VerifyProfile.verify')
 
+		await callToComplete(spec, API.SEND_VERIFICATION_SMS)
 		await spec.fillIn('VerifyPhoneNumber.sms', '1111')
 		await spec.press('VerifyPhoneNumber.finish')
 
 		await store.dispatch(actions.verifySMSSuccess());
+	}
+}
+
+function startKyc(spec) {
+  return async () => {
+		await resetKYC(spec);
+
+		await dispatch(actions.navigateTo('Home'))
+		await spec.press('NoKyc.VerifyProfile')
 	}
 }
 
@@ -231,14 +233,14 @@ function noDateOfBirth(spec){
 		store.dispatch(actions.clearForm());
 
 		await spec.pause(2000)
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('firstName', "David" ));
-		store.dispatch(actions.updateFormField('lastName', "David" ));
+		await store.dispatch(actions.updateFormField('title', "mr" ));
+		await store.dispatch(actions.updateFormField('firstName', "David" ));
+		await store.dispatch(actions.updateFormField('lastName', "David" ));
 		await store.dispatch(actions.updateFormField('month', "" ));
 		await store.dispatch(actions.updateFormField('day', "" ));
 		await store.dispatch(actions.updateFormField('year', "" ));
-		store.dispatch(actions.updateFormField('citizenship',"Serbia"));
-		store.dispatch(actions.updateFormField('gender', "male" ));
+		await store.dispatch(actions.updateFormField('citizenship',"Serbia"));
+		await store.dispatch(actions.updateFormField('gender', "male" ));
 
 		await spec.press('ProfileDetails.addYourAddress')
 
@@ -256,12 +258,12 @@ function underAge(spec){
 
 		await spec.press('NoKyc.VerifyProfile')
 
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "2004" ));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
+		await store.dispatch(actions.updateFormField('title', "mr" ));
+		await store.dispatch(actions.updateFormField('citizenship','Serbia'));
+		await store.dispatch(actions.updateFormField('month', "01" ));
+		await store.dispatch(actions.updateFormField('day', "01" ));
+		await store.dispatch(actions.updateFormField('year', "2004" ));
+		await store.dispatch(actions.updateFormField('gender', 'male' ));
 		
 		await spec.press('ProfileDetails.addYourAddress')
 		
@@ -279,13 +281,13 @@ function noCitizenship(spec){
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		await store.dispatch(actions.clearForm());
 		
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('firstName', "David" ));
-		store.dispatch(actions.updateFormField('lastName', "David" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
+		await store.dispatch(actions.updateFormField('title', "mr" ));
+		await store.dispatch(actions.updateFormField('firstName', "David" ));
+		await store.dispatch(actions.updateFormField('lastName', "David" ));
+		await store.dispatch(actions.updateFormField('month', "01" ));
+		await store.dispatch(actions.updateFormField('day', "01" ));
+		await store.dispatch(actions.updateFormField('year', "1994" ));
+		await	store.dispatch(actions.updateFormField('gender', 'male' ));
 	
 		await spec.press('ProfileDetails.addYourAddress')
 		
@@ -303,13 +305,13 @@ function noGender(spec){
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		store.dispatch(actions.clearForm());
 		
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('firstName', "David" ));
-		store.dispatch(actions.updateFormField('lastName', "David" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
+		await	store.dispatch(actions.updateFormField('title', "mr" ));
+		await	store.dispatch(actions.updateFormField('firstName', "David" ));
+		await	store.dispatch(actions.updateFormField('lastName', "David" ));
+		await	store.dispatch(actions.updateFormField('month', "01" ));
+		await	store.dispatch(actions.updateFormField('day', "01" ));
+		await	store.dispatch(actions.updateFormField('year', "1994" ));
+		await	store.dispatch(actions.updateFormField('citizenship','Serbia'));
 	
 		await spec.press('ProfileDetails.addYourAddress')
 		
@@ -325,15 +327,15 @@ function profileDetailsFinish(spec){
 
 		await spec.press('NoKyc.VerifyProfile')
 
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
+		await	store.dispatch(actions.updateFormField('title', "mr" ));
+		await	store.dispatch(actions.updateFormField('month', "01" ));
+		await	store.dispatch(actions.updateFormField('day', "01" ));
+		await	store.dispatch(actions.updateFormField('year', "1994" ));
+		await	store.dispatch(actions.updateFormField('citizenship','Serbia'));
+		await	store.dispatch(actions.updateFormField('gender', 'male' ));
 	
 		await spec.press('ProfileDetails.addYourAddress')
-		await spec.exists('AddressInformation.home')
+		await spec.exists('AddressInformation.screen')
 	}
 }
 
@@ -352,9 +354,11 @@ function profileDetailsFinish(spec){
 		function stateFieldExistsIfUSA(spec){
 			return async () => {
 				await resetKYC(spec);
-
-				store.dispatch(actions.navigateTo('AddressInformation'))
-				store.dispatch(actions.updateFormField('country', 'United States'))
+				
+				await store.dispatch(actions.navigateTo('AddressInformation'))
+				await store.dispatch(actions.clearForm());
+				await store.dispatch(actions.updateFormField('country', 'United States'))
+				await spec.pause(2000)
 				await spec.exists('AddressInformation.state')
 				
 			}
@@ -368,10 +372,10 @@ function profileDetailsFinish(spec){
 				await callToComplete(API.GET_USER_PERSONAL_INFO)
 				await store.dispatch(actions.clearForm());
 
-				store.dispatch(actions.updateFormField('country', 'Serbia'))
-				store.dispatch(actions.updateFormField('zip','442'))
+				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
+				await	store.dispatch(actions.updateFormField('zip','442'))
 				await store.dispatch(actions.updateFormField('city',''))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 
@@ -389,10 +393,10 @@ function profileDetailsFinish(spec){
 				await callToComplete(API.GET_USER_PERSONAL_INFO)
 				await store.dispatch(actions.clearForm());
 
-				store.dispatch(actions.updateFormField('country', 'Serbia'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip',''))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
+				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await	store.dispatch(actions.updateFormField('zip',''))
+				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 
@@ -411,10 +415,10 @@ function profileDetailsFinish(spec){
 				await callToComplete(API.GET_USER_PERSONAL_INFO)
 				await store.dispatch(actions.clearForm());
 
-				store.dispatch(actions.updateFormField('country', 'Serbia'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street',''))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
+				await	store.dispatch(actions.updateFormField('zip','442'))
+				await	store.dispatch(actions.updateFormField('street',''))
+				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 				
@@ -431,10 +435,10 @@ function profileDetailsFinish(spec){
 				store.dispatch(actions.navigateTo('AddressInformation'))
 				await callToComplete(API.GET_USER_PERSONAL_INFO)
 
-				store.dispatch(actions.updateFormField('country', 'Serbia'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
+				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await	store.dispatch(actions.updateFormField('zip','442'))
+				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 				
@@ -449,10 +453,10 @@ function profileDetailsFinish(spec){
 				await resetKYC(spec);
 				store.dispatch(actions.navigateTo('AddressInformation'))
 
-				store.dispatch(actions.updateFormField('country', 'United States'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await	store.dispatch(actions.updateFormField('country', 'United States'))
+				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await	store.dispatch(actions.updateFormField('zip','442'))
+				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 			
@@ -471,14 +475,14 @@ function profileDetailsFinish(spec){
 				await resetKYC(spec);
 				store.dispatch(actions.navigateTo('AddressInformation'))
 
-				store.dispatch(actions.updateFormField('country', 'United States'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await	store.dispatch(actions.updateFormField('country', 'United States'))
+				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await	store.dispatch(actions.updateFormField('zip','442'))
+				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 			
-				store.dispatch(actions.updateFormField('ssn','110319415136'))
+				await store.dispatch(actions.updateFormField('ssn','110319415136'))
 
 				await spec.press('TaxpayerID.verifyYourProfile')					
 			
@@ -491,16 +495,16 @@ function profileDetailsFinish(spec){
 		function TaxpayerIDValidSSN(spec){
 			return async () => {
 				await resetKYC(spec);
-				store.dispatch(actions.navigateTo('AddressInformation'))
+				await store.dispatch(actions.navigateTo('AddressInformation'))
 
-				store.dispatch(actions.updateFormField('country', 'United States'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await store.dispatch(actions.updateFormField('country', 'United States'))
+				await store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await store.dispatch(actions.updateFormField('zip','442'))
+				await store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 			
-				store.dispatch(actions.updateFormField('ssn','110-31-9415'))
+				await store.dispatch(actions.updateFormField('ssn','110-31-9415'))
 
 				await spec.press('TaxpayerID.verifyYourProfile')					
 				
@@ -511,16 +515,16 @@ function profileDetailsFinish(spec){
 		function TaxpayerIDSuccess(spec){
 			return async () => {
 				await resetKYC(spec);
-				store.dispatch(actions.navigateTo('AddressInformation'))
+				await store.dispatch(actions.navigateTo('AddressInformation'))
 
-				store.dispatch(actions.updateFormField('country', 'Serbia'))
-				store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				store.dispatch(actions.updateFormField('zip','442'))
-				store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+				await store.dispatch(actions.updateFormField('country', 'Serbia'))
+				await store.dispatch(actions.updateFormField('city','Novi Beograd'))
+				await store.dispatch(actions.updateFormField('zip','442'))
+				await store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
 
 				await spec.press('AddressInformation.yourTaxpayerID')
 
-				store.dispatch(actions.updateFormField('national_id','110319415136'))
+				await store.dispatch(actions.updateFormField('national_id','110319415136'))
 
 				await spec.press('TaxpayerID.verifyYourProfile')					
 				
@@ -535,22 +539,22 @@ function profileDetailsFinish(spec){
 			return async () => {
 				await resetKYC(spec);
 
-				store.dispatch(actions.clearForm());
-				store.dispatch(actions.navigateTo('VerifyProfile'))
+				await store.dispatch(actions.clearForm());
+				await store.dispatch(actions.navigateTo('VerifyProfile'))
 
 				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
 				await spec.press('CameraInput.front')
     		// await spec.press('CameraScreen.takePhoto')
 				await spec.press('CameraScreen.usePhoto')
 				
-				await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
+				await await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
 				await spec.press('VerifyProfile.verify')
 
 
   			await spec.fillIn('VerifyPhoneNumber.sms', '1111')
 				await spec.press('VerifyPhoneNumber.finish')
 
-				await store.dispatch(actions.verifySMSSuccess());
+				await await store.dispatch(actions.verifySMSSuccess());
 			}
 		}
 
@@ -558,7 +562,7 @@ function profileDetailsFinish(spec){
 			return async () => {
 				await resetKYC(spec);
 
-				store.dispatch(actions.navigateTo('VerifyProfile'))
+				await store.dispatch(actions.navigateTo('VerifyProfile'))
 
 				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
 				await spec.press('VerifyProfile.driving_licence')
@@ -579,7 +583,7 @@ function profileDetailsFinish(spec){
 			return async () => {
 				await resetKYC(spec);
 
-				store.dispatch(actions.navigateTo('VerifyProfile'))
+				await store.dispatch(actions.navigateTo('VerifyProfile'))
 
 				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
 				await spec.press('VerifyProfile.identity_card')

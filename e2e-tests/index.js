@@ -47,12 +47,6 @@ export function testSignupFlow(spec) {
   })
 }
 
-export function testSingleSuite(spec) {
-  spec.describe('Single test', () => {
-    spec.it('should go to Login screen when forgot password pressed', loginFlow.forgottenPassword(spec))
-  })
-}
-
 export function testLoginFlow(spec) {
   spec.describe('Login Flow', () => {
 
@@ -75,6 +69,12 @@ export function testLoginFlow(spec) {
     spec.it('should show error message when not existing email is entered', loginFlow.forgottenPasswordErrWrongEmail(spec))
     spec.it('should show error message when wrong email format is entered', loginFlow.forgottenPasswordErrWrongEmailFormat(spec))
     spec.it('should show info message when existing email is entered', loginFlow.forgottenPasswordSuccessMsg(spec))
+  })
+}
+
+export function testSingleSuite(spec) {
+  spec.describe('Single test', () => {
+    spec.it('should show state if country is USA', kycFlow.stateFieldExistsIfUSA(spec))
   })
 }
 
