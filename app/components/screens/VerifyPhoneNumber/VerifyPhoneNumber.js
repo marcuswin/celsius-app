@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {Image} from 'react-native';
-import {View, Text} from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { Image } from 'react-native';
+import { View, Text } from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import VerifyPhoneNumberStyle from "./VerifyPhoneNumber.styles";
 import SimpleLayout from "../../../components/layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../../components/atoms/CelButton/CelButton";
@@ -52,26 +52,27 @@ class VerifyPhoneNumber extends Component {
 
     return (
       <SimpleLayout
-        animatedHeading={{ text : ''}}
+        ref={testUtil.generateTestHook(this, `VerifyPhoneNumber.screen`)}
+        animatedHeading={{ text: '' }}
         background={STYLES.PRIMARY_BLUE}
       >
         <View>
           <Text style={VerifyPhoneNumberStyle.title}>
             Verify phone number
           </Text>
-          <Image source={require('../../../../assets/images/phone_doggirl3x.png')} style={VerifyPhoneNumberStyle.image}/>
+          <Image source={require('../../../../assets/images/phone_doggirl3x.png')} style={VerifyPhoneNumberStyle.image} />
           <Text style={VerifyPhoneNumberStyle.text}>
             Phone number enables you 2-factor authentication. Please enter the SMS code we've sent you.
           </Text>
           <CelForm disabled={isLoading}>
             <CelInput testSelector={`VerifyPhoneNumber.sms`}
-                      {...this.props}
-                      type="pin"
-                      field="verificationCode"
-                      value={pinValue}
-                      showDigits
-                      digits={4}
-                      onChange={this.onChange}/>
+              {...this.props}
+              type="pin"
+              field="verificationCode"
+              value={pinValue}
+              showDigits
+              digits={4}
+              onChange={this.onChange} />
           </CelForm>
           <CelButton
             ref={testUtil.generateTestHook(this, 'VerifyPhoneNumber.finish')}

@@ -7,28 +7,28 @@ import API from "../../app/config/constants/API";
 import NoKyc from '../../app/components/screens/NoKyc/NoKyc';
 import AddressInformation from '../../app/components/screens/AddressInformation/AddressInformation';
 import VerifyProfile from '../../app/components/screens/VerifyProfile/VerifyProfile';
- 
+
 
 const { dispatch } = store;
 
 export default {
 	// Successful Flow 
-  // successfulFlow,
+	// successfulFlow,
 
 	// NoKYC screen
 	resetKYC,
 	startKyc,
 	successKYCflow,
-	
+
 	// Profile details screen
 	prepopulateFirstAndLastName,
-	noTitle,	
+	noTitle,
 	noFirstName,
 	noLastName,
 	noDateOfBirth,
-	underAge,	
+	underAge,
 	noCitizenship,
-	noGender, 
+	noGender,
 	profileDetailsFinish,
 
 	// Address information screen
@@ -52,7 +52,7 @@ export default {
 
 }
 
-async function resetKYC(spec){
+async function resetKYC(spec) {
 	await resetNonKycUser(spec);
 	await resetTests(spec);
 	await dispatch(actions.loginBorrower({
@@ -64,49 +64,35 @@ async function resetKYC(spec){
 	await spec.exists('ProfileDetails.screen')
 }
 
-// async function kycSetup(spec) {
-// 	await resetNonKycUser();
-// 	await resetTests(spec);
-// 	await dispatch(actions.loginUser({
-// 		email: 'testing+non_kyc_user@mvpworkshop.co',
-// 		password: 'Cel51u5!?',
-// 	}))
-	
-// 	await spec.exists('NoKyc.screen')
-// 	await spec.press('NoKyc.VerifyProfile')
-	
-// 	await spec.exists('ProfileDetails.screen')
-// }
-
-function successKYCflow(spec){
-	return async () => {	
+function successKYCflow(spec) {
+	return async () => {
 		await resetKYC(spec)
 
 		// switch to fill
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
-		
+		store.dispatch(actions.updateFormField('title', "mr"));
+		store.dispatch(actions.updateFormField('month', "01"));
+		store.dispatch(actions.updateFormField('day', "01"));
+		store.dispatch(actions.updateFormField('year', "1994"));
+		store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
 		await callToComplete(spec, API.UPDATE_USER_PERSONAL_INFO)
 		await spec.exists('AddressInformation.screen')
-				
+
 		// switch to fill
 		store.dispatch(actions.updateFormField('country', 'Serbia'))
-		store.dispatch(actions.updateFormField('city','Novi Beograd'))
-		store.dispatch(actions.updateFormField('zip','442'))
-		store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+		store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		store.dispatch(actions.updateFormField('zip', '442'))
+		store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
 
 		await spec.press('AddressInformation.yourTaxpayerID')
 		await callToComplete(spec, API.UPDATE_USER_ADDRESS_INFO)
 		await spec.exists('TaxpayerID.home')
 
-		store.dispatch(actions.updateFormField('national_id','110319415136'))
-		await spec.press('TaxpayerID.verifyYourProfile')					
-		
+		store.dispatch(actions.updateFormField('national_id', '110319415136'))
+		await spec.press('TaxpayerID.verifyYourProfile')
+
 		await callToComplete(spec, API.UPDATE_USER_TAXPAYER_INFO)
 		await spec.exists('VerifyProfile.screen')
 
@@ -117,11 +103,12 @@ function successKYCflow(spec){
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.takePhoto')
 		await spec.press('CameraScreen.usePhoto')
-					
-		await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime()}`))
+
+		await store.dispatch(actions.updateFormField('cellphone', `${new Date().getTime()}`))
 		await spec.press('VerifyProfile.verify')
 
 		await callToComplete(spec, API.SEND_VERIFICATION_SMS)
+		await spec.exists('VerifyPhoneNumber.screen')
 		await spec.fillIn('VerifyPhoneNumber.sms', '1111')
 		await spec.press('VerifyPhoneNumber.finish')
 
@@ -130,7 +117,7 @@ function successKYCflow(spec){
 }
 
 function startKyc(spec) {
-  return async () => {
+	return async () => {
 		await resetKYC(spec);
 
 		await dispatch(actions.navigateTo('Home'))
@@ -150,31 +137,31 @@ function prepopulateFirstAndLastName(spec) {
 	}
 }
 
-function noTitle(spec){
+function noTitle(spec) {
 	return async () => {
 		await resetKYC(spec);
-		
+
 		await spec.press('NoKyc.VerifyProfile')
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		store.dispatch(actions.clearForm());
 
-		store.dispatch(actions.updateFormField('firstName', "David" ));
-		store.dispatch(actions.updateFormField('lastName', "David" ));
-		store.dispatch(actions.updateFormField('month', "04" ));
-		store.dispatch(actions.updateFormField('day', "04" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
-		
+		store.dispatch(actions.updateFormField('firstName', "David"));
+		store.dispatch(actions.updateFormField('lastName', "David"));
+		store.dispatch(actions.updateFormField('month', "04"));
+		store.dispatch(actions.updateFormField('day', "04"));
+		store.dispatch(actions.updateFormField('year', "1994"));
+		store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
 
 		//check errors
 		const text = await spec.findComponent('InputErrorWrapper.title');
-    await containsText(text, `Title is required!`);
+		await containsText(text, `Title is required!`);
 	}
 }
 
-function noFirstName(spec){
+function noFirstName(spec) {
 	return async () => {
 		await resetKYC(spec);
 
@@ -182,14 +169,14 @@ function noFirstName(spec){
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		store.dispatch(actions.clearForm());
 
-		store.dispatch(actions.updateFormField('title', "mr" ));
-		await store.dispatch(actions.updateFormField('firstName', "" ));
-		store.dispatch(actions.updateFormField('lastName', "David" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
+		store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('firstName', ""));
+		store.dispatch(actions.updateFormField('lastName', "David"));
+		store.dispatch(actions.updateFormField('month', "01"));
+		store.dispatch(actions.updateFormField('day', "01"));
+		store.dispatch(actions.updateFormField('year', "1994"));
+		store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		store.dispatch(actions.updateFormField('gender', 'male'));
 
 		await spec.press('ProfileDetails.addYourAddress')
 
@@ -199,23 +186,23 @@ function noFirstName(spec){
 	}
 }
 
-function noLastName(spec){
+function noLastName(spec) {
 	return async () => {
 		await resetKYC(spec);
 
 		await spec.press('NoKyc.VerifyProfile')
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		store.dispatch(actions.clearForm());
-		
-		store.dispatch(actions.updateFormField('title', "mr" ));		
-		store.dispatch(actions.updateFormField('firstName', "David" ));
-		store.dispatch(actions.updateFormField('lastName', "" ));
-		store.dispatch(actions.updateFormField('month', "01" ));
-		store.dispatch(actions.updateFormField('day', "01" ));
-		store.dispatch(actions.updateFormField('year', "1994" ));
-		store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		store.dispatch(actions.updateFormField('gender', 'male' ));
-		
+
+		store.dispatch(actions.updateFormField('title', "mr"));
+		store.dispatch(actions.updateFormField('firstName', "David"));
+		store.dispatch(actions.updateFormField('lastName', ""));
+		store.dispatch(actions.updateFormField('month', "01"));
+		store.dispatch(actions.updateFormField('day', "01"));
+		store.dispatch(actions.updateFormField('year', "1994"));
+		store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
 
 		//check errors
@@ -224,7 +211,7 @@ function noLastName(spec){
 	}
 }
 
-function noDateOfBirth(spec){
+function noDateOfBirth(spec) {
 	return async () => {
 		await resetKYC(spec);
 
@@ -233,369 +220,369 @@ function noDateOfBirth(spec){
 		store.dispatch(actions.clearForm());
 
 		await spec.pause(2000)
-		await store.dispatch(actions.updateFormField('title', "mr" ));
-		await store.dispatch(actions.updateFormField('firstName', "David" ));
-		await store.dispatch(actions.updateFormField('lastName', "David" ));
-		await store.dispatch(actions.updateFormField('month', "" ));
-		await store.dispatch(actions.updateFormField('day', "" ));
-		await store.dispatch(actions.updateFormField('year', "" ));
-		await store.dispatch(actions.updateFormField('citizenship',"Serbia"));
-		await store.dispatch(actions.updateFormField('gender', "male" ));
+		await store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('firstName', "David"));
+		await store.dispatch(actions.updateFormField('lastName', "David"));
+		await store.dispatch(actions.updateFormField('month', ""));
+		await store.dispatch(actions.updateFormField('day', ""));
+		await store.dispatch(actions.updateFormField('year', ""));
+		await store.dispatch(actions.updateFormField('citizenship', "Serbia"));
+		await store.dispatch(actions.updateFormField('gender', "male"));
 
 		await spec.press('ProfileDetails.addYourAddress')
 
 		//check errors
 		// const text = await spec.findComponent('InputErrorWrapper.year');
 		// await containsText(text, `Date of Birth is required!`);
-		
+
 	}
 }
 
 
-function underAge(spec){
+function underAge(spec) {
 	return async () => {
 		await resetKYC(spec);
 
 		await spec.press('NoKyc.VerifyProfile')
 
-		await store.dispatch(actions.updateFormField('title', "mr" ));
-		await store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		await store.dispatch(actions.updateFormField('month', "01" ));
-		await store.dispatch(actions.updateFormField('day', "01" ));
-		await store.dispatch(actions.updateFormField('year', "2004" ));
-		await store.dispatch(actions.updateFormField('gender', 'male' ));
-		
+		await store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		await store.dispatch(actions.updateFormField('month', "01"));
+		await store.dispatch(actions.updateFormField('day', "01"));
+		await store.dispatch(actions.updateFormField('year', "2004"));
+		await store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
-		
+
 		//check errors
 		// const text = await spec.findComponent('ProfileDetails.title');
 		// await containsText(text, `Title is required!`);
 	}
 }
 
-function noCitizenship(spec){
+function noCitizenship(spec) {
 	return async () => {
 		await resetKYC(spec);
 
 		await spec.press('NoKyc.VerifyProfile')
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		await store.dispatch(actions.clearForm());
-		
-		await store.dispatch(actions.updateFormField('title', "mr" ));
-		await store.dispatch(actions.updateFormField('firstName', "David" ));
-		await store.dispatch(actions.updateFormField('lastName', "David" ));
-		await store.dispatch(actions.updateFormField('month', "01" ));
-		await store.dispatch(actions.updateFormField('day', "01" ));
-		await store.dispatch(actions.updateFormField('year', "1994" ));
-		await	store.dispatch(actions.updateFormField('gender', 'male' ));
-	
+
+		await store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('firstName', "David"));
+		await store.dispatch(actions.updateFormField('lastName', "David"));
+		await store.dispatch(actions.updateFormField('month', "01"));
+		await store.dispatch(actions.updateFormField('day', "01"));
+		await store.dispatch(actions.updateFormField('year', "1994"));
+		await store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
-		
+
 		//check errors
 		const text = await spec.findComponent('InputErrorWrapper.citizenship');
 		await containsText(text, 'Citizenship is required!');
 	}
 }
 
-function noGender(spec){
+function noGender(spec) {
 	return async () => {
 		await resetKYC(spec);
 
 		await spec.press('NoKyc.VerifyProfile')
 		await callToComplete(API.GET_USER_PERSONAL_INFO)
 		store.dispatch(actions.clearForm());
-		
-		await	store.dispatch(actions.updateFormField('title', "mr" ));
-		await	store.dispatch(actions.updateFormField('firstName', "David" ));
-		await	store.dispatch(actions.updateFormField('lastName', "David" ));
-		await	store.dispatch(actions.updateFormField('month', "01" ));
-		await	store.dispatch(actions.updateFormField('day', "01" ));
-		await	store.dispatch(actions.updateFormField('year', "1994" ));
-		await	store.dispatch(actions.updateFormField('citizenship','Serbia'));
-	
+
+		await store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('firstName', "David"));
+		await store.dispatch(actions.updateFormField('lastName', "David"));
+		await store.dispatch(actions.updateFormField('month', "01"));
+		await store.dispatch(actions.updateFormField('day', "01"));
+		await store.dispatch(actions.updateFormField('year', "1994"));
+		await store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+
 		await spec.press('ProfileDetails.addYourAddress')
-		
+
 		//check errors
 		const text = await spec.findComponent('InputErrorWrapper.gender');
 		await containsText(text, `Gender is required!`);
 	}
 }
 
-function profileDetailsFinish(spec){
+function profileDetailsFinish(spec) {
 	return async () => {
 		await resetKYC(spec);
 
 		await spec.press('NoKyc.VerifyProfile')
 
-		await	store.dispatch(actions.updateFormField('title', "mr" ));
-		await	store.dispatch(actions.updateFormField('month', "01" ));
-		await	store.dispatch(actions.updateFormField('day', "01" ));
-		await	store.dispatch(actions.updateFormField('year', "1994" ));
-		await	store.dispatch(actions.updateFormField('citizenship','Serbia'));
-		await	store.dispatch(actions.updateFormField('gender', 'male' ));
-	
+		await store.dispatch(actions.updateFormField('title', "mr"));
+		await store.dispatch(actions.updateFormField('month', "01"));
+		await store.dispatch(actions.updateFormField('day', "01"));
+		await store.dispatch(actions.updateFormField('year', "1994"));
+		await store.dispatch(actions.updateFormField('citizenship', 'Serbia'));
+		await store.dispatch(actions.updateFormField('gender', 'male'));
+
 		await spec.press('ProfileDetails.addYourAddress')
 		await spec.exists('AddressInformation.screen')
 	}
 }
 
-    // Address information screen
+// Address information screen
 
-		function prepopulateCountry(spec){
-			return async () => {
-				await resetKYC(spec);
-				
-				dispatch(actions.navigateTo('AddressInformation'))
-	
-				
-			}
-		}
+function prepopulateCountry(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-		function stateFieldExistsIfUSA(spec){
-			return async () => {
-				await resetKYC(spec);
-				
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-				await store.dispatch(actions.clearForm());
-				await store.dispatch(actions.updateFormField('country', 'United States'))
-				await spec.pause(2000)
-				await spec.exists('AddressInformation.state')
-				
-			}
-		}
-		
-		function errWhenNoCity(spec){
-			return async () => {
-				await resetKYC(spec);
-
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-				await callToComplete(API.GET_USER_PERSONAL_INFO)
-				await store.dispatch(actions.clearForm());
-
-				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
-				await	store.dispatch(actions.updateFormField('zip','442'))
-				await store.dispatch(actions.updateFormField('city',''))
-				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
-
-				await spec.press('AddressInformation.yourTaxpayerID')
-
-				//check errors
-				const text = await spec.findComponent('InputErrorWrapper.city');
-				await containsText(text, `City is required!`);
-			}
-		}	
-
-		function errWhenNoZIP(spec){
-			return async () => {
-				await resetKYC(spec);
-
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-				await callToComplete(API.GET_USER_PERSONAL_INFO)
-				await store.dispatch(actions.clearForm());
-
-				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
-				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await	store.dispatch(actions.updateFormField('zip',''))
-				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
-
-				await spec.press('AddressInformation.yourTaxpayerID')
+		dispatch(actions.navigateTo('AddressInformation'))
 
 
-				//check errors
-				const text = await spec.findComponent('InputErrorWrapper.zip');
-				await containsText(text, `Zip / Postal code is required!`);
-			}
-		}	
+	}
+}
 
-		function errWhenNoStreet(spec){
-			return async () => {
-				await resetKYC(spec);
+function stateFieldExistsIfUSA(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-				await callToComplete(API.GET_USER_PERSONAL_INFO)
-				await store.dispatch(actions.clearForm());
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+		await store.dispatch(actions.clearForm());
+		await store.dispatch(actions.updateFormField('country', 'United States'))
+		await spec.pause(2000)
+		await spec.exists('AddressInformation.state')
 
-				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
-				await	store.dispatch(actions.updateFormField('zip','442'))
-				await	store.dispatch(actions.updateFormField('street',''))
-				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
+	}
+}
 
-				await spec.press('AddressInformation.yourTaxpayerID')
-				
-				//check errors
-				const text = await spec.findComponent('InputErrorWrapper.street');
-				await containsText(text, `Street is required!`);
-			}
-		}	
+function errWhenNoCity(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-		function addressInfoValid(spec){
-			return async () => {
-				await resetKYC(spec);
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+		await callToComplete(API.GET_USER_PERSONAL_INFO)
+		await store.dispatch(actions.clearForm());
 
-				store.dispatch(actions.navigateTo('AddressInformation'))
-				await callToComplete(API.GET_USER_PERSONAL_INFO)
+		await store.dispatch(actions.updateFormField('country', 'Serbia'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('city', ''))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
 
-				await	store.dispatch(actions.updateFormField('country', 'Serbia'))
-				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await	store.dispatch(actions.updateFormField('zip','442'))
-				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+		await spec.press('AddressInformation.yourTaxpayerID')
 
-				await spec.press('AddressInformation.yourTaxpayerID')
-				
-				await spec.exists('TaxpayerID.home')
-			}
-		}	
+		//check errors
+		const text = await spec.findComponent('InputErrorWrapper.city');
+		await containsText(text, `City is required!`);
+	}
+}
 
-		// Taxpayer ID Screen
+function errWhenNoZIP(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-		function TaxpayerIDNoSSN(spec){
-			return async () => {
-				await resetKYC(spec);
-				store.dispatch(actions.navigateTo('AddressInformation'))
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+		await callToComplete(API.GET_USER_PERSONAL_INFO)
+		await store.dispatch(actions.clearForm());
 
-				await	store.dispatch(actions.updateFormField('country', 'United States'))
-				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await	store.dispatch(actions.updateFormField('zip','442'))
-				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
+		await store.dispatch(actions.updateFormField('country', 'Serbia'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', ''))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
 
-				await spec.press('AddressInformation.yourTaxpayerID')
-			
-				await spec.exists('TaxpayerID.home')
-				await spec.press('TaxpayerID.verifyYourProfile')	
-
-				//check errors
-				const text = await spec.findComponent('InputErrorWrapper.ssn');
-				await containsText(text, `ssn is required!`);
-				
-			}
-		}	
-
-		function TaxpayerIDInvalidSSN(spec){
-			return async () => {
-				await resetKYC(spec);
-				store.dispatch(actions.navigateTo('AddressInformation'))
-
-				await	store.dispatch(actions.updateFormField('country', 'United States'))
-				await	store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await	store.dispatch(actions.updateFormField('zip','442'))
-				await	store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
-
-				await spec.press('AddressInformation.yourTaxpayerID')
-			
-				await store.dispatch(actions.updateFormField('ssn','110319415136'))
-
-				await spec.press('TaxpayerID.verifyYourProfile')					
-			
-				const text = await spec.findComponent('InputErrorWrapper.ssn');
-				await containsText(text, `ssn is not valid!`);
-
-			}
-		}	
-
-		function TaxpayerIDValidSSN(spec){
-			return async () => {
-				await resetKYC(spec);
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-
-				await store.dispatch(actions.updateFormField('country', 'United States'))
-				await store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await store.dispatch(actions.updateFormField('zip','442'))
-				await store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
-
-				await spec.press('AddressInformation.yourTaxpayerID')
-			
-				await store.dispatch(actions.updateFormField('ssn','110-31-9415'))
-
-				await spec.press('TaxpayerID.verifyYourProfile')					
-				
-				await spec.exists('VerifyProfile.home')
-			}
-		}	
-
-		function TaxpayerIDSuccess(spec){
-			return async () => {
-				await resetKYC(spec);
-				await store.dispatch(actions.navigateTo('AddressInformation'))
-
-				await store.dispatch(actions.updateFormField('country', 'Serbia'))
-				await store.dispatch(actions.updateFormField('city','Novi Beograd'))
-				await store.dispatch(actions.updateFormField('zip','442'))
-				await store.dispatch(actions.updateFormField('street','Ulica Filipa Jovakarica'))
-
-				await spec.press('AddressInformation.yourTaxpayerID')
-
-				await store.dispatch(actions.updateFormField('national_id','110319415136'))
-
-				await spec.press('TaxpayerID.verifyYourProfile')					
-				
-				await spec.exists('VerifyProfile.home')
-
-			}
-		}	
-
-		// Verify profile page
-		
-		function takePassportPicture(spec){
-			return async () => {
-				await resetKYC(spec);
-
-				await store.dispatch(actions.clearForm());
-				await store.dispatch(actions.navigateTo('VerifyProfile'))
-
-				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
-				await spec.press('CameraInput.front')
-    		// await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.usePhoto')
-				
-				await await store.dispatch(actions.updateFormField('cellphone', `111+${ new Date().getTime() }`))
-				await spec.press('VerifyProfile.verify')
+		await spec.press('AddressInformation.yourTaxpayerID')
 
 
-  			await spec.fillIn('VerifyPhoneNumber.sms', '1111')
-				await spec.press('VerifyPhoneNumber.finish')
+		//check errors
+		const text = await spec.findComponent('InputErrorWrapper.zip');
+		await containsText(text, `Zip / Postal code is required!`);
+	}
+}
 
-				await await store.dispatch(actions.verifySMSSuccess());
-			}
-		}
+function errWhenNoStreet(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-		function takeFrontAndBackofDrivingLicence(spec){
-			return async () => {
-				await resetKYC(spec);
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+		await callToComplete(API.GET_USER_PERSONAL_INFO)
+		await store.dispatch(actions.clearForm());
 
-				await store.dispatch(actions.navigateTo('VerifyProfile'))
+		await store.dispatch(actions.updateFormField('country', 'Serbia'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', ''))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
 
-				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
-				await spec.press('VerifyProfile.driving_licence')
+		await spec.press('AddressInformation.yourTaxpayerID')
 
-				await spec.press('CameraInput.front')
-				// await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.usePhoto')
+		//check errors
+		const text = await spec.findComponent('InputErrorWrapper.street');
+		await containsText(text, `Street is required!`);
+	}
+}
 
-				await spec.press('CameraInput.back')
-				await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.usePhoto')
+function addressInfoValid(spec) {
+	return async () => {
+		await resetKYC(spec);
 
-			}
-		}
+		store.dispatch(actions.navigateTo('AddressInformation'))
+		await callToComplete(API.GET_USER_PERSONAL_INFO)
 
-		function takeFrontAndBackofIdentityCard(spec){
-			return async () => {
-				await resetKYC(spec);
+		await store.dispatch(actions.updateFormField('country', 'Serbia'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
 
-				await store.dispatch(actions.navigateTo('VerifyProfile'))
+		await spec.press('AddressInformation.yourTaxpayerID')
 
-				//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
-				await spec.press('VerifyProfile.identity_card')
+		await spec.exists('TaxpayerID.home')
+	}
+}
 
-				await spec.press('CameraInput.front')
-				// await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.usePhoto')
+// Taxpayer ID Screen
 
-				await spec.press('CameraInput.back')
-				await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.takePhoto')
-				await spec.press('CameraScreen.usePhoto')
+function TaxpayerIDNoSSN(spec) {
+	return async () => {
+		await resetKYC(spec);
+		store.dispatch(actions.navigateTo('AddressInformation'))
 
-			}
-		}
+		await store.dispatch(actions.updateFormField('country', 'United States'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
+
+		await spec.press('AddressInformation.yourTaxpayerID')
+
+		await spec.exists('TaxpayerID.home')
+		await spec.press('TaxpayerID.verifyYourProfile')
+
+		//check errors
+		const text = await spec.findComponent('InputErrorWrapper.ssn');
+		await containsText(text, `ssn is required!`);
+
+	}
+}
+
+function TaxpayerIDInvalidSSN(spec) {
+	return async () => {
+		await resetKYC(spec);
+		store.dispatch(actions.navigateTo('AddressInformation'))
+
+		await store.dispatch(actions.updateFormField('country', 'United States'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
+
+		await spec.press('AddressInformation.yourTaxpayerID')
+
+		await store.dispatch(actions.updateFormField('ssn', '110319415136'))
+
+		await spec.press('TaxpayerID.verifyYourProfile')
+
+		const text = await spec.findComponent('InputErrorWrapper.ssn');
+		await containsText(text, `ssn is not valid!`);
+
+	}
+}
+
+function TaxpayerIDValidSSN(spec) {
+	return async () => {
+		await resetKYC(spec);
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+
+		await store.dispatch(actions.updateFormField('country', 'United States'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
+
+		await spec.press('AddressInformation.yourTaxpayerID')
+
+		await store.dispatch(actions.updateFormField('ssn', '110-31-9415'))
+
+		await spec.press('TaxpayerID.verifyYourProfile')
+
+		await spec.exists('VerifyProfile.home')
+	}
+}
+
+function TaxpayerIDSuccess(spec) {
+	return async () => {
+		await resetKYC(spec);
+		await store.dispatch(actions.navigateTo('AddressInformation'))
+
+		await store.dispatch(actions.updateFormField('country', 'Serbia'))
+		await store.dispatch(actions.updateFormField('city', 'Novi Beograd'))
+		await store.dispatch(actions.updateFormField('zip', '442'))
+		await store.dispatch(actions.updateFormField('street', 'Ulica Filipa Jovakarica'))
+
+		await spec.press('AddressInformation.yourTaxpayerID')
+
+		await store.dispatch(actions.updateFormField('national_id', '110319415136'))
+
+		await spec.press('TaxpayerID.verifyYourProfile')
+
+		await spec.exists('VerifyProfile.home')
+
+	}
+}
+
+// Verify profile page
+
+function takePassportPicture(spec) {
+	return async () => {
+		await resetKYC(spec);
+
+		await store.dispatch(actions.clearForm());
+		await store.dispatch(actions.navigateTo('VerifyProfile'))
+
+		//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+		await spec.press('CameraInput.front')
+		// await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+		await store.dispatch(actions.updateFormField('cellphone', `${new Date().getTime()}`))
+		await spec.press('VerifyProfile.verify')
+
+
+		await spec.fillIn('VerifyPhoneNumber.sms', '1111')
+		await spec.press('VerifyPhoneNumber.finish')
+
+		await store.dispatch(actions.verifySMSSuccess());
+	}
+}
+
+function takeFrontAndBackofDrivingLicence(spec) {
+	return async () => {
+		await resetKYC(spec);
+
+		await store.dispatch(actions.navigateTo('VerifyProfile'))
+
+		//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+		await spec.press('VerifyProfile.driving_licence')
+
+		await spec.press('CameraInput.front')
+		// await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+		await spec.press('CameraInput.back')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+	}
+}
+
+function takeFrontAndBackofIdentityCard(spec) {
+	return async () => {
+		await resetKYC(spec);
+
+		await store.dispatch(actions.navigateTo('VerifyProfile'))
+
+		//STATE NEEDS TO BE CLEARED FOR THIS TO WORK
+		await spec.press('VerifyProfile.identity_card')
+
+		await spec.press('CameraInput.front')
+		// await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+		await spec.press('CameraInput.back')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.takePhoto')
+		await spec.press('CameraScreen.usePhoto')
+
+	}
+}

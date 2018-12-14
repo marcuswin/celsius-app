@@ -20,18 +20,15 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";
 
-const {TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const { TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export function resetApp() {
   return async (dispatch) => {
     try {
+      await clearSecureStorage();
       dispatch({ type: ACTIONS.RESET_APP })
       dispatch(actions.showMessage('warning', 'Reseting Celsius App!'))
-
-      await clearSecureStorage();
-      dispatch(actions.clearForm());
-      await dispatch(actions.logoutUser());
-
+      
       await dispatch(appInitStart());
     } catch (e) {
       console.log(e);
@@ -112,14 +109,16 @@ async function initAppData() {
 
     // get all KYC document types and claimed transfers for non-verified users
     const { user } = store.getState().users;
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      await store.dispatch(actions.getKYCDocTypes());
-      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
-    }
+    if (user) {
+      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+        await store.dispatch(actions.getKYCDocTypes());
+        await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+      }
 
-    // get wallet details for verified users
-    if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
-      await store.dispatch(actions.getWalletDetails());
+      // get wallet details for verified users
+      if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
+        await store.dispatch(actions.getWalletDetails());
+      }
     }
   } else {
     // logout if expired session or no token
