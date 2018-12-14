@@ -1,3 +1,4 @@
+import { Segment } from "expo";
 import { mixpanelEvents } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';
@@ -21,10 +22,21 @@ export const analyticsEvents = {
     const metadata = { method }
     branchService.createEvent({ event: 'STARTED_SIGNUP', identity: 'no-user', metadata })
   },
-  finishedSignup: (method, referralLinkId) => {
+  finishedSignup: async (method, referralLinkId) => {
     const { user } = store.getState().users;
     mixpanelEvents.finishedSignup(method, referralLinkId)
-    branchEvents.completeRegistration(user.id, method, referralLinkId)
+
+    await Segment.identifyWithTraits(user.id, {
+      email: user.email,
+    })
+
+    await Segment.trackWithProperties('COMPLETE_REGISTRATION', {
+      method,
+      referral_link_id: referralLinkId,
+      fb_registration_method: method,
+    })
+
+    // branchEvents.completeRegistration(user.id, method, referralLinkId)
   },
   pinSet: () => {
     const { user } = store.getState().users;

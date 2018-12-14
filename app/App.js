@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Asset, AppLoading, Font, Constants } from 'expo';
+import { Segment, Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
 import { Provider } from 'react-redux';
 import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
@@ -18,7 +18,7 @@ import { mixpanelAnalytics } from "./services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
 import { analyticsEvents } from "./utils/analytics-util";
 
-const { SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+const { SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -95,6 +95,11 @@ export default class App extends Component {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       await setSecureStoreKey('BASE_URL', baseUrl);
     }
+
+    await Segment.initialize({
+      androidWriteKey: SEGMENT_ANDROID_KEY,
+      iosWriteKey: SEGMENT_IOS_KEY,
+    });
 
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
