@@ -4,6 +4,7 @@ import { resetTests, callToComplete, containsText, findComponent} from "../helpe
 import constants from "../constants";
 import ACTIONS from "../../app/config/constants/ACTIONS";
 import API from "../../app/config/constants/API";
+import SignupOne from '../../app/components/screens/Signup/SignupOne';
 
 
 const { dispatch, getState } = store;
@@ -64,13 +65,13 @@ function initFlow(spec) {
 
 // Login screen tests
 export function loginSetup() {
-  dispatch(actions.navigateTo('Login'))
+  dispatch(actions.navigateTo('SignupOne'))
 }
 
 function forgottenPassword(spec) {
   return async () => {
     await resetTests(spec);
-    loginSetup();
+    await loginSetup();
 
     await spec.pause(2000)
     await spec.press('LoginScreen.forgotPassword')

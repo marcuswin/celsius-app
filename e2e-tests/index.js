@@ -4,9 +4,9 @@ import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
 export default function(spec) {
-  testSignupFlow(spec);
-  testLoginFlow(spec);
-  // testKycFlow(spec);
+  // testSignupFlow(spec);
+  // testLoginFlow(spec);
+  testKycFlow(spec);
   // testSingleSuite(spec);
 }
 
@@ -63,7 +63,7 @@ export function testLoginFlow(spec) {
     spec.it('should go to Login screen when skip intro and login pressed', loginFlow.initFlow(spec))
 
     // Login screen
-    spec.it('should go to Login screen when forgot password pressed', loginFlow.forgottenPassword(spec))
+    spec.it('should go to passport forgoten screen when forgot password pressed', loginFlow.forgottenPassword(spec))
     spec.it('button should be disabled when no email and password entered', loginFlow.disableWhenNoLoginData(spec))
     spec.it('button should be disabled when no email entered', loginFlow.disableWhenNoEmail(spec))
     spec.it('button should be disabled when no password entered', loginFlow.disableWhenNoPassword(spec))

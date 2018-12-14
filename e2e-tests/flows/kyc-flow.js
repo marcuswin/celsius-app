@@ -55,17 +55,18 @@ export default {
 async function resetKYC(spec){
 	// await resetKycUser();
 	// await resetTests(spec);
-	await dispatch(actions.loginBorrower({
+	await dispatch(actions.loginUser({
 		email: 'testing+non_kyc_user@mvpworkshop.co',
 		password: 'Cel51u5!?',
 	}))
+	resetNonKycUser(spec);
 }
 
 function startKyc(spec) {
   return async () => {
 		await resetTests(spec);
 
-		dispatch(actions.navigateTo('Home'))
+		await dispatch(actions.navigateTo('Home'))
 		await spec.press('NoKyc.VerifyProfile')
 	}
 }
@@ -73,7 +74,7 @@ function startKyc(spec) {
 async function kycSetup(spec) {
 	await resetNonKycUser();
 	await resetTests(spec);
-	await dispatch(actions.loginBorrower({
+	await dispatch(actions.loginUser({
 		email: 'testing+non_kyc_user@mvpworkshop.co',
 		password: 'Cel51u5!?',
 	}))
