@@ -11,7 +11,6 @@ import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
-import { initMixpanelUser } from "../../services/mixpanel";
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
@@ -48,7 +47,7 @@ function getProfileInfo() {
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-      await initMixpanelUser(personalInfo);
+      await analyticsEvents.initUser(personalInfo);
 
       Sentry.setUserContext({
         email: personalInfo.email,

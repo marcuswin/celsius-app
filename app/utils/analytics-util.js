@@ -1,11 +1,20 @@
 import { Segment } from "expo";
-import { mixpanelEvents } from "../services/mixpanel";
+import { mixpanelEvents, initMixpanelUser, logoutMixpanelUser } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';
 import { branchEvents } from "./branch-util";
 
-
 export const analyticsEvents = {
+  initUser: async (user) => {
+    await initMixpanelUser(user);
+    await Segment.identifyWithTraits(user.id, {
+      email: user.email,
+    })
+  },
+  logoutUser: async () => {
+    await logoutMixpanelUser();
+    await Segment.reset();
+  },
   signupButton: () => {
     mixpanelEvents.signupButton()
     const metadata = { btn: 'Skip Intro', screen: 'Welcome' }
@@ -22,9 +31,8 @@ export const analyticsEvents = {
     const metadata = { method }
     branchService.createEvent({ event: 'STARTED_SIGNUP', identity: 'no-user', metadata })
   },
-  finishedSignup: async (method, referralLinkId) => {
-    const { user } = store.getState().users;
-    mixpanelEvents.finishedSignup(method, referralLinkId)
+  finishedSignup: async (method, referralLinkId, user) => {
+    mixpanelEvents.finishedSignup(method, referralLinkId, user)
 
     await Segment.identifyWithTraits(user.id, {
       email: user.email,
@@ -34,6 +42,7 @@ export const analyticsEvents = {
       method,
       referral_link_id: referralLinkId,
       fb_registration_method: method,
+      referralLinkId
     })
   },
   pinSet: () => {
@@ -59,11 +68,22 @@ export const analyticsEvents = {
     const { user } = store.getState().users;
     branchService.createEvent({ event: 'DOCUMENTS_ADDED', identity: user.id })
   },
-  phoneVerified: () => {
+  phoneVerified: async () => {
     const { user } = store.getState().users;
+    const userId = user.id;
+    const description = 'completed';
+
     mixpanelEvents.phoneVerified()
     branchService.createEvent({ event: 'PHONE_VERIFIED', identity: user.id })
-    branchEvents.achieveLevel(user.id, 'completed')
+
+    await Segment.trackWithProperties('ACHIEVE_LEVEL', {
+      user_data: { developer_identity: userId },
+      content_items: [{
+        $og_description: description,
+        description
+      }]
+    })
+    // branchEvents.achieveLevel(user.id, 'completed')
   },
   KYCStarted: () => {
     const { user } = store.getState().users;
@@ -82,17 +102,34 @@ export const analyticsEvents = {
     const metadata = { btn: 'Add funds', screen: 'AddFunds' }
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: user.id, metadata })
   },
-  confirmWithdraw: (withdrawInfo) => {
+  confirmWithdraw: async (withdrawInfo) => {
     const { user } = store.getState().users;
+    const userId = user.id;
     const { currencyRatesShort } = store.getState().generalData;
     const info = {
       ...withdrawInfo,
       amountUsd: withdrawInfo.amount * currencyRatesShort[withdrawInfo.coin],
     }
-    mixpanelEvents.confirmWithdraw(info)
-    branchEvents.addToWishlist(user.id, info)
-  },
 
+    mixpanelEvents.confirmWithdraw(info)
+    await Segment.trackWithProperties('ADD_TO_WISHLIST', {
+      user_data: { developer_identity: userId },
+      event_data: {
+        revenue: Number(info.amountUsd),
+        currency: 'USD',
+      },
+      content_items: [{
+        $product_name: info.coin,
+        $sku: info.id,
+      }],
+      custom_data: {
+        amount_usd: info.amountUsd.toString(),
+        amount_crypto: info.amount.toString(),
+        coin: info.coin,
+      }
+    });
+    // branchEvents.addToWishlist(user.id, info)
+  },
   changeTab: (tab) => {
     const { user } = store.getState().users;
     mixpanelEvents.changeTab(tab)
@@ -110,15 +147,58 @@ export const analyticsEvents = {
     const metadata = { screen: screenName };
     branchService.createEvent({ event: 'NAVIGATE_TO', identity: (user ? user.id : 'no-user'), metadata })
   },
-  celPayTransfer: (celPayInfo) => {
+  celPayTransfer: async (celPayInfo) => {
     const { user } = store.getState().users;
+    const userId = user.id;
+
     mixpanelEvents.celPayTransfer(celPayInfo);
-    branchEvents.spendCredits(user.id, celPayInfo);
+    await Segment.trackWithProperties('SPEND_CREDITS', {
+      user_data: { developer_identity: userId },
+      event_data: {
+        revenue: Number(celPayInfo.amountUsd),
+        currency: 'USD',
+      },
+      content_items: [{
+        $product_name: celPayInfo.coin,
+        $sku: celPayInfo.hash,
+      }],
+      custom_data: {
+        amount_usd: celPayInfo.amountUsd.toString(),
+        amount_crypto: celPayInfo.amount.toString(),
+        coin: celPayInfo.coin,
+      }
+    }
+    );
+    // branchEvents.spendCredits(user.id, celPayInfo);
   },
-  applyForLoan: (loanData) => {
-    const { user } = store.getState().users;
+  applyForLoan: async (loanData) => {
+    const { user } = store.getState().users
+    const userId = user.id;
+
     mixpanelEvents.applyForLoan(loanData);
-    branchEvents.addToCart(user.id, loanData);
+    await Segment.trackWithProperties('ADD_TO_CART', {
+      user_data: { developer_identity: userId },
+      commerce_data: {
+        revenue: Number(loanData.collateral_amount_usd),
+        currency: "USD",
+      },
+      event_data: {
+        revenue: Number(loanData.collateral_amount_usd),
+        currency: "USD",
+      },
+      content_items: [{
+        $product_name: loanData.coin,
+        $sku: loanData.id,
+      }],
+      custom_data: {
+        amount_usd: loanData.collateral_amount_usd.toString(),
+        amount_crypto: loanData.collateral_amount_crypto.toString(),
+        ltv: loanData.ltv.toString(),
+        interest: loanData.interest.toString(),
+        monthly_payment: loanData.monthly_payment.toString(),
+      }
+    })
+    // branchEvents.addToCart(user.id, loanData);
   },
   profileAddressAdded: (profileAddress) => {
     const { user } = store.getState().users;
