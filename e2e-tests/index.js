@@ -74,7 +74,7 @@ export function testLoginFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
+    spec.it('should got to NoKyc with pending screen when flow is successful', kycFlow.successKYCflow(spec))
   })
 }
 
@@ -98,7 +98,7 @@ export function testKycFlow(spec) {
     spec.it('should show error when no gender', kycFlow.noGender(spec))
     spec.it('should go to Address Information when all info filled', kycFlow.profileDetailsFinish(spec))
 
-    // // Address information screen
+    // Address information screen
     spec.it('should prepopulate country', kycFlow.prepopulateCountry(spec))
     spec.it('should show state if country is USA', kycFlow.stateFieldExistsIfUSA(spec))
     spec.it('should show error when no City', kycFlow.errWhenNoCity(spec))
@@ -106,15 +106,21 @@ export function testKycFlow(spec) {
     spec.it('should show error when no street', kycFlow.errWhenNoStreet(spec))
     spec.it('should go to taxpayer ID screen when all info filled', kycFlow.addressInfoValid(spec))
 
-    // // Taxpayer ID Screen
-    spec.it('should throw error when no SSN input', kycFlow.TaxpayerIDNoSSN(spec))
-    spec.it('should throw error when SSN input is invalid', kycFlow.TaxpayerIDInvalidSSN(spec))
-    spec.it('should go to Verify profile when SSN is valid', kycFlow.TaxpayerIDValidSSN(spec))
-    spec.it('should go to Verify profile when info filled in correctly', kycFlow.TaxpayerIDSuccess(spec))
+    // Taxpayer ID Screen
+    spec.it('should throw error when no SSN input', kycFlow.taxpayerIDNoSSN(spec))
+    spec.it('should throw error when SSN input is invalid', kycFlow.taxpayerIDInvalidSSN(spec))
+    spec.it('should go to Verify profile when SSN is valid', kycFlow.taxpayerIDValidSSN(spec))
+    spec.it('should go to Verify profile when info filled in correctly', kycFlow.taxpayerIDSuccess(spec))
 
-    // // Verify Documents Screen
+    // Verify Documents Screen
     spec.it('should take front picture of passport and finish KYC', kycFlow.takePassportPicture(spec))
     spec.it('should take picture of driving licence', kycFlow.takeFrontAndBackofDrivingLicence(spec))
-    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
+    spec.it('should take picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
+    spec.it('should show error when no phone number is filled', kycFlow.showErrorNoPhoneNumber(spec))
+    spec.it('should send SMS and go to VerifyPhoneNumber screen when all data is valid', kycFlow.verifyProfileSuccess(spec))
+    
+    // Verify Phone Number Screen
+    spec.it('should show error when code in bad', kycFlow.wrongSMSCode(spec))
+    spec.it('should go to NoKys pending screen when code is correct', kycFlow.correctSMSCode(spec))
   })
 }

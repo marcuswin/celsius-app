@@ -64,7 +64,8 @@ export default {
 
   // camera roll calls
   GET_CAMERA_ROLL: 'GET_CAMERA_ROLL',
-
+  TAKE_CAMERA_PHOTO: 'TAKE_CAMERA_PHOTO',
+  
   // loan calls
   APPLY_FOR_LOAN: 'APPLY_FOR_LOAN',
 

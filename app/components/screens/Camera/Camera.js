@@ -15,6 +15,7 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import imageUtil from "../../../utils/image-util";
 import logger from "../../../utils/logger-util";
+import API from '../../../config/constants/API';
 
 @connect(
   state => ({
@@ -57,8 +58,8 @@ class CameraScreen extends Component {
   }
 
   async componentWillMount() {
-    this.getCameraPermissions();
-    this.getCameraRollPermissions();
+    await this.getCameraPermissions();
+    await this.getCameraRollPermissions();
   }
 
   getCameraPermissions = async () => {
@@ -112,10 +113,11 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return;
 
-    const { actions } = this.props;
+    const { actions, dispatch } = this.props;
     try {
 
       this.setState({ isLoading: true });
+      actions.startApiCall(API.TAKE_CAMERA_PHOTO)
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions();
       }
@@ -143,9 +145,17 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
+      dispatch({
+        type: 'TAKE_CAMERA_PHOTO_SUCCESS',
+        callName: API.TAKE_CAMERA_PHOTO,
+      })
     } catch (err) {
       logger.log(err);
       this.setState({ isLoading: false });
+      dispatch({
+        type: 'API_ERROR',
+        callName: API.TAKE_CAMERA_PHOTO,
+      })
     }
   };
 
@@ -182,7 +192,9 @@ class CameraScreen extends Component {
     const mask = this.renderMask();
 
     return (
-      <BasicLayout>
+      <BasicLayout
+        ref={testUtil.generateTestHook(this, 'Camera.screen')}
+      >
         <Camera
           ref={ref => { this.camera = ref; }}
           style={CameraStyle.camera}
@@ -249,7 +261,9 @@ class CameraScreen extends Component {
     const imageSource = imageUtil.getSource(photo);
 
     return (
-      <BasicLayout>
+      <BasicLayout
+        ref={testUtil.generateTestHook(this, 'Camera.screen')}
+      >
         <MainHeader
           backgroundColor="transparent"
           left={(

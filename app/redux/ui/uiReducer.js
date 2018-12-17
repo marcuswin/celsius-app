@@ -3,7 +3,6 @@ import {Camera} from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import device from "../../utils/device-util";
-import { screens } from '../../config/Navigator';
 import store from '../../redux/store';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { shouldRenderInitialIdVerification } from "../../utils/user-util";
@@ -46,7 +45,7 @@ function shouldShowBottomNavigation(action) {
   let showNav;
 
   if (routeName !== 'Home') {
-    showNav = !!screens[routeName].bottomNavigation;
+    // showNav = !!screens[routeName].bottomNavigation;
   } else if (!user) {
     showNav = false;
   } else if (!user.first_name || !user.last_name) {

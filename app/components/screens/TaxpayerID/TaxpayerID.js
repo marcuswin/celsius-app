@@ -97,7 +97,7 @@ class TaxpayerID extends Component {
 
     return (
       <SimpleLayout
-        ref={testUtil.generateTestHook(this, `TaxpayerID.home`)}
+        ref={testUtil.generateTestHook(this, `TaxpayerID.screen`)}
         animatedHeading={{ text: 'Taxpayer ID' }}
         background={STYLES.PRIMARY_BLUE}
       >

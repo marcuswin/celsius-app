@@ -359,7 +359,7 @@ function finishKYCVerification() {
       dispatch(startKYCSuccess());
       analyticsEvents.KYCStarted();
 
-      dispatch(NavActions.navigateTo('NoKyc'));
+      dispatch(NavActions.navigateTo('NoKyc', true));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));

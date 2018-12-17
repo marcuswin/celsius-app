@@ -95,7 +95,7 @@ class NoKyc extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
-        ref={testUtil.generateTestHook(this, 'NoKyc.screen')}
+        ref={testUtil.generateTestHook(this, 'NoKycPending.screen')}
       >
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/bear-happyKYC3x.png')} style={[NoKycStyle.image]}/>
@@ -170,6 +170,7 @@ class NoKyc extends Component {
       <SimpleLayout
         animatedHeading={animatedHeading}
         mainHeader={{backButton: false}}
+        ref={testUtil.generateTestHook(this, 'NoKyc.screen')}
       >
         { this.renderInfoBubble() }
         <Image source={require('../../../../assets/images/illuNoKYC3x.png')} style={[NoKycStyle.image, {resizeMode: "contain"}]}/>
