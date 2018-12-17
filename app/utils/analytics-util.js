@@ -103,8 +103,6 @@ export const analyticsEvents = {
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: user.id, metadata })
   },
   confirmWithdraw: async (withdrawInfo) => {
-    const { user } = store.getState().users;
-    const userId = user.id;
     const { currencyRatesShort } = store.getState().generalData;
     const info = {
       ...withdrawInfo,
@@ -113,22 +111,16 @@ export const analyticsEvents = {
 
     mixpanelEvents.confirmWithdraw(info)
     await Segment.trackWithProperties('ADD_TO_WISHLIST', {
-      user_data: { developer_identity: userId },
-      event_data: {
-        revenue: Number(info.amountUsd),
-        currency: 'USD',
-      },
-      content_items: [{
-        $product_name: info.coin,
-        $sku: info.id,
-      }],
-      custom_data: {
-        amount_usd: info.amountUsd.toString(),
-        amount_crypto: info.amount.toString(),
-        coin: info.coin,
-      }
+      revenue: Number(info.amountUsd),
+      currency: 'USD',
+      $product_name: info.coin,
+      $sku: info.id,
+
+      action: 'Withdraw',
+      amount_usd: info.amountUsd.toString(),
+      amount_crypto: info.amount.toString(),
+      coin: info.coin,
     });
-    // branchEvents.addToWishlist(user.id, info)
   },
   changeTab: (tab) => {
     const { user } = store.getState().users;
@@ -148,55 +140,36 @@ export const analyticsEvents = {
     branchService.createEvent({ event: 'NAVIGATE_TO', identity: (user ? user.id : 'no-user'), metadata })
   },
   celPayTransfer: async (celPayInfo) => {
-    const { user } = store.getState().users;
-    const userId = user.id;
-
     mixpanelEvents.celPayTransfer(celPayInfo);
     await Segment.trackWithProperties('SPEND_CREDITS', {
-      user_data: { developer_identity: userId },
-      event_data: {
-        revenue: Number(celPayInfo.amountUsd),
-        currency: 'USD',
-      },
-      content_items: [{
-        $product_name: celPayInfo.coin,
-        $sku: celPayInfo.hash,
-      }],
-      custom_data: {
-        amount_usd: celPayInfo.amountUsd.toString(),
-        amount_crypto: celPayInfo.amount.toString(),
-        coin: celPayInfo.coin,
-      }
-    }
-    );
+      revenue: Number(celPayInfo.amountUsd),
+      currency: 'USD',
+      $product_name: celPayInfo.coin,
+      $sku: celPayInfo.hash,
+
+      action: 'CelPay',
+      amount_usd: celPayInfo.amountUsd.toString(),
+      amount_crypto: celPayInfo.amount.toString(),
+      coin: celPayInfo.coin,
+    });
     // branchEvents.spendCredits(user.id, celPayInfo);
   },
   applyForLoan: async (loanData) => {
-    const { user } = store.getState().users
-    const userId = user.id;
-
     mixpanelEvents.applyForLoan(loanData);
-    await Segment.trackWithProperties('ADD_TO_CART', {
-      user_data: { developer_identity: userId },
-      commerce_data: {
-        revenue: Number(loanData.collateral_amount_usd),
-        currency: "USD",
-      },
-      event_data: {
-        revenue: Number(loanData.collateral_amount_usd),
-        currency: "USD",
-      },
-      content_items: [{
-        $product_name: loanData.coin,
-        $sku: loanData.id,
-      }],
-      custom_data: {
-        amount_usd: loanData.collateral_amount_usd.toString(),
-        amount_crypto: loanData.collateral_amount_crypto.toString(),
-        ltv: loanData.ltv.toString(),
-        interest: loanData.interest.toString(),
-        monthly_payment: loanData.monthly_payment.toString(),
-      }
+    await Segment.trackWithProperties('Product Added', {
+      revenue: Number(loanData.collateral_amount_usd),
+      currency: "USD",
+      $product_name: loanData.coin,
+      $sku: loanData.id,
+
+      action: 'Applied for loan',
+      id: loanData.id,
+      coin: loanData.coin,
+      amount_usd: loanData.collateral_amount_usd.toString(),
+      amount_crypto: loanData.collateral_amount_crypto.toString(),
+      ltv: loanData.ltv.toString(),
+      interest: loanData.interest.toString(),
+      monthly_payment: loanData.monthly_payment.toString()
     })
     // branchEvents.addToCart(user.id, loanData);
   },
