@@ -7,7 +7,7 @@ export default function(spec) {
   // testSignupFlow(spec);
   // testLoginFlow(spec);
   testKycFlow(spec);
-  // testSingleSuite(spec);
+  // testSinglesSuite(spec);
 }
 
 export function testSignupFlow(spec) {
@@ -74,7 +74,7 @@ export function testLoginFlow(spec) {
 
 export function testSingleSuite(spec) {
   spec.describe('Single test', () => {
-    spec.it('should show state if country is USA', kycFlow.stateFieldExistsIfUSA(spec))
+    spec.it('should take  picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
   })
 }
 

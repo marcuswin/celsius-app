@@ -100,7 +100,7 @@ class AddressInformation extends Component {
   // rendering methods
   render() {
     const { formData, callsInProgress, formErrors } = this.props;
-
+          
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     return (
       <SimpleLayout
