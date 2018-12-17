@@ -35,8 +35,6 @@ export const analyticsEvents = {
       referral_link_id: referralLinkId,
       fb_registration_method: method,
     })
-
-    // branchEvents.completeRegistration(user.id, method, referralLinkId)
   },
   pinSet: () => {
     const { user } = store.getState().users;
