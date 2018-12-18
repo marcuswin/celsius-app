@@ -7,6 +7,9 @@ import { branchEvents } from "./branch-util";
 export const analyticsEvents = {
   initUser: async (user) => {
     await initMixpanelUser(user);
+  },
+  identifySegmentUser: async () => {
+    const { user } = store.getState().users;
     await Segment.identifyWithTraits(user.id, {
       email: user.email,
     })
@@ -193,8 +196,9 @@ export const analyticsEvents = {
     }
     branchService.createEvent({ event: 'PROFILE_TAXPAYERINFO_ADDED', identity: user.id, metadata })
   },
-  sessionStart: () => {
-    mixpanelEvents.sessionStart();
+  sessionStart: async () => {
+    await mixpanelEvents.sessionStart();
+    await analyticsEvents.identifySegmentUser();
   },
   sessionEnd: async () => {
     await mixpanelEvents.sessionEnd();
