@@ -3,15 +3,14 @@ import * as actions from "../app/redux/actions";
 import axios from "axios";
 import { Constants } from "expo";
 
-import { clearSecureStorage } from "../app/utils/expo-storage";
-
-const {API_URL} = Constants.manifest.extra;
+const { API_URL } = Constants.manifest.extra;
 const { dispatch, getState } = store;
 
 export default {
   waitForWelcomeScreen,
   resetTests,
   callToComplete,
+  waitForExists,
   testPassed,
   testFailed,
 }
@@ -58,6 +57,23 @@ export async function callToComplete(spec, callName) {
   if (tryCount === 20) throw new Error('Too many tries!');
 }
 
+export async function waitForExists(spec, screen) {
+  let activeScreen;
+  let tryCount = 1;
+
+  while (!activeScreen && tryCount < 10) {
+    try {
+      activeScreen = await spec.exists(screen)
+    } catch (e) {
+      activeScreen = null
+    }
+    tryCount++
+    if (!activeScreen) await spec.pause(500)
+  }
+
+  if (tryCount === 10) throw new Error(`spec.exists('${screen})': Too many tries!`);
+}
+
 export function testPassed(spec) {
   return async () => {
     await resetTests(spec);
@@ -74,18 +90,18 @@ export function testFailed(spec) {
 
 export async function containsText(component, text) {
   if (!component.props.children.includes(text)) {
-    throw new Error(`Could not find text ${text}`);
+    throw new Error(`Could not find text ${ text }`);
   };
 }
 
-export async function resetNonUser(){
+export async function resetNonUser() {
   return axios.post(API_URL + '/test/reset_non_user')
 }
 
-export async function resetNonKycUser(){
+export async function resetNonKycUser() {
   return axios.post(API_URL + '/test/reset_non_kyc_user')
 }
 
-export async function resetKycUser(){
+export async function resetKycUser() {
   return axios.post(API_URL + '/test/reset_kyc_user')
 }

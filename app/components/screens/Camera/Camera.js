@@ -262,7 +262,7 @@ class CameraScreen extends Component {
 
     return (
       <BasicLayout
-        ref={testUtil.generateTestHook(this, 'Camera.screen')}
+        ref={testUtil.generateTestHook(this, 'Camera.confirmScreen')}
       >
         <MainHeader
           backgroundColor="transparent"
