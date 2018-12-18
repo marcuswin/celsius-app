@@ -37,10 +37,6 @@ export const analyticsEvents = {
   finishedSignup: async (method, referralLinkId, user) => {
     mixpanelEvents.finishedSignup(method, referralLinkId, user)
 
-    await Segment.identifyWithTraits(user.id, {
-      email: user.email,
-    })
-
     await Segment.trackWithProperties('COMPLETE_REGISTRATION', {
       method,
       referral_link_id: referralLinkId,
