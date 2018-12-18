@@ -101,9 +101,11 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileAddressInfo(updatedUser);
 
-      if (formData.state === "New York") {
-        actions.updateUserAppSettings({ declineAccess: true });
-      }
+      // TODO(ns): uncomment when Blackout is activated
+
+      // if (formData.state === "New York") {
+      //   actions.updateUserAppSettings({ declineAccess: true });
+      // }
 
       this.setState({
         address: false,
@@ -123,11 +125,14 @@ class NycBlackoutModal extends Component {
         national_id: formData.national_id
       };
       actions.updateProfileTaxpayerInfo(updatedUser);
-      if (formData.state === "New York") {
-        actions.updateUserAppSettings({ declineAccess: true });
-      } else {
-        actions.updateUserAppSettings({ declineAccess: false });
-      }
+
+      // TODO(ns): uncomment when Blackout is activated
+
+      // if (formData.state === "New York") {
+      //   actions.updateUserAppSettings({ declineAccess: true });
+      // } else {
+      //   actions.updateUserAppSettings({ declineAccess: false });
+      // }
       this.setState({
         taxNo: false,
         finish: true
