@@ -81,10 +81,10 @@ export const analyticsEvents = {
 
     await Segment.trackWithProperties('ACHIEVE_LEVEL', {
       user_data: { developer_identity: userId },
-      content_items: [{
+      products: {
         $og_description: description,
         description
-      }]
+      }
     })
     // branchEvents.achieveLevel(user.id, 'completed')
   },
@@ -116,13 +116,14 @@ export const analyticsEvents = {
     await Segment.trackWithProperties('ADD_TO_WISHLIST', {
       revenue: Number(info.amountUsd),
       currency: 'USD',
-      $product_name: info.coin,
-      $sku: info.id,
-
       action: 'Withdraw',
       amount_usd: info.amountUsd.toString(),
       amount_crypto: info.amount.toString(),
       coin: info.coin,
+      products: [{
+        name: info.coin,
+        sku: info.id,
+      }]
     });
   },
   changeTab: (tab) => {
@@ -147,24 +148,23 @@ export const analyticsEvents = {
     await Segment.trackWithProperties('SPEND_CREDITS', {
       revenue: Number(celPayInfo.amountUsd),
       currency: 'USD',
-      $product_name: celPayInfo.coin,
-      $sku: celPayInfo.hash,
-
       action: 'CelPay',
       amount_usd: celPayInfo.amountUsd.toString(),
       amount_crypto: celPayInfo.amount.toString(),
       coin: celPayInfo.coin,
+      products: [{
+        name: celPayInfo.coin,
+        sku: celPayInfo.hash,
+      }]
     });
     // branchEvents.spendCredits(user.id, celPayInfo);
   },
   applyForLoan: async (loanData) => {
     mixpanelEvents.applyForLoan(loanData);
+    console.log(loanData.id)
     await Segment.trackWithProperties('Product Added', {
       revenue: Number(loanData.collateral_amount_usd),
       currency: "USD",
-      $product_name: loanData.coin,
-      $sku: loanData.id,
-
       action: 'Applied for loan',
       id: loanData.id,
       coin: loanData.coin,
@@ -172,7 +172,12 @@ export const analyticsEvents = {
       amount_crypto: loanData.collateral_amount_crypto.toString(),
       ltv: loanData.ltv.toString(),
       interest: loanData.interest.toString(),
-      monthly_payment: loanData.monthly_payment.toString()
+      monthly_payment: loanData.monthly_payment.toString(),
+
+      products: [{
+        name: loanData.coin,
+        sku: loanData.id
+      }]
     })
     // branchEvents.addToCart(user.id, loanData);
   },
