@@ -1,5 +1,5 @@
 import signupFlow from './flows/signup-flow';
-import helpers from './helpers';
+import { testFailed } from './helpers';
 import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
@@ -107,18 +107,19 @@ export function testKycFlow(spec) {
     spec.it('should go to taxpayer ID screen when all info filled', kycFlow.addressInfoValid(spec))
 
     // Taxpayer ID Screen
-    spec.it('should throw error when no SSN input', kycFlow.taxpayerIDNoSSN(spec))
-    spec.it('should throw error when SSN input is invalid', kycFlow.taxpayerIDInvalidSSN(spec))
-    spec.it('should go to Verify profile when SSN is valid', kycFlow.taxpayerIDValidSSN(spec))
+    spec.it('should throw error when no SSN input', kycFlow.taxpayerIDUSNoSSN(spec))
+    spec.it('should throw error when SSN input is invalid', kycFlow.taxpayerIDUSInvalidSSN(spec))
+    spec.it('should go to Verify profile when SSN is valid', kycFlow.taxpayerIDUSValidSSN(spec))
     spec.it('should go to Verify profile when info filled in correctly', kycFlow.taxpayerIDSuccess(spec))
 
     // Verify Documents Screen
-    spec.it('should take front picture of passport and finish KYC', kycFlow.takePassportPicture(spec))
-    spec.it('should take picture of driving licence', kycFlow.takeFrontAndBackofDrivingLicence(spec))
-    spec.it('should take picture of identity card', kycFlow.takeFrontAndBackofIdentityCard(spec))
     spec.it('should show error when no phone number is filled', kycFlow.showErrorNoPhoneNumber(spec))
-    spec.it('should send SMS and go to VerifyPhoneNumber screen when all data is valid', kycFlow.verifyProfileSuccess(spec))
-    
+    spec.it('should show error when no front photo', kycFlow.showErrorNoFrontPhoto(spec))
+    spec.it('should show error when no back photo', kycFlow.showErrorNoBackPhoto(spec))
+    spec.it('should go to VerifyPhoneNumber when passport photo is ok', kycFlow.takePassportPicture(spec))
+    spec.it('should go to VerifyPhoneNumber when driving licence photos are ok', kycFlow.takeFrontAndBackOfDrivingLicence(spec))
+    spec.it('should go to VerifyPhoneNumber when id photos are ok', kycFlow.takeFrontAndBackofIdentityCard(spec))
+
     // Verify Phone Number Screen
     spec.it('should show error when code in bad', kycFlow.wrongSMSCode(spec))
     spec.it('should go to NoKys pending screen when code is correct', kycFlow.correctSMSCode(spec))

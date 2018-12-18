@@ -113,7 +113,7 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return;
 
-    const { actions, dispatch } = this.props;
+    const { actions } = this.props;
     try {
 
       this.setState({ isLoading: true });
@@ -145,17 +145,9 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
-      dispatch({
-        type: 'TAKE_CAMERA_PHOTO_SUCCESS',
-        callName: API.TAKE_CAMERA_PHOTO,
-      })
     } catch (err) {
       logger.log(err);
       this.setState({ isLoading: false });
-      dispatch({
-        type: 'API_ERROR',
-        callName: API.TAKE_CAMERA_PHOTO,
-      })
     }
   };
 

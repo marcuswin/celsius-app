@@ -44,17 +44,18 @@ export async function resetTests(spec) {
 
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
-  let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
+  let lastCompletedCall = getState().api.history[0];
   // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
-  while (lastCompletedCall.includes(callName) && tryCount < 20) {
-    // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
+  while (!lastCompletedCall.includes(callName) && tryCount < 50) {
     tryCount++
-    // tryCount++;
     await spec.pause(500)
-    lastCompletedCall = getState().api.history[getState().api.history.length - 1];
+    lastCompletedCall = getState().api.history[0];
+    // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
   }
 
-  if (tryCount === 20) throw new Error('Too many tries!');
+  if (tryCount === 20) {
+    throw new Error('Too many tries!');
+  }
 }
 
 export async function waitForExists(spec, screen) {
