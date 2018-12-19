@@ -205,16 +205,17 @@ class ProfileScreen extends Component {
       }
       actions.initForm(data)
 
+      // TODO(ns): uncomment when Blackout is activated, check if code below needed
 
-      if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
-        this.setState({ addressEditable: true });
+      // if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
+      //   this.setState({ addressEditable: true });
         // if( days && days < 1) {
         //   this.setState({ isBlackout: false });
         // }
-      }
-      if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
-        this.setState({ taxpayerEditable: true });
-      }
+      // }
+      // if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
+      //   this.setState({ taxpayerEditable: true });
+      // }
     }
   };
 
