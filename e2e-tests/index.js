@@ -4,8 +4,8 @@ import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
 export default function(spec) {
-  // testSignupFlow(spec);
-  // testLoginFlow(spec);
+  testSignupFlow(spec);
+  testLoginFlow(spec);
   testKycFlow(spec);
   // testSinglesSuite(spec);
 }
