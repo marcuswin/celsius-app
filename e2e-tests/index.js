@@ -3,11 +3,11 @@ import { testFailed } from './helpers';
 import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 
-export default function(spec) {
+export default function (spec) {
   testSignupFlow(spec);
   testLoginFlow(spec);
   testKycFlow(spec);
-  // testSinglesSuite(spec);
+  // testSingleSuite(spec);
 }
 
 export function testSignupFlow(spec) {

@@ -88,7 +88,7 @@ function successKYCflow(spec) {
     await spec.press('CameraInput.front')
     await waitForExists(spec, 'Camera.screen')
     await takePhoto(spec)
-    await store.dispatch(actions.updateFormField('cellphone', `111+${new Date().getTime()}`))
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
     await spec.press('VerifyProfile.verify')
     await waitForExists(spec, 'VerifyPhoneNumber.screen')
 
@@ -126,11 +126,23 @@ function fillAllProfileDetailsFields() {
 
 function prepopulateFirstAndLastName(spec) {
   return async () => {
-    await profileDetailsSetup(spec);
+    await resetNonKycUser(spec);
+    await resetTests(spec);
+    await dispatch(actions.loginBorrower({
+      email: 'testing+non_kyc_user@mvpworkshop.co',
+      password: 'Cel51u5!?',
+    }))
+
+    store.dispatch(actions.updateFormField('first_name', 'Stefan'));
+    store.dispatch(actions.updateFormField('last_name', 'Burscher'));
 
     await waitForExists(spec, 'NoKyc.screen')
-    throw new Error('Test not implemented yet!')
-    // TODO: pull property value from CelInput for first and last names
+    await spec.press('NoKyc.VerifyProfile')
+    await waitForExists(spec, 'ProfileDetails.screen')
+    await spec.press('ProfileDetails.addYourAddress')
+
+    await spec.notExists('InputErrorWrapper.firstName')
+    await spec.notExists('InputErrorWrapper.lastName')
   }
 }
 
@@ -178,15 +190,15 @@ function noDateOfBirth(spec) {
     await profileDetailsSetup(spec);
 
     fillAllProfileDetailsFields();
+    store.dispatch(actions.updateFormField('date_of_birth', ''));
     store.dispatch(actions.updateFormField('month', ''));
     store.dispatch(actions.updateFormField('day', ''));
     store.dispatch(actions.updateFormField('year', ''));
     await spec.press('ProfileDetails.addYourAddress')
 
     //check errors
-    // const text = await spec.findComponent('InputErrorWrapper.year');
-    // await containsText(text, `Date of Birth is required!`);
-    throw new Error('Test not implemented yet!')
+    const text = await spec.findComponent('InputErrorWrapper.dateOfBirth');
+    await containsText(text, `Date of Birth is required!`);
   }
 }
 
@@ -196,15 +208,15 @@ function underAge(spec) {
     await profileDetailsSetup(spec);
 
     fillAllProfileDetailsFields();
+    store.dispatch(actions.updateFormField('date_of_birth', '2004-01-01'));
     store.dispatch(actions.updateFormField('month', '01'));
     store.dispatch(actions.updateFormField('day', '01'));
     store.dispatch(actions.updateFormField('year', '2004'));
     await spec.press('ProfileDetails.addYourAddress')
 
     //check errors
-    // const text = await spec.findComponent('ProfileDetails.title');
-    // await containsText(text, `Title is required!`);
-    throw new Error('Test not implemented yet!')
+    const text = await spec.findComponent('InputErrorWrapper.dateOfBirth');
+    await containsText(text, `You must be at least 18 years old to use Celsius application.`);
   }
 }
 
@@ -264,10 +276,12 @@ function fillAllAddressInformationFields() {
 function prepopulateCountry(spec) {
   return async () => {
     await resetKYC(spec);
-    dispatch(actions.navigateTo('AddressInformation'))
+    await store.dispatch(actions.updateFormField('country', 'Argentina'))
+    await dispatch(actions.navigateTo('AddressInformation'))
+    await waitForExists(spec, 'AddressInformation.screen')
+    await spec.press('AddressInformation.yourTaxpayerID')
 
-    // TODO: Find CelSelect and check value prop
-    throw new Error('Test not implemented yet!')
+    await spec.notExists('InputErrorWrapper.country')
   }
 }
 
@@ -404,7 +418,7 @@ async function takePhoto(spec) {
   try {
     await spec.pause(1000)
     await spec.exists('Camera.confirmScreen')
-  } catch(err) {
+  } catch (err) {
     await spec.press('CameraScreen.takePhoto')
   }
   await waitForExists(spec, 'Camera.confirmScreen')
@@ -414,21 +428,39 @@ async function takePhoto(spec) {
 function showErrorNoPhoneNumber(spec) {
   return async () => {
     await setupVerifyProfile(spec);
-    throw new Error('Test not implemented yet!')
+    await spec.press('VerifyProfile.verify')
+
+    const text = await spec.findComponent('InputErrorWrapper.cellphone');
+    await containsText(text, `Cell phone is required!`);
   }
 }
 
 function showErrorNoFrontPhoto(spec) {
   return async () => {
     await setupVerifyProfile(spec);
-    throw new Error('Test not implemented yet!')
+    await spec.press('VerifyProfile.verify')
+
+    const text = await spec.findComponent('InputErrorWrapper.front');
+    await containsText(text, `Front side photo is required!`);
   }
 }
 
 function showErrorNoBackPhoto(spec) {
   return async () => {
-    await setupVerifyProfile(spec);
-    throw new Error('Test not implemented yet!')
+    await profileDetailsSetup(spec);
+
+    fillAllProfileDetailsFields();
+    await spec.press('ProfileDetails.addYourAddress')
+
+    await waitForExists(spec, 'AddressInformation.screen')
+    dispatch(actions.navigateTo('VerifyProfile'))
+    await waitForExists(spec, 'VerifyProfile.screen')
+    await waitForExists(spec, 'VerifyProfile.identity_card')
+    await spec.press('VerifyProfile.identity_card')
+    await spec.press('VerifyProfile.verify')
+
+    const text = await spec.findComponent('InputErrorWrapper.back');
+    await containsText(text, `Back side photo is required!`);
   }
 }
 
@@ -440,7 +472,7 @@ function takePassportPicture(spec) {
     await takePhoto(spec)
     await waitForExists(spec, 'VerifyProfile.screen')
 
-    await store.dispatch(actions.updateFormField('cellphone', `111+${new Date().getTime()}`))
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
 
     await spec.press('VerifyProfile.verify')
     await waitForExists(spec, 'VerifyPhoneNumber.screen')
@@ -449,9 +481,16 @@ function takePassportPicture(spec) {
 
 function takeFrontAndBackOfDrivingLicence(spec) {
   return async () => {
-    await setupVerifyProfile(spec);
+    await profileDetailsSetup(spec);
 
-    await store.dispatch(actions.updateFormField('documentType', 'driving_licence'))
+    fillAllProfileDetailsFields();
+    await spec.press('ProfileDetails.addYourAddress')
+
+    await waitForExists(spec, 'AddressInformation.screen')
+    dispatch(actions.navigateTo('VerifyProfile'))
+    await waitForExists(spec, 'VerifyProfile.screen')
+    await waitForExists(spec, 'VerifyProfile.driving_licence')
+    await spec.press('VerifyProfile.driving_licence')
 
     await spec.press('CameraInput.front')
     await takePhoto(spec)
@@ -461,7 +500,7 @@ function takeFrontAndBackOfDrivingLicence(spec) {
     await takePhoto(spec)
     await waitForExists(spec, 'VerifyProfile.screen')
 
-    await store.dispatch(actions.updateFormField('cellphone', `111+${new Date().getTime()}`))
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
 
     await spec.press('VerifyProfile.verify')
     await waitForExists(spec, 'VerifyPhoneNumber.screen')
@@ -470,9 +509,16 @@ function takeFrontAndBackOfDrivingLicence(spec) {
 
 function takeFrontAndBackofIdentityCard(spec) {
   return async () => {
-    await setupVerifyProfile(spec);
+    await profileDetailsSetup(spec);
 
-    await store.dispatch(actions.updateFormField('documentType', 'identity_card'))
+    fillAllProfileDetailsFields();
+    await spec.press('ProfileDetails.addYourAddress')
+
+    await waitForExists(spec, 'AddressInformation.screen')
+    dispatch(actions.navigateTo('VerifyProfile'))
+    await waitForExists(spec, 'VerifyProfile.screen')
+    await waitForExists(spec, 'VerifyProfile.identity_card')
+    await spec.press('VerifyProfile.identity_card')
 
     await spec.press('CameraInput.front')
     await takePhoto(spec)
@@ -482,7 +528,7 @@ function takeFrontAndBackofIdentityCard(spec) {
     await takePhoto(spec)
     await waitForExists(spec, 'VerifyProfile.screen')
 
-    await store.dispatch(actions.updateFormField('cellphone', `111+${new Date().getTime()}`))
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
 
     await spec.press('VerifyProfile.verify')
     await waitForExists(spec, 'VerifyPhoneNumber.screen')
@@ -498,23 +544,72 @@ async function setupVerifyPhoneNumber(spec) {
 
 function wrongSMSCode(spec) {
   return async () => {
-    await setupVerifyPhoneNumber(spec);
+    await resetKYC(spec)
 
-    await spec.fillIn('VerifyPhoneNumber.sms', '5555')
+    // ProfileDetails screen
+    fillAllProfileDetailsFields()
+    await spec.press('ProfileDetails.addYourAddress')
+    await waitForExists(spec, 'AddressInformation.screen')
+
+    // AddressInformation screen
+    fillAllAddressInformationFields()
+    await spec.press('AddressInformation.yourTaxpayerID')
+    await waitForExists(spec, 'TaxpayerID.screen')
+
+    // TaxPayerID screen
+    store.dispatch(actions.updateFormField('national_id', '110319415136'))
+    await spec.press('TaxpayerID.verifyYourProfile')
+    await waitForExists(spec, 'VerifyProfile.screen')
+
+    // VerifyProfile screen
+    store.dispatch(actions.updateFormField('documentType', 'passport'))
+    await spec.press('CameraInput.front')
+    await waitForExists(spec, 'Camera.screen')
+    await takePhoto(spec)
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
+    await spec.press('VerifyProfile.verify')
+    await waitForExists(spec, 'VerifyPhoneNumber.screen')
+
+    // VerifyPhoneNumber screen
+    await spec.fillIn('VerifyPhoneNumber.sms', '1234')
     await spec.press('VerifyPhoneNumber.finish')
+    // await waitForExists(spec, 'NoKycPending.screen')
 
-    // TODO: check error message
-    throw new Error('Test not implemented yet!')
+    await spec.notExists('NoKycPending.screen')
   }
 }
+
 function correctSMSCode(spec) {
   return async () => {
-    await setupVerifyPhoneNumber(spec);
+    await resetKYC(spec)
 
+    // ProfileDetails screen
+    fillAllProfileDetailsFields()
+    await spec.press('ProfileDetails.addYourAddress')
+    await waitForExists(spec, 'AddressInformation.screen')
+
+    // AddressInformation screen
+    fillAllAddressInformationFields()
+    await spec.press('AddressInformation.yourTaxpayerID')
+    await waitForExists(spec, 'TaxpayerID.screen')
+
+    // TaxPayerID screen
+    store.dispatch(actions.updateFormField('national_id', '110319415136'))
+    await spec.press('TaxpayerID.verifyYourProfile')
+    await waitForExists(spec, 'VerifyProfile.screen')
+
+    // VerifyProfile screen
+    store.dispatch(actions.updateFormField('documentType', 'passport'))
+    await spec.press('CameraInput.front')
+    await waitForExists(spec, 'Camera.screen')
+    await takePhoto(spec)
+    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
+    await spec.press('VerifyProfile.verify')
+    await waitForExists(spec, 'VerifyPhoneNumber.screen')
+
+    // VerifyPhoneNumber screen
     await spec.fillIn('VerifyPhoneNumber.sms', '1111')
     await spec.press('VerifyPhoneNumber.finish')
-
-    // TODO: check error message
-    throw new Error('Test not implemented yet!')
+    await waitForExists(spec, 'NoKycPending.screen')
   }
 }

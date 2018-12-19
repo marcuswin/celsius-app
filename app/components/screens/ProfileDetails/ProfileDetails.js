@@ -96,10 +96,10 @@ class ProfileDetails extends Component {
   initForm = () => {
     const { actions, user, formData } = this.props;
     let date;
-    if( formData.date_of_birth) {
+    if (formData.date_of_birth) {
       date = formData.date_of_birth.split('-');
-    } else if(user.date_of_birth) {
-      date =  user.date_of_birth.split('-');
+    } else if (user.date_of_birth) {
+      date = user.date_of_birth.split('-');
     } else {
       date = ['', '', ''];
     }
@@ -121,7 +121,7 @@ class ProfileDetails extends Component {
       })
     }
   }
-  
+
   // rendering methods
   render() {
     const { formData, callsInProgress, formErrors } = this.props;
@@ -151,7 +151,7 @@ class ProfileDetails extends Component {
               <CelSelect onlyError error={formErrors.day} field="day" type="day" labelText="Day" value={formData.day} flex={1.1} margin={"0 15 2 0"} />
               <CelSelect onlyError error={formErrors.year} field="year" type="year" labelText="Year" value={formData.year} flex={1} margin={"0 0 2 0"} />
             </View>
-            {formErrors.dateOfBirth ? <Text style={globalStyles.errorText}>* {formErrors.dateOfBirth}</Text> : null}
+            {formErrors.dateOfBirth ? <Text ref={testUtil.generateTestHook(this, `InputErrorWrapper.dateOfBirth`)} style={globalStyles.errorText}>* {formErrors.dateOfBirth}</Text> : null}
           </View>
 
           <CelInput value={formData.companyName} error={formErrors.company_name} field="companyName" labelText="Company Name (optional)" autoCapitalize="sentences" />

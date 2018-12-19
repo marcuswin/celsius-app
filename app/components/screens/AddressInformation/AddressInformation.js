@@ -92,7 +92,7 @@ class AddressInformation extends Component {
         city: formData.city || user.city,
         state: formData.state || user.state,
         zip: formData.zip || user.zip,
-        country: user.country ? (formData.country || user.country) : (formData.citizenship || user.citizenship)
+        country: user.country ? (formData.country || user.country) : (formData.country || formData.citizenship || user.citizenship)
       })
     }
   }
@@ -100,7 +100,7 @@ class AddressInformation extends Component {
   // rendering methods
   render() {
     const { formData, callsInProgress, formErrors } = this.props;
-          
+
     const isUpdatingProfileInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     return (
       <SimpleLayout
@@ -113,10 +113,10 @@ class AddressInformation extends Component {
           <CelSelect ref={testUtil.generateTestHook(this, `AddressInformation.country`)} error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
           {formData.country === "United States" ?
             <CelSelect ref={testUtil.generateTestHook(this, `AddressInformation.state`)} error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
-            : null }
+            : null}
           <CelInput {...this.props} testSelector={'AddressInformation.city'} value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.zip`)}  value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.street`)}  value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.zip`)} value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.street`)} value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
           <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.buildingNumber`)} value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
           <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.flatNumber`)} value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
         </CelForm>
