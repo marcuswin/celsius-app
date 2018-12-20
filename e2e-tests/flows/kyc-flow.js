@@ -416,7 +416,7 @@ async function takePhoto(spec) {
   await spec.press('CameraScreen.takePhoto')
   try {
     await spec.pause(1000)
-    await spec.exists('Camera.confirmScreen')
+    await waitForExists(spec, 'Camera.confirmScreen')
   } catch (err) {
     await spec.press('CameraScreen.takePhoto')
   }
