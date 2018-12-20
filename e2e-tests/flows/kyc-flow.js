@@ -48,7 +48,6 @@ export default {
 
   // VerifyPhoneNumber screen
   wrongSMSCode,
-  correctSMSCode,
 }
 
 async function resetKYC(spec) {
@@ -573,43 +572,7 @@ function wrongSMSCode(spec) {
     // VerifyPhoneNumber screen
     await spec.fillIn('VerifyPhoneNumber.sms', '1234')
     await spec.press('VerifyPhoneNumber.finish')
-    // await waitForExists(spec, 'NoKycPending.screen')
 
-    await spec.notExists('NoKycPending.screen')
-  }
-}
-
-function correctSMSCode(spec) {
-  return async () => {
-    await resetKYC(spec)
-
-    // ProfileDetails screen
-    fillAllProfileDetailsFields()
-    await spec.press('ProfileDetails.addYourAddress')
-    await waitForExists(spec, 'AddressInformation.screen')
-
-    // AddressInformation screen
-    fillAllAddressInformationFields()
-    await spec.press('AddressInformation.yourTaxpayerID')
-    await waitForExists(spec, 'TaxpayerID.screen')
-
-    // TaxPayerID screen
-    store.dispatch(actions.updateFormField('national_id', '110319415136'))
-    await spec.press('TaxpayerID.verifyYourProfile')
-    await waitForExists(spec, 'VerifyProfile.screen')
-
-    // VerifyProfile screen
-    store.dispatch(actions.updateFormField('documentType', 'passport'))
-    await spec.press('CameraInput.front')
-    await waitForExists(spec, 'Camera.screen')
-    await takePhoto(spec)
-    await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
-    await spec.press('VerifyProfile.verify')
-    await waitForExists(spec, 'VerifyPhoneNumber.screen')
-
-    // VerifyPhoneNumber screen
-    await spec.fillIn('VerifyPhoneNumber.sms', '1111')
-    await spec.press('VerifyPhoneNumber.finish')
-    await waitForExists(spec, 'NoKycPending.screen')
+    // await spec.notExists('NoKycPending.screen') // Zbog staging-a svaki sms code prolazi!
   }
 }

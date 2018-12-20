@@ -26,8 +26,8 @@ class Message extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {message} = this.props;
-    const {opacity} = this.state;
+    const { message } = this.props;
+    const { opacity } = this.state;
 
     if (!message && nextProps.message) {
       Animated.timing(
@@ -45,7 +45,7 @@ class Message extends Component {
 
   render() {
     const { message, connected, actions } = this.props;
-    const {opacity} = this.state;
+    const { opacity } = this.state;
 
     if (!message && connected) return null;
     let containerStyles;
@@ -91,7 +91,7 @@ class Message extends Component {
 
     if (!message.text) return null;
     return (
-      <Animated.View style={[containerStyles, {opacity}]}>
+      <Animated.View style={[containerStyles, { opacity }]}>
         <View style={MessageStyle.messageWrapper}>
           <View style={circleStyles}>
             {messageIcon}
@@ -101,7 +101,7 @@ class Message extends Component {
           </Text>
         </View>
         <TouchableOpacity onPress={() => actions.clearMessage()}>
-          <Icon name='xIcon' height='17' width='17' viewBox="0 0 1000 1000" fill={"#545F8D"}/>
+          <Icon name='xIcon' height='17' width='17' viewBox="0 0 1000 1000" fill={"#545F8D"} />
         </TouchableOpacity>
       </Animated.View>
     );

@@ -10,8 +10,7 @@ import * as actions from '../actions';
 import {
   getSecureStoreKey,
   deleteSecureStoreKey,
-  setSecureStoreKey,
-  clearSecureStorage
+  setSecureStoreKey
 } from "../../utils/expo-storage";
 import baseUrl from "../../services/api-url";
 import { mixpanelAnalytics } from "../../services/mixpanel";
@@ -25,10 +24,10 @@ const { TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = 
 export function resetApp() {
   return async (dispatch) => {
     try {
-      await clearSecureStorage();
+      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       dispatch({ type: ACTIONS.RESET_APP })
       dispatch(actions.showMessage('warning', 'Reseting Celsius App!'))
-      
+
       await dispatch(appInitStart());
     } catch (e) {
       console.log(e);

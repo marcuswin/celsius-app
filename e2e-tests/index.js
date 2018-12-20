@@ -122,6 +122,5 @@ export function testKycFlow(spec) {
 
     // Verify Phone Number Screen
     spec.it('should show error when code in bad', kycFlow.wrongSMSCode(spec))
-    spec.it('should go to NoKys pending screen when code is correct', kycFlow.correctSMSCode(spec))
   })
 }

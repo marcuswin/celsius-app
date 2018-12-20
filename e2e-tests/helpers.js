@@ -75,6 +75,24 @@ export async function waitForExists(spec, screen) {
   if (tryCount === 10) throw new Error(`spec.exists('${screen})': Too many tries!`);
 }
 
+export async function waitToFindComponent(spec, component) {
+  let activeComponent;
+  let tryCount = 1;
+
+  while (!activeComponent && tryCount < 10) {
+    try {
+      activeComponent = await spec.findComponent(component)
+    } catch (e) {
+      activeComponent = null
+    }
+    tryCount++
+    if (!activeComponent) await spec.pause(500)
+  }
+
+  if (tryCount === 10) throw new Error(`spec.findComponent('${component})': Too many tries!`);
+  if (activeComponent) return activeComponent;
+}
+
 export function testPassed(spec) {
   return async () => {
     await resetTests(spec);
@@ -91,7 +109,7 @@ export function testFailed(spec) {
 
 export async function containsText(component, text) {
   if (!component.props.children.includes(text)) {
-    throw new Error(`Could not find text ${ text }`);
+    throw new Error(`Could not find text ${text}`);
   };
 }
 
