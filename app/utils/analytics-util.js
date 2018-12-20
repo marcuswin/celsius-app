@@ -116,10 +116,10 @@ export const analyticsEvents = {
       amount_usd: info.amountUsd.toString(),
       amount_crypto: info.amount.toString(),
       coin: info.coin,
-      products: [{
-        name: info.coin,
-        sku: info.id,
-      }]
+      // products: JSON.stringify([{
+      //   name: info.coin,
+      //   sku: info.id,
+      // }])
     });
   },
   changeTab: (tab) => {
@@ -148,10 +148,10 @@ export const analyticsEvents = {
       amount_usd: celPayInfo.amountUsd.toString(),
       amount_crypto: celPayInfo.amount.toString(),
       coin: celPayInfo.coin,
-      products: [{
-        name: celPayInfo.coin,
-        sku: celPayInfo.hash,
-      }]
+      // products: JSON.stringify([{
+      //   name: celPayInfo.coin,
+      //   sku: celPayInfo.hash,
+      // }])
     });
     // branchEvents.spendCredits(user.id, celPayInfo);
   },
@@ -170,10 +170,10 @@ export const analyticsEvents = {
       interest: loanData.interest.toString(),
       monthly_payment: loanData.monthly_payment.toString(),
 
-      products: [{
-        name: loanData.coin,
-        sku: loanData.id
-      }]
+      // products: JSON.stringify([{
+      //   name: loanData.coin,
+      //   sku: loanData.id
+      // }])
     })
     // branchEvents.addToCart(user.id, loanData);
   },
