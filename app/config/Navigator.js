@@ -14,6 +14,8 @@ import ChangePasswordScreen from "../components/screens/ChangePassword/ChangePas
 import ProfileImageScreen from "../components/screens/ProfileImage/ProfileImage";
 import ProfileDetailsScreen from "../components/screens/ProfileDetails/ProfileDetails";
 import VerifyProfileScreen from "../components/screens/VerifyProfile/VerifyProfile";
+import AddressInformationScreen from "../components/screens/AddressInformation/AddressInformation";
+import TaxpayerIDScreen from "../components/screens/TaxpayerID/TaxpayerID";
 import CameraScreen from "../components/screens/Camera/Camera";
 import VerifyPhoneNumberScreen from "../components/screens/VerifyPhoneNumber/VerifyPhoneNumber";
 import NoKycScreen from "../components/screens/NoKyc/NoKyc";
@@ -40,6 +42,15 @@ import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
 import SelectCoinScreen from "../components/screens/SelectCoin/SelectCoin";
+import SettingsScreen from "../components/screens/Settings/Settings";
+import TwoFAInfoScreen from "../components/screens/TwiFAInfo/TwoFAInfo";
+import TwoFaWelcomeScreen from "../components/screens/TwoFaWelcome/TwoFaWelcome";
+import TwoFaAuthAppConfirmationScreen from "../components/screens/TwoFaAuthAppConfirmation/TwoFaAuthAppConfirmation";
+import TwoFaAuthAppConfirmationCodeScreen from "../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode";
+import TwoFaAuthSuccessScreen from "../components/screens/TwoFaAuthSuccess/TwoFaAuthSuccess";
+import VerifyIdentityScreen from "../components/screens/VerifyIdentity/VerifyIdentityScreen";
+import ApiAuthorizationScreen from "../components/screens/ApiAuthorization/ApiAuthorization";
+import ApiKeyGenerateScreen from "../components/screens/ApiKeyGenerate/ApiKeyGenerate";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -92,6 +103,46 @@ export const screens = {
   },
 
   // Profile screens
+  ProfileSettings: {
+    screen: SettingsScreen,
+    title: 'Settings',
+    bottomNavigation: true,
+  },
+  ApiAuthorization: {
+    screen: ApiAuthorizationScreen,
+    title: 'API Auth',
+    bottomNavigation: true,
+  },
+  ApiKeyGenerate: {
+    screen: ApiKeyGenerateScreen,
+    title: 'API Auth',
+    bottomNavigation: true,
+  },
+  TwoFAInfo: {
+    screen: TwoFAInfoScreen,
+    title: 'TwoFAInfo',
+    bottomNavigation: true,
+  },
+  TwoFaAuthAppConfirmation: {
+  screen: TwoFaAuthAppConfirmationScreen,
+    title: 'TwoFaAuthAppConfirmation',
+    bottomNavigation: true,
+},
+  TwoFaAuthAppConfirmationCode: {
+    screen: TwoFaAuthAppConfirmationCodeScreen,
+    title: 'TwoFaAuthAppConfirmationCode',
+    bottomNavigation: true,
+  },
+  TwoFaWelcome: {
+    screen: TwoFaWelcomeScreen,
+    title: 'TwoFaWelcome',
+    bottomNavigation: true,
+  },
+  TwoFaAuthSuccess: {
+    screen: TwoFaAuthSuccessScreen,
+    title: 'TwoFaAuthSuccess',
+    bottomNavigation: true,
+  },
   Profile: {
     screen: ProfileScreen,
     title: 'Profile',
@@ -116,6 +167,14 @@ export const screens = {
   VerifyProfile: {
     screen: VerifyProfileScreen,
     title: 'VerifyProfile',
+  },
+  AddressInformation:{
+    screen: AddressInformationScreen,
+    title: 'AddressInformation',
+  },
+  TaxpayerID:{
+    screen: TaxpayerIDScreen,
+    title: 'TaxprayerID',
   },
   VerifyPhoneNumber: {
     screen: VerifyPhoneNumberScreen,
@@ -225,6 +284,10 @@ export const screens = {
   LoginPasscode: {
     screen: LoginPasscodeScreen,
     title: 'LoginPasscode',
+  },
+  VerifyIdentity: {
+    screen: VerifyIdentityScreen,
+    title: 'VerifyIdentity',
   },
 }
 

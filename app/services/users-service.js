@@ -15,17 +15,21 @@ const usersService = {
   sendResetLink,
   resetPassword,
   getPersonalInfo,
+  getProfileAddressInfo,
   updateProfileInfo,
+  getProfileTaxpayerInfo,
+  updateProfileAddressInfo,
+  updateProfileTaxpayerInfo,
   setProfileImage,
-  addExpoPushToken
+  addExpoPushToken,
+  getIcoPersonalInfo
 };
 
-function register({ email, password, referrerId }) {
-  console.log({ referrerId })
+function register(user) {
   return axios.post(`${apiUrl}/users/register`, {
-    email,
-    password,
-    referrer_id: referrerId,
+    email: user.email,
+    password: user.password,
+    referral_link_id: user.referralLinkId || undefined,
   });
 }
 
@@ -40,7 +44,7 @@ function registerTwitter(twitterUser) {
     profile_picture: twitterUser.profile_picture,
     access_token: twitterUser.twitter_oauth_token,
     secret_token: twitterUser.twitter_oauth_secret,
-    referrer_id: twitterUser.referrerId,
+    referral_link_id: twitterUser.referralLinkId || undefined,
   });
 }
 
@@ -52,7 +56,7 @@ function registerFacebook(facebookUser) {
     last_name: lastName,
     facebook_id: facebookUser.facebook_id,
     access_token: facebookUser.access_token,
-    referrer_id: facebookUser.referrerId,
+    referral_link_id: facebookUser.referralLinkId || undefined,
   });
 }
 
@@ -65,7 +69,7 @@ function registerGoogle(googleUser) {
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
     access_token: googleUser.access_token,
-    referrer_id: googleUser.referrerId,
+    referral_link_id: googleUser.referralLinkId || undefined,
   });
 }
 
@@ -131,8 +135,24 @@ function getPersonalInfo() {
   return axios.get(`${apiUrl}/me`);
 }
 
+function getProfileAddressInfo() {
+  return axios.get(`${apiUrl}/me/address`);
+}
+
+function getProfileTaxpayerInfo() {
+  return axios.get(`${apiUrl}/me/taxpayer_info`);
+}
+
 function updateProfileInfo(profileInfo) {
   return axios.patch(`${apiUrl}/me`, profileInfo);
+}
+
+function updateProfileAddressInfo(profileAddressInfo) {
+  return axios.post(`${apiUrl}/me/address`, profileAddressInfo);
+}
+
+function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo);
 }
 
 function setProfileImage(image) {
@@ -145,6 +165,10 @@ async function addExpoPushToken(token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
     expo_push_token: token,
   });
+}
+
+function getIcoPersonalInfo() {
+  return axios.get(`${apiUrl}/me/kyc/ico_data`)
 }
 
 export default usersService;

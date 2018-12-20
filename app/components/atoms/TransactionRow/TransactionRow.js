@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from "react-native";
 import { ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
+import isEqual from "lodash/isEqual";
 
 import TransactionRowStyle from "./TransactionRow.styles";
 import formatter from "../../../utils/formatter";
@@ -18,6 +19,7 @@ function getTransactionColor(transactionType) {
     INTEREST: COLORS.blue,
     COLLATERAL: COLORS.blue,
     BONUS_TOKEN: COLORS.green,
+    REFERRED_AWARD: COLORS.green,
     TRANSFER_PENDING: COLORS.yellow,
     TRANSFER_CLAIMED: COLORS.yellow,
     TRANSFER_SENT: COLORS.blue,
@@ -25,6 +27,7 @@ function getTransactionColor(transactionType) {
     TRANSFER_RETURNED: COLORS.red,
     TRANSFER_EXPIRED: COLORS.red,
     TRANSFER_ONHOLD: COLORS.yellow,
+    CANCELED: COLORS.yellow,
 
     IN: COLORS.green,
     OUT: COLORS.red,
@@ -40,6 +43,7 @@ function getTransactionStatusText(transaction) {
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
     COLLATERAL: 'Loan Collateral',
     BONUS_TOKEN: 'Bonus',
+    REFERRED_AWARD: 'Referral award',
     TRANSFER_PENDING: 'Pending',
     TRANSFER_CLAIMED: 'Claimed',
     TRANSFER_SENT: 'Sent',
@@ -47,6 +51,7 @@ function getTransactionStatusText(transaction) {
     TRANSFER_RETURNED: 'Returned',
     TRANSFER_EXPIRED: 'Expired',
     TRANSFER_ONHOLD: 'On Hold',
+    CANCELED: 'Canceled',
 
     IN: 'Received',
     OUT: 'Sent',
@@ -72,12 +77,22 @@ function getTransactionIcon(transactionType) {
       </View>
     ),
     BONUS_TOKEN: receiveArrow,
+    REFERRED_AWARD: (
+      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.green }]}>
+        <Icon name='Gift' width='16' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
     TRANSFER_CLAIMED: sentArrow,
     TRANSFER_RECEIVED: receiveArrow,
     TRANSFER_RETURNED: (
       <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.red }]}>
+        <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
+      </View>
+    ),
+    CANCELED: (
+      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}>
         <Icon name='ReturnArrow' height='16' width='16' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
@@ -99,7 +114,7 @@ class TransactionRow extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.transaction && this.props.transaction.id !== nextProps.transaction.id) {
+    if (this.props.transaction && !isEqual(this.props.transaction, nextProps.transaction)) {
       this.setTransaction(nextProps.transaction);
     }
   }
@@ -126,23 +141,23 @@ class TransactionRow extends Component {
 
     return (
       <ListItem style={TransactionRowStyle.listItem}>
-        <TouchableOpacity style={{width: '100%'}} onPress={onPress}>
-          <Grid style={{paddingLeft: 0, marginLeft: 0}}>
-            <Col size={70} style={{paddingLeft: 0, marginLeft: 0}}>
+        <TouchableOpacity style={{ width: '100%' }} onPress={onPress}>
+          <Grid style={{ paddingLeft: 0, marginLeft: 0 }}>
+            <Col size={70} style={{ paddingLeft: 0, marginLeft: 0 }}>
               <Col style={{ width: 40, position: 'absolute' }}>
-                { icon }
+                {icon}
               </Col>
-              <Col style={{paddingLeft: 40}}>
+              <Col style={{ paddingLeft: 40 }}>
                 <Text style={TransactionRowStyle.usdAmount}>{formatter.usd(transaction.amount_usd)}</Text>
                 <Text style={TransactionRowStyle.coinAmount}>{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</Text>
               </Col>
             </Col>
             <Col size={50}>
-              <View style={{display: 'flex', alignSelf: 'flex-end'}}>
+              <View style={{ display: 'flex', alignSelf: 'flex-end' }}>
                 <Text style={[TransactionRowStyle.time, { alignSelf: 'flex-end' }]}>{transaction.time}</Text>
                 <Text
                   style={[TransactionRowStyle.status, { color }]}>
-                  { statusText }
+                  {statusText}
                 </Text>
               </View>
             </Col>

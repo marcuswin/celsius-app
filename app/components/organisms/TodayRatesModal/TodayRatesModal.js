@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import { Text, View } from "react-native";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
@@ -30,7 +31,6 @@ class TodayRatesModal extends Component {
 
   render() {
     const { actions, appSettings: { showTodayRatesModal } } = this.props;
-
     return (
       <CelModal name={MODALS.TODAY_RATES_MODAL} modalStyle={{paddingTop:0,paddingBottom: 20,}} contentStyle={{paddingLeft: 0, paddingRight: 0,}}>
         <View style={TodayRatesModalStyle.modalHeadingWrapper}>
@@ -43,7 +43,7 @@ class TodayRatesModal extends Component {
             <Text style={TodayRatesModalStyle.descriptionText}>Deposit coins to your wallet now to start earning at these rates: </Text>
           </View>
           <CurrencyInterestRateInfoTable style={{marginVertical: 20,}}/>
-          <CelButton onPress={() => actions.closeModal()} size="small">
+          <CelButton ref={testUtil.generateTestHook(this, 'TodayRatesModal.popUP')} onPress={() => actions.closeModal()} size="small">
             Go to wallet
           </CelButton>
           <View style={TodayRatesModalStyle.checkboxWrapper}>
@@ -61,4 +61,4 @@ class TodayRatesModal extends Component {
   }
 }
 
-export default TodayRatesModal;
+export default testUtil.hookComponent(TodayRatesModal);

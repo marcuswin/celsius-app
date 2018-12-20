@@ -19,6 +19,7 @@ export {
   clearForm,
   setFormErrors,
   updateFormField,
+  refreshBottomNavigation,
   updatePortfolioFormData,
   setKeyboardHeight,
   setInputLayout,
@@ -234,10 +235,20 @@ function openInitialModal() {
     const appSettings = getState().users.appSettings;
     const user = getState().users.user;
     const branchHashes = getState().transfers.branchHashes;
+    // const kyc = getState().users.user.kyc.realStatus;
 
     if (branchHashes && branchHashes.length) {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
+
+    // TODO(ns): uncomment when Blackout is activated
+
+    // if (user && user.kyc.status === "passed") {
+    //   if (user.state === "New York" || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
+    //   if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
+    //     return dispatch(openModal(MODALS.NYC_BLACKOUT));
+    //   }
+    // }
 
     if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
@@ -258,7 +269,14 @@ function closeModal() {
   };
 }
 
+function refreshBottomNavigation() {
+  return {
+    type: ACTIONS.REFRESH_BOTTOM_NAVIGATION,
+  };
+}
+
 function fireUserAction(name) {
+
   return {
     type: ACTIONS.FIRE_USER_ACTION,
     name,

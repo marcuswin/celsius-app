@@ -4,15 +4,14 @@ import { TouchableOpacity, Text, Platform } from 'react-native';
 import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as appActions from "../../../redux/actions";
-import { mixpanelEvents } from '../../../services/mixpanel'
 import {STYLES} from "../../../config/constants/style";
 
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
-import { KYC_STATUSES } from "../../../config/constants/common";
 
 const walletScreens = [
   'NoKyc',
@@ -48,7 +47,7 @@ class BottomNavigation extends Component {
     ],
     navItemsRight: [
       { label: 'Pay', screen: 'SelectCoin', icon: 'Pay', active: [] },
-      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['ChangePassword', 'ProfileImage'] },
+      { label: 'Profile', screen: 'Profile', icon: 'Profile', active: ['TwoFAInfo', "ProfileSettings", 'ProfileImage', "TwoFaAuthAppConfirmation", "TwoFaAuthAppConfirmationCode", "TwoFaWelcome", "TwoFaAuthSuccess"] },
     ]
   }
 
@@ -57,17 +56,11 @@ class BottomNavigation extends Component {
   goToScreen = (navItem) => {
     const { actions } = this.props;
     actions.navigateTo(navItem.screen);
-    mixpanelEvents.navigation(navItem.label, true);
   }
 
   goToHomeScreen = () => {
-    const { actions, user } = this.props;
+    const { actions } = this.props;
     actions.navigateTo('Home');
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      mixpanelEvents.navigation('No KYC');
-    } else {
-      mixpanelEvents.navigation('Wallet');
-    }
   }
   // rendering methods
   renderNavItem = (navItem) => {
@@ -79,8 +72,11 @@ class BottomNavigation extends Component {
 
     return (
       <TouchableOpacity
+      ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)}
+
         key={ navItem.label }
         onPress={ () => this.goToScreen(navItem) }
+
       >
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
@@ -155,4 +151,4 @@ class BottomNavigation extends Component {
   }
 }
 
-export default BottomNavigation;
+export default testUtil.hookComponent(BottomNavigation);

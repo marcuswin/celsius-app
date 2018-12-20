@@ -14,7 +14,7 @@ const SeparatorStyle = StyleSheet.create({
   middleBorderText: {
     fontFamily: 'agile-light',
     fontSize: FONT_SCALE * 14,
-    opacity: 0.5,
+    opacity: 1,
     color: '#88A2C7',
     lineHeight: FONT_SCALE * 17,
     textAlign: 'center',

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import SimpleLayout from "../SimpleLayout/SimpleLayout";
+import testUtil from "../../../utils/test-util";
+
 
 class EarnInterestLayout extends Component {
   tabs = [
@@ -26,4 +28,4 @@ class EarnInterestLayout extends Component {
   }
 }
 
-export default EarnInterestLayout;
+export default testUtil.hookComponent(EarnInterestLayout);

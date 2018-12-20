@@ -1,18 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Image, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
-import {bindActionCreators} from "redux";
-import { Camera, Permissions, ImageManipulator } from 'expo';
+import { bindActionCreators } from "redux";
+import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CameraStyle from "./Camera.styles";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
-import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import imageUtil from "../../../utils/image-util";
+import logger from "../../../utils/logger-util";
 
 @connect(
   state => ({
@@ -93,7 +95,21 @@ class CameraScreen extends Component {
 
   // lifecycle methods
   // event hanlders
-  takeCameraPhoto = async () => {
+
+  pickImage = async () => {
+    const { actions } = this.props;
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+    });
+    if (result.cancelled) {
+      return;
+    }
+    actions.takeCameraPhoto(result.base64.replace(/\n|\r/g, ""));
+  };
+
+  takePhoto = async () => {
     if (!this.camera) return;
 
     const { actions } = this.props;
@@ -127,8 +143,8 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
-    } catch(err) {
-      console.log(err);
+    } catch (err) {
+      logger.log(err);
       this.setState({ isLoading: false });
     }
   };
@@ -179,10 +195,10 @@ class CameraScreen extends Component {
             />
             <Content style={CameraStyle.content} bounces={false}>
               <View style={CameraStyle.view}>
-                <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
+                <Text allowFontScaling={false} style={CameraStyle.heading}>{cameraHeading}</Text>
 
                 <View style={CameraStyle.bottomSection}>
-                  <Text allowFontScaling={false} style={[globalStyles.normalText, CameraStyle.cameraCopy]} >{ cameraCopy }</Text>
+                  <Text allowFontScaling={false} style={[globalStyles.normalText, CameraStyle.cameraCopy]} >{cameraCopy}</Text>
 
                 </View>
               </View>
@@ -193,33 +209,33 @@ class CameraScreen extends Component {
               paddingBottom: bottomNavigationHeight.paddingBottom,
             }]}>
 
-                <TouchableOpacity style={{ width: '15%'}} onPress={() => actions.navigateTo('CameraRoll')}>
-                  { cameraRollLastPhoto && (
-                    <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }}/>
-                  )}
-                </TouchableOpacity>
+              <TouchableOpacity style={{ width: '15%' }} onPress={this.pickImage}>
+                {cameraRollLastPhoto && (
+                  <Image source={{ uri: cameraRollLastPhoto.node.image.uri }} resizeMode="cover" style={{ width: 50, height: 50 }} />
+                )}
+              </TouchableOpacity>
 
-              <TouchableOpacity onPress={this.takeCameraPhoto}>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')} onPress={this.takePhoto}>
                 <View style={CameraStyle.outerCircle}>
-                  { !this.state.isLoading && this.state.hasCameraPermission ? (
-                    <View style={CameraStyle.innerCircle}/>
+                  {!this.state.isLoading && this.state.hasCameraPermission ? (
+                    <View style={CameraStyle.innerCircle} />
                   ) : (
-                    <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={{ height: 30, width: 30 }} />
-                  )}
+                      <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={{ height: 30, width: 30 }} />
+                    )}
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{ width: '15%'}}
+                style={{ width: '15%' }}
                 onPress={actions.flipCamera}
               >
                 <Image
                   source={require('../../../../assets/images/icons/camera-flip.png')}
-                  style={CameraStyle.flipCameraImage}/>
+                  style={CameraStyle.flipCameraImage} />
               </TouchableOpacity>
             </View>
 
-            { mask }
+            {mask}
           </View>
         </Camera>
       </BasicLayout>
@@ -231,27 +247,34 @@ class CameraScreen extends Component {
     const { cameraHeading, photo, actions } = this.props;
 
     const imageSource = imageUtil.getSource(photo);
-    const mask = this.renderMask();
 
     return (
       <BasicLayout>
         <MainHeader
           backgroundColor="transparent"
           left={(
-            <Button style={{width: 80}} title='Back' transparent onPress={hasInitialPhoto ? actions.navigateBack : actions.retakePhoto}>
+            <Button style={{ width: 80 }} title='Back' transparent onPress={hasInitialPhoto ? actions.navigateBack : actions.retakePhoto}>
               <Image
                 source={require('../../../../assets/images/icons/Back.png')}
-                style={{height: 20, width: 20, resizeMode: 'contain'}}/>
+                style={{ height: 20, width: 20, resizeMode: 'contain' }} />
               <Text style={CameraStyle.backBtn} uppercase={false}>Back</Text>
             </Button>
           )}
         />
 
         <Content style={[CameraStyle.content, { paddingHorizontal: 40 }]}>
-          <View style={CameraStyle.view}>
-            <Text allowFontScaling={false} style={CameraStyle.heading}>{ cameraHeading }</Text>
+          <View style={CameraStyle.previewView}>
+            <Text allowFontScaling={false} style={CameraStyle.heading}>{cameraHeading}</Text>
+            <View style={{ marginTop: 30, marginBottom: 30 }}>
+              <Image
+                resizeMethod="resize"
+                source={imageSource}
+                style={CameraStyle.image}
+              />
+            </View>
             <View>
               <CelButton
+                ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
                 onPress={actions.retakePhoto}
                 white
                 inverse
@@ -259,6 +282,7 @@ class CameraScreen extends Component {
                 Retake Photo
               </CelButton>
               <CelButton
+                ref={testUtil.generateTestHook(this, 'CameraScreen.usePhoto')}
                 onPress={this.savePhoto}
                 white
                 margin="20 0 20 0"
@@ -267,12 +291,8 @@ class CameraScreen extends Component {
               </CelButton>
             </View>
           </View>
-
         </Content>
-
-        { Platform.OS === 'ios' ? mask : null }
-        <Image source={imageSource} style={CameraStyle.cameraPhoto}/>
-        { Platform.OS !== 'ios' ? mask : null }
+        <View style={CameraStyle.imageView} />
       </BasicLayout>
     );
   }
@@ -284,4 +304,4 @@ class CameraScreen extends Component {
 
 }
 
-export default CameraScreen;
+export default testUtil.hookComponent(CameraScreen);

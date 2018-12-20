@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
-import { Button, Header, Left, Right, Text, View } from 'native-base';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+import { Button, Header, Left, Right, Text } from 'native-base';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
-import {Image, TouchableOpacity} from 'react-native';
+import { Image, SafeAreaView, TouchableOpacity } from "react-native";
 
 import HeaderStyle from './MainHeader.styles';
 import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
 import {STYLES} from "../../../config/constants/style";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -18,7 +19,7 @@ import {STYLES} from "../../../config/constants/style";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class MainHeader extends Component {
+class MainHeader2 extends Component {
   static propTypes = {
     right: PropTypes.element,
     rightLink: PropTypes.instanceOf(Object),
@@ -49,7 +50,7 @@ class MainHeader extends Component {
 
     if (backButton) {
       return (
-        <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `MainHeader.BackButton`)} style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}} title='Back' transparent onPress={this.onPressBackButton}>
           <Icon
             name='IconChevronLeft'
             height='20' width='20' fill="rgba(255,255,255,0.5)" viewBox="0 0 22 19"
@@ -71,7 +72,7 @@ class MainHeader extends Component {
 
     if (rightLink) {
       return (
-        <Button transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
+        <Button ref={testUtil.generateTestHook(this, `MainHeader.Login`)} transparent onPress={() => actions.navigateTo(rightLink.screen, true)}>
           <Text style={[HeaderStyle.backButtonText, { textAlign: 'right' }]} uppercase={false}>{ rightLink.text }</Text>
         </Button>
       );
@@ -79,8 +80,8 @@ class MainHeader extends Component {
 
     if (onCancel) {
       return (
-        <TouchableOpacity style={{opacity: .6}} onPress={onCancel}>
-          <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'}/>
+        <TouchableOpacity style={{ opacity: .6 }} onPress={onCancel}>
+          <Icon name='xIcon' height='20' width='20' viewBox="0 0 1000 1000" fill={'white'} />
         </TouchableOpacity>
       );
     }
@@ -94,7 +95,7 @@ class MainHeader extends Component {
         }}>
           <Image
             source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-            style={HeaderStyle.logo}/>
+            style={HeaderStyle.logo} />
         </TouchableOpacity>
       );
     }
@@ -103,15 +104,15 @@ class MainHeader extends Component {
   }
 
   render() {
-    const {right, left, backButton, backgroundColor} = this.props;
+    const { right, left, backButton, backgroundColor } = this.props;
 
     const styles = {
       backgroundColor,
     }
 
     return (
-      <View>
-        <Header style={[HeaderStyle.header, styles]} iosBarStyle="light-content">
+      <SafeAreaView style={[styles]}>
+        <Header style={[HeaderStyle.header]} iosBarStyle="light-content">
           <Left>
             {this.renderLeft(left, backButton)}
           </Left>
@@ -119,9 +120,11 @@ class MainHeader extends Component {
             {this.renderRight(right)}
           </Right>
         </Header>
-      </View>
+      </SafeAreaView>
     );
   }
 }
-
+const MainHeader = testUtil.hookComponent(MainHeader2);
 export {MainHeader};
+// export default testUtil.hookComponent(MainHeader);
+

@@ -4,6 +4,7 @@ import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
+import { analyticsEvents } from "../../utils/analytics-util";
 
 
 export function getWalletDetails() {
@@ -102,11 +103,12 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {string} coin
  * @param {string} address
  * @param {number} amount
+ * @param {Object} verification
  */
-export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount) {
+export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;
 
-  return async (dispatch, getState) => {
+  return async dispatch => {
     try {
       currentApiCall = API.SET_COIN_WITHDRAWAL_ADDRESS;
       dispatch(startApiCall(currentApiCall));
@@ -121,7 +123,7 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount)
       currentApiCall = API.WITHDRAW_CRYPTO;
       dispatch(startApiCall(currentApiCall));
 
-      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
+      const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch (error) {
@@ -154,12 +156,12 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
-export function withdrawCrypto(coin, amount) {
-  return async (dispatch, getState) => {
+export function withdrawCrypto(coin, amount, verification) {
+  return async dispatch => {
     try {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amount, getState().wallet.pin);
+      const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch(err) {
@@ -170,10 +172,18 @@ export function withdrawCrypto(coin, amount) {
 }
 
 function withdrawCryptoSuccess(transaction) {
-  return {
-    type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-    callName: API.WITHDRAW_CRYPTO,
-    transaction,
+  return (dispatch) => {
+    dispatch({
+      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
+      callName: API.WITHDRAW_CRYPTO,
+      transaction,
+    });
+
+    analyticsEvents.confirmWithdraw({
+      id: transaction.id,
+      amount: transaction.amount,
+      coin: transaction.coin
+    });
   }
 }
 

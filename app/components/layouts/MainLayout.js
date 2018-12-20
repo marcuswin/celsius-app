@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {bindActionCreators} from "redux";
-import { BackHandler, View } from "react-native";
+import { bindActionCreators } from "redux";
+import { BackHandler, View, ScrollView } from "react-native";
 import { connect } from 'react-redux';
 import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
@@ -11,6 +11,7 @@ import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
 import OfflineMode from "../atoms/OfflineMode/OfflineMode";
 import MaintenanceMode from "../atoms/OfflineMode/MaintenanceMode";
+import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -52,27 +53,34 @@ class MainLayout extends Component {
 
     if (!connected) {
       return (
-        <View style={{flex: 1,}}>
-          <OfflineMode/>
-        </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
+          <View style={{ flex: 1, }}>
+            <OfflineMode />
+          </View>
+        </ScrollView>
       )
     }
 
     if (maintenance) {
       return (
-        <View style={{flex: 1,}}>
-          <MaintenanceMode/>
-        </View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
+          <View style={{ flex: 1, }}>
+            <MaintenanceMode />
+          </View>
+        </ScrollView>
       );
     }
 
     return (
-      <View style={{flex: 1,}}>
-        <Navigator navigation={navigation} />
-        {hasBottomNavigation && <BottomNavigation/>}
-        <TodayRatesModal/>
-        <TransferReceivedModal/>
-      </View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
+        <View style={{ flex: 1 }}>
+          <Navigator navigation={navigation} />
+          {hasBottomNavigation && <BottomNavigation />}
+          <TodayRatesModal />
+          <NycBlackoutModal/>
+          <TransferReceivedModal />
+        </View>
+      </ScrollView>
     );
   }
 }

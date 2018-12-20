@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import MessageStyle from "./Message.styles";
 import * as appActions from "../../../redux/actions";
 import Icon from "../../atoms/Icon/Icon";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -90,13 +91,14 @@ class Message extends Component {
 
     if (!message.text) return null;
 
+    console.log(message.text)
     return (
       <Animated.View style={[containerStyles, {opacity}]}>
         <View style={MessageStyle.messageWrapper}>
           <View style={circleStyles}>
             {messageIcon}
           </View>
-          <Text style={textStyles}>
+          <Text style={textStyles} ref={testUtil.generateTestHook(this, `Message.msg`)}>
             {message.text}
           </Text>
         </View>
@@ -108,4 +110,4 @@ class Message extends Component {
   }
 }
 
-export default Message;
+export default testUtil.hookComponent(Message);

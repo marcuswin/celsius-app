@@ -3,6 +3,8 @@ import { Text, View } from 'react-native';
 import { Content } from "native-base";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import moment from "moment";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -14,10 +16,21 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.ui.formData,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawalInfo extends Component {
+  shouldHideBCH = () => {
+    const { formData: {currency} } = this.props;
+
+    const currentTimestamp = moment.utc(Date.now());
+    const bitcoinCashForkTimestamp = moment.utc('2018-11-15T04:40:00+0000');
+
+    return currency === 'bch' && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
+  };
+
   render() {
     const { actions } = this.props;
     return (
@@ -32,12 +45,12 @@ class WithdrawalInfo extends Component {
         </View>
 
         <CelHeading
-          text="Are You Sure?"
+          text={"Are You Sure?"}
           textAlign="center"
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+         <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
           </Text>
 
@@ -46,16 +59,19 @@ class WithdrawalInfo extends Component {
           </Text>
 
           <CelButton
+            ref={testUtil.generateTestHook(this, 'WithdrawalInfo.continue')}
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
           </CelButton>
+
         </Content>
       </BasicLayout>
     );
   }
 }
 
-export default WithdrawalInfo;
+export default testUtil.hookComponent(WithdrawalInfo);
+

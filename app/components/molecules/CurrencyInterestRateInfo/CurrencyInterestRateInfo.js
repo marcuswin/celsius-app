@@ -24,7 +24,7 @@ class CurrencyInterestRateInfo extends Component {
 
     const currencyInfo = walletCurrencies[currency.toUpperCase()];
 
-    const currencyName = currencyInfo.name === "bitcoin cash" ? 'BCash' : currencyInfo.name;
+    const currencyName = currencyInfo.name;
 
     return (
       <View style={[CurrencyInterestRateInfoStyle.mainWrapper, additionalWrapperStyle]}>

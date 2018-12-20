@@ -8,6 +8,7 @@ import * as appActions from "../../../redux/actions";
 import Icon from "../Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   () => ({}),
@@ -46,7 +47,7 @@ class CameraInput extends Component {
 
   // rendering methods
   render() {
-    const { value, labelTextActive, labelTextInactive, theme, error } = this.props;
+    const { value, labelTextActive, labelTextInactive, theme, error, field } = this.props;
 
     const labelStyles = value ? [globalStyles.selectLabelActive] : [globalStyles.selectLabelInactive];
     labelStyles.push(globalStyles[`${theme}InputTextColor`]);
@@ -55,11 +56,15 @@ class CameraInput extends Component {
 
     return (
       <InputErrorWrapper
+        field={field}
         theme={theme}
         error={error}
       >
-        <TouchableOpacity onPress={this.onPress}
-                          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}>
+        <TouchableOpacity
+          ref={testUtil.generateTestHook(this, `CameraInput.${this.props.field}`)}
+          onPress={this.onPress}
+          style={[globalStyles.inputWrapper, globalStyles[`${theme}InputWrapper`], cameraBackground]}
+        >
 
           <Text style={labelStyles}>
             {value ? labelTextActive.toUpperCase() : labelTextInactive}
@@ -69,13 +74,13 @@ class CameraInput extends Component {
           {!value ? (
             <View style={globalStyles.inputIconRight}>
               <Icon name='CameraIcon' height='25' width='25' viewBox="0 0 32 32" fill={"#fff"}
-                    style={{ opacity: 0.5 }}/>
+                style={{ opacity: 0.5 }} />
             </View>
           ) : (
-            <View style={[globalStyles.inputIconRight, { opacity: 1 }]}>
-              <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37"/>
-            </View>
-          )}
+              <View style={[globalStyles.inputIconRight, { opacity: 1 }]}>
+                <Icon name='GreenCheck' height='25' width='25' viewBox="0 0 37 37" />
+              </View>
+            )}
 
         </TouchableOpacity>
       </InputErrorWrapper>
@@ -83,4 +88,4 @@ class CameraInput extends Component {
   }
 }
 
-export default CameraInput;
+export default testUtil.hookComponent(CameraInput);

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Passcode from './Passcode'
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 
@@ -12,8 +13,9 @@ import * as appActions from "../../../redux/actions";
 
 class RepeatPasscode extends Component {
   render() {
-    return <Passcode type={'repeatPasscode'} />
+    return <Passcode {...this.props}
+    testSelector={'RepeatPasscode.screen'}  type={'repeatPasscode'} />
   }
 }
 
-export default RepeatPasscode;
+export default testUtil.hookComponent(RepeatPasscode);

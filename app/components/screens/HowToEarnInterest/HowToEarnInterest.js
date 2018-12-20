@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text, Linking } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -36,7 +37,8 @@ class HowToEarnInterest extends Component {
 
     return (
       <EarnInterestLayout>
-        <View style={{ paddingTop: 30 }}>
+        <View   ref={testUtil.generateTestHook(this, 'HowToEarnInterest.exist')}
+                style={{ paddingTop: 30 }}>
           <Text style={[globalStyles.heading, { textAlign: 'left', marginTop: 10, marginBottom: 20 }]}>
             Earn up to 7% APR* on your deposits.
           </Text>
@@ -65,4 +67,4 @@ class HowToEarnInterest extends Component {
   }
 }
 
-export default HowToEarnInterest;
+export default testUtil.hookComponent(HowToEarnInterest);

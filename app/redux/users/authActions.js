@@ -1,26 +1,27 @@
-import {Constants} from 'expo';
+import { Constants } from 'expo';
 import Branch from 'react-native-branch';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
-import {startApiCall, apiError} from '../api/apiActions';
-import {navigateTo} from '../nav/navActions';
-import {showMessage, setFormErrors} from '../ui/uiActions';
-import {claimAllBranchTransfers} from '../transfers/transfersActions';
+import { startApiCall, apiError } from '../api/apiActions';
+import { navigateTo } from '../nav/navActions';
+import { showMessage, setFormErrors } from '../ui/uiActions';
+import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { mixpanelEvents, registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
-import { BRANCH_LINKS } from "../../config/constants/common";
+import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
 
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
   loginBorrower,
   getLoggedInBorrower,
   loginUser,
   registerUser,
+  registerUserSuccess,
   updateUser,
   registerUserTwitter,
   registerUserFacebook,
@@ -35,12 +36,12 @@ export {
 }
 
 
-function loginUser({email, password}) {
+function loginUser({ email, password }) {
   return async dispatch => {
     dispatch(startApiCall(API.LOGIN_USER));
 
     try {
-      const res = await usersService.login({email, password});
+      const res = await usersService.login({ email, password });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
@@ -57,6 +58,7 @@ function loginUser({email, password}) {
 }
 
 function loginUserSuccess(data) {
+  analyticsEvents.sessionStart();
   return {
     type: ACTIONS.LOGIN_USER_SUCCESS,
     callName: API.LOGIN_USER,
@@ -66,11 +68,11 @@ function loginUserSuccess(data) {
 }
 
 
-function loginBorrower({email, password}) {
+function loginBorrower({ email, password }) {
   return async dispatch => {
     dispatch(startApiCall(API.LOGIN_BORROWER));
     try {
-      const res = await borrowersService.login({email, password});
+      const res = await borrowersService.login({ email, password });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
@@ -94,6 +96,7 @@ function loginBorrower({email, password}) {
 }
 
 function loginBorrowerSuccess(data) {
+  analyticsEvents.sessionStart();
   return {
     type: ACTIONS.LOGIN_BORROWER_SUCCESS,
     callName: API.LOGIN_BORROWER,
@@ -128,15 +131,14 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  mixpanelEvents.startedSignup('Email');
+  analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.link_type === BRANCH_LINKS.REFERRAL)[0];
-      console.log({ referralLink })
+      const referralLinkId = getState().branch.referralLinkId;
       const res = await usersService.register({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -144,6 +146,8 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -156,9 +160,6 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
-  mixpanelEvents.finishedSignup('Email');
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return {
     type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -172,11 +173,11 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerTwitter({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -184,6 +185,8 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Twitter', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -192,9 +195,6 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  mixpanelEvents.finishedSignup('Twitter');
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -226,6 +226,7 @@ function loginTwitter(user) {
 }
 
 function loginUserTwitterSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
@@ -241,11 +242,11 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerFacebook({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       // add token to expo storage
@@ -253,6 +254,8 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -261,9 +264,6 @@ function registerUserFacebook(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  mixpanelEvents.finishedSignup('Facebook');
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -295,6 +295,7 @@ function loginFacebook(user) {
 }
 
 function loginUserFacebookSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
@@ -310,16 +311,18 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLink = getState().branch.allLinks.filter(bl => bl.linkType === BRANCH_LINKS.REFERRAL)[0];
+      const referralLinkId = getState().branch.referralLinkId;
 
       const res = await usersService.registerGoogle({
         ...user,
-        referrerId: referralLink ? referralLink.referrer_id : undefined,
+        referralLinkId,
       });
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.finishedSignup('Google', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -328,9 +331,6 @@ function registerUserGoogle(user) {
 }
 
 function registerUserGoogleSuccess(data) {
-  mixpanelEvents.finishedSignup('Google');
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -362,6 +362,7 @@ function loginGoogle(user) {
 }
 
 function loginUserGoogleSuccess(data) {
+  analyticsEvents.sessionStart();
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,
@@ -425,8 +426,8 @@ function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
     try {
-      const {data} =  await usersService.resetPassword(currentPassword, newPassword);
-      const {auth0: {id_token: newAuthToken}} = data;
+      const { data } = await usersService.resetPassword(currentPassword, newPassword);
+      const { auth0: { id_token: newAuthToken } } = data;
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
 
@@ -450,14 +451,15 @@ function logoutUser() {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      logoutMixpanelUser();
+      await analyticsEvents.sessionEnd();
+      analyticsEvents.logoutUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
 
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
-    } catch(err) {
-      console.log(err);
+    } catch (err) {
+      logger.log(err);
     }
   }
 }
@@ -468,8 +470,8 @@ function expireSession() {
       dispatch({
         type: ACTIONS.EXPIRE_SESSION,
       });
-    } catch(err) {
-      console.log(err);
+    } catch (err) {
+      logger.log(err);
     }
   }
 }

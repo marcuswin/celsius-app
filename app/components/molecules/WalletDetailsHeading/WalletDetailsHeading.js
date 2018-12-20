@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import Proptypes from 'prop-types';
 import get from 'lodash/get';
+import testUtil from "../../../utils/test-util";
 
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter"
@@ -16,6 +17,7 @@ import { FONT_SCALE } from "../../../config/constants/style";
 
 @connect(
   state => ({
+    user: state.users.user,
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     appSettings: state.users.appSettings,
@@ -101,7 +103,7 @@ class WalletDetailsHeading extends Component {
   // };
 
   render() {
-    const { currency, type, walletTotal, walletCurrencies } = this.props;
+    const { currency, type, walletTotal, walletCurrencies, user } = this.props;
     // const { isPressed } = this.state;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
@@ -129,10 +131,11 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" white disabled={user.state === "New York"} onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
       </View>}
     </View>
   }
 }
 
-export default WalletDetailsHeading;
+export default testUtil.hookComponent(WalletDetailsHeading);
+

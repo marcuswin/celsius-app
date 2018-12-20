@@ -10,7 +10,9 @@ import {Constants, Facebook, Google} from "expo";
 import * as appActions from "../../../redux/actions";
 import ThirdPartyLoginSectionStyle from "./ThirdPartyLoginSection.styles";
 import Icon from "../../atoms/Icon/Icon";
-import { mixpanelEvents } from '../../../services/mixpanel'
+import testUtil from "../../../utils/test-util";
+import { analyticsEvents } from "../../../utils/analytics-util";
+
 
 const {
   GOOGLE_WEB_CLIENT_ID,
@@ -40,7 +42,7 @@ class ThirdPartyLoginSection extends Component {
   onOpenTwitter = () => {
     const { type, actions } = this.props;
     if (type === 'signup') {
-      mixpanelEvents.startedSignup('Twitter');
+      analyticsEvents.startedSignup('Twitter');
     }
     this.fakeTwitterButton.onButtonPress();
     actions.twitterOpen();
@@ -89,7 +91,7 @@ class ThirdPartyLoginSection extends Component {
         if (type === 'login') {
           actions.loginGoogle(user);
         } else {
-          mixpanelEvents.startedSignup('Google');
+          analyticsEvents.startedSignup('Google');
           actions.googleSuccess(user);
         }
       } else {
@@ -117,7 +119,7 @@ class ThirdPartyLoginSection extends Component {
         if (this.props.type === 'login') {
           actions.loginFacebook(user);
         } else {
-          mixpanelEvents.startedSignup('Facebook');
+          analyticsEvents.startedSignup('Facebook');
           actions.facebookSuccess(user);
         }
       }
@@ -138,7 +140,7 @@ class ThirdPartyLoginSection extends Component {
       <View>
         <Grid>
           <Col style={ThirdPartyLoginSectionStyle.centeredColumn}>
-            <TouchableOpacity onPress={this.facebookAuth}>
+            <TouchableOpacity ref={testUtil.generateTestHook(this, 'ThirdPartyLoginSection.faceboook')} onPress={this.facebookAuth}>
               <Icon name='Facebook' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
@@ -147,7 +149,7 @@ class ThirdPartyLoginSection extends Component {
             </TouchableOpacity>
           </Col>
           <Col style={ThirdPartyLoginSectionStyle.centeredColumn}>
-            <TouchableOpacity onPress={this.googleAuth}>
+            <TouchableOpacity ref={testUtil.generateTestHook(this, 'ThirdPartyLoginSection.google')} onPress={this.googleAuth}>
               <Icon name='Google' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
@@ -158,7 +160,7 @@ class ThirdPartyLoginSection extends Component {
             </TouchableOpacity>
           </Col>
           <Col style={ThirdPartyLoginSectionStyle.centeredColumn}>
-            <TouchableOpacity onPress={this.onOpenTwitter}>
+            <TouchableOpacity ref={testUtil.generateTestHook(this, 'ThirdPartyLoginSection.twitter')}  onPress={this.onOpenTwitter}>
               <Icon name='Twitter' width={iconSize} height={iconSize} viewBox="0 0 80 80" fill='#FFFFFF'/>
               <View style={ThirdPartyLoginSectionStyle.socialNetworkTextWrapper}>
                 <Text style={ThirdPartyLoginSectionStyle.socialNetworkDescription}>{ action }</Text>
@@ -182,4 +184,5 @@ class ThirdPartyLoginSection extends Component {
   }
 }
 
-export default ThirdPartyLoginSection;
+export default testUtil.hookComponent(ThirdPartyLoginSection);
+

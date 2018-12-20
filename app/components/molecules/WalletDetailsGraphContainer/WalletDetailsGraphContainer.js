@@ -6,6 +6,7 @@ import get from "lodash/get";
 import moment from "moment";
 import { COLORS, FONT_SCALE, STYLES } from "../../../config/constants/style";
 import formatter from "../../../utils/formatter";
+import testUtil from "../../../utils/test-util";
 
 import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/PricingChangeIndicator";
 import WalletDetailsGraphContainerStyle from "./WalletDetailsGraphContainer.styles";
@@ -138,6 +139,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, { flexDirection: "column" }]}>
         <View style={{ width: "100%", height: 240, flexDirection: "row" }}>
           <LineChart
+            ref={testUtil.generateTestHook(this, 'WalletDetailsGraphContainer.LineChart1d')}
             style={{ width: "85%", position: 'absolute', top: 30, bottom: 30 }}
             data={graphData}
             svg={{ stroke: isPercentChangeNegative ? "#EF461A" : "#4FB895", strokeWidth: 2 }}
@@ -175,6 +177,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, { flexDirection: "column" }]}>
         <View style={{ width: "100%", height: 240, flexDirection: "row" }}>
           <LineChart
+            ref={testUtil.generateTestHook(this, 'WalletDetailsGraphContainer.LineChart7d')}
             style={{ width: "85%" }}
             data={graphData}
             svg={{ stroke: isPercentChangeNegative ? "#EF461A" : "#4FB895", strokeWidth: 2 }}
@@ -212,6 +215,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, { flexDirection: "column" }]}>
         <View style={{ width: "100%", height: 240, flexDirection: "row" }}>
           <LineChart
+            ref={testUtil.generateTestHook(this, 'WalletDetailsGraphContainer.LineChart1m')}
             style={{ width: "85%" }}
             data={graphData}
             svg={{ stroke: isPercentChangeNegative ? "#EF461A" : "#4FB895", strokeWidth: 2 }}
@@ -249,6 +253,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, { flexDirection: "column" }]}>
         <View style={{ width: "100%", height: 240, flexDirection: "row" }}>
           <LineChart
+            ref={testUtil.generateTestHook(this, 'WalletDetailsGraphContainer.LineChart3m')}
             style={{ width: "85%" }}
             data={graphData}
             svg={{ stroke: isPercentChangeNegative ? "#EF461A" : "#4FB895", strokeWidth: 2 }}
@@ -286,6 +291,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.graphDataWrapper, { flexDirection: "column" }]}>
         <View style={{ width: "100%", height: 240, flexDirection: "row" }}>
           <LineChart
+            ref={testUtil.generateTestHook(this, 'WalletDetailsGraphContainer.LineChart1y')}
             style={{ width: "85%" }}
             data={graphData}
             svg={{ stroke: isPercentChangeNegative ? "#EF461A" : "#4FB895", strokeWidth: 2 }}
@@ -322,6 +328,7 @@ class WalletDetailsGraphContainer extends Component {
       <View style={[WalletDetailsGraphContainerStyle.buttonsWrapper, { flexDirection: "row" }]}>
         {periods.map(period =>
           <TouchableOpacity
+            ref={testUtil.generateTestHook(this, `WalletDetailsGraphContainer.${period}`)}
             key={period}
             style={[WalletDetailsGraphContainerStyle.periodButton, this.state.activePeriod === period ? { backgroundColor: COLORS.gray } : null]}
             onPress={() => this.onPress(`${period}`)}
@@ -334,5 +341,5 @@ class WalletDetailsGraphContainer extends Component {
   }
 }
 
-export default WalletDetailsGraphContainer;
+export default testUtil.hookComponent(WalletDetailsGraphContainer);
 

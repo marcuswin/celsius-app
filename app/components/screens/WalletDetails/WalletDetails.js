@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
+import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
@@ -9,10 +10,10 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import WalletDetailsHeading from "../../molecules/WalletDetailsHeading/WalletDetailsHeading";
 import TransactionsHistory from "../../molecules/TransactionHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
-import WalletInfoBubble from "../../molecules/WalletInfoBubble/WalletInfoBubble";
 import WalletDetailsGraphContainer from "../../molecules/WalletDetailsGraphContainer/WalletDetailsGraphContainer";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 
 @connect(
   state => ({
@@ -51,6 +52,7 @@ class WalletDetails extends Component {
   }
 
   onCloseInfo = () => this.props.actions.updateUserAppSettings({ showWalletDetailsInfoBox: false });
+  onCloseBCHInfo = () => this.props.actions.updateUserAppSettings({ showBchExplanationInfoBox: false });
 
   onPressWithdraw = () => {
     const { actions, navigation } = this.props;
@@ -87,35 +89,56 @@ class WalletDetails extends Component {
     return (
       <BasicLayout bottomNavigation>
         <MainHeader
+          ref={testUtil.generateTestHook(this, 'WalletDetails.iks')}
           onCancel={() => actions.navigateTo('Home')}
         />
         <WalletDetailsHeading
           currency={currency}
         />
         <CelScreenContent padding='0 0 0 0'>
-          { currency !== 'cel' && (
+          {currency !== 'cel' && (
             <WalletDetailsGraphContainer
               currency={currency}
               supportedCurrencies={supportedCurrencies}
             />
           )}
           <View style={{ paddingLeft: 40, paddingRight: 40 }}>
-            {appSettings.showWalletDetailsInfoBox && (
-              <WalletInfoBubble
-                title={isCelCurrency ? `Your CEL Price` : `Deposit your ${currency.toUpperCase()}`}
+            {(appSettings.showBchExplanationInfoBox && currency === "bch") && (
+              <InfoBubble
+                title={"Add more BCH-ABC."}
+                shouldClose
+                onPressClose={this.onCloseBCHInfo}
+                color={"gray"}
+                renderContent={() => (
+                  <View>
+                    <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                      {"The BCH deposited before November 14th at 11:40PM EST is now BCH-ABC. You will receive your BCH-SV once BitGo Supports it."}
+                    </Text>
+                    <Text style={[globalStyles.normalText, { color: 'white', marginTop: 10 }]}>
+                      {"Use the address below to deposit BCH-ABC to your Celsius wallet."}
+                    </Text>
+                  </View>
+                )}
+              />
+            )}
+            {appSettings.showWalletDetailsInfoBox && isCelCurrency && (
+              <InfoBubble
+                title={`Your CEL Price`}
+                shouldClose
                 onPressClose={this.onCloseInfo}
-              >
-
-                <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                  {isCelCurrency ?
-                    `The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.` :
-                    `Once you deposit at least $300 in ETH or BTC you'll be eligible for a loan of $100`
-                  }
+                color={"gray"}
+                margin={"22 0 25 0"}
+                renderContent={() => (
+                  <View>
+                    <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                      The price of CEL is currently set to the Crowdsale price of $.30 until the CEL token is listed on an official exchange.
                 </Text>
-              </WalletInfoBubble>
+                  </View>
+                )}
+              />
             )}
 
-            { !!transactions.length && (
+            {!!transactions.length && (
               <TransactionsHistory
                 transactions={transactions}
                 navigateTo={actions.navigateTo}
@@ -123,8 +146,9 @@ class WalletDetails extends Component {
               />
             )}
 
-            { canWithdrawCrypto && (
+            {canWithdrawCrypto && (
               <CelButton
+                ref={testUtil.generateTestHook(this, 'WalletDetails.withdraw')}
                 margin={'40 0 0 0'}
                 onPress={this.onPressWithdraw}
               >
@@ -138,4 +162,5 @@ class WalletDetails extends Component {
   }
 }
 
-export default WalletDetails;
+export default testUtil.hookComponent(WalletDetails);
+

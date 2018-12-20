@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import { Asset, AppLoading, Font, Constants } from 'expo';
+import React, { Component } from 'react';
+import { Segment, Asset, AppLoading, Font, Constants } from 'expo';
 import Branch from 'react-native-branch';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
 import twitter from 'react-native-simple-twitter';
 import Sentry from 'sentry-expo';
@@ -11,13 +11,14 @@ import store from './redux/store';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
-import {CACHE_IMAGES, FONTS} from "./config/constants/style";
-import {getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey} from "./utils/expo-storage";
+import { CACHE_IMAGES, FONTS } from "./config/constants/style";
+import { getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey } from "./utils/expo-storage";
 import baseUrl from "./services/api-url";
-import { mixpanelAnalytics, mixpanelEvents } from "./services/mixpanel";
+import { mixpanelAnalytics } from "./services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
+import { analyticsEvents } from "./utils/analytics-util";
 
-const {SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+const { SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -95,6 +96,11 @@ export default class App extends Component {
       await setSecureStoreKey('BASE_URL', baseUrl);
     }
 
+    await Segment.initialize({
+      androidWriteKey: SEGMENT_ANDROID_KEY,
+      iosWriteKey: SEGMENT_IOS_KEY,
+    });
+
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     // get user from db
@@ -148,8 +154,12 @@ export default class App extends Component {
       handleConnectivityChange
     );
 
-    mixpanelEvents.openApp();
+    analyticsEvents.openApp();
 
+    const { user } = store.getState().users;
+    if (user) {
+      analyticsEvents.sessionStart();
+    }
   }
 
   // Assets are cached differently depending on where
@@ -181,9 +191,14 @@ export default class App extends Component {
 
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
+
+    const { user } = store.getState().users;
     const askForPinAfter = 25000
-    if ( nextAppState === 'active') {
-      mixpanelEvents.openApp();
+    if (nextAppState === 'active') {
+      analyticsEvents.openApp();
+      if (user) {
+        analyticsEvents.sessionStart();
+      }
       if (Platform.OS === "ios") {
         clearTimeout(this.timeout)
       } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
@@ -192,18 +207,18 @@ export default class App extends Component {
       }
     }
 
-    const { user } = store.getState().users;
     if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-        if (Platform.OS === "ios") {
-          this.timeout = setTimeout(() => {
-            store.dispatch(actions.navigateTo("LoginPasscode"));
-            clearTimeout(this.timeout)
-          }, askForPinAfter)
-        } else {
-          startOfBackgroundTimer = new Date().getTime();
-        }
+      analyticsEvents.sessionEnd();
+      if (Platform.OS === "ios") {
+        this.timeout = setTimeout(() => {
+          store.dispatch(actions.navigateTo("LoginPasscode"));
+          clearTimeout(this.timeout)
+        }, askForPinAfter)
+      } else {
+        startOfBackgroundTimer = new Date().getTime();
+      }
     }
-    this.setState({appState: nextAppState});
+    this.setState({ appState: nextAppState });
   };
 
   render() {
@@ -221,15 +236,15 @@ export default class App extends Component {
       return (
         <AppLoading
           startAsync={App.initApp}
-          onFinish={() => this.setState({isReady: true})}
-          onError={error => {Sentry.captureException(error)}}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={error => { Sentry.captureException(error) }}
         />
       );
     }
 
     return (
       <Provider store={store}>
-        <MainLayout/>
+        <MainLayout />
       </Provider>
     );
   }

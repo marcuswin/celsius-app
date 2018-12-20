@@ -5,7 +5,8 @@ const transfersService = {
   getAll,
   get,
   claim,
-  create,
+  cancel,
+  create
 };
 
 
@@ -22,8 +23,15 @@ function claim(transferHash) {
   return axios.post(`${apiUrl}/transfer/${transferHash}/claim`);
 }
 
-function create(transfer) {
-  return axios.put(`${apiUrl}/transfer`, transfer);
+function cancel(transferHash) {
+  return axios.post(`${apiUrl}/transfer/${transferHash}/cancel`);
+}
+
+function create(transfer, verification) {
+  return axios.put(`${apiUrl}/transfer`, {
+    ...transfer,
+    ...verification,
+  });
 }
 
 export default transfersService;

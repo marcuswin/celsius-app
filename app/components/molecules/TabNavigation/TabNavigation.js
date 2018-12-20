@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
-// import {} from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-// import {STYLES} from "../../config/constants/style";
 import TabNavigationStyle from "./TabNavigation.styles";
 import * as appActions from "../../../redux/actions";
-import { mixpanelEvents } from "../../../services/mixpanel";
+import testUtil from "../../../utils/test-util";
+import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
@@ -26,7 +25,7 @@ class TabNavigation extends Component {
   // event hanlders
   goToScreen = (tab) => {
     this.props.actions.navigateTo(tab.screen);
-    mixpanelEvents.changeTab(tab.label)
+    analyticsEvents.changeTab(tab.label)
   }
 
   // rendering methods
@@ -35,7 +34,7 @@ class TabNavigation extends Component {
     const tabStyle = tab.screen === activeScreen ? TabNavigationStyle.activeTab : TabNavigationStyle.inactiveTab;
     const textStyle = tab.screen === activeScreen ? TabNavigationStyle.activeText : TabNavigationStyle.inactiveText;
     return (
-      <TouchableOpacity key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
+      <TouchableOpacity ref={testUtil.generateTestHook(this, `TabNavigation.${tab.label}`)} key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
         <Text style={textStyle}>{ tab.label.toUpperCase() }</Text>
       </TouchableOpacity>
     )
@@ -51,4 +50,4 @@ class TabNavigation extends Component {
   }
 }
 
-export default TabNavigation;
+export default testUtil.hookComponent(TabNavigation);

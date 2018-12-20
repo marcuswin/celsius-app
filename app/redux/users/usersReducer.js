@@ -16,6 +16,8 @@ const initialState = {
     showWalletLandingInfoBox: true,
     showSecureTransactionsScreen: true,
     showTodayRatesModal: true,
+    showBchExplanationInfoBox: true,
+    declineAccess: false,
   }
 };
 
@@ -124,6 +126,7 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.GET_ICO_USERS_INFO_SUCCESS:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
       return {
@@ -131,6 +134,23 @@ export default (state = initialState, action) => {
         user: {
           ...state.user,
           ...action.personalInfo,
+        },
+      };
+
+      case ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.addressInfo,
+        },
+      };
+      case ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...action.taxpayerInfo,
         },
       };
     case ACTIONS.SET_PIN_SUCCESS:
@@ -190,7 +210,8 @@ export default (state = initialState, action) => {
           ...state.appSettings,
           ...action.appSettings,
         }
-      }
+      };
+
 
     default:
       return state;

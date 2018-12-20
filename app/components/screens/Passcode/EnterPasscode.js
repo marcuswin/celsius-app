@@ -20,7 +20,8 @@ class EnterPasscode extends Component {
     const newWithdrawalAddress = navigation.getParam('newWithdrawalAddress');
     const purpose = navigation.getParam('purpose');
 
-    return <Passcode type={'enterPasscode'}
+    return <Passcode {...this.props} testSelector={'CreatePasscode.pin'} 
+                     type={'enterPasscode'}
                      currency={currency}
                      amountCrypto={amountCrypto}
                      purpose={purpose}

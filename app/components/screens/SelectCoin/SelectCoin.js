@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import Loader from "../../atoms/Loader/Loader";
 import SelectCoinStyle from "./SelectCoin.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import formatter from "../../../utils/formatter";
+import testUtil from "../../../utils/test-util";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
@@ -16,8 +17,9 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
     // map state to props
     walletCurrencies: state.wallet.currencies,
     user: state.users.user,
+    appSettings: state.users.appSettings
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class SelectCoin extends Component {
   constructor(props) {
@@ -26,8 +28,8 @@ class SelectCoin extends Component {
     this.state = {
       // initial state
       animatedHeading: {
-        text: 'CelPay'
-      },
+        text: "CelPay"
+      }
     };
   }
 
@@ -37,10 +39,10 @@ class SelectCoin extends Component {
     const { actions } = this.props;
 
     actions.initForm({
-      currency: coin.short.toLowerCase(),
+      currency: coin.short.toLowerCase()
     });
-    actions.navigateTo('AmountInput', { purpose: 'send' });
-  }
+    actions.navigateTo("AmountInput", { purpose: "send" });
+  };
 
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -51,23 +53,44 @@ class SelectCoin extends Component {
     const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
     return (
       <View key={currency.id} style={wrapperStyle}>
-        <TouchableOpacity key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `SelectCoin.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
           <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin}/>
         </TouchableOpacity>
         <Text style={SelectCoinStyle.coinName}>{this.capitalize(currency.name)}</Text>
-        <Text style={SelectCoinStyle.amountTextUSD}>{ formatter.crypto(walletCurrency.amount, currency.short, { precision: 5 }) }</Text>
-        <Text style={SelectCoinStyle.amountText}>{ formatter.usd(walletCurrency.total) }</Text>
+        <Text
+          style={SelectCoinStyle.amountTextUSD}>{formatter.crypto(walletCurrency.amount, currency.short, { precision: 5 })}</Text>
+        <Text style={SelectCoinStyle.amountText}>{formatter.usd(walletCurrency.total)}</Text>
       </View>
-    )
-  }
+    );
+  };
 
   render() {
-    const {animatedHeading} = this.state;
-    const {walletCurrencies, user} = this.props;
+    const { animatedHeading } = this.state;
+    const { walletCurrencies, user } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-      return <EmptyState/>
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={animatedHeading}
+        >
+          <EmptyState/>
+        </SimpleLayout>
+      )
     }
+
+    // TODO(ns): uncomment when Blackout is activated
+
+    // if (appSettings.declineAccess) {
+    //   return (
+    //     <SimpleLayout
+    //       mainHeader={{ backButton: false }}
+    //       animatedHeading={animatedHeading}
+    //     >
+    //       <EmptyState purpose={"NycBlackout"}/>
+    //     </SimpleLayout>
+    //   )
+    // }
 
     if (!walletCurrencies) {
       return (
@@ -75,9 +98,9 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <Loader />
+          <Loader/>
         </SimpleLayout>
-      )
+      );
     }
 
     return (
@@ -88,7 +111,8 @@ class SelectCoin extends Component {
         <Text style={SelectCoinStyle.text}>
           Select a coin to send to your friends.
         </Text>
-        <View style={SelectCoinStyle.coinContent}>
+        <View ref={testUtil.generateTestHook(this, `SelectCoin.main`)}
+          style={SelectCoinStyle.coinContent}>
           {walletCurrencies.map(this.renderCoin)}
         </View>
       </SimpleLayout>
@@ -97,4 +121,5 @@ class SelectCoin extends Component {
   }
 }
 
-export default SelectCoin;
+export default testUtil.hookComponent(SelectCoin);
+

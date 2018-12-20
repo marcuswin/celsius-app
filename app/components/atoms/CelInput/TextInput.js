@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Animated, View, Easing, Text, TextInput } from "react-native";
 // import { Input } from "native-base";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
 import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
+import testUtil from "../../../utils/test-util";
+
+// const {ENV} = Constants.manifest.extra;
 
 class CelTextInput extends Component {
   static propTypes = {
@@ -20,6 +23,7 @@ class CelTextInput extends Component {
     onLayout: PropTypes.func,
     editable: PropTypes.bool,
     maxLength: PropTypes.number,
+    testSelector: PropTypes.string,
     isPassword: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
     returnKeyType: PropTypes.string,
@@ -28,6 +32,7 @@ class CelTextInput extends Component {
     autoCapitalize: PropTypes.string,
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
+    shadow: PropTypes.bool
   }
 
   static defaultProps = {
@@ -41,12 +46,14 @@ class CelTextInput extends Component {
     isPassword: false,
     returnKeyType: null,
     editable: true,
+    testSelector: null,
     maxLength: 100,
     keyboardType: KEYBOARD_TYPE.DEFAULT,
     multiline: false,
     autoCapitalize: AUTO_CAPITALIZE.NONE,
     autoCorrect: false,
     spellCheck: false,
+    shadow: false
   }
 
   constructor(props) {
@@ -56,6 +63,11 @@ class CelTextInput extends Component {
       active: false,
       animatedValue: new Animated.Value(this.props.value ? 10 : 20),
     }
+  }
+
+  getInputRef = () => {
+    const {testSelector} = this.props;
+    return testUtil.generateTestHook(this, testSelector, ref => { this.input = ref });
   }
 
   animateLabel(value) {
@@ -76,9 +88,10 @@ class CelTextInput extends Component {
     })
   }
 
+
   // rendering methods
   render() {
-    const { theme, editable, maxLength, secureTextEntry, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword} = this.props;
+    const { theme, editable, maxLength, secureTextEntry, shadow, keyboardType, multiline, autoCapitalize, autoCorrect, spellCheck, placeholder, labelText, value, onFocus, returnKeyType, isPassword } = this.props;
     const { active } = this.state;
     const isActiveInput = value || active;
 
@@ -87,18 +100,24 @@ class CelTextInput extends Component {
 
     const labelStyles = { ...globalStyles.inputLabel, ...globalStyles[`${theme}InputTextColor`] };
 
+    const shadowStyle = shadow ? {
+      shadowColor: '#000000',
+      shadowOpacity: 0.2,
+      shadowOffset: {width: 0, height: 2},
+      shadowRadius: 2 } : null;
+
     if (isActiveInput) {
       this.animateLabel(10);
     } else {
       this.animateLabel(20);
     }
 
-    const inputBackground = isActiveInput ? globalStyles[`${theme}InputWrapperActive`] : globalStyles[`${theme}InputWrapper`];
+    const inputBackground = globalStyles[`${theme}InputWrapperActive`];
     const disabledStyles = !editable ? globalStyles[`${theme}InputWrapperDisabled`] : {};
     const additionalTextInputStyle = isPassword ? {} : globalStyles.nonPasswordInputStyle;
 
     return (
-      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles ]}>
+      <View style={[globalStyles.inputWrapper, inputBackground, disabledStyles, shadowStyle]}>
         <TextInput
           style={[globalStyles.input, globalStyles[`${theme}InputTextColor`], additionalTextInputStyle]}
           underlineColorAndroid={'rgba(0,0,0,0)'}
@@ -106,13 +125,14 @@ class CelTextInput extends Component {
           maxLength={maxLength}
           autoCapitalize={autoCapitalize}
           editable={editable}
-          ref={ref => { this.input = ref }}
+          ref={this.getInputRef()}
           onLayout={ () => this.saveLayout()}
           onFocus={() => {
             if (onFocus) onFocus()
-            this.setState({ active: true })}
+            this.setState({ active: true })
           }
-          selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE }
+          }
+          selectionColor={theme === 'white' ? colors.GRAY_2 : colors.INPUT_COLOR_WHITE}
           onBlur={() => this.setState({ active: false })}
           returnKeyType={returnKeyType}
           autoCorrect={autoCorrect}
@@ -120,7 +140,7 @@ class CelTextInput extends Component {
           keyboardType={keyboardType}
           multiline={multiline}
           spellCheck={spellCheck}
-          onChangeText={(text) => this.props.onChange(text) }
+          onChangeText={(text) => this.props.onChange(text)}
           value={value || ''}
         />
         <Animated.View pointerEvents={'none'} style={{
@@ -142,11 +162,11 @@ class CelTextInput extends Component {
             }),
           }],
         }}>
-          <Text style={labelStyles}>{ label }</Text>
+          <Text style={labelStyles}>{label}</Text>
         </Animated.View>
       </View>
     )
   }
 }
 
-export default CelTextInput;
+export default testUtil.hookComponent(CelTextInput);

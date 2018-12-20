@@ -14,6 +14,10 @@ const PinInputStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  digitWrapperActive: {
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.8)',
+  },
   digitText: {
     fontFamily: 'agile-bold',
   },
