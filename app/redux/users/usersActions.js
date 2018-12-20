@@ -11,7 +11,6 @@ import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
-import { initMixpanelUser } from "../../services/mixpanel";
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
@@ -38,6 +37,7 @@ export {
   getTwoFactorSecret,
   enableTwoFactor,
   disableTwoFactor,
+  getIcoUsersProfileInfo,
 }
 
 function getProfileInfo() {
@@ -47,7 +47,7 @@ function getProfileInfo() {
     try {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-      await initMixpanelUser(personalInfo);
+      await analyticsEvents.initUser(personalInfo);
 
       Sentry.setUserContext({
         email: personalInfo.email,
@@ -500,6 +500,29 @@ function updateUserAppSettings(appSettings) {
     } catch (err) {
       logger.log(err)
     }
+  }
+}
+
+function getIcoUsersProfileInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_ICO_USERS_INFO));
+
+    try {
+      const res = await usersService.getIcoPersonalInfo();
+      const personalInfo = res.data;
+      dispatch(getIcoUsersProfileInfoSuccess(personalInfo));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ICO_USERS_INFO, err));
+    }
+  }
+}
+
+function getIcoUsersProfileInfoSuccess(personalInfo) {
+  return {
+    type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
+    personalInfo,
+    callName: API.GET_ICO_USERS_INFO,
   }
 }
 

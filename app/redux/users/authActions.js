@@ -10,7 +10,6 @@ import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import borrowersService from '../../services/borrowers-service';
-import { registerMixpanelUser, logoutMixpanelUser } from '../../services/mixpanel'
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
@@ -147,7 +146,8 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
-      analyticsEvents.finishedSignup('Email', referralLinkId);
+      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -160,9 +160,6 @@ function registerUser(user) {
 }
 
 function registerUserSuccess(data) {
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
-  analyticsEvents.sessionStart();
 
   return {
     type: ACTIONS.REGISTER_USER_SUCCESS,
@@ -188,7 +185,8 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
-      analyticsEvents.finishedSignup('Twitter', referralLinkId);
+      analyticsEvents.finishedSignup('Twitter', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -197,8 +195,6 @@ function registerUserTwitter(user) {
 }
 
 function registerUserTwitterSuccess(data) {
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -258,7 +254,8 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
-      analyticsEvents.finishedSignup('Facebook', referralLinkId);
+      analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -267,8 +264,6 @@ function registerUserFacebook(user) {
 }
 
 function registerUserFacebookSuccess(data) {
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -326,7 +321,8 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
-      analyticsEvents.finishedSignup('Google', referralLinkId);
+      analyticsEvents.finishedSignup('Google', referralLinkId, res.data.user);
+      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -335,8 +331,6 @@ function registerUserGoogle(user) {
 }
 
 function registerUserGoogleSuccess(data) {
-  // register user on mixpanel
-  registerMixpanelUser(data.user);
 
   return (dispatch) => {
     dispatch({
@@ -458,7 +452,7 @@ function logoutUser() {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       await analyticsEvents.sessionEnd();
-      logoutMixpanelUser();
+      analyticsEvents.logoutUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
 
       dispatch({

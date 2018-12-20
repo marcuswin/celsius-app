@@ -91,20 +91,6 @@ export const logoutMixpanelUser = async function () {
   mixpanelAnalytics.identify(uuid());
 }
 
-export const registerMixpanelUser = async function (user) {
-  await mixpanelEvents.createAlias(user.email);
-
-  mixpanelAnalytics.identify(user.email);
-  userEmail = user.email;
-
-  await mixpanelAnalytics.people_set({
-    "$first_name": user.first_name,
-    "$last_name": user.last_name,
-    "$email": user.email,
-    "Created At": user.created_at,
-  })
-}
-
 async function profileDetailsAdded(profileDetails) {
   mixpanelAnalytics.track('KYC Profile details successfully added', {
     email: userEmail
@@ -175,7 +161,12 @@ async function pinSet() {
   })
 }
 
-async function finishedSignup(method, referralLinkId) {
+async function finishedSignup(method, referralLinkId, user) {
+  await mixpanelEvents.createAlias(user.email);
+
+  mixpanelAnalytics.identify(user.email);
+  userEmail = user.email;
+
   mixpanelAnalytics.track('Finished sign up', {
     method,
     email: userEmail
@@ -183,6 +174,10 @@ async function finishedSignup(method, referralLinkId) {
 
   if (referralLinkId) {
     await mixpanelAnalytics.people_set({
+      "$first_name": user.first_name,
+      "$last_name": user.last_name,
+      "$email": user.email,
+      "Created At": user.created_at,
       "referral_id": referralLinkId
     })
   }

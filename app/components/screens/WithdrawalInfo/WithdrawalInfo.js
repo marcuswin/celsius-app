@@ -14,7 +14,6 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
-import BitcoinCashForkInfo from "../../organisms/BitcoinCashForkInfo/BitcoinCashForkInfo";
 
 @connect(
   state => ({
@@ -46,36 +45,28 @@ class WithdrawalInfo extends Component {
         </View>
 
         <CelHeading
-          text={this.shouldHideBCH() ? 'Withdraw Funds' : "Are You Sure?"}
+          text={"Are You Sure?"}
           textAlign="center"
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+         <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
-          </Text>}
+          </Text>
 
-          {!this.shouldHideBCH() && <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             Withdrawing your funds will reduce the amount of interest you could potentially earn.
-          </Text>}
+          </Text>
 
-          {this.shouldHideBCH() && <BitcoinCashForkInfo/>}
-
-          {!this.shouldHideBCH() && <CelButton
+          <CelButton
             ref={testUtil.generateTestHook(this, 'WithdrawalInfo.continue')}
             white
             margin="20 30 20 30"
             onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
           >
             Continue
-          </CelButton>}
-          {this.shouldHideBCH() && <CelButton
-            white
-            margin="20 30 20 30"
-            onPress={() => actions.navigateBack()}
-          >
-            I Understand
-          </CelButton>}
+          </CelButton>
+
         </Content>
       </BasicLayout>
     );

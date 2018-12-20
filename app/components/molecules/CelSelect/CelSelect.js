@@ -13,6 +13,7 @@ import Icon from "../../atoms/Icon/Icon";
 import SelectCountryModal from "../../organisms/SelectCountryModal/SelectCountryModal";
 import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 import testUtil from "../../../utils/test-util";
+import SelectStateModal from '../../organisms/SelectStateModal/SelectStateModal';
 
 @connect(
   () => ({}),
@@ -196,7 +197,7 @@ class CelSelect extends Component {
 
     return (
       <View style={[flex ? { flex } : null, shadowStyle ]}>
-        {type !== 'country' ?
+        {type !== 'country' && type !== 'state' ?
           <RNPickerSelect
             disabled={disabled}
             items={items}
@@ -208,6 +209,12 @@ class CelSelect extends Component {
         }
         {type === 'country' &&
           <SelectCountryModal
+            visible={propVisible}
+            onClose={this.selectValue}
+          />
+        }
+       {type === 'state' &&
+          <SelectStateModal
             visible={propVisible}
             onClose={this.selectValue}
           />

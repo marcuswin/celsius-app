@@ -1,16 +1,16 @@
 import branchService from "../services/branch-service";
 
 export const branchEvents = {
-  completeRegistration: (userId, method, referralLinkId) => {
-    const customData = {
-      fb_registration_method: method,
-      method
-    }
-    if (referralLinkId) {
-      customData.referral_id = referralLinkId;
-    }
-    branchService.createBranchEvent({ name: 'COMPLETE_REGISTRATION', user_data: { developer_identity: userId }, custom_data: customData })
-  },
+  // completeRegistration: (userId, method, referralLinkId) => {
+  //   const customData = {
+  //     fb_registration_method: method,
+  //     method
+  //   }
+  //   if (referralLinkId) {
+  //     customData.referral_id = referralLinkId;
+  //   }
+  //   branchService.createBranchEvent({ name: 'COMPLETE_REGISTRATION', user_data: { developer_identity: userId }, custom_data: customData })
+  // },
   achieveLevel: (userId, description) => branchService.createBranchEvent({ name: 'ACHIEVE_LEVEL', user_data: { developer_identity: userId }, content_items: [{ $og_description: description, description }] }),
   addToCart: (userId, loanApplication) => branchService.createBranchEvent({
     name: 'ADD_TO_CART',

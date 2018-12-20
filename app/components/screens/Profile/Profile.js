@@ -5,7 +5,6 @@ import { View } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import moment from "moment/moment";
 
 import testUtil from "../../../utils/test-util";
 import API from '../../../config/constants/API';
@@ -25,7 +24,6 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
-import { KYC_STATUSES } from "../../../config/constants/common";
 
 
 const { revisionId } = Constants.manifest;
@@ -53,7 +51,6 @@ const ProfileDetailsStyle = StyleSheet.create({
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    kycRealStatus: KYC_STATUSES.ico_passed, // state.users.user.kyc ? state.users.user.kyc.realStatus : null,
     appSettings: state.users.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -126,13 +123,16 @@ class ProfileScreen extends Component {
         state: formData.state,
       };
       actions.updateProfileAddressInfo(updatedUser);
-      if (formData.country !== "United States" && formData.citizenship !== "United States") {
-        actions.updateUserAppSettings({ declineAccess: false });
-      }
 
-      if (formData.country === "United States" || formData.citizenship === "United States" ) {
-        actions.updateUserAppSettings({ declineAccess: true });
-      }
+      // TODO(ns): uncomment when Blackout is activated
+
+      // if (formData.country !== "United States" && formData.citizenship !== "United States") {
+      //   actions.updateUserAppSettings({ declineAccess: false });
+      // }
+      //
+      // if (formData.country === "United States" || formData.citizenship === "United States" ) {
+      //   actions.updateUserAppSettings({ declineAccess: true });
+      // }
 
       this.setState({ addressEditable: false });
     }
@@ -149,26 +149,32 @@ class ProfileScreen extends Component {
         national_id: formData.national_id
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
-      if (formData.state === "New York") {
-        actions.updateUserAppSettings({ declineAccess: true });
-        actions.navigateTo("Home")
-      } else {
-        actions.updateUserAppSettings({ declineAccess: false });
-      }
+
+      // TODO(ns): uncomment when Blackout is activated
+
+      // if (formData.state === "New York") {
+      //   actions.updateUserAppSettings({ declineAccess: true });
+      //   actions.navigateTo("Home")
+      // } else {
+      //   actions.updateUserAppSettings({ declineAccess: false });
+      // }
       this.setState({ taxpayerEditable: false });
     }
   };
 
   initForm = () => {
     const { actions, user, formData } = this.props;
-    const date = user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
-    const currentTimestamp = moment.utc(Date.now());
-    let NycBlackoutTimestamp;
-    let days;
-    if (user && user.blocked_at) {
-      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
-      days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
-    }
+    const date = user && user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
+
+    // TODO(ns): uncomment when Blackout is activated
+
+    // const currentTimestamp = moment.utc(Date.now());
+    // let NycBlackoutTimestamp;
+    // let days;
+    // if (user && user.blocked_at) {
+    //   NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
+    //   days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
+    // }
 
     if (user) {
       const data = {
@@ -199,16 +205,17 @@ class ProfileScreen extends Component {
       }
       actions.initForm(data)
 
+      // TODO(ns): uncomment when Blackout is activated, check if code below needed
 
-      if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
-        this.setState({ addressEditable: true });
-        if( days && days < 1) {
-          this.setState({ isBlackout: false });
-        }
-      }
-      if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
-        this.setState({ taxpayerEditable: true });
-      }
+      // if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
+      //   this.setState({ addressEditable: true });
+        // if( days && days < 1) {
+        //   this.setState({ isBlackout: false });
+        // }
+      // }
+      // if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
+      //   this.setState({ taxpayerEditable: true });
+      // }
     }
   };
 

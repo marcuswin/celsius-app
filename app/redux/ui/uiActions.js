@@ -235,17 +235,20 @@ function openInitialModal() {
     const appSettings = getState().users.appSettings;
     const user = getState().users.user;
     const branchHashes = getState().transfers.branchHashes;
+    // const kyc = getState().users.user.kyc.realStatus;
 
     if (branchHashes && branchHashes.length) {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
 
-    if (user && user.kyc.status === "passed") {
-      if (user.state === "New York") return dispatch(openModal(MODALS.NYC_BLACKOUT));
-      if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
-        return dispatch(openModal(MODALS.NYC_BLACKOUT));
-      }
-    }
+    // TODO(ns): uncomment when Blackout is activated
+
+    // if (user && user.kyc.status === "passed") {
+    //   if (user.state === "New York" || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
+    //   if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
+    //     return dispatch(openModal(MODALS.NYC_BLACKOUT));
+    //   }
+    // }
 
     if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))

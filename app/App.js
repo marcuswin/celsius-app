@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Asset, AppLoading, Font, Constants } from 'expo';
+import { Asset, AppLoading, Font, Constants, Segment } from 'expo';
 import {Provider} from 'react-redux';
 import { Image, AppState, Platform } from 'react-native';
 import Sentry from 'sentry-expo';
@@ -11,7 +11,7 @@ import MainLayout from './components/layouts/MainLayout';
 import {CACHE_IMAGES, FONTS} from "./config/constants/style";
 import { analyticsEvents } from "./utils/analytics-util";
 
-const {SENTRY_DSN} = Constants.manifest.extra;
+const {SENTRY_DSN, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
 
 if (SENTRY_DSN) {
   Sentry.enableInExpoDevelopment = true;
@@ -51,6 +51,11 @@ export default class App extends Component {
   // Init Application
   static async initApp() {
     await App.loadAssetsAsync();
+
+    await Segment.initialize({
+      androidWriteKey: SEGMENT_ANDROID_KEY,
+      iosWriteKey: SEGMENT_IOS_KEY,
+    });
   }
 
   // Assets are cached differently depending on where

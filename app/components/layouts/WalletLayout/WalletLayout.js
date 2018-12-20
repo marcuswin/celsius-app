@@ -13,7 +13,7 @@ import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import testUtil from "../../../utils/test-util";
-import EmptyState from "../../atoms/EmptyState/EmptyState";
+
 
 @connect(
   state => ({
@@ -46,25 +46,27 @@ class WalletLayout extends Component {
 
   // rendering methods
   render() {
-    const { walletTotal, appSettings, activeScreen } = this.props;
+    const { walletTotal } = this.props;
     const total = get(walletTotal, "quotes.USD.total", 0);
 
 
-    if (appSettings.declineAccess && activeScreen !== "Home") {
-      return (
-        <BasicLayout bottomNavigation>
-          <MainHeader backButton={false}/>
-          <View style={WalletLayoutStyle.heading}>
-            {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{formatter.usd(total)}</Text>}
-            {!walletTotal && <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
-                                    style={WalletLayoutStyle.totalLoader}/>}
-            <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
-          </View>
-          <TabNavigation tabs={this.tabs} />
-          <EmptyState purpose={"NycBlackout"}/>
-        </BasicLayout>
-      )
-    }
+    // TODO(ns): uncomment when Blackout is activated
+
+    // if (appSettings.declineAccess && activeScreen !== "Home") {
+    //   return (
+    //     <BasicLayout bottomNavigation>
+    //       <MainHeader backButton={false}/>
+    //       <View style={WalletLayoutStyle.heading}>
+    //         {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{formatter.usd(total)}</Text>}
+    //         {!walletTotal && <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
+    //                                 style={WalletLayoutStyle.totalLoader}/>}
+    //         <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
+    //       </View>
+    //       <TabNavigation tabs={this.tabs} />
+    //       <EmptyState purpose={"NycBlackout"}/>
+    //     </BasicLayout>
+    //   )
+    // }
 
     return (
       <BasicLayout bottomNavigation>
