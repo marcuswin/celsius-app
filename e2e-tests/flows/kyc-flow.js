@@ -473,6 +473,7 @@ function takePassportPicture(spec) {
 
     await store.dispatch(actions.updateFormField('cellphone', `111${new Date().getTime()}`))
 
+    await waitForExists(spec, 'VerifyProfile.verify')
     await spec.press('VerifyProfile.verify')
     await waitForExists(spec, 'VerifyPhoneNumber.screen')
   }
