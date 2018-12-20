@@ -31,10 +31,6 @@ const LTVs = [
   { percent: 0.5, interest: 0.12 }
 ];
 
-const LTVs20 = [
-  { percent: 0.2, interest: 0.05 }
-];
-
 @connect(
   state => ({
     supportedCurrencies: state.generalData.supportedCurrencies,
@@ -49,6 +45,14 @@ const LTVs20 = [
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class LoanApplication extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      amountError: false,
+    };
+  }
+
   componentWillMount = () => this.initScreen();
 
   componentWillReceiveProps(nextProps) {
@@ -88,7 +92,7 @@ class LoanApplication extends Component {
       ltv: LTVs[0]
     });
 
-  };
+    };
 
   applyForLoan = () => {
     const { actions, formData, currencyRatesShort } = this.props;
@@ -99,14 +103,16 @@ class LoanApplication extends Component {
       return actions.showMessage("error", "Please select an amount between $500.00 and $10,000.00");
     }
 
-    if (Number(formData.amountCollateralUSD) < 500) {
-      return actions.showMessage("warning", "Minimum amount for a loan is $500.00");
+    if (Number(formData.amountCollateralUSD) < 5000) {
+      this.setState({
+        amountError: true,
+      });
+      return actions.showMessage("warning", "Minimum amount for a loan is $5000.00");
     }
 
     if (!formData.amountCollateralCrypto) {
       actions.updateFormField("amountCollateralCrypto", formData.amountCollateralUSD / currencyRatesShort[formData.coin])
     }
-
     actions.applyForALoan();
   };
 
@@ -173,8 +179,7 @@ class LoanApplication extends Component {
 
   render() {
     const { formData, callsInProgress, walletCurrencies } = this.props;
-    const { pickerItems } = this.state;
-    let amountError;
+    const { pickerItems, amountError } = this.state;
 
     // TODO(ns): uncomment when Blackout is activated
 
@@ -201,12 +206,14 @@ class LoanApplication extends Component {
       );
     }
 
-    if (Number(formData.amountCollateralUSD) < 5000) amountError = "The loan amount should be $5,000 or higher.";
+    const error = amountError ? "The loan amount should be $5,000 or higher." : null;
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
     const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
 
     const ltvType = formData.coin === "xrp" || formData.coin === "ltc";
+
+    const ltvArray = LTVs.slice(0,1);
 
     const loanAmountText = ltvType ? "Click on loan amount:" : "Choose one of these loan amounts:";
 
@@ -233,7 +240,7 @@ class LoanApplication extends Component {
               placeholder="$5,000.00 is minimal amount"
               type="number"
               onChange={this.updateAmounts}
-              error={amountError}
+              error={error}
             />
           </CelForm>
 
@@ -267,7 +274,7 @@ class LoanApplication extends Component {
           <Separator margin="24 0 24 0" />
           <Text style={[globalStyles.normalText, LoanApplicationStyle.choose]}>{loanAmountText}</Text>
           <View style={LoanApplicationStyle.cardWrapper}>
-            {ltvType ? LTVs20.map((ltv) => (
+            {ltvType ? ltvArray.map((ltv) => (
               this.renderCard(ltv)
             )) : LTVs.map((ltv) => (
               this.renderCard(ltv)
@@ -299,7 +306,7 @@ class LoanApplication extends Component {
             onPress={this.applyForLoan}
             loading={isLoading}
             margin="20 0 0 0"
-            disabled={Number(formData.amountCollateralUSD) < 5000 || !formData.amountCollateralUSD}
+            disabled={!formData.amountCollateralUSD}
           >
             Apply for a loan
           </CelButton>
