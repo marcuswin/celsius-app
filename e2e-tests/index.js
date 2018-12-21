@@ -1,13 +1,14 @@
 import signupFlow from './flows/signup-flow';
-import { testFailed } from './helpers';
 import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
+import withdrawFlow from './flows/withdraw-flow'
 
 export default function (spec) {
-  testSignupFlow(spec);
-  testLoginFlow(spec);
-  testKycFlow(spec);
-  // testSingleSuite(spec);
+  // testSignupFlow(spec);
+  // testLoginFlow(spec);
+  // testKycFlow(spec);
+  // testWithdrawFlow(spec);
+  testSingleSuite(spec);
 }
 
 export function testSignupFlow(spec) {
@@ -122,5 +123,75 @@ export function testKycFlow(spec) {
 
     // Verify Phone Number Screen
     spec.it('should show error when code in bad', kycFlow.wrongSMSCode(spec))
+  })
+}
+
+export function testWithdrawFlow(spec) {
+  spec.describe('Withdraw Flow', () => {
+    
+    // Wallet landing
+    spec.it('should show wallet landing when enter pin', withdrawFlow.testFailed(spec))
+    spec.it('should switch between tabs correctly', withdrawFlow.testFailed(spec))
+    spec.it('should open wallet details when ETH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should change currency when right arrow pressed', withdrawFlow.testFailed(spec))
+    spec.it('should change currency when left arrow pressed', withdrawFlow.testFailed(spec))
+    
+    // ETH wallet details
+    spec.it('should open wallet details when ETH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+    spec.it('should open add funds when add eth pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+    spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to ETH wallet details when done is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+    // BTC wallet details
+    spec.it('should open wallet details when BTC pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+    spec.it('should open add funds when add BTC pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+    spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to BTC wallet details when done is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+    
+    // BCH wallet details
+    spec.it('should open wallet details when BCH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+    spec.it('should open add funds when add BCH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+    spec.it('should change QR and address when use cash address format is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to BCH wallet details when done is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+    // LTC wallet details
+    spec.it('should open wallet details when LTC pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+    spec.it('should open add funds when add LTC pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+    spec.it('should change QR and address when use M-format address is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to LTC wallet details when done is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+    // BCH wallet details
+    spec.it('should open wallet details when BCH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+    spec.it('should open add funds when add BCH pressed', withdrawFlow.testFailed(spec))
+    spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+    spec.it('should have XRP destination tag box', withdrawFlow.testFailed(spec))
+    spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to BCH wallet details when done is pressed', withdrawFlow.testFailed(spec))
+    spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+     // OMG wallet details
+     spec.it('should open wallet details when OMG pressed', withdrawFlow.testFailed(spec))
+     spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
+     spec.it('should open add funds when add OMG pressed', withdrawFlow.testFailed(spec))
+     spec.it('should show QR and address', withdrawFlow.testFailed(spec))
+     spec.it('should change QR and address when use cash address format is pressed', withdrawFlow.testFailed(spec))
+     spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
+     spec.it('should go to OMG wallet details when done is pressed', withdrawFlow.testFailed(spec))
+     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
   })
 }
