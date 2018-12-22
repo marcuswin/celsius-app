@@ -6,6 +6,7 @@ import device from "../../utils/device-util";
 import store from '../../redux/store';
 import { KYC_STATUSES } from "../../config/constants/common";
 import { shouldRenderInitialIdVerification } from "../../utils/user-util";
+import { screens } from "../../config/Navigator";
 
 const {width, height} = Dimensions.get('window');
 
@@ -45,7 +46,7 @@ function shouldShowBottomNavigation(action) {
   let showNav;
 
   if (routeName !== 'Home') {
-    // showNav = !!screens[routeName].bottomNavigation;
+    showNav = !!screens[routeName].bottomNavigation;
   } else if (!user) {
     showNav = false;
   } else if (!user.first_name || !user.last_name) {
