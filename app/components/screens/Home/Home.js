@@ -9,6 +9,9 @@ import { KYC_STATUSES } from "../../../config/constants/common";
 import store from "../../../redux/store";
 import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
+import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
+import {STYLES} from "../../../config/constants/style";
+import { heightPercentageToDP } from "../../../utils/scale";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
 
@@ -28,6 +31,10 @@ const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class HomeScreen extends Component {
+  state = {
+    progress: 0,
+  };
+
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
     if (!appInitialized) actions.appInitStart();
@@ -40,6 +47,14 @@ class HomeScreen extends Component {
         ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
       ));
     }
+  }
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState(state => ({
+        progress: state.progress + 0.2,
+      }));
+    }, 500);
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -87,7 +102,13 @@ class HomeScreen extends Component {
   renderLoadingScreen = () => (
     <View>
       <Message/>
-      <Image source={require('../../../../assets/images/loading.png')} style={{ height: '100%', width: '100%' }}/>
+      <View style={{backgroundColor: STYLES.PRIMARY_BLUE, height: "100%", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: heightPercentageToDP("8.5%")}}>
+      <Image source={require('../../../../assets/images/celsius-logo3x.png')} style={{ resizeMode: "contain", height: heightPercentageToDP("32.5%"), width: heightPercentageToDP("32.5%"), marginBottom: 40 }}/>
+        <ProgressBar
+          progress={this.state.progress}
+          duration={500}
+        />
+      </View>
     </View>
   )
 
