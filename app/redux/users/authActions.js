@@ -146,8 +146,8 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      await analyticsEvents.sessionStart();
       analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
-      analyticsEvents.sessionStart();
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -185,8 +185,8 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      await analyticsEvents.sessionStart();
       analyticsEvents.finishedSignup('Twitter', referralLinkId, res.data.user);
-      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -254,8 +254,8 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      await analyticsEvents.sessionStart();
       analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
-      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -321,8 +321,8 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      await analyticsEvents.sessionStart();
       analyticsEvents.finishedSignup('Google', referralLinkId, res.data.user);
-      analyticsEvents.sessionStart();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
