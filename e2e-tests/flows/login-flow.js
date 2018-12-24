@@ -1,10 +1,5 @@
-import store from '../../app/redux/store';
-import * as actions from '../../app/redux/actions';
 import { resetTests, callToComplete, containsText, waitForExists, resetNonKycUser, waitToFindComponent } from "../helpers";
 import API from "../../app/config/constants/API";
-
-
-const { dispatch } = store;
 
 export default {
   // Init login screen
@@ -40,7 +35,6 @@ function initFlow(spec) {
   }
 }
 
-
 function successfulFlow(spec) {
   return async () => {
     await resetTests(spec);
@@ -62,20 +56,10 @@ function successfulFlow(spec) {
 }
 
 // Login screen tests
-async function loginSetup(spec) {
-  await resetTests(spec);
-  await resetNonKycUser(spec);
-
-  await spec.press('Welcome.skipButton')
-  await waitForExists(spec, 'SignupOne.screen')
-
-  await spec.press('MainHeader.RightLink')
-  await waitForExists(spec, 'Login.screen')
-}
 
 function forgottenPassword(spec) {
   return async () => {
-    await loginSetup(spec);
+    await (initFlow(spec))();
 
     await spec.press('LoginScreen.forgotPassword')
     await waitForExists(spec, 'ForgottenPassword.screen')
@@ -84,7 +68,7 @@ function forgottenPassword(spec) {
 
 function disableWhenNoLoginData(spec) {
   return async () => {
-    await loginSetup(spec)
+    await (initFlow(spec))();
 
     const btn = await waitToFindComponent(spec, 'LoginForm.button')
     if (!btn.props.disabled) {
@@ -95,7 +79,7 @@ function disableWhenNoLoginData(spec) {
 
 function disableWhenNoEmail(spec) {
   return async () => {
-    await loginSetup(spec)
+    await (initFlow(spec))();
 
     await spec.fillIn('CelTextInput.pass', 'filip123')
 
@@ -108,7 +92,7 @@ function disableWhenNoEmail(spec) {
 
 function disableWhenNoPassword(spec) {
   return async () => {
-    await loginSetup(spec)
+    await (initFlow(spec))();
 
     await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
 
@@ -121,7 +105,7 @@ function disableWhenNoPassword(spec) {
 
 function errWhenWrongCredentials(spec) {
   return async () => {
-    await loginSetup(spec)
+    await (initFlow(spec))();
     await resetNonKycUser(spec);
 
     await spec.fillIn('CelTextInput.pass', 'filip1234')
@@ -136,7 +120,7 @@ function errWhenWrongCredentials(spec) {
 
 function errUserDoesNotExists(spec) {
   return async () => {
-    await loginSetup(spec)
+    await (initFlow(spec))();
 
     await spec.fillIn('CelTextInput.email', `filip.jovakaric${new Date().getTime()}@mvpworkshop.co`)
     await spec.fillIn('CelTextInput.pass', 'filip1234')
@@ -150,7 +134,7 @@ function errUserDoesNotExists(spec) {
 
 // ForgottenPassword screen tests
 async function forgottenPasswordSetup(spec) {
-  await loginSetup(spec);
+  await (initFlow(spec))();
 
   await spec.press('LoginScreen.forgotPassword')
   await waitForExists(spec, 'ForgottenPassword.screen')
@@ -187,7 +171,7 @@ function forgottenPasswordSuccessMsg(spec) {
     await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
     await spec.press('ForgottenPassword.getResetLink')
 
-    const text2 = await waitToFindComponent(spec, 'Message.msg');
-    await containsText(text2, `Email sent!`);
+    const text = await waitToFindComponent(spec, 'Message.msg');
+    await containsText(text, `Email sent!`);
   }
 }

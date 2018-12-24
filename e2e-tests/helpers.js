@@ -72,7 +72,7 @@ export async function waitForExists(spec, screen) {
     if (!activeScreen) await spec.pause(500)
   }
 
-  if (tryCount === 10) throw new Error(`spec.exists('${screen})': Too many tries!`);
+  if (tryCount === 20) throw new Error(`spec.exists('${screen})': Too many tries!`);
 }
 
 export async function waitToFindComponent(spec, component) {
@@ -89,7 +89,7 @@ export async function waitToFindComponent(spec, component) {
     if (!activeComponent) await spec.pause(500)
   }
 
-  if (tryCount === 10) throw new Error(`spec.findComponent('${component})': Too many tries!`);
+  if (tryCount === 20) throw new Error(`spec.findComponent('${component})': Too many tries!`);
   if (activeComponent) return activeComponent;
 }
 
@@ -123,4 +123,15 @@ export async function resetNonKycUser() {
 
 export async function resetKycUser() {
   return axios.post(API_URL + '/test/reset_kyc_user')
+}
+
+export const errorCatchWrapper = fn => {
+  return async () => {
+    try {
+      return await fn()
+    } catch (err) {
+      console.log("ERR:", err)
+      throw err;
+    }
+  }
 }
