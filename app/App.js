@@ -1,22 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Asset, AppLoading, Font, Constants, Segment } from 'expo';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import { Image, AppState, Platform } from 'react-native';
-import Sentry from 'sentry-expo';
 
 import store from './redux/store';
 import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
-import {CACHE_IMAGES, FONTS} from "./config/constants/style";
+import { CACHE_IMAGES, FONTS } from "./config/constants/style";
 import { analyticsEvents } from "./utils/analytics-util";
+import Sentry from './utils/sentry-util';
 
-const {SENTRY_DSN, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
+const { SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
 
-if (SENTRY_DSN) {
-  Sentry.enableInExpoDevelopment = true;
-  Sentry.config(SENTRY_DSN).install();
-}
+Sentry.init();
+Sentry.captureException("asddsaasdadssdads")
 
 let startOfBackgroundTimer;
 
@@ -131,8 +129,8 @@ export default class App extends Component {
       return (
         <AppLoading
           startAsync={App.initApp}
-          onFinish={() => this.setState({isReady: true})}
-          onError={error => {Sentry.captureException(error)}}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={error => { Sentry.captureException(error) }}
         />
       );
     }

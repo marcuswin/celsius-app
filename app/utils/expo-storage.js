@@ -1,5 +1,5 @@
 import Expo from 'expo'
-import Sentry from 'sentry-expo';
+import Sentry from './sentry-util';
 
 export {
   setSecureStoreKey,

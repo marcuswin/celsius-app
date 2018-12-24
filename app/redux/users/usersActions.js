@@ -1,4 +1,3 @@
-import Sentry from 'sentry-expo';
 import { Constants } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
@@ -14,6 +13,7 @@ import apiUtil from "../../utils/api-util";
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
+import Sentry from '../../utils/sentry-util';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 

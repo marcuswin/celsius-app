@@ -5,7 +5,7 @@ import withdrawFlow from './flows/withdraw-flow'
 
 export default function (spec) {
   // testSignupFlow(spec);
-  testKycFlow(spec);
+  // testKycFlow(spec);
   // testLoginFlow(spec);
   // testWithdrawFlow(spec);
   // testSingleSuite(spec);

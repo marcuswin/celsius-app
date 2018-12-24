@@ -1,10 +1,37 @@
-import { Segment } from "expo";
+import { Segment, Constants } from "expo";
 import { mixpanelEvents, initMixpanelUser, logoutMixpanelUser } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';
 import { branchEvents } from "./branch-util";
 
-export const analyticsEvents = {
+const { ENV } = Constants.manifest.extra;
+const analyticsEventsTest = {
+  initUser: async () => { },
+  identifySegmentUser: async () => { },
+  logoutUser: async () => { },
+  signupButton: () => { },
+  buttonPressed: () => { },
+  startedSignup: () => { },
+  finishedSignup: async () => { },
+  pinSet: () => { },
+  profileDetailsAdded: () => { },
+  documentsAdded: () => { },
+  phoneVerified: async () => { },
+  KYCStarted: () => { },
+  pressWalletCard: () => { },
+  pressAddFunds: () => { },
+  confirmWithdraw: async () => { },
+  changeTab: () => { },
+  openApp: () => { },
+  navigation: () => { },
+  celPayTransfer: async () => { },
+  applyForLoan: async () => { },
+  profileAddressAdded: () => { },
+  profileTaxpayerInfoAdded: () => { },
+  sessionStart: async () => { },
+  sessionEnd: async () => { }
+}
+const analyticsEventsUtil = {
   initUser: async (user) => {
     await initMixpanelUser(user);
   },
@@ -205,3 +232,7 @@ export const analyticsEvents = {
     await mixpanelEvents.sessionEnd();
   }
 }
+
+const analyticsEvents = ENV !== 'TEST' ? analyticsEventsUtil : analyticsEventsTest;
+
+export { analyticsEvents }

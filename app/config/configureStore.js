@@ -1,10 +1,10 @@
 import { Platform } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import Sentry from "sentry-expo";
 
 import reducer from '../redux/reducers';
 import ACTIONS from "./constants/ACTIONS";
+import Sentry from '../utils/sentry-util';
 
 /* eslint global-require: 0 */
 let composeEnhancers = compose;
@@ -14,13 +14,13 @@ if (__DEV__) {
   /* eslint-disable no-underscore-dangle */
   composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
     require('remote-redux-devtools').composeWithDevTools)({
-    name: Platform.OS,
-    ...require('../../package.json').remotedev
-  });
+      name: Platform.OS,
+      ...require('../../package.json').remotedev
+    });
   /* eslint-enable no-underscore-dangle */
 }
 
-const middleware =  [
+const middleware = [
   thunk,
   // enable when debugging standalone app
   // sentryActionLogger,
@@ -45,7 +45,7 @@ let allActions = [];
 function sentryActionLogger({ getState }) {
   return (next) => (action) => {
     allActions.push(action.type);
-    console.log(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`);
+    console.log(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`);
     if (
       allActions.length % 20 === 0 ||
       [
@@ -54,7 +54,7 @@ function sentryActionLogger({ getState }) {
         ACTIONS.BRANCH_LINK_REGISTERED,
       ].indexOf(action.type) !== -1
     ) {
-      Sentry.captureMessage(`Action logger ${action.type} (${ allActions.length }) - ${ new Date().getTime() }`, {
+      Sentry.captureMessage(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`, {
         level: 'info',
         extra: {
           allActions,
