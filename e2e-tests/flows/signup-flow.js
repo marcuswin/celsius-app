@@ -197,7 +197,7 @@ function errorWhenUserExists(spec) {
     signupOneSetup();
 
     await waitForExists(spec, 'SignupOne.screen')
-    await spec.fillIn('SignupOne.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('SignupOne.email', 'testing+non_kyc_user@mvpworkshop.co')
     await spec.fillIn('SignupOne.passwordOne', 'filip123')
     await spec.fillIn('SignupOne.passwordTwo', 'filip123')
     await spec.press('SignupOne.button')
@@ -217,7 +217,7 @@ function errorWPasswordsDifferent(spec) {
     signupOneSetup();
 
     await waitForExists(spec, 'SignupOne.screen')
-    await spec.fillIn('SignupOne.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('SignupOne.email', 'testing+non_kyc_user@mvpworkshop.co')
     await spec.fillIn('SignupOne.passwordOne', 'filip123')
     await spec.fillIn('SignupOne.passwordTwo', 'filip123456')
 

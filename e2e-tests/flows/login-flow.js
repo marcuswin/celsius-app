@@ -7,10 +7,11 @@ import API from "../../app/config/constants/API";
 const { dispatch } = store;
 
 export default {
-  successfulFlow,
-
-  // Welcome screen
+  // Init login screen
   initFlow,
+
+  // Successful login flow
+  successfulFlow,
 
   // Login screen
   forgottenPassword,
@@ -19,15 +20,26 @@ export default {
   disableWhenNoPassword,
   errWhenWrongCredentials,
   errUserDoesNotExists,
-  loginSuccess,
-
-  // LoginPasscode screen
 
   // ForgottenPassword screen
   forgottenPasswordErrWrongEmail,
   forgottenPasswordErrWrongEmailFormat,
   forgottenPasswordSuccessMsg,
 }
+
+function initFlow(spec) {
+  return async () => {
+    await resetTests(spec);
+    await resetNonKycUser(spec);
+
+    await spec.press('Welcome.skipButton')
+    await waitForExists(spec, 'SignupOne.screen')
+
+    await spec.press('MainHeader.RightLink')
+    await waitForExists(spec, 'Login.screen')
+  }
+}
+
 
 function successfulFlow(spec) {
   return async () => {
@@ -41,27 +53,11 @@ function successfulFlow(spec) {
     await waitForExists(spec, 'Login.screen')
 
     await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
-    await spec.fillIn('CelTextInput.pass', 'Cel51u5')
+    await spec.fillIn('CelTextInput.pass', 'Cel51u5!?')
     await spec.press('LoginForm.button')
 
     await callToComplete(spec, API.LOGIN_BORROWER)
-    // await waitForExists(spec,'WalletBalance.screen')
-  }
-}
-
-function initFlow(spec) {
-  return async () => {
-    await resetTests(spec);
-    await resetNonKycUser(spec);
-
-    await spec.press('Welcome.skipButton')
-    await waitForExists(spec, 'SignupOne.screen')
-
-    await spec.press('MainHeader.RightLink')
-    await waitForExists(spec, 'Login.screen')
-
-    await spec.press('MainHeader.RightLink')
-    await waitForExists(spec, 'Login.screen')
+    await waitForExists(spec, 'NoKyc.screen')
   }
 }
 
@@ -149,19 +145,6 @@ function errUserDoesNotExists(spec) {
     const text = await waitToFindComponent(spec, 'Message.msg');
     await containsText(text, `Uhoh, looks like your username or password don't match.`);
     await spec.notExists('WalletBalance.screen')
-  }
-}
-
-function loginSuccess(spec) {
-  return async () => {
-    await loginSetup(spec)
-
-    await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
-    await spec.fillIn('CelTextInput.pass', 'Cel51u5!?')
-    await spec.press('LoginForm.button')
-
-    await callToComplete(spec, API.LOGIN_BORROWER)
-    await waitForExists(spec, 'NoKyc.screen')
   }
 }
 
