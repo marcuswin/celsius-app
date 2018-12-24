@@ -184,7 +184,7 @@ function forgottenPasswordSuccessMsg(spec) {
   return async () => {
     await forgottenPasswordSetup(spec);
 
-    dispatch(actions.updateFormField('email', 'testing+non_kyc_user@mvpworkshop.co'))
+    await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
     await spec.press('ForgottenPassword.getResetLink')
 
     const text2 = await waitToFindComponent(spec, 'Message.msg');
