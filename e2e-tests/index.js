@@ -5,10 +5,10 @@ import withdrawFlow from './flows/withdraw-flow'
 
 export default function (spec) {
   // testSignupFlow(spec);
+  testKycFlow(spec);
   // testLoginFlow(spec);
-  // testKycFlow(spec);
   // testWithdrawFlow(spec);
-  testSingleSuite(spec);
+  // testSingleSuite(spec);
 }
 
 export function testSignupFlow(spec) {
@@ -145,6 +145,10 @@ export function testWithdrawFlow(spec) {
     spec.it('should go to ETH wallet details when done is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
 
+    spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+    spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+    spec.it('should withdraw 2 dolars', withdrawFlow.testFailed(spec))    
+
     // BTC wallet details
     spec.it('should open wallet details when BTC pressed', withdrawFlow.testFailed(spec))
     spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
@@ -153,6 +157,10 @@ export function testWithdrawFlow(spec) {
     spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to BTC wallet details when done is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+    
+    spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+    spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+    spec.it('should withdraw 2 dolars', withdrawFlow.testFailed(spec))    
     
     // BCH wallet details
     spec.it('should open wallet details when BCH pressed', withdrawFlow.testFailed(spec))
@@ -164,6 +172,10 @@ export function testWithdrawFlow(spec) {
     spec.it('should go to BCH wallet details when done is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
 
+    spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+    spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+    spec.it('should withdraw 2 dolars', withdrawFlow.testFailed(spec))    
+
     // LTC wallet details
     spec.it('should open wallet details when LTC pressed', withdrawFlow.testFailed(spec))
     spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
@@ -173,6 +185,10 @@ export function testWithdrawFlow(spec) {
     spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to LTC wallet details when done is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+    spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+    spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+    spec.it('should withdraw 2 dolars', withdrawFlow.testFailed(spec))    
 
     // BCH wallet details
     spec.it('should open wallet details when BCH pressed', withdrawFlow.testFailed(spec))
@@ -184,6 +200,10 @@ export function testWithdrawFlow(spec) {
     spec.it('should go to BCH wallet details when done is pressed', withdrawFlow.testFailed(spec))
     spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
 
+    spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+    spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+    spec.it('should withdraw 5 dolars', withdrawFlow.testFailed(spec))    
+
      // OMG wallet details
      spec.it('should open wallet details when OMG pressed', withdrawFlow.testFailed(spec))
      spec.it('should show chart for each period of time', withdrawFlow.testFailed(spec))
@@ -193,5 +213,9 @@ export function testWithdrawFlow(spec) {
      spec.it('should go to BitGo page when transactions are secure is pressed', withdrawFlow.testFailed(spec))
      spec.it('should go to OMG wallet details when done is pressed', withdrawFlow.testFailed(spec))
      spec.it('should go to wallet landing when x is pressed', withdrawFlow.testFailed(spec))
+
+     spec.it('should show error when atempt to widhdraw insufficient funds', withdrawFlow.testFailed(spec))    
+     spec.it('should show error when atempt to widhdraw less then $1', withdrawFlow.testFailed(spec))    
+     spec.it('should withdraw 5 dolars', withdrawFlow.testFailed(spec))    
   })
 }
