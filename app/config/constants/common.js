@@ -136,7 +136,7 @@ export const STATE = [
   { label: "Wyoming", value: "Wyoming" }
 ]
 
-export const ELIGIBLE_COINS = ['CEL', 'BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH', 'ZRX'];
+export const ELIGIBLE_COINS = ['CEL', 'BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH', 'ZRX', 'ZEC', 'BTG', 'XLM'];
 export const INTEREST_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH'];
 export const LOAN_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP'];
 export const KYC_STATUSES = {
