@@ -84,7 +84,7 @@ class VerifyIdentity extends Component {
           });
         }
 
-        this.setState({ inProgress: false });
+        this.setState({ inProgress: false, value: '' });
         onVerificationCallback(value);
       } else {
         const verificationCode = {};
@@ -95,13 +95,14 @@ class VerifyIdentity extends Component {
         }
 
         const stay = await onVerificationAction(verificationCode);
+        this.setState({ value: '' });
 
         if (stay) {
           this.setState({ inProgress: false });
         }
       }
     } catch (error) {
-      this.setState({ inProgress: false });
+      this.setState({ inProgress: false, value: '' });
       console.log(error);
       actions.showMessage('error', error.msg);
     }
