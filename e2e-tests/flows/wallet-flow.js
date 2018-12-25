@@ -7,9 +7,9 @@ import API from "../../app/config/constants/API";
 const { dispatch } = store;
 
 export default {
+  testFailed,
   navigateToWalletBalance,
   tabsSwitch,
-  testFailed,
 }
 
 function testFailed(spec){
@@ -20,7 +20,6 @@ function testFailed(spec){
 
 function navigateToWalletBalance(spec){
 	return async () => {
-
     await resetTests(spec);
     await resetKycUser(spec);
     
@@ -28,14 +27,13 @@ function navigateToWalletBalance(spec){
     await waitForExists(spec, 'SignupOne.screen')
     
     await spec.press('MainHeader.RightLink')
-    await waitForExists(spec, 'Login.screen')
+    await waitForExists(spec,'Login.screen')
     
-    await spec.fillIn('CelTextInput.email', 'testing+kyc_user@mvpworkshop.co')
-    await spec.fillIn('CelTextInput.pass', 'Cel51u5!?')
+    await spec.fillIn('CelTextInput.email', 'filip.jovakaric+wlt@mvpworkshop.co')
+    await spec.fillIn('CelTextInput.pass', 'filip123')
     await spec.press('LoginForm.button')
     
     await callToComplete(spec, API.LOGIN_BORROWER)
-    await waitForExists(spec, 'NoKyc.screen')
      
 		await spec.press('WalletDetails.withdraw')
 		await spec.press('WithdrawalInfo.continue')
@@ -45,8 +43,14 @@ function navigateToWalletBalance(spec){
 
 function tabsSwitch(spec){
 	return async () => {
+		await resetTests(spec);
+		await resetKycUser(spec);
+		
+	  await spec.press('TabNavigation.Transactions')
+		await waitForExists(spec, 'WalletInterest.screen')
 
-    
+	  await spec.press('TabNavigation.Balance')
+		await waitForExists(spec, 'WalletBalance.screen')
 
 	}
 }

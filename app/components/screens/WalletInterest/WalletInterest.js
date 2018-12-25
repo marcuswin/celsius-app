@@ -141,7 +141,9 @@ class WalletInterest extends Component {
 
 
     return (
-      <WalletLayout>
+      <WalletLayout
+      ref={testUtil.generateTestHook(this, 'WalletInterest.screen')}
+      >
         <View style={WalletInterestStyle.graphAndInterestWrapper}>
           <View style={WalletInterestStyle.thisWeekInterestWrapper}>
             <View style={{ flexDirection: "row", paddingHorizontal: 7 }}>
