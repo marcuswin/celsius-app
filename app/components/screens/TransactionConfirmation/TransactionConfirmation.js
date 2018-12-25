@@ -48,7 +48,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-                                                                                            QR
+                                                                                                    QR
         Code</Text>
     </CelForm>
 
@@ -415,7 +415,7 @@ class TransactionConfirmation extends Component {
             </View>
           )}
         />
-        {coin === "xrp" ?
+        {coin === "xrp" &&
           <View>
             <View style={[TransactionConfirmationStyle.addressViewWrapper, { marginBottom: 10 }]}>
               <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
@@ -426,13 +426,8 @@ class TransactionConfirmation extends Component {
               <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newTag}</Text>
             </View>
           </View>
-          :
-          <View style={TransactionConfirmationStyle.addressViewWrapper}>
-            <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-            <Text style={TransactionConfirmationStyle.address}>{address.address}</Text>
-          </View>
         }
-        {coin === "xlm" ?
+        {coin === "xlm" &&
           <View>
             <View style={[TransactionConfirmationStyle.addressViewWrapper, { marginBottom: 10 }]}>
               <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
@@ -443,7 +438,8 @@ class TransactionConfirmation extends Component {
               <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newMemoId}</Text>
             </View>
           </View>
-          :
+        }
+        {!["xrp", "xlm"].includes(coin) &&
           <View style={TransactionConfirmationStyle.addressViewWrapper}>
             <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
             <Text style={TransactionConfirmationStyle.address}>{address.address}</Text>
