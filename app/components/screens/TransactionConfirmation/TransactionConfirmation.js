@@ -47,7 +47,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-                                                                                        QR
+                                                                                          QR
         Code</Text>
     </CelForm>
 
@@ -259,6 +259,7 @@ class TransactionConfirmation extends Component {
       } else {
         await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
       }
+      return true;
     } catch (error) {
       actions.showMessage('error', error.error);
       return true;
@@ -270,6 +271,8 @@ class TransactionConfirmation extends Component {
     const { actions } = this.props;
 
     actions.navigateTo("VerifyIdentity", {
+      verificationCallback: false,
+      backButton: true,
       actionLabel: 'withdraw',
       verificationAction: this.withdrawFunds,
     });

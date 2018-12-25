@@ -245,24 +245,13 @@ class TransactionDetails extends Component {
         return <ContactSection key={sectionType} contact={transaction.transfer_data.sender} text="Received from" />;
       case 'transfer-link':
         return branchLink && (
-          <React.Fragment>
-            {/* <LinkSection
-              key={sectionType}
-              transaction={transaction}
-              url={branchLink.url}
-              onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)}
-            /> */}
-            <TransactionLinkSection key={sectionType} transactionLink={branchLink.url} />;
-            <ManageTransactionSection key={sectionType} onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)} />;
-          </React.Fragment>
+          <View>
+            <TransactionLinkSection key={sectionType} transactionLink={branchLink.url} />
+            <ManageTransactionSection key={sectionType} onPress={() => actions.openModal(MODALS.TRANSACTION_OPTIONS)} />
+          </View>
         );
       case 'canceled-transfer-link':
-        // return branchLink && (
-        //   <CanceledTransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />
-        // );
-        return (
-          <CanceledTransactionLinkSection key={sectionType} transactionLink={"https://celsiusnetwork.test-app.link/SSFiA8gpgS/"} />
-        );
+        return branchLink && <CanceledTransactionLinkSection key={sectionType} transactionLinkSection={branchLink.url} />;
       case 'explorer':
         shouldRenderSection = ['PRODUCTION', 'PREPROD'].indexOf(ENV) !== -1 && transaction.transaction_id;
         return shouldRenderSection && <BlockExplorerSection key={sectionType} transaction={transaction} />;
