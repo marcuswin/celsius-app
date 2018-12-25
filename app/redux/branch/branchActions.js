@@ -83,6 +83,9 @@ function createBranchReferralLink() {
           customMetadata: {
             referrer_id: user.id,
             link_type: BRANCH_LINKS.INDIVIDUAL_REFERRAL,
+
+            referrer_award_amount: 0,
+            referred_award_amount: 0,
           }
         }
       }

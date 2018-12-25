@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Clipboard } from "react-native";
+import { Text, View, Image, Clipboard, Share } from "react-native";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -9,11 +9,11 @@ import CelModal from "../../atoms/CelModal/CelModal";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
-import ShareCopy from '../ShareCopy/ShareCopy';
 
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
+    user: state.users.user,
     referralLink: state.branch.createdLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0],
   }),
   dispatch => ({
@@ -24,7 +24,7 @@ import ShareCopy from '../ShareCopy/ShareCopy';
 class ReferralModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { actions, referralLink, openedModal } = nextProps;
-    if (this.props.openedModale !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
+    if (this.props.openedModal !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
       actions.createBranchReferralLink();
     }
   }
@@ -35,11 +35,11 @@ class ReferralModal extends Component {
 
   // rendering methods
   render() {
-    const { actions, referralLink } = this.props;
+    const { referralLink, user } = this.props;
 
     if (!referralLink) return null;
     const { url } = referralLink;
-
+    const shareCopy = `${user.first_name} invites you to join Celsius. If you click on the link below, both of you will get 10 CEL! ${url}`
     return (
       <CelModal name={MODALS.REFERRAL_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -49,14 +49,14 @@ class ReferralModal extends Component {
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Refer your friends</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          Invite your friends to join Celsius with the link below.
+          Invite your friends to join Celsius and we will send you both 10 CEL when they join.
         </Text>
 
-        <View style={{ marginTop: 30, marginBottom: 35 }}>
-          <ShareCopy displayValue={url} theme={'white'} link />
-        </View>
-
-        <CelButton onPress={() => actions.closeModal()}>Done</CelButton>
+        <CelButton
+          onPress={() => Share.share({ message: shareCopy })}
+        >
+          Share a unique link
+        </CelButton>
       </CelModal>
     );
   }

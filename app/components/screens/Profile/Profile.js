@@ -24,6 +24,7 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
+import { MODALS } from "../../../config/constants/common";
 
 
 const { revisionId } = Constants.manifest;
@@ -268,7 +269,17 @@ class ProfileScreen extends Component {
               onPress={() => actions.navigateTo('ProfileSettings')}
               color="blue"
               disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
-            >Settings</CelButton>
+            >
+              Settings
+            </CelButton>
+            <CelButton
+              onPress={() => actions.openModal(MODALS.REFERRAL_MODAL)}
+              color="blue"
+              margin="10 0 10 0"
+              inverse
+            >
+              Refer your friends
+            </CelButton>
           </View>
 
           <Separator separatorSize={1.2} margin='5 0 20 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>PROFILE DETAILS</Separator>
