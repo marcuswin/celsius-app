@@ -24,6 +24,7 @@ import DestinationTagExplanationModal
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Icon from "../../atoms/Icon/Icon";
 import cryptoUtil from "../../../utils/crypto-util";
+import MemoIdExplanationModal from "../../organisms/MemoIdExplanationModal/MemoIdExplanationModal";
 
 /**
  * @typedef {Object} WithdrawalAddress
@@ -47,7 +48,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-                                                                                          QR
+                                                                                            QR
         Code</Text>
     </CelForm>
 
@@ -98,6 +99,53 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
       </View>
     }
 
+    {coin === "xlm" &&
+      <View style={{ marginTop: 35, marginBottom: 35, justifyContent: "flex-start" }}>
+        <Text style={[globalStyles.normalText, { marginBottom: 20 }]}>You need to enter a memo id or turn off
+          this
+        option</Text>
+        <View>
+          <CelInput theme="white"
+            value={formData.coinMemoId}
+            field={`coinMemoId`}
+            labelText="XLM memoId"
+            editable={!formData.hasMemoIdValue}
+          />
+          <View style={{ position: "absolute", right: 14, top: 15 }}>
+            <Switch
+              onValueChange={() => actions.updateFormField("hasMemoIdValue", !formData.hasMemoIdValue)}
+              value={!formData.hasMemoIdValue}
+            />
+          </View>
+        </View>
+        <TouchableOpacity
+          onPress={() => actions.openModal(MODALS.MEMO_ID_MODAL)}
+        >
+          <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 16 }}>
+            What is XLM memoId?
+        </Text>
+        </TouchableOpacity>
+        <View style={TransactionConfirmationStyle.messageWrapper}>
+          <View style={TransactionConfirmationStyle.errorCircle}>
+            <Icon
+              name={"ErrorIcon"}
+              width='15'
+              height='15'
+              fill={"white"}
+              stroke={"white"}
+              viewBox="0 0 14.2 12.87"
+            />
+          </View>
+          <View style={{ width: '80%' }}>
+            {!formData.hasMemoIdValue ?
+              <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please specify a correct memoId.</Text> :
+              <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please check if your address has a memoId.</Text>
+            }
+          </View>
+        </View>
+      </View>
+    }
+
     <InfoBubble
       renderContent={(textStyles) => (
         <View>
@@ -141,6 +189,13 @@ class TransactionConfirmation extends Component {
       actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
       actions.updateFormField(`coinTag`, newTag);
     }
+    if (formData.currency === "xlm" && formData[`${formData.currency}WithdrawalAddress`]) {
+      const addressArray = formData[`${formData.currency}WithdrawalAddress`].split("?memoId=");
+      const newAddress = addressArray[0];
+      const newMemoId = addressArray[1];
+      actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
+      actions.updateFormField(`coinMemoId`, newMemoId);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -150,11 +205,9 @@ class TransactionConfirmation extends Component {
       actions.navigateTo("TransactionDetails");
     }
 
-    if (
-      formData.currency === "xrp" &&
+    if (formData.currency === "xrp" &&
       nextProps.formData[`${formData.currency}WithdrawalAddress`] &&
-      formData[`${formData.currency}WithdrawalAddress`] !== nextProps.formData[`${formData.currency}WithdrawalAddress`]
-    ) {
+      formData[`${formData.currency}WithdrawalAddress`] !== nextProps.formData[`${formData.currency}WithdrawalAddress`]) {
 
       const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].split("?dt=");
 
@@ -163,7 +216,19 @@ class TransactionConfirmation extends Component {
 
       actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
       actions.updateFormField(`coinTag`, newTag);
+    }
 
+    if (formData.currency === "xlm" &&
+      nextProps.formData[`${formData.currency}WithdrawalAddress`] &&
+      formData[`${formData.currency}WithdrawalAddress`] !== nextProps.formData[`${formData.currency}WithdrawalAddress`]) {
+
+      const addressArray = nextProps.formData[`${formData.currency}WithdrawalAddress`].split("?memoId=");
+
+      const newAddress = addressArray[0];
+      const newMemoId = addressArray[1] || nextProps.formData.coinMemoId;
+
+      actions.updateFormField(`${formData.currency}WithdrawalAddress`, newAddress);
+      actions.updateFormField(`coinMemoId`, newMemoId);
     }
   }
 
@@ -240,12 +305,16 @@ class TransactionConfirmation extends Component {
     if (formData.currency === "xrp") {
       if (formData[`${coin}WithdrawalAddress`]) {
         newWithdrawalAddress = formData.hasTagValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag);
+      } else if (formData.currency === "xlm") {
+        if (formData[`${coin}WithdrawalAddress`]) {
+          newWithdrawalAddress = formData.hasMemoIdValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?memoId=").concat(formData.coinMemoId);
+        }
       } else {
         newWithdrawalAddress = withdrawalAddress.address;
       }
     }
 
-    if (formData.currency !== "xrp") {
+    if (!["xrp", "xlm"].includes(formData.currency)) {
       if (formData[`${coin}WithdrawalAddress`]) {
         newWithdrawalAddress = formData[`${coin}WithdrawalAddress`];
       } else {
@@ -308,9 +377,13 @@ class TransactionConfirmation extends Component {
     const coin = this.getCoinShorthand();
     const address = this.getCoinWithdrawalAddressInfo();
 
-    const addressArray = address.address.split("?dt=");
-    const newAddress = addressArray[0];
-    const newTag = addressArray[1];
+    const addressArrayXrp = address.address.split("?dt=");
+    const newAddressXrp = addressArrayXrp[0];
+    const newTag = addressArrayXrp[1];
+
+    const addressArrayXlm = address.address.split("?memoId=");
+    const newAddressXlm = addressArrayXlm[0];
+    const newMemoId = addressArrayXlm[1];
 
     return (
       <View style={TransactionConfirmationStyle.screenContentWrapper}>
@@ -346,11 +419,28 @@ class TransactionConfirmation extends Component {
           <View>
             <View style={[TransactionConfirmationStyle.addressViewWrapper, { marginBottom: 10 }]}>
               <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
-              <Text style={TransactionConfirmationStyle.address}>{newAddress}</Text>
+              <Text style={TransactionConfirmationStyle.address}>{newAddressXrp}</Text>
             </View>
             <View style={TransactionConfirmationStyle.addressViewWrapper}>
               <Text style={TransactionConfirmationStyle.toAddress}>DESTINATION TAG</Text>
               <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newTag}</Text>
+            </View>
+          </View>
+          :
+          <View style={TransactionConfirmationStyle.addressViewWrapper}>
+            <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+            <Text style={TransactionConfirmationStyle.address}>{address.address}</Text>
+          </View>
+        }
+        {coin === "xlm" ?
+          <View>
+            <View style={[TransactionConfirmationStyle.addressViewWrapper, { marginBottom: 10 }]}>
+              <Text style={TransactionConfirmationStyle.toAddress}>YOUR COINS WILL BE SENT TO</Text>
+              <Text style={TransactionConfirmationStyle.address}>{newAddressXlm}</Text>
+            </View>
+            <View style={TransactionConfirmationStyle.addressViewWrapper}>
+              <Text style={TransactionConfirmationStyle.toAddress}>MEMO ID</Text>
+              <Text ref={testUtil.generateTestHook(this, 'TransactionConfirmation.destinationTag')} style={TransactionConfirmationStyle.address}>{newMemoId}</Text>
             </View>
           </View>
           :
@@ -450,12 +540,13 @@ class TransactionConfirmation extends Component {
             onPress={this.confirmWithdrawal}
             margin='30 36 50 36'
             loading={isLoading}
-            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (formData.hasTagValue === false && !formData.coinTag)}
+            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (formData.hasTagValue === false && !formData.coinTag) || (formData.hasMemoIdValue === false && !formData.coinMemoId)}
           >
             Confirm withdrawal
           </CelButton>
         </CelScreenContent>
         <DestinationTagExplanationModal />
+        <MemoIdExplanationModal />
       </BasicLayout >
     );
   }

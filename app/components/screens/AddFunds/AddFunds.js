@@ -19,6 +19,7 @@ import DestinationTagExplanationModal from "../../organisms/DestinationTagExplan
 import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
 import { analyticsEvents } from "../../../utils/analytics-util";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import MemoIdExplanationModal from "../../organisms/MemoIdExplanationModal/MemoIdExplanationModal";
 
 const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
 
@@ -161,14 +162,19 @@ class AddFunds extends Component {
     const navCurrency = navigation.getParam("currency");
     let address;
     let addressXrp;
+    let addressXlm;
     let addressArray;
     let destinationTag;
+    let memoId;
     let headingText;
     let currentCurrency;
-    if (navCurrency && navCurrency !== "xrp") {
+    console.log("Nav: ", navCurrency);
+    console.log("Obican: ", navCurrency && !["xrp", "xlm"].includes(navCurrency))
+    if (navCurrency && !["xrp", "xlm"].includes(navCurrency)) {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
       currentCurrency = navCurrency.toLowerCase();
+      console.log(address)
     } else if (navCurrency && navCurrency === "xrp") {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
@@ -187,6 +193,28 @@ class AddFunds extends Component {
         addressArray = address.split("?dt=");
         addressXrp = addressArray[0];
         destinationTag = addressArray[1];
+      }
+
+      headingText = "Add funds";
+      currentCurrency = formData.currency;
+    } else if (navCurrency && navCurrency === "xlm") {
+      headingText = `Add more ${navCurrency.toUpperCase()}`;
+      address = this.setAddress(navCurrency.toLowerCase());
+
+      if (address) {
+        addressArray = address.split("?memoId=");
+        addressXlm = addressArray[0];
+        memoId = addressArray[1];
+      }
+
+      currentCurrency = navCurrency.toLowerCase();
+    } else if (formData.currency === "xlm") {
+      address = this.setAddress(formData.currency);
+
+      if (address) {
+        addressArray = address.split("?memoId=");
+        addressXlm = addressArray[0];
+        memoId = addressArray[1];
       }
 
       headingText = "Add funds";
@@ -246,6 +274,32 @@ class AddFunds extends Component {
           />
         )}
 
+        {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
+          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
+          <View style={{ marginTop: 14 }}>
+            <ShareCopy displayValue={destinationTag} copyShareValue={destinationTag} theme={'blue'} size={"small"} />
+          </View>
+          <TouchableOpacity
+            onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
+            style={{ marginTop: 20 }}
+          >
+            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>What is XRP Destination Tag?</Text>
+          </TouchableOpacity>
+        </View>}
+
+        {(currentCurrency && currentCurrency.toLowerCase() === "xlm") && <View style={{ alignItems: "center" }}>
+          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XML memoId</Text>
+          <View style={{ marginTop: 14 }}>
+            <ShareCopy displayValue={memoId} copyShareValue={memoId} theme={'blue'} size={"small"} />
+          </View>
+          <TouchableOpacity
+            onPress={() => actions.openModal(MODALS.MEMO_ID_MODAL)}
+            style={{ marginTop: 20 }}
+          >
+            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>What is XML memoId Tag?</Text>
+          </TouchableOpacity>
+        </View>}
+
         <View style={[AddFundsStyle.imageWrapper]}>
           <View style={[globalStyles.centeredColumn, AddFundsStyle.qrCode]}>
 
@@ -264,25 +318,16 @@ class AddFunds extends Component {
         </View>
 
         <View style={{ alignItems: "center", marginTop: 30 }}>
-          <ShareCopy displayValue={formData.currency === "xrp" ? addressXrp : address} copyShareValue={address} theme={'blue'} size={"small"} />
+          {formData.currency === "xrp" &&
+            <ShareCopy displayValue={addressXrp} copyShareValue={addressXrp} theme={'blue'} size={"small"} />
+          }
+          {formData.currency === "xlm" &&
+            <ShareCopy displayValue={addressXlm} copyShareValue={addressXlm} theme={'blue'} size={"small"} />
+          }
+          {!["xrp", "xlm"].includes(formData.currency) &&
+            <ShareCopy displayValue={address} copyShareValue={address} theme={'blue'} size={"small"} />
+          }
         </View>
-
-        {(currentCurrency && currentCurrency.toLowerCase() === "xrp") && <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XRP Destination Tag</Text>
-          <View style={{ marginTop: 14 }}>
-            <ShareCopy displayValue={destinationTag} copyShareValue={address} theme={'blue'} size={"small"} />
-          </View>
-          <TouchableOpacity
-            onPress={() => actions.openModal(MODALS.DESTINATION_TAG_MODAL)}
-            style={{ marginTop: 20, marginBottom: 30 }}
-          >
-            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>
-              What is XRP Destination Tag?
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        }
 
         {(currentCurrency && currentCurrency.toLowerCase() === "ltc") &&
           <View style={AddFundsStyle.alternateAddressWrapper}>
@@ -338,6 +383,7 @@ class AddFunds extends Component {
         </TouchableOpacity>
 
         <DestinationTagExplanationModal />
+        <MemoIdExplanationModal />
       </SimpleLayout>
 
     );

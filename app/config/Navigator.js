@@ -38,6 +38,7 @@ import HowToEarnInterestScreen from "../components/screens/HowToEarnInterest/How
 import WalletInterestScreen from "../components/screens/WalletInterest/WalletInterest";
 import TransactionsOnHoldScreen from "../components/screens/TransactionsOnHold/TransactionsOnHold";
 import DestinationTagExplanationModalScreen from "../components/organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
+import MemoIdExplanationModalScreen from "../components/organisms/MemoIdExplanationModal/MemoIdExplanationModal";
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
 import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
@@ -239,6 +240,10 @@ export const screens = {
   DestinationTagExplanationModal: {
     screen: DestinationTagExplanationModalScreen,
     title: 'DestinationTagExplanationModal',
+  },
+  MemoIdExplanationModal: {
+    screen: MemoIdExplanationModalScreen,
+    title: 'MemoIdExplanationModal',
   },
   SelectCoin: {
     screen: SelectCoinScreen,

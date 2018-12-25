@@ -5,9 +5,9 @@ import withdrawFlow from './flows/withdraw-flow'
 import { errorCatchWrapper } from './helpers';
 
 export default function (spec) {
-  testSignupFlow(spec);
-  testLoginFlow(spec);
-  testKycFlow(spec);
+  // testSignupFlow(spec);
+  // testLoginFlow(spec);
+  // testKycFlow(spec);
   // testWithdrawFlow(spec);
   // testSingleSuite(spec);
 }
