@@ -57,7 +57,7 @@ function initInterceptors() {
         newRequest.headers['X-Client-Version'] = ENV;
       }
       const isRevisionIdSet = !!revisionId;
-      newRequest.headers['X-Revision-Id'] = isRevisionIdSet ? revisionId : "undefined";
+      newRequest.headers['X-Revision-Id'] = isRevisionIdSet ? revisionId : ENV;
       /* eslint-disable no-underscore-dangle */
       logger.log({ [req.method.toUpperCase()]: newRequest });
       /* eslint-enable no-underscore-dangle */

@@ -5,7 +5,7 @@ import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
 import { setSecureStoreKey, getSecureStoreKey } from '../utils/expo-storage';
 import usersService from './users-service';
 
-const { MIXPANEL_TOKEN } = Constants.manifest.extra;
+const { MIXPANEL_TOKEN, ENV } = Constants.manifest.extra;
 
 export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
 
@@ -41,7 +41,7 @@ export const mixpanelEvents = {
   changeTab: (tab) => mixpanelAnalytics.track(`Changed tab to ${tab}`, { email: userEmail }),
   openApp: () => {
     const isRevisionIdSet = !!revisionId;
-    const revision = isRevisionIdSet ? revisionId : "undefined";
+    const revision = isRevisionIdSet ? revisionId : ENV;
     mixpanelAnalytics.track('App opened', { email: userEmail, revisionId: revision });
   },
   navigation: (screenName) => mixpanelAnalytics.track(`Navigated to ${screenName}`, { email: userEmail }),
