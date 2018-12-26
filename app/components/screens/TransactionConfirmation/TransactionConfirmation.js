@@ -47,7 +47,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
         fontSize: 16,
         color: "rgba(136,162,199,1)"
       }]}>Scan
-                                                                                          QR
+                                                                                                QR
         Code</Text>
     </CelForm>
 
@@ -249,24 +249,20 @@ class TransactionConfirmation extends Component {
       }
     }
 
-    try {
-      let actionSuccess = false;
+    let actionSuccess = false;
 
-      if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
-        actionSuccess = await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
-      } else {
-        actionSuccess = await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
-      }
-
-      if (actionSuccess) {
-        actions.navigateTo("TransactionDetails");
-      }
-
-      return true;
-    } catch (error) {
-      actions.showMessage('error', error.error);
-      return true;
+    if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
+      actionSuccess = await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
+    } else {
+      actionSuccess = await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
     }
+
+    if (actionSuccess) {
+      actions.navigateTo("TransactionDetails");
+    }
+
+    return true;
+
   };
 
   // event hanlders

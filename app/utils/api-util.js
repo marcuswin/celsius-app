@@ -12,6 +12,7 @@ import store from '../redux/store';
 import * as actions from '../redux/actions';
 
 const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY} = Constants.manifest.extra;
+const { revisionId } = Constants.manifest;
 let token;
 
 export default {
@@ -55,6 +56,7 @@ function initInterceptors() {
       } else {
         newRequest.headers['X-Client-Version'] = ENV;
       }
+      newRequest.headers['X-Revision-Id'] = revisionId;
 
       /* eslint-disable no-underscore-dangle */
       logger.log({[req.method.toUpperCase()]: newRequest});
