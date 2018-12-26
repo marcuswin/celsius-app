@@ -135,7 +135,7 @@ class CameraScreen extends Component {
 
       const resizedPhoto = await ImageManipulator.manipulate(
         photo.uri,
-        [{ resize: { height: 3500 } }],
+        [{ resize: { height: 2500 } }],
         { compress: 0.95, format: "jpg", base64: true }
       );
 
