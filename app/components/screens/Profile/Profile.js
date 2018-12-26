@@ -125,15 +125,13 @@ class ProfileScreen extends Component {
       };
       actions.updateProfileAddressInfo(updatedUser);
 
-      // TODO(ns): uncomment when Blackout is activated
+      if (formData.country !== "United States" && formData.citizenship !== "United States") {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
 
-      // if (formData.country !== "United States" && formData.citizenship !== "United States") {
-      //   actions.updateUserAppSettings({ declineAccess: false });
-      // }
-      //
-      // if (formData.country === "United States" || formData.citizenship === "United States" ) {
-      //   actions.updateUserAppSettings({ declineAccess: true });
-      // }
+      if (formData.country === "United States" || formData.citizenship === "United States" ) {
+        actions.updateUserAppSettings({ declineAccess: true });
+      }
 
       this.setState({ addressEditable: false });
     }
@@ -151,14 +149,12 @@ class ProfileScreen extends Component {
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      // TODO(ns): uncomment when Blackout is activated
-
-      // if (formData.state === "New York") {
-      //   actions.updateUserAppSettings({ declineAccess: true });
-      //   actions.navigateTo("Home")
-      // } else {
-      //   actions.updateUserAppSettings({ declineAccess: false });
-      // }
+      if (formData.state === "New York") {
+        actions.updateUserAppSettings({ declineAccess: true });
+        actions.navigateTo("Home")
+      } else {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
       this.setState({ taxpayerEditable: false });
     }
   };

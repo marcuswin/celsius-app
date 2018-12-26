@@ -24,6 +24,7 @@ import { normalize } from "../../../utils/styles-util";
 import LtvModal from "../../organisms/LtvModal/LtvModal";
 import { heightPercentageToDP } from "../../../utils/scale";
 import testUtil from "../../../utils/test-util";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 const LTVs = [
   { percent: 0.2, interest: 0.05 },
@@ -178,21 +179,19 @@ class LoanApplication extends Component {
 
 
   render() {
-    const { formData, callsInProgress, walletCurrencies } = this.props;
+    const { formData, callsInProgress, walletCurrencies, appSettings } = this.props;
     const { pickerItems, amountError } = this.state;
 
-    // TODO(ns): uncomment when Blackout is activated
-
-    // if (appSettings.declineAccess) {
-    //   return (
-    //     <SimpleLayout
-    //       mainHeader={{ backButton: false }}
-    //       animatedHeading={{ text: "Borrow Dollars" }}
-    //     >
-    //       <EmptyState purpose={"NycBlackout"}/>
-    //     </SimpleLayout>
-    //   );
-    // }
+    if (appSettings.declineAccess) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={{ text: "Borrow Dollars" }}
+        >
+          <EmptyState purpose={"NycBlackout"}/>
+        </SimpleLayout>
+      );
+    }
 
     if (!pickerItems || !formData.ltv) {
       return (

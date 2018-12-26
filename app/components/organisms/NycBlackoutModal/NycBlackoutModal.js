@@ -100,11 +100,9 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileAddressInfo(updatedUser);
 
-      // TODO(ns): uncomment when Blackout is activated
-
-      // if (formData.state === "New York") {
-      //   actions.updateUserAppSettings({ declineAccess: true });
-      // }
+      if (formData.state === "New York") {
+        actions.updateUserAppSettings({ declineAccess: true });
+      }
 
       this.setState({
         address: false,
@@ -125,13 +123,11 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      // TODO(ns): uncomment when Blackout is activated
-
-      // if (formData.state === "New York") {
-      //   actions.updateUserAppSettings({ declineAccess: true });
-      // } else {
-      //   actions.updateUserAppSettings({ declineAccess: false });
-      // }
+      if (formData.state === "New York") {
+        actions.updateUserAppSettings({ declineAccess: true });
+      } else {
+        actions.updateUserAppSettings({ declineAccess: false });
+      }
       this.setState({
         taxNo: false,
         finish: true
@@ -184,7 +180,7 @@ class NycBlackoutModal extends Component {
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     }
 
-    if (user.state === "New York" && days && days < 1) {
+    if (user.blocked_at && days && days < 1) {
       Linking.openURL("mailto:app@celsius.network");
     } else {
       actions.closeModal();
@@ -193,7 +189,7 @@ class NycBlackoutModal extends Component {
 
   goToAddressInformationForm = () => {
     const {user, actions} = this.props;
-    if (user.state === "New York") {
+    if (user.blocked_at) {
       actions.closeModal();
     } else {
       this.setState({
@@ -227,17 +223,19 @@ class NycBlackoutModal extends Component {
       return null;
     }
 
-    if (user.state === "New York" && days && days < 1) {
-      heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
+    if (user.blocked_at && days && days < 1) {
+      heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.";
       additionalText = "Please contact app@celsius.network.";
-    } else if (user.state === "New York") {
-      heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time.";
+    } else if (user.blocked_at) {
+      heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.";
       additionalText = `Please withdraw your funds within ${days} day(s) or contact app@celsius.network for support.`;
+    } else if (kycRealStatus === "ico_passed") {
+      heading = "Hey there! Thanks so much for participating in our ICO.";
+      additionalText = "In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!"
     } else {
       heading = "Hey! We're missing some important info from you!";
       additionalText = "Please complete your profile.";
     }
-
 
     return (
       <CelModal

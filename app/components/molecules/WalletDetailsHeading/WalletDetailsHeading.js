@@ -103,7 +103,7 @@ class WalletDetailsHeading extends Component {
   // };
 
   render() {
-    const { currency, type, walletTotal, walletCurrencies } = this.props;
+    const { currency, type, walletTotal, walletCurrencies, appSettings } = this.props;
     // const { isPressed } = this.state;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
@@ -131,7 +131,7 @@ class WalletDetailsHeading extends Component {
         </TouchableOpacity>
       </View>
       {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
-        <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
+        <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" disabled={appSettings.declineAccess} white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
       </View>}
     </View>
   }

@@ -66,7 +66,7 @@ class SelectCoin extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { walletCurrencies, user } = this.props;
+    const { walletCurrencies, user, appSettings } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
       return (
@@ -79,18 +79,16 @@ class SelectCoin extends Component {
       )
     }
 
-    // TODO(ns): uncomment when Blackout is activated
-
-    // if (appSettings.declineAccess) {
-    //   return (
-    //     <SimpleLayout
-    //       mainHeader={{ backButton: false }}
-    //       animatedHeading={animatedHeading}
-    //     >
-    //       <EmptyState purpose={"NycBlackout"}/>
-    //     </SimpleLayout>
-    //   )
-    // }
+    if (appSettings.declineAccess) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={animatedHeading}
+        >
+          <EmptyState purpose={"NycBlackout"}/>
+        </SimpleLayout>
+      )
+    }
 
     if (!walletCurrencies) {
       return (
