@@ -1,17 +1,17 @@
 import axios from 'axios';
 import qs from "qs";
 import r from "jsrsasign";
-import {Constants} from 'expo';
+import { Constants } from 'expo';
 import { Base64 } from 'js-base64';
 import Sentry from "sentry-expo";
 import logger from './logger-util';
 
-import {getSecureStoreKey} from '../utils/expo-storage';
+import { getSecureStoreKey } from '../utils/expo-storage';
 
 import store from '../redux/store';
 import * as actions from '../redux/actions';
 
-const {SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY} = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY } = Constants.manifest.extra;
 const { revisionId } = Constants.manifest;
 let token;
 
@@ -24,7 +24,7 @@ export default {
 function initInterceptors() {
   axios.interceptors.request.use(
     async req => {
-      const newRequest = {...req};
+      const newRequest = { ...req };
 
       // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
       if (req.method === 'post' && !req.url.includes('branch.io')) {
@@ -56,10 +56,10 @@ function initInterceptors() {
       } else {
         newRequest.headers['X-Client-Version'] = ENV;
       }
-      newRequest.headers['X-Revision-Id'] = revisionId;
-
+      const isRevisionIdSet = !!revisionId;
+      newRequest.headers['X-Revision-Id'] = isRevisionIdSet ? revisionId : "undefined";
       /* eslint-disable no-underscore-dangle */
-      logger.log({[req.method.toUpperCase()]: newRequest});
+      logger.log({ [req.method.toUpperCase()]: newRequest });
       /* eslint-enable no-underscore-dangle */
 
       return newRequest;
@@ -75,7 +75,7 @@ function initInterceptors() {
 
       if (verifyKey(data, sign)) {
         /* eslint-disable no-underscore-dangle */
-        logger.log({RESPONSE: res});
+        logger.log({ RESPONSE: res });
         /* eslint-enable no-underscore-dangle */
 
         return res;
@@ -87,7 +87,7 @@ function initInterceptors() {
       };
 
       /* eslint-disable no-underscore-dangle */
-      logger.log({API_ERROR: err});
+      logger.log({ API_ERROR: err });
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err);
@@ -107,7 +107,7 @@ function initInterceptors() {
       }
 
       /* eslint-disable no-underscore-dangle */
-      logger.log({API_ERROR: err});
+      logger.log({ API_ERROR: err });
       /* eslint-enable no-underscore-dangle */
 
       return Promise.reject(err);
@@ -148,7 +148,7 @@ function verifyKey(data, sign) {
 
     return ENV === 'PRODUCTION' ? true : isValid;
 
-  } catch(err) {
+  } catch (err) {
     if (ENV === 'PRODUCTION') {
       Sentry.captureMessage(`Key signing failed`, {
         level: 'info',

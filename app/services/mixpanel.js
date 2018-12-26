@@ -11,6 +11,8 @@ export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
 
 let userEmail;
 
+const { revisionId } = Constants.manifest;
+
 export const mixpanelEvents = {
   createAlias: (userId) => mixpanelAnalytics.track('$create_alias', { 'alias': userId, email: userEmail }),
   // Signup Events
@@ -38,7 +40,9 @@ export const mixpanelEvents = {
   // Other Events
   changeTab: (tab) => mixpanelAnalytics.track(`Changed tab to ${tab}`, { email: userEmail }),
   openApp: () => {
-    mixpanelAnalytics.track('App opened', { email: userEmail });
+    const isRevisionIdSet = !!revisionId;
+    const revision = isRevisionIdSet ? revisionId : "undefined";
+    mixpanelAnalytics.track('App opened', { email: userEmail, revisionId: revision });
   },
   navigation: (screenName) => mixpanelAnalytics.track(`Navigated to ${screenName}`, { email: userEmail }),
   estimationExplanation: () => mixpanelAnalytics.track('Pressed Loan Estimation explanation', { email: userEmail }),
