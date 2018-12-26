@@ -126,96 +126,91 @@ export function testKycFlow(spec) {
   })
 }
 
-export function testWithdrawFlow(spec) {
+export function testWalletFlow(spec) {
+  spec.describe('Wallet Flow', () => {
+    // WalletLanding screen
+    spec.it('should show wallet landing when enter pin', errorCatchWrapper(withdrawFlow.navigateToWalletBalance(spec)))
+    spec.it('should switch between tabs correctly', errorCatchWrapper(withdrawFlow.tabsSwitch(spec)))
+    spec.it('should open wallet details when card is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should render balances correctly', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    
+    // WalletDetails screen
+    spec.it('should go through all currencies when right arrow is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go through all currencies when left arrow is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go through all graphs for all coins', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should render only five transactions', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should toggle transactions with show more / show less', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to TransactionDetails when row is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to AddFunds when button is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    
+    // WalletTransactions screen
+    spec.it('should render empty state when no transactions', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should toggle transactions with show more / show less', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to TransactionDetails when row is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    
+    // WalletInterest screen
+    spec.it('should go through graph periods', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to HowToEarnInterest screen when button is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to AddFunds when button is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+  })
+}
+
+export function testAddFundsFlow(spec){
+  spec.describe('Add Funds Flow', () => {
+    // Successful flow 
+    // Press Card, Press Add Funds, Check address rendering, Clich done, Check if WalletDetails screen
+    spec.it('should go back to WalletDetails screen when the user added funds', errorCatchWrapper(testFailed(spec)));
+
+    // Basic tests
+    spec.it('should navigate to Add funds page', errorCatchWrapper(testFailed(spec)))
+    spec.it('should copy address when copy is pressed', errorCatchWrapper(testFailed(spec)))
+    spec.it('should open share dialog when share is pressed', errorCatchWrapper(testFailed(spec)))
+    spec.it('should toggle BitGo page when Transactions are secured are pressed', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to Wallet Details when done is pressed', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(testFailed(spec)))
+    
+    // Specific Coins
+    spec.it('should render correct QR and address for BTC', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for ETH', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for XRP', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct destination tag for XRP', errorCatchWrapper(testFailed(spec)))
+    spec.it('should toggle XRP destination tag modal', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for XLM', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct memo id for XLM', errorCatchWrapper(testFailed(spec)))
+    spec.it('should toggle XLM memo id modal', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for LTC', errorCatchWrapper(testFailed(spec)))
+    spec.it('should toggle between M- and 3-format addresses for LTC', errorCatchWrapper(testFailed(spec)))
+    spec.it('should change toggle between Bitcoin and Cash formats for BCH', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for BCH', errorCatchWrapper(testFailed(spec)))
+    spec.it('should have fork info for BCH', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for BTG', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for ZEC', errorCatchWrapper(testFailed(spec)))
+
+    // ERC20
+    spec.it('should render correct QR and address for OMG', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for CEL', errorCatchWrapper(testFailed(spec)))
+    spec.it('should render correct QR and address for ZRX', errorCatchWrapper(testFailed(spec)))
+  })
+}
+
+export function testWithdrawFlow(spec){
   spec.describe('Withdraw Flow', () => {
+    // Successful flow
+    // WalletLanding, click card, click withdraw, enter amount, check address, confirm , enter pin, TransactionDetails
+    spec.it('should finish at TransactionDetails screen when flow is successful', errorCatchWrapper(testFailed(spec)))
 
-    // Wallet landing
-    spec.it('should show wallet landing when enter pin', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should switch between tabs correctly', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open wallet details when ETH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should change currency when right arrow pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should change currency when left arrow pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    // ETH wallet details
-    spec.it('should open wallet details when ETH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add eth pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to ETH wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    // AmountInput screen
+    spec.it('should go back when back button pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should show preset amount when each button pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
     spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 2 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    // BTC wallet details
-    spec.it('should open wallet details when BTC pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add BTC pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BTC wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
     spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 2 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should toggle between usd and crypto', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should show error if amount more than $20K', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should go to TransactionConfirmation screen when amount is ok', errorCatchWrapper(withdrawFlow.testFailed(spec)))
 
-    // BCH wallet details
-    spec.it('should open wallet details when BCH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add BCH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should change QR and address when use cash address format is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BCH wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 2 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    // LTC wallet details
-    spec.it('should open wallet details when LTC pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add LTC pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should change QR and address when use M-format address is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to LTC wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 2 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    // BCH wallet details
-    spec.it('should open wallet details when BCH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add BCH pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should have XRP destination tag box', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BCH wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 5 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    // OMG wallet details
-    spec.it('should open wallet details when OMG pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show chart for each period of time', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should open add funds when add OMG pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show QR and address', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should change QR and address when use cash address format is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to BitGo page when transactions are secure is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to OMG wallet details when done is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should go to wallet landing when x is pressed', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-
-    spec.it('should show error when atempt to widhdraw insufficient funds', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should show error when atempt to widhdraw less then $1', errorCatchWrapper(withdrawFlow.testFailed(spec)))
-    spec.it('should withdraw 5 dolars', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    // TransactionConfirmation
+    spec.it('should show destination tag for XRP', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should show memo ID for XLM', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+    spec.it('should show memo ID for XLM', errorCatchWrapper(withdrawFlow.testFailed(spec)))
   })
 }
