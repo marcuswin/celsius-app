@@ -126,9 +126,13 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount,
       const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
+
+      return true;
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(currentApiCall, error));
+
+      return false;
     }
   }
 }
@@ -164,9 +168,13 @@ export function withdrawCrypto(coin, amount, verification) {
       const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
+
+      return true;
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
+
+      return false;
     }
   }
 }

@@ -144,11 +144,7 @@ class TransactionConfirmation extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { lastCompletedCall, actions, formData } = this.props;
-
-    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.WITHDRAW_CRYPTO) {
-      actions.navigateTo("TransactionDetails");
-    }
+    const { actions, formData } = this.props;
 
     if (
       formData.currency === "xrp" &&
@@ -254,11 +250,18 @@ class TransactionConfirmation extends Component {
     }
 
     try {
+      let actionSuccess = false;
+
       if ((!withdrawalAddress.manually_set || !withdrawalAddress.address) && newWithdrawalAddress) {
-        await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
+        actionSuccess = await actions.setCoinWithdrawalAddressAndWithdrawCrypto(coin, newWithdrawalAddress, formData.amountCrypto, verificationCode);
       } else {
-        await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
+        actionSuccess = await actions.withdrawCrypto(coin, formData.amountCrypto, verificationCode);
       }
+
+      if (actionSuccess) {
+        actions.navigateTo("TransactionDetails");
+      }
+
       return true;
     } catch (error) {
       actions.showMessage('error', error.error);
