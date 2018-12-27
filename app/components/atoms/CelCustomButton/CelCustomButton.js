@@ -1,3 +1,5 @@
+// TODO(fj): analyze simiral components in the new design
+
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";

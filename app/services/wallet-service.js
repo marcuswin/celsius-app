@@ -1,3 +1,6 @@
+// TODO(fj): check responses
+// TODO(fj): separate graphs and history
+
 import axios from 'axios';
 import qs from 'qs';
 import apiUrl from './api-url';

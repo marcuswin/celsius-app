@@ -1,3 +1,5 @@
+// TODO(fj): check needs of v3 designs
+
 import React, { Component } from 'react';
 import { Platform, ScrollView, View } from "react-native";
 import { Container } from 'native-base';

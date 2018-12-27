@@ -1,36 +1,48 @@
+// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
+
+
 import ACTIONS from '../../config/constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 import { MODALS } from "../../config/constants/common";
 import { screens } from '../../config/Navigator';
 
-// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
 export {
+  fireUserAction, // TODO: check what this does if it can be removed
+
+  // TODO(fj): ui
+  setInternetConnectivity,
   showMessage,
   clearMessage,
-  setInternetConnectivity,
-  setHeaderHeight,
+  openInitialModal,
+  openModal,
+  closeModal,
+  setHeaderHeight, // TODO: check if used
+  refreshBottomNavigation, // TODO: remove or rename to toggle? or on/off
+
+  // TODO(fj): camera
   takeCameraPhoto,
   flipCamera,
   activateCamera,
   retakePhoto,
+
+  // TODO(fj): forms
   // submitForm,
   initForm,
   clearForm,
   setFormErrors,
   updateFormField,
-  refreshBottomNavigation,
-  updatePortfolioFormData,
+
+  updatePortfolioFormData, // TODO: remove
+
+
+  // TODO(fj): scrolling - try to remove
   setKeyboardHeight,
   setInputLayout,
   clearInputLayouts,
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
-  openInitialModal,
-  openModal,
-  closeModal,
-  fireUserAction,
 }
 
 let msgTimeout;

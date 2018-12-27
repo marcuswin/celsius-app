@@ -1,3 +1,5 @@
+// TODO(fj): prbably new one in v3
+
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import { connect } from "react-redux";

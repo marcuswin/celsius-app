@@ -1,3 +1,5 @@
+// TODO(fj): used on onboarding, maybe for deleting
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 

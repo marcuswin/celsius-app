@@ -1,3 +1,5 @@
+// TODO(fj): split into wallet and transactions
+
 import BigNumber from 'bignumber.js';
 
 import ACTIONS from '../../config/constants/ACTIONS';

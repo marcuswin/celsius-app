@@ -1,3 +1,6 @@
+// TODO(fj) move to CelInput if not used elsewhere or atom library
+// TODO(fj) rename to InputError
+
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 

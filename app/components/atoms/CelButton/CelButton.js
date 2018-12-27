@@ -1,3 +1,6 @@
+// TODO(fj): this will probably get written again. check props and designs
+// TODO(fj): use semantic ui as wording guidelines
+
 import React, { Component } from 'react';
 import { Text } from "native-base";
 import PropTypes from "prop-types";

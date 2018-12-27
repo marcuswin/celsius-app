@@ -1,3 +1,5 @@
+// TODO(fj): when refactoring camera, check this util
+
 import isBase64 from "is-base64";
 import {Platform, ImageEditor, ImageStore} from 'react-native';
 import logger from './logger-util';

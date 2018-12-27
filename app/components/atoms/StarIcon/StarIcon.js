@@ -1,3 +1,5 @@
+// TODO(fj) move to atom library
+
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { STYLES } from '../../../config/constants/style';

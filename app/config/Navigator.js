@@ -1,3 +1,5 @@
+// TODO: refactor navigator to use multiple stacks
+
 import {Animated, Easing} from "react-native";
 import {createStackNavigator} from 'react-navigation';
 

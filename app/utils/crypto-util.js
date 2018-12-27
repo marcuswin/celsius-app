@@ -1,3 +1,8 @@
+// TODO(fj): user these more throughout the app
+// TODO(fj): add conversion here
+// TODO(fj): add conversion here
+// TODO(fj): check if other crypto methods are used throughout the app
+
 import { ELIGIBLE_COINS } from '../config/constants/common';
 
 export default {

@@ -1,3 +1,6 @@
+// TODO: move file to redux, it doesnt belong here
+// TODO: remove sentry logger, add logme functionality for standalone debugging
+
 import { Platform } from 'react-native';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';

@@ -1,3 +1,7 @@
+// TODO(fj): add margin and padding to props
+// TODO(fj): add to atom library
+// TODO(fj): update proptypes
+
 import React from 'react';
 import { StyleSheet, View } from 'react-native'
 import PropTypes from "prop-types";

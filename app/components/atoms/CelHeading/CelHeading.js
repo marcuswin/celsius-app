@@ -1,3 +1,7 @@
+// TODO(fj) this will probably be written again
+// TODO(fj) check props
+// TODO(fj) be more responsive
+
 import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
 

@@ -1,3 +1,6 @@
+// TODO(fj) check usage of icons
+// TODO(fj) split into multiple files: currencies, transactions, ui...
+
 import React from "react";
 import { G, Path, Rect, Polygon, Circle } from "react-native-svg";
 

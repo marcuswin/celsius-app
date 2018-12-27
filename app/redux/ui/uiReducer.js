@@ -1,3 +1,6 @@
+// TODO(fj): split according to the actions
+// TODO(fj): try to delete as much code as we can
+
 import {Dimensions, StatusBar} from 'react-native';
 import {Camera} from "expo";
 

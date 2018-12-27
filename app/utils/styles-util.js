@@ -1,3 +1,7 @@
+// TODO(fj): check normalize
+// TODO(fj): more use of padding and margin
+// TODO(fj): add scale util here
+
 import { Dimensions, Platform, PixelRatio } from 'react-native';
 
 export default {

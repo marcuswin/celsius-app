@@ -1,3 +1,5 @@
+// TODO(fj) probably remove in v3
+
 import React from 'react';
 import {Image, View} from 'react-native';
 

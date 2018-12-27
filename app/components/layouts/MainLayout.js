@@ -1,3 +1,5 @@
+// TODO(fj): probably going to get removed, but check what it does
+
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { BackHandler, View, ScrollView } from "react-native";

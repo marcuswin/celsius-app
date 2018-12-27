@@ -1,3 +1,5 @@
+// TODO(fj): make test sentry with a loop. move to methods
+
 import { Constants } from 'expo';
 import Sentry from 'sentry-expo';
 

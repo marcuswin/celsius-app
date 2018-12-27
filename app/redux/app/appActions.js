@@ -1,3 +1,5 @@
+// TODO(fj): export actions as object
+
 import { Constants } from 'expo';
 import Branch from 'react-native-branch';
 import { NetInfo, Text, TextInput } from 'react-native';

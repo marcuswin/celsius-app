@@ -1,3 +1,5 @@
+// TODO(fj): this file is useless
+
 import { Dimensions } from 'react-native';
 import { Constants } from 'expo';
 

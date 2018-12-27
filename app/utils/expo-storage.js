@@ -1,3 +1,5 @@
+// TODO(fj): remove clear storage. it doesn't work :)
+
 import Expo from 'expo'
 import Sentry from './sentry-util';
 

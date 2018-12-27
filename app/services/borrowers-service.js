@@ -1,3 +1,5 @@
+// TODO(fj): remove file
+
 import axios from 'axios';
 import apiUrl from './api-url';
 

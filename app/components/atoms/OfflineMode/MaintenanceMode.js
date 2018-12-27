@@ -1,3 +1,5 @@
+// TODO(fj): create a screen
+
 import React, { Component } from "react";
 import { Image, Text, View } from "react-native";
 

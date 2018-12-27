@@ -1,3 +1,7 @@
+// TODO(fj): doublecheck Home navigation logic
+// TODO(fj): doublecheck reset param. should get changed to screenProps.reset or something...
+// TODO(fj): check if needs major refactoring after adding multiple stacks
+
 import { NavigationActions, StackActions } from "react-navigation";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { KYC_STATUSES } from "../../config/constants/common";

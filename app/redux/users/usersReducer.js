@@ -1,3 +1,10 @@
+// TODO(fj): rename to user
+// TODO(fj): remove borrower
+// TODO(fj): check what is error?
+// TODO(fj): check if we need appSettings anymore?
+// TODO(fj): map user with additional props
+// TODO(fj): merge kyc
+
 /* eslint-disable no-case-declarations */
 import ACTIONS from '../../config/constants/ACTIONS';
 // import { CAMERA_PHOTOS } from '../../config/constants/common';

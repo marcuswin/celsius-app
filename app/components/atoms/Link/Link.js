@@ -1,3 +1,5 @@
+// TODO(fj): not used anywhere?
+
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
           

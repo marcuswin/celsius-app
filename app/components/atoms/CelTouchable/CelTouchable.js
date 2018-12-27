@@ -1,3 +1,5 @@
+// TODO(fj): never used?
+
 import React, {Component} from 'react';
 import { Platform, TouchableNativeFeedback, TouchableHighlight } from 'react-native';
 

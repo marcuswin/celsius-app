@@ -1,3 +1,6 @@
+// TODO(fj): this handles scrolling and keyboard handling logic
+// TODO(fj): check if this can be solved better
+
 import React, { Component } from "react";
 import { Keyboard, View } from "react-native";
 import PropTypes from "prop-types";

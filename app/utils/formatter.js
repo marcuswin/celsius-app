@@ -1,3 +1,7 @@
+// TODO(fj): add BigNumber here
+// TODO(fj): check round and ordinal suffix methods
+// TODO(fj): set crypto precision default to 5
+
 import currency from "currency-formatter";
 
 export default {

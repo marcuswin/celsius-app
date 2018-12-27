@@ -1,3 +1,5 @@
+// TODO(fj): hopefully we will remove this file, split to style-guide (colors) and assets (fonts, images)
+
 import {PixelRatio, Platform} from "react-native";
 
 export const PIXEL_RATIO = PixelRatio.get();

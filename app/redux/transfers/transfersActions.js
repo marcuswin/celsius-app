@@ -1,3 +1,5 @@
+// TODO(fj) move mapTransfer to reducer
+
 import { Share } from "react-native";
 
 import ACTIONS from '../../config/constants/ACTIONS';

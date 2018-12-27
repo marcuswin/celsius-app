@@ -1,3 +1,5 @@
+// TODO(fj): block console.logs in lint and use this throughout the app
+
 import axios from "axios/index";
 import { Constants } from "expo";
 

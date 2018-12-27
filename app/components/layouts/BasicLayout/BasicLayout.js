@@ -1,3 +1,6 @@
+// TODO(fj): check reusable proptypes
+// TODO(fj): wrap all layouts in this one
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'native-base';

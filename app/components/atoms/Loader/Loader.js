@@ -1,3 +1,5 @@
+// TODO(fj): write new for v3
+
 import React from 'react';
 import { View, Text } from 'react-native';
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";

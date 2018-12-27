@@ -1,3 +1,7 @@
+// TODO(fj): check what this does?
+// TODO(fj): a wrapper to Content?
+// TODO(fj): it is used in every screen
+
 import React from 'react';
 import { View } from 'react-native';
 import { Content } from 'native-base';

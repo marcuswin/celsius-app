@@ -1,3 +1,5 @@
+// TODO(fj): remove
+
 import React, { Component } from 'react';
 import { Text } from "native-base";
 import PropTypes from "prop-types";

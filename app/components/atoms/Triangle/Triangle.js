@@ -1,3 +1,5 @@
+// TODO(fj): move to atom library?
+
 import React from 'react';
 import { StyleSheet, View, Platform } from 'react-native';
 import { COLORS } from "../../../config/constants/style";

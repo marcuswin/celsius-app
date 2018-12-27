@@ -1,3 +1,8 @@
+// TODO(fj): maybe add camera here?
+// TODO(fj): check code for removing
+// TODO(fj): check styles from global
+// TODO(fj): check usage of types in the app (six-digit?)
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";

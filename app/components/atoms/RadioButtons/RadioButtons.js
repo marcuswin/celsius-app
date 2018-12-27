@@ -1,3 +1,5 @@
+// TODO(fj): not used anywhere?
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Text } from 'react-native';

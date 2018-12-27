@@ -1,3 +1,5 @@
+// TODO(fj): check usability and props
+
 import React, { Component } from 'react';
 import { Text, View } from 'native-base';
 import { Col, Grid } from 'react-native-easy-grid';

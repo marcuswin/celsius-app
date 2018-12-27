@@ -1,3 +1,8 @@
+// TODO(fj): add PropTypes
+// TODO(fj): move styles
+// TODO(fj): maybe create a mini atom library with many small atoms?
+
+
 import React from 'react';
 import { View, Text } from 'react-native';
 

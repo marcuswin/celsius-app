@@ -1,3 +1,5 @@
+// TODO(fj): switch to per transaction type methods, not per element
+
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from "react-native";

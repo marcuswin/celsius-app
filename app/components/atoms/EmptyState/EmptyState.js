@@ -1,3 +1,6 @@
+// TODO(fj): maybe make this a screen with props?
+// TODO(fj): optional header and bottom navigation?
+
 import React from "react";
 import { View, Text, Image } from "react-native";
 import store from '../../../redux/store';

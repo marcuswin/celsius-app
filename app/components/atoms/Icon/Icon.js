@@ -1,3 +1,5 @@
+// TODO(fj): move to atoms library
+
 import React from 'react';
 import SvgIcon from 'react-native-svg-icon';
 import svgs from './Svgs';

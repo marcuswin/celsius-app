@@ -1,3 +1,6 @@
+// TODO(fj): export actions as object
+// TODO(fj): split into wallet and transactions
+
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";

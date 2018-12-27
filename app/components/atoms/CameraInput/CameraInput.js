@@ -1,3 +1,6 @@
+// TODO(fj): create render methods for better readability
+// TODO(fj): maybe add as an input type?
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Text, View } from "react-native";

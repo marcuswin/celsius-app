@@ -1,3 +1,12 @@
+// TODO(fj): split ALL user actions into:
+// TODO(fj): auth: login, register, reset pass, reset link, set pin...
+// TODO(fj): facebook: login, register
+// TODO(fj): twitter: login, register
+// TODO(fj): google: login, register
+// TODO(fj): kyc: check below, try to delete some :)
+// TODO(fj): profile: check below, try to delete some :)
+// TODO(fj): check usage throughout the app
+
 import { Constants } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
@@ -18,12 +27,10 @@ import Sentry from '../../utils/sentry-util';
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
-  getProfileInfo,
+  // TODO(fj): kyc
   updateProfileInfo,
   updateProfileAddressInfo,
   updateProfileTaxpayerInfo,
-  toggleTermsOfUse,
-  updateProfilePicture,
   getKYCDocuments,
   createKYCDocuments,
   sendVerificationSMS,
@@ -32,8 +39,15 @@ export {
   finishKYCVerification,
   startKYC,
   getKYCStatus,
+
+  // TODO(fj): register
   setPin,
+  toggleTermsOfUse,
+
+  // TODO(fj): profile
+  getProfileInfo,
   updateUserAppSettings,
+  updateProfilePicture,
   getTwoFactorSecret,
   enableTwoFactor,
   disableTwoFactor,
