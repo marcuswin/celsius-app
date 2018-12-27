@@ -7,9 +7,9 @@ import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
-import { createBUO } from "../branch/branchActions";
 import { getAllTransactions } from "../wallet/walletActions";
 import { analyticsEvents } from "../../utils/analytics-util";
+import { createCelPayBUO } from "../../utils/branch-util";
 
 export {
   getAllTransfers,
@@ -159,32 +159,13 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
     const usdAmount = currencyAmount * amount;
 
     const { user } = getState().users;
-    const userName = `${user.first_name} ${user.last_name}`;
 
     apiCall = API.CREATE_BRANCH_LINK;
     dispatch(startApiCall(apiCall));
-    const branchLink = await createBUO(
-      `transfer:${transfer.hash}`,
-      {
-        locallyIndex: true,
-        title: `You received ${Number(amount).toFixed(5)} ${coin.toUpperCase()}`,
-        contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
-        contentDescription: 'Click on the link to get your money!',
-        contentMetadata: {
-          customMetadata: {
-            amount: transfer.amount,
-            coin: transfer.coin,
-            from_name: userName,
-            from_profile_picture: user.profile_picture,
-            transfer_hash: transfer.hash,
-            link_type: BRANCH_LINKS.TRANSFER,
-          }
-        }
-      },
-      user.email
-    );
+    const branchLink = await createCelPayBUO(transfer)
     dispatch({
       type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+      callName: API.CREATE_BRANCH_LINK,
       branchLink: {
         ...branchLink,
         linkType: BRANCH_LINKS.TRANSFER

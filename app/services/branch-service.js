@@ -8,10 +8,11 @@ const branchService = {
   create,
   get,
   createEvent,
-  createBranchEvent,
+  // createBranchEvent,
 };
 
 
+// Celsius endpoints
 function create(branchLink) {
   return axios.post(`${apiUrl}/branch`, branchLink);
 }
@@ -20,6 +21,7 @@ function get(id) {
   return axios.get(`${apiUrl}/branch/${id}`);
 }
 
+// Branch endpoints
 function createEvent(event) {
   return axios.post(`https://api2.branch.io/v1/event`, {
     ...event,
@@ -27,11 +29,11 @@ function createEvent(event) {
   });
 }
 
-function createBranchEvent(event) {
-  return axios.post(`https://api.branch.io/v2/event/standard`, {
-    ...event,
-    branch_key: BRANCH_KEY,
-  });
-}
+// function createBranchEvent(event) {
+//   return axios.post(`https://api.branch.io/v2/event/standard`, {
+//     ...event,
+//     branch_key: BRANCH_KEY,
+//   });
+// }
 
 export default branchService;

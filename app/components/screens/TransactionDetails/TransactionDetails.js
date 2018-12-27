@@ -19,8 +19,7 @@ import formatter from '../../../utils/formatter';
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
-import { BRANCH_LINKS, MODALS, TRANSACTION_TYPES } from "../../../config/constants/common";
-import { createBUO } from "../../../redux/branch/branchActions";
+import { MODALS, TRANSACTION_TYPES } from "../../../config/constants/common";
 import TransactionOptionsModal from "../../organisms/TransactionOptionsModal/TransactionOptionsModal";
 import {
   BasicSection,
@@ -36,6 +35,7 @@ import {
   CanceledTransactionLinkSection,
 } from './TransactionDetailsSections';
 import testUtil from "../../../utils/test-util";
+import { createTransactionDetailsBUO } from "../../../utils/branch-util";
 
 function getHeading(transaction) {
   return {
@@ -178,30 +178,10 @@ class TransactionDetails extends Component {
   }
 
   createTransferBranchLink = async () => {
-    const { transaction, user } = this.props;
+    const { transaction } = this.props;
     if (transaction.type && transaction.type !== TRANSACTION_TYPES.TRANSFER_PENDING) return;
 
-    const branchLink = await createBUO(
-      `transfer:${transaction.transfer_data.hash}`,
-      {
-        locallyIndex: true,
-        title: `You received ${transaction.amount} ${transaction.coin.toUpperCase()}`,
-        contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
-        contentDescription: 'Click on the link to get your money!',
-        contentMetadata: {
-          customMetadata: {
-            amount: transaction.amount,
-            coin: transaction.coin,
-            from_name: `${user.first_name} ${user.last_name}`,
-            from_profile_picture: user.profile_picture,
-            transfer_hash: transaction.transfer_data.hash,
-            link_type: BRANCH_LINKS.TRANSFER,
-          }
-        }
-      },
-      user.email
-    );
-
+    const branchLink = await createTransactionDetailsBUO(transaction);
     return branchLink;
   }
 
