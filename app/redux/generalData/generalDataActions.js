@@ -9,6 +9,7 @@ export {
   getSupportedCurrencies,
   getKYCDocTypes,
   getBackendStatus,
+  getBlacklistedCountries,
 }
 
 function getSupportedCurrencies() {
@@ -77,5 +78,29 @@ function getBackendStatusSuccess(backendStatus) {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
     callName: API.GET_BACKEND_STATUS,
     backendStatus,
+  }
+}
+
+function getBlacklistedCountries() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_BLACKLISTED_COUNTRIES));
+
+    try {
+      const res = await generalDataService.getBlacklisted();
+      const blacklistedCountries = res.data;
+      dispatch(getBlacklistedCountriesSuccess(blacklistedCountries))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_BLACKLISTED_COUNTRIES, err));
+    }
+  }
+}
+
+function getBlacklistedCountriesSuccess(blacklistedCountries) {
+  return {
+    type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,
+    callName: API.GET_BLACKLISTED_COUNTRIES,
+    location: blacklistedCountries.location,
+    residency: blacklistedCountries.residency
   }
 }

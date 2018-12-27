@@ -5,6 +5,8 @@ function initialState() {
     supportedCurrencies: undefined,
     kycDocTypes: undefined,
     backendStatus: undefined,
+    location: undefined,
+    residency: undefined
   };
 }
 
@@ -35,6 +37,13 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         backendStatus: action.backendStatus,
+      };
+
+    case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:
+      return {
+        ...state,
+        location: action.location,
+        residency: action.residency
       };
 
   default:
