@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { Content } from "native-base";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import moment from "moment";
 import testUtil from "../../../utils/test-util";
 
@@ -23,7 +23,7 @@ import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
 )
 class WithdrawalInfo extends Component {
   shouldHideBCH = () => {
-    const { formData: {currency} } = this.props;
+    const { formData: { currency } } = this.props;
 
     const currentTimestamp = moment.utc(Date.now());
     const bitcoinCashForkTimestamp = moment.utc('2018-11-15T04:40:00+0000');
@@ -32,7 +32,8 @@ class WithdrawalInfo extends Component {
   };
 
   render() {
-    const { actions } = this.props;
+    const { actions, formData } = this.props;
+    const currencyCopy = formData.currency ? formData.currency.toUpperCase() : "coins";
     return (
       <BasicLayout background="blue">
         <MainHeader
@@ -41,7 +42,7 @@ class WithdrawalInfo extends Component {
         />
 
         <View style={WithdrawalInfoStyle.iconWrapper}>
-          <Icon name='Withdraw' width='70' height='70' fill='#FFFFFF' style={{ opacity: 0.6 }}/>
+          <Icon name='Withdraw' width='70' height='70' fill='#FFFFFF' style={{ opacity: 0.6 }} />
         </View>
 
         <CelHeading
@@ -50,7 +51,7 @@ class WithdrawalInfo extends Component {
         />
 
         <Content style={WithdrawalInfoStyle.content}>
-         <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
+          <Text style={[globalStyles.normalText, WithdrawalInfoStyle.text]}>
             The longer you HODL and the more you HODL, the more interest you'll earn with Celsius.
           </Text>
 
@@ -58,11 +59,18 @@ class WithdrawalInfo extends Component {
             Withdrawing your funds will reduce the amount of interest you could potentially earn.
           </Text>
 
+          <View style={WithdrawalInfoStyle.suggestionWrapper}>
+            <Text style={WithdrawalInfoStyle.suggestion}>For your security, if you would like to withdraw more
+            than <Text style={{ fontFamily: "agile-bold" }}>$20,000</Text> worth of {currencyCopy} you will be
+            required to contact us at <Text style={{ fontFamily: "agile-bold" }}>app@celsius.network</Text> so that we
+            can verify your identity prior to transferring your funds.</Text>
+          </View>
+
           <CelButton
             ref={testUtil.generateTestHook(this, 'WithdrawalInfo.continue')}
             white
             margin="20 30 20 30"
-            onPress={() => actions.navigateTo('AmountInput', {purpose: 'withdraw'})}
+            onPress={() => actions.navigateTo('AmountInput', { purpose: 'withdraw' })}
           >
             Continue
           </CelButton>
