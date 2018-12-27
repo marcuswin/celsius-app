@@ -100,14 +100,14 @@ class LoanApplication extends Component {
       return actions.showMessage("error", "Please select a currency");
     }
     if (!formData.amountCollateralUSD) {
-      return actions.showMessage("error", "Please select an amount between $500.00 and $10,000.00");
+      return actions.showMessage("error", "Please select an amount more than $10,000.00");
     }
 
-    if (Number(formData.amountCollateralUSD) < 5000) {
+    if (Number(formData.amountCollateralUSD) < 10000) {
       this.setState({
         amountError: true,
       });
-      return actions.showMessage("warning", "Minimum amount for a loan is $5000.00");
+      return actions.showMessage("warning", "Minimum amount for a loan is $10,000.00");
     }
 
     if (!formData.amountCollateralCrypto) {
@@ -206,7 +206,7 @@ class LoanApplication extends Component {
       );
     }
 
-    const error = amountError ? "The loan amount should be $5,000 or higher." : null;
+    const error = amountError ? "The loan amount should be $10,000 or higher." : null;
 
     const isLoading = apiUtil.areCallsInProgress([API.APPLY_FOR_LOAN], callsInProgress);
     const walletCurrency = walletCurrencies ? walletCurrencies.find(w => w.currency.short.toLowerCase() === formData.coin) : null;
@@ -237,7 +237,7 @@ class LoanApplication extends Component {
               field="amountCollateralUSD"
               theme="white"
               value={formData.amountCollateralUSD}
-              placeholder="$5,000.00 is minimal amount"
+              placeholder="$10,000.00 is minimal amount"
               type="number"
               onChange={this.updateAmounts}
               error={error}
