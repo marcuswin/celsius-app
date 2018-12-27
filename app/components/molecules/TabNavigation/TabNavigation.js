@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { bindActionCreators } from "redux";
@@ -21,6 +21,10 @@ class TabNavigation extends Component {
     tabs: PropTypes.instanceOf(Array).isRequired,
   }
 
+  static defaultProps = {
+    isLoaded: true
+  }
+
   // lifecycle methods
   // event hanlders
   goToScreen = (tab) => {
@@ -34,17 +38,17 @@ class TabNavigation extends Component {
     const tabStyle = tab.screen === activeScreen ? TabNavigationStyle.activeTab : TabNavigationStyle.inactiveTab;
     const textStyle = tab.screen === activeScreen ? TabNavigationStyle.activeText : TabNavigationStyle.inactiveText;
     return (
-      <TouchableOpacity ref={testUtil.generateTestHook(this, `TabNavigation.${tab.label}`)} key={ tab.label } onPress={() => this.goToScreen(tab)} style={tabStyle}>
-        <Text style={textStyle}>{ tab.label.toUpperCase() }</Text>
+      <TouchableOpacity ref={testUtil.generateTestHook(this, `TabNavigation.${tab.label}`)} key={tab.label} onPress={() => this.goToScreen(tab)} style={tabStyle}>
+        <Text style={textStyle}>{tab.label.toUpperCase()}</Text>
       </TouchableOpacity>
     )
   }
 
   render() {
-    const { tabs } = this.props;
+    const { tabs, isLoaded } = this.props;
     return (
       <View style={TabNavigationStyle.tabs}>
-        { tabs.map(this.renderTab) }
+        {isLoaded && tabs.map(this.renderTab)}
       </View>
     );
   }

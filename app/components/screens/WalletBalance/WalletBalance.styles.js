@@ -8,6 +8,18 @@ const WalletBalanceStyle = StyleSheet.create({
     paddingRight: 16,
     position: 'relative',
   },
+  cardLoading: {
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingBottom: 0,
+    borderRadius: 8,
+  },
+  cardLoadingBig: {
+    height: 150
+  },
+  cardLoadingSmall: {
+    height: 100
+  },
   totalInterestLabel: {
     color: '#3D4853',
     fontSize: FONT_SCALE * 11,
