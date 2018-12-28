@@ -5,8 +5,10 @@ function initialState() {
     supportedCurrencies: undefined,
     kycDocTypes: undefined,
     backendStatus: undefined,
-    location: undefined,
-    residency: undefined
+    blacklistedCountryLocation: [],
+    blacklistedCountryResidency: [],
+    blacklistedStatesLocation: [],
+    blacklistedStatesResidency: []
   };
 }
 
@@ -42,8 +44,10 @@ export default function generalDataReducer(state = initialState(), action) {
     case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:
       return {
         ...state,
-        location: action.location,
-        residency: action.residency
+        blacklistedCountryLocation: action.blacklistedCountryLocation,
+        blacklistedCountryResidency: action.blacklistedCountryResidency,
+        blacklistedStatesLocation: action.blacklistedStatesLocation,
+        blacklistedStatesResidency: action.blacklistedStatesResidency
       };
 
   default:

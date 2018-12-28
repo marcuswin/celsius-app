@@ -273,6 +273,7 @@ class ProfileScreen extends Component {
               color="blue"
               margin="10 0 10 0"
               inverse
+              disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
             >
               Refer your friends
             </CelButton>

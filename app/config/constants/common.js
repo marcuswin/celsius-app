@@ -136,7 +136,6 @@ export const STATE = [
   { label: "Wyoming", value: "Wyoming" }
 ]
 
-export const FORBIDEN_COUNTRIES = [ "Cuba", "North Korea", "Iran", "Sudan", "Syria", "Lebanon", "Japan", "New York"];
 export const ELIGIBLE_COINS = ['CEL', 'BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH', 'ZRX', 'ZEC', 'BTG', 'XLM'];
 export const INTEREST_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP', 'OMG', 'BCH', 'ZRX'];
 export const LOAN_ELIGIBLE_COINS = ['BTC', 'ETH', 'LTC', 'XRP'];

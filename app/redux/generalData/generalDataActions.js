@@ -88,7 +88,13 @@ function getBlacklistedCountries() {
     try {
       const res = await generalDataService.getBlacklisted();
       const blacklistedCountries = res.data;
-      dispatch(getBlacklistedCountriesSuccess(blacklistedCountries))
+
+      const blacklistedCountryLocation = blacklistedCountries.location.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedCountryResidency = blacklistedCountries.residency.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedStatesLocation = blacklistedCountries.location.filter(c => c.country === "United States").map(value => value.state);
+      const blacklistedStatesResidency = blacklistedCountries.residency.filter(c => c.country === "United States").map(value => value.state);
+
+      dispatch(getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency))
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_BLACKLISTED_COUNTRIES, err));
@@ -96,11 +102,13 @@ function getBlacklistedCountries() {
   }
 }
 
-function getBlacklistedCountriesSuccess(blacklistedCountries) {
+function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency) {
   return {
     type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,
     callName: API.GET_BLACKLISTED_COUNTRIES,
-    location: blacklistedCountries.location,
-    residency: blacklistedCountries.residency
+    blacklistedCountryLocation,
+    blacklistedCountryResidency,
+    blacklistedStatesLocation,
+    blacklistedStatesResidency
   }
 }
