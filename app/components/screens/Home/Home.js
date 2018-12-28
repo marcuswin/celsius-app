@@ -14,6 +14,7 @@ import {STYLES} from "../../../config/constants/style";
 import { heightPercentageToDP } from "../../../utils/scale";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
+let interval;
 
 @connect(
   state => ({
@@ -50,7 +51,7 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    interval = setInterval(() => {
       this.setState(state => ({
         progress: state.progress + 0.2,
       }));
@@ -58,15 +59,17 @@ class HomeScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { appInitialized } = this.props
+    const { appInitialized, activeScreen, actions } = this.props
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
       return this.navigateToFirstScreen();
     }
+    if (nextProps.activeScreen !== activeScreen && nextProps.activeScreen === 'Home' && nextProps.appInitialized) {
+      actions.refreshBottomNavigation();
+    }
   }
 
-  componentDidUpdate() {
-    const { actions } = this.props;
-    actions.refreshBottomNavigation();
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   loginPasscode = () => {
