@@ -5,6 +5,7 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
+import Steps from "../../molecules/Steps/Steps";
 
 @connect(
   state => ({
@@ -21,6 +22,7 @@ class BRWTermOfLoan extends Component {
       <SimpleLayout
         animatedHeading={{ text: 'Confirm your loan'}}
       >
+        <Steps current={5} totalSteps={5} />
         <CelButton
           margin="40 0 0 0"
           color="blue"

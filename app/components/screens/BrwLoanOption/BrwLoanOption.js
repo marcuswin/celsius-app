@@ -8,6 +8,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import Card from "../../atoms/Card/Card";
+import Steps from "../../molecules/Steps/Steps";
 
 @connect(
   state => ({
@@ -24,6 +25,7 @@ class BRWLoanOption extends Component {
       <SimpleLayout
         animatedHeading={{ text: 'Loan option'}}
       >
+        <Steps current={3} totalSteps={5} />
         <Text style={globalStyles.normalText}>Choose your loan option:</Text>
 
         <Card>
