@@ -2,7 +2,7 @@ import signupFlow from './flows/signup-flow';
 import loginFlow from "./flows/login-flow";
 import kycFlow from "./flows/kyc-flow";
 import withdrawFlow from './flows/withdraw-flow'
-import { errorCatchWrapper } from './helpers';
+import { errorCatchWrapper, testFailed } from './helpers';
 
 export default function (spec) {
   // testSignupFlow(spec);
@@ -212,5 +212,37 @@ export function testWithdrawFlow(spec){
     spec.it('should show destination tag for XRP', errorCatchWrapper(withdrawFlow.testFailed(spec)))
     spec.it('should show memo ID for XLM', errorCatchWrapper(withdrawFlow.testFailed(spec)))
     spec.it('should show memo ID for XLM', errorCatchWrapper(withdrawFlow.testFailed(spec)))
+  })
+}
+
+export function testBorrowFlow(spec){
+  spec.describe('Borrow Flow', () => {
+    // Successful flow
+    spec.it('should open modal on WalletBalance screen when flow is successful', errorCatchWrapper(testFailed(spec)))
+
+    // BRWEnterInput screen
+    spec.it('should prepopulate field with minimum amount', errorCatchWrapper(testFailed(spec)))
+    spec.it('should show correct maximum amount', errorCatchWrapper(testFailed(spec)))
+    spec.it('should show error if no amount entered', errorCatchWrapper(testFailed(spec)))
+    spec.it('should show error if amount less than minimum', errorCatchWrapper(testFailed(spec)))
+    spec.it('should show error if amount more than available to user', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to BRWChooseCollateral screen when amount is correct', errorCatchWrapper(testFailed(spec)))
+
+    // BRWChooseCollateral screen
+    spec.it('should disable currencies with insufficient funds', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to BRWLoanOption screen when currency is selected', errorCatchWrapper(testFailed(spec)))
+
+    // BRWLoanOption screen
+    spec.it('should disable options with insufficient funds', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to AddFunds screen when disabled option is pressed and back on X or done', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to BRWTermOfLoan when available option is pressed', errorCatchWrapper(testFailed(spec)))
+    //
+    // BRWTermOfLoan screen
+    spec.it('should prepopulate field with 6 months', errorCatchWrapper(testFailed(spec)))
+    spec.it('should go to BRWConfirmLoan when button is pressed', errorCatchWrapper(testFailed(spec)))
+
+    // BRWConfirmLoan screen
+    spec.it('should show all data correctly', errorCatchWrapper(testFailed(spec)))
+    spec.it('should open modal when loan is confirmed', errorCatchWrapper(testFailed(spec)))
   })
 }
