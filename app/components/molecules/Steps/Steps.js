@@ -16,8 +16,8 @@ class Steps extends Component {
     const { totalSteps, current } = this.props;
     let wrapperStyle = current >= value ? styles.circleActive : styles.circleInactive;
     wrapperStyle = totalSteps === current && value === current ? styles.circleFinal : wrapperStyle
-    const outerCircleStyle = value === current ? { ...styles.outerCircle } : {};
-    if (totalSteps === current) outerCircleStyle.borderColor = COLORS.green
+    let outerCircleStyle = value === current ? styles.outerCircleBlue : styles.outerCircleWhite;
+    outerCircleStyle = totalSteps === current && value === current ? styles.outerCircleFinal : outerCircleStyle;
     return (
       <View style={outerCircleStyle} key={value}>
         <View style={wrapperStyle}>
@@ -47,15 +47,27 @@ const circle = {
   alignItems: 'center'
 }
 
+const outerCircle = {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderWidth: 2,
+}
+
 const styles = {
-  outerCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
+  outerCircleWhite: {
+    ...outerCircle,
+    borderColor: 'white',
+  },
+  outerCircleBlue: {
+    ...outerCircle,
     borderColor: COLORS.blue,
+  },
+  outerCircleFinal: {
+    ...outerCircle,
+    borderColor: COLORS.green,
   },
   text: {
     color: 'white',

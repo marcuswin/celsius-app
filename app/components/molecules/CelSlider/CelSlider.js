@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity } from 'react-native';
-// import {} from 'native-base';
+import { View, Text, Slider } from "react-native";
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
-// import {STYLES} from "../../config/constants/style";
-import CelSliderStyle from "./CelSlider.styles";
+import { COLORS, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import stylesUtil from "../../../utils/styles-util";
 
 @connect(
   () => ({}),
@@ -16,43 +15,62 @@ import CelSliderStyle from "./CelSlider.styles";
 class CelSlider extends Component {
   static propTypes = {
     field: PropTypes.string.isRequired,
-    // array of { label, value } objects
-    items: PropTypes.instanceOf(Array).isRequired,
+    type: PropTypes.oneOf(['number', 'range']),
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    minimumValue: PropTypes.number,
+    maximumValue: PropTypes.number,
+    step: PropTypes.number,
+    onValueChange: PropTypes.func,
+    // array of { label, value } objects, value not required
+    items: PropTypes.instanceOf(Array),
     margin: PropTypes.string,
   }
 
   static defaultProps = {
+    type: 'number',
+    minimumValue: 0,
+    value: 0,
+    maximumValue: 100,
+    step: 1,
     margin: '0 0 0 0',
   }
 
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
-  renderSliderElement = (item, index, items) => {
-    const { value, actions, field } = this.props;
-    const width = 100 / items.length;
+  constructor(props) {
+    super(props)
+    const { minimumValue, maximumValue, items, actions, value, field } = props;
 
-    const circleStyle = item.value === value ? CelSliderStyle.activeCircle : CelSliderStyle.inactiveCircle;
-    const textStyle = item.value === value ? CelSliderStyle.activeText : CelSliderStyle.inactiveText;
+    this.state = {
+      min: minimumValue || 0,
+      max: maximumValue || items.length - 1,
+      labels: items.map(i => i.label),
+    }
 
-    return (
-      <TouchableOpacity
-        key={item.value}
-        style={{ width: `${width}%`, alignItems: 'center' }}
-        onPress={() => actions.updateFormField(field, item.value)}
-      >
-        <View style={circleStyle} />
-        <Text style={textStyle}>{ item.label }</Text>
-      </TouchableOpacity>
-    )
+    if (!value) actions.updateFormField(field, minimumValue)
+  }
+
+  onChange = (value) => {
+    const { actions, field } = this.props;
+    actions.updateFormField(field, value)
   }
 
   render() {
-    const { items } = this.props;
+    const { value, step, margin } = this.props;
+    const { min, max, labels } = this.state;
+
+    const margins = stylesUtil.getMargins(margin);
     return (
-      <View style={CelSliderStyle.wrapper}>
-        { items.map(this.renderSliderElement) }
+      <View style={margins}>
+        <Slider
+          minimumValue={min}
+          maximumValue={max}
+          value={Number(value)}
+          step={step}
+          onValueChange={this.onChange}
+        />
+
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          { labels.map(l => <Text key={l} style={[globalStyles.normalText, { color: COLORS.blue }]}>{l}</Text>)}
+        </View>
       </View>
     );
   }

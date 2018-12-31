@@ -42,7 +42,7 @@ class BottomNavigation extends Component {
 
   static defaultProps = {
     navItemsLeft: [
-      { label: 'Borrow', screen: 'BRWEnterAmount', icon: 'Borrow', active: [] },
+      { label: 'Borrow', screen: 'BRWEnterAmount', icon: 'Borrow', active: ['BRWEnterAmount', 'BRWChooseCollateral', 'BRWLoanOption', 'BRWTermOfLoan', 'BRWConfirmLoan'] },
       { label: 'Earn', screen: 'InterestCalculator', icon: 'Lend', active: ['HowToEarnInterest', 'InterestCalculator'] },
     ],
     navItemsRight: [
