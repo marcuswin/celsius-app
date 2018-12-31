@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles, COLORS } from "../../../config/constants/style";
 import { LOAN_ELIGIBLE_COINS } from "../../../config/constants/common";
 import SelectCoinStyle from "../SelectCoin/SelectCoin.styles";
 import testUtil from "../../../utils/test-util";
@@ -22,20 +22,31 @@ import Steps from "../../molecules/Steps/Steps";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BRWChooseCollateral extends Component {
+  onSelectCoin(walletCurrency) {
+    const { actions } = this.props;
+
+    actions.updateFormField('coin', walletCurrency.currency.short);
+    actions.updateFormField('totalAmount', walletCurrency.total);
+    actions.navigateTo('BRWLoanOption');
+  }
+
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
   renderCoin = (walletCurrency) => {
+    const { formData } = this.props;
     const { currency } = walletCurrency;
 
-    const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
+    const isCoinAvailable = Number(formData.amount) * 2 < walletCurrency.total;
+    const wrapperStyle = isCoinAvailable ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
+    const textStyle = !isCoinAvailable ? { color: COLORS.red } : {}
+    const onPress = isCoinAvailable ? () => this.onSelectCoin(walletCurrency) : () => {};
     return (
       <View key={currency.id} style={wrapperStyle}>
-        <TouchableOpacity ref={testUtil.generateTestHook(this, `SelectCoin.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
+        <TouchableOpacity ref={testUtil.generateTestHook(this, `ChooseCollateral.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={onPress}>
           <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin}/>
         </TouchableOpacity>
         <Text style={SelectCoinStyle.coinName}>{this.capitalize(currency.name)}</Text>
-        <Text
-          style={SelectCoinStyle.amountTextUSD}>{formatter.crypto(walletCurrency.amount, currency.short, { precision: 5 })}</Text>
-        <Text style={SelectCoinStyle.amountText}>{formatter.usd(walletCurrency.total)}</Text>
+        <Text style={[SelectCoinStyle.amountTextUSD, textStyle]}>{formatter.crypto(walletCurrency.amount, currency.short, { precision: 5 })}</Text>
+        <Text style={[SelectCoinStyle.amountText, textStyle]}>{formatter.usd(walletCurrency.total)}</Text>
       </View>
     );
   };
@@ -48,16 +59,21 @@ class BRWChooseCollateral extends Component {
         animatedHeading={{ text: 'Choose a collateral'}}
       >
         <Steps current={2} totalSteps={5} />
-        <Text style={globalStyles.normalText}>Choose a coin to use as collateral</Text>
+        <Text style={[globalStyles.normalText, { marginVertical: 15 }]}>Choose a coin to use as collateral</Text>
 
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
           { eligibleCurrencies.map(this.renderCoin)}
         </View>
 
         <CelButton
           margin="40 0 0 0"
           color="blue"
-          onPress={() => actions.navigateTo('BRWLoanOption')}
+          onPress={() => actions.navigateTo('AddFunds')}
         >
           Deposit more funds
         </CelButton>
