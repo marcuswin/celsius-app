@@ -1,3 +1,5 @@
+// TODO(fj): probably going to trash in v3
+
 import React, {Component} from 'react';
 import SimpleLayout from "../SimpleLayout/SimpleLayout";
 import testUtil from "../../../utils/test-util";

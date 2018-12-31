@@ -1,4 +1,7 @@
+// TODO(fj): check all props
+// TODO(fj): check if this can be simplified
 // TODO(fj): check needs of v3 designs
+// TODO(fj): move scroll logic to basic layout or main layout
 
 import React, { Component } from 'react';
 import { Platform, ScrollView, View } from "react-native";

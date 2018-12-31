@@ -1,3 +1,5 @@
+// TODO(fj) new one from scratch for v3
+
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import { Grid, Col, Row } from "react-native-easy-grid";

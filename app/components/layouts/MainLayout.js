@@ -1,4 +1,8 @@
 // TODO(fj): probably going to get removed, but check what it does
+// TODO(fj): move offline and maintenance somewhere else
+// TODO(fj): create component for all modals
+// TODO(fj): maybe add scrolling logic here
+// TODO(fj): maybe add app initializing logic here
 
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";

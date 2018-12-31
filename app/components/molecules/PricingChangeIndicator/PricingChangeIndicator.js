@@ -1,3 +1,6 @@
+// TODO(fj): extract styles
+// TODO(fj): move to atoms
+
 import React from 'react';
 import { StyleSheet, View, Text, Platform } from 'react-native';
 import { STYLES, FONT_SCALE } from "../../../config/constants/style";

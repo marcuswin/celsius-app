@@ -1,3 +1,5 @@
+// TODO(fj) move capitalize to a util
+
 import React, {Component} from 'react';
 import { View, Text, Image, Linking } from "react-native";
 import {connect} from "react-redux";

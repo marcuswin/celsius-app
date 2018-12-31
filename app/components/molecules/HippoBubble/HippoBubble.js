@@ -1,3 +1,5 @@
+// TODO(fj) used once, probably going to the trash
+
 import React from 'react';
 import { View, Image } from "react-native";
 

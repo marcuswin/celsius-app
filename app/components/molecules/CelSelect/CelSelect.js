@@ -1,3 +1,5 @@
+// TODO(fj): move state and coutry to another component or refactor this one
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';

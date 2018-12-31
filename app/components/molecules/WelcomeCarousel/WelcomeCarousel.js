@@ -1,3 +1,5 @@
+// TODO(fj): probably trash in v3
+
 import React, { Component } from "react";
 import { Text, View, Animated, ScrollView, Dimensions, Image } from "react-native";
 import WelcomeCarouselStyle from "./WelcomeCarousel.styles";

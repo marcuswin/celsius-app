@@ -1,3 +1,8 @@
+// TODO(fj): init segment in app actions
+// TODO(fj): move handle app state change to app action
+// TODO(fj): move AppLoading to custom loader in Home?
+// TODO(fj): merge App and MainLayout?
+
 import React, { Component } from 'react';
 import { Asset, AppLoading, Font, Constants, Segment } from 'expo';
 import { Provider } from 'react-redux';

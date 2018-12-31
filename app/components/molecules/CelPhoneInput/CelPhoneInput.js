@@ -1,3 +1,6 @@
+// TODO(fj): create new one
+// TODO(fj): maybe move to celinput?
+
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";

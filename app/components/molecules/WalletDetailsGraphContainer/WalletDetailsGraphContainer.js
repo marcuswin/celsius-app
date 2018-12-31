@@ -1,3 +1,6 @@
+// TODO(fj): check new designs
+
+
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { LineChart, YAxis, XAxis } from "react-native-svg-charts";

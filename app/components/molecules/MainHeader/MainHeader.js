@@ -1,3 +1,8 @@
+// TODO(fj): check all props and usability
+// TODO(fj): check all new props (loader, search, profile...)
+// TODO(fj): compare to v3
+// TODO(fj): probably from scratch
+
 import React, { Component } from 'react';
 import { Button, Header, Left, Right, Text } from 'native-base';
 import { connect } from "react-redux";
@@ -128,4 +133,3 @@ const MainHeader = testUtil.hookComponent(MainHeader2);
 export {MainHeader};
 // export default testUtil.hookComponent(MainHeader);
 
- 

@@ -1,3 +1,5 @@
+// TODO(fj): check new designs
+
 import React, { Component } from "react";
 import moment from "moment";
 import { View } from "react-native";

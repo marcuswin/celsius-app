@@ -1,3 +1,5 @@
+// TODO(fj) check new designs
+
 import React, { Component } from "react";
 import { View, Text, Linking } from "react-native";
 import { connect } from "react-redux";

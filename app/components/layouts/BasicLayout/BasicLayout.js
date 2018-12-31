@@ -1,5 +1,6 @@
 // TODO(fj): check reusable proptypes
 // TODO(fj): wrap all layouts in this one
+// TODO(fj): move scrolling logic here
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
