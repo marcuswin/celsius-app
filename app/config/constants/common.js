@@ -222,3 +222,11 @@ export const VERIFY_IDENTITY_ACTION_TYPES = {
   CONFIRM_SET_PIN: 'CONFIRM_SET_PIN',
 };
 
+export const LOAN_STATUSES = {
+  pending: 'pending',
+  rejected: 'rejected',
+  approved: 'approved',
+  active: 'active',
+  completed: 'completed',
+}
+

@@ -57,6 +57,7 @@ import BRWChooseCollateralScreen from "../components/screens/BrwChooseCollateral
 import BRWLoanOptionScreen from "../components/screens/BrwLoanOption/BrwLoanOption";
 import BRWTermOfLoanScreen from "../components/screens/BrwTermOfLoan/BrwTermOfLoan";
 import BRWConfirmLoanScreen from "../components/screens/BrwConfirmLoan/BrwConfirmLoan";
+import BRWAllLoansScreen from "../components/screens/BrwAllLoans/BrwAllLoans";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -226,6 +227,11 @@ export const screens = {
   BRWTermOfLoan: {
     screen: BRWTermOfLoanScreen,
     title: 'BRWTermOfLoan',
+    bottomNavigation: true,
+  },
+  BRWAllLoans: {
+    screen: BRWAllLoansScreen,
+    title: 'BRWAllLoans',
     bottomNavigation: true,
   },
 

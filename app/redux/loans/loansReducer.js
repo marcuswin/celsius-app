@@ -2,7 +2,7 @@
 
 function initialState() {
   return {
-    // intial state goes here
+    allLoans: []
   };
 }
 
