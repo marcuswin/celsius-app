@@ -12,7 +12,7 @@ const BrwAllLoansStyle = StyleSheet.create({
     marginLeft: -20,
     marginRight: -20,
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#C8C8C8',
   },

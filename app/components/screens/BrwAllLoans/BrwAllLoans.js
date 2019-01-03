@@ -23,13 +23,6 @@ const tabs = [
 @connect(
   state => ({
     allLoans: state.loans.allLoans,
-    // allLoans: [
-    //   { amount_collateral_usd: 1000, amount_collateral_crypto: 12.5, coin: 'BTC', status: LOAN_STATUSES.pending, created_at: new Date() },
-    //   { amount_collateral_usd: 20000, amount_collateral_crypto: 122.5, coin: 'ETH', status: LOAN_STATUSES.rejected, created_at: new Date() },
-    //   { amount_collateral_usd: 15000, amount_collateral_crypto: 120, coin: 'ETH', status: LOAN_STATUSES.approved, created_at: new Date() },
-    //   { amount_collateral_usd: 10000, amount_collateral_crypto: 125, coin: 'XRP', status: LOAN_STATUSES.active, created_at: new Date() },
-    //   { amount_collateral_usd: 12000, amount_collateral_crypto: 155, coin: 'LTC', status: LOAN_STATUSES.completed, created_at: new Date() },
-    // ],
     activeScreen: state.nav.routes[state.nav.index].routeName,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
@@ -63,7 +56,8 @@ class BrwAllLoans extends Component {
     </SimpleLayout>
   )
 
-  renderLoanRow = (loan, i) => {
+  renderLoanRow = (loan) => {
+    const { actions } = this.props;
     let textColor;
 
     switch (loan.status) {
@@ -82,7 +76,7 @@ class BrwAllLoans extends Component {
         textColor = COLORS.blue;
     }
     return (
-      <TouchableOpacity key={`${loan.status}${i}`}>
+      <TouchableOpacity key={loan.id} onPress={() => actions.navigateTo('BRWLoanDetails', { id: loan.id } )}>
         <View style={BRWAllLoansStyle.loanRowWrapper}>
           <View style={{ width: '20%'}}>
             <View style={BRWAllLoansStyle.lockIconWrapper}>
