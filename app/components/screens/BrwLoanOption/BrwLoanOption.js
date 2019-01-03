@@ -40,7 +40,7 @@ class BRWLoanOption extends Component {
 
   calculateAmounts = (ltv) => {
     const { formData, currencyRatesShort } = this.props;
-    console.log({ formData })
+
     const collateralAmountUSD = Number(formData.amount) / ltv.percent;
     const collateralAmountCrypto = collateralAmountUSD / currencyRatesShort[formData.coin.toLowerCase()];
     const isOptionAvailable = collateralAmountUSD < formData.totalAmount
