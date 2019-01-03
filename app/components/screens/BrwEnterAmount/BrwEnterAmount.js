@@ -13,6 +13,7 @@ import { LOAN_ELIGIBLE_COINS } from "../../../config/constants/common";
 import Steps from "../../molecules/Steps/Steps";
 import CelSlider from "../../molecules/CelSlider/CelSlider";
 import formatter from '../../../utils/formatter';
+import testUtil from "../../../utils/test-util";
 
 const MIN_LOAN_AMOUNT = 10000;
 
@@ -87,4 +88,4 @@ class BRWEnterAmount extends Component {
   }
 }
 
-export default BRWEnterAmount;
+export default testUtil.hookComponent(BRWEnterAmount);

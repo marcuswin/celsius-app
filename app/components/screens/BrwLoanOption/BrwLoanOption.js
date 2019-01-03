@@ -9,6 +9,7 @@ import { COLORS, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../confi
 import Card from "../../atoms/Card/Card";
 import Steps from "../../molecules/Steps/Steps";
 import formatter from '../../../utils/formatter';
+import testUtil from "../../../utils/test-util";
 
 const LTVs = [
   { percent: 0.2, interest: 0.05 },
@@ -78,4 +79,4 @@ class BRWLoanOption extends Component {
   }
 }
 
-export default BRWLoanOption;
+export default testUtil.hookComponent(BRWLoanOption);

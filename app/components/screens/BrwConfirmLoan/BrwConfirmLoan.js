@@ -11,6 +11,7 @@ import Steps from "../../molecules/Steps/Steps";
 import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from '../../../utils/formatter';
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -66,4 +67,4 @@ class BRWTermOfLoan extends Component {
   }
 }
 
-export default BRWTermOfLoan;
+export default testUtil.hookComponent(BRWTermOfLoan);

@@ -9,6 +9,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import Steps from "../../molecules/Steps/Steps";
 import CelSlider from "../../molecules/CelSlider/CelSlider";
+import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
@@ -58,4 +59,4 @@ class BRWTermOfLoan extends Component {
   }
 }
 
-export default BRWTermOfLoan;
+export default testUtil.hookComponent(BRWTermOfLoan);

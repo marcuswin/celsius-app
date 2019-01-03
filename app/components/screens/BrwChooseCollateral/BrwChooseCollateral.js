@@ -82,4 +82,4 @@ class BRWChooseCollateral extends Component {
   }
 }
 
-export default BRWChooseCollateral;
+export default testUtil.hookComponent(BRWChooseCollateral);
