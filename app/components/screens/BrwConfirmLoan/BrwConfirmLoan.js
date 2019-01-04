@@ -36,21 +36,22 @@ class BRWTermOfLoan extends Component {
           <Text style={[globalStyles.heading, { textAlign: 'left' }]}>{ formatter.usd(formData.amount) } USD</Text>
           <Separator margin="10 0 10 0"/>
 
-          <Text style={globalStyles.normalText}>Collateral</Text>
+          <Text style={globalStyles.normalText}>Collateral:</Text>
           <Text style={[globalStyles.heading, { textAlign: 'left' }]}>{ formatter.usd(formData.collateralAmountUSD) } USD</Text>
           <Text style={globalStyles.normalText}>{ formatter.crypto(formData.collateralAmountCrypto, formData.coin, { precision: 5 }) }</Text>
           <Separator margin="10 0 10 0"/>
 
-          <Text style={globalStyles.normalText}>Term of loan</Text>
+          <Text style={globalStyles.normalText}>Term of loan:</Text>
           <Text style={[globalStyles.heading, { textAlign: 'left' }]}>{ formData.termOfLoan } months</Text>
           <Separator margin="10 0 10 0"/>
 
           <View style={{ flexDirection: 'row' }}>
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
-              <Text style={[globalStyles.normalText, {textAlign: 'center'}]}>Annual interest rate</Text>
               <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formData.ltv.interest * 100 }%</Text>
+              <Text style={[globalStyles.normalText, {textAlign: 'center'}]}>Annual interest rate</Text>
             </View>
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formatter.usd(monthlyPayment) }</Text>
               <Text style={[globalStyles.normalText, {textAlign: 'center'}]}>Monthly interest payment</Text>
               <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formatter.usd(monthlyPayment) }</Text>
             </View>
