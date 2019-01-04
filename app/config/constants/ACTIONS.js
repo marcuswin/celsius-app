@@ -129,15 +129,18 @@ export default {
   // cameraRoll actions
   GET_CAMERA_ROLL_SUCCESS: 'GET_CAMERA_ROLL_SUCCESS',
 
-  // loan calls
+  // loan actions
   APPLY_FOR_LOAN_SUCCESS: 'APPLY_FOR_LOAN_SUCCESS',
 
-  // apy key calls
+  // promo codes actions
+  SUBMIT_PROMO_CODE_SUCCESS: 'SUBMIT_PROMO_CODE_SUCCESS',
+
+  // apy key actions
   CREATE_API_KEY_SUCCESS: 'CREATE_API_KEY_SUCCESS',
   DELETE_API_KEY_SUCCESS: 'DELETE_API_KEY_SUCCESS',
   GET_API_KEYS_SUCCESS: 'GET_API_KEYS_SUCCESS',
 
-  // app calls
+  // app actions
   APP_INIT_START: 'APP_INIT_START',
   APP_INIT_DONE: 'APP_INIT_DONE',
   RESET_APP: 'RESET_APP',

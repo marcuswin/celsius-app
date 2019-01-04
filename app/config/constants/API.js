@@ -71,6 +71,9 @@ export default {
   // loan calls
   APPLY_FOR_LOAN: 'APPLY_FOR_LOAN',
 
+  // promo codes calls
+  SUBMIT_PROMO_CODE: 'SUBMIT_PROMO_CODE',
+
   // apy key calls
   CREATE_API_KEY: 'CREATE_API_KEY',
   DELETE_API_KEY: 'DELETE_API_KEY',

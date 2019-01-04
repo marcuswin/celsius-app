@@ -18,7 +18,8 @@ const initialState = {
     showTodayRatesModal: true,
     showBchExplanationInfoBox: true,
     declineAccess: false,
-  }
+  },
+  promoCodes: [],
 };
 
 export default (state = initialState, action) => {
@@ -216,6 +217,16 @@ export default (state = initialState, action) => {
           ...state.user,
           individual_referral_link: action.link
         }
+      }
+
+    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
+      console.log({ action })
+      return {
+        ...state,
+        promoCodes: [
+          action.code,
+          ...state.promoCodes,
+        ]
       }
 
 

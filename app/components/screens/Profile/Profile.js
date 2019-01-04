@@ -25,6 +25,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
 import { MODALS } from "../../../config/constants/common";
+import EnterPromoCodeModal from "../../organisms/EnterPromoCodeModal/EnterPromoCodeModal";
 
 
 const { revisionId } = Constants.manifest;
@@ -277,6 +278,16 @@ class ProfileScreen extends Component {
             >
               Refer your friends
             </CelButton>
+            <CelButton
+              onPress={() => actions.openModal(MODALS.ENTER_PROMO_CODE)}
+              transparent
+              color="blue"
+              size="small"
+              margin="10 0 10 0"
+              inverse
+            >
+              Enter promo code
+            </CelButton>
           </View>
 
           <Separator separatorSize={1.2} margin='5 0 20 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>PROFILE DETAILS</Separator>
@@ -391,6 +402,7 @@ class ProfileScreen extends Component {
           </View>}
         </CelScreenContent>
         <ReferralModal />
+        <EnterPromoCodeModal />
       </BasicLayout>
     )
   }

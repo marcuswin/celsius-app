@@ -38,6 +38,7 @@ export {
   enableTwoFactor,
   disableTwoFactor,
   getIcoUsersProfileInfo,
+  submitPromoCode,
 }
 
 function getProfileInfo() {
@@ -523,6 +524,31 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
     type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
     personalInfo,
     callName: API.GET_ICO_USERS_INFO,
+  }
+}
+
+function submitPromoCode() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
+      const { formData } = getState().ui
+
+      dispatch({
+        type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+        callName: API.SUBMIT_PROMO_CODE,
+        code: {
+          slug: formData.promoCode,
+          amount: 15,
+          coin: 'CEL',
+        }
+      })
+      // dispatch(setFormErrors({
+      //   promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
+      // }))
+    } catch(err) {
+      console.log(err);
+    }
+
   }
 }
 
