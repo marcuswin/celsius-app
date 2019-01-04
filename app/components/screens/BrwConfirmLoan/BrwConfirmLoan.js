@@ -23,6 +23,8 @@ import testUtil from "../../../utils/test-util";
 class BRWTermOfLoan extends Component {
   render() {
     const { actions, formData } = this.props;
+
+    const monthlyPayment = formData.collateralAmountUSD * formData.ltv.interest / 12;
     return (
       <SimpleLayout
         animatedHeading={{ text: 'Confirm your loan'}}
@@ -50,7 +52,7 @@ class BRWTermOfLoan extends Component {
             </View>
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={[globalStyles.normalText, {textAlign: 'center'}]}>Monthly interest payment</Text>
-              <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formData.termOfLoan } months</Text>
+              <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formatter.usd(monthlyPayment) }</Text>
             </View>
           </View>
         </Card>
