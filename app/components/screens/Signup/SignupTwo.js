@@ -19,6 +19,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
+import Separator from "../../atoms/Separator/Separator";
 
 const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER]
 
@@ -68,6 +69,10 @@ class SignupTwo extends Component {
   onSubmit = () => {
     const { formData, user, actions } = this.props;
 
+    if (formData.promoCode) {
+      return actions.showMessage('error', 'Invalid promo code')
+    }
+
     const data = { ...formData };
 
     // register twitter user
@@ -94,7 +99,7 @@ class SignupTwo extends Component {
   // rendering methods
   render() {
     const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
-    const { firstName, lastName, email } = formData;
+    const { firstName, lastName, email, promoCode } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
 
@@ -108,7 +113,7 @@ class SignupTwo extends Component {
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
-              {...this.props} testSelector={'SignupTwo.FirstName'}
+              testSelector={'SignupTwo.FirstName'}
               error={formErrors.first_name}
               field="firstName"
               labelText="First Name"
@@ -116,7 +121,7 @@ class SignupTwo extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
-              {...this.props} testSelector={'SignupTwo.LastName'}
+              testSelector={'SignupTwo.LastName'}
               error={formErrors.last_name}
               field="lastName"
               labelText="Last Name"
@@ -134,6 +139,7 @@ class SignupTwo extends Component {
 
             <Text style={SignupStyle.disclaimer}>* Note that you should be 18 years or older in order to use Celsius services.</Text>
 
+
             <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', height: 36 }}>
               <CelCheckbox
                 label="I agree to Terms of Use"
@@ -147,6 +153,16 @@ class SignupTwo extends Component {
                 </TouchableOpacity>
               </View>
             </View>
+
+            <Separator margin="20 0 20 0">PROMO CODE</Separator>
+
+            <CelInput
+              error={formErrors.promoCode}
+              field="promoCode"
+              labelText="Enter Code"
+              value={promoCode}
+            />
+
           </CelForm>
 
           <View style={{ marginTop: 40, paddingBottom: 100 }}>
