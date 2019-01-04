@@ -5,13 +5,16 @@ import {bindActionCreators} from "redux";
 import moment from 'moment';
 
 import * as appActions from "../../../redux/actions";
-// import BrwLoanDetailsStyle from "./BrwLoanDetails.styles";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import BrwLoanDetailsStyle from "./BrwLoanDetails.styles";
 import { COLORS, STYLES } from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
-import { BasicSection } from "../TransactionDetails/TransactionDetailsSections";
 import formatter from '../../../utils/formatter';
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
+import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import CelHeading from "../../atoms/CelHeading/CelHeading";
+import Separator from "../../atoms/Separator/Separator";
+import { LOAN_STATUSES } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -42,34 +45,106 @@ class BrwLoanDetails extends Component {
     }
   }
 
+  getTextColor = () => {
+    const { loan } = this.state;
+    let textColor;
+
+    switch (loan.status) {
+      case LOAN_STATUSES.pending:
+        textColor = COLORS.yellow;
+        break;
+      case LOAN_STATUSES.rejected:
+        textColor = COLORS.red;
+        break;
+      case LOAN_STATUSES.active:
+      case LOAN_STATUSES.approved:
+        textColor = COLORS.green;
+        break;
+      case LOAN_STATUSES.completed:
+      default:
+        textColor = COLORS.blue;
+    }
+
+    return textColor
+  }
+
+  capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
+
   render() {
     const { loan } = this.state;
+
+    const payOffDate = moment(loan.created_at).add(loan.termOfLoan, 'months').format('DD MMMM YYYY')
     return (
-      <SimpleLayout
-        animatedHeading={{ text: `${loan.coin.toUpperCase()} Loan Collateral`}}
-      >
+      <BasicLayout>
+        <MainHeader backButton />
+        <CelHeading text={`${loan.coin.toUpperCase()} Loan Collateral`} />
+
         <CelScreenContent padding={"0 0 0 0"}>
-          <View style={{ flexDirection: 'row' }}>
+          <View style={BrwLoanDetailsStyle.amountWrapper}>
             <View>
-              <Text>{ loan.amount_collateral_usd }</Text>
-              <Text>{ loan.amount_collateral_crypto }</Text>
+              <Text style={BrwLoanDetailsStyle.usdAmount}>{ formatter.usd(loan.amount_collateral_usd) }</Text>
+              <Text style={BrwLoanDetailsStyle.cryptoAmount}>{ formatter.crypto(loan.amount_collateral_crypto, loan.coin, {precision: 5}) }</Text>
             </View>
-            <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.blue, paddingLeft: 3, alignItems: 'center', justifyContent: 'center' }]}>
+            <View style={BrwLoanDetailsStyle.iconWrapper}>
               <Icon name='Lock' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
             </View>
           </View>
 
-          <View>
-            <BasicSection label="Loan taken on" value={ moment(loan.id).format('DD MMMM YYYY') } />
-            <BasicSection label="Status" value={ loan.status } />
-            <BasicSection label="Loan amount" value={ formatter.usd(loan.amount_collateral_usd * loan.ltv.percentage) } />
-            <BasicSection label="Pay off due date" value={ loan.id } />
-            <BasicSection label="Annual interest rate" value={ `${loan.ltv.interest * 100}%` } />
-            <BasicSection label="Monthly interest payment" value={ formatter.usd(loan.monthly_payment) } />
+          <View style={{ marginHorizontal: -20 }}>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Loan taken on:</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{ moment(loan.created_at).format('DD MMMM YYYY') }</Text>
+              </View>
+              <Separator />
+            </View>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Status:</Text>
+                <Text style={[BrwLoanDetailsStyle.info, { fontFamily: 'agile-bold', color: this.getTextColor()}]}>
+                  { this.capitalize(loan.status) }
+                </Text>
+              </View>
+              <Separator />
+            </View>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Loan amount:</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{ formatter.usd(loan.amount_collateral_usd * loan.ltv.percent) }</Text>
+              </View>
+              <Separator />
+            </View>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Pay off due date:</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{ payOffDate }</Text>
+              </View>
+              <Separator />
+            </View>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Annual interest rate:</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{ `${loan.ltv.interest * 100}%` }</Text>
+              </View>
+              <Separator />
+            </View>
+
+            <View style={BrwLoanDetailsStyle.infoDetail}>
+              <View style={BrwLoanDetailsStyle.row}>
+                <Text style={BrwLoanDetailsStyle.text}>Monthly interest payment:</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{ formatter.usd(loan.monthly_payment) }</Text>
+              </View>
+              <Separator />
+            </View>
           </View>
 
         </CelScreenContent>
-      </SimpleLayout>
+      </BasicLayout>
     );
   }
 }
