@@ -174,12 +174,10 @@ function registerUserTwitter(user) {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
       const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
 
       const res = await usersService.registerTwitter({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       // add token to expo storage
@@ -245,12 +243,10 @@ function registerUserFacebook(user) {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
       const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
 
       const res = await usersService.registerFacebook({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       // add token to expo storage
@@ -316,12 +312,10 @@ function registerUserGoogle(user) {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
       const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
 
       const res = await usersService.registerGoogle({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
@@ -382,14 +376,10 @@ function loginUserGoogleSuccess(data) {
 
 // TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
-  return async (dispatch, getState) => {
+  return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER));
     try {
-      const { promoCode } = getState().ui.formData;
-      const res = await usersService.update({
-        ...user,
-        promoCode,
-      });
+      const res = await usersService.update(user);
 
       dispatch(updateUserSuccess(res.data));
     } catch (err) {

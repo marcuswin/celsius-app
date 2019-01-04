@@ -45,7 +45,6 @@ function registerTwitter(twitterUser) {
     access_token: twitterUser.twitter_oauth_token,
     secret_token: twitterUser.twitter_oauth_secret,
     referral_link_id: twitterUser.referralLinkId || undefined,
-    promo_code: twitterUser.promoCode || undefined,
   });
 }
 
@@ -58,7 +57,6 @@ function registerFacebook(facebookUser) {
     facebook_id: facebookUser.facebook_id,
     access_token: facebookUser.access_token,
     referral_link_id: facebookUser.referralLinkId || undefined,
-    promo_code: facebookUser.promoCode || undefined,
   });
 }
 
@@ -72,15 +70,13 @@ function registerGoogle(googleUser) {
     profile_picture: googleUser.picture,
     access_token: googleUser.access_token,
     referral_link_id: googleUser.referralLinkId || undefined,
-    promo_code: googleUser.promoCode || undefined,
   });
 }
 
-function update({ firstName, lastName, promoCode }) {
+function update({ firstName, lastName}) {
   return axios.put(`${apiUrl}/users/update`, {
     first_name: firstName,
     last_name: lastName,
-    promo_code: promoCode,
   });
 }
 
