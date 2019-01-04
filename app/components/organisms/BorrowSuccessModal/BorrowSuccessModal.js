@@ -20,7 +20,7 @@ class BorrowSuccessModal extends Component {
     return (
       <CelModal name={MODALS.BORROW_SUCCESS_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../../../assets/images/hodl-bear.png') } style={{ width: 120, height: 120, borderRadius: 60 }} />
+          <Image source={require('../../../../assets/images/monkey-success3x.png') } style={{ width: 120, height: 120 }} />
         </View>
 
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Congrats!</Text>

@@ -266,4 +266,5 @@ export const CACHE_IMAGES = [
   require('../../../assets/images/diane-with-laptop3x.png'),
   require('../../../assets/images/squirrel-modal3x.png'),
   require('../../../assets/images/celsius-logo3x.png'),
+  require('../../../assets/images/monkey-success3x.png'),
 ];
