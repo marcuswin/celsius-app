@@ -8,6 +8,7 @@ const branchService = {
   create,
   get,
   createEvent,
+  getIndividualLink,
   // createBranchEvent,
 };
 
@@ -19,6 +20,10 @@ function create(branchLink) {
 
 function get(id) {
   return axios.get(`${apiUrl}/branch/${id}`);
+}
+
+function getIndividualLink() {
+  return axios.get(`${apiUrl}/branch/individual`);
 }
 
 // Branch endpoints

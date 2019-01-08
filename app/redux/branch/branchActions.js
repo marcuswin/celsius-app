@@ -1,17 +1,20 @@
 import ACTIONS from "../../config/constants/ACTIONS";
-import * as transfersActions from '../transfers/transfersActions';
-import * as uiActions from '../ui/uiActions';
-import branchService from '../../services/branch-service';
+import * as transfersActions from "../transfers/transfersActions";
+import * as uiActions from "../ui/uiActions";
+import branchService from "../../services/branch-service";
 import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { createIndividualLinkBUO } from "../../utils/branch-util";
+import logger from "../../utils/logger-util";
+import { showMessage } from "../ui/uiActions";
 
 export {
   registerBranchLink,
   saveBranchLink,
-  createBranchIndividualLink,
-}
+  getBranchIndividualLink,
+  createBranchIndividualLink
+};
 
 function saveBranchLink(rawLink) {
   return async (dispatch) => {
@@ -21,23 +24,42 @@ function saveBranchLink(rawLink) {
 
       dispatch({
         type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
-        branchLink: branchLink.data,
+        branchLink: branchLink.data
       });
-    } catch(err) {
+    } catch (err) {
       dispatch(apiError(API.SAVE_BRANCH_LINK, err));
     }
-  }
+  };
 }
 
 function createBranchIndividualLink() {
   return async (dispatch) => {
-    const branchLink = await createIndividualLinkBUO()
+    const branchLink = await createIndividualLinkBUO();
     dispatch({
       type: ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK,
-      link: branchLink.url,
-    })
-  }
+      link: branchLink.url
+    });
+  };
 }
+
+function getBranchIndividualLink() {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.GET_INDIVIDUAL_LINK));
+
+      const branchLinkRes = await branchService.getIndividualLink();
+
+      dispatch({
+        type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
+        callName: API.GET_INDIVIDUAL_LINK,
+        link: branchLinkRes.data.url
+      });
+    } catch (err) {
+      dispatch(showMessage("error", err.msg));
+      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
+    }
+  };
+};
 
 function registerBranchLink(deepLink) {
   return (dispatch, getState) => {

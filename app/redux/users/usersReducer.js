@@ -218,6 +218,8 @@ export default (state = initialState, action) => {
           location: action.location
         }
       };
+
+    case ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS:
     case ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK:
       return {
         ...state,
