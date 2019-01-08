@@ -7,7 +7,6 @@ import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { createIndividualLinkBUO } from "../../utils/branch-util";
 import logger from "../../utils/logger-util";
-import { showMessage } from "../ui/uiActions";
 
 export {
   registerBranchLink,
@@ -55,7 +54,7 @@ function getBranchIndividualLink() {
         link: branchLinkRes.data.url
       });
     } catch (err) {
-      dispatch(showMessage("error", err.msg));
+      dispatch(uiActions.showMessage("error", err.msg));
       dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
     }
   };
@@ -65,8 +64,8 @@ function registerBranchLink(deepLink) {
   return (dispatch, getState) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
-      link: deepLink,
-    })
+      link: deepLink
+    });
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
@@ -74,29 +73,39 @@ function registerBranchLink(deepLink) {
         break;
 
       case BRANCH_LINKS.COMPANY_REFERRAL:
+        logger.logme({ companyLink: deepLink });
+
+        // TODO(fj): endpoint for checking valid link ?
+
+        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
+
         if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
           if (!getState().users.user) {
+
             dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
           } else {
-            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
+            dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
           }
         } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
+          dispatch(uiActions.showMessage("warning", "Sorry, but this link has expired!"));
         }
         break;
 
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
+        logger.logme({ individualLink: deepLink });
         if (!getState().users.user) {
-          // TODO: should save all branch links
-          dispatch(saveBranchLink(deepLink));
+          // TODO(fj): check if individual link is valid on an enpoint //max number of users check|country|award change
+
+          // dispatch(saveBranchLink(deepLink));
+
           dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
         } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
+          dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
         }
         break;
 
-        default:
+      default:
 
     }
-  }
+  };
 }
