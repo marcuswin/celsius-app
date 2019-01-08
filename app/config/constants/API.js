@@ -63,6 +63,7 @@ export default {
   // branch calls
   CREATE_BRANCH_LINK: 'CREATE_BRANCH_LINK',
   SAVE_BRANCH_LINK: 'SAVE_BRANCH_LINK',
+  GET_INDIVIDUAL_LINK: 'GET_INDIVIDUAL_LINK',
 
   // camera roll calls
   GET_CAMERA_ROLL: 'GET_CAMERA_ROLL',
