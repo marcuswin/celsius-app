@@ -10,10 +10,10 @@ import TransactionsHistory from "../../molecules/TransactionHistory/Transactions
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
-import Loader from "../../atoms/Loader/Loader";
 import WalletTransactionsStyle from "./WalletTransactions.styles";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
+import { LoadingSection } from "../../organisms/LoadingSection/LoadingSection";
 
 
 @connect(
@@ -58,7 +58,11 @@ class WalletTransactions extends Component {
 
     if (isLoading) return (
       <WalletLayout>
-        <Loader/>
+        <LoadingSection height={100} />
+        <LoadingSection height={100} />
+        <LoadingSection height={100} />
+        <LoadingSection height={100} />
+        <LoadingSection height={100} />
       </WalletLayout>
     )
 
@@ -66,7 +70,7 @@ class WalletTransactions extends Component {
       <WalletLayout>
         <View>
           <Image source={require("../../../../assets/images/deerTransactionHistory.png")}
-                 style={WalletTransactionsStyle.image}/>
+            style={WalletTransactionsStyle.image} />
           <View>
             <Text style={[globalStyles.heading, WalletTransactionsStyle.header]}>There are no transactions recorded</Text>
             <Text style={[globalStyles.normalText, WalletTransactionsStyle.text]}>Your transaction history will appear here after your first
@@ -86,11 +90,11 @@ class WalletTransactions extends Component {
     return (
 
       <WalletLayout>
-          <TransactionsHistory
-            transactions={transactions}
-            navigateTo={actions.navigateTo}
-            currencyRatesShort={currencyRatesShort}
-          />
+        <TransactionsHistory
+          transactions={transactions}
+          navigateTo={actions.navigateTo}
+          currencyRatesShort={currencyRatesShort}
+        />
       </WalletLayout>
     );
   }

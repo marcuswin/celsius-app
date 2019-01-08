@@ -13,7 +13,6 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import testUtil from "../../../utils/test-util";
-import { FORBIDEN_COUNTRIES } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -23,6 +22,7 @@ import { FORBIDEN_COUNTRIES } from "../../../config/constants/common";
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    blacklistedStatesResidency: state.generalData.blacklistedStatesResidency,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -47,7 +47,7 @@ class AddressInformation extends Component {
   }
 
   validateForm = () => {
-    const { formData, actions } = this.props;
+    const { formData, actions, blacklistedStatesResidency } = this.props;
     const formErrors = {};
 
     if (!formData.street) formErrors.street = 'Street is required!';
@@ -55,7 +55,7 @@ class AddressInformation extends Component {
     if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
     if (!formData.country) formErrors.country = 'Country is required!';
     if (formData.country === "United States" && !formData.state) formErrors.state = 'State is required!';
-    if (FORBIDEN_COUNTRIES.indexOf(formData.state) !== -1 ) formErrors.state = "We can't work with people from this region!";
+    if (blacklistedStatesResidency.indexOf(formData.state) !== -1 ) formErrors.state = "We can't work with people from this region!";
 
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);

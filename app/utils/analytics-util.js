@@ -6,7 +6,6 @@ import { Segment, Constants } from "expo";
 import { mixpanelEvents, initMixpanelUser, logoutMixpanelUser } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';
-import { branchEvents } from "./branch-util";
 
 const { ENV } = Constants.manifest.extra;
 const analyticsEventsTest = {
@@ -79,7 +78,7 @@ const analyticsEventsUtil = {
     const { user } = store.getState().users;
     mixpanelEvents.pinSet();
     const metadata = { has_pin: true };
-    branchEvents.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
+    branchService.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
   },
   profileDetailsAdded: (profileDetails) => {
     const { user } = store.getState().users;

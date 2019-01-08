@@ -50,6 +50,7 @@ export function appInitStart() {
         await initAppData()
         await initAppUserSettings();
         await initBranch();
+        await dispatch(actions.getBlacklistedCountries());
         analyticsEvents.openApp();
         if (getState().users.user) {
           analyticsEvents.sessionStart();

@@ -1,12 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { List, Body, ListItem } from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
-import Loader from "../../atoms/Loader/Loader";
 import WalletLayout from "../../layouts/WalletLayout/WalletLayout";
 import CoinCard from "../../molecules/CoinCard/CoinCard";
 import Card from "../../atoms/Card/Card";
@@ -14,6 +13,8 @@ import WalletBalanceStyle from "./WalletBalance.styles";
 import formatter from "../../../utils/formatter";
 import { MODALS } from "../../../config/constants/common";
 import { analyticsEvents } from "../../../utils/analytics-util";
+import { LoadingSection } from '../../organisms/LoadingSection/LoadingSection';
+
 
 @connect(
   state => ({
@@ -70,22 +71,29 @@ class WalletBalance extends Component {
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
-    if (!walletCurrencies || !supportedCurrencies) return (
+    if (!walletCurrencies || !supportedCurrencies)
+    return (
       <WalletLayout>
-        <Loader/>
+
+        <View>
+          <LoadingSection height={150} />
+          <LoadingSection height={100} />
+          <LoadingSection height={100} />
+          <LoadingSection height={100} />
+        </View>
       </WalletLayout>
     );
 
     return (
       <WalletLayout ref={testUtil.generateTestHook(this, 'WalletBalance.screen')}>
-        {(!!totalInterestEarned) && <Card style={{marginTop: 15}}>
+        {(!!totalInterestEarned) && <Card style={{ marginTop: 15 }}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>
-            <Text style={WalletBalanceStyle.totalInterestValue}>{ formatter.usd(totalInterestEarned) }</Text>
+            <Text style={WalletBalanceStyle.totalInterestValue}>{formatter.usd(totalInterestEarned)}</Text>
             <Text style={WalletBalanceStyle.todayRatesText} onPress={this.openTodayRatesModal}>Today's rates</Text>
           </View>
         </Card>}
-        { walletCurrencies && (
+        {walletCurrencies && (
           <View>
             <List
               dataArray={walletCurrencies}
@@ -93,11 +101,11 @@ class WalletBalance extends Component {
               renderRow={(item) =>
                 <ListItem style={{ marginLeft: 0, marginRight: 0, paddingRight: 0, borderBottomWidth: 0 }}>
                   <Body>
-                  <TouchableOpacity ref={testUtil.generateTestHook(this, `WalletBalance.${item.currency.short}`)}  onPress={() => this.clickCard(item.currency.short, item.amount) }>
-                    <CoinCard type="wallet-card" {...item}
-                              supportedCurrencies={supportedCurrencies}
-                              lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}/>
-                  </TouchableOpacity>
+                    <TouchableOpacity ref={testUtil.generateTestHook(this, `WalletBalance.${item.currency.short}`)} onPress={() => this.clickCard(item.currency.short, item.amount)}>
+                      <CoinCard type="wallet-card" {...item}
+                        supportedCurrencies={supportedCurrencies}
+                        lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]} />
+                    </TouchableOpacity>
                   </Body>
                 </ListItem>}
             />

@@ -11,11 +11,23 @@ import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
-    referralLink: state.branch.allLinks.find(bl => bl.link_type === BRANCH_LINKS.COMPANY_REFERRAL),
+    referralLink: state.branch.registeredLink,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ReferralReceivedModal extends Component {
+  getSender(branchLink) {
+    let sender;
+    if (branchLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
+      sender = branchLink.from_name
+    }
+    if (branchLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
+      sender = branchLink.company_name
+    }
+
+    return sender;
+  }
+
   closeAndGoToSignup = () => {
     const { actions } = this.props;
 
@@ -34,6 +46,8 @@ class ReferralReceivedModal extends Component {
       text = 'To see it in your wallet, please sign up and verify your profile.';
     }
 
+    const sender = this.getSender(referralLink);
+
     return (
       <CelModal name={MODALS.REFERRAL_RECEIVED_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -43,7 +57,7 @@ class ReferralReceivedModal extends Component {
         <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome to Celsius!</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          You have been referred by { referralLink.company_name } and received
+          You have been referred by { sender } and received
           <Text style={[globalStyles.normalText, globalStyles.boldText]}> { referralLink.referred_award_amount } { referralLink.referred_award_coin } </Text>
           as a reward. { text }
         </Text>

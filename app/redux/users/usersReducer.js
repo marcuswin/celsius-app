@@ -216,6 +216,16 @@ export default (state = initialState, action) => {
         }
       };
 
+    case ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS:
+    case ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          individual_referral_link: action.link
+        }
+      }
+
 
     default:
       return state;

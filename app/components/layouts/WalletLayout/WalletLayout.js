@@ -1,7 +1,7 @@
 // TODO(fj): prbably new one in v3
 
 import React, { Component } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import get from "lodash/get";
@@ -51,36 +51,34 @@ class WalletLayout extends Component {
   render() {
     const { walletTotal, appSettings, activeScreen } = this.props;
     const total = get(walletTotal, "quotes.USD.total", 0);
+    const visibilityStyle = walletTotal ? { opacity: 1 } : { opacity: 0 };
 
     if (appSettings.declineAccess && activeScreen !== "WalletBalance") {
       return (
-        <BasicLayout bottomNavigation>
-          <MainHeader backButton={false}/>
+        <BasicLayout>
+          <MainHeader backButton={false} />
           <View style={WalletLayoutStyle.heading}>
-            {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{formatter.usd(total)}</Text>}
-            {!walletTotal && <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
-                                    style={WalletLayoutStyle.totalLoader}/>}
-            <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
+            <Text style={[WalletLayoutStyle.amountText, visibilityStyle]}>{formatter.usd(total)}</Text>
+            <Text style={[WalletLayoutStyle.subheadingText, visibilityStyle]}>WALLET BALANCE</Text>
           </View>
-          <TabNavigation tabs={this.tabs} />
-          <EmptyState purpose={"NycBlackout"}/>
+          <TabNavigation tabs={this.tabs} isLoaded={!!walletTotal} />
+          <EmptyState purpose={"NycBlackout"} />
         </BasicLayout>
       )
     }
 
     return (
-      <BasicLayout bottomNavigation>
-        <MainHeader backButton={false}/>
+      <BasicLayout>
+        <MainHeader backButton={false} />
         <View
           ref={testUtil.generateTestHook(this, `WalletLayout.home`)}
           style={WalletLayoutStyle.heading}
         >
-          {!!walletTotal && <Text style={WalletLayoutStyle.amountText}>{formatter.usd(total)}</Text>}
-          {!walletTotal && <Image source={require("../../../../assets/images/icons/white_spinner.gif")}
-                                  style={WalletLayoutStyle.totalLoader}/>}
-          <Text style={WalletLayoutStyle.subheadingText}>WALLET BALANCE</Text>
+          <Text style={[WalletLayoutStyle.amountText, visibilityStyle]}>{formatter.usd(total)}</Text>
+          <Text style={[WalletLayoutStyle.subheadingText, visibilityStyle]}>WALLET BALANCE</Text>
         </View>
-        <TabNavigation tabs={this.tabs} />
+
+        <TabNavigation tabs={this.tabs} isLoaded={!!walletTotal} />
 
         <CelScreenContent>
           {this.props.children}

@@ -7,14 +7,13 @@ import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
+import { MODALS } from "../../../config/constants/common";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
     user: state.users.user,
-    referralLink: state.branch.createdLinks.filter(bl => bl.linkType === BRANCH_LINKS.INDIVIDUAL_REFERRAL)[0],
   }),
   dispatch => ({
     actions: bindActionCreators(appActions, dispatch),
@@ -23,9 +22,10 @@ import CelButton from "../../atoms/CelButton/CelButton";
 )
 class ReferralModal extends Component {
   componentWillReceiveProps(nextProps) {
-    const { actions, referralLink, openedModal } = nextProps;
-    if (this.props.openedModal !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !referralLink) {
-      actions.createBranchReferralLink();
+    const { actions, user, openedModal } = nextProps;
+    if (this.props.openedModal !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !user.individual_referral_link) {
+      // TODO(fj): replace with getBranchIndividualLink
+      actions.createBranchIndividualLink();
     }
   }
 
@@ -35,11 +35,12 @@ class ReferralModal extends Component {
 
   // rendering methods
   render() {
-    const { referralLink, user } = this.props;
+    const { user } = this.props;
 
-    if (!referralLink) return null;
-    const { url } = referralLink;
-    const shareCopy = `${user.first_name} invites you to join Celsius. If you click on the link below, both of you will get 10 CEL! ${url}`
+    if (!user.individual_referral_link) return null;
+
+    const shareCopy = `${user.first_name} invites you to join Celsius. If you click on the link below, both of you will get 10 CEL! ${user.individual_referral_link}`
+
     return (
       <CelModal name={MODALS.REFERRAL_MODAL}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import RNPickerSelect from 'react-native-picker-select';
 import { bindActionCreators } from "redux";
@@ -195,7 +195,10 @@ class CelSelect extends Component {
       shadowColor: '#000000',
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 2},
-      shadowRadius: 2 } : null;
+      shadowRadius: 2,
+      borderColor: Platform.OS === "ios" ? null : "rgba(0,0,0,.2)",
+      borderWidth: Platform.OS === "ios" ? null : 1,
+    } : null;
 
     return (
       <View style={[flex ? { flex } : null, shadowStyle ]}>
