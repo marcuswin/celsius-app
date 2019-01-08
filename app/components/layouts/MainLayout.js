@@ -3,6 +3,16 @@
 // TODO(fj): create component for all modals
 // TODO(fj): maybe add scrolling logic here
 // TODO(fj): maybe add app initializing logic here
+// TODO(fj): probably going to get removed, but check what it does
+// TODO(fj): move offline and maintenance somewhere else
+// TODO(fj): create component for all modals
+// TODO(fj): maybe add scrolling logic here
+// TODO(fj): maybe add app initializing logic here
+// TODO(fj): move general modals into a separate component
+// TODO(fj): move To App.js
+
+// TODO(fj): basically moved to App.js but check
+
 
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
@@ -15,8 +25,6 @@ import * as appActions from "../../redux/actions";
 import BottomNavigation from "../organisms/BottomNavigation/BottomNavigation";
 import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
-import OfflineMode from "../atoms/OfflineMode/OfflineMode";
-import MaintenanceMode from "../atoms/OfflineMode/MaintenanceMode";
 import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
@@ -35,20 +43,23 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 
 class MainLayout extends Component {
   componentDidMount() {
+    // Moved to app.js
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
   }
 
   componentWillUnmount() {
+    // Moved to app.js
     this.backHandler.remove();
   }
 
+  // Not used. blocked bc of android?
   handleBackButton = () => {
     this.props.actions.navigateBack();
     return true;
   };
 
   render() {
-    const { hasBottomNavigation, connected, maintenance } = this.props;
+    const { hasBottomNavigation } = this.props;
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
@@ -56,27 +67,6 @@ class MainLayout extends Component {
     };
 
     // const displayBottomNavigation = this.shouldRenderBottomNavigation();
-
-    if (!connected) {
-      return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
-          <View style={{ flex: 1, }}>
-            <OfflineMode />
-          </View>
-        </ScrollView>
-      )
-    }
-
-    if (maintenance) {
-      return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
-          <View style={{ flex: 1, }}>
-            <MaintenanceMode />
-          </View>
-        </ScrollView>
-      );
-    }
-
     return (
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
         <View style={{ flex: 1 }}>

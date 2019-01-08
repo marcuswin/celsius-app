@@ -1,13 +1,15 @@
-// TODO(fj): export actions as object
+// TODO(fj): refactor try creating app-util and extracting stuff
+// TODO(fj): check handleAppStateChange
+// TODO(fj): check all actions that need to be here (loadingAssets...)
 
-import { Constants } from 'expo';
-import Branch from 'react-native-branch';
-import { NetInfo, Text, TextInput } from 'react-native';
-import twitter from 'react-native-simple-twitter';
-import uuid from 'uuid';
+import { Constants } from "expo";
+import Branch from "react-native-branch";
+import { NetInfo, Platform, Text, TextInput } from "react-native";
+import twitter from "react-native-simple-twitter";
+import uuid from "uuid";
 
-import store from '../store';
-import * as actions from '../actions';
+import store from "../store";
+import * as actions from "../actions";
 import {
   getSecureStoreKey,
   deleteSecureStoreKey,
@@ -16,25 +18,58 @@ import {
 import baseUrl from "../../services/api-url";
 import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from "../../config/constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";
-import Sentry from '../../utils/sentry-util';
+import Sentry from "../../utils/sentry-util";
 
 const { TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+
+let startOfBackgroundTimer;
+
+export function handleAppStateChange(nextAppState) {
+
+  const { user } = store.getState().users;
+  const askForPinAfter = 25000
+  if (nextAppState === 'active') {
+    analyticsEvents.openApp();
+    if (user) {
+      analyticsEvents.sessionStart();
+    }
+    if (Platform.OS === "ios") {
+      clearTimeout(this.timeout)
+    } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
+      startOfBackgroundTimer = null;
+      store.dispatch(actions.navigateTo("LoginPasscode"));
+    }
+  }
+
+  if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    analyticsEvents.sessionEnd();
+    if (Platform.OS === "ios") {
+      this.timeout = setTimeout(() => {
+        store.dispatch(actions.navigateTo("LoginPasscode"));
+        clearTimeout(this.timeout)
+      }, askForPinAfter)
+    } else {
+      startOfBackgroundTimer = new Date().getTime();
+    }
+  }
+  this.setState({ appState: nextAppState });
+}
 
 export function resetApp() {
   return async (dispatch) => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      dispatch({ type: ACTIONS.RESET_APP })
-      dispatch(actions.showMessage('warning', 'Reseting Celsius App!'))
+      dispatch({ type: ACTIONS.RESET_APP });
+      dispatch(actions.showMessage("warning", "Reseting Celsius App!"));
 
       await dispatch(appInitStart());
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 }
 
 export function appInitStart() {
@@ -47,7 +82,7 @@ export function appInitStart() {
         await initInternetConnectivityListener();
         await pollBackendStatus();
         await logoutOnEnvChange();
-        await initAppData()
+        await initAppData();
         await initAppUserSettings();
         await initBranch();
         await dispatch(actions.getBlacklistedCountries());
@@ -59,16 +94,17 @@ export function appInitStart() {
         dispatch({ type: ACTIONS.APP_INIT_DONE });
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 }
 
 // Polls Status of Backend services every 30s
 let backendPollInterval;
+
 async function pollBackendStatus() {
   if (backendPollInterval) clearInterval(backendPollInterval);
-  await store.dispatch(actions.getBackendStatus())
+  await store.dispatch(actions.getBackendStatus());
 
   backendPollInterval = setInterval(async () => {
     await store.dispatch(actions.getBackendStatus());
@@ -88,10 +124,10 @@ function disableAccessibilityFontScaling() {
 
 // For development use: Logout user when backend environment changes
 async function logoutOnEnvChange() {
-  const previousBaseUrl = await getSecureStoreKey('BASE_URL');
+  const previousBaseUrl = await getSecureStoreKey("BASE_URL");
   if (previousBaseUrl !== baseUrl) {
     await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    await setSecureStoreKey('BASE_URL', baseUrl);
+    await setSecureStoreKey("BASE_URL", baseUrl);
   }
 }
 
@@ -127,18 +163,18 @@ async function initAppData() {
     await store.dispatch(actions.logoutUser());
 
     // initialize MixPanel with new user
-    mixpanelAnalytics.identify(uuid())
+    mixpanelAnalytics.identify(uuid());
 
-    store.dispatch(actions.fireUserAction("enteredInitialPin"))
+    store.dispatch(actions.fireUserAction("enteredInitialPin"));
   }
 
   // get general data for te app
-  await store.dispatch(actions.getSupportedCurrencies())
+  await store.dispatch(actions.getSupportedCurrencies());
 }
 
 // Gets User App Settings from Secure Store
 async function initAppUserSettings() {
-  const appSettings = await getSecureStoreKey('APP_SETTINGS');
+  const appSettings = await getSecureStoreKey("APP_SETTINGS");
   if (appSettings) {
     store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
   }
@@ -176,6 +212,6 @@ async function initBranch() {
 }
 
 function handleDeepLink(deepLink) {
-  if (!deepLink || !deepLink['+clicked_branch_link']) return;
+  if (!deepLink || !deepLink["+clicked_branch_link"]) return;
   store.dispatch(actions.registerBranchLink(deepLink));
 }

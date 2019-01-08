@@ -1,8 +1,3 @@
-export default {
-  FONTS,
-  CACHE_IMAGES,
-}
-
 const FONTS = [
   {'Roboto': require('native-base/Fonts/Roboto.ttf')},
   {'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf')},
@@ -57,3 +52,8 @@ const CACHE_IMAGES = [
   require('../../assets/images/squirrel-modal3x.png'),
   require('../../assets/images/celsius-logo3x.png'),
 ];
+
+export default {
+  FONTS,
+  CACHE_IMAGES,
+}

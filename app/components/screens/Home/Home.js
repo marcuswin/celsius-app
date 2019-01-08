@@ -1,3 +1,12 @@
+// TODO(fj): start from scratch
+// TODO(fj) use old init app action
+// TODO(fj) move loading screen to component
+// TODO(fj) remove BottomNav logic
+// TODO(fj) create navigatoToHomeScreen action in navActions
+// TODO(fj) move app udate message firing to appInitStart action
+// TODO(fj) we should lose state, loader, bottomnav and side actions
+
+
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
