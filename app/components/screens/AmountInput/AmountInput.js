@@ -179,7 +179,7 @@ class AmountInput extends Component {
   }
 
   handleMainButtonClick = (purpose) => {
-    if (purpose === 'send') {
+    if (purpose === 'send' || purpose === 'confirm-send') {
       return this.chooseRecipient;
     }
 
