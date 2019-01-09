@@ -18,11 +18,15 @@ const OfflineModeStyle = StyleSheet.create({
   },
   header: {
     textAlign: 'center',
-    marginTop: 20
+    marginTop: 20,
+    marginRight: 20,
+    marginLeft: 20
   },
   explanation: {
     textAlign: 'center',
-    marginTop: 10
+    marginTop: 10,
+    marginRight: 20,
+    marginLeft: 20
   }
 });
 
