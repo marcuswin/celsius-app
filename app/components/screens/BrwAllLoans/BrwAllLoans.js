@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -15,8 +15,8 @@ import BRWAllLoansStyle from "./BrwAllLoans.styles";
 // import API from "../../../config/constants/API";
 
 const tabs = [
-  { screen: 'BRWEnterAmount', label: 'Apply for a loan'},
-  { screen: 'BRWAllLoans', label: 'Your loans'},
+  { screen: 'BRWEnterAmount', label: 'Apply for a loan' },
+  { screen: 'BRWAllLoans', label: 'Your loans' },
 ]
 
 
@@ -29,10 +29,17 @@ const tabs = [
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BrwAllLoans extends Component {
+
+  componentDidMount = () => {
+    const { actions } = this.props;
+    actions.getAllLoans();
+  }
+
   componentWillReceiveProps(nextProps) {
     const { activeScreen, actions } = this.props;
 
     if (nextProps.activeScreen === 'BRWAllLoans' && activeScreen !== 'BRWAllLoans') {
+      actions.getAllLoans();
       // TODO: fetch loans
     }
 
@@ -76,20 +83,20 @@ class BrwAllLoans extends Component {
         textColor = COLORS.blue;
     }
     return (
-      <TouchableOpacity key={loan.id} onPress={() => actions.navigateTo('BRWLoanDetails', { id: loan.id } )}>
+      <TouchableOpacity key={loan.id} onPress={() => actions.navigateTo('BRWLoanDetails', { id: loan.id })}>
         <View style={BRWAllLoansStyle.loanRowWrapper}>
-          <View style={{ width: '20%'}}>
+          <View style={{ width: '20%' }}>
             <View style={BRWAllLoansStyle.lockIconWrapper}>
               <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
             </View>
           </View>
-          <View style={{ width: '40%'}}>
+          <View style={{ width: '40%' }}>
             <Text style={BRWAllLoansStyle.usdAmount}>{formatter.usd(loan.amount_collateral_usd)}</Text>
             <Text style={BRWAllLoansStyle.coinAmount}>{formatter.crypto(loan.amount_collateral_crypto, loan.coin.toUpperCase(), { precision: 5 })}</Text>
           </View>
-          <View style={{ width: '40%'}}>
-            <Text style={[BRWAllLoansStyle.time, { alignSelf: 'flex-end' }]}>{ moment(loan.created_at).format('MMM DD, YYYY')}</Text>
-            <Text style={[BRWAllLoansStyle.status, { color: textColor }]}>{ this.capitalize(loan.status) }</Text>
+          <View style={{ width: '40%' }}>
+            <Text style={[BRWAllLoansStyle.time, { alignSelf: 'flex-end' }]}>{moment(loan.created_at).format('MMM DD, YYYY')}</Text>
+            <Text style={[BRWAllLoansStyle.status, { color: textColor }]}>{this.capitalize(loan.status)}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -106,7 +113,7 @@ class BrwAllLoans extends Component {
         animatedHeading={{ text: 'All loans' }}
         tabs={tabs}
       >
-        { allLoans.map(this.renderLoanRow) }
+        {allLoans.map(this.renderLoanRow)}
       </SimpleLayout>
     );
   }
