@@ -25,6 +25,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
 import { MODALS } from "../../../config/constants/common";
+import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
 
 
 const { revisionId } = Constants.manifest;
@@ -149,7 +150,7 @@ class ProfileScreen extends Component {
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      if (formData.state === "New York") {
+      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
         actions.updateUserAppSettings({ declineAccess: true });
         actions.navigateTo("Home")
       } else {
@@ -255,7 +256,7 @@ class ProfileScreen extends Component {
             size="small"
             margin="0 0 10 0"
             inverse
-            disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
+            disabled={appSettings.declineAccess}
           >
             Change avatar
           </CelButton>
@@ -264,7 +265,7 @@ class ProfileScreen extends Component {
             <CelButton
               onPress={() => actions.navigateTo('ProfileSettings')}
               color="blue"
-              disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
+              disabled={appSettings.declineAccess}
             >
               Settings
             </CelButton>
@@ -273,7 +274,7 @@ class ProfileScreen extends Component {
               color="blue"
               margin="10 0 10 0"
               inverse
-              disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
+              disabled={appSettings.declineAccess}
             >
               Refer your friends
             </CelButton>

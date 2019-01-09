@@ -16,6 +16,7 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import testUtil from "../../../utils/test-util";
 import { analyticsEvents } from "../../../utils/analytics-util";
+import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -26,6 +27,7 @@ import { analyticsEvents } from "../../../utils/analytics-util";
     formErrors: state.ui.formErrors,
     callsInProgress: state.api.callsInProgress,
     kycRealStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.realStatus : null,
+    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
@@ -100,7 +102,7 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileAddressInfo(updatedUser);
 
-      if (formData.state === "New York") {
+      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
         actions.updateUserAppSettings({ declineAccess: true });
       }
 
@@ -123,7 +125,7 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      if (formData.state === "New York") {
+      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
         actions.updateUserAppSettings({ declineAccess: true });
       } else {
         actions.updateUserAppSettings({ declineAccess: false });
@@ -212,6 +214,11 @@ class NycBlackoutModal extends Component {
       NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     }
+    if (user && kycRealStatus === "ico_passed") {
+      NycBlackoutTimestamp = moment.utc(new Date("1-31-2019"));
+      days = NycBlackoutTimestamp.diff(currentTimestamp, "days");
+    }
+
     let heading;
     let additionalText;
 
@@ -223,15 +230,20 @@ class NycBlackoutModal extends Component {
       return null;
     }
 
+    // TODO(ns): cekiraj da li je blocked_at najbolji nacin za proveru?
+
     if (user.blocked_at && days && days < 1) {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.";
       additionalText = "Please contact app@celsius.network.";
     } else if (user.blocked_at) {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.";
       additionalText = `Please withdraw your funds within ${days} day(s) or contact app@celsius.network for support.`;
+    } else if (kycRealStatus === "ico_passed" && days === 0) {
+      heading = "Hey there! Thanks so much for participating in our ICO.";
+      additionalText = `Please finish KYC process.`
     } else if (kycRealStatus === "ico_passed") {
       heading = "Hey there! Thanks so much for participating in our ICO.";
-      additionalText = "In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!"
+      additionalText = `In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. You have ${days} days to finish process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!`
     } else {
       heading = "Hey! We're missing some important info from you!";
       additionalText = "Please complete your profile.";
@@ -240,7 +252,7 @@ class NycBlackoutModal extends Component {
     return (
       <CelModal
         name={MODALS.NYC_BLACKOUT}
-        shouldRenderCloseButton={false}
+        shouldRenderCloseButton={!!kycRealStatus && days > 0}
       >
         {initial &&
         <View>
