@@ -7,6 +7,7 @@ const { BRANCH_KEY } = Constants.manifest.extra
 const branchService = {
   create,
   get,
+  getByUrl,
   createEvent,
   getIndividualLink,
   // createBranchEvent,
@@ -20,6 +21,10 @@ function create(branchLink) {
 
 function get(id) {
   return axios.get(`${apiUrl}/branch/${id}`);
+}
+
+function getByUrl(url) {
+  return axios.get(`${apiUrl}/branch?url=${url}`);
 }
 
 function getIndividualLink() {

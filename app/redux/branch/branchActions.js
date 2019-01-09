@@ -11,6 +11,7 @@ import logger from "../../utils/logger-util";
 export {
   registerBranchLink,
   saveBranchLink,
+  getBranchLink,
   getBranchIndividualLink,
   createBranchIndividualLink
 };
@@ -74,21 +75,7 @@ function registerBranchLink(deepLink) {
 
       case BRANCH_LINKS.COMPANY_REFERRAL:
         logger.logme({ companyLink: deepLink });
-
-        // TODO(fj): endpoint for checking valid link ?
-
-        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
-
-        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().users.user) {
-
-            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-          } else {
-            dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
-          }
-        } else {
-          dispatch(uiActions.showMessage("warning", "Sorry, but this link has expired!"));
-        }
+        registerCompanyLink(deepLink)
         break;
 
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
@@ -106,6 +93,53 @@ function registerBranchLink(deepLink) {
 
       default:
 
+    }
+  };
+}
+
+function registerCompanyLink(deepLink) {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users
+      if (user) return dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
+
+      dispatch(startApiCall(API.GET_LINK_BY_URL));
+
+      const linkRes = await branchService.getByUrl(deepLink.url);
+      const link = linkRes.data;
+
+      if (!link.is_valid) {
+        dispatch(apiError(API.GET_LINK_BY_URL));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this link is not valid anymore!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+          callName: API.GET_LINK_BY_URL,
+          branchLink: linkRes.data
+        });
+
+        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
+        dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err));
+    }
+  }
+}
+
+function getBranchLink(url) {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.GET_LINK_BY_URL));
+
+      const linkRes = await branchService.getByUrl(url);
+      dispatch({
+        type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+        callName: API.GET_LINK_BY_URL,
+        branchLink: linkRes.data
+      });
+    } catch (err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err));
     }
   };
 }
