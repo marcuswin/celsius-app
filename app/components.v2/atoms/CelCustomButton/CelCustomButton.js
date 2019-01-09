@@ -1,4 +1,4 @@
-// TODO(fj): analyze simiral components in the new design
+// TODO(fj): analyze simiral components.v2 in the new design
 
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View } from "react-native";

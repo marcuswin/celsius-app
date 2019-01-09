@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo';
 import { STYLES } from '../../../config/constants/style';
 import { FadeInView } from './FadeInView';
 import WalletBalanceStyle from '../../screens/WalletBalance/WalletBalance.styles';
-// You can then use your `FadeInView` in place of a `View` in your components:
+// You can then use your `FadeInView` in place of a `View` in your components.v2:
 export class LoadingSection extends React.Component {
     state = {
         backgroundColor: "#F1F1F1",

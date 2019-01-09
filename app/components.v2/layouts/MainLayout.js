@@ -9,9 +9,9 @@
 // TODO(fj): maybe add scrolling logic here
 // TODO(fj): maybe add app initializing logic here
 // TODO(fj): move general modals into a separate component
-// TODO(fj): move To App.js
+// TODO(fj): move To App.v2.js
 
-// TODO(fj): basically moved to App.js but check
+// TODO(fj): basically moved to App.v2.js but check
 
 
 import React, { Component } from 'react';

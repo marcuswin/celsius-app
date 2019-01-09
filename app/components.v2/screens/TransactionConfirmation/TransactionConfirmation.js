@@ -7,7 +7,7 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import TransactionConfirmationStyle from "./TransactionConfirmation.styles";
 import AmountInputStyle from "../AmountInput/AmountInput.styles";
-import CelButton from "../../../components/atoms/CelButton/CelButton";
+import CelButton from "../../atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";

@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, COLORS } from "../../../config/constants/style";
 import * as appActions from "../../../redux/actions";
 import AmountInputStyle from "./AmountInput.styles";
-import CelButton from "../../../components/atoms/CelButton/CelButton";
+import CelButton from "../../atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";

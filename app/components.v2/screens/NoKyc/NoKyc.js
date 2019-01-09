@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import NoKycStyle from "./NoKyc.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import CelButton from "../../../components/atoms/CelButton/CelButton";
+import CelButton from "../../atoms/CelButton/CelButton";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../../config/constants/common";
 import Icon from "../../atoms/Icon/Icon";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
