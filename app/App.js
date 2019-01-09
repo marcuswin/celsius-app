@@ -8,10 +8,10 @@
 import React, { Component } from 'react';
 // import { AppLoading } from 'expo';
 import { Provider } from 'react-redux';
-import { AppState, BackHandler, View } from "react-native";
+import { AppState, BackHandler } from "react-native";
 import {
   createReactNavigationReduxMiddleware,
-  // createReduxBoundAddListener
+  createReduxBoundAddListener
 } from "react-navigation-redux-helpers";
 
 import store from './redux/store';
@@ -21,8 +21,8 @@ import Sentry from './utils/sentry-util';
 // import TodayRatesModal from "./components.v2/organisms/TodayRatesModal/TodayRatesModal";
 // import NycBlackoutModal from "./components.v2/organisms/NycBlackoutModal/NycBlackoutModal";
 // import TransferReceivedModal from "./components.v2/organisms/TransferReceivedModal/TransferReceivedModal";
-// import Navigator from './config/Navigator';
-import FABMenu from "./components/organisms/FABMenu/FABMenu";
+import Navigator from './Navigator.v3';
+// import FABMenu from "./components/organisms/FABMenu/FABMenu";
 
 Sentry.init();
 
@@ -57,17 +57,15 @@ export default class App extends Component {
   }
 }
 
-// const navigation = {
-//   dispatch: store.dispatch,
-//   state: store.getState().nav,
-//   addListener: createReduxBoundAddListener("root"),
-// };
+const navigation = {
+  dispatch: store.dispatch,
+  state: store.getState().nav,
+  addListener: createReduxBoundAddListener("root"),
+};
 
 const CelsiusApplication = () => (
   <Provider store={store}>
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <FABMenu/>
-    </View>
+    <Navigator navigation={navigation}/>
   </Provider>
 )
 // const CelsiusApplication = (
