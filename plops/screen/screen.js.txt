@@ -1,32 +1,22 @@
 import React, {Component} from 'react';
-// import {} from 'react-native';
-// import {} from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import * as actions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
+import * as appActions from "../../../redux/actions";
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
 @connect(
   state => ({
-  // map state to props
+    // map state to props
   }),
-  dispatch => bindActionCreators(actions, dispatch),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class {{pascalCase name}} extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
+    this.state = {};
   }
 
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
   render() {
     return (
       <{{pascalCase name}} />

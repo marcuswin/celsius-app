@@ -1,4 +1,7 @@
 // TODO(fj): refactor try creating app-util and extracting stuff
+// TODO(fj): for app-util -> pollBEStatus, connectivityListener
+// TODO(fj): for dev-util -> logoutOnEnvChange,
+// TODO(fj): for branch-util -> initBranch
 // TODO(fj): check handleAppStateChange
 // TODO(fj): check all actions that need to be here (loadingAssets...)
 
