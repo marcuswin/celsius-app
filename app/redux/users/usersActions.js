@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import { Constants, Location, Permissions } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
@@ -38,6 +38,7 @@ export {
   enableTwoFactor,
   disableTwoFactor,
   getIcoUsersProfileInfo,
+  getUserLocation,
 }
 
 function getProfileInfo() {
@@ -524,5 +525,33 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
     personalInfo,
     callName: API.GET_ICO_USERS_INFO,
   }
+}
+
+function getUserLocation() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_LOCATION));
+
+    try {
+      await Permissions.askAsync(Permissions.LOCATION);
+      const loc = await Location.getCurrentPositionAsync({});
+      const l = {
+        latitude : loc.coords.latitude,
+        longitude: loc.coords.longitude,
+      };
+      const loca = await Location.reverseGeocodeAsync(l);
+      const [location] = loca;
+      dispatch(getUserLocationSuccess(location))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_LOCATION, err));
+    }
+  }
+}
+
+function getUserLocationSuccess(location) {
+    return {
+      type: ACTIONS.GET_USER_LOCATION_SUCCESS,
+      location,
+    }
 }
 

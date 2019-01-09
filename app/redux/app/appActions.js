@@ -48,6 +48,7 @@ export function appInitStart() {
         await initAppData()
         await initAppUserSettings();
         await initBranch();
+        dispatch(actions.getUserLocation());
         await dispatch(actions.getBlacklistedCountries());
         analyticsEvents.openApp();
         if (getState().users.user) {
