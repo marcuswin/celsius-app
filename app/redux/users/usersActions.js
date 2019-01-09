@@ -459,10 +459,10 @@ function enableTwoFactor(code) {
   }
 }
 
-function disableTwoFactor(pin) {
+function disableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.disableTwoFactor(pin);
+      const success = await TwoFactorService.disableTwoFactor(code);
 
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;

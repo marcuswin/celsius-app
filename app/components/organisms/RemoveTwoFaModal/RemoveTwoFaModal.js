@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, Text } from "react-native";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import CelModal from "../../atoms/CelModal/CelModal";
@@ -11,7 +11,7 @@ import RemoveTwoFaModalStyle from "./RemoveTwoFaModal.styles";
 
 @connect(
   () => ({
-  // map state to props
+    // map state to props
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -27,9 +27,9 @@ class RemoveTwoFaModal extends Component {
   }
 
   removeTwoFactor = async () => {
-    const {actions, pin} = this.props;
+    const { actions, twoFactorCode } = this.props;
 
-    await actions.disableTwoFactor(pin);
+    await actions.disableTwoFactor(twoFactorCode);
 
     actions.closeModal();
   };
@@ -44,11 +44,11 @@ class RemoveTwoFaModal extends Component {
           <Text style={[RemoveTwoFaModalStyle.heading]}>Remove Auth App</Text>
           <Text style={[RemoveTwoFaModalStyle.text]}>If you remove authentication application you will lose a second step of verification. Are you sure you want to proceed?</Text>
           <View>
-          <CelButton
-            onPress={this.removeTwoFactor}
-            margin={"20 0 20 0"}
-          >
-            Remove
+            <CelButton
+              onPress={this.removeTwoFactor}
+              margin={"20 0 20 0"}
+            >
+              Remove
           </CelButton>
             <CelButton
               onPress={() => this.props.actions.closeModal()}

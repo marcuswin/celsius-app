@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 // import {STYLES} from "../../config/constants/style";
 import CelCustomButtonStyle from "./CelCustomButton.styles";
 import Icon from "../Icon/Icon";
-import CelButton from "../CelButton/CelButton";
 import * as appActions from "../../../redux/actions";
 
 
@@ -47,7 +46,8 @@ class CelCustomButton extends Component {
     color: "white",
     size: "normal",
     margin: "0 0 0 0",
-    iconRight: true
+    iconRight: true,
+    disabled: false
   };
 
   constructor(props) {
@@ -60,7 +60,7 @@ class CelCustomButton extends Component {
   }
 
   handleChangeButton = () => {
-    const {onChangeButton} = this.props;
+    const { onChangeButton } = this.props;
 
     if (onChangeButton) {
       onChangeButton();
@@ -153,7 +153,7 @@ class CelCustomButton extends Component {
             <View style={CelCustomButtonStyle.activeWrapper}>
               <Text style={CelCustomButtonStyle.activated}>ACTIVE</Text>
               <TouchableOpacity onPress={onCancel}>
-                <Icon name='xIcon' height='15' width='15' viewBox="0 0 1000 1000" fill={"rgba(61,72,83,0.4)"}/>
+                <Icon name='xIcon' height='15' width='15' viewBox="0 0 1000 1000" fill={"rgba(61,72,83,0.4)"} />
               </TouchableOpacity>
             </View>
             : null}
@@ -169,19 +169,6 @@ class CelCustomButton extends Component {
             {explanation ? this.renderExplanation() : null}
           </View>
 
-          {activated ?
-            <View style={{marginRight: '10%'}}>
-              <CelButton onPress={this.handleChangeButton}
-                         size={"letter"}
-                         inverse
-                         transparent
-
-              >
-                Change auth app
-              </CelButton>
-            </View>
-            : null}
-
         </View>
 
       </View>
@@ -189,14 +176,22 @@ class CelCustomButton extends Component {
   }
 
   render() {
-    const { onPress, size } = this.props;
+    const { onPress, size, disabled } = this.props;
+    if (disabled) {
+      return (
+        <View>
+          {size === "large" && this.renderLarge()}
+          {size === "normal" && this.renderNormal()}
+        </View>
+      )
+    }
     return (
       <TouchableOpacity
         onPress={onPress}
       >
         {size === "large" && this.renderLarge()}
         {size === "normal" && this.renderNormal()}
-      </TouchableOpacity>
+      </TouchableOpacity >
     );
   }
 }
