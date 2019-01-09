@@ -39,3 +39,29 @@ export function isBlacklistedState(place) {
   return isPlace
 }
 
+export function isBlacklistedCountryLocation(place) {
+  const country = store.getState().generalData.blacklistedCountryLocation;
+  let isPlace;
+
+  if(country.indexOf(place) !== -1) {
+    isPlace = true
+  } else {
+    isPlace = false
+  }
+
+  return isPlace
+}
+
+export function isBlacklistedStateLocation(place) {
+  const state = store.getState().generalData.blacklistedStatesLocation;
+  let isPlace;
+
+  if(state.indexOf(place) !== -1) {
+    isPlace = true
+  } else {
+    isPlace = false
+  }
+
+  return isPlace
+}
+
