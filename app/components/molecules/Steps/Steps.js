@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import { COLORS, FONT_SCALE } from "../../../config/constants/style";
+import { BORROW_REDIRECT_STEPS_ROUTE_NAMES } from '../../../config/constants/common';
 
 @connect(
   () => ({}),
@@ -27,7 +28,7 @@ class Steps extends Component {
     outerCircleStyle = totalSteps === current && value === current ? styles.outerCircleFinal : outerCircleStyle;
     if (value < current) {
       return (
-        <TouchableOpacity onPress={() => actions.navigateTo(stepRedirectRouteNames[value])}>
+        <TouchableOpacity onPress={() => actions.navigateTo(BORROW_REDIRECT_STEPS_ROUTE_NAMES[value])}>
           <View style={outerCircleStyle} key={value}>
             <View style={wrapperStyle}>
               <Text style={styles.text}>{value}</Text>
@@ -56,13 +57,6 @@ class Steps extends Component {
       </View>
     );
   }
-}
-
-const stepRedirectRouteNames = {
-  "1": 'BRWEnterAmount',
-  "2": 'BRWChooseCollateral',
-  "3": 'BRWLoanOption',
-  "4": 'BRWTermOfLoan',
 }
 
 const circle = {

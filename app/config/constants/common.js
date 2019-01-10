@@ -230,3 +230,9 @@ export const LOAN_STATUSES = {
   completed: 'completed',
 }
 
+export const BORROW_REDIRECT_STEPS_ROUTE_NAMES = {
+  "1": 'BRWEnterAmount',
+  "2": 'BRWChooseCollateral',
+  "3": 'BRWLoanOption',
+  "4": 'BRWTermOfLoan',
+}
