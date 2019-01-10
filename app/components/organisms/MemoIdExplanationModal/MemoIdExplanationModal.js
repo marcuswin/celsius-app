@@ -19,18 +19,14 @@ import CelButton from "../../atoms/CelButton/CelButton";
 class MemoIdExplanationModal extends Component {
 
   render() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     return (
       <CelModal name={MODALS.MEMO_ID_MODAL}>
         <View style={MemoIdExplanationModalStyle.wrapper}>
-          <Text style={MemoIdExplanationModalStyle.title}>Destination Tag for XRP</Text>
-          <Text style={MemoIdExplanationModalStyle.explanation}>Ripple (XRP) transactions require destination tags as an additional infromation.</Text>
-          <Text style={MemoIdExplanationModalStyle.explanation}>The Destination Tag is used to determine what account a given transaction should be assigned and
-            credited
-            to.</Text>
-          <Text style={MemoIdExplanationModalStyle.explanation}>Quoting the tag along with the Ripple wallet address ensures that your transaction is uniquely
-            identified
-            and processed successfully.</Text>
+          <Text style={MemoIdExplanationModalStyle.title}>Stellar (XLM) Memo ID</Text>
+          <Text style={MemoIdExplanationModalStyle.explanation}>Memo ID is used to determine what account a given transaction should be assigned and credited to.</Text>
+          <Text style={MemoIdExplanationModalStyle.explanation}>Quoting the Memo ID with the Stellar wallet address ensures that your transaction is uniquely identified and processed successfully.</Text>
+          <Text style={MemoIdExplanationModalStyle.explanation}>Exchanges require Memo ID, so please make sure to provide it, or you risk losing your money.</Text>
           <CelButton
             onPress={() => actions.closeModal()}
           >
