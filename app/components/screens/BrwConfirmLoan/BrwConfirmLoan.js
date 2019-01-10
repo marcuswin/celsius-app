@@ -53,7 +53,6 @@ class BRWTermOfLoan extends Component {
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formatter.usd(monthlyPayment) }</Text>
               <Text style={[globalStyles.normalText, {textAlign: 'center'}]}>Monthly interest payment</Text>
-              <Text style={[globalStyles.heading, {textAlign: 'center'}]}>{ formatter.usd(monthlyPayment) }</Text>
             </View>
           </View>
         </Card>
