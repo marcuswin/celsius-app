@@ -30,7 +30,7 @@ const tabs = [
 )
 class BrwAllLoans extends Component {
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { actions } = this.props;
     actions.getAllLoans();
   }
@@ -105,6 +105,8 @@ class BrwAllLoans extends Component {
 
   render() {
     const { allLoans } = this.props
+
+    // console.log(allLoans)
 
     if (!allLoans.length) return this.renderLoader();
 

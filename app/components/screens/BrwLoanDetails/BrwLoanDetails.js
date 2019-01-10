@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View } from "react-native";
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import moment from 'moment';
 
 import * as appActions from "../../../redux/actions";
@@ -11,7 +11,7 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
-import {MainHeader} from "../../molecules/MainHeader/MainHeader";
+import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Separator from "../../atoms/Separator/Separator";
 import { LOAN_STATUSES } from "../../../config/constants/common";
@@ -73,7 +73,7 @@ class BrwLoanDetails extends Component {
   render() {
     const { loan } = this.state;
 
-    const payOffDate = moment(loan.created_at).add(loan.termOfLoan, 'months').format('DD MMMM YYYY')
+    const payOffDate = moment(loan.created_at).add(loan.term_of_loan, 'months').format('DD MMMM YYYY')
     return (
       <BasicLayout>
         <MainHeader backButton />
@@ -82,8 +82,8 @@ class BrwLoanDetails extends Component {
         <CelScreenContent padding={"0 0 0 0"}>
           <View style={BrwLoanDetailsStyle.amountWrapper}>
             <View>
-              <Text style={BrwLoanDetailsStyle.usdAmount}>{ formatter.usd(loan.amount_collateral_usd) }</Text>
-              <Text style={BrwLoanDetailsStyle.cryptoAmount}>{ formatter.crypto(loan.amount_collateral_crypto, loan.coin, {precision: 5}) }</Text>
+              <Text style={BrwLoanDetailsStyle.usdAmount}>{formatter.usd(loan.amount_collateral_usd)}</Text>
+              <Text style={BrwLoanDetailsStyle.cryptoAmount}>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 5 })}</Text>
             </View>
             <View style={BrwLoanDetailsStyle.iconWrapper}>
               <Icon name='Lock' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
@@ -95,7 +95,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Loan taken on:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{ moment(loan.created_at).format('DD MMMM YYYY') }</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{moment(loan.created_at).format('DD MMMM YYYY')}</Text>
               </View>
               <Separator />
             </View>
@@ -103,8 +103,8 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Status:</Text>
-                <Text style={[BrwLoanDetailsStyle.info, { fontFamily: 'agile-bold', color: this.getTextColor()}]}>
-                  { this.capitalize(loan.status) }
+                <Text style={[BrwLoanDetailsStyle.info, { fontFamily: 'agile-bold', color: this.getTextColor() }]}>
+                  {this.capitalize(loan.status)}
                 </Text>
               </View>
               <Separator />
@@ -113,7 +113,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Loan amount:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{ formatter.usd(loan.amount_collateral_usd * loan.ltv.percent) }</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{formatter.usd(loan.amount_collateral_usd * loan.ltv)}</Text>
               </View>
               <Separator />
             </View>
@@ -121,7 +121,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Pay off due date:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{ payOffDate }</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{payOffDate}</Text>
               </View>
               <Separator />
             </View>
@@ -129,7 +129,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Annual interest rate:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{ `${loan.ltv.interest * 100}%` }</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{`${loan.interest * 100}%`}</Text>
               </View>
               <Separator />
             </View>
@@ -137,7 +137,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Monthly interest payment:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{ formatter.usd(loan.monthly_payment) }</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{formatter.usd(loan.amount_collateral_usd * loan.interest / loan.term_of_loan)}</Text>
               </View>
               <Separator />
             </View>
