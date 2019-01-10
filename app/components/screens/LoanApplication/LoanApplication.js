@@ -93,7 +93,7 @@ class LoanApplication extends Component {
       ltv: LTVs[0]
     });
 
-    };
+  };
 
   applyForLoan = () => {
     const { actions, formData, currencyRatesShort } = this.props;
@@ -104,7 +104,7 @@ class LoanApplication extends Component {
       return actions.showMessage("error", "Please select an amount more than $10,000.00");
     }
 
-    if (Number(formData.amountCollateralUSD) < 10000) {
+    if (Number(formData.amountCollateralUSD) < 5000) {
       this.setState({
         amountError: true,
       });
@@ -188,10 +188,21 @@ class LoanApplication extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={{ text: "Borrow Dollars" }}
         >
-          <EmptyState purpose={"NycBlackout"}/>
+          <EmptyState purpose={"NycBlackout"} />
         </SimpleLayout>
       );
     }
+
+    // if () {
+    //   return (
+    //     <SimpleLayout
+    //       mainHeader={{ backButton: false }}
+    //       animatedHeading={{ text: "Borrow Dollars" }}
+    //     >
+    //       <EmptyState purpose={"NotEnoughForLoan"} />
+    //     </SimpleLayout>
+    //   );
+    // }
 
     if (!pickerItems || !formData.ltv) {
       return (
@@ -212,7 +223,7 @@ class LoanApplication extends Component {
 
     const ltvType = formData.coin === "xrp" || formData.coin === "ltc";
 
-    const ltvArray = LTVs.slice(0,1);
+    const ltvArray = LTVs.slice(0, 1);
 
     const loanAmountText = ltvType ? "Click on loan amount:" : "Choose one of these loan amounts:";
 

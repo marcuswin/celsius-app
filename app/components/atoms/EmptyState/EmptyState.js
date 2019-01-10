@@ -16,6 +16,10 @@ const EmptyState = (props) => {
       title = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time." : "Looks like we’re missing some information from you.";
       text = user.state === "New York" ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
       break;
+    case "NotEnoughForLoan":
+      title = "";
+      text = "Sorry, you don't have enough money deposited to take a loan. Minimum amount is $5000"
+      break;
     default:
       title = "From here you can pay your friends back with crypto";
       text = "To send your favorite coins to your favorite people, please verify your identity first."
@@ -24,11 +28,11 @@ const EmptyState = (props) => {
   return (
     <View style={EmptyStateStyle.wrapper}>
       <Image source={require("../../../../assets/images/deerTransactionHistory.png")}
-             style={[EmptyStateStyle.image, { resizeMode: "contain" }]}/>
+        style={[EmptyStateStyle.image, { resizeMode: "contain" }]} />
 
-      <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }]}>
-        {title}
-      </Text>
+        <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }]}>
+          {title}
+        </Text>
 
       <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 40, marginLeft: 40 }]}>
         {text}
