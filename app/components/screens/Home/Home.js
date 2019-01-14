@@ -63,6 +63,10 @@ class HomeScreen extends Component {
       return this.navigateToFirstScreen();
     }
   }
+    if (appInitialized === true && nextProps.appInitialized === false) {
+     return actions.appInitStart();
+    }
+  };
 
   componentDidUpdate() {
     const { actions } = this.props;
