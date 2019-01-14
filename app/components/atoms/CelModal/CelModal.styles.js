@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const CelModalStyle = StyleSheet.create({
   wrapper: {
@@ -12,9 +12,10 @@ const CelModalStyle = StyleSheet.create({
   backdrop: {
     position: 'absolute',
     top: 0,
+    bottom: 0,
     left: 0,
     width,
-    height,
+    // height: height,
     backgroundColor: 'rgba(61,72,83,0.85)',
   },
   modal: {
