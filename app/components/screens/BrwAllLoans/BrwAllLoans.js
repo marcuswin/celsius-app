@@ -12,6 +12,7 @@ import { COLORS, STYLES } from "../../../config/constants/style";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import BRWAllLoansStyle from "./BrwAllLoans.styles";
+import API from "../../../config/constants/API";
 // import API from "../../../config/constants/API";
 
 const tabs = [
@@ -36,15 +37,15 @@ class BrwAllLoans extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { activeScreen, actions } = this.props;
+    const { activeScreen, actions, lastCompletedCall } = this.props;
 
     if (nextProps.activeScreen === 'BRWAllLoans' && activeScreen !== 'BRWAllLoans') {
       actions.getAllLoans();
-      // TODO: fetch loans
     }
 
-    // TODO: go to enter amount if no loans and lastCompleted call is GET_ALL_LOANS
-    if (nextProps.activeScreen === 'BRWAllLoans' && !nextProps.allLoans.length) {
+    if (nextProps.activeScreen === 'BRWAllLoans' &&
+        nextProps.lastCompletedCall === API.GET_ALL_LOANS && lastCompletedCall !== API.GET_ALL_LOANS &&
+        (!nextProps.allLoans || !nextProps.allLoans.length)) {
       actions.navigateTo('BRWEnterAmount')
     }
   }
@@ -108,7 +109,7 @@ class BrwAllLoans extends Component {
 
     // console.log(allLoans)
 
-    if (!allLoans.length) return this.renderLoader();
+    if (!allLoans || !allLoans.length) return this.renderLoader();
 
     return (
       <SimpleLayout

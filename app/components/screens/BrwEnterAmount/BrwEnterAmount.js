@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View } from "react-native";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
@@ -16,7 +17,7 @@ import formatter from '../../../utils/formatter';
 import testUtil from "../../../utils/test-util";
 import EmptyState from '../../atoms/EmptyState/EmptyState';
 
-const MIN_LOAN_AMOUNT = 5000;
+const {MIN_LOAN_AMOUNT} = Constants.manifest.extra;
 
 @connect(
   state => ({
