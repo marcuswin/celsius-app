@@ -24,8 +24,7 @@ class ReferralModal extends Component {
   componentWillReceiveProps(nextProps) {
     const { actions, user, openedModal } = nextProps;
     if (this.props.openedModal !== MODALS.REFERRAL_MODAL && openedModal === MODALS.REFERRAL_MODAL && !user.individual_referral_link) {
-      // TODO(fj): replace with getBranchIndividualLink
-      actions.createBranchIndividualLink();
+      actions.getBranchIndividualLink();
     }
   }
 

@@ -6,7 +6,6 @@ import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { createIndividualLinkBUO } from "../../utils/branch-util";
-import logger from "../../utils/logger-util";
 
 export {
   registerBranchLink,
@@ -52,7 +51,7 @@ function getBranchIndividualLink() {
       dispatch({
         type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
         callName: API.GET_INDIVIDUAL_LINK,
-        link: branchLinkRes.data.url
+        link: branchLinkRes.data.branch_link.branch_link
       });
     } catch (err) {
       dispatch(uiActions.showMessage("error", err.msg));
@@ -62,7 +61,7 @@ function getBranchIndividualLink() {
 };
 
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink
@@ -70,34 +69,16 @@ function registerBranchLink(deepLink) {
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
-        break;
-
+        return dispatch(transfersActions.registerTransferLink(deepLink));
       case BRANCH_LINKS.COMPANY_REFERRAL:
-        logger.logme({ companyLink: deepLink });
-        registerCompanyLink(deepLink)
-        break;
-
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
-        logger.logme({ individualLink: deepLink });
-        if (!getState().users.user) {
-          // TODO(fj): check if individual link is valid on an enpoint //max number of users check|country|award change
-
-          // dispatch(saveBranchLink(deepLink));
-
-          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-        } else {
-          dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
-        }
-        break;
-
+        return dispatch(registerReferralLink(deepLink));
       default:
-
     }
   };
 }
 
-function registerCompanyLink(deepLink) {
+function registerReferralLink(deepLink) {
   return async (dispatch, getState) => {
     try {
       const { user } = getState().users
@@ -105,17 +86,17 @@ function registerCompanyLink(deepLink) {
 
       dispatch(startApiCall(API.GET_LINK_BY_URL));
 
-      const linkRes = await branchService.getByUrl(deepLink.url);
-      const link = linkRes.data;
+      const linkRes = await branchService.getByUrl(deepLink['~referring_link']);
+      const linkResData = linkRes.data;
 
-      if (!link.is_valid) {
+      if (!linkResData.valid) {
         dispatch(apiError(API.GET_LINK_BY_URL));
         dispatch(uiActions.showMessage("warning", "Sorry, but this link is not valid anymore!"));
       } else {
         dispatch({
           type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
           callName: API.GET_LINK_BY_URL,
-          branchLink: linkRes.data
+          branchLink: linkResData.branch_link
         });
 
         if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
@@ -123,6 +104,7 @@ function registerCompanyLink(deepLink) {
       }
     } catch(err) {
       dispatch(apiError(API.GET_LINK_BY_URL, err));
+      dispatch(uiActions.showMessage("error", err.msg));
     }
   }
 }
