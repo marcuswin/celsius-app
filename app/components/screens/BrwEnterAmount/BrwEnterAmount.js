@@ -17,7 +17,7 @@ import formatter from '../../../utils/formatter';
 import testUtil from "../../../utils/test-util";
 import EmptyState from '../../atoms/EmptyState/EmptyState';
 
-const {MIN_LOAN_AMOUNT} = Constants.manifest.extra;
+const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 
 @connect(
   state => ({
@@ -81,7 +81,7 @@ class BRWEnterAmount extends Component {
           <CelInput
             theme="white"
             type="number"
-            labelText="$10,000"
+            labelText={`${formatter.usd(MIN_LOAN_AMOUNT)}`}
             value={formData.amount ? formData.amount.toString() : ''}
             field="amount"
           />
