@@ -33,6 +33,7 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
+    referralLink: state.branch.registeredLink,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -98,7 +99,7 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex, referralLink } = this.props;
     const { firstName, lastName, email, promoCode } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
@@ -154,14 +155,19 @@ class SignupTwo extends Component {
               </View>
             </View>
 
-            <Separator margin="20 0 20 0">PROMO CODE</Separator>
+            {!referralLink &&
+              <View>
 
-            <CelInput
-              error={formErrors.promoCode}
-              field="promoCode"
-              labelText="Enter Code"
-              value={promoCode}
-            />
+                <Separator margin="20 0 20 0">PROMO CODE</Separator>
+
+                <CelInput
+                  error={formErrors.promoCode}
+                  field="promoCode"
+                  labelText="Enter Code"
+                  value={promoCode}
+                />
+              </View>
+            }
 
           </CelForm>
 
