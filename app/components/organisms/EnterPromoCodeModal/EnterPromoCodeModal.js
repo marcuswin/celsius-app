@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 // import {STYLES} from "../../config/constants/style";
@@ -13,6 +13,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelInput from "../../atoms/CelInput/CelInput";
 import API from "../../../config/constants/API";
+import apiUtil from '../../../utils/api-util';
 
 @connect(
   state => ({
@@ -20,31 +21,34 @@ import API from "../../../config/constants/API";
     formErrors: state.ui.formErrors,
     promoCodes: state.users.promoCodes,
     kycStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
+    callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
 class EnterPromoCodeModal extends Component {
+
   renderFormModal() {
-    const { formData, formErrors, actions } = this.props;
+    const { formData, formErrors, actions, callsInProgress } = this.props;
+    const isSubmitingPromoCode = apiUtil.areCallsInProgress([API.SUBMIT_PROMO_CODE], callsInProgress);
 
     return (
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Image
-            source={require('../../../../assets/images/hodl-bear.png') }
+            source={require('../../../../assets/images/hodl-bear.png')}
             style={{ width: 120, height: 120 }}
             resizeMode={"contain"}
           />
         </View>
 
-        <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Enter a promo code</Text>
+        <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 15 }]}>Enter a promo code</Text>
 
         <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
           Receive your prize with the right promo code:
         </Text>
 
-        <CelForm margin="10 0 10 0">
+        <CelForm margin="25 0 15 0">
           <CelInput
             shadow
             theme="white"
@@ -57,7 +61,9 @@ class EnterPromoCodeModal extends Component {
 
         <CelButton
           onPress={() => actions.submitPromoCode()}
-          margin="30 0 0 0"
+          margin="0 0 0 0"
+          loading={isSubmitingPromoCode}
+          disabled={isSubmitingPromoCode}
         >
           Confirm
         </CelButton>
@@ -75,7 +81,7 @@ class EnterPromoCodeModal extends Component {
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Image
-            source={require('../../../../assets/images/hodl-bear.png') }
+            source={require('../../../../assets/images/hodl-bear.png')}
             style={{ width: 120, height: 120 }}
             resizeMode={"contain"}
           />
@@ -88,7 +94,10 @@ class EnterPromoCodeModal extends Component {
         </Text>
 
         <CelButton
-          onPress={() => actions.navigateTo('Home')}
+          onPress={() => {
+            actions.navigateTo('Home');
+            actions.closeModal();
+          }}
           margin="30 0 0 0"
         >
           Go to wallet
@@ -107,7 +116,7 @@ class EnterPromoCodeModal extends Component {
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Image
-            source={require('../../../../assets/images/hodl-bear.png') }
+            source={require('../../../../assets/images/hodl-bear.png')}
             style={{ width: 120, height: 120 }}
             resizeMode={"contain"}
           />
@@ -120,7 +129,10 @@ class EnterPromoCodeModal extends Component {
         </Text>
 
         <CelButton
-          onPress={() => actions.navigateTo('ProfileDetails')}
+          onPress={() => {
+            actions.navigateTo('ProfileDetails')
+            actions.closeModal()
+          }}
           margin="30 0 0 0"
         >
           Verify profile
@@ -132,8 +144,6 @@ class EnterPromoCodeModal extends Component {
   }
   render() {
     const { kycStatus, lastCompletedCall } = this.props;
-
-    console.log({ kycStatus });
 
     if (lastCompletedCall === API.SUBMIT_PROMO_CODE && kycStatus === KYC_STATUSES.passed) return this.renderVerifiedSuccess()
     if (lastCompletedCall === API.SUBMIT_PROMO_CODE && kycStatus !== KYC_STATUSES.passed) return this.renderUnverifiedSuccess()

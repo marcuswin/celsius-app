@@ -22,7 +22,8 @@ const usersService = {
   updateProfileTaxpayerInfo,
   setProfileImage,
   addExpoPushToken,
-  getIcoPersonalInfo
+  getIcoPersonalInfo,
+  submitPromoCode
 };
 
 function register(user) {
@@ -173,6 +174,10 @@ async function addExpoPushToken(token) {
 
 function getIcoPersonalInfo() {
   return axios.get(`${apiUrl}/me/kyc/ico_data`)
+}
+
+function submitPromoCode(promoCode) {
+  return axios.post(`${apiUrl}/me/promo_code`, { promo_code: promoCode });
 }
 
 export default usersService;

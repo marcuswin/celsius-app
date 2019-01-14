@@ -533,22 +533,31 @@ function submitPromoCode() {
       dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
       const { formData } = getState().ui
 
-      dispatch({
-        type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
-        callName: API.SUBMIT_PROMO_CODE,
-        code: {
+      // const res = await usersService.submitPromoCode(formData.promoCode);
+      const res = {
+        data: {
           slug: formData.promoCode,
           amount: 15,
-          coin: 'CEL',
+          coin: 'CEL'
         }
-      })
-      // dispatch(setFormErrors({
-      //   promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
-      // }))
-    } catch(err) {
+      }
+
+      dispatch(submitPromoCodeSuccess(res.data));
+    } catch (err) {
       console.log(err);
+      dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
+      dispatch(setFormErrors({
+        promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
+      }))
     }
 
   }
 }
 
+function submitPromoCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+    callName: API.SUBMIT_PROMO_CODE,
+    code: promoCodeInfo
+  }
+}
