@@ -58,13 +58,12 @@ class HomeScreen extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    const { appInitialized } = this.props
+    const { appInitialized, actions } = this.props
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
       return this.navigateToFirstScreen();
     }
-  }
     if (appInitialized === true && nextProps.appInitialized === false) {
-     return actions.appInitStart();
+      return actions.appInitStart();
     }
   };
 
