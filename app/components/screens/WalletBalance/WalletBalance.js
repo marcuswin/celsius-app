@@ -19,6 +19,7 @@ import { LoadingSection } from '../../organisms/LoadingSection/LoadingSection';
 @connect(
   state => ({
     interest: state.wallet.interest,
+    collateral: state.wallet.collateral,
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
@@ -64,7 +65,7 @@ class WalletBalance extends Component {
   }
   // rendering methods
   render() {
-    const { walletCurrencies, supportedCurrencies, interest } = this.props;
+    const { walletCurrencies, supportedCurrencies, interest, collateral } = this.props;
 
     const estimatedInterestPerCoin = interest.estimate || {};
     const totalInterestPerCoin = interest.total || {};
@@ -72,17 +73,17 @@ class WalletBalance extends Component {
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
     if (!walletCurrencies || !supportedCurrencies)
-    return (
-      <WalletLayout>
+      return (
+        <WalletLayout>
 
-        <View>
-          <LoadingSection height={150} />
-          <LoadingSection height={100} />
-          <LoadingSection height={100} />
-          <LoadingSection height={100} />
-        </View>
-      </WalletLayout>
-    );
+          <View>
+            <LoadingSection height={150} />
+            <LoadingSection height={100} />
+            <LoadingSection height={100} />
+            <LoadingSection height={100} />
+          </View>
+        </WalletLayout>
+      );
 
     return (
       <WalletLayout ref={testUtil.generateTestHook(this, 'WalletBalance.screen')}>
@@ -104,7 +105,9 @@ class WalletBalance extends Component {
                     <TouchableOpacity ref={testUtil.generateTestHook(this, `WalletBalance.${item.currency.short}`)} onPress={() => this.clickCard(item.currency.short, item.amount)}>
                       <CoinCard type="wallet-card" {...item}
                         supportedCurrencies={supportedCurrencies}
-                        lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]} />
+                        lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}
+                        lockedCollateral={collateral || {}}
+                      />
                     </TouchableOpacity>
                   </Body>
                 </ListItem>}
