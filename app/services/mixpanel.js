@@ -17,7 +17,7 @@ export const mixpanelEvents = {
   createAlias: (userId) => mixpanelAnalytics.track('$create_alias', { 'alias': userId, email: userEmail }),
   // Signup Events
   signupButton: () => mixpanelAnalytics.track('Pressed sign up button', { email: userEmail }),
-  startedSignup: (method) => mixpanelAnalytics.track('Started sign up', { method, email: userEmail }),
+  startedSignup,
   finishedSignup,
   // Tracker Events
   addCoinButton: () => mixpanelAnalytics.track('Pressed add another coin button on Tracker', { email: userEmail }),
@@ -163,6 +163,10 @@ async function pinSet() {
   await mixpanelAnalytics.people_set({
     "has_pin": true
   })
+}
+
+async function startedSignup(method, user) {
+  mixpanelAnalytics.track('Started sign up', { method, email: user.email });
 }
 
 async function finishedSignup(method, referralLinkId, user) {

@@ -29,8 +29,8 @@ export const analyticsEvents = {
     const metadata = { btn, screen }
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: (user ? user.id : 'no-user'), metadata })
   },
-  startedSignup: (method) => {
-    mixpanelEvents.startedSignup(method);
+  startedSignup: (method, user) => {
+    mixpanelEvents.startedSignup(method, user);
     const metadata = { method }
     branchService.createEvent({ event: 'STARTED_SIGNUP', identity: 'no-user', metadata })
   },
