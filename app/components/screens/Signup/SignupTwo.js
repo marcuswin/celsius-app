@@ -21,7 +21,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Separator from "../../atoms/Separator/Separator";
 
-const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER]
+const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER];
 
 @connect(
   state => ({
@@ -66,43 +66,12 @@ class SignupTwo extends Component {
     }
   }
 
-  // event hanlders
-  onSubmit = () => {
-    const { formData, user, actions } = this.props;
-
-    if (formData.promoCode) {
-      return actions.showMessage('error', 'Invalid promo code')
-    }
-
-    const data = { ...formData };
-
-    // register twitter user
-    if (user && user.twitter_id) {
-      return actions.registerUserTwitter({ ...user, ...data });
-    }
-
-    // register facebook user
-    if (user && user.facebook_id) {
-      return actions.registerUserFacebook({ ...user, ...data });
-    }
-
-    // register google user
-    if (user && user.google_id) {
-      return actions.registerUserGoogle({ ...user, ...data });
-    }
-
-    // update user
-    if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
-      return actions.updateUser(data);
-    }
-  }
-
   // rendering methods
   render() {
     const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex, referralLink } = this.props;
     const { firstName, lastName, email, promoCode } = formData;
 
-    const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([...pageCalls, API.GET_LINK_BY_SLUG], callsInProgress);
 
     return (
       <SimpleLayout
@@ -175,7 +144,7 @@ class SignupTwo extends Component {
             <CelButton
               ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
-              onPress={this.onSubmit}
+              onPress={actions.finishSignupTwo}
               loading={isLoading}
               white
               iconRight="IconArrowRight"

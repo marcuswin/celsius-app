@@ -13,6 +13,7 @@ import borrowersService from '../../services/borrowers-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
+import branchService from "../../services/branch-service";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -33,6 +34,7 @@ export {
   resetPassword,
   logoutUser,
   expireSession,
+  finishSignupTwo,
 }
 
 
@@ -484,6 +486,59 @@ function expireSession() {
       });
     } catch (err) {
       logger.log(err);
+    }
+  }
+}
+
+function finishSignupTwo() {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users;
+      const { formData } = getState().ui;
+
+      // check promo code
+      if (formData.promoCode) {
+        dispatch(startApiCall(API.GET_LINK_BY_SLUG))
+
+        const linkRes = await branchService.getBySlug(formData.promoCode);
+        const linkResData = linkRes.data;
+
+        if (!linkResData.valid) {
+          dispatch(apiError(API.GET_LINK_BY_SLUG));
+          dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
+          return;
+        }
+
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_SLUG_SUCCESS,
+          callName: API.GET_LINK_BY_SLUG,
+          branchLink: linkResData.branch_link
+        });
+      }
+
+      const data = { ...formData };
+
+      // register twitter user
+      if (user && user.twitter_id) {
+        return dispatch(registerUserTwitter({ ...user, ...data }));
+      }
+
+      // register facebook user
+      if (user && user.facebook_id) {
+        return dispatch(registerUserFacebook({ ...user, ...data }));
+      }
+
+      // register google user
+      if (user && user.google_id) {
+        return dispatch(registerUserGoogle({ ...user, ...data }));
+      }
+
+      // update user
+      if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
+        return dispatch(updateUser(data));
+      }
+    } catch(err) {
+      console.log(err)
     }
   }
 }
