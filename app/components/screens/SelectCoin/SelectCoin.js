@@ -9,7 +9,7 @@ import SelectCoinStyle from "./SelectCoin.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import formatter from "../../../utils/formatter";
 import testUtil from "../../../utils/test-util";
-import { KYC_STATUSES } from "../../../config/constants/common";
+import { KYC_STATUSES, CEL_PAY_COINS } from "../../../config/constants/common";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
@@ -49,12 +49,13 @@ class SelectCoin extends Component {
   // rendering methods
   renderCoin = (walletCurrency) => {
     const { currency } = walletCurrency;
+    if (!CEL_PAY_COINS.includes(currency.short)) return;
 
     const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
     return (
       <View key={currency.id} style={wrapperStyle}>
         <TouchableOpacity ref={testUtil.generateTestHook(this, `SelectCoin.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
-          <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin}/>
+          <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin} />
         </TouchableOpacity>
         <Text style={SelectCoinStyle.coinName}>{this.capitalize(currency.name)}</Text>
         <Text
@@ -74,7 +75,7 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <EmptyState/>
+          <EmptyState />
         </SimpleLayout>
       )
     }
@@ -85,7 +86,7 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <EmptyState purpose={"NycBlackout"}/>
+          <EmptyState purpose={"NycBlackout"} />
         </SimpleLayout>
       )
     }
@@ -96,7 +97,7 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <Loader/>
+          <Loader />
         </SimpleLayout>
       );
     }
