@@ -12,7 +12,6 @@ import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferRe
 import OfflineMode from "../atoms/OfflineMode/OfflineMode";
 import MaintenanceMode from "../atoms/OfflineMode/MaintenanceMode";
 import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
-import { isBlacklistedCountryLocation, isBlacklistedStateLocation } from "../../utils/user-util";
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -43,7 +42,7 @@ class MainLayout extends Component {
   };
 
   render() {
-    const { hasBottomNavigation, connected, maintenance, user } = this.props;
+    const { hasBottomNavigation, connected, maintenance, } = this.props;
 
     const navigation = {
       dispatch: this.props.dispatch,
@@ -52,16 +51,6 @@ class MainLayout extends Component {
     };
 
     // const displayBottomNavigation = this.shouldRenderBottomNavigation();
-
-    if (user && user.location && (isBlacklistedCountryLocation(user.location.country) || isBlacklistedStateLocation(user.location.region)) ) {
-      return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
-          <View style={{ flex: 1, }}>
-            <OfflineMode purpose={"Location"}/>
-          </View>
-        </ScrollView>
-      )
-    }
 
     if (!connected) {
       return (
