@@ -7,7 +7,11 @@ import { Constants } from "expo";
 import * as appActions from "../../../redux/actions";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import store from "../../../redux/store";
-import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
+import {
+  isBlacklistedCountryLocation,
+  isBlacklistedStateLocation,
+  shouldRenderInitialIdVerification
+} from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import {STYLES} from "../../../config/constants/style";
@@ -53,7 +57,6 @@ class HomeScreen extends Component {
   }
 
   componentDidMount = async() => {
-
     interval = setInterval(() => {
       this.setState(state => ({
         progress: state.progress + 0.2,
@@ -62,7 +65,7 @@ class HomeScreen extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { appInitialized, actions } = this.props
+    const { appInitialized, actions } = this.props;
 
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
      return this.navigateToFirstScreen();
@@ -92,12 +95,14 @@ class HomeScreen extends Component {
   };
 
   navigateToFirstScreen = () => {
-    const { user, userActions, actions } = this.props;
+    const { user, userActions, actions, location } = this.props;
 
     if (!user) return actions.navigateTo('Welcome');
 
     if (!user.first_name || !user.last_name) return actions.navigateTo('SignupTwo');
     if (!user.has_pin) return actions.navigateTo('CreatePasscode');
+
+    if (location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
 
     if (shouldRenderInitialIdVerification(userActions)) {
       return actions.navigateTo('VerifyIdentity', {
