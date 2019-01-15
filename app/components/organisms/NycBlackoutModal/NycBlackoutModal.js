@@ -215,7 +215,8 @@ class NycBlackoutModal extends Component {
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     }
     if (user && kycRealStatus === "ico_passed") {
-      NycBlackoutTimestamp = moment.utc(new Date("1-31-2019"));
+      // TODO (ns): see if there is fixed date for blackout or 14 days from moment of blocking
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days");
     }
 
