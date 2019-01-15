@@ -10,7 +10,6 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 import Separator from "../../atoms/Separator/Separator";
 import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
-import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
 
 
 @connect(
@@ -81,7 +80,7 @@ class Settings extends Component {
 
        <CelCustomButton
          onPress={() => actions.navigateTo("VerifyIdentity", {
-           verificationType: VERIFY_IDENTITY_TYPES.PIN,
+          //  verificationType: VERIFY_IDENTITY_TYPES.PIN,
            verificationCallback: this.verificationCallback,
          })}
          iconRight={"IconChevronRight"}

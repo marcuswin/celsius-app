@@ -10,7 +10,7 @@ import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "..
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
 import RemoveTwoFaModal from "../../organisms/RemoveTwoFaModal/RemoveTwoFaModal";
-import { MODALS } from "../../../config/constants/common";
+import { MODALS, VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
 
 
 @connect(
@@ -40,14 +40,28 @@ class TwoFaWelcome extends Component {
     this.setState({ modalVisible: visible });
   }
 
+  verificationCallback = (pin) => {
+    const { actions } = this.props;
+
+    actions.navigateTo('TwoFaAuthAppConfirmation', {
+      pin
+    });
+  };
+
   enableTwoFactor = () => {
     const { actions, navigation } = this.props;
 
     const pin = navigation.getParam("pin");
-
-    actions.navigateTo("TwoFaAuthAppConfirmation", {
-      pin,
-    });
+    if (pin.length !== 4) {
+      actions.navigateTo("VerifyIdentity", {
+        verificationType: VERIFY_IDENTITY_TYPES.PIN,
+        verificationCallback: this.verificationCallback,
+      })
+    } else {
+      actions.navigateTo("TwoFaAuthAppConfirmation", {
+        pin,
+      });
+    }
   };
 
   changeAuthApp = async () => {
@@ -99,6 +113,7 @@ class TwoFaWelcome extends Component {
         <View style={TwoFaWelcomeStyle.authenticator}>
           <CelCustomButton
             onPress={this.enableTwoFactor}
+            disabled={!!user.two_factor_enabled}
             size={"large"}
             iconLeft={"LockIcon"}
             iconLeftColor={"white"}
@@ -116,7 +131,7 @@ class TwoFaWelcome extends Component {
           />
         </View>
 
-        <RemoveTwoFaModal pin={pin} />
+        <RemoveTwoFaModal twoFactorCode={pin} />
 
       </SimpleLayout>
     );

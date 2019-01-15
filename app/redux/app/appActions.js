@@ -48,12 +48,10 @@ export function appInitStart() {
         await initAppData()
         await initAppUserSettings();
         await initBranch();
-        await dispatch(actions.getBlacklistedCountries());
         analyticsEvents.openApp();
         if (getState().users.user) {
           analyticsEvents.sessionStart();
         }
-
         dispatch({ type: ACTIONS.APP_INIT_DONE });
       }
     } catch (e) {
@@ -103,10 +101,8 @@ async function initAppData() {
 
   // get expired session
   const { expiredSession } = store.getState().users;
-
   if (token && !expiredSession) {
     registerForPushNotificationsAsync();
-
     // get all KYC document types and claimed transfers for non-verified users
     const { user } = store.getState().users;
     if (user) {
@@ -131,7 +127,9 @@ async function initAppData() {
   }
 
   // get general data for te app
-  await store.dispatch(actions.getSupportedCurrencies())
+  await store.dispatch(actions.getSupportedCurrencies());
+  await store.dispatch(actions.getUserLocation());
+  await store.dispatch(actions.getBlacklistedCountries());
 }
 
 // Gets User App Settings from Secure Store

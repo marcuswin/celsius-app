@@ -1,7 +1,7 @@
 import ACTIONS from "../../config/constants/ACTIONS";
-import * as transfersActions from '../transfers/transfersActions';
-import * as uiActions from '../ui/uiActions';
-import branchService from '../../services/branch-service';
+import * as transfersActions from "../transfers/transfersActions";
+import * as uiActions from "../ui/uiActions";
+import branchService from "../../services/branch-service";
 import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -10,8 +10,10 @@ import { createIndividualLinkBUO } from "../../utils/branch-util";
 export {
   registerBranchLink,
   saveBranchLink,
-  createBranchIndividualLink,
-}
+  getBranchLink,
+  getBranchIndividualLink,
+  createBranchIndividualLink
+};
 
 function saveBranchLink(rawLink) {
   return async (dispatch) => {
@@ -21,60 +23,105 @@ function saveBranchLink(rawLink) {
 
       dispatch({
         type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
-        branchLink: branchLink.data,
+        branchLink: branchLink.data
       });
-    } catch(err) {
+    } catch (err) {
       dispatch(apiError(API.SAVE_BRANCH_LINK, err));
     }
-  }
+  };
 }
 
 function createBranchIndividualLink() {
   return async (dispatch) => {
-    const branchLink = await createIndividualLinkBUO()
+    const branchLink = await createIndividualLinkBUO();
     dispatch({
       type: ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK,
-      link: branchLink.url,
-    })
-  }
+      link: branchLink.url
+    });
+  };
 }
 
+function getBranchIndividualLink() {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.GET_INDIVIDUAL_LINK));
+
+      const branchLinkRes = await branchService.getIndividualLink();
+
+      dispatch({
+        type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
+        callName: API.GET_INDIVIDUAL_LINK,
+        link: branchLinkRes.data.branch_link.branch_link
+      });
+    } catch (err) {
+      dispatch(uiActions.showMessage("error", err.msg));
+      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
+    }
+  };
+};
+
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
-      link: deepLink,
-    })
+      link: deepLink
+    });
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
-        break;
-
+        return dispatch(transfersActions.registerTransferLink(deepLink));
       case BRANCH_LINKS.COMPANY_REFERRAL:
-        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().users.user) {
-            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-          } else {
-            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
-          }
-        } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
-        }
-        break;
-
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
-        if (!getState().users.user) {
-          // TODO: should save all branch links
-          dispatch(saveBranchLink(deepLink));
-          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-        } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
-        }
-        break;
+        return dispatch(registerReferralLink(deepLink));
+      default:
+    }
+  };
+}
 
-        default:
+function registerReferralLink(deepLink) {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users
+      if (user) return dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
 
+      dispatch(startApiCall(API.GET_LINK_BY_URL));
+
+      const linkRes = await branchService.getByUrl(deepLink['~referring_link']);
+      const linkResData = linkRes.data;
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_URL));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this link is not valid anymore!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+          callName: API.GET_LINK_BY_URL,
+          branchLink: linkResData.branch_link
+        });
+
+        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
+        dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err));
+      dispatch(uiActions.showMessage("error", err.msg));
     }
   }
+}
+
+function getBranchLink(url) {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.GET_LINK_BY_URL));
+
+      const linkRes = await branchService.getByUrl(url);
+      dispatch({
+        type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+        callName: API.GET_LINK_BY_URL,
+        branchLink: linkRes.data
+      });
+    } catch (err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err));
+    }
+  };
 }

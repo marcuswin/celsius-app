@@ -42,7 +42,8 @@ class MainLayout extends Component {
   };
 
   render() {
-    const { hasBottomNavigation, connected, maintenance } = this.props;
+    const { hasBottomNavigation, connected, maintenance, } = this.props;
+
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
@@ -55,7 +56,7 @@ class MainLayout extends Component {
       return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
           <View style={{ flex: 1, }}>
-            <OfflineMode />
+            <OfflineMode purpose={"Connection"}/>
           </View>
         </ScrollView>
       )

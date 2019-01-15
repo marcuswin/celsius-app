@@ -3,6 +3,7 @@ import { View, Text, Image } from "react-native";
 import store from '../../../redux/store';
 import EmptyStateStyle from "./EmptyState.styles";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
 
 
 const EmptyState = (props) => {
@@ -11,10 +12,12 @@ const EmptyState = (props) => {
   let text;
   const { user } = store.getState().users;
 
+  const place = !!isBlacklistedState(user.state) || !!isBlacklistedCountry(user.country);
+
   switch (props.purpose) {
     case "NycBlackout":
-      title = user.state === "New York" ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with New York state residents at this time." : "Looks like we’re missing some information from you.";
-      text = user.state === "New York" ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
+      title = place ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with residents from this region at this time." : "Looks like we’re missing some information from you.";
+      text = place ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
       break;
     default:
       title = "From here you can pay your friends back with crypto";
@@ -33,7 +36,6 @@ const EmptyState = (props) => {
       <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 40, marginLeft: 40 }]}>
         {text}
       </Text>
-
     </View>
   );
 };

@@ -7,13 +7,18 @@ import { Constants } from "expo";
 import * as appActions from "../../../redux/actions";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import store from "../../../redux/store";
-import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
+import {
+  isBlacklistedCountryLocation,
+  isBlacklistedStateLocation,
+  shouldRenderInitialIdVerification
+} from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import {STYLES} from "../../../config/constants/style";
 import { heightPercentageToDP } from "../../../utils/scale";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
+let interval;
 
 @connect(
   state => ({
@@ -27,6 +32,8 @@ const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    location: state.generalData.location,
+    previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -49,24 +56,32 @@ class HomeScreen extends Component {
     }
   }
 
-  componentDidMount() {
-    setInterval(() => {
+  componentDidMount = async() => {
+    interval = setInterval(() => {
       this.setState(state => ({
         progress: state.progress + 0.2,
       }));
     }, 500);
-  }
+  };
 
   componentWillReceiveProps = (nextProps) => {
-    const { appInitialized } = this.props
+    const { appInitialized, actions } = this.props;
+
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
-      return this.navigateToFirstScreen();
+     return this.navigateToFirstScreen();
     }
-  }
+    if (appInitialized === true && nextProps.appInitialized === false) {
+      return actions.appInitStart();
+    }
+  };
 
   componentDidUpdate() {
     const { actions } = this.props;
     actions.refreshBottomNavigation();
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   loginPasscode = () => {
@@ -80,12 +95,15 @@ class HomeScreen extends Component {
   };
 
   navigateToFirstScreen = () => {
-    const { user, userActions, actions } = this.props;
+    const { user, userActions, actions, location } = this.props;
 
     if (!user) return actions.navigateTo('Welcome');
 
     if (!user.first_name || !user.last_name) return actions.navigateTo('SignupTwo');
     if (!user.has_pin) return actions.navigateTo('CreatePasscode');
+
+    if (location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
+
     if (shouldRenderInitialIdVerification(userActions)) {
       return actions.navigateTo('VerifyIdentity', {
         verificationCallback: this.loginPasscode,
@@ -97,7 +115,7 @@ class HomeScreen extends Component {
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return actions.navigateTo('NoKyc');
     return actions.navigateTo('WalletBalance');
-  }
+  };
 
   renderLoadingScreen = () => (
     <View>

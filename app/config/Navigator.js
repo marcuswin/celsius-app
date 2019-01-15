@@ -52,7 +52,10 @@ import TwoFaAuthSuccessScreen from "../components/screens/TwoFaAuthSuccess/TwoFa
 import VerifyIdentityScreen from "../components/screens/VerifyIdentity/VerifyIdentityScreen";
 import ApiAuthorizationScreen from "../components/screens/ApiAuthorization/ApiAuthorization";
 import ApiKeyGenerateScreen from "../components/screens/ApiKeyGenerate/ApiKeyGenerate";
+import OfflineScreen from "../components/screens/Offline/Offline";
 // NOTE(fj): plop screenGen importing new Screen here
+
+
 
 export const screens = {
   // Welcom Screens
@@ -249,6 +252,11 @@ export const screens = {
     screen: SelectCoinScreen,
     title: 'SelectCoin',
     bottomNavigation: true,
+  },
+  Offline: {
+    screen: OfflineScreen,
+    title: 'Offline',
+    bottomNavigation: false,
   },
 
   // Wallet screens
