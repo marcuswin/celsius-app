@@ -10,8 +10,8 @@ import { createIndividualLinkBUO } from "../../utils/branch-util";
 export {
   registerBranchLink,
   saveBranchLink,
-  getBranchLink,
   getBranchIndividualLink,
+  getBranchLinkBySlug,
   createBranchIndividualLink
 };
 
@@ -109,19 +109,30 @@ function registerReferralLink(deepLink) {
   }
 }
 
-function getBranchLink(url) {
-  return async (dispatch) => {
+function getBranchLinkBySlug() {
+  return async (dispatch, getState) => {
     try {
-      dispatch(startApiCall(API.GET_LINK_BY_URL));
+      dispatch(startApiCall(API.GET_LINK_BY_SLUG))
+      const { formData } = getState().ui;
 
-      const linkRes = await branchService.getByUrl(url);
-      dispatch({
-        type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
-        callName: API.GET_LINK_BY_URL,
-        branchLink: linkRes.data
-      });
-    } catch (err) {
-      dispatch(apiError(API.GET_LINK_BY_URL, err));
+      if (!formData.promoCode) return;
+
+      const linkRes = await branchService.getBySlug(formData.promoCode);
+      const linkResData = linkRes.data;
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_SLUG));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_SLUG_SUCCESS,
+          callName: API.GET_LINK_BY_SLUG,
+          branchLink: linkResData.branch_link
+        });
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_SLUG, err));
+      dispatch(uiActions.showMessage("error", err.msg));
     }
-  };
+  }
 }

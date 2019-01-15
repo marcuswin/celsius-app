@@ -24,6 +24,7 @@ export default function branchReducer(state = initialState, action) {
         ...state,
       };
 
+    case ACTIONS.GET_LINK_BY_SLUG_SUCCESS:
     case ACTIONS.GET_LINK_BY_URL_SUCCESS:
       return {
         ...state,

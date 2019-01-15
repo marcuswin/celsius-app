@@ -135,7 +135,8 @@ function registerUser(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
       const res = await usersService.register({
         ...user,
         referralLinkId,
@@ -173,13 +174,12 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerTwitter({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       // add token to expo storage
@@ -244,13 +244,12 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerFacebook({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       // add token to expo storage
@@ -261,6 +260,7 @@ function registerUserFacebook(user) {
       await analyticsEvents.sessionStart();
       analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
     } catch (err) {
+      console.log(err);
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
     }
@@ -315,13 +315,12 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
-      const { promoCode } = getState().ui.formData;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerGoogle({
         ...user,
         referralLinkId,
-        promoCode,
       });
 
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
@@ -382,13 +381,16 @@ function loginUserGoogleSuccess(data) {
 
 // TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
+  console.log({ promo: 'promo' })
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.UPDATE_USER));
     try {
-      const { promoCode } = getState().ui.formData;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
+
       const res = await usersService.update({
         ...user,
-        promoCode,
+        referralLinkId,
       });
 
       dispatch(updateUserSuccess(res.data));
