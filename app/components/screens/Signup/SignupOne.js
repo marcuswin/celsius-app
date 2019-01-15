@@ -40,7 +40,7 @@ class SignupOne extends Component {
     const { actions, formData } = this.props;
 
     const formErrors = {};
-    if (formData.password.length > 8 && formData.passwordRepeat.length > 8) {
+    if (formData.password.length >= 8 && formData.passwordRepeat.length >= 8) {
       if (formData.password === formData.passwordRepeat) {
         actions.registerUser(formData);
       } else {
