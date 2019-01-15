@@ -11,7 +11,6 @@ const initialState = {
   agreedToTermsOfUse: true,
   kycStatus: undefined,
   kycDocuments: undefined,
-  location: undefined,
   appSettings: {
     showWalletDetailsInfoBox: true,
     showWalletLandingInfoBox: true,
@@ -207,15 +206,6 @@ export default (state = initialState, action) => {
         appSettings: {
           ...state.appSettings,
           ...action.appSettings,
-        }
-      };
-
-    case ACTIONS.GET_USER_LOCATION_SUCCESS:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          location: action.location
         }
       };
 
