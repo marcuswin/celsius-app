@@ -131,7 +131,7 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  analyticsEvents.startedSignup('Email');
+  analyticsEvents.startedSignup('Email', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -170,6 +170,7 @@ function registerUserSuccess(data) {
 
 
 function registerUserTwitter(user) {
+  analyticsEvents.startedSignup('Twitter', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
@@ -239,6 +240,7 @@ function loginUserTwitterSuccess(data) {
 }
 
 function registerUserFacebook(user) {
+  analyticsEvents.startedSignup('Facebook', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
@@ -308,6 +310,7 @@ function loginUserFacebookSuccess(data) {
 }
 
 function registerUserGoogle(user) {
+  analyticsEvents.startedSignup('Google', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
