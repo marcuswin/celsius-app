@@ -131,7 +131,6 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  analyticsEvents.startedSignup('Email', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
@@ -146,8 +145,8 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Email', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -170,7 +169,6 @@ function registerUserSuccess(data) {
 
 
 function registerUserTwitter(user) {
-  analyticsEvents.startedSignup('Twitter', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
@@ -186,8 +184,8 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Twitter', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Twitter', referralLinkId, res.data.user);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -240,7 +238,6 @@ function loginUserTwitterSuccess(data) {
 }
 
 function registerUserFacebook(user) {
-  analyticsEvents.startedSignup('Facebook', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
@@ -256,8 +253,8 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Facebook', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
@@ -310,7 +307,6 @@ function loginUserFacebookSuccess(data) {
 }
 
 function registerUserGoogle(user) {
-  analyticsEvents.startedSignup('Google', user);
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
@@ -324,8 +320,8 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Google', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Google', referralLinkId, res.data.user);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))

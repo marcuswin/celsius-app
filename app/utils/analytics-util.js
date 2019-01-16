@@ -70,8 +70,19 @@ const analyticsEventsUtil = {
       referralLinkId
     })
   },
-  pinSet: () => {
+  pinSet: async () => {
     const { user } = store.getState().users;
+    let method = "Email";
+    if (user.facebook_id) {
+      method = "Facebook"
+    }
+    if (user.google_id) {
+      method = "Google"
+    }
+    if (user.twitter_id) {
+      method = "Twitter"
+    }
+    await analyticsEventsUtil.finishedSignup(method, user.referral_link_id, user)
     mixpanelEvents.pinSet();
     const metadata = { has_pin: true };
     branchService.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
