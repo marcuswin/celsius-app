@@ -56,8 +56,8 @@ export const analyticsEvents = {
     if (user.twitter_id) {
       method = "Twitter"
     }
-    await analyticsEventsUtil.finishedSignup(method, user.referral_link_id, user)
-    mixpanelEvents.pinSet();
+    await analyticsEvents.finishedSignup(method, user.referral_link_id, user)
+    await mixpanelEvents.pinSet();
     const metadata = { has_pin: true };
     branchEvents.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
   },
