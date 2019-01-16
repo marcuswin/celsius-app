@@ -14,7 +14,7 @@ let userEmail;
 const { revisionId } = Constants.manifest;
 
 export const mixpanelEvents = {
-  createAlias: (userId) => mixpanelAnalytics.track('$create_alias', { 'alias': userId, email: userEmail }),
+  createAlias: (userId) => mixpanelAnalytics.track('$create_alias', { 'alias': userId, email: userEmail, distinct_id: userEmail }),
   // Signup Events
   signupButton: () => mixpanelAnalytics.track('Pressed sign up button', { email: userEmail }),
   startedSignup,
@@ -166,11 +166,12 @@ async function pinSet() {
 }
 
 async function startedSignup(method, user) {
-  await mixpanelEvents.createAlias(user.email);
-
+  
   mixpanelAnalytics.identify(user.email);
   userEmail = user.email;
-  
+
+  await mixpanelEvents.createAlias(user.email);
+
   mixpanelAnalytics.track('Started sign up', { method, email: user.email });
 }
 
