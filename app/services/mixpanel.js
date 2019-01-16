@@ -166,14 +166,15 @@ async function pinSet() {
 }
 
 async function startedSignup(method, user) {
-  mixpanelAnalytics.track('Started sign up', { method, email: user.email });
-}
-
-async function finishedSignup(method, referralLinkId, user) {
   await mixpanelEvents.createAlias(user.email);
 
   mixpanelAnalytics.identify(user.email);
   userEmail = user.email;
+  
+  mixpanelAnalytics.track('Started sign up', { method, email: user.email });
+}
+
+async function finishedSignup(method, referralLinkId, user) {
 
   mixpanelAnalytics.track('Finished sign up', {
     method,
