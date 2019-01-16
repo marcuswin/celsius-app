@@ -35,7 +35,7 @@ export const analyticsEvents = {
     branchService.createEvent({ event: 'STARTED_SIGNUP', identity: 'no-user', metadata })
   },
   finishedSignup: async (method, referralLinkId, user) => {
-    mixpanelEvents.finishedSignup(method, referralLinkId, user)
+    await mixpanelEvents.finishedSignup(method, referralLinkId, user)
 
     await Segment.trackWithProperties('COMPLETE_REGISTRATION', {
       method,
