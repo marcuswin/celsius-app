@@ -14,6 +14,7 @@ import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import Sentry from '../../utils/sentry-util';
+import branchService from "../../services/branch-service";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -533,14 +534,14 @@ function submitPromoCode() {
       dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
       const { formData } = getState().ui
 
-      // const res = await usersService.submitPromoCode(formData.promoCode);
-      const res = {
-        data: {
-          slug: formData.promoCode,
-          amount: 15,
-          coin: 'CEL'
-        }
-      }
+      const res = await branchService.submitPromoCode(formData.promoCode);
+      // const res = {
+      //   data: {
+      //     slug: formData.promoCode,
+      //     amount: 15,
+      //     coin: 'CEL'
+      //   }
+      // }
 
       dispatch(submitPromoCodeSuccess(res.data));
     } catch (err) {

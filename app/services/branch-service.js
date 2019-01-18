@@ -11,6 +11,8 @@ const branchService = {
   getBySlug,
   createEvent,
   getIndividualLink,
+  submitPromoCodeByRegister,
+  submitPromoCode
   // createBranchEvent,
 };
 
@@ -42,6 +44,14 @@ function createEvent(event) {
     ...event,
     branch_key: BRANCH_KEY,
   });
+}
+
+function submitPromoCodeByRegister(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/registration`, { promo_code: promoCode });
+}
+
+function submitPromoCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { promo_code: promoCode });
 }
 
 // function createBranchEvent(event) {

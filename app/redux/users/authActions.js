@@ -498,20 +498,20 @@ function finishSignupTwo() {
 
       // check promo code
       if (formData.promoCode) {
-        dispatch(startApiCall(API.GET_LINK_BY_SLUG))
+        dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
 
-        const linkRes = await branchService.getBySlug(formData.promoCode);
+        const linkRes = await branchService.submitPromoCodeByRegister(formData.promoCode);
         const linkResData = linkRes.data;
 
         if (!linkResData.valid) {
-          dispatch(apiError(API.GET_LINK_BY_SLUG));
+          dispatch(apiError(API.SUBMIT_PROMO_CODE));
           dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
           return;
         }
 
         dispatch({
-          type: ACTIONS.GET_LINK_BY_SLUG_SUCCESS,
-          callName: API.GET_LINK_BY_SLUG,
+          type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+          callName: API.SUBMIT_PROMO_CODE,
           branchLink: linkResData.branch_link
         });
       }
@@ -537,7 +537,7 @@ function finishSignupTwo() {
       if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
         return dispatch(updateUser(data));
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
