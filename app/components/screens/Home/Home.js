@@ -4,24 +4,21 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-// import HomeStyle from "./Home.styles";
+import HomeStyle from "./Home.styles";
+// import style from "./style.styles";
 
 @connect(
-  () => ({
-    // map state to props
+  state => ({
+    style: HomeStyle(state.ui.theme),
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
+    const { style } = this.props;
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Welcome to Home Screen</Text>
+      <View style={[style.container, style.content]}>
+        <Text style={{ color: 'red' }}>Welcome to Home Screen</Text>
       </View>
     );
   }

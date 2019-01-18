@@ -1,7 +1,34 @@
-import { StyleSheet } from 'react-native';
+import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const HomeStyle = StyleSheet.create({
+const base = {
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    }
+}
 
-});
+const themed = {
+    dark: {
+        content: {
+            backgroundColor: '#000'
+        },
+        description: {
+            color: STYLES.WHITE_TEXT_COLOR
+        }
+    },
 
-export default HomeStyle;
+    light: {
+        content: {
+            backgroundColor: '#fff'
+        },
+        description: {
+            color: STYLES.WHITE_TEXT_COLOR
+        }
+    }
+}
+
+const HomeStyle = (theme) => getThemedStyle(theme, base, themed);
+
+export default HomeStyle

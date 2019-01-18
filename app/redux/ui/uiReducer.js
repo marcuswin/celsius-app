@@ -1,8 +1,8 @@
 // TODO(fj): split according to the actions
 // TODO(fj): try to delete as much code as we can
 
-import {Dimensions, StatusBar} from 'react-native';
-import {Camera} from "expo";
+import { Dimensions, StatusBar } from 'react-native';
+import { Camera } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import device from "../../utils/device-util";
@@ -11,7 +11,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { shouldRenderInitialIdVerification } from "../../utils/user-util";
 import { screens } from "../../config/Navigator";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 function getBottomNavDimensions() {
   let navHeight;
@@ -102,6 +102,7 @@ const initialState = {
   formInputLayouts: {},
   scrollLayouts: {},
   openedModal: undefined,
+  theme: 'light'
 };
 
 export default (state = initialState, action) => {
@@ -310,6 +311,11 @@ export default (state = initialState, action) => {
           [action.name]: true,
         },
       }
+    case ACTIONS.SET_APP_THEME:
+      return {
+        ...state,
+       theme: action.theme
+      }
 
     case ACTIONS.NAVIGATE_BACK:
     case ACTIONS.NAVIGATE:
@@ -321,10 +327,10 @@ export default (state = initialState, action) => {
         hasBottomNavigation: shouldShowBottomNavigation(action),
       }
 
-      // return {
-      //   ...state,
-      //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
-      // }
+    // return {
+    //   ...state,
+    //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
+    // }
 
     default:
       return state;

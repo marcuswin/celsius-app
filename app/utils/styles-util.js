@@ -7,7 +7,8 @@ import { Dimensions, Platform, PixelRatio } from 'react-native';
 export default {
   getMargins,
   getPadding,
-  normalize
+  normalize,
+  getThemedStyle
 }
 
 function getMargins(margin) {
@@ -51,6 +52,13 @@ export function normalize(size) {
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize))
   }
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+  return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
 
+}
+
+export function getThemedStyle(theme, base, themed) {
+  return {
+    ...base,
+    ...themed[theme]
+  }
 }
