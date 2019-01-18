@@ -25,6 +25,7 @@ export default function branchReducer(state = initialState, action) {
       };
 
     case ACTIONS.GET_LINK_BY_SLUG_SUCCESS:
+    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
     case ACTIONS.GET_LINK_BY_URL_SUCCESS:
       return {
         ...state,
@@ -39,7 +40,7 @@ export default function branchReducer(state = initialState, action) {
         ...state,
         referralLinkId: [BRANCH_LINKS.COMPANY_REFERRAL, BRANCH_LINKS.INDIVIDUAL_REFERRAL].indexOf(action.branchLink.link_type) !== -1 ? action.branchLink.id : state.referralLinkId,
       };
-
+      
     default:
       return state;
   }

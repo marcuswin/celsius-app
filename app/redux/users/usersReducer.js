@@ -220,17 +220,6 @@ export default (state = initialState, action) => {
         }
       }
 
-    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
-      console.log({ action })
-      return {
-        ...state,
-        promoCodes: [
-          action.code,
-          ...state.promoCodes,
-        ]
-      }
-
-
     default:
       return state;
 

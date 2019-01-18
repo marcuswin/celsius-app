@@ -47,11 +47,11 @@ function createEvent(event) {
 }
 
 function submitPromoCodeByRegister(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/registration`, { promo_code: promoCode });
+  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
 }
 
 function submitPromoCode(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/profile`, { promo_code: promoCode });
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
 }
 
 // function createBranchEvent(event) {

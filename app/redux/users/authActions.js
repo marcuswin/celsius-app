@@ -503,12 +503,6 @@ function finishSignupTwo() {
         const linkRes = await branchService.submitPromoCodeByRegister(formData.promoCode);
         const linkResData = linkRes.data;
 
-        if (!linkResData.valid) {
-          dispatch(apiError(API.SUBMIT_PROMO_CODE));
-          dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
-          return;
-        }
-
         dispatch({
           type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
           callName: API.SUBMIT_PROMO_CODE,
@@ -539,6 +533,8 @@ function finishSignupTwo() {
       }
     } catch (err) {
       console.log(err)
+      dispatch(apiError(API.SUBMIT_PROMO_CODE));
+      dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
     }
   }
 }
