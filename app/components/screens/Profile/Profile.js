@@ -95,7 +95,7 @@ class ProfileScreen extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    // if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
     if ((formData.country === "United States" || formData.citizenship === "United States" ) && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
