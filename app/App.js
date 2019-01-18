@@ -6,7 +6,7 @@
 // TODO(fj): create offline and no internet screens or a static screen with type?
 
 import React, { Component } from 'react';
-// import { AppLoading } from 'expo';
+import { AppLoading } from 'expo';
 import { Provider } from 'react-redux';
 import { AppState, BackHandler } from "react-native";
 import {
@@ -15,45 +15,46 @@ import {
 } from "react-navigation-redux-helpers";
 
 import store from './redux/store';
-import apiUtil from './utils/api-util';
 import * as actions from './redux/actions';
+import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
-// import TodayRatesModal from "./components.v2/organisms/TodayRatesModal/TodayRatesModal";
-// import NycBlackoutModal from "./components.v2/organisms/NycBlackoutModal/NycBlackoutModal";
-// import TransferReceivedModal from "./components.v2/organisms/TransferReceivedModal/TransferReceivedModal";
 import Navigator from './Navigator.v3';
-// import FABMenu from "./components/organisms/FABMenu/FABMenu";
 
-Sentry.init();
-
-// Initialize axios interceptors
-apiUtil.initInterceptors();
+appUtil.initializeThirdPartyServices()
 
 createReactNavigationReduxMiddleware("root", state => state.nav);
 
 export default class App extends Component {
+  constructor() {
+    super();
+    this.state = { isReady: false };
+  }
+
   componentDidMount() {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
     AppState.addEventListener('change', actions.handleAppStateChange);
   }
   componentWillUnmount() {
     this.backHandler.remove();
-    AppState.addEventListener('change', actions.handleAppStateChange);
+    AppState.removeEventListener('change');
   }
 
-  render() {
-    // const areAssetsLoaded = store.getState().app.assetsLoaded;
-    // return areAssetsLoaded ? (
-    //   <AppLoading
-    //     startAsync={actions.loadAssets}
-    //     onFinish={actions.loadAssetsSuccess}
-    //     onError={error => { Sentry.captureException(error) }}
-    //   />
-    // ) : (
-    //   <CelsiusApplication />
-    // )
+  initApp = async() => await store.dispatch(actions.loadCelsiusAssets());
 
-    return <CelsiusApplication />
+  render() {
+    const { isReady } = this.state;
+
+    return !isReady ? (
+      <AppLoading
+        startAsync={this.initApp()}
+        onFinish={() => this.setState({ isReady: true }) }
+        onError={error => Sentry.captureException(error) }
+      />
+    ) : (
+      <CelsiusApplication />
+    )
+
+    // return <CelsiusApplication />
   }
 }
 
