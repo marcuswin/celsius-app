@@ -1,14 +1,7 @@
-// TODO(fj): refactor try creating app-util and extracting stuff
-// TODO(fj): for app-util -> pollBEStatus, connectivityListener
-// TODO(fj): for dev-util -> logoutOnEnvChange,
-// TODO(fj): for branch-util -> initBranch
-// TODO(fj): check handleAppStateChange
 // TODO(fj): check all actions that need to be here (loadingAssets...)
 
 import { Constants } from "expo";
-import Branch from "react-native-branch";
-import { NetInfo, Platform, Text, TextInput } from "react-native";
-import twitter from "react-native-simple-twitter";
+import { Platform } from "react-native";
 import uuid from "uuid";
 
 import store from "../store";
@@ -16,121 +9,131 @@ import * as actions from "../actions";
 import {
   getSecureStoreKey,
   deleteSecureStoreKey,
-  setSecureStoreKey
 } from "../../utils/expo-storage";
-import baseUrl from "../../services/api-url";
 import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
 import ACTIONS from "../../config/constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";
-import Sentry from "../../utils/sentry-util";
+import appUtil from "../../utils/app-util";
+import branchUtil from "../../utils/branch-util";
+import stylesUtil from "../../utils/styles-util";
+import ASSETS from "../../constants/ASSETS";
 
-const { TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
-let startOfBackgroundTimer;
+// --------------------------------------------------------------------------------------
 
-export function handleAppStateChange(nextAppState) {
+export function initCelsiusApp() {
+  return async (dispatch, getState) => {
+    if (getState().app.appInitializing) return;
 
-  const { user } = store.getState().users;
-  const askForPinAfter = 25000
-  if (nextAppState === 'active') {
-    analyticsEvents.openApp();
-    if (user) {
-      analyticsEvents.sessionStart();
+    try {
+      dispatch({ type: ACTIONS.APP_INIT_START });
+
+      await appUtil.logoutOnEnvChange();
+
+      stylesUtil.disableAccessibilityFontScaling();
+
+      await appUtil.initInternetConnectivityListener();
+      await appUtil.pollBackendStatus();
+
+      await initAppData();
+      await dispatch(actions.initUserAppSettings());
+
+      await branchUtil.initBranch();
+
+      analyticsEvents.openApp();
+      if (getState().users.user) analyticsEvents.sessionStart();
+
+      dispatch({ type: ACTIONS.APP_INIT_DONE });
+    } catch (e) {
+      console.log(e);
     }
-    if (Platform.OS === "ios") {
-      clearTimeout(this.timeout)
-    } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
-      startOfBackgroundTimer = null;
-      store.dispatch(actions.navigateTo("LoginPasscode"));
-    }
-  }
-
-  if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-    analyticsEvents.sessionEnd();
-    if (Platform.OS === "ios") {
-      this.timeout = setTimeout(() => {
-        store.dispatch(actions.navigateTo("LoginPasscode"));
-        clearTimeout(this.timeout)
-      }, askForPinAfter)
-    } else {
-      startOfBackgroundTimer = new Date().getTime();
-    }
-  }
-  this.setState({ appState: nextAppState });
+  };
 }
 
-export function resetApp() {
+export function resetCelsiusApp() {
   return async (dispatch) => {
     try {
+      // Logout user
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
       dispatch({ type: ACTIONS.RESET_APP });
+      // Dev warning message
       dispatch(actions.showMessage("warning", "Reseting Celsius App!"));
 
-      await dispatch(appInitStart());
+      await dispatch(initCelsiusApp());
     } catch (e) {
       console.log(e);
     }
   };
 }
 
-export function appInitStart() {
-  return async (dispatch, getState) => {
-    try {
-      if (!getState().app.appInitializing) {
-        dispatch({ type: ACTIONS.APP_INIT_START });
-        disableAccessibilityFontScaling();
-        twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-        await initInternetConnectivityListener();
-        await pollBackendStatus();
-        await logoutOnEnvChange();
-        await initAppData();
-        await initAppUserSettings();
-        await initBranch();
-        await dispatch(actions.getBlacklistedCountries());
-        analyticsEvents.openApp();
-        if (getState().users.user) {
-          analyticsEvents.sessionStart();
-        }
+export function loadCelsiusAssets() {
+  return async dispatch => {
+    dispatch({ type: ACTIONS.START_LOADING_ASSETS })
 
-        dispatch({ type: ACTIONS.APP_INIT_DONE });
+    const imageAssets = appUtil.cacheImages(ASSETS.CACHE_IMAGES);
+    const fontAssets = appUtil.cacheFonts(ASSETS.FONTS);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
+
+    dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS })
+  }
+}
+
+export function finishLoadingAssets() {
+  return { type: ACTIONS.FINISH_LOADING_ASSETS }
+}
+
+const ASK_FOR_PIN_AFTER = 25 * 1000;
+let pinTimeout;
+let startOfBackgroundTimer;
+export function handleAppStateChange(nextAppState) {
+  return (dispatch, getState) => {
+    const { user } = getState().users;
+    const { appState } = getState().app;
+
+    if (nextAppState === "active") {
+      analyticsEvents.openApp();
+      if (user) analyticsEvents.sessionStart()
+
+      if (Platform.OS === "ios") {
+        clearTimeout(pinTimeout);
       }
-    } catch (e) {
-      console.log(e);
+
+      if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
+        startOfBackgroundTimer = null;
+        // dispatch(actions.navigateTo("LoginPasscode"));
+      }
     }
-  };
+
+    if (nextAppState.match(/inactive|background/) && user && user.has_pin && appState === "active") {
+      analyticsEvents.sessionEnd();
+
+      if (Platform.OS === "ios") {
+        pinTimeout = setTimeout(() => {
+          // dispatch(actions.navigateTo("LoginPasscode"));
+          clearTimeout(pinTimeout);
+        }, ASK_FOR_PIN_AFTER);
+      }
+
+      if (Platform.OS === "android") {
+        startOfBackgroundTimer = new Date().getTime();
+      }
+    }
+
+    dispatch({
+      type: ACTIONS.SET_APP_STATE,
+      appState: nextAppState,
+    })
+  }
 }
 
-// Polls Status of Backend services every 30s
-let backendPollInterval;
-
-async function pollBackendStatus() {
-  if (backendPollInterval) clearInterval(backendPollInterval);
-  await store.dispatch(actions.getBackendStatus());
-
-  backendPollInterval = setInterval(async () => {
-    await store.dispatch(actions.getBackendStatus());
-  }, 30000);
-}
-
-// Disable Font Scaling when accessibility settings on device changed
-function disableAccessibilityFontScaling() {
-  // disables letter sizing in phone's Accessibility menu
-  if (Text.defaultProps == null) Text.defaultProps = {};
-  Text.defaultProps.allowFontScaling = false;
-
-  // same same as with Text, but different
-  if (TextInput.defaultProps == null) TextInput.defaultProps = {};
-  TextInput.defaultProps.allowFontScaling = false;
-}
-
-// For development use: Logout user when backend environment changes
-async function logoutOnEnvChange() {
-  const previousBaseUrl = await getSecureStoreKey("BASE_URL");
-  if (previousBaseUrl !== baseUrl) {
-    await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    await setSecureStoreKey("BASE_URL", baseUrl);
+export function setInternetConnection(connection) {
+  return {
+    type: ACTIONS.SET_INTERNET_CONNECTION,
+    internetConnected: connection,
   }
 }
 
@@ -168,53 +171,14 @@ async function initAppData() {
     // initialize MixPanel with new user
     mixpanelAnalytics.identify(uuid());
 
+    // TODO(fj): check if we need this...
     store.dispatch(actions.fireUserAction("enteredInitialPin"));
   }
 
   // get general data for te app
   await store.dispatch(actions.getSupportedCurrencies());
+  await store.dispatch(actions.getBlacklistedCountries());
 }
 
-// Gets User App Settings from Secure Store
-async function initAppUserSettings() {
-  const appSettings = await getSecureStoreKey("APP_SETTINGS");
-  if (appSettings) {
-    store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
-  }
-}
 
-// Listen for Breaks in Internet Connection
-async function initInternetConnectivityListener() {
-  // NOTE: for some reason initial connectivity is always false, which causes the app to glitch on offlinemode screen
-  // const initialConnection = await NetInfo.isConnected.fetch();
-  // handleConnectivityChange(initialConnection);
-
-  NetInfo.isConnected.addEventListener(
-    "connectionChange",
-    handleConnectivityChange
-  );
-}
-
-function handleConnectivityChange(isConnected) {
-  store.dispatch(actions.setInternetConnectivity(isConnected));
-}
-
-// Initialize & Subscribe to Branch
-async function initBranch() {
-  try {
-    Branch.subscribe((deepLink) => {
-      if (deepLink.error || !deepLink.params) {
-        return;
-      }
-
-      handleDeepLink(deepLink.params);
-    });
-  } catch (error) {
-    Sentry.captureException(error);
-  }
-}
-
-function handleDeepLink(deepLink) {
-  if (!deepLink || !deepLink["+clicked_branch_link"]) return;
-  store.dispatch(actions.registerBranchLink(deepLink));
-}
+// --------------------------------------------------------------------------------------

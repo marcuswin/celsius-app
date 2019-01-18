@@ -2,57 +2,58 @@
 // TODO(fj): more use of padding and margin
 // TODO(fj): add scale util here
 
-import { Dimensions, Platform, PixelRatio } from 'react-native';
+import { Dimensions, Platform, PixelRatio, Text, TextInput } from "react-native";
 
 export default {
   getMargins,
   getPadding,
   normalize,
-  getThemedStyle
-}
+  getThemedStyle,
+  disableAccessibilityFontScaling
+};
 
 function getMargins(margin) {
-  if (!margin) return getMargins('0 0 0 0');
+  if (!margin) return getMargins("0 0 0 0");
 
-  const margins = margin.split(' ');
+  const margins = margin.split(" ");
   if (margins.length !== 4) return getMargins();
 
   return {
     marginTop: Number(margins[0]),
     marginRight: Number(margins[1]),
     marginBottom: Number(margins[2]),
-    marginLeft: Number(margins[3]),
-  }
+    marginLeft: Number(margins[3])
+  };
 }
 
 function getPadding(padding) {
-  if (!padding) return getPadding('0 0 0 0');
+  if (!padding) return getPadding("0 0 0 0");
 
-  const paddings = padding.split(' ');
+  const paddings = padding.split(" ");
   if (paddings.length !== 4) return getPadding();
 
   return {
     paddingTop: Number(paddings[0]),
     paddingRight: Number(paddings[1]),
     paddingBottom: Number(paddings[2]),
-    paddingLeft: Number(paddings[3]),
-  }
+    paddingLeft: Number(paddings[3])
+  };
 }
 
 const {
-  width: SCREEN_WIDTH,
+  width: SCREEN_WIDTH
   // height: SCREEN_HEIGHT,
-} = Dimensions.get('window');
+} = Dimensions.get("window");
 
 // based on iphone X's scale
 const scale = SCREEN_WIDTH / 375;
 
 export function normalize(size) {
   const newSize = size * scale;
-  if (Platform.OS === 'ios') {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  if (Platform.OS === "ios") {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
   }
-  return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+  return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
 
 }
 
@@ -60,5 +61,15 @@ export function getThemedStyle(theme, base, themed) {
   return {
     ...base,
     ...themed[theme]
-  }
+  };
+}
+
+function disableAccessibilityFontScaling() {
+  // disables letter sizing in phone's Accessibility menu
+  if (Text.defaultProps == null) Text.defaultProps = {};
+  Text.defaultProps.allowFontScaling = false;
+
+  // same same as with Text, but different
+  if (TextInput.defaultProps == null) TextInput.defaultProps = {};
+  TextInput.defaultProps.allowFontScaling = false;
 }

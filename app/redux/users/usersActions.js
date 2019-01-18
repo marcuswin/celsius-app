@@ -17,7 +17,7 @@ import { setFormErrors, showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
-import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
+import { deleteSecureStoreKey, getSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
@@ -46,6 +46,7 @@ export {
 
   // TODO(fj): profile
   getProfileInfo,
+  initUserAppSettings,
   updateUserAppSettings,
   updateProfilePicture,
   getTwoFactorSecret,
@@ -495,6 +496,12 @@ function setPinSuccess() {
     type: ACTIONS.SET_PIN_SUCCESS,
     callName: API.SET_PIN,
   }
+}
+
+// Gets User App Settings from Secure Store
+async function initUserAppSettings() {
+  const appSettings = await getSecureStoreKey("APP_SETTINGS");
+  if (appSettings) return updateUserAppSettings(JSON.parse(appSettings));
 }
 
 function updateUserAppSettings(appSettings) {
