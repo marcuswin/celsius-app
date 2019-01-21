@@ -19,7 +19,6 @@ const initialState = {
     showBchExplanationInfoBox: true,
     declineAccess: false,
   },
-  promoCodes: [],
 };
 
 export default (state = initialState, action) => {

@@ -12,7 +12,8 @@ export {
   saveBranchLink,
   getBranchIndividualLink,
   getBranchLinkBySlug,
-  createBranchIndividualLink
+  createBranchIndividualLink,
+  submitProfileCode
 };
 
 function saveBranchLink(rawLink) {
@@ -134,5 +135,32 @@ function getBranchLinkBySlug() {
       dispatch(apiError(API.GET_LINK_BY_SLUG, err));
       dispatch(uiActions.showMessage("error", err.msg));
     }
+  }
+}
+
+
+function submitProfileCode() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.CHECK_PROFILE_CODE))
+      const { formData } = getState().ui
+
+      const res = await branchService.submitProfileCode(formData.promoCode);
+      dispatch(submitProfileCodeSuccess(res.data.branch_link));
+    } catch (err) {
+      dispatch(apiError(API.CHECK_PROFILE_CODE, err));
+      dispatch(uiActions.setFormErrors({
+        promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
+      }))
+    }
+
+  }
+}
+
+function submitProfileCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.CHECK_PROFILE_CODE_SUCCESS,
+    callName: API.CHECK_PROFILE_CODE,
+    code: promoCodeInfo
   }
 }

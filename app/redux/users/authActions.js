@@ -500,7 +500,7 @@ function finishSignupTwo() {
       if (formData.promoCode) {
         dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
 
-        const linkRes = await branchService.submitPromoCodeByRegister(formData.promoCode);
+        const linkRes = await branchService.submitRegistrationCode(formData.promoCode);
         const linkResData = linkRes.data;
 
         dispatch({

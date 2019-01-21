@@ -14,7 +14,6 @@ import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import Sentry from '../../utils/sentry-util';
-import branchService from "../../services/branch-service";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -39,7 +38,6 @@ export {
   enableTwoFactor,
   disableTwoFactor,
   getIcoUsersProfileInfo,
-  submitPromoCode,
 }
 
 function getProfileInfo() {
@@ -525,40 +523,5 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
     type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
     personalInfo,
     callName: API.GET_ICO_USERS_INFO,
-  }
-}
-
-function submitPromoCode() {
-  return async (dispatch, getState) => {
-    try {
-      dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
-      const { formData } = getState().ui
-
-      const res = await branchService.submitPromoCode(formData.promoCode);
-      // const res = {
-      //   data: {
-      //     slug: formData.promoCode,
-      //     amount: 15,
-      //     coin: 'CEL'
-      //   }
-      // }
-
-      dispatch(submitPromoCodeSuccess(res.data));
-    } catch (err) {
-      console.log(err);
-      dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
-      dispatch(setFormErrors({
-        promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
-      }))
-    }
-
-  }
-}
-
-function submitPromoCodeSuccess(promoCodeInfo) {
-  return {
-    type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
-    callName: API.SUBMIT_PROMO_CODE,
-    code: promoCodeInfo
   }
 }

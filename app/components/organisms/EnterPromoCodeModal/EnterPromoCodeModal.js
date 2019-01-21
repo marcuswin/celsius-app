@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-// import {STYLES} from "../../config/constants/style";
-// import EnterPromoCodeModalStyle from "./EnterPromoCodeModal.styles";
 import CelModal from "../../atoms/CelModal/CelModal";
 import { KYC_STATUSES, MODALS } from "../../../config/constants/common";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -19,7 +17,7 @@ import apiUtil from '../../../utils/api-util';
   state => ({
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
-    promoCodes: state.users.promoCodes,
+    promoCode: state.branch.promoCode,
     kycStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
@@ -30,7 +28,7 @@ class EnterPromoCodeModal extends Component {
 
   renderFormModal() {
     const { formData, formErrors, actions, callsInProgress } = this.props;
-    const isSubmitingPromoCode = apiUtil.areCallsInProgress([API.SUBMIT_PROMO_CODE], callsInProgress);
+    const isSubmitingPromoCode = apiUtil.areCallsInProgress([API.CHECK_PROFILE_CODE], callsInProgress);
 
     return (
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
@@ -60,7 +58,7 @@ class EnterPromoCodeModal extends Component {
         </CelForm>
 
         <CelButton
-          onPress={() => actions.submitPromoCode()}
+          onPress={() => actions.submitProfileCode()}
           margin="0 0 0 0"
           loading={isSubmitingPromoCode}
           disabled={isSubmitingPromoCode}
@@ -73,9 +71,11 @@ class EnterPromoCodeModal extends Component {
   }
 
   renderVerifiedSuccess() {
-    const { promoCodes, actions } = this.props;
+    const { promoCode, actions } = this.props;
 
-    const amountDisplay = `${promoCodes[0].amount} ${promoCodes[0].coin}`;
+    console.log({ promoCode })
+
+    const amountDisplay = `${promoCode.referred_award_amount} ${promoCode.referred_award_coin}`;
 
     return (
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
@@ -108,9 +108,9 @@ class EnterPromoCodeModal extends Component {
   }
 
   renderUnverifiedSuccess() {
-    const { promoCodes, actions } = this.props;
+    const { promoCode, actions } = this.props;
 
-    const amountDisplay = `${promoCodes[0].amount} ${promoCodes[0].coin}`;
+    const amountDisplay = `${promoCode.referred_award_amount} ${promoCode.referred_award_coin}`;
 
     return (
       <CelModal name={MODALS.ENTER_PROMO_CODE}>
@@ -143,10 +143,10 @@ class EnterPromoCodeModal extends Component {
 
   }
   render() {
-    const { kycStatus, lastCompletedCall } = this.props;
+    const { kycStatus, lastCompletedCall, promoCode } = this.props;
 
-    if (lastCompletedCall === API.SUBMIT_PROMO_CODE && kycStatus === KYC_STATUSES.passed) return this.renderVerifiedSuccess()
-    if (lastCompletedCall === API.SUBMIT_PROMO_CODE && kycStatus !== KYC_STATUSES.passed) return this.renderUnverifiedSuccess()
+    if ((promoCode || lastCompletedCall === API.CHECK_PROFILE_CODE) && kycStatus === KYC_STATUSES.passed) return this.renderVerifiedSuccess()
+    if ((promoCode || lastCompletedCall === API.CHECK_PROFILE_CODE) && kycStatus !== KYC_STATUSES.passed) return this.renderUnverifiedSuccess()
 
     return this.renderFormModal()
   }

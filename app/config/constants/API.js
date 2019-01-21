@@ -67,6 +67,7 @@ export default {
   GET_INDIVIDUAL_LINK: 'GET_INDIVIDUAL_LINK',
   GET_LINK_BY_URL: 'GET_LINK_BY_URL',
   GET_LINK_BY_SLUG: 'GET_LINK_BY_SLUG',
+  CHECK_PROFILE_CODE: 'CHECK_PROFILE_CODE',
 
   // camera roll calls
   GET_CAMERA_ROLL: 'GET_CAMERA_ROLL',
@@ -74,9 +75,6 @@ export default {
   
   // loan calls
   APPLY_FOR_LOAN: 'APPLY_FOR_LOAN',
-
-  // promo codes calls
-  SUBMIT_PROMO_CODE: 'SUBMIT_PROMO_CODE',
 
   // apy key calls
   CREATE_API_KEY: 'CREATE_API_KEY',

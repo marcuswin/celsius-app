@@ -11,8 +11,8 @@ const branchService = {
   getBySlug,
   createEvent,
   getIndividualLink,
-  submitPromoCodeByRegister,
-  submitPromoCode
+  submitRegistrationCode,
+  submitProfileCode
   // createBranchEvent,
 };
 
@@ -38,20 +38,20 @@ function getIndividualLink() {
   return axios.get(`${apiUrl}/branch/individual`);
 }
 
+function submitRegistrationCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
+}
+
+function submitProfileCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
+}
+
 // Branch endpoints
 function createEvent(event) {
   return axios.post(`https://api2.branch.io/v1/event`, {
     ...event,
     branch_key: BRANCH_KEY,
   });
-}
-
-function submitPromoCodeByRegister(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
-}
-
-function submitPromoCode(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
 }
 
 // function createBranchEvent(event) {
