@@ -20,7 +20,7 @@ import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   (state) => ({
-    user: state.users.user,
+    user: state.user.profile,
     callsInProgress: state.api.callsInProgress,
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,

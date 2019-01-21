@@ -37,7 +37,7 @@ class LoginForm extends Component {
   render() {
     const {callsInProgress, formData, formErrors} = this.props;
 
-    const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER, API.LOGIN_BORROWER], callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER, API.LOGIN_USER], callsInProgress);
 
     return (
       <View style={LoginFormStyles.wrapper}>

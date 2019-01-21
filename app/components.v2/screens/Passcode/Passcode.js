@@ -54,7 +54,7 @@ const codeLength = 4;
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     userActions: state.ui.userActions,
     formData: state.forms.formData,

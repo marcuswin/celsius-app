@@ -43,7 +43,7 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,
       supportedCurrencies: state.generalData.supportedCurrencies,
-      appSettings: state.users.appSettings,
+      appSettings: state.user.appSettings,
     };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

@@ -14,7 +14,7 @@ import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

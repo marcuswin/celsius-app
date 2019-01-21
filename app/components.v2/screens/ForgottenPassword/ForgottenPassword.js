@@ -18,7 +18,7 @@ import testUtil from "../../../utils/test-util";
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
     lastCompletedCall: state.api.lastCompletedCall,
     callsInProgress: state.api.callsInProgress,
     formData: state.forms.formData,

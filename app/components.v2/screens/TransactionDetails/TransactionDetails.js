@@ -129,7 +129,7 @@ function getSections(transaction) {
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
     supportedCurrencies: state.generalData.supportedCurrencies,
     callsInProgress: state.api.callsInProgress,
     transaction: state.wallet.transactions[state.wallet.activeTransactionId],

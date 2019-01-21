@@ -18,8 +18,8 @@ import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
-    appSettings: state.users.appSettings,
+    user: state.user.profile,
+    appSettings: state.user.appSettings,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,

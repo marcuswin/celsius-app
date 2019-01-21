@@ -19,10 +19,10 @@ import { FONT_SCALE } from "../../../config/constants/style";
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
     nav: state.nav,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
     wallet: state.wallet,
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,

@@ -22,7 +22,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
   state => ({
     walletTotal: state.wallet.total,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings
+    appSettings: state.user.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

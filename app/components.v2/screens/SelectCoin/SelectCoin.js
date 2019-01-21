@@ -16,8 +16,8 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
   state => ({
     // map state to props
     walletCurrencies: state.wallet.currencies,
-    user: state.users.user,
-    appSettings: state.users.appSettings
+    user: state.user.profile,
+    appSettings: state.user.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

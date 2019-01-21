@@ -29,10 +29,6 @@ import { MODALS } from "../../../config/constants/common";
 
 const { revisionId } = Constants.manifest;
 
-// eslint-disable-next-line
-const getError = (errors, field, def = null) => {
-  return _.get(errors, [field, 'msg'], def)
-};
 
 const ProfileDetailsStyle = StyleSheet.create({
   appVersionText: {
@@ -44,15 +40,15 @@ const ProfileDetailsStyle = StyleSheet.create({
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
-    error: state.users.error,
+    user: state.user.profile,
+    error: state.user.error,
     formErrors: state.forms.formErrors,
     callsInProgress: state.api.callsInProgress,
     history: state.api.history,
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.forms.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -217,7 +213,7 @@ class ProfileScreen extends Component {
   };
 
   render() {
-    const { user, formData, actions, callsInProgress, error, formErrors, appSettings } = this.props;
+    const { user, formData, actions, callsInProgress, formErrors, appSettings } = this.props;
     const { addressEditable, taxpayerEditable, isBlackout } = this.state;
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
@@ -287,7 +283,7 @@ class ProfileScreen extends Component {
             <CelInput editable={false} theme="white" value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
             <CelInput editable={false} theme="white" value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
             <CelInput editable={false} theme="white" labelText="E-mail" value={formData.email} keyboardType='email-address' field="email" />
-            <CelPhoneInput editable={false} theme="white" labelText={getError(error, 'cellphone', "Phone number")} field="cellphone" value={formData.cellphone} />
+            <CelPhoneInput editable={false} theme="white" labelText={"Phone number"} field="cellphone" value={formData.cellphone} />
 
             <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText]}>
               Date of birth

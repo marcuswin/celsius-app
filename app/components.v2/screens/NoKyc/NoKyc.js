@@ -15,10 +15,10 @@ import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
-    kycStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.status : KYC_STATUSES.collecting,
-    kycErrors: state.users.user && state.users.user.kyc ? state.users.user.kyc.errors : [],
+    kycStatus: state.user.profile && state.user.profile.kyc ? state.user.profile.kyc.status : KYC_STATUSES.collecting,
+    kycErrors: state.user.profile && state.user.profile.kyc ? state.user.profile.kyc.errors : [],
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    user: state.users.user,
+    user: state.user.profile,
     allTransfers: state.transfers.transfers,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

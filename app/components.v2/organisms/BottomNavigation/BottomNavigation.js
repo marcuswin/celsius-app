@@ -30,7 +30,7 @@ const walletScreens = [
     activeScreen: state.nav.routes[state.nav.index].routeName,
     bottomNavigationDimensions: state.ui.dimensions.bottomNavigation,
     screenHeight: state.ui.dimensions.screenHeight,
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

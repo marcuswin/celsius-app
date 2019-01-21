@@ -12,7 +12,7 @@ import { STYLES } from "../../../config/constants/style";
 
 @connect(
   (state) => ({
-    agreedToTermsOfUse: state.users.agreedToTermsOfUse,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -199,7 +199,7 @@ class TermsOfUse extends Component {
 
   render() {
     const { terms } = this.state;
-    const { actions, agreedToTermsOfUse } = this.props;
+    const { actions, formData } = this.props;
 
     return (
       <Container style={TermsOfUseStyle.buttonContainer}>
@@ -212,7 +212,7 @@ class TermsOfUse extends Component {
             {terms.map(this.renderScreen)}
         </SimpleLayout>
 
-        { !agreedToTermsOfUse ? (
+        { !formData.agreedToTermsOfUse ? (
           <View style={TermsOfUseStyle.button}>
             <CelButton white onPress={this.onPress}>I agree</CelButton>
           </View>

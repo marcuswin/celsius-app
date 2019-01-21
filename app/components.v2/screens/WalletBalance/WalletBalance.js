@@ -22,7 +22,7 @@ import { LoadingSection } from '../../organisms/LoadingSection/LoadingSection';
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

@@ -25,8 +25,8 @@ import API from "../../../config/constants/API";
   state => ({
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    user: state.users.user,
-    kycDocuments: state.users.kycDocuments,
+    user: state.user.profile,
+    kycDocuments: state.user.kycDocuments,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     kycDocTypes: state.generalData.kycDocTypes,

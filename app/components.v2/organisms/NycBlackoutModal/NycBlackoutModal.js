@@ -19,13 +19,13 @@ import { analyticsEvents } from "../../../utils/analytics-util";
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
     formData: state.forms.formData,
     openedModal: state.ui.openedModal,
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
     formErrors: state.forms.formErrors,
     callsInProgress: state.api.callsInProgress,
-    kycRealStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.realStatus : null,
+    kycRealStatus: state.user.profile && state.user.profile.kyc ? state.user.profile.kyc.realStatus : null,
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )

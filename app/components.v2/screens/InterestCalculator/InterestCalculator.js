@@ -21,12 +21,12 @@ import testUtil from "../../../utils/test-util";
 @connect(
   state => ({
     formData: state.forms.formData,
-    user: state.users.user,
+    user: state.user.profile,
     interestRates: state.interest.rates,
     interestRatesDisplay: state.interest.ratesDisplay,
     supportedCurrencies: state.generalData.supportedCurrencies,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings
+    appSettings: state.user.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

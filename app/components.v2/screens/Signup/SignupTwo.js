@@ -25,11 +25,10 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
 @connect(
   state => ({
     screenIndex: state.nav.index,
-    userLocation: state.users.userLocation,
-    user: state.users.user,
+    userLocation: state.user.profileLocation,
+    user: state.user.profile,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
-    agreedToTermsOfUse: state.users.agreedToTermsOfUse,
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
   }),
@@ -93,7 +92,7 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
+    const { formErrors, formData, user, callsInProgress, actions, screenIndex } = this.props;
     const { firstName, lastName, email } = formData;
 
     const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
@@ -137,8 +136,8 @@ class SignupTwo extends Component {
             <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', height: 36 }}>
               <CelCheckbox
                 label="I agree to Terms of Use"
-                value={agreedToTermsOfUse}
-                onChange={actions.toggleTermsOfUse}
+                value={formData.agreedToTermsOfUse}
+                onChange={() => actions.updateFormField('agreedToTermsOfUse', !formData.agreedToTermsOfUse)}
               />
 
               <View style={{ height: 36, marginTop: -15 }}>
@@ -152,7 +151,7 @@ class SignupTwo extends Component {
           <View style={{ marginTop: 40, paddingBottom: 100 }}>
             <CelButton
               ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
-              disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
+              disabled={!formData.agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
               onPress={this.onSubmit}
               loading={isLoading}
               white

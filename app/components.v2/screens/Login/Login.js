@@ -21,7 +21,7 @@ const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
     dimensions: state.ui.dimensions,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -65,7 +65,7 @@ class LoginScreen extends Component {
 
   handleLogin = async data => {
     const {actions} = this.props;
-    await actions.loginBorrower(data);
+    await actions.loginUser(data);
     actions.openInitialModal();
   };
 

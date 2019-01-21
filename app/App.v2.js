@@ -90,11 +90,11 @@ export default class App extends Component {
   // fire mixpanel when app is activated from background
   handleAppStateChange = (nextAppState) => {
 
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     const askForPinAfter = 25000
     if (nextAppState === 'active') {
       analyticsEvents.openApp();
-      if (user) {
+      if (profile) {
         analyticsEvents.sessionStart();
       }
       if (Platform.OS === "ios") {
@@ -105,7 +105,7 @@ export default class App extends Component {
       }
     }
 
-    if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    if (profile && profile.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
       analyticsEvents.sessionEnd();
       if (Platform.OS === "ios") {
         this.timeout = setTimeout(() => {

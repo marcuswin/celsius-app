@@ -15,7 +15,7 @@ import { VERIFY_IDENTITY_TYPES } from "../../../config/constants/common";
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

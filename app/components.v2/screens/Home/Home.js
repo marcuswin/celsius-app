@@ -27,10 +27,10 @@ const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
 @connect(
   state => ({
     appInitialized: state.app.appInitialized,
-    user: state.users.user,
-    expiredSession: state.users.expiredSession,
+    user: state.user.profile,
+    expiredSession: state.user.expiredSession,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
     openedModal: state.ui.openedModal,
     userActions: state.ui.userActions,
     callsInProgress: state.api.callsInProgress,

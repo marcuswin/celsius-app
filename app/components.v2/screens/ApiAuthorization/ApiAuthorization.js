@@ -15,7 +15,7 @@ import CelApiDropdown from '../../organisms/CelApiDropdown/CelApiDropdown';
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
     apiKeys: state.apiKeys.keys,
     activeScreen: state.nav.routes[state.nav.index].routeName
   }),

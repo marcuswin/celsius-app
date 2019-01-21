@@ -15,7 +15,7 @@ import formatter from "../../../utils/formatter";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    user: state.users.user,
+    user: state.user.profile,
     currencyRatesShort: state.generalData.currencyRatesShort,
     transfers: state.transfers.transfers,
     branchHashes: state.transfers.branchHashes,

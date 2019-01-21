@@ -40,8 +40,8 @@ const LTVs = [
     formData: state.forms.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     callsInProgress: state.api.callsInProgress,
-    hasPassedKYC: state.users.user.kyc && state.users.user.kyc.status === KYC_STATUSES.passed,
-    appSettings: state.users.appSettings
+    hasPassedKYC: state.user.profile.kyc && state.user.profile.kyc.status === KYC_STATUSES.passed,
+    appSettings: state.user.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

@@ -15,7 +15,7 @@ import TodayRatesModalStyle from "./TodayRatesModal.styles";
 
 @connect(
   state => ({
-    appSettings: state.users.appSettings,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

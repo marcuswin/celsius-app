@@ -13,7 +13,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({
     actions: bindActionCreators(appActions, dispatch),

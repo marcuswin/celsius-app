@@ -28,7 +28,7 @@ const {
 @connect(
   state => ({
     screenWidth: state.ui.dimensions.screenWidth,
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

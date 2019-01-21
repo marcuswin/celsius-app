@@ -32,7 +32,7 @@ createReactNavigationReduxMiddleware("root", state => state.nav);
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     hasBottomNavigation: state.ui.hasBottomNavigation,
     connected: state.ui.internetConnected,

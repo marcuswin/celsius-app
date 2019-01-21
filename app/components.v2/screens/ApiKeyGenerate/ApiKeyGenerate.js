@@ -16,7 +16,7 @@ import GenerateApiKeyModal from '../../organisms/GenerateApiKeyModal/GenerateApi
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
     apiKey: state.apiKeys.lastGeneratedKey
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

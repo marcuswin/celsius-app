@@ -18,7 +18,7 @@ import testUtil from "../../../utils/test-util";
   state => ({
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    user: state.users.user,
+    user: state.user.profile,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     activeScreen: state.nav.routes[state.nav.index].routeName,

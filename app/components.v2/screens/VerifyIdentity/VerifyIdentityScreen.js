@@ -14,7 +14,7 @@ import VerifyIdentityScreenStyle from "./VerifyIdentityScreen.styles";
 
 @connect(
   state => ({
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

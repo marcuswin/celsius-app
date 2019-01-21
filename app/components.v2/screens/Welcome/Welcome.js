@@ -17,7 +17,7 @@ import Message from "../../atoms/Message/Message";
 @connect(
   state => ({
     nav: state.nav,
-    user: state.users.user,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
