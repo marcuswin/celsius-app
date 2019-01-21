@@ -20,7 +20,7 @@ import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     user: state.users.user,
     interestRates: state.interest.rates,
     interestRatesDisplay: state.interest.ratesDisplay,

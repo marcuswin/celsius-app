@@ -23,8 +23,8 @@ import API from "../../../config/constants/API";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
-    formErrors: state.ui.formErrors,
+    formData: state.forms.formData,
+    formErrors: state.forms.formErrors,
     user: state.users.user,
     kycDocuments: state.users.kycDocuments,
     callsInProgress: state.api.callsInProgress,

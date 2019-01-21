@@ -5,7 +5,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from '../../config/constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
-import { showMessage, setFormErrors } from '../ui/uiActions';
+import { showMessage } from '../ui/uiActions';
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
@@ -13,6 +13,7 @@ import borrowersService from '../../services/borrowers-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
+import { setFormErrors } from '../forms/formsActions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 

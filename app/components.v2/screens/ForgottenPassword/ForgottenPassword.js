@@ -21,7 +21,7 @@ import testUtil from "../../../utils/test-util";
     user: state.users.user,
     lastCompletedCall: state.api.lastCompletedCall,
     callsInProgress: state.api.callsInProgress,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

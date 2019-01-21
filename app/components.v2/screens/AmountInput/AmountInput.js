@@ -31,7 +31,7 @@ const predefinedAmounts = ["20", "50", "100", "All"];
     return {
       balances,
       rates,
-      formData: state.ui.formData,
+      formData: state.forms.formData,
       screenHeight: state.ui.dimensions.screenHeight,
       screenWidth: state.ui.dimensions.screenWidth,
     }

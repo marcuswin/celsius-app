@@ -20,10 +20,10 @@ import { analyticsEvents } from "../../../utils/analytics-util";
 @connect(
   state => ({
     user: state.users.user,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     openedModal: state.ui.openedModal,
     appSettings: state.users.appSettings,
-    formErrors: state.ui.formErrors,
+    formErrors: state.forms.formErrors,
     callsInProgress: state.api.callsInProgress,
     kycRealStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.realStatus : null,
   }),

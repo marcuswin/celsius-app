@@ -22,8 +22,8 @@ import CelInput from "../../atoms/CelInput/CelInput";
   (state) => ({
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
-    formData: state.ui.formData,
-    formErrors: state.ui.formErrors,
+    formData: state.forms.formData,
+    formErrors: state.forms.formErrors,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

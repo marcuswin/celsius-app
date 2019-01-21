@@ -19,7 +19,7 @@ import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale"
 @connect(
   state => ({
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     chartData: state.interest.chartData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

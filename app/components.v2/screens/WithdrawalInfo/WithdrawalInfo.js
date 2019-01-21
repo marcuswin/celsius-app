@@ -17,7 +17,7 @@ import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

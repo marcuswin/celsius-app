@@ -9,11 +9,12 @@ import wallet from './wallet/walletReducer';
 import interest from './interest/interestReducer';
 import branch from './branch/branchReducer';
 import transfers from './transfers/transfersReducer';
-import cameraRoll from './cameraRoll/cameraRollReducer';
 import loans from './loans/loansReducer';
 import apiKeys from './apiKeys/apiKeysReducer';
 import app from './app/appReducer';
 import ACTIONS from "../config/constants/ACTIONS";
+import camera from './camera/cameraReducer';
+import forms from './forms/formsReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 const appReducers = combineReducers({
@@ -26,10 +27,11 @@ const appReducers = combineReducers({
   interest,
   branch,
   transfers,
-  cameraRoll,
   loans,
   apiKeys,
   app,
+  camera,
+  forms,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 })
 

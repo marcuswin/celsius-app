@@ -13,7 +13,7 @@ import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import * as NavActions from '../nav/navActions';
-import { setFormErrors, showMessage } from "../ui/uiActions";
+import { showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
@@ -23,6 +23,7 @@ import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import Sentry from '../../utils/sentry-util';
+import { setFormErrors } from "../forms/formsActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -303,7 +304,7 @@ export function verifySMSSuccess() {
 
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
-    const { formData } = getState().ui;
+    const { formData } = getState().forms;
     const { user } = getState().users;
     let callName;
     let res;
@@ -358,7 +359,7 @@ function verifyKYCDocs() {
 
 function finishKYCVerification() {
   return async (dispatch, getState) => {
-    const { formData } = getState().ui;
+    const { formData } = getState().forms;
     let callName;
 
     try {

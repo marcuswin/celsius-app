@@ -31,7 +31,7 @@ const images = [
 @connect(
   state => ({
     profilePicture: state.users.user.profile_picture,
-    profileImage: state.ui.formData.profileImage,
+    profileImage: state.forms.formData.profileImage,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
   }),

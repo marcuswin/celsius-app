@@ -18,7 +18,7 @@ import InputErrorWrapper from "../../atoms/InputErrorWrapper/InputErrorWrapper";
 
 @connect(
   state => ({
-    formData: state.ui.formData
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

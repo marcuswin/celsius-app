@@ -15,7 +15,7 @@ export {
 function applyForALoan() {
   return async (dispatch, getState) => {
     try {
-      const { formData } = getState().ui;
+      const { formData } = getState().forms;
       startApiCall(API.APPLY_FOR_LOAN);
 
       const loanApplication = {

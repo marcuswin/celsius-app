@@ -14,8 +14,8 @@ import CelInput from "../../atoms/CelInput/CelInput";
 @connect(
   state => ({
     // map state to props
-    formData: state.ui.formData,
-    formErrors: state.ui.formErrors,
+    formData: state.forms.formData,
+    formErrors: state.forms.formErrors,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

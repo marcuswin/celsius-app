@@ -17,7 +17,7 @@ import testUtil from "../../../utils/test-util";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     callsInProgress: state.api.callsInProgress,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

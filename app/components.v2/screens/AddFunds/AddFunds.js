@@ -38,7 +38,7 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
     // })
 
     return {
-      formData: state.ui.formData,
+      formData: state.forms.formData,
       walletAddresses,
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,

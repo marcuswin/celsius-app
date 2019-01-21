@@ -19,13 +19,13 @@ import API from '../../../config/constants/API';
 
 @connect(
   state => ({
-    cameraField: state.ui.camera.cameraField,
-    cameraHeading: state.ui.camera.cameraHeading,
-    cameraCopy: state.ui.camera.cameraCopy,
-    cameraType: state.ui.camera.cameraType,
-    photo: state.ui.camera.photo,
-    mask: state.ui.camera.mask,
-    cameraRollLastPhoto: state.cameraRoll.cameraRollPhotos[0],
+    cameraField: state.camera.cameraField,
+    cameraHeading: state.camera.cameraHeading,
+    cameraCopy: state.camera.cameraCopy,
+    cameraType: state.camera.cameraType,
+    photo: state.camera.photo,
+    mask: state.camera.mask,
+    cameraRollLastPhoto: state.camera.cameraRollPhotos[0],
     bottomNavigationHeight: state.ui.dimensions.bottomNavigation,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

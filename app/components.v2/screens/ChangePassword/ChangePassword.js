@@ -13,7 +13,7 @@ import CelForm from "../../atoms/CelForm/CelForm";
 @connect(
   state => ({
     callsInProgress: state.api.callsInProgress,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

@@ -165,7 +165,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
 
 @connect(
   state => ({
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     addresses: state.wallet.withdrawalAddresses,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall

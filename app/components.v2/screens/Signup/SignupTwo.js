@@ -30,8 +30,8 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
-    formData: state.ui.formData,
-    formErrors: state.ui.formErrors,
+    formData: state.forms.formData,
+    formErrors: state.forms.formErrors,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

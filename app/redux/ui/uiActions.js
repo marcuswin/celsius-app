@@ -2,7 +2,6 @@
 
 
 import ACTIONS from '../../config/constants/ACTIONS';
-import * as navActions from '../nav/navActions';
 import { MODALS } from "../../config/constants/common";
 import { screens } from '../../config/Navigator';
 
@@ -11,6 +10,7 @@ export {
   fireUserAction, // TODO: check what this does if it can be removed
 
   // TODO(fj): ui
+  setAppTheme,
   setInternetConnectivity,
   showMessage,
   clearMessage,
@@ -20,22 +20,6 @@ export {
   setHeaderHeight, // TODO: check if used
   refreshBottomNavigation, // TODO: remove or rename to toggle? or on/off
 
-  // TODO(fj): camera
-  takeCameraPhoto,
-  flipCamera,
-  activateCamera,
-  retakePhoto,
-
-  // TODO(fj): forms
-  // submitForm,
-  initForm,
-  clearForm,
-  setFormErrors,
-  updateFormField,
-
-  updatePortfolioFormData, // TODO: remove
-
-
   // TODO(fj): scrolling - try to remove
   setKeyboardHeight,
   setInputLayout,
@@ -43,7 +27,6 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
-  setAppTheme
 }
 
 let msgTimeout;
@@ -86,76 +69,6 @@ function setHeaderHeight(height, isAnimatedHeader = false) {
     header: height,
     isAnimatedHeader,
   }
-}
-
-function takeCameraPhoto(photo) {
-  return {
-    type: ACTIONS.TAKE_CAMERA_PHOTO,
-    photo,
-  }
-}
-
-function retakePhoto() {
-  return {
-    type: ACTIONS.RETAKE_PHOTO,
-  }
-}
-
-function flipCamera() {
-  return {
-    type: ACTIONS.FLIP_CAMERA,
-  }
-}
-
-function activateCamera(cameraProps) {
-  return dispatch => {
-    dispatch({
-      type: ACTIONS.ACTIVATE_CAMERA,
-      ...cameraProps,
-    });
-    dispatch(navActions.navigateTo('Camera', { onSave: cameraProps.onSave }));
-  }
-}
-
-function updateFormField(field, value) {
-  return {
-    type: ACTIONS.UPDATE_FORM_FIELD,
-    field,
-    value,
-  }
-}
-
-function initForm(formData) {
-  return {
-    type: ACTIONS.INIT_FORM,
-    formData,
-  }
-}
-
-function clearForm() {
-  return {
-    type: ACTIONS.CLEAR_FORM,
-  }
-}
-
-function setFormErrors(formErrors) {
-  return dispatch => {
-    const timeout = setTimeout(() => {
-      dispatch({ type: ACTIONS.CLEAR_FORM_ERRORS })
-      clearTimeout(timeout)
-    }, 5000)
-    dispatch({
-      type: ACTIONS.SET_FORM_ERRORS,
-      formErrors,
-    })
-  }
-}
-
-function updatePortfolioFormData(data) {
-  return {
-    type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
-    data,
-  };
 }
 
 function setKeyboardHeight(keyboardHeight) {

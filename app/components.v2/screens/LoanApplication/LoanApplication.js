@@ -37,7 +37,7 @@ const LTVs = [
     supportedCurrencies: state.generalData.supportedCurrencies,
     currencyRatesShort: state.generalData.currencyRatesShort,
     walletCurrencies: state.wallet.currencies,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     callsInProgress: state.api.callsInProgress,
     hasPassedKYC: state.users.user.kyc && state.users.user.kyc.status === KYC_STATUSES.passed,

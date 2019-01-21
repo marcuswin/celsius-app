@@ -13,7 +13,7 @@ import HowToEarnInterestStyle from "./HowToEarnInterest.styles";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     interestRates: state.interest.rates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

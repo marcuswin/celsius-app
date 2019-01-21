@@ -14,8 +14,8 @@ import CameraRollStyle from "./CameraRoll.styles";
 @connect(
   state => ({
     callsInProgress: state.api.callsInProgress,
-    formData: state.ui.formData,
-    cameraRoll: state.cameraRoll,
+    formData: state.forms.formData,
+    cameraRoll: state.camera,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

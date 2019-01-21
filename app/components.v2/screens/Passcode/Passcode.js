@@ -57,7 +57,7 @@ const codeLength = 4;
     user: state.users.user,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     userActions: state.ui.userActions,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
     callsInProgress: state.api.callsInProgress,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null
