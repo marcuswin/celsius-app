@@ -71,7 +71,7 @@ class NycBlackoutModal extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if ((formData.country === "United States" || formData.citizenship === "United States") && !formData.ssn) formErrors.ssn = "ssn is required!";
+    // if ((formData.country === "United States" || formData.citizenship === "United States") && !formData.ssn) formErrors.ssn = "ssn is required!";
 
     if ((formData.country === "United States" || formData.citizenship === "United States") && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
@@ -215,7 +215,8 @@ class NycBlackoutModal extends Component {
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     }
     if (user && kycRealStatus === "ico_passed") {
-      NycBlackoutTimestamp = moment.utc(new Date("1-31-2019"));
+      // TODO (ns): see if there is fixed date for blackout or 14 days from moment of blocking
+      NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days");
     }
 

@@ -2,15 +2,23 @@ import React from 'react';
 import { Animated } from 'react-native';
 import { widthPercentageToDP } from '../../../utils/scale';
 
+let animation;
+
 export class FadeInView extends React.Component {
     state = {
         fadeAnim: new Animated.Value(0),
     };
+
     componentDidMount() {
         this.animate();
     }
-    animate = () => {
-        Animated.timing(// Animate over time
+
+    componentWillUnmount() {
+        animation.stop();
+    }
+
+  animate = () => {
+       animation = Animated.timing(// Animate over time
             this.state.fadeAnim, // The animated value to drive
             {
                 toValue: widthPercentageToDP('100%') - 64 - 30, // minus because of the margins and paddings
