@@ -1,12 +1,17 @@
 import React from 'react';
 // import {} from 'react-native';
-// import {} from 'native-base';
 
-// import {STYLES} from "../../config/constants/style";
+import testUtil from "../../../utils/test-util";
+
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
-const {{pascalCase name}} = (props) => (
-  <{{pascalCase name}} />
-)
+const {{pascalCase name}} = (props) => {
+  const style = {{pascalCase name}}Style(props.theme)
+  return (
+    <View style={style.container}>
+      <{{pascalCase name}} />
+    </View>
+  )
+}
 
-export default {{pascalCase name}};
+export default testUtil.hookComponent({{pascalCase name}});

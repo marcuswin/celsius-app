@@ -11,12 +11,12 @@ module.exports = {
     {
       type: 'add',
       path: 'app/components/screens/{{pascalCase name}}/{{pascalCase name}}.js',
-      templateFile: 'plops/screen/screen.js.txt'
+      templateFile: 'plops/component/connected.js.txt'
     },
     {
       type: 'add',
       path: 'app/components/screens/{{pascalCase name}}/{{pascalCase name}}.styles.js',
-      templateFile: 'plops/screen/screen.styles.js.txt'
+      templateFile: 'plops/component/component.styles.js.txt'
     },
   ]
 };

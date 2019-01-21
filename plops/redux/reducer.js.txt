@@ -6,13 +6,13 @@ function initialState() {
     };
 }
 
-export default function {{camelCase name}}Reducer($$state = initialState(), action) {
+export default function {{camelCase name}}Reducer(state = initialState(), action) {
 
     switch (action.type) {
     // case ACTIONS.TEST_ACTION:
-    //     return { ...$$state };
+    //     return { ...state };
 
     default:
-        return { ...$$state };
+        return { ...state };
     }
 }

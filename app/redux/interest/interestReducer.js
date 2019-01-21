@@ -9,7 +9,7 @@ function initialState() {
     };
 }
 
-export default function interestReducer($$state = initialState(), action) {
+export default function interestReducer(state = initialState(), action) {
     const rates = {};
     const ratesDisplay = {};
     const ratesInfo = {};
@@ -23,7 +23,7 @@ export default function interestReducer($$state = initialState(), action) {
         });
 
         return {
-          ...$$state,
+          ...state,
           rates,
           ratesDisplay,
           ratesInfo,
@@ -32,11 +32,11 @@ export default function interestReducer($$state = initialState(), action) {
       case ACTIONS.GET_INTEREST_CHART_DATA_SUCCESS:
 
         return {
-          ...$$state,
+          ...state,
           chartData: action.chartData
         };
 
       default:
-          return { ...$$state };
+          return { ...state };
     }
 }

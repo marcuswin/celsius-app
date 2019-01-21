@@ -1,7 +1,0 @@
-import { StyleSheet } from 'react-native';
-
-const {{pascalCase name}}Style = StyleSheet.create({
-
-});
-
-export default {{pascalCase name}}Style;

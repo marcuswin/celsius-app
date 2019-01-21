@@ -6,8 +6,6 @@ import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 import HomeStyle from "./Home.styles";
 
-// import style from "./style.styles";
-
 @connect(
   state => ({
     style: HomeStyle(state.ui.theme),
