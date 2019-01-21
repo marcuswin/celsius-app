@@ -16,7 +16,7 @@ const LIGHT = {
 }
 
 const CELSIUS = {
-
+  
 }
 
 const FONT_SMALL = {

@@ -2,9 +2,7 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        flex: 1,
-        alignSelf: 'flex-end'
-    },
+    }
 }
 
 const themed = {
@@ -18,6 +16,6 @@ const themed = {
     }
 }
 
-const FabMenuStyle = (theme) => getThemedStyle(theme, base, themed);
+const CircleButtonStyle = (theme) => getThemedStyle(theme, base, themed);
 
-export default FabMenuStyle
+export default CircleButtonStyle

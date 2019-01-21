@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import HomeStyle from "./Home.styles";
+import FabMenu from "../../organisms/FabMenu/FabMenu";
 
 @connect(
   state => ({
@@ -24,6 +25,7 @@ class Home extends Component {
     return (
       <View style={[style.container, style.content]}>
         <Text style={{ color: "red" }}>Welcome to Home Screen</Text>
+        <FabMenu />
       </View>
     );
   }
