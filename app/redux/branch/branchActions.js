@@ -10,9 +10,10 @@ import { createIndividualLinkBUO } from "../../utils/branch-util";
 export {
   registerBranchLink,
   saveBranchLink,
-  getBranchLink,
   getBranchIndividualLink,
-  createBranchIndividualLink
+  getBranchLinkBySlug,
+  createBranchIndividualLink,
+  submitProfileCode
 };
 
 function saveBranchLink(rawLink) {
@@ -109,19 +110,57 @@ function registerReferralLink(deepLink) {
   }
 }
 
-function getBranchLink(url) {
-  return async (dispatch) => {
+function getBranchLinkBySlug() {
+  return async (dispatch, getState) => {
     try {
-      dispatch(startApiCall(API.GET_LINK_BY_URL));
+      dispatch(startApiCall(API.GET_LINK_BY_SLUG))
+      const { formData } = getState().ui;
 
-      const linkRes = await branchService.getByUrl(url);
-      dispatch({
-        type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
-        callName: API.GET_LINK_BY_URL,
-        branchLink: linkRes.data
-      });
-    } catch (err) {
-      dispatch(apiError(API.GET_LINK_BY_URL, err));
+      if (!formData.promoCode) return;
+
+      const linkRes = await branchService.getBySlug(formData.promoCode);
+      const linkResData = linkRes.data;
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_SLUG));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_SLUG_SUCCESS,
+          callName: API.GET_LINK_BY_SLUG,
+          branchLink: linkResData.branch_link
+        });
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_SLUG, err));
+      dispatch(uiActions.showMessage("error", err.msg));
     }
-  };
+  }
+}
+
+
+function submitProfileCode() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.CHECK_PROFILE_CODE))
+      const { formData } = getState().ui
+
+      const res = await branchService.submitProfileCode(formData.promoCode);
+      dispatch(submitProfileCodeSuccess(res.data.branch_link));
+    } catch (err) {
+      dispatch(apiError(API.CHECK_PROFILE_CODE, err));
+      dispatch(uiActions.setFormErrors({
+        promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
+      }))
+    }
+
+  }
+}
+
+function submitProfileCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.CHECK_PROFILE_CODE_SUCCESS,
+    callName: API.CHECK_PROFILE_CODE,
+    code: promoCodeInfo
+  }
 }

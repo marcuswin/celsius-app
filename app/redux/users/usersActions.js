@@ -525,4 +525,3 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
     callName: API.GET_ICO_USERS_INFO,
   }
 }
-

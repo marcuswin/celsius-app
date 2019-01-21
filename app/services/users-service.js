@@ -73,10 +73,12 @@ function registerGoogle(googleUser) {
   });
 }
 
-function update({ firstName, lastName}) {
+function update(user) {
   return axios.put(`${apiUrl}/users/update`, {
-    first_name: firstName,
-    last_name: lastName,
+    first_name: user.firstName,
+    last_name: user.lastName,
+    promo_code: user.promoCode,
+    referral_link_id: user.referralLinkId || undefined,
   });
 }
 

@@ -65,7 +65,7 @@ class HomeScreen extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { appInitialized, actions } = this.props;
+    const { appInitialized, actions, activeScreen } = this.props;
 
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
      return this.navigateToFirstScreen();
@@ -73,12 +73,11 @@ class HomeScreen extends Component {
     if (appInitialized === true && nextProps.appInitialized === false) {
       return actions.appInitStart();
     }
-  };
 
-  componentDidUpdate() {
-    const { actions } = this.props;
-    actions.refreshBottomNavigation();
-  }
+    if (activeScreen === 'Home' || nextProps.activeScreen === 'Home') {
+      actions.refreshBottomNavigation();
+    }
+  };
 
   componentWillUnmount() {
     clearInterval(interval);

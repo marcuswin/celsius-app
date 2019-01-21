@@ -13,6 +13,7 @@ import borrowersService from '../../services/borrowers-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
+import branchService from "../../services/branch-service";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -33,6 +34,7 @@ export {
   resetPassword,
   logoutUser,
   expireSession,
+  finishSignupTwo,
 }
 
 
@@ -134,7 +136,8 @@ function registerUser(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
       const res = await usersService.register({
         ...user,
         referralLinkId,
@@ -172,7 +175,8 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerTwitter({
         ...user,
@@ -241,7 +245,8 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerFacebook({
         ...user,
@@ -256,6 +261,7 @@ function registerUserFacebook(user) {
       analyticsEvents.startedSignup('Facebook', res.data.user);
       await analyticsEvents.sessionStart();
     } catch (err) {
+      console.log(err);
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
     }
@@ -310,7 +316,8 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerGoogle({
         ...user,
@@ -375,10 +382,17 @@ function loginUserGoogleSuccess(data) {
 
 // TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
-  return async dispatch => {
+  console.log({ promo: 'promo' })
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.UPDATE_USER));
     try {
-      const res = await usersService.update(user);
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
+
+      const res = await usersService.update({
+        ...user,
+        referralLinkId,
+      });
 
       dispatch(updateUserSuccess(res.data));
     } catch (err) {
@@ -471,6 +485,55 @@ function expireSession() {
       });
     } catch (err) {
       logger.log(err);
+    }
+  }
+}
+
+function finishSignupTwo() {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users;
+      const { formData } = getState().ui;
+
+      // check promo code
+      if (formData.promoCode) {
+        dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
+
+        const linkRes = await branchService.submitRegistrationCode(formData.promoCode);
+        const linkResData = linkRes.data;
+
+        dispatch({
+          type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+          callName: API.SUBMIT_PROMO_CODE,
+          branchLink: linkResData.branch_link
+        });
+      }
+
+      const data = { ...formData };
+
+      // register twitter user
+      if (user && user.twitter_id) {
+        return dispatch(registerUserTwitter({ ...user, ...data }));
+      }
+
+      // register facebook user
+      if (user && user.facebook_id) {
+        return dispatch(registerUserFacebook({ ...user, ...data }));
+      }
+
+      // register google user
+      if (user && user.google_id) {
+        return dispatch(registerUserGoogle({ ...user, ...data }));
+      }
+
+      // update user
+      if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
+        return dispatch(updateUser(data));
+      }
+    } catch (err) {
+      console.log(err)
+      dispatch(apiError(API.SUBMIT_PROMO_CODE));
+      dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
     }
   }
 }

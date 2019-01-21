@@ -8,8 +8,11 @@ const branchService = {
   create,
   get,
   getByUrl,
+  getBySlug,
   createEvent,
   getIndividualLink,
+  submitRegistrationCode,
+  submitProfileCode
   // createBranchEvent,
 };
 
@@ -27,8 +30,20 @@ function getByUrl(url) {
   return axios.get(`${apiUrl}/branch?url=${url}`);
 }
 
+function getBySlug(slug) {
+  return axios.get(`${apiUrl}/branch?slug=${slug}`);
+}
+
 function getIndividualLink() {
   return axios.get(`${apiUrl}/branch/individual`);
+}
+
+function submitRegistrationCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
+}
+
+function submitProfileCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
 }
 
 // Branch endpoints

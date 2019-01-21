@@ -19,8 +19,9 @@ import Icon from "../../atoms/Icon/Icon";
 
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
+import Separator from "../../atoms/Separator/Separator";
 
-const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER]
+const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USER_GOOGLE, API.REGISTER_USER_TWITTER];
 
 @connect(
   state => ({
@@ -32,6 +33,7 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
+    referralLink: state.branch.registeredLink,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -64,39 +66,12 @@ class SignupTwo extends Component {
     }
   }
 
-  // event hanlders
-  onSubmit = () => {
-    const { formData, user, actions } = this.props;
-
-    const data = { ...formData };
-
-    // register twitter user
-    if (user && user.twitter_id) {
-      return actions.registerUserTwitter({ ...user, ...data });
-    }
-
-    // register facebook user
-    if (user && user.facebook_id) {
-      return actions.registerUserFacebook({ ...user, ...data });
-    }
-
-    // register google user
-    if (user && user.google_id) {
-      return actions.registerUserGoogle({ ...user, ...data });
-    }
-
-    // update user
-    if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
-      return actions.updateUser(data);
-    }
-  }
-
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex } = this.props;
-    const { firstName, lastName, email } = formData;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex, referralLink } = this.props;
+    const { firstName, lastName, email, promoCode } = formData;
 
-    const isLoading = apiUtil.areCallsInProgress(pageCalls, callsInProgress);
+    const isLoading = apiUtil.areCallsInProgress([...pageCalls, API.GET_LINK_BY_SLUG], callsInProgress);
 
     return (
       <SimpleLayout
@@ -108,7 +83,7 @@ class SignupTwo extends Component {
         <View>
           <CelForm disabled={isLoading}>
             <CelInput
-              {...this.props} testSelector={'SignupTwo.FirstName'}
+              testSelector={'SignupTwo.FirstName'}
               error={formErrors.first_name}
               field="firstName"
               labelText="First Name"
@@ -116,7 +91,7 @@ class SignupTwo extends Component {
               autoCapitalize={'sentences'}
             />
             <CelInput
-              {...this.props} testSelector={'SignupTwo.LastName'}
+              testSelector={'SignupTwo.LastName'}
               error={formErrors.last_name}
               field="lastName"
               labelText="Last Name"
@@ -134,6 +109,7 @@ class SignupTwo extends Component {
 
             <Text style={SignupStyle.disclaimer}>* Note that you should be 18 years or older in order to use Celsius services.</Text>
 
+
             <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', height: 36 }}>
               <CelCheckbox
                 label="I agree to Terms of Use"
@@ -147,13 +123,28 @@ class SignupTwo extends Component {
                 </TouchableOpacity>
               </View>
             </View>
+
+            {!referralLink &&
+              <View>
+
+                <Separator margin="20 0 20 0">PROMO CODE</Separator>
+
+                <CelInput
+                  error={formErrors.promoCode}
+                  field="promoCode"
+                  labelText="Enter Code"
+                  value={promoCode}
+                />
+              </View>
+            }
+
           </CelForm>
 
           <View style={{ marginTop: 40, paddingBottom: 100 }}>
             <CelButton
               ref={testUtil.generateTestHook(this, 'SignupTwo.CreatePin')}
               disabled={!agreedToTermsOfUse || !formData.firstName || !formData.lastName || !formData.email}
-              onPress={this.onSubmit}
+              onPress={actions.finishSignupTwo}
               loading={isLoading}
               white
               iconRight="IconArrowRight"

@@ -18,7 +18,7 @@ const initialState = {
     showTodayRatesModal: true,
     showBchExplanationInfoBox: true,
     declineAccess: false,
-  }
+  },
 };
 
 export default (state = initialState, action) => {
@@ -218,7 +218,6 @@ export default (state = initialState, action) => {
           individual_referral_link: action.link
         }
       }
-
 
     default:
       return state;
