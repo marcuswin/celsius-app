@@ -1,0 +1,224 @@
+import { Constants } from 'expo';
+import Branch from 'react-native-branch';
+
+import ACTIONS from '../../config/constants/ACTIONS';
+import API from '../../config/constants/API';
+import { startApiCall, apiError } from '../api/apiActions';
+import { navigateTo } from '../nav/navActions';
+import { showMessage } from '../ui/uiActions';
+import { claimAllBranchTransfers } from '../transfers/transfersActions';
+import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
+import usersService from '../../services/users-service';
+import apiUtil from '../../utils/api-util';
+import logger from '../../utils/logger-util';
+import { analyticsEvents } from "../../utils/analytics-util";
+import { setFormErrors } from '../forms/formsActions';
+import meService from '../../services/me-service';
+
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+
+export {
+  loginUser,
+  registerUser,
+  registerUserSuccess,
+  updateUser,
+  sendResetLink,
+  resetPassword,
+  logoutUser,
+  expireSession,
+  setPin
+}
+
+function loginUser({ email, password }) {
+  return async dispatch => {
+    dispatch(startApiCall(API.LOGIN_USER));
+
+    try {
+      const res = await usersService.login({ email, password });
+
+      // add token to expo storage
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+
+      dispatch(loginUserSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
+
+      dispatch(navigateTo('Home', true));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.LOGIN_USER, err));
+    }
+  }
+}
+
+function loginUserSuccess(data) {
+  analyticsEvents.sessionStart();
+  return {
+    type: ACTIONS.LOGIN_USER_SUCCESS,
+    callName: API.LOGIN_USER,
+    tokens: data.auth0,
+    user: data.user,
+  }
+}
+
+function registerUser(user) {
+  analyticsEvents.startedSignup('Email');
+  return async (dispatch, getState) => {
+    dispatch(startApiCall(API.REGISTER_USER));
+    try {
+      const referralLinkId = getState().branch.referralLinkId;
+      const res = await usersService.register({
+        ...user,
+        referralLinkId,
+      });
+
+      // add token to expo storage
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+
+      dispatch(registerUserSuccess(res.data));
+      dispatch(claimAllBranchTransfers());
+      await analyticsEvents.sessionStart();
+      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+    } catch (err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(apiError(API.REGISTER_USER, err));
+    }
+  }
+}
+
+function registerUserSuccess(data) {
+
+  return {
+    type: ACTIONS.REGISTER_USER_SUCCESS,
+    callName: API.REGISTER_USER,
+    user: data.user,
+  }
+}
+
+// TODO(fj) should replace update user endpoint w patch /me
+function updateUser(user) {
+  return async dispatch => {
+    dispatch(startApiCall(API.UPDATE_USER));
+    try {
+      const res = await usersService.update(user);
+
+      dispatch(updateUserSuccess(res.data));
+    } catch (err) {
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(apiError(API.UPDATE_USER, err));
+    }
+  }
+}
+
+function updateUserSuccess(data) {
+  return {
+    type: ACTIONS.UPDATE_USER_SUCCESS,
+    callName: API.UPDATE_USER,
+    user: data.user,
+  }
+}
+
+function sendResetLink(email) {
+  return async dispatch => {
+    dispatch(startApiCall(API.SEND_RESET_LINK));
+    try {
+      await usersService.sendResetLink(email);
+      dispatch(showMessage('info', 'Email sent!'));
+      dispatch(sendResetLinkSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SEND_RESET_LINK, err));
+    }
+  }
+}
+
+function sendResetLinkSuccess() {
+  return {
+    type: ACTIONS.SEND_RESET_LINK_SUCCESS,
+    callName: API.SEND_RESET_LINK,
+  }
+}
+
+function resetPassword(currentPassword, newPassword) {
+  return async dispatch => {
+    dispatch(startApiCall(API.RESET_PASSWORD));
+    try {
+      const { data } = await usersService.resetPassword(currentPassword, newPassword);
+      const { auth0: { id_token: newAuthToken } } = data;
+
+      await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, newAuthToken);
+
+      dispatch(showMessage('success', 'Password successfully changed.'));
+      dispatch(resetPasswordSuccess());
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.RESET_PASSWORD, err));
+    }
+  }
+}
+
+function resetPasswordSuccess() {
+  return {
+    type: ACTIONS.RESET_PASSWORD_SUCCESS,
+    callName: API.RESET_PASSWORD,
+  }
+}
+
+function logoutUser() {
+  return async dispatch => {
+    try {
+      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      await analyticsEvents.sessionEnd();
+      analyticsEvents.logoutUser();
+      if (Constants.appOwnership === 'standalone') Branch.logout();
+
+      dispatch({
+        type: ACTIONS.LOGOUT_USER,
+      });
+    } catch (err) {
+      logger.log(err);
+    }
+  }
+}
+
+function expireSession() {
+  return async dispatch => {
+    try {
+      dispatch({
+        type: ACTIONS.EXPIRE_SESSION,
+      });
+    } catch (err) {
+      logger.log(err);
+    }
+  }
+}
+
+function setPin(pinData) {
+  return async dispatch => {
+    dispatch(startApiCall(API.SET_PIN));
+    try {
+      await meService.setPin(pinData);
+      dispatch(setPinSuccess());
+      dispatch({ type: ACTIONS.CLEAR_FORM });
+      dispatch(navigateTo('NoKyc'));
+      analyticsEvents.pinSet();
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+function setPinSuccess() {
+  return {
+    type: ACTIONS.SET_PIN_SUCCESS,
+    callName: API.SET_PIN,
+  }
+}

@@ -50,7 +50,7 @@ function successfulFlow(spec) {
     await spec.fillIn('CelTextInput.pass', 'Cel51u5!?')
     await spec.press('LoginForm.button')
 
-    await callToComplete(spec, API.LOGIN_BORROWER)
+    await callToComplete(spec, API.LOGIN_USER)
     await waitForExists(spec, 'NoKyc.screen')
   }
 }
@@ -111,7 +111,7 @@ function errWhenWrongCredentials(spec) {
     await spec.fillIn('CelTextInput.pass', 'filip1234')
     await spec.fillIn('CelTextInput.email', 'testing+non_kyc_user@mvpworkshop.co')
     await spec.press('LoginForm.button')
-    await callToComplete(spec, API.LOGIN_BORROWER)
+    await callToComplete(spec, API.LOGIN_USER)
     const text = await waitToFindComponent(spec, 'Message.msg');
     await containsText(text, `Uhoh, looks like your username or password don't match.`);
     await spec.notExists('WalletBalance.screen')

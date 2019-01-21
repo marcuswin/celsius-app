@@ -8,13 +8,13 @@ import { KYC_STATUSES } from "../../config/constants/common";
 
 function navigateTo(routeName, screenProps) {
   return (dispatch, getState) => {
-    const { user } = getState().users;
+    const { profile } = getState().user;
     let goToRoute = routeName;
     if (goToRoute === 'Home') {
-      if (!user) goToRoute = 'Welcome';
-      else if (!user.first_name || !user.last_name) goToRoute = 'SignupTwo';
-      else if (!user.has_pin) goToRoute = 'CreatePasscode';
-      else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) goToRoute = 'NoKyc';
+      if (!profile) goToRoute = 'Welcome';
+      else if (!profile.first_name || !profile.last_name) goToRoute = 'SignupTwo';
+      else if (!profile.has_pin) goToRoute = 'CreatePasscode';
+      else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) goToRoute = 'NoKyc';
       else goToRoute = 'WalletBalance';
     }
 

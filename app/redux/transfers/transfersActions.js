@@ -160,7 +160,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
     const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
     const usdAmount = currencyAmount * amount;
 
-    const { user } = getState().users;
+    const { profile } = getState().user;
 
     apiCall = API.CREATE_BRANCH_LINK;
     dispatch(startApiCall(apiCall));
@@ -174,7 +174,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
       }
     });
 
-    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
+    Share.share({ message: `${profile.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
     dispatch(navigateTo('Home'));
     analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
   }
@@ -184,9 +184,9 @@ function registerTransferLink(deepLink) {
   return async (dispatch, getState) => {
     try {
       const { userActions } = getState().ui;
-      const { user } = getState().users;
+      const { profile } = getState().user;
 
-      if (user) {
+      if (profile) {
         dispatch(startApiCall(API.GET_TRANSFER));
         const res = await transferService.get(deepLink.transfer_hash);
         const transfer = res.data;

@@ -128,7 +128,7 @@ export function WalletDetailsSetup() {
 }
 
 export function loginUserSetup() {
-  dispatch(actions.loginBorrower( {
+  dispatch(actions.loginUser( {
 
       email: 'filip.jovakaric+wlt@mvpworkshop.co',
       password: 'filip123',

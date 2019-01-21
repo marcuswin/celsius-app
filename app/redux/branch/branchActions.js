@@ -80,7 +80,7 @@ function registerBranchLink(deepLink) {
         if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
 
         if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().users.user) {
+          if (!getState().user.profile) {
 
             dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
           } else {
@@ -93,7 +93,7 @@ function registerBranchLink(deepLink) {
 
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
         logger.logme({ individualLink: deepLink });
-        if (!getState().users.user) {
+        if (!getState().user.profile) {
           // TODO(fj): check if individual link is valid on an enpoint //max number of users check|country|award change
 
           // dispatch(saveBranchLink(deepLink));

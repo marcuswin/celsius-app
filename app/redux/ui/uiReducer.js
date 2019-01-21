@@ -34,7 +34,7 @@ function getBottomNavDimensions() {
 function shouldShowBottomNavigation(action) {
   const { type } = action;
   const { nav } = store.getState();
-  const { user } = store.getState().users;
+  const { profile } = store.getState().user;
   const { userActions } = store.getState().ui;
   let routeName;
 
@@ -49,15 +49,15 @@ function shouldShowBottomNavigation(action) {
 
   if (routeName !== 'Home') {
     showNav = !!screens[routeName].bottomNavigation;
-  } else if (!user) {
+  } else if (!profile) {
     showNav = false;
-  } else if (!user.first_name || !user.last_name) {
+  } else if (!profile.first_name || !profile.last_name) {
     showNav = false;
-  } else if (!user.has_pin) {
+  } else if (!profile.has_pin) {
     showNav = false;
   } else if (shouldRenderInitialIdVerification(userActions)) {
     showNav = false;
-  } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+  } else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
     showNav = true;
   } else {
     showNav = true;

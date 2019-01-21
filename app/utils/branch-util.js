@@ -27,10 +27,10 @@ async function initBranch() {
 }
 
 async function createIndividualLinkBUO() {
-  const { user } = store.getState().users;
+  const { profile } = store.getState().user;
 
   const individualLinkBuo = await createBUO(
-    `individual:${user.id}`,
+    `individual:${profile.id}`,
     {
       locallyIndex: true,
       title: 'Download the App Now to Earn Interest Like Me',
@@ -38,10 +38,10 @@ async function createIndividualLinkBUO() {
       contentDescription: 'Deposit coins & earn up to 5% interest annually on BTC, ETH, LTC and more.',
       contentMetadata: {
         customMetadata: {
-          referrer_id: user.id,
+          referrer_id: profile.id,
           link_type: BRANCH_LINKS.INDIVIDUAL_REFERRAL,
-          from_name: `${user.first_name} ${user.last_name}`,
-          from_profile_picture: user.profile_picture,
+          from_name: `${profile.first_name} ${profile.last_name}`,
+          from_profile_picture: profile.profile_picture,
 
           referrer_award_amount: 10,
           referrer_award_coin: 'CEL',
@@ -57,7 +57,7 @@ async function createIndividualLinkBUO() {
 }
 
 async function createCelPayBUO(transfer) {
-  const { user } = store.getState().users;
+  const { profile } = store.getState().user;
 
   const celPayBUO = await createBUO(
     `transfer:${transfer.hash}`,
@@ -70,8 +70,8 @@ async function createCelPayBUO(transfer) {
         customMetadata: {
           amount: transfer.amount,
           coin: transfer.coin,
-          from_name: `${user.first_name} ${user.last_name}`,
-          from_profile_picture: user.profile_picture,
+          from_name: `${profile.first_name} ${profile.last_name}`,
+          from_profile_picture: profile.profile_picture,
           transfer_hash: transfer.hash,
           link_type: BRANCH_LINKS.TRANSFER,
         }
@@ -109,7 +109,7 @@ async function createTransactionDetailsBUO(transaction) {
 
 async function createBUO(canonicalIdentifier, properties) {
   if (Constants.appOwnership !== 'standalone') return;
-  const { email } = store.getState().users.user;
+  const { email } = store.getState().user.profile;
 
   try {
     const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);

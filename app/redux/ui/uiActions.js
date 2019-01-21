@@ -158,10 +158,10 @@ function setScrollPosition(scrollPosition) {
 function openInitialModal() {
   return (dispatch, getState) => {
     const openedModal = getState().ui.openedModal;
-    const appSettings = getState().users.appSettings;
-    const user = getState().users.user;
+    const appSettings = getState().user.appSettings;
+    const user = getState().user.profile;
     const branchHashes = getState().transfers.branchHashes;
-    const kyc = getState().users.user.kyc.realStatus;
+    const kyc = getState().user.profile.kyc.realStatus;
 
     if (branchHashes && branchHashes.length) {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))

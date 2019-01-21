@@ -1,14 +1,3 @@
-// TODO(fj): split ALL user actions into:
-// TODO(fj): auth: login, register, reset pass, reset link, set pin...
-// TODO(fj): facebook: login, register
-// TODO(fj): twitter: login, register
-// TODO(fj): google: login, register
-// TODO(fj): kyc: check below, try to delete some :)
-// TODO(fj): profile: check below, try to delete some :)
-// TODO(fj): check usage throughout the app
-
-import { Constants } from "expo";
-
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -17,18 +6,12 @@ import { showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from "../../config/constants/common";
-import { deleteSecureStoreKey, getSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import apiUtil from "../../utils/api-util";
-import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
-import Sentry from '../../utils/sentry-util';
 import { setFormErrors } from "../forms/formsActions";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
-
 export {
-  // TODO(fj): kyc
   updateProfileInfo,
   updateProfileAddressInfo,
   updateProfileTaxpayerInfo,
@@ -39,46 +22,7 @@ export {
   verifyKYCDocs,
   finishKYCVerification,
   startKYC,
-  getKYCStatus,
-
-  // TODO(fj): register
-  setPin,
-  toggleTermsOfUse,
-
-  // TODO(fj): profile
-  getProfileInfo,
-  initUserAppSettings,
-  updateUserAppSettings,
-  updateProfilePicture,
-  getTwoFactorSecret,
-  enableTwoFactor,
-  disableTwoFactor,
-  getIcoUsersProfileInfo,
-}
-
-function getProfileInfo() {
-  return async (dispatch) => {
-    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
-
-    try {
-      const personalInfoRes = await usersService.getPersonalInfo();
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-      await analyticsEvents.initUser(personalInfo);
-
-      Sentry.setUserContext({
-        email: personalInfo.email,
-        id: personalInfo.id,
-      });
-
-      dispatch(getUserPersonalInfoSuccess(personalInfo));
-    } catch (err) {
-      if (err.status === 422) {
-        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      }
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
-    }
-  }
+  getKYCStatus
 }
 
 function updateProfileInfo(profileInfo) {
@@ -95,7 +39,6 @@ function updateProfileInfo(profileInfo) {
       } else {
         dispatch(showMessage('error', err.msg));
       }
-      dispatch(updateProfileInfoError(err.raw_error));
       dispatch(apiError(API.UPDATE_USER_PERSONAL_INFO, err));
     }
   }
@@ -115,7 +58,6 @@ function updateProfileAddressInfo(profileAddressInfo) {
       } else {
         dispatch(showMessage('error', err.msg));
       }
-      dispatch(updateProfileAddressInfoError(err.raw_error));
       dispatch(apiError(API.UPDATE_USER_ADDRESS_INFO, err));
     }
   }
@@ -135,7 +77,6 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
       } else {
         dispatch(showMessage('error', err.msg));
       }
-      dispatch(updateProfileTaxpayerInfoError(err.raw_error));
       dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
     }
   }
@@ -149,13 +90,6 @@ export function updateProfileInfoSuccess(personalInfo) {
   }
 }
 
-function updateProfileInfoError(err) {
-  return {
-    type: ACTIONS.UPDATE_USER_PERSONAL_INFO_ERROR,
-    error: err,
-  }
-}
-
 function updateProfileAddressInfoSuccess(addressInfo) {
   return {
     type: ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS,
@@ -164,60 +98,11 @@ function updateProfileAddressInfoSuccess(addressInfo) {
   }
 }
 
-function updateProfileAddressInfoError(err) {
-  return {
-    type: ACTIONS.UPDATE_USER_ADDRESS_INFO_ERROR,
-    error: err,
-  }
-}
 function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
   return {
     type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS,
     callName: API.UPDATE_USER_TAXPAYER_INFO,
     taxpayerInfo,
-  }
-}
-
-function updateProfileTaxpayerInfoError(err) {
-  return {
-    type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_ERROR,
-    error: err,
-  }
-}
-
-export function getUserPersonalInfoSuccess(personalInfo) {
-  return {
-    type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
-    callName: API.GET_USER_PERSONAL_INFO,
-    personalInfo,
-  }
-}
-
-function toggleTermsOfUse() {
-  return {
-    type: ACTIONS.TOGGLE_TERMS_OF_USE,
-  }
-}
-
-function updateProfilePicture(image) {
-  return async dispatch => {
-    dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
-    try {
-      const res = await usersService.setProfileImage(image);
-
-      dispatch(updateProfilePictureSuccess(res.data.img_url));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.UPLOAD_PLOFILE_IMAGE, err));
-    }
-  }
-}
-
-function updateProfilePictureSuccess(image) {
-  return {
-    type: ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS,
-    callName: API.UPLOAD_PLOFILE_IMAGE,
-    image,
   }
 }
 
@@ -305,7 +190,7 @@ export function verifySMSSuccess() {
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
-    const { user } = getState().users;
+    const { profile } = getState().user;
     let callName;
     let res;
 
@@ -320,7 +205,7 @@ function verifyKYCDocs() {
       dispatch(createKYCDocumentsSuccess(res.data));
       analyticsEvents.documentsAdded();
 
-      if (user.cellphone !== formData.cellphone || !user.cellphone_verified) {
+      if (profile.cellphone !== formData.cellphone || !profile.cellphone_verified) {
         callName = API.UPDATE_USER_PERSONAL_INFO;
         dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
         res = await usersService.updateProfileInfo({
@@ -425,126 +310,3 @@ function getKYCStatusSuccess(status) {
     kyc: status,
   }
 }
-
-function setPin(pinData) {
-  return async dispatch => {
-    dispatch(startApiCall(API.SET_PIN));
-    try {
-      await meService.setPin(pinData);
-      dispatch(setPinSuccess());
-      dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(NavActions.navigateTo('NoKyc'));
-      analyticsEvents.pinSet();
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.SET_PIN, err));
-    }
-  }
-}
-
-function getTwoFactorSecret(pin) {
-  return async dispatch => {
-    try {
-      const secret = await TwoFactorService.beginTwoFactorActivation(pin);
-
-      return secret;
-    } catch (error) {
-      dispatch(showMessage('error', error.msg));
-    }
-  }
-}
-
-function enableTwoFactor(code) {
-  return async dispatch => {
-    try {
-      const success = await TwoFactorService.enableTwoFactor(code);
-
-      if (!success) {
-        dispatch(showMessage('error', "lalal"));
-      }
-
-      const personalInfoRes = await usersService.getPersonalInfo();
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-
-      dispatch(getUserPersonalInfoSuccess(personalInfo));
-
-      return success;
-    } catch (error) {
-      dispatch(showMessage('error', error.msg));
-    }
-  }
-}
-
-function disableTwoFactor(pin) {
-  return async dispatch => {
-    try {
-      const success = await TwoFactorService.disableTwoFactor(pin);
-
-      const personalInfoRes = await usersService.getPersonalInfo();
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-
-      dispatch(getUserPersonalInfoSuccess(personalInfo));
-
-      return success;
-    } catch (error) {
-      dispatch(showMessage('error', error.msg));
-    }
-  }
-}
-
-function setPinSuccess() {
-  return {
-    type: ACTIONS.SET_PIN_SUCCESS,
-    callName: API.SET_PIN,
-  }
-}
-
-// Gets User App Settings from Secure Store
-async function initUserAppSettings() {
-  const appSettings = await getSecureStoreKey("APP_SETTINGS");
-  if (appSettings) return updateUserAppSettings(JSON.parse(appSettings));
-}
-
-function updateUserAppSettings(appSettings) {
-  return async (dispatch, getState) => {
-    try {
-      const newAppSettings = {
-        ...getState().users.appSettings,
-        ...appSettings,
-      }
-
-      await setSecureStoreKey('APP_SETTINGS', JSON.stringify(newAppSettings));
-
-      dispatch({
-        type: ACTIONS.UPDATE_USER_APP_SETTINGS,
-        appSettings: newAppSettings,
-      });
-    } catch (err) {
-      logger.log(err)
-    }
-  }
-}
-
-function getIcoUsersProfileInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_ICO_USERS_INFO));
-
-    try {
-      const res = await usersService.getIcoPersonalInfo();
-      const personalInfo = res.data;
-      dispatch(getIcoUsersProfileInfoSuccess(personalInfo));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_ICO_USERS_INFO, err));
-    }
-  }
-}
-
-function getIcoUsersProfileInfoSuccess(personalInfo) {
-  return {
-    type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
-    personalInfo,
-    callName: API.GET_ICO_USERS_INFO,
-  }
-}
-

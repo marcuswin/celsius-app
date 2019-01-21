@@ -44,7 +44,7 @@ export function initCelsiusApp() {
       await branchUtil.initBranch();
 
       analyticsEvents.openApp();
-      if (getState().users.user) analyticsEvents.sessionStart();
+      if (getState().user.profile) analyticsEvents.sessionStart();
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {
@@ -91,12 +91,12 @@ let pinTimeout;
 let startOfBackgroundTimer;
 export function handleAppStateChange(nextAppState) {
   return (dispatch, getState) => {
-    const { user } = getState().users;
+    const { profile } = getState().user;
     const { appState } = getState().app;
 
     if (nextAppState === "active") {
       analyticsEvents.openApp();
-      if (user) analyticsEvents.sessionStart()
+      if (profile) analyticsEvents.sessionStart()
 
       if (Platform.OS === "ios") {
         clearTimeout(pinTimeout);
@@ -108,7 +108,7 @@ export function handleAppStateChange(nextAppState) {
       }
     }
 
-    if (nextAppState.match(/inactive|background/) && user && user.has_pin && appState === "active") {
+    if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
       analyticsEvents.sessionEnd();
 
       if (Platform.OS === "ios") {
@@ -146,21 +146,21 @@ async function initAppData() {
   if (token) await store.dispatch(actions.getProfileInfo());
 
   // get expired session
-  const { expiredSession } = store.getState().users;
+  const { expiredSession } = store.getState().user;
 
   if (token && !expiredSession) {
     registerForPushNotificationsAsync();
 
     // get all KYC document types and claimed transfers for non-verified users
-    const { user } = store.getState().users;
-    if (user) {
-      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
+    const { profile } = store.getState().user;
+    if (profile) {
+      if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
         await store.dispatch(actions.getKYCDocTypes());
         await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
       }
 
       // get wallet details for verified users
-      if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
+      if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
         await store.dispatch(actions.getWalletDetails());
       }
     }

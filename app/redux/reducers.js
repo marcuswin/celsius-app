@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import nav from './nav/navReducer';
 import api from './api/apiReducer';
 import ui from './ui/uiReducer';
-import users from './users/usersReducer';
+import user from './user/userReducer';
 import generalData from './generalData/generalDataReducer';
 import wallet from './wallet/walletReducer';
 import interest from './interest/interestReducer';
@@ -20,7 +20,7 @@ import forms from './forms/formsReducer';
 const appReducers = combineReducers({
   api,
   nav,
-  users,
+  user,
   ui,
   generalData,
   wallet,

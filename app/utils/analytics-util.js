@@ -39,9 +39,9 @@ const analyticsEventsUtil = {
     await initMixpanelUser(user);
   },
   identifySegmentUser: async () => {
-    const { user } = store.getState().users;
-    await Segment.identifyWithTraits(user.id, {
-      email: user.email,
+    const { profile } = store.getState().user;
+    await Segment.identifyWithTraits(profile.id, {
+      email: profile.email,
     })
   },
   logoutUser: async () => {
@@ -54,10 +54,10 @@ const analyticsEventsUtil = {
     branchService.createEvent({ event: 'BUTTON_PRESSED', identity: 'no-user', metadata })
   },
   buttonPressed: (btn, screen) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.buttonPressed(btn, screen)
     const metadata = { btn, screen }
-    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: (user ? user.id : 'no-user'), metadata })
+    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: (profile ? profile.id : 'no-user'), metadata })
   },
   startedSignup: (method) => {
     mixpanelEvents.startedSignup(method);
@@ -75,13 +75,13 @@ const analyticsEventsUtil = {
     })
   },
   pinSet: () => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.pinSet();
     const metadata = { has_pin: true };
-    branchService.createEvent({ event: 'PIN_SET', identity: user.id, metadata });
+    branchService.createEvent({ event: 'PIN_SET', identity: profile.id, metadata });
   },
   profileDetailsAdded: (profileDetails) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.profileDetailsAdded(profileDetails)
     const metadata = {
       "First Name": profileDetails.first_name,
@@ -90,20 +90,20 @@ const analyticsEventsUtil = {
       "Gender": profileDetails.gender,
       Citizenship: profileDetails.citizenship
     }
-    branchService.createEvent({ event: 'PROFILE_DETAILS_ADDED', identity: user.id, metadata })
+    branchService.createEvent({ event: 'PROFILE_DETAILS_ADDED', identity: profile.id, metadata })
   },
   documentsAdded: () => {
     mixpanelEvents.documentsAdded()
-    const { user } = store.getState().users;
-    branchService.createEvent({ event: 'DOCUMENTS_ADDED', identity: user.id })
+    const { profile } = store.getState().user;
+    branchService.createEvent({ event: 'DOCUMENTS_ADDED', identity: profile.id })
   },
   phoneVerified: async () => {
-    const { user } = store.getState().users;
-    const userId = user.id;
+    const { profile } = store.getState().user;
+    const userId = profile.id;
     const description = 'completed';
 
     mixpanelEvents.phoneVerified()
-    branchService.createEvent({ event: 'PHONE_VERIFIED', identity: user.id })
+    branchService.createEvent({ event: 'PHONE_VERIFIED', identity: userId })
 
     await Segment.trackWithProperties('ACHIEVE_LEVEL', {
       user_data: { developer_identity: userId },
@@ -115,21 +115,21 @@ const analyticsEventsUtil = {
     // branchEvents.achieveLevel(user.id, 'completed')
   },
   KYCStarted: () => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.KYCStarted()
-    branchService.createEvent({ event: 'KYC_STARTED', identity: user.id })
+    branchService.createEvent({ event: 'KYC_STARTED', identity: profile.id })
   },
 
   pressWalletCard: (coinShort) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.pressWalletCard(coinShort)
-    branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: user.id, metadata: { coin: coinShort } })
+    branchService.createEvent({ event: 'WALLET_CARD_PRESSED', identity: profile.id, metadata: { coin: coinShort } })
   },
   pressAddFunds: () => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.pressAddFunds()
     const metadata = { btn: 'Add funds', screen: 'AddFunds' }
-    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: user.id, metadata })
+    branchService.createEvent({ event: 'BUTTON_PRESSED', identity: profile.id, metadata })
   },
   confirmWithdraw: async (withdrawInfo) => {
     const { currencyRatesShort } = store.getState().generalData;
@@ -153,21 +153,21 @@ const analyticsEventsUtil = {
     });
   },
   changeTab: (tab) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.changeTab(tab)
     const metadata = { tab };
-    branchService.createEvent({ event: 'CHANGE_TAB', identity: user.id, metadata })
+    branchService.createEvent({ event: 'CHANGE_TAB', identity: profile.id, metadata })
   },
   openApp: () => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.openApp()
-    branchService.createEvent({ event: 'APP_OPENED', identity: user ? user.id : 'no-user' })
+    branchService.createEvent({ event: 'APP_OPENED', identity: profile ? profile.id : 'no-user' })
   },
   navigation: (screenName) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.navigation(screenName)
     const metadata = { screen: screenName };
-    branchService.createEvent({ event: 'NAVIGATE_TO', identity: user ? user.id : 'no-user', metadata })
+    branchService.createEvent({ event: 'NAVIGATE_TO', identity: profile ? profile.id : 'no-user', metadata })
   },
   celPayTransfer: async (celPayInfo) => {
     mixpanelEvents.celPayTransfer(celPayInfo);
@@ -208,24 +208,24 @@ const analyticsEventsUtil = {
     // branchEvents.addToCart(user.id, loanData);
   },
   profileAddressAdded: (profileAddress) => {
-    const { user } = store.getState().users;
+    const { profile } = store.getState().user;
     mixpanelEvents.profileAddressAdded(profileAddress)
     const metadata = {
       "Country": profileAddress.address.country,
       "Address filled": true
     }
-    branchService.createEvent({ event: 'PROFILE_ADDRESS_ADDED', identity: user.id, metadata })
+    branchService.createEvent({ event: 'PROFILE_ADDRESS_ADDED', identity: profile.id, metadata })
   },
   profileTaxpayerInfoAdded: (profileTaxpayerInfo) => {
-    const { user } = store.getState().users;
-    mixpanelEvents.profileTaxpayerInfoAdded(user.country, profileTaxpayerInfo)
+    const { profile } = store.getState().user;
+    mixpanelEvents.profileTaxpayerInfoAdded(profile.country, profileTaxpayerInfo)
     const metadata = {};
-    if (user.country === "United States") {
+    if (profile.country === "United States") {
       metadata["SSN filled"] = true;
     } else if (profileTaxpayerInfo.taxpayer_info.itin) {
       metadata["Tax ID"] = true;
     }
-    branchService.createEvent({ event: 'PROFILE_TAXPAYERINFO_ADDED', identity: user.id, metadata })
+    branchService.createEvent({ event: 'PROFILE_TAXPAYERINFO_ADDED', identity: profile.id, metadata })
   },
   sessionStart: async () => {
     await mixpanelEvents.sessionStart();
