@@ -14,7 +14,7 @@ function navigateTo(routeName, screenProps) {
       else if (!user.first_name || !user.last_name) goToRoute = 'SignupTwo';
       else if (!user.has_pin) goToRoute = 'CreatePasscode';
       else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) goToRoute = 'NoKyc';
-      else if (location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) goToRoute = "Offline";
+      else if (!user.whitelisted_by_location && location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) goToRoute = "Offline";
       else goToRoute = 'WalletBalance';
     }
 

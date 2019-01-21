@@ -101,7 +101,7 @@ class HomeScreen extends Component {
     if (!user.first_name || !user.last_name) return actions.navigateTo('SignupTwo');
     if (!user.has_pin) return actions.navigateTo('CreatePasscode');
 
-    if (location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
+    if (!user.whitelisted_by_location && location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
 
     if (shouldRenderInitialIdVerification(userActions)) {
       return actions.navigateTo('VerifyIdentity', {
