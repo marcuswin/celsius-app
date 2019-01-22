@@ -10,7 +10,9 @@ class MaintenanceMode extends Component {
       <View style={OfflineModeStyle.background}>
         <Image source={require("../../../../assets/images/OfflineMode/maintenance-hippo3x.png")} style={OfflineModeStyle.image}/>
         <Text style={[globalStyle.heading, OfflineModeStyle.header]}>We are under maintenance</Text>
-        <Text style={[globalStyle.normalText, OfflineModeStyle.explanation]}>We should be back shortly. Thank you for your patience!</Text>
+        <Text style={[globalStyle.normalText, OfflineModeStyle.explanation]}>
+          We are currently updating our app for Washington state. Your funds are safe. If you would like to access them, please contact hello@celsius.network.
+        </Text>
       </View>
     );
   }
