@@ -5,6 +5,32 @@ import ACTIONS from '../../config/constants/ACTIONS';
 const initialState = {
   userLocation: undefined,
   user: undefined,
+  compliance: {
+    app: {
+      allowed: true,
+      coins: []
+    },
+    deposit: {
+      allowed: true,
+      coins: []
+    },
+    withdraw: {
+      allowed: true,
+      coins: []
+    },
+    celpay: {
+      allowed: true,
+      coins: []
+    },
+    loan: {
+      allowed: true,
+      coins: []
+    },
+    interest: {
+      allowed: true,
+      coins: []
+    }
+  },
   error: null,
   borrower: undefined,
   expiredSession: false,
@@ -126,6 +152,14 @@ export default (state = initialState, action) => {
         },
       };
 
+    case ACTIONS.GET_COMPLIANCE_INFO_SUCCESS:
+      return {
+        ...state,
+        compliance: {
+          ...action.complianceInfo
+        }
+      }
+
     case ACTIONS.GET_ICO_USERS_INFO_SUCCESS:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
@@ -137,7 +171,7 @@ export default (state = initialState, action) => {
         },
       };
 
-      case ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS:
+    case ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS:
       return {
         ...state,
         user: {
@@ -145,7 +179,7 @@ export default (state = initialState, action) => {
           ...action.addressInfo,
         },
       };
-      case ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS:
+    case ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS:
       return {
         ...state,
         user: {

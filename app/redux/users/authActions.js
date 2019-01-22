@@ -14,6 +14,8 @@ import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import branchService from "../../services/branch-service";
+import store from '../store';
+import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -48,7 +50,7 @@ function loginUser({ email, password }) {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(loginUserSuccess(res.data));
+      dispatch(await loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true));
@@ -59,8 +61,9 @@ function loginUser({ email, password }) {
   }
 }
 
-function loginUserSuccess(data) {
+async function loginUserSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return {
     type: ACTIONS.LOGIN_USER_SUCCESS,
     callName: API.LOGIN_USER,
@@ -82,7 +85,7 @@ function loginBorrower({ email, password }) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginBorrowerSuccess(res.data));
+      dispatch(await loginBorrowerSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true))
@@ -97,8 +100,9 @@ function loginBorrower({ email, password }) {
   }
 }
 
-function loginBorrowerSuccess(data) {
+async function loginBorrowerSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return {
     type: ACTIONS.LOGIN_BORROWER_SUCCESS,
     callName: API.LOGIN_BORROWER,
@@ -219,7 +223,7 @@ function loginTwitter(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserTwitterSuccess(res.data))
+      dispatch(await loginUserTwitterSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -228,8 +232,9 @@ function loginTwitter(user) {
   }
 }
 
-function loginUserTwitterSuccess(data) {
+async function loginUserTwitterSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
@@ -290,7 +295,7 @@ function loginFacebook(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserFacebookSuccess(res.data))
+      dispatch(await loginUserFacebookSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -299,8 +304,9 @@ function loginFacebook(user) {
   }
 }
 
-function loginUserFacebookSuccess(data) {
+async function loginUserFacebookSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
@@ -358,7 +364,7 @@ function loginGoogle(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserGoogleSuccess(res.data))
+      dispatch(await loginUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -367,8 +373,9 @@ function loginGoogle(user) {
   }
 }
 
-function loginUserGoogleSuccess(data) {
+async function loginUserGoogleSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,

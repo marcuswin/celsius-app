@@ -19,6 +19,10 @@ const EmptyState = (props) => {
       title = place ? "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with residents from this region at this time." : "Looks like we’re missing some information from you.";
       text = place ? "Please contact app@celsius.network." : "Please contact app@celsius.network to gain access back to your account.";
       break;
+    case "Compliance":
+      title = "Feature blocked";
+      text = props.text
+      break;
     default:
       title = "From here you can pay your friends back with crypto";
       text = "To send your favorite coins to your favorite people, please verify your identity first."
@@ -27,7 +31,7 @@ const EmptyState = (props) => {
   return (
     <View style={EmptyStateStyle.wrapper}>
       <Image source={require("../../../../assets/images/deerTransactionHistory.png")}
-             style={[EmptyStateStyle.image, { resizeMode: "contain" }]}/>
+        style={[EmptyStateStyle.image, { resizeMode: "contain" }]} />
 
       <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }]}>
         {title}

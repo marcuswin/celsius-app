@@ -14,7 +14,7 @@ import {
 } from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 import { heightPercentageToDP } from "../../../utils/scale";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
@@ -24,6 +24,7 @@ let interval;
   state => ({
     appInitialized: state.app.appInitialized,
     user: state.users.user,
+    isAppAllowed: state.users.compliance.app.allowed,
     expiredSession: state.users.expiredSession,
     displayedRatesModal: state.ui.showedTodayRatesOnOpen,
     appSettings: state.users.appSettings,
@@ -56,7 +57,7 @@ class HomeScreen extends Component {
     }
   }
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     interval = setInterval(() => {
       this.setState(state => ({
         progress: state.progress + 0.2,
@@ -68,7 +69,7 @@ class HomeScreen extends Component {
     const { appInitialized, actions, activeScreen } = this.props;
 
     if (nextProps.appInitialized && nextProps.activeScreen === 'Home' && appInitialized !== nextProps.appInitialized) {
-     return this.navigateToFirstScreen();
+      return this.navigateToFirstScreen();
     }
     if (appInitialized === true && nextProps.appInitialized === false) {
       return actions.appInitStart();
@@ -94,12 +95,14 @@ class HomeScreen extends Component {
   };
 
   navigateToFirstScreen = () => {
-    const { user, userActions, actions, location } = this.props;
+    const { user, userActions, actions, location, isAppAllowed } = this.props;
 
     if (!user) return actions.navigateTo('Welcome');
 
     if (!user.first_name || !user.last_name) return actions.navigateTo('SignupTwo');
     if (!user.has_pin) return actions.navigateTo('CreatePasscode');
+
+    if (!isAppAllowed) return actions.navigateTo("Compliance");
 
     if (!user.whitelisted_by_location && location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
 
@@ -118,9 +121,9 @@ class HomeScreen extends Component {
 
   renderLoadingScreen = () => (
     <View>
-      <Message/>
-      <View style={{backgroundColor: STYLES.PRIMARY_BLUE, height: "100%", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: heightPercentageToDP("8.5%")}}>
-      <Image source={require('../../../../assets/images/celsius-logo3x.png')} style={{ resizeMode: "contain", height: heightPercentageToDP("32.5%"), width: heightPercentageToDP("32.5%"), marginBottom: 40 }}/>
+      <Message />
+      <View style={{ backgroundColor: STYLES.PRIMARY_BLUE, height: "100%", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: heightPercentageToDP("8.5%") }}>
+        <Image source={require('../../../../assets/images/celsius-logo3x.png')} style={{ resizeMode: "contain", height: heightPercentageToDP("32.5%"), width: heightPercentageToDP("32.5%"), marginBottom: 40 }} />
         <ProgressBar
           progress={this.state.progress}
           duration={500}

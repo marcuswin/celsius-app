@@ -14,17 +14,17 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
-import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
+import { MODALS } from "../../../config/constants/common";
 import DestinationTagExplanationModal from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
 import { analyticsEvents } from "../../../utils/analytics-util";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import MemoIdExplanationModal from "../../organisms/MemoIdExplanationModal/MemoIdExplanationModal";
 
-const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
-
 @connect(
   state => {
+    const eligibleCoins = state.users.compliance.app.coins
+    const possibleAddresses = eligibleCoins.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase())
     const walletAddresses = {};
 
     possibleAddresses.forEach(pa => {
@@ -40,6 +40,7 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
     return {
       formData: state.ui.formData,
       walletAddresses,
+      eligibleCoins,
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,
       supportedCurrencies: state.generalData.supportedCurrencies,
@@ -52,7 +53,7 @@ class AddFunds extends Component {
   constructor(props) {
     super(props);
 
-    const pickerItems = ELIGIBLE_COINS.map(ec => {
+    const pickerItems = props.eligibleCoins.map(ec => {
       const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
       const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
       return {

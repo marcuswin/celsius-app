@@ -106,6 +106,7 @@ async function initAppData() {
     // get all KYC document types and claimed transfers for non-verified users
     const { user } = store.getState().users;
     if (user) {
+      await store.dispatch(actions.getComplianceInfo());
       if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
         await store.dispatch(actions.getKYCDocTypes());
         await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));

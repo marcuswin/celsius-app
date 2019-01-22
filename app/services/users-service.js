@@ -15,6 +15,7 @@ const usersService = {
   sendResetLink,
   resetPassword,
   getPersonalInfo,
+  getComplianceInfo,
   getProfileAddressInfo,
   updateProfileInfo,
   getProfileTaxpayerInfo,
@@ -135,6 +136,10 @@ function twitterLogin(data) {
 
 function getPersonalInfo() {
   return axios.get(`${apiUrl}/me`);
+}
+
+function getComplianceInfo() {
+  return axios.get(`${apiUrl}/me/compliance`);
 }
 
 function getProfileAddressInfo() {

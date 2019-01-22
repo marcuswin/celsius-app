@@ -53,6 +53,7 @@ import VerifyIdentityScreen from "../components/screens/VerifyIdentity/VerifyIde
 import ApiAuthorizationScreen from "../components/screens/ApiAuthorization/ApiAuthorization";
 import ApiKeyGenerateScreen from "../components/screens/ApiKeyGenerate/ApiKeyGenerate";
 import OfflineScreen from "../components/screens/Offline/Offline";
+import ComplianceScreen from "../components/screens/Compliance/Compliance";
 // NOTE(fj): plop screenGen importing new Screen here
 
 
@@ -256,6 +257,11 @@ export const screens = {
   Offline: {
     screen: OfflineScreen,
     title: 'Offline',
+    bottomNavigation: false,
+  },
+  Compliance: {
+    screen: ComplianceScreen,
+    title: 'Compliance',
     bottomNavigation: false,
   },
 

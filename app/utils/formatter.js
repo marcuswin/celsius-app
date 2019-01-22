@@ -9,7 +9,9 @@ export default {
 }
 
 const defaultPrecision = {
-  "BTC": 8
+  "BTC": 8,
+  "GUSD": 2,
+  "USDC": 6
 }
 
 function usd(amount, options = {}) {

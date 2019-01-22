@@ -9,7 +9,7 @@ import SelectCoinStyle from "./SelectCoin.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import formatter from "../../../utils/formatter";
 import testUtil from "../../../utils/test-util";
-import { KYC_STATUSES, CEL_PAY_COINS } from "../../../config/constants/common";
+import { KYC_STATUSES } from "../../../config/constants/common";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
@@ -17,6 +17,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
     // map state to props
     walletCurrencies: state.wallet.currencies,
     user: state.users.user,
+    celpayData: state.users.compliance.celpay,
     appSettings: state.users.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -49,7 +50,9 @@ class SelectCoin extends Component {
   // rendering methods
   renderCoin = (walletCurrency) => {
     const { currency } = walletCurrency;
-    if (!CEL_PAY_COINS.includes(currency.short)) return;
+    const { celpayData } = this.props;
+
+    if (!celpayData.coins.includes(currency.short)) return;
 
     const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
     return (
@@ -67,7 +70,7 @@ class SelectCoin extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { walletCurrencies, user, appSettings } = this.props;
+    const { walletCurrencies, user, appSettings, celpayData } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
       return (
@@ -100,6 +103,17 @@ class SelectCoin extends Component {
           <Loader />
         </SimpleLayout>
       );
+    }
+
+    if (!celpayData.allowed) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={animatedHeading}
+        >
+          <EmptyState purpose={"Compliance"} text={celpayData.block_reason} />
+        </SimpleLayout>
+      )
     }
 
     return (

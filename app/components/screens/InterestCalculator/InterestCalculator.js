@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -8,13 +8,13 @@ import Loader from "../../atoms/Loader/Loader";
 import CelInput from "../../atoms/CelInput/CelInput";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
-import {GLOBAL_STYLE_DEFINITIONS as globalStyles} from "../../../config/constants/style";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import * as appActions from "../../../redux/actions";
 import InterestCalculatorStyle from './InterestCalculator.styles';
 import formatter from "../../../utils/formatter";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CurrencyInterestRateInfo from "../../molecules/CurrencyInterestRateInfo/CurrencyInterestRateInfo";
-import { INTEREST_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
+import { KYC_STATUSES } from "../../../config/constants/common";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import testUtil from "../../../utils/test-util";
 
@@ -22,6 +22,7 @@ import testUtil from "../../../utils/test-util";
   state => ({
     formData: state.ui.formData,
     user: state.users.user,
+    interestCoins: state.users.compliance.interest.coins,
     interestRates: state.interest.rates,
     interestRatesDisplay: state.interest.ratesDisplay,
     supportedCurrencies: state.generalData.supportedCurrencies,
@@ -34,16 +35,16 @@ class InterestCalculatorScreen extends Component {
   constructor(props) {
     super(props);
 
-  const pickerItems = INTEREST_ELIGIBLE_COINS.map(ec => {
-    const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
-    const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
-    return {
-      label: `${currencyName} (${ec})`,
-      value: ec.toUpperCase()
-    };
-  });
+    const pickerItems = props.interestCoins.map(ec => {
+      const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
+      const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
+      return {
+        label: `${currencyName} (${ec})`,
+        value: ec.toUpperCase()
+      };
+    });
     this.state = {
-      pickerItems,
+      pickerItems
     };
   }
 
@@ -60,7 +61,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {activeScreen} = this.props;
+    const { activeScreen } = this.props;
 
     if ((activeScreen !== nextProps.activeScreen && nextProps.activeScreen === "InterestCalculator")) {
       this.componentDidMount();
@@ -73,7 +74,7 @@ class InterestCalculatorScreen extends Component {
 
     if (!interestRates) return (
       <EarnInterestLayout>
-        <Loader/>
+        <Loader />
       </EarnInterestLayout>
     );
 
@@ -85,8 +86,8 @@ class InterestCalculatorScreen extends Component {
 
     return (
       <EarnInterestLayout>
-        <View   ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}
-                style={{ paddingTop: 30 }}>
+        <View ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}
+          style={{ paddingTop: 30 }}>
 
           {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse
@@ -98,15 +99,15 @@ class InterestCalculatorScreen extends Component {
           </CelButton>}
 
           <CelSelect field="interestCurrency"
-                     items={pickerItems}
-                     labelText="Select a currency"
-                     value={formData.interestCurrency}
-                     margin="10 0 20 0"
-                     theme={'white'}
+            items={pickerItems}
+            labelText="Select a currency"
+            value={formData.interestCurrency}
+            margin="10 0 20 0"
+            theme={'white'}
           />
 
           <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at these rates:</Text>
-          <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate}/>
+          <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate} />
 
           <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>
             How much do you plan to deposit?
@@ -126,11 +127,11 @@ class InterestCalculatorScreen extends Component {
           <Text style={[globalStyles.normalText, { marginTop: 15, marginBottom: 15 }]}>
             Estimated interest
             <Text style={globalStyles.boldText}> per week </Text>
-            at { displayInterestRate } APR:
+            at {displayInterestRate} APR:
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.perWeek')} style={InterestCalculatorStyle.amountText}>
-              { formatter.usd(interestPerWeek) }
+              {formatter.usd(interestPerWeek)}
             </Text>
           </View>
 
@@ -140,7 +141,7 @@ class InterestCalculatorScreen extends Component {
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.perMonth')} style={InterestCalculatorStyle.amountText}>
-              { formatter.usd(interestPerMonth) }
+              {formatter.usd(interestPerMonth)}
             </Text>
           </View>
 
@@ -150,23 +151,23 @@ class InterestCalculatorScreen extends Component {
           </Text>
           <View style={InterestCalculatorStyle.amountBox}>
             <Text ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.per6Months')} style={InterestCalculatorStyle.amountText}>
-              { formatter.usd(interestPer6Months) }
+              {formatter.usd(interestPer6Months)}
             </Text>
           </View>
 
-          <Separator margin="35 0 25 0"/>
+          <Separator margin="35 0 25 0" />
 
           <Text style={globalStyles.heading}>
-            Up to { displayInterestRate } interest
+            Up to {displayInterestRate} interest
           </Text>
-          <Text style={[globalStyles.normalText, { textAlign: 'center'}]}>
-            On a { formatter.usd(formData.interestAmount) } deposit of { formData.interestCurrency } you would get about { formatter.usd(interest) } a year in interest.
+          <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
+            On a {formatter.usd(formData.interestAmount)} deposit of {formData.interestCurrency} you would get about {formatter.usd(interest)} a year in interest.
           </Text>
 
-          <Separator margin="35 0 25 0"/>
+          <Separator margin="35 0 25 0" />
 
           <Text style={globalStyles.heading}>Withdraw your crypto deposits...</Text>
-          <Text style={[globalStyles.normalText, { textAlign: 'center'}]}>
+          <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
             You can get your crypto deposits whenever you need them with no fees or penalties.
           </Text>
 
