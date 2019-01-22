@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -21,14 +21,11 @@ class Fab extends Component {
   }
 
   render() {
-    const { style } = this.props
+    const { style, onPress, children } = this.props
     return (
       <View style={style.container}>
-        <CircleButton style={style.fabButtonStyle}>
-          <Image
-            source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-            style={style.logo}
-          />
+        <CircleButton style={style.fabButtonStyle} onPress={onPress}>
+          {children}
         </CircleButton>
       </View>
     );
