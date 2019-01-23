@@ -17,20 +17,10 @@ const base = {
     },
     menuItemsContainer: {  
         flexDirection: 'row',
-    },
-    fabButtonStyle: {
-        width: 60,
-        height: 60,
-        backgroundColor: "rgba(65,86,166,1)",
-        borderRadius: 60,
-        justifyContent: 'center'
-    },
-    logo: {
-        width: 50,
-        height: 50,
-        alignSelf: 'center',
-        justifyContent: 'center'
-    },
+        justifyContent: 'space-between',
+        marginLeft: 30,
+        marginRight: 30
+    }
 }
 
 const themed = {

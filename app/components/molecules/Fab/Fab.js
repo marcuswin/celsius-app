@@ -21,12 +21,10 @@ class Fab extends Component {
   }
 
   render() {
-    const { style, onPress, children } = this.props
+    const { style, onPress, type, open } = this.props
     return (
       <View style={style.container}>
-        <CircleButton style={style.fabButtonStyle} onPress={onPress}>
-          {children}
-        </CircleButton>
+        <CircleButton style={style.fabButtonStyle} onPress={onPress} icon={open ? 'Close' : type} />
       </View>
     );
   }

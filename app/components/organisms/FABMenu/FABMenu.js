@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -53,33 +53,13 @@ class FabMenu extends Component {
         {open &&
           <View style={style.menuContainer}>
             <View style={style.menuItemsContainer}>
-              <CircleButton style={style.fabButtonStyle} onPress={this.toggleMenu}>
-                <Image
-                  source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-                  style={style.logo}
-                />
-              </CircleButton>
-              <CircleButton style={style.fabButtonStyle} onPress={this.toggleMenu}>
-                <Image
-                  source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-                  style={style.logo}
-                />
-              </CircleButton>
-              <CircleButton style={style.fabButtonStyle} onPress={this.toggleMenu}>
-                <Image
-                  source={require('../../../../assets/images/icons/celsius_symbol_white.png')}
-                  style={style.logo}
-                />
-              </CircleButton>
+              <CircleButton onPress={this.toggleMenu} text={"Wallet"} icon="Wallet" />
+              <CircleButton onPress={this.toggleMenu} text={"Borrow"} icon="Wallet" />
+              <CircleButton onPress={this.toggleMenu} text={"CelPay"} icon="Wallet" />
             </View>
           </View>
         }
-        <Fab onPress={this.toggleMenu}>
-          {open ?
-            <Text style={{ color: "#fff", fontSize: 25, alignSelf: 'center' }}>X</Text> :
-            this.getScreenOpenIcon()
-          }
-        </Fab>
+        <Fab open={open} onPress={this.toggleMenu} type='Celsius' />
       </View>
     );
   }

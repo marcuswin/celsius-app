@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -14,6 +15,13 @@ import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class {{pascalCase name}} extends Component {
+
+  static propTypes = {
+    // text: PropTypes.string
+  };
+  static defaultProps = {
+  }
+
   constructor(props) {
     super(props);
     this.state = {};
