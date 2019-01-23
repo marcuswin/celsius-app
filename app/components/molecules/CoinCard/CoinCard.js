@@ -283,14 +283,14 @@ class CoinCard extends Component {
             </View>
           </View>
         }
-        {(type === 'wallet-card' && !!lockedCollateral[currency.short.toUpperCase()] && !!Number(lockedCollateral[currency.short.toUpperCase()].amount)) &&
+        {(type === 'wallet-card' && !!lockedCollateral && !!Number(lockedCollateral)) &&
           <TouchableOpacity style={CoinCardStyle.lockedCollateralWrapper} onPress={() => actions.navigateTo('BRWAllLoans')}>
             <View style={{ flexDirection: 'row' }}>
               <Icon style={{ marginRight: 10 }} name='Lock' width='16' height='18' fill={STYLES.GRAY_4} />
               <Text style={CoinCardStyle.lockedCollateralText}>Locked collateral: </Text>
             </View>
             <View style={{ flex: 0 }}>
-              <Text style={[CoinCardStyle.lockedCollateralText, globalStyles.boldText]}>{formatter.crypto(lockedCollateral[currency.short.toUpperCase()].amount, currency.short.toUpperCase(), { precision: 5 })}</Text>
+              <Text style={[CoinCardStyle.lockedCollateralText, globalStyles.boldText]}>{formatter.crypto(Math.abs(lockedCollateral), currency.short.toUpperCase(), { precision: 5 })}</Text>
             </View>
           </TouchableOpacity>
         }

@@ -28,8 +28,8 @@ class Steps extends Component {
     outerCircleStyle = totalSteps === current && value === current ? styles.outerCircleFinal : outerCircleStyle;
     if (value < current) {
       return (
-        <TouchableOpacity onPress={() => actions.navigateTo(BORROW_REDIRECT_STEPS_ROUTE_NAMES[value])}>
-          <View style={outerCircleStyle} key={value}>
+        <TouchableOpacity onPress={() => actions.navigateTo(BORROW_REDIRECT_STEPS_ROUTE_NAMES[value])} key={value}>
+          <View style={outerCircleStyle}>
             <View style={wrapperStyle}>
               <Text style={styles.text}>{value}</Text>
             </View>
