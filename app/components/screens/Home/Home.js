@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Constants } from "expo";
 
@@ -16,6 +16,8 @@ import store from "../../../redux/store";
 import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
 import VerifyIdentity from "../VerifyIdentity/VerifyIdentityScreen";
 import logger from "../../../utils/logger-util";
+import { screens } from "../../../config/Navigator";
+import ACTIONS from "../../../config/constants/ACTIONS";
 
 const { SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV } = Constants.manifest.extra;
 
@@ -29,8 +31,10 @@ const { SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV } = Constants.manifest.ex
     userActions: state.ui.userActions,
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
+    branchScreen: state.branch.screen,
+    activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch), dispatch })
 )
 class HomeScreen extends Component {
   async componentWillMount() {
@@ -54,43 +58,57 @@ class HomeScreen extends Component {
       }
     }
 
-    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
+    if (["PREPROD", "PRODUCTION"].indexOf(ENV) !== -1 &&
       CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
 
       store.dispatch(actions.showMessage(
-        'warning',
-        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
+        "warning",
+        ["When Update?", "", "Right now! Please head to the app store and download the newest update. Stay cool."].join("\n")
       ));
     }
 
   }
 
   componentDidUpdate() {
-    const { actions } = this.props;
+    const { actions, branchScreen, user, dispatch, userActions, activeScreen } = this.props;
 
     actions.refreshBottomNavigation();
+
+    // A verified user user has entered his PIN and used a branch navigation link and user has passed initial Home screen
+    if (branchScreen &&
+        !shouldRenderInitialIdVerification(userActions) &&
+        user && user.kyc && user.kyc.status === KYC_STATUSES.passed
+        && activeScreen !== 'Home'
+    ) {
+      dispatch({ type: ACTIONS.CLEAR_BRANCH_SCREEN })
+    }
   }
 
   loginPasscode = () => {
     const { actions, userActions } = this.props;
 
     if (!userActions.enteredInitialPin) {
-      actions.fireUserAction('enteredInitialPin');
+      actions.fireUserAction("enteredInitialPin");
       actions.openInitialModal();
     }
   };
 
   render() {
-    const { user, userActions } = this.props;
+    const { user, userActions, branchScreen } = this.props;
 
-    if (!user) return <WelcomeScreen />;
+    if (!user) return <WelcomeScreen/>;
 
-    if (!user.first_name || !user.last_name) return <SignupTwo />;
-    if (!user.has_pin) return <CreatePasscode />;
-    if (shouldRenderInitialIdVerification(userActions)) return <VerifyIdentity verificationCallback={this.loginPasscode} label="login" help backButton={false} />;
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
+    if (!user.first_name || !user.last_name) return <SignupTwo/>;
+    if (!user.has_pin) return <CreatePasscode/>;
+    if (shouldRenderInitialIdVerification(userActions)) return <VerifyIdentity verificationCallback={this.loginPasscode}
+                                                                               label="login" help backButton={false}/>;
+    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc/>;
 
-    return <WalletBalance />;
+    if (branchScreen) {
+      const BranchScreen = screens[branchScreen].screen
+      return <BranchScreen />
+    }
+    return <WalletBalance/>;
   }
 }
 

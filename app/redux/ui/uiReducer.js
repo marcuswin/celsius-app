@@ -34,6 +34,7 @@ function shouldShowBottomNavigation(action) {
   const { nav } = store.getState();
   const { user } = store.getState().users;
   const { userActions } = store.getState().ui;
+  const branchScreen = store.getState().branch.screen;
   let routeName;
 
   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
@@ -57,11 +58,11 @@ function shouldShowBottomNavigation(action) {
     showNav = false;
   } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
     showNav = true;
+  } else if (branchScreen) {
+    showNav = !!screens[branchScreen].bottomNavigation
   } else {
     showNav = true;
   }
-
-
 
   return showNav;
 }

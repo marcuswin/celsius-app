@@ -99,7 +99,15 @@ function registerBranchLink(deepLink) {
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
+        if (getState().users.user) {
+          dispatch(transfersActions.registerTransferLink(deepLink));
+        }
+        break;
+      case BRANCH_LINKS.NAVIGATION:
+        dispatch({
+          type: ACTIONS.REGISTER_NAVIGATION_LINK,
+          screen: deepLink.screen,
+        });
         break;
 
       case BRANCH_LINKS.COMPANY_REFERRAL:

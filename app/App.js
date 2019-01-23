@@ -106,6 +106,7 @@ export default class App extends Component {
     // get user from db
     if (token) {
       await store.dispatch(actions.getProfileInfo());
+      await store.dispatch(actions.getWalletDetails());
       await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
 
       const { user } = store.getState().users;
