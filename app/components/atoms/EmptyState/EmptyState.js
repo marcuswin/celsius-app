@@ -10,7 +10,12 @@ const EmptyState = (props) => {
 
   let title;
   let text;
+  let coloredStyle = {};
   const { user } = store.getState().users;
+
+  if (props.color) {
+    coloredStyle = { color: props.color }
+  }
 
   const place = !!isBlacklistedState(user.state) || !!isBlacklistedCountry(user.country);
 
@@ -33,11 +38,11 @@ const EmptyState = (props) => {
       <Image source={require("../../../../assets/images/deerTransactionHistory.png")}
         style={[EmptyStateStyle.image, { resizeMode: "contain" }]} />
 
-      <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }]}>
+      <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }, coloredStyle]}>
         {title}
       </Text>
 
-      <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 40, marginLeft: 40 }]}>
+      <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 40, marginLeft: 40 }, coloredStyle]}>
         {text}
       </Text>
     </View>

@@ -49,6 +49,12 @@ class NycBlackoutModal extends Component {
     this.initForm();
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.user && nextProps.user) {
+      this.initForm(nextProps.user);
+    }
+  }
+
   validateAddressInformationForm = () => {
     const { formData, actions } = this.props;
     const formErrors = {};
@@ -137,36 +143,37 @@ class NycBlackoutModal extends Component {
     }
   };
 
-  initForm = () => {
+  initForm = (userProp = undefined) => {
     const { actions, user, formData } = this.props;
+    const userData = userProp || user;
 
-    if (user) {
-      const date = user.date_of_birth ? user.date_of_birth.split("-") : ["", "", ""];
+    if (userData) {
+      const date = userData.date_of_birth ? userData.date_of_birth.split("-") : ["", "", ""];
       const data = {
         ...formData,
-        title: user.title,
-        firstName: user.first_name,
-        middleName: user.middle_name,
-        lastName: user.last_name,
-        dateOfBirth: user.date_of_birth,
-        citizenship: user.citizenship,
-        gender: user.gender,
-        companyName: user.company_name,
+        title: userData.title,
+        firstName: userData.first_name,
+        middleName: userData.middle_name,
+        lastName: userData.last_name,
+        dateOfBirth: userData.date_of_birth,
+        citizenship: userData.citizenship,
+        gender: userData.gender,
+        companyName: userData.company_name,
         month: date[1],
         day: date[2],
         year: date[0],
-        email: user.email,
-        cellphone: user.cellphone,
-        street: user.street,
-        buildingNumber: user.building_number,
-        flatNumber: user.flat_number,
-        city: user.city,
-        state: user.state,
-        zip: user.zip,
-        country: user.country ? user.country : user.citizenship,
-        ssn: user.ssn,
-        itin: user.itin,
-        national_id: user.national_id
+        email: userData.email,
+        cellphone: userData.cellphone,
+        street: userData.street,
+        buildingNumber: userData.building_number,
+        flatNumber: userData.flat_number,
+        city: userData.city,
+        state: userData.state,
+        zip: userData.zip,
+        country: userData.country ? userData.country : userData.citizenship,
+        ssn: userData.ssn,
+        itin: userData.itin,
+        national_id: userData.national_id
       };
       actions.initForm(data);
     }
@@ -190,7 +197,7 @@ class NycBlackoutModal extends Component {
   };
 
   goToAddressInformationForm = () => {
-    const {user, actions} = this.props;
+    const { user, actions } = this.props;
     if (user.blocked_at) {
       actions.closeModal();
     } else {
@@ -206,6 +213,8 @@ class NycBlackoutModal extends Component {
     const { initial, address, taxNo, finish } = this.state;
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
+
+    console.log(formData)
 
     const currentTimestamp = moment.utc(Date.now());
     let NycBlackoutTimestamp;
@@ -256,107 +265,107 @@ class NycBlackoutModal extends Component {
         shouldRenderCloseButton={!!kycRealStatus && days > 0}
       >
         {initial &&
-        <View>
-          <View style={NycBlackoutModalStyle.modalWrapper}>
-            <Image style={NycBlackoutModalStyle.image}
-                   source={require("../../../../assets/images/diane-with-laptop3x.png")}/>
-            <Text style={[NycBlackoutModalStyle.heading]}>{heading}</Text>
-            <Text style={NycBlackoutModalStyle.explanation}>{additionalText}</Text>
+          <View>
+            <View style={NycBlackoutModalStyle.modalWrapper}>
+              <Image style={NycBlackoutModalStyle.image}
+                source={require("../../../../assets/images/diane-with-laptop3x.png")} />
+              <Text style={[NycBlackoutModalStyle.heading]}>{heading}</Text>
+              <Text style={NycBlackoutModalStyle.explanation}>{additionalText}</Text>
+            </View>
+            {kycRealStatus === "ico_passed" ?
+              <CelButton
+                ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
+                onPress={() => {
+                  analyticsEvents.navigation('verifyProfile');
+                  actions.navigateTo('ProfileDetails');
+                  actions.closeModal();
+                }}
+              >
+                Verify profile
+            </CelButton>
+              : <CelButton
+                onPress={() => this.goToAddressInformationForm()}
+              >
+                Continue
+            </CelButton>
+            }
           </View>
-          { kycRealStatus === "ico_passed" ?
-            <CelButton
-              ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
-              onPress={() => {
-                analyticsEvents.navigation('verifyProfile');
-                actions.navigateTo('ProfileDetails');
-                actions.closeModal();
-              }}
-            >
-              Verify profile
-            </CelButton>
-            : <CelButton
-              onPress={() => this.goToAddressInformationForm()}
-            >
-              Continue
-            </CelButton>
-          }
-        </View>
         }
 
         {address &&
-        <View>
-          <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Residential Address</Text>
-          <CelInput editable shadow theme="white" value={formData.street} error={formErrors.street} field="street"
-                    labelText="Street" autoCapitalize="sentences"/>
-          <CelInput editable shadow theme="white" value={formData.buildingNumber} error={formErrors.building_number}
-                    field="buildingNumber" labelText="Building number" autoCapitalize="sentences"/>
-          <CelInput editable shadow theme="white" value={formData.flatNumber} error={formErrors.flat_number}
-                    field="flatNumber" labelText="Apartment number" autoCapitalize="sentences"/>
-          <CelInput editable shadow theme="white" value={formData.city} error={formErrors.city} field="city"
-                    labelText="City" autoCapitalize="sentences"/>
-          <CelInput editable shadow theme="white" value={formData.zip} error={formErrors.zip} field="zip"
-                    labelText="ZIP / Postal Code" autoCapitalize="sentences"/>
-          <CelSelect shadow theme="white" error={formErrors.country} field="country" type="country" labelText="Country"
-                     value={formData.country}/>
-          {formData.country === "United States" ?
-            <CelSelect shadow theme="white" error={formErrors.state} field="state" type="state" labelText="State"
-                       value={formData.state}/>
-            :
-            null
-          }
+          <View>
+            <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Residential Address</Text>
+            <CelInput editable shadow theme="white" value={formData.street} error={formErrors.street} field="street"
+              labelText="Street" autoCapitalize="sentences" />
+            <CelInput editable shadow theme="white" value={formData.buildingNumber} error={formErrors.building_number}
+              field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
+            <CelInput editable shadow theme="white" value={formData.flatNumber} error={formErrors.flat_number}
+              field="flatNumber" labelText="Apartment number" autoCapitalize="sentences" />
+            <CelInput editable shadow theme="white" value={formData.city} error={formErrors.city} field="city"
+              labelText="City" autoCapitalize="sentences" />
+            <CelInput editable shadow theme="white" value={formData.zip} error={formErrors.zip} field="zip"
+              labelText="ZIP / Postal Code" autoCapitalize="sentences" />
+            <CelSelect shadow theme="white" error={formErrors.country} field="country" type="country" labelText="Country"
+              value={formData.country} />
+            {formData.country === "United States" ?
+              <CelSelect shadow theme="white" error={formErrors.state} field="state" type="state" labelText="State"
+                value={formData.state} />
+              :
+              null
+            }
 
-          <View style={{ marginTop: 15, marginBottom: 30 }}>
-            <CelButton
-              onPress={() => this.submitAddressInformationForm()}
-              color="blue"
-              loading={isUpdatingAddressInfo}
-            >Taxpayer ID</CelButton>
+            <View style={{ marginTop: 15, marginBottom: 30 }}>
+              <CelButton
+                onPress={() => this.submitAddressInformationForm()}
+                color="blue"
+                loading={isUpdatingAddressInfo}
+              >Taxpayer ID</CelButton>
+            </View>
+
           </View>
-
-        </View>
         }
 
         {taxNo &&
-        <View>
-          {(formData.country === "United States" || formData.citizenship === "United States") ?
-            <View>
-              <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security Number</Text>
-              <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn"
-                        labelText="SSN" autoCapitalize="sentences" type={"password"}/>
+          <View>
+            {(formData.country === "United States" || formData.citizenship === "United States") ?
+              <View>
+                <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security Number</Text>
+                <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn"
+                  labelText="SSN" autoCapitalize="sentences" type={"password"} />
+              </View>
+              :
+              <React.Fragment>
+                <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Taxpayer ID</Text>
+                <CelInput secureTextEntry editable shadow theme="white" value={formData.itin} error={formErrors.itin} field="itin"
+                  labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" type={"password"} />
+                <CelInput secureTextEntry editable shadow theme="white" value={formData.national_id} error={formErrors.national_id}
+                  field="national_id" labelText="National ID Number" autoCapitalize="sentences" type={"password"} />
+              </React.Fragment>
+            }
+            <View style={{ marginTop: 15, marginBottom: 30 }}>
+              <CelButton
+                onPress={() => this.submitTaxpayerForm()}
+                color="blue"
+                loading={isUpdatingTaxpayerInfo}
+              >Finish</CelButton>
             </View>
-            :
-            <React.Fragment>
-              <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Taxpayer ID</Text>
-              <CelInput secureTextEntry editable shadow theme="white" value={formData.itin} error={formErrors.itin} field="itin"
-                        labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" type={"password"}/>
-              <CelInput secureTextEntry editable shadow theme="white" value={formData.national_id} error={formErrors.national_id}
-                        field="national_id" labelText="National ID Number" autoCapitalize="sentences" type={"password"}/>
-            </React.Fragment>
-          }
-          <View style={{ marginTop: 15, marginBottom: 30 }}>
-            <CelButton
-              onPress={() => this.submitTaxpayerForm()}
-              color="blue"
-              loading={isUpdatingTaxpayerInfo}
-            >Finish</CelButton>
           </View>
-        </View>
         }
 
         {finish &&
-        <View>
-          <View style={NycBlackoutModalStyle.modalWrapper}>
-            <Image style={NycBlackoutModalStyle.image}
-                   source={require("../../../../assets/images/squirrel-modal3x.png")}/>
-            <Text style={[NycBlackoutModalStyle.heading]}>Congrats!</Text>
-            <Text style={NycBlackoutModalStyle.explanation}>You have successfully updated your profile</Text>
-          </View>
-          <CelButton
-            onPress={() => this.closeForm()}
-          >
-            Done
+          <View>
+            <View style={NycBlackoutModalStyle.modalWrapper}>
+              <Image style={NycBlackoutModalStyle.image}
+                source={require("../../../../assets/images/squirrel-modal3x.png")} />
+              <Text style={[NycBlackoutModalStyle.heading]}>Congrats!</Text>
+              <Text style={NycBlackoutModalStyle.explanation}>You have successfully updated your profile</Text>
+            </View>
+            <CelButton
+              onPress={() => this.closeForm()}
+            >
+              Done
           </CelButton>
-        </View>
+          </View>
         }
 
       </CelModal>
