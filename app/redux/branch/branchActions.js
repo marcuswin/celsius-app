@@ -71,6 +71,7 @@ function registerBranchLink(deepLink) {
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
         return dispatch(transfersActions.registerTransferLink(deepLink));
+
       case BRANCH_LINKS.COMPANY_REFERRAL:
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
         return dispatch(registerReferralLink(deepLink));
@@ -100,7 +101,7 @@ function registerReferralLink(deepLink) {
           branchLink: linkResData.branch_link
         });
 
-        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
+        if (!linkResData.branch_link.referred_award_amount || !linkResData.branch_link.referred_award_coin) return;
         dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
       }
     } catch(err) {
