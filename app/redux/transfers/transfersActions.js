@@ -144,37 +144,42 @@ function createTransferSuccess(transfer) {
 }
 
 function createBranchTransfer(amount, amountUsd, coin, verification) {
-  return async (dispatch, getState ) => {
-    let apiCall = API.CREATE_TRANSFER;
-    dispatch(startApiCall(apiCall));
-    const res = await transferService.create({
-      amount: Number(amount).toFixed(5),
-      coin: coin.toUpperCase(),
-    }, verification);
+  return async (dispatch, getState) => {
+    try {
+      let apiCall = API.CREATE_TRANSFER;
+      dispatch(startApiCall(apiCall));
+      const res = await transferService.create({
+        amount: Number(amount).toFixed(5),
+        coin: coin.toUpperCase(),
+      }, verification);
 
-    const transfer = res.data;
-    dispatch(createTransferSuccess(transfer));
+      const transfer = res.data;
+      dispatch(createTransferSuccess(transfer));
 
-    const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
-    const usdAmount = currencyAmount * amount;
+      const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
+      const usdAmount = currencyAmount * amount;
 
-    const { user } = getState().users;
+      const { user } = getState().users;
 
-    apiCall = API.CREATE_BRANCH_LINK;
-    dispatch(startApiCall(apiCall));
-    const branchLink = await createCelPayBUO(transfer)
-    dispatch({
-      type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
-      callName: API.CREATE_BRANCH_LINK,
-      branchLink: {
-        ...branchLink,
-        linkType: BRANCH_LINKS.TRANSFER
-      }
-    });
+      apiCall = API.CREATE_BRANCH_LINK;
+      dispatch(startApiCall(apiCall));
+      const branchLink = await createCelPayBUO(transfer)
+      dispatch({
+        type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+        callName: API.CREATE_BRANCH_LINK,
+        branchLink: {
+          ...branchLink,
+          linkType: BRANCH_LINKS.TRANSFER
+        }
+      });
 
-    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
-    dispatch(navigateTo('Home'));
-    analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
+      Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
+      dispatch(navigateTo('Home'));
+      analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CREATE_TRANSFER, err));
+    }
   }
 }
 

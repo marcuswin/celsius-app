@@ -1,4 +1,4 @@
-import { ELIGIBLE_COINS } from '../config/constants/common';
+import store from '../redux/store';
 
 export default {
   isERC20,
@@ -11,9 +11,12 @@ function isERC20(currency) {
 }
 
 function getEligibleCoins() {
-  return ELIGIBLE_COINS;
+  const { compliance } = store.getState().users;
+  return compliance.app.coins;
 }
 
 function isEligibleCoin(coin) {
-  return ELIGIBLE_COINS.indexOf(coin.toLowerCase()) !== -1;
+  const { compliance } = store.getState().users;
+  const eligibleCoins = compliance.app.coins;
+  return eligibleCoins.indexOf(coin.toLowerCase()) !== -1;
 }

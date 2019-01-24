@@ -1,7 +1,7 @@
 import ACTIONS from "../../config/constants/ACTIONS";
-import * as transfersActions from '../transfers/transfersActions';
-import * as uiActions from '../ui/uiActions';
-import branchService from '../../services/branch-service';
+import * as transfersActions from "../transfers/transfersActions";
+import * as uiActions from "../ui/uiActions";
+import branchService from "../../services/branch-service";
 import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../config/constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -10,8 +10,11 @@ import { createIndividualLinkBUO } from "../../utils/branch-util";
 export {
   registerBranchLink,
   saveBranchLink,
+  getBranchIndividualLink,
+  getBranchLinkBySlug,
   createBranchIndividualLink,
-}
+  submitProfileCode
+};
 
 function saveBranchLink(rawLink) {
   return async (dispatch) => {
@@ -21,60 +24,144 @@ function saveBranchLink(rawLink) {
 
       dispatch({
         type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
-        branchLink: branchLink.data,
+        branchLink: branchLink.data
       });
-    } catch(err) {
+    } catch (err) {
       dispatch(apiError(API.SAVE_BRANCH_LINK, err));
     }
-  }
+  };
 }
 
 function createBranchIndividualLink() {
   return async (dispatch) => {
-    const branchLink = await createIndividualLinkBUO()
+    const branchLink = await createIndividualLinkBUO();
     dispatch({
       type: ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK,
-      link: branchLink.url,
-    })
-  }
+      link: branchLink.url
+    });
+  };
 }
 
+function getBranchIndividualLink() {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.GET_INDIVIDUAL_LINK));
+
+      const branchLinkRes = await branchService.getIndividualLink();
+
+      dispatch({
+        type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
+        callName: API.GET_INDIVIDUAL_LINK,
+        link: branchLinkRes.data.branch_link.branch_link
+      });
+    } catch (err) {
+      dispatch(uiActions.showMessage("error", err.msg));
+      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
+    }
+  };
+};
+
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
-      link: deepLink,
-    })
+      link: deepLink
+    });
 
     switch (deepLink.link_type) {
       case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
-        break;
+        return dispatch(transfersActions.registerTransferLink(deepLink));
 
       case BRANCH_LINKS.COMPANY_REFERRAL:
-        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().users.user) {
-            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-          } else {
-            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
-          }
-        } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
-        }
-        break;
-
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
-        if (!getState().users.user) {
-          // TODO: should save all branch links
-          dispatch(saveBranchLink(deepLink));
-          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-        } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
-        }
-        break;
-
-        default:
-
+        return dispatch(registerReferralLink(deepLink));
+      default:
     }
+  };
+}
+
+function registerReferralLink(deepLink) {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users
+      if (user) return dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
+
+      dispatch(startApiCall(API.GET_LINK_BY_URL));
+
+      const linkRes = await branchService.getByUrl(deepLink['~referring_link']);
+      const linkResData = linkRes.data;
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_URL));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this link is not valid anymore!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+          callName: API.GET_LINK_BY_URL,
+          branchLink: linkResData.branch_link
+        });
+
+        if (!linkResData.branch_link.referred_award_amount || !linkResData.branch_link.referred_award_coin) return;
+        dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err));
+      dispatch(uiActions.showMessage("error", err.msg));
+    }
+  }
+}
+
+function getBranchLinkBySlug() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.GET_LINK_BY_SLUG))
+      const { formData } = getState().ui;
+
+      if (!formData.promoCode) return;
+
+      const linkRes = await branchService.getBySlug(formData.promoCode);
+      const linkResData = linkRes.data;
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_SLUG));
+        dispatch(uiActions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_SLUG_SUCCESS,
+          callName: API.GET_LINK_BY_SLUG,
+          branchLink: linkResData.branch_link
+        });
+      }
+    } catch(err) {
+      dispatch(apiError(API.GET_LINK_BY_SLUG, err));
+      dispatch(uiActions.showMessage("error", err.msg));
+    }
+  }
+}
+
+
+function submitProfileCode() {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.CHECK_PROFILE_CODE))
+      const { formData } = getState().ui
+
+      const res = await branchService.submitProfileCode(formData.promoCode);
+      dispatch(submitProfileCodeSuccess(res.data.branch_link));
+    } catch (err) {
+      dispatch(apiError(API.CHECK_PROFILE_CODE, err));
+      dispatch(uiActions.setFormErrors({
+        promoCode: 'Oops, it seems that the promo code you entered is not valid. Please, try again!'
+      }))
+    }
+
+  }
+}
+
+function submitProfileCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.CHECK_PROFILE_CODE_SUCCESS,
+    callName: API.CHECK_PROFILE_CODE,
+    code: promoCodeInfo
   }
 }

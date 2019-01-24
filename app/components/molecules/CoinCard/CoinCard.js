@@ -13,8 +13,6 @@ import PricingChangeIndicator from "../../molecules/PricingChangeIndicator/Prici
 import Icon from "../../atoms/Icon/Icon";
 import Card from '../../atoms/Card/Card';
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
-import { ELIGIBLE_COINS } from "../../../config/constants/common";
-
 
 
 const { height } = Dimensions.get('window');
@@ -173,6 +171,7 @@ const CoinCardInfo = ({ text }) => (
 @connect(
   state => ({
     nav: state.nav,
+    eligibleCoins: state.users.compliance.app.coins,
     activeScreen: state.nav.routes[state.nav.index].routeName,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -187,7 +186,7 @@ class CoinCard extends Component {
   }
 
   render() {
-    const { type, currency, amount, total, supportedCurrencies, lastInterest, lockedCollateral, actions } = this.props;
+    const { type, currency, amount, total, supportedCurrencies, lastInterest, eligibleCoins, lockedCollateral, actions } = this.props;
 
     const letterSize = Math.round(total).toString().length >= 7 ?
       FONT_SCALE * 20 : FONT_SCALE * 29;
@@ -228,9 +227,9 @@ class CoinCard extends Component {
                 source={{ uri: currency.image_url }}
                 style={CoinCardStyle.image}
               />
-              {type !== "wallet-card" && ELIGIBLE_COINS.indexOf(currency.short) !== -1 ? (
+              { type !== "wallet-card" && eligibleCoins.indexOf(currency.short) !== -1 ? (
                 <Icon
-                  style={{ position: 'absolute', bottom: 0, right: 0 }}
+                  style={{position: 'absolute', bottom: 0, right: 0 }}
                   name={'EligibilityStar'}
                   height='20'
                   width='20'
@@ -241,10 +240,10 @@ class CoinCard extends Component {
             </Col>
           </Row>
         </Grid>
-        <Grid style={[CoinCardStyle.coinData, type === 'default' ? { borderColor: STYLES.GRAY_3 } : { borderColor: STYLES.GRAY_1 }]}>
+        <Grid style={[CoinCardStyle.coinData, type === 'default' ? {borderColor: STYLES.GRAY_3} : { borderColor: STYLES.GRAY_1 }]}>
           <Row style={[CoinCardStyle.row, { paddingBottom: 16 }]}>
             <PricingChangeIndicator
-              rootStyles={{ marginLeft: 0, }}
+              rootStyles={{marginLeft: 0,}}
               isPercentChangeNegative={isPercentChangeNegative}
               percentChange={percentChange}
             />
@@ -266,8 +265,8 @@ class CoinCard extends Component {
               </View>
             </Row>
           }
-          {(type !== "wallet-card" && currency.short !== 'CEL' && ELIGIBLE_COINS.indexOf(currency.short) !== -1) &&
-            <CoinCardInfo text={`Earn interest or use ${currency.short} as collateral today`} />
+          {(type !== "wallet-card" && currency.short !== 'CEL'&& eligibleCoins.indexOf(currency.short) !== -1) &&
+            <CoinCardInfo text={`Earn interest or use ${currency.short} as collateral today`}/>
           }
           {(type !== "wallet-card" && currency.short === 'CEL') &&
             <CoinCardInfo text="CEL token price is based on the Crowdsale price until we list on an official exchange" />

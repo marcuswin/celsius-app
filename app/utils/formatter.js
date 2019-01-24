@@ -8,6 +8,12 @@ export default {
   round
 }
 
+const defaultPrecision = {
+  "BTC": 8,
+  "GUSD": 2,
+  "USDC": 6
+}
+
 function usd(amount, options = {}) {
   return currency.format(amount, { code: 'USD', ...options });
 }
@@ -17,7 +23,7 @@ function cel(amount) {
 }
 
 function crypto(amount, cryptocurrency, options = {}) {
-  return currency.format(amount, { precision: options.precision || 2, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
+  return currency.format(amount, { precision: defaultPrecision[cryptocurrency] ? defaultPrecision[cryptocurrency] : options.precision || 2, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
 }
 
 function round(amount, options = {}) {

@@ -3,7 +3,7 @@ import { STYLES } from "../../../config/constants/style";
 
 const {width, height} = Dimensions.get('window');
 
-const OfflineModeStyle = StyleSheet.create({
+const OfflineStyle = StyleSheet.create({
   background: {
     height,
     width,
@@ -30,4 +30,4 @@ const OfflineModeStyle = StyleSheet.create({
   }
 });
 
-export default OfflineModeStyle;
+export default OfflineStyle;

@@ -11,7 +11,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Loader from "../../atoms/Loader/Loader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
-import { LOAN_ELIGIBLE_COINS, KYC_STATUSES } from "../../../config/constants/common";
+import { KYC_STATUSES } from "../../../config/constants/common";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Card from "../../atoms/Card/Card";
@@ -38,6 +38,7 @@ const LTVs = [
     currencyRatesShort: state.generalData.currencyRatesShort,
     walletCurrencies: state.wallet.currencies,
     formData: state.ui.formData,
+    loanData: state.users.compliance.loan,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     callsInProgress: state.api.callsInProgress,
     hasPassedKYC: state.users.user.kyc && state.users.user.kyc.status === KYC_STATUSES.passed,
@@ -65,7 +66,7 @@ class LoanApplication extends Component {
   }
 
   initScreen = (props) => {
-    const { actions, walletCurrencies, supportedCurrencies, hasPassedKYC, callsInProgress } = props || this.props;
+    const { actions, walletCurrencies, supportedCurrencies, hasPassedKYC, callsInProgress, loanData } = props || this.props;
 
     let pickerItems;
 
@@ -73,14 +74,14 @@ class LoanApplication extends Component {
       if (!walletCurrencies) {
         if (!apiUtil.areCallsInProgress([API.GET_WALLET_DETAILS], callsInProgress)) actions.getWalletDetails();
       } else {
-        pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
+        pickerItems = loanData.coins.map(ec => {
           const walletCurrency = walletCurrencies.find(w => w.currency.short === ec);
           const currencyName = walletCurrency.currency.name[0].toUpperCase() + walletCurrency.currency.name.slice(1);
           return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
         });
       }
     } else {
-      pickerItems = LOAN_ELIGIBLE_COINS.map(ec => {
+      pickerItems = loanData.coins.map(ec => {
         const currency = supportedCurrencies.find(sc => sc.short === ec);
         const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
         return { label: `${currencyName} (${ec})`, value: ec.toLowerCase() };
@@ -179,7 +180,7 @@ class LoanApplication extends Component {
 
 
   render() {
-    const { formData, callsInProgress, walletCurrencies, appSettings } = this.props;
+    const { formData, callsInProgress, walletCurrencies, appSettings, loanData } = this.props;
     const { pickerItems, amountError } = this.state;
 
     if (appSettings.declineAccess) {
@@ -193,16 +194,16 @@ class LoanApplication extends Component {
       );
     }
 
-    // if () {
-    //   return (
-    //     <SimpleLayout
-    //       mainHeader={{ backButton: false }}
-    //       animatedHeading={{ text: "Borrow Dollars" }}
-    //     >
-    //       <EmptyState purpose={"NotEnoughForLoan"} />
-    //     </SimpleLayout>
-    //   );
-    // }
+    if (!loanData.allowed) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={{ text: "Borrow Dollars" }}
+        >
+          <EmptyState purpose={"Compliance"} text={loanData.block_reason} />
+        </SimpleLayout>
+      );
+    }
 
     if (!pickerItems || !formData.ltv) {
       return (

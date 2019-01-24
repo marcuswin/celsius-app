@@ -20,6 +20,7 @@ const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 export {
   getProfileInfo,
   updateProfileInfo,
+  getComplianceInfo,
   updateProfileAddressInfo,
   updateProfileTaxpayerInfo,
   toggleTermsOfUse,
@@ -62,6 +63,32 @@ function getProfileInfo() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
     }
+  }
+}
+
+function getComplianceInfo() {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
+
+    try {
+      const complianceInfoRes = await usersService.getComplianceInfo();
+
+      dispatch(getComplianceInfoSuccess(complianceInfoRes.data.allowed_actions));
+    } catch (err) {
+      if (err.status === 422) {
+        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+      }
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
+    }
+  }
+}
+
+export function getComplianceInfoSuccess(complianceInfo) {
+  return {
+    type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
+    callName: API.GET_COMPLIANCE_INFO_INFO,
+    complianceInfo,
   }
 }
 
@@ -459,10 +486,10 @@ function enableTwoFactor(code) {
   }
 }
 
-function disableTwoFactor(pin) {
+function disableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.disableTwoFactor(pin);
+      const success = await TwoFactorService.disableTwoFactor(code);
 
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
@@ -525,4 +552,3 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
     callName: API.GET_ICO_USERS_INFO,
   }
 }
-

@@ -59,6 +59,8 @@ import BRWTermOfLoanScreen from "../components/screens/BrwTermOfLoan/BrwTermOfLo
 import BRWConfirmLoanScreen from "../components/screens/BrwConfirmLoan/BrwConfirmLoan";
 import BRWAllLoansScreen from "../components/screens/BrwAllLoans/BrwAllLoans";
 import BRWLoanDetailsScreen from "../components/screens/BrwLoanDetails/BrwLoanDetails";
+import OfflineScreen from "../components/screens/Offline/Offline";
+import ComplianceScreen from "../components/screens/Compliance/Compliance";
 // NOTE(fj): plop screenGen importing new Screen here
 
 export const screens = {
@@ -293,6 +295,16 @@ export const screens = {
     screen: SelectCoinScreen,
     title: 'SelectCoin',
     bottomNavigation: true,
+  },
+  Offline: {
+    screen: OfflineScreen,
+    title: 'Offline',
+    bottomNavigation: false,
+  },
+  Compliance: {
+    screen: ComplianceScreen,
+    title: 'Compliance',
+    bottomNavigation: false,
   },
 
   // Wallet screens

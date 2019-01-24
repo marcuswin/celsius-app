@@ -12,7 +12,6 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from '../../../utils/formatter';
-import { ELIGIBLE_COINS } from "../../../config/constants/common";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import testUtil from "../../../utils/test-util";
 
@@ -22,8 +21,9 @@ const predefinedAmounts = ["20", "50", "100", "All"];
   state => {
     const balances = {};
     const rates = {};
+    const eligibleCoins = state.users.compliance.app.coins;
 
-    ELIGIBLE_COINS.forEach(ec => {
+    eligibleCoins.forEach(ec => {
       balances[`${ec.toLowerCase()}Balance`] = state.wallet.currencies.filter(c => c.currency.short === ec)[0].amount;
       rates[`${ec.toLowerCase()}Usd`] = state.generalData.supportedCurrencies.filter(c => c.short === ec)[0].market.quotes.USD.price;
     })
@@ -31,6 +31,7 @@ const predefinedAmounts = ["20", "50", "100", "All"];
     return {
       balances,
       rates,
+      eligibleCoins,
       formData: state.ui.formData,
       screenHeight: state.ui.dimensions.screenHeight,
       screenWidth: state.ui.dimensions.screenWidth,
@@ -51,10 +52,10 @@ class AmountInput extends Component {
         { label: '4', testLabel: 'four', action: this.onPressNumber },
         { label: '5', testLabel: 'five', action: this.onPressNumber },
         { label: '6', testLabel: 'six', action: this.onPressNumber },
-        { label: '7', testLabel: 'seven',action: this.onPressNumber },
+        { label: '7', testLabel: 'seven', action: this.onPressNumber },
         { label: '8', testLabel: 'eight', action: this.onPressNumber },
         { label: '9', testLabel: 'nine', action: this.onPressNumber },
-        { label: '.', testLabel: 'period',action: this.onPressDecimal },
+        { label: '.', testLabel: 'period', action: this.onPressDecimal },
         { label: '0', testLabel: 'zero', action: this.onPressNumber },
         { label: '\u2190', testLabel: 'backslash', action: this.onPressErase },
       ],
@@ -179,7 +180,7 @@ class AmountInput extends Component {
   }
 
   handleMainButtonClick = (purpose) => {
-    if (purpose === 'send') {
+    if (purpose === 'send' || purpose === 'confirm-send') {
       return this.chooseRecipient;
     }
 
@@ -269,7 +270,7 @@ class AmountInput extends Component {
                 )
                 }
               </View>
-              <TouchableOpacity ref={testUtil.generateTestHook(this, 'AmountInput.switch')} style={AmountInputStyle.switchIcon} onPress={ this.switchCurrencies }>
+              <TouchableOpacity ref={testUtil.generateTestHook(this, 'AmountInput.switch')} style={AmountInputStyle.switchIcon} onPress={this.switchCurrencies}>
                 <Icon name='SwitchIcon' width='36' height='36' fill='rgba(61,72,83,0.3)' stroke='white' />
               </TouchableOpacity>
             </View>

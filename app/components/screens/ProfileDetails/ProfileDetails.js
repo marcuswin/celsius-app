@@ -16,7 +16,6 @@ import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import testUtil from "../../../utils/test-util";
-import { FORBIDEN_COUNTRIES } from "../../../config/constants/common";
 
 @connect(
   state => ({
@@ -26,6 +25,7 @@ import { FORBIDEN_COUNTRIES } from "../../../config/constants/common";
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     activeScreen: state.nav.routes[state.nav.index].routeName,
+    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -50,7 +50,7 @@ class ProfileDetails extends Component {
   }
 
   validateForm = () => {
-    const { formData, actions } = this.props;
+    const { formData, actions, blacklistedCountryResidency } = this.props;
     const formErrors = {};
     const date = moment(`${formData.year}-${formData.month}-${formData.day}`, "YYYY-MM-DD");
     const dateHasValue = formData.month && formData.day && formData.year;
@@ -66,7 +66,7 @@ class ProfileDetails extends Component {
     if (dateHasValue && !isValidDate) formErrors.dateOfBirth = formErrors.month = formErrors.day = formErrors.year = 'Date of Birth not valid!';
     if (dateHasValue && isValidDate && !isAdult) formErrors.dateOfBirth = formErrors.month = formErrors.day = formErrors.year = 'You must be at least 18 years old to use Celsius application.';
     if (!formData.citizenship) formErrors.citizenship = 'Citizenship is required!';
-    if (FORBIDEN_COUNTRIES.indexOf(formData.citizenship) !== -1 ) formErrors.citizenship = "We can't work with people from this region!";
+    if (blacklistedCountryResidency.indexOf(formData.citizenship) !== -1 ) formErrors.citizenship = "We can't work with people from this region!";
     if (!formData.gender) formErrors.gender = 'Gender is required!';
 
     if (!_.isEmpty(formErrors)) {

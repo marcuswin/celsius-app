@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, View, Easing, Text, TextInput } from "react-native";
+import { Animated, View, Easing, Text, TextInput, Platform } from "react-native";
 // import { Input } from "native-base";
 
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES as colors } from "../../../config/constants/style";
@@ -32,7 +32,7 @@ class CelTextInput extends Component {
     autoCapitalize: PropTypes.string,
     autoCorrect: PropTypes.bool,
     spellCheck: PropTypes.bool,
-    shadow: PropTypes.bool
+    shadow: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -104,7 +104,10 @@ class CelTextInput extends Component {
       shadowColor: '#000000',
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 2},
-      shadowRadius: 2 } : null;
+      shadowRadius: 2,
+      borderColor: Platform.OS === "ios" ? null : "rgba(0,0,0,.2)",
+      borderWidth: Platform.OS === "ios" ? null : 1,
+    } : null;
 
     if (isActiveInput) {
       this.animateLabel(10);

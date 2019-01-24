@@ -9,6 +9,7 @@ const initialState = {
   transferLink: null,
   individualLink: null,
   companyLink: null,
+  promoCode: null,
 };
 
 export default function branchReducer(state = initialState, action) {
@@ -23,6 +24,22 @@ export default function branchReducer(state = initialState, action) {
       return {
         ...state,
       };
+
+    case ACTIONS.GET_LINK_BY_SLUG_SUCCESS:
+    case ACTIONS.GET_LINK_BY_URL_SUCCESS:
+      return {
+        ...state,
+        registeredLink: {
+          ...state.registeredLink,
+          ...action.branchLink,
+        }
+      };
+
+    case ACTIONS.CHECK_PROFILE_CODE_SUCCESS:
+      return {
+        ...state,
+        promoCode: action.code,
+      }
 
     case ACTIONS.SAVE_BRANCH_LINK_SUCCESS:
       return {

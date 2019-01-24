@@ -243,7 +243,7 @@ function openInitialModal() {
 
     if (user && user.kyc.status === "passed") {
       if (user.blocked_at || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
-      if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
+      if (!user.street && !user.zip && !user.city) {
         return dispatch(openModal(MODALS.NYC_BLACKOUT));
       }
     }

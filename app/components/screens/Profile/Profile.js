@@ -25,6 +25,8 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import ProfileStyle from "../Profile/Profile.styles";
 import Separator from "../../atoms/Separator/Separator";
 import { MODALS } from "../../../config/constants/common";
+import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
+import EnterPromoCodeModal from "../../organisms/EnterPromoCodeModal/EnterPromoCodeModal";
 
 
 const { revisionId } = Constants.manifest;
@@ -94,7 +96,7 @@ class ProfileScreen extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    // if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
     if ((formData.country === "United States" || formData.citizenship === "United States" ) && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
@@ -149,7 +151,7 @@ class ProfileScreen extends Component {
       }
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      if (formData.state === "New York") {
+      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
         actions.updateUserAppSettings({ declineAccess: true });
         actions.navigateTo("Home")
       } else {
@@ -255,7 +257,7 @@ class ProfileScreen extends Component {
             size="small"
             margin="0 0 10 0"
             inverse
-            disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
+            disabled={appSettings.declineAccess}
           >
             Change avatar
           </CelButton>
@@ -264,7 +266,7 @@ class ProfileScreen extends Component {
             <CelButton
               onPress={() => actions.navigateTo('ProfileSettings')}
               color="blue"
-              disabled={(formData.country === "United States" || formData.citizenship === "United States") && appSettings.declineAccess}
+              disabled={appSettings.declineAccess}
             >
               Settings
             </CelButton>
@@ -273,8 +275,19 @@ class ProfileScreen extends Component {
               color="blue"
               margin="10 0 10 0"
               inverse
+              disabled={appSettings.declineAccess}
             >
               Refer your friends
+            </CelButton>
+            <CelButton
+              onPress={() => actions.openModal(MODALS.ENTER_PROMO_CODE)}
+              transparent
+              color="blue"
+              size="small"
+              margin="10 0 10 0"
+              inverse
+            >
+              Enter promo code
             </CelButton>
           </View>
 
@@ -390,6 +403,7 @@ class ProfileScreen extends Component {
           </View>}
         </CelScreenContent>
         <ReferralModal />
+        <EnterPromoCodeModal />
       </BasicLayout>
     )
   }

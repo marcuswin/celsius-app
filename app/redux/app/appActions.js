@@ -52,7 +52,6 @@ export function appInitStart() {
         if (getState().users.user) {
           analyticsEvents.sessionStart();
         }
-
         dispatch({ type: ACTIONS.APP_INIT_DONE });
       }
     } catch (e) {
@@ -102,13 +101,12 @@ async function initAppData() {
 
   // get expired session
   const { expiredSession } = store.getState().users;
-
   if (token && !expiredSession) {
     registerForPushNotificationsAsync();
-
     // get all KYC document types and claimed transfers for non-verified users
     const { user } = store.getState().users;
     if (user) {
+      await store.dispatch(actions.getComplianceInfo());
       if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
         await store.dispatch(actions.getKYCDocTypes());
         await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
@@ -130,7 +128,9 @@ async function initAppData() {
   }
 
   // get general data for te app
-  await store.dispatch(actions.getSupportedCurrencies())
+  await store.dispatch(actions.getSupportedCurrencies());
+  await store.dispatch(actions.getUserLocation());
+  await store.dispatch(actions.getBlacklistedCountries());
 }
 
 // Gets User App Settings from Secure Store

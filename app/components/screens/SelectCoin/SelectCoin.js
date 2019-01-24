@@ -17,6 +17,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
     // map state to props
     walletCurrencies: state.wallet.currencies,
     user: state.users.user,
+    celpayData: state.users.compliance.celpay,
     appSettings: state.users.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -49,12 +50,15 @@ class SelectCoin extends Component {
   // rendering methods
   renderCoin = (walletCurrency) => {
     const { currency } = walletCurrency;
+    const { celpayData } = this.props;
+
+    if (!celpayData.coins.includes(currency.short)) return;
 
     const wrapperStyle = Number(walletCurrency.total.toFixed(2)) ? SelectCoinStyle.coinWrapper : [SelectCoinStyle.coinWrapper, { opacity: 0.2 }];
     return (
       <View key={currency.id} style={wrapperStyle}>
         <TouchableOpacity ref={testUtil.generateTestHook(this, `SelectCoin.${currency.short}`)} key={currency.id} style={SelectCoinStyle.button} onPress={() => this.onSelectCoin(currency)}>
-          <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin}/>
+          <Image key={currency.id} source={{ uri: currency.image_url }} style={SelectCoinStyle.coin} />
         </TouchableOpacity>
         <Text style={SelectCoinStyle.coinName}>{this.capitalize(currency.name)}</Text>
         <Text
@@ -66,7 +70,7 @@ class SelectCoin extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { walletCurrencies, user, appSettings } = this.props;
+    const { walletCurrencies, user, appSettings, celpayData } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
       return (
@@ -74,7 +78,7 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <EmptyState/>
+          <EmptyState />
         </SimpleLayout>
       )
     }
@@ -85,7 +89,7 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <EmptyState purpose={"NycBlackout"}/>
+          <EmptyState purpose={"NycBlackout"} />
         </SimpleLayout>
       )
     }
@@ -96,9 +100,20 @@ class SelectCoin extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={animatedHeading}
         >
-          <Loader/>
+          <Loader />
         </SimpleLayout>
       );
+    }
+
+    if (!celpayData.allowed) {
+      return (
+        <SimpleLayout
+          mainHeader={{ backButton: false }}
+          animatedHeading={animatedHeading}
+        >
+          <EmptyState purpose={"Compliance"} text={celpayData.block_reason} />
+        </SimpleLayout>
+      )
     }
 
     return (

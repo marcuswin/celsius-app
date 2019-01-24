@@ -1,3 +1,4 @@
+import { Location, Permissions } from "expo";
 import { showMessage } from "../ui/uiActions";
 import generalDataService from "../../services/general-data-service";
 import kycService from "../../services/kyc-service";
@@ -9,6 +10,8 @@ export {
   getSupportedCurrencies,
   getKYCDocTypes,
   getBackendStatus,
+  getBlacklistedCountries,
+  getUserLocation,
 }
 
 function getSupportedCurrencies() {
@@ -77,5 +80,62 @@ function getBackendStatusSuccess(backendStatus) {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
     callName: API.GET_BACKEND_STATUS,
     backendStatus,
+  }
+}
+
+function getBlacklistedCountries() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_BLACKLISTED_COUNTRIES));
+    try {
+      const res = await generalDataService.getBlacklisted();
+      const blacklistedCountries = res.data;
+      const blacklistedCountryLocation = blacklistedCountries.location.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedCountryResidency = blacklistedCountries.residency.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedStatesLocation = blacklistedCountries.location.filter(c => c.country === "United States").map(value => value.state);
+      const blacklistedStatesResidency = blacklistedCountries.residency.filter(c => c.country === "United States").map(value => value.state);
+
+      dispatch(getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_BLACKLISTED_COUNTRIES, err));
+    }
+  }
+}
+
+function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency) {
+  return {
+    type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,
+    callName: API.GET_BLACKLISTED_COUNTRIES,
+    blacklistedCountryLocation,
+    blacklistedCountryResidency,
+    blacklistedStatesLocation,
+    blacklistedStatesResidency
+  }
+}
+
+function getUserLocation() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_LOCATION));
+    try {
+      await Permissions.askAsync(Permissions.LOCATION);
+      const loc = await Location.getCurrentPositionAsync({});
+      const l = {
+        latitude : loc.coords.latitude,
+        longitude: loc.coords.longitude,
+      };
+      const loca = await Location.reverseGeocodeAsync(l);
+      const [location] = loca;
+      dispatch(getUserLocationSuccess(location))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_LOCATION, err));
+    }
+  }
+}
+
+function getUserLocationSuccess(location) {
+  return {
+    type: ACTIONS.GET_USER_LOCATION_SUCCESS,
+    location,
   }
 }

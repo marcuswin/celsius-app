@@ -14,17 +14,18 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import cryptoUtil from "../../../utils/crypto-util";
-import { ELIGIBLE_COINS, MODALS } from "../../../config/constants/common";
+import { MODALS } from "../../../config/constants/common";
 import DestinationTagExplanationModal from "../../organisms/DestinationTagExplanationModal/DestinationTagExplanationModal";
 import ShareCopy from "../../organisms/ShareCopy/ShareCopy";
 import { analyticsEvents } from "../../../utils/analytics-util";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import MemoIdExplanationModal from "../../organisms/MemoIdExplanationModal/MemoIdExplanationModal";
-
-const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase());
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
   state => {
+    const eligibleCoins = state.users.compliance.deposit.coins
+    const possibleAddresses = eligibleCoins.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase())
     const walletAddresses = {};
 
     possibleAddresses.forEach(pa => {
@@ -33,13 +34,11 @@ const possibleAddresses = ELIGIBLE_COINS.filter(c => !cryptoUtil.isERC20(c) || c
         alternateAddress: state.wallet.addresses[`${pa}AlternateAddress`]
       };
     });
-    // possibleAddresses.forEach(pa => {
-    //   walletAddresses[pa] = state.wallet.addresses[`${pa}Address`];
-    // })
-
     return {
       formData: state.ui.formData,
       walletAddresses,
+      eligibleCoins,
+      complianceBlockReason: state.users.compliance.deposit.block_reason,
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,
       supportedCurrencies: state.generalData.supportedCurrencies,
@@ -52,7 +51,7 @@ class AddFunds extends Component {
   constructor(props) {
     super(props);
 
-    const pickerItems = ELIGIBLE_COINS.map(ec => {
+    const pickerItems = props.eligibleCoins.map(ec => {
       const currency = props.supportedCurrencies.filter(sc => sc.short === ec)[0];
       const currencyName = currency.name[0].toUpperCase() + currency.name.slice(1);
       return {
@@ -157,9 +156,20 @@ class AddFunds extends Component {
 
   render() {
     const { pickerItems, useAlternateAddress } = this.state;
-    const { formData, navigation, actions, appSettings } = this.props;
+    const { formData, navigation, actions, appSettings, complianceBlockReason, eligibleCoins } = this.props;
 
     const navCurrency = navigation.getParam("currency");
+    if (navCurrency && eligibleCoins.indexOf(navCurrency.toUpperCase()) === -1) {
+      return (
+        <SimpleLayout
+          mainHeader={{ onCancel: this.goBack, backButton: false }}
+          animatedHeading={{ text: headingText, textAlign: "center" }}
+          background={STYLES.PRIMARY_BLUE}
+        >
+          <EmptyState purpose={"Compliance"} text={complianceBlockReason} color={"white"} />
+        </SimpleLayout>
+      )
+    }
     let address;
     let addressXrp;
     let addressXlm;
@@ -168,13 +178,10 @@ class AddFunds extends Component {
     let memoId;
     let headingText;
     let currentCurrency;
-    console.log("Nav: ", navCurrency);
-    console.log("Obican: ", navCurrency && !["xrp", "xlm"].includes(navCurrency))
     if (navCurrency && !["xrp", "xlm"].includes(navCurrency)) {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
       currentCurrency = navCurrency.toLowerCase();
-      console.log(address)
     } else if (navCurrency && navCurrency === "xrp") {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
@@ -224,7 +231,6 @@ class AddFunds extends Component {
       headingText = "Add funds";
       currentCurrency = formData.currency;
     }
-
 
     return (
       <SimpleLayout

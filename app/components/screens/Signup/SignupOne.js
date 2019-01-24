@@ -40,14 +40,18 @@ class SignupOne extends Component {
     const { actions, formData } = this.props;
 
     const formErrors = {};
-    if (formData.password === formData.passwordRepeat) {
-      actions.registerUser(formData);
+    if (formData.password.length >= 8 && formData.passwordRepeat.length >= 8) {
+      if (formData.password === formData.passwordRepeat) {
+        actions.registerUser(formData);
+      } else {
+        formErrors.password_repeat = 'Passwords don\'t match!';
+      }
     } else {
-      formErrors.password_repeat = 'Passwords don\'t match!';
+      formErrors.password = 'Password must have at least 8 characters!';
     }
 
     if (!_.isEmpty(formErrors)) {
-      actions.setFormErrors(formErrors); 
+      actions.setFormErrors(formErrors);
     }
   };
 
@@ -104,7 +108,7 @@ class SignupOne extends Component {
             <View style={SignupOneStyle.formButtonWrapper}>
               <CelButton
                 ref={testUtil.generateTestHook(this, 'SignupOne.button')}
-                disabled={!email || !password || password.length < 8 || !passwordRepeat || passwordRepeat.length < 8}
+                disabled={!email || !password || !passwordRepeat}
                 loading={isLoading}
                 onPress={this.onSubmit}
                 white

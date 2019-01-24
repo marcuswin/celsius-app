@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, Platform } from 'react-native';
 import { View } from 'native-base';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 
 import Icon from '../../atoms/Icon/Icon';
 import * as appActions from "../../../redux/actions";
-import {STYLES} from "../../../config/constants/style";
+import { STYLES } from "../../../config/constants/style";
 
 
 import BottomNavigationStyle from "./BottomNavigation.styles";
@@ -72,17 +72,17 @@ class BottomNavigation extends Component {
 
     return (
       <TouchableOpacity
-      ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)}
+        ref={testUtil.generateTestHook(this, `BottomNavigation.${navItem.label}`)}
 
-        key={ navItem.label }
-        onPress={ () => this.goToScreen(navItem) }
+        key={navItem.label}
+        onPress={() => this.goToScreen(navItem)}
 
       >
         <View style={BottomNavigationStyle[`item${state}`]} >
           <View style={BottomNavigationStyle.iconWrapper}>
-            <Icon style={iconStyle} height="25" width="25" name={ navItem.icon } fill={ iconFill } />
+            <Icon style={iconStyle} height="25" width="25" name={navItem.icon} fill={iconFill} />
           </View>
-          <Text style={BottomNavigationStyle[`text${state}`]}>{ navItem.label }</Text>
+          <Text style={BottomNavigationStyle[`text${state}`]}>{navItem.label}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -99,31 +99,31 @@ class BottomNavigation extends Component {
 
     if (Platform.OS === 'ios') {
       return (
-      <TouchableOpacity
-        onPress={ () => this.goToHomeScreen()}
-      >
-        <View style={BottomNavigationStyle.wallet} >
-          <View style={BottomNavigationStyle.celWrapper}>
-            <View style={BottomNavigationStyle[`celsius${ios}`]}>
-              <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+        <TouchableOpacity
+          onPress={() => this.goToHomeScreen()}
+        >
+          <View style={BottomNavigationStyle.wallet} >
+            <View style={BottomNavigationStyle.celWrapper}>
+              <View style={BottomNavigationStyle[`celsius${ios}`]}>
+                <Icon name="CelsiusLogo" fill="white" width={30} height={30} viewBox="0 0 32 32" />
+              </View>
             </View>
+            <Text style={BottomNavigationStyle[`text${ios}`]}>Wallet</Text>
           </View>
-          <Text style={BottomNavigationStyle[`text${ios}`]}>Wallet</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
       )
     }
 
     if (Platform.OS === 'android') {
       return (
         <TouchableOpacity
-          onPress={ () => this.goToHomeScreen()}
+          onPress={() => this.goToHomeScreen()}
         >
           <View style={BottomNavigationStyle[`item${state}`]} >
             <View style={BottomNavigationStyle.iconWrapper}>
-              <Icon name="CelsiusLogo" width={25} height={25} viewBox="0 0 32 32" style={[iconStyle, {marginBottom: 0}]} fill={ iconFill } />
+              <Icon name="CelsiusLogo" width={25} height={25} viewBox="0 0 32 32" style={[iconStyle, { marginBottom: 0 }]} fill={iconFill} />
             </View>
-            <Text style={BottomNavigationStyle[`text${state}`]}>{ navItem.label }</Text>
+            <Text style={BottomNavigationStyle[`text${state}`]}>{navItem.label}</Text>
           </View>
         </TouchableOpacity>
       )
@@ -131,21 +131,22 @@ class BottomNavigation extends Component {
   };
 
   render() {
-    const { navItemsLeft, navItemsRight, bottomNavigationDimensions, screenHeight } = this.props;
+    const { navItemsLeft, navItemsRight, bottomNavigationDimensions } = this.props;
 
     const styles = {
       height: bottomNavigationDimensions.height,
-      top: screenHeight - bottomNavigationDimensions.height,
+      // top: screenHeight - bottomNavigationDimensions.height,
+      bottom: 0,
       paddingBottom: bottomNavigationDimensions.paddingBottom,
     }
 
     return (
-      <View style={[ BottomNavigationStyle.container, styles ]}>
-        { navItemsLeft.map(this.renderNavItem) }
+      <View style={[BottomNavigationStyle.container, styles]}>
+        {navItemsLeft.map(this.renderNavItem)}
 
-        { this.renderHomeButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens }) }
+        {this.renderHomeButton({ label: 'Wallet', screen: 'Home', icon: 'CelsiusLogo', active: walletScreens })}
 
-        { navItemsRight.map(this.renderNavItem) }
+        {navItemsRight.map(this.renderNavItem)}
       </View>
     );
   }

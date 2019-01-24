@@ -13,6 +13,9 @@ import borrowersService from '../../services/borrowers-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
+import branchService from "../../services/branch-service";
+import store from '../store';
+import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -33,6 +36,7 @@ export {
   resetPassword,
   logoutUser,
   expireSession,
+  finishSignupTwo,
 }
 
 
@@ -46,7 +50,7 @@ function loginUser({ email, password }) {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(loginUserSuccess(res.data));
+      dispatch(await loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true));
@@ -57,8 +61,9 @@ function loginUser({ email, password }) {
   }
 }
 
-function loginUserSuccess(data) {
+async function loginUserSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return {
     type: ACTIONS.LOGIN_USER_SUCCESS,
     callName: API.LOGIN_USER,
@@ -80,7 +85,7 @@ function loginBorrower({ email, password }) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginBorrowerSuccess(res.data));
+      dispatch(await loginBorrowerSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true))
@@ -95,8 +100,9 @@ function loginBorrower({ email, password }) {
   }
 }
 
-function loginBorrowerSuccess(data) {
+async function loginBorrowerSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return {
     type: ACTIONS.LOGIN_BORROWER_SUCCESS,
     callName: API.LOGIN_BORROWER,
@@ -131,11 +137,11 @@ function getLoggedInBorrowerSuccess(borrower) {
 
 
 function registerUser(user) {
-  analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
       const res = await usersService.register({
         ...user,
         referralLinkId,
@@ -146,8 +152,8 @@ function registerUser(user) {
 
       dispatch(registerUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Email', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -173,7 +179,8 @@ function registerUserTwitter(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_TWITTER));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerTwitter({
         ...user,
@@ -185,8 +192,8 @@ function registerUserTwitter(user) {
 
       dispatch(registerUserTwitterSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Twitter', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Twitter', referralLinkId, res.data.user);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_TWITTER, err));
@@ -216,7 +223,7 @@ function loginTwitter(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserTwitterSuccess(res.data))
+      dispatch(await loginUserTwitterSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -225,8 +232,9 @@ function loginTwitter(user) {
   }
 }
 
-function loginUserTwitterSuccess(data) {
+async function loginUserTwitterSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
@@ -242,7 +250,8 @@ function registerUserFacebook(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerFacebook({
         ...user,
@@ -254,9 +263,10 @@ function registerUserFacebook(user) {
 
       dispatch(registerUserFacebookSuccess(res.data));
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Facebook', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Facebook', referralLinkId, res.data.user);
     } catch (err) {
+      console.log(err);
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_FACEBOOK, err));
     }
@@ -285,7 +295,7 @@ function loginFacebook(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserFacebookSuccess(res.data))
+      dispatch(await loginUserFacebookSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -294,8 +304,9 @@ function loginFacebook(user) {
   }
 }
 
-function loginUserFacebookSuccess(data) {
+async function loginUserFacebookSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
@@ -311,7 +322,8 @@ function registerUserGoogle(user) {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
     try {
-      const referralLinkId = getState().branch.referralLinkId;
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
 
       const res = await usersService.registerGoogle({
         ...user,
@@ -321,8 +333,8 @@ function registerUserGoogle(user) {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.id_token);
       dispatch(registerUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
+      analyticsEvents.startedSignup('Google', res.data.user);
       await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Google', referralLinkId, res.data.user);
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
@@ -352,7 +364,7 @@ function loginGoogle(user) {
       const userRes = await usersService.getPersonalInfo();
       res.data.user = userRes.data;
 
-      dispatch(loginUserGoogleSuccess(res.data))
+      dispatch(await loginUserGoogleSuccess(res.data))
       dispatch(claimAllBranchTransfers());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -361,8 +373,9 @@ function loginGoogle(user) {
   }
 }
 
-function loginUserGoogleSuccess(data) {
+async function loginUserGoogleSuccess(data) {
   analyticsEvents.sessionStart();
+  await store.dispatch(actions.getComplianceInfo());
   return (dispatch) => {
     dispatch({
       type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,
@@ -376,10 +389,17 @@ function loginUserGoogleSuccess(data) {
 
 // TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
-  return async dispatch => {
+  console.log({ promo: 'promo' })
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.UPDATE_USER));
     try {
-      const res = await usersService.update(user);
+      const { registeredLink } = getState().branch;
+      const referralLinkId = registeredLink ? registeredLink.id : null;
+
+      const res = await usersService.update({
+        ...user,
+        referralLinkId,
+      });
 
       dispatch(updateUserSuccess(res.data));
     } catch (err) {
@@ -472,6 +492,55 @@ function expireSession() {
       });
     } catch (err) {
       logger.log(err);
+    }
+  }
+}
+
+function finishSignupTwo() {
+  return async (dispatch, getState) => {
+    try {
+      const { user } = getState().users;
+      const { formData } = getState().ui;
+
+      // check promo code
+      if (formData.promoCode) {
+        dispatch(startApiCall(API.SUBMIT_PROMO_CODE))
+
+        const linkRes = await branchService.submitRegistrationCode(formData.promoCode);
+        const linkResData = linkRes.data;
+
+        dispatch({
+          type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+          callName: API.SUBMIT_PROMO_CODE,
+          branchLink: linkResData.branch_link
+        });
+      }
+
+      const data = { ...formData };
+
+      // register twitter user
+      if (user && user.twitter_id) {
+        return dispatch(registerUserTwitter({ ...user, ...data }));
+      }
+
+      // register facebook user
+      if (user && user.facebook_id) {
+        return dispatch(registerUserFacebook({ ...user, ...data }));
+      }
+
+      // register google user
+      if (user && user.google_id) {
+        return dispatch(registerUserGoogle({ ...user, ...data }));
+      }
+
+      // update user
+      if (user && !user.twitter_id && !user.facebook_id && !user.google_id) {
+        return dispatch(updateUser(data));
+      }
+    } catch (err) {
+      console.log(err)
+      dispatch(apiError(API.SUBMIT_PROMO_CODE));
+      dispatch(showMessage("warning", "Sorry, but this promo code is not valid!"));
     }
   }
 }

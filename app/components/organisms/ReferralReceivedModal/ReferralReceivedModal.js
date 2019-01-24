@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
 import * as appActions from "../../../redux/actions";
-import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
+import { MODALS, BRANCH_LINKS } from "../../../config/constants/common";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelModal from "../../atoms/CelModal/CelModal";
 import CelButton from "../../atoms/CelButton/CelButton";

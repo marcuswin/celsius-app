@@ -49,7 +49,7 @@ class TaxpayerID extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
+    // if (formData.country === "United States" && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
     if (formData.country === "United States" && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
@@ -103,11 +103,11 @@ class TaxpayerID extends Component {
       >
 
         <Text style={[globalStyles.normalText, { color: 'white' }]}>
-          We require this information due to anti-money laundering (AML) regulations and background checks.
+          We need this information due to anti-money laundering (AML) regulations and background checks.
         </Text>
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
           {formData.country === "United States" ?
-            <CelInput  value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+            <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
             :
             <React.Fragment>
               <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
