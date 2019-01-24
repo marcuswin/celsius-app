@@ -5,27 +5,18 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import testUtil from "../../../utils/test-util";
 import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
-// import Icon from '../../../components.v2/atoms/Icon/Icon';
 
 class CircleButton extends Component {
 
   static propTypes = {
-    text: PropTypes.string,
-    type: PropTypes.oneOf(['Menu', 'Theme', 'Coin']),
     theme: PropTypes.string.isRequired,
-    icon: PropTypes.string
+    // style: PropTypes.object,
+    onPress: PropTypes.func.isRequired,
+    text: PropTypes.string,
+    icon: PropTypes.string,
+    type: PropTypes.oneOf(['Menu', 'Theme', 'Coin']),
   };
   static defaultProps = {
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-
-    // binders
   }
 
   render() {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -17,9 +18,10 @@ import CircleButton from '../../atoms/CircleButton/CircleButton';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Fab extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  static propTypes = {
+    onPress: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
   }
 
   getIconName = () => {

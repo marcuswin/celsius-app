@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const {{pascalCase name}}Style = (theme) => getThemedStyle(theme, base, themed);
+const CommunityStyle = (theme) => getThemedStyle(theme, base, themed);
 
-export default {{pascalCase name}}Style
+export default CommunityStyle

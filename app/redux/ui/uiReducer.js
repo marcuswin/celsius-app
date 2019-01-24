@@ -5,10 +5,10 @@ import { Dimensions, StatusBar } from 'react-native';
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import device from "../../utils/device-util";
-import store from '../../redux/store';
-import { KYC_STATUSES } from "../../config/constants/common";
-import { shouldRenderInitialIdVerification } from "../../utils/user-util";
-import { screens } from "../../config/Navigator";
+// import store from '../../redux/store';
+// import { KYC_STATUSES } from "../../config/constants/common";
+// import { shouldRenderInitialIdVerification } from "../../utils/user-util";
+// import { screens } from "../../config/Navigator";
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,40 +31,40 @@ function getBottomNavDimensions() {
 }
 
 
-function shouldShowBottomNavigation(action) {
-  const { type } = action;
-  const { nav } = store.getState();
-  const { profile } = store.getState().user;
-  const { userActions } = store.getState().ui;
-  let routeName;
+// function shouldShowBottomNavigation(action) {
+//   const { type } = action;
+//   const { nav } = store.getState();
+//   const { profile } = store.getState().user;
+//   const { userActions } = store.getState().ui;
+//   let routeName;
 
-  if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
-  if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
-  if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
-  if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
-  if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
-  if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
+//   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
+//   if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
+//   if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
+//   if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
+//   if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
+//   if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
 
-  let showNav;
+//   let showNav;
 
-  if (routeName !== 'Home') {
-    showNav = !!screens[routeName].bottomNavigation;
-  } else if (!profile) {
-    showNav = false;
-  } else if (!profile.first_name || !profile.last_name) {
-    showNav = false;
-  } else if (!profile.has_pin) {
-    showNav = false;
-  } else if (shouldRenderInitialIdVerification(userActions)) {
-    showNav = false;
-  } else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
-    showNav = true;
-  } else {
-    showNav = true;
-  }
+//   if (routeName !== 'Home') {
+//     showNav = !!screens[routeName].bottomNavigation;
+//   } else if (!profile) {
+//     showNav = false;
+//   } else if (!profile.first_name || !profile.last_name) {
+//     showNav = false;
+//   } else if (!profile.has_pin) {
+//     showNav = false;
+//   } else if (shouldRenderInitialIdVerification(userActions)) {
+//     showNav = false;
+//   } else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
+//     showNav = true;
+//   } else {
+//     showNav = true;
+//   }
 
-  return showNav;
-}
+//   return showNav;
+// }
 
 const initialState = {
   userActions: {
@@ -219,7 +219,7 @@ export default (state = initialState, action) => {
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
-        hasBottomNavigation: shouldShowBottomNavigation(action),
+        // hasBottomNavigation: shouldShowBottomNavigation(action),
       }
 
     // return {

@@ -6,15 +6,15 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import DepositStyle from "./Deposit.styles";
 
 @connect(
   state => ({
-    style: {{pascalCase name}}Style(state.ui.theme),
+    style: DepositStyle(state.ui.theme),
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class {{pascalCase name}} extends Component {
+class Deposit extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -31,10 +31,10 @@ class {{pascalCase name}} extends Component {
     const { style } = this.props
     return (
       <View style={style.container}>
-        <Text>Hello {{pascalCase name}}</Text>
+        <Text>Hello Deposit</Text>
       </View>
     );
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default testUtil.hookComponent(Deposit);
