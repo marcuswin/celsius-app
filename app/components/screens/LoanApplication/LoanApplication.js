@@ -105,7 +105,7 @@ class LoanApplication extends Component {
       return actions.showMessage("error", "Please select an amount more than $10,000.00");
     }
 
-    if (Number(formData.amountCollateralUSD) < 10000) {
+    if (Number(formData.amountCollateralUSD) < 5000) {
       this.setState({
         amountError: true,
       });

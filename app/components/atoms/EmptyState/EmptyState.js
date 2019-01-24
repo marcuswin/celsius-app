@@ -28,6 +28,10 @@ const EmptyState = (props) => {
       title = "Feature blocked";
       text = props.text
       break;
+    case "NotEnoughForLoan":
+      title = "";
+      text = "Sorry, you don't have enough money deposited to take a loan. Minimum amount is $5000"
+      break;
     default:
       title = "From here you can pay your friends back with crypto";
       text = "To send your favorite coins to your favorite people, please verify your identity first."

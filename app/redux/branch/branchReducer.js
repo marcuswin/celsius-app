@@ -46,7 +46,7 @@ export default function branchReducer(state = initialState, action) {
         ...state,
         referralLinkId: [BRANCH_LINKS.COMPANY_REFERRAL, BRANCH_LINKS.INDIVIDUAL_REFERRAL].indexOf(action.branchLink.link_type) !== -1 ? action.branchLink.id : state.referralLinkId,
       };
-      
+
     default:
       return state;
   }

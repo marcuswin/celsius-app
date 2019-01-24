@@ -170,6 +170,7 @@ export const MODALS = {
   NYC_BLACKOUT: "NYC_BLACKOUT",
   GENERATE_API_KEY: "GENERATE_API_KEY",
   ENTER_PROMO_CODE: "ENTER_PROMO_CODE",
+  BORROW_SUCCESS_MODAL: "BORROW_SUCCESS_MODAL",
 };
 
 export const BRANCH_LINKS = {
@@ -218,3 +219,17 @@ export const VERIFY_IDENTITY_ACTION_TYPES = {
   CONFIRM_SET_PIN: 'CONFIRM_SET_PIN',
 };
 
+export const LOAN_STATUSES = {
+  pending: 'pending',
+  rejected: 'rejected',
+  approved: 'approved',
+  active: 'active',
+  completed: 'completed',
+}
+
+export const BORROW_REDIRECT_STEPS_ROUTE_NAMES = {
+  "1": 'BRWEnterAmount',
+  "2": 'BRWChooseCollateral',
+  "3": 'BRWLoanOption',
+  "4": 'BRWTermOfLoan',
+}

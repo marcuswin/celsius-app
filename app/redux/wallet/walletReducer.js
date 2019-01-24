@@ -82,6 +82,7 @@ export default function walletReducer(state = initialState(), action) {
       return {
         ...state,
         interest: action.wallet.meta.interest,
+        collateral: action.wallet.meta.collateral,
         total: action.wallet.meta,
         currencies,
         coinOrder: currencies.map(c => c.currency.short),

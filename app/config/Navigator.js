@@ -52,11 +52,16 @@ import TwoFaAuthSuccessScreen from "../components/screens/TwoFaAuthSuccess/TwoFa
 import VerifyIdentityScreen from "../components/screens/VerifyIdentity/VerifyIdentityScreen";
 import ApiAuthorizationScreen from "../components/screens/ApiAuthorization/ApiAuthorization";
 import ApiKeyGenerateScreen from "../components/screens/ApiKeyGenerate/ApiKeyGenerate";
+import BRWEnterAmountScreen from "../components/screens/BrwEnterAmount/BrwEnterAmount";
+import BRWChooseCollateralScreen from "../components/screens/BrwChooseCollateral/BrwChooseCollateral";
+import BRWLoanOptionScreen from "../components/screens/BrwLoanOption/BrwLoanOption";
+import BRWTermOfLoanScreen from "../components/screens/BrwTermOfLoan/BrwTermOfLoan";
+import BRWConfirmLoanScreen from "../components/screens/BrwConfirmLoan/BrwConfirmLoan";
+import BRWAllLoansScreen from "../components/screens/BrwAllLoans/BrwAllLoans";
+import BRWLoanDetailsScreen from "../components/screens/BrwLoanDetails/BrwLoanDetails";
 import OfflineScreen from "../components/screens/Offline/Offline";
 import ComplianceScreen from "../components/screens/Compliance/Compliance";
 // NOTE(fj): plop screenGen importing new Screen here
-
-
 
 export const screens = {
   // Welcom Screens
@@ -132,7 +137,7 @@ export const screens = {
   screen: TwoFaAuthAppConfirmationScreen,
     title: 'TwoFaAuthAppConfirmation',
     bottomNavigation: true,
-},
+  },
   TwoFaAuthAppConfirmationCode: {
     screen: TwoFaAuthAppConfirmationCodeScreen,
     title: 'TwoFaAuthAppConfirmationCode',
@@ -198,6 +203,43 @@ export const screens = {
   TransactionsOnHold: {
     screen: TransactionsOnHoldScreen,
     title: 'TransactionsOnHold',
+    bottomNavigation: true,
+  },
+
+  // Borrow screens
+  BRWEnterAmount: {
+    screen: BRWEnterAmountScreen,
+    title: 'BRWEnterAmount',
+    bottomNavigation: true,
+  },
+  BRWChooseCollateral: {
+    screen: BRWChooseCollateralScreen,
+    title: 'BRWChooseCollateral',
+    bottomNavigation: true,
+  },
+  BRWConfirmLoan: {
+    screen: BRWConfirmLoanScreen,
+    title: 'BRWConfirmLoan',
+    bottomNavigation: true,
+  },
+  BRWLoanOption: {
+    screen: BRWLoanOptionScreen,
+    title: 'BRWLoanOption',
+    bottomNavigation: true,
+  },
+  BRWTermOfLoan: {
+    screen: BRWTermOfLoanScreen,
+    title: 'BRWTermOfLoan',
+    bottomNavigation: true,
+  },
+  BRWAllLoans: {
+    screen: BRWAllLoansScreen,
+    title: 'BRWAllLoans',
+    bottomNavigation: true,
+  },
+  BRWLoanDetails: {
+    screen: BRWLoanDetailsScreen,
+    title: 'BRWLoanDetails',
     bottomNavigation: true,
   },
 

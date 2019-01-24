@@ -717,7 +717,7 @@ export default {
   LockViewBox: "0 0 16 18",
   Lock: (
     <G id="Borrowing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-      <G id="05-//-Wallet---Transactions" transform="translate(-46.000000, -284.000000)" fill="#FFFFFF">
+      <G id="05-//-Wallet---Transactions" transform="translate(-46.000000, -284.000000)">
         <G id="transaction-history" transform="translate(18.000000, 273.000000)">
           <G id="1" transform="translate(18.000000, 0.000000)">
             <Path

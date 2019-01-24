@@ -14,7 +14,7 @@ import ShareCopy from "../ShareCopy/ShareCopy";
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    user: state.users.user
+    user: state.users.user,
   }),
   dispatch => ({
     actions: bindActionCreators(appActions, dispatch),

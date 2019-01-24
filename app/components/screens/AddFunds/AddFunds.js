@@ -71,7 +71,7 @@ class AddFunds extends Component {
     const { navigation, actions } = this.props;
     const currency = navigation.getParam("currency");
 
-    actions.initForm({ currency: currency || "cel" });
+    actions.updateFormField('currency', currency || "cel");
   }
 
   componentWillReceiveProps(nextProps) {
