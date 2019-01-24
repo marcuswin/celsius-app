@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import HomeStyle from "./Home.styles";
-// import FabMenu from "../../organisms/FabMenu/FabMenu";
+import FabMenu from "../../organisms/FabMenu/FabMenu";
 import CircleButton from "../../atoms/CircleButton/CircleButton";
 import STYLES from "../../../constants/STYLES";
 
@@ -32,7 +32,7 @@ class Home extends Component {
           <CircleButton theme={theme} type="Theme" style={{ backgroundColor: '#fff', borderWidth: 2 }} onPress={() => { actions.setAppTheme('light') }} />
           <CircleButton theme={theme} type="Theme" style={{ backgroundColor: STYLES.colors.DARK, borderWidth: 1 }} onPress={() => { actions.setAppTheme('dark') }} />
         </View>
-        {/* <FabMenu /> */}
+        <FabMenu />
       </View>
     );
   }
