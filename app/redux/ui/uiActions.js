@@ -11,6 +11,8 @@ export {
 
   // TODO(fj): ui
   setAppTheme,
+  openFabMenu,
+  closeFabMenu,
   setInternetConnectivity,
   showMessage,
   clearMessage,
@@ -210,5 +212,17 @@ function setAppTheme(theme) {
   return {
     type: ACTIONS.SET_APP_THEME,
     theme,
+  };
+}
+
+function openFabMenu() {
+  return {
+    type: ACTIONS.OPEN_FAB_MENU
+  };
+}
+
+function closeFabMenu() {
+  return {
+    type: ACTIONS.CLOSE_FAB_MENU
   };
 }

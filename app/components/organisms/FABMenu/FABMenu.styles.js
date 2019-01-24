@@ -14,12 +14,13 @@ const base = {
         backgroundColor: 'rgba(0,0,0,0.5)',
         width,
         height,
+        justifyContent: 'flex-end',
+        paddingBottom: 150
     },
-    menuItemsContainer: {  
+    menuItemsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginLeft: 30,
-        marginRight: 30
+        justifyContent: 'space-around',
+        marginBottom: 30
     }
 }
 

@@ -1,7 +1,10 @@
-export default {
-  normalText,
-  headingText,
+const colors = {
+  WHITE: '#fff',
+  CELSIUS: "rgba(65,86,166,1)",
+  BLACK: '#3D4853',
+  DARK: "#1F2E3D"
 }
 
-const normalText = {}
-const headingText = {}
+export default {
+  colors
+}

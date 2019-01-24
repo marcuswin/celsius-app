@@ -23,7 +23,7 @@ function navigateTo(routeName, screenProps) {
       dispatch(StackActions.reset({
         index: 0,
         actions: [
-          NavigationActions.navigate({routeName: goToRoute})
+          NavigationActions.navigate({ routeName: goToRoute })
         ]
       }))
     } else {

@@ -88,7 +88,8 @@ const initialState = {
   formInputLayouts: {},
   scrollLayouts: {},
   openedModal: undefined,
-  theme: 'light'
+  theme: 'light',
+  fabMenuOpen: false
 };
 
 export default (state = initialState, action) => {
@@ -199,6 +200,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         theme: action.theme
+      }
+    case ACTIONS.OPEN_FAB_MENU:
+      return {
+        ...state,
+        fabMenuOpen: true
+      }
+    case ACTIONS.CLOSE_FAB_MENU:
+      return {
+        ...state,
+        fabMenuOpen: false
       }
 
     case ACTIONS.NAVIGATE_BACK:
