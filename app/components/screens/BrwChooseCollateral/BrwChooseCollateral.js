@@ -7,7 +7,6 @@ import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles, COLORS } from "../../../config/constants/style";
-import { LOAN_ELIGIBLE_COINS } from "../../../config/constants/common";
 import SelectCoinStyle from "../SelectCoin/SelectCoin.styles";
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
@@ -15,7 +14,7 @@ import Steps from "../../molecules/Steps/Steps";
 
 @connect(
   state => ({
-    eligibleCurrencies: state.wallet.currencies.filter(wc => LOAN_ELIGIBLE_COINS.indexOf(wc.currency.short.toUpperCase()) !== -1),
+    eligibleCurrencies: state.wallet.currencies.filter(wc => state.users.compliance.loan.coins.indexOf(wc.currency.short.toUpperCase()) !== -1),
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
     currencyRatesShort: state.generalData.currencyRatesShort,

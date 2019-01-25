@@ -10,7 +10,6 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { LOAN_ELIGIBLE_COINS } from "../../../config/constants/common";
 import Steps from "../../molecules/Steps/Steps";
 import CelSlider from "../../molecules/CelSlider/CelSlider";
 import formatter from '../../../utils/formatter';
@@ -21,7 +20,7 @@ const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 
 @connect(
   state => ({
-    eligibleCurrencies: state.wallet.currencies.filter(wc => LOAN_ELIGIBLE_COINS.indexOf(wc.currency.short.toUpperCase()) !== -1),
+    eligibleCurrencies: state.wallet.currencies.filter(wc => state.users.compliance.loan.coins.indexOf(wc.currency.short.toUpperCase()) !== -1),
     callsInProgress: state.api.callsInProgress,
     formData: state.ui.formData,
   }),

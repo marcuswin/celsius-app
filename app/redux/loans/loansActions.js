@@ -19,13 +19,10 @@ function applyForALoan() {
 
       const loanApplication = {
         loan_amount: formData.amount,
-        collateral_amount_crypto: formData.collateralAmountCrypto,
-        collateral_amount_usd: formData.collateralAmountUSD,
         coin: formData.coin,
         ltv: formData.ltv.percent,
         interest: formData.ltv.interest,
         term_of_loan: formData.termOfLoan,
-        monthly_payment: formData.amount * formData.ltv.interest / formData.termOfLoan,
       }
 
       await loansService.apply(loanApplication);

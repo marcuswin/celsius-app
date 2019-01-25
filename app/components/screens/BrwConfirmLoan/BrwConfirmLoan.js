@@ -25,7 +25,7 @@ class BRWTermOfLoan extends Component {
   render() {
     const { actions, formData } = this.props;
 
-    const monthlyPayment = formData.collateralAmountUSD * formData.ltv.interest / 12;
+    const monthlyPayment = formData.amount * formData.ltv.interest / 12;
     return (
       <SimpleLayout
         animatedHeading={{ text: 'Confirm your loan' }}
