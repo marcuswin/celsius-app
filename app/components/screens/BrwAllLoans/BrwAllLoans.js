@@ -13,7 +13,6 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import BRWAllLoansStyle from "./BrwAllLoans.styles";
 import API from "../../../config/constants/API";
-// import API from "../../../config/constants/API";
 
 const tabs = [
   { screen: 'BRWEnterAmount', label: 'Apply for a loan' },
@@ -106,8 +105,6 @@ class BrwAllLoans extends Component {
 
   render() {
     const { allLoans } = this.props
-
-    // console.log(allLoans)
 
     if (!allLoans || !allLoans.length) return this.renderLoader();
 

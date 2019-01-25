@@ -73,8 +73,6 @@ class EnterPromoCodeModal extends Component {
   renderVerifiedSuccess() {
     const { promoCode, actions } = this.props;
 
-    console.log({ promoCode })
-
     const amountDisplay = `${promoCode.referred_award_amount} ${promoCode.referred_award_coin}`;
 
     return (

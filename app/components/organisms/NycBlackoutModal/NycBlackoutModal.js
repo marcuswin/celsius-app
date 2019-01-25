@@ -214,8 +214,6 @@ class NycBlackoutModal extends Component {
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
 
-    console.log(formData)
-
     const currentTimestamp = moment.utc(Date.now());
     let NycBlackoutTimestamp;
     let days;
