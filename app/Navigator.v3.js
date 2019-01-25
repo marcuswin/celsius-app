@@ -22,7 +22,7 @@ export const screens = {
 };
 
 const navigatorProps = {
-  headerMode: "none",
+  // headerMode: "none",
   transitionConfig: () => ({
     transitionSpec: {
       duration: 750,

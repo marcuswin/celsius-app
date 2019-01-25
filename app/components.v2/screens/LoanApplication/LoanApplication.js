@@ -20,9 +20,8 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
-import { normalize } from "../../../utils/styles-util";
 import LtvModal from "../../organisms/LtvModal/LtvModal";
-import { heightPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP, normalize } from "../../../utils/styles-util";
 import testUtil from "../../../utils/test-util";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 
@@ -93,7 +92,7 @@ class LoanApplication extends Component {
       ltv: LTVs[0]
     });
 
-    };
+  };
 
   applyForLoan = () => {
     const { actions, formData, currencyRatesShort } = this.props;
@@ -188,7 +187,7 @@ class LoanApplication extends Component {
           mainHeader={{ backButton: false }}
           animatedHeading={{ text: "Borrow Dollars" }}
         >
-          <EmptyState purpose={"NycBlackout"}/>
+          <EmptyState purpose={"NycBlackout"} />
         </SimpleLayout>
       );
     }
@@ -212,7 +211,7 @@ class LoanApplication extends Component {
 
     const ltvType = formData.coin === "xrp" || formData.coin === "ltc";
 
-    const ltvArray = LTVs.slice(0,1);
+    const ltvArray = LTVs.slice(0, 1);
 
     const loanAmountText = ltvType ? "Click on loan amount:" : "Choose one of these loan amounts:";
 

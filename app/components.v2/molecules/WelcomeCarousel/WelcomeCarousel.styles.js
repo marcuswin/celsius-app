@@ -1,7 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { STYLES } from "../../../config/constants/style";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-import {normalize} from "../../../utils/styles-util";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -23,7 +22,7 @@ const WelcomeCarouselStyle = StyleSheet.create({
     height: heightPercentageToDP("40.4%"),
     marginTop: heightPercentageToDP("8.52%"),
     width: SCREEN_WIDTH - 80,
-    alignItems:"center"
+    alignItems: "center"
   },
   smallDescription: {
     fontFamily: "agile-bold",

@@ -1,5 +1,6 @@
-import AppNavigator from '../../config/Navigator';
+// import AppNavigator from '../../config/Navigator';
 import ACTIONS from "../../config/constants/ACTIONS";
+import NavigatorV3 from "../../Navigator.v3";
 
 const initialState = {
   index: 0,
@@ -7,7 +8,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const newState = AppNavigator.router.getStateForAction(action, state);
+  const newState = NavigatorV3.router.getStateForAction(action, state);
 
   switch (action.type) {
     case ACTIONS.EXPIRE_SESSION:

@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
 import { STYLES } from "../../../config/constants/style";
-import { normalize } from "../../../utils/styles-util";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const NycBlackoutModalStyle = StyleSheet.create({
-  modalWrapper : {
+  modalWrapper: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { normalize } from '../../../utils/styles-util';
-import { heightPercentageToDP } from '../../../utils/scale';
+import { heightPercentageToDP, normalize } from '../../../utils/styles-util';
 // import {FONT_SCALE} from "../../../config/constants/style";
 
 const SignupOneStyle = StyleSheet.create({

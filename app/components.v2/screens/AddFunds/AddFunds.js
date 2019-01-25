@@ -168,13 +168,11 @@ class AddFunds extends Component {
     let memoId;
     let headingText;
     let currentCurrency;
-    console.log("Nav: ", navCurrency);
-    console.log("Obican: ", navCurrency && !["xrp", "xlm"].includes(navCurrency))
+    
     if (navCurrency && !["xrp", "xlm"].includes(navCurrency)) {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());
       currentCurrency = navCurrency.toLowerCase();
-      console.log(address)
     } else if (navCurrency && navCurrency === "xrp") {
       headingText = `Add more ${navCurrency.toUpperCase()}`;
       address = this.setAddress(navCurrency.toLowerCase());

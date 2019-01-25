@@ -1,6 +1,6 @@
 import React from 'react';
 import { Animated } from 'react-native';
-import { widthPercentageToDP } from '../../../utils/scale';
+import { widthPercentageToDP } from '../../../utils/styles-util';
 
 export class FadeInView extends React.Component {
     state = {

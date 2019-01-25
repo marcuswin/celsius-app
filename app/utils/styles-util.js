@@ -7,10 +7,13 @@ import { Dimensions, Platform, PixelRatio, Text, TextInput } from "react-native"
 export default {
   getMargins,
   getPadding,
+  getScaledFont,
   normalize,
   getThemedStyle,
   disableAccessibilityFontScaling
 };
+
+const { width, height } = Dimensions.get("window");
 
 function getMargins(margin) {
   if (!margin) return getMargins("0 0 0 0");
@@ -72,4 +75,20 @@ function disableAccessibilityFontScaling() {
   // same same as with Text, but different
   if (TextInput.defaultProps == null) TextInput.defaultProps = {};
   TextInput.defaultProps.allowFontScaling = false;
+}
+export const widthPercentageToDP = widthPercent => {
+  const screenWidth = width;
+  // Convert string input to decimal number
+  const elemWidth = parseFloat(widthPercent);
+  return PixelRatio.roundToNearestPixel(screenWidth * elemWidth / 100);
+};
+export const heightPercentageToDP = heightPercent => {
+  const screenHeight = height;
+  // Convert string input to decimal number
+  const elemHeight = parseFloat(heightPercent);
+  return PixelRatio.roundToNearestPixel(screenHeight * elemHeight / 100);
+};
+
+function getScaledFont(fontSize) {
+  return fontSize;
 }

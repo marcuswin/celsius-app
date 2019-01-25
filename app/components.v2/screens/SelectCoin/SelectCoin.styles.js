@@ -1,6 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-import {normalize} from "../../../utils/styles-util";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -46,7 +45,7 @@ const SelectCoinStyle = StyleSheet.create({
     backgroundColor: 'white',
     shadowColor: '#000000',
     shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 3},
+    shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
   },
   coinName: {

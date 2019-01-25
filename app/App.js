@@ -19,6 +19,7 @@ import * as actions from './redux/actions';
 import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
 import Navigator from './Navigator.v3';
+import FabMenu from './components/organisms/FabMenu/FabMenu';
 
 appUtil.initializeThirdPartyServices()
 
@@ -39,7 +40,7 @@ export default class App extends Component {
     AppState.removeEventListener('change');
   }
 
-  initApp = async() => await store.dispatch(actions.loadCelsiusAssets());
+  initApp = async () => await store.dispatch(actions.loadCelsiusAssets());
 
   render() {
     const { isReady } = this.state;
@@ -47,12 +48,12 @@ export default class App extends Component {
     return !isReady ? (
       <AppLoading
         startAsync={this.initApp()}
-        onFinish={() => this.setState({ isReady: true }) }
-        onError={error => Sentry.captureException(error) }
+        onFinish={() => this.setState({ isReady: true })}
+        onError={error => Sentry.captureException(error)}
       />
     ) : (
-      <CelsiusApplication />
-    )
+        <CelsiusApplication />
+      )
 
     // return <CelsiusApplication />
   }
@@ -66,7 +67,10 @@ const navigation = {
 
 const CelsiusApplication = () => (
   <Provider store={store}>
-    <Navigator navigation={navigation}/>
+    <React.Fragment>
+      <Navigator navigation={navigation} />
+      <FabMenu />
+    </React.Fragment>
   </Provider>
 )
 // const CelsiusApplication = (

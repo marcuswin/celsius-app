@@ -1,6 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
-import { heightPercentageToDP } from "../../../utils/scale";
+import { FONT_SCALE } from "../../../config/constants/style";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 
 const HeaderStyle = StyleSheet.create({
   header: {

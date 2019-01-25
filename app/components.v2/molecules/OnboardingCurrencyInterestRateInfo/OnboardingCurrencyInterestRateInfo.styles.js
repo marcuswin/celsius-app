@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { COLORS, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-import {normalize} from "../../../utils/styles-util";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const OnBoardingCurrencyInterestRateInfoStyle = StyleSheet.create({
   mainWrapper: {

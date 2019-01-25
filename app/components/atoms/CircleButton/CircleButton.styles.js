@@ -6,7 +6,12 @@ const base = {
         borderRadius: 60,
         justifyContent: 'center',
         alignSelf: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        
+        shadowColor: '#000000',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 5,
     },
     view: {
         width: 60,
@@ -17,42 +22,47 @@ const base = {
         alignItems: 'center'
     },
     text: {
-        marginTop: 10,
-        textAlign: 'center'
+        marginTop: 10
     }
 }
 
 const themed = {
     light: {
         viewMenu: {
-            backgroundColor: STYLES.colors.WHITE
+            backgroundColor: STYLES.COLORS.WHITE
         },
         iconMenu: {
-            fill: STYLES.colors.BLACK
+            fill: STYLES.COLORS.BLACK
         },
         textMenu: {
-            color: STYLES.colors.BLACK
-        }
+            color: STYLES.COLORS.BLACK
+        },
+        iconTheme: {
+            fill: STYLES.COLORS.BLACK
+        },
     },
 
     dark: {
         viewMenu: {
-            backgroundColor: STYLES.colors.DARK
+            backgroundColor: STYLES.COLORS.DARK
         },
         iconMenu: {
-            fill: STYLES.colors.WHITE
+            fill: STYLES.COLORS.WHITE
         },
         textMenu: {
-            color: STYLES.colors.WHITE
-        }
+            color: STYLES.COLORS.WHITE
+        },
+        iconTheme: {
+            fill: STYLES.COLORS.WHITE
+        },
     },
 
     celsius: {
         viewMenu: {
-            backgroundColor: STYLES.colors.CELSIUS,
+            backgroundColor: STYLES.COLORS.CELSIUS,
         },
         iconMenu: {
-            fill: STYLES.colors.WHITE
+            fill: STYLES.COLORS.WHITE
         },
     }
 }

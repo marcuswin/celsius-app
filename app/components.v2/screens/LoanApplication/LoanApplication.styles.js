@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import {COLORS} from "../../../config/constants/style";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-import {normalize} from "../../../utils/styles-util";
+import { COLORS } from "../../../config/constants/style";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const { width } = Dimensions.get('window')
 
@@ -39,8 +38,8 @@ const LoanApplicationStyle = StyleSheet.create({
     marginRight: 5
   },
   bottomCard: { paddingVertical: heightPercentageToDP("2%"), flexDirection: 'row' },
-  leftBox: {paddingLeft: widthPercentageToDP("10%"), width: width/2, alignItems: 'center', justifyContent: 'center', borderRightWidth: 1, borderRightColor: '#3D4853' },
-  rightBox: {  paddingRight: widthPercentageToDP("10%"),width: width/2, alignItems: 'center', justifyContent: 'center' }
+  leftBox: { paddingLeft: widthPercentageToDP("10%"), width: width / 2, alignItems: 'center', justifyContent: 'center', borderRightWidth: 1, borderRightColor: '#3D4853' },
+  rightBox: { paddingRight: widthPercentageToDP("10%"), width: width / 2, alignItems: 'center', justifyContent: 'center' }
 });
 
 export default LoanApplicationStyle;

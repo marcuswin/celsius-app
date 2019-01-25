@@ -8,9 +8,8 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import LtvModalStyle from "./LtvModal.styles";
 import CelModal from "../../atoms/CelModal/CelModal";
 import { MODALS } from "../../../config/constants/common";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 import CelButton from "../../atoms/CelButton/CelButton";
-import { normalize } from "../../../utils/styles-util";
 
 @connect(
   state => ({
@@ -55,64 +54,64 @@ class LtvModal extends Component {
             puts down three times the loan value ($100,000) in crypto, he will pay only 9% annual interest* and he’d
             only have to face a margin call if Bob’s crypto lost 20% of its value.
           </Text>
-          <Text style={[globalStyles.italicText, LtvModalStyle.textAlignment, {fontSize: normalize(18)}]}>*interest
+          <Text style={[globalStyles.italicText, LtvModalStyle.textAlignment, { fontSize: normalize(18) }]}>*interest
             rates are subject to change</Text>
           <Text style={[LtvModalStyle.explanation, LtvModalStyle.textAlignment]}>
             The chart below breaks down the same collateral amount of $100,000 with different loan amounts, which change
             the interest rate.
           </Text>
 
-          <View style={{marginTop: heightPercentageToDP("2.33%"), alignItems: 'center'}}>
-            <View style={{ flexDirection: "row"}}>
+          <View style={{ marginTop: heightPercentageToDP("2.33%"), alignItems: 'center' }}>
+            <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row", alignItems: "center", marginRight: widthPercentageToDP("3.87%") }}>
-                <View style={LtvModalStyle.yellowDot}/>
+                <View style={LtvModalStyle.yellowDot} />
                 <Text style={LtvModalStyle.dotText}>25k USD loan</Text>
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={LtvModalStyle.grayDot}/>
+                <View style={LtvModalStyle.grayDot} />
                 <Text style={LtvModalStyle.dotText}>100k crypto collateral</Text>
               </View>
             </View>
-            <Image source={require('../../../../assets/images/7pie.png')} style={LtvModalStyle.pie}/>
-            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center",}}>
-              <View style={[LtvModalStyle.triangleDown, {marginRight: widthPercentageToDP("2%")}]}/>
-              <Text style={[{fontSize: normalize(14), fontFamily: 'agile-extra-light'}]}>LTV: 25% (You pay $1,750 a year)</Text>
+            <Image source={require('../../../../assets/images/7pie.png')} style={LtvModalStyle.pie} />
+            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center", }}>
+              <View style={[LtvModalStyle.triangleDown, { marginRight: widthPercentageToDP("2%") }]} />
+              <Text style={[{ fontSize: normalize(14), fontFamily: 'agile-extra-light' }]}>LTV: 25% (You pay $1,750 a year)</Text>
             </View>
           </View>
 
-          <View style={{marginTop: heightPercentageToDP("3.33%"), alignItems: 'center'}}>
-            <View style={{ flexDirection: "row"}}>
+          <View style={{ marginTop: heightPercentageToDP("3.33%"), alignItems: 'center' }}>
+            <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row", alignItems: "center", marginRight: widthPercentageToDP("3.87%") }}>
-                <View style={LtvModalStyle.yellowDot}/>
+                <View style={LtvModalStyle.yellowDot} />
                 <Text style={LtvModalStyle.dotText}>33k USD loan</Text>
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={LtvModalStyle.grayDot}/>
+                <View style={LtvModalStyle.grayDot} />
                 <Text style={LtvModalStyle.dotText}>100k crypto collateral</Text>
               </View>
             </View>
-            <Image source={require('../../../../assets/images/9pie.png')} style={LtvModalStyle.pie}/>
-            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center",}}>
-              <View style={[LtvModalStyle.triangleDown, {marginRight: widthPercentageToDP("2%")}]}/>
-              <Text style={[{fontSize: normalize(14), fontFamily: 'agile-extra-light'}]}>LTV: 33% (You pay $2,970 a year)</Text>
+            <Image source={require('../../../../assets/images/9pie.png')} style={LtvModalStyle.pie} />
+            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center", }}>
+              <View style={[LtvModalStyle.triangleDown, { marginRight: widthPercentageToDP("2%") }]} />
+              <Text style={[{ fontSize: normalize(14), fontFamily: 'agile-extra-light' }]}>LTV: 33% (You pay $2,970 a year)</Text>
             </View>
           </View>
 
-          <View style={{marginTop: heightPercentageToDP("3.33%"), alignItems: 'center'}}>
-            <View style={{ flexDirection: "row"}}>
+          <View style={{ marginTop: heightPercentageToDP("3.33%"), alignItems: 'center' }}>
+            <View style={{ flexDirection: "row" }}>
               <View style={{ flexDirection: "row", alignItems: "center", marginRight: widthPercentageToDP("3.87%") }}>
-                <View style={LtvModalStyle.yellowDot}/>
+                <View style={LtvModalStyle.yellowDot} />
                 <Text style={LtvModalStyle.dotText}>50k USD loan</Text>
               </View>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={LtvModalStyle.grayDot}/>
+                <View style={LtvModalStyle.grayDot} />
                 <Text style={LtvModalStyle.dotText}>100k crypto collateral</Text>
               </View>
             </View>
-            <Image source={require('../../../../assets/images/12pie.png')} style={LtvModalStyle.pie}/>
-            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center",}}>
-              <View style={[LtvModalStyle.triangleDown, {marginRight: widthPercentageToDP("2%")}]}/>
-              <Text style={[{fontSize: normalize(14), fontFamily: 'agile-extra-light'}]}>LTV: 50% (You pay $6,000 a year)</Text>
+            <Image source={require('../../../../assets/images/12pie.png')} style={LtvModalStyle.pie} />
+            <View style={{ flexDirection: "row", marginTop: heightPercentageToDP("1.27%"), alignItems: "center", }}>
+              <View style={[LtvModalStyle.triangleDown, { marginRight: widthPercentageToDP("2%") }]} />
+              <Text style={[{ fontSize: normalize(14), fontFamily: 'agile-extra-light' }]}>LTV: 50% (You pay $6,000 a year)</Text>
             </View>
           </View>
 

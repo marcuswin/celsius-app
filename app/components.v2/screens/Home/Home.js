@@ -20,7 +20,7 @@ import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import {STYLES} from "../../../config/constants/style";
-import { heightPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 
 const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
 

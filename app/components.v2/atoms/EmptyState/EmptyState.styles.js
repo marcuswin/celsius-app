@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import { heightPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 // import {FONT_SCALE, STYLES} from "../../../config/constants/style";
 
 const { width } = Dimensions.get('window');

@@ -5,7 +5,7 @@ import { Text, View, Animated, ScrollView, Dimensions, Image } from "react-nativ
 import WelcomeCarouselStyle from "./WelcomeCarousel.styles";
 import OnBoardingCurrencyInterestRateInfoTable
   from "../../organisms/OnBoardingCurrencyInterestRateInfoTable/OnBoardingCurrencyInterestRateInfoTable";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const { width } = Dimensions.get("window");
 

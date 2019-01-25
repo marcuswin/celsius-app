@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
+import CelText from '../CelText/CelText';
 
 class CircleButton extends Component {
 
   static propTypes = {
     theme: PropTypes.string.isRequired,
-    // style: PropTypes.object,
+    style: PropTypes.instanceOf(Object),
     onPress: PropTypes.func.isRequired,
     text: PropTypes.string,
-    icon: PropTypes.string,
+    icon: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     type: PropTypes.oneOf(['Menu', 'Theme', 'Coin']),
   };
   static defaultProps = {
@@ -37,7 +41,7 @@ class CircleButton extends Component {
           </View>
           <View>
             {text &&
-              <Text style={textStyle}>{text}</Text>
+              <CelText align="center" style={textStyle}>{text}</CelText>
             }
           </View>
         </View>

@@ -14,7 +14,7 @@ import WalletInterestStyle from "./WalletInterest.styles";
 import { FONT_SCALE, COLORS } from "../../../config/constants/style";
 import CurrencyInterestRateInfoTable from "../../organisms/CurrencyInterestRateInfoTable/CurrencyInterestRateInfoTable";
 import formater from "../../../utils/formatter";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 @connect(
   state => ({

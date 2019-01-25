@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { STYLES } from "../../../config/constants/style";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/scale";
-import { normalize } from "../../../utils/styles-util";
+import { heightPercentageToDP, widthPercentageToDP, normalize } from "../../../utils/styles-util";
 
 const dot = {
   width: widthPercentageToDP("3.2%"),

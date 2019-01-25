@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { BlurView } from 'expo';
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -62,14 +63,14 @@ class FabMenu extends Component {
 
   fabAction = () => {
     const { type } = this.state;
-    // const { actions } = this.props;
+    const { actions } = this.props;
     switch (type) {
       case 'MAIN':
         this.toggleMenu();
         break;
 
       case 'SUPPORT':
-        // actions.navigateTo('Support');
+        actions.navigateTo('Support');
         break;
 
       default:
@@ -92,15 +93,24 @@ class FabMenu extends Component {
   }
 
   render() {
-    const { style, fabMenuOpen } = this.props
+    const { style, fabMenuOpen, theme } = this.props
     const { menuItems, type } = this.state;
+    if (fabMenuOpen) {
+      return (
+        <View style={StyleSheet.absoluteFill}>
+          {fabMenuOpen &&
+            <BlurView tint={theme} intensity={90} style={StyleSheet.absoluteFill}>
+              <View style={[style.menuContainer, StyleSheet.absoluteFill]}>
+                {menuItems.map(this.renderMenuRow)}
+              </View>
+            </BlurView>
+          }
+          <Fab onPress={this.fabAction} type={type} />
+        </View>
+      );
+    }
     return (
       <View style={style.container}>
-        {fabMenuOpen &&
-          <View style={style.menuContainer}>
-            {menuItems.map(this.renderMenuRow)}
-          </View>
-        }
         <Fab onPress={this.fabAction} type={type} />
       </View>
     );

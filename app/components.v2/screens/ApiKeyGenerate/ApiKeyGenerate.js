@@ -10,7 +10,7 @@ import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelCheckbox from '../../atoms/CelCheckbox/CelCheckbox';
-import { heightPercentageToDP } from '../../../utils/scale';
+import { heightPercentageToDP } from '../../../utils/styles-util';
 import GenerateApiKeyModal from '../../organisms/GenerateApiKeyModal/GenerateApiKeyModal';
 
 
