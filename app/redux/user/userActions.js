@@ -130,9 +130,11 @@ function disableTwoFactor(pin) {
 }
 
 // Gets User App Settings from Secure Store
-async function initUserAppSettings() {
-  const appSettings = await getSecureStoreKey("APP_SETTINGS");
-  if (appSettings) return updateUserAppSettings(JSON.parse(appSettings));
+function initUserAppSettings() {
+  return async dispatch => {
+    const appSettings = await getSecureStoreKey("APP_SETTINGS");
+    if (appSettings) dispatch(updateUserAppSettings(JSON.parse(appSettings)));
+  }
 }
 
 function updateUserAppSettings(appSettings) {
