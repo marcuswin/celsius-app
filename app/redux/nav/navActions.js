@@ -1,44 +1,42 @@
-// TODO(fj): doublecheck Home navigation logic
-// TODO(fj): doublecheck reset param. should get changed to screenProps.reset or something...
-// TODO(fj): check if needs major refactoring after adding multiple stacks
+// // TODO(fj): doublecheck Home navigation logic
+// // TODO(fj): doublecheck reset param. should get changed to screenProps.reset or something...
+// // TODO(fj): check if needs major refactoring after adding multiple stacks
 
-import { NavigationActions, StackActions } from "react-navigation";
-import { analyticsEvents } from "../../utils/analytics-util";
-import { KYC_STATUSES } from "../../config/constants/common";
+import { NavigationActions } from 'react-navigation';
+import ACTIONS from "../../constants/ACTIONS";
 
-function navigateTo(routeName, screenProps) {
-  return (dispatch, getState) => {
-    const { profile } = getState().user;
-    let goToRoute = routeName;
-    if (goToRoute === 'Home') {
-      if (!profile) goToRoute = 'Welcome';
-      else if (!profile.first_name || !profile.last_name) goToRoute = 'SignupTwo';
-      else if (!profile.has_pin) goToRoute = 'CreatePasscode';
-      else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) goToRoute = 'NoKyc';
-      else goToRoute = 'WalletBalance';
-    }
+// NOTE(fj): Using this logic to attach to redux -> https://reactnavigation.org/docs/en/navigating-without-navigation-prop.html
+let _navigator;
 
+export {
+  navigateTo,
+  setTopLevelNavigator,
+};
 
-    if (screenProps === true) {
-      dispatch(StackActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: goToRoute })
-        ]
-      }))
-    } else {
-      dispatch(NavigationActions.navigate({ routeName: goToRoute, params: screenProps }))
-    }
-    analyticsEvents.navigation(routeName)
+function setTopLevelNavigator(navigatorRef) {
+  _navigator = navigatorRef;
+  return {
+    type: "SET_TOP_LEVEL_NAVIGATION",
   }
 }
 
-function navigateBack() {
-  return (dispatch, getState) => {
-    dispatch(NavigationActions.back())
-    const activeScreen = getState().nav.routes[getState().nav.index].routeName;
-    analyticsEvents.navigation(activeScreen)
+function navigateTo(routeName, params) {
+  return (dispatch) => {
+    _navigator.dispatch(
+      NavigationActions.navigate({
+        routeName,
+        params,
+      })
+    );
+    dispatch({
+      type: ACTIONS.NAVIGATE,
+      screen: {
+        route: routeName,
+        screenParams: params,
+      }
+    })
   }
 }
 
-export { navigateTo, navigateBack }
+// add other navigation functions that you need and export them
+

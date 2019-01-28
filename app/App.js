@@ -9,21 +9,15 @@ import React, { Component } from 'react';
 import { AppLoading } from 'expo';
 import { Provider } from 'react-redux';
 import { AppState, BackHandler } from "react-native";
-import {
-  createReactNavigationReduxMiddleware,
-  createReduxBoundAddListener
-} from "react-navigation-redux-helpers";
 
 import store from './redux/store';
 import * as actions from './redux/actions';
 import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
-import Navigator from './Navigator.v3';
+import AppNavigation from './Navigator.v3';
 import FabMenu from './components/organisms/FabMenu/FabMenu';
 
 appUtil.initializeThirdPartyServices()
-
-createReactNavigationReduxMiddleware("root", state => state.nav);
 
 export default class App extends Component {
   constructor() {
@@ -52,47 +46,18 @@ export default class App extends Component {
         onError={error => Sentry.captureException(error)}
       />
     ) : (
-        <CelsiusApplication />
-      )
-
-    // return <CelsiusApplication />
+      <CelsiusApplication />
+    )
   }
 }
-
-const navigation = {
-  dispatch: store.dispatch,
-  state: store.getState().nav,
-  addListener: createReduxBoundAddListener("root"),
-};
 
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
-      <Navigator navigation={navigation} />
+      <AppNavigation
+        ref={navigatorRef => { store.dispatch(actions.setTopLevelNavigator(navigatorRef)) }}
+      />
       <FabMenu />
     </React.Fragment>
   </Provider>
 )
-// const CelsiusApplication = (
-//   <Provider store={store}>
-//     <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
-//       <View style={{ flex: 1 }}>
-//         <Navigator navigation={navigation} />
-//         <FAB/>
-//         <GeneralModals />
-//       </View>
-//     </ScrollView>
-//   </Provider>
-// )
-//
-// const GeneralModals = (
-//   <View>
-//     <TodayRatesModal/>
-//     <NycBlackoutModal/>
-//     <TransferReceivedModal/>
-//   </View>
-// )
-//
-// const FAB = (
-//   <View />
-// )

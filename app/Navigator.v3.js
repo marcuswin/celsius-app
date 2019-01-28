@@ -1,5 +1,6 @@
 import { Animated, Easing } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+
 import Home from "./components/screens/Home/Home";
 import Wallet from "./components/screens/Wallet/Wallet";
 import Borrow from "./components/screens/Borrow/Borrow";
@@ -8,21 +9,23 @@ import Deposit from "./components/screens/Deposit/Deposit";
 import Settings from "./components/screens/Settings/Settings";
 import Support from "./components/screens/Support/Support";
 import Community from "./components/screens/Community/Community";
+import UI from "./constants/UI";
 
 
 export const screens = {
-  Home: { screen: Home },
-  Wallet: { screen: Wallet },
-  Borrow: { screen: Borrow },
-  CelPay: { screen: CelPay },
-  Deposit: { screen: Deposit },
-  Settings: { screen: Settings },
-  Support: { screen: Support },
-  Community: { screen: Community }
+  Home,
+  Wallet,
+  Borrow,
+  CelPay,
+  Deposit,
+  Settings,
+  Support,
+  Community
 };
 
 const navigatorProps = {
   headerMode: "none",
+  initialRouteName: UI.INITIAL_ROUTE,
   transitionConfig: () => ({
     transitionSpec: {
       duration: 750,
@@ -43,4 +46,6 @@ const navigatorProps = {
   })
 };
 
-export default createStackNavigator(screens, navigatorProps);
+const AppNavigator = createStackNavigator(screens, navigatorProps);
+
+export default createAppContainer(AppNavigator);

@@ -1,19 +1,21 @@
-// import AppNavigator from '../../config/Navigator';
 import ACTIONS from "../../config/constants/ACTIONS";
-import NavigatorV3 from "../../Navigator.v3";
+import UI from "../../constants/UI";
 
 const initialState = {
-  index: 0,
-  routes: [{ key: 'Init', routeName: 'Home' }],
-};
+  initialRoute: UI.INITIAL_ROUTE,
+  activeScreen: UI.INITIAL_ROUTE,
+  allScreens: [{ route: UI.INITIAL_ROUTE }],
+}
 
 export default (state = initialState, action) => {
-  const newState = NavigatorV3.router.getStateForAction(action, state);
-
   switch (action.type) {
-    case ACTIONS.EXPIRE_SESSION:
-      return initialState;
+    case ACTIONS.NAVIGATE:
+      return {
+        ...state,
+        activeScreen: action.screen.route,
+        allScreens: [...state.allScreens, action.screen]
+      }
     default:
-      return newState || state;
+      return { ...state }
   }
 };
