@@ -26,10 +26,16 @@ import { heightPercentageToDP } from "../../../utils/scale";
 import testUtil from "../../../utils/test-util";
 
 const LTVs = [
-  { percent: 0.2, interest: 0.05 },
-  { percent: 0.33, interest: 0.09 },
-  { percent: 0.5, interest: 0.12 }
+  { percent: 0.2, interest: 0.0495 },
+  { percent: 0.33, interest: 0.0695 },
+  { percent: 0.5, interest: 0.0895 }
 ];
+
+function getRoundedInterest(interest) {
+  const rounded = Math.round(interest * 10000) / 10000
+  console.log({ rounded, percent: rounded * 100 });
+  return rounded;
+}
 
 @connect(
   state => ({
@@ -122,7 +128,7 @@ class LoanApplication extends Component {
     actions.updateFormField("amountCollateralUSD", text);
     const loanAmount = text * formData.ltv.percent;
     actions.updateFormField("loanAmount", loanAmount);
-    actions.updateFormField("monthlyRate", loanAmount * formData.ltv.interest / 12);
+    actions.updateFormField("monthlyRate", loanAmount * getRoundedInterest(formData.ltv.interest) / 12);
     if (formData.coin) {
       actions.updateFormField("amountCollateralCrypto", text / currencyRatesShort[formData.coin]);
     }
@@ -134,7 +140,7 @@ class LoanApplication extends Component {
     actions.updateFormField("ltv", ltv);
     const loanAmount = formData.amountCollateralUSD * ltv.percent;
     actions.updateFormField("loanAmount", loanAmount);
-    actions.updateFormField("monthlyRate", loanAmount * ltv.interest / 12);
+    actions.updateFormField("monthlyRate", loanAmount * getRoundedInterest(ltv.interest) / 12);
   };
 
   renderCard(ltv) {
@@ -164,7 +170,7 @@ class LoanApplication extends Component {
             <Text
               style={ltv === formData.ltv ? [LoanApplicationStyle.subText, { color: "white" }] : LoanApplicationStyle.subText}
             >
-              {100 * ltv.interest}% interest
+              {getRoundedInterest(100 * ltv.interest)}% interest
             </Text>
 
 
@@ -288,7 +294,7 @@ class LoanApplication extends Component {
               <Text style={[LoanApplicationStyle.mainText, {
                 width: "80%",
                 textAlign: "center"
-              }]}>{formData.ltv.interest * 100}%</Text>
+              }]}>{getRoundedInterest(100 * formData.ltv.interest)}%</Text>
               <Text style={[LoanApplicationStyle.subText, { width: "80%", textAlign: "center" }]}>Annual interest
                 rate</Text>
             </View>
