@@ -17,7 +17,7 @@ class Icon extends Component {
     const { name, fill } = this.props
 
     const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
-    return <SvgIcon viewBox={viewBox} name={name} svgs={Svgs} fill={fill} />;
+    return <SvgIcon viewBox={viewBox} name={name} svgs={Svgs} fill={fill} {...this.props} />;
   }
 }
 

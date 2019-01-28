@@ -1,8 +1,10 @@
 const COLORS = {
   WHITE: '#fff',
-  CELSIUS: "rgba(65,86,166,1)",
+  CELSIUS: "#3F51AB",
   BLACK: '#3D4853',
   DARK: "#1F2E3D",
+  DARK_HEADER: "#151E27",
+  DARK_CELSIUS: '#273363',
 
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',

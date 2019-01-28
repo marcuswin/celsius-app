@@ -6,21 +6,43 @@ import testUtil from "../../../utils/test-util";
 import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
+import STYLES from '../../../constants/STYLES';
 
 class CircleButton extends Component {
 
   static propTypes = {
     theme: PropTypes.string.isRequired,
-    style: PropTypes.instanceOf(Object),
+    style: PropTypes.oneOfType([
+      PropTypes.number, // StyleSheet.create() returns number
+      PropTypes.instanceOf(Object)
+    ]),
     onPress: PropTypes.func.isRequired,
     text: PropTypes.string,
     icon: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool
     ]),
-    type: PropTypes.oneOf(['Menu', 'Theme', 'Coin']),
+    type: PropTypes.oneOf(['menu', 'theme', 'coin']).isRequired,
   };
   static defaultProps = {
+  }
+
+  getFillColor = () => {
+    const { theme, type } = this.props;
+    return {
+      'light': {
+        'menu': STYLES.COLORS.DARK,
+        'theme': STYLES.COLORS.DARK,
+      }[type],
+      'dark': {
+        'menu': STYLES.COLORS.WHITE,
+        'theme': STYLES.COLORS.WHITE,
+      }[type],
+      'celsius': {
+        'menu': STYLES.COLORS.WHITE,
+        'theme': STYLES.COLORS.WHITE,
+      }[type],
+    }[theme]
   }
 
   render() {
@@ -28,7 +50,7 @@ class CircleButton extends Component {
     let fillColor = "";
     const styleCmp = CircleButtonStyle(theme);
     if (icon) {
-      fillColor = styleCmp[`icon${type}`].fill
+      fillColor = this.getFillColor();
     }
     const textStyle = [styleCmp.text, styleCmp[`text${type}`]];
     return (
@@ -36,7 +58,7 @@ class CircleButton extends Component {
         <View>
           <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
             {icon &&
-              <Icon theme={theme} name={icon} width="50" height="50" fill={fillColor} />
+              <Icon name={icon} fill={fillColor} />
             }
           </View>
           <View>

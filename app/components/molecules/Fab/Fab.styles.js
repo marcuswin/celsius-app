@@ -1,4 +1,5 @@
 import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
 const base = {
     container: {
@@ -9,7 +10,7 @@ const base = {
     fabButtonStyle: {
         width: 60,
         height: 60,
-        backgroundColor: "rgba(65,86,166,1)",
+        backgroundColor: STYLES.COLORS.CELSIUS,
         borderRadius: 60,
         justifyContent: 'center'
     },

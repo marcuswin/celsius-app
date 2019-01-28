@@ -7,7 +7,7 @@ const base = {
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
-        
+
         shadowColor: '#000000',
         shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 3 },
@@ -28,42 +28,30 @@ const base = {
 
 const themed = {
     light: {
-        viewMenu: {
+        viewmenu: {
             backgroundColor: STYLES.COLORS.WHITE
         },
-        iconMenu: {
-            fill: STYLES.COLORS.BLACK
-        },
-        textMenu: {
+        textmenu: {
             color: STYLES.COLORS.BLACK
-        },
-        iconTheme: {
-            fill: STYLES.COLORS.BLACK
-        },
+        }
     },
 
     dark: {
-        viewMenu: {
+        viewmenu: {
             backgroundColor: STYLES.COLORS.DARK
         },
-        iconMenu: {
-            fill: STYLES.COLORS.WHITE
-        },
-        textMenu: {
+        textmenu: {
             color: STYLES.COLORS.WHITE
-        },
-        iconTheme: {
-            fill: STYLES.COLORS.WHITE
-        },
+        }
     },
 
     celsius: {
-        viewMenu: {
+        viewmenu: {
             backgroundColor: STYLES.COLORS.CELSIUS,
         },
-        iconMenu: {
-            fill: STYLES.COLORS.WHITE
-        },
+        textmenu: {
+            color: STYLES.COLORS.WHITE
+        }
     }
 }
 

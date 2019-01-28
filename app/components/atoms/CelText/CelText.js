@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 
-import styleUtils from '../../../utils/styles-util'
+import styleUtils, { getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES';
 
 class CelText extends Component {
@@ -14,7 +14,10 @@ class CelText extends Component {
     bold: PropTypes.bool,
     color: PropTypes.string,
     margin: PropTypes.string,
-    style: PropTypes.instanceOf(Object),
+    style: PropTypes.oneOfType([
+      PropTypes.number, // StyleSheet.create() returns number
+      PropTypes.instanceOf(Object)
+    ]),
     align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
     allCaps: PropTypes.bool
   };
@@ -28,17 +31,7 @@ class CelText extends Component {
     allCaps: false
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-
-    // binders
-  }
-
-  getFontSize = (type) => styleUtils.getScaledFont(STYLES.FONTSIZE[type])
+  getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
   getFontStyle = () => {
     const { type, bold, color, margin, align, allCaps } = this.props

@@ -38,7 +38,7 @@ class Fab extends Component {
     const iconName = this.getIconName();
     return (
       <View style={style.container}>
-        <CircleButton style={style.fabButtonStyle} type="Menu" theme={'celsius'} onPress={onPress} icon={iconName} />
+        <CircleButton style={style.fabButtonStyle} type="menu" theme={'celsius'} onPress={onPress} icon={iconName} />
       </View>
     );
   }

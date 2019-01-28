@@ -52,13 +52,14 @@ class FabMenu extends Component {
     }
   }
 
-  toggleMenu = () => {
-    const { fabMenuOpen, actions } = this.props;
-    if (fabMenuOpen) {
-      actions.closeFabMenu()
-    } else {
-      actions.openFabMenu()
-    }
+  getTintColor = () => {
+    const { theme } = this.props;
+
+    return {
+      'light': 'light',
+      'dark': 'dark',
+      'celsius': 'dark',
+    }[theme]
   }
 
   fabAction = () => {
@@ -78,6 +79,15 @@ class FabMenu extends Component {
     }
   }
 
+  toggleMenu = () => {
+    const { fabMenuOpen, actions } = this.props;
+    if (fabMenuOpen) {
+      actions.closeFabMenu()
+    } else {
+      actions.openFabMenu()
+    }
+  }
+
   renderMenuRow = (menuRow) => {
     const { style } = this.props;
     return (
@@ -89,17 +99,18 @@ class FabMenu extends Component {
 
   renderMenuItem = (menuItemType) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={menuItemType} theme={theme} onPress={() => { actions.navigateTo(menuItemType); actions.closeFabMenu() }} type="Menu" text={menuItemType} icon={menuItemType} />;
+    return <CircleButton key={menuItemType} theme={theme} onPress={() => { actions.navigateTo(menuItemType); actions.closeFabMenu() }} type="menu" text={menuItemType} icon={menuItemType} />;
   }
 
   render() {
-    const { style, fabMenuOpen, theme } = this.props
+    const { style, fabMenuOpen } = this.props
     const { menuItems, type } = this.state;
+    const tintColor = this.getTintColor();
     if (fabMenuOpen) {
       return (
         <View style={StyleSheet.absoluteFill}>
           {fabMenuOpen &&
-            <BlurView tint={theme} intensity={90} style={StyleSheet.absoluteFill}>
+            <BlurView tint={tintColor} intensity={90} style={StyleSheet.absoluteFill}>
               <View style={[style.menuContainer, StyleSheet.absoluteFill]}>
                 {menuItems.map(this.renderMenuRow)}
               </View>

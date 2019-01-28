@@ -2,7 +2,9 @@
 // TODO(fj): more use of padding and margin
 // TODO(fj): add scale util here
 
-import { Dimensions, Platform, PixelRatio, Text, TextInput } from "react-native";
+import { Dimensions, Platform, PixelRatio, Text, TextInput, StyleSheet } from "react-native";
+import formatter from './formatter';
+// import _ from 'lodash';
 
 export default {
   getMargins,
@@ -21,12 +23,14 @@ function getMargins(margin) {
   const margins = margin.split(" ");
   if (margins.length !== 4) return getMargins();
 
-  return {
-    marginTop: Number(margins[0]),
-    marginRight: Number(margins[1]),
-    marginBottom: Number(margins[2]),
-    marginLeft: Number(margins[3])
-  };
+  return StyleSheet.create({
+    margins: {
+      marginTop: Number(margins[0]),
+      marginRight: Number(margins[1]),
+      marginBottom: Number(margins[2]),
+      marginLeft: Number(margins[3])
+    }
+  }).margins;
 }
 
 function getPadding(padding) {
@@ -35,12 +39,14 @@ function getPadding(padding) {
   const paddings = padding.split(" ");
   if (paddings.length !== 4) return getPadding();
 
-  return {
-    paddingTop: Number(paddings[0]),
-    paddingRight: Number(paddings[1]),
-    paddingBottom: Number(paddings[2]),
-    paddingLeft: Number(paddings[3])
-  };
+  return StyleSheet.create({
+    paddings: {
+      paddingTop: Number(paddings[0]),
+      paddingRight: Number(paddings[1]),
+      paddingBottom: Number(paddings[2]),
+      paddingLeft: Number(paddings[3])
+    }
+  }).paddings;
 }
 
 const {
@@ -61,10 +67,11 @@ export function normalize(size) {
 }
 
 export function getThemedStyle(theme, base, themed) {
-  return {
-    ...base,
-    ...themed[theme]
-  };
+  return StyleSheet.create(formatter.deepmerge(base, themed[theme]));
+  // return StyleSheet.flatten([StyleSheet.create(base), StyleSheet.create(themed[theme])])
+  // return StyleSheet.create(_.merge({ ...base }, { ...themed[theme] }));
+  // return _.mergeWith({ ...base }, { ...themed[theme] });
+  // return formatter.deepmerge(base, themed[theme])
 }
 
 function disableAccessibilityFontScaling() {
@@ -89,6 +96,6 @@ export const heightPercentageToDP = heightPercent => {
   return PixelRatio.roundToNearestPixel(screenHeight * elemHeight / 100);
 };
 
-function getScaledFont(fontSize) {
+export function getScaledFont(fontSize) {
   return fontSize;
 }
