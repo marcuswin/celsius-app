@@ -18,7 +18,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { BackHandler, View, ScrollView } from "react-native";
 import { connect } from 'react-redux';
-import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
+// import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 
 import Navigator from '../../config/Navigator';
 import * as appActions from "../../redux/actions";
@@ -27,7 +27,7 @@ import TodayRatesModal from "../organisms/TodayRatesModal/TodayRatesModal";
 import TransferReceivedModal from "../organisms/TransferReceivedModal/TransferReceivedModal";
 import NycBlackoutModal from "../organisms/NycBlackoutModal/NycBlackoutModal";
 
-createReactNavigationReduxMiddleware("root", state => state.nav);
+// createReactNavigationReduxMiddleware("root", state => state.nav);
 
 @connect(
   state => ({
@@ -63,7 +63,7 @@ class MainLayout extends Component {
     const navigation = {
       dispatch: this.props.dispatch,
       state: this.props.nav,
-      addListener: createReduxBoundAddListener("root"),
+      // addListener: createReduxBoundAddListener("root"),
     };
 
     // const displayBottomNavigation = this.shouldRenderBottomNavigation();
