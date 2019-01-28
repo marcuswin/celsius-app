@@ -38,5 +38,6 @@ function navigateTo(routeName, params) {
   }
 }
 
+// TODO: add navigateBack, resetNavigation...
 // add other navigation functions that you need and export them
 
