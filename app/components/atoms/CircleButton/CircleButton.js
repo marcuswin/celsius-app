@@ -31,16 +31,19 @@ class CircleButton extends Component {
     const { theme, type } = this.props;
     return {
       'light': {
-        'menu': STYLES.COLORS.DARK,
-        'theme': STYLES.COLORS.DARK,
+        'menu': STYLES.COLORS.DARK_GRAY,
+        'theme': STYLES.COLORS.DARK_GRAY,
+        'coin': STYLES.COLORS.DARK_GRAY
       }[type],
       'dark': {
-        'menu': STYLES.COLORS.WHITE,
-        'theme': STYLES.COLORS.WHITE,
+        'menu': STYLES.COLORS.WHITE_OPACITY5,
+        'theme': STYLES.COLORS.WHITE_OPACITY5,
+        'coin': STYLES.COLORS.WHITE_OPACITY5
       }[type],
       'celsius': {
         'menu': STYLES.COLORS.WHITE,
         'theme': STYLES.COLORS.WHITE,
+        'coin': STYLES.COLORS.WHITE
       }[type],
     }[theme]
   }

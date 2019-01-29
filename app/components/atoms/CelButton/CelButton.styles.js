@@ -32,7 +32,7 @@ const base = {
     baseTitle: {
         textAlign: 'center',
         color: 'white',
-        margin: 'auto',
+        // margin: 'auto',
         fontSize: getScaledFont(18)
     },
 }

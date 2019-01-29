@@ -11,6 +11,7 @@ class Icon extends Component {
     fill: PropTypes.string.isRequired
   };
   static defaultProps = {
+    fill: '#000'
   }
 
   render() {

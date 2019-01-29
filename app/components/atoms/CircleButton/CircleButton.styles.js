@@ -32,15 +32,27 @@ const themed = {
             backgroundColor: STYLES.COLORS.WHITE
         },
         textmenu: {
-            color: STYLES.COLORS.BLACK
+            color: STYLES.COLORS.DARK_GRAY
+        },
+        viewcoin: {
+            backgroundColor: STYLES.COLORS.WHITE
+        },
+        textcoin: {
+            color: STYLES.COLORS.DARK_GRAY
         }
     },
 
     dark: {
         viewmenu: {
-            backgroundColor: STYLES.COLORS.DARK
+            backgroundColor: STYLES.COLORS.DARK_HEADER
         },
         textmenu: {
+            color: STYLES.COLORS.WHITE
+        },
+        viewcoin: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        },
+        textcoin: {
             color: STYLES.COLORS.WHITE
         }
     },
@@ -50,6 +62,12 @@ const themed = {
             backgroundColor: STYLES.COLORS.CELSIUS,
         },
         textmenu: {
+            color: STYLES.COLORS.WHITE
+        },
+        viewcoin: {
+            backgroundColor: STYLES.COLORS.CELSIUS,
+        },
+        textcoin: {
             color: STYLES.COLORS.WHITE
         }
     }

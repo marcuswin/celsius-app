@@ -5,7 +5,10 @@ import ACTIONS from '../../config/constants/ACTIONS';
 
 const initialState = {
   userLocation: undefined,
-  profile: undefined,
+  // profile: undefined,
+  profile: {
+    profile_picture: null
+  },
   expiredSession: false,
   kycStatus: undefined,
   kycDocuments: undefined,

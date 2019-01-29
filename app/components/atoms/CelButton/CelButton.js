@@ -70,11 +70,12 @@ class CelButton extends Component {
   };
 
   render() {
-    const { style, children, onPress, iconRight, disabled, loading } = this.props;
+    const { style, children, onPress, iconRight, disabled, loading, basic } = this.props;
     const buttonStyle = this.getButtonStyle();
     const titleStyle = this.getTitleStyle();
+    const activeOpacity = basic ? 0.3 : 0.8;
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={0.8}>
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity}>
         {loading ? (
           <View style={buttonStyle}>
             <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={style.loader} />

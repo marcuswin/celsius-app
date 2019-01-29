@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-// import { View, Text } from 'react-native';
+// import { View } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import SupportStyle from "./Support.styles";
+import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   state => ({
-    style: SupportStyle(state.ui.theme),
+    style: {{pascalCase name}}Style(state.ui.theme),
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class Support extends Component {
+class {{pascalCase name}} extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -32,11 +33,14 @@ class Support extends Component {
     // const { style } = this.props
     return (
       <RegularLayout header={{
-        title: "Chat with support",
-        right: "close"
-      }} />
+        title: "{{pascalCase name}} Screen",
+        left: "back,
+        right: "profile
+      }}>
+        <CelText>Hello {{pascalCase name}}</CelText>
+      </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(Support);
+export default testUtil.hookComponent({{pascalCase name}});

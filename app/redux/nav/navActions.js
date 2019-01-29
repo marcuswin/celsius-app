@@ -10,6 +10,7 @@ let _navigator;
 
 export {
   navigateTo,
+  navigateBack,
   setTopLevelNavigator,
 };
 
@@ -37,6 +38,18 @@ function navigateTo(routeName, params) {
     })
   }
 }
+
+function navigateBack() {
+  return (dispatch) => {
+    _navigator.dispatch(
+      NavigationActions.back() // key: 'Profile',
+    );
+    dispatch({
+      type: ACTIONS.NAVIGATE_BACK,
+    })
+  }
+}
+
 
 // TODO: add navigateBack, resetNavigation...
 // add other navigation functions that you need and export them

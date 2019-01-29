@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-// import PropTypes from 'prop-types';
+import { View, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -19,19 +19,23 @@ import CelText from '../../atoms/CelText/CelText';
 class RegularLayout extends Component {
 
   static propTypes = {
-    // text: PropTypes.string
+    header: PropTypes.instanceOf(Object).isRequired
   };
   static defaultProps = {
   }
 
   render() {
-    const { style, children } = this.props
+    const { style, children, header } = this.props
     return (
       <View style={style.container}>
-        <CelHeading type="regular" back right="action">
-          <CelText style={style.headerTitle} align="center" type="H3">Label</CelText>
+        <CelHeading {...header}>
+          {header.children ? header.children :
+            <CelText style={style.headerTitle} align="center" type="H3">{header.title || ""}</CelText>
+          }
         </CelHeading>
-        {children}
+        <ScrollView>
+          {children}
+        </ScrollView>
       </View>
     );
   }

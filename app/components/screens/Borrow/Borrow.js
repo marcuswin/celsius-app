@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+// import { View, Text } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import BorrowStyle from "./Borrow.styles";
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   state => ({
@@ -28,11 +29,12 @@ class Borrow extends Component {
   }
 
   render() {
-    const { style } = this.props
+    // const { style } = this.props
     return (
-      <View style={style.container}>
-        <Text>Hello Borrow</Text>
-      </View>
+      <RegularLayout header={{
+        title: "Enter the amount",
+        right: "info"
+      }} />
     );
   }
 }

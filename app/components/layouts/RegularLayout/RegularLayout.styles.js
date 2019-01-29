@@ -11,7 +11,7 @@ const base = {
 const themed = {
     dark: {
         container: {
-            backgroundColor: STYLES.COLORS.DARK
+            backgroundColor: STYLES.COLORS.DARK_BACKGROUND
         },
         headerTitle: {
             color: 'rgba(255,255,255,0.5)'

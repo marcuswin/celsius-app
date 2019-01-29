@@ -13,7 +13,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         activeScreen: action.screen.route,
-        allScreens: [...state.allScreens, action.screen]
+        allScreens: [action.screen, ...state.allScreens]
+      }
+    case ACTIONS.NAVIGATE_BACK:
+      return {
+        ...state,
+        activeScreen: state.allScreens[1], // TODO(sb)
+        allScreens: state.allScreens.shift()
       }
     default:
       return { ...state }

@@ -9,8 +9,18 @@ import Deposit from "./components/screens/Deposit/Deposit";
 import Settings from "./components/screens/Settings/Settings";
 import Support from "./components/screens/Support/Support";
 import Community from "./components/screens/Community/Community";
+import Profile from "./components/screens/Profile/Profile";
 import UI from "./constants/UI";
 
+const settingsScreens = {
+  Settings,
+  Profile
+}
+const settingsProps = {
+  headerMode: "none",
+  initialRouteName: 'Settings'
+}
+const SettingsNavigator = createStackNavigator(settingsScreens, settingsProps);
 
 export const screens = {
   Home,
@@ -18,10 +28,13 @@ export const screens = {
   Borrow,
   CelPay,
   Deposit,
-  Settings,
+  Settings: SettingsNavigator,
   Support,
-  Community
+  Community,
+  Profile
 };
+
+
 
 const navigatorProps = {
   headerMode: "none",

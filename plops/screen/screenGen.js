@@ -11,7 +11,7 @@ module.exports = {
     {
       type: 'add',
       path: 'app/components/screens/{{pascalCase name}}/{{pascalCase name}}.js',
-      templateFile: 'plops/component/connected.js.txt'
+      templateFile: 'plops/screen/screen.js.txt'
     },
     {
       type: 'add',
