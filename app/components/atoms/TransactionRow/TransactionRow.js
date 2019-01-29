@@ -19,7 +19,10 @@ function getTransactionColor(transactionType) {
     INTEREST: COLORS.blue,
     COLLATERAL: COLORS.blue,
     BONUS_TOKEN: COLORS.green,
-    REFERRED_AWARD: COLORS.green,
+    REFERRED_HODL: COLORS.green,
+    REFERRED: COLORS.green,
+    REFERRER_HODL: COLORS.green,
+    REFERRER: COLORS.green,
     TRANSFER_PENDING: COLORS.yellow,
     TRANSFER_CLAIMED: COLORS.yellow,
     TRANSFER_SENT: COLORS.blue,
@@ -43,7 +46,10 @@ function getTransactionStatusText(transaction) {
     INTEREST: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`,
     COLLATERAL: 'Loan Collateral',
     BONUS_TOKEN: 'Bonus',
-    REFERRED_AWARD: 'Referral award',
+    REFERRED_HODL: 'HODL reward',
+    REFERRED: 'Referral reward',
+    REFERRER_HODL: 'HODL reward',
+    REFERRER: 'Referral reward',
     TRANSFER_PENDING: 'Pending',
     TRANSFER_CLAIMED: 'Claimed',
     TRANSFER_SENT: 'Sent',
@@ -60,6 +66,7 @@ function getTransactionStatusText(transaction) {
 function getTransactionIcon(transactionType) {
   const receiveArrow = <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}><Icon name='ReceiveArrowTransactions' height='20' width='20' viewBox="0 0 17 20.54" fill={'white'} /></View>;
   const sentArrow = <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: getTransactionColor(transactionType) }]}><Icon name='SentArrowTransactions' height='20' width='20' viewBox="0 0 17 20.54" fill={'white'} /></View>;
+  const present = <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.green }]}><Icon name='Gift' width='16' height='16' fill={STYLES.WHITE_TEXT_COLOR} /></View>;
 
   return {
     DEPOSIT_PENDING: receiveArrow,
@@ -77,11 +84,10 @@ function getTransactionIcon(transactionType) {
       </View>
     ),
     BONUS_TOKEN: receiveArrow,
-    REFERRED_AWARD: (
-      <View style={[TransactionRowStyle.iconWrapper, { backgroundColor: COLORS.green }]}>
-        <Icon name='Gift' width='16' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
-      </View>
-    ),
+    REFERRED_HODL: present,
+    REFERRED: present,
+    REFERRER_HODL: present,
+    REFERRER: present,
     TRANSFER_PENDING: sentArrow,
     TRANSFER_SENT: sentArrow,
     TRANSFER_CLAIMED: sentArrow,

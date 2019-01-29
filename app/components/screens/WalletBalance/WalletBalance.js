@@ -106,7 +106,7 @@ class WalletBalance extends Component {
                       <CoinCard type="wallet-card" {...item}
                         supportedCurrencies={supportedCurrencies}
                         lastInterest={estimatedInterestPerCoin[item.currency.short.toUpperCase()]}
-                        lockedCollateral={collateral[item.currency.short.toUpperCase()] || {}}
+                        lockedCollateral={collateral && collateral[item.currency.short.toUpperCase()] ? collateral[item.currency.short.toUpperCase()] : {}}
                       />
                     </TouchableOpacity>
                   </Body>

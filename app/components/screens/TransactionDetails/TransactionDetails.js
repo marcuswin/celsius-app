@@ -51,7 +51,10 @@ function getHeading(transaction) {
     TRANSFER_SENT: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
     TRANSFER_RECEIVED: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
     TRANSFER_RETURNED: `${transaction.coin && transaction.coin.toUpperCase()} Sent`,
-    REFERRED_AWARD: `${transaction.coin && transaction.coin.toUpperCase()} Award`,
+    REFERRED_HODL: `HODL Reward`,
+    REFERRED: `Referral Reward`,
+    REFERRER_HODL: `HODL Reward`,
+    REFERRER: `Referral Reward`,
     CANCELED: `${transaction.coin && transaction.coin.toUpperCase()} Sending Canceled`,
 
     IN: `${transaction.coin && transaction.coin.toUpperCase()} Received`,
@@ -78,6 +81,8 @@ function getIcon(transaction, supportedCurrencies) {
 }
 
 function getSmallIcon(transaction) {
+  const present = <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.green, alignItems: 'center', justifyContent: 'center' }]}><Icon name='Gift' width='20' height='20' fill={STYLES.WHITE_TEXT_COLOR} /></View>
+
   return {
     INTEREST: (
       <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.blue, paddingLeft: 3, alignItems: 'center', justifyContent: 'center' }]}>
@@ -89,11 +94,10 @@ function getSmallIcon(transaction) {
         <Icon name='Lock' width='18' height='18' fill={STYLES.WHITE_TEXT_COLOR} />
       </View>
     ),
-    REFERRED_AWARD: (
-      <View style={[{ height: 32, width: 32, borderRadius: 16, backgroundColor: COLORS.green, alignItems: 'center', justifyContent: 'center' }]}>
-        <Icon name='Gift' width='20' height='20' fill={STYLES.WHITE_TEXT_COLOR} />
-      </View>
-    ),
+    REFERRED_HODL: present,
+    REFERRED: present,
+    REFERRER_HODL: present,
+    REFERRER: present,
     BONUS_TOKEN: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
     DEPOSIT_PENDING: <Icon name="ReceiveArrow" fill={COLORS.yellow} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
     DEPOSIT_CONFIRMED: <Icon name="ReceiveArrow" fill={COLORS.green} stroke='white' height='32' width='32' viewBox="0 0 32 32" />,
@@ -113,7 +117,10 @@ function getSections(transaction) {
     INTEREST: ['date', 'time', 'status', 'hippo'],
     COLLATERAL: ['date', 'time'],
     BONUS_TOKEN: ['date', 'time', 'status'],
-    REFERRED_AWARD: ['date', 'time', 'status', 'referrer'],
+    REFERRED_HODL: ['info', 'date', 'time', 'status'],
+    REFERRED: ['date', 'time', 'status', 'referrer'],
+    REFERRER_HODL: ['info', 'date', 'time', 'status'],
+    REFERRER: ['date', 'time', 'status', 'referrer'],
     TRANSFER_PENDING: ['info', 'date', 'time', 'status', 'transfer-link'],
     TRANSFER_CLAIMED: ['sent:to', 'date', 'time', 'status'],
     TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],

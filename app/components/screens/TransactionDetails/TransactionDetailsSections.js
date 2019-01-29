@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Text, View, Image, Linking, TouchableOpacity } from "react-native";
 
 import { COLORS, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
@@ -227,7 +228,10 @@ function getStatusText(transaction) {
     INTEREST: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
     COLLATERAL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Locked</Text>,
     BONUS_TOKEN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>ICO Bonus Received</Text>,
-    REFERRED_AWARD: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Referral award</Text>,
+    REFERRED_HODL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.blue }]}>HODL reward</Text>,
+    REFERRED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Referral reward</Text>,
+    REFERRER_HODL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.blue }]}>HODL reward</Text>,
+    REFERRER: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Referral reward</Text>,
     TRANSFER_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Not claimed</Text>,
     TRANSFER_CLAIMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Verifying user</Text>,
     TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
@@ -255,5 +259,7 @@ function getBlockExplorerLink(transaction) {
 function getInfoSectionText(transaction) {
   return {
     TRANSFER_PENDING: 'This transaction is connected to the link you\'ve shared to a friend. If nobody accepts this transaction within 7 days the money will get back to you.',
+    REFERRED_HODL: `Keep your initial deposit of $1,000.00 until ${moment(transaction.time).format("MMM Do")} to unlock your HODL reward.`,
+    REFERRER_HODL: `If a friend you referred keeps their initial deposit until ${moment(transaction.time).format("MMM Do")} your HODL reward will unlock.`,
   }[transaction.type];
 }
