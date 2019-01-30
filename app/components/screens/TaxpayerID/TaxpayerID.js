@@ -107,11 +107,11 @@ class TaxpayerID extends Component {
         </Text>
         <CelForm margin="30 0 35 0" disabled={isUpdatingProfileInfo}>
           {formData.country === "United States" ?
-            <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+            <CelInput value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN) (optional)" autoCapitalize="sentences" />
             :
             <React.Fragment>
               <CelInput value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
-              <CelInput value={formData.national_id} error={formErrors.national_id} field="national_id" labelText="National ID Number" autoCapitalize="sentences" />
+              <CelInput value={formData.national_id} error={formErrors.national_id} field="national_id" labelText="National ID Number (optional)" autoCapitalize="sentences" />
             </React.Fragment>
           }
         </CelForm>

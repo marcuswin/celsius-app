@@ -329,7 +329,7 @@ class NycBlackoutModal extends Component {
               <View>
                 <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security Number</Text>
                 <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn"
-                  labelText="SSN" autoCapitalize="sentences" type={"password"} />
+                  labelText="SSN (optional)" autoCapitalize="sentences" type={"password"} />
               </View>
               :
               <React.Fragment>
@@ -337,7 +337,7 @@ class NycBlackoutModal extends Component {
                 <CelInput secureTextEntry editable shadow theme="white" value={formData.itin} error={formErrors.itin} field="itin"
                   labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" type={"password"} />
                 <CelInput secureTextEntry editable shadow theme="white" value={formData.national_id} error={formErrors.national_id}
-                  field="national_id" labelText="National ID Number" autoCapitalize="sentences" type={"password"} />
+                  field="national_id" labelText="National ID Number (optional)" autoCapitalize="sentences" type={"password"} />
               </React.Fragment>
             }
             <View style={{ marginTop: 15, marginBottom: 30 }}>
