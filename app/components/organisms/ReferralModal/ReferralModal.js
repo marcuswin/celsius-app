@@ -47,10 +47,12 @@ class ReferralModal extends Component {
           <Image source={require("../../../../assets/images/frenchy.png")} style={{ width: 120, height: 120 }}/>
         </View>
 
-        <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Refer your friends</Text>
+        <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>
+          Friends with Benefits
+        </Text>
 
         <Text style={[globalStyles.normalText, { textAlign: "center" }]}>
-          Invite your friends to join Celsius and we will send you both a reward when they join.
+          Use your unique promo code or link to invite friends to Celsius. You’ll both receive up to $20 when they join*!
         </Text>
 
         <View style={{ marginTop: 20 }}>
@@ -61,11 +63,17 @@ class ReferralModal extends Component {
         </View>
 
         <CelButton
-          margin="20 0 0 0"
+          margin="20 0 20 0"
           onPress={() => Share.share({ message: shareCopy })}
         >
           Share a unique link
         </CelButton>
+
+
+        <Text style={[globalStyles.normalText, { textAlign: "center" }]}>
+          *$10 in BTC distributed after initial deposit of $1,000 or more. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.
+        </Text>
+
       </CelModal>
     );
   }
