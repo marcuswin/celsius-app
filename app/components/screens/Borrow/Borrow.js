@@ -8,6 +8,7 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import BorrowStyle from "./Borrow.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
   state => ({
@@ -34,7 +35,12 @@ class Borrow extends Component {
       <RegularLayout header={{
         title: "Enter the amount",
         right: "info"
-      }} />
+      }}>
+        <EmptyState
+          heading="Under Construction"
+          paragraphs={['Borrow Flow is still under construction!', 'Everybody is working really hard.']}
+        />
+      </RegularLayout>
     );
   }
 }
