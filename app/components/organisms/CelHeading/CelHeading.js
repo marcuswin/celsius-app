@@ -47,6 +47,8 @@ class CelHeading extends Component {
     const { right, actions, profilePicture } = this.props;
     return {
       "action": <CelButton basic onPress={() => { }}>Action</CelButton>,
+      "signup": <CelButton basic onPress={() => { actions.navigateTo('Register') }}>Sign up</CelButton>,
+      "login": <CelButton basic onPress={() => { actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
         <CelButton basic onPress={() => { actions.navigateTo('Settings'); }}>
           <View>

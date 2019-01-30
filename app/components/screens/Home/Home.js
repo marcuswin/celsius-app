@@ -10,7 +10,8 @@ import STYLES from "../../../constants/STYLES";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import Separator from "../../atoms/Separator/Separator";
+// import Separator from "../../atoms/Separator/Separator";
+import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   state => ({
@@ -45,17 +46,18 @@ class Home extends Component {
           </View>
 
           <View>
-            <CelButton onPress={() => { }}>Join Celsius</CelButton>
-            <CelButton onPress={() => { }} iconRight="IconArrowRight">Create account</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Login') }}>Join Celsius</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Register') }} iconRight="IconArrowRight">Create account</CelButton>
             <CelButton onPress={() => { }} loading>Create account</CelButton>
             <CelButton onPress={() => { }} disabled>Disabled</CelButton>
             <CelButton onPress={() => { }} basic>Logout</CelButton>
           </View>
-          <View style={{ height: 50 }}>
+          {/* <View style={{ height: 50 }}>
             <Separator theme={theme} vertical />
           </View>
           <Separator theme={theme} />
-          <Separator theme={theme} text="Crazy" />
+          <Separator theme={theme} text="Crazy" /> */}
+          <CelInput field="test" placeholder="input" />
         </React.Fragment>
       </RegularLayout>
     );

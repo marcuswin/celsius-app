@@ -8,7 +8,7 @@ import Svgs from '../../../constants/SVGS';
 class Icon extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    fill: PropTypes.string.isRequired
+    fill: PropTypes.string
   };
   static defaultProps = {
     fill: '#000'

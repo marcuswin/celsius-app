@@ -33,7 +33,7 @@ class RegularLayout extends Component {
             <CelText style={style.headerTitle} align="center" type="H3">{header.title || ""}</CelText>
           }
         </CelHeading>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'>
           {children}
         </ScrollView>
       </View>

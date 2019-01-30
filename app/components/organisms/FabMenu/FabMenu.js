@@ -12,8 +12,8 @@ import CircleButton from '../../atoms/CircleButton/CircleButton';
 
 function getMenuItems(menu) {
   return {
-    MAIN: [['Wallet', 'Borrow', 'CelPay'], ['Deposit', 'Settings', 'Support'], ['Community']],
-    SUPPORT: [],
+    main: [['Wallet', 'Borrow', 'CelPay'], ['Deposit', 'Settings', 'Support'], ['Community']],
+    support: [],
   }[menu];
 }
 
@@ -30,13 +30,13 @@ class FabMenu extends Component {
     super(props);
     this.state = {
       menuItems: [],
-      type: 'MAIN'
+      type: 'main'
     };
   }
 
   componentDidMount = () => {
     this.setState({
-      menuItems: getMenuItems('MAIN')
+      menuItems: getMenuItems('main')
     });
   }
 
@@ -44,7 +44,7 @@ class FabMenu extends Component {
     const nextScreen = "home"
     const currScreen = "home"
     if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
-      const menuType = nextScreen === 'support' ? 'SUPPORT' : 'menuType'
+      const menuType = nextScreen === 'support' ? 'support' : 'menuType'
       this.setState({
         type: menuType,
         menuItems: getMenuItems(menuType)
@@ -66,11 +66,11 @@ class FabMenu extends Component {
     const { type } = this.state;
     const { actions } = this.props;
     switch (type) {
-      case 'MAIN':
+      case 'main':
         this.toggleMenu();
         break;
 
-      case 'SUPPORT':
+      case 'support':
         actions.navigateTo('Support');
         break;
 

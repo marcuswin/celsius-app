@@ -7,7 +7,7 @@ const base = {
 const themed = {
     light: {
         textColor: {
-            color: STYLES.COLORS.MEDIUM_GRAY
+            color: STYLES.COLORS.DARK_GRAY // medium_gray je bilo 30.01.
         }
     },
 
@@ -19,7 +19,7 @@ const themed = {
 
     celsius: {
         textColor: {
-            color: STYLES.COLORS.MEDIUM_GRAY
+            color: STYLES.COLORS.DARK_GRAY
         }
     }
 }

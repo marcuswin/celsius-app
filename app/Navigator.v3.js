@@ -10,6 +10,8 @@ import Settings from "./components/screens/Settings/Settings";
 import Support from "./components/screens/Support/Support";
 import Community from "./components/screens/Community/Community";
 import Profile from "./components/screens/Profile/Profile";
+import Login from "./components/screens/Login/Login";
+import Register from "./components/screens/Register/Register";
 import UI from "./constants/UI";
 
 const settingsScreens = {
@@ -22,6 +24,17 @@ const settingsProps = {
 }
 const SettingsNavigator = createStackNavigator(settingsScreens, settingsProps);
 
+const authScreens = {
+  // Auth,
+  Login,
+  Register
+}
+const authProps = {
+  headerMode: "none",
+  initialRouteName: 'Login'
+}
+const authNavigator = createStackNavigator(authScreens, authProps);
+
 export const screens = {
   Home,
   Wallet,
@@ -31,7 +44,8 @@ export const screens = {
   Settings: SettingsNavigator,
   Support,
   Community,
-  Profile
+  Profile,
+  Auth: authNavigator
 };
 
 

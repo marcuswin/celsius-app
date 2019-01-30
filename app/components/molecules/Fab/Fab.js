@@ -20,6 +20,7 @@ import CircleButton from '../../atoms/CircleButton/CircleButton';
 class Fab extends Component {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
+    type: PropTypes.oneOf(['main', 'support'])
   };
   static defaultProps = {
   }
@@ -28,8 +29,8 @@ class Fab extends Component {
     const { fabMenuOpen, type } = this.props;
     if (fabMenuOpen) return 'Close';
     return {
-      'MAIN': 'Celsius',
-      'SUPPORT': 'Support'
+      'main': 'Celsius',
+      'support': 'Support'
     }[type]
   }
 

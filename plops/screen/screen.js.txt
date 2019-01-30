@@ -31,12 +31,13 @@ class {{pascalCase name}} extends Component {
 
   render() {
     // const { style } = this.props
+    const header = {
+      title: "{{pascalCase name}} Screen",
+      left: "back",
+      right: "profile"
+    }
     return (
-      <RegularLayout header={{
-        title: "{{pascalCase name}} Screen",
-        left: "back,
-        right: "profile
-      }}>
+      <RegularLayout header={header}>
         <CelText>Hello {{pascalCase name}}</CelText>
       </RegularLayout>
     );

@@ -82,8 +82,8 @@ class CelButton extends Component {
           </View>
         ) : (
             <View style={buttonStyle}>
-              <CelText style={titleStyle}>{children}</CelText>
-              {iconRight ? this.renderIconRight() : null}
+              {!!children && <CelText style={titleStyle}>{children}</CelText>}
+              {!!iconRight && this.renderIconRight()}
             </View>
           )}
       </TouchableOpacity>

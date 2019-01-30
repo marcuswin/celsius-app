@@ -14,7 +14,7 @@ const themed = {
             backgroundColor: STYLES.COLORS.DARK_BACKGROUND
         },
         headerTitle: {
-            color: 'rgba(255,255,255,0.5)'
+            color: STYLES.COLORS.WHITE_OPACITY5
         }
     },
 
@@ -32,7 +32,7 @@ const themed = {
             backgroundColor: STYLES.COLORS.LIGHT_GRAY
         },
         headerTitle: {
-            color: 'rgba(255,255,255,0.5)'
+            color: STYLES.COLORS.WHITE_OPACITY5
         }
     },
 }
