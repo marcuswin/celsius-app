@@ -40,6 +40,7 @@ const COLORS = {
   DARK_GRAY_OPACITY: "rgba(61, 72, 83, 0.15)",
   CELSIUS_BLUE: '#4156A6',
   GREEN: '#4fb895',
+  GREEN_OPACITY: 'rgba(79,184,149,0.15)',
   ORANGE: '#e19f30',
   RED: '#ef461a'
   // TODO(sb) CircleButton add border on android

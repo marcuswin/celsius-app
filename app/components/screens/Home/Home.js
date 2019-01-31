@@ -9,9 +9,11 @@ import CircleButton from "../../atoms/CircleButton/CircleButton";
 import STYLES from "../../../constants/STYLES";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
+import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 // import Separator from "../../atoms/Separator/Separator";
 import CelInput from "../../atoms/CelInput/CelInput";
+
 
 @connect(
   state => ({
@@ -24,6 +26,9 @@ import CelInput from "../../atoms/CelInput/CelInput";
 class Home extends Component {
   static navigationOptions = {
     title: 'Home Screen',
+  };
+  state = {
+    progress: 0.
   };
 
   async componentWillMount() {
@@ -58,6 +63,14 @@ class Home extends Component {
           <Separator theme={theme} />
           <Separator theme={theme} text="Crazy" /> */}
           <CelInput field="test" placeholder="input" />
+          <View style={{ marginTop: 20 }}>
+            <ProgressBar
+              steps={5}
+              currentStep={1}
+            />
+          </View>
+
+
         </React.Fragment>
       </RegularLayout>
     );

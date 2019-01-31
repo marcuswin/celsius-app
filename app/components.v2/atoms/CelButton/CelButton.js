@@ -6,7 +6,6 @@ import { Text } from "native-base";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Image, View } from "react-native";
 
-
 import OldButton from './CelButton.old';
 import CelButtonStyles from './CelButton.styles';
 import Icon from "../Icon/Icon";
