@@ -75,6 +75,9 @@ function registerBranchLink(deepLink) {
       case BRANCH_LINKS.COMPANY_REFERRAL:
       case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
         return dispatch(registerReferralLink(deepLink));
+
+      case BRANCH_LINKS.NAVIGATION:
+        return dispatch(registerNavigationLink(deepLink));
       default:
     }
   };
@@ -108,6 +111,13 @@ function registerReferralLink(deepLink) {
       dispatch(apiError(API.GET_LINK_BY_URL, err));
       dispatch(uiActions.showMessage("error", err.msg));
     }
+  }
+}
+
+function registerNavigationLink(deepLink) {
+  return {
+    type: ACTIONS.REGISTER_NAVIGATION_LINK,
+    screen: deepLink.screen,
   }
 }
 

@@ -2,12 +2,14 @@ import { NavigationActions, StackActions } from "react-navigation";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { KYC_STATUSES } from "../../config/constants/common";
 import { isBlacklistedCountryLocation, isBlacklistedStateLocation } from "../../utils/user-util";
+import ACTIONS from "../../config/constants/ACTIONS";
 
 
 function navigateTo(routeName, screenProps) {
   return (dispatch, getState) => {
     const { user } = getState().users;
     const {location} = getState().generalData;
+    const {screen: branchScreen} = getState().branch;
     let goToRoute = routeName;
     if (goToRoute === 'Home') {
       if (!user) goToRoute = 'Welcome';
@@ -15,6 +17,10 @@ function navigateTo(routeName, screenProps) {
       else if (!user.has_pin) goToRoute = 'CreatePasscode';
       else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) goToRoute = 'NoKyc';
       else if (!user.whitelisted_by_location && location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) goToRoute = "Offline";
+      else if (branchScreen) {
+        goToRoute = branchScreen;
+        dispatch({ type: ACTIONS.CLEAR_BRANCH_SCREEN })
+      }
       else goToRoute = 'WalletBalance';
     }
 

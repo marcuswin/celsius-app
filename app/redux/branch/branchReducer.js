@@ -3,12 +3,13 @@ import { BRANCH_LINKS } from "../../config/constants/common";
 
 const initialState = {
   referralLinkId: null,
+  screen: null,
 
   // link through which the app was opened
   registeredLink: null,
-  transferLink: null,
-  individualLink: null,
-  companyLink: null,
+  // transferLink: null,
+  // individualLink: null,
+  // companyLink: null,
   promoCode: null,
 };
 
@@ -46,6 +47,13 @@ export default function branchReducer(state = initialState, action) {
       return {
         ...state,
         referralLinkId: [BRANCH_LINKS.COMPANY_REFERRAL, BRANCH_LINKS.INDIVIDUAL_REFERRAL].indexOf(action.branchLink.link_type) !== -1 ? action.branchLink.id : state.referralLinkId,
+      };
+
+    case ACTIONS.CLEAR_BRANCH_SCREEN:
+    case ACTIONS.REGISTER_NAVIGATION_LINK:
+      return {
+        ...state,
+        screen: action.screen,
       };
 
     default:
