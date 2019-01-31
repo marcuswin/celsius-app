@@ -9,6 +9,7 @@ import * as appActions from "../../../redux/actions";
 import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
+import { THEMES } from '../../../constants/UI';
 
 function getMenuItems(menu) {
   return {
@@ -55,11 +56,14 @@ class FabMenu extends Component {
   getTintColor = () => {
     const { theme } = this.props;
 
-    return {
-      'light': 'light',
-      'dark': 'dark',
-      'celsius': 'dark',
-    }[theme]
+    switch (theme) {
+      case THEMES.LIGHT:
+        return 'light'
+      case THEMES.DARK:
+        return 'dark'
+      case THEMES.CELSIUS:
+        return 'dark'
+    }
   }
 
   fabAction = () => {
@@ -102,29 +106,44 @@ class FabMenu extends Component {
     return <CircleButton key={menuItemType} theme={theme} onPress={() => { actions.navigateTo(menuItemType); actions.closeFabMenu() }} type="menu" text={menuItemType} icon={menuItemType} />;
   }
 
-  render() {
-    const { style, fabMenuOpen } = this.props
+  renderFabMenu = () => {
+    const { style } = this.props;
     const { menuItems, type } = this.state;
     const tintColor = this.getTintColor();
-    if (fabMenuOpen) {
-      return (
-        <View style={StyleSheet.absoluteFill}>
-          {fabMenuOpen &&
-            <BlurView tint={tintColor} intensity={90} style={StyleSheet.absoluteFill}>
-              <View style={[style.menuContainer, StyleSheet.absoluteFill]}>
-                {menuItems.map(this.renderMenuRow)}
-              </View>
-            </BlurView>
-          }
-          <Fab onPress={this.fabAction} type={type} />
-        </View>
-      );
-    }
+
+    return (
+      <View style={StyleSheet.absoluteFill}>
+        <BlurView tint={tintColor} intensity={90} style={StyleSheet.absoluteFill}>
+          <View style={[style.menuContainer, StyleSheet.absoluteFill]}>
+            {menuItems.map(this.renderMenuRow)}
+          </View>
+        </BlurView>
+        <Fab onPress={this.fabAction} type={type} />
+      </View>
+    )
+  }
+
+  renderFab = () => {
+    const { style } = this.props
+    const { type } = this.state;
     return (
       <View style={style.container}>
         <Fab onPress={this.fabAction} type={type} />
       </View>
     );
+  }
+
+  render() {
+    const { fabMenuOpen } = this.props
+    const FabMenuCmp = this.renderFabMenu;
+    const FabButton = this.renderFab;
+
+    if (fabMenuOpen) {
+      return <FabMenuCmp />;
+    }
+
+    return <FabButton />;
+
   }
 }
 

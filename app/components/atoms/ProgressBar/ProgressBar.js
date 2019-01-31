@@ -5,18 +5,19 @@ import { View } from 'react-native';
 import testUtil from "../../../utils/test-util";
 
 import ProgressBarStyle from "./ProgressBar.styles";
+import { THEMES } from '../../../constants/UI';
 
 class ProgressBar extends Component {
 
   static propTypes = {
-    theme: PropTypes.oneOf(["light", "dark", "celsius"]).isRequired,
+    theme: PropTypes.oneOf(Object.values(THEMES)).isRequired,
     steps: PropTypes.number.isRequired,
     currentStep: PropTypes.number.isRequired,
     width: PropTypes.number
 
   };
   static defaultProps = {
-    theme: "light",
+    theme: THEMES.LIGHT,
   }
 
   renderSteps = () => {
@@ -26,10 +27,16 @@ class ProgressBar extends Component {
 
     for (let step = 1; step <= steps; step++) {
       let stepView;
+      const stepViewStyle = [{ flex: 1 / (steps) }];
       if (step <= currentStep) {
-        stepView = <View style={[style.colored, { flex: 1 / (steps) }, step === 1 ? style.radiusLeft : step === steps && style.radiusRight]} key={step} />
+        stepViewStyle.push(style.colored)
+        if (step === 1) stepViewStyle.push(style.radiusLeft)
+        if (step === steps) stepViewStyle.push(style.radiusRight)
+        stepView = <View style={stepViewStyle} key={step} />
       } else {
-        stepView = <View style={[style.nonColor, { flex: 1 / (steps) }, step === steps && style.radiusRight]} key={step} />
+        stepViewStyle.push(style.nonColor)
+        if (step === steps) stepViewStyle.push(style.radiusRight)
+        stepView = <View style={stepViewStyle} key={step} />
       }
       views.push(stepView)
     }
@@ -39,9 +46,10 @@ class ProgressBar extends Component {
   render() {
     const { theme } = this.props
     const style = ProgressBarStyle(theme)
+    const Steps = this.renderSteps;
     return (
       <View style={style.container}>
-        {this.renderSteps()}
+        <Steps />
       </View>
     );
   }

@@ -7,9 +7,10 @@ import testUtil from "../../../utils/test-util";
 import EmptyStateStyle from "./EmptyState.styles";
 import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
+import { THEMES } from "../../../constants/UI";
 
 const EmptyState = (props) => {
-  const style = EmptyStateStyle(props.theme || "light");
+  const style = EmptyStateStyle(props.theme || THEMES.LIGHT);
   return (
     <View style={style.container}>
       <CelText align="center" type="H1">{props.heading}</CelText>
@@ -24,7 +25,7 @@ const EmptyState = (props) => {
 };
 
 EmptyState.propTypes = {
-  theme: PropTypes.oneOf(["light", "dark", "celsius"]),
+  theme: PropTypes.oneOf(Object.values(THEMES)),
   heading: PropTypes.string,
   paragraphs: PropTypes.instanceOf(Array),
   button: PropTypes.string,

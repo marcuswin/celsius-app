@@ -10,10 +10,11 @@ import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
 import stylesUtil from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
+import { THEMES } from '../../../constants/UI';
 
 @connect(
   state => ({
-    style: CelButtonStyle(state.ui.theme),
+    lastSavedTheme: state.ui.theme,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -25,7 +26,8 @@ class CelButton extends Component {
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
     margin: PropTypes.string,
-    basic: PropTypes.bool
+    basic: PropTypes.bool,
+    theme: PropTypes.oneOf(Object.values(THEMES))
   };
   static defaultProps = {
     iconRight: undefined,
@@ -35,8 +37,8 @@ class CelButton extends Component {
     basic: false
   }
 
-  getButtonStyle = () => {
-    const { style, margin, disabled, basic } = this.props;
+  getButtonStyle = (style) => {
+    const { margin, disabled, basic } = this.props;
     const buttonStyles = [style.container];
     buttonStyles.push(stylesUtil.getMargins(margin));
     if (disabled) buttonStyles.push(style.disabledButton);
@@ -45,8 +47,8 @@ class CelButton extends Component {
     return buttonStyles;
   }
 
-  getTitleStyle = () => {
-    const { style, disabled, basic } = this.props;
+  getTitleStyle = (style) => {
+    const { disabled, basic } = this.props;
     const titleStyle = [style.baseTitle];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
@@ -69,23 +71,43 @@ class CelButton extends Component {
     )
   };
 
+  renderLoader = () => {
+    const { theme, lastSavedTheme } = this.props;
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelButtonStyle(currentTheme);
+    const buttonStyle = this.getButtonStyle(style);
+
+    return (
+      <View style={buttonStyle}>
+        <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={style.loader} />
+      </View>
+    )
+  }
+
+  renderButton = () => {
+    const { children, iconRight, theme, lastSavedTheme } = this.props;
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelButtonStyle(currentTheme);
+    const buttonStyle = this.getButtonStyle(style);
+    const titleStyle = this.getTitleStyle(style);
+
+    return (
+      <View style={buttonStyle}>
+        {!!children && <CelText style={titleStyle}>{children}</CelText>}
+        {!!iconRight && this.renderIconRight()}
+      </View>
+    )
+  }
+
   render() {
-    const { style, children, onPress, iconRight, disabled, loading, basic } = this.props;
-    const buttonStyle = this.getButtonStyle();
-    const titleStyle = this.getTitleStyle();
+    const { onPress, disabled, loading, basic } = this.props;
+    const Loader = this.renderLoader;
+    const Button = this.renderButton;
     const activeOpacity = basic ? 0.3 : 0.8;
+
     return (
       <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity}>
-        {loading ? (
-          <View style={buttonStyle}>
-            <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={style.loader} />
-          </View>
-        ) : (
-            <View style={buttonStyle}>
-              {!!children && <CelText style={titleStyle}>{children}</CelText>}
-              {!!iconRight && this.renderIconRight()}
-            </View>
-          )}
+        {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );
   }

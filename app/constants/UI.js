@@ -6,6 +6,7 @@ export default {
   VERIFY_IDENTITY_TYPES,
   VERIFY_IDENTITY_ACTION_TYPES,
   INITIAL_ROUTE,
+  THEMES
 }
 
 const KEYBOARD_TYPE = {
@@ -51,5 +52,11 @@ const VERIFY_IDENTITY_ACTION_TYPES = {
   SET_PIN: 'SET_PIN',
   CONFIRM_SET_PIN: 'CONFIRM_SET_PIN',
 };
+
+export const THEMES = {
+  LIGHT: 'light',
+  DARK: 'dark',
+  CELSIUS: 'celsius'
+}
 
 const INITIAL_ROUTE = 'Home';

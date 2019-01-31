@@ -3,5 +3,8 @@
     "equimper",
     "prettier/react",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "default-case": 1
+  }
 }

@@ -5,16 +5,17 @@ const base = {
     container: {
         height: 6,
         flexDirection: "row",
+        width: 127
     },
-    radiusLeft: {   
-        borderTopLeftRadius: 30, 
+    radiusLeft: {
+        borderTopLeftRadius: 30,
         borderBottomLeftRadius: 30,
     },
     radiusRight: {
-        borderTopRightRadius: 30, 
-        borderBottomRightRadius: 30,    
+        borderTopRightRadius: 30,
+        borderBottomRightRadius: 30,
     },
-    colored: { 
+    colored: {
         backgroundColor: STYLES.COLORS.GREEN
     },
     nonColor: {
