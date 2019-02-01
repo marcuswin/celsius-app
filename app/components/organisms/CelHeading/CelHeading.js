@@ -31,15 +31,10 @@ class CelHeading extends Component {
     transparent: false
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   getLeftContent = (currentTheme) => {
     const { left, actions } = this.props;
     return {
-      "back": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }}>Back</CelButton>
+      "back": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }} iconRight="IconChevronLeft" />
     }[left];
   }
 

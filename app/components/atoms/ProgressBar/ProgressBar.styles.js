@@ -3,7 +3,7 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        height: 6,
+        height: 4,
         flexDirection: "row",
         width: 127
     },

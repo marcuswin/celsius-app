@@ -29,12 +29,12 @@ class Register extends Component {
     }
     return (
       <AuthLayout header={header}>
-        <CelText type="H1" align="center">Join Celsius</CelText>
+        <CelText margin="0 0 30 0" align="center" type="H1">Join Celsius</CelText>
         <CelInput type="text" field="firstname" placeholder="First name" />
         <CelInput type="text" field="lastname" placeholder="Last name" />
         <CelInput type="text" field="email" placeholder="E-mail" />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton onPress={() => { actions.navigateTo('EnterPhone') }} iconRight="IconArrowRight">Create account</CelButton>
+        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('EnterPhone') }} iconRight="IconArrowRight">Create account</CelButton>
         <Separator text="or Register with social media" />
       </AuthLayout>
     );

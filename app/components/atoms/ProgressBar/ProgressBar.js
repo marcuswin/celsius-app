@@ -31,7 +31,7 @@ class ProgressBar extends Component {
       if (step <= currentStep) {
         stepViewStyle.push(style.colored)
         if (step === 1) stepViewStyle.push(style.radiusLeft)
-        if (step === steps) stepViewStyle.push(style.radiusRight)
+        if (step === currentStep || step === steps) stepViewStyle.push(style.radiusRight)
         stepView = <View style={stepViewStyle} key={step} />
       } else {
         stepViewStyle.push(style.nonColor)

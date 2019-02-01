@@ -12,6 +12,7 @@ import stylesUtil from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
 import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
@@ -58,7 +59,7 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight } = this.props;
+    const { iconRight, basic } = this.props;
     return (
       <View style={{ marginLeft: 10 }}>
         <Icon
@@ -66,7 +67,7 @@ class CelButton extends Component {
           height='26'
           width='26'
           viewBox='0 0 26 26'
-          fill={'rgba(255,255,255,0.3)'}
+          fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : 'rgba(255,255,255,0.3)'}
         />
       </View>
     )
@@ -107,7 +108,7 @@ class CelButton extends Component {
     const activeOpacity = basic ? 0.3 : 0.8;
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity}>
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
         {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );

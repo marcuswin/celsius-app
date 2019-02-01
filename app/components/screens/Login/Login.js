@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import LoginStyle from "./Login.styles";
@@ -28,10 +27,10 @@ class Login extends Component {
     }
     return (
       <AuthLayout header={header}>
-        <CelText type="H1">Welcome back</CelText>
+        <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
         <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton onPress={() => { }}>Log in</CelButton>
+        <CelButton margin="10 0 40 0" onPress={() => { }} >Log in</CelButton>
         <Separator text="or login with social media" />
       </AuthLayout>
     );

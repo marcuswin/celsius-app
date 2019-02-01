@@ -9,6 +9,7 @@ import CelText from '../../atoms/CelText/CelText';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import CelInput from '../../atoms/CelInput/CelInput';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
+import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
   state => ({
@@ -30,14 +31,16 @@ class EnterPhone extends Component {
   }
 
   render() {
+    const { actions } = this.props;
     const header = {
       left: "back",
       children: <ProgressBar steps={5} currentStep={2} />
     }
     return (
       <AuthLayout header={header}>
-        <CelText type="H1" align="center">Join Celsius</CelText>
-        <CelInput type="text" field="firstname" placeholder="First name" />
+        <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
+        <CelInput type="text" field="phone" placeholder="Phone number" />
+        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('VerifyPhone') }} iconRight="IconArrowRight">Verify phone number</CelButton>
       </AuthLayout>
     );
   }
