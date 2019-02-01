@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -44,9 +44,9 @@ class RegularLayout extends Component {
 
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
           <KeyboardShift>
-            <View>
+            <React.Fragment>
               {children}
-            </View>
+            </React.Fragment>
           </KeyboardShift>
         </ScrollView>
 

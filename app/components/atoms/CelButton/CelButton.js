@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -11,6 +11,7 @@ import Icon from '../Icon/Icon';
 import stylesUtil from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
 import { THEMES } from '../../../constants/UI';
+import Spinner from '../Spinner/Spinner';
 
 @connect(
   state => ({
@@ -79,7 +80,7 @@ class CelButton extends Component {
 
     return (
       <View style={buttonStyle}>
-        <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={style.loader} />
+        <Spinner theme={THEMES.DARK} size={30} />
       </View>
     )
   }
