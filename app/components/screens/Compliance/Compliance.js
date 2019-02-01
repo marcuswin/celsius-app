@@ -47,9 +47,9 @@ class Compliance extends Component {
                     labelText="Current wallet balance:" autoCapitalize="sentences"/>
         </View>
         }
-        <Image source={require("../../../../assets/images/OfflineMode/deer-tangled3x.png")} style={[ComplianceStyle.image, {resizeMode: "contain"}]}/>
+        <Image source={require('../../../../assets/images/sorry-deer3x.png')} style={[ComplianceStyle.image, {resizeMode: "contain"}]}/>
         <Text style={[globalStyle.heading, ComplianceStyle.header]}>Celsius Network is unavailable due to local compliance laws</Text>
-        <Text style={[globalStyle.normalText, ComplianceStyle.explanation]}>Your money is safe with us and earning interest as usual. For additional information, please contact our support.</Text>
+        <Text style={[globalStyle.normalText, ComplianceStyle.explanation]}>Your money is safe with us and earning interest as usual. For additional information, please contact our support at app@celsius.network.</Text>
       </View>
     );
   }

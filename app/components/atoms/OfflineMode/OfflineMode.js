@@ -44,13 +44,16 @@ class OfflineMode extends Component {
     const {walletTotal, purpose} = this.props;
     let title;
     let text;
+    let image;
 
     switch (purpose) {
       case "Location":
+        image = require('../../../../assets/images/sorry-deer3x.png');
         title = "Celsius Network is unavailable in your location";
-        text = "Your money is safe with us and earning interest as usual. For additional information, please contact our support.";
+        text = "Your money is safe with us and earning interest as usual. For additional information, please contact our support at app@celsius.network.";
         break;
       default:
+        image = require("../../../../assets/images/OfflineMode/deer-tangled3x.png");
         title = "There's no internet connection";
         text = "Please, make sure that your Wi-Fi or Cellular data is turned on, then try again."
     }
@@ -63,7 +66,7 @@ class OfflineMode extends Component {
                     labelText="Current wallet balance:" autoCapitalize="sentences"/>
         </View>
         }
-        <Image source={require("../../../../assets/images/OfflineMode/deer-tangled3x.png")} style={[OfflineModeStyle.image, {resizeMode: "contain"}]}/>
+        <Image source={image} style={[OfflineModeStyle.image, {resizeMode: "contain"}]}/>
         <Text style={[globalStyle.heading, OfflineModeStyle.header]}>{title}</Text>
         <Text style={[globalStyle.normalText, OfflineModeStyle.explanation]}>{text}</Text>
       </View>
