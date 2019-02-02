@@ -47,11 +47,11 @@ class CelText extends Component {
     const { theme, type, bold, margin, color, align, lastSavedTheme } = this.props
     const cmpStyle = CelTextStyle(theme || lastSavedTheme)
     const fontSize = { fontSize: this.getFontSize(type) };
-    const boldStyle = bold ? { fontWeight: 'bold' } : {}
+    const boldStyle = bold ? { fontFamily: 'barlow-bold' } : {}
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    return [fontSize, boldStyle, colorStyle, marginStyle, alignStyle];
+    return [fontSize, boldStyle, colorStyle, marginStyle, alignStyle, cmpStyle.text];
   }
 
   render() {
