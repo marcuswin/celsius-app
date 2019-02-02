@@ -36,11 +36,13 @@ class RegularLayout extends Component {
     const paddings = stylesUtil.getPadding(padding);
     return (
       <React.Fragment>
-        <CelHeading {...header}>
-          {header.children ? header.children :
-            <CelText style={style.headerTitle} align="center" type="H3">{header.title || ""}</CelText>
-          }
-        </CelHeading>
+        { header && (
+          <CelHeading {...header}>
+            {header.children ? header.children :
+              <CelText style={style.headerTitle} align="center" type="H3">{header.title || ""}</CelText>
+            }
+          </CelHeading>
+        )}
 
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
           <KeyboardShift>
