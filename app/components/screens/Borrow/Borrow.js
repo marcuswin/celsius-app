@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import BorrowStyle from "./Borrow.styles";
-import StaticScreen from "../StaticScreen/StaticScreen";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -34,13 +34,8 @@ class Borrow extends Component {
     const { header } = this.state
     // const { style } = this.props
     return (
-      <StaticScreen
+      <LoadingScreen
         header={header}
-        emptyState={{
-          heading:"Under Construction",
-          paragraphs: ['Borrow Flow is still under construction!', 'Everybody is working really hard.'],
-          support: true,
-        }}
       />
     );
   }
