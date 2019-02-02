@@ -6,7 +6,8 @@ export default {
   VERIFY_IDENTITY_TYPES,
   VERIFY_IDENTITY_ACTION_TYPES,
   INITIAL_ROUTE,
-  THEMES
+  THEMES,
+  EMPTY_STATES
 }
 
 const KEYBOARD_TYPE = {
@@ -57,6 +58,14 @@ export const THEMES = {
   LIGHT: 'light',
   DARK: 'dark',
   CELSIUS: 'celsius'
+}
+
+export const EMPTY_STATES = {
+  FIRST_TIME: 'FIRST_TIME',
+  ERROR: 'ERROR',
+  NO_DATA: 'NO_DATA',
+  USER_CLEARED: 'USER_CLEARED',
+  COMPLIANCE: 'COMPLIANCE',
 }
 
 const INITIAL_ROUTE = 'Home';

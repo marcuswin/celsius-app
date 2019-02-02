@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 // import StaticScreenStyle from "./StaticScreen.styles";
 
 @connect(
@@ -19,10 +20,11 @@ class StaticScreen extends Component {
   }
 
   render() {
+    const { header, emptyState } = this.props;
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Welcome to StaticScreen Screen</Text>
-      </View>
+      <RegularLayout header={header}>
+        <EmptyState {...emptyState} />
+      </RegularLayout>
     );
   }
 }
