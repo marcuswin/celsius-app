@@ -7,7 +7,8 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import SupportStyle from "./Support.styles";
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import StaticScreen from "../StaticScreen/StaticScreen";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -25,16 +26,22 @@ class Support extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      header: {
+        title: "Chat with support",
+        right: "close"
+      }
+    };
   }
 
   render() {
+    const { header } = this.state
     // const { style } = this.props
     return (
-      <RegularLayout header={{
-        title: "Chat with support",
-        right: "close"
-      }} />
+      <StaticScreen
+        header={header}
+        emptyState={{ purpose: EMPTY_STATES.USER_CLEARED }}
+      />
     );
   }
 }
