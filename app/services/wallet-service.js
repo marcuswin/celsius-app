@@ -53,7 +53,7 @@ function getAllTransactions() {
 
 function withdrawCrypto(coin, amount, verification) {
   return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, {
-    amount: amount.toFixed(5),
+    amount: Number(amount).toFixed(5),
     ...verification,
   });
 }
