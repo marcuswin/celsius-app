@@ -2,9 +2,7 @@
 // TODO(fj): separate graphs and history
 
 import axios from 'axios';
-import qs from 'qs';
 import apiUrl from './api-url';
-import cryptoUtil from '../utils/crypto-util';
 
 const walletService = {
   getWalletDetails,
@@ -19,8 +17,7 @@ const walletService = {
 };
 
 function getWalletDetails() {
-  const params = { supported_coins: cryptoUtil.getEligibleCoins() };
-  return axios.get(`${apiUrl}/wallet?${qs.stringify(params)}`);
+  return axios.get(`${apiUrl}/wallet`);
 }
 
 function getCoinAddress(coin) {
