@@ -16,7 +16,6 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import testUtil from "../../../utils/test-util";
 import { analyticsEvents } from "../../../utils/analytics-util";
-import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -108,10 +107,6 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileAddressInfo(updatedUser);
 
-      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
-        actions.updateUserAppSettings({ declineAccess: true });
-      }
-
       this.setState({
         address: false,
         taxNo: true
@@ -131,11 +126,6 @@ class NycBlackoutModal extends Component {
       };
       actions.updateProfileTaxpayerInfo(updatedUser);
 
-      if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
-        actions.updateUserAppSettings({ declineAccess: true });
-      } else {
-        actions.updateUserAppSettings({ declineAccess: false });
-      }
       this.setState({
         taxNo: false,
         finish: true

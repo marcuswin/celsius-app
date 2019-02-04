@@ -70,7 +70,7 @@ class SelectCoin extends Component {
 
   render() {
     const { animatedHeading } = this.state;
-    const { walletCurrencies, user, appSettings, celpayData } = this.props;
+    const { walletCurrencies, user, celpayData } = this.props;
 
     if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
       return (
@@ -79,17 +79,6 @@ class SelectCoin extends Component {
           animatedHeading={animatedHeading}
         >
           <EmptyState />
-        </SimpleLayout>
-      )
-    }
-
-    if (appSettings.declineAccess) {
-      return (
-        <SimpleLayout
-          mainHeader={{ backButton: false }}
-          animatedHeading={animatedHeading}
-        >
-          <EmptyState purpose={"NycBlackout"} />
         </SimpleLayout>
       )
     }

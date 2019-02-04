@@ -180,19 +180,8 @@ class LoanApplication extends Component {
 
 
   render() {
-    const { formData, callsInProgress, walletCurrencies, appSettings, loanData } = this.props;
+    const { formData, callsInProgress, walletCurrencies, loanData } = this.props;
     const { pickerItems, amountError } = this.state;
-
-    if (appSettings.declineAccess) {
-      return (
-        <SimpleLayout
-          mainHeader={{ backButton: false }}
-          animatedHeading={{ text: "Borrow Dollars" }}
-        >
-          <EmptyState purpose={"NycBlackout"} />
-        </SimpleLayout>
-      );
-    }
 
     if (!loanData.allowed) {
       return (

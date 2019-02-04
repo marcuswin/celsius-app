@@ -131,10 +131,6 @@ class ProfileScreen extends Component {
         actions.updateUserAppSettings({ declineAccess: false });
       }
 
-      if (formData.country === "United States" || formData.citizenship === "United States" ) {
-        actions.updateUserAppSettings({ declineAccess: true });
-      }
-
       this.setState({ addressEditable: false });
     }
   };
@@ -152,7 +148,6 @@ class ProfileScreen extends Component {
       actions.updateProfileTaxpayerInfo(updatedUser);
 
       if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
-        actions.updateUserAppSettings({ declineAccess: true });
         actions.navigateTo("Home")
       } else {
         actions.updateUserAppSettings({ declineAccess: false });

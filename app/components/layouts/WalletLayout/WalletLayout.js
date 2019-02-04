@@ -13,7 +13,6 @@ import TabNavigation from "../../molecules/TabNavigation/TabNavigation";
 import formatter from "../../../utils/formatter";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import testUtil from "../../../utils/test-util";
-import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 
 @connect(
@@ -47,23 +46,9 @@ class WalletLayout extends Component {
 
   // rendering methods
   render() {
-    const { walletTotal, appSettings, activeScreen } = this.props;
+    const { walletTotal } = this.props;
     const total = get(walletTotal, "quotes.USD.total", 0);
     const visibilityStyle = walletTotal ? { opacity: 1 } : { opacity: 0 };
-
-    if (appSettings.declineAccess && activeScreen !== "WalletBalance") {
-      return (
-        <BasicLayout>
-          <MainHeader backButton={false} />
-          <View style={WalletLayoutStyle.heading}>
-            <Text style={[WalletLayoutStyle.amountText, visibilityStyle]}>{formatter.usd(total)}</Text>
-            <Text style={[WalletLayoutStyle.subheadingText, visibilityStyle]}>WALLET BALANCE</Text>
-          </View>
-          <TabNavigation tabs={this.tabs} isLoaded={!!walletTotal} />
-          <EmptyState purpose={"NycBlackout"} />
-        </BasicLayout>
-      )
-    }
 
     return (
       <BasicLayout>
