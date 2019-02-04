@@ -15,7 +15,8 @@ import { THEMES } from '../../../constants/UI';
 @connect(
   state => ({
     lastSavedTheme: state.ui.theme,
-    profilePicture: state.user.profile.profile_picture
+    profilePicture: state.user.profile.profile_picture,
+    message: state.ui.message,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -62,6 +63,9 @@ class CelHeading extends Component {
   }
 
   getStatusBarTextColor = (theme) => {
+    const { message } = this.props;
+    if (message) return 'light-content';
+
     switch (theme) {
       case THEMES.LIGHT:
         return 'dark-content'

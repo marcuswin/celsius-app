@@ -16,6 +16,7 @@ import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
 import AppNavigation from './Navigator.v3';
 import FabMenu from './components/organisms/FabMenu/FabMenu';
+import Message from "./components/molecules/Message/Message";
 
 appUtil.initializeThirdPartyServices()
 
@@ -54,6 +55,7 @@ export default class App extends Component {
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
+      <Message />
       <AppNavigation
         ref={navigatorRef => { store.dispatch(actions.setTopLevelNavigator(navigatorRef)) }}
       />
