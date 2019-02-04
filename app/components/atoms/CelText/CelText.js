@@ -51,7 +51,7 @@ class CelText extends Component {
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    return [fontSize, boldStyle, colorStyle, marginStyle, alignStyle, cmpStyle.text];
+    return [cmpStyle.text, fontSize, boldStyle, colorStyle, marginStyle, alignStyle];
   }
 
   render() {
