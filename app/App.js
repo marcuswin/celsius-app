@@ -26,7 +26,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(actions.navigateBack()));
     AppState.addEventListener('change', actions.handleAppStateChange);
   }
   componentWillUnmount() {
@@ -41,13 +41,13 @@ export default class App extends Component {
 
     return !isReady ? (
       <AppLoading
-        startAsync={this.initApp()}
+        startAsync={async () => await this.initApp()}
         onFinish={() => this.setState({ isReady: true })}
         onError={error => Sentry.captureException(error)}
       />
     ) : (
-      <CelsiusApplication />
-    )
+        <CelsiusApplication />
+      )
   }
 }
 

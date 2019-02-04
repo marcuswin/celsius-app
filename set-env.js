@@ -35,15 +35,15 @@ if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
   }
 
   if (!fs.existsSync(src)) {
-    console.log(`${src} doesn't exist`);
+    // console.log(`${src} doesn't exist`);
     return false;
   }
 
   const data = fs.readFileSync(src, 'utf-8');
   fs.writeFileSync(dest, data);
-  console.log(`Created app.json for ${CONFIG} environment successfully`);
+  // console.log(`Created app.json for ${CONFIG} environment successfully`);
   return true;
 }
 
-console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
+// console.log(`Plese specify correct CONFIG variable, one of ${ Object.keys(ALL_CONFIGS).join(', ') }`);
 return false;

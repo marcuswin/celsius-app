@@ -103,7 +103,7 @@ class VerifyIdentity extends Component {
       }
     } catch (error) {
       this.setState({ inProgress: false, value: '' });
-      console.log(error);
+      // console.log(error);
       actions.showMessage('error', error.msg);
     }
   };

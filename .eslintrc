@@ -5,6 +5,7 @@
     "prettier"
   ],
   "rules": {
-    "default-case": 1
+    "default-case": 1,
+    "no-console": 2
   }
 }

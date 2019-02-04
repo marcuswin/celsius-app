@@ -30,7 +30,7 @@ async function waitForWelcomeScreen(spec) {
       welcome = null
     }
     tryCount++
-    // console.log(`Try: ${ tryCount } | ${ activeScreen }`)
+    // // console.log(`Try: ${ tryCount } | ${ activeScreen }`)
     if (!welcome) await spec.pause(1000)
   }
 
@@ -45,12 +45,12 @@ export async function resetTests(spec) {
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
   let lastCompletedCall = getState().api.history[0];
-  // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
+  // // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
   while (!lastCompletedCall.includes(callName) && tryCount < 50) {
     tryCount++
     await spec.pause(500)
     lastCompletedCall = getState().api.history[0];
-    // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
+    // // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
   }
 
   if (tryCount === 20) {
@@ -130,7 +130,7 @@ export const errorCatchWrapper = fn => {
     try {
       return await fn()
     } catch (err) {
-      console.log("ERR:", err)
+      // console.log("ERR:", err)
       throw err;
     }
   }

@@ -48,7 +48,7 @@ export function initCelsiusApp() {
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 }
@@ -64,7 +64,7 @@ export function resetCelsiusApp() {
 
       await dispatch(initCelsiusApp());
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 }

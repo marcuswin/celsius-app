@@ -68,4 +68,4 @@ export const EMPTY_STATES = {
   COMPLIANCE: 'COMPLIANCE',
 }
 
-const INITIAL_ROUTE = 'Home';
+export const INITIAL_ROUTE = 'Home';

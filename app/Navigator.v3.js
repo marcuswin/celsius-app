@@ -16,7 +16,7 @@ import EnterPhone from "./components/screens/EnterPhone/EnterPhone";
 import VerifyPhone from "./components/screens/VerifyPhone/VerifyPhone";
 import CreatePin from "./components/screens/CreatePin/CreatePin";
 import RepeatPin from "./components/screens/RepeatPin/RepeatPin";
-import UI from "./constants/UI";
+import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
   Settings,
@@ -60,7 +60,7 @@ export const screens = {
 
 const navigatorProps = {
   headerMode: "none",
-  initialRouteName: UI.INITIAL_ROUTE,
+  initialRouteName: INITIAL_ROUTE,
   transitionConfig: () => ({
     transitionSpec: {
       duration: 750,

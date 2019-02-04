@@ -16,12 +16,12 @@ export async function fillIn2(identifier, str) {
 }
 
 export async function test(component) {
-  console.log(component)
+  // console.log(component)
   component.props.onCancel()
 }
 
 export async function submit(component) {
-  console.log(component)
+  // console.log(component)
   component.props.onSubmit()
 }
 
@@ -119,7 +119,7 @@ export function kycPassed() {
 
 export function resetBeforeEach() {
   dispatch(actions.navigateTo('home'))
-  console.log(`Starting test suit +`)
+  // console.log(`Starting test suit +`)
 }
 
 export function WalletDetailsSetup() {
