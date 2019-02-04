@@ -54,6 +54,10 @@ class Home extends Component {
           </View>
 
           <View>
+            <CelButton onPress={() => { actions.showMessage('info', 'Hello World!') }} margin="8 0 8 0">Show info Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('warning', 'Hello World! Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message') }} margin="8 0 8 0">Show long warning Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('success', 'Hello World!') }} margin="8 0 8 0">Show success Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('error', 'Hello World!') }} margin="8 0 8 0">Show error Message</CelButton>
             <CelButton onPress={() => { actions.navigateTo('Login') }} margin="8 0 8 0">Join Celsius</CelButton>
             <CelButton onPress={() => { actions.navigateTo('Register') }} margin="8 0 8 0" iconRight="IconArrowRight">Create account</CelButton>
             <CelButton onPress={() => { }} margin="8 0 8 0" loading>Create account</CelButton>
