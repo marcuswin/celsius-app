@@ -17,6 +17,8 @@ import { THEMES } from "../../../constants/UI";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Spinner from "../../atoms/Spinner/Spinner";
 import CelDatePicker from "../../organisms/CelDatePicker/CelDatePicker";
+import Card from "../../atoms/Card/Card";
+import formatter from "../../../utils/formatter";
 
 
 @connect(
@@ -52,6 +54,22 @@ class Home extends Component {
             <CircleButton icon={theme === THEMES.DARK ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: STYLES.COLORS.DARK_BACKGROUND, borderWidth: 1 }, theme === THEMES.DARK ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.DARK) }} />
             <CircleButton icon={theme === THEMES.CELSIUS ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: STYLES.COLORS.CELSIUS, borderWidth: 1 }, theme === THEMES.CELSIUS ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.CELSIUS) }} />
           </View>
+
+          <View style={{ flexDirection: "row" }}>
+            <Card size="half" margin="10 5 10 5">
+              <CelText>Bitcoin</CelText>
+              <CelText type="H2">{ formatter.usd(3000) }</CelText>
+            </Card>
+            <Card size="half" margin="10 5 10 5">
+              <CelText>Ethereum</CelText>
+              <CelText type="H2">{ formatter.usd(1200) }</CelText>
+            </Card>
+          </View>
+
+          <Card margin="10 5 10 5">
+            <CelText>Ripple</CelText>
+            <CelText type="H2">{ formatter.usd(500) }</CelText>
+          </Card>
 
           <View>
             <CelButton onPress={() => { actions.showMessage('info', 'Hello World!') }} margin="8 0 8 0">Show info Message</CelButton>
