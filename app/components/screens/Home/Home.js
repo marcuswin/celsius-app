@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text} from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -13,6 +13,8 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 // import Separator from "../../atoms/Separator/Separator";
 import CelInput from "../../atoms/CelInput/CelInput";
+import CelModal from "../../organisms/CelModal/CelModal";
+import { Button } from "native-base";
 
 
 @connect(
@@ -69,7 +71,10 @@ class Home extends Component {
               currentStep={1}
             />
           </View>
-
+          <View>
+              <CelModal picture="hurra"/>
+          </View>
+        
 
         </React.Fragment>
       </RegularLayout>
