@@ -50,14 +50,14 @@ class Message extends Component {
 
     switch (message.type) {
       case "info":
-        return { name: "Close", fill: STYLES.COLORS.CELSIUS_BLUE, viewBox: "0 0 1000 1000" };
+        return { name: "InfoCircle" };
       case "warning":
-        return { name: "Close", fill: STYLES.COLORS.ORANGE, viewBox: "0 0 1000 1000" };
+        return { name: "WarningCircle" };
       case "error":
-        return { name: "Close", fill: STYLES.COLORS.RED, viewBox: "0 0 1000 1000" };
-      case "sucess":
+        return { name: "CloseCircle" };
+      case "success":
       default:
-        return { name: "Close", fill: STYLES.COLORS.GREEN, viewBox: "0 0 1000 1000" };
+        return { name: "CheckCircle" };
     }
   };
 
@@ -70,7 +70,7 @@ class Message extends Component {
     return (
       <Animated.View style={style[`${message.type}Container`]}>
         <View style={style.circle}>
-          <Icon {...icon} height='10' width='10' viewBox={icon.viewBox} />
+          <Icon {...icon} height='29' width='29' fill={STYLES.COLORS.WHITE} />
         </View>
         <View style={{ width: "65%" }}>
           <CelText color="white">

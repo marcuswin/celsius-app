@@ -41,7 +41,7 @@ const base = {
     width: 29,
     height: 29,
     borderRadius: 15,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center"
   },
