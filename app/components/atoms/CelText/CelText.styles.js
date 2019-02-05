@@ -2,6 +2,9 @@ import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
+  text: {
+    fontFamily: 'barlow-regular',
+  }
 }
 
 const themed = {

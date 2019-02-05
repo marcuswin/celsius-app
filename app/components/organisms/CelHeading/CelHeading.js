@@ -10,12 +10,13 @@ import CelHeadingStyle from "./CelHeading.styles";
 import stylesUtil from '../../../utils/styles-util';
 import CelButton from '../../atoms/CelButton/CelButton';
 import Icon from '../../atoms/Icon/Icon';
+import { THEMES } from '../../../constants/UI';
 
 @connect(
   state => ({
-    style: CelHeadingStyle(state.ui.theme),
-    theme: state.ui.theme,
-    profilePicture: state.user.profile.profile_picture
+    lastSavedTheme: state.ui.theme,
+    profilePicture: state.user.profile.profile_picture,
+    message: state.ui.message,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -23,71 +24,77 @@ class CelHeading extends Component {
 
   static propTypes = {
     left: PropTypes.oneOf(['back']),
-    right: PropTypes.oneOf(['action', 'settings', 'info', 'search', 'profile', 'logout', 'close']),
+    right: PropTypes.oneOf(['action', 'signup', 'login', 'settings', 'info', 'search', 'profile', 'logout', 'close']),
     transparent: PropTypes.bool,
-    statusBarTheme: PropTypes.oneOf(['light', 'dark', 'celsius']),
+    theme: PropTypes.oneOf(Object.values(THEMES)),
   };
   static defaultProps = {
     transparent: false
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  getLeftContent = () => {
+  getLeftContent = (currentTheme) => {
     const { left, actions } = this.props;
     return {
-      "back": <CelButton basic onPress={() => { actions.navigateBack(); }}>Back</CelButton>
+      "back": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }} iconRight="IconChevronLeft" />
     }[left];
   }
 
-  getRightContent = () => {
+  getRightContent = (currentTheme) => {
     const { right, actions, profilePicture } = this.props;
     return {
-      "action": <CelButton basic onPress={() => { }}>Action</CelButton>,
-      "signup": <CelButton basic onPress={() => { actions.navigateTo('Register') }}>Sign up</CelButton>,
-      "login": <CelButton basic onPress={() => { actions.navigateTo('Login') }}>Log in</CelButton>,
+      "action": <CelButton theme={currentTheme} basic onPress={() => { }}>Action</CelButton>,
+      "signup": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Register') }}>Sign up</CelButton>,
+      "login": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
-        <CelButton basic onPress={() => { actions.navigateTo('Settings'); }}>
+        <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Settings'); }}>
           <View>
             <Icon name="Settings" width="35" height="35" />
           </View>
         </CelButton>,
-      "info": <CelButton basic onPress={() => { }}>Info</CelButton>,
-      "search": <CelButton basic onPress={() => { }}>Search</CelButton>,
+      "info": <CelButton theme={currentTheme} basic onPress={() => { }}>Info</CelButton>,
+      "search": <CelButton theme={currentTheme} basic onPress={() => { }}>Search</CelButton>,
       "profile":
-        <CelButton basic onPress={() => { actions.navigateTo('Profile'); }}>
+        <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Profile'); }}>
           <Image style={{ width: 35, height: 35, borderRadius: 17 }} source={{ uri: profilePicture }} resizeMethod="resize" />
         </CelButton>,
-      "logout": <CelButton basic onPress={() => { }}>Logout</CelButton>,
-      "close": <CelButton basic onPress={() => { actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
+      "logout": <CelButton theme={currentTheme} basic onPress={() => { }}>Logout</CelButton>,
+      "close": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
     }[right];
   }
 
-  getStatusBarTextColor = (theme) => ({
-    'light': 'dark-content',
-    'dark': 'light-content',
-    'celsius': 'light-content'
-  }[theme])
+  getStatusBarTextColor = (theme) => {
+    const { message } = this.props;
+    if (message) return 'light-content';
+
+    switch (theme) {
+      case THEMES.LIGHT:
+        return 'dark-content'
+      case THEMES.DARK:
+        return 'light-content'
+      case THEMES.CELSIUS:
+        return 'light-content'
+    }
+  }
 
   render() {
-    const { style, children, transparent, statusBarTheme, theme } = this.props
+    const { children, transparent, theme, lastSavedTheme } = this.props
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelHeadingStyle(currentTheme)
     const paddings = stylesUtil.getPadding("15 20 15 20")
-    const statusBarColor = this.getStatusBarTextColor(statusBarTheme || theme)
+    const statusBarColor = this.getStatusBarTextColor(currentTheme)
+    const containerStyle = transparent ? style.transparentBackground : style.headingBackground;
     return (
-      <SafeAreaView style={transparent ? {} : style.headingBackground}>
+      <SafeAreaView style={containerStyle}>
         <StatusBar barStyle={statusBarColor} />
         <View style={[style.content, paddings]}>
           <View style={style.left}>
-            {this.getLeftContent()}
+            {this.getLeftContent(currentTheme)}
           </View>
           <View style={style.center}>
             {children}
           </View>
           <View style={style.right}>
-            {this.getRightContent()}
+            {this.getRightContent(currentTheme)}
           </View>
         </View>
       </SafeAreaView>

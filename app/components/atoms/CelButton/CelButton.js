@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -10,10 +10,13 @@ import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
 import stylesUtil from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
+import { THEMES } from '../../../constants/UI';
+import Spinner from '../Spinner/Spinner';
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
-    style: CelButtonStyle(state.ui.theme),
+    lastSavedTheme: state.ui.theme,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -25,7 +28,8 @@ class CelButton extends Component {
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
     margin: PropTypes.string,
-    basic: PropTypes.bool
+    basic: PropTypes.bool,
+    theme: PropTypes.oneOf(Object.values(THEMES))
   };
   static defaultProps = {
     iconRight: undefined,
@@ -35,8 +39,8 @@ class CelButton extends Component {
     basic: false
   }
 
-  getButtonStyle = () => {
-    const { style, margin, disabled, basic } = this.props;
+  getButtonStyle = (style) => {
+    const { margin, disabled, basic } = this.props;
     const buttonStyles = [style.container];
     buttonStyles.push(stylesUtil.getMargins(margin));
     if (disabled) buttonStyles.push(style.disabledButton);
@@ -45,8 +49,8 @@ class CelButton extends Component {
     return buttonStyles;
   }
 
-  getTitleStyle = () => {
-    const { style, disabled, basic } = this.props;
+  getTitleStyle = (style) => {
+    const { disabled, basic } = this.props;
     const titleStyle = [style.baseTitle];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
@@ -55,7 +59,7 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight } = this.props;
+    const { iconRight, basic } = this.props;
     return (
       <View style={{ marginLeft: 10 }}>
         <Icon
@@ -63,29 +67,49 @@ class CelButton extends Component {
           height='26'
           width='26'
           viewBox='0 0 26 26'
-          fill={'rgba(255,255,255,0.3)'}
+          fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : 'rgba(255,255,255,0.3)'}
         />
       </View>
     )
   };
 
-  render() {
-    const { style, children, onPress, iconRight, disabled, loading, basic } = this.props;
-    const buttonStyle = this.getButtonStyle();
-    const titleStyle = this.getTitleStyle();
-    const activeOpacity = basic ? 0.3 : 0.8;
+  renderLoader = () => {
+    const { theme, lastSavedTheme } = this.props;
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelButtonStyle(currentTheme);
+    const buttonStyle = this.getButtonStyle(style);
+
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity}>
-        {loading ? (
-          <View style={buttonStyle}>
-            <Image source={require('../../../../assets/images/icons/animated-spinner.gif')} style={style.loader} />
-          </View>
-        ) : (
-            <View style={buttonStyle}>
-              {!!children && <CelText style={titleStyle}>{children}</CelText>}
-              {!!iconRight && this.renderIconRight()}
-            </View>
-          )}
+      <View style={buttonStyle}>
+        <Spinner theme={THEMES.DARK} size={30} />
+      </View>
+    )
+  }
+
+  renderButton = () => {
+    const { children, iconRight, theme, lastSavedTheme } = this.props;
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelButtonStyle(currentTheme);
+    const buttonStyle = this.getButtonStyle(style);
+    const titleStyle = this.getTitleStyle(style);
+
+    return (
+      <View style={buttonStyle}>
+        {!!children && <CelText style={titleStyle}>{children}</CelText>}
+        {!!iconRight && this.renderIconRight()}
+      </View>
+    )
+  }
+
+  render() {
+    const { onPress, disabled, loading, basic } = this.props;
+    const Loader = this.renderLoader;
+    const Button = this.renderButton;
+    const activeOpacity = basic ? 0.3 : 0.8;
+
+    return (
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
+        {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );
   }

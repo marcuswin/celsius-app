@@ -7,7 +7,8 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import SettingsStyle from "./Settings.styles";
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import StaticScreen from "../StaticScreen/StaticScreen";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -25,17 +26,23 @@ class Settings extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
-  }
-
-  render() {
-    // const { style } = this.props
-    return (
-      <RegularLayout header={{
+    this.state = {
+      header: {
         title: "Settings",
         left: "back",
         right: "logout"
-      }} />
+      }
+    };
+  }
+
+  render() {
+    const { header } = this.state
+    // const { style } = this.props
+    return (
+      <StaticScreen
+        header={header}
+        emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }}
+      />
     );
   }
 }

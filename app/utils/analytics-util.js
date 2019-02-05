@@ -187,7 +187,7 @@ const analyticsEventsUtil = {
   },
   applyForLoan: async (loanData) => {
     mixpanelEvents.applyForLoan(loanData);
-    console.log(loanData.id)
+    // console.log(loanData.id)
     await Segment.trackWithProperties('Product Added', {
       revenue: Number(loanData.collateral_amount_usd),
       currency: "USD",

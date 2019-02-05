@@ -1,15 +1,18 @@
-// import STYLES from '../../../constants/STYLES';
+import { StatusBar, Platform } from 'react-native';
+
 import { getThemedStyle } from '../../../utils/styles-util';
 import STYLES from '../../../constants/STYLES';
 
 const base = {
     content: {
         width: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        // height: 60,
+        height: 60,
     },
     center: {
+        height: 30,
         alignSelf: 'center',
         justifyContent: 'center'
     },
@@ -21,25 +24,41 @@ const base = {
         flex: 1,
         alignItems: 'flex-end'
 
+    },
+    headingBackground: {
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    },
+    transparentBackground: {
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     }
 }
 
 const themed = {
-    dark: {
-        headingBackground: {
-            backgroundColor: STYLES.COLORS.DARK_HEADER
-        }
-    },
 
     light: {
         headingBackground: {
-            backgroundColor: STYLES.COLORS.WHITE
+            backgroundColor: STYLES.COLORS.WHITE,
+        },
+        transparentBackground: {
+            backgroundColor: STYLES.COLORS.LIGHT_GRAY
+        }
+    },
+
+    dark: {
+        headingBackground: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        },
+        transparentBackground: {
+            backgroundColor: STYLES.COLORS.DARK_BACKGROUND
         }
     },
 
     celsius: {
         headingBackground: {
             backgroundColor: STYLES.COLORS.CELSIUS
+        },
+        transparentBackground: {
+            backgroundColor: STYLES.COLORS.LIGHT_GRAY
         }
     },
 }

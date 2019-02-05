@@ -14,6 +14,7 @@ import CelTextStyle from './CelText.styles';
 @connect(
   state => ({
     cmpStyle: CelTextStyle(state.ui.theme),
+    lastSavedTheme: state.ui.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -43,13 +44,14 @@ class CelText extends Component {
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
   getFontStyle = () => {
-    const { type, bold, margin, color, align, cmpStyle } = this.props
+    const { theme, type, bold, margin, color, align, lastSavedTheme } = this.props
+    const cmpStyle = CelTextStyle(theme || lastSavedTheme)
     const fontSize = { fontSize: this.getFontSize(type) };
-    const boldStyle = bold ? { fontWeight: 'bold' } : {}
+    const boldStyle = bold ? { fontFamily: 'barlow-bold' } : {}
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    return [fontSize, boldStyle, colorStyle, marginStyle, alignStyle];
+    return [cmpStyle.text, fontSize, boldStyle, colorStyle, marginStyle, alignStyle];
   }
 
   render() {

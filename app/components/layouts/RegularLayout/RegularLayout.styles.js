@@ -3,8 +3,7 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        flex: 1,
-        alignItems: "center"
+        flex: 1
     }
 }
 

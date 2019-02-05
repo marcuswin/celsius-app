@@ -7,8 +7,7 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import BorrowStyle from "./Borrow.styles";
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import EmptyState from "../../atoms/EmptyState/EmptyState";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -26,21 +25,18 @@ class Borrow extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      header: { title: "Enter the amount", right: "info" },
+    };
   }
 
   render() {
+    const { header } = this.state
     // const { style } = this.props
     return (
-      <RegularLayout header={{
-        title: "Enter the amount",
-        right: "info"
-      }}>
-        <EmptyState
-          heading="Under Construction"
-          paragraphs={['Borrow Flow is still under construction!', 'Everybody is working really hard.']}
-        />
-      </RegularLayout>
+      <LoadingScreen
+        header={header}
+      />
     );
   }
 }

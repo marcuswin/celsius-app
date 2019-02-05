@@ -8,11 +8,12 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import CelInputStyle from "./CelInput.styles";
 import STYLES from '../../../constants/STYLES';
+import { THEMES } from '../../../constants/UI';
 
 @connect(
     state => ({
         cmpStyle: CelInputStyle(state.ui.theme),
-        theme: state.ui.theme
+        lastSavedTheme: state.ui.theme
     }),
     dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -85,24 +86,24 @@ class CelInput extends Component {
         this.setState({ active: false })
     }
 
-    getInputStyle = () => {
-        const { cmpStyle } = this.props;
-        const { active } = this.state;
-        const style = [cmpStyle.container];
-        if (active) style.push(cmpStyle.activeInput)
-        return style;
+
+    getPlaceholderTextColor = (theme) => {
+        switch (theme) {
+            case THEMES.LIGHT:
+                return STYLES.COLORS.DARK_GRAY_OPACITY
+            case THEMES.DARK:
+                return STYLES.COLORS.WHITE_OPACITY3
+            case THEMES.CELSIUS:
+                return STYLES.COLORS.DARK_GRAY_OPACITY
+        }
     }
-
-    getPlaceholderTextColor = (theme) => ({
-        'light': STYLES.COLORS.DARK_GRAY_OPACITY,
-        'dark': STYLES.COLORS.WHITE_OPACITY3,
-        'celsius': STYLES.COLORS.DARK_GRAY_OPACITY,
-    }[theme])
-
     render() {
-        const { theme, cmpStyle, disabled, maxLenght, autoFocus, placeholder, keyboardType, value, secureTextEntry, style } = this.props
+        const { theme, lastSavedTheme, disabled, maxLenght, autoFocus, placeholder, keyboardType, value, secureTextEntry, style } = this.props
         const editable = !disabled;
-        const placeholderTextColor = this.getPlaceholderTextColor(theme);
+        const currentTheme = theme || lastSavedTheme;
+        const placeholderTextColor = this.getPlaceholderTextColor(currentTheme);
+        const cmpStyle = CelInputStyle(currentTheme);
+
         return (
             <TextInput
                 style={[cmpStyle.input, style]}
@@ -117,6 +118,7 @@ class CelInput extends Component {
                 onBlur={this.onInputBlur}
                 placeholderTextColor={placeholderTextColor}
                 secureTextEntry={secureTextEntry}
+                underlineColorAndroid={'rgba(0,0,0,0)'}
             />
         )
     }

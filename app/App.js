@@ -16,6 +16,7 @@ import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
 import AppNavigation from './Navigator.v3';
 import FabMenu from './components/organisms/FabMenu/FabMenu';
+import Message from "./components/molecules/Message/Message";
 
 appUtil.initializeThirdPartyServices()
 
@@ -26,7 +27,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(actions.navigateBack()));
     AppState.addEventListener('change', actions.handleAppStateChange);
   }
   componentWillUnmount() {
@@ -41,19 +42,20 @@ export default class App extends Component {
 
     return !isReady ? (
       <AppLoading
-        startAsync={this.initApp()}
+        startAsync={async () => await this.initApp()}
         onFinish={() => this.setState({ isReady: true })}
         onError={error => Sentry.captureException(error)}
       />
     ) : (
-      <CelsiusApplication />
-    )
+        <CelsiusApplication />
+      )
   }
 }
 
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
+      <Message />
       <AppNavigation
         ref={navigatorRef => { store.dispatch(actions.setTopLevelNavigator(navigatorRef)) }}
       />

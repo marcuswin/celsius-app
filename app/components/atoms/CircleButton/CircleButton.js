@@ -7,6 +7,7 @@ import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
 import STYLES from '../../../constants/STYLES';
+import { THEMES } from '../../../constants/UI';
 
 class CircleButton extends Component {
 
@@ -29,23 +30,26 @@ class CircleButton extends Component {
 
   getFillColor = () => {
     const { theme, type } = this.props;
-    return {
-      'light': {
-        'menu': STYLES.COLORS.DARK_GRAY,
-        'theme': STYLES.COLORS.DARK_GRAY,
-        'coin': STYLES.COLORS.DARK_GRAY
-      }[type],
-      'dark': {
-        'menu': STYLES.COLORS.WHITE_OPACITY5,
-        'theme': STYLES.COLORS.WHITE_OPACITY5,
-        'coin': STYLES.COLORS.WHITE_OPACITY5
-      }[type],
-      'celsius': {
-        'menu': STYLES.COLORS.WHITE,
-        'theme': STYLES.COLORS.WHITE,
-        'coin': STYLES.COLORS.WHITE
-      }[type],
-    }[theme]
+    switch (theme) {
+      case THEMES.LIGHT:
+        return {
+          'menu': STYLES.COLORS.DARK_GRAY,
+          'theme': STYLES.COLORS.DARK_GRAY,
+          'coin': STYLES.COLORS.DARK_GRAY
+        }[type]
+      case THEMES.DARK:
+        return {
+          'menu': STYLES.COLORS.WHITE_OPACITY5,
+          'theme': STYLES.COLORS.WHITE_OPACITY5,
+          'coin': STYLES.COLORS.WHITE_OPACITY5
+        }[type]
+      case THEMES.CELSIUS:
+        return {
+          'menu': STYLES.COLORS.WHITE,
+          'theme': STYLES.COLORS.WHITE,
+          'coin': STYLES.COLORS.WHITE
+        }[type]
+    }
   }
 
   render() {

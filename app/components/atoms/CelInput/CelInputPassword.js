@@ -6,6 +6,7 @@ import testUtil from "../../../utils/test-util";
 import STYLES from '../../../constants/STYLES';
 import Icon from '../Icon/Icon';
 import CelInputText from './CelInputText';
+import { THEMES } from '../../../constants/UI';
 
 class CelInputPassword extends Component {
 
@@ -57,7 +58,7 @@ class CelInputPassword extends Component {
   render() {
     const { theme, value, disabled } = this.props
     const { visible } = this.state;
-    const fillColor = theme !== 'dark' ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.WHITE;
+    const fillColor = theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.WHITE;
     const iconName = visible ? 'EyeHide' : 'EyeShow';
     const paddingTop = visible ? 10 : 13;
     return (

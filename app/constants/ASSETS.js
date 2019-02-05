@@ -1,14 +1,7 @@
 const FONTS = [
-  // {'Roboto': require('native-base/Fonts/Roboto.ttf')},
-  // {'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf')},
-  // {'agile-medium': require('../../assets/fonts/Agile-Medium.otf')},
-  // {'agile-light': require('../../assets/fonts/Agile-Light.otf')},
-  // {'agile-light-italic': require('../../assets/fonts/Agile-LightItalic.otf')},
-  // {'agile-extra-light': require('../../assets/fonts/Agile-Extralight.otf')},
-  // {'agile-bold': require('../../assets/fonts/Agile-Bold.otf')},
-  // {'agile-book': require('../../assets/fonts/Agile-Book.otf')},
-  // {'agile-extra-bold': require('../../assets/fonts/Agile-Extrabold.otf')},
-  // {'inconsolata-regular': require('../../assets/fonts/Inconsolata-Regular.ttf')},
+  {'barlow-regular': require('../../assets/fonts/Barlow/Barlow-Regular.otf')},
+  {'barlow-bold': require('../../assets/fonts/Barlow/Barlow-Bold.otf')},
+  {'barlow-semibold': require('../../assets/fonts/Barlow/Barlow-SemiBold.otf')},
 ];
 
 const CACHE_IMAGES = [
@@ -54,6 +47,10 @@ const CACHE_IMAGES = [
   // require('../../assets/images/diane-with-laptop3x.png'),
   // require('../../assets/images/squirrel-modal3x.png'),
   // require('../../assets/images/celsius-logo3x.png'),
+  require('../../assets/images/bear-happyKYC3x.png'),
+  require('../../assets/images/deerTransactionHistory.png'),
+  require('../../assets/images/illuNoKYC3x.png'),
+  require('../../assets/images/OfflineMode/deer-tangled3x.png'),
 ];
 
 export default {

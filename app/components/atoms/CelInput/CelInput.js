@@ -7,15 +7,15 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import CelInputStyle from "./CelInput.styles";
-import STYLES from '../../../constants/STYLES';
 import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
+import { THEMES } from '../../../constants/UI';
 
 @connect(
   state => ({
     cmpStyle: CelInputStyle(state.ui.theme),
-    theme: state.ui.theme
+    lastSavedTheme: state.ui.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -23,6 +23,7 @@ class CelInput extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['text', 'password', 'tel', 'checkbox', 'pin', 'tfa', 'number']),
+    theme: PropTypes.oneOf(Object.values(THEMES)),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
     disabled: PropTypes.bool,
@@ -89,20 +90,15 @@ class CelInput extends Component {
   }
 
   getInputStyle = () => {
-    const { cmpStyle, disabled, margin } = this.props;
+    const { disabled, margin, theme, lastSavedTheme } = this.props;
+    const currentTheme = theme || lastSavedTheme;
+    const cmpStyle = CelInputStyle(currentTheme)
     const { active } = this.state;
-    const style = [cmpStyle.container];
-    style.push(stylesUtil.getMargins(margin));
+    const style = [cmpStyle.container, stylesUtil.getMargins(margin)];
     if (active) style.push(cmpStyle.activeInput)
     if (disabled) style.push(cmpStyle.disabledInput)
     return style;
   }
-
-  getPlaceholderTextColor = (theme) => ({
-    'light': STYLES.COLORS.DARK_GRAY_OPACITY,
-    'dark': STYLES.COLORS.WHITE_OPACITY3,
-    'celsius': STYLES.COLORS.DARK_GRAY_OPACITY,
-  }[theme])
 
   render() {
     const { type } = this.props

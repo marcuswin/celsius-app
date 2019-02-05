@@ -45,6 +45,20 @@ const VERIFY_IDENTITY_ACTION_TYPES = {
 
 const INITIAL_ROUTE = 'Home';
 
+export const THEMES = {
+  LIGHT: 'light',
+  DARK: 'dark',
+  CELSIUS: 'celsius'
+}
+
+export const EMPTY_STATES = {
+  FIRST_TIME: 'FIRST_TIME',
+  ERROR: 'ERROR',
+  NO_DATA: 'NO_DATA',
+  USER_CLEARED: 'USER_CLEARED',
+  COMPLIANCE: 'COMPLIANCE',
+}
+
 export default {
   KEYBOARD_TYPE,
   AUTO_CAPITALIZE,
