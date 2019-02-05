@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import { connect } from 'react-redux';
-import moment from 'moment';
+import React, { Component } from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import { connect } from "react-redux";
+import moment from "moment";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
@@ -13,11 +13,12 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import BRWAllLoansStyle from "./BrwAllLoans.styles";
 import API from "../../../config/constants/API";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 const tabs = [
-  { screen: 'BRWEnterAmount', label: 'Apply for a loan' },
-  { screen: 'BRWAllLoans', label: 'Your loans' },
-]
+  { screen: "BRWEnterAmount", label: "Apply for a loan" },
+  { screen: "BRWAllLoans", label: "Your loans" }
+];
 
 
 @connect(
@@ -25,27 +26,28 @@ const tabs = [
     allLoans: state.loans.allLoans,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     lastCompletedCall: state.api.lastCompletedCall,
+    loanCompliance: state.users.compliance.loan,
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BrwAllLoans extends Component {
 
   componentDidMount = async () => {
     const { actions } = this.props;
     actions.getAllLoans();
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
-    const { activeScreen, actions, lastCompletedCall } = this.props;
+    const { activeScreen, actions, lastCompletedCall, loanCompliance } = this.props;
 
-    if (nextProps.activeScreen === 'BRWAllLoans' && activeScreen !== 'BRWAllLoans') {
+    if (nextProps.activeScreen === "BRWAllLoans" && activeScreen !== "BRWAllLoans") {
       actions.getAllLoans();
     }
 
-    if (nextProps.activeScreen === 'BRWAllLoans' &&
-        nextProps.lastCompletedCall === API.GET_ALL_LOANS && lastCompletedCall !== API.GET_ALL_LOANS &&
-        (!nextProps.allLoans || !nextProps.allLoans.length)) {
-      actions.navigateTo('BRWEnterAmount')
+    if (loanCompliance.allowed && nextProps.activeScreen === "BRWAllLoans" &&
+      nextProps.lastCompletedCall === API.GET_ALL_LOANS && lastCompletedCall !== API.GET_ALL_LOANS &&
+      (!nextProps.allLoans || !nextProps.allLoans.length)) {
+      actions.navigateTo("BRWEnterAmount");
     }
   }
 
@@ -53,15 +55,15 @@ class BrwAllLoans extends Component {
 
   renderLoader = () => (
     <SimpleLayout
-      animatedHeading={{ text: 'All loans' }}
+      animatedHeading={{ text: "All loans" }}
       tabs={tabs}
     >
       <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <Loader />
+        <Loader/>
       </View>
 
     </SimpleLayout>
-  )
+  );
 
   renderLoanRow = (loan) => {
     const { actions } = this.props;
@@ -83,34 +85,48 @@ class BrwAllLoans extends Component {
         textColor = COLORS.blue;
     }
     return (
-      <TouchableOpacity key={loan.id} onPress={() => actions.navigateTo('BRWLoanDetails', { id: loan.id })}>
+      <TouchableOpacity key={loan.id} onPress={() => actions.navigateTo("BRWLoanDetails", { id: loan.id })}>
         <View style={BRWAllLoansStyle.loanRowWrapper}>
-          <View style={{ width: '20%' }}>
+          <View style={{ width: "20%" }}>
             <View style={BRWAllLoansStyle.lockIconWrapper}>
-              <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR} />
+              <Icon name='Lock' width='14' height='16' fill={STYLES.WHITE_TEXT_COLOR}/>
             </View>
           </View>
-          <View style={{ width: '40%' }}>
+          <View style={{ width: "40%" }}>
             <Text style={BRWAllLoansStyle.usdAmount}>{formatter.usd(loan.amount_collateral_usd)}</Text>
-            <Text style={BRWAllLoansStyle.coinAmount}>{formatter.crypto(loan.amount_collateral_crypto, loan.coin.toUpperCase(), { precision: 5 })}</Text>
+            <Text
+              style={BRWAllLoansStyle.coinAmount}>{formatter.crypto(loan.amount_collateral_crypto, loan.coin.toUpperCase(), { precision: 5 })}</Text>
           </View>
-          <View style={{ width: '40%' }}>
-            <Text style={[BRWAllLoansStyle.time, { alignSelf: 'flex-end' }]}>{moment(loan.created_at).format('MMM DD, YYYY')}</Text>
+          <View style={{ width: "40%" }}>
+            <Text
+              style={[BRWAllLoansStyle.time, { alignSelf: "flex-end" }]}>{moment(loan.created_at).format("MMM DD, YYYY")}</Text>
             <Text style={[BRWAllLoansStyle.status, { color: textColor }]}>{this.capitalize(loan.status)}</Text>
           </View>
         </View>
       </TouchableOpacity>
-    )
+    );
+  };
+
+  renderNotAllowed() {
+    const { loanCompliance } = this.props;
+    return (
+      <SimpleLayout
+        animatedHeading={{ text: "All loans" }}
+      >
+        <EmptyState purpose={"Compliance"} text={loanCompliance.block_reason} />
+      </SimpleLayout>
+    );
   }
 
   render() {
-    const { allLoans } = this.props
+    const { allLoans, loanCompliance } = this.props;
 
+    if (!loanCompliance.allowed) return this.renderNotAllowed();
     if (!allLoans || !allLoans.length) return this.renderLoader();
 
     return (
       <SimpleLayout
-        animatedHeading={{ text: 'All loans' }}
+        animatedHeading={{ text: "All loans" }}
         tabs={tabs}
       >
         {allLoans.map(this.renderLoanRow)}
