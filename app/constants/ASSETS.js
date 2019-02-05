@@ -12,6 +12,9 @@ const FONTS = [
 ];
 
 const CACHE_IMAGES = [
+  // require('../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
+  // require('../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
+  // require('../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
   // require('../../assets/images/icons/celsius_symbol_white.png'),
   // require('../../assets/images/icons/animated-spinner.gif'),
   // require('../../assets/images/icons/white_spinner.gif'),

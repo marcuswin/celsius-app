@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text} from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -14,8 +14,8 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 // import Separator from "../../atoms/Separator/Separator";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelModal from "../../organisms/CelModal/CelModal";
-import { Button } from "native-base";
 
+import UI from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -53,6 +53,7 @@ class Home extends Component {
           </View>
 
           <View>
+            <CelButton onPress={() => { actions.openModal(UI.MODALS.BASIC_MODAL) }}>Open Modal</CelButton>
             <CelButton onPress={() => { actions.navigateTo('Login') }}>Join Celsius</CelButton>
             <CelButton onPress={() => { actions.navigateTo('Register') }} iconRight="IconArrowRight">Create account</CelButton>
             <CelButton onPress={() => { }} loading>Create account</CelButton>
@@ -72,7 +73,14 @@ class Home extends Component {
             />
           </View>
           <View>
-              <CelModal picture="hurra"/>
+              <CelModal
+                name={UI.MODALS.BASIC_MODAL}
+                picture={require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png')}
+              >
+                <CelText bold type="H2">Hello Wrold</CelText>
+                <CelText>Some explanation text.</CelText>
+                <CelButton onPress={() => actions.closeModal()}>Close</CelButton>
+              </CelModal>
           </View>
         
 

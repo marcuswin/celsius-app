@@ -1,8 +1,6 @@
-import STYLES from '../../../constants/STYLES';
+// import STYLES from '../../../constants/STYLES';
+import { Dimensions } from "react-native";
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
-import { Dimensions, StyleSheet } from "react-native";
-import stylesUtil from "../../../utils/styles-util";
-// import { BlurView, VibrancyView } from 'react-native-blur';
 
 
 const { width, height } = Dimensions.get('window');
@@ -14,22 +12,15 @@ const base = {
         width,
         height,
     },
-
-    backdrop: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width,
-        height,
-        backgroundColor: 'rgba(61,72,83,0.85)',
-
-    },
     modal: {
+        position: 'absolute',
+        
         backgroundColor: 'white',
         width: width * 0.8,
-        height: height * 0.6,
-        marginTop: heightPercentageToDP("24.88%"),
-        marginBottom: heightPercentageToDP("9.85%"),
+        // height: height * 0.6,
+        top: heightPercentageToDP("25"),
+        maxHeight: heightPercentageToDP("60"),
+        // marginBottom: heightPercentageToDP("9.85%"),
         marginLeft: widthPercentageToDP("5.6%"),
         marginRight: widthPercentageToDP("5.6%"),
         borderRadius: 8,
@@ -48,21 +39,30 @@ const base = {
         height: 70,
         marginLeft: 120,
         marginRight: 120,
+    },
+    imageWrapper: {
+        position: 'absolute',
+        zIndex: 10,
 
+        top: heightPercentageToDP("17%"),
 
+        width: 0.8 * width,
+        height: 150,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     modalImage: {
-        width: 150,
-        height: 150,
-        marginTop: heightPercentageToDP("17%"),
-        position: 'absolute',
-        left: 110,
-        right:0,
-        // alignItems: 'center',   
-        // alignSelf: 'center',
-        zIndex: 10,
-        justifyContent: 'center',
+        width: heightPercentageToDP("16%"),
+        height: heightPercentageToDP("16%"),
+    },
+    contentWrapper: {
+        marginTop: 100,
+        paddingRight: 20,
+        paddingLeft: 20,
+        marginBottom: 20,
 
+        // alignItems: 'center',
+        // justifyContent: 'center',
     }
 }
 
