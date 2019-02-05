@@ -14,6 +14,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 @connect(
   state => ({
     style: EnterPhoneStyle(state.ui.theme),
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -31,7 +32,7 @@ class EnterPhone extends Component {
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, formData } = this.props;
     const header = {
       left: "back",
       children: <ProgressBar steps={5} currentStep={2} />
@@ -39,7 +40,8 @@ class EnterPhone extends Component {
     return (
       <AuthLayout header={header}>
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
-        <CelInput type="text" field="phone" placeholder="Phone number" />
+        <CelInput type="phone" field="phone" placeholder="Phone number" value={formData.phone} />
+
         <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('VerifyPhone') }} iconRight="IconArrowRight">Verify phone number</CelButton>
       </AuthLayout>
     );

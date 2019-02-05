@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import RNPickerSelect from 'react-native-picker-select';
-import { lookup } from "country-data";
+import { lookup, countries } from "country-data";
 
 import testUtil from "../../../utils/test-util";
 import CelSelectStyle from "./CelSelect.styles";
@@ -37,7 +37,8 @@ class CelSelect extends Component {
     margin: PropTypes.string,
     flex: PropTypes.number,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    transparent: PropTypes.bool
   };
   static defaultProps = {
     type: 'native',
@@ -45,7 +46,22 @@ class CelSelect extends Component {
     items: [],
     labelText: '',
     margin: '0 0 15 0',
-    disabled: false
+    disabled: false,
+    transparent: false
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const value = nextProps.value;
+    const type = nextProps.type;
+    const items = prevState.items;
+
+    if (value && items && type) {
+      const item = type === 'country' ? lookup.countries({ name: value })[0] : items.filter(i => i.value === value)[0];
+      return {
+        value: item
+      };
+    }
+    return {};
   }
 
   constructor(props) {
@@ -57,30 +73,6 @@ class CelSelect extends Component {
       items,
       value: undefined,
     };
-  }
-
-  componentDidMount = () => {
-    const { value } = this.props;
-    this.setValue(value);
-  }
-
-  // lifecycle methods
-  componentWillReceiveProps(nextProps) {
-    const { value } = this.props;
-
-    if (nextProps.value && value !== nextProps.value) {
-      this.setValue(nextProps.value);
-    }
-  }
-
-  setValue = (value) => {
-    const { type } = this.props;
-    const { items } = this.state;
-
-    if (value) {
-      const item = type === 'country' ? lookup.countries({ name: value })[0] : items.filter(i => i.value === value)[0];
-      this.setState({ value: item });
-    }
   }
 
   getItems = ({ type, items }) => {
@@ -103,10 +95,11 @@ class CelSelect extends Component {
   }
 
   getInputStyle = (theme) => {
-    const { disabled, margin } = this.props;
+    const { disabled, margin, transparent } = this.props;
 
     const cmpStyle = CelSelectStyle(theme);
-    const style = [cmpStyle.container, stylesUtil.getMargins(margin)];
+    const style = [];
+    if (!transparent) style.push(cmpStyle.container, stylesUtil.getMargins(margin))
     if (disabled) style.push(cmpStyle.disabledInput)
     return style;
   }
@@ -146,7 +139,6 @@ class CelSelect extends Component {
     }
   };
 
-
   renderSelect() {
     const { disabled, theme, lastSavedTheme, labelText, type, actions, field } = this.props;
     const { visible, value } = this.state;
@@ -160,9 +152,24 @@ class CelSelect extends Component {
     if (type === 'country') {
       onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
     } else if (type === 'phone') {
-      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, with_phone: true });
+      onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
     } else if (type === 'state') {
       onPress = () => actions.navigateTo('SelectState');
+    }
+    const country = this.props.value ? this.props.value : countries.US;
+
+    if (type === 'phone') {
+      return (
+        <TouchableOpacity onPress={onPress}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+            {this.renderImage(cmpStyle.flagImage, country.alpha2)}
+            <CelText type="H4" align="left" style={{ marginLeft: 5, marginRight: 5 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
+            <View style={{ height: 30, justifyContent: 'center', alignItems: 'center' }}>
+              <Icon name='CaretDown' height='9' width='15' fill={iconColor} />
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
     }
     return (
       <TouchableOpacity
@@ -177,6 +184,8 @@ class CelSelect extends Component {
       </TouchableOpacity>
     );
   }
+
+  renderImage = (style, iso) => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
 
   // rendering methods
   render() {

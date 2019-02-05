@@ -25,6 +25,11 @@ const base = {
         justifyContent: 'center',
         alignItems: 'center',
         opacity: 0.4,
+    },
+    flagImage: {
+        width: 30,
+        height: 30,
+        borderRadius: 15
     }
 }
 

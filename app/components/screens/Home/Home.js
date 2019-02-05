@@ -83,45 +83,45 @@ class Home extends Component {
             </InfoBox>
           </View>
 
-              <View>
-                <CelButton onPress={() => { actions.openModal(UI.MODALS.BASIC_MODAL) }}>Open Modal</CelButton>
-                <CelButton onPress={() => { actions.navigateTo('Login') }}>Join Celsius</CelButton>
-                <CelButton onPress={() => { actions.navigateTo('Register') }} iconRight="IconArrowRight">Create account</CelButton>
-                <CelButton onPress={() => { }} loading>Create account</CelButton>
-                <CelButton onPress={() => { }} disabled>Disabled</CelButton>
-                <CelButton onPress={() => { }} basic>Logout</CelButton>
-                <CelButton onPress={() => { actions.showMessage('info', 'Hello World!') }} margin="8 0 8 0">Show info Message</CelButton>
-                <CelButton onPress={() => { actions.showMessage('warning', 'Hello World! Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message') }} margin="8 0 8 0">Show long warning Message</CelButton>
-                <CelButton onPress={() => { actions.showMessage('success', 'Hello World!') }} margin="8 0 8 0">Show success Message</CelButton>
-                <CelButton onPress={() => { actions.showMessage('error', 'Hello World!') }} margin="8 0 8 0">Show error Message</CelButton>
-                <CelButton onPress={() => { actions.navigateTo('Login') }} margin="8 0 8 0">Join Celsius</CelButton>
-                <CelButton onPress={() => { actions.navigateTo('Register') }} margin="8 0 8 0" iconRight="IconArrowRight">Create account</CelButton>
-                <CelButton onPress={() => { }} margin="8 0 8 0" loading>Create account</CelButton>
-                <CelButton onPress={() => { }} margin="8 0 8 0" disabled>Disabled</CelButton>
-                <CelButton onPress={() => { }} margin="8 0 8 0" basic>Logout</CelButton>
-                <View style={{ alignSelf: 'center' }}>
-                  <Spinner />
-                </View>
-              </View>
-              <View style={{ height: 50 }}>
-                <Separator theme={theme} vertical />
-              </View>
-              <Separator theme={theme} />
-              <Separator theme={theme} text="Crazy" />
-              {/* <CelInput field="test" placeholder="input" /> */}
-              <View style={{ marginTop: 20 }}>
-                <ProgressBar steps={5} currentStep={1} />
-              </View>
-              <View>
-                <CelModal
-                  name={UI.MODALS.BASIC_MODAL}
-                  picture={require('../../../../assets/images/OfflineMode/deer-tangled3x.png')}
-                >
-                  <CelText bold type="H2">Hello Wrold</CelText>
-                  <CelText>Some explanation text.</CelText>
-                  <CelButton onPress={() => actions.closeModal()}>Close</CelButton>
-                </CelModal>
-              </View>
+          <View>
+            <CelButton onPress={() => { actions.openModal(UI.MODALS.BASIC_MODAL) }}>Open Modal</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Login') }}>Join Celsius</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Register') }} iconRight="IconArrowRight">Create account</CelButton>
+            <CelButton onPress={() => { }} loading>Create account</CelButton>
+            <CelButton onPress={() => { }} disabled>Disabled</CelButton>
+            <CelButton onPress={() => { }} basic>Logout</CelButton>
+            <CelButton onPress={() => { actions.showMessage('info', 'Hello World!') }} margin="8 0 8 0">Show info Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('warning', 'Hello World! Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message') }} margin="8 0 8 0">Show long warning Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('success', 'Hello World!') }} margin="8 0 8 0">Show success Message</CelButton>
+            <CelButton onPress={() => { actions.showMessage('error', 'Hello World!') }} margin="8 0 8 0">Show error Message</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Login') }} margin="8 0 8 0">Join Celsius</CelButton>
+            <CelButton onPress={() => { actions.navigateTo('Register') }} margin="8 0 8 0" iconRight="IconArrowRight">Create account</CelButton>
+            <CelButton onPress={() => { }} margin="8 0 8 0" loading>Create account</CelButton>
+            <CelButton onPress={() => { }} margin="8 0 8 0" disabled>Disabled</CelButton>
+            <CelButton onPress={() => { }} margin="8 0 8 0" basic>Logout</CelButton>
+            <View style={{ alignSelf: 'center' }}>
+              <Spinner />
+            </View>
+          </View>
+          <View style={{ height: 50 }}>
+            <Separator theme={theme} vertical />
+          </View>
+          <Separator theme={theme} />
+          <Separator theme={theme} text="Crazy" />
+          {/* <CelInput field="test" placeholder="input" /> */}
+          <View style={{ marginTop: 20 }}>
+            <ProgressBar steps={5} currentStep={1} />
+          </View>
+          <View>
+            <CelModal
+              name={UI.MODALS.BASIC_MODAL}
+              picture={require('../../../../assets/images/OfflineMode/deer-tangled3x.png')}
+            >
+              <CelText bold type="H2">Hello Wrold</CelText>
+              <CelText>Some explanation text.</CelText>
+              <CelButton onPress={() => actions.closeModal()}>Close</CelButton>
+            </CelModal>
+          </View>
 
           <Separator theme={theme} text="Crazy" />
           <View style={{ flex: 1 }}>
@@ -134,8 +134,8 @@ class Home extends Component {
           </View>
           <CelDatePicker field={"date"} />
           <View style={{ flex: 1 }}>
-            <CelSelect field="country" type="country" labelText="Country" value={formData.country} />
-            <CelSelect field="phone" type="phone" labelText="Phone number" value={formData.phone} />
+            <CelInput field="phone" type="phone" placeholder="Phone number" value={formData.phone} />
+            <CelSelect field="country" type="country" labelText="Country" value={formData.country && formData.country.name || ""} />
             <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
           </View>
           <View style={{ flex: 1 }}>
@@ -146,8 +146,8 @@ class Home extends Component {
           </View>
         </View>
       </RegularLayout>
-          );
-        }
-      }
-      
-      export default Home;
+    );
+  }
+}
+
+export default Home;

@@ -11,18 +11,20 @@ import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
 import { THEMES } from '../../../constants/UI';
+import CelSelect from '../../molecules/CelSelect/CelSelect';
 
 @connect(
   state => ({
     cmpStyle: CelInputStyle(state.ui.theme),
-    lastSavedTheme: state.ui.theme
+    lastSavedTheme: state.ui.theme,
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelInput extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['text', 'password', 'tel', 'checkbox', 'pin', 'tfa', 'number']),
+    type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number']),
     theme: PropTypes.oneOf(Object.values(THEMES)),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
@@ -104,8 +106,9 @@ class CelInput extends Component {
   }
 
   render() {
-    const { type } = this.props
+    const { type, formData } = this.props
     const inputStyle = this.getInputStyle();
+
     return {
       'text':
         <View style={inputStyle}>
@@ -114,6 +117,11 @@ class CelInput extends Component {
       'password':
         <View style={inputStyle}>
           <CelInputPassword {...this.props} />
+        </View>,
+      'phone':
+        <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
+          <CelSelect {...this.props} />
+          <CelInputText {...this.props} field={`${this.props.field}.text`} value={formData[`${this.props.field}.text`]} />
         </View>,
       // 'tel': ,
       // 'checkbox': ,

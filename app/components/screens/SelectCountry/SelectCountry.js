@@ -43,8 +43,8 @@ class SelectCountry extends Component {
       const countryList = countries.all.filter(c => c.status === 'assigned' && c.countryCallingCodes.length)
       countryList.sort((a, b) => {
 
-        if (activeField && activeField === a.name) return -1;
-        if (activeField && activeField === b.name) return 1;
+        if (activeField && activeField.name === a.name) return -1;
+        if (activeField && activeField.name === b.name) return 1;
 
         if (HIGHLIGHTED_COUNTRIES.includes(a.name)) return -1;
         if (HIGHLIGHTED_COUNTRIES.includes(b.name)) return 1;
@@ -106,12 +106,12 @@ class SelectCountry extends Component {
   renderCountries = ({ item: country }) => {
     const { actions, navigation, formData, style } = this.props;
     const field = navigation.getParam('field_name', 'NO-FIELD');
-    const isActive = formData[field] && formData[field].toLowerCase() === country.name.toLowerCase();
+    const isActive = formData[field] && formData[field].name && formData[field].name.toLowerCase() === country.name.toLowerCase();
     const itemStyle = this.getSelectStyle(isActive);
     const renderSeparator = this.isLastHighlitedCountry(country);
     return (
       <React.Fragment>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { actions.updateFormField(field, country.name); actions.updateFormField('search', ""); actions.navigateBack() }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => { actions.updateFormField(field, country); actions.updateFormField('search', ""); actions.navigateBack() }}>
           <View style={itemStyle}>
             <View style={style.left}>
               {this.renderImage(country.alpha2)}

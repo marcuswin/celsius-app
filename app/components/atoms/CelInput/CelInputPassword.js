@@ -11,7 +11,7 @@ import { THEMES } from '../../../constants/UI';
 class CelInputPassword extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['text', 'password', 'tel', 'checkbox', 'pin', 'tfa', 'number']),
+    type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number']),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
     disabled: PropTypes.bool,
