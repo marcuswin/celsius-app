@@ -46,7 +46,8 @@ class CelInput extends Component {
     error: PropTypes.string, //
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
-    margin: PropTypes.string
+    margin: PropTypes.string,
+    basic: PropTypes.bool
   };
 
   static defaultProps = {
@@ -57,7 +58,8 @@ class CelInput extends Component {
     maxLenght: 100,
     autoCapitalize: 'none',
     value: "",
-    margin: '0 0 20 0'
+    margin: '0 0 20 0',
+    basic: false
   }
 
   constructor(props) {
@@ -90,6 +92,7 @@ class CelInput extends Component {
   }
 
   getInputStyle = () => {
+    if (this.props.basic) return [];
     const { disabled, margin, theme, lastSavedTheme } = this.props;
     const currentTheme = theme || lastSavedTheme;
     const cmpStyle = CelInputStyle(currentTheme)

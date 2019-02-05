@@ -67,7 +67,7 @@ class CelButton extends Component {
           height='26'
           width='26'
           viewBox='0 0 26 26'
-          fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : 'rgba(255,255,255,0.3)'}
+          fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3}
         />
       </View>
     )

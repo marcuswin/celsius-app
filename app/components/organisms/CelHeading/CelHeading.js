@@ -11,12 +11,14 @@ import stylesUtil from '../../../utils/styles-util';
 import CelButton from '../../atoms/CelButton/CelButton';
 import Icon from '../../atoms/Icon/Icon';
 import { THEMES } from '../../../constants/UI';
+import CelInput from '../../atoms/CelInput/CelInput';
 
 @connect(
   state => ({
     lastSavedTheme: state.ui.theme,
     profilePicture: state.user.profile.profile_picture,
     message: state.ui.message,
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -32,15 +34,27 @@ class CelHeading extends Component {
     transparent: false
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeSearch: false
+    }
+  }
+
   getLeftContent = (currentTheme) => {
     const { left, actions } = this.props;
+    const { activeSearch } = this.state;
+    const leftType = activeSearch ? "search" : left;
     return {
-      "back": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }} iconRight="IconChevronLeft" />
-    }[left];
+      "back": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }} iconRight="IconChevronLeft" />,
+      "search": <CelButton theme={currentTheme} basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
+    }[leftType];
   }
 
   getRightContent = (currentTheme) => {
     const { right, actions, profilePicture } = this.props;
+    const { activeSearch } = this.state;
+    const rightType = activeSearch ? "cancel" : right;
     return {
       "action": <CelButton theme={currentTheme} basic onPress={() => { }}>Action</CelButton>,
       "signup": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Register') }}>Sign up</CelButton>,
@@ -52,14 +66,15 @@ class CelHeading extends Component {
           </View>
         </CelButton>,
       "info": <CelButton theme={currentTheme} basic onPress={() => { }}>Info</CelButton>,
-      "search": <CelButton theme={currentTheme} basic onPress={() => { }}>Search</CelButton>,
+      "search": <CelButton theme={currentTheme} basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
       "profile":
         <CelButton theme={currentTheme} basic onPress={() => { actions.navigateTo('Profile'); }}>
           <Image style={{ width: 35, height: 35, borderRadius: 17 }} source={{ uri: profilePicture }} resizeMethod="resize" />
         </CelButton>,
       "logout": <CelButton theme={currentTheme} basic onPress={() => { }}>Logout</CelButton>,
       "close": <CelButton theme={currentTheme} basic onPress={() => { actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
-    }[right];
+      "cancel": <CelButton theme={currentTheme} basic onPress={() => { this.setState({ activeSearch: false }); actions.updateFormField('search', "") }}>Cancel</CelButton>,
+    }[rightType];
   }
 
   getStatusBarTextColor = (theme) => {
@@ -76,27 +91,52 @@ class CelHeading extends Component {
     }
   }
 
-  render() {
-    const { children, transparent, theme, lastSavedTheme } = this.props
+  getCenterContent = (currentTheme) => {
+    const { children } = this.props;
+    const style = CelHeadingStyle(currentTheme)
+    return (
+      <View style={style.center}>
+        {children}
+      </View>
+    );
+  }
+
+  getContent = () => {
+    const { formData, theme, lastSavedTheme } = this.props;
     const currentTheme = theme || lastSavedTheme;
     const style = CelHeadingStyle(currentTheme)
     const paddings = stylesUtil.getPadding("15 20 15 20")
+    const { activeSearch } = this.state;
+    const leftStyle = activeSearch ? [style.left, { flexDirection: 'row', flex: 2 }] : style.left;
+    return (
+      <View style={[style.content, paddings]}>
+        <View style={leftStyle}>
+          {this.getLeftContent(currentTheme)}
+          {activeSearch && (
+            <View style={[style.center, { marginLeft: 12 }]}>
+              <CelInput autoFocus={activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" value={formData.search} />
+            </View>
+          )}
+        </View>
+        {!activeSearch && this.getCenterContent(currentTheme)}
+        <View style={style.right}>
+          {this.getRightContent(currentTheme)}
+        </View>
+      </View>
+    )
+  }
+
+  render() {
+    const { transparent, theme, lastSavedTheme } = this.props
+    const currentTheme = theme || lastSavedTheme;
+    const style = CelHeadingStyle(currentTheme)
     const statusBarColor = this.getStatusBarTextColor(currentTheme)
     const containerStyle = transparent ? style.transparentBackground : style.headingBackground;
+    const Content = this.getContent;
     return (
       <SafeAreaView style={containerStyle}>
         <StatusBar barStyle={statusBarColor} />
-        <View style={[style.content, paddings]}>
-          <View style={style.left}>
-            {this.getLeftContent(currentTheme)}
-          </View>
-          <View style={style.center}>
-            {children}
-          </View>
-          <View style={style.right}>
-            {this.getRightContent(currentTheme)}
-          </View>
-        </View>
+        <Content />
       </SafeAreaView>
     );
   }

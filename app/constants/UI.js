@@ -59,6 +59,14 @@ export const EMPTY_STATES = {
   COMPLIANCE: 'COMPLIANCE',
 }
 
+export const HIGHLIGHTED_COUNTRIES = [
+  'Canada',
+  'Germany',
+  'United Kingdom',
+  'Australia',
+  'United States'
+]
+
 export default {
   KEYBOARD_TYPE,
   AUTO_CAPITALIZE,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -36,7 +36,7 @@ class RegularLayout extends Component {
     const paddings = stylesUtil.getPadding(padding);
     return (
       <React.Fragment>
-        { header && (
+        {header && (
           <CelHeading {...header}>
             {header.children ? header.children :
               <CelText style={style.headerTitle} align="center" type="H3">{header.title || ""}</CelText>
@@ -45,11 +45,13 @@ class RegularLayout extends Component {
         )}
 
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
-          <KeyboardShift>
-            <React.Fragment>
-              {children}
-            </React.Fragment>
-          </KeyboardShift>
+          <SafeAreaView style={{ width: '100%' }}>
+            <KeyboardShift>
+              <React.Fragment>
+                {children}
+              </React.Fragment>
+            </KeyboardShift>
+          </SafeAreaView>
         </ScrollView>
 
       </React.Fragment>

@@ -56,9 +56,9 @@ class CelDatePicker extends Component {
     const { month, day, year } = this.state;
     return (
       <View style={{ flexDirection: 'row' }}>
-        <CelSelect disabled={disabled} flex={1.4} type="month" labelText="Month" value={month} onChange={(value) => this.onChange({ month: value })} margin="0 16 0 0" />
-        <CelSelect disabled={disabled} flex={1.1} type="day" labelText="Day" value={day} onChange={(value) => this.onChange({ day: value })} margin="0 16 0 0" />
-        <CelSelect disabled={disabled} flex={1} type="year" labelText="Year" value={year} onChange={(value) => this.onChange({ year: value })} />
+        <CelSelect field="month" disabled={disabled} flex={1.4} type="month" labelText="Month" value={month} onChange={(value) => this.onChange({ month: value })} margin="0 16 0 0" />
+        <CelSelect field="day" disabled={disabled} flex={1.1} type="day" labelText="Day" value={day} onChange={(value) => this.onChange({ day: value })} margin="0 16 0 0" />
+        <CelSelect field="year" disabled={disabled} flex={1} type="year" labelText="Year" value={year} onChange={(value) => this.onChange({ year: value })} />
       </View>
     );
   }

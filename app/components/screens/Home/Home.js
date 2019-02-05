@@ -123,28 +123,27 @@ class Home extends Component {
                 </CelModal>
               </View>
 
-
-
-              <Separator theme={theme} text="Crazy" />
-              <View style={{ flex: 1 }}>
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-              </View>
-              <CelDatePicker field={"date"} />
-              <View style={{ flex: 1 }}>
-                <CelSelect field="title" type="title" labelText="Title" value={formData.title} />
-                <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
-              </View>
-              <View style={{ flex: 1 }}>
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-                <CelInput field="test" placeholder="input" value={formData.text} />
-              </View>
+          <Separator theme={theme} text="Crazy" />
+          <View style={{ flex: 1 }}>
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+          </View>
+          <CelDatePicker field={"date"} />
+          <View style={{ flex: 1 }}>
+            <CelSelect field="country" type="country" labelText="Country" value={formData.country} />
+            <CelSelect field="phone" type="phone" labelText="Phone number" value={formData.phone} />
+            <CelSelect field="gender" type="gender" labelText="Gender" value={formData.gender} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+            <CelInput field="test" placeholder="input" value={formData.text} />
+          </View>
         </View>
       </RegularLayout>
           );

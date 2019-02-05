@@ -18,7 +18,7 @@ const base = {
     },
     left: {
         flex: 1,
-        alignItems: 'flex-start',
+        alignItems: 'flex-start'
     },
     right: {
         flex: 1,

@@ -16,6 +16,7 @@ import EnterPhone from "./components/screens/EnterPhone/EnterPhone";
 import VerifyPhone from "./components/screens/VerifyPhone/VerifyPhone";
 import CreatePin from "./components/screens/CreatePin/CreatePin";
 import RepeatPin from "./components/screens/RepeatPin/RepeatPin";
+import SelectCountry from "./components/screens/SelectCountry/SelectCountry";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -49,6 +50,7 @@ export const screens = {
   Borrow,
   CelPay,
   Deposit,
+  SelectCountry,
   Settings: SettingsNavigator,
   Support,
   Community,

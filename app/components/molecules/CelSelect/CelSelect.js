@@ -26,13 +26,13 @@ class CelSelect extends Component {
 
   static propTypes = {
     theme: PropTypes.oneOf(Object.values(THEMES)),
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year']),
+    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone']),
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
       PropTypes.string,
     ]),
-    field: PropTypes.string,
+    field: PropTypes.string.isRequired,
     labelText: PropTypes.string,
     margin: PropTypes.string,
     flex: PropTypes.number,
@@ -42,7 +42,6 @@ class CelSelect extends Component {
   static defaultProps = {
     type: 'native',
     value: '',
-    field: '',
     items: [],
     labelText: '',
     margin: '0 0 15 0',
@@ -147,22 +146,9 @@ class CelSelect extends Component {
     }
   };
 
-  // event hanlders
-  selectValue = (item) => {
-    const { actions, field, type } = this.props;
-
-    if (item) {
-      if (type === 'country') {
-        actions.updateFormField(field, item.name);
-      } else {
-        actions.updateFormField(field, item.value);
-      }
-    }
-    this.setState({ visible: false });
-  };
 
   renderSelect() {
-    const { disabled, theme, lastSavedTheme, labelText } = this.props;
+    const { disabled, theme, lastSavedTheme, labelText, type, actions, field } = this.props;
     const { visible, value } = this.state;
     const currentTheme = theme || lastSavedTheme;
 
@@ -170,10 +156,17 @@ class CelSelect extends Component {
     const cmpStyle = CelSelectStyle(currentTheme);
     const textColor = this.getTextColor(currentTheme);
     const iconColor = this.getIconColor(currentTheme);
-
+    let onPress = () => this.setState({ visible: !visible });
+    if (type === 'country') {
+      onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
+    } else if (type === 'phone') {
+      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, with_phone: true });
+    } else if (type === 'state') {
+      onPress = () => actions.navigateTo('SelectState');
+    }
     return (
       <TouchableOpacity
-        onPress={() => this.setState({ visible: !visible })}
+        onPress={onPress}
         style={inputStyle}>
         <CelText type="H4" color={textColor}>{value ? (value.label || value.name) : labelText}</CelText>
         {!disabled &&
@@ -189,11 +182,10 @@ class CelSelect extends Component {
   render() {
     const { type, flex, disabled, onChange } = this.props;
     const { items, value } = this.state;
-    // const propVisible = (typeof this.props.disabled !== 'undefined' && this.props.disabled) ? false : visible;
 
     return (
       <View style={flex ? { flex } : {}}>
-        {type !== 'country' && type !== 'state' ?
+        {type !== 'country' && type !== 'state' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}
             items={items}
@@ -204,13 +196,7 @@ class CelSelect extends Component {
           </RNPickerSelect> :
           this.renderSelect()
         }
-        {/* {type === 'country' &&
-          <SelectCountryModal
-            visible={propVisible}
-            onClose={this.selectValue}
-          />
-        }
-        {type === 'state' &&
+        {/* {type === 'state' &&
           <SelectStateModal
             visible={propVisible}
             onClose={this.selectValue}
