@@ -13,7 +13,21 @@ import { THEMES } from '../../../constants/UI';
 
 function getMenuItems(menu) {
   return {
-    main: [['Wallet', 'Borrow', 'CelPay'], ['Deposit', 'Settings', 'Support'], ['Community']],
+    main: [
+      [
+        { label: 'Wallet', screen: 'WalletLanding' },
+        { label: 'Borrow', screen: 'BorrowStack' },
+        { label: 'CelPay', screen: 'CelPay' },
+      ],
+      [
+        { label: 'Deposit', screen: 'Deposit' },
+        { label: 'Settings', screen: 'Settings' },
+        { label: 'Support', screen: 'Support' },
+      ],
+      [
+        { label: 'Community', screen: 'Community' },
+      ]
+    ],
     support: [],
   }[menu];
 }
@@ -95,15 +109,15 @@ class FabMenu extends Component {
   renderMenuRow = (menuRow) => {
     const { style } = this.props;
     return (
-      <View key={menuRow} style={style.menuItemsContainer}>
+      <View key={menuRow[0].label} style={style.menuItemsContainer}>
         {menuRow.map(this.renderMenuItem)}
       </View>
     );
   }
 
-  renderMenuItem = (menuItemType) => {
+  renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={menuItemType} theme={theme} onPress={() => { actions.navigateTo(menuItemType); actions.closeFabMenu() }} type="menu" text={menuItemType} icon={menuItemType} />;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} />;
   }
 
   renderFabMenu = () => {

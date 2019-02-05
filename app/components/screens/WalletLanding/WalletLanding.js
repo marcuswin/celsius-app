@@ -20,7 +20,7 @@ import STYLES from "../../../constants/STYLES";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class Settings extends Component {
+class WalletLanding extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -42,6 +42,7 @@ class Settings extends Component {
     const { header } = this.state
     const { actions } = this.props
 
+
     return (
       <RegularLayout
         header={header}
@@ -52,12 +53,12 @@ class Settings extends Component {
             <View style={{ flexDirection: "row" }}>
               <TouchableOpacity onPress={() => actions.navigateTo('BalanceHistory')}>
                 <CelText>Total Wallet balance</CelText>
-                <CelText bold>{formatter.usd(47013.14)}</CelText>
+                <CelText bold>{ formatter.usd(47013.14) }</CelText>
                 <CelText color={STYLES.COLORS.RED}>- 1.2%</CelText>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => actions.navigateTo('WalletInterest')}>
                 <CelText>Total Interest earned</CelText>
-                <CelText bold>{formatter.usd(213.14)}</CelText>
+                <CelText bold>{ formatter.usd(213.14) }</CelText>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
               </TouchableOpacity>
             </View>
@@ -68,23 +69,23 @@ class Settings extends Component {
           <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'BTC' })}>
               <CelText>Bitcoin</CelText>
-              <CelText bold>{formatter.usd(12313.14)}</CelText>
-              <CelText>{formatter.crypto(13.45, 'BTC')}</CelText>
+              <CelText bold>{ formatter.usd(12313.14) }</CelText>
+              <CelText>{ formatter.crypto(13.45, 'BTC') }</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'ETH' })}>
               <CelText>Ethereum</CelText>
-              <CelText bold>{formatter.usd(12313.14)}</CelText>
-              <CelText>{formatter.crypto(13.45, 'ETH')}</CelText>
+              <CelText bold>{ formatter.usd(12313.14) }</CelText>
+              <CelText>{ formatter.crypto(13.45, 'ETH') }</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'XRP' })}>
               <CelText>Ripple</CelText>
-              <CelText bold>{formatter.usd(12313.14)}</CelText>
-              <CelText>{formatter.crypto(13.45, 'XRP')}</CelText>
+              <CelText bold>{ formatter.usd(12313.14) }</CelText>
+              <CelText>{ formatter.crypto(13.45, 'XRP') }</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'LTC' })}>
               <CelText>Litecoin</CelText>
-              <CelText bold>{formatter.usd(12313.14)}</CelText>
-              <CelText>{formatter.crypto(13.45, 'LTC')}</CelText>
+              <CelText bold>{ formatter.usd(12313.14) }</CelText>
+              <CelText>{ formatter.crypto(13.45, 'LTC') }</CelText>
             </Card>
           </View>
         </View>
@@ -93,4 +94,4 @@ class Settings extends Component {
   }
 }
 
-export default testUtil.hookComponent(Settings);
+export default testUtil.hookComponent(WalletLanding);
