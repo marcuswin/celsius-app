@@ -207,14 +207,19 @@ class NycBlackoutModal extends Component {
     const currentTimestamp = moment.utc(Date.now());
     let NycBlackoutTimestamp;
     let days;
+    let icoText = true;
     if (user && user.blocked_at) {
       NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     }
-    if (user && kycRealStatus === "ico_passed") {
+    if (user && kycRealStatus === "ico_passed" && user.blocked_at) {
       // TODO (ns): see if there is fixed date for blackout or 14 days from moment of blocking
       NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
       days = NycBlackoutTimestamp.diff(currentTimestamp, "days");
+    }
+
+    if (user && user.blocked_at === null) {
+      icoText = false
     }
 
     let heading;
@@ -240,8 +245,9 @@ class NycBlackoutModal extends Component {
       heading = "Hey there! Thanks so much for participating in our ICO.";
       additionalText = `Please finish KYC process.`
     } else if (kycRealStatus === "ico_passed") {
+      const text = icoText ? `${days} days ` : "";
       heading = "Hey there! Thanks so much for participating in our ICO.";
-      additionalText = `In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. You have ${days} days to finish process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!`
+      additionalText = `In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. You have ${text}to finish process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!`
     } else {
       heading = "Hey! We're missing some important info from you!";
       additionalText = "Please complete your profile.";
