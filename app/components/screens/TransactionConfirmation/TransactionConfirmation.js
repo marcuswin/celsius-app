@@ -305,13 +305,13 @@ class TransactionConfirmation extends Component {
     if (formData.currency === "xrp") {
       if (formData[`${coin}WithdrawalAddress`]) {
         newWithdrawalAddress = formData.hasTagValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag);
-      } else if (formData.currency === "xlm") {
-        if (formData[`${coin}WithdrawalAddress`]) {
-          newWithdrawalAddress = formData.hasMemoIdValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?memoId=").concat(formData.coinMemoId);
-        }
-      } else {
-        newWithdrawalAddress = withdrawalAddress.address;
       }
+    } else if (formData.currency === "xlm") {
+      if (formData[`${coin}WithdrawalAddress`]) {
+        newWithdrawalAddress = formData.hasMemoIdValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?memoId=").concat(formData.coinMemoId);
+      }
+    } else {
+      newWithdrawalAddress = withdrawalAddress.address;
     }
 
     if (!["xrp", "xlm"].includes(formData.currency)) {

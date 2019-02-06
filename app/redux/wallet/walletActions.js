@@ -1,6 +1,7 @@
 import ACTIONS from '../../config/constants/ACTIONS';
 import API from "../../config/constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
+import {navigateTo} from "../nav/navActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
@@ -126,6 +127,7 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount,
       const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
+      dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }));
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(currentApiCall, error));
@@ -164,6 +166,7 @@ export function withdrawCrypto(coin, amount, verification) {
       const res = await walletService.withdrawCrypto(coin, amount, verification);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
+      dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
