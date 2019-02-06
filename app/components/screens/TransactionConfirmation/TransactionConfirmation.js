@@ -62,12 +62,12 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
             value={formData.coinTag}
             field={`coinTag`}
             labelText="XRP Destination Tag"
-            editable={!formData.hasTagValue}
+            editable={formData.hasTagValue}
           />
           <View style={{ position: "absolute", right: 14, top: 15 }}>
             <Switch
               onValueChange={() => actions.updateFormField("hasTagValue", !formData.hasTagValue)}
-              value={!formData.hasTagValue}
+              value={formData.hasTagValue}
             />
           </View>
         </View>
@@ -90,7 +90,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
             />
           </View>
           <View style={{ width: '80%' }}>
-            {!formData.hasTagValue ?
+            {formData.hasTagValue ?
               <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please specify a correct destination tag.</Text> :
               <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please check if your address has a destination tag.</Text>
             }
@@ -109,12 +109,12 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
             value={formData.coinMemoId}
             field={`coinMemoId`}
             labelText="XLM memoId"
-            editable={!formData.hasMemoIdValue}
+            editable={formData.hasMemoIdValue}
           />
           <View style={{ position: "absolute", right: 14, top: 15 }}>
             <Switch
               onValueChange={() => actions.updateFormField("hasMemoIdValue", !formData.hasMemoIdValue)}
-              value={!formData.hasMemoIdValue}
+              value={formData.hasMemoIdValue}
             />
           </View>
         </View>
@@ -137,7 +137,7 @@ const WithdrawalAddressNeededBox = ({ onChange, onScanClick, coin, actions, form
             />
           </View>
           <View style={{ width: '80%' }}>
-            {!formData.hasMemoIdValue ?
+            {formData.hasMemoIdValue ?
               <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please specify a correct memoId.</Text> :
               <Text style={[globalStyles.normalText, { textAlign: 'left' }]}>To prevent a <Text style={{ fontFamily: 'agile-book', }}>permanent loss</Text> of your funds, please check if your address has a memoId.</Text>
             }
@@ -304,11 +304,11 @@ class TransactionConfirmation extends Component {
 
     if (formData.currency === "xrp") {
       if (formData[`${coin}WithdrawalAddress`]) {
-        newWithdrawalAddress = formData.hasTagValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag);
+        newWithdrawalAddress = !formData.hasTagValue ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?dt=").concat(formData.coinTag);
       }
     } else if (formData.currency === "xlm") {
       if (formData[`${coin}WithdrawalAddress`]) {
-        newWithdrawalAddress = formData.hasMemoIdValue === true ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?memoId=").concat(formData.coinMemoId);
+        newWithdrawalAddress = !formData.hasMemoIdValue ? formData[`${coin}WithdrawalAddress`] : formData[`${coin}WithdrawalAddress`].concat("?memoId=").concat(formData.coinMemoId);
       }
     } else {
       newWithdrawalAddress = withdrawalAddress.address;
@@ -355,6 +355,7 @@ class TransactionConfirmation extends Component {
     const { formData } = this.props;
 
     const coin = this.getCoinShorthand();
+    const withdrawalAddressValue = formData[`${coin}WithdrawalAddress`];
 
     if (this.isScreenLoading()) {
       return true;
@@ -364,12 +365,15 @@ class TransactionConfirmation extends Component {
       return true;
     }
 
-    const withdrawalAddressValue = formData[`${coin}WithdrawalAddress`];
-
-    if (withdrawalAddressValue) {
-      return false;
+    if (withdrawalAddressValue && formData.currency === "xrp" && formData.hasTagValue) {
+      return !formData.coinTag;
     }
 
+    if (withdrawalAddressValue && formData.currency === "xlm" && formData.hasMemoIdValue) {
+      return !formData.coinMemoId;
+    }
+
+    if (withdrawalAddressValue) return false;
     return !withdrawalAddress.address || !withdrawalAddress.manually_set;
   };
 
@@ -536,7 +540,7 @@ class TransactionConfirmation extends Component {
             onPress={this.confirmWithdrawal}
             margin='30 36 50 36'
             loading={isLoading}
-            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (!formData.hasTagValue && !formData.coinTag) || (!formData.hasMemoIdValue && !formData.coinMemoId)}
+            disabled={this.isConfirmButtonDisabled(withdrawalAddress)}
           >
             Confirm withdrawal
           </CelButton>
