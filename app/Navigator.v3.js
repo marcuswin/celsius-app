@@ -2,7 +2,6 @@ import { Animated, Easing } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import Home from "./components/screens/Home/Home";
-import Wallet from "./components/screens/Wallet/Wallet";
 import WalletLanding from "./components/screens/WalletLanding/WalletLanding";
 import Borrow from "./components/screens/Borrow/Borrow";
 import CelPay from "./components/screens/CelPay/CelPay";
@@ -48,10 +47,22 @@ const authProps = {
 }
 const authNavigator = createStackNavigator(authScreens, authProps);
 
+const walletScreens = {
+  WalletLanding,
+  WalletInterest,
+  BalanceHistory,
+  CoinDetails
+}
+
+const walletProps = {
+  headerMode: "none",
+  initialRouteName: 'WalletLanding'
+}
+const walletNavigator = createStackNavigator(walletScreens, walletProps);
+
 export const screens = {
   Home,
-  Wallet,
-  WalletLanding,
+  Wallet: walletNavigator,
   Borrow,
   CelPay,
   Deposit,
@@ -61,9 +72,6 @@ export const screens = {
   Community,
   Profile,
   Auth: authNavigator,
-  BalanceHistory,
-  WalletInterest,
-  CoinDetails,
 };
 
 
