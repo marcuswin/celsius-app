@@ -50,15 +50,20 @@ class WalletLanding extends Component {
         <View>
 
           <Card>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", }}>
               <TouchableOpacity onPress={() => actions.navigateTo('BalanceHistory')}>
                 <CelText>Total Wallet balance</CelText>
-                <CelText bold>{ formatter.usd(47013.14) }</CelText>
+                <CelText bold>{formatter.usd(47013.14)}</CelText>
                 <CelText color={STYLES.COLORS.RED}>- 1.2%</CelText>
               </TouchableOpacity>
+              <View style={{
+                borderLeftWidth: 1,
+                borderLeftColor: 'gray',
+                borderRadius: 10,
+              }} />
               <TouchableOpacity onPress={() => actions.navigateTo('WalletInterest')}>
                 <CelText>Total Interest earned</CelText>
-                <CelText bold>{ formatter.usd(213.14) }</CelText>
+                <CelText bold>{formatter.usd(213.14)}</CelText>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
               </TouchableOpacity>
             </View>
@@ -66,26 +71,30 @@ class WalletLanding extends Component {
 
           <CelText bold>Deposited coins</CelText>
 
-          <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
+          <View style={{
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            alignItems: 'flex-start'
+          }}>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'BTC' })}>
               <CelText>Bitcoin</CelText>
-              <CelText bold>{ formatter.usd(12313.14) }</CelText>
-              <CelText>{ formatter.crypto(13.45, 'BTC') }</CelText>
+              <CelText bold>{formatter.usd(12313.14)}</CelText>
+              <CelText>{formatter.crypto(13.45, 'BTC')}</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'ETH' })}>
               <CelText>Ethereum</CelText>
-              <CelText bold>{ formatter.usd(12313.14) }</CelText>
-              <CelText>{ formatter.crypto(13.45, 'ETH') }</CelText>
+              <CelText bold>{formatter.usd(12313.14)}</CelText>
+              <CelText>{formatter.crypto(13.45, 'ETH')}</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'XRP' })}>
               <CelText>Ripple</CelText>
-              <CelText bold>{ formatter.usd(12313.14) }</CelText>
-              <CelText>{ formatter.crypto(13.45, 'XRP') }</CelText>
+              <CelText bold>{formatter.usd(12313.14)}</CelText>
+              <CelText>{formatter.crypto(13.45, 'XRP')}</CelText>
             </Card>
             <Card size="half" margin="5 5 5 5" onPress={() => actions.navigateTo('CoinDetails', { coin: 'LTC' })}>
               <CelText>Litecoin</CelText>
-              <CelText bold>{ formatter.usd(12313.14) }</CelText>
-              <CelText>{ formatter.crypto(13.45, 'LTC') }</CelText>
+              <CelText bold>{formatter.usd(12313.14)}</CelText>
+              <CelText>{formatter.crypto(13.45, 'LTC')}</CelText>
             </Card>
           </View>
         </View>
