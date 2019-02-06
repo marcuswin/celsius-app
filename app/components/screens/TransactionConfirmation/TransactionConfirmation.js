@@ -536,7 +536,7 @@ class TransactionConfirmation extends Component {
             onPress={this.confirmWithdrawal}
             margin='30 36 50 36'
             loading={isLoading}
-            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (formData.hasTagValue === false && !formData.coinTag) || (formData.hasMemoIdValue === false && !formData.coinMemoId)}
+            disabled={this.isConfirmButtonDisabled(withdrawalAddress) || (!formData.hasTagValue && !formData.coinTag) || (!formData.hasMemoIdValue && !formData.coinMemoId)}
           >
             Confirm withdrawal
           </CelButton>
