@@ -10,11 +10,28 @@ import * as appActions from "../../../redux/actions";
 import CoinDetailsStyle from "./CoinDetails.styles";
 import CelText from '../../atoms/CelText/CelText';
 import Card from "../../atoms/Card/Card";
+import CelButton from "../../atoms/CelButton/CelButton"
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   state => ({
     style: CoinDetailsStyle(state.ui.theme),
+    currencies: state.generalData.supportedCurrencies,
+    wallet: {
+      total_amount_usd: 1200,
+      wallet_diff_24h: -1.25,
+      total_interest_earned: 142,
+      coins: [
+        {
+          name: 'Bitcoin',
+          short: 'BTC',
+          amount_usd: 4200,
+          amount: 1.2,
+          interest_earned_usd: 123, 
+          interest_earned: 12,
+        },
+      ]
+    },
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -28,30 +45,49 @@ class CoinDetails extends Component {
 
   constructor(props) {
     super(props);
+    const { navigation } = props
+    const coin = navigation.getParam("coin");
+    const coinDetails = props.wallet.coins.filter(c => false);
+
     this.state = {
       header: {
-        title: " ",
+        title: coin.name + "-" + coin,
         left: "back",
         right: "profile"
       }
     };
   }
 
+  renderCard = (coin) => {
+    const { actions } = this.props;
+    // TODO(nk): create molecule component
+
+    return (
+      <View key={coin.name} size="half" onPress={() => actions.navigateTo(coin)}>
+        <CelText>{coin.name}</CelText>
+        <CelText bold>{formatter.usd(coin.amount_usd)}</CelText>
+        <CelText>{formatter.crypto(coin.amount, coin.short)}</CelText>
+      </View>
+    )
+  }
+
+
   render() {
-    // const { style } = this.props
     const { header } = this.state
+    const { actions, wallet, coin } = this.props
+
     return (
       <RegularLayout header={header}>
         <View >
-          <Card>
-            <View style={{ flexDirection: 'row'
+          <Card style={{ flexDirection: 'colum'}}>
+            <View style={{
+              flexWrap: 'wrap',
+              flexDirection: 'row',
+              alignItems: 'flex-start'
             }}>
-              <TouchableOpacity>
-                <CelText>Bitcoin</CelText>
-                <CelText bold>{formatter.usd(12313.14)}</CelText>
-                <CelText>{formatter.crypto(13.45, 'BTC')}</CelText>
-              </TouchableOpacity>
-              <View>
+              {wallet.coins.map(this.renderCard)}
+            </View>
+            <View>
               <TouchableOpacity style={{ flexDirection: "row" }}>
                 <CelText> Send </CelText>
               </TouchableOpacity>
@@ -63,11 +99,15 @@ class CoinDetails extends Component {
               <TouchableOpacity>
                 <CelText> Deposit </CelText>
               </TouchableOpacity>
-              </View>
             </View>
           </Card>
+        <View>
+          <CelButton>
+            Withdraw
+            </CelButton>
         </View>
-      </RegularLayout>
+        </View>
+      </RegularLayout >
     );
   }
 }
