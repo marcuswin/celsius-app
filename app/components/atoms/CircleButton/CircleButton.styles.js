@@ -7,11 +7,6 @@ const base = {
         justifyContent: 'center',
         alignSelf: 'center',
         alignItems: 'center',
-
-        shadowColor: '#000000',
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 3 },
-        shadowRadius: 5,
     },
     view: {
         width: 60,
@@ -19,7 +14,12 @@ const base = {
         borderRadius: 60,
         justifyContent: 'center',
         alignSelf: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000000',
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 0, height: 3 },
+        shadowRadius: 5,
+        elevation: 2
     },
     text: {
         marginTop: 10

@@ -9,10 +9,9 @@ const base = {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 60,
+        height: 60
     },
     center: {
-        height: 30,
         alignSelf: 'center',
         justifyContent: 'center'
     },
@@ -23,7 +22,6 @@ const base = {
     right: {
         flex: 1,
         alignItems: 'flex-end'
-
     },
     headingBackground: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0

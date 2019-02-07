@@ -27,7 +27,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
           short: 'BTC',
           amount_usd: 4200,
           amount: 1.2,
-          interest_earned_usd: 123, 
+          interest_earned_usd: 123,
           interest_earned: 12,
         },
       ]
@@ -47,11 +47,10 @@ class CoinDetails extends Component {
     super(props);
     const { navigation } = props
     const coin = navigation.getParam("coin");
-    const coinDetails = props.wallet.coins.filter(c => false);
 
     this.state = {
       header: {
-        title: coin.name + "-" + coin,
+        title: `${coin.name}-${coin}`,
         left: "back",
         right: "profile"
       }
@@ -74,12 +73,12 @@ class CoinDetails extends Component {
 
   render() {
     const { header } = this.state
-    const { actions, wallet, coin } = this.props
+    const { wallet } = this.props
 
     return (
       <RegularLayout header={header}>
         <View >
-          <Card style={{ flexDirection: 'colum'}}>
+          <Card style={{ flexDirection: 'colum' }}>
             <View style={{
               flexWrap: 'wrap',
               flexDirection: 'row',
@@ -101,11 +100,11 @@ class CoinDetails extends Component {
               </TouchableOpacity>
             </View>
           </Card>
-        <View>
-          <CelButton>
-            Withdraw
+          <View>
+            <CelButton>
+              Withdraw
             </CelButton>
-        </View>
+          </View>
         </View>
       </RegularLayout >
     );

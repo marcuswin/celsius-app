@@ -6,7 +6,7 @@ import { Animated, Dimensions, Keyboard, StyleSheet, TextInput, UIManager, Touch
 const { State: TextInputState } = TextInput;
 
 const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+    <TouchableWithoutFeedback style={styles.container} onPress={() => { Keyboard.dismiss() }}>
         {children}
     </TouchableWithoutFeedback>
 )

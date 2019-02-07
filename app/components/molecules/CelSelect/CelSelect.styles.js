@@ -12,6 +12,7 @@ const base = {
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.05,
         shadowRadius: 5,
+        elevation: 0.5,
         borderRadius: 8,
     },
     disabledInput: {

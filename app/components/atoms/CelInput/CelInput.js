@@ -121,7 +121,7 @@ class CelInput extends Component {
       'phone':
         <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
           <CelSelect {...this.props} />
-          <CelInputText {...this.props} field={`${this.props.field}.text`} value={formData[`${this.props.field}.text`]} />
+          <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={formData[`${this.props.field}.text`]} />
         </View>,
       // 'tel': ,
       // 'checkbox': ,

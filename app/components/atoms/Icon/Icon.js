@@ -15,10 +15,10 @@ class Icon extends Component {
   }
 
   render() {
-    const { name, fill } = this.props
+    const { name, fill, style } = this.props
 
     const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
-    return <SvgIcon viewBox={viewBox} name={name} svgs={Svgs} fill={fill} {...this.props} />;
+    return <SvgIcon viewBox={viewBox} name={name} svgs={Svgs} fill={fill} {...this.props} style={[{ alignSelf: 'center', justifyContent: 'center' }, style]} />;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView } from 'react-native';
+import { ScrollView, SafeAreaView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -45,11 +45,11 @@ class RegularLayout extends Component {
         )}
 
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
-          <SafeAreaView style={{ width: '100%' }}>
+          <SafeAreaView>
             <KeyboardShift>
-              <React.Fragment>
+              <View style={{ width: '100%' }}>
                 {children}
-              </React.Fragment>
+              </View>
             </KeyboardShift>
           </SafeAreaView>
         </ScrollView>

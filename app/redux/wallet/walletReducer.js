@@ -3,7 +3,11 @@
 import BigNumber from 'bignumber.js';
 
 import ACTIONS from '../../config/constants/ACTIONS';
-import { TRANSACTION_TYPES } from "../../config/constants/common";
+// import { TRANSACTION_TYPES } from "../../config/constants/common";
+// import { TRANSACTION_TYPES } from "../../constants/DATA";
+import DATA from "../../constants/DATA";
+
+const TRANSACTION_TYPES = DATA.TRANSACTION_TYPES
 
 function initialState() {
   return {
@@ -117,7 +121,15 @@ function getTransactionType(transaction) {
   if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
   if (transaction.nature === 'bonus_token') return TRANSACTION_TYPES.BONUS_TOKEN;
-  if (transaction.nature === 'referred_award') return TRANSACTION_TYPES.REFERRED_AWARD;
+
+  if (transaction.nature === 'referred_award' && transaction.state === 'locked') return TRANSACTION_TYPES.REFERRED_HODL;
+  if (transaction.nature === 'referred_award' && transaction.state === 'confirmed') return TRANSACTION_TYPES.REFERRED;
+  if (transaction.nature === 'referrer_award' && transaction.amount === 'locked') return TRANSACTION_TYPES.REFERRER_HODL;
+  if (transaction.nature === 'referrer_award' && transaction.state === 'confirmed') return TRANSACTION_TYPES.REFERRER;
+
+  // TODO(sb): TRANSACTION_TYPES.TRANSFER_ONHOLD (CELPAY_ONHOLD)
+  // TODO(sb): TRANSACTION_TYPES.TRANSFER_EXPIRED (CELPAY_EXPIRED) === RETURNED
+
 
   if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
   if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {

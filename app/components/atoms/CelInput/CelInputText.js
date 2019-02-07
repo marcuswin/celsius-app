@@ -61,18 +61,26 @@ class CelInput extends Component {
         super(props);
 
         this.state = {
-            active: false
+            active: false,
+            textValue: ''
         }
         this.changeTimer = null;
     }
 
+    componentDidMount = () => {
+        const { value } = this.props;
+        this.setState({ textValue: value })
+    }
+
+
     onChangeText = (text) => {
+        this.setState({ textValue: text })
         clearTimeout(this.changeTimer)
         const { field, onChange, actions } = this.props;
         if (onChange) {
-            this.changeTimer = setTimeout(() => onChange(field, text), 1500)
+            this.changeTimer = setTimeout(() => onChange(field, text), 750)
         } else {
-            this.changeTimer = setTimeout(() => actions.updateFormField(field, text), 1500)
+            this.changeTimer = setTimeout(() => actions.updateFormField(field, text), 750)
         }
     }
 
@@ -100,7 +108,8 @@ class CelInput extends Component {
         }
     }
     render() {
-        const { theme, lastSavedTheme, disabled, maxLenght, autoFocus, placeholder, keyboardType, value, secureTextEntry, style } = this.props
+        const { theme, lastSavedTheme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
+        const { textValue } = this.state;
         const editable = !disabled;
         const currentTheme = theme || lastSavedTheme;
         const placeholderTextColor = this.getPlaceholderTextColor(currentTheme);
@@ -110,7 +119,7 @@ class CelInput extends Component {
             <TextInput
                 style={[cmpStyle.input, style]}
                 onChangeText={this.onChangeText}
-                value={value}
+                value={textValue}
                 autoFocus={autoFocus}
                 editable={editable}
                 maxLength={maxLenght}

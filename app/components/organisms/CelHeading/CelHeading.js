@@ -113,7 +113,7 @@ class CelHeading extends Component {
         <View style={leftStyle}>
           {this.getLeftContent(currentTheme)}
           {activeSearch && (
-            <View style={[style.center, { marginLeft: 12 }]}>
+            <View style={[{ width: '100%', height: 30, justifyContent: 'center', alignSelf: 'center', marginLeft: 12 }]}>
               <CelInput autoFocus={activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" value={formData.search} />
             </View>
           )}

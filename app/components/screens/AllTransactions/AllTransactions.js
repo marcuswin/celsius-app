@@ -4,23 +4,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
-import BalanceHistoryStyle from "./BalanceHistory.styles";
-import CelText from '../../atoms/CelText/CelText';
-import Card from "../../atoms/Card/Card";
+import AllTransactionsStyle from "./AllTransactions.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 
 @connect(
   state => ({
-    style: BalanceHistoryStyle(state.ui.theme),
+    style: AllTransactionsStyle(state.ui.theme),
     transactions: state.wallet.transactions,
     currencyRatesShort: state.generalData.currencyRatesShort
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class BalanceHistory extends Component {
+class AllTransactions extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -32,16 +29,11 @@ class BalanceHistory extends Component {
     super(props);
     this.state = {
       header: {
-        title: "Wallet",
+        title: "Transaction history",
         left: "back",
         right: "profile"
       }
     };
-  }
-
-  componentDidMount = () => {
-    const { actions } = this.props;
-    actions.getSupportedCurrencies();
   }
 
   getTransactions() {
@@ -61,16 +53,12 @@ class BalanceHistory extends Component {
 
     return (
       <RegularLayout header={header} >
-        <View>
-          <Card>
-            <CelText>Total wallet balance</CelText>
-            <CelText bold>{formatter.usd(12313.14)}</CelText>
-          </Card>
-          <TransactionsHistory transactions={transactions} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
+        <View style={{ width: '100%' }}>
+          <TransactionsHistory showAll transactions={transactions} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
         </View>
       </RegularLayout>
-    );
+    )
   }
 }
 
-export default testUtil.hookComponent(BalanceHistory);
+export default testUtil.hookComponent(AllTransactions);

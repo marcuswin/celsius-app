@@ -59,14 +59,13 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight, basic } = this.props;
+    const { iconRight, basic, children } = this.props;
     return (
-      <View style={{ marginLeft: 10 }}>
+      <View style={{ paddingLeft: children ? 10 : 0 }}>
         <Icon
           name={iconRight}
           height='26'
           width='26'
-          viewBox='0 0 26 26'
           fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3}
         />
       </View>

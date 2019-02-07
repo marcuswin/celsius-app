@@ -12,7 +12,7 @@ import * as appActions from "../../../redux/actions";
 import { THEMES } from '../../../constants/UI';
 import stylesUtil from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
-import { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } from '../../../config/constants/common';
+import DATA from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
 import STYLES from '../../../constants/STYLES';
 
@@ -78,17 +78,17 @@ class CelSelect extends Component {
   getItems = ({ type, items }) => {
     switch (type) {
       case 'title':
-        return PERSON_TITLE;
+        return DATA.PERSON_TITLE;
       case 'gender':
-        return GENDER;
+        return DATA.GENDER;
       case 'state':
-        return STATE;
+        return DATA.STATE;
       case 'day':
-        return DAYS;
+        return DATA.DAYS;
       case 'year':
-        return YEARS;
+        return DATA.YEARS;
       case 'month':
-        return MONTHS;
+        return DATA.MONTHS;
       default:
         return items;
     }

@@ -47,6 +47,7 @@ const SelectCoinStyle = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
+    elevation: 2
   },
   coinName: {
     marginTop: heightPercentageToDP("2.21%"),

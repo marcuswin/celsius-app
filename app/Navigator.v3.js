@@ -18,6 +18,7 @@ import CreatePin from "./components/screens/CreatePin/CreatePin";
 import RepeatPin from "./components/screens/RepeatPin/RepeatPin";
 import SelectCountry from "./components/screens/SelectCountry/SelectCountry";
 import BalanceHistory from "./components/screens/BalanceHistory/BalanceHistory";
+import AllTransactions from "./components/screens/AllTransactions/AllTransactions";
 import WalletInterest from "./components/screens/WalletInterest/WalletInterest";
 import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import { INITIAL_ROUTE } from "./constants/UI";
@@ -51,6 +52,7 @@ const walletScreens = {
   WalletLanding,
   WalletInterest,
   BalanceHistory,
+  AllTransactions,
   CoinDetails
 }
 
