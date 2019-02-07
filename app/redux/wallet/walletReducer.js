@@ -11,6 +11,7 @@ const TRANSACTION_TYPES = DATA.TRANSACTION_TYPES
 
 function initialState() {
   return {
+    summary: undefined,
     addresses: {},
     withdrawalAddresses: {},
     transactions: {},
@@ -28,6 +29,11 @@ export default function walletReducer(state = initialState(), action) {
   let currencies;
 
   switch (action.type) {
+    case ACTIONS.GET_WALLET_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        summary: action.wallet,
+      }
     case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
       return {
         ...state,

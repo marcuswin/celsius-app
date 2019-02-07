@@ -6,6 +6,7 @@ import apiUrl from './api-url';
 
 const walletService = {
   getWalletDetails,
+  getWalletSummary,
   getCoinAddress,
   getCoinOriginatingAddress,
   setCoinWithdrawalAddress,
@@ -18,6 +19,10 @@ const walletService = {
 
 function getWalletDetails() {
   return axios.get(`${apiUrl}/wallet`);
+}
+
+function getWalletSummary() {
+  return axios.get(`${apiUrl}/wallet/summary`);
 }
 
 function getCoinAddress(coin) {

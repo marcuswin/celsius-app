@@ -1,14 +1,31 @@
 // TODO(fj): export actions as object
 // TODO(fj): split into wallet and transactions
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from "../../config/constants/API";
+import ACTIONS from '../../constants/ACTIONS';
+import API from "../../constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
 import { analyticsEvents } from "../../utils/analytics-util";
 
+
+export function getWalletSummary() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_WALLET_SUMMARY));
+      const res = await walletService.getWalletSummary()
+
+      dispatch({
+        type: ACTIONS.GET_WALLET_SUMMARY_SUCCESS,
+        wallet: res.data,
+      })
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_WALLET_SUMMARY, err));
+    }
+  }
+}
 
 export function getWalletDetails() {
   return async dispatch => {
