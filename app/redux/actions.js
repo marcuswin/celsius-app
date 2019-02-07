@@ -15,4 +15,5 @@ export * from './apiKeys/apiKeysActions'
 export * from './app/appActions'
 export * from './camera/cameraActions'
 export * from './forms/formsActions'
+export * from './currencies/currenciesActions'
 // NOTE(fj): plop reduxGen importing new Actions here

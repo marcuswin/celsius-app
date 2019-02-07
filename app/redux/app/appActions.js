@@ -176,8 +176,11 @@ async function initAppData() {
   }
 
   // get general data for te app
-  await store.dispatch(actions.getSupportedCurrencies());
-  await store.dispatch(actions.getBlacklistedCountries());
+  await store.dispatch(actions.getCurrencyRates());
+  await store.dispatch(actions.getCurrencyGraphs());
+
+  // TODO: add compliance
+  // await store.dispatch(actions.getBlacklistedCountries());
 }
 
 
