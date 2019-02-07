@@ -2,7 +2,7 @@ import { TRANSACTION_TYPES } from "../config/constants/common";
 
 const transactionsUtil = {
   mapTransaction,
-  // filterTransactions,
+  filterTransactions,
 };
 
 function mapTransaction(transaction) {
@@ -44,9 +44,15 @@ function getTransactionType(transaction) {
   if (transaction.type === "outgoing") return TRANSACTION_TYPES.OUT;
 }
 
-// function filterTransactions(transactions, filter) {
-//   return [];
-// }
+// TODO(fj) add filter
+function filterTransactions(transactions) {
+  if (!transactions) return [];
+
+  const transactionIds = Object.keys(transactions);
+  const transactionArray = [];
+  transactionIds.forEach(tid => transactionArray.push(transactions[tid]));
+  return transactionArray;
+}
 
 
 export default transactionsUtil;
