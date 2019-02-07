@@ -21,8 +21,8 @@ function getDefaultEmptyState(purpose, actions) {
       image: require('../../../../assets/images/bear-happyKYC3x.png'),
       heading: 'Welcome',
       paragraphs: ['Ready to start exploring Celsius'],
-      button: 'Go Home',
-      onPress: () => actions.navigateTo('Home'),
+      button: 'Go to Wallet',
+      onPress: () => actions.navigateTo('WalletLanding'),
     },
     [EMPTY_STATES.ERROR]: {
       image: require('../../../../assets/images/illuNoKYC3x.png'),

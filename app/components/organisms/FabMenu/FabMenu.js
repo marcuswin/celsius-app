@@ -36,7 +36,8 @@ function getMenuItems(menu) {
   state => ({
     style: FabMenuStyle(state.ui.theme),
     fabMenuOpen: state.ui.fabMenuOpen,
-    theme: state.ui.theme
+    theme: state.ui.theme,
+    appInitialized: state.app.appInitialized,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -148,7 +149,10 @@ class FabMenu extends Component {
   }
 
   render() {
-    const { fabMenuOpen } = this.props
+    const { fabMenuOpen, appInitialized } = this.props
+
+    if (!appInitialized) return null;
+    
     const FabMenuCmp = this.renderFabMenu;
     const FabButton = this.renderFab;
 

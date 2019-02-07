@@ -22,7 +22,7 @@ import { THEMES } from '../../../constants/UI';
 class RegularLayout extends Component {
 
   static propTypes = {
-    header: PropTypes.instanceOf(Object).isRequired,
+    header: PropTypes.instanceOf(Object),
     padding: PropTypes.string,
     theme: PropTypes.oneOf(Object.values(THEMES))
   };
