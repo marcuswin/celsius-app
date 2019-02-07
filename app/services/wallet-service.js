@@ -12,7 +12,6 @@ const walletService = {
   setCoinWithdrawalAddress,
   getCoinTransactions,
   getCoinGraphData,
-  getAllTransactions,
   withdrawCrypto,
   getTransaction,
 };
@@ -50,10 +49,6 @@ function getCoinTransactions(coin) {
 
 function getCoinGraphData(coin, time = '7d') {
   return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/graph/${time}`);
-}
-
-function getAllTransactions() {
-  return axios.get(`${apiUrl}/wallet/transactions`);
 }
 
 function withdrawCrypto(coin, amount, verification) {

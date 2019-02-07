@@ -254,25 +254,3 @@ function getCoinTransactionsSuccess(transactions) {
     transactions,
   }
 }
-
-export function getAllTransactions() {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_ALL_TRANSACTIONS));
-
-      const res = await walletService.getAllTransactions();
-      dispatch(getAllTransactionsSuccess(res.data.transactions));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_ALL_TRANSACTIONS, err));
-    }
-  }
-}
-
-function getAllTransactionsSuccess(transactions) {
-  return {
-    type: ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS,
-    callName: API.GET_ALL_TRANSACTIONS,
-    transactions,
-  }
-}

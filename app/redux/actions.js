@@ -16,4 +16,5 @@ export * from './app/appActions'
 export * from './camera/cameraActions'
 export * from './forms/formsActions'
 export * from './currencies/currenciesActions'
+export * from './transactions/transactionsActions'
 // NOTE(fj): plop reduxGen importing new Actions here
