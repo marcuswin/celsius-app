@@ -17,21 +17,8 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
   state => ({
     style: CoinDetailsStyle(state.ui.theme),
     currencies: state.generalData.supportedCurrencies,
-    wallet: {
-      total_amount_usd: 1200,
-      wallet_diff_24h: -1.25,
-      total_interest_earned: 142,
-      coins: [
-        {
-          name: 'Bitcoin',
-          short: 'BTC',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123,
-          interest_earned: 12,
-        },
-      ]
-    },
+    walletSummary: state.wallet.summary,
+    transactions: state.transactions,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -57,6 +44,10 @@ class CoinDetails extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.actions.getAllTransactions({ limit: 5 })
+  }
+
   renderCard = (coin) => {
     const { actions } = this.props;
     // TODO(nk): create molecule component
@@ -70,10 +61,9 @@ class CoinDetails extends Component {
     )
   }
 
-
   render() {
     const { header } = this.state
-    const { wallet } = this.props
+    const { walletSummary } = this.props
 
     return (
       <RegularLayout header={header}>
@@ -84,7 +74,7 @@ class CoinDetails extends Component {
               flexDirection: 'row',
               alignItems: 'flex-start'
             }}>
-              {wallet.coins.map(this.renderCard)}
+              {walletSummary.coins.map(this.renderCard)}
             </View>
             <View>
               <TouchableOpacity style={{ flexDirection: "row" }}>

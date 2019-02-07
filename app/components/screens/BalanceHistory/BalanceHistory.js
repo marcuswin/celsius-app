@@ -11,17 +11,18 @@ import CelText from '../../atoms/CelText/CelText';
 import Card from "../../atoms/Card/Card";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
+import transactionsUtil from "../../../utils/transactions-util";
 
 @connect(
   state => ({
     style: BalanceHistoryStyle(state.ui.theme),
-    transactions: state.wallet.transactions,
-    currencyRatesShort: state.generalData.currencyRatesShort
+    walletSummary: state.wallet.summary,
+    transactions: state.transactions,
+    currencyRatesShort: state.currencies.currencyRatesShort,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BalanceHistory extends Component {
-
   static propTypes = {
     // text: PropTypes.string
   };
@@ -41,23 +42,13 @@ class BalanceHistory extends Component {
 
   componentDidMount = () => {
     const { actions } = this.props;
-    actions.getSupportedCurrencies();
-  }
-
-  getTransactions() {
-    const { transactions } = this.props;
-    if (!transactions) return [];
-
-    const transactionIds = Object.keys(transactions);
-    const transactionArray = [];
-    transactionIds.forEach(tid => transactionArray.push(transactions[tid]));
-    return transactionArray;
+    actions.getAllTransactions({ limit: 5 })
   }
 
   render() {
-    const { actions, currencyRatesShort } = this.props
+    const { transactions, actions, currencyRatesShort } = this.props
     const { header } = this.state;
-    const transactions = this.getTransactions();
+    const transactionsArray = transactionsUtil.filterTransactions(transactions);
 
     return (
       <RegularLayout header={header} >
@@ -66,7 +57,7 @@ class BalanceHistory extends Component {
             <CelText>Total wallet balance</CelText>
             <CelText bold>{formatter.usd(12313.14)}</CelText>
           </Card>
-          <TransactionsHistory transactions={transactions} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
+          <TransactionsHistory transactions={transactionsArray} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
         </View>
       </RegularLayout>
     );

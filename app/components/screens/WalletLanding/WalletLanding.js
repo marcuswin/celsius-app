@@ -17,54 +17,7 @@ import STYLES from "../../../constants/STYLES";
   state => ({
     style: WalletLandingStyle(state.ui.theme),
     currencies: state.generalData.supportedCurrencies,
-    // wallet: state.wallet.walletDetail,
-    wallet: {
-      total_amount_usd: 1200,
-      wallet_diff_24h: -1.25,
-      total_interest_earned: 142,
-      coins: [
-        {
-          name: 'Bitcoin',
-          short: 'BTC',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123, 
-          interest_earned: 12,
-        },
-        {
-          name: 'Ethereum',
-          short: 'ETH',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123, 
-          interest_earned: 12,
-        },
-        {
-          name: 'Stellar Lumens',
-          short: 'XLM',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123, 
-          interest_earned: 12,
-        },
-        {
-          name: 'Ripple',
-          short: 'XRP',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123, 
-          interest_earned: 12,
-        },
-        {
-          name: 'Bitcoin Cahs',
-          short: 'BCH',
-          amount_usd: 4200,
-          amount: 1.2,
-          interest_earned_usd: 123, 
-          interest_earned: 12,
-        },
-      ]
-    },
+    walletSummary: state.wallet.summary,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -100,7 +53,7 @@ class WalletLanding extends Component {
 
   render() {
     const { header } = this.state
-    const { actions, wallet } = this.props
+    const { actions, walletSummary } = this.props
 
 
     return (
@@ -113,8 +66,8 @@ class WalletLanding extends Component {
             <View style={{ flexDirection: "row", }}>
               <TouchableOpacity onPress={() => actions.navigateTo('BalanceHistory')}>
                 <CelText>Total Wallet balance</CelText>
-                <CelText bold>{formatter.usd(wallet.total_amount_usd)}</CelText>
-                <CelText color={STYLES.COLORS.RED}>{wallet.wallet_diff_24h}</CelText>
+                <CelText bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+                <CelText color={STYLES.COLORS.RED}>{walletSummary.wallet_diff_24h}</CelText>
               </TouchableOpacity>
               <View style={{
                 borderLeftWidth: 1,
@@ -123,7 +76,7 @@ class WalletLanding extends Component {
               }} />
               <TouchableOpacity onPress={() => actions.navigateTo('WalletInterest')}>
                 <CelText>Total Interest earned</CelText>
-                <CelText bold>{formatter.usd(wallet.total_interest_earned)}</CelText>
+                <CelText bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
               </TouchableOpacity>
             </View>
@@ -136,7 +89,7 @@ class WalletLanding extends Component {
             flexDirection: 'row',
             alignItems: 'flex-start'
           }}>
-            {wallet.coins.map(this.renderCard)}
+            {walletSummary.coins.map(this.renderCard)}
           </View>
         </View>
       </RegularLayout>
