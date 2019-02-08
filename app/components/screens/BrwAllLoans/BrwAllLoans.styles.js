@@ -9,8 +9,8 @@ const lightText = {
 const BrwAllLoansStyle = StyleSheet.create({
   loanRowWrapper: {
     flexDirection: 'row',
-    marginLeft: -20,
-    marginRight: -20,
+    marginLeft: 0,
+    marginRight: 0,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 1,

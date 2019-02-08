@@ -55,11 +55,13 @@ class BottomNavigation extends Component {
   // event hanlders
   goToScreen = (navItem) => {
     const { actions } = this.props;
+    actions.clearForm();
     actions.navigateTo(navItem.screen);
   }
 
   goToHomeScreen = () => {
     const { actions } = this.props;
+    actions.clearForm();
     actions.navigateTo('Home', true);
   }
   // rendering methods

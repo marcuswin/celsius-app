@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -115,8 +115,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-around',
     zIndex: 10,
-    marginLeft: -40,
-    marginRight: -40,
+    marginLeft: Platform.OS === 'ios' ? -40 : 0,
+    marginRight: Platform.OS === 'ios' ? -40 : 0,
   },
 }
 

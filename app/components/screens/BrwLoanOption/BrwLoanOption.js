@@ -57,7 +57,7 @@ class BRWLoanOption extends Component {
       <TouchableOpacity key={ltv.percent} onPress={() => this.selectOption(ltv)}>
         <Card style={{ marginVertical: 10, padding: 20, opacity: isOptionAvailable ? 1 : 0.5 }}>
           <Text style={globalStyles.normalText}>Loan option { i + 1 }</Text>
-          <Text style={[ globalStyles.heading, { textAlign: 'left'}]}>{ ltv.interest * 100}%</Text>
+          <Text style={[ globalStyles.heading, { textAlign: 'left'}]}>{ ltv.interest * 100}% interest</Text>
           <Text style={globalStyles.normalText}>Locking { displayAmount } as collateral</Text>
         </Card>
         { !isOptionAvailable && <Text style={[globalStyles.normalText, { color: COLORS.blue }]}>Deposit more funds</Text> }
