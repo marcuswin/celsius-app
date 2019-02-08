@@ -50,6 +50,7 @@ class BRWLoanOption extends Component {
 
   renderCard = (ltv, i) => {
     const { formData } = this.props;
+    if (!formData.coin) return null;
 
     const { collateralAmountCrypto, isOptionAvailable } = this.calculateAmounts(ltv);
     const displayAmount = formatter.crypto(collateralAmountCrypto, formData.coin, { precision: 5 })
