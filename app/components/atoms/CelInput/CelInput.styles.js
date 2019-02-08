@@ -38,6 +38,9 @@ const themed = {
         },
         input: {
             color: STYLES.COLORS.DARK_GRAY
+        },
+        textPlaceholderColor: {
+            color: STYLES.COLORS.DARK_GRAY_OPACITY
         }
     },
 
@@ -47,6 +50,9 @@ const themed = {
         },
         input: {
             color: STYLES.COLORS.WHITE
+        },
+        textPlaceholderColor: {
+            color: STYLES.COLORS.WHITE_OPACITY3
         }
     },
 
@@ -56,10 +62,13 @@ const themed = {
         },
         input: {
             color: STYLES.COLORS.DARK_GRAY
+        },
+        textPlaceholderColor: {
+            color: STYLES.COLORS.DARK_GRAY_OPACITY
         }
     }
 }
 
-const CelInputStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelInputStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
 
 export default CelInputStyle

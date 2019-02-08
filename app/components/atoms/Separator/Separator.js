@@ -5,54 +5,40 @@ import { View } from 'react-native';
 import testUtil from "../../../utils/test-util";
 
 import SeparatorStyle from "./Separator.styles";
-import STYLES from '../../../constants/STYLES';
 import CelText from '../CelText/CelText';
-import { THEMES } from '../../../constants/UI';
 
 class Separator extends Component {
 
   static propTypes = {
     text: PropTypes.string,
-    theme: PropTypes.oneOf(Object.values(THEMES)),
     vertical: PropTypes.bool,
     size: PropTypes.number,
     fontType: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     allCaps: PropTypes.bool,
   };
   static defaultProps = {
-    theme: THEMES.LIGHT,
     vertical: false,
     size: 1,
     fontType: 'H6',
     allCaps: true,
   }
 
-  getSeparatorColor = () => {
-    const { theme } = this.props;
-    switch (theme) {
-      case THEMES.LIGHT:
-        return STYLES.COLORS.MEDIUM_GRAY
-      case THEMES.DARK:
-        return STYLES.COLORS.WHITE_OPACITY3
-      case THEMES.CELSIUS:
-        return STYLES.COLORS.MEDIUM_GRAY
-    }
-  }
+  getSeparatorColor = (style) => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const { theme, size } = this.props
-    const style = SeparatorStyle(theme);
+    const { size } = this.props
+    const style = SeparatorStyle();
     const separatorColor = this.getSeparatorColor();
-    
+
     return (
       <View style={[style.separatorVertical, { backgroundColor: separatorColor, width: size }]} />
     )
   }
 
   renderLine = () => {
-    const { theme, size } = this.props
-    const style = SeparatorStyle(theme);
-    const separatorColor = this.getSeparatorColor();
+    const { size } = this.props
+    const style = SeparatorStyle();
+    const separatorColor = this.getSeparatorColor(style);
 
     return (
       <View style={[style.separator, { backgroundColor: separatorColor, height: size }]} />
@@ -60,8 +46,8 @@ class Separator extends Component {
   }
 
   renderWithText = () => {
-    const { theme, text, size, allCaps, fontType } = this.props
-    const style = SeparatorStyle(theme);
+    const { text, size, allCaps, fontType } = this.props
+    const style = SeparatorStyle();
     const separatorColor = this.getSeparatorColor();
 
     return (

@@ -15,7 +15,7 @@ import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
-    style: WalletLandingStyle(state.ui.theme),
+    style: WalletLandingStyle(),
     currencies: state.generalData.supportedCurrencies,
     walletSummary: state.wallet.summary,
   }),

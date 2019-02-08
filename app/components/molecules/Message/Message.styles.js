@@ -62,6 +62,6 @@ const themed = {
   celsius: {}
 };
 
-const MessageStyle = (theme) => getThemedStyle(theme, base, themed);
+const MessageStyle = () => getThemedStyle(base, themed);
 
 export default MessageStyle;

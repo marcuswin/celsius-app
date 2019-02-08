@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const SpinnerStyle = (theme) => getThemedStyle(theme, base, themed);
+const SpinnerStyle = () => getThemedStyle(base, themed);
 
 export default SpinnerStyle

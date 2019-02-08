@@ -11,7 +11,7 @@ import TransactionsHistory from '../../molecules/TransactionsHistory/Transaction
 
 @connect(
   state => ({
-    style: AllTransactionsStyle(state.ui.theme),
+    style: AllTransactionsStyle(),
     transactions: state.wallet.transactions,
     currencyRatesShort: state.generalData.currencyRatesShort
   }),

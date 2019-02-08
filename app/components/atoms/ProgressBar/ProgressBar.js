@@ -2,27 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
-
 import ProgressBarStyle from "./ProgressBar.styles";
-import { THEMES } from '../../../constants/UI';
+import testUtil from "../../../utils/test-util";
 
 class ProgressBar extends Component {
 
   static propTypes = {
-    theme: PropTypes.oneOf(Object.values(THEMES)).isRequired,
     steps: PropTypes.number.isRequired,
     currentStep: PropTypes.number.isRequired,
     width: PropTypes.number
 
   };
   static defaultProps = {
-    theme: THEMES.LIGHT,
   }
 
   renderSteps = () => {
-    const { steps, currentStep, theme } = this.props
-    const style = ProgressBarStyle(theme)
+    const { steps, currentStep } = this.props
+    const style = ProgressBarStyle()
     const views = [];
 
     for (let step = 1; step <= steps; step++) {
@@ -44,8 +40,7 @@ class ProgressBar extends Component {
   }
 
   render() {
-    const { theme } = this.props
-    const style = ProgressBarStyle(theme)
+    const style = ProgressBarStyle()
     const Steps = this.renderSteps;
     return (
       <View style={style.container}>

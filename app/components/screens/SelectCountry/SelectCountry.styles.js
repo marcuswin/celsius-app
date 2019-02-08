@@ -48,6 +48,6 @@ const themed = {
     }
 }
 
-const SelectCountryStyles = (theme) => getThemedStyle(theme, base, themed);
+const SelectCountryStyles = () => getThemedStyle(base, themed);
 
 export default SelectCountryStyles

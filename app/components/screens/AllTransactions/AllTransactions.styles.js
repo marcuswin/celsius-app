@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const AllTransactionStyle = (theme) => getThemedStyle(theme, base, themed);
+const AllTransactionStyle = () => getThemedStyle(base, themed);
 
 export default AllTransactionStyle

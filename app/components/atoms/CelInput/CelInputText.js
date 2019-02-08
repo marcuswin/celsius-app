@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -7,14 +7,9 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import CelInputStyle from "./CelInput.styles";
-import STYLES from '../../../constants/STYLES';
-import { THEMES } from '../../../constants/UI';
 
 @connect(
-    state => ({
-        cmpStyle: CelInputStyle(state.ui.theme),
-        lastSavedTheme: state.ui.theme
-    }),
+    () => ({}),
     dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelInput extends Component {
@@ -97,23 +92,14 @@ class CelInput extends Component {
     }
 
 
-    getPlaceholderTextColor = (theme) => {
-        switch (theme) {
-            case THEMES.LIGHT:
-                return STYLES.COLORS.DARK_GRAY_OPACITY
-            case THEMES.DARK:
-                return STYLES.COLORS.WHITE_OPACITY3
-            case THEMES.CELSIUS:
-                return STYLES.COLORS.DARK_GRAY_OPACITY
-        }
-    }
+    getPlaceholderTextColor = (style) => StyleSheet.flatten(style.textPlaceholderColor).color; // get color from raw json depending on style theme
+
     render() {
-        const { theme, lastSavedTheme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
+        const { theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
         const { textValue } = this.state;
         const editable = !disabled;
-        const currentTheme = theme || lastSavedTheme;
-        const placeholderTextColor = this.getPlaceholderTextColor(currentTheme);
-        const cmpStyle = CelInputStyle(currentTheme);
+        const cmpStyle = CelInputStyle(theme);
+        const placeholderTextColor = this.getPlaceholderTextColor(cmpStyle);
 
         return (
             <TextInput

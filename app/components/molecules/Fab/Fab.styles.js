@@ -33,6 +33,6 @@ const themed = {
     }
 }
 
-const FabStyle = (theme) => getThemedStyle(theme, base, themed);
+const FabStyle = () => getThemedStyle(base, themed);
 
 export default FabStyle

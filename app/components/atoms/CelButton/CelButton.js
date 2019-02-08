@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
 import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
 import stylesUtil from '../../../utils/styles-util';
@@ -14,12 +11,6 @@ import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 
-@connect(
-  state => ({
-    lastSavedTheme: state.ui.theme,
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CelButton extends Component {
 
   static propTypes = {
@@ -28,8 +19,7 @@ class CelButton extends Component {
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
     margin: PropTypes.string,
-    basic: PropTypes.bool,
-    theme: PropTypes.oneOf(Object.values(THEMES))
+    basic: PropTypes.bool
   };
   static defaultProps = {
     iconRight: undefined,
@@ -73,9 +63,7 @@ class CelButton extends Component {
   };
 
   renderLoader = () => {
-    const { theme, lastSavedTheme } = this.props;
-    const currentTheme = theme || lastSavedTheme;
-    const style = CelButtonStyle(currentTheme);
+    const style = CelButtonStyle();
     const buttonStyle = this.getButtonStyle(style);
 
     return (
@@ -86,9 +74,8 @@ class CelButton extends Component {
   }
 
   renderButton = () => {
-    const { children, iconRight, theme, lastSavedTheme } = this.props;
-    const currentTheme = theme || lastSavedTheme;
-    const style = CelButtonStyle(currentTheme);
+    const { children, iconRight } = this.props;
+    const style = CelButtonStyle();
     const buttonStyle = this.getButtonStyle(style);
     const titleStyle = this.getTitleStyle(style);
 

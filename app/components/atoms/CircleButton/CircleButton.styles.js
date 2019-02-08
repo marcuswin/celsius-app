@@ -39,6 +39,9 @@ const themed = {
         },
         textcoin: {
             color: STYLES.COLORS.DARK_GRAY
+        },
+        fillColor: {
+            color: STYLES.COLORS.DARK_GRAY
         }
     },
 
@@ -54,6 +57,9 @@ const themed = {
         },
         textcoin: {
             color: STYLES.COLORS.WHITE
+        },
+        fillColor: {
+            color: STYLES.COLORS.WHITE_OPACITY5
         }
     },
 
@@ -69,10 +75,13 @@ const themed = {
         },
         textcoin: {
             color: STYLES.COLORS.WHITE
+        },
+        fillColor: {
+            color: STYLES.COLORS.WHITE
         }
     }
 }
 
-const CircleButtonStyle = (theme) => getThemedStyle(theme, base, themed);
+const CircleButtonStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
 
 export default CircleButtonStyle

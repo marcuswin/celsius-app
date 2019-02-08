@@ -35,6 +35,6 @@ const themed = {
     }
 }
 
-const ProgressBarStyle = (theme) => getThemedStyle(theme, base, themed);
+const ProgressBarStyle = () => getThemedStyle(base, themed);
 
 export default ProgressBarStyle

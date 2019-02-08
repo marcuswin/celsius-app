@@ -15,7 +15,7 @@ import transactionsUtil from "../../../utils/transactions-util";
 
 @connect(
   state => ({
-    style: BalanceHistoryStyle(state.ui.theme),
+    style: BalanceHistoryStyle(),
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,

@@ -41,6 +41,6 @@ const themed = {
     }
 }
 
-const TransactionRowStyle = (theme) => getThemedStyle(theme, base, themed);
+const TransactionRowStyle = () => getThemedStyle(base, themed);
 
 export default TransactionRowStyle

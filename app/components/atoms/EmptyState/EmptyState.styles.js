@@ -22,6 +22,6 @@ const themed = {
   celsius: {}
 };
 
-const EmptyStateStyle = (theme) => getThemedStyle(theme, base, themed);
+const EmptyStateStyle = () => getThemedStyle(base, themed);
 
 export default EmptyStateStyle;

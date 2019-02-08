@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const BalanceHistoryStyle = (theme) => getThemedStyle(theme, base, themed);
+const BalanceHistoryStyle = () => getThemedStyle(base, themed);
 
 export default BalanceHistoryStyle

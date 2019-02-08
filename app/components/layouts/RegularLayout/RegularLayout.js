@@ -1,38 +1,27 @@
 import React, { Component } from 'react';
 import { ScrollView, SafeAreaView, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
 import RegularLayoutStyle from "./RegularLayout.styles";
 import CelHeading from '../../organisms/CelHeading/CelHeading';
 import CelText from '../../atoms/CelText/CelText';
 import KeyboardShift from '../../../utils/keyboard-shift-util';
 import stylesUtil from '../../../utils/styles-util';
-import { THEMES } from '../../../constants/UI';
 
-@connect(
-  state => ({
-    lastSavedTheme: state.ui.theme,
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class RegularLayout extends Component {
 
   static propTypes = {
     header: PropTypes.instanceOf(Object),
-    padding: PropTypes.string,
-    theme: PropTypes.oneOf(Object.values(THEMES))
+    padding: PropTypes.string
   };
   static defaultProps = {
     padding: '20 20 20 20'
   }
 
   render() {
-    const { theme, lastSavedTheme, children, header, padding } = this.props
-    const style = RegularLayoutStyle(theme || lastSavedTheme)
+    const { theme, children, header, padding } = this.props;
+    const style = RegularLayoutStyle(theme);
     const paddings = stylesUtil.getPadding(padding);
     return (
       <React.Fragment>
@@ -53,7 +42,6 @@ class RegularLayout extends Component {
             </KeyboardShift>
           </SafeAreaView>
         </ScrollView>
-
       </React.Fragment>
     );
   }

@@ -36,6 +36,6 @@ const themed = {
     },
 }
 
-const RegularLayoutStyle = (theme) => getThemedStyle(theme, base, themed);
+const RegularLayoutStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
 
 export default RegularLayoutStyle

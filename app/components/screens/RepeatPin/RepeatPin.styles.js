@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const RepeatPinStyle = (theme) => getThemedStyle(theme, base, themed);
+const RepeatPinStyle = () => getThemedStyle(base, themed);
 
 export default RepeatPinStyle

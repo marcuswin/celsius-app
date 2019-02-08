@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
-import STYLES from '../../../constants/STYLES';
-import { THEMES } from '../../../constants/UI';
 
 class CircleButton extends Component {
 
   static propTypes = {
-    theme: PropTypes.string.isRequired,
+    theme: PropTypes.string,
     style: PropTypes.oneOfType([
       PropTypes.number, // StyleSheet.create() returns number
       PropTypes.instanceOf(Object)
@@ -28,38 +26,17 @@ class CircleButton extends Component {
   static defaultProps = {
   }
 
-  getFillColor = () => {
-    const { theme, type } = this.props;
-    switch (theme) {
-      case THEMES.LIGHT:
-        return {
-          'menu': STYLES.COLORS.DARK_GRAY,
-          'theme': STYLES.COLORS.DARK_GRAY,
-          'coin': STYLES.COLORS.DARK_GRAY
-        }[type]
-      case THEMES.DARK:
-        return {
-          'menu': STYLES.COLORS.WHITE_OPACITY5,
-          'theme': STYLES.COLORS.WHITE_OPACITY5,
-          'coin': STYLES.COLORS.WHITE_OPACITY5
-        }[type]
-      case THEMES.CELSIUS:
-        return {
-          'menu': STYLES.COLORS.WHITE,
-          'theme': STYLES.COLORS.WHITE,
-          'coin': STYLES.COLORS.WHITE
-        }[type]
-    }
-  }
+  getFillColor = (style) => StyleSheet.flatten(style.fillColor).color; // get color from raw json depending on style theme
 
   render() {
     const { theme, style, onPress, text, icon, type } = this.props
     let fillColor = "";
     const styleCmp = CircleButtonStyle(theme);
     if (icon) {
-      fillColor = this.getFillColor();
+      fillColor = this.getFillColor(styleCmp);
     }
     const textStyle = [styleCmp.text, styleCmp[`text${type}`]];
+
     return (
       <TouchableOpacity style={[styleCmp.container, style]} onPress={onPress}>
         <View>

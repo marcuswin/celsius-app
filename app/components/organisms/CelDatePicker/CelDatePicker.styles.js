@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CelDatePickerStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelDatePickerStyle = () => getThemedStyle(base, themed);
 
 export default CelDatePickerStyle

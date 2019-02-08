@@ -16,7 +16,7 @@ import UI from "../../../constants/UI";
 
 @connect(
   state => ({
-    style: CelModalStyle(state.ui.theme),
+    style: CelModalStyle(),
     openedModal: state.ui.openedModal,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

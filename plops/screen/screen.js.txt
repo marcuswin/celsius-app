@@ -12,7 +12,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   state => ({
-    style: {{pascalCase name}}Style(state.ui.theme),
+    style: {{pascalCase name}}Style(),
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const DepositStyle = (theme) => getThemedStyle(theme, base, themed);
+const DepositStyle = () => getThemedStyle(base, themed);
 
 export default DepositStyle

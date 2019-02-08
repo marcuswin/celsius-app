@@ -17,6 +17,6 @@ const themed = {
     },
 }
 
-const HomeStyle = (theme) => getThemedStyle(theme, base, themed);
+const HomeStyle = () => getThemedStyle(base, themed);
 
 export default HomeStyle

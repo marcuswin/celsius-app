@@ -17,8 +17,6 @@ import Separator from '../../../components.v2/atoms/Separator/Separator';
 
 @connect(
   state => ({
-    style: SelectCountryStyles(state.ui.theme),
-    theme: state.ui.theme,
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -83,8 +81,7 @@ class SelectCountry extends Component {
     };
   }
 
-  getSelectStyle = (isActive = false) => {
-    const { style } = this.props;
+  getSelectStyle = (style, isActive = false) => {
     const itemStyle = [style.item];
     if (isActive) itemStyle.push(style.activeItem);
     return itemStyle;
@@ -104,10 +101,11 @@ class SelectCountry extends Component {
   }
 
   renderCountries = ({ item: country }) => {
-    const { actions, navigation, formData, style } = this.props;
+    const { actions, navigation, formData } = this.props;
+    const style = SelectCountryStyles();
     const field = navigation.getParam('field_name', 'NO-FIELD');
     const isActive = formData[field] && formData[field].name && formData[field].name.toLowerCase() === country.name.toLowerCase();
-    const itemStyle = this.getSelectStyle(isActive);
+    const itemStyle = this.getSelectStyle(style, isActive);
     const renderSeparator = this.isLastHighlitedCountry(country);
     return (
       <React.Fragment>
@@ -137,7 +135,8 @@ class SelectCountry extends Component {
 
   render() {
     const { filteredCountries } = this.state;
-    const itemStyle = this.getSelectStyle();
+    const style = SelectCountryStyles();
+    const itemStyle = this.getSelectStyle(style);
 
     return (
       <RegularLayout header={{

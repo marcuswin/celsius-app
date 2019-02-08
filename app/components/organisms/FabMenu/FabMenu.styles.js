@@ -25,6 +25,6 @@ const themed = {
     }
 }
 
-const FabMenuStyle = (theme) => getThemedStyle(theme, base, themed);
+const FabMenuStyle = () => getThemedStyle(base, themed);
 
 export default FabMenuStyle

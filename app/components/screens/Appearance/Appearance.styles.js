@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const AppearanceStyle = (theme) => getThemedStyle(theme, base, themed);
+const AppearanceStyle = () => getThemedStyle(base, themed);
 
 export default AppearanceStyle

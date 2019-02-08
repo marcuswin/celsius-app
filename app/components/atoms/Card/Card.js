@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, TouchableOpacity } from "react-native";
-import { THEMES } from "../../../constants/UI";
 
 import testUtil from "../../../utils/test-util";
 import stylesUtil from "../../../utils/styles-util";
@@ -9,7 +8,6 @@ import stylesUtil from "../../../utils/styles-util";
 import CardStyle from "./Card.styles";
 
 const Card = ({
-  theme = THEMES.LIGHT,
   margin = "10 0 10 0",
   padding = "20 20 20 20",
   size = "full",
@@ -17,7 +15,7 @@ const Card = ({
   styles = {},
   onPress = null
 }) => {
-  const style = CardStyle(theme);
+  const style = CardStyle();
 
   const paddingStyles = stylesUtil.getPadding(padding);
   const marginStyles = stylesUtil.getMargins(margin);
@@ -25,7 +23,7 @@ const Card = ({
 
   const card = (
     <View style={cardStyles}>
-      { children }
+      {children}
     </View>
   );
 
@@ -45,7 +43,6 @@ Card.propTypes = {
   padding: PropTypes.string,
   color: PropTypes.string,
   onPress: PropTypes.func,
-  theme: PropTypes.oneOf(Object.keys(THEMES)),
   size: PropTypes.oneOf(['full', 'half'])
 };
 

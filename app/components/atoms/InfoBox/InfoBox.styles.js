@@ -15,6 +15,6 @@ const themed = {
     }
 }
 
-const InfoBoxStyle = (theme) => getThemedStyle(theme, base, themed);
+const InfoBoxStyle = () => getThemedStyle(base, themed);
 
 export default InfoBoxStyle

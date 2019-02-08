@@ -11,8 +11,6 @@ import CircleButton from '../../atoms/CircleButton/CircleButton';
 
 @connect(
   state => ({
-    style: FabStyle(state.ui.theme),
-    theme: state.ui.theme,
     fabMenuOpen: state.ui.fabMenuOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -35,8 +33,10 @@ class Fab extends Component {
   }
 
   render() {
-    const { style, onPress } = this.props
+    const { onPress } = this.props
     const iconName = this.getIconName();
+    const style = FabStyle();
+
     return (
       <View style={style.container}>
         <CircleButton style={style.fabButtonStyle} type="menu" theme={'celsius'} onPress={onPress} icon={iconName} />

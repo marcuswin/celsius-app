@@ -15,7 +15,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   state => ({
-    style: CoinDetailsStyle(state.ui.theme),
+    style: CoinDetailsStyle(),
     currencies: state.generalData.supportedCurrencies,
     walletSummary: state.wallet.summary,
     transactions: state.transactions,

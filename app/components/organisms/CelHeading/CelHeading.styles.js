@@ -61,6 +61,6 @@ const themed = {
     },
 }
 
-const CelHeadingStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelHeadingStyle = () => getThemedStyle(base, themed);
 
 export default CelHeadingStyle

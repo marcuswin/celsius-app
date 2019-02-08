@@ -4,7 +4,7 @@
 
 import { Dimensions, Platform, PixelRatio, Text, TextInput, StyleSheet } from "react-native";
 import formatter from './formatter';
-import { THEMES } from "../constants/UI";
+import store from '../redux/store';
 // import _ from 'lodash';
 
 export default {
@@ -67,7 +67,7 @@ export function normalize(size) {
 
 }
 
-export function getThemedStyle(theme = THEMES.LIGHT, base, themed) {
+export function getThemedStyle(base, themed, theme = store.getState().ui.theme) {
   return StyleSheet.create(formatter.deepmerge(base, themed[theme]));
   // return StyleSheet.flatten([StyleSheet.create(base), StyleSheet.create(themed[theme])])
   // return StyleSheet.create(_.merge({ ...base }, { ...themed[theme] }));

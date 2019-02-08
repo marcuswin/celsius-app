@@ -7,16 +7,13 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
-import WalletInterestStyle from "./WalletInterest.styles";
 import CelText from '../../atoms/CelText/CelText';
 import Card from "../../atoms/Card/Card";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from "../../../constants/STYLES";
 
 @connect(
-  state => ({
-    style: WalletInterestStyle(state.ui.theme),
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletInterest extends Component {
@@ -39,8 +36,7 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { header } = this.state
-    // const { style } = this.props
+    const { header } = this.state;
 
     return (
       <RegularLayout header={header} >

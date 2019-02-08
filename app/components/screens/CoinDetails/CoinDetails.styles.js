@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CoinDetailsStyle = (theme) => getThemedStyle(theme, base, themed);
+const CoinDetailsStyle = () => getThemedStyle(base, themed);
 
 export default CoinDetailsStyle

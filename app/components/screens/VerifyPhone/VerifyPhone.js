@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import VerifyPhoneStyle from "./VerifyPhone.styles";
 import CelText from '../../atoms/CelText/CelText';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import CelInput from '../../atoms/CelInput/CelInput';
@@ -13,9 +12,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
-  state => ({
-    style: VerifyPhoneStyle(state.ui.theme),
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class VerifyPhone extends Component {

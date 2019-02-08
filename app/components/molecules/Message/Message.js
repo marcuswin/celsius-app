@@ -12,7 +12,7 @@ import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
-    style: MessageStyle(state.ui.theme),
+    style: MessageStyle(),
     message: state.ui.message
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

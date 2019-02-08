@@ -32,6 +32,6 @@ const themed = {
   celsius: {}
 };
 
-const CardStyle = (theme) => getThemedStyle(theme, base, themed);
+const CardStyle = () => getThemedStyle(base, themed);
 
 export default CardStyle;

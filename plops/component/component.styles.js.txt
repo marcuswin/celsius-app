@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const {{pascalCase name}}Style = (theme) => getThemedStyle(theme, base, themed);
+const {{pascalCase name}}Style = () => getThemedStyle(base, themed);
 
 export default {{pascalCase name}}Style

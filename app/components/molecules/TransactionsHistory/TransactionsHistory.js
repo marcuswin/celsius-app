@@ -10,7 +10,6 @@ import TransactionRow from '../../atoms/TransactionRow/TransactionRow';
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
-import { THEMES } from '../../../constants/UI';
 
 class TransactionsHistory extends Component {
 
@@ -21,8 +20,7 @@ class TransactionsHistory extends Component {
     navigateTo: PropTypes.func.isRequired
   };
   static defaultProps = {
-    showAll: false,
-    theme: THEMES.LIGHT
+    showAll: false
   }
 
   constructor(props) {
@@ -36,8 +34,8 @@ class TransactionsHistory extends Component {
   }
 
   render() {
-    const { theme, currencyRatesShort, transactions, navigateTo, showAll } = this.props
-    const style = TransactionsHistoryStyle(theme)
+    const { currencyRatesShort, transactions, navigateTo, showAll } = this.props
+    const style = TransactionsHistoryStyle()
 
     const orderedTransactionsByDate = transactions.sort((a, b) => {
       const date1 = moment(a.time)

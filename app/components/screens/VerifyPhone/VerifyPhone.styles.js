@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const VerifyPhoneStyle = (theme) => getThemedStyle(theme, base, themed);
+const VerifyPhoneStyle = () => getThemedStyle(base, themed);
 
 export default VerifyPhoneStyle

@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const RegisterStyle = (theme) => getThemedStyle(theme, base, themed);
+const RegisterStyle = () => getThemedStyle(base, themed);
 
 export default RegisterStyle

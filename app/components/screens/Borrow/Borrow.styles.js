@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const BorrowStyle = (theme) => getThemedStyle(theme, base, themed);
+const BorrowStyle = () => getThemedStyle(base, themed);
 
 export default BorrowStyle

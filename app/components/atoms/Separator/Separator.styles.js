@@ -1,5 +1,6 @@
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
 const base = {
     content: {
@@ -33,15 +34,24 @@ const base = {
 
 const themed = {
     light: {
+        separatorColor: {
+            color: STYLES.COLORS.MEDIUM_GRAY
+        }
     },
 
     dark: {
+        separatorColor: {
+            color: STYLES.COLORS.WHITE_OPACITY3
+        }
     },
 
     celsius: {
+        separatorColor: {
+            color: STYLES.COLORS.MEDIUM_GRAY
+        }
     }
 }
 
-const SeparatorStyle = (theme) => getThemedStyle(theme, base, themed);
+const SeparatorStyle = () => getThemedStyle(base, themed);
 
 export default SeparatorStyle

@@ -13,7 +13,7 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 
 @connect(
   state => ({
-    style: LoginStyle(state.ui.theme),
+    style: LoginStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

@@ -27,7 +27,7 @@ InfoBox.propTypes = {
   padding: PropTypes.string,
   color: PropTypes.string,
   onPress: PropTypes.func,
-  theme: PropTypes.oneOf(Object.keys(THEMES)),
+  theme: PropTypes.oneOf(Object.values(THEMES)),
   size: PropTypes.oneOf(['full', 'half'])
 }
 

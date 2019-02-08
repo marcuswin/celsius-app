@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const ProfileStyle = (theme) => getThemedStyle(theme, base, themed);
+const ProfileStyle = () => getThemedStyle(base, themed);
 
 export default ProfileStyle

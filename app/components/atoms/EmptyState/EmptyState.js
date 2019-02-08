@@ -54,9 +54,7 @@ function getDefaultEmptyState(purpose, actions) {
 }
 
 @connect(
-  state => ({
-    style: EmptyStateStyle(state.ui.theme),
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class EmptyState extends Component {
@@ -84,7 +82,9 @@ class EmptyState extends Component {
       ...this.state,
       ...this.props,
     };
-    const { image, style, heading, paragraphs, onPress, button, support, actions } = emptyStateProps;
+    const { image, heading, paragraphs, onPress, button, support, actions } = emptyStateProps;
+
+    const style = EmptyStateStyle();
 
     return (
       <View style={style.container}>
@@ -103,7 +103,7 @@ class EmptyState extends Component {
         ) : null}
 
         {support ? (
-          <CelButton onPress={() => { actions.navigateTo('Support')}} margin="8 0 8 0" basic>Contact support</CelButton>
+          <CelButton onPress={() => { actions.navigateTo('Support') }} margin="8 0 8 0" basic>Contact support</CelButton>
         ) : null}
       </View>
     );

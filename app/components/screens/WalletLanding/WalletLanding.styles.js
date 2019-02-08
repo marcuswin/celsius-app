@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const WalletLandingStyle = (theme) => getThemedStyle(theme, base, themed);
+const WalletLandingStyle = () => getThemedStyle(base, themed);
 
 export default WalletLandingStyle

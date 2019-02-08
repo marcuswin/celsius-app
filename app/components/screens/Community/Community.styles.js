@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CommunityStyle = (theme) => getThemedStyle(theme, base, themed);
+const CommunityStyle = () => getThemedStyle(base, themed);
 
 export default CommunityStyle

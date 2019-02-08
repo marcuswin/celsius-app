@@ -28,8 +28,7 @@ class {{pascalCase name}} extends Component {
   // event hanlders
   // rendering methods
   render() {
-    const { theme } = this.props
-    const style = {{pascalCase name}}Style(theme)
+    const style = {{pascalCase name}}Style()
     return (
       <View style={style.container}>
         <{{pascalCase name}} />

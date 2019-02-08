@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const SettingsStyle = (theme) => getThemedStyle(theme, base, themed);
+const SettingsStyle = () => getThemedStyle(base, themed);
 
 export default SettingsStyle

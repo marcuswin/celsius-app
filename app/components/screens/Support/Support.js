@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-// import { View, Text } from 'react-native';
-// import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-import SupportStyle from "./Support.styles";
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
 
-@connect(
-  state => ({
-    style: SupportStyle(state.ui.theme),
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
+
 class Support extends Component {
 
   static propTypes = {
@@ -35,8 +24,7 @@ class Support extends Component {
   }
 
   render() {
-    const { header } = this.state
-    // const { style } = this.props
+    const { header } = this.state;
     return (
       <StaticScreen
         header={header}

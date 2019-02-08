@@ -136,7 +136,6 @@ class TransactionRow extends Component {
   static propTypes = {
     transaction: PropTypes.instanceOf(Object).isRequired,
     onPress: PropTypes.func.isRequired
-
   };
   static defaultProps = {
   }
@@ -166,14 +165,14 @@ class TransactionRow extends Component {
   }
 
   render() {
-    const { theme, transaction, onPress } = this.props;
+    const { transaction, onPress } = this.props;
     const { type, color, iconName, statusText } = this.state;
     if (!type) return null;
 
     // console.log(transaction)
     // console.log({ type, color, iconName, statusText })
 
-    const style = TransactionRowStyle(theme)
+    const style = TransactionRowStyle()
     return (
       <View>
         <TouchableOpacity style={style.container} onPress={onPress}>

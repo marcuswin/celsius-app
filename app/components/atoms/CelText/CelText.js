@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
 import styleUtils, { getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES';
 import CelTextStyle from './CelText.styles';
 
-@connect(
-  state => ({
-    cmpStyle: CelTextStyle(state.ui.theme),
-    lastSavedTheme: state.ui.theme
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CelText extends Component {
 
   static propTypes = {
@@ -44,8 +33,8 @@ class CelText extends Component {
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
   getFontStyle = () => {
-    const { theme, type, bold, margin, color, align, lastSavedTheme } = this.props
-    const cmpStyle = CelTextStyle(theme || lastSavedTheme)
+    const { type, bold, margin, color, align } = this.props
+    const cmpStyle = CelTextStyle();
     const fontSize = { fontSize: this.getFontSize(type) };
     const boldStyle = bold ? { fontFamily: 'barlow-bold' } : {}
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!

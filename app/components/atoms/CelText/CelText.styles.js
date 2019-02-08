@@ -2,9 +2,9 @@ import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
-  text: {
-    fontFamily: 'barlow-regular',
-  }
+    text: {
+        fontFamily: 'barlow-regular',
+    }
 }
 
 const themed = {
@@ -27,6 +27,6 @@ const themed = {
     }
 }
 
-const CelTextStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelTextStyle = () => getThemedStyle(base, themed);
 
 export default CelTextStyle

@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 import RNPickerSelect from 'react-native-picker-select';
 import { lookup, countries } from "country-data";
 
 import testUtil from "../../../utils/test-util";
 import CelSelectStyle from "./CelSelect.styles";
-import * as appActions from "../../../redux/actions";
-import { THEMES } from '../../../constants/UI';
 import stylesUtil from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
 import DATA from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
-import STYLES from '../../../constants/STYLES';
 
-@connect(
-  state => ({
-    lastSavedTheme: state.ui.theme
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CelSelect extends Component {
 
   static propTypes = {
-    theme: PropTypes.oneOf(Object.values(THEMES)),
     type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone']),
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
@@ -94,41 +82,22 @@ class CelSelect extends Component {
     }
   }
 
-  getInputStyle = (theme) => {
+  getInputStyle = () => {
     const { disabled, margin, transparent } = this.props;
 
-    const cmpStyle = CelSelectStyle(theme);
+    const cmpStyle = CelSelectStyle();
     const style = [];
     if (!transparent) style.push(cmpStyle.container, stylesUtil.getMargins(margin))
     if (disabled) style.push(cmpStyle.disabledInput)
     return style;
   }
 
-  getIconColor = (theme) => {
-    switch (theme) {
-      case THEMES.LIGHT:
-        return STYLES.COLORS.DARK_GRAY_OPACITY
-      case THEMES.DARK:
-        return STYLES.COLORS.WHITE_OPACITY3
-      case THEMES.CELSIUS:
-        return STYLES.COLORS.DARK_GRAY_OPACITY
-    }
-  }
+  getIconColor = (style) => StyleSheet.flatten(style.iconColor).color; // get color from raw json depending on style theme
 
-  getTextColor = (theme) => {
+  getTextColor = (style) => {
     const { value } = this.state;
-    if (value) {
-      switch (theme) {
-        case THEMES.LIGHT:
-          return STYLES.COLORS.DARK_GRAY;
-        case THEMES.DARK:
-          return STYLES.COLORS.WHITE;
-        case THEMES.CELSIUS:
-          return STYLES.COLORS.DARK_GRAY;
-      }
-    } else {
-      return this.getIconColor(theme);
-    }
+    if (value) return StyleSheet.flatten(style.textColor).color; // get color from raw json depending on style theme
+    return this.getIconColor(style);
   }
 
   handlePickerSelect = (value) => {
@@ -140,14 +109,13 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { disabled, theme, lastSavedTheme, labelText, type, actions, field } = this.props;
+    const { disabled, labelText, type, actions, field } = this.props;
     const { visible, value } = this.state;
-    const currentTheme = theme || lastSavedTheme;
 
-    const inputStyle = this.getInputStyle(currentTheme);
-    const cmpStyle = CelSelectStyle(currentTheme);
-    const textColor = this.getTextColor(currentTheme);
-    const iconColor = this.getIconColor(currentTheme);
+    const inputStyle = this.getInputStyle();
+    const cmpStyle = CelSelectStyle();
+    const textColor = this.getTextColor(cmpStyle);
+    const iconColor = this.getIconColor(cmpStyle);
     let onPress = () => this.setState({ visible: !visible });
     if (type === 'country') {
       onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
@@ -187,7 +155,6 @@ class CelSelect extends Component {
 
   renderImage = (style, iso) => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
 
-  // rendering methods
   render() {
     const { type, flex, disabled, onChange } = this.props;
     const { items, value } = this.state;

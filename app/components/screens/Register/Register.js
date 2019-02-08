@@ -14,7 +14,7 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 
 @connect(
   state => ({
-    style: RegisterStyle(state.ui.theme),
+    style: RegisterStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

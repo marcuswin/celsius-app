@@ -13,7 +13,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
   state => ({
-    style: EnterPhoneStyle(state.ui.theme),
+    style: EnterPhoneStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

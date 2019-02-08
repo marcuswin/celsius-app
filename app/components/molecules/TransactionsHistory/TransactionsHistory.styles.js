@@ -29,6 +29,6 @@ const themed = {
     }
 }
 
-const TransactionsHistoryStyle = (theme) => getThemedStyle(theme, base, themed);
+const TransactionsHistoryStyle = () => getThemedStyle(base, themed);
 
 export default TransactionsHistoryStyle

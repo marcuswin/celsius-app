@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const AuthLayoutStyle = (theme) => getThemedStyle(theme, base, themed);
+const AuthLayoutStyle = () => getThemedStyle(base, themed);
 
 export default AuthLayoutStyle

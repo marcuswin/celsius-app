@@ -34,7 +34,6 @@ function getMenuItems(menu) {
 
 @connect(
   state => ({
-    style: FabMenuStyle(state.ui.theme),
     fabMenuOpen: state.ui.fabMenuOpen,
     theme: state.ui.theme,
     appInitialized: state.app.appInitialized,
@@ -108,7 +107,8 @@ class FabMenu extends Component {
   }
 
   renderMenuRow = (menuRow) => {
-    const { style } = this.props;
+    const style = FabMenuStyle();
+
     return (
       <View key={menuRow[0].label} style={style.menuItemsContainer}>
         {menuRow.map(this.renderMenuItem)}
@@ -122,7 +122,7 @@ class FabMenu extends Component {
   }
 
   renderFabMenu = () => {
-    const { style } = this.props;
+    const style = FabMenuStyle();
     const { menuItems, type } = this.state;
     const tintColor = this.getTintColor();
 
@@ -139,7 +139,7 @@ class FabMenu extends Component {
   }
 
   renderFab = () => {
-    const { style } = this.props
+    const style = FabMenuStyle();
     const { type } = this.state;
     return (
       <View style={style.container}>
@@ -152,7 +152,7 @@ class FabMenu extends Component {
     const { fabMenuOpen, appInitialized } = this.props
 
     if (!appInitialized) return null;
-    
+
     const FabMenuCmp = this.renderFabMenu;
     const FabButton = this.renderFab;
 

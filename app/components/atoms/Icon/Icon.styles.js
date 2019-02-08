@@ -16,6 +16,6 @@ const themed = {
     }
 }
 
-const IconStyle = (theme) => getThemedStyle(theme, base, themed);
+const IconStyle = () => getThemedStyle(base, themed);
 
 export default IconStyle

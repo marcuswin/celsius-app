@@ -1,31 +1,18 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
 import CelInputStyle from "./CelInput.styles";
 import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
-import { THEMES } from '../../../constants/UI';
 import CelSelect from '../../molecules/CelSelect/CelSelect';
 
-@connect(
-  state => ({
-    cmpStyle: CelInputStyle(state.ui.theme),
-    lastSavedTheme: state.ui.theme,
-    formData: state.forms.formData
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CelInput extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number']),
-    theme: PropTypes.oneOf(Object.values(THEMES)),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
     disabled: PropTypes.bool,
@@ -95,9 +82,8 @@ class CelInput extends Component {
 
   getInputStyle = () => {
     if (this.props.basic) return [];
-    const { disabled, margin, theme, lastSavedTheme } = this.props;
-    const currentTheme = theme || lastSavedTheme;
-    const cmpStyle = CelInputStyle(currentTheme)
+    const { disabled, margin } = this.props;
+    const cmpStyle = CelInputStyle()
     const { active } = this.state;
     const style = [cmpStyle.container, stylesUtil.getMargins(margin)];
     if (active) style.push(cmpStyle.activeInput)
@@ -106,7 +92,7 @@ class CelInput extends Component {
   }
 
   render() {
-    const { type, formData } = this.props
+    const { type, value } = this.props
     const inputStyle = this.getInputStyle();
 
     return {
@@ -121,9 +107,8 @@ class CelInput extends Component {
       'phone':
         <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
           <CelSelect {...this.props} />
-          <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={formData[`${this.props.field}.text`]} />
+          <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={value.text} />
         </View>,
-      // 'tel': ,
       // 'checkbox': ,
       // 'pin': ,
       // 'tfa': ,

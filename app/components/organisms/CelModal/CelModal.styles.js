@@ -77,6 +77,6 @@ const themed = {
     }
 }
 
-const CelModalStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelModalStyle = () => getThemedStyle(base, themed);
 
 export default CelModalStyle

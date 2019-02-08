@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const LoadingScreenStyle = (theme) => getThemedStyle(theme, base, themed);
+const LoadingScreenStyle = () => getThemedStyle(base, themed);
 
 export default LoadingScreenStyle

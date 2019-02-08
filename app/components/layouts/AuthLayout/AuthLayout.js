@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-import AuthLayoutStyle from "./AuthLayout.styles";
 import RegularLayout from '../RegularLayout/RegularLayout';
 import { THEMES } from '../../../constants/UI';
 
-@connect(
-  state => ({
-    style: AuthLayoutStyle(state.ui.theme),
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class AuthLayout extends Component {
 
   static propTypes = {

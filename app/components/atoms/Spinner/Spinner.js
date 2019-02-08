@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
 import { Animated } from 'react-native';
-// import Svg, { Circle } from "react-native-svg";
 import { Svg } from 'expo';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
 import { THEMES } from '../../../constants/UI';
 import STYLES from '../../../constants/STYLES';
 
-@connect(
-  state => ({
-    lastSavedTheme: state.ui.theme
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class Spinner extends Component {
 
   static propTypes = {
@@ -24,6 +14,7 @@ class Spinner extends Component {
     size: PropTypes.number
   };
   static defaultProps = {
+    theme: THEMES.LIGHT,
     size: 50
   }
 
@@ -32,6 +23,7 @@ class Spinner extends Component {
     this.state = {
       spinValue: new Animated.Value(0)
     };
+    this.animation = null;
   }
 
   componentDidMount = () => {
@@ -72,17 +64,16 @@ class Spinner extends Component {
   }
 
   render() {
-    const { theme, lastSavedTheme, size } = this.props
+    const { theme, size } = this.props
     const { spinValue } = this.state;
-    const currentTheme = theme || lastSavedTheme;
 
     // Second interpolate beginning and end values (in this case 0 and 1)
     const spin = spinValue.interpolate({
       inputRange: [0, 1],
       outputRange: ['0deg', '360deg']
     })
-    const strokeColor = this.getColor(currentTheme);
-    const opacity = currentTheme === THEMES.DARK ? 0.5 : 0.3;
+    const strokeColor = this.getColor(theme);
+    const opacity = theme === THEMES.DARK ? 0.5 : 0.3;
     const style = [{ transform: [{ rotate: spin }], width: size, height: size, opacity }];
     return (
       <Animated.View style={style}>

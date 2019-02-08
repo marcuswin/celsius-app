@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CreatePinStyle = (theme) => getThemedStyle(theme, base, themed);
+const CreatePinStyle = () => getThemedStyle(base, themed);
 
 export default CreatePinStyle

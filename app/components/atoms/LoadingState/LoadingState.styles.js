@@ -27,6 +27,6 @@ const themed = {
   celsius: {}
 };
 
-const LoadingStateStyle = (theme) => getThemedStyle(theme, base, themed);
+const LoadingStateStyle = () => getThemedStyle(base, themed);
 
 export default LoadingStateStyle;

@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const WalletInterestStyle = (theme) => getThemedStyle(theme, base, themed);
+const WalletInterestStyle = () => getThemedStyle(base, themed);
 
 export default WalletInterestStyle

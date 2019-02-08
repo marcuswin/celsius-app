@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const LoginStyle = (theme) => getThemedStyle(theme, base, themed);
+const LoginStyle = () => getThemedStyle(base, themed);
 
 export default LoginStyle

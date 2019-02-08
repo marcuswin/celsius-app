@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const SupportStyle = (theme) => getThemedStyle(theme, base, themed);
+const SupportStyle = () => getThemedStyle(base, themed);
 
 export default SupportStyle

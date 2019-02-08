@@ -78,6 +78,6 @@ const themed = {
     }
 }
 
-const CelButtonStyle = (theme) => getThemedStyle(theme, base, themed);
+const CelButtonStyle = () => getThemedStyle(base, themed);
 
 export default CelButtonStyle

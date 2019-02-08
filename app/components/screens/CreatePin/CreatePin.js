@@ -1,21 +1,11 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-import CreatePinStyle from "./CreatePin.styles";
 import CelText from '../../atoms/CelText/CelText';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
-@connect(
-  state => ({
-    style: CreatePinStyle(state.ui.theme),
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
+
 class CreatePin extends Component {
 
   static propTypes = {
