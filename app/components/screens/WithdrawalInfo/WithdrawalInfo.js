@@ -8,16 +8,19 @@ import testUtil from "../../../utils/test-util";
 
 import * as appActions from "../../../redux/actions";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
+import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import WithdrawalInfoStyle from "./WithdrawalInfo.styles";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
   state => ({
     formData: state.ui.formData,
+    withdrawCompliance: state.users.compliance.withdraw,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -31,9 +34,30 @@ class WithdrawalInfo extends Component {
     return currency === 'bch' && currentTimestamp.isAfter(bitcoinCashForkTimestamp);
   };
 
+  renderCompliance() {
+    const { withdrawCompliance, actions } = this.props
+    return (
+      <SimpleLayout
+        mainHeader={{ backButton: false }}
+        animatedHeading={{ text: 'Withdraw funds' }}
+      >
+        <EmptyState purpose={"Compliance"} text={withdrawCompliance.block_reason} />
+        <CelButton
+          onPress={() => actions.navigateTo('Home')}
+          margin="15 0 0 0"
+        >
+          Go to Wallet
+        </CelButton>
+      </SimpleLayout>
+    )
+  }
+
   render() {
-    const { actions, formData } = this.props;
+    const { actions, formData, withdrawCompliance } = this.props;
     const currencyCopy = formData.currency ? formData.currency.toUpperCase() : "coins";
+
+    if (!withdrawCompliance.allowed) return this.renderCompliance()
+
     return (
       <BasicLayout background="blue">
         <MainHeader

@@ -38,7 +38,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
       formData: state.ui.formData,
       walletAddresses,
       eligibleCoins,
-      complianceBlockReason: state.users.compliance.deposit.block_reason,
+      depositCompliance: state.users.compliance.deposit,
       activeScreen: state.nav.routes[state.nav.index].routeName,
       routes: state.nav.routes,
       supportedCurrencies: state.generalData.supportedCurrencies,
@@ -154,22 +154,31 @@ class AddFunds extends Component {
     Clipboard.setString(address);
   };
 
+  renderCompliance() {
+    const { depositCompliance, actions } = this.props
+    return (
+      <SimpleLayout
+        mainHeader={{ backButton: false }}
+        animatedHeading={{ text: 'Add Funds', textAlign: "center" }}
+      >
+        <EmptyState purpose={"Compliance"} text={depositCompliance.block_reason} />
+        <CelButton
+          onPress={() => actions.navigateTo('Home')}
+          margin="15 0 0 0"
+        >
+          Go to Wallet
+        </CelButton>
+      </SimpleLayout>
+    )
+  }
+
   render() {
     const { pickerItems, useAlternateAddress } = this.state;
-    const { formData, navigation, actions, appSettings, complianceBlockReason, eligibleCoins } = this.props;
+    const { formData, navigation, actions, appSettings, depositCompliance } = this.props;
+
+    if (!depositCompliance.allowed) return this.renderCompliance()
 
     const navCurrency = navigation.getParam("currency");
-    if (navCurrency && eligibleCoins.indexOf(navCurrency.toUpperCase()) === -1) {
-      return (
-        <SimpleLayout
-          mainHeader={{ onCancel: this.goBack, backButton: false }}
-          animatedHeading={{ text: headingText, textAlign: "center" }}
-          background={STYLES.PRIMARY_BLUE}
-        >
-          <EmptyState purpose={"Compliance"} text={complianceBlockReason} color={"white"} />
-        </SimpleLayout>
-      )
-    }
     let address;
     let addressXrp;
     let addressXlm;
