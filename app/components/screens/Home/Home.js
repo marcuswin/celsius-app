@@ -8,8 +8,6 @@ import * as appActions from "../../../redux/actions";
 import { KYC_STATUSES } from "../../../config/constants/common";
 import store from "../../../redux/store";
 import {
-  isBlacklistedCountryLocation,
-  isBlacklistedStateLocation,
   shouldRenderInitialIdVerification
 } from "../../../utils/user-util";
 import Message from "../../atoms/Message/Message";
@@ -95,7 +93,7 @@ class HomeScreen extends Component {
   };
 
   navigateToFirstScreen = () => {
-    const { user, userActions, actions, location, isAppAllowed } = this.props;
+    const { user, userActions, actions, isAppAllowed } = this.props;
 
     if (!user) return actions.navigateTo('Welcome');
 
@@ -103,8 +101,6 @@ class HomeScreen extends Component {
     if (!user.has_pin) return actions.navigateTo('CreatePasscode');
 
     if (!isAppAllowed) return actions.navigateTo("Compliance");
-
-    if (!user.whitelisted_by_location && location && (isBlacklistedCountryLocation(location.country) || isBlacklistedStateLocation(location.region))) return actions.navigateTo("Offline");
 
     if (shouldRenderInitialIdVerification(userActions)) {
       return actions.navigateTo('VerifyIdentity', {

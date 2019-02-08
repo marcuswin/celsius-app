@@ -25,6 +25,7 @@ import { FONT_SCALE } from "../../../config/constants/style";
     walletTotal: state.wallet.total,
     walletCurrencies: state.wallet.currencies,
     coinOrder: state.wallet.coinOrder,
+    depositCompliance: state.users.compliance.deposit,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -103,7 +104,7 @@ class WalletDetailsHeading extends Component {
   // };
 
   render() {
-    const { currency, type, walletTotal, walletCurrencies, appSettings } = this.props;
+    const { currency, type, walletTotal, walletCurrencies, appSettings, depositCompliance } = this.props;
     // const { isPressed } = this.state;
     const total = get(walletTotal, 'quotes.USD.total', 0)
     const walletDataCurrency = (walletCurrencies != null && currency !== 'total') && walletCurrencies.find(w => w.currency.short.toLowerCase() === currency);
@@ -130,7 +131,7 @@ class WalletDetailsHeading extends Component {
           <Icon name="IconChevronRight" height='20' width='20' fill="white" viewBox="0 0 22 22" />
         </TouchableOpacity>
       </View>
-      {type === 'single-coin' && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
+      {type === 'single-coin' && depositCompliance.coins.includes(currency.toUpperCase()) && <View style={WalletDetailsHeadingStyle.buttonWrapper}>
         <CelButton ref={testUtil.generateTestHook(this, `WalletDetailsHeading.add`)} width={110} size="mini" disabled={appSettings.declineAccess} white onPress={this.goToAddFunds}>Add {currency.toUpperCase()}</CelButton>
       </View>}
     </View>
