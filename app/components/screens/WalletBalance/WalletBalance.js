@@ -14,6 +14,8 @@ import formatter from "../../../utils/formatter";
 import { MODALS } from "../../../config/constants/common";
 import { analyticsEvents } from "../../../utils/analytics-util";
 import { LoadingSection } from '../../organisms/LoadingSection/LoadingSection';
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 
 @connect(
@@ -22,6 +24,7 @@ import { LoadingSection } from '../../organisms/LoadingSection/LoadingSection';
     collateral: state.wallet.collateral,
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
+    withdrawCompliance: state.users.compliance.withdrawCompliance,
     activeScreen: state.nav.routes[state.nav.index].routeName,
     appSettings: state.users.appSettings,
   }),
@@ -43,13 +46,31 @@ class WalletBalance extends Component {
     actions.getSupportedCurrencies();
   }
 
-  openTodayRatesModal = () => {
-    const { actions } = this.props;
-
-    actions.openModal(MODALS.TODAY_RATES_MODAL);
-  };
-
   // event hanlders
+  // rendering methods
+  getWithdrawalInfoCard() {
+    const { withdrawCompliance } = this.props;
+
+    if (withdrawCompliance && withdrawCompliance.allowed && withdrawCompliance.block_reason) {
+      return (
+        <InfoBubble
+          title="Warning!"
+          color="red"
+          margin="15 0 10 0"
+          renderContent={() => (
+            <View>
+              <Text style={[globalStyles.normalText, { color: 'white' }]}>
+                {withdrawCompliance.block_reason}
+              </Text>
+            </View>
+          )}
+        />
+      )
+    }
+
+    return null;
+  }
+
   clickCard = (short, amount) => {
     const { actions, appSettings } = this.props;
     if (!amount) {
@@ -63,7 +84,13 @@ class WalletBalance extends Component {
     }
     analyticsEvents.pressWalletCard(short);
   }
-  // rendering methods
+
+  openTodayRatesModal = () => {
+    const { actions } = this.props;
+
+    actions.openModal(MODALS.TODAY_RATES_MODAL);
+  };
+
   render() {
     const { walletCurrencies, supportedCurrencies, interest, collateral } = this.props;
 
@@ -72,6 +99,7 @@ class WalletBalance extends Component {
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
+    const withdrawalInfoCard = this.getWithdrawalInfoCard();
     if (!walletCurrencies || !supportedCurrencies)
       return (
         <WalletLayout>
@@ -87,6 +115,7 @@ class WalletBalance extends Component {
 
     return (
       <WalletLayout ref={testUtil.generateTestHook(this, 'WalletBalance.screen')}>
+        { withdrawalInfoCard }
         {(!!totalInterestEarned) && <Card style={{ marginTop: 15 }}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>

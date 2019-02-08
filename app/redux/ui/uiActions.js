@@ -234,6 +234,7 @@ function openInitialModal() {
     const openedModal = getState().ui.openedModal;
     const appSettings = getState().users.appSettings;
     const user = getState().users.user;
+    const compliance = getState().users.compliance;
     const branchHashes = getState().transfers.branchHashes;
     const kyc = getState().users.user.kyc.realStatus;
 
@@ -242,7 +243,7 @@ function openInitialModal() {
     }
 
     if (user && user.kyc.status === "passed") {
-      if (user.blocked_at || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
+      if (!compliance.app.allowed || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
       if (!user.street && !user.zip && !user.city) {
         return dispatch(openModal(MODALS.NYC_BLACKOUT));
       }
