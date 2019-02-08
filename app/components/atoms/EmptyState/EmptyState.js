@@ -46,7 +46,7 @@ const EmptyState = (props) => {
         {title}
       </Text>
 
-      <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 40, marginLeft: 40 }, coloredStyle]}>
+      <Text style={[globalStyles.normalText, { textAlign: "center", marginRight: 10, marginLeft: 10 }, coloredStyle]}>
         {text}
       </Text>
     </View>
