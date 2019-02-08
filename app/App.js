@@ -35,7 +35,7 @@ export default class App extends Component {
     AppState.removeEventListener('change');
   }
 
-  initApp = async () => await store.dispatch(actions.loadCelsiusAssets());
+  initApp = async () => await store.dispatch(await actions.loadCelsiusAssets());
 
   render() {
     const { isReady } = this.state;
