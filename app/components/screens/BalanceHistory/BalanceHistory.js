@@ -55,7 +55,7 @@ class BalanceHistory extends Component {
         <View>
           <Card>
             <CelText>Total wallet balance</CelText>
-            <CelText bold>{formatter.usd(12313.14)}</CelText>
+            <CelText bold>{formatter.usd()}</CelText>
           </Card>
           <TransactionsHistory transactions={transactionsArray} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
         </View>
