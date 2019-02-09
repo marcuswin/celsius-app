@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import { TRANSACTION_TYPES } from "../config/constants/common";
 
 const transactionsUtil = {
@@ -51,8 +53,26 @@ function filterTransactions(transactions) {
   const transactionIds = Object.keys(transactions);
   const transactionArray = [];
   transactionIds.forEach(tid => transactionArray.push(transactions[tid]));
-  return transactionArray;
+
+  return orderTransactionsByDate(transactionArray);
 }
+
+function orderTransactionsByDate(transactions = []) {
+  return transactions.sort((a, b) => {
+    const date1 = moment(a.time)
+    const date2 = moment(b.time)
+
+    if (date1.isAfter(date2)) {
+      return -1;
+    }
+    if (date1.isBefore(date2)) {
+      return 1;
+    }
+
+    return 0;
+  });
+}
+
 
 
 export default transactionsUtil;

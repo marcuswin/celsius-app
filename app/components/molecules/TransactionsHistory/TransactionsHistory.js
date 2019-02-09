@@ -37,21 +37,7 @@ class TransactionsHistory extends Component {
     const { currencyRatesShort, transactions, navigateTo, showAll } = this.props
     const style = TransactionsHistoryStyle()
 
-    const orderedTransactionsByDate = transactions.sort((a, b) => {
-      const date1 = moment(a.time)
-      const date2 = moment(b.time)
-
-      if (date1.isAfter(date2)) {
-        return -1;
-      }
-      if (date1.isBefore(date2)) {
-        return 1;
-      }
-
-      return 0;
-    });
-
-    let transactionsDisplay = currencyRatesShort ? orderedTransactionsByDate.map(t => ({
+    let transactionsDisplay = currencyRatesShort ? transactions.map(t => ({
       id: t.id,
       amount: t.amount,
       amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
@@ -91,7 +77,7 @@ class TransactionsHistory extends Component {
           }
           keyExtractor={(item) => item.id}
         />
-        {currencyRatesShort && orderedTransactionsByDate.length > 5 && !showAll ?
+        {currencyRatesShort && transactions.length > 5 && !showAll ?
           <CelButton basic onPress={() => navigateTo('AllTransactions')}>See all</CelButton>
           : null
         }

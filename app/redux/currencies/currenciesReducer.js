@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export default function currenciesReducer(state = initialState, action) {
-  let currencyRatesShort;
+  const currencyRatesShort = {};
 
   switch (action.type) {
     case ACTIONS.GET_CURRENCY_RATES_SUCCESS:
