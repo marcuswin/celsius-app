@@ -4,7 +4,12 @@ import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
 import currencies from "../../services/currencies-service";
 
-export function getCurrencyRates() {
+export {
+  getCurrencyRates,
+  getCurrencyGraphs,
+}
+
+function getCurrencyRates() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_CURRENCY_RATES))
@@ -21,7 +26,7 @@ export function getCurrencyRates() {
   }
 }
 
-export function getCurrencyGraphs() {
+function getCurrencyGraphs() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_CURRENCY_GRAPHS))

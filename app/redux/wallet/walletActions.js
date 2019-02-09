@@ -9,8 +9,26 @@ import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
 import { analyticsEvents } from "../../utils/analytics-util";
 
+export {
+  // new v3
+  getWalletSummary,
 
-export function getWalletSummary() {
+  // keep, maybe refactor
+  getCoinAddress,
+  getCoinWithdrawalAddress,
+  setCoinWithdrawalAddress,
+  withdrawCrypto,
+  setCoinWithdrawalAddressAndWithdrawCrypto,
+
+  // remove
+  getWalletDetails,
+  getCoinTransactions,
+  getTransactionDetails, // move to transactions
+  storePin, // check use, and move somewhere else...
+}
+
+
+function getWalletSummary() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_WALLET_SUMMARY));
@@ -27,7 +45,7 @@ export function getWalletSummary() {
   }
 }
 
-export function getWalletDetails() {
+function getWalletDetails() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_WALLET_DETAILS));
@@ -54,7 +72,7 @@ function getWalletDetailsSuccess(wallet) {
   }
 }
 
-export function getCoinAddress(coin) {
+function getCoinAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ADDRESS));
@@ -79,7 +97,7 @@ function getCoinAddressSuccess(address) {
   }
 }
 
-export function getCoinWithdrawalAddress(coin) {
+function getCoinWithdrawalAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
@@ -102,7 +120,7 @@ export function getCoinWithdrawalAddress(coin) {
  * @param {string} coin
  * @param {string} address
  */
-export function setCoinWithdrawalAddress(coin, address) {
+function setCoinWithdrawalAddress(coin, address) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
@@ -125,7 +143,7 @@ export function setCoinWithdrawalAddress(coin, address) {
  * @param {number} amount
  * @param {Object} verification
  */
-export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
+function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;
 
   return async dispatch => {
@@ -176,7 +194,7 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
-export function withdrawCrypto(coin, amount, verification) {
+function withdrawCrypto(coin, amount, verification) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
@@ -207,11 +225,11 @@ function withdrawCryptoSuccess(transaction) {
   }
 }
 
-export function storePin(pin) {
+function storePin(pin) {
   return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
 }
 
-export function getTransactionDetails(transactionId) {
+function getTransactionDetails(transactionId) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
@@ -233,7 +251,7 @@ function getTransactionDetailsSuccess(transaction) {
   }
 }
 
-export function getCoinTransactions(coin) {
+function getCoinTransactions(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_TRANSACTIONS));

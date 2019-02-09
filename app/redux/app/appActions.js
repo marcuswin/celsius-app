@@ -24,7 +24,17 @@ const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 // --------------------------------------------------------------------------------------
 
-export function initCelsiusApp() {
+export {
+  initCelsiusApp,
+  resetCelsiusApp,
+  loadCelsiusAssets,
+  finishLoadingAssets,
+  handleAppStateChange,
+  setInternetConnection,
+}
+
+
+function initCelsiusApp() {
   return async (dispatch, getState) => {
     if (getState().app.appInitializing) return;
 
@@ -53,7 +63,7 @@ export function initCelsiusApp() {
   };
 }
 
-export function resetCelsiusApp() {
+function resetCelsiusApp() {
   return async (dispatch) => {
     try {
       // Logout user
@@ -69,7 +79,7 @@ export function resetCelsiusApp() {
   };
 }
 
-export function loadCelsiusAssets() {
+function loadCelsiusAssets() {
   return async dispatch => {
     dispatch({ type: ACTIONS.START_LOADING_ASSETS })
 
@@ -82,14 +92,14 @@ export function loadCelsiusAssets() {
   }
 }
 
-export function finishLoadingAssets() {
+function finishLoadingAssets() {
   return { type: ACTIONS.FINISH_LOADING_ASSETS }
 }
 
 const ASK_FOR_PIN_AFTER = 25 * 1000;
 let pinTimeout;
 let startOfBackgroundTimer;
-export function handleAppStateChange(nextAppState) {
+function handleAppStateChange(nextAppState) {
   return (dispatch, getState) => {
     const { profile } = getState().user;
     const { appState } = getState().app;
@@ -130,7 +140,7 @@ export function handleAppStateChange(nextAppState) {
   }
 }
 
-export function setInternetConnection(connection) {
+function setInternetConnection(connection) {
   return {
     type: ACTIONS.SET_INTERNET_CONNECTION,
     internetConnected: connection,

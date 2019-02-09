@@ -4,7 +4,11 @@ import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
 import transactions from "../../services/transactions-service";
 
-export function getAllTransactions({ limit, type, coin }) {
+export {
+  getAllTransactions
+}
+
+function getAllTransactions({ limit, type, coin }) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_ALL_TRANSACTIONS))

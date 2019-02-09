@@ -10,6 +10,7 @@ const initialState = {
 export default (state = initialState, action) => {
   const callsInProgress = [ ...state.callsInProgress ];
   const history = [ ...state.history ];
+  let callName
 
 
   if (action.type === ACTIONS.START_API_CALL) {
@@ -42,12 +43,13 @@ export default (state = initialState, action) => {
 
   // Finish successful api call
   if (action.type.includes('_SUCCESS')) {
-    callsInProgress.splice(callsInProgress.indexOf(action.callName), 1);
-    history.unshift(`${action.callName}_SUCCESS`);
+    callName = action.callName || action.type.slice(0,-8)
+    callsInProgress.splice(callsInProgress.indexOf(callName), 1);
+    history.unshift(`${callName}_SUCCESS`);
     return {
       ...state,
       callsInProgress,
-      lastCompletedCall: action.callName,
+      lastCompletedCall: callName,
       history,
     }
   }
