@@ -1,4 +1,4 @@
-import ACTIONS from "../../config/constants/ACTIONS";
+import ACTIONS from "../../constants/ACTIONS";
 import { BRANCH_LINKS } from "../../config/constants/common";
 
 const initialState = {

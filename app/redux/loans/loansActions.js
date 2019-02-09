@@ -1,7 +1,7 @@
 // TODO(fj): check what to do with mapping before api calls
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from '../../config/constants/API';
+import ACTIONS from '../../constants/ACTIONS';
+import API from '../../constants/API';
 import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";

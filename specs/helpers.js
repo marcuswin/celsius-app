@@ -1,6 +1,6 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import ACTIONS from "../app/config/constants/ACTIONS";
+import ACTIONS from "../app/constants/ACTIONS";
 
 
 const { dispatch, getState } = store;

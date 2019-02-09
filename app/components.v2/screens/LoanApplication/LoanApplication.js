@@ -17,7 +17,7 @@ import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import CelForm from "../../atoms/CelForm/CelForm";
 import Icon from "../../atoms/Icon/Icon";
 import LtvModal from "../../organisms/LtvModal/LtvModal";

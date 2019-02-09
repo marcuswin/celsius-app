@@ -1,7 +1,7 @@
 // TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 import { MODALS } from "../../config/constants/common";
 import { screens } from '../../config/Navigator';
 

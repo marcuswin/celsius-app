@@ -1,4 +1,4 @@
-import ACTIONS from "../../config/constants/ACTIONS";
+import ACTIONS from "../../constants/ACTIONS";
 import { INITIAL_ROUTE } from "../../constants/UI";
 
 const initialState = {

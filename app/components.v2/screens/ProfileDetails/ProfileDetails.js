@@ -14,7 +14,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelSelect from "../../molecules/CelSelect/CelSelect";
 import CelForm from "../../atoms/CelForm/CelForm";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import testUtil from "../../../utils/test-util";
 
 @connect(

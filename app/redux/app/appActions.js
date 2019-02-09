@@ -12,7 +12,7 @@ import {
 } from "../../utils/expo-storage";
 import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
-import ACTIONS from "../../config/constants/ACTIONS";
+import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";
 import appUtil from "../../utils/app-util";

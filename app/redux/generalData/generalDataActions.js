@@ -2,13 +2,15 @@ import { showMessage } from "../ui/uiActions";
 import generalDataService from "../../services/general-data-service";
 import kycService from "../../services/kyc-service";
 import { apiError, startApiCall } from "../api/apiActions";
-import API from "../../config/constants/API";
-import ACTIONS from '../../config/constants/ACTIONS';
+import API from "../../constants/API";
+import ACTIONS from '../../constants/ACTIONS';
 
 export {
-  getSupportedCurrencies,
   getKYCDocTypes,
   getBackendStatus,
+
+  // remove
+  getSupportedCurrencies,
   getBlacklistedCountries,
 }
 

@@ -1,7 +1,7 @@
 // TODO(fj): check if we need appSettings anymore? *needed for permission decline check (blackout!)
 // TODO(fj): map user with additional props
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 
 const initialState = {
   userLocation: undefined,

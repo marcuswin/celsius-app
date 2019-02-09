@@ -1,9 +1,9 @@
-import ACTIONS from "../../config/constants/ACTIONS";
+import ACTIONS from "../../constants/ACTIONS";
 import * as transfersActions from "../transfers/transfersActions";
 import * as uiActions from "../ui/uiActions";
 import branchService from "../../services/branch-service";
 import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
-import API from "../../config/constants/API";
+import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { createIndividualLinkBUO } from "../../utils/branch-util";
 import logger from "../../utils/logger-util";

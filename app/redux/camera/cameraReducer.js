@@ -1,6 +1,6 @@
 import { Camera } from "expo";
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 
 const initialState = {
     cameraRollPhotos: [],

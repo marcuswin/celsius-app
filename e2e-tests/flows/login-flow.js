@@ -1,5 +1,5 @@
 import { resetTests, callToComplete, containsText, waitForExists, resetNonKycUser, waitToFindComponent } from "../helpers";
-import API from "../../app/config/constants/API";
+import API from "../../app/constants/API";
 
 export default {
   // Init login screen

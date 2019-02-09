@@ -12,7 +12,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletTransactionsStyle from "./WalletTransactions.styles";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import { LoadingSection } from "../../organisms/LoadingSection/LoadingSection";
 
 

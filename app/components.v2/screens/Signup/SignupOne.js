@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import _ from 'lodash';
 import testUtil from "../../../utils/test-util";
 
-import API from '../../../config/constants/API';
+import API from '../../../constants/API';
 import apiUtil from '../../../utils/api-util';
 import Separator from '../../atoms/Separator/Separator';
 import CelButton from "../../atoms/CelButton/CelButton";

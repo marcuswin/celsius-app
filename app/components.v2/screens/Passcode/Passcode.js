@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import testUtil from "../../../utils/test-util";
 
-import API from '../../../config/constants/API';
+import API from '../../../constants/API';
 import apiUtil from '../../../utils/api-util';
 import CatImage from '../../../../assets/images/avatar-cat-2.png'
 import * as appActions from "../../../redux/actions";

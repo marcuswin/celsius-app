@@ -1,7 +1,7 @@
 import store from '../../app/redux/store';
 import * as actions from '../../app/redux/actions';
 import { resetTests, containsText, resetNonKycUser, callToComplete, waitForExists } from "../helpers";
-import API from "../../app/config/constants/API";
+import API from "../../app/constants/API";
 
 
 const { dispatch } = store;

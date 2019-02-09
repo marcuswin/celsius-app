@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import API from '../../../config/constants/API';
+import API from '../../../constants/API';
 import apiUtil from '../../../utils/api-util';
 import LoginFormStyles from './LoginForm.styles'
 import CelInput from "../../atoms/CelInput/CelInput";

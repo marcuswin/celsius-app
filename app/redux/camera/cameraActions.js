@@ -1,10 +1,10 @@
 import { CameraRoll } from "react-native";
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 import * as navActions from '../nav/navActions';
 import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
-import API from "../../config/constants/API";
+import API from "../../constants/API";
 
 
 export {

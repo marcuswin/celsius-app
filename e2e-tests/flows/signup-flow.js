@@ -3,7 +3,7 @@ import * as actions from '../../app/redux/actions';
 import helpers, { resetTests, callToComplete, containsText, waitForExists, waitToFindComponent } from "../helpers";
 import constants from "../constants";
 import { setSecureStoreKey } from '../../app/utils/expo-storage'
-import API from "../../app/config/constants/API";
+import API from "../../app/constants/API";
 
 
 const { dispatch } = store;

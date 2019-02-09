@@ -9,7 +9,7 @@ import { STYLES } from "../../../config/constants/style";
 import VerifyPhoneNumberStyle from "./VerifyPhoneNumber.styles";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import apiUtil from "../../../utils/api-util";
 import CelForm from "../../atoms/CelForm/CelForm";
 import CelInput from "../../atoms/CelInput/CelInput";

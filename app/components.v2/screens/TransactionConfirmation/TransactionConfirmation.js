@@ -13,7 +13,7 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelHeading from "../../atoms/CelHeading/CelHeading";
 import formatter from "../../../utils/formatter";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 import CelForm from "../../atoms/CelForm/CelForm";

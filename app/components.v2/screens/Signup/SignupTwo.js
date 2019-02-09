@@ -11,7 +11,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 
 import { STYLES } from "../../../config/constants/style";
 import SignupStyle from './Signup.styles'

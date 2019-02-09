@@ -3,7 +3,7 @@
 
 import { Dimensions, StatusBar } from 'react-native';
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 import device from "../../utils/device-util";
 import { THEMES } from '../../constants/UI';
 // import store from '../../redux/store';

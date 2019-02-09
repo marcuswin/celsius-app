@@ -19,7 +19,7 @@ import Icon from "../../atoms/Icon/Icon";
 import VerifyProfileStyle from "./VerifyProfile.styles";
 
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 
 @connect(
   state => ({

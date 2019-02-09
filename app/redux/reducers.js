@@ -12,7 +12,7 @@ import transfers from './transfers/transfersReducer';
 import loans from './loans/loansReducer';
 import apiKeys from './apiKeys/apiKeysReducer';
 import app from './app/appReducer';
-import ACTIONS from "../config/constants/ACTIONS";
+import ACTIONS from "../constants/ACTIONS";
 import camera from './camera/cameraReducer';
 import forms from './forms/formsReducer';
 import currencies from './currencies/currenciesReducer';

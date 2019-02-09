@@ -1,13 +1,19 @@
 // TODO(fj): export as object
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
-import API from "../../config/constants/API";
+import API from "../../constants/API";
 import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
 import { MODALS } from '../../config/constants/common';
 
-export function createAPIKey(permissions) {
+export {
+  createAPIKey,
+  revokeAPIKey,
+  getAllAPIKeys,
+}
+
+function createAPIKey(permissions) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.CREATE_API_KEY))
@@ -26,7 +32,7 @@ export function createAPIKey(permissions) {
   }
 }
 
-export function revokeAPIKey(keyId) {
+function revokeAPIKey(keyId) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.DELETE_API_KEY))
@@ -45,7 +51,7 @@ export function revokeAPIKey(keyId) {
   }
 }
 
-export function getAllAPIKeys() {
+function getAllAPIKeys() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_API_KEYS))

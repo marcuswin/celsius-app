@@ -15,7 +15,7 @@ import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import CelButton from "../../atoms/CelButton/CelButton";
 import imageUtil from "../../../utils/image-util";
 import logger from "../../../utils/logger-util";
-import API from '../../../config/constants/API';
+import API from '../../../constants/API';
 
 @connect(
   state => ({

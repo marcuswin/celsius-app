@@ -1,7 +1,7 @@
 // TODO(fj) add currency rates to initial state
 // TODO(fj) split graphs ?
 
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 
 function initialState() {
   return {

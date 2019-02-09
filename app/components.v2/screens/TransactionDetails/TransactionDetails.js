@@ -17,7 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
 import Loader from "../../atoms/Loader/Loader";
 import formatter from '../../../utils/formatter';
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import CelScreenContent from "../../atoms/CelScreenContent/CelScreenContent";
 import { MODALS, TRANSACTION_TYPES } from "../../../config/constants/common";
 import TransactionOptionsModal from "../../organisms/TransactionOptionsModal/TransactionOptionsModal";

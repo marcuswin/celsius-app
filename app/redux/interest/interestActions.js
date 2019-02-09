@@ -1,5 +1,5 @@
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from '../../config/constants/API';
+import ACTIONS from '../../constants/ACTIONS';
+import API from '../../constants/API';
 import interestService from '../../services/interest-service';
 import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";

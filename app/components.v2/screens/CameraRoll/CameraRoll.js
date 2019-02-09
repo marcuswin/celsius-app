@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
 import CelButton from '../../atoms/CelButton/CelButton';
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import apiUtil from "../../../utils/api-util";
 import imageUtil from "../../../utils/image-util";
 import CameraRollStyle from "./CameraRoll.styles";

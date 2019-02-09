@@ -9,7 +9,7 @@ import {STYLES} from "../../../config/constants/style";
 import CelButton from "../../atoms/CelButton/CelButton";
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import API from "../../../constants/API";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelForm from "../../atoms/CelForm/CelForm";
 import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";

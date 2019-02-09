@@ -1,7 +1,7 @@
 import { Constants } from 'expo';
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from '../../config/constants/API';
+import ACTIONS from '../../constants/ACTIONS';
+import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage } from '../ui/uiActions';

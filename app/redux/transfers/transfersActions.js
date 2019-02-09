@@ -2,8 +2,8 @@
 
 import { Share } from "react-native";
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from '../../config/constants/API';
+import ACTIONS from '../../constants/ACTIONS';
+import API from '../../constants/API';
 import transferService from '../../services/transfer-service';
 import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
