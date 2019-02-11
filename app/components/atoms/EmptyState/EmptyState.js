@@ -50,6 +50,11 @@ function getDefaultEmptyState(purpose, actions) {
       heading: 'Sorry!',
       paragraphs: ['We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.'],
     },
+    [EMPTY_STATES.UNDER_CONSTRUCTION]: {
+      image: require('../../../../assets/images/OfflineMode/deer-tangled3x.png'),
+      heading: 'Under Construction!',
+      paragraphs: ['We are working really hard on this feature!'],
+    },
   }[purpose];
 }
 
