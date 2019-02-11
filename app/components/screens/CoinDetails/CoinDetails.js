@@ -7,18 +7,16 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
-import CoinDetailsStyle from "./CoinDetails.styles";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
-import Separator from '../../atoms/Separator/Separator';
+import CoinDetailsStyle from "./CoinDetails.styles";
 
 @connect(
   state => ({
-    style: CoinDetailsStyle(),
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
@@ -77,6 +75,7 @@ class CoinDetails extends Component {
     const { transactions, currencyRatesShort, actions } = this.props;
     const coinDetails = this.getCoinDetails();
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 })
+    const style = CoinDetailsStyle();
 
     return (
       <RegularLayout header={header}>
@@ -88,10 +87,9 @@ class CoinDetails extends Component {
                 <CelText>{formatter.usd(coinDetails.amount_usd)}</CelText>
                 <CelText>{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
               </View>
-              <Separator margin="0 35 0 25" />
 
               <View style={[style.buttons]}>
-                <TouchableOpacity style={{}}>
+                <TouchableOpacity>
                   <CelText> Send </CelText>
                 </TouchableOpacity>
                 <View style={{
