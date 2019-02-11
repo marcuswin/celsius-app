@@ -93,7 +93,6 @@ class WalletBalance extends Component {
 
     const totalInterestEarned = Object.values(totalInterestPerCoin).reduce((current, total) => current + Number(total.amount_usd), 0);
 
-    const withdrawalInfoCard = this.getWithdrawalInfoCard();
     if (!walletCurrencies || !supportedCurrencies)
       return (
         <WalletLayout>
@@ -109,7 +108,6 @@ class WalletBalance extends Component {
 
     return (
       <WalletLayout ref={testUtil.generateTestHook(this, 'WalletBalance.screen')}>
-        { withdrawalInfoCard }
         {(!!totalInterestEarned) && <Card style={{ marginTop: 15 }}>
           <View style={WalletBalanceStyle.card}>
             <Text style={WalletBalanceStyle.totalInterestLabel}>TOTAL INTEREST EARNED</Text>

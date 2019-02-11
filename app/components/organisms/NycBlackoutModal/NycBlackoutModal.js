@@ -240,7 +240,7 @@ class NycBlackoutModal extends Component {
       additionalText = "Please contact app@celsius.network.";
     } else if (user.blocked_at) {
       heading = "We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.";
-      additionalText = `Please withdraw your funds within ${days} day(s) or contact app@celsius.network for support.`;
+      additionalText = "If you need any more information, please contact app@celsius.network.";
     } else if (kycRealStatus === "ico_passed" && days === 0) {
       heading = "Hey there! Thanks so much for participating in our ICO.";
       additionalText = `Please finish KYC process.`
