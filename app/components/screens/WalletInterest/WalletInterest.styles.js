@@ -2,8 +2,10 @@
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
-    container: {
-        flex: 1
+  amountWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
     }
 }
 

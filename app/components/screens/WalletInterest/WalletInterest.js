@@ -14,9 +14,12 @@ import STYLES from "../../../constants/STYLES";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
+import Graph from "../../atoms/Graph/Graph";
+import WalletInterestStyle from "./WalletInterest.styles";
 
 @connect(
   (state) => ({
+    style: WalletInterestStyle(),
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
@@ -49,17 +52,21 @@ class WalletInterest extends Component {
 
   render() {
     const { header } = this.state;
-    const { currencyRatesShort, actions, transactions, walletSummary } = this.props;
+    const { currencyRatesShort, actions, transactions, walletSummary, style } = this.props;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 })
 
     return (
       <RegularLayout header={header} >
         <View>
-          <Card>
-            <CelText>Total interest earned</CelText>
-            <CelText bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
-            <CelText color={STYLES.COLORS.CELSIUS_BLUE}> Todays rates </CelText>
+          <Card padding="15 15 15 15">
+            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total interest earned</CelText>
+            <View style={style.amountWrapper}>
+              <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
+            </View>
           </Card>
+
+          <Graph />
 
           <TransactionsHistory
             transactions={transactionsArray}

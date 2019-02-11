@@ -16,7 +16,7 @@ class RegularLayout extends Component {
     padding: PropTypes.string
   };
   static defaultProps = {
-    padding: '20 20 20 20'
+    padding: '20 20 40 20'
   }
 
   render() {

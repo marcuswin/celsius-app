@@ -48,33 +48,35 @@ class BalanceHistory extends Component {
   }
 
   render() {
-    const { transactions, actions, currencyRatesShort } = this.props
+    const { transactions, actions, currencyRatesShort, walletSummary } = this.props
     const { header } = this.state;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
 
     return (
       <RegularLayout padding="20 0 20 0" header={header} >
-        <Graph />
-        <View style={{ paddingHorizontal: 20 }}>
-          <Card>
-            <CelText>Total wallet balance</CelText>
-            <CelText bold>{formatter.usd()}</CelText>
+        <View>
+          <Card padding="15 15 15 15" margin="15 20 15 20">
+            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
+            <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
           </Card>
 
-          <TransactionsHistory
-            transactions={transactionsArray}
-            currencyRatesShort={currencyRatesShort}
-            navigateTo={actions.navigateTo}
-          />
+          <Graph />
 
-          <CelButton
-            basic
-            margin="15 0 15 0"
-            onPress={() => actions.navigateTo('AllTransactions')}
-          >
-            See all
-          </CelButton>
+          <View style={{ paddingHorizontal: 20 }}>
+            <TransactionsHistory
+              transactions={transactionsArray}
+              currencyRatesShort={currencyRatesShort}
+              navigateTo={actions.navigateTo}
+            />
 
+            <CelButton
+              basic
+              margin="15 0 15 0"
+              onPress={() => actions.navigateTo('AllTransactions')}
+            >
+              See all
+            </CelButton>
+          </View>
         </View>
       </RegularLayout>
     );

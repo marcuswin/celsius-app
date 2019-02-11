@@ -9,15 +9,19 @@ import TransactionsHistoryStyle from "./TransactionsHistory.styles";
 import TransactionRow from '../../atoms/TransactionRow/TransactionRow';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
+import stylesUtil from '../../../utils/styles-util'
 
 class TransactionsHistory extends Component {
 
   static propTypes = {
     transactions: PropTypes.instanceOf(Array),
     currencyRatesShort: PropTypes.instanceOf(Object).isRequired,
-    navigateTo: PropTypes.func.isRequired
+    navigateTo: PropTypes.func.isRequired,
+    margin: PropTypes.string,
   };
-  static defaultProps = {}
+  static defaultProps = {
+    margin: '20 0 20 0'
+  }
 
   constructor(props) {
     super(props);
@@ -26,8 +30,9 @@ class TransactionsHistory extends Component {
   }
 
   render() {
-    const { currencyRatesShort, transactions, navigateTo } = this.props
+    const { currencyRatesShort, transactions, navigateTo, margin } = this.props
     const style = TransactionsHistoryStyle()
+    const margins = stylesUtil.getMargins(margin)
 
     const transactionsDisplay = transactions.map(t => ({
       id: t.id,
@@ -43,7 +48,7 @@ class TransactionsHistory extends Component {
     }));
 
     return (
-      <View style={style.container}>
+      <View style={[style.container, margins]}>
         <View style={style.filterContainer}>
           <View>
             <CelText bold type='H6'>Transaction history</CelText>
