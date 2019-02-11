@@ -1,5 +1,5 @@
 import { getThemedStyle } from '../../../utils/styles-util';
-import { FONT_SCALE } from "../../../config/constants/style";
+// import { FONT_SCALE } from "../../../config/constants/style";
 
 
 const base = {
@@ -8,27 +8,24 @@ const base = {
         backgroundColor: '#DDDDDD',
 
     },
-    balance: {
-        flex: 1,
+    // balance: {
+    //     flex: 1,
 
-    },
-    text: {
-        fontSize: FONT_SCALE * 18,
-        color: '#737A82',
+    // },
+    // text: {
+    //     fontSize: FONT_SCALE * 18,
+    //     color: '#737A82',
 
-    },
-    interest: {
-        flex: 1,
-        marginLeft: 10
-    },
-    usd: {
-        fontSize: FONT_SCALE * 28,
-        paddingBottom: 5,
-        fontWeight: 'bold',
-
-    
-
-    },
+    // },
+    // interest: {
+    //     flex: 1,
+    //     marginLeft: 10
+    // },
+    // usd: {
+    //     fontSize: FONT_SCALE * 28,
+    //     paddingBottom: 5,
+    //     fontWeight: 'bold',
+    // },
    
 }
 

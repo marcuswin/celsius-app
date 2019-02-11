@@ -8,6 +8,7 @@ import { EMPTY_STATES } from "../../../constants/UI";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import StaticScreen from "../StaticScreen/StaticScreen";
 
+
 @connect(
   state => ({
     appInitialized: state.app.appInitialized,
@@ -22,18 +23,22 @@ class Home extends Component {
 
   render() {
     const { appInitialized } = this.props;
-
+    
     if (!appInitialized) {
       return (
         <LoadingScreen
           loadingState={{ heading: 'Celsius app initializing...' }}
         />
+        
       )
     }
+
     return (
+      
       <StaticScreen
         emptyState={{ purpose: EMPTY_STATES.FIRST_TIME }}
       />
+      
     );
   }
 }

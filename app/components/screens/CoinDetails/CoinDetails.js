@@ -48,7 +48,7 @@ class CoinDetails extends Component {
 
   componentDidMount() {
     const { actions, navigation } = this.props
-    actions.getAllTransactions({ limit: 5, coin: navigation.getParam('coin')});
+    actions.getAllTransactions({ limit: 5, coin: navigation.getParam('coin') });
   }
 
   getCoinDetails() {
@@ -79,35 +79,40 @@ class CoinDetails extends Component {
     return (
       <RegularLayout header={header}>
         <View>
-          <Card style={{ flexDirection: "colum" }}>
-            <View style={{
-              flexWrap: "wrap",
-              flexDirection: "row",
-              alignItems: "flex-start"
-            }}>
-              <CelText>{ coinDetails.name }</CelText>
-              <CelText>{ formatter.usd(coinDetails.amount_usd) }</CelText>
-              <CelText>{ formatter.crypto(coinDetails.amount, coinDetails.short) }</CelText>
-            </View>
-            <View>
-              <TouchableOpacity style={{ flexDirection: "row" }}>
-                <CelText> Send </CelText>
-              </TouchableOpacity>
+          <Card>
+            <View style={{ flexDirection: "row" }}>
+              <View>
+                <CelText>{coinDetails.name}</CelText>
+                <CelText>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                <CelText>{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+              </View>
               <View style={{
-                borderBottomWidth: 1,
-                borderLeftColor: "gray",
-                borderRadius: 10
-              }}/>
-              <TouchableOpacity>
-                <CelText> Deposit </CelText>
-              </TouchableOpacity>
+                borderRightWidth: 1,
+                borderRightColor: "gray",
+                borderRadius: 10,
+                // position: 'absolute',
+                // right: 0
+              }} />
+              <View style={{ position: 'absolute', right: 0 }}>
+                <TouchableOpacity style={{}}>
+                  <CelText> Send </CelText>
+                </TouchableOpacity>
+                <View style={{
+                  borderBottomWidth: 1,
+                  borderLeftColor: "gray",
+                  borderRadius: 10
+                }} />
+                <TouchableOpacity>
+                  <CelText> Deposit </CelText>
+                </TouchableOpacity>
+              </View>
             </View>
           </Card>
 
           <Card margin="10 0 10 0">
             <CelText>Total interest earned</CelText>
-            <CelText>{ formatter.usd(coinDetails.interest_earned_usd) }</CelText>
-            <CelText>{ formatter.crypto(coinDetails.interest_earned, coinDetails.short) }</CelText>
+            <CelText>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+            <CelText>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
           </Card>
 
           <TransactionsHistory
