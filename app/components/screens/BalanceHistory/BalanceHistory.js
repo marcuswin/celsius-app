@@ -12,6 +12,7 @@ import Card from "../../atoms/Card/Card";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 import transactionsUtil from "../../../utils/transactions-util";
+import Graph from "../../atoms/Graph/Graph";
 
 @connect(
   state => ({
@@ -52,6 +53,7 @@ class BalanceHistory extends Component {
 
     return (
       <RegularLayout header={header} >
+        <Graph/>
         <View>
           <Card>
             <CelText>Total wallet balance</CelText>
