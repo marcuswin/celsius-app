@@ -114,8 +114,9 @@ function initInterceptors() {
     });
 }
 
-function areCallsInProgress(callsToCheck, callsInProgress = []) {
-  return !!(callsInProgress.filter(cip => callsToCheck.indexOf(cip) !== -1).length);
+function areCallsInProgress(callsToCheck, callsInProgress = undefined) {
+  const calls = callsInProgress || store.getState().api.callsInProgress
+  return !!(calls.filter(cip => callsToCheck.indexOf(cip) !== -1).length);
 }
 
 function parseValidationErrors(serverError) {

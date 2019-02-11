@@ -9,7 +9,11 @@ import TransactionsHistoryStyle from "./TransactionsHistory.styles";
 import TransactionRow from '../../atoms/TransactionRow/TransactionRow';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
-import stylesUtil from '../../../utils/styles-util'
+import stylesUtil from '../../../utils/styles-util';
+import apiUtil from '../../../utils/api-util';
+import API from "../../../constants/API";
+import LoadingState from "../../atoms/LoadingState/LoadingState";
+import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 class TransactionsHistory extends Component {
 
@@ -33,6 +37,9 @@ class TransactionsHistory extends Component {
     const { currencyRatesShort, transactions, navigateTo, margin } = this.props
     const style = TransactionsHistoryStyle()
     const margins = stylesUtil.getMargins(margin)
+
+    if (apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS])) return <LoadingState />
+    if (!transactions || !transactions.length) return <EmptyState heading="Sorry" paragraphs={['No transactions in your wallet']} />
 
     const transactionsDisplay = transactions.map(t => ({
       id: t.id,
