@@ -35,7 +35,7 @@ class Separator extends Component {
     const separatorColor = color || this.getSeparatorColor(style);
 
     return (
-      <View style={[style.separatorVertical, { borderColor: separatorColor, height: size, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
+      <View style={[style.separatorVertical, { borderColor: separatorColor, width: size, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
     )
   }
 

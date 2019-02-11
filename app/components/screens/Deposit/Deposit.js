@@ -28,9 +28,9 @@ class Deposit extends Component {
       }}>
         <CelText type="H4">Choose coin to deposit</CelText>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <CircleButton type="coin" icon="IconBTC" text="Bitcoin" />
-          <CircleButton type="coin" icon="IconETH" text="Ethereum" />
-          <CircleButton type="coin" icon="IconLTC" text="Litecoin" />
+          <CircleButton onPress={() => { }} type="coin" icon="IconBTC" text="Bitcoin" />
+          <CircleButton onPress={() => { }} type="coin" icon="IconETH" text="Ethereum" />
+          <CircleButton onPress={() => { }} type="coin" icon="IconLTC" text="Litecoin" />
         </View>
       </RegularLayout>
     );

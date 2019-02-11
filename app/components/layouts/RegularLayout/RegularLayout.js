@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView, View } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
@@ -36,9 +36,9 @@ class RegularLayout extends Component {
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
           <SafeAreaView>
             <KeyboardShift>
-              <View style={{ width: '100%' }}>
+              <React.Fragment>
                 {children}
-              </View>
+              </React.Fragment>
             </KeyboardShift>
           </SafeAreaView>
         </ScrollView>
