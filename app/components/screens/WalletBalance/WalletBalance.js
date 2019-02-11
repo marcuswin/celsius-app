@@ -46,29 +46,23 @@ class WalletBalance extends Component {
     actions.getSupportedCurrencies();
   }
 
-  // event hanlders
-  // rendering methods
   getWithdrawalInfoCard() {
-    const { withdrawCompliance } = this.props;
-
-    if (withdrawCompliance && withdrawCompliance.allowed && withdrawCompliance.block_reason) {
-      return (
-        <InfoBubble
-          title="Warning!"
-          color="red"
-          margin="15 0 10 0"
-          renderContent={() => (
-            <View>
-              <Text style={[globalStyles.normalText, { color: 'white' }]}>
-                {withdrawCompliance.block_reason}
-              </Text>
-            </View>
-          )}
-        />
-      )
-    }
-
-    return null;
+    return (
+      <InfoBubble
+        color="gray"
+        margin="15 0 10 0"
+        renderContent={() => (
+          <View>
+            <Text style={[globalStyles.normalText, { color: 'white', marginBottom: 10 }]}>
+              Due to local laws and regulations, some app features are currently unavailable to users in specific locations. ALL users are able to withdraw funds at any time. If you continue to experience difficulty, please contact app@celsius.network.
+            </Text>
+            <Text style={[globalStyles.normalText, { color: 'white' }]}>
+              We apologize for any inconvenience as our team works to provide all users with a seamless app experience. Your support is vital to the Celsius brand, and we appreciate your patience as we work to bring the power of banking back to the people.
+            </Text>
+          </View>
+        )}
+      />
+    )
   }
 
   clickCard = (short, amount) => {
