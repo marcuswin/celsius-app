@@ -9,6 +9,7 @@ import * as actions from "../actions";
 import {
   getSecureStoreKey,
   deleteSecureStoreKey,
+  setSecureStoreKey
 } from "../../utils/expo-storage";
 import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
@@ -152,6 +153,7 @@ async function initAppData() {
   await store.dispatch(actions.getInitialCelsiusData())
 
   // get user token
+  await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1VWTNNamRCTURNeFJEQkVRalZDTWpRMk9VUkVNRFUwTnpSQ1JUWXpRVFZCUVRZelJUTkZOZyJ9.eyJuaWNrbmFtZSI6ImZpbGlwLmpvdmFrYXJpYyt3bHQiLCJuYW1lIjoiZmlsaXAuam92YWthcmljK3dsdEBtdnB3b3Jrc2hvcC5jbyIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci9kOWE0YzRmOTE1MGFhYmYyYzFkMzBkYTgwYzA5ZTlkYj9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0aDAuY29tJTJGYXZhdGFycyUyRmZpLnBuZyIsInVwZGF0ZWRfYXQiOiIyMDE5LTAyLTA3VDE3OjE0OjI0LjE0M1oiLCJlbWFpbCI6ImZpbGlwLmpvdmFrYXJpYyt3bHRAbXZwd29ya3Nob3AuY28iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImlzcyI6Imh0dHBzOi8vY2Vsc2l1c25ldHdvcmstc3RhZ2luZy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWIyOGYwNmE4NzYzZWYzNTY5NzZmNTYxIiwiYXVkIjoiSGdFSnFhdVJKSnBDM1gyVE9SS3E1cnRaT1l3WHlrWTUiLCJpYXQiOjE1NDk1NTk2NjQsImV4cCI6MTU0OTU5NTY2NH0.THIedZEj2Hcpz8km7952HwaWyMlTziVU0md7Xbq2XzQesSiESHfObn7Pz_zlhYO9pRWLRgRpFpNf4F0zB5qdgUqNYwaF2atsuSTItY5R5DoBCnHJFuYbd0TNtBjo1MRV5PcRaTMguq4KX88M1XWhUmwaoo3KSKEFttuZ6PAffuSVHJ-2egoXkh4BH04E6wxBsNz0ZiXZfMVUVwI4mvASE5wzcz0077gBsxgkCwySa5xw_UHQyDroiqD-OAJnU5I8ka1O7pS6sR4rtpiADnM4XGHeIUo_5Ze2EWs14sZRI5Jl7Dc_m09xsiFnQM8gQTgCghz3ReUJTzbZn8UPj3__Sg');
   const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
 
   // fetch user

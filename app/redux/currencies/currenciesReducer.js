@@ -1,4 +1,5 @@
 import ACTIONS from "../../constants/ACTIONS";
+import formatter from "../../utils/formatter";
 
 const initialState = {
   rates: undefined,
@@ -17,7 +18,7 @@ export default function currenciesReducer(state = initialState, action) {
 
       return {
         ...state,
-        rates: action.rates,
+        rates: action.rates.map(mapRates),
         currencyRatesShort,
       };
     case ACTIONS.GET_CURRENCY_GRAPHS_SUCCESS:
@@ -28,5 +29,12 @@ export default function currenciesReducer(state = initialState, action) {
 
     default:
       return { ...state };
+  }
+}
+
+function mapRates(rate) {
+  return {
+    ...rate,
+    displayName: formatter.capitalize(rate.name),
   }
 }

@@ -10,7 +10,8 @@ export default {
   crypto,
   ordinalSuffixOf,
   round,
-  deepmerge
+  deepmerge,
+  capitalize,
 }
 
 function usd(amount, options = {}) {
@@ -27,6 +28,10 @@ function crypto(amount, cryptocurrency, options = {}) {
 
 function round(amount, options = {}) {
   return currency.format(amount, { precision: options.precision || 2, thousand: ',' })
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 function ordinalSuffixOf(number) {

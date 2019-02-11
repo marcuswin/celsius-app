@@ -17,7 +17,7 @@ const d3 = { shape };
 
 class Graph extends React.Component {
 
-  static PropTypes = {
+  static propTypes = {
     dateArray: PropTypes.instanceOf(Array).isRequired, // x
     priceArray: PropTypes.instanceOf(Array).isRequired, // y
     height: PropTypes.number,
