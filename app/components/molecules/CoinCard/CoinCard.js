@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
 import { bindActionCreators } from "redux";
 
@@ -9,12 +9,12 @@ import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 
-import CoinCardStyle from "./CoinCard.styles";
+import STYLES from "../../../constants/STYLES";
+
 
 @connect(
   state => ({
-    style: CoinCardStyle(state.ui.theme),
-    currencies: state.generalData.supportedCurrencies,
+    currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -29,19 +29,60 @@ class CoinCard extends Component {
     };
   }
 
-  renderCard = (coin) => {
-    const { actions, walletSummary } = this.props;
+  emptyCard = (coin) => {
+    const { currencies } = this.props
+    const marketValue = currencies.filter(c => c.short === coin.short.toUpperCase())[0].market_quotes_usd.price
+    const text = `1 ${coin.short} = ${formatter.crypto(marketValue, "", { precision: 5 })}`
 
     return (
-      <Card key={coin.name} size="half" margin="5 2 5 2" onPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}>
+      <Fragment>
+        <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
+        <CelText style={{ lineHeight: 23 }} type="H6">Deposit</CelText>
+      </Fragment>
+    )
+  }
+  
+  cardNavigation = (coin) => {
+    const { actions } = this.props;
+    const amount = coin.amount_usd > 0;
+    
+    if (amount) {
+      actions.navigateTo('CoinDetails', { coin: coin.short })
+    } else {
+      actions.navigateTo('Deposit')
+    }
+  }
+
+  renderAmount = (coin) => (
+      <Fragment>
+        <CelText style={{ lineHeight: 23 }} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+        <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      </Fragment>
+  )
+  
+  renderPriceChange = (coin) => {
+    const { currencies } = this.props
+    const coinPriceChange = currencies.filter(c => c.short === coin.short.toUpperCase())[0].price_change_usd['1d']
+    const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
+    const diff = coinPriceChange < 0 ? "" : "+"
+
+    return (
+      <CelText type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
+    )
+  }
+  
+  renderCard = (coin) => {
+    const amount = coin.amount_usd > 0;
+
+    return (
+      <Card key={coin.name} size="half" margin="5 2 5 2" onPress={() => this.cardNavigation(coin)}>
         <View style={{ flexDirection: "row" }}>
           <View>
-            <CelText>{coin.name}</CelText>
-            <CelText bold>{formatter.usd(coin.amount_usd)}</CelText>
-            <CelText>{formatter.crypto(coin.amount, coin.short)}</CelText>
+            <CelText style={{ lineHeight: 23 }} type="H6">{coin.name}</CelText>
+            {amount ? this.renderAmount(coin) : this.emptyCard(coin)}
           </View>
           <View style={{ position: 'absolute', right: 0 }} >
-            <CelText >{walletSummary.wallet_diff_24h}</CelText>
+            {this.renderPriceChange(coin)}
           </View>
         </View>
       </Card>
@@ -52,7 +93,11 @@ class CoinCard extends Component {
     const { walletSummary } = this.props;
 
     return (
-      <View>
+      <View style={{
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}>
         {walletSummary.coins.map(this.renderCard)}
       </View>
 

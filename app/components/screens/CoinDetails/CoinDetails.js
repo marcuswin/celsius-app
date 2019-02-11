@@ -14,6 +14,7 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
 import CoinDetailsStyle from "./CoinDetails.styles";
+import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   state => ({
@@ -84,11 +85,15 @@ class CoinDetails extends Component {
           <Card>
             <View style={{ flexDirection: "row" }}>
               <View>
-                <CelText>{coinDetails.name}</CelText>
-                <CelText>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                <CelText>{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                <CelText style={{ lineHeight: 23 }} type="H6" >{coinDetails.name}</CelText>
+                <CelText style={{ lineHeight: 23 }} type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                <CelText style={{ lineHeight: 23 }} type="H6" >{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
               </View>
-
+              <Separator vertical
+                style={{
+                  right: 0,
+                  position: 'absolute'
+                }} />
               <View style={[style.buttons]}>
                 <TouchableOpacity style={{}}>
                   <CelText> Send </CelText>
@@ -126,7 +131,7 @@ class CoinDetails extends Component {
           </CelButton>
 
           <View>
-            <CelButton>
+            <CelButton onPress={() => actions.navigateTo('AllTransactions')}>
               Withdraw
             </CelButton>
           </View>
