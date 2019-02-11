@@ -16,6 +16,10 @@ import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Graph from "../../atoms/Graph/Graph";
 import WalletInterestStyle from "./WalletInterest.styles";
+import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
+import UI from "../../../constants/UI";
+
+const { MODALS } = UI
 
 @connect(
   (state) => ({
@@ -59,7 +63,7 @@ class WalletInterest extends Component {
       <RegularLayout header={header} >
         <View>
           <View style={style.container}>
-            <Card padding="15 15 15 15">
+            <Card padding="15 15 15 15" onPress={() => actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total interest earned</CelText>
               <View style={style.amountWrapper}>
                 <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
@@ -86,6 +90,8 @@ class WalletInterest extends Component {
             </CelButton>
           </View>
         </View>
+
+        <TodayInterestRatesModal />
       </RegularLayout>
     );
   }
