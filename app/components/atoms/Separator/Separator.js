@@ -15,48 +15,52 @@ class Separator extends Component {
     size: PropTypes.number,
     fontType: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     allCaps: PropTypes.bool,
+    dashed: PropTypes.bool,
+    color: PropTypes.string
   };
   static defaultProps = {
     vertical: false,
     size: 1,
     fontType: 'H6',
     allCaps: true,
+    dashed: false,
+    color: ""
   }
 
   getSeparatorColor = (style) => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const { size } = this.props
+    const { size, color, dashed } = this.props
     const style = SeparatorStyle();
-    const separatorColor = this.getSeparatorColor();
+    const separatorColor = color || this.getSeparatorColor(style);
 
     return (
-      <View style={[style.separatorVertical, { backgroundColor: separatorColor, width: size }]} />
+      <View style={[style.separatorVertical, { borderColor: separatorColor, height: size, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
     )
   }
 
   renderLine = () => {
-    const { size } = this.props
+    const { size, color, dashed } = this.props
     const style = SeparatorStyle();
-    const separatorColor = this.getSeparatorColor(style);
+    const separatorColor = color || this.getSeparatorColor(style);
 
     return (
-      <View style={[style.separator, { backgroundColor: separatorColor, height: size }]} />
+      <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
     )
   }
 
   renderWithText = () => {
-    const { text, size, allCaps, fontType } = this.props
+    const { text, size, allCaps, fontType, color, dashed } = this.props
     const style = SeparatorStyle();
-    const separatorColor = this.getSeparatorColor();
+    const separatorColor = color || this.getSeparatorColor(style);
 
     return (
       <View style={[style.content]} >
-        <View style={[style.left, { backgroundColor: separatorColor, height: size }]} />
+        <View style={[style.left, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
         <View style={style.center}>
           <CelText allCaps={allCaps} color={separatorColor} align="center" type={fontType}>{text}</CelText>
         </View>
-        <View style={[style.right, { backgroundColor: separatorColor, height: size }]} />
+        <View style={[style.right, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
       </View>
     );
   }

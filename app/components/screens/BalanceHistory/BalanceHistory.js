@@ -12,6 +12,8 @@ import Card from "../../atoms/Card/Card";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 import transactionsUtil from "../../../utils/transactions-util";
+import CelButton from "../../atoms/CelButton/CelButton";
+import Graph from "../../atoms/Graph/Graph";
 
 @connect(
   state => ({
@@ -48,16 +50,31 @@ class BalanceHistory extends Component {
   render() {
     const { transactions, actions, currencyRatesShort } = this.props
     const { header } = this.state;
-    const transactionsArray = transactionsUtil.filterTransactions(transactions);
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
 
     return (
-      <RegularLayout header={header} >
-        <View>
+      <RegularLayout padding="20 0 20 0" header={header} >
+        <Graph />
+        <View style={{ paddingHorizontal: 20 }}>
           <Card>
             <CelText>Total wallet balance</CelText>
             <CelText bold>{formatter.usd()}</CelText>
           </Card>
-          <TransactionsHistory transactions={transactionsArray} currencyRatesShort={currencyRatesShort} navigateTo={actions.navigateTo} />
+
+          <TransactionsHistory
+            transactions={transactionsArray}
+            currencyRatesShort={currencyRatesShort}
+            navigateTo={actions.navigateTo}
+          />
+
+          <CelButton
+            basic
+            margin="15 0 15 0"
+            onPress={() => actions.navigateTo('AllTransactions')}
+          >
+            See all
+          </CelButton>
+
         </View>
       </RegularLayout>
     );

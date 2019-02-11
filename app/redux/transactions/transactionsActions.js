@@ -8,9 +8,10 @@ export {
   getAllTransactions
 }
 
-function getAllTransactions({ limit, type, coin }) {
+function getAllTransactions(query = {}) {
   return async dispatch => {
     try {
+      const { limit, type, coin } = query;
       dispatch(startApiCall(API.GET_ALL_TRANSACTIONS))
       const response = await transactions.getAll({ limit, type, coin })
 

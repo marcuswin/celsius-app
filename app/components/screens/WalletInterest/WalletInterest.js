@@ -13,6 +13,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from "../../../constants/STYLES";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   (state) => ({
@@ -48,15 +49,15 @@ class WalletInterest extends Component {
 
   render() {
     const { header } = this.state;
-    const { currencyRatesShort, actions, transactions } = this.props;
-    const transactionsArray = transactionsUtil.filterTransactions(transactions)
+    const { currencyRatesShort, actions, transactions, walletSummary } = this.props;
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 })
 
     return (
       <RegularLayout header={header} >
         <View>
           <Card>
             <CelText>Total interest earned</CelText>
-            <CelText bold>{formatter.usd(12313.14)}</CelText>
+            <CelText bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
             <CelText color={STYLES.COLORS.CELSIUS_BLUE}> Todays rates </CelText>
           </Card>
 
@@ -65,6 +66,15 @@ class WalletInterest extends Component {
             currencyRatesShort={currencyRatesShort}
             navigateTo={actions.navigateTo}
           />
+
+          <CelButton
+            basic
+            margin="15 0 15 0"
+            onPress={() => actions.navigateTo('AllTransactions')}
+          >
+            See all
+          </CelButton>
+
         </View>
       </RegularLayout>
     );
