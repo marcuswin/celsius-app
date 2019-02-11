@@ -331,7 +331,7 @@ class ProfileScreen extends Component {
             <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
             <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
             <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Apartment number" autoCapitalize="sentences" />
 
             {addressEditable &&
               <View style={{ marginTop: 15, marginBottom: 30 }}>

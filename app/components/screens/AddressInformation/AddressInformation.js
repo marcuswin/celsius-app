@@ -120,7 +120,7 @@ class AddressInformation extends Component {
           <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.zip`)} value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
           <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.street`)} value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
           <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.buildingNumber`)} value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.flatNumber`)} value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Flat number" autoCapitalize="sentences" />
+          <CelInput ref={testUtil.generateTestHook(this, `AddressInformation.flatNumber`)} value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Apartment number" autoCapitalize="sentences" />
         </CelForm>
 
         <CelButton
