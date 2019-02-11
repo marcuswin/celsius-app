@@ -1,4 +1,3 @@
-import { Location, Permissions } from "expo";
 import { showMessage } from "../ui/uiActions";
 import generalDataService from "../../services/general-data-service";
 import kycService from "../../services/kyc-service";
@@ -10,8 +9,7 @@ export {
   getSupportedCurrencies,
   getKYCDocTypes,
   getBackendStatus,
-  getBlacklistedCountries,
-  getUserLocation,
+  getBlacklistedCountries
 }
 
 function getSupportedCurrencies() {
@@ -110,32 +108,5 @@ function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCo
     blacklistedCountryResidency,
     blacklistedStatesLocation,
     blacklistedStatesResidency
-  }
-}
-
-function getUserLocation() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_LOCATION));
-    try {
-      await Permissions.askAsync(Permissions.LOCATION);
-      const loc = await Location.getCurrentPositionAsync({});
-      const l = {
-        latitude : loc.coords.latitude,
-        longitude: loc.coords.longitude,
-      };
-      const loca = await Location.reverseGeocodeAsync(l);
-      const [location] = loca;
-      dispatch(getUserLocationSuccess(location))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_USER_LOCATION, err));
-    }
-  }
-}
-
-function getUserLocationSuccess(location) {
-  return {
-    type: ACTIONS.GET_USER_LOCATION_SUCCESS,
-    location,
   }
 }

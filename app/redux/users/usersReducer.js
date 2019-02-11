@@ -3,7 +3,6 @@ import ACTIONS from '../../config/constants/ACTIONS';
 // import { CAMERA_PHOTOS } from '../../config/constants/common';
 
 const initialState = {
-  userLocation: undefined,
   user: undefined,
   compliance: {
     app: {
@@ -92,12 +91,6 @@ export default (state = initialState, action) => {
         ...state,
         user: action.user,
         borrower: action.borrower,
-      };
-
-    case ACTIONS.SET_USER_LOCATION:
-      return {
-        ...state,
-        userLocation: action.userLocation,
       };
 
     case ACTIONS.TWITTER_GET_ACCESS_TOKEN:

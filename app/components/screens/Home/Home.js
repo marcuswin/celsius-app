@@ -31,7 +31,6 @@ let interval;
     callsInProgress: state.api.callsInProgress,
     branchHashes: state.transfers.branchHashes,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    location: state.generalData.location,
     previousScreen: state.nav.routes[state.nav.index - 1] ? state.nav.routes[state.nav.index - 1].routeName : null
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

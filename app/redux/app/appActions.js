@@ -129,7 +129,6 @@ async function initAppData() {
 
   // get general data for te app
   await store.dispatch(actions.getSupportedCurrencies());
-  await store.dispatch(actions.getUserLocation());
   await store.dispatch(actions.getBlacklistedCountries());
 }
 

@@ -8,8 +8,7 @@ function initialState() {
     blacklistedCountryLocation: [],
     blacklistedCountryResidency: [],
     blacklistedStatesLocation: [],
-    blacklistedStatesResidency: [],
-    location: undefined,
+    blacklistedStatesResidency: []
   };
 }
 
@@ -51,11 +50,6 @@ export default function generalDataReducer(state = initialState(), action) {
         blacklistedStatesResidency: action.blacklistedStatesResidency
       };
 
-    case ACTIONS.GET_USER_LOCATION_SUCCESS:
-      return {
-        ...state,
-        location: action.location
-      };
 
   default:
     return state;

@@ -26,7 +26,6 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
 @connect(
   state => ({
     screenIndex: state.nav.index,
-    userLocation: state.users.userLocation,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
