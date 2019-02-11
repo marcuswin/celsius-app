@@ -13,7 +13,6 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
-import Graph from "../../atoms/Graph/Graph";
 
 @connect(
   state => ({
@@ -59,8 +58,6 @@ class BalanceHistory extends Component {
             <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
             <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
           </Card>
-
-          <Graph />
 
           <View style={{ paddingHorizontal: 20 }}>
             <TransactionsHistory

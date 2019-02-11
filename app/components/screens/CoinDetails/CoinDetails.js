@@ -17,6 +17,7 @@ import CoinDetailsStyle from "./CoinDetails.styles";
 
 @connect(
   state => ({
+    style: CoinDetailsStyle(),
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
@@ -89,7 +90,7 @@ class CoinDetails extends Component {
               </View>
 
               <View style={[style.buttons]}>
-                <TouchableOpacity>
+                <TouchableOpacity style={{}}>
                   <CelText> Send </CelText>
                 </TouchableOpacity>
                 <View style={{

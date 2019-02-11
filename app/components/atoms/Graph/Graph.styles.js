@@ -1,6 +1,7 @@
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const cursorRadius = heightPercentageToDP("1.06%");
+const width = widthPercentageToDP("100%");
 
 const base = {
   cursor: {
@@ -55,6 +56,32 @@ const base = {
     transform: [
       { rotate: "180deg" }
     ]
+  },
+  xValues : {
+    width,
+    height: heightPercentageToDP("5%"),
+    flexDirection: "row"
+  },
+  active: {
+    width: widthPercentageToDP("3.5%"),
+    borderTopColor: "rgba(65,86,166,1)",
+    borderTopWidth: 1
+  },
+  periods: {
+    width,
+    height: heightPercentageToDP("5%"),
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingLeft: widthPercentageToDP("5.33%"),
+    paddingRight: widthPercentageToDP("5.33%"),
+    marginTop: heightPercentageToDP("2.02%")
+  },
+  scrollPointer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   }
 }
 
