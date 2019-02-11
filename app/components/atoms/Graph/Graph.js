@@ -83,7 +83,7 @@ class Graph extends React.Component {
 
   render() {
     const { x, activePeriod } = this.state;
-    const style = GraphStyle("light");
+    const style = GraphStyle();
     return (
       <SafeAreaView>
         <View style={{
@@ -97,7 +97,7 @@ class Graph extends React.Component {
         }}>
           {periods.map((period) => (
             <TouchableOpacity style={{ alignItems: "center" }} onPress={() => this.activatePeriod(period)}>
-              <CelText key={period} type={"H8"}
+              <CelText key={period} type={"H7"}
                        style={{ color: activePeriod === period ? "rgba(65,86,166,1)" : "rgba(59,71,85,0.5)" }}
               >{period}</CelText>
               {activePeriod === period &&
@@ -123,7 +123,7 @@ class Graph extends React.Component {
                 </View>
               </View>
               <View ref={this.dashedLine}>
-                <Separator vertical/>
+                <Separator vertical dashed/>
               </View>
               <View ref={this.label} style={[style.pointer]}>
                 <View style={[style.label]}>

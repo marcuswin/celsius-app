@@ -69,6 +69,6 @@ const themed = {
     }
 }
 
-const GraphStyle = (theme) => getThemedStyle(theme, base, themed);
+const GraphStyle = () => getThemedStyle(base, themed);
 
 export default GraphStyle

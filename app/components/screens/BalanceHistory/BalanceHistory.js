@@ -52,9 +52,9 @@ class BalanceHistory extends Component {
     const transactionsArray = transactionsUtil.filterTransactions(transactions);
 
     return (
-      <RegularLayout header={header} >
-        <Graph/>
-        <View>
+      <RegularLayout padding="20 0 20 0" header={header} >
+        <Graph />
+        <View style={{ paddingHorizontal: 20 }}>
           <Card>
             <CelText>Total wallet balance</CelText>
             <CelText bold>{formatter.usd()}</CelText>

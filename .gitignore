@@ -13,3 +13,4 @@ config.json
 /config
 
 package-lock.json
+.vscode/launch.json
