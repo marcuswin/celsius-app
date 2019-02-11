@@ -8,6 +8,7 @@ import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
+import Icon from "../../atoms/Icon/Icon"
 
 import STYLES from "../../../constants/STYLES";
 
@@ -37,15 +38,19 @@ class CoinCard extends Component {
     return (
       <Fragment>
         <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
-        <CelText style={{ lineHeight: 23 }} type="H6">Deposit</CelText>
+        <View style={{flexDirection:"row", alignItems: "center"}}>
+          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" name="CirclePlus" />
+          <CelText style={{ lineHeight: 23, marginLeft: 5 }} type="H6" color={STYLES.COLORS.CELSIUS_BLUE}>
+            Deposit </CelText>
+        </View>
       </Fragment>
     )
   }
-  
+
   cardNavigation = (coin) => {
     const { actions } = this.props;
     const amount = coin.amount_usd > 0;
-    
+
     if (amount) {
       actions.navigateTo('CoinDetails', { coin: coin.short })
     } else {
@@ -54,12 +59,12 @@ class CoinCard extends Component {
   }
 
   renderAmount = (coin) => (
-      <Fragment>
-        <CelText style={{ lineHeight: 23 }} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-        <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
-      </Fragment>
+    <Fragment>
+      <CelText style={{ lineHeight: 23 }} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+    </Fragment>
   )
-  
+
   renderPriceChange = (coin) => {
     const { currencies } = this.props
     const coinPriceChange = currencies.filter(c => c.short === coin.short.toUpperCase())[0].price_change_usd['1d']
@@ -70,7 +75,7 @@ class CoinCard extends Component {
       <CelText type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
     )
   }
-  
+
   renderCard = (coin) => {
     const amount = coin.amount_usd > 0;
 
