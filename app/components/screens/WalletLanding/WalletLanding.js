@@ -40,6 +40,7 @@ class WalletLanding extends Component {
     };
   }
 
+
   render() {
     const { header } = this.state
     const { actions, walletSummary } = this.props
@@ -72,7 +73,10 @@ class WalletLanding extends Component {
           </Card>
 
           <CelText bold>Deposited coins</CelText>
-          <CoinCard/>
+          <View >
+            <CoinCard
+            />
+          </View>
         </View>
       </RegularLayout>
     );
