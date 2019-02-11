@@ -1,25 +1,25 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
+  container: {
+    paddingHorizontal: 20
+  },
   amountWrapper: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-    }
-}
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end"
+  }
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {}
+};
 
 const WalletInterestStyle = () => getThemedStyle(base, themed);
 
-export default WalletInterestStyle
+export default WalletInterestStyle;

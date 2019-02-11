@@ -58,30 +58,33 @@ class WalletInterest extends Component {
     return (
       <RegularLayout header={header} >
         <View>
-          <Card padding="15 15 15 15">
-            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total interest earned</CelText>
-            <View style={style.amountWrapper}>
-              <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
-              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
-            </View>
-          </Card>
+          <View style={style.container}>
+            <Card padding="15 15 15 15">
+              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total interest earned</CelText>
+              <View style={style.amountWrapper}>
+                <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
+                <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
+              </View>
+            </Card>
+          </View>
 
           <Graph />
 
-          <TransactionsHistory
-            transactions={transactionsArray}
-            currencyRatesShort={currencyRatesShort}
-            navigateTo={actions.navigateTo}
-          />
+          <View style={style.container}>
+            <TransactionsHistory
+              transactions={transactionsArray}
+              currencyRatesShort={currencyRatesShort}
+              navigateTo={actions.navigateTo}
+            />
 
-          <CelButton
-            basic
-            margin="15 0 15 0"
-            onPress={() => actions.navigateTo('AllTransactions')}
-          >
-            See all
-          </CelButton>
-
+            <CelButton
+              basic
+              margin="15 0 15 0"
+              onPress={() => actions.navigateTo('AllTransactions')}
+            >
+              See all
+            </CelButton>
+          </View>
         </View>
       </RegularLayout>
     );
