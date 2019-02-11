@@ -45,7 +45,7 @@ class AllTransactions extends Component {
 
     return (
       <RegularLayout header={header} >
-        <View>
+        <View style={{ width: '100%' }}>
           <TransactionsHistory
             transactions={transactionsArray}
             currencyRatesShort={currencyRatesShort}

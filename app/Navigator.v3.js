@@ -21,6 +21,7 @@ import BalanceHistory from "./components/screens/BalanceHistory/BalanceHistory";
 import AllTransactions from "./components/screens/AllTransactions/AllTransactions";
 import WalletInterest from "./components/screens/WalletInterest/WalletInterest";
 import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
+import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -53,7 +54,8 @@ const walletScreens = {
   WalletInterest,
   BalanceHistory,
   AllTransactions,
-  CoinDetails
+  CoinDetails,
+  TransactionDetails
 }
 
 const walletProps = {

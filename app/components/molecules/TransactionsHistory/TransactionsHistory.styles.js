@@ -3,7 +3,6 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        flex: 1,
         marginBottom: 5
     },
     filterContainer: {

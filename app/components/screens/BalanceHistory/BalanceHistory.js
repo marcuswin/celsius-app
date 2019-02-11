@@ -60,6 +60,13 @@ class BalanceHistory extends Component {
           </Card>
 
           <View style={{ paddingHorizontal: 20 }}>
+          <CelButton
+              basic
+              margin="15 0 15 0"
+              onPress={() => actions.navigateTo('AllTransactions')}
+            >
+              See all
+            </CelButton>
             <TransactionsHistory
               transactions={transactionsArray}
               currencyRatesShort={currencyRatesShort}
