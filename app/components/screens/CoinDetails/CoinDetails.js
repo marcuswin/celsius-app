@@ -18,7 +18,7 @@ import transactionsUtil from "../../../utils/transactions-util";
 @connect(
   state => ({
     style: CoinDetailsStyle(),
-    currencies: state.generalData.supportedCurrencies,
+    currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort
@@ -36,10 +36,11 @@ class CoinDetails extends Component {
     super(props);
     const { navigation } = props;
     const coin = navigation.getParam("coin");
+    const coinName = props.currencies.filter(c => c.short === coin.toUpperCase())[0].name
 
     this.state = {
       header: {
-        title: `${coin.name}-${coin}`,
+        title: `${coinName}-${coin}`,
         left: "back",
         right: "profile"
       }
@@ -48,7 +49,7 @@ class CoinDetails extends Component {
 
   componentDidMount() {
     const { actions, navigation } = this.props
-    actions.getAllTransactions({ limit: 5, coin: navigation.getParam('coin') });
+    actions.getAllTransactions({ limit: 5, coin: navigation.getParam('coin').toUpperCase() });
   }
 
   getCoinDetails() {
@@ -74,7 +75,7 @@ class CoinDetails extends Component {
     const { header } = this.state;
     const { transactions, currencyRatesShort, actions } = this.props;
     const coinDetails = this.getCoinDetails();
-    const transactionsArray = transactionsUtil.filterTransactions(transactions)
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 })
 
     return (
       <RegularLayout header={header}>
@@ -120,6 +121,14 @@ class CoinDetails extends Component {
             currencyRatesShort={currencyRatesShort}
             navigateTo={actions.navigateTo}
           />
+
+          <CelButton
+            basic
+            margin="15 0 15 0"
+            onPress={() => actions.navigateTo('AllTransactions')}
+          >
+            See all
+          </CelButton>
 
           <View>
             <CelButton>

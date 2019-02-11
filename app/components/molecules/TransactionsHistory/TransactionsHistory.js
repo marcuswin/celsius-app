@@ -7,37 +7,29 @@ import testUtil from "../../../utils/test-util";
 
 import TransactionsHistoryStyle from "./TransactionsHistory.styles";
 import TransactionRow from '../../atoms/TransactionRow/TransactionRow';
-import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
 
 class TransactionsHistory extends Component {
 
   static propTypes = {
-    showAll: PropTypes.bool,
-    transactions: PropTypes.instanceOf(Object).isRequired,
-    // currencyRatesShort: PropTypes.instanceOf(Array).isRequired,
+    transactions: PropTypes.instanceOf(Array),
+    currencyRatesShort: PropTypes.instanceOf(Object).isRequired,
     navigateTo: PropTypes.func.isRequired
   };
-  static defaultProps = {
-    showAll: false
-  }
+  static defaultProps = {}
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      // initial state
-    };
-
-    // binders
+    this.state = {};
   }
 
   render() {
-    const { currencyRatesShort, transactions, navigateTo, showAll } = this.props
+    const { currencyRatesShort, transactions, navigateTo } = this.props
     const style = TransactionsHistoryStyle()
 
-    let transactionsDisplay = currencyRatesShort ? transactions.map(t => ({
+    const transactionsDisplay = transactions.map(t => ({
       id: t.id,
       amount: t.amount,
       amount_usd: t.amount_usd ? t.amount_usd : t.amount * currencyRatesShort[t.coin],
@@ -48,25 +40,19 @@ class TransactionsHistory extends Component {
       status: t.is_confirmed ? t.type : 'pending',
       type: t.type,
       transfer_data: t.transfer_data,
-    })).filter(t => !(t.nature.includes('transfer') && !t.transfer_data)) : [];
-
-    if (transactions.length > 5 && !showAll) transactionsDisplay = transactionsDisplay.slice(0, 5);
+    }));
 
     return (
       <View style={style.container}>
-        {!showAll ?
-          <View style={style.filterContainer}>
-            <View>
-              <CelText bold type='H6'>Transaction history</CelText>
-            </View>
-            <View>
-              <Icon name="Filter" width="16" height="16" />
-            </View>
-          </View> :
-          <View style={style.filterIcon}>
+        <View style={style.filterContainer}>
+          <View>
+            <CelText bold type='H6'>Transaction history</CelText>
+          </View>
+          <View>
             <Icon name="Filter" width="16" height="16" />
           </View>
-        }
+        </View>
+
         <FlatList
           data={transactionsDisplay}
           renderItem={({ item }) =>
@@ -77,10 +63,7 @@ class TransactionsHistory extends Component {
           }
           keyExtractor={(item) => item.id}
         />
-        {currencyRatesShort && transactions.length > 5 && !showAll ?
-          <CelButton basic onPress={() => navigateTo('AllTransactions')}>See all</CelButton>
-          : null
-        }
+
       </View>
     );
   }

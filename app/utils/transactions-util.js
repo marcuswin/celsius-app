@@ -47,14 +47,35 @@ function getTransactionType(transaction) {
 }
 
 // TODO(fj) add filter
-function filterTransactions(transactions) {
+function filterTransactions(transactions, filter = undefined) {
   if (!transactions) return [];
 
   const transactionIds = Object.keys(transactions);
-  const transactionArray = [];
-  transactionIds.forEach(tid => transactionArray.push(transactions[tid]));
+  let transactionArray = [];
+  transactionIds.forEach(tid => transactionArray.push(transactions[tid]))
 
-  return orderTransactionsByDate(transactionArray);
+  transactionArray = orderTransactionsByDate(transactionArray);
+
+  if (filter) {
+    if (filter.coin) transactionArray = transactionArray.filter(t => t.coin.toLowerCase() === filter.coin.toLowerCase());
+    if (filter.type) transactionArray = filterTransactionsByType(transactionArray, filter.type);
+    if (filter.limit) transactionArray = transactionArray.slice(0, filter.limit);
+  }
+
+  return transactionArray;
+}
+
+function filterTransactionsByType(transactions, type) {
+  switch (type) {
+    case 'interest':
+      return transactions.filter(t => t.type === TRANSACTION_TYPES.INTEREST)
+    case 'reveiced':
+      return transactions.filter(t => [TRANSACTION_TYPES.DEPOSIT_CONFIRMED, TRANSACTION_TYPES.DEPOSIT_PENDING].includes(t.type))
+    case 'withdraw':
+      return transactions.filter(t => [TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED, TRANSACTION_TYPES.WITHDRAWAL_PENDING].includes(t.type))
+    default:
+      return transactions
+  }
 }
 
 function orderTransactionsByDate(transactions = []) {
