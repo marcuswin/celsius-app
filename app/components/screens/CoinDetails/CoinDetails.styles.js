@@ -4,6 +4,10 @@ import { getThemedStyle } from '../../../utils/styles-util';
 const base = {
     container: {
         flex: 1
+    },
+    buttons: {
+        position: 'absolute',
+        right: 0,
     }
 }
 

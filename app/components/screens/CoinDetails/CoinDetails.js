@@ -14,6 +14,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
+import Separator from '../../atoms/Separator/Separator';
 
 @connect(
   state => ({
@@ -87,14 +88,9 @@ class CoinDetails extends Component {
                 <CelText>{formatter.usd(coinDetails.amount_usd)}</CelText>
                 <CelText>{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
               </View>
-              <View style={{
-                borderRightWidth: 1,
-                borderRightColor: "gray",
-                borderRadius: 10,
-                // position: 'absolute',
-                // right: 0
-              }} />
-              <View style={{ position: 'absolute', right: 0 }}>
+              <Separator margin="0 35 0 25" />
+
+              <View style={[style.buttons]}>
                 <TouchableOpacity style={{}}>
                   <CelText> Send </CelText>
                 </TouchableOpacity>
