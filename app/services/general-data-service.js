@@ -7,7 +7,8 @@ import apiUrl from './api-url';
 const generalDataService = {
   getSupportedCurrencies,
   getBackendStatus,
-  getBlacklisted
+  getBlacklisted,
+  getCelsiusInitialData
 };
 
 
@@ -17,6 +18,10 @@ function getSupportedCurrencies() {
 
 function getBackendStatus() {
   return axios.get(`${apiUrl}/status`);
+}
+
+function getCelsiusInitialData() {
+  return axios.get(`${apiUrl}/initial_data`);
 }
 
 function getBlacklisted() {

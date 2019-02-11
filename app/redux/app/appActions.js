@@ -149,6 +149,8 @@ function setInternetConnection(connection) {
 
 // Initialize all data needed for the App
 async function initAppData() {
+  await store.dispatch(actions.getInitialCelsiusData())
+
   // get user token
   const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
 

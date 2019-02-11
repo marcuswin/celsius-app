@@ -8,10 +8,28 @@ import ACTIONS from '../../constants/ACTIONS';
 export {
   getKYCDocTypes,
   getBackendStatus,
+  getInitialCelsiusData,
 
   // remove
   getSupportedCurrencies,
   getBlacklistedCountries,
+}
+
+function getInitialCelsiusData() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_INITIAL_CELSIUS_DATA));
+
+    try {
+      const res = await generalDataService.getCelsiusInitialData();
+      dispatch({
+        type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
+        interestRates: res.data.interest_rates
+      });
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_SUPPORTED_CURRENCIES, err));
+    }
+  }
 }
 
 function getSupportedCurrencies() {

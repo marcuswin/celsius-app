@@ -5,9 +5,12 @@ import ACTIONS from '../../constants/ACTIONS';
 
 function initialState() {
   return {
-    supportedCurrencies: undefined,
     kycDocTypes: undefined,
     backendStatus: undefined,
+    interestRates: undefined,
+
+    // TODO: remove
+    supportedCurrencies: undefined,
     blacklistedCountryLocation: [],
     blacklistedCountryResidency: [],
     blacklistedStatesLocation: [],
@@ -42,6 +45,12 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         backendStatus: action.backendStatus,
+      };
+
+    case ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS:
+      return {
+        ...state,
+        interestRates: action.interestRates,
       };
 
     case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:
