@@ -37,17 +37,18 @@ class Spinner extends Component {
   getColor = (theme) => {
     switch (theme) {
       case THEMES.LIGHT:
-        return STYLES.COLORS.DARK_GRAY
+        return STYLES.COLORS.DARK_GRAY;
       case THEMES.DARK:
-        return STYLES.COLORS.WHITE
+        return STYLES.COLORS.WHITE;
       case THEMES.CELSIUS:
-        return STYLES.COLORS.DARK_GRAY
+        return STYLES.COLORS.DARK_GRAY;
+      default:
+        return STYLES.COLORS.DARK_GRAY;
     }
   }
 
   repeat = () => {
-    this.setState({ spinValue: new Animated.Value(0) })
-    this.animate();
+    this.setState({ spinValue: new Animated.Value(0) }, this.animate)
   }
 
   animate = () => {

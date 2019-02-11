@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -72,11 +72,13 @@ class FabMenu extends Component {
 
     switch (theme) {
       case THEMES.LIGHT:
-        return 'light'
+        return 'light';
       case THEMES.DARK:
-        return 'dark'
+        return 'dark';
       case THEMES.CELSIUS:
-        return 'dark'
+        return 'dark';
+      default:
+        return 'light'
     }
   }
 
@@ -123,18 +125,13 @@ class FabMenu extends Component {
 
   renderFabMenu = () => {
     const style = FabMenuStyle();
-    const { menuItems, type } = this.state;
+    const { menuItems } = this.state;
     const tintColor = this.getTintColor();
 
     return (
-      <View style={StyleSheet.absoluteFill}>
-        <BlurView tint={tintColor} intensity={90} style={StyleSheet.absoluteFill}>
-          <View style={[style.menuContainer, StyleSheet.absoluteFill]}>
-            {menuItems.map(this.renderMenuRow)}
-          </View>
-        </BlurView>
-        <Fab onPress={this.fabAction} type={type} />
-      </View>
+      <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]}>
+        {menuItems.map(this.renderMenuRow)}
+      </BlurView>
     )
   }
 
@@ -156,12 +153,12 @@ class FabMenu extends Component {
     const FabMenuCmp = this.renderFabMenu;
     const FabButton = this.renderFab;
 
-    if (fabMenuOpen) {
-      return <FabMenuCmp />;
-    }
-
-    return <FabButton />;
-
+    return (
+      <Fragment>
+        {fabMenuOpen ? <FabMenuCmp /> : null}
+        <FabButton />
+      </Fragment>
+    )
   }
 }
 
