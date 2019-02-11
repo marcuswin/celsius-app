@@ -13,6 +13,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
+import Graph from "../../atoms/Graph/Graph";
 
 @connect(
   state => ({
@@ -20,6 +21,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
+    currencyGraphs: state.currencies.graphs,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -32,12 +34,20 @@ class BalanceHistory extends Component {
 
   constructor(props) {
     super(props);
+
+    const { currencyGraphs } = props;
+
+    const dateArray = currencyGraphs.LTC["1y"].map(data => data[0])
+    const priceArray = currencyGraphs.LTC["1y"].map(data => data[1])
+
     this.state = {
       header: {
         title: "Wallet",
         left: "back",
         right: "profile"
-      }
+      },
+      dateArray,
+      priceArray,
     };
   }
 
@@ -47,26 +57,26 @@ class BalanceHistory extends Component {
   }
 
   render() {
-    const { transactions, actions, currencyRatesShort, walletSummary } = this.props
-    const { header } = this.state;
+    const { transactions, actions, currencyRatesShort, walletSummary, style } = this.props
+    const { header, dateArray, priceArray } = this.state;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
 
     return (
       <RegularLayout padding="20 0 20 0" header={header} >
         <View>
-          <Card padding="15 15 15 15" margin="15 20 15 20">
-            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
-            <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
-          </Card>
+          <View style={style.container}>
+            <Card padding="15 15 15 15" margin="15 20 15 20">
+              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
+              <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            </Card>
+          </View>
 
-          <View style={{ paddingHorizontal: 20 }}>
-          <CelButton
-              basic
-              margin="15 0 15 0"
-              onPress={() => actions.navigateTo('AllTransactions')}
-            >
-              See all
-            </CelButton>
+          <Graph
+            dateArray={dateArray}
+            priceArray={priceArray}
+          />
+
+          <View style={style.container}>
             <TransactionsHistory
               transactions={transactionsArray}
               currencyRatesShort={currencyRatesShort}

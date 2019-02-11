@@ -27,6 +27,7 @@ const { MODALS } = UI
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
+    currencyGraphs: state.currencies.graphs,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -40,12 +41,20 @@ class WalletInterest extends Component {
 
   constructor(props) {
     super(props);
+
+    const { currencyGraphs } = props;
+
+    const dateArray = currencyGraphs.LTC["1y"].map(data => data[0])
+    const priceArray = currencyGraphs.LTC["1y"].map(data => data[1])
+
     this.state = {
       header: {
         title: "Interest earned",
         left: "back",
         right: "profile"
-      }
+      },
+      dateArray,
+      priceArray,
     };
   }
 
@@ -55,7 +64,7 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { header } = this.state;
+    const { header, dateArray, priceArray } = this.state;
     const { currencyRatesShort, actions, transactions, walletSummary, style } = this.props;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 })
 
@@ -72,7 +81,10 @@ class WalletInterest extends Component {
             </Card>
           </View>
 
-          <Graph />
+          <Graph
+            dateArray={dateArray}
+            priceArray={priceArray}
+          />
 
           <View style={style.container}>
             <TransactionsHistory
