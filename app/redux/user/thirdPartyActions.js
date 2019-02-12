@@ -9,6 +9,7 @@ import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import { analyticsEvents } from "../../utils/analytics-util";
+import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -88,8 +89,10 @@ function loginTwitter(user) {
 
 function loginUserTwitterSuccess(data) {
     analyticsEvents.sessionStart();
-    return (dispatch) => {
-        dispatch({
+    return async (dispatch) => {
+      await dispatch(actions.getComplianceInfo());
+
+      dispatch({
             type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
             callName: API.LOGIN_USER_TWITTER,
             user: data.user,
@@ -184,8 +187,10 @@ function loginFacebook(user) {
 
 function loginUserFacebookSuccess(data) {
     analyticsEvents.sessionStart();
-    return (dispatch) => {
-        dispatch({
+    return async (dispatch) => {
+      await dispatch(actions.getComplianceInfo());
+
+      dispatch({
             type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
             callName: API.LOGIN_USER_FACEBOOK,
             user: data.user,
@@ -259,8 +264,10 @@ function loginGoogle(user) {
 
 function loginUserGoogleSuccess(data) {
     analyticsEvents.sessionStart();
-    return (dispatch) => {
-        dispatch({
+    return async (dispatch) => {
+      await dispatch(actions.getComplianceInfo());
+
+      dispatch({
             type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,
             callName: API.LOGIN_USER_GOOGLE,
             user: data.user,

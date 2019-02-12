@@ -25,6 +25,7 @@ export default {
   START_KYC: 'START_KYC',
   GET_KYC_STATUS: 'GET_KYC_STATUS',
   GET_ICO_USERS_INFO: "GET_ICO_USERS_INFO",
+  GET_COMPLIANCE_INFO_INFO: "GET_COMPLIANCE_INFO_INFO",
 
   // wallet api calls
   GET_WALLET_DETAILS: 'GET_WALLET_DETAILS',
@@ -68,7 +69,7 @@ export default {
   // camera roll calls
   GET_CAMERA_ROLL: 'GET_CAMERA_ROLL',
   TAKE_CAMERA_PHOTO: 'TAKE_CAMERA_PHOTO',
-  
+
   // loan calls
   APPLY_FOR_LOAN: 'APPLY_FOR_LOAN',
 

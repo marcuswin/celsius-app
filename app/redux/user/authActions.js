@@ -14,6 +14,7 @@ import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
+import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -39,7 +40,7 @@ function loginUser({ email, password }) {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(loginUserSuccess(res.data));
+      dispatch(await loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
       dispatch(navigateTo('Home', true));
@@ -50,13 +51,17 @@ function loginUser({ email, password }) {
   }
 }
 
-function loginUserSuccess(data) {
+async function loginUserSuccess(data) {
   analyticsEvents.sessionStart();
-  return {
-    type: ACTIONS.LOGIN_USER_SUCCESS,
-    callName: API.LOGIN_USER,
-    tokens: data.auth0,
-    user: data.user,
+  return async dispatch => {
+    await dispatch(actions.getComplianceInfo());
+
+    dispatch({
+      type: ACTIONS.LOGIN_USER_SUCCESS,
+      callName: API.LOGIN_USER,
+      tokens: data.auth0,
+      user: data.user,
+    })
   }
 }
 

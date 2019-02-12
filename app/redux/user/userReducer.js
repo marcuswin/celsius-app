@@ -19,7 +19,33 @@ const initialState = {
     showTodayRatesModal: true,
     showBchExplanationInfoBox: true,
     declineAccess: false,
-  }
+  },
+  compliance: {
+    app: {
+      allowed: true,
+      coins: []
+    },
+    deposit: {
+      allowed: true,
+      coins: []
+    },
+    withdraw: {
+      allowed: true,
+      coins: []
+    },
+    celpay: {
+      allowed: true,
+      coins: []
+    },
+    loan: {
+      allowed: true,
+      coins: []
+    },
+    interest: {
+      allowed: true,
+      coins: []
+    }
+  },
 };
 
 export default (state = initialState, action) => {
@@ -187,6 +213,13 @@ export default (state = initialState, action) => {
         }
       }
 
+    case ACTIONS.GET_COMPLIANCE_INFO_SUCCESS:
+      return {
+        ...state,
+        compliance: {
+          ...action.complianceInfo
+        }
+      }
 
     default:
       return state;
