@@ -14,6 +14,7 @@ import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
+import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 
 @connect(
   state => ({
@@ -64,15 +65,14 @@ class WithdrawEnterAmount extends Component {
 
             <View>
               <CelText align="center" type="H2">{ coin }</CelText>
-              <View>
-                <View>
-                  <CelText align="center" type="H1">{ formData.amount || 0 }</CelText>
-                  <CelText align="center" type="H2">{ formData.amount_usd || 0 }</CelText>
-                </View>
-                <View>
-                  <CelText>Switch</CelText>
-                </View>
-              </View>
+
+              <CoinSwitch
+                updateFormField={actions.updateFormField}
+                amountUsd={formData.amountUsd}
+                amountCrypto={formData.amountCrypto}
+                isUsd={formData.isUsd}
+                coin={coin}
+              />
             </View>
 
             <CelButton
@@ -84,8 +84,8 @@ class WithdrawEnterAmount extends Component {
           </View>
 
           <CelNumpad
-            field="amount"
-            value={formData.amount}
+            field={formData.isUsd ? "amountUsd" : "amountCrypto" }
+            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
             updateFormField={actions.updateFormField}
             purpose={KEYPAD_PURPOSES.WITHDRAW}
           />
