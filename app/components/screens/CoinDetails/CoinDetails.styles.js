@@ -41,7 +41,6 @@ const base = {
     justifyContent: 'space-between'
   },
   interestRateWrapper: {
-    backgroundColor: 'black',
     alignItems: 'flex-end',
   }
 };
