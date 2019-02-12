@@ -22,6 +22,7 @@ import AllTransactions from "./components/screens/AllTransactions/AllTransaction
 import WalletInterest from "./components/screens/WalletInterest/WalletInterest";
 import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
+import WithdrawEnterAmount from "./components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -64,12 +65,23 @@ const walletProps = {
 }
 const walletNavigator = createStackNavigator(walletScreens, walletProps);
 
+const withdrawScreens = {
+  WithdrawEnterAmount,
+}
+
+const withdrawProps = {
+  headerMode: "none",
+  initialRouteName: 'WithdrawEnterAmount'
+}
+const withdrawNavigator = createStackNavigator(withdrawScreens, withdrawProps);
+
 export const screens = {
   Home,
   Wallet: walletNavigator,
+  Deposit,
+  Withdraw: withdrawNavigator,
   Borrow,
   CelPay,
-  Deposit,
   SelectCountry,
   Settings: SettingsNavigator,
   Support,

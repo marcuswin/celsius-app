@@ -159,7 +159,7 @@ class CoinDetails extends Component {
             </CelButton>
 
             <View>
-              <CelButton onPress={() => actions.navigateTo('AllTransactions')}>
+              <CelButton onPress={() => actions.navigateTo('WithdrawEnterAmount', { coin: coinDetails.short })}>
                 Withdraw
               </CelButton>
             </View>
