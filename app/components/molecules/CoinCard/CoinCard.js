@@ -77,13 +77,15 @@ class CoinCard extends Component {
   }
 
   renderCard = (coin) => {
+    const { currencies } = this.props
+    const currency = currencies.filter(c => c.short === coin.short.toUpperCase())[0]
     const amount = coin.amount_usd > 0;
 
     return (
       <Card key={coin.name} size="half" margin="5 2 5 2" onPress={() => this.cardNavigation(coin)}>
         <View style={{ flexDirection: "row" }}>
           <View>
-            <CelText style={{ lineHeight: 23 }} type="H6">{coin.name}</CelText>
+            <CelText style={{ lineHeight: 23 }} type="H6">{currency.displayName}</CelText>
             {amount ? this.renderAmount(coin) : this.emptyCard(coin)}
           </View>
           <View style={{ position: 'absolute', right: 0 }} >
