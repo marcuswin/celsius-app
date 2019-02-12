@@ -61,6 +61,10 @@ export const EMPTY_STATES = {
   UNDER_CONSTRUCTION: 'UNDER_CONSTRUCTION',
 }
 
+export const KEYPAD_PURPOSES = {
+  WITHDRAW: 'WITHDRAW',
+}
+
 export const HIGHLIGHTED_COUNTRIES = [
   'Canada',
   'Germany',
