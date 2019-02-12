@@ -23,6 +23,7 @@ class CelButton extends Component {
     margin: PropTypes.string,
     basic: PropTypes.bool,
     size: PropTypes.oneOf(buttonSizes),
+    textColor: PropTypes.string
   };
   static defaultProps = {
     iconRight: undefined,
@@ -31,6 +32,7 @@ class CelButton extends Component {
     margin: '0 0 0 0',
     basic: false,
     size: 'medium',
+    textColor: ''
   }
 
   getButtonStyle = (style) => {
@@ -44,11 +46,12 @@ class CelButton extends Component {
   }
 
   getTitleStyle = (style) => {
-    const { disabled, basic, size } = this.props;
+    const { disabled, basic, size, textColor } = this.props;
     const titleStyle = [style.baseTitle, style[`${size}Title`]];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
-
+    if (textColor) titleStyle.push({ color: textColor })
+    
     return titleStyle;
   }
 

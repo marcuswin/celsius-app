@@ -17,7 +17,6 @@ import Graph from "../../atoms/Graph/Graph";
 
 @connect(
   state => ({
-    style: BalanceHistoryStyle(),
     walletSummary: state.wallet.summary,
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
@@ -57,26 +56,25 @@ class BalanceHistory extends Component {
   }
 
   render() {
-    const { transactions, actions, currencyRatesShort, walletSummary, style } = this.props
+    const { transactions, actions, currencyRatesShort, walletSummary } = this.props
     const { header, dateArray, priceArray } = this.state;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
+    const style = BalanceHistoryStyle();
 
     return (
       <RegularLayout padding="20 0 20 0" header={header} >
-        <View>
-          <View style={style.container}>
+        <View style={{ width: '100%' }}>>
             <Card padding="15 15 15 15" margin="15 20 15 20">
-              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
-              <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
-            </Card>
-          </View>
+            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
+            <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+          </Card>
 
           <Graph
             dateArray={dateArray}
             priceArray={priceArray}
           />
 
-          <View style={style.container}>
+          <View style={[style.container, { width: '100%' }]}>
             <TransactionsHistory
               transactions={transactionsArray}
               currencyRatesShort={currencyRatesShort}
@@ -92,7 +90,7 @@ class BalanceHistory extends Component {
             </CelButton>
           </View>
         </View>
-      </RegularLayout>
+      </RegularLayout >
     );
   }
 }

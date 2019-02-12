@@ -12,6 +12,7 @@ class CelText extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     bold: PropTypes.bool,
+    italic: PropTypes.bool,
     color: PropTypes.string,
     margin: PropTypes.string,
     style: PropTypes.oneOfType([
@@ -33,14 +34,21 @@ class CelText extends Component {
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
   getFontStyle = () => {
-    const { type, bold, margin, color, align } = this.props
+    const { type, bold, italic, margin, color, align } = this.props
     const cmpStyle = CelTextStyle();
     const fontSize = { fontSize: this.getFontSize(type) };
-    const boldStyle = bold ? { fontFamily: 'barlow-bold' } : {}
+    let fontFamily = {};
+    if (bold && italic) {
+      fontFamily = { fontFamily: 'barlow-bold-italic' };
+    } else if (bold) {
+      fontFamily = { fontFamily: 'barlow-bold' };
+    } else if (italic) {
+      fontFamily = { fontFamily: 'barlow-italic' };
+    }
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    return [cmpStyle.text, fontSize, boldStyle, colorStyle, marginStyle, alignStyle];
+    return [cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
   }
 
   render() {

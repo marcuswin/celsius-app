@@ -1,6 +1,8 @@
 const FONTS = [
   {'barlow-regular': require('../../assets/fonts/Barlow/Barlow-Regular.otf')},
   {'barlow-bold': require('../../assets/fonts/Barlow/Barlow-Bold.otf')},
+  {'barlow-bold-italic': require('../../assets/fonts/Barlow/Barlow-BoldItalic.otf')},
+  {'barlow-italic': require('../../assets/fonts/Barlow/Barlow-Italic.otf')},
   {'barlow-semibold': require('../../assets/fonts/Barlow/Barlow-SemiBold.otf')},
 ];
 

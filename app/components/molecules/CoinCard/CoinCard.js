@@ -38,7 +38,7 @@ class CoinCard extends Component {
     return (
       <Fragment>
         <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
-        <View style={{flexDirection:"row", alignItems: "center"}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" name="CirclePlus" />
           <CelText style={{ lineHeight: 23, marginLeft: 5 }} type="H6" color={STYLES.COLORS.CELSIUS_BLUE}>
             Deposit </CelText>

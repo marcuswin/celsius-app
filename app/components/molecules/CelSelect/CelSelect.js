@@ -49,7 +49,7 @@ class CelSelect extends Component {
         value: item
       };
     }
-    return {};
+    return null;
   }
 
   constructor(props) {

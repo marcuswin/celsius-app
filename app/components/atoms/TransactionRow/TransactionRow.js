@@ -21,35 +21,24 @@ class TransactionRow extends Component {
   static defaultProps = {
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    const { transaction } = nextProps;
-    if (!transaction) return {};
-    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    if (!transactionProps) return {};
-
-    return {
-      type: transaction.type,
-      color: transactionProps.color,
-      iconName: transactionProps.iconName,
-      statusText: transactionProps.statusText,
-    }
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
-      color: '',
-      iconName: '',
-      statusText: ''
+      transactionProps: {
+        color: '',
+        iconName: '',
+        statusText: ''
+      }
     };
   }
 
   render() {
     const { transaction, onPress } = this.props;
-    const { type, color, iconName, statusText } = this.state;
-    if (!type) return null;
-    
+    if (!transaction) return null;
+
+    const { color, iconName, statusText } = transactionsUtil.getTransactionsProps(transaction);
+
     const style = TransactionRowStyle()
     return (
       <View>
