@@ -5,7 +5,8 @@ import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
 import { setSecureStoreKey, getSecureStoreKey } from '../utils/expo-storage';
 import usersService from './users-service';
 
-const { MIXPANEL_TOKEN } = Constants.manifest.extra;
+const { MIXPANEL_TOKEN, CLIENT_VERSION, ENV, revisionId } = Constants.manifest.extra;
+
 
 export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
 
@@ -210,10 +211,21 @@ async function sessionStart() {
     sessionEndTime = moment.utc(Date.parse(sessionEndTime));
   }
   const sessionInterval = dateNow.diff(sessionEndTime, 'minutes', true);
+
+  let clientVersion;
+  if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
+    clientVersion = CLIENT_VERSION;
+  } else {
+    clientVersion = ENV;
+  }
+
   mixpanelAnalytics.track('Session started', {
     email: userEmail,
     "session interval": `${sessionInterval} minutes`,
-    timestamp: new Date()
+    timestamp: new Date(),
+    appVersion: clientVersion,
+    appRevisionId: revisionId,
+    ENV
   })
 }
 
@@ -227,9 +239,21 @@ async function sessionEnd() {
     sessionStartTime = moment.utc(Date.parse(sessionStartTime));
   }
   const sessionDuration = dateNow.diff(sessionStartTime, 'minutes', true);
+
+  let clientVersion;
+  if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {
+    clientVersion = CLIENT_VERSION;
+  } else {
+    clientVersion = ENV;
+  }
+
+
   mixpanelAnalytics.track('Session ended', {
     email: userEmail,
     "session length": `${sessionDuration} minutes`,
-    timestamp: new Date()
+    timestamp: new Date(),
+    appVersion: clientVersion,
+    appRevisionId: revisionId,
+    ENV
   })
 }
