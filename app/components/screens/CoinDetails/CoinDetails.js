@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -80,24 +80,37 @@ class CoinDetails extends Component {
           <View style={style.container}>
             <Card padding="0 0 0 0">
               <View style={style.coinAmountWrapper}>
-                <View>
-                  <CelText type="H6" >{currency.displayName}</CelText>
-                  <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                  <CelText type="H6" >{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                <View style={style.amountFlexBox}>
+                  <View style={style.imageWrapper}>
+                    <Image source={{ uri: currency.image_url }} style={style.image}/>
+                  </View>
+                  <View>
+                    <CelText type="H6" >{currency.displayName}</CelText>
+                    <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                    <CelText type="H6" >{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                  </View>
                 </View>
 
                 <Separator vertical style={style.separator}/>
 
-                <View style={[style.buttons]}>
-                  <TouchableOpacity style={{}}>
-                    <CelText> Send </CelText>
-                  </TouchableOpacity>
+                <View style={style.buttons}>
+                  <CelButton
+                    basic
+                    size="small"
+                    onPress={() => actions.navigateTo('WalletLanding')}
+                  >
+                    Send
+                  </CelButton>
 
                   <Separator />
 
-                  <TouchableOpacity>
-                    <CelText> Deposit </CelText>
-                  </TouchableOpacity>
+                  <CelButton
+                    basic
+                    size="small"
+                    onPress={() => actions.navigateTo('WalletLanding')}
+                  >
+                    Deposit
+                  </CelButton>
                 </View>
               </View>
             </Card>
