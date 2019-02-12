@@ -35,6 +35,14 @@ const base = {
   separator: {
     right: 0,
     position: 'absolute'
+  },
+  interestCardWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  interestRateWrapper: {
+    backgroundColor: 'black',
+    alignItems: 'flex-end',
   }
 };
 

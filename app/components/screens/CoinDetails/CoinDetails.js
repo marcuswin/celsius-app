@@ -16,6 +16,10 @@ import transactionsUtil from "../../../utils/transactions-util";
 import CoinDetailsStyle from "./CoinDetails.styles";
 import Separator from "../../atoms/Separator/Separator";
 import Graph from "../../atoms/Graph/Graph";
+import STYLES from "../../../constants/STYLES";
+import Badge from "../../atoms/Badge/Badge";
+
+const { COLORS } = STYLES;
 
 @connect(
   state => ({
@@ -25,6 +29,7 @@ import Graph from "../../atoms/Graph/Graph";
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
+    interestRates: state.generalData.interestRates,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -69,7 +74,7 @@ class CoinDetails extends Component {
 
   render() {
     const { header, dateArray, priceArray, currency } = this.state;
-    const { transactions, currencyRatesShort, actions } = this.props;
+    const { transactions, currencyRatesShort, actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 })
     const style = CoinDetailsStyle();
@@ -82,7 +87,7 @@ class CoinDetails extends Component {
               <View style={style.coinAmountWrapper}>
                 <View style={style.amountFlexBox}>
                   <View style={style.imageWrapper}>
-                    <Image source={{ uri: currency.image_url }} style={style.image}/>
+                    <Image source={{ uri: currency.image_url }} style={style.coinImage}/>
                   </View>
                   <View>
                     <CelText type="H6" >{currency.displayName}</CelText>
@@ -123,9 +128,21 @@ class CoinDetails extends Component {
 
           <View style={style.container}>
             <Card margin="10 0 10 0">
-              <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
-              <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-              <CelText type="H6" color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+              <View style={style.interestCardWrapper}>
+                <View>
+                  <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
+                  <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                  <CelText type="H6" color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                </View>
+                { !!interestRates[coinDetails.short] && (
+                  <View style={style.interestRateWrapper}>
+                    <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
+                    <Badge color={COLORS.GREEN}>
+                      <CelText type="H5" color="white">{ (interestRates[coinDetails.short].rate * 100).toFixed(2) }%</CelText>
+                    </Badge>
+                  </View>
+                )}
+              </View>
             </Card>
 
             <TransactionsHistory
