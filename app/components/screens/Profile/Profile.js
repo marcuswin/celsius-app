@@ -347,7 +347,7 @@ class ProfileScreen extends Component {
               <React.Fragment>
                 <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER ID</Separator>
                 {(formData.country === "United States" || formData.citizenship === "United States" ) ?
-                  <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="Social Security Number (SSN)" autoCapitalize="sentences" />
+                  <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="SSN (optional)" autoCapitalize="sentences" />
                   :
                   <React.Fragment>
                     <CelInput editable={taxpayerEditable} theme="white" value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />

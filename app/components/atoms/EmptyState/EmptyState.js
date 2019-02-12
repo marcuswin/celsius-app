@@ -30,7 +30,7 @@ const EmptyState = (props) => {
       break;
     case "NotEnoughForLoan":
       title = "";
-      text = "Sorry, you don't have enough money deposited to take a loan. Minimum amount is $5000"
+      text = "Sorry, you don't have enough funds deposited to take a loan. Minimum amount is $5000"
       break;
     default:
       title = "From here you can pay your friends back with crypto";
