@@ -11,6 +11,8 @@ import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 
+const buttonSizes = ['small', 'medium'];
+
 class CelButton extends Component {
 
   static propTypes = {
@@ -19,19 +21,21 @@ class CelButton extends Component {
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
     margin: PropTypes.string,
-    basic: PropTypes.bool
+    basic: PropTypes.bool,
+    size: PropTypes.oneOf(buttonSizes),
   };
   static defaultProps = {
     iconRight: undefined,
     disabled: false,
     loading: false,
     margin: '0 0 0 0',
-    basic: false
+    basic: false,
+    size: 'medium',
   }
 
   getButtonStyle = (style) => {
-    const { margin, disabled, basic } = this.props;
-    const buttonStyles = [style.container];
+    const { margin, disabled, basic, size } = this.props;
+    const buttonStyles = [style.container, style[`${size}Container`]];
     buttonStyles.push(stylesUtil.getMargins(margin));
     if (disabled) buttonStyles.push(style.disabledButton);
     if (basic) buttonStyles.push(style.basicButton);
@@ -40,8 +44,8 @@ class CelButton extends Component {
   }
 
   getTitleStyle = (style) => {
-    const { disabled, basic } = this.props;
-    const titleStyle = [style.baseTitle];
+    const { disabled, basic, size } = this.props;
+    const titleStyle = [style.baseTitle, style[`${size}Title`]];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
 
