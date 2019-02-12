@@ -17,7 +17,6 @@ import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   state => ({
-    style: WalletLandingStyle(state.ui.theme),
     currencies: state.generalData.supportedCurrencies,
     walletSummary: state.wallet.summary,
   }),

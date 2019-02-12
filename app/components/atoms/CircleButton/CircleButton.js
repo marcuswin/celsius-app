@@ -21,15 +21,25 @@ class CircleButton extends Component {
       PropTypes.string,
       PropTypes.bool
     ]),
+    isSelected: PropTypes.bool,
+    selectable: PropTypes.bool,
     type: PropTypes.oneOf(['menu', 'theme', 'coin']).isRequired,
   };
   static defaultProps = {
+    isSelected: false,
+    selectable: false
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { isSelected, theme } = this.props;
+    return isSelected !== nextProps.isSelected || theme !== nextProps.theme;
   }
 
   getFillColor = (style) => StyleSheet.flatten(style.fillColor).color; // get color from raw json depending on style theme
 
   render() {
-    const { theme, style, onPress, text, icon, type } = this.props
+    const { theme, style, onPress, text, icon, type, isSelected, selectable } = this.props;
+
     let fillColor = "";
     const styleCmp = CircleButtonStyle(theme);
     if (icon) {
@@ -39,7 +49,7 @@ class CircleButton extends Component {
 
     return (
       <TouchableOpacity style={[styleCmp.container, style]} onPress={onPress}>
-        <View>
+        <View style={{opacity: isSelected || !selectable ? 1 : 0.5 }}>
           <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
             {icon &&
               <Icon name={icon} fill={fillColor} />

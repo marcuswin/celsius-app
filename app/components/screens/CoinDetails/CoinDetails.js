@@ -23,7 +23,6 @@ const { COLORS } = STYLES;
 
 @connect(
   state => ({
-    style: CoinDetailsStyle(),
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
     transactions: state.transactions,

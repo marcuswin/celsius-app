@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import testUtil from "../../../utils/test-util";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CelText from '../../atoms/CelText/CelText';
-import CircleButton from '../../atoms/CircleButton/CircleButton';
+import * as appActions from '../../../redux/actions';
+import CoinSlider from '../../molecules/CoinSlider/CoinSlider';
 
+@connect(
+  state => ({
+    currencies: state.currencies.rates
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class Deposit extends Component {
 
   static propTypes = {
@@ -19,18 +27,24 @@ class Deposit extends Component {
     this.state = {};
   }
 
+  handleCoinSelect = (coin) => {
+    const { actions } = this.props;
+
+    actions.getCoinAddress(coin.short);
+  }
+
   render() {
     return (
       <RegularLayout header={{
         title: "Deposit coins",
         left: "back",
         right: "profile"
-      }}>
-        <CelText type="H4">Choose coin to deposit</CelText>
+      }} padding={'20 0 40 0'}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <CircleButton onPress={() => { }} type="coin" icon="IconBTC" text="Bitcoin" />
-          <CircleButton onPress={() => { }} type="coin" icon="IconETH" text="Ethereum" />
-          <CircleButton onPress={() => { }} type="coin" icon="IconLTC" text="Litecoin" />
+          <CoinSlider
+            coinList={this.props.currencies}
+            onCoinSelect={this.handleCoinSelect}
+          />
         </View>
       </RegularLayout>
     );
