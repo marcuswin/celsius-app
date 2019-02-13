@@ -8,8 +8,6 @@ import CelNumpadStyle from "./CelNumpad.styles";
 import CelText from "../../atoms/CelText/CelText";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 
-// const { KEYPAD_PURPOSES } = UI;
-
 const BUTTONS = {
   [KEYPAD_PURPOSES.WITHDRAW]: [
     ['1', '2', '3'],
@@ -20,24 +18,41 @@ const BUTTONS = {
 }
 
 function pressButton(props, button) {
-  const { updateFormField, field, value } = props;
+  const { updateFormField, onPress, field, value } = props;
 
-  if (!value) return updateFormField(field, button)
-  return updateFormField(field, `${value}${button}`)
+  let newValue;
+
+  if (button === '<') {
+    newValue = value.toString().slice(0, -1);
+
+  } else if (button === '.') {
+    if (!value.toString().includes('.')) {
+      newValue = `${value}${button}`
+    } else {
+      newValue = value
+    }
+  } else if (value) {
+      newValue = `${value}${button}`
+  } else {
+    newValue = button
+  }
+
+  updateFormField(field, newValue)
+  if (onPress) onPress(newValue)
 }
 
 const CelNumpad = (props) => {
   const style = CelNumpadStyle()
   const buttons = BUTTONS[props.purpose]
   return (
-    <View style={[style.container, { alignItems: 'center', justifyContent: 'center' }]}>
-      <View style={{ width: 240, height: 240 }}>
+    <View style={style.container}>
+      <View style={style.buttonsWrapper}>
         { buttons.map(btns => (
-          <View key={btns[0]} style={{ alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row' }}>
+          <View key={btns[0]} style={style.buttonsRow}>
             { btns.map(btn => (
               <TouchableOpacity
                 key={btn}
-                style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', height: 60, width: 60 }}
+                style={style.button}
                 onPress={() => pressButton(props, btn)}
               >
                 <CelText type="H1">{ btn }</CelText>

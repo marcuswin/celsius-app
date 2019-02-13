@@ -2,7 +2,7 @@
 import { Dimensions } from "react-native";
 import { getThemedStyle } from "../../../utils/styles-util";
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get("window");
 
 // TODO: make responsive
 const base = {
@@ -10,10 +10,29 @@ const base = {
     width: width + 10,
     height: 400,
 
-    position: 'absolute',
+    position: "absolute",
     zIndex: 200,
     top: height - 500,
     left: -5,
+
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonsWrapper: {
+    width: 240,
+    height: 240
+  },
+  buttonsRow: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row"
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    height: 60,
+    width: 60
   }
 };
 
