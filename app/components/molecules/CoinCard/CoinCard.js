@@ -63,9 +63,12 @@ class CoinCard extends Component {
 
     if (graphData) {
       dateArray = graphData["1y"].map(data => data[0]);
-      priceArray = graphData["1y"].map(data => data[1]); 0
-      //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
+      priceArray = graphData["1y"].map(data => data[1]); 
+
     }
+
+
+      //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
 
     const padding = graphData ? '20 0 0 0' : '20 0 20 0'
 
