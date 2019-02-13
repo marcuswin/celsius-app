@@ -68,13 +68,23 @@ function getBottomNavDimensions() {
 // }
 
 const initialState = {
+  // new v3
+  theme: THEMES.LIGHT,
+  fabMenuOpen: false,
+  isKeypadOpen: false,
+  keypadInput: undefined,
+
+  // keep
+  message: undefined,
+  internetConnected: true,
+  openedModal: undefined,
+
+  // check to remove
+  maintenanceMode: false,
   userActions: {
     enteredInitialPin: false,
   },
   keyboardHeight: 0,
-  message: undefined,
-  internetConnected: true,
-  maintenanceMode: false,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
@@ -83,14 +93,14 @@ const initialState = {
     screenHeight: height,
     bottomNavigation: getBottomNavDimensions(),
   },
-  hasBottomNavigation: false,
   scrollTo: undefined,
   scrollPosition: 0,
   formInputLayouts: {},
   scrollLayouts: {},
-  openedModal: undefined,
-  theme: THEMES.LIGHT,
-  fabMenuOpen: false
+
+  // remove
+  hasBottomNavigation: false,
+
 };
 
 export default (state = initialState, action) => {
@@ -131,6 +141,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         keyboardHeight: action.keyboardHeight
+      }
+
+    case ACTIONS.TOGGLE_KEYPAD:
+      return {
+        ...state,
+        isKeypadOpen: !state.isKeypadOpen,
+      }
+
+    case ACTIONS.SET_KEYPAD_INPUT:
+      return {
+        ...state,
+        keypadInput: action.input
       }
 
     case ACTIONS.SET_INPUT_LAYOUT:

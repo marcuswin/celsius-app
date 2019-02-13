@@ -19,6 +19,8 @@ export {
   openInitialModal,
   openModal,
   closeModal,
+  toggleKeypad,
+  setKeypadInput,
   setHeaderHeight, // TODO: check if used
   refreshBottomNavigation, // TODO: remove or rename to toggle? or on/off
 
@@ -50,6 +52,30 @@ function showMessage(msgType, text, disableClear) {
       text,
     })
   }
+}
+
+// Custom celsius keypad actions
+function toggleKeypad() {
+  return (dispatch, getState) => {
+    const { keypadInput, isKeypadOpen } = getState().ui;
+
+    if (keypadInput) {
+      if (isKeypadOpen) {
+        keypadInput.blur()
+      } else {
+        keypadInput.focus()
+      }
+
+      dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
+    }
+  }
+}
+
+function setKeypadInput(input) {
+  return {
+    type: ACTIONS.SET_KEYPAD_INPUT,
+    input,
+  };
 }
 
 function setInternetConnectivity(connected) {
