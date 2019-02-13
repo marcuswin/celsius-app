@@ -1,12 +1,11 @@
 import React from "react";
-import { View, SafeAreaView, Animated, TextInput, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, Animated, TextInput } from "react-native";
 import { Svg } from "expo";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
 import { scaleLinear, scalePoint } from "d3-scale";
 import testUtil from "../../../utils/test-util";
-import CelText from "../CelText/CelText";
 import Separator from "../Separator/Separator";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
@@ -25,9 +24,6 @@ class Graph extends React.Component {
     verticalPadding: PropTypes.number,
     labelWidth: PropTypes.number,
     cursorRadius: PropTypes.number,
-    periods: PropTypes.instanceOf(Array),
-    showPeriods: PropTypes.bool,
-    showXTicks: PropTypes.bool,
     showCursor: PropTypes.bool
   };
 
@@ -36,23 +32,19 @@ class Graph extends React.Component {
     width: widthPercentageToDP("100%"),
     verticalPadding: heightPercentageToDP("2%"),
     labelWidth: widthPercentageToDP("20.33%"),
-    cursorRadius: heightPercentageToDP("1.06%"),
-    periods: ["DAY", "WEEK", "MONTH", "YEAR", "ALL"],
-    showPeriods: false,
-    showXTicks: false,
-    showCursor: false
+    cursorRadius: heightPercentageToDP("1.06%")
   };
 
   constructor(props) {
     super(props);
+
     this.state = {
-      x: new Animated.Value(0),
-      activePeriod: "DAY"
+      x: new Animated.Value(0)
     };
   }
 
   componentDidMount() {
-    const {showCursor} = this.props;
+    const { showCursor } = this.props;
 
     if (showCursor) {
       this.state.x.addListener(({ value }) => this.moveCursor(value));
@@ -66,7 +58,6 @@ class Graph extends React.Component {
   xRange = [0, this.props.width];
   // xDomain = data.map(item => item.x);
   xDomain = this.props.dateArray;
-
   // creating Obj out of two arrays
   arrOfObjects = this.props.dateArray.map((x, i) => ({ x, y: this.props.priceArray[i] }));
 
@@ -99,39 +90,17 @@ class Graph extends React.Component {
     }
   };
 
-  activatePeriod = (period) => {
-
-    this.setState({
-      activePeriod: period
-    });
-
-  };
-
   render() {
-    const { x, activePeriod } = this.state;
-    const { periods, width, height, showPeriods, showXTicks, showCursor, dateArray } = this.props;
+    const { x } = this.state;
+    const { width, height, showCursor } = this.props;
     const style = GraphStyle();
+
+
+
     return (
       <SafeAreaView>
-        {showPeriods &&
-        <View style={style.periods}>
-          {periods.map((period) => (
-            <TouchableOpacity key={period} style={{ alignItems: "center" }}
-                              onPress={() => this.activatePeriod(period)}>
-              <CelText key={period} type={"H7"}
-                       style={{ color: activePeriod === period ? "rgba(65,86,166,1)" : "rgba(59,71,85,0.5)" }}>
-                {period}
-              </CelText>
-              {activePeriod === period &&
-              <View style={style.active}/>
-              }
-            </TouchableOpacity>
-          ))}
-        </View>
-        }
-        <View>
-          <Svg {...{ width, height }}>
 
+          <Svg {...{ width, height }}>
             <Defs>
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={"#4FB895"} offset={"0%"}/>
@@ -155,10 +124,10 @@ class Graph extends React.Component {
               </View>
 
               <View ref={this.label} style={[style.pointer]}>
-                  <View style={[style.label]}>
-                    <TextInput ref={this.labelText} style={style.labelText} editable={false}/>
-                  </View>
-                  <View style={[style.triangle]}/>
+                <View style={[style.label]}>
+                  <TextInput ref={this.labelText} style={style.labelText} editable={false}/>
+                </View>
+                <View style={[style.triangle]}/>
               </View>
             </View>
             }
@@ -179,22 +148,6 @@ class Graph extends React.Component {
             horizontal
           />
           }
-        </View>
-
-        {showXTicks &&
-        <View style={style.xValues}>
-          {dateArray.map((date, index) => (
-            <CelText key={date} type={"H6"}
-                     style={{
-                       position: "absolute",
-                       bottom: heightPercentageToDP("1.2%"),
-                       left: this.scaleX(date) - widthPercentageToDP("3%"),
-                       color: index === 0 || index === dateArray.length - 1 ? "transparent" : "gray"
-                     }}>{date}</CelText>
-          ))}
-        </View>
-        }
-
       </SafeAreaView>
     );
   }
