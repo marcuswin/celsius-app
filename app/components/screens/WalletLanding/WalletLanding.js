@@ -18,6 +18,7 @@ import Separator from "../../atoms/Separator/Separator";
 @connect(
   state => ({
     currencies: state.generalData.supportedCurrencies,
+    currenciesRates: state.currencies.rates,
     walletSummary: state.wallet.summary,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -39,12 +40,29 @@ class WalletLanding extends Component {
       }
     };
   }
+  priorityCoins = ["CEL", "BTC", "ETH", "XRP", "LTC", "ZRX"]
 
+  handleCardPress = (coin) => {
+
+
+  }
 
   render() {
     const { header } = this.state
-    const { actions, walletSummary } = this.props
+    const { actions, walletSummary, currenciesRates } = this.props
     const walletStyle = WalletLandingStyle();
+
+    const coinWithAmount = [];
+    const coinWithoutAmount = [];
+
+    walletSummary.coins.forEach((coin) => {
+      const noammountAndIn = coin.amount_usd === 0 && this.priorityCoins.indexOf(coin.short) !== -1
+      if (coin.amount_usd > 0) {
+        coinWithAmount.push(coin)
+      } else if (noammountAndIn) {
+        coinWithoutAmount.push(coin)
+      }
+    });
 
     return (
       <RegularLayout
@@ -71,9 +89,30 @@ class WalletLanding extends Component {
           </Card>
 
           <CelText bold>Deposited coins</CelText>
-          <View >
-            <CoinCard
-            />
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }} >
+            {coinWithAmount.length ? coinWithAmount.map((coin) => {
+              const currency = currenciesRates.filter(c => c.short === coin.short.toUpperCase())[0]
+
+              return <CoinCard
+                key={coin.short}
+                coin={coin}
+                displayName={currency.displayName}
+                currencyRates={currency}
+                onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+              />
+            }) : null}
+
+            {coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
+              const currency = currenciesRates.filter(c => c.short === coin.short.toUpperCase())[0]
+
+              return <CoinCard
+                key={coin.short}
+                coin={coin}
+                displayName={currency.displayName}
+                currencyRates={currency}
+                onCardPress={() => actions.navigateTo('Deposit')}
+              />
+            }) : null}
           </View>
         </View>
       </RegularLayout>
