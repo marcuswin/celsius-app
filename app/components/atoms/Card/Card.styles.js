@@ -20,7 +20,7 @@ const base = {
     width: width - 40 - 5
   },
   half: {
-    width: (width - 40) / 2 - 5
+    width: (width - 40) / 2 - 10
   }
 };
 

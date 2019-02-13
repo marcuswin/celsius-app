@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import _ from "lodash";
 
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
@@ -20,6 +21,7 @@ import Separator from "../../atoms/Separator/Separator";
     currencies: state.generalData.supportedCurrencies,
     currenciesRates: state.currencies.rates,
     walletSummary: state.wallet.summary,
+    currenciesGraphs: state.currencies.graphs
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -42,14 +44,9 @@ class WalletLanding extends Component {
   }
   priorityCoins = ["CEL", "BTC", "ETH", "XRP", "LTC", "ZRX"]
 
-  handleCardPress = (coin) => {
-
-
-  }
-
   render() {
     const { header } = this.state
-    const { actions, walletSummary, currenciesRates } = this.props
+    const { actions, walletSummary, currenciesRates, currenciesGraphs } = this.props
     const walletStyle = WalletLandingStyle();
 
     const coinWithAmount = [];
@@ -99,6 +96,7 @@ class WalletLanding extends Component {
                 displayName={currency.displayName}
                 currencyRates={currency}
                 onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+                graphData={!_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null}
               />
             }) : null}
 
@@ -111,6 +109,7 @@ class WalletLanding extends Component {
                 displayName={currency.displayName}
                 currencyRates={currency}
                 onCardPress={() => actions.navigateTo('Deposit')}
+                graphData={!_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null}
               />
             }) : null}
           </View>

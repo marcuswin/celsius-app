@@ -1,24 +1,21 @@
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const cursorRadius = heightPercentageToDP("1.06%");
-const width = widthPercentageToDP("100%");
 
 const base = {
   cursor: {
     width: cursorRadius * 2,
     height: cursorRadius * 2,
     borderRadius: cursorRadius,
-    borderColor: "#367BE2",
+    borderColor: "#4FB895",
     borderWidth: 1.5,
     backgroundColor: "white",
-    // justifyContent: "center",
-    // alignItems: "center"
   },
   circle: {
     width: cursorRadius,
     height: cursorRadius,
     borderRadius: cursorRadius / 2,
-    backgroundColor: "#367BE2",
+    backgroundColor: "#4FB895",
     position: "absolute",
     top: "20%",
     left: "20%"
@@ -57,25 +54,6 @@ const base = {
       { rotate: "180deg" }
     ]
   },
-  xValues : {
-    width,
-    height: heightPercentageToDP("5%"),
-    flexDirection: "row"
-  },
-  active: {
-    width: widthPercentageToDP("3.5%"),
-    borderTopColor: "rgba(65,86,166,1)",
-    borderTopWidth: 1
-  },
-  periods: {
-    width,
-    height: heightPercentageToDP("5%"),
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingLeft: widthPercentageToDP("5.33%"),
-    paddingRight: widthPercentageToDP("5.33%"),
-    marginTop: heightPercentageToDP("2.02%")
-  },
   scrollPointer: {
     position: "absolute",
     top: 0,
@@ -83,7 +61,7 @@ const base = {
     bottom: 0,
     right: 0
   }
-}
+};
 
 const themed = {
     light: {

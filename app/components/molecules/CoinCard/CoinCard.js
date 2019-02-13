@@ -5,30 +5,18 @@ import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
-import Icon from "../../atoms/Icon/Icon"
+import Icon from "../../atoms/Icon/Icon";
+import Graph from "../../atoms/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
 import CoinCardStyle from './CoinCard.styles';
+import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
 
 class CoinCard extends Component {
   static propTypes = {};
   static defaultProps = {};
   coinsWithAmount = []
   coinsWithAmount = []
-
-  // cardNavigation = (coin) => {
-  //   const { onCardPress } = this.props;
-  //   const amount = coin.amount_usd > 0;
-
-  //   if (amount) {
-  //     onCardPress(coin.short)
-  //     actions.navigateTo('CoinDetails', { coin: coin.short })
-  //   } else {
-  //     onCardPress()
-  //     actions.navigateTo('Deposit')
-  //   }
-  // }
-
   
   coinCardEmpty = (coin, currencyRates) => {
     const marketValue = currencyRates.market_quotes_usd.price
@@ -38,7 +26,7 @@ class CoinCard extends Component {
       <Fragment>
         <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" name="CirclePlus" />
+          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus"/>
           <CelText style={{ lineHeight: 23, marginLeft: 5 }} type="H6" color={STYLES.COLORS.CELSIUS_BLUE}>
             Deposit
         </CelText>
@@ -68,20 +56,38 @@ class CoinCard extends Component {
   }
   
   render = () => {
-    const { coin, displayName, currencyRates, onCardPress} = this.props;
+    const { coin, displayName, currencyRates, onCardPress, graphData} = this.props;
     const amount = coin.amount_usd > 0;
+    let dateArray;
+    let priceArray;
+
+    if (graphData) {
+      dateArray = graphData["1y"].map(data => data[0]);
+      priceArray = graphData["1y"].map(data => data[1]); 0
+      //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
+    }
+
+    const padding = graphData ? '20 0 0 0' : '20 0 20 0'
 
     return (
-      <Card style={{ flexDirection: 'row', flexWrap: 'wrap'}} size="half" margin="5 2 5 2" onPress={onCardPress}>
-        <View style={{ flexDirection: "row" }}>
+      <Card style={{ flexDirection: 'row', flexWrap: 'wrap'}} size="half" margin="5 5 5 5" padding={padding} onPress={onCardPress}>
+        <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
           <View>
             <CelText style={{ lineHeight: 23 }} type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
-          <View style={{ position: 'absolute', right: 0 }} >
+          <View style={{ position: 'absolute', right: 12 }} >
             {this.renderPriceChange(currencyRates)}
           </View>
         </View>
+        {graphData ? 
+          <View style={{ alignItems: "center", borderRadius: 8 }}>
+            <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
+                   height={heightPercentageToDP("10%")}
+                   width={widthPercentageToDP("43.6%")}
+            />
+          </View>
+        : null}
       </Card>
     )
   }
