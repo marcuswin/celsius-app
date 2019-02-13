@@ -115,120 +115,120 @@ function getTransactionsProps(transaction = []) {
       statusText: 'Received'
     },
     [TRANSACTION_TYPES.WITHDRAWAL_PENDING]: { // Withdrawn pending 
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `${coin} Withdrawal`,
       color: STYLES.COLORS.ORANGE,
       iconName: 'TransactionSent',
       statusText: 'Pending'
     },
     [TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED]: {
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `${coin} Withdrawal`,
       color: STYLES.COLORS.RED,
       iconName: 'TransactionSent',
       statusText: 'Withdrawn'
     },
 
     [TRANSACTION_TYPES.INTEREST]: { // Interest
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `${coin} Interest`,
       color: STYLES.COLORS.CELSIUS_BLUE,
       iconName: 'TransactionInterest',
       statusText: `${transaction.interest_coin && transaction.interest_coin.toUpperCase()} interest`
     },
     [TRANSACTION_TYPES.COLLATERAL]: { // Loan Active ? locked ?
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Dollar loan`,
       color: STYLES.COLORS.CELSIUS_BLUE,
       iconName: 'TransactionLocked',
       statusText: 'Loan Collateral'
     },
+    // TITLE pise CEL ?
     [TRANSACTION_TYPES.BONUS_TOKEN]: { // free cels NEMA
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Bonus CEL`,
       color: STYLES.COLORS.RED,
       iconName: 'ReceiveArrowTransactions',
       statusText: 'Bonus'
     },
-
     [TRANSACTION_TYPES.CELPAY_PENDING]: { // T
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Waiting to be accepted`,
       color: STYLES.COLORS.ORANGE,
       iconName: 'TransactionSent',
       statusText: 'Pending'
     },
     [TRANSACTION_TYPES.CELPAY_CLAIMED]: {
-      title: (coin) => `${coin} Deposit`,
-      color: STYLES.COLORS.RED,
+      title: () => `Waiting to be accepted`,
+      color: STYLES.COLORS.ORANGE,
       iconName: 'TransactionSent',
       statusText: 'Claimed'
     },
     [TRANSACTION_TYPES.CELPAY_SENT]: {
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `${coin} Sent`,
       color: STYLES.COLORS.RED,
       iconName: 'TransactionSent',
       statusText: 'Sent'
     },
     [TRANSACTION_TYPES.CELPAY_RECEIVED]: { // T
-      title: (coin) => `${coin} Deposit`,
+      title: () => `CelPay Received`,
       color: STYLES.COLORS.GREEN,
       iconName: 'TransactionReceived',
       statusText: 'Received'
     },
     [TRANSACTION_TYPES.CELPAY_RETURNED]: { // RETURNED
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Canceled Transaction`,
       color: STYLES.COLORS.RED,
-      iconName: 'TransactionLocked',
+      iconName: 'TransactionCanceled',
       statusText: 'Returned'
     },
-    [TRANSACTION_TYPES.CELPAY_EXPIRED]: { // RETURNED
-      title: (coin) => `${coin} Deposit`,
-      color: STYLES.COLORS.RED,
-      iconName: 'TransactionLocked',
-      statusText: 'Expired'
-    },
+    // [TRANSACTION_TYPES.CELPAY_EXPIRED]: { // RETURNED
+    //   title: (coin) => `${coin} Deposit`,
+    //   color: STYLES.COLORS.RED,
+    //   iconName: 'TransactionLocked',
+    //   statusText: 'Expired'
+    // },
     [TRANSACTION_TYPES.CELPAY_ONHOLD]: {
-      title: (coin) => `${coin} Deposit`,
-      color: STYLES.COLORS.RED,
+      title: (coin) => `Received ${coin}`,
+      color: STYLES.COLORS.ORANGE,
       iconName: 'ReceiveArrowTransactions',
       statusText: 'On Hold'
     },
 
     [TRANSACTION_TYPES.REFERRED_HODL]: { // drugi locked
-      title: (coin) => `${coin} Deposit`,
+      title: () => `HODL Award`,
       color: STYLES.COLORS.CELSIUS_BLUE,
       iconName: 'TransactionLocked',
       statusText: 'Locked'
     },
     [TRANSACTION_TYPES.REFERRED]: { // T
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Referral Award`,
       color: STYLES.COLORS.GREEN,
       iconName: 'TransactionReceived',
       statusText: 'Referral reward'
     },
     [TRANSACTION_TYPES.REFERRER_HODL]: { // prvi locked
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Referral Award`,
       color: STYLES.COLORS.CELSIUS_BLUE,
       iconName: 'TransactionLocked',
       statusText: 'Locked'
     },
     [TRANSACTION_TYPES.REFERRER]: { // T
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Referral Award`,
       color: STYLES.COLORS.GREEN,
       iconName: 'TransactionReceived',
       statusText: 'Referral reward'
     },
 
     [TRANSACTION_TYPES.CANCELED]: { // Gledam kao returned
-      title: (coin) => `${coin} Deposit`,
+      title: () => `Canceled Transaction`,
       color: STYLES.COLORS.RED,
       iconName: 'TransactionCanceled',
       statusText: 'Canceled'
     },
 
     [TRANSACTION_TYPES.IN]: { // default in
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `Received ${coin}`,
       color: STYLES.COLORS.GREEN,
       iconName: 'TransactionReceived',
       statusText: 'Received'
     },
     [TRANSACTION_TYPES.OUT]: { // default in
-      title: (coin) => `${coin} Deposit`,
+      title: (coin) => `Sent ${coin}`,
       color: STYLES.COLORS.RED,
       iconName: 'TransactionSent',
       statusText: 'Sent'
@@ -237,56 +237,36 @@ function getTransactionsProps(transaction = []) {
   }[transaction.type]
 }
 
-// function getTransactionSections(_transaction = []) {
-function getTransactionSections() {
-  return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:montlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:cancel', 'note']
-  // return {
-  //   DEPOSIT_PENDING: ['info', 'address:from', 'date', 'time', 'status'],
-  //   DEPOSIT_CONFIRMED: ['info', 'address:from', 'date', 'time', 'status', 'note', 'back'],
-  //   WITHDRAWAL_PENDING: ['info', 'address:to', 'date', 'time', 'status'],
-  //   WITHDRAWAL_CONFIRMED: ['info', 'address:to', 'date', 'time', 'status'],
+function getTransactionSections(transaction = []) {
+  // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:montlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
+  return {
+    DEPOSIT_PENDING: ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back'],
+    DEPOSIT_CONFIRMED: ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back'],
+    WITHDRAWAL_PENDING: ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back'],
+    WITHDRAWAL_CONFIRMED: ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back'],
 
-  //   INTEREST: ['info', 'date', 'time', 'status'],
-  //   COLLATERAL: ['info', 'date', 'time'],
-  //   BONUS_TOKEN: ['info', 'date', 'time', 'status'],
+    INTEREST: ['info', 'date', 'time', 'status:noSeparator', 'interest', 'button:deposit', 'button:back'],
+    COLLATERAL: ['info', 'loan:date', 'time', 'status', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:montlyInterest', 'loan:totalInterest', 'button:applyForLoan', 'button:back'],
+    BONUS_TOKEN: ['info', 'date', 'time', 'status'], // TODO
 
-  //   CELPAY_PENDING: ['info', 'date', 'time', 'status'],
-  //   CELPAY_CLAIMED: ['info', 'date', 'time', 'status'],
-  //   CELPAY_SENT: ['info', 'date', 'time', 'status'],
-  //   CELPAY_RECEIVED: ['info', 'date', 'time', 'status'],
-  //   CELPAY_RETURNED: ['info', 'date', 'time', 'status'],
-  //   CELPAY_EXPIRED: ['info', 'date', 'time', 'status'],
-  //   CELPAY_ONHOLD: ['info', 'date', 'time', 'status'],
+    CELPAY_PENDING: ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:cancel', 'button:back'], // add sent to
+    CELPAY_CLAIMED: ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:back'], // add sent to
+    CELPAY_SENT: ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:back'], // add sent to
+    CELPAY_RECEIVED: ['info', 'date', 'time', 'status', 'note', 'button:celpay:friend', 'button:back'], // add sent to
+    CELPAY_RETURNED: ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:back'], // add sent to
+    CELPAY_EXPIRED: ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:back'], // add sent to
+    CELPAY_ONHOLD: ['info', 'date', 'time', 'status', 'note', 'button:celpay:friend', 'button:back'], // add sent to
 
-  //   REFERRED_HODL: ['info', 'date', 'time', 'status'],
-  //   REFERRED: ['info', 'date', 'time', 'status'],
-  //   REFERRER_HODL: ['info', 'date', 'time', 'status'],
-  //   REFERRER: ['info', 'date', 'time', 'status'],
+    REFERRED_HODL: ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator', 'button:refer', 'button:back'],
+    REFERRED: ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'], // add friend referred info
+    REFERRER_HODL: ['info', 'hodl:info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'],  // add friend referred info with hodl:info
+    REFERRER: ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'], // add friend referred info
 
-  //   CANCELED: "CANCELED",
+    CANCELED: ['info', 'date', 'time', 'status'], // this is random!,
 
-  //   IN: ['info', 'date', 'time', 'status'],
-  //   OUT: ['info', 'date', 'time', 'status'],
-  // }[transaction.type]
-  // return {
-  //   DEPOSIT_PENDING: ['date', 'time', 'status', 'address:from', 'explorer'],
-  //   DEPOSIT_CONFIRMED: ['date', 'time', 'status', 'address:from', 'explorer'],
-  //   WITHDRAWAL_PENDING: ['date', 'time', 'status', 'address:to', 'explorer'],
-  //   WITHDRAWAL_CONFIRMED: ['date', 'time', 'status', 'address:to', 'explorer'],
-  //   INTEREST: ['date', 'time', 'status', 'hippo'],
-  //   COLLATERAL: ['date', 'time'],
-  //   BONUS_TOKEN: ['date', 'time', 'status'],
-  //   REFERRED_AWARD: ['date', 'time', 'status', 'referrer'],
-  //   TRANSFER_PENDING: ['info', 'date', 'time', 'status', 'transfer-link'],
-  //   TRANSFER_CLAIMED: ['sent:to', 'date', 'time', 'status'],
-  //   TRANSFER_SENT: ['sent:to', 'date', 'time', 'status'],
-  //   TRANSFER_RECEIVED: ['received:from', 'date', 'time', 'status'],
-  //   TRANSFER_RETURNED: ['sent:to', 'date', 'time', 'status'],
-  //   CANCELED: ['date', 'time', 'status', 'canceled-transfer-link'],
-
-  //   IN: ['date', 'time'],
-  //   OUT: ['date', 'time'],
-  // }[transaction.type];
+    IN: ['info', 'date', 'time', 'status'],
+    OUT: ['info', 'date', 'time', 'status'],
+  }[transaction.type]
 }
 
 

@@ -43,13 +43,13 @@ export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
   </View>
 )
 
-export const StatusSection = ({ transactionProps }) => (
+export const StatusSection = ({ transactionProps, noSeparator = false }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20 }}>
       <CelText>Status:</CelText>
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
-    <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
+    {!noSeparator && <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />}
   </View>
 )
 
@@ -95,14 +95,14 @@ export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
 
 export const LoanInfoSection = ({ navigateTo }) => (
   <Card>
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 }}>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
       <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Your loan application was rejected, please apply for a new loan or</CelText>
       <TouchableOpacity onPress={() => Linking.openURL("mailto:app@celsius.network")}>
         <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE}>contact our support </CelText>
       </TouchableOpacity>
       <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>for more details.</CelText>
     </View>
-    <CelButton onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
+    <CelButton margin="16 0 10 0" onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
   </Card >
 )
 

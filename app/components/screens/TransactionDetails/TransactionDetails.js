@@ -73,10 +73,14 @@ class TransactionDetails extends Component {
         return <InfoSection key={sectionType} transaction={transaction} transactionProps={transactionProps} />;
       case 'date':
         return <BasicSection key={sectionType} label="Date" value={moment(transaction.time).format("D MMM YYYY")} />;
+      case 'date:deposited':
+        return <BasicSection key={sectionType} label="Date deposited" value={moment(transaction.time).format("D MMM YYYY")} />;
       case 'time':
         return <BasicSection key={sectionType} label="Time" value={moment.utc(transaction.time).format("HH:mm A")} />;
       case 'status':
         return <StatusSection key={sectionType} transactionProps={transactionProps} />;
+      case 'status:noSeparator':
+        return <StatusSection key={sectionType} transactionProps={transactionProps} noSeparator />;
       case 'address:from':
         return <AddressSection key={sectionType} transaction={transaction} address={transaction.from_address} text="Received from:" />;
       case 'address:to':
@@ -84,13 +88,17 @@ class TransactionDetails extends Component {
       case 'button:back':
         return <CelButton key={sectionType} onPress={() => actions.navigateBack()} basic>Go back to wallet</CelButton>;
       case 'button:deposit':
-        return <CelButton margin="0 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
       case 'button:celpay:another':
-        return <CelButton margin="0 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay another friend</CelButton>;
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay another friend</CelButton>;
       case 'button:celpay:friend':
-        return <CelButton margin="0 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay a friend</CelButton>;
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay a friend</CelButton>;
       case 'button:cancel':
-        return <CelButton textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
+        return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
+      case 'button:applyForLoan':
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Borrow')}>Apply for another loan</CelButton>
+      case 'button:refer':
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Borrow')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
       case 'note':
         return <NoteSection key={sectionType} text={"Test this out!"} />;
       case 'interest':
@@ -112,7 +120,6 @@ class TransactionDetails extends Component {
         return <BasicSection key={sectionType} label="Monthly Interest" value={""} />;
       case 'loan:totalInterest':
         return <BasicSection key={sectionType} label="Total Interest Payment" value={""} noSeparator />;
-
       case 'hodl:info':
         return <HodlInfoSection key={sectionType} date="April 29th" amount="20" coin="ETH" />;
       default:
