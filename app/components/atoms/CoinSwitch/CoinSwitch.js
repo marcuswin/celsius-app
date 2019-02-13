@@ -16,10 +16,17 @@ const CoinSwitch = (props) => {
   const lowerValue = !isUsd ? formatter.usd(amountUsd) : formatter.crypto(amountCrypto, coin);
   return (
     <View style={style.container}>
-      <View>
-        <CelText align="center" type="H1">{ upperValue }</CelText>
-        <CelText align="center" type="H2">{ lowerValue }</CelText>
-      </View>
+      { props.onAmountPress ? (
+        <TouchableOpacity onPress={props.onAmountPress}>
+          <CelText align="center" type="H1">{ upperValue }</CelText>
+          <CelText align="center" type="H2">{ lowerValue }</CelText>
+        </TouchableOpacity>
+      ) : (
+        <View>
+          <CelText align="center" type="H1">{ upperValue }</CelText>
+          <CelText align="center" type="H2">{ lowerValue }</CelText>
+        </View>
+      )}
       <View style={style.switchWrapper}>
         <TouchableOpacity onPress={() => updateFormField('isUsd', !isUsd)}>
           <CelText>Switch</CelText>
@@ -34,6 +41,7 @@ CoinSwitch.propTypes = {
   amountUsd: PropTypes.string,
   amountCrypto: PropTypes.string,
   updateFormField: PropTypes.func.isRequired,
+  onAmountPress: PropTypes.func,
   coin: PropTypes.string,
 }
 

@@ -11,6 +11,7 @@ const Card = ({
   margin = "10 0 10 0",
   padding = "20 20 20 20",
   size = "full",
+  opacity = 1,
   children,
   styles = {},
   onPress = null
@@ -19,7 +20,8 @@ const Card = ({
 
   const paddingStyles = stylesUtil.getPadding(padding);
   const marginStyles = stylesUtil.getMargins(margin);
-  const cardStyles = [style.card, paddingStyles, marginStyles, style[size], styles];
+  const opacityStyles = { opacity };
+  const cardStyles = [style.card, paddingStyles, marginStyles, opacityStyles, style[size], styles];
 
   const card = (
     <View style={cardStyles}>
@@ -40,6 +42,7 @@ const Card = ({
 
 Card.propTypes = {
   margin: PropTypes.string,
+  opacity: PropTypes.number,
   padding: PropTypes.string,
   color: PropTypes.string,
   onPress: PropTypes.func,
