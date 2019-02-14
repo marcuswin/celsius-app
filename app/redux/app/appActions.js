@@ -40,11 +40,6 @@ function initCelsiusApp() {
 
     try {
       dispatch({ type: ACTIONS.APP_INIT_START });
-      await dispatch(actions.loginUser( {
-
-        email: 'filip.jovakaric+wlt@mvpworkshop.co',
-        password: 'filip123',
-      }));
       await appUtil.logoutOnEnvChange();
 
       stylesUtil.disableAccessibilityFontScaling();
