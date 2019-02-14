@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'native-base';
+// import { Container } from 'native-base';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";

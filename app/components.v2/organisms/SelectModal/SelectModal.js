@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Body, Button, Header, Icon, Left, List, ListItem, Right, Text, View } from "native-base";
+// import { Body, Button, Header, Icon, Left, List, ListItem, Right, Text, View } from "native-base";
 import PropTypes from "prop-types";
 import { Modal, TouchableOpacity } from "react-native";
 

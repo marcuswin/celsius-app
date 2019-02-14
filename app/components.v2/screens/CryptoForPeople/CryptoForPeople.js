@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, WebView, View, Linking } from "react-native";
-import {Content} from 'native-base';
+// import {Content} from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 

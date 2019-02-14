@@ -1,7 +1,7 @@
 // TODO(fj): remove
 
 import React, { Component } from 'react';
-import { Text } from "native-base";
+// import { Text } from "native-base";
 import PropTypes from "prop-types";
 import { TouchableOpacity, Image, View } from "react-native";
 

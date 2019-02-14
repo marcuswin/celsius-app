@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View } from "native-base";
+// import { Text, View } from "native-base";
 import { TouchableOpacity, Animated, Easing } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";

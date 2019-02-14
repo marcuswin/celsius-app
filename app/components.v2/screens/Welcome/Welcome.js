@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { ImageBackground, StatusBar } from "react-native";
 import {connect} from 'react-redux';
-import {Container, Content, View} from 'native-base';
+// import {Container, Content, View} from 'native-base';
 import {bindActionCreators} from 'redux';
 import testUtil from "../../../utils/test-util";
 

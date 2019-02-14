@@ -1,8 +1,8 @@
 // TODO(fj): check usability and props
 
 import React, { Component } from 'react';
-import { Text, View } from 'native-base';
-import { Col, Grid } from 'react-native-easy-grid';
+// import { Text, View } from 'native-base';
+// import { Col, Grid } from 'react-native-easy-grid';
 import PropTypes from 'prop-types';
 
 import SeparatorStyles from './Separator.styles';

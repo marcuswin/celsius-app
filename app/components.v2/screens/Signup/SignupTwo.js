@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { View, Text } from 'native-base';
+// import { View, Text } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import isEqual from "lodash/isEqual";

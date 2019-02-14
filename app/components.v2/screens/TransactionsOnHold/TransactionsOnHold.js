@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import { View, Text } from 'react-native';
-import { List, ListItem } from 'native-base';
-import { Grid, Col } from "react-native-easy-grid";
+// import { List, ListItem } from 'native-base';
+// import { Grid, Col } from "react-native-easy-grid";
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";

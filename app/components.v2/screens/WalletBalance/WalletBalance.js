@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { List, Body, ListItem } from 'native-base';
+// import { List, Body, ListItem } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";

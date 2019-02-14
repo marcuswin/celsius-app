@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, Image, Linking } from "react-native";
-import { View } from "native-base";
+// import { View } from "native-base";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";

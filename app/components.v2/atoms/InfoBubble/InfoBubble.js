@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { Text } from 'native-base';
+// import { Text } from 'native-base';
 
 import { COLORS, GLOBAL_STYLE_DEFINITIONS as globalStyles, FONT_SCALE } from "../../../config/constants/style";
 import InfoBubbleStyle from "./InfoBubble.styles";

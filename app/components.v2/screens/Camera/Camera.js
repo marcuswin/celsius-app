@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
-import { Content, Button } from 'native-base';
+// import { Content, Button } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo';

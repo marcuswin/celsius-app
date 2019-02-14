@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { Content } from "native-base";
+// import { Content } from "native-base";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import moment from "moment";

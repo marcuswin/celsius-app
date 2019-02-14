@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
-import {Container} from 'native-base';
+// import {Container} from 'native-base';
 
 import * as appActions from "../../../redux/actions";
 import CelButton from '../../atoms/CelButton/CelButton';

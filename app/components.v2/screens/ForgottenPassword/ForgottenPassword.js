@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Text} from 'native-base';
+// import {Text} from 'native-base';
 import {bindActionCreators} from 'redux';
 
 import Styles from "./ForgottenPassword.styles";

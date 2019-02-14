@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Constants } from 'expo';
 import { TouchableOpacity, Text, Linking, StyleSheet } from "react-native";
-import { View } from 'native-base';
+// import { View } from 'native-base';
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 import _ from 'lodash';

@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { View } from "react-native";
-import { List } from 'native-base';
+// import { List } from 'native-base';
 import TransactionRow from "../../atoms/TransactionRow/TransactionRow";
 import CelButton from "../../atoms/CelButton/CelButton";
 

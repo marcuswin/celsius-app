@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, Platform } from 'react-native';
-import { View } from 'native-base';
+// import { View } from 'native-base';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 import testUtil from "../../../utils/test-util";

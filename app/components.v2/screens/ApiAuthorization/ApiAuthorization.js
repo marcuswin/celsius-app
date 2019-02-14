@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity } from "react-native";
-import { View } from 'native-base';
+// import { View } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";

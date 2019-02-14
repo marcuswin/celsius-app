@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from "react-native";
-import { ListItem } from 'native-base';
+// import { ListItem } from 'native-base';
 import { Grid, Col } from "react-native-easy-grid";
 import isEqual from "lodash/isEqual";
 

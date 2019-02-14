@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Platform, Clipboard, Share } from 'react-native';
 import PropTypes from "prop-types";
-import { View, Text } from 'native-base';
+// import { View, Text } from 'native-base';
 
 import ShareCopyStyle from "./ShareCopy.styles";
 import Icon from '../../atoms/Icon/Icon';

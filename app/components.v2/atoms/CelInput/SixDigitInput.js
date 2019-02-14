@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import {Input} from 'native-base';
+// import {Input} from 'native-base';
 
 import {KEYBOARD_TYPE} from "../../../config/constants/common";
 import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";

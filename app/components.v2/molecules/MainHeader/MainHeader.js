@@ -4,7 +4,7 @@
 // TODO(fj): probably from scratch
 
 import React, { Component } from 'react';
-import { Button, Header, Left, Right, Text } from 'native-base';
+// import { Button, Header, Left, Right, Text } from 'native-base';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';

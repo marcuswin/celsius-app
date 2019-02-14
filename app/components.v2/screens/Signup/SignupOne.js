@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'native-base';
+// import { View } from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from 'lodash';

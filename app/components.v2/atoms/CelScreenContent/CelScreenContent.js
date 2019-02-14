@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { View } from 'react-native';
-import { Content } from 'native-base';
+// import { Content } from 'native-base';
 import stylesUtil from '../../../utils/styles-util';
 
 // import {STYLES} from "../../config/constants/style";

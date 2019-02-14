@@ -4,7 +4,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import { Item, Label } from "native-base";
+// import { Item, Label } from "native-base";
 import PhoneInput from "react-native-phone-input";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
