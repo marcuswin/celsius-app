@@ -65,6 +65,11 @@ export const KEYPAD_PURPOSES = {
   WITHDRAW: 'WITHDRAW',
 }
 
+export const PHONES_WITH_CUSTOM_KEYPAD = [
+  'iPhone X',
+  // 'Simulator',
+]
+
 export const HIGHLIGHTED_COUNTRIES = [
   'Canada',
   'Germany',

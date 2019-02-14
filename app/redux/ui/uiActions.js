@@ -72,10 +72,15 @@ function toggleKeypad() {
 }
 
 function setKeypadInput(input) {
-  return {
-    type: ACTIONS.SET_KEYPAD_INPUT,
-    input,
-  };
+  return (dispatch, getState) => {
+    const { isKeypadOpen } = getState().ui;
+
+    dispatch({
+      type: ACTIONS.SET_KEYPAD_INPUT,
+      input,
+    });
+    if (!isKeypadOpen) dispatch(toggleKeypad())
+  }
 }
 
 function setInternetConnectivity(connected) {
