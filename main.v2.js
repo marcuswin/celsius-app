@@ -1,6 +1,6 @@
 import { Tester, TestHookStore } from 'cavy';
 import React, { Component } from 'react';
-import Expo from 'expo';
+import * as Expo from 'expo';
 import App from './app/App';
 
 const { ENV } = Expo.Constants.manifest.extra;

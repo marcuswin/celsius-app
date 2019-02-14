@@ -6,6 +6,7 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage } from '../ui/uiActions';
+import { getComplianceInfo } from "../user/userActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
@@ -14,7 +15,6 @@ import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
-import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -54,7 +54,7 @@ function loginUser({ email, password }) {
 async function loginUserSuccess(data) {
   analyticsEvents.sessionStart();
   return async dispatch => {
-    await dispatch(actions.getComplianceInfo());
+    await dispatch(getComplianceInfo());
 
     dispatch({
       type: ACTIONS.LOGIN_USER_SUCCESS,

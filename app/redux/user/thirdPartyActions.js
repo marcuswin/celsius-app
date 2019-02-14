@@ -5,11 +5,11 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage } from '../ui/uiActions';
+import { getComplianceInfo } from "../user/userActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import { analyticsEvents } from "../../utils/analytics-util";
-import * as actions from '../actions';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -90,7 +90,7 @@ function loginTwitter(user) {
 function loginUserTwitterSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
-      await dispatch(actions.getComplianceInfo());
+      await dispatch(getComplianceInfo());
 
       dispatch({
             type: ACTIONS.LOGIN_USER_TWITTER_SUCCESS,
@@ -188,7 +188,7 @@ function loginFacebook(user) {
 function loginUserFacebookSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
-      await dispatch(actions.getComplianceInfo());
+      await dispatch(getComplianceInfo());
 
       dispatch({
             type: ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS,
@@ -265,7 +265,7 @@ function loginGoogle(user) {
 function loginUserGoogleSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
-      await dispatch(actions.getComplianceInfo());
+      await dispatch(getComplianceInfo());
 
       dispatch({
             type: ACTIONS.LOGIN_USER_GOOGLE_SUCCESS,

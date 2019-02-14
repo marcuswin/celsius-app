@@ -5,7 +5,7 @@ import { BRANCH_LINKS } from "../config/constants/common";
 import store from '../redux/store';
 import logger from '../utils/logger-util';
 import Sentry from "./sentry-util";
-import * as actions from "../redux/app/appActions";
+import * as actions from "../redux/actions";
 
 export default {
   initBranch,
