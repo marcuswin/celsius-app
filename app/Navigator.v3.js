@@ -23,6 +23,7 @@ import WalletInterest from "./components/screens/WalletInterest/WalletInterest";
 import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
 import WithdrawEnterAmount from "./components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
+import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -67,6 +68,7 @@ const walletNavigator = createStackNavigator(walletScreens, walletProps);
 
 const withdrawScreens = {
   WithdrawEnterAmount,
+  WithdrawConfirm,
 }
 
 const withdrawProps = {
@@ -87,6 +89,7 @@ export const screens = {
   Support,
   Community,
   Profile,
+  WithdrawConfirm,
   Auth: authNavigator,
 };
 
