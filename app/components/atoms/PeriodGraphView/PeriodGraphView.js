@@ -30,27 +30,31 @@ class PeriodGraphView extends Component {
   }
 
   activatePeriod = (period) => {
-    // switch (period) {
-    //   case "YEAR":
-    //     tm = "MMM";
-    //     break;
-    //   case "DAY":
-    //     tm = "HH";
-    //     break;
-    //   case "1m":
-    //     tm = "DD";
-    //     break;
-    //   case "7d":
-    //     tm = "DD";
-    //     break;
-    //   default:
-    //     tm = "1y";
-    // }
+    let tm;
+
+    switch (period) {
+      case "YEAR":
+        tm = "1y";
+        break;
+      case "DAY":
+        tm = "1d";
+        break;
+      case "MONTH":
+        tm = "1m";
+        break;
+      case "WEEK":
+        tm = "7d";
+        break;
+      default:
+        tm = "1d";
+    }
 
 
     this.setState({
       activePeriod: period,
     });
+
+    this.props.onChange(tm)
   };
 
   // lifecycle methods
@@ -59,7 +63,7 @@ class PeriodGraphView extends Component {
   render() {
     const {periods} = this.props;
     const {activePeriod} = this.state;
-    const style = PeriodGraphViewStyle()
+    const style = PeriodGraphViewStyle();
 
     return (
       <View style={style.periods}>

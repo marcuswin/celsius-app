@@ -39,30 +39,50 @@ class GraphContainer extends Component {
 
 
 
-    const { currencyGraphs } = this.props;
-    const dateArray = currencyGraphs.LTC["1y"].map(data => data[0]);
-    const priceArray = currencyGraphs.LTC["1y"].map(data => data[1]);
+    const { currencyGraphs } = props;
+    const timeline = "1d";
+    const dateArray = currencyGraphs.LTC[timeline].map(data => data[0]);
+    const priceArray = currencyGraphs.LTC[timeline].map(data => data[1]);
 
     this.state = {
       dateArray,
-      priceArray
+      priceArray,
+      timeline
     };
 
   }
 
+  renderTimeline = (period) => {
+
+    const { currencyGraphs } = this.props;
+
+    const date = currencyGraphs.LTC[period].map(data => data[0]);
+    const price = currencyGraphs.LTC[period].map(data => data[1])
+
+    this.setState({
+      dateArray: date,
+      priceArray: price,
+      timeline: period
+    })
+  };
+
+
+
   render() {
     const { showPeriods, showXTicks } = this.props;
-    const {dateArray, priceArray} = this.state;
+    const {dateArray, priceArray, timeline} = this.state;
     const style = GraphContainerStyle();
 
     return (
       <SafeAreaView style={style.container}>
-        {showPeriods &&
-            <PeriodGraphView/>
+        {
+          showPeriods &&
+            <PeriodGraphView onChange={this.renderTimeline}/>
         }
         <Graph dateArray={dateArray} priceArray={priceArray} showCursor/>
-        { showXTicks &&
-          <XTicks time={dateArray}/>
+        {
+          showXTicks &&
+          <XTicks time={dateArray} timeline={timeline}/>
         }
       </SafeAreaView>
     );

@@ -14,6 +14,7 @@ class XTicks extends Component {
 
   static propTypes = {
     time: PropTypes.instanceOf(Array).isRequired,
+    timeline: PropTypes.string,
   };
   static defaultProps = {
   }
@@ -32,16 +33,34 @@ class XTicks extends Component {
   // event hanlders
   // rendering methods
   render() {
-    const {time} = this.props;
+    const {time, timeline} = this.props;
     const style = XTicksStyle()
     const ticks = [];
+    let tm;
+
+    switch (timeline) {
+      case "1y":
+        tm = "MMM";
+        break;
+      case "1d":
+        tm = "H";
+        break;
+      case "1m":
+        tm = "ddd do";
+        break;
+      case "7d":
+        tm = "dd";
+        break;
+      default:
+        tm = "1d";
+    }
 
     const maxVal = 10;
-    // const maxVal = tm === "7d" ? 5 : 10;
     const delta = Math.floor(time.length / maxVal);
     for (let i = 0; i < time.length; i += delta) {
-      ticks.push(moment(time[i]).format("MMM"));
+      ticks.push(moment(time[i]).format(tm));
     }
+    
     return (
       <View style={style.xValues}>
         {ticks.map((date, index) => (
