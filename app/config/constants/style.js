@@ -216,8 +216,6 @@ export const GLOBAL_STYLE_DEFINITIONS = {
 };
 
 export const FONTS = [
-  {'Roboto': require('native-base/Fonts/Roboto.ttf')},
-  {'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf')},
   {'agile-medium': require('../../../assets/fonts/Agile-Medium.otf')},
   {'agile-light': require('../../../assets/fonts/Agile-Light.otf')},
   {'agile-light-italic': require('../../../assets/fonts/Agile-LightItalic.otf')},
