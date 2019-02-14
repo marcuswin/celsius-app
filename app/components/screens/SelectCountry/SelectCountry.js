@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View } from "native-base";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Image, FlatList } from "react-native";
+import { TouchableOpacity, Image, FlatList, View } from "react-native";
 import { countries } from "country-data";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
