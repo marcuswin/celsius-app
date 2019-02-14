@@ -20,6 +20,7 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
+    withdrawCompliance: state.user.compliance.withdraw,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
@@ -32,10 +33,12 @@ class WithdrawEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation, currencies } = this.props;
+    const { navigation, currencies, withdrawCompliance } = this.props;
     const coin = navigation.getParam('coin') || 'BTC'
 
-    const coinSelectItems = currencies.map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
+    const coinSelectItems = currencies
+      .filter(c => withdrawCompliance.coins.includes(c.short))
+      .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
 
     this.state = {
       header: {
