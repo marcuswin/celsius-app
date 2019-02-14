@@ -9,7 +9,7 @@ import { getSecureStoreKey } from '../utils/expo-storage';
 
 import store from '../redux/store';
 import * as actions from '../redux/actions';
-import Sentry from './sentry-util';
+// import Sentry from './sentry-util';
 
 const { SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV, PUBLIC_KEY } = Constants.manifest.extra;
 let token;
@@ -135,27 +135,27 @@ function verifyKey(data, sign) {
     const isValid = sig2.verify(sign);
 
     if (ENV === 'PRODUCTION' && !isValid) {
-      Sentry.captureMessage(`Key signing failed`, {
-        level: 'info',
-        extra: {
-          signature: sign,
-          publicKey: Base64.decode(PUBLIC_KEY),
-        },
-      });
+      // Sentry.captureMessage(`Key signing failed`, {
+      //   level: 'info',
+      //   extra: {
+      //     signature: sign,
+      //     publicKey: Base64.decode(PUBLIC_KEY),
+      //   },
+      // });
     }
 
     return ENV === 'PRODUCTION' ? true : isValid;
 
   } catch (err) {
     if (ENV === 'PRODUCTION') {
-      Sentry.captureMessage(`Key signing failed`, {
-        level: 'info',
-        extra: {
-          signature: sign,
-          publicKey: Base64.decode(PUBLIC_KEY),
-          error: err,
-        },
-      });
+      // Sentry.captureMessage(`Key signing failed`, {
+      //   level: 'info',
+      //   extra: {
+      //     signature: sign,
+      //     publicKey: Base64.decode(PUBLIC_KEY),
+      //     error: err,
+      //   },
+      // });
     }
 
     return true;

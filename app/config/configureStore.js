@@ -3,8 +3,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import reducer from '../redux/reducers';
-import ACTIONS from "./constants/ACTIONS";
-import Sentry from '../utils/sentry-util';
+// import ACTIONS from "./constants/ACTIONS";
+// import Sentry from '../utils/sentry-util';
 
 /* eslint global-require: 0 */
 let composeEnhancers = compose;
@@ -41,36 +41,34 @@ export default function configureStore(initialState) {
 // Middleware used for branch.io debugging in testflight
 // logs every fifth action on sentry
 /* eslint-disable */
-let allActions = [];
-function sentryActionLogger({ getState }) {
-  return (next) => (action) => {
-    allActions.push(action.type);
-    console.log(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`);
-    if (
-      allActions.length % 20 === 0 ||
-      [
-        // add actions to log here
-        ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
-        ACTIONS.BRANCH_LINK_REGISTERED,
-      ].indexOf(action.type) !== -1
-    ) {
-      Sentry.captureMessage(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`, {
-        level: 'info',
-        extra: {
-          allActions,
-          action: { ...action },
-          state: {
-            transfers: getState().transfers,
-            api: getState().api,
-            ui: getState().ui,
-            branch: getState().branch,
-          },
-        },
-      });
-    }
+// let allActions = [];
+// function sentryActionLogger({ getState }) {
+//   return (next) => (action) => {
+//     allActions.push(action.type);
+//     console.log(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`);
+//     if (
+//       allActions.length % 20 === 0 ||
+//       [
+//         // add actions to log here
+//         ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+//         ACTIONS.BRANCH_LINK_REGISTERED,
+//       ].indexOf(action.type) !== -1
+//     ) {
+//       Sentry.captureMessage(`Action logger ${action.type} (${allActions.length}) - ${new Date().getTime()}`, {
+//         level: 'info',
+//         extra: {
+//           allActions,
+//           action: { ...action },
+//           state: {
+//             transfers: getState().transfers,
+//             api: getState().api,
+//             ui: getState().ui,
+//             branch: getState().branch,
+//           },
+//         },
+//       });
+//     }
 
-    return next(action);
-  }
-}
-
-
+//     return next(action);
+//   }
+// }

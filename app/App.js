@@ -9,12 +9,11 @@ import * as actions from './redux/actions';
 import MainLayout from './components/layouts/MainLayout';
 import { CACHE_IMAGES, FONTS } from "./config/constants/style";
 import { analyticsEvents } from "./utils/analytics-util";
-import Sentry from './utils/sentry-util';
+import captureException from './utils/errorhandling-util';
+import ErrorBoundary from './ErrorBoundary';
 
 const { SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
 
-Sentry.init();
-Sentry.captureException("asddsaasdadssdads")
 
 let startOfBackgroundTimer;
 
@@ -37,7 +36,6 @@ function cacheImages(images) {
     return Asset.fromModule(image).downloadAsync();
   });
 }
-
 // Fonts are preloaded using Expo.Font.loadAsync(font).
 // The font argument in this case is an object such as the following:
 // {agile-medium: require('../assets/fonts/Agile-Medium.otf')}.
@@ -127,18 +125,22 @@ export default class App extends Component {
       // user has on their device for an optimal experience
       // before rendering they start using the app.
       return (
-        <AppLoading
-          startAsync={App.initApp}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={error => { Sentry.captureException(error) }}
-        />
+        <ErrorBoundary>
+          <AppLoading
+            startAsync={App.initApp}
+            onFinish={() => this.setState({ isReady: true })}
+            onError={error => captureException(error)}
+          />
+        </ErrorBoundary>
       );
     }
 
     return (
-      <Provider store={store}>
-        <MainLayout />
-      </Provider>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <MainLayout />
+        </Provider>
+      </ErrorBoundary>
     );
   }
 }

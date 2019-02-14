@@ -17,7 +17,7 @@ import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
 import ACTIONS from '../../config/constants/ACTIONS';
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";
-import Sentry from '../../utils/sentry-util';
+import loggerUtil from '../../utils/logger-util';
 
 const { TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -167,7 +167,7 @@ async function initBranch() {
       handleDeepLink(deepLink.params);
     });
   } catch (error) {
-    Sentry.captureException(error);
+    loggerUtil.err(error)
   }
 }
 

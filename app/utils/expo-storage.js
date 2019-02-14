@@ -1,5 +1,5 @@
 import Expo from 'expo'
-import Sentry from './sentry-util';
+// import Sentry from './sentry-util';
 
 export {
   setSecureStoreKey,
@@ -21,12 +21,12 @@ async function setSecureStoreKey(key, value) {
   try {
     return await Expo.SecureStore.setItemAsync(key, value)
   } catch (error) {
-    Sentry.captureMessage(`Error: Failed setting SecureStore key [${key}]`, {
-      extra: {
-        key,
-        value,
-      }
-    });
+    // Sentry.captureMessage(`Error: Failed setting SecureStore key [${key}]`, {
+    //   extra: {
+    //     key,
+    //     value,
+    //   }
+    // });
     return null;
   }
 }
@@ -43,11 +43,11 @@ async function getSecureStoreKey(key) {
   try {
     return await Expo.SecureStore.getItemAsync(key);
   } catch (error) {
-    Sentry.captureMessage(`Error: Failed getting SecureStore key [${key}]`, {
-      extra: {
-        key,
-      }
-    });
+    // Sentry.captureMessage(`Error: Failed getting SecureStore key [${key}]`, {
+    //   extra: {
+    //     key,
+    //   }
+    // });
     return null;
   }
 }
@@ -63,11 +63,11 @@ async function deleteSecureStoreKey(key) {
   try {
     return await Expo.SecureStore.deleteItemAsync(key);
   } catch (error) {
-    Sentry.captureMessage(`Error: Failed deleting SecureStore key [${key}]`, {
-      extra: {
-        key,
-      }
-    });
+    // Sentry.captureMessage(`Error: Failed deleting SecureStore key [${key}]`, {
+    //   extra: {
+    //     key,
+    //   }
+    // });
     return null;
   }
 }
@@ -82,7 +82,7 @@ async function clearSecureStorage() {
   try {
     return await Expo.SecureStore.clear();
   } catch (error) {
-    Sentry.captureMessage('Error: Failed clearing SecureStore');
+    // Sentry.captureMessage('Error: Failed clearing SecureStore');
     return null;
   }
 }
