@@ -39,7 +39,7 @@ const EmptyState = (props) => {
 
   return (
     <View style={EmptyStateStyle.wrapper}>
-      <Image source={require("../../../../assets/images/deerTransactionHistory.png")}
+      <Image source={require("../../../../assets/images/sadBear.png")}
         style={[EmptyStateStyle.image, { resizeMode: "contain" }]} />
 
       <Text style={[globalStyles.heading, { marginRight: 40, marginLeft: 40 }, coloredStyle]}>

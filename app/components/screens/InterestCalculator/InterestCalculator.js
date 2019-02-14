@@ -23,6 +23,7 @@ import testUtil from "../../../utils/test-util";
     formData: state.ui.formData,
     user: state.users.user,
     interestCoins: state.users.compliance.interest.coins,
+    interestBlockReason: state.users.compliance.interest.block_reason,
     interestRates: state.interest.rates,
     interestRatesDisplay: state.interest.ratesDisplay,
     supportedCurrencies: state.generalData.supportedCurrencies,
@@ -69,7 +70,7 @@ class InterestCalculatorScreen extends Component {
   }
 
   render() {
-    const { formData, interestRates, interestRatesDisplay, actions, user, appSettings } = this.props;
+    const { formData, interestRates, interestRatesDisplay, actions, user, appSettings, interestBlockReason } = this.props;
     const { pickerItems } = this.state;
 
     if (!interestRates) return (
@@ -88,6 +89,8 @@ class InterestCalculatorScreen extends Component {
       <EarnInterestLayout>
         <View ref={testUtil.generateTestHook(this, 'InterestCalculatorScreen.exist')}
           style={{ paddingTop: 30 }}>
+
+          {!!interestBlockReason && <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>{interestBlockReason}</Text>}
 
           {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse

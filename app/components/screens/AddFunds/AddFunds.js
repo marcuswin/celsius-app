@@ -303,7 +303,7 @@ class AddFunds extends Component {
         </View>}
 
         {(currentCurrency && currentCurrency.toLowerCase() === "xlm") && <View style={{ alignItems: "center" }}>
-          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XML memoId</Text>
+          <Text style={[globalStyles.normalText, { color: "white", marginTop: 40 }]}>XLM memoId</Text>
           <View style={{ marginTop: 14 }}>
             <ShareCopy displayValue={memoId} copyShareValue={memoId} theme={'blue'} size={"small"} />
           </View>
@@ -311,7 +311,7 @@ class AddFunds extends Component {
             onPress={() => actions.openModal(MODALS.MEMO_ID_MODAL)}
             style={{ marginTop: 20 }}
           >
-            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>What is XML memoId Tag?</Text>
+            <Text style={{ color: "rgba(136,162,199,1)", fontFamily: "agile-book", fontSize: 14 * FONT_SCALE }}>What is XLM memoId Tag?</Text>
           </TouchableOpacity>
         </View>}
 
