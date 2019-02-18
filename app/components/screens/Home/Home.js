@@ -42,7 +42,7 @@ class HomeScreen extends Component {
 
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
-    if (!appInitialized) actions.appInitStart();
+    if (!appInitialized) await actions.appInitStart();
 
     if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
       CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
