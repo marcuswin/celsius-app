@@ -10,6 +10,8 @@ import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import Sentry from '../../utils/sentry-util';
+import meService from "../../services/me-service";
+import { updateFormField } from "../forms/formsActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -22,7 +24,8 @@ export {
   enableTwoFactor,
   disableTwoFactor,
   getIcoUsersProfileInfo,
-  getComplianceInfo
+  getComplianceInfo,
+  checkPIN,
 }
 
 function getProfileInfo() {
@@ -204,5 +207,23 @@ function getComplianceInfoSuccess(complianceInfo) {
     type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
     callName: API.GET_COMPLIANCE_INFO_INFO,
     complianceInfo,
+  }
+}
+
+function checkPIN(onSuccess) {
+  return async (dispatch, getState) => {
+    try {
+      const { pin } = getState().forms.formData;
+      dispatch(startApiCall(API.CHECK_PIN))
+
+      await meService.checkPin(pin)
+
+      dispatch({ type: ACTIONS.CHECK_PIN_SUCCESS })
+      dispatch(updateFormField('profileVerified', true))
+      if (onSuccess) onSuccess()
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CHECK_PIN, err));
+    }
   }
 }
