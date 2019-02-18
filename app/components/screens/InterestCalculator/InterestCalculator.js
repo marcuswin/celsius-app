@@ -79,8 +79,10 @@ class InterestCalculatorScreen extends Component {
       </EarnInterestLayout>
     );
 
-    const displayInterestRate = `${interestRatesDisplay[formData.interestCurrency]}%`;
-    const interest = formData.interestAmount * interestRates[formData.interestCurrency];
+    const interestCurrency = formData.interestCurrency ? formData.interestCurrency : '';
+
+    const displayInterestRate = `${interestRatesDisplay[interestCurrency]}%`;
+    const interest = formData.interestAmount * interestRates[interestCurrency];
     const interestPerWeek = interest / 52;
     const interestPerMonth = interest / 12;
     const interestPer6Months = interest / 2;
@@ -94,7 +96,7 @@ class InterestCalculatorScreen extends Component {
 
           {(!!user.kyc && user.kyc.status === KYC_STATUSES.passed) && <CelButton
             inverse
-            onPress={() => actions.navigateTo('AddFunds', { currency: formData.interestCurrency.toLowerCase() })}
+            onPress={() => actions.navigateTo('AddFunds', { currency: interestCurrency.toLowerCase() })}
             disabled={appSettings.declineAccess}
             margin="10 0 20 0"
           >
@@ -104,13 +106,13 @@ class InterestCalculatorScreen extends Component {
           <CelSelect field="interestCurrency"
             items={pickerItems}
             labelText="Select a currency"
-            value={formData.interestCurrency}
+            value={interestCurrency}
             margin="10 0 20 0"
             theme={'white'}
           />
 
-          <Text style={globalStyles.normalText}>Deposit {formData.interestCurrency} to your wallet now to start earning at these rates:</Text>
-          <CurrencyInterestRateInfo currency={formData.interestCurrency} rate={displayInterestRate} />
+          <Text style={globalStyles.normalText}>Deposit {interestCurrency} to your wallet now to start earning at these rates:</Text>
+          <CurrencyInterestRateInfo currency={interestCurrency} rate={displayInterestRate} />
 
           <Text style={[globalStyles.normalText, { marginBottom: 10 }]}>
             How much do you plan to deposit?
@@ -164,7 +166,7 @@ class InterestCalculatorScreen extends Component {
             Up to {displayInterestRate} interest
           </Text>
           <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-            On a {formatter.usd(formData.interestAmount)} deposit of {formData.interestCurrency} you would get about {formatter.usd(interest)} a year in interest.
+            On a {formatter.usd(formData.interestAmount)} deposit of {interestCurrency} you would get about {formatter.usd(interest)} a year in interest.
           </Text>
 
           <Separator margin="35 0 25 0" />
