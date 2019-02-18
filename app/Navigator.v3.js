@@ -24,11 +24,13 @@ import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
 import WithdrawEnterAmount from "./components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
 import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
+import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
   Settings,
-  Profile
+  Profile,
+  VerifyProfile,
 }
 const settingsProps = {
   headerMode: "none",
