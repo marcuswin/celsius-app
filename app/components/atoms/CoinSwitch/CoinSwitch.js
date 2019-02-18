@@ -7,6 +7,7 @@ import testUtil from "../../../utils/test-util";
 import CoinSwitchStyle from "./CoinSwitch.styles";
 import CelText from "../CelText/CelText";
 import formatter from "../../../utils/formatter";
+import Icon from "../Icon/Icon";
 
 const CoinSwitch = (props) => {
   const style = CoinSwitchStyle()
@@ -17,19 +18,19 @@ const CoinSwitch = (props) => {
   return (
     <View style={style.container}>
       { props.onAmountPress ? (
-        <TouchableOpacity onPress={props.onAmountPress}>
+        <TouchableOpacity onPress={props.onAmountPress} style>
           <CelText align="center" type="H1">{ upperValue }</CelText>
           <CelText align="center" type="H2">{ lowerValue }</CelText>
         </TouchableOpacity>
       ) : (
-        <View>
+        <View style>
           <CelText align="center" type="H1">{ upperValue }</CelText>
           <CelText align="center" type="H2">{ lowerValue }</CelText>
         </View>
       )}
-      <View style={style.switchWrapper}>
+      <View style={style.switchButton}>
         <TouchableOpacity onPress={() => updateFormField('isUsd', !isUsd)}>
-          <CelText>Switch</CelText>
+          <Icon name="Switch" width="30" height="30" />
         </TouchableOpacity>
       </View>
     </View>

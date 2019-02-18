@@ -5,12 +5,14 @@ const base = {
   container: {
     marginBottom: 10,
   },
-  switchWrapper: {
+  switchButton: {
     position: 'absolute',
+    zIndex: 1,
     right: 0,
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
   }
 };
 
