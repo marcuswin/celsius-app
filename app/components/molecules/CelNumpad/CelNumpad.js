@@ -17,16 +17,27 @@ const BUTTONS = {
     ['7', '8', '9'],
     ['.', '0', '<'],
   ],
+  [KEYPAD_PURPOSES.VERIFICATION]: [
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['', '0', '<'],
+  ],
 }
 
 const deviceModel = Constants.platform.ios ? Constants.platform.ios.model : Constants.platform.android.model;
 const shouldShowCustomKeypad = PHONES_WITH_CUSTOM_KEYPAD.includes(deviceModel)
 
 const KEYBOARDS = {
-  [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC
+  [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC,
+  [KEYPAD_PURPOSES.VERIFICATION]: KEYBOARD_TYPE.NUMERIC,
 }
 
 class CelNumpad extends Component {
+  componentWillUnmount() {
+    this.props.setKeypadInput(false)
+  }
+
   changeInputText = (text) => {
     const { value, onPress, updateFormField, field } = this.props;
 
@@ -105,6 +116,7 @@ class CelNumpad extends Component {
 
     return (
       <TextInput
+        style={{ opacity: 0, position: 'absolute' }}
         value={value || ''}
         onChangeText={this.changeInputText}
         keyboardType={KEYBOARDS[purpose]}

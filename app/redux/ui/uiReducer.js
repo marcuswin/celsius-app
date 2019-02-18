@@ -72,7 +72,6 @@ const initialState = {
   theme: THEMES.LIGHT,
   fabMenuOpen: false,
   isKeypadOpen: false,
-  keypadInput: undefined,
 
   // keep
   message: undefined,
@@ -147,12 +146,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isKeypadOpen: !state.isKeypadOpen,
-      }
-
-    case ACTIONS.SET_KEYPAD_INPUT:
-      return {
-        ...state,
-        keypadInput: action.input
       }
 
     case ACTIONS.SET_INPUT_LAYOUT:

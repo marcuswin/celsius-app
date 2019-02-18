@@ -1,6 +1,5 @@
 // TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
-
 import ACTIONS from '../../constants/ACTIONS';
 import { MODALS } from "../../config/constants/common";
 import { screens } from '../../config/Navigator';
@@ -54,32 +53,45 @@ function showMessage(msgType, text, disableClear) {
   }
 }
 
+
 // Custom celsius keypad actions
-function toggleKeypad() {
-  return (dispatch, getState) => {
-    const { keypadInput, isKeypadOpen } = getState().ui;
-
-    if (keypadInput) {
-      if (isKeypadOpen) {
-        keypadInput.blur()
-      } else {
-        keypadInput.focus()
-      }
-
-      dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
-    }
-  }
-}
+let _keypadInputRef = null;
 
 function setKeypadInput(input) {
   return (dispatch, getState) => {
     const { isKeypadOpen } = getState().ui;
+    if (input === false) {
+      // close keypad
+      if (isKeypadOpen) dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
 
-    dispatch({
-      type: ACTIONS.SET_KEYPAD_INPUT,
-      input,
-    });
-    if (!isKeypadOpen) dispatch(toggleKeypad())
+      _keypadInputRef = null
+    }
+
+    if (!_keypadInputRef && input) {
+      _keypadInputRef = input
+
+      // auto open keypad
+      const timeout = setTimeout(() => {
+        dispatch(toggleKeypad())
+        clearTimeout(timeout)
+      }, 0)
+    }
+  }
+}
+
+function toggleKeypad() {
+  return (dispatch, getState) => {
+    const { isKeypadOpen } = getState().ui;
+
+    if (_keypadInputRef) {
+      if (isKeypadOpen) {
+        _keypadInputRef.blur()
+      } else {
+        _keypadInputRef.focus()
+      }
+
+      dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
+    }
   }
 }
 

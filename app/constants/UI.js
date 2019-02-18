@@ -63,6 +63,7 @@ export const EMPTY_STATES = {
 
 export const KEYPAD_PURPOSES = {
   WITHDRAW: 'WITHDRAW',
+  VERIFICATION: 'VERIFICATION',
 }
 
 export const PHONES_WITH_CUSTOM_KEYPAD = [
