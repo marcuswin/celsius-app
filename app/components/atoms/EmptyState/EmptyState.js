@@ -96,8 +96,6 @@ class EmptyState extends Component {
         <View>
           <Image source={image || require('../../../../assets/images/deerTransactionHistory.png')} style={{ width: 140, height: 140, resizeMode: 'contain' }} />
         </View>
-        <CelButton onPress= {() => actions.navigateTo('WithdrawConfirm')} margin="8 0 8 0" basic>WalletConfirm</CelButton>
-
 
         <CelText margin="20 0 15 0" align="center" type="H3" bold>{heading}</CelText>
 

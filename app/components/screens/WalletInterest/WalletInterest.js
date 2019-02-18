@@ -73,7 +73,7 @@ class WalletInterest extends Component {
         <View>
           <View style={style.container}>
             <Card padding="15 15 15 15" onPress={() => actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)}>
-              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total interest earned</CelText>
+              <CelText type="H6" color="rgba(61,72,83,0.7)">Total interest earned</CelText>
               <View style={style.amountWrapper}>
                 <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
