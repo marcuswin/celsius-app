@@ -25,10 +25,11 @@ class CircleButton extends Component {
     selectable: PropTypes.bool,
     type: PropTypes.oneOf(['menu', 'theme', 'coin']).isRequired,
   };
+
   static defaultProps = {
     isSelected: false,
     selectable: false
-  }
+  };
 
   shouldComponentUpdate(nextProps) {
     const { isSelected, theme } = this.props;

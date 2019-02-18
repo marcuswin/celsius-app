@@ -25,6 +25,7 @@ class CelButton extends Component {
     size: PropTypes.oneOf(buttonSizes),
     textColor: PropTypes.string
   };
+
   static defaultProps = {
     iconRight: undefined,
     disabled: false,
@@ -51,7 +52,7 @@ class CelButton extends Component {
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
     if (textColor) titleStyle.push({ color: textColor })
-    
+
     return titleStyle;
   }
 
@@ -81,13 +82,13 @@ class CelButton extends Component {
   }
 
   renderButton = () => {
-    const { children, iconRight } = this.props;
-    const style = CelButtonStyle();
-    const buttonStyle = this.getButtonStyle(style);
-    const titleStyle = this.getTitleStyle(style);
+    const { children, iconRight, style } = this.props;
+    const celBtnStyle = CelButtonStyle();
+    const buttonStyle = this.getButtonStyle(celBtnStyle);
+    const titleStyle = this.getTitleStyle(celBtnStyle);
 
     return (
-      <View style={buttonStyle}>
+      <View style={[buttonStyle, style]}>
         {!!children && <CelText style={titleStyle}>{children}</CelText>}
         {!!iconRight && this.renderIconRight()}
       </View>

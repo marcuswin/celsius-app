@@ -71,6 +71,7 @@
     "react-redux": "5.0.6",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
+    "reselect": "^4.0.0",
     "sentry-expo": "~1.9.0",
     "svg-path-properties": "^0.4.8",
     "uuid": "^3.2.1"

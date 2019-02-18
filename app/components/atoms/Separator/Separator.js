@@ -16,7 +16,8 @@ class Separator extends Component {
     fontType: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     allCaps: PropTypes.bool,
     dashed: PropTypes.bool,
-    color: PropTypes.string
+    color: PropTypes.string,
+    opacity: PropTypes.number
   };
   static defaultProps = {
     vertical: false,
@@ -24,28 +25,29 @@ class Separator extends Component {
     fontType: 'H6',
     allCaps: true,
     dashed: false,
-    color: ""
+    color: "",
+    opacity: 1
   }
 
   getSeparatorColor = (style) => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const { size, color, dashed } = this.props
+    const { size, color, dashed, opacity } = this.props
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
 
     return (
-      <View style={[style.separatorVertical, { borderColor: separatorColor, width: size, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
+      <View style={[style.separatorVertical, { borderColor: separatorColor, width: size, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid', opacity }]} />
     )
   }
 
   renderLine = () => {
-    const { size, color, dashed } = this.props
+    const { size, color, dashed, opacity } = this.props
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
 
     return (
-      <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
+      <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid', opacity }]} />
     )
   }
 

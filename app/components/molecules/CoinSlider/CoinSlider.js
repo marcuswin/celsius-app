@@ -11,48 +11,51 @@ class CoinSlider extends Component {
 
   static propTypes = {
     coinList: PropTypes.instanceOf(Array).isRequired,
+    updateFormField: PropTypes.func.isRequired,
+    field: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onCoinSelect: PropTypes.func
   };
-  static defaultProps = {
+
+  static defaultProps ={
     onCoinSelect: () => {}
+  };
+
+  componentDidMount() {
+    const { updateFormField, field, onCoinSelect, defaultSelected, value } = this.props;
+
+    // On initial mount, if nothing set in redux state (value), preselect default coin if exists
+    if (defaultSelected && !value) {
+      onCoinSelect(defaultSelected);
+      updateFormField(field, defaultSelected);
+    }
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selectedCoinShortName: ''
-    };
-  }
-
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
   render() {
-    const { selectedCoinShortName } = this.state;
-    const { onCoinSelect } = this.props;
+    const { coinList, updateFormField, field, onCoinSelect, value } = this.props;
+
     return (
       <View>
         <CelText type="H4" align='center'>Choose coin to deposit</CelText>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{marginTop: 18}} contentContainerStyle={{paddingRight: 35}}>
-          {this.props.coinList.map(coin =>
+          {coinList.map(coin =>
             <CircleButton
               key={coin.short}
               onPress={() => {
-                onCoinSelect(coin);
-                this.setState({selectedCoinShortName: coin.short})
+                onCoinSelect(coin.short);
+                updateFormField(field, coin.short);
               }}
               type="coin"
               icon={`Icon${coin.short}`}
               text={coin.displayName}
               style={{marginLeft: 35}}
               selectable
-              isSelected={selectedCoinShortName === coin.short}
+              isSelected={value === coin.short}
             />
           )}
         </ScrollView>
       </View>
-    );
+    )
   }
 }
 

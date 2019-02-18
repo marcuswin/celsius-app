@@ -33,8 +33,8 @@ class RegularLayout extends Component {
           </CelHeading>
         )}
 
-        <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' style={[style.container, paddings]}>
-          <SafeAreaView>
+        <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'  style={style.container} contentContainerStyle={[{flexGrow: 1}, paddings]}>
+          <SafeAreaView style={{flex: 1}}>
             <KeyboardShift>
               <React.Fragment>
                 {children}

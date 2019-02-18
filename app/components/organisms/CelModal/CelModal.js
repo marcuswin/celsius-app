@@ -16,7 +16,6 @@ import UI from "../../../constants/UI";
 
 @connect(
   state => ({
-    style: CelModalStyle(),
     openedModal: state.ui.openedModal,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -43,7 +42,8 @@ class CelModal extends Component {
   }
 
   renderImage = () => {
-    const { picture, style } = this.props;
+    const { picture } = this.props;
+    const style = CelModalStyle();
 
     if (!picture) return null;
     return (
@@ -54,10 +54,11 @@ class CelModal extends Component {
   }
 
   render() {
-    const { openedModal, name, actions, shouldRenderCloseButton, style, children } = this.props;
+    const { openedModal, name, actions, shouldRenderCloseButton, children } = this.props;
+    const style = CelModalStyle();
 
     const tintColor = this.getTintColor();
-    
+
     return (
       <Modal
         animationType="slide"

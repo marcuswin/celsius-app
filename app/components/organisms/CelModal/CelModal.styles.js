@@ -14,7 +14,6 @@ const base = {
     },
     modal: {
         position: 'absolute',
-        
         backgroundColor: 'white',
         width: width * 0.8,
         // height: height * 0.6,
@@ -56,7 +55,7 @@ const base = {
         height: heightPercentageToDP("16%"),
     },
     contentWrapper: {
-        marginTop: 100,
+        marginTop: 40,
         paddingRight: 20,
         paddingLeft: 20,
         marginBottom: 20,
