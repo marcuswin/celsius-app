@@ -1,5 +1,5 @@
-import {Dimensions, StatusBar} from 'react-native';
-import {Camera} from "expo";
+import { Dimensions, StatusBar } from 'react-native';
+import { Camera } from "expo";
 
 import ACTIONS from '../../config/constants/ACTIONS';
 import device from "../../utils/device-util";
@@ -8,7 +8,7 @@ import { KYC_STATUSES } from "../../config/constants/common";
 import { shouldRenderInitialIdVerification } from "../../utils/user-util";
 import { screens } from "../../config/Navigator";
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 function getBottomNavDimensions() {
   let navHeight;
@@ -38,7 +38,7 @@ function shouldShowBottomNavigation(action) {
 
   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
   if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
-  if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
+  if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes.length >= 2 ? nav.routes[nav.routes.length - 2].routeName : nav.routes[nav.routes.length - 1].routeName;
   if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
   if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
   if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
@@ -318,10 +318,10 @@ export default (state = initialState, action) => {
         hasBottomNavigation: shouldShowBottomNavigation(action),
       }
 
-      // return {
-      //   ...state,
-      //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
-      // }
+    // return {
+    //   ...state,
+    //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
+    // }
 
     default:
       return state;

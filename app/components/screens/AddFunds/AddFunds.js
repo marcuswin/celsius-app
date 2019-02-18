@@ -110,11 +110,11 @@ class AddFunds extends Component {
 
       const cryptoAddress = cryptoUtil.isERC20(currency) ? walletAddresses.eth : walletAddresses[currency];
 
-      if (useAlternateAddress && !!cryptoAddress.alternateAddress) {
+      if (useAlternateAddress && cryptoAddress && !!cryptoAddress.alternateAddress) {
         return cryptoAddress.alternateAddress;
       }
 
-      return cryptoAddress.address;
+      return cryptoAddress && cryptoAddress.address;
     }
   };
 

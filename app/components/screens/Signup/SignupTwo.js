@@ -25,14 +25,13 @@ const pageCalls = [API.UPDATE_USER, API.REGISTER_USER_FACEBOOK, API.REGISTER_USE
 
 @connect(
   state => ({
-    screenIndex: state.nav.index,
     user: state.users.user,
     callsInProgress: state.api.callsInProgress,
     lastCompletedCall: state.api.lastCompletedCall,
     agreedToTermsOfUse: state.users.agreedToTermsOfUse,
     formData: state.ui.formData,
     formErrors: state.ui.formErrors,
-    referralLink: state.branch.registeredLink,
+    referralLink: state.branch.registeredLink
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -67,7 +66,7 @@ class SignupTwo extends Component {
 
   // rendering methods
   render() {
-    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, screenIndex, referralLink } = this.props;
+    const { formErrors, formData, user, callsInProgress, agreedToTermsOfUse, actions, referralLink } = this.props;
     const { firstName, lastName, email, promoCode } = formData;
 
     const isLoading = apiUtil.areCallsInProgress([...pageCalls, API.GET_LINK_BY_SLUG], callsInProgress);
@@ -75,7 +74,7 @@ class SignupTwo extends Component {
     return (
       <SimpleLayout
         ref={testUtil.generateTestHook(this, 'SignupTwo.screen')}
-        mainHeader={{ backButton: !!screenIndex }}
+        mainHeader={{ backButton: false }}
         animatedHeading={{ text: 'Just a few more details…' }}
         background={STYLES.PRIMARY_BLUE}
       >

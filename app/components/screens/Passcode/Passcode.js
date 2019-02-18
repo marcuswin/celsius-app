@@ -165,7 +165,7 @@ class Passcode extends Component {
 
 
   render() {
-    const { activeScreen, type, formData, callsInProgress, testSelector } = this.props;
+    const { previousScreen, type, formData, callsInProgress, testSelector } = this.props;
     const { isPressed } = this.state;
 
     const field = types[type].field;
@@ -173,7 +173,7 @@ class Passcode extends Component {
     const pinValue = formData[field];
     const isLoading = apiUtil.areCallsInProgress([API.SET_PIN], callsInProgress);
 
-    const mainHeader = type === 'loginPasscode' ? { backButton: false } : { backButton: activeScreen !== 'Home' };
+    const mainHeader = type === 'loginPasscode' ? { backButton: false } : { backButton: previousScreen && previousScreen !== 'Home' };
     return <SimpleLayout mainHeader={mainHeader} background={STYLES.PRIMARY_BLUE} ref={testUtil.generateTestHook(this, testSelector)}>
       <View style={PasscodeStyle.root}>
         <Text style={PasscodeStyle.title}>{types[type].title}</Text>
