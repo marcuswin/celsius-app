@@ -70,9 +70,10 @@ function initInterceptors() {
       }
 
       const location = await _getLocationAsync();
-
-      newRequest.headers['geo-lat'] = location.latitude;
-      newRequest.headers['geo-long'] = location.longitude;
+      if (location) {
+        newRequest.headers['geo-lat'] = location.latitude;
+        newRequest.headers['geo-long'] = location.longitude;
+      }
 
       /* eslint-disable no-underscore-dangle */
       logger.log({ [req.method.toUpperCase()]: newRequest });
