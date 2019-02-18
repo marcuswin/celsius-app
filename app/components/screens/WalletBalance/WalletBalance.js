@@ -24,9 +24,7 @@ import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/consta
     collateral: state.wallet.collateral,
     walletCurrencies: state.wallet.currencies,
     supportedCurrencies: state.generalData.supportedCurrencies,
-    withdrawCompliance: state.users.compliance.withdraw,
-    activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings,
+    appSettings: state.users.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
