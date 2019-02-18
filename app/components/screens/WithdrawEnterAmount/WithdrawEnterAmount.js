@@ -24,6 +24,7 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
+    activeScreen: state.nav.activeScreen,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -58,6 +59,7 @@ class WithdrawEnterAmount extends Component {
     const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0;
     return numberOfDecimals;
   }
+
   getAllowedDecimals = (currency) => currency === 'USD' ? 2 : 5
 
   setCurrencyDecimals(value, currency) {
@@ -108,7 +110,7 @@ class WithdrawEnterAmount extends Component {
 
   render() {
     const { header, coinSelectItems } = this.state;
-    const { formData, actions, walletSummary } = this.props;
+    const { formData, actions, walletSummary, activeScreen } = this.props;
     const style = WithdrawEnterAmountStyle();
     if (!formData.coin) return null;
 
@@ -151,20 +153,22 @@ class WithdrawEnterAmount extends Component {
             <CelButton
               margin="50 0 0 0"
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
-              onPress={() => actions.navigateTo('WalletLanding')}
+              onPress={() => actions.navigateTo('VerifyProfile', { onSuccess: () => actions.navigateTo('WithdrawConfirm') })}
             >
               { formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above' }
             </CelButton>
           </View>
 
-          <CelNumpad
-            field={formData.isUsd ? "amountUsd" : "amountCrypto" }
-            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            onPress={this.handleAmountChange}
-            purpose={KEYPAD_PURPOSES.WITHDRAW}
-          />
+          { activeScreen === 'WithdrawEnterAmount' && (
+            <CelNumpad
+              field={formData.isUsd ? "amountUsd" : "amountCrypto" }
+              value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+              updateFormField={actions.updateFormField}
+              setKeypadInput={actions.setKeypadInput}
+              onPress={this.handleAmountChange}
+              purpose={KEYPAD_PURPOSES.WITHDRAW}
+            />
+          )}
         </View>
       </RegularLayout>
     );
