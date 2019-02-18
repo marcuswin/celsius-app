@@ -158,15 +158,14 @@ class AmountInput extends Component {
 
   switchCurrencies = () => {
     const { formData, actions } = this.props;
+    const amountUsd = formData.amountUsd ? formData.amountUsd.toString() : '';
+    const amountCrypto = formData.amountCrypto ? formData.amountCrypto.toString() : '';
+
+    // let newAmount = formData.inUsd ? formData.amountCrypto.toString() : formData.amountUsd.toString();
+    const newAmount = formData.inUsd ? amountCrypto : amountUsd;
+
     actions.updateFormField('inUsd', !formData.inUsd);
-
-    let newAmount = formData.inUsd ? formData.amountCrypto.toString() : formData.amountUsd.toString();
-
-    if (Number(newAmount) === 0) {
-      newAmount = '';
-    }
-
-    actions.updateFormField('amount', newAmount);
+    actions.updateFormField('amount', Number(newAmount) === 0 ? '' : newAmount);
   };
 
   updateAmount = (amount) => {
