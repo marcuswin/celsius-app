@@ -63,7 +63,7 @@ class SignupOne extends Component {
     const isLoading = apiUtil.areCallsInProgress([API.REGISTER_USER], callsInProgress);
     return (
       <SimpleLayout
-        mainHeader={{ back: true, rightLink: { screen: 'Login', text: 'Log in' } }}
+        mainHeader={{ backButton: false, rightLink: { screen: 'Login', text: 'Log in' } }}
         animatedHeading={{ text: 'Sign up' }}
         background={STYLES.PRIMARY_BLUE}
         ref={testUtil.generateTestHook(this, `SignupOne.screen`)}
