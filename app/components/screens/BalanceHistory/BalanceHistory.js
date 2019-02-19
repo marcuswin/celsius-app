@@ -57,7 +57,7 @@ class BalanceHistory extends Component {
 
   render() {
     const { transactions, actions, currencyRatesShort, walletSummary } = this.props
-    const { header } = this.state;
+    const { header, dateArray, priceArray } = this.state;
     const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
     const style = BalanceHistoryStyle();
 
@@ -75,6 +75,8 @@ class BalanceHistory extends Component {
               showCursor
               showPeriods
               showXTicks
+              dateArray={dateArray}
+              priceArray={priceArray}
             />
           </View>
 

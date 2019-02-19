@@ -1,9 +1,6 @@
 // import STYLES from '../../../constants/STYLES';
-import { Dimensions } from "react-native";
 
-import { getThemedStyle } from "../../../utils/styles-util";
-
-const { width } = Dimensions.get("window");
+import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
   card: {
@@ -17,10 +14,10 @@ const base = {
     elevation: 2
   },
   full: {
-    width: width - 40 - 5
+    width: widthPercentageToDP("89.07%")
   },
   half: {
-    width: (width - 40) / 2 - 10
+    width: widthPercentageToDP("42%")
   }
 };
 

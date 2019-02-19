@@ -61,16 +61,18 @@ class CoinCard extends Component {
     let dateArray;
     let priceArray;
 
+    const coinPriceChange = currencyRates.price_change_usd['1d']
     if (graphData) {
-      dateArray = graphData["1y"].map(data => data[0]);
-      priceArray = graphData["1y"].map(data => data[1]); 
+      dateArray = graphData["1d"].map(data => data[0]);
+      priceArray = graphData["1d"].map(data => data[1]);
 
     }
 
-
       //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
 
-    const padding = graphData ? '20 0 0 0' : '20 0 20 0'
+    const padding = graphData ? '20 0 0 0' : '20 0 20 0';
+
+    // Todo(ns): adjust graph size according to Card size prop
 
     return (
       <Card style={{ flexDirection: 'row', flexWrap: 'wrap'}} size="half" margin="5 5 5 5" padding={padding} onPress={onCardPress}>
@@ -84,10 +86,11 @@ class CoinCard extends Component {
           </View>
         </View>
         {graphData ? 
-          <View style={{ alignItems: "center", borderRadius: 8 }}>
+          <View style={{ alignItems: "center" }}>
             <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
+                   rate={coinPriceChange}
                    height={heightPercentageToDP("10%")}
-                   width={widthPercentageToDP("43.6%")}
+                   width={widthPercentageToDP("42%")}
             />
           </View>
         : null}
