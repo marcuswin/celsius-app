@@ -14,18 +14,20 @@ class CoinSlider extends Component {
     updateFormField: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
     value: PropTypes.string,
+    defaultSelected: PropTypes.string,
     onCoinSelect: PropTypes.func
   };
 
   static defaultProps ={
-    onCoinSelect: () => {}
+    onCoinSelect: () => {},
+    defaultSelected: '',
+    value: ''
   };
 
   componentDidMount() {
-    const { updateFormField, field, onCoinSelect, defaultSelected, value } = this.props;
+    const { updateFormField, field, onCoinSelect, defaultSelected } = this.props;
 
-    // On initial mount, if nothing set in redux state (value), preselect default coin if exists
-    if (defaultSelected && !value) {
+    if (defaultSelected) {
       onCoinSelect(defaultSelected);
       updateFormField(field, defaultSelected);
     }

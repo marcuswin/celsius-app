@@ -108,7 +108,7 @@ class WalletLanding extends Component {
                 coin={coin}
                 displayName={currency.displayName}
                 currencyRates={currency}
-                onCardPress={() => actions.navigateTo('Deposit')}
+                onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
                 graphData={!_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null}
               />
             }) : null}

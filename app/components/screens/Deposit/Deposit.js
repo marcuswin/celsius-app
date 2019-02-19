@@ -40,25 +40,6 @@ class Deposit extends Component {
     };
   }
 
-  componentDidMount() {
-    const { formData, navigation } = this.props;
-    const currencyFromNav = navigation.getParam("currency");
-    let currency = '';
-
-    // If currency comes from navigation, get it
-    if (currencyFromNav) {
-      currency = currencyFromNav;
-    } else if (formData.selectedCoin) {
-      // If currency not passed through navigation, get one from the redux state if exist
-      currency = formData.selectedCoin;
-    }
-
-    // If there is a currency coming from navigation or redux state, get it's address
-    if (currency) {
-      this.fetchAddress(currency);
-    }
-  }
-
   getAddress = (currency) => {
     const { walletAddresses } = this.props;
 
@@ -117,6 +98,23 @@ class Deposit extends Component {
       destinationTag,
       memoId
     }
+  };
+
+  getDefaultSelectedCoin = () => {
+    const { formData, navigation } = this.props;
+    const currencyFromNav = navigation.getParam("coin");
+
+    // If nothing comes through navigation and nothing stored in the redux state,
+    // use ETH as default selected coin
+    let defaultSelectedCoin = 'ETH';
+
+    if (currencyFromNav) {
+      defaultSelectedCoin = currencyFromNav
+    } else if (formData.selectedCoin) {
+      defaultSelectedCoin = formData.selectedCoin
+    }
+
+    return defaultSelectedCoin;
   };
 
   handleCoinSelect = (coinShort) => {
@@ -212,7 +210,7 @@ class Deposit extends Component {
             onCoinSelect={(coinShort) => this.handleCoinSelect(coinShort)}
             value={formData.selectedCoin}
             field='selectedCoin'
-            defaultSelected='ETH'
+            defaultSelected={this.getDefaultSelectedCoin()}
           />
         </View>
 
