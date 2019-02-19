@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
-// import PropTypes from 'prop-types';
+import { TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -10,12 +9,14 @@ import * as appActions from "../../../redux/actions";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
 import CelText from "../../atoms/CelText/CelText";
-import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP } from "../../../utils/styles-util";
+import CelInput from "../../atoms/CelInput/CelInput";
+import { COLORS } from "../../../config/constants/style";
+import addressUtil from "../../../utils/address-util";
 
 @connect(
   state => ({
@@ -56,6 +57,18 @@ class WithdrawalAddress extends Component {
   render() {
     const { header, coin, balanceCrypto, balanceUsd } = this.state;
     const { formData, actions } = this.props;
+    let tagText;
+    let placeHolderText;
+
+    if (formData.coin.toLowerCase() === "xrp") {
+      tagText = "What is XRP Destination tag";
+      placeHolderText = "Destination Tag";
+    } else if (formData.coin.toLowerCase() === "xlm") {
+      tagText = "What is XLM Memo Id";
+      placeHolderText = "Memo Id";
+    }
+
+    const address = formData[`${coin}WithdrawalAddress`] ? addressUtil.addressTag(formData[`${coin}WithdrawalAddress`]) : "";
     // const style = WithdrawalAddressStyle();
 
     return (
@@ -72,10 +85,17 @@ class WithdrawalAddress extends Component {
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 
-        <View>
+        <View style={{ alignSelf: "flex-start", marginBottom: 10 }}>
           <CelText>Your coins will be sent to:</CelText>
-          <Card><CelText>120948102931023u4-12341283u481234</CelText></Card>
         </View>
+
+        <CelInput
+          field={`${coin}WithdrawalAddress`}
+          placeholder={"Withdrawal address"}
+          value={address.newAddress}
+          multiline
+          numberOfLines={2}
+        />
 
         <InfoBox
           triangle
@@ -85,11 +105,37 @@ class WithdrawalAddress extends Component {
           left
           explanationText={"Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. If you need to change your withdrawal address, please contact our support."}
         />
-        <CelButton
-          onPress={() => actions.navigateTo("WithdrawalAddressConfirmed")}
-        >
-          Confirm withdrawal
-        </CelButton>
+
+          <CelInput
+            placeholder={placeHolderText}
+            value={address.newTag}
+            field={`coinTag`}
+            margin={"10 0 10 0"}
+          />
+
+        <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+          <TouchableOpacity>
+            <CelText type={"H5"} style={[{
+              color: COLORS.blue,
+              textAlign: "left"
+            }]}>{tagText}</CelText>
+          </TouchableOpacity>
+        </View>
+
+        <InfoBox
+          left
+          color={"white"}
+          backgroundColor={STYLES.COLORS.ORANGE}
+          titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
+        />
+
+        <View style={{ marginBottom: heightPercentageToDP("7%"), marginTop: heightPercentageToDP("3.26%") }}>
+          <CelButton
+            onPress={() => actions.navigateTo("WithdrawalAddressConfirmation")}
+          >
+            Confirm withdrawal
+          </CelButton>
+        </View>
       </RegularLayout>
     );
   }
