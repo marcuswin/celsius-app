@@ -25,6 +25,10 @@ function hasTag(address) {
   return tag
 }
 
+function hasCoinTag(coin) {
+  return ['XRP','xrp','XLM','xlm'].includes(coin)
+}
+
 function joinAddressTag(coin, address, coinTag) {
   let newWithdrawalAddress;
   if (coin === "xrp" && coinTag) newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
@@ -37,7 +41,8 @@ function joinAddressTag(coin, address, coinTag) {
 export default {
   splitAddressTag,
   joinAddressTag,
-  hasTag
+  hasTag,
+  hasCoinTag
 }
 
 

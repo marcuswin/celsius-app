@@ -23,8 +23,8 @@ import WalletInterest from "./components/screens/WalletInterest/WalletInterest";
 import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
 import WithdrawEnterAmount from "./components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
-import WithdrawalAddress from "./components/screens/WithdrawalAddress/WithdrawalAddress";
-import WithdrawalAddressConfirmation from "./components/screens/WithdrawalAddressConfirmation/WithdrawalAddressConfirmation";
+import WithdrawConfirmAddress from "./components/screens/WithdrawConfirmAddress/WithdrawConfirmAddress";
+import WithdrawCreateAddress from "./components/screens/WithdrawCreateAddress/WithdrawCreateAddress";
 import QrScanner from "./components/screens/QrScanner/QrScanner";
 import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
 import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
@@ -73,8 +73,8 @@ const walletNavigator = createStackNavigator(walletScreens, walletProps);
 
 const withdrawScreens = {
   WithdrawEnterAmount,
-  WithdrawalAddress,
-  WithdrawalAddressConfirmation,
+  WithdrawCreateAddress,
+  WithdrawConfirmAddress,
   QrScanner,
   WithdrawConfirm,
 }

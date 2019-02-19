@@ -8,6 +8,7 @@ import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
 import { analyticsEvents } from "../../utils/analytics-util";
+import { navigateTo } from "../nav/navActions";
 
 export {
   // new v3
@@ -130,6 +131,10 @@ function setCoinWithdrawalAddress(coin, address) {
           address: response.data.address,
           manually_set: response.data.manually_set,
       }));
+
+      dispatch(navigateTo('VerifyProfile', {
+        onSuccess: () => navigateTo('WithdrawConfirm')
+      }))
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS, error));

@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
-// import WithdrawalAddressConfirmationStyle from "./WithdrawalAddressConfirmation.styles";
+// import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
 import { heightPercentageToDP } from "../../../utils/styles-util";
@@ -22,14 +22,15 @@ import { COLORS } from "../../../config/constants/style";
 
 @connect(
   state => ({
-      walletSummary: state.wallet.summary,
-      currencyRatesShort: state.currencies.currencyRatesShort,
-      currencies: state.currencies.rates,
-      formData: state.forms.formData
+    walletSummary: state.wallet.summary,
+    currencyRatesShort: state.currencies.currencyRatesShort,
+    currencies: state.currencies.rates,
+    formData: state.forms.formData,
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class WithdrawalAddressConfirmation extends Component {
+class WithdrawCreateAddress extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -77,8 +78,10 @@ class WithdrawalAddressConfirmation extends Component {
   };
 
   confirmWithdrawal = () => {
-    const {formData} = this.props;
-    addressUtil.joinAddressTag(formData.coin)
+    const {formData, actions} = this.props;
+    const address = addressUtil.joinAddressTag(formData)
+
+    actions.setCoinWithdrawalAddress(formData.coin, address)
   };
 
   renderInputFields(tag) {
@@ -134,10 +137,9 @@ class WithdrawalAddressConfirmation extends Component {
     }
 
     const explainText = `Your ${formData.coin} withdrawal address is not set. Please, enter the address, or scan QR code.`;
-    // const style = WithdrawalAddressConfirmationStyle();
-    const address = formData[`${coin}WithdrawalAddress`] ? addressUtil.splitAddressTag(formData[`${coin}WithdrawalAddress`]) : "";
-    const hasTag = formData[`${coin}WithdrawalAddress`] ? addressUtil.hasTag(formData[`${coin}WithdrawalAddress`]) : "";
 
+    const hasTag = addressUtil.hasCoinTag(formData.coin)
+    const address = {}
 
 
     return (
@@ -159,9 +161,9 @@ class WithdrawalAddressConfirmation extends Component {
         </View>
 
           <CelInput
-            field={`${coin}WithdrawalAddress`}
+            field="withdrawAddress"
             placeholder={"Withdrawal address"}
-            value={address.newAddress}
+            value={formData.withdrawAddress}
             multiline
           />
 
@@ -174,24 +176,24 @@ class WithdrawalAddressConfirmation extends Component {
           </TouchableOpacity>
         </View>
 
-        {hasTag &&
-        <React.Fragment>
-          <CelInput
-            placeholder={placeHolderText}
-            value={address.newTag}
-            field={`coinTag`}
-            margin={"10 0 10 0"}
-          />
+        { !!hasTag &&
+          <React.Fragment>
+            <CelInput
+              placeholder={placeHolderText}
+              value={address.newTag}
+              field={`coinTag`}
+              margin={"10 0 10 0"}
+            />
 
-          <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-            <TouchableOpacity>
-              <CelText type={"H5"} style={[{
-                color: COLORS.blue,
-                textAlign: "left"
-              }]}>{tagText}</CelText>
-            </TouchableOpacity>
-          </View>
-        </React.Fragment>
+            <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+              <TouchableOpacity>
+                <CelText type={"H5"} style={[{
+                  color: COLORS.blue,
+                  textAlign: "left"
+                }]}>{tagText}</CelText>
+              </TouchableOpacity>
+            </View>
+          </React.Fragment>
         }
 
         <InfoBox
@@ -213,4 +215,4 @@ class WithdrawalAddressConfirmation extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawalAddressConfirmation);
+export default testUtil.hookComponent(WithdrawCreateAddress);

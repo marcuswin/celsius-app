@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import WithdrawalAddressStyle from "./WithdrawalAddress.styles";
+// import WithdrawalAddressStyle from "./WithdrawConfirmAddress.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
 import CelText from "../../atoms/CelText/CelText";
@@ -21,13 +21,12 @@ import addressUtil from "../../../utils/address-util";
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    currencyRatesShort: state.currencies.currencyRatesShort,
-    currencies: state.currencies.rates,
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class WithdrawalAddress extends Component {
+class WithdrawConfirmAddress extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -37,10 +36,9 @@ class WithdrawalAddress extends Component {
   constructor(props) {
     super(props);
 
-    const { formData, walletSummary } = props;
+    const { formData, walletSummary, withdrawalAddresses } = props;
     const coin = formData.coin;
     const coinData = walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
-
 
     this.state = {
       header: {
@@ -50,12 +48,13 @@ class WithdrawalAddress extends Component {
       },
       coin,
       balanceCrypto: coinData.amount,
-      balanceUsd: coinData.amount_usd
+      balanceUsd: coinData.amount_usd,
+      address: withdrawalAddresses[coin.toUpperCase()]
     };
   }
 
   render() {
-    const { header, coin, balanceCrypto, balanceUsd } = this.state;
+    const { header, coin, balanceCrypto, balanceUsd, address } = this.state;
     const { formData, actions } = this.props;
     let tagText;
     let placeHolderText;
@@ -68,8 +67,10 @@ class WithdrawalAddress extends Component {
       placeHolderText = "Memo Id";
     }
 
-    const address = formData[`${coin}WithdrawalAddress`] ? addressUtil.addressTag(formData[`${coin}WithdrawalAddress`]) : "";
+    // const address = formData[`${coin}WithdrawConfirmAddress`] ? addressUtil.addressTag(formData[`${coin}WithdrawConfirmAddress`]) : "";
     // const style = WithdrawalAddressStyle();
+    const hasTag = addressUtil.hasTag(address.address)
+    const addressDisplay = addressUtil.splitAddressTag(address.address)
 
     return (
       <RegularLayout header={header}>
@@ -90,9 +91,10 @@ class WithdrawalAddress extends Component {
         </View>
 
         <CelInput
-          field={`${coin}WithdrawalAddress`}
+          field={'withdrawAddress'}
           placeholder={"Withdrawal address"}
-          value={address.newAddress}
+          value={addressDisplay.newAddress}
+          disabled
           multiline
           numberOfLines={2}
         />
@@ -106,32 +108,38 @@ class WithdrawalAddress extends Component {
           explanationText={"Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. If you need to change your withdrawal address, please contact our support."}
         />
 
-          <CelInput
-            placeholder={placeHolderText}
-            value={address.newTag}
-            field={`coinTag`}
-            margin={"10 0 10 0"}
-          />
+        { hasTag ? (
+          <View>
+            <CelInput
+              placeholder={placeHolderText}
+              value={addressDisplay.newTag}
+              field="coinTag"
+              margin="10 0 10 0"
+              disabled
+            />
 
-        <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-          <TouchableOpacity>
-            <CelText type={"H5"} style={[{
-              color: COLORS.blue,
-              textAlign: "left"
-            }]}>{tagText}</CelText>
-          </TouchableOpacity>
-        </View>
+            <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+              <TouchableOpacity>
+                <CelText type={"H5"} style={[{
+                  color: COLORS.blue,
+                  textAlign: "left"
+                }]}>{tagText}</CelText>
+              </TouchableOpacity>
+            </View>
 
-        <InfoBox
-          left
-          color={"white"}
-          backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
-        />
+            <InfoBox
+              left
+              color={"white"}
+              backgroundColor={STYLES.COLORS.ORANGE}
+              titleText={"To prevent a permanent loss of your funds, please check if your address has a destination tag."}
+            />
+          </View>
+        ) : null}
+
 
         <View style={{ marginBottom: heightPercentageToDP("7%"), marginTop: heightPercentageToDP("3.26%") }}>
           <CelButton
-            onPress={() => actions.navigateTo("WithdrawalAddressConfirmation")}
+            onPress={() => actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo('WithdrawConfirm')})}
           >
             Confirm withdrawal
           </CelButton>
@@ -141,4 +149,4 @@ class WithdrawalAddress extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawalAddress);
+export default testUtil.hookComponent(WithdrawConfirmAddress);
