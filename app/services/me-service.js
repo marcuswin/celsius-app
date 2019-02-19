@@ -49,7 +49,7 @@ function setPin(data) {
 }
 
 function checkPin(pin) {
-  return axios.post(`${apiUrl}/me/pin/check`, pin);
+  return axios.post(`${apiUrl}/me/pin/check`, { pin });
 }
 
 function checkTwoFactor(code) {

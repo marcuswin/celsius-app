@@ -3,7 +3,7 @@ import { Constants } from "expo";
 import ACTIONS from '../../constants/ACTIONS';
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
-import { showMessage } from "../ui/uiActions";
+import { showMessage, toggleKeypad } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import { deleteSecureStoreKey, getSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import TwoFactorService from "../../services/two-factor-service";
@@ -214,6 +214,7 @@ function checkPIN(onSuccess) {
   return async (dispatch, getState) => {
     try {
       const { pin } = getState().forms.formData;
+
       dispatch(startApiCall(API.CHECK_PIN))
 
       await meService.checkPin(pin)
@@ -224,6 +225,8 @@ function checkPIN(onSuccess) {
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CHECK_PIN, err));
+      dispatch(updateFormField('pin', ''))
+      dispatch(toggleKeypad())
     }
   }
 }

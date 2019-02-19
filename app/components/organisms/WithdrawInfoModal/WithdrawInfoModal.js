@@ -75,6 +75,8 @@ class WithdrawInfoModal extends Component {
     const styles = WithdrawInfoModalStyle();
     const { steps, currentStep } = this.state;
 
+    if (currentStep === 5) return null
+
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}

@@ -199,14 +199,16 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
-function withdrawCrypto(coin, amount, verification) {
-  return async dispatch => {
+function withdrawCrypto() {
+  return async (dispatch, getState) => {
     try {
+      const { formData } = getState().forms
+      const { coin, amountCrypto, pin, code } = formData
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amount, verification);
+      const res = await walletService.withdrawCrypto(coin, amountCrypto, pin || code);
       dispatch(withdrawCryptoSuccess(res.data.transaction));
-      dispatch(getWalletDetails());
+      dispatch(getWalletSummary());
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
@@ -221,6 +223,8 @@ function withdrawCryptoSuccess(transaction) {
       callName: API.WITHDRAW_CRYPTO,
       transaction,
     });
+
+    dispatch(navigateTo('TransactionsDetails', { id: transaction.id }))
 
     analyticsEvents.confirmWithdraw({
       id: transaction.id,

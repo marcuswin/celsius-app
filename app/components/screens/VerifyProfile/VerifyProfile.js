@@ -36,15 +36,17 @@ class VerifyProfile extends Component {
     };
   }
 
-  onSuccess() {
-    const { navigation } = this.props;
-    const onSuccess = navigation.getParam('onSuccess')
-    onSuccess()
-    this.setState({ loading: false })
-  }
+  // onSuccess() {
+  //   const { navigation } = this.props;
+  //   const onSuccess = navigation.getParam('onSuccess')
+  //
+  //   onSuccess()
+  //   this.setState({ loading: false })
+  // }
 
   handlePINChange = (newValue) => {
-    const { actions } = this.props;
+    const { actions, navigation } = this.props;
+    const onSuccess = navigation.getParam('onSuccess')
 
     if (newValue.length > 4) return;
 
@@ -54,12 +56,13 @@ class VerifyProfile extends Component {
       // TODO: check pin
       this.setState({ loading: true })
       actions.toggleKeypad()
-      actions.checkPIN(this.onSuccess)
+      actions.checkPIN(onSuccess)
     }
   }
 
   handle2FAChange = (newValue) => {
-    const { actions } = this.props;
+    const { actions, navigation } = this.props;
+    const onSuccess = navigation.getParam('onSuccess')
 
     if (newValue.length > 6) return;
 
@@ -70,7 +73,7 @@ class VerifyProfile extends Component {
       actions.toggleKeypad()
 
       // TODO: check code
-      actions.checkPIN(this.onSuccess)
+      actions.checkPIN(onSuccess)
     }
   }
 

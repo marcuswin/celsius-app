@@ -129,6 +129,8 @@ class WithdrawEnterAmount extends Component {
     const { actions, formData, withdrawalAddresses } = this.props;
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address;
 
+    // console.log({ coinAddress })
+
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
     } else {

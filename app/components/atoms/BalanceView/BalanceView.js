@@ -24,9 +24,15 @@ const BalanceView = (props) => {
     );
 };
 
-BalanceView.PropTypes = {
-  usd: PropTypes.string,
-  crypto: PropTypes.string,
+BalanceView.propTypes = {
+  usd: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  crypto: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 export default testUtil.hookComponent(BalanceView);

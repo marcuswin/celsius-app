@@ -53,9 +53,16 @@ class WithdrawConfirmAddress extends Component {
     };
   }
 
+  confirmAddress = () => {
+    const { actions, withdrawalAddresses, formData } = this.props
+
+    actions.updateFormField('withdrawAddress', withdrawalAddresses[formData.coin.toUpperCase()].address)
+    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo('WithdrawConfirm')})
+  }
+
   render() {
     const { header, coin, balanceCrypto, balanceUsd, address } = this.state;
-    const { formData, actions } = this.props;
+    const { formData } = this.props;
     let tagText;
     let placeHolderText;
 
@@ -139,7 +146,7 @@ class WithdrawConfirmAddress extends Component {
 
         <View style={{ marginBottom: heightPercentageToDP("7%"), marginTop: heightPercentageToDP("3.26%") }}>
           <CelButton
-            onPress={() => actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo('WithdrawConfirm')})}
+            onPress={this.confirmAddress}
           >
             Confirm withdrawal
           </CelButton>

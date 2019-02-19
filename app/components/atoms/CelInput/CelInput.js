@@ -95,25 +95,27 @@ class CelInput extends Component {
     const { type, value } = this.props
     const inputStyle = this.getInputStyle();
 
-    return {
-      'text':
-        <View style={inputStyle}>
-          <CelInputText {...this.props} />
-        </View>,
-      'password':
-        <View style={inputStyle}>
-          <CelInputPassword {...this.props} />
-        </View>,
-      'phone':
-        <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
-          <CelSelect {...this.props} />
-          <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={value.text} />
-        </View>,
-      // 'checkbox': ,
-      // 'pin': ,
-      // 'tfa': ,
-      // 'number':
-    }[type]
+    switch(type) {
+      case 'text':
+        return (
+          <View style={inputStyle}>
+            <CelInputText {...this.props} />
+          </View>
+        )
+      case 'password':
+        return (
+          <View style={inputStyle}>
+            <CelInputPassword {...this.props} />
+          </View>
+        )
+      case 'phone':
+        return (
+          <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
+            <CelSelect {...this.props} />
+            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={value.text} />
+          </View>
+        )
+    }
   }
 }
 

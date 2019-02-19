@@ -16,8 +16,14 @@ const base = {
         flex: 1,
         alignItems: 'flex-end',
         marginBottom: 36
+    },
+    amountWrapper: {
+      paddingVertical: 20,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: 1
     }
-
 }
 
 const themed = {
