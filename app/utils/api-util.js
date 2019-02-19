@@ -21,16 +21,20 @@ export default {
 }
 
 async function _getLocationAsync() {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status !== 'granted') {
+  try {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      return false;
+    }
+    const options = {
+      accuracy: 3,
+      maximumAge: 300000,
+    };
+    const location = await Location.getCurrentPositionAsync(options);
+    return location && location.coords;
+  } catch (error) {
     return false;
   }
-  const options = {
-    accuracy: 4,
-    maximumAge: 300000,
-  };
-  const location = await Location.getCurrentPositionAsync(options);
-  return location && location.coords;
 };
 
 function initInterceptors() {
