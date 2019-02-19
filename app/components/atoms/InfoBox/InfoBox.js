@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Text, View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 
 import Icon from "../Icon/Icon";
 import testUtil from "../../../utils/test-util";
@@ -69,7 +69,7 @@ class InfoBox extends Component {
             <Icon name="WarningCircle" width="23" height="23" stroke={backgroundColor} fill={color}/>
           </View>
           }
-          <Text type={"H4"} style={{ color }}>{titleText}</Text>
+          <CelText type={"H4"} style={{ color }}>{titleText}</CelText>
           <View>
             {children}
           </View>
@@ -104,10 +104,8 @@ class InfoBox extends Component {
           <View style={{width: "30%"}}/>
           <CelText type={"H6"} style={{ color }}>{explanationText}</CelText>
         </View>
-        }
-        }
+          }
       </TouchableOpacity>
-
     );
   }
 };
