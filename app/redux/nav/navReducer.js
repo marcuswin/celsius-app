@@ -9,6 +9,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   let newState;
+  let allScreens = [];
 
   switch (action.type) {
     case ACTIONS.NAVIGATE:
@@ -18,12 +19,14 @@ export default (state = initialState, action) => {
         allScreens: [action.screen, ...state.allScreens]
       }
       return newState
+
     case ACTIONS.NAVIGATE_BACK:
-      if (state.allScreens.length > 1) state.allScreens.shift();
+      allScreens = [ ...state.allScreens ]
+      if (allScreens.length > 1) allScreens.shift();
       newState = {
         ...state,
-        activeScreen: state.allScreens[1], // TODO(sb)
-        allScreens: [...state.allScreens]
+        activeScreen: allScreens[0].route,
+        allScreens: [...allScreens]
       }
       return newState
     default:
