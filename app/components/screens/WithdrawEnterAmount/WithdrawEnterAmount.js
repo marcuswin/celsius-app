@@ -25,6 +25,7 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
     currencies: state.currencies.rates,
     formData: state.forms.formData,
     activeScreen: state.nav.activeScreen,
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -49,9 +50,9 @@ class WithdrawEnterAmount extends Component {
       coinSelectItems,
     };
 
-    props.actions.initForm({
-      coin,
-    })
+
+    props.actions.getCoinWithdrawalAddress(coin)
+    props.actions.initForm({ coin })
   }
 
   getNumberOfDecimals(value) {
@@ -108,6 +109,31 @@ class WithdrawEnterAmount extends Component {
     })
   }
 
+  handleCoinChange = (field, value) => {
+    const { actions, withdrawalAddresses } = this.props
+
+    actions.updateFormFields({
+      [field]: value,
+      amountUsd: undefined,
+      amountCrypto: undefined,
+    });
+
+    if (!withdrawalAddresses[value.toUpperCase()]) {
+      actions.getCoinWithdrawalAddress(value);
+    }
+  }
+
+  handleNextStep = () => {
+    const { actions, formData, withdrawalAddresses } = this.props;
+    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address;
+
+    if (coinAddress) {
+      actions.navigateTo('WithdrawConfirmAddress')
+    } else {
+      actions.navigateTo('WithdrawCreateAddress')
+    }
+  }
+
   render() {
     const { header, coinSelectItems } = this.state;
     const { formData, actions, walletSummary, activeScreen } = this.props;
@@ -137,6 +163,7 @@ class WithdrawEnterAmount extends Component {
                   field="coin"
                   displayValue={formData.coin}
                   updateFormField={actions.updateFormField}
+                  onChange={this.handleCoinChange}
                 />
               </View>
 
@@ -153,7 +180,7 @@ class WithdrawEnterAmount extends Component {
             <CelButton
               margin="50 0 0 0"
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
-              onPress={() => actions.navigateTo('VerifyProfile', { onSuccess: () => actions.navigateTo('WithdrawConfirm') })}
+              onPress={this.handleNextStep}
             >
               { formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above' }
             </CelButton>

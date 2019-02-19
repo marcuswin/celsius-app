@@ -11,11 +11,11 @@ import Icon from "../../atoms/Icon/Icon";
 
 const SimpleSelect = (props) => {
   const style = SimpleSelectStyle()
-  const { displayValue, items, updateFormField, field } = props
+  const { displayValue, items, onChange, updateFormField, field } = props
 
   return (
     <RNPickerSelect
-      onValueChange={(item) => updateFormField(field, item)}
+      onValueChange={(item) => onChange ? onChange(field, item) : updateFormField(field, item)}
       items={items}
     >
       <View style={style.container}>
@@ -31,6 +31,7 @@ SimpleSelect.propTypes = {
   // { label, value }
   items: PropTypes.instanceOf(Array).isRequired,
   updateFormField: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   field: PropTypes.string.isRequired,
 }
 
