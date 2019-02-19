@@ -18,7 +18,7 @@ const base = {
         width: width * 0.8,
         // height: height * 0.6,
         top: heightPercentageToDP("25"),
-        maxHeight: heightPercentageToDP("60"),
+        // maxHeight: heightPercentageToDP("80"),
         // marginBottom: heightPercentageToDP("9.85%"),
         marginLeft: widthPercentageToDP("5.6%"),
         marginRight: widthPercentageToDP("5.6%"),
@@ -59,7 +59,7 @@ const base = {
         paddingRight: 20,
         paddingLeft: 20,
         marginBottom: 20,
-
+        // height
         // alignItems: 'center',
         // justifyContent: 'center',
     }

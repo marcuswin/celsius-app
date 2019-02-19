@@ -21,7 +21,6 @@ import UI from "../../../constants/UI";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelModal extends Component {
-
   static propTypes = {
     name: PropTypes.oneOf(Object.keys(UI.MODALS)).isRequired,
     shouldRenderCloseButton: PropTypes.bool,
@@ -35,7 +34,7 @@ class CelModal extends Component {
   getTintColor = () => {
     const { theme } = this.props;
     return {
-      'light': 'light',
+      'light': 'light', 
       'dark': 'dark',
       'celsius': 'dark',
     }[theme]
@@ -77,7 +76,6 @@ class CelModal extends Component {
                 <Icon name='Close' height='20' width='20' viewBox="0 0 1000 1000" fill={'#3D4853'} />
               </TouchableOpacity> : null
             }
-
             <ScrollView style={style.contentWrapper}>
               { children }
             </ScrollView>

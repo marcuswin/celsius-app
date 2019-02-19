@@ -16,6 +16,7 @@ import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
+import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
 
 @connect(
   state => ({
@@ -53,6 +54,7 @@ class WithdrawEnterAmount extends Component {
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
+    props.actions.openModal('WITHDRAW_INFO_MODAL')
   }
 
   getNumberOfDecimals(value) {
@@ -196,6 +198,7 @@ class WithdrawEnterAmount extends Component {
               purpose={KEYPAD_PURPOSES.WITHDRAW}
             />
           )}
+          <WithdrawInfoModal closeModal={actions.closeModal} />
         </View>
       </RegularLayout>
     );

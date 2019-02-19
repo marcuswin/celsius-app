@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
-
 import EmptyStateStyle from "./EmptyState.styles";
 import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
@@ -22,7 +21,7 @@ function getDefaultEmptyState(purpose, actions) {
       heading: 'Welcome',
       paragraphs: ['Ready to start exploring Celsius'],
       button: 'Go to Wallet',
-      onPress: () => actions.navigateTo('WalletLanding'),
+      onPress: () => actions.navigateTo('WithdrawEnterAmount', { coin: 'BTC' }),
     },
     [EMPTY_STATES.ERROR]: {
       image: require('../../../../assets/images/illuNoKYC3x.png'),
@@ -82,6 +81,8 @@ class EmptyState extends Component {
 
     this.state = getDefaultEmptyState(props.purpose, props.actions);
   }
+
+  
   render() {
     const emptyStateProps = {
       ...this.state,
@@ -90,7 +91,6 @@ class EmptyState extends Component {
     const { image, heading, paragraphs, onPress, button, support, actions } = emptyStateProps;
 
     const style = EmptyStateStyle();
-
     return (
       <View style={style.container}>
         <View>
