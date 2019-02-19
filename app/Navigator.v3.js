@@ -24,7 +24,8 @@ import CoinDetails from "./components/screens/CoinDetails/CoinDetails";
 import TransactionDetails from "./components/screens/TransactionDetails/TransactionDetails";
 import WithdrawEnterAmount from "./components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
 import WithdrawalAddress from "./components/screens/WithdrawalAddress/WithdrawalAddress";
-import WithdrawalAddressConfirmed from "./components/screens/WithdrawalAddressConfirmed/WithdrawalAddressConfirmed";
+import WithdrawalAddressConfirmation from "./components/screens/WithdrawalAddressConfirmation/WithdrawalAddressConfirmation";
+import QrScanner from "./components/screens/QrScanner/QrScanner";
 import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
 import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
 import { INITIAL_ROUTE } from "./constants/UI";
@@ -73,7 +74,8 @@ const walletNavigator = createStackNavigator(walletScreens, walletProps);
 const withdrawScreens = {
   WithdrawEnterAmount,
   WithdrawalAddress,
-  WithdrawalAddressConfirmed,
+  WithdrawalAddressConfirmation,
+  QrScanner,
   WithdrawConfirm,
 }
 
