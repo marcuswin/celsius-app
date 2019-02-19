@@ -12,7 +12,7 @@ import CelText from "../CelText/CelText";
 
 class InfoBox extends Component {
 
-  static PropTypes = {
+  static propTypes = {
     margin: PropTypes.string,
     padding: PropTypes.string,
     color: PropTypes.string,
@@ -99,8 +99,8 @@ class InfoBox extends Component {
           </View>
           }
         </View>
-        {open &&
-        <View style={{marginTop: 5, width: "70%", flexDirection: "row", alignItems: "flex-end", height: heightPercentageToDP("19.05%")}}>
+        {(triangle && open) &&
+        <View style={{marginTop: 5, width: "70%", paddingRight: 10, flexDirection: "row", alignItems: "flex-end", height: heightPercentageToDP("19.05%")}}>
           <View style={{width: "30%"}}/>
           <CelText type={"H6"} style={{ color }}>{explanationText}</CelText>
         </View>
