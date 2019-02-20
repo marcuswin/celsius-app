@@ -7,7 +7,7 @@ import formatter from "../../../utils/formatter";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import CelPayMassageStyle from "./CelPayMassage.styles";
+// import CelPayMessageStyle from "./CelPayMessage.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../../components/atoms/CelButton/CelButton';
 import CelTextArea from '../../atoms/CelTextArea/CelTextArea';
@@ -19,7 +19,7 @@ import CelTextArea from '../../atoms/CelTextArea/CelTextArea';
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class CelPayMassage extends Component {
+class CelPayMessage extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -43,7 +43,7 @@ class CelPayMassage extends Component {
   render() {
     const { header } = this.state;
     const { walletSummary, actions } = this.props;
-    // const style = CelPayMassageStyle();
+    // const style = CelPayMessageStyle();
 
     return (
       <RegularLayout header={header}>
@@ -59,4 +59,4 @@ class CelPayMassage extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelPayMassage);
+export default testUtil.hookComponent(CelPayMessage);
