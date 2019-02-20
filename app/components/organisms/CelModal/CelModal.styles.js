@@ -43,7 +43,7 @@ const base = {
         position: 'absolute',
         zIndex: 10,
 
-        top: heightPercentageToDP("17%"),
+        top: heightPercentageToDP("14%"),
 
         width: 0.8 * width,
         height: 150,

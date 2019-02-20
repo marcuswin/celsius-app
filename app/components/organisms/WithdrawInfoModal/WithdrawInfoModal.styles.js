@@ -3,19 +3,23 @@ import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from '../..
 
 const base = {
     container: {
-        flex: 1
+        flex: 1,
+
     },
     wrapper: {
         flex: 1,
         alignItems: 'center',
         height: heightPercentageToDP('50%'),
-        paddingTop: '25%',
-        // paddingBottom: '20%'
+        paddingTop: '10%',
 
     },
     button: {
-        position: 'absolute',
-        bottom: 0
+        alignItems: 'center',
+        justifyContent: 'center',
+        // position: 'absolute',
+        // bottom: 0,
+        paddingBottom: 40,
+        paddingTop: 10
     },
     title: {
         textAlign: 'center',
@@ -29,6 +33,8 @@ const base = {
         alignItems: 'center',
         justifyContent: 'center',
         color: '#737A82',
+        paddingBottom: 10,
+
 
     },
     modal: {
@@ -39,7 +45,8 @@ const base = {
     progressBar: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 20,
+        paddingHorizontal: 20,
+        paddingVertical: 20,
 
     },
     text: {

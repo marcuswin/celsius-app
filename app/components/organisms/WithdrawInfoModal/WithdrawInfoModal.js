@@ -59,13 +59,18 @@ class WithdrawInfoModal extends Component {
   }
 
   renderStep() {
-    const { steps, currentStep } = this.state
-    const styles = WithdrawInfoModalStyle()
+    const { steps, currentStep } = this.state;
+    const styles = WithdrawInfoModalStyle();
     return (
       <View>
-        <CelText type='H2' bold style={[styles.title]} > {steps[currentStep - 1].title}</CelText>
         <ScrollView>
-          <CelText type='H4' style={[styles.description]}>{steps[currentStep - 1].description}</CelText>
+          <CelText type='H2' bold style={styles.title} > {steps[currentStep - 1].title}</CelText>
+          <CelText type='H4' style={styles.description}>{steps[currentStep - 1].description}</CelText>
+          <View style={styles.button}>
+            <CelButton onPress={this.continue}>
+              Continue
+            </CelButton>
+          </View>
         </ScrollView>
       </View>
     )
@@ -81,18 +86,19 @@ class WithdrawInfoModal extends Component {
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
         picture={steps[currentStep - 1].image}
-        style={[styles.modal]}
+        style={styles.modal}
       >
-        <View style={[styles.wrapper]}>
-          <ProgressBar style={[styles.progressBar]}
-            steps={4} currentStep={currentStep} />
-          <View style={[styles.text]}>
+        <View style={styles.wrapper}>
+          <View style={styles.progressBar}>
+            <ProgressBar
+              steps={4}
+              currentStep={currentStep} />
+          </View>
+          <View>
             {this.renderStep()}
           </View>
         </View>
-        <CelButton onPress={this.continue}>
-          Continue
-        </CelButton>
+
       </CelModal>
     );
   }
