@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
@@ -18,7 +17,6 @@ import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   state => ({
-    currencies: state.generalData.supportedCurrencies,
     currenciesRates: state.currencies.rates,
     walletSummary: state.wallet.summary,
     currenciesGraphs: state.currencies.graphs
@@ -26,12 +24,8 @@ import Separator from "../../atoms/Separator/Separator";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletLanding extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
+  static propTypes = {};
+  static defaultProps = {}
 
   constructor(props) {
     super(props);
@@ -86,6 +80,7 @@ class WalletLanding extends Component {
           </Card>
 
           <CelText bold>Deposited coins</CelText>
+
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }} >
             {coinWithAmount.length ? coinWithAmount.map((coin) => {
               const currency = currenciesRates.filter(c => c.short === coin.short.toUpperCase())[0]

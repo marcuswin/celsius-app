@@ -21,7 +21,7 @@ function getDefaultEmptyState(purpose, actions) {
       heading: 'Welcome',
       paragraphs: ['Ready to start exploring Celsius'],
       button: 'Go to Wallet',
-      onPress: () => actions.navigateTo('WithdrawEnterAmount', { coin: 'BTC' }),
+      onPress: () => actions.navigateTo('WalletLanding'),
     },
     [EMPTY_STATES.ERROR]: {
       image: require('../../../../assets/images/illuNoKYC3x.png'),

@@ -15,9 +15,7 @@ import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles
 class CoinCard extends Component {
   static propTypes = {};
   static defaultProps = {};
-  coinsWithAmount = []
-  coinsWithAmount = []
-  
+
   coinCardEmpty = (coin, currencyRates) => {
     const marketValue = currencyRates.market_quotes_usd.price
     const text = `1 ${coin.short} = ${formatter.crypto(marketValue, "", { precision: 5 })}`
