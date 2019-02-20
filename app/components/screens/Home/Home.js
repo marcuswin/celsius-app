@@ -43,9 +43,10 @@ class HomeScreen extends Component {
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
     if (!appInitialized) await actions.appInitStart();
+    const { backendStatus } = store.getState().generalData
 
-    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
-      CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
+    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 && backendStatus &&
+      CLIENT_VERSION !== backendStatus.client_version) {
 
       store.dispatch(actions.showMessage(
         'warning',

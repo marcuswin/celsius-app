@@ -20,12 +20,20 @@ export default {
   parseValidationErrors,
 }
 
+let isUserAsked = false;
 async function _getLocationAsync() {
   try {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    let perm = await Permissions.getAsync(Permissions.LOCATION);
+
+    if (!isUserAsked && perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.LOCATION);
+      isUserAsked = true;
+    }
+
+    if (perm.status !== 'granted') {
       return false;
     }
+
     const options = {
       accuracy: 3,
       maximumAge: 300000,
@@ -33,6 +41,7 @@ async function _getLocationAsync() {
     const location = await Location.getCurrentPositionAsync(options);
     return location && location.coords;
   } catch (error) {
+    console.log({ error })
     return false;
   }
 };
