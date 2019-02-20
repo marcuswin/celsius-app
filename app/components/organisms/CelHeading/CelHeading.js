@@ -26,6 +26,7 @@ class CelHeading extends Component {
   static propTypes = {
     left: PropTypes.oneOf(['back']),
     right: PropTypes.oneOf(['action', 'signup', 'login', 'settings', 'info', 'search', 'profile', 'logout', 'close']),
+    onInfo: PropTypes.func,
     transparent: PropTypes.bool,
     theme: PropTypes.oneOf(Object.values(THEMES)),
   };
@@ -52,7 +53,7 @@ class CelHeading extends Component {
   }
 
   getRightContent = () => {
-    const { right, actions, profilePicture } = this.props;
+    const { right, actions, profilePicture, onInfo } = this.props;
     const { activeSearch } = this.state;
     const rightType = activeSearch ? "cancel" : right;
     return {
@@ -65,7 +66,7 @@ class CelHeading extends Component {
             <Icon name="Settings" width="35" height="35" />
           </View>
         </CelButton>,
-      "info": <CelButton basic onPress={() => { }}>Info</CelButton>,
+      "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
       "profile":
         <CelButton basic onPress={() => { actions.navigateTo('Profile'); }}>

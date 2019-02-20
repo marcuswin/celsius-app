@@ -13,10 +13,12 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
-import { KEYPAD_PURPOSES } from "../../../constants/UI";
+import UI, { KEYPAD_PURPOSES } from "../../../constants/UI";
 import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
+
+const { MODALS } = UI
 
 @connect(
   state => ({
@@ -47,6 +49,8 @@ class WithdrawEnterAmount extends Component {
       header: {
         title: "Withdraw",
         left: "back",
+        right: "info",
+        onInfo: this.handleInfoPress,
       },
       coinSelectItems,
     };
@@ -54,7 +58,7 @@ class WithdrawEnterAmount extends Component {
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
-    props.actions.openModal('WITHDRAW_INFO_MODAL')
+    props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
   }
 
   getNumberOfDecimals(value) {
@@ -134,6 +138,11 @@ class WithdrawEnterAmount extends Component {
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
+  }
+
+  handleInfoPress = () => {
+    const { actions } = this.props;
+    actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
   }
 
   render() {
