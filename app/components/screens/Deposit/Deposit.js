@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import QRCode from 'react-native-qrcode';
@@ -21,6 +21,7 @@ import Card from '../../atoms/Card/Card';
 import Icon from '../../atoms/Icon/Icon';
 import UI from '../../../constants/UI';
 import CelModal from '../../organisms/CelModal/CelModal';
+import Spinner from '../../atoms/Spinner/Spinner';
 
 @connect(
   state => ({
@@ -187,7 +188,7 @@ class Deposit extends Component {
 
   renderLoader = () => (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Image style={{width: 50, height: 50}} source={require("../../../../assets/images/icons/animated-spinner.gif")}/>
+      <Spinner />
     </View>
   );
 

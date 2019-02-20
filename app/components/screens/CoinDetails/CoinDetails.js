@@ -112,7 +112,7 @@ class CoinDetails extends Component {
                   <CelButton
                     basic
                     size="small"
-                    onPress={() => actions.navigateTo("WalletLanding")}
+                    onPress={() => actions.navigateTo("Deposit", {coin : coinDetails.short})}
                   >
                     Deposit
                   </CelButton>
