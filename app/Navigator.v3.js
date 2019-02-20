@@ -29,6 +29,7 @@ import QrScanner from "./components/screens/QrScanner/QrScanner";
 import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
 import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
 import CelPayMessage from "./components/screens/CelPayMessage/CelPayMessage";
+import CelPayEnterAmount from "./components/screens/CelPayEnterAmount/CelPayEnterAmount";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -86,21 +87,32 @@ const withdrawProps = {
 }
 const withdrawNavigator = createStackNavigator(withdrawScreens, withdrawProps);
 
+const celPayScreens = {
+  CelPayChoseFriends,
+  CelPayEnterAmount,
+  CelPayMessage,
+}
+
+const celPayProps = {
+  headerMode: "none",
+  initialRouteName: 'CelPayChoseFriends'
+}
+const celPayNavigator = createStackNavigator(celPayScreens, celPayProps);
+
 export const screens = {
   Home,
   Wallet: walletNavigator,
   Deposit,
   Withdraw: withdrawNavigator,
-  Borrow,
-  CelPayChoseFriends,
-  SelectCountry,
+  CelPay: celPayNavigator,
   Settings: SettingsNavigator,
+  Auth: authNavigator,
+  Borrow,
+  SelectCountry,
   Support,
   Community,
   Profile,
   WithdrawConfirm,
-  CelPayMessage,
-  Auth: authNavigator,
 };
 
 
