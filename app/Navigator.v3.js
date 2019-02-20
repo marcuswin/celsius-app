@@ -4,7 +4,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import Home from "./components/screens/Home/Home";
 import WalletLanding from "./components/screens/WalletLanding/WalletLanding";
 import Borrow from "./components/screens/Borrow/Borrow";
-import CelPay from "./components/screens/CelPay/CelPay";
+import CelPayChoseFriends from "./components/screens/CelPayChoseFriends/CelPayChoseFriends";
 import Deposit from "./components/screens/Deposit/Deposit";
 import Settings from "./components/screens/Settings/Settings";
 import Support from "./components/screens/Support/Support";
@@ -91,7 +91,7 @@ export const screens = {
   Deposit,
   Withdraw: withdrawNavigator,
   Borrow,
-  CelPay,
+  CelPayChoseFriends,
   SelectCountry,
   Settings: SettingsNavigator,
   Support,

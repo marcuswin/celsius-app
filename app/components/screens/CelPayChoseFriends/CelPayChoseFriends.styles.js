@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CelPayStyle = () => getThemedStyle(base, themed);
+const CelPayChoseFriendsStyle = () => getThemedStyle(base, themed);
 
-export default CelPayStyle
+export default CelPayChoseFriendsStyle

@@ -90,9 +90,9 @@ class TransactionDetails extends Component {
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
       case 'button:celpay:another':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay another friend</CelButton>;
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChoseFriends')}>CelPay another friend</CelButton>;
       case 'button:celpay:friend':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPay')}>CelPay a friend</CelButton>;
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChoseFriends')}>CelPay a friend</CelButton>;
       case 'button:cancel':
         return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':
