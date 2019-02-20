@@ -64,6 +64,7 @@ export const EMPTY_STATES = {
 
 export const KEYPAD_PURPOSES = {
   WITHDRAW: 'WITHDRAW',
+  CELPAY: 'CELPAY',
   VERIFICATION: 'VERIFICATION',
 }
 

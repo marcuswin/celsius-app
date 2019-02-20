@@ -17,6 +17,12 @@ const BUTTONS = {
     ['7', '8', '9'],
     ['.', '0', '<'],
   ],
+  [KEYPAD_PURPOSES.CELPAY]: [
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['.', '0', '<'],
+  ],
   [KEYPAD_PURPOSES.VERIFICATION]: [
     ['1', '2', '3'],
     ['4', '5', '6'],
@@ -31,6 +37,7 @@ const shouldShowCustomKeypad = PHONES_WITH_CUSTOM_KEYPAD.includes(deviceModel)
 const KEYBOARDS = {
   [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.VERIFICATION]: KEYBOARD_TYPE.NUMERIC,
+  [KEYPAD_PURPOSES.CELPAY]: KEYBOARD_TYPE.NUMERIC,
 }
 
 class CelNumpad extends Component {
