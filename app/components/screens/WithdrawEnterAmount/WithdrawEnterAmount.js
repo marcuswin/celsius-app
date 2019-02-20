@@ -129,8 +129,6 @@ class WithdrawEnterAmount extends Component {
     const { actions, formData, withdrawalAddresses } = this.props;
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address;
 
-    // console.log({ coinAddress })
-
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
     } else {
@@ -200,7 +198,7 @@ class WithdrawEnterAmount extends Component {
               purpose={KEYPAD_PURPOSES.WITHDRAW}
             />
           )}
-          <WithdrawInfoModal closeModal={actions.closeModal} />
+          <WithdrawInfoModal closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
         </View>
       </RegularLayout>
     );

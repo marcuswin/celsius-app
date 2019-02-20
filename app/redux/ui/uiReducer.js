@@ -145,7 +145,7 @@ export default (state = initialState, action) => {
     case ACTIONS.TOGGLE_KEYPAD:
       return {
         ...state,
-        isKeypadOpen: !state.isKeypadOpen,
+        isKeypadOpen: action.isKeypadOpen,
       }
 
     case ACTIONS.SET_INPUT_LAYOUT:

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { View, ScrollView } from "react-native";
-// import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
 import CelText from '../../atoms/CelText/CelText';
@@ -17,6 +16,7 @@ const { MODALS } = UI
 class WithdrawInfoModal extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
+    toggleKeypad: PropTypes.func,
   };
   static defaultProps = {}
 
@@ -52,10 +52,14 @@ class WithdrawInfoModal extends Component {
 
   continue = () => {
     const { currentStep } = this.state
-    const { closeModal } = this.props
+    const { closeModal, toggleKeypad } = this.props
 
-    if (currentStep === 5) closeModal()
-    this.setState({ currentStep: currentStep + 1 })
+    if (currentStep === 4) {
+      if (toggleKeypad) toggleKeypad();
+      closeModal();
+    } else {
+      this.setState({ currentStep: currentStep + 1 })
+    }
   }
 
   renderStep() {
@@ -79,8 +83,6 @@ class WithdrawInfoModal extends Component {
   render() {
     const styles = WithdrawInfoModalStyle();
     const { steps, currentStep } = this.state;
-
-    if (currentStep === 5) return null
 
     return (
       <CelModal

@@ -62,35 +62,34 @@ function setKeypadInput(input) {
     const { isKeypadOpen } = getState().ui;
     if (input === false) {
       // close keypad
-      if (isKeypadOpen) dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
+      if (isKeypadOpen) dispatch({
+        type: ACTIONS.TOGGLE_KEYPAD,
+        isKeypadOpen: false
+      });
 
       _keypadInputRef = null
     }
 
     if (!_keypadInputRef && input) {
       _keypadInputRef = input
-
-      // auto open keypad
-      const timeout = setTimeout(() => {
-        dispatch(toggleKeypad())
-        clearTimeout(timeout)
-      }, 0)
     }
   }
 }
 
 function toggleKeypad() {
-  return (dispatch, getState) => {
-    const { isKeypadOpen } = getState().ui;
-
+  return (dispatch) => {
     if (_keypadInputRef) {
-      if (isKeypadOpen) {
+      const isFocused = _keypadInputRef.isFocused()
+      if (isFocused) {
         _keypadInputRef.blur()
       } else {
         _keypadInputRef.focus()
       }
 
-      dispatch({ type: ACTIONS.TOGGLE_KEYPAD });
+      dispatch({
+        type: ACTIONS.TOGGLE_KEYPAD,
+        isKeypadOpen: !isFocused,
+      });
     }
   }
 }
