@@ -34,6 +34,26 @@ const KEYBOARDS = {
 }
 
 class CelNumpad extends Component {
+  static propTypes = {
+    field: PropTypes.string,
+    autofocus: PropTypes.bool,
+    value: PropTypes.string,
+    onPress: PropTypes.func,
+    updateFormField: PropTypes.func.isRequired,
+    setKeypadInput: PropTypes.func.isRequired,
+    toggleKeypad: PropTypes.func.isRequired,
+    purpose: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    autofocus: true,
+  }
+
+  componentDidMount() {
+    const { autofocus, toggleKeypad } = this.props;
+    if (autofocus) toggleKeypad();
+  }
+
   componentWillUnmount() {
     this.props.setKeypadInput(false)
   }
@@ -124,15 +144,6 @@ class CelNumpad extends Component {
       />
     );
   }
-}
-
-CelNumpad.propTypes = {
-  field: PropTypes.string,
-  value: PropTypes.string,
-  onPress: PropTypes.func,
-  updateFormField: PropTypes.func.isRequired,
-  setKeypadInput: PropTypes.func.isRequired,
-  purpose: PropTypes.string.isRequired,
 }
 
 export default testUtil.hookComponent(CelNumpad);

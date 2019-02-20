@@ -109,6 +109,7 @@ class VerifyProfile extends Component {
               value={formData.code}
               updateFormField={actions.updateFormField}
               setKeypadInput={actions.setKeypadInput}
+              toggleKeypad={actions.toggleKeypad}
               onPress={this.handlePINChange}
               purpose={KEYPAD_PURPOSES.VERIFICATION}
             />
@@ -150,6 +151,7 @@ class VerifyProfile extends Component {
               value={formData.pin}
               updateFormField={actions.updateFormField}
               setKeypadInput={actions.setKeypadInput}
+              toggleKeypad={actions.toggleKeypad}
               onPress={this.handlePINChange}
               purpose={KEYPAD_PURPOSES.VERIFICATION}
             />
