@@ -7,7 +7,6 @@ const base = {
     width: cursorRadius * 2,
     height: cursorRadius * 2,
     borderRadius: cursorRadius,
-    borderColor: "#4FB895",
     borderWidth: 1.5,
     backgroundColor: "white",
   },
@@ -15,7 +14,6 @@ const base = {
     width: cursorRadius,
     height: cursorRadius,
     borderRadius: cursorRadius / 2,
-    backgroundColor: "#4FB895",
     position: "absolute",
     top: "20%",
     left: "20%"

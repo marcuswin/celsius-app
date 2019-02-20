@@ -1,11 +1,8 @@
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
-const width = widthPercentageToDP("100%");
-
 const base = {
   periods: {
-    width,
     height: heightPercentageToDP("5%"),
     flexDirection: "row",
     justifyContent: "space-around",

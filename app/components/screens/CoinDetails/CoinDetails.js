@@ -15,9 +15,10 @@ import TransactionsHistory from "../../molecules/TransactionsHistory/Transaction
 import transactionsUtil from "../../../utils/transactions-util";
 import CoinDetailsStyle from "./CoinDetails.styles";
 import Separator from "../../atoms/Separator/Separator";
-import Graph from "../../atoms/Graph/Graph";
 import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
+import { widthPercentageToDP } from "../../../utils/styles-util";
+import GraphContainer from "../../organisms/GraphContainer/GraphContainer";
 
 const { COLORS } = STYLES;
 
@@ -28,7 +29,7 @@ const { COLORS } = STYLES;
     transactions: state.transactions,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    interestRates: state.generalData.interestRates,
+    interestRates: state.generalData.interestRates
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -43,10 +44,10 @@ class CoinDetails extends Component {
     super(props);
     const { navigation, currencyGraphs } = props;
     const coin = navigation.getParam("coin");
-    const currency = props.currencies.filter(c => c.short === coin.toUpperCase())[0]
+    const currency = props.currencies.filter(c => c.short === coin.toUpperCase())[0];
 
-    const dateArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[0])
-    const priceArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1])
+    const dateArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[0]);
+    const priceArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1]);
 
     this.state = {
       header: {
@@ -56,13 +57,13 @@ class CoinDetails extends Component {
       },
       dateArray,
       priceArray,
-      currency,
+      currency
     };
   }
 
   componentDidMount() {
-    const { actions, navigation } = this.props
-    actions.getAllTransactions({ limit: 5, coin: navigation.getParam('coin').toUpperCase() });
+    const { actions, navigation } = this.props;
+    actions.getAllTransactions({ limit: 5, coin: navigation.getParam("coin").toUpperCase() });
   }
 
   getCoinDetails() {
@@ -75,7 +76,7 @@ class CoinDetails extends Component {
     const { header, dateArray, priceArray, currency } = this.state;
     const { transactions, currencyRatesShort, actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 })
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 });
     const style = CoinDetailsStyle();
 
     return (
@@ -89,9 +90,9 @@ class CoinDetails extends Component {
                     <Image source={{ uri: currency.image_url }} style={style.coinImage}/>
                   </View>
                   <View>
-                    <CelText type="H6" >{currency.displayName}</CelText>
+                    <CelText type="H6">{currency.displayName}</CelText>
                     <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                    <CelText type="H6" >{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                    <CelText type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                   </View>
                 </View>
 
@@ -101,17 +102,17 @@ class CoinDetails extends Component {
                   <CelButton
                     basic
                     size="small"
-                    onPress={() => actions.navigateTo('WalletLanding')}
+                    onPress={() => actions.navigateTo("WalletLanding")}
                   >
                     Send
                   </CelButton>
 
-                  <Separator />
+                  <Separator/>
 
                   <CelButton
                     basic
                     size="small"
-                    onPress={() => actions.navigateTo('WalletLanding')}
+                    onPress={() => actions.navigateTo("WalletLanding")}
                   >
                     Deposit
                   </CelButton>
@@ -120,49 +121,65 @@ class CoinDetails extends Component {
             </Card>
           </View>
 
-          <Graph
+          <GraphContainer
             dateArray={dateArray}
             priceArray={priceArray}
+            showCursor
+            showXTicks
+            showPeriods
           />
 
           <View style={style.container}>
             <Card margin="10 0 10 0">
-              <View style={style.interestCardWrapper}>
-                <View>
-                  <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
-                  <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                  <CelText type="H6" color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                </View>
-                { !!interestRates[coinDetails.short] && (
-                  <View style={style.interestRateWrapper}>
-                    <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
-                    <Badge color={COLORS.GREEN}>
-                      <CelText type="H5" color="white">{ (interestRates[coinDetails.short].rate * 100).toFixed(2) }%</CelText>
-                    </Badge>
+              <View>
+                <View style={style.interestCardWrapper}>
+                  <View>
+                    <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
+                    <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                    <CelText type="H6"
+                             color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                   </View>
-                )}
+                  {!!interestRates[coinDetails.short] && (
+                    <View style={style.interestRateWrapper}>
+                      <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
+                      <Badge color={COLORS.GREEN}>
+                        <CelText type="H5"
+                                 color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                      </Badge>
+                    </View>
+                  )}
+                </View>
+                <GraphContainer
+                  periods={["MONTH", "YEAR", "All"]}
+                  showCursor
+                  showPeriods
+                  showXTicks
+                  dateArray={dateArray}
+                  priceArray={priceArray}
+                  interest
+                  width={widthPercentageToDP("78%")}
+                />
               </View>
             </Card>
+          </View>
+          <TransactionsHistory
+            transactions={transactionsArray}
+            currencyRatesShort={currencyRatesShort}
+            navigateTo={actions.navigateTo}
+          />
 
-            <TransactionsHistory
-              transactions={transactionsArray}
-              currencyRatesShort={currencyRatesShort}
-              navigateTo={actions.navigateTo}
-            />
+          <CelButton
+            basic
+            margin="15 0 15 0"
+            onPress={() => actions.navigateTo("AllTransactions")}
+          >
+            See all
+          </CelButton>
 
-            <CelButton
-              basic
-              margin="15 0 15 0"
-              onPress={() => actions.navigateTo('AllTransactions')}
-            >
-              See all
+          <View>
+            <CelButton onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
+              Withdraw
             </CelButton>
-
-            <View>
-              <CelButton onPress={() => actions.navigateTo('WithdrawEnterAmount', { coin: coinDetails.short })}>
-                Withdraw
-              </CelButton>
-            </View>
           </View>
         </View>
       </RegularLayout>
