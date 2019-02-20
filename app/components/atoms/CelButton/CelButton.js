@@ -62,7 +62,7 @@ class CelButton extends Component {
       <View style={{ paddingLeft: children ? 10 : 0 }}>
         <Icon
           name={iconRight}
-          height='26'
+          height='46'
           width='26'
           fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3}
         />

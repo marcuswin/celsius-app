@@ -28,6 +28,7 @@ import WithdrawCreateAddress from "./components/screens/WithdrawCreateAddress/Wi
 import QrScanner from "./components/screens/QrScanner/QrScanner";
 import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfirm";
 import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
+import CelPayMassage from "./components/screens/CelPayMassage/CelPayMassage";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -98,6 +99,7 @@ export const screens = {
   Community,
   Profile,
   WithdrawConfirm,
+  CelPayMassage,
   Auth: authNavigator,
 };
 

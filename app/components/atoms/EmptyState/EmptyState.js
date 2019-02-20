@@ -21,7 +21,7 @@ function getDefaultEmptyState(purpose, actions) {
       heading: 'Welcome',
       paragraphs: ['Ready to start exploring Celsius'],
       button: 'Go to Wallet',
-      onPress: () => actions.navigateTo('WithdrawEnterAmount', { coin: 'BTC' }),
+      onPress: () => actions.navigateTo('CelPayMassage'),
     },
     [EMPTY_STATES.ERROR]: {
       image: require('../../../../assets/images/illuNoKYC3x.png'),
@@ -82,7 +82,7 @@ class EmptyState extends Component {
     this.state = getDefaultEmptyState(props.purpose, props.actions);
   }
 
-  
+
   render() {
     const emptyStateProps = {
       ...this.state,
@@ -111,7 +111,8 @@ class EmptyState extends Component {
           <CelButton onPress={() => { actions.navigateTo('Support') }} margin="8 0 8 0" basic>Contact support</CelButton>
         ) : null}
       </View>
-      
+
+
     );
   }
 };
