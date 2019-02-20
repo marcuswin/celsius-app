@@ -14,35 +14,46 @@ import CelTextArea from '../../atoms/CelTextArea/CelTextArea';
 
 @connect(
   state => ({
-    walletSummary: state.wallet.summary,
-
+    formData: {
+      ...state.forms.formData,
+      friend: {
+        first_name: 'Pera',
+        last_name: 'Detlic',
+      }
+    },
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class CelPayMessage extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-
-  }
+  static propTypes = {};
+  static defaultProps = {};
 
   constructor(props) {
     super(props);
+
+    const { friend } = props.formData
     this.state = {
       header: {
-        title: `Send to `,
+        title: `Send to ${friend.first_name} ${friend.last_name[0]}.`,
         left: "back",
         right: "profile"
       }
     };
   }
 
-  // Link coin and amount from previous screen 
+  handleSend = () => {
+    const { actions } = this.props
+
+    actions.navigateTo('VerifyProfile', {
+      // TODO: call an action that creates a transfer and navigates to TransactionDetails
+      onSuccess: () => actions.navigateTo('WalletLanding')
+    })
+  }
+
+  // Link coin and amount from previous screen
   render() {
     const { header } = this.state;
-    const { walletSummary, actions } = this.props;
+    const { formData } = this.props;
     // const style = CelPayMessageStyle();
 
     return (
@@ -51,8 +62,9 @@ class CelPayMessage extends Component {
         <CelButton
           iconRight={"IconArrowRight"}
           margin="0 0 0 0"
-          onPress={() => actions.navigateTo()} >
-          Send {formatter.crypto(walletSummary.total_amount_usd)}
+          onPress={this.handleSend}
+        >
+          Send {formatter.crypto(formData.amountUsd)}
         </CelButton>
       </RegularLayout>
     );
