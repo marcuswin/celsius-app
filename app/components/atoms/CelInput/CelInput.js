@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
@@ -8,7 +8,7 @@ import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
 import CelSelect from '../../molecules/CelSelect/CelSelect';
-import Separator from '../../atoms/Separator/Separator';
+import CelTextArea from '../CelTextArea/CelTextArea';
 
 class CelInput extends Component {
 
@@ -111,30 +111,12 @@ class CelInput extends Component {
           </View>
         )
       case 'text-area':
+
         return (
           <View style={[inputStyle, { height: "auto" }]}>
-            <View>
-              <CelInputText
-                style={{ height: this.props.numberOfLines * 23 }}
-                {...this.props}
-                multiline
-              />
-            </View>
-            {this.props.emojis && (
-              <View>
-                <Separator color='#737A82' />
-                <View style={{ height: 50, paddingVertical: 30, paaddingHorizontal: 20 }}>
-                  <Text> EMOJI </Text>
-                </View>
-              </View>
-            )}
+            <CelTextArea {...this.props} />
           </View>
         )
-        // return (
-        //   <View style={[inputStyle, { height: "auto" }]}>
-        //     <CelTextArea {...this.props} />
-        //   </View>
-        // )
       case 'text':
       default:
         return (
