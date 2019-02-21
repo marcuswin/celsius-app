@@ -69,7 +69,7 @@ class Graph extends React.Component {
   calculateLine() {
     // Domains and Ranges
     this.yRange = [this.props.height - this.props.verticalPadding, this.props.verticalPadding];
-    this.yDomain = [0, Math.max(...this.props.priceArray)];
+    this.yDomain = [Math.min(...this.props.priceArray), Math.max(...this.props.priceArray)];
     this.xRange = [0, this.props.width];
     this.xDomain = this.props.dateArray;
 
