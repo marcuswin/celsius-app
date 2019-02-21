@@ -14,6 +14,8 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
+import apiUtil from "../../../utils/api-util"
+import API from "../../../constants/API";
 import addressUtil from "../../../utils/address-util";
 
 @connect(
@@ -22,7 +24,7 @@ import addressUtil from "../../../utils/address-util";
     walletSummary: state.wallet.summary,
     currenciesRates: state.currencies.rates,
     coin: state.wallet.currencies,
-    formData: state.forms.formData
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -54,6 +56,8 @@ class WithdrawConfirm extends Component {
     const newBalanceCrypto = coinData.amount - formData.amountCrypto
     const newBalanceUsd = coinData.amount_usd - formData.amountUsd
 
+    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO])
+
     const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
 
     return (
@@ -79,7 +83,8 @@ class WithdrawConfirm extends Component {
         </Card>
         <View style={styles.bottom}>
           <CelButton
-            onPress={() => actions.withdrawCrypto()}
+            loading={isLoading}
+            onPress={actions.withdrawCrypto}
           >
             Withdraw
         </CelButton>
