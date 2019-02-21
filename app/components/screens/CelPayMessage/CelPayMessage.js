@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
+import { View } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -10,7 +10,8 @@ import * as appActions from "../../../redux/actions";
 // import CelPayMessageStyle from "./CelPayMessage.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../../components/atoms/CelButton/CelButton';
-import CelTextArea from '../../atoms/CelTextArea/CelTextArea';
+// import CelTextArea from '../../atoms/CelTextArea/CelTextArea';
+import CelInput from '../../atoms/CelInput/CelInput';
 
 @connect(
   state => ({
@@ -58,14 +59,23 @@ class CelPayMessage extends Component {
 
     return (
       <RegularLayout header={header}>
-        <CelTextArea />
-        <CelButton
-          iconRight={"IconArrowRight"}
-          margin="0 0 0 0"
-          onPress={this.handleSend}
-        >
-          Send {formatter.crypto(formData.amountUsd)}
-        </CelButton>
+        <View style={{ width: '100%' }}>
+          <CelInput
+            placeholder="Notes (optional)"
+            type="text-area"
+            field="message"
+            value={formData.message}
+            numberOfLines={15}
+          />
+
+          <CelButton
+            iconRight={"IconArrowRight"}
+            margin="0 0 0 0"
+            onPress={this.handleSend}
+          >
+            Send {formatter.crypto(formData.amountUsd)}
+          </CelButton>
+        </View>
       </RegularLayout>
     );
   }
