@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
@@ -8,11 +8,12 @@ import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
 import CelSelect from '../../molecules/CelSelect/CelSelect';
+import Separator from '../../atoms/Separator/Separator';
 
 class CelInput extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number']),
+    type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number', 'text-area']),
     autoFocus: PropTypes.bool,
     // autoComplete: // android only
     disabled: PropTypes.bool,
@@ -95,13 +96,7 @@ class CelInput extends Component {
     const { type, value } = this.props
     const inputStyle = this.getInputStyle();
 
-    switch(type) {
-      case 'text':
-        return (
-          <View style={inputStyle}>
-            <CelInputText {...this.props} />
-          </View>
-        )
+    switch (type) {
       case 'password':
         return (
           <View style={inputStyle}>
@@ -113,6 +108,38 @@ class CelInput extends Component {
           <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
             <CelSelect {...this.props} />
             <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={value.text} />
+          </View>
+        )
+      case 'text-area':
+        return (
+          <View style={[inputStyle, { height: "auto" }]}>
+            <View>
+              <CelInputText
+                style={{ height: this.props.numberOfLines * 23 }}
+                {...this.props}
+                multiline
+              />
+            </View>
+            {this.props.emojis && (
+              <View>
+                <Separator color='#737A82' />
+                <View style={{ height: 50, paddingVertical: 30, paaddingHorizontal: 20 }}>
+                  <Text> EMOJI </Text>
+                </View>
+              </View>
+            )}
+          </View>
+        )
+        // return (
+        //   <View style={[inputStyle, { height: "auto" }]}>
+        //     <CelTextArea {...this.props} />
+        //   </View>
+        // )
+      case 'text':
+      default:
+        return (
+          <View style={inputStyle}>
+            <CelInputText {...this.props} />
           </View>
         )
     }

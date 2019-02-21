@@ -15,7 +15,7 @@ import CelInputStyle from "./CelInput.styles";
 class CelInput extends Component {
 
     static propTypes = {
-        type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number']),
+        type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number', 'text-area']),
         autoFocus: PropTypes.bool,
         // autoComplete: // android only
         disabled: PropTypes.bool,
@@ -38,7 +38,9 @@ class CelInput extends Component {
         error: PropTypes.string, //
         onBlur: PropTypes.func,
         onFocus: PropTypes.func,
-        secureTextEntry: PropTypes.bool
+        secureTextEntry: PropTypes.bool,
+        multiline: PropTypes.bool,
+        numberOfLines: PropTypes.number,
     };
 
     static defaultProps = {
@@ -95,7 +97,7 @@ class CelInput extends Component {
     getPlaceholderTextColor = (style) => StyleSheet.flatten(style.textPlaceholderColor).color; // get color from raw json depending on style theme
 
     render() {
-        const { theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
+        const { multiline, numberOfLines, theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
         const { textValue } = this.state;
         const editable = !disabled;
         const cmpStyle = CelInputStyle(theme);
@@ -110,6 +112,8 @@ class CelInput extends Component {
                 editable={editable}
                 maxLength={maxLenght}
                 placeholder={placeholder}
+                multiline={multiline}
+                numberOfLines={numberOfLines}
                 keyboardType={keyboardType}
                 onFocus={this.onInputFocus}
                 onBlur={this.onInputBlur}

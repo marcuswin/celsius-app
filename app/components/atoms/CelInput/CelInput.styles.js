@@ -19,7 +19,8 @@ const base = {
     },
     input: {
         height: 23,
-        fontSize
+        fontSize,
+        fontFamily: 'barlow-regular',
     },
     disabledInput: {
         opacity: 0.6
