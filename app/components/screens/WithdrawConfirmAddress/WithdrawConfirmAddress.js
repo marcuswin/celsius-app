@@ -115,16 +115,16 @@ class WithdrawConfirmAddress extends Component {
           explanationText={"Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. If you need to change your withdrawal address, please contact our support."}
         />
 
+        <CelInput
+          placeholder={placeHolderText}
+          value={addressDisplay.newTag}
+          field="coinTag"
+          margin="10 0 10 0"
+          disabled
+        />
+
         { hasTag ? (
           <View>
-            <CelInput
-              placeholder={placeHolderText}
-              value={addressDisplay.newTag}
-              field="coinTag"
-              margin="10 0 10 0"
-              disabled
-            />
-
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
               <TouchableOpacity>
                 <CelText type={"H5"} style={[{

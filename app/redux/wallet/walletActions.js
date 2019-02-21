@@ -7,8 +7,8 @@ import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
-import { analyticsEvents } from "../../utils/analytics-util";
 import { navigateTo } from "../nav/navActions";
+import addressUtil from "../../utils/address-util"
 
 export {
   // new v3
@@ -18,7 +18,6 @@ export {
   getCoinAddress,
   getCoinWithdrawalAddress,
   setCoinWithdrawalAddress,
-  withdrawCrypto,
   setCoinWithdrawalAddressAndWithdrawCrypto,
 
   // remove
@@ -120,11 +119,15 @@ function getCoinWithdrawalAddress(coin) {
  * @param {string} coin
  * @param {string} address
  */
-function setCoinWithdrawalAddress(coin, address) {
-  return async dispatch => {
+function setCoinWithdrawalAddress() {
+  return async (dispatch, getState) => {
     try {
-      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
+      const { formData } = getState().forms;
+      const { coin, coinTag, withdrawAddress } = formData;
 
+      const address = addressUtil.joinAddressTag(coin, withdrawAddress, coinTag)
+
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
       const response = await walletService.setCoinWithdrawalAddress(coin, address);
       dispatch(setCoinWithdrawalAddressSuccess(coin, {
           address: response.data.address,
@@ -132,7 +135,9 @@ function setCoinWithdrawalAddress(coin, address) {
       }));
 
       dispatch(navigateTo('VerifyProfile', {
-        onSuccess: () => navigateTo('WithdrawConfirm')
+        onSuccess: () => {
+          dispatch(navigateTo('WithdrawConfirm'))
+        }
       }))
     } catch (error) {
       dispatch(showMessage('error', error.msg));
@@ -165,8 +170,8 @@ function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verifi
       currentApiCall = API.WITHDRAW_CRYPTO;
       dispatch(startApiCall(currentApiCall));
 
-      const res = await walletService.withdrawCrypto(coin, amount, verification);
-      dispatch(withdrawCryptoSuccess(res.data.transaction));
+      await walletService.withdrawCrypto(coin, amount, verification);
+      // dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch (error) {
       dispatch(showMessage('error', error.msg));
@@ -195,41 +200,6 @@ function getCoinOriginatingAddressSuccess(address) {
     type: ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS,
     callName: API.GET_COIN_ORIGINATING_ADDRESS,
     address,
-  }
-}
-
-function withdrawCrypto() {
-  return async (dispatch, getState) => {
-    try {
-      const { formData } = getState().forms
-      const { coin, amountCrypto, pin, code } = formData
-      dispatch(startApiCall(API.WITHDRAW_CRYPTO));
-
-      const res = await walletService.withdrawCrypto(coin, amountCrypto, pin || code);
-      dispatch(withdrawCryptoSuccess(res.data.transaction));
-      dispatch(getWalletSummary());
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.WITHDRAW_CRYPTO, err));
-    }
-  }
-}
-
-function withdrawCryptoSuccess(transaction) {
-  return (dispatch) => {
-    dispatch({
-      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-      callName: API.WITHDRAW_CRYPTO,
-      transaction,
-    });
-
-    dispatch(navigateTo('TransactionsDetails', { id: transaction.id }))
-
-    analyticsEvents.confirmWithdraw({
-      id: transaction.id,
-      amount: transaction.amount,
-      coin: transaction.coin
-    });
   }
 }
 

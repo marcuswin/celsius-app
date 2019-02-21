@@ -11,8 +11,6 @@ import PeriodGraphView from "../../atoms/PeriodGraphView/PeriodGraphView";
 import Graph from "../../atoms/Graph/Graph";
 import XTicks from "../../atoms/XTicks/XTicks";
 
-
-
 @connect(
   state => ({
     currencies: state.currencies.rates,
@@ -39,15 +37,13 @@ class GraphContainer extends Component {
 
   constructor(props) {
     super(props);
-
-
-
     const { currencyGraphs, currenciesRates } = props;
+    const currentCoin = "LTC";
 
     const timeline = "1d";
-    const dateArray = currencyGraphs.LTC[timeline].map(data => data[0]);
-    const priceArray = currencyGraphs.LTC[timeline].map(data => data[1]);
-    const rate = currenciesRates.filter(c => c.short === "LTC")[0].price_change_usd[timeline]
+    const dateArray = currencyGraphs[currentCoin][timeline].map(data => data[0]);
+    const priceArray = currencyGraphs[currentCoin][timeline].map(data => data[1]);
+    const rate = currenciesRates.find((coin) => coin.short === currentCoin).price_change_usd[timeline];
 
     this.state = {
       dateArray,
@@ -55,16 +51,15 @@ class GraphContainer extends Component {
       timeline,
       rate
     };
-
   }
 
   renderTimeline = (period) => {
-
     const { currencyGraphs, currenciesRates } = this.props;
+    const currentCoin = "LTC";
 
-    const rate = currenciesRates.filter(c => c.short === "LTC")[0].price_change_usd[period];
-    const date = currencyGraphs.LTC[period].map(data => data[0]);
-    const price = currencyGraphs.LTC[period].map(data => data[1])
+    const rate = currenciesRates.find((coin) => coin.short === currentCoin).price_change_usd[period];
+    const date = currencyGraphs[currentCoin][period].map(data => data[0]);
+    const price = currencyGraphs[currentCoin][period].map(data => data[1])
 
     this.setState({
       dateArray: date,
@@ -74,24 +69,16 @@ class GraphContainer extends Component {
     })
   };
 
-
-
   render() {
-    const { periods, showPeriods, showXTicks, interest, width } = this.props;
-    const {dateArray, priceArray, timeline, rate} = this.state;
+    const { periods, showPeriods, showXTicks, interest, width, showCursor } = this.props;
+    const { dateArray, priceArray, timeline, rate } = this.state;
     const style = GraphContainerStyle();
 
     return (
       <SafeAreaView style={style.container}>
-        {
-          showPeriods &&
-            <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline}/>
-        }
-        <Graph width={width} dateArray={dateArray} priceArray={priceArray} interest={interest} showCursor rate={rate}/>
-        {
-          showXTicks &&
-          <XTicks width={width} time={dateArray} timeline={timeline}/>
-        }
+        {showPeriods && <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline} />}
+        <Graph width={width} dateArray={dateArray} priceArray={priceArray} interest={interest} showCursor={showCursor} rate={rate} timeline={timeline} />
+        {showXTicks && <XTicks width={width} time={dateArray} timeline={timeline} />}
       </SafeAreaView>
     );
   }

@@ -14,7 +14,9 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
-
+import apiUtil from "../../../utils/api-util"
+import API from "../../../constants/API";
+import addressUtil from "../../../utils/address-util";
 
 @connect(
   state => ({
@@ -22,7 +24,7 @@ import STYLES from "../../../constants/STYLES";
     walletSummary: state.wallet.summary,
     currenciesRates: state.currencies.rates,
     coin: state.wallet.currencies,
-    formData: state.forms.formData
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -54,6 +56,10 @@ class WithdrawConfirm extends Component {
     const newBalanceCrypto = coinData.amount - formData.amountCrypto
     const newBalanceUsd = coinData.amount_usd - formData.amountUsd
 
+    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO])
+
+    const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
+
     return (
       <RegularLayout header={header} padding={'20 0 40 0'}>
         <Card>
@@ -71,13 +77,14 @@ class WithdrawConfirm extends Component {
             <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Withdrawal address:</CelText>
-              <CelText style={{ lineHeight: 23 }} type="H6">{ formData.withdrawAddress }</CelText>
+              <CelText style={{ lineHeight: 23 }} type="H6">{ address }</CelText>
             </View>
           </View>
         </Card>
         <View style={styles.bottom}>
           <CelButton
-            onPress={() => actions.withdrawCrypto()}
+            loading={isLoading}
+            onPress={actions.withdrawCrypto}
           >
             Withdraw
         </CelButton>

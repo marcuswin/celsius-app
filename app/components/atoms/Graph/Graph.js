@@ -1,5 +1,5 @@
 import React from "react";
-import { View, SafeAreaView, Animated, TextInput } from "react-native";
+import { View, Animated, TextInput } from "react-native";
 import { Svg } from "expo";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
@@ -40,129 +40,148 @@ class Graph extends React.Component {
   constructor(props) {
     super(props);
 
+    const { interest, rate, showCursor } = props;
+    let color = { line: "#4156A6", area: "#d9e0f9" };
+    if (!interest) {
+      color = rate >= 0 ? { line: "#4FB895", area: "#E5F5EF" } : { line: "#EF461A", area: "#FDE4DD" };
+    }
+
     this.state = {
+      loading: true,
       x: new Animated.Value(0),
+      color
     };
+
+    this.cursor = showCursor ? {
+      pointer: React.createRef(),
+      dashedLine: React.createRef(),
+      label: React.createRef(),
+      labelText: React.createRef(),
+    } : {};
   }
 
   componentDidMount() {
     const { showCursor } = this.props;
     this.calculateLine()
+    this.setState({ loading: false });;
 
-    if (showCursor) {
-      this.state.x.addListener(({ value }) => this.moveCursor(value));
-      this.moveCursor(0);
-    }
+    if (showCursor) this.moveCursor(0);
   }
 
-  yRange;
-  yDomain;
-  xRange;
-  xDomain;
-  arrOfObjects;
-  scaleX;
-  scaleY;
-  line;
-  lineProperties;
-  lineLength;
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (nextProps.timeline !== this.props.timeline) {
+      this.calculateLine();
+      return true;
+    }
+    return nextState.loading !== this.state.loading;
+  }
 
   calculateLine() {
+    const { width, height, verticalPadding, priceArray, dateArray } = this.props;
     // Domains and Ranges
-    this.yRange = [this.props.height - this.props.verticalPadding, this.props.verticalPadding];
-    this.yDomain = [0, Math.max(...this.props.priceArray)];
-    this.xRange = [0, this.props.width];
-    this.xDomain = this.props.dateArray;
+    const yRange = [height - verticalPadding, verticalPadding];
+    const yDomain = [Math.min(...priceArray), Math.max(...priceArray)];
+    const xRange = [0, width];
+    const xDomain = dateArray;
 
     // creating Obj out of two arrays
-    this.arrOfObjects = this.props.dateArray.map((x, i) => ({ x, y: this.props.priceArray[i] }));
+    const arrOfObjects = dateArray.map((x, i) => ({ x, y: priceArray[i] }));
 
     // Scaling and line making
-    this.scaleY = scaleLinear().domain(this.yDomain).range(this.yRange);
-    this.scaleX = scalePoint().domain(this.xDomain).range(this.xRange);
-    this.line = d3.shape.line().x(d => this.scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(this.arrOfObjects);
+    const scaleX = scalePoint().domain(xDomain).range(xRange);
+
+    // this.setState({
+    //   scaleY: scaleLinear().domain(yDomain).range(yRange),
+    //   line: d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects),
+    //   lineProperties: path.svgPathProperties(this.line),
+    //   lineLength: this.lineProperties.getTotalLength()
+    // })
+    this.scaleY = scaleLinear().domain(yDomain).range(yRange);
+
+    this.line = d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
     this.lineProperties = path.svgPathProperties(this.line);
     this.lineLength = this.lineProperties.getTotalLength();
   }
-
-  cursor = React.createRef();
-  dashedLine = React.createRef();
-  label = React.createRef();
-  labelText = React.createRef();
 
   moveCursor(value) {
     const { width, height, cursorRadius, labelWidth, showCursor } = this.props;
     const { x, y } = this.lineProperties.getPointAtLength(this.lineLength - value);
 
     if (showCursor) {
-      this.cursor.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
-      this.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
-      this.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
+      this.cursor.pointer.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
+      this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
+      this.cursor.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
       if (x <= width / x) {
-        this.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
+        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
       } else if (x >= width - widthPercentageToDP("5%")) {
-        this.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth });
+        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth });
       } else {
-        this.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 });
+        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 });
       }
     }
   };
 
-  render() {
-    const { x } = this.state;
-    const { width, height, showCursor, rate, interest} = this.props;
-    const style = GraphStyle();
-    let color;
-    this.calculateLine();
-
-    if (interest) {
-      color = { line: "#4156A6", area: "#d9e0f9" };
-    } else {
-      color = rate >= 0 ? { line: "#4FB895", area: "#E5F5EF" } : { line: "#EF461A", area: "#FDE4DD" };
-    }
-
+  renderGraphSvg = () => {
+    const { width, height, showCursor } = this.props;
+    const { color, loading } = this.state;
 
     return (
-      <SafeAreaView>
-        <Svg {...{ width, height }}>
-
+      !loading ?
+        <Svg width={width} height={height}>
           <Defs>
-              { showCursor ?
-                <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                  <Stop stopColor={color.area} offset={"30%"}/>
-                  <Stop stopColor={"#F3F3F3"} offset={"80%"}/>
-                </LinearGradient> :
-                <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                  <Stop stopColor={color.area} offset={"100%"}/>
-                </LinearGradient>
-              }
+            {showCursor ?
+              <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
+                <Stop stopColor={color.area} offset={"30%"} />
+                <Stop stopColor={"#F3F3F3"} offset={"80%"} />
+              </LinearGradient> :
+              <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
+                <Stop stopColor={color.area} offset={"100%"} />
+              </LinearGradient>
+            }
           </Defs>
-          <Path d={this.line} stroke={color.line} strokeWidth={5} fill="transparent"/>
-          <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)"/>
+          <Path d={this.line} stroke={color.line} strokeWidth={5} fill="transparent" />
+          <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
+        </Svg>
+        : null
+    );
+  }
 
+  renderPointer = () => {
+    const { color } = this.state;
+    const { showCursor } = this.props;
+    const style = GraphStyle();
 
-          {showCursor &&
-          <View>
-            <View ref={this.cursor}>
-              <View style={[style.cursor, {borderColor: color.line}]}>
-                <View style={[style.circle, {backgroundColor: color.line}]}/>
-              </View>
-            </View>
-
-            <View ref={this.dashedLine}>
-              <Separator vertical dashed/>
-            </View>
-
-            <View ref={this.label} style={[style.pointer]}>
-              <View style={[style.label]}>
-                <TextInput ref={this.labelText} style={style.labelText} editable={false}/>
-              </View>
-              <View style={[style.triangle]}/>
+    return (
+      showCursor ?
+        <View style={{ position: 'absolute' }}>
+          <View ref={this.cursor.pointer}>
+            <View style={[style.cursor, { borderColor: color.line }]}>
+              <View style={[style.circle, { backgroundColor: color.line }]} />
             </View>
           </View>
-          }
-        </Svg>
 
-        {showCursor &&
+          <View ref={this.cursor.dashedLine}>
+            <Separator vertical dashed />
+          </View>
+
+          <View ref={this.cursor.label} style={[style.pointer]}>
+            <View style={[style.label]}>
+              <TextInput ref={this.cursor.labelText} style={style.labelText} editable={false} />
+            </View>
+            <View style={[style.triangle]} />
+          </View>
+        </View>
+        : null
+    )
+  }
+
+  renderScroll = () => {
+    const { x, loading } = this.state;
+    const { showCursor } = this.props;
+    const style = GraphStyle();
+
+    return (
+      showCursor && !loading ?
         <Animated.ScrollView
           style={style.scrollPointer}
           contentContainerStyle={{ width: this.lineLength * 2 }}
@@ -172,18 +191,27 @@ class Graph extends React.Component {
           onScroll={
             Animated.event(
               [{ nativeEvent: { contentOffset: { x } } }],
+              { listener: (event) => this.moveCursor(event.nativeEvent.contentOffset.x) },
               { useNativeDriver: true }
             )}
           horizontal
-        />
-        }
-      </SafeAreaView>
+        /> : null
+    );
+  }
+
+  render() {
+    const GraphSvg = this.renderGraphSvg;
+    const Scroll = this.renderScroll;
+    const Pointer = this.renderPointer;
+
+    return (
+      <View>
+        <GraphSvg />
+        <Pointer />
+        <Scroll />
+      </View>
     );
   }
 }
 
 export default testUtil.hookComponent(Graph);
-
-
-
-

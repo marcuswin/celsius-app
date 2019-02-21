@@ -83,7 +83,7 @@ class BalanceHistory extends Component {
               />
             </View>
 
-            <View style={[{ width: '100%' }]}>
+            <View style={[{ width: '100%', paddingHorizontal: 20 }]}>
               <TransactionsHistory
                 transactions={transactionsArray}
                 currencyRatesShort={currencyRatesShort}
