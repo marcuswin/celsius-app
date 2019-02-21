@@ -54,6 +54,10 @@ const CACHE_IMAGES = [
   require('../../assets/images/illuNoKYC3x.png'),
   require('../../assets/images/OfflineMode/deer-tangled3x.png'),
   require('../../assets/images/diane-sad.png'),
+  require('../../assets/images/empty-profile/empty-profile.png'),
+  require('../../assets/images/icons/contacts-circle/contacts-circle.png'),
+  require('../../assets/images/icons/fb-circle/fb-circle.png'),
+  require('../../assets/images/icons/tw-circle/tw-circle.png'),
 ];
 
 export default {

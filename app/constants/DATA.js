@@ -199,6 +199,12 @@ const STATE = [
   { label: "Wyoming", value: "Wyoming" }
 ]
 
+const CONTACT_NETWORK = {
+  PHONE: 'Phone',
+  FACEBOOK: 'Facebook',
+  TWITTER: 'Twitter'
+};
+
 export default {
   FORBIDEN_COUNTRIES,
   ELIGIBLE_COINS,
@@ -213,5 +219,6 @@ export default {
   DAYS,
   MONTHS,
   YEARS,
-  STATE
+  STATE,
+  CONTACT_NETWORK
 }

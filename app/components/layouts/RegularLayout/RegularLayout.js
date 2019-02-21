@@ -13,14 +13,17 @@ class RegularLayout extends Component {
 
   static propTypes = {
     header: PropTypes.instanceOf(Object),
-    padding: PropTypes.string
+    padding: PropTypes.string,
+    enableParentScroll: PropTypes.bool
   };
+
   static defaultProps = {
-    padding: '20 20 40 20'
-  }
+    padding: '20 20 40 20',
+    enableParentScroll: true
+  };
 
   render() {
-    const { theme, children, header, padding } = this.props;
+    const { theme, children, header, padding, enableParentScroll } = this.props;
     const style = RegularLayoutStyle(theme);
     const paddings = stylesUtil.getPadding(padding);
     return (
@@ -32,16 +35,15 @@ class RegularLayout extends Component {
             }
           </CelHeading>
         )}
-
-        <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag'  style={style.container} contentContainerStyle={[{flexGrow: 1}, paddings]}>
-          <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1}}>
+          <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{flexGrow: 1}, paddings]}>
             <KeyboardShift>
               <React.Fragment>
                 {children}
               </React.Fragment>
             </KeyboardShift>
-          </SafeAreaView>
-        </ScrollView>
+          </ScrollView>
+        </SafeAreaView>
       </React.Fragment>
     );
   }
