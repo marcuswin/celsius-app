@@ -3,10 +3,15 @@ import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
 import transactions from "../../services/transactions-service";
+import walletService from "../../services/wallet-service";
+import { navigateTo } from "../nav/navActions";
+import { analyticsEvents } from "../../utils/analytics-util";
+import { getWalletSummary } from "../wallet/walletActions";
 
 export {
   getAllTransactions,
-  getTransactionDetails
+  getTransactionDetails,
+  withdrawCrypto,
 }
 
 function getAllTransactions(query = {}) {
@@ -46,5 +51,40 @@ function getTransactionDetailsSuccess(transaction) {
     type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
     callName: API.GET_TRANSACTION_DETAILS,
     transaction,
+  }
+}
+
+function withdrawCrypto() {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState().forms
+      const { coin, amountCrypto, pin, code } = formData
+      dispatch(startApiCall(API.WITHDRAW_CRYPTO));
+
+      const res = await walletService.withdrawCrypto(coin, amountCrypto, { pin, code });
+      dispatch(getWalletSummary());
+      dispatch(withdrawCryptoSuccess(res.data.transaction));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.WITHDRAW_CRYPTO, err));
+    }
+  }
+}
+
+function withdrawCryptoSuccess(transaction) {
+  return (dispatch) => {
+    dispatch({
+      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
+      callName: API.WITHDRAW_CRYPTO,
+      transaction,
+    });
+
+    dispatch(navigateTo('TransactionDetails', { id: transaction.id }))
+
+    analyticsEvents.confirmWithdraw({
+      id: transaction.id,
+      amount: transaction.amount,
+      coin: transaction.coin
+    });
   }
 }

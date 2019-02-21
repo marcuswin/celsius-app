@@ -2,7 +2,6 @@
 
 import BigNumber from 'bignumber.js';
 
-import transactionsUtil from "../../utils/transactions-util";
 import ACTIONS from '../../constants/ACTIONS';
 
 function initialState() {
@@ -45,15 +44,6 @@ export default function walletReducer(state = initialState(), action) {
           ...state.withdrawalAddresses,
           ...action.address,
         }
-      };
-    case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
-      return {
-        ...state,
-        transactions: {
-          ...state.transactions,
-          [action.transaction.id]: transactionsUtil.mapTransaction(action.transaction),
-        },
-        activeTransactionId: action.transaction.id,
       };
 
     case ACTIONS.GET_COIN_BALANCE_SUCCESS:

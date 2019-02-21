@@ -51,10 +51,7 @@ function getCoinGraphData(coin, time = '7d') {
 }
 
 function withdrawCrypto(coin, amount, verification) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, {
-    amount: amount.toFixed(5),
-    ...verification,
-  });
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdraw`, { amount, ...verification });
 }
 
 export default walletService;

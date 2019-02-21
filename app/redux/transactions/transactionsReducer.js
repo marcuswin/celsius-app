@@ -20,6 +20,7 @@ export default function transactionsReducer(state = initialState, action) {
         }
       };
     case ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS:
+    case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
       transactionDetails = transactionsUtil.mapTransaction(action.transaction);
       return {
         ...state,
