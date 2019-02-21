@@ -59,9 +59,7 @@ class TransactionDetails extends Component {
     const { actions, coins, transaction } = this.props;
 
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    const interestEarned = coins.filter((coin) => coin.short === transaction.coin.toUpperCase())[0].interest_earned
-    // const interestEarned = coins.find((coin) => coin === transaction.coin.toUpperCase()).interest_earned
-
+    const interestEarned = coins.find((coin) => coin.short === transaction.coin.toUpperCase()).interest_earned;
     switch (sectionType) {
       case 'info':
         return <InfoSection key={sectionType} transaction={transaction} transactionProps={transactionProps} />;

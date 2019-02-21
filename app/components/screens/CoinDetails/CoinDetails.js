@@ -84,87 +84,87 @@ class CoinDetails extends Component {
 
     return (
       <RegularLayout header={header}>
-        <View>
-          <View style={style.container}>
-            <Card padding="0 0 0 0">
-              <View style={style.coinAmountWrapper}>
-                <View style={style.amountFlexBox}>
-                  <View style={style.imageWrapper}>
-                    <Image source={{ uri: currency.image_url }} style={style.coinImage} />
-                  </View>
-                  <View>
-                    <CelText type="H6">{currency.displayName}</CelText>
-                    <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                    <CelText type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
-                  </View>
+        <View style={style.container}>
+          <Card padding="0 0 0 0">
+            <View style={style.coinAmountWrapper}>
+              <View style={style.amountFlexBox}>
+                <View style={style.imageWrapper}>
+                  <Image source={{ uri: currency.image_url }} style={style.coinImage} />
                 </View>
-
-                <Separator vertical style={style.separator} />
-
-                <View style={style.buttons}>
-                  <CelButton
-                    basic
-                    size="small"
-                    onPress={() => actions.navigateTo("WalletLanding")}
-                  >
-                    Send
-                  </CelButton>
-
-                  <Separator />
-
-                  <CelButton
-                    basic
-                    size="small"
-                    onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
-                  >
-                    Deposit
-                  </CelButton>
+                <View>
+                  <CelText type="H6">{currency.displayName}</CelText>
+                  <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                  <CelText type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
-            </Card>
-          </View>
 
-          <GraphContainer
-            dateArray={dateArray}
-            priceArray={priceArray}
-            showCursor
-            showXTicks
-            showPeriods
-          />
+              <Separator vertical style={style.separator} />
 
-          <View style={style.container}>
-            <Card margin="10 0 10 0">
-              <View>
-                <View style={style.interestCardWrapper}>
-                  <View>
-                    <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
-                    <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                    <CelText type="H6"
-                      color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                  </View>
-                  {!!interestRates[coinDetails.short] && (
-                    <View style={style.interestRateWrapper}>
-                      <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
-                      <Badge color={COLORS.GREEN}>
-                        <CelText type="H5"
-                          color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
-                      </Badge>
-                    </View>
-                  )}
-                </View>
-                <GraphContainer
-                  periods={["MONTH", "YEAR", "All"]}
-                  showCursor
-                  showPeriods
-                  showXTicks
-                  dateArray={dateArray}
-                  priceArray={priceArray}
-                  interest
-                  width={widthPercentageToDP("78%")}
-                />
+              <View style={style.buttons}>
+                <CelButton
+                  basic
+                  size="small"
+                  onPress={() => actions.navigateTo("WalletLanding")}
+                >
+                  Send
+                  </CelButton>
+
+                <Separator />
+
+                <CelButton
+                  basic
+                  size="small"
+                  onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
+                >
+                  Deposit
+                  </CelButton>
               </View>
-            </Card>
-          </View>
+            </View>
+          </Card>
+        </View>
+
+        <GraphContainer
+          dateArray={dateArray}
+          priceArray={priceArray}
+          showCursor
+          showXTicks
+          showPeriods
+        />
+
+        <View style={style.container}>
+          <Card margin="10 0 10 0">
+            <View>
+              <View style={style.interestCardWrapper}>
+                <View>
+                  <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
+                  <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                  <CelText type="H6"
+                    color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                </View>
+                {!!interestRates[coinDetails.short] && (
+                  <View style={style.interestRateWrapper}>
+                    <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
+                    <Badge color={COLORS.GREEN}>
+                      <CelText type="H5"
+                        color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                    </Badge>
+                  </View>
+                )}
+              </View>
+              <GraphContainer
+                periods={["MONTH", "YEAR", "All"]}
+                showCursor
+                showPeriods
+                showXTicks
+                dateArray={dateArray}
+                priceArray={priceArray}
+                interest
+                width={widthPercentageToDP("78%")}
+              />
+            </View>
+          </Card>
+        </View>
+        <View style={{ width: '100%' }}>
           <TransactionsHistory
             transactions={transactionsArray}
             currencyRatesShort={currencyRatesShort}
@@ -178,12 +178,12 @@ class CoinDetails extends Component {
           >
             See all
           </CelButton>
+        </View>
 
-          <View>
-            <CelButton onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
-              Withdraw
+        <View>
+          <CelButton onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
+            Withdraw
             </CelButton>
-          </View>
         </View>
       </RegularLayout>
     );
