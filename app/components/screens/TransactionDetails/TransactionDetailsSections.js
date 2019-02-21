@@ -54,7 +54,7 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
 )
 
 export const AddressSection = ({ transaction, text, address }) => (
-  <Card margin="30 0 10 0">
+  <Card margin="30 20 10 20">
     <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
       <CelText>{text}</CelText>
       {!!transaction.transaction_id &&
@@ -78,7 +78,7 @@ export const NoteSection = ({ text }) => (
 )
 
 export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
-  <View>
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
@@ -103,7 +103,7 @@ export const LoanInfoSection = ({ navigateTo }) => (
       <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>for more details.</CelText>
     </View>
     <CelButton margin="16 0 10 0" onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
-  </Card >
+  </Card>
 )
 
 export const HodlInfoSection = ({ date, amount, coin }) => (

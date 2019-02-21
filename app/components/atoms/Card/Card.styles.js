@@ -17,7 +17,7 @@ const base = {
     width: widthPercentageToDP("89.07%")
   },
   half: {
-    width: widthPercentageToDP("42%")
+    width: widthPercentageToDP("41%")
   }
 };
 

@@ -21,20 +21,18 @@ import {
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
+import apiUtil from '../../../utils/api-util';
+import API from '../../../constants/API';
+import LoadingState from '../../atoms/LoadingState/LoadingState';
 
 @connect(
-  state => {
-    const activeTransactionId = state.wallet.activeTransactionId;
-    const transaction = state.wallet.transactions[activeTransactionId];
-    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    const interestEarned = transaction ? state.wallet.summary.coins.filter((coin) => coin.short === transaction.coin.toUpperCase())[0].interest_earned : "";
-    return {
-      transaction,
-      activeTransactionId,
-      transactionProps,
-      interestEarned
-    }
-  },
+  state => ({
+    coins: state.wallet.summary.coins,
+    activeScreen: state.nav.activeScreen,
+    callsInProgress: state.api.callsInProgress,
+    lastCompletedCall: state.api.lastCompletedCall,
+    transaction: state.transactions.transactionDetails
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
@@ -45,28 +43,24 @@ class TransactionDetails extends Component {
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Transaction details",
-        left: "back",
-        right: "profile"
-      }
-    };
+  state = {
+    loading: true
   }
 
   componentDidMount = () => {
-    const { actions, navigation, activeTransactionId } = this.props;
-
-    actions.getSupportedCurrencies();
+    const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
-    actions.getTransactionDetails(transactionId || activeTransactionId);
+    actions.getTransactionDetails(transactionId);
   }
 
+  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'TransactionDetails';
+
   renderSection = (sectionType) => {
-    const { transaction, actions, transactionProps, interestEarned } = this.props;
-    if (!transaction) return null;
+    const { actions, coins, transaction } = this.props;
+
+    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
+    const interestEarned = coins.filter((coin) => coin.short === transaction.coin.toUpperCase())[0].interest_earned
+    // const interestEarned = coins.find((coin) => coin === transaction.coin.toUpperCase()).interest_earned
 
     switch (sectionType) {
       case 'info':
@@ -128,15 +122,28 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { header } = this.state;
-    const { transaction, transactionProps } = this.props;
-    if (!transaction) return null;
+    const { transaction, callsInProgress } = this.props;
+    const header = {
+      title: "Transaction details",
+      left: "back",
+      right: "profile"
+    };
+    const loadingTransactionDetails = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
 
+    if (loadingTransactionDetails || !transaction) return (
+      <RegularLayout header={header} padding="0 0 0 0">
+        <LoadingState />
+      </RegularLayout>
+    )
+
+    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const sections = transactionsUtil.getTransactionSections(transaction);
     const transactionHeader = {
       ...header,
       title: transaction.coin ? transactionProps.title(transaction.coin.toUpperCase()) : header.title
     }
+
+    // return null;
 
     return (
       <RegularLayout header={transactionHeader} padding="0 0 0 0">

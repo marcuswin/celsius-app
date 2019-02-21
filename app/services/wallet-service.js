@@ -13,7 +13,6 @@ const walletService = {
   getCoinTransactions,
   getCoinGraphData,
   withdrawCrypto,
-  getTransaction,
 };
 
 function getWalletDetails() {
@@ -56,10 +55,6 @@ function withdrawCrypto(coin, amount, verification) {
     amount: amount.toFixed(5),
     ...verification,
   });
-}
-
-function getTransaction(transactionId) {
-  return axios.get(`${apiUrl}/wallet/transactions/${transactionId}`);
 }
 
 export default walletService;

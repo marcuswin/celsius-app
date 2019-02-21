@@ -9,7 +9,7 @@ import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
-import { getAllTransactions } from "../wallet/walletActions";
+import { getAllTransactions } from "../transactions/transactionsActions";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { createCelPayBUO } from "../../utils/branch-util";
 

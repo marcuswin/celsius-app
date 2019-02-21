@@ -88,7 +88,7 @@ class CoinCard extends Component {
             <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
                    rate={coinPriceChange}
                    height={heightPercentageToDP("10%")}
-                   width={widthPercentageToDP("42%")}
+                   width={widthPercentageToDP("41%")}
             />
           </View>
         : null}

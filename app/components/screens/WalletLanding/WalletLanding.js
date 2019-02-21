@@ -81,7 +81,7 @@ class WalletLanding extends Component {
 
           <CelText bold>Deposited coins</CelText>
 
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }} >
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }} >
             {coinWithAmount.length ? coinWithAmount.map((coin) => {
               const currency = currenciesRates.filter(c => c.short === coin.short.toUpperCase())[0]
 

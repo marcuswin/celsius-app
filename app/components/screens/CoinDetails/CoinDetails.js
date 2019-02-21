@@ -26,10 +26,11 @@ const { COLORS } = STYLES;
   state => ({
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
-    transactions: state.transactions,
+    transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    interestRates: state.generalData.interestRates
+    interestRates: state.generalData.interestRates,
+    activeScreen: state.nav.activeScreen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -66,6 +67,8 @@ class CoinDetails extends Component {
     actions.getAllTransactions({ limit: 5, coin: navigation.getParam("coin").toUpperCase() });
   }
 
+  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'CoinDetails';
+
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
     const coin = navigation.getParam("coin");
@@ -87,7 +90,7 @@ class CoinDetails extends Component {
               <View style={style.coinAmountWrapper}>
                 <View style={style.amountFlexBox}>
                   <View style={style.imageWrapper}>
-                    <Image source={{ uri: currency.image_url }} style={style.coinImage}/>
+                    <Image source={{ uri: currency.image_url }} style={style.coinImage} />
                   </View>
                   <View>
                     <CelText type="H6">{currency.displayName}</CelText>
@@ -96,7 +99,7 @@ class CoinDetails extends Component {
                   </View>
                 </View>
 
-                <Separator vertical style={style.separator}/>
+                <Separator vertical style={style.separator} />
 
                 <View style={style.buttons}>
                   <CelButton
@@ -107,12 +110,12 @@ class CoinDetails extends Component {
                     Send
                   </CelButton>
 
-                  <Separator/>
+                  <Separator />
 
                   <CelButton
                     basic
                     size="small"
-                    onPress={() => actions.navigateTo("Deposit", {coin : coinDetails.short})}
+                    onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
                   >
                     Deposit
                   </CelButton>
@@ -137,14 +140,14 @@ class CoinDetails extends Component {
                     <CelText type="H6" color="rgba(60,72,84,0.7)">Total interest earned</CelText>
                     <CelText type="H3" bold>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                     <CelText type="H6"
-                             color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                      color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                   </View>
                   {!!interestRates[coinDetails.short] && (
                     <View style={style.interestRateWrapper}>
                       <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
                       <Badge color={COLORS.GREEN}>
                         <CelText type="H5"
-                                 color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                          color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
                       </Badge>
                     </View>
                   )}

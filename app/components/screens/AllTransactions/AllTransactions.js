@@ -13,8 +13,9 @@ import transactionsUtil from "../../../utils/transactions-util";
 @connect(
   state => ({
     style: AllTransactionsStyle(),
-    transactions: state.transactions,
-    currencyRatesShort: state.currencies.currencyRatesShort
+    transactions: state.transactions.transactionList,
+    currencyRatesShort: state.currencies.currencyRatesShort,
+    activeScreen: state.nav.activeScreen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -37,6 +38,8 @@ class AllTransactions extends Component {
     const { actions } = this.props
     actions.getAllTransactions();
   }
+
+  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'AllTransactions';
 
   render() {
     const { actions, currencyRatesShort, transactions } = this.props

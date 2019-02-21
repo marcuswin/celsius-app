@@ -25,7 +25,7 @@ const { MODALS } = UI
   (state) => ({
     style: WalletInterestStyle(),
     walletSummary: state.wallet.summary,
-    transactions: state.transactions,
+    transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
   }),

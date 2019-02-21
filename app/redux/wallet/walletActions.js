@@ -24,7 +24,6 @@ export {
   // remove
   getWalletDetails,
   getCoinTransactions,
-  getTransactionDetails, // move to transactions
   storePin, // check use, and move somewhere else...
 }
 
@@ -236,28 +235,6 @@ function withdrawCryptoSuccess(transaction) {
 
 function storePin(pin) {
   return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
-}
-
-function getTransactionDetails(transactionId) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
-
-      const res = await walletService.getTransaction(transactionId);
-      dispatch(getTransactionDetailsSuccess(res.data.transaction));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_TRANSACTION_DETAILS, err));
-    }
-  }
-}
-
-function getTransactionDetailsSuccess(transaction) {
-  return {
-    type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
-    callName: API.GET_TRANSACTION_DETAILS,
-    transaction,
-  }
 }
 
 function getCoinTransactions(coin) {

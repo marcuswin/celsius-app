@@ -19,9 +19,10 @@ import GraphContainer from "../../organisms/GraphContainer/GraphContainer";
   state => ({
     style: BalanceHistoryStyle(),
     walletSummary: state.wallet.summary,
-    transactions: state.transactions,
+    transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    currencyGraphs: state.currencies.graphs
+    currencyGraphs: state.currencies.graphs,
+    activeScreen: state.nav.activeScreen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -55,6 +56,8 @@ class BalanceHistory extends Component {
     actions.getAllTransactions({ limit: 5 });
   };
 
+  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'BalanceHistory';
+
   render() {
     const { transactions, actions, currencyRatesShort, walletSummary } = this.props
     const { header, dateArray, priceArray } = this.state;
@@ -66,36 +69,36 @@ class BalanceHistory extends Component {
         <View>
           <View style={style.container}>
             <Card padding="15 15 15 15" margin="15 20 15 20">
-            <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
-            <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
-          </Card>
+              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
+              <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            </Card>
 
-          <View style={{alignItems: "center"}}>
-            <GraphContainer
-              showCursor
-              showPeriods
-              showXTicks
-              dateArray={dateArray}
-              priceArray={priceArray}
-            />
-          </View>
+            <View style={{ alignItems: "center" }}>
+              <GraphContainer
+                showCursor
+                showPeriods
+                showXTicks
+                dateArray={dateArray}
+                priceArray={priceArray}
+              />
+            </View>
 
-          <View style={[style.container, { width: '100%' }]}>
-            <TransactionsHistory
-              transactions={transactionsArray}
-              currencyRatesShort={currencyRatesShort}
-              navigateTo={actions.navigateTo}
-            />
+            <View style={[{ width: '100%' }]}>
+              <TransactionsHistory
+                transactions={transactionsArray}
+                currencyRatesShort={currencyRatesShort}
+                navigateTo={actions.navigateTo}
+              />
 
-            <CelButton
-              basic
-              margin="15 0 15 0"
-              onPress={() => actions.navigateTo("AllTransactions")}
-            >
-              See all
+              <CelButton
+                basic
+                margin="15 0 15 0"
+                onPress={() => actions.navigateTo("AllTransactions")}
+              >
+                See all
             </CelButton>
+            </View>
           </View>
-        </View>
         </View>
       </RegularLayout >
     );

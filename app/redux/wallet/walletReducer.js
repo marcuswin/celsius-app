@@ -46,7 +46,6 @@ export default function walletReducer(state = initialState(), action) {
           ...action.address,
         }
       };
-    case ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS:
     case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
       return {
         ...state,
