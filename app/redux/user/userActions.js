@@ -220,7 +220,6 @@ function checkPIN(onSuccess) {
       await meService.checkPin(pin)
 
       dispatch({ type: ACTIONS.CHECK_PIN_SUCCESS })
-      dispatch(updateFormField('profileVerified', true))
       if (onSuccess) onSuccess()
     } catch(err) {
       dispatch(showMessage('error', err.msg));

@@ -9,6 +9,7 @@ import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
 import { analyticsEvents } from "../../utils/analytics-util";
 import { navigateTo } from "../nav/navActions";
+import addressUtil from "../../utils/address-util"
 
 export {
   // new v3
@@ -120,11 +121,15 @@ function getCoinWithdrawalAddress(coin) {
  * @param {string} coin
  * @param {string} address
  */
-function setCoinWithdrawalAddress(coin, address) {
-  return async dispatch => {
+function setCoinWithdrawalAddress() {
+  return async (dispatch, getState) => {
     try {
-      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
+      const { formData } = getState().forms;
+      const { coin, coinTag, withdrawAddress } = formData;
 
+      const address = addressUtil.joinAddressTag(coin, withdrawAddress, coinTag)
+
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
       const response = await walletService.setCoinWithdrawalAddress(coin, address);
       dispatch(setCoinWithdrawalAddressSuccess(coin, {
           address: response.data.address,
@@ -132,7 +137,9 @@ function setCoinWithdrawalAddress(coin, address) {
       }));
 
       dispatch(navigateTo('VerifyProfile', {
-        onSuccess: () => navigateTo('WithdrawConfirm')
+        onSuccess: () => {
+          dispatch(navigateTo('WithdrawConfirm'))
+        }
       }))
     } catch (error) {
       dispatch(showMessage('error', error.msg));

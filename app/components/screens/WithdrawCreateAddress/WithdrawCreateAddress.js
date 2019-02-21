@@ -52,21 +52,15 @@ class WithdrawCreateAddress extends Component {
       },
       coin,
       balanceCrypto: coinData.amount,
-      balanceUsd: coinData.amount_usd
+      balanceUsd: coinData.amount_usd,
     };
   }
 
-  handleWithdrawalAddressChange = (field, text) => {
-    const { actions } = this.props;
-
-    actions.updateFormField(field, text);
-  };
-
   handleScan = (code) => {
-    const { coin } = this.state;
-    const fieldName = `${coin}WithdrawalAddress`;
-
-    this.handleWithdrawalAddressChange(fieldName, code);
+    const {actions} = this.props;
+    const address = addressUtil.splitAddressTag(code)
+    actions.updateFormField("withdrawAddress", address.newAddress);
+    actions.updateFormField("coinTag", address.newTag);
   };
 
   handleScanClick = () => {
@@ -77,56 +71,11 @@ class WithdrawCreateAddress extends Component {
     });
   };
 
-  confirmWithdrawal = () => {
-    const {formData, actions} = this.props;
-    const address = addressUtil.joinAddressTag(formData)
-
-    actions.setCoinWithdrawalAddress(formData.coin, address)
-  };
-
-  renderInputFields(tag) {
-    const { formData } = this.props;
-    let tagText;
-    let placeHolderText;
-
-    if (formData.coin.toLowerCase() === "xrp") {
-      tagText = "What is XRP Destination tag";
-      placeHolderText = "Destination Tag";
-    } else if (formData.coin.toLowerCase() === "xlm") {
-      tagText = "What is XLM Memo Id";
-      placeHolderText = "Memo Id";
-    }
-
-    if (["xrp", "xlm"].includes(formData.coin.toLowerCase())) {
-      return (
-        <React.Fragment>
-          <CelInput
-            placeholder={placeHolderText}
-            value={tag}
-            field={`coinTag`}
-            margin={"10 0 10 0"}
-          />
-
-          <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-            <TouchableOpacity>
-              <CelText type={"H5"} style={[{
-                color: COLORS.blue,
-                textAlign: "left"
-              }]}>{tagText}</CelText>
-            </TouchableOpacity>
-          </View>
-        </React.Fragment>
-      );
-    }
-  };
-
-
   render() {
     const { header, coin, balanceCrypto, balanceUsd } = this.state;
-    const { formData } = this.props;
+    const { formData, actions } = this.props;
     let tagText;
     let placeHolderText;
-
 
     if (formData.coin.toLowerCase() === "xrp") {
       tagText = "What is XRP Destination tag";
@@ -137,10 +86,7 @@ class WithdrawCreateAddress extends Component {
     }
 
     const explainText = `Your ${formData.coin} withdrawal address is not set. Please, enter the address, or scan QR code.`;
-
     const hasTag = addressUtil.hasCoinTag(formData.coin)
-    const address = {}
-
 
     return (
       <RegularLayout header={header}>
@@ -180,7 +126,7 @@ class WithdrawCreateAddress extends Component {
           <React.Fragment>
             <CelInput
               placeholder={placeHolderText}
-              value={address.newTag}
+              value={formData.coinTag}
               field={`coinTag`}
               margin={"10 0 10 0"}
             />
@@ -204,7 +150,8 @@ class WithdrawCreateAddress extends Component {
         />
         <View style={{ marginBottom: heightPercentageToDP("7%"), marginTop: heightPercentageToDP("3.26%") }}>
           <CelButton
-            onPress={() => this.confirmWithdrawal}
+            disabled={!formData.withdrawAddress}
+            onPress={actions.setCoinWithdrawalAddress}
           >
             Confirm withdrawal
           </CelButton>

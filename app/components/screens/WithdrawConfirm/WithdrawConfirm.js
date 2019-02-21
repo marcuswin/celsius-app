@@ -14,7 +14,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
-
+import addressUtil from "../../../utils/address-util";
 
 @connect(
   state => ({
@@ -54,6 +54,8 @@ class WithdrawConfirm extends Component {
     const newBalanceCrypto = coinData.amount - formData.amountCrypto
     const newBalanceUsd = coinData.amount_usd - formData.amountUsd
 
+    const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
+
     return (
       <RegularLayout header={header} padding={'20 0 40 0'}>
         <Card>
@@ -71,7 +73,7 @@ class WithdrawConfirm extends Component {
             <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Withdrawal address:</CelText>
-              <CelText style={{ lineHeight: 23 }} type="H6">{ formData.withdrawAddress }</CelText>
+              <CelText style={{ lineHeight: 23 }} type="H6">{ address }</CelText>
             </View>
           </View>
         </Card>

@@ -31,9 +31,9 @@ function hasCoinTag(coin) {
 
 function joinAddressTag(coin, address, coinTag) {
   let newWithdrawalAddress;
-  if (coin === "xrp" && coinTag) newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
-  if (coin === "xlm" && coinTag) newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
-  if (!["xrp", "xlm"].includes(coin) || !coinTag) newWithdrawalAddress = address;
+  if (coin.toLowerCase() === "xrp" && coinTag) newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
+  if (coin.toLowerCase() === "xlm" && coinTag) newWithdrawalAddress = address.concat("?memoId=").concat(coinTag);
+  if (!["xrp", "xlm"].includes(coin.toLowerCase()) || !coinTag) newWithdrawalAddress = address;
 
   return newWithdrawalAddress
 }
