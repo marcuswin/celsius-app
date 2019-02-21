@@ -13,7 +13,7 @@ import COLORS from '../../../constants/STYLES';
 import CelButton from '../../atoms/CelButton/CelButton';
 
 const renderEmptyState = ({onContactImport, onSkip}) => (
-  <View style={{flex: 1, alignItems: 'center', marginTop: 25}}>
+  <View style={{flex: 1, alignItems: 'center', marginTop: 25, marginBottom: 150 }}>
     <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
     <CelText bold type="H1" align="center">
       Uhoh, no friends?
@@ -106,7 +106,7 @@ class CelPayChoseFriends extends Component {
       >
         {!hasContactPermission
           ? <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip}/>
-          : null
+          : <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip}/>
         }
       </RegularLayout>
     );

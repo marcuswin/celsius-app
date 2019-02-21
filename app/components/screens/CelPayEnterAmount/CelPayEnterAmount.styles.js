@@ -3,11 +3,11 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1,
-    height: "100%"
+    // flex: 1,
+    // height: "100%"
   },
   wrapper: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   selectWrapper: {
     flexDirection: 'row',
