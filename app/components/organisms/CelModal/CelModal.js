@@ -71,14 +71,15 @@ class CelModal extends Component {
           { this.renderImage() }
 
           <View style={style.modal}>
+            <ScrollView style={style.contentWrapper}>
+              { children }
+            </ScrollView>
+
             {shouldRenderCloseButton ?
               <TouchableOpacity style={style.closeBtn} onPress={() => actions.closeModal()}>
                 <Icon name='Close' height='20' width='20' viewBox="0 0 1000 1000" fill={'#3D4853'} />
               </TouchableOpacity> : null
             }
-            <ScrollView style={style.contentWrapper}>
-              { children }
-            </ScrollView>
           </View>
         </View>
       </Modal>

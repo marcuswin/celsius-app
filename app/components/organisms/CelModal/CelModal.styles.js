@@ -30,7 +30,7 @@ const base = {
         right: 16,
         width: 20,
         height: 20,
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         zIndex: 10,
     },
     btn: {
@@ -45,7 +45,7 @@ const base = {
 
         top: heightPercentageToDP("14%"),
 
-        width: 0.8 * width,
+        width: heightPercentageToDP("20%"),
         height: 150,
         alignItems: 'center',
         justifyContent: 'center',
