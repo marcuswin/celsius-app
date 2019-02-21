@@ -54,12 +54,25 @@ class CelInput extends Component {
         secureTextEntry: false
     }
 
-    constructor(props) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+      if(nextProps.value !== prevState.propValue) {
+        return {
+          ...prevState,
+          propValue: nextProps.value,
+          textValue: nextProps.value
+        }
+      }
+      return null;
+  }
+
+
+  constructor(props) {
         super(props);
 
         this.state = {
             active: false,
-            textValue: ''
+            textValue: '',
+            propValue: '' // Last forwarded value through props
         }
         this.changeTimer = null;
     }
@@ -68,7 +81,6 @@ class CelInput extends Component {
         const { value } = this.props;
         this.setState({ textValue: value })
     }
-
 
     onChangeText = (text) => {
         this.setState({ textValue: text })
