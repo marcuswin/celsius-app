@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
@@ -13,18 +14,23 @@ import CoinCardStyle from './CoinCard.styles';
 import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
 
 class CoinCard extends Component {
-  static propTypes = {};
-  static defaultProps = {};
+  static propTypes = {
+    coin: PropTypes.instanceOf(Object).isRequired,
+    displayName: PropTypes.string.isRequired,
+    currencyRates: PropTypes.instanceOf(Object).isRequired,
+    onCardPress: PropTypes.func,
+    graphData: PropTypes.instanceOf(Object)
+  };
 
   coinCardEmpty = (coin, currencyRates) => {
     const marketValue = currencyRates.market_quotes_usd.price
     const text = `1 ${coin.short} = ${formatter.crypto(marketValue, "", { precision: 5 })}`
-    
+
     return (
       <Fragment>
         <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus"/>
+          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
           <CelText style={{ lineHeight: 23, marginLeft: 5 }} type="H6" color={STYLES.COLORS.CELSIUS_BLUE}>
             Deposit
         </CelText>
@@ -32,17 +38,17 @@ class CoinCard extends Component {
       </Fragment>
     )
   }
-  
+
   coinCardFull = (coin) => {
     const style = CoinCardStyle
     return (
       <Fragment>
-      <CelText style={ style.lineHeight } type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
-    </Fragment>
+        <CelText style={style.lineHeight} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+        <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      </Fragment>
     )
   }
-  
+
   renderPriceChange = (currencyRates) => {
     const coinPriceChange = currencyRates.price_change_usd['1d']
     const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
@@ -52,9 +58,9 @@ class CoinCard extends Component {
       <CelText type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
     )
   }
-  
+
   render = () => {
-    const { coin, displayName, currencyRates, onCardPress, graphData} = this.props;
+    const { coin, displayName, currencyRates, onCardPress, graphData } = this.props;
     const amount = coin.amount_usd > 0;
     let dateArray;
     let priceArray;
@@ -66,14 +72,14 @@ class CoinCard extends Component {
 
     }
 
-      //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
+    //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
 
     const padding = graphData ? '20 0 0 0' : '20 0 20 0';
 
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
-      <Card style={{ flexDirection: 'row', flexWrap: 'wrap'}} size="half" margin="5 5 5 5" padding={padding} onPress={onCardPress}>
+      <Card style={{ flexDirection: 'row', flexWrap: 'wrap' }} size="half" margin="5 5 5 5" padding={padding} onPress={onCardPress}>
         <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
           <View>
             <CelText style={{ lineHeight: 23 }} type="H6">{displayName}</CelText>
@@ -83,15 +89,15 @@ class CoinCard extends Component {
             {this.renderPriceChange(currencyRates)}
           </View>
         </View>
-        {graphData ? 
+        {graphData ?
           <View style={{ alignItems: "center" }}>
             <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
-                   rate={coinPriceChange}
-                   height={heightPercentageToDP("10%")}
-                   width={widthPercentageToDP("41%")}
+              rate={coinPriceChange}
+              height={heightPercentageToDP("10%")}
+              width={widthPercentageToDP("41%")}
             />
           </View>
-        : null}
+          : null}
       </Card>
     )
   }
