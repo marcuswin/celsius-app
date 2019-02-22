@@ -115,7 +115,7 @@ class Graph extends React.Component {
       } else if (x >= width - widthPercentageToDP("5%")) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth });
       } else {
-        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 });
+        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 - cursorRadius / 4 });
       }
     }
   };
