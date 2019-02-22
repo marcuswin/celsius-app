@@ -113,6 +113,11 @@ class CelPayChoseFriends extends Component {
     }
 
     this.setState({
+      header: {
+        left: 'back',
+        title: permission ? "Choose a friend to CelPay" : "CelPay",
+        right: permission ? "search" : "profile"
+      },
       hasContactPermission: permission,
       isLoading: false
     });

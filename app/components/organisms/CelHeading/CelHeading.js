@@ -74,7 +74,7 @@ class CelHeading extends Component {
         </CelButton>,
       "logout": <CelButton basic onPress={() => { }}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
-      "cancel": <CelButton basic onPress={() => { this.setState({ activeSearch: false, searchValue: '' }) }}>Cancel</CelButton>,
+      "cancel": <CelButton basic onPress={() => { this.setState({ activeSearch: false, searchValue: '' }); actions.updateFormField('search', "") }}>Cancel</CelButton>,
     }[rightType];
   }
 

@@ -28,8 +28,8 @@ export const getFilteredContacts = createSelector(getSearchFormData, getContacts
 
   if (searchTerm) {
     filteredContacts = {
-      friendsWithApp: contacts.friendsWithApp.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase())),
-      friendsWithoutApp: contacts.friendsWithoutApp.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      friendsWithApp: contacts.friendsWithApp.filter(c => c.name && c.name.toLowerCase().includes(searchTerm.toLowerCase())),
+      friendsWithoutApp: contacts.friendsWithoutApp.filter(c => c.name && c.name.toLowerCase().includes(searchTerm.toLowerCase()))
     };
 
     return filteredContacts
