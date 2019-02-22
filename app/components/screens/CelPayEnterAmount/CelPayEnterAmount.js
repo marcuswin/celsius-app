@@ -20,13 +20,7 @@ import BalanceView from "../../atoms/BalanceView/BalanceView";
     celpayCompliance: state.user.compliance.celpay,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
-    formData: {
-      ...state.forms.formData,
-      friend: {
-        first_name: 'Pera',
-        last_name: 'Detlic',
-      }
-    },
+    formData: state.forms.formData,
     activeScreen: state.nav.activeScreen,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
@@ -44,7 +38,8 @@ class CelPayEnterAmount extends Component {
       .filter(c => celpayCompliance.coins.includes(c.short))
       .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
 
-    const screenTitle = formData.friend ? `Send to ${formData.friend.first_name} ${formData.friend.last_name[0]}` : 'Enter Amount'
+    const names = formData.friend ? formData.friend.name.split(' ') : undefined;
+    const screenTitle = names ? `Send to ${names[0]} ${names[1][0]}` : 'Enter Amount'
 
     this.state = {
       header: {
@@ -56,15 +51,17 @@ class CelPayEnterAmount extends Component {
 
 
     props.actions.updateFormField('coin', 'BTC')
+
   }
 
-
+  // TODO: move to formatter? check WithdrawEnterAmount
   getNumberOfDecimals(value) {
     const splitValue = value.split('.')
     const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0;
     return numberOfDecimals;
   }
 
+  // TODO: move to formatter? check WithdrawEnterAmount
   getAllowedDecimals = (currency) => currency === 'USD' ? 2 : 5
 
   getButtonCopy = () => {
@@ -76,6 +73,7 @@ class CelPayEnterAmount extends Component {
     return 'Enter amount above';
   }
 
+  // TODO: move to formatter? check WithdrawEnterAmount
   setCurrencyDecimals(value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value;
     // remove last digit
@@ -85,6 +83,7 @@ class CelPayEnterAmount extends Component {
     return value.slice(0, allowedDecimals - numberOfDecimals);
   }
 
+  // TODO: move to formatter? check WithdrawEnterAmount
   hasEnoughDecimals(value = '', currency) {
     const numberOfDecimals = this.getNumberOfDecimals(value)
     const allowedDecimals = this.getAllowedDecimals(currency);
@@ -139,8 +138,7 @@ class CelPayEnterAmount extends Component {
       actions.navigateTo('CelPayMessage')
     } else {
       actions.navigateTo('VerifyProfile', {
-        // TODO create CelPay link and Share
-        onSuccess: () => actions.navigateTo('WalletLanding')
+        onSuccess: () => actions.celPayShareLink()
       })
     }
   }

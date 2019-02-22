@@ -8,7 +8,7 @@ export {
     updateFormFields
 }
 
-function initForm(formData) {
+function initForm(formData = {}) {
     return {
         type: ACTIONS.INIT_FORM,
         formData,

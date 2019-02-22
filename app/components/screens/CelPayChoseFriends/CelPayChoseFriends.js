@@ -16,6 +16,7 @@ import ContactList from '../../molecules/ContactList/ContactList';
 import Separator from '../../atoms/Separator/Separator';
 import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 const renderEmptyState = ({onContactImport, onSkip}) => (
   <View style={{flex: 1, alignItems: 'center', marginTop: 25}}>
@@ -50,7 +51,10 @@ class CelPayChoseFriends extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      header: null,
+      header: {
+        left: "back",
+        title: "CelPay",
+      },
       hasContactPermission: false,
       isLoading: true
     };
@@ -130,13 +134,14 @@ class CelPayChoseFriends extends Component {
 
   sendLink = async () => {
     const { actions } = this.props;
+    actions.initForm();
     actions.navigateTo('CelPayEnterAmount');
   };
 
   handleContactPress = async (contact) => {
     const { actions } = this.props;
 
-    actions.updateFormField('friend', contact);
+    actions.initForm({ friend: contact });
     actions.navigateTo('CelPayEnterAmount');
   };
 
@@ -172,8 +177,9 @@ class CelPayChoseFriends extends Component {
   render() {
     const { header, isLoading } = this.state;
 
-    const RenderLoader = this.renderLoader;
     const RenderContent = this.renderContent;
+
+    if (isLoading) return <LoadingScreen header={header} />
 
     return (
       <RegularLayout
@@ -181,8 +187,7 @@ class CelPayChoseFriends extends Component {
         enableParentScroll={false}
         padding={`0 20 ${isLoading ? '0' : '140'} 20`}
       >
-        {isLoading ? <RenderLoader/> : <RenderContent {...this.props}/>}
-
+        <RenderContent {...this.props}/>
       </RegularLayout>
     );
   }

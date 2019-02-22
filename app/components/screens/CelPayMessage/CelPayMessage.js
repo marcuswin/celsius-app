@@ -46,8 +46,7 @@ class CelPayMessage extends Component {
     const { actions } = this.props
 
     actions.navigateTo('VerifyProfile', {
-      // TODO: call an action that creates a transfer and navigates to TransactionDetails
-      onSuccess: () => actions.navigateTo('WalletLanding')
+      onSuccess: () => actions.celPayFriend()
     })
   }
 
@@ -65,7 +64,7 @@ class CelPayMessage extends Component {
             type="text-area"
             field="message"
             value={formData.message}
-            numberOfLines={15}
+            numberOfLines={5}
           />
 
           <CelButton
@@ -73,7 +72,7 @@ class CelPayMessage extends Component {
             margin="0 0 0 0"
             onPress={this.handleSend}
           >
-            Send {formatter.crypto(formData.amountUsd)}
+            Send {formatter.crypto(formData.amountCrypto, formData.coin)}
           </CelButton>
         </View>
       </RegularLayout>
