@@ -19,7 +19,7 @@ class WalletDetailsCard extends PureComponent {
 
   navigateToBalanceHistory = () => this.props.navigateTo('BalanceHistory');
 
-  navigateToWalletInterest = () => this.props.navigateTo('BalanceHistory')
+  navigateToWalletInterest = () => this.props.navigateTo('WalletInterest')
 
   render() {
     const { walletSummary } = this.props;
