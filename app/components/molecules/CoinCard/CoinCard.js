@@ -6,7 +6,7 @@ import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import Icon from "../../atoms/Icon/Icon";
-import Graph from "../../atoms/Graph/Graph";
+import Graph from "../../GraphComponent/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
 import CoinCardStyle from './CoinCard.styles';

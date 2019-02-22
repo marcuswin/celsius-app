@@ -7,9 +7,9 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import GraphContainerStyle from "./GraphContainer.styles";
-import PeriodGraphView from "../../atoms/PeriodGraphView/PeriodGraphView";
-import Graph from "../../atoms/Graph/Graph";
-import XTicks from "../../atoms/XTicks/XTicks";
+import PeriodGraphView from "../PeriodGraphView/PeriodGraphView";
+import Graph from "../Graph/Graph";
+import XTicks from "../XTicks/XTicks";
 
 @connect(
   state => ({

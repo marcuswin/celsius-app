@@ -7,7 +7,7 @@ import testUtil from "../../../utils/test-util";
 import XTicksStyle from "./XTicks.styles";
 
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-import CelText from "../CelText/CelText";
+import CelText from "../../atoms/CelText/CelText";
 
 
 class XTicks extends Component {
@@ -106,7 +106,7 @@ class XTicks extends Component {
             style={{
               position: "absolute",
               bottom: 0,
-              left: index * (width * 0.11) - (width * 0.03),
+              left: index * (width * 0.11) - (width * 0.05),
               color: index === 0 || index === ticks.length - 1 ? "transparent" : "gray"
             }}>{date}</CelText>
           // 0.108

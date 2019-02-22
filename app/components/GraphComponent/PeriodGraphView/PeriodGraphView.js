@@ -5,7 +5,7 @@ import { TouchableOpacity, View } from "react-native";
 import testUtil from "../../../utils/test-util";
 
 import PeriodGraphViewStyle from "./PeriodGraphView.styles";
-import CelText from "../CelText/CelText";
+import CelText from "../../atoms/CelText/CelText";
 
 
 class PeriodGraphView extends Component {

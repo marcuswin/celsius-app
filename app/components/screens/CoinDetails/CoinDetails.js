@@ -18,7 +18,7 @@ import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
 import { widthPercentageToDP } from "../../../utils/styles-util";
-import GraphContainer from "../../organisms/GraphContainer/GraphContainer";
+import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
 
 const { COLORS } = STYLES;
 
