@@ -1,15 +1,17 @@
 import React from "react";
 import { View, Animated, TextInput } from "react-native";
 import { Svg } from "expo";
+// import moment from "moment";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
 import { scaleLinear, scalePoint } from "d3-scale";
 import testUtil from "../../../utils/test-util";
-import Separator from "../Separator/Separator";
+import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
+
 
 const { Path, Defs, LinearGradient, Stop } = Svg;
 const d3 = { shape };
@@ -57,6 +59,7 @@ class Graph extends React.Component {
       dashedLine: React.createRef(),
       label: React.createRef(),
       labelText: React.createRef(),
+      dateText: React.createRef()
     } : {};
   }
 
@@ -74,33 +77,28 @@ class Graph extends React.Component {
       return true;
     }
     return nextState.loading !== this.state.loading;
-  }
+  };
 
   calculateLine() {
-    const { width, height, verticalPadding, priceArray, dateArray } = this.props;
+    const { width, height, verticalPadding, priceArray, dateArray, showCursor } = this.props;
     // Domains and Ranges
     const yRange = [height - verticalPadding, verticalPadding];
     const yDomain = [Math.min(...priceArray), Math.max(...priceArray)];
     const xRange = [0, width];
     const xDomain = dateArray;
+    // const timeDomain = [Math.max(...dateArray), Math.min(...dateArray)];
 
     // creating Obj out of two arrays
     const arrOfObjects = dateArray.map((x, i) => ({ x, y: priceArray[i] }));
 
     // Scaling and line making
-    const scaleX = scalePoint().domain(xDomain).range(xRange);
-
-    // this.setState({
-    //   scaleY: scaleLinear().domain(yDomain).range(yRange),
-    //   line: d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects),
-    //   lineProperties: path.svgPathProperties(this.line),
-    //   lineLength: this.lineProperties.getTotalLength()
-    // })
+    this.scaleX = scalePoint().domain(xDomain).range(xRange);
     this.scaleY = scaleLinear().domain(yDomain).range(yRange);
-
-    this.line = d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
+    // this.scaleTime = scaleTime().domain(timeDomain).range(yRange);
+    this.line = d3.shape.line().x(d => this.scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
     this.lineProperties = path.svgPathProperties(this.line);
     this.lineLength = this.lineProperties.getTotalLength();
+    if (showCursor) this.moveCursor(this.lineLength/2);
   }
 
   moveCursor(value) {
@@ -111,35 +109,41 @@ class Graph extends React.Component {
       this.cursor.pointer.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
       this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
       this.cursor.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
+      // this.cursor.dateText.current.setNativeProps({ text: this.scaleTime.invert(x) });
       if (x <= width / x) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
       } else if (x >= width - widthPercentageToDP("5%")) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth });
       } else {
-        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 });
+        this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - labelWidth / 2 - cursorRadius / 4 });
       }
     }
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor } = this.props;
+    const { width, height, showCursor, interest } = this.props;
     const { color, loading } = this.state;
 
     return (
       !loading ?
         <Svg width={width} height={height}>
           <Defs>
-            {showCursor ?
+            {showCursor && !interest ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"30%"} />
                 <Stop stopColor={"#F3F3F3"} offset={"80%"} />
-              </LinearGradient> :
+              </LinearGradient> : null
+            }
+            { interest ?
+              <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" /> : null
+            }
+            {!showCursor ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"100%"} />
-              </LinearGradient>
+              </LinearGradient> : null
             }
           </Defs>
-          <Path d={this.line} stroke={color.line} strokeWidth={5} fill="transparent" />
+          <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
         </Svg>
         : null

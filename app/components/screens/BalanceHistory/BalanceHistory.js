@@ -13,7 +13,7 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
-import GraphContainer from "../../organisms/GraphContainer/GraphContainer";
+import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
 
 @connect(
   state => ({
