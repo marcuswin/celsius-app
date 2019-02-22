@@ -18,7 +18,8 @@ import WalletLandingStyle from './WalletLanding.styles';
     currenciesRates: state.currencies.rates,
     walletSummary: state.wallet.summary,
     currenciesGraphs: state.currencies.graphs,
-    activeScreen: state.nav.activeScreen
+    activeScreen: state.nav.activeScreen,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -30,7 +31,7 @@ class WalletLanding extends Component {
     super(props);
     this.state = {
       header: {
-        title: "Welcome Andrew!",
+        title: `Welcome ${ props.user.first_name }!`,
         right: "profile"
       },
       coinWithAmount: [],

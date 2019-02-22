@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-
-import { EMPTY_STATES } from "../../../constants/UI";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import StaticScreen from "../StaticScreen/StaticScreen";
 
 
 @connect(
@@ -22,26 +19,13 @@ class Home extends Component {
     actions.loginUser({ email: 'filip.jovakaric+wlt@mvpworkshop.co', password: 'filip123' })
   }
 
-  render() {
-    const { appInitialized } = this.props;
-
-    if (!appInitialized) {
-      return (
-        <LoadingScreen
-          loadingState={{ heading: 'Celsius app initializing...' }}
-        />
-
-      )
+  componentDidUpdate(prevProps){
+    if (prevProps.appInitialized === false && this.props.appInitialized === true) {
+      prevProps.actions.navigateTo('WalletLanding')
     }
-
-    return (
-
-      <StaticScreen
-        emptyState={{ purpose: EMPTY_STATES.FIRST_TIME }}
-      />
-
-    );
   }
+
+  render = () => <LoadingScreen loadingState={{ heading: 'Celsius app initializing...' }} />
 }
 
 export default Home;
