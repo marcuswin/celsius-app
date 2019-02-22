@@ -74,10 +74,10 @@ class Graph extends React.Component {
       return true;
     }
     return nextState.loading !== this.state.loading;
-  }
+  };
 
   calculateLine() {
-    const { width, height, verticalPadding, priceArray, dateArray } = this.props;
+    const { width, height, verticalPadding, priceArray, dateArray, showCursor } = this.props;
     // Domains and Ranges
     const yRange = [height - verticalPadding, verticalPadding];
     const yDomain = [Math.min(...priceArray), Math.max(...priceArray)];
@@ -90,17 +90,11 @@ class Graph extends React.Component {
     // Scaling and line making
     const scaleX = scalePoint().domain(xDomain).range(xRange);
 
-    // this.setState({
-    //   scaleY: scaleLinear().domain(yDomain).range(yRange),
-    //   line: d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects),
-    //   lineProperties: path.svgPathProperties(this.line),
-    //   lineLength: this.lineProperties.getTotalLength()
-    // })
     this.scaleY = scaleLinear().domain(yDomain).range(yRange);
-
     this.line = d3.shape.line().x(d => scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
     this.lineProperties = path.svgPathProperties(this.line);
     this.lineLength = this.lineProperties.getTotalLength();
+    if (showCursor) this.moveCursor(this.lineLength/2);
   }
 
   moveCursor(value) {
@@ -122,24 +116,33 @@ class Graph extends React.Component {
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor } = this.props;
+    const { width, height, showCursor, interest } = this.props;
     const { color, loading } = this.state;
+
+    // <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
+    //   <Stop stopColor={color.area} offset={"100%"} />
+    // </LinearGradient>
 
     return (
       !loading ?
         <Svg width={width} height={height}>
           <Defs>
-            {showCursor ?
+            {showCursor && !interest ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"30%"} />
                 <Stop stopColor={"#F3F3F3"} offset={"80%"} />
-              </LinearGradient> :
+              </LinearGradient> : null
+            }
+            { interest ?
+              <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" /> : null
+            }
+            {!showCursor ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"100%"} />
-              </LinearGradient>
+              </LinearGradient> : null
             }
           </Defs>
-          <Path d={this.line} stroke={color.line} strokeWidth={5} fill="transparent" />
+          <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
         </Svg>
         : null
