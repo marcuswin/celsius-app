@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import QRCode from 'react-native-qrcode';
+import QRCode from 'react-qr-code';
 
 import cryptoUtil from "../../../utils/crypto-util";
 import testUtil from "../../../utils/test-util";
@@ -222,8 +222,8 @@ class Deposit extends Component {
                 <QRCode
                   value={useAlternateAddress ? alternateAddress : address}
                   size={120}
-                  bgColor='black'
-                  fgColor='white'
+                  bgColor='#FFF'
+                  fgColor='#000'
                 />
                 <CelText type='H4' align={'center'} style={{marginTop: 10}}>{useAlternateAddress ? alternateAddress : address}</CelText>
 
