@@ -25,7 +25,9 @@ const usersService = {
   setProfileImage,
   addExpoPushToken,
   getIcoPersonalInfo,
-  getComplianceInfo
+  getComplianceInfo,
+  connectPhoneContacts,
+  getConnectedContacts
 };
 
 function register(user) {
@@ -176,6 +178,14 @@ function getIcoPersonalInfo() {
 
 function getComplianceInfo() {
   return axios.get(`${apiUrl}/me/compliance`);
+}
+
+function connectPhoneContacts(contacts) {
+  return axios.post(`${apiUrl}/users/friends/contacts`, {contacts});
+}
+
+function getConnectedContacts() {
+  return axios.get(`${apiUrl}/users/friends`);
 }
 
 export default usersService;

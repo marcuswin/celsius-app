@@ -21,7 +21,12 @@ class ContactRow extends Component {
       phone_number: PropTypes.string,
       profile_image: PropTypes.string,
       network: PropTypes.string,
-    }).isRequired
+    }).isRequired,
+    hasApp: PropTypes.bool
+  };
+
+  static defaultProps = {
+    hasApp: false
   };
 
   getContactPreference = (contact) => contact.email ? contact.email : contact.phone_number;
@@ -40,7 +45,7 @@ class ContactRow extends Component {
   };
 
   render() {
-    const { contact, onPress } = this.props;
+    const { contact, onPress, hasApp } = this.props;
     const styles = ContactRowStyle();
     const imgUrl = contact.profile_image ? { uri: contact.profile_image } : require('../../../../assets/images/empty-profile/empty-profile.png');
     const networkImage = this.getNetworkImageUrl(contact.network);
@@ -61,7 +66,7 @@ class ContactRow extends Component {
             </CelText>
           </View>
         </View>
-        <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30}/>
+        {hasApp && <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30}/>}
       </TouchableOpacity>
     )
   }

@@ -70,7 +70,8 @@ class CelPayChoseFriends extends Component {
 
     if (permission) {
       const { data } = await Contacts.getContactsAsync();
-      this.setContacts(data)
+      await this.setContacts(data);
+      await this.getContacts();
     }
 
     this.setState({
@@ -88,23 +89,33 @@ class CelPayChoseFriends extends Component {
     this.subs.forEach(sub => sub.remove());
   }
 
-  // TODO: contacts will come from the API and will be stored in redux and not in local state
-  // setContacts = (contacts) => {
-    // TODO: here we should POST contacts to API, and that API will return us filtered contacts
+  setContacts = async (contacts) => {
+    const { actions } = this.props;
+    await actions.connectPhoneContacts(contacts);
+  };
 
-  // };
+  getContacts = async () => {
+    const { actions } = this.props;
+    await actions.getConnectedContacts();
+  };
 
   handleContactImport = async () => {
     const permission = await requestForPermission(Permissions.CONTACTS);
 
     this.setState({
-      hasContactPermission: permission
+      isLoading: true
     });
 
     if (permission) {
       const { data } = await Contacts.getContactsAsync();
-      this.setContacts(data)
+      await this.setContacts(data);
+      await this.getContacts();
     }
+
+    this.setState({
+      hasContactPermission: permission,
+      isLoading: false
+    });
   };
 
   handleSkip = () => {
@@ -112,20 +123,21 @@ class CelPayChoseFriends extends Component {
     actions.navigateTo('CelPayEnterAmount')
   };
 
-  sendLink = () => {
+  sendLink = async () => {
     const { actions } = this.props;
-    actions.navigateTo('CelPayEnterAmount')
+    actions.navigateTo('CelPayEnterAmount');
   };
 
-  handleContactPress = () => {
+  handleContactPress = async (contact) => {
     const { actions } = this.props;
-    actions.navigateTo('CelPayEnterAmount')
+
+    actions.updateFormField('friend', contact);
+    actions.navigateTo('CelPayEnterAmount');
   };
 
   renderContent = () => {
     const { hasContactPermission } = this.state;
     const { contacts } = this.props;
-
     const EmptyState = renderEmptyState;
 
     return (
@@ -162,7 +174,7 @@ class CelPayChoseFriends extends Component {
       <RegularLayout
         header={header}
         enableParentScroll={false}
-        padding={'0 20 140 20'}
+        padding={`0 20 ${isLoading ? '0' : '140'} 20`}
       >
         {isLoading ? <RenderLoader/> : <RenderContent {...this.props}/>}
 

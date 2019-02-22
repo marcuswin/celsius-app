@@ -26,6 +26,8 @@ export {
   getIcoUsersProfileInfo,
   getComplianceInfo,
   checkPIN,
+  connectPhoneContacts,
+  getConnectedContacts
 }
 
 function getProfileInfo() {
@@ -227,5 +229,39 @@ function checkPIN(onSuccess) {
       dispatch(updateFormField('pin', ''))
       dispatch(toggleKeypad())
     }
+  }
+}
+
+function connectPhoneContacts(contacts) {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.CONNECT_PHONE_CONTACTS));
+
+    try {
+      await usersService.connectPhoneContacts(contacts);
+      dispatch({ type: ACTIONS.CONNECT_PHONE_CONTACTS_SUCCESS });
+    } catch (err) {
+      logger.log(err)
+    }
+  }
+}
+
+function getConnectedContacts() {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.GET_CONNECT_CONTACTS));
+
+    try {
+      const res = await usersService.getConnectedContacts();
+      dispatch(getConnectedContactsSuccess(res.data.contacts));
+    } catch (err) {
+      logger.log(err)
+    }
+  }
+}
+
+function getConnectedContactsSuccess(contacts) {
+  return {
+    type: ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS,
+    callName: API.GET_CONNECT_CONTACTS,
+    contacts,
   }
 }

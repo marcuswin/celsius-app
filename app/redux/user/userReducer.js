@@ -46,6 +46,10 @@ const initialState = {
       coins: []
     }
   },
+  contacts: {
+    friendsWithApp: [],
+    friendsWithoutApp: []
+  }
 };
 
 export default (state = initialState, action) => {
@@ -220,6 +224,15 @@ export default (state = initialState, action) => {
           ...action.complianceInfo
         }
       }
+
+    case ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS:
+      return {
+        ...state,
+        contacts: {
+          friendsWithApp: [...action.contacts.friendsWithApp],
+          friendsWithoutApp: [...action.contacts.friendsWithoutApp]
+        }
+      };
 
     default:
       return state;
