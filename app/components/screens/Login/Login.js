@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Text} from 'react-native';
 import {connect} from 'react-redux';
 import {View} from 'native-base';
 import {bindActionCreators} from 'redux';
@@ -81,11 +80,6 @@ class LoginScreen extends Component {
         background={STYLES.PRIMARY_BLUE}
         ref={testUtil.generateTestHook(this, 'Login.screen')}
       >
-
-        <Text style={LoginStyle.description}>
-          Looks like your session timed out! Please log in again.
-        </Text>
-
         <View style={{paddingTop: 30}}>
           <ThirdPartyLoginSection type="login" />
         </View>
