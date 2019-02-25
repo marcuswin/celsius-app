@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import EnterPhoneStyle from "./EnterPhone.styles";
+// import EnterPhoneStyle from "./EnterPhone.styles";
 import CelText from '../../atoms/CelText/CelText';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import CelInput from '../../atoms/CelInput/CelInput';
@@ -13,7 +13,6 @@ import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
   state => ({
-    style: EnterPhoneStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

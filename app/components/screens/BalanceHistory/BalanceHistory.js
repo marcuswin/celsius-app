@@ -17,12 +17,10 @@ import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
 
 @connect(
   state => ({
-    style: BalanceHistoryStyle(),
     walletSummary: state.wallet.summary,
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    currencyGraphs: state.currencies.graphs,
-    activeScreen: state.nav.activeScreen
+    currencyGraphs: state.currencies.graphs
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -55,8 +53,6 @@ class BalanceHistory extends Component {
     const { actions } = this.props;
     actions.getAllTransactions({ limit: 5 });
   };
-
-  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'BalanceHistory';
 
   render() {
     const { transactions, actions, currencyRatesShort, walletSummary } = this.props

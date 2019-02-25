@@ -105,7 +105,6 @@ class CelInput extends Component {
         this.setState({ active: false })
     }
 
-
     getPlaceholderTextColor = (style) => StyleSheet.flatten(style.textPlaceholderColor).color; // get color from raw json depending on style theme
 
     render() {

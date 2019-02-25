@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -23,21 +22,14 @@ const { MODALS } = UI
 
 @connect(
   (state) => ({
-    style: WalletInterestStyle(),
     walletSummary: state.wallet.summary,
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    currencyGraphs: state.currencies.graphs,
+    currencyGraphs: state.currencies.graphs
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletInterest extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
 
   constructor(props) {
     super(props);
@@ -63,16 +55,27 @@ class WalletInterest extends Component {
     actions.getAllTransactions({ limit: 5, type: 'interest' })
   }
 
+  openInterestModal = () => {
+    const { actions } = this.props;
+    actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
+  }
+
+  navigateToAllTransactions = () => {
+    const { actions } = this.props;
+    actions.navigateTo('AllTransactions');
+  }
+
   render() {
     const { header, dateArray, priceArray } = this.state;
-    const { currencyRatesShort, actions, transactions, walletSummary, style } = this.props;
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 })
+    const { currencyRatesShort, actions, transactions, walletSummary } = this.props;
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 });
+    const style = WalletInterestStyle();
 
     return (
       <RegularLayout header={header} >
         <View>
           <View style={style.container}>
-            <Card padding="15 15 15 15" onPress={() => actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)}>
+            <Card padding="15 15 15 15" onPress={this.openInterestModal}>
               <CelText type="H6" color="rgba(61,72,83,0.7)">Total interest earned</CelText>
               <View style={style.amountWrapper}>
                 <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
@@ -100,7 +103,7 @@ class WalletInterest extends Component {
             <CelButton
               basic
               margin="15 0 15 0"
-              onPress={() => actions.navigateTo('AllTransactions')}
+              onPress={this.navigateToAllTransactions}
             >
               See all
             </CelButton>

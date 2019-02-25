@@ -6,14 +6,13 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import WalletStyle from "./Wallet.styles";
+// import WalletStyle from "./Wallet.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelInput from '../../atoms/CelInput/CelInput';
 import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
   state => ({
-    style: WalletStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

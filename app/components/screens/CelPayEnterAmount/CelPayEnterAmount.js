@@ -21,7 +21,6 @@ import BalanceView from "../../atoms/BalanceView/BalanceView";
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
-    activeScreen: state.nav.activeScreen,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -105,7 +104,7 @@ class CelPayEnterAmount extends Component {
       amountCrypto = amountUsd / coinRate;
     } else {
       amountCrypto = this.setCurrencyDecimals(newValue);
-      amountUsd =  amountCrypto * coinRate;
+      amountUsd = amountCrypto * coinRate;
     }
 
     if (amountUsd > balanceUsd) {
@@ -145,7 +144,7 @@ class CelPayEnterAmount extends Component {
 
   render() {
     const { header, coinSelectItems } = this.state;
-    const { formData, actions, walletSummary, activeScreen } = this.props;
+    const { formData, actions, walletSummary } = this.props;
     const style = CelPayEnterAmountStyle();
     if (!formData.coin) return null;
 
@@ -155,7 +154,7 @@ class CelPayEnterAmount extends Component {
       <RegularLayout header={header}>
         <View style={style.container}>
           <View style={style.wrapper}>
-            <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd}/>
+            <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd} />
 
             <View>
               <View style={style.selectWrapper}>
@@ -170,7 +169,7 @@ class CelPayEnterAmount extends Component {
 
               <CoinSwitch
                 updateFormField={actions.updateFormField}
-                onAmountPress={() => actions.toggleKeypad()}
+                onAmountPress={actions.toggleKeypad}
                 amountUsd={formData.amountUsd}
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
@@ -183,13 +182,12 @@ class CelPayEnterAmount extends Component {
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
             >
-              { this.getButtonCopy() }
+              {this.getButtonCopy()}
             </CelButton>
           </View>
 
-          { activeScreen === 'CelPayEnterAmount' && (
             <CelNumpad
-              field={formData.isUsd ? "amountUsd" : "amountCrypto" }
+              field={formData.isUsd ? "amountUsd" : "amountCrypto"}
               value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
               updateFormField={actions.updateFormField}
               setKeypadInput={actions.setKeypadInput}
@@ -197,7 +195,6 @@ class CelPayEnterAmount extends Component {
               onPress={this.handleAmountChange}
               purpose={KEYPAD_PURPOSES.CELPAY}
             />
-          )}
         </View>
       </RegularLayout>
     );

@@ -12,7 +12,6 @@ import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
-    style: MessageStyle(),
     message: state.ui.message
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -21,20 +20,10 @@ class Message extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      opacity: new Animated.Value(0.3)
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { message } = this.props;
-    const { opacity } = this.state;
-
-    if (!message && nextProps.message) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.message) {
       Animated.timing(
-        opacity,
+        prevState.opacity,
         {
           toValue: 1,
           duration: 800,
@@ -43,7 +32,29 @@ class Message extends Component {
         }
       ).start();
     }
+    return null;
   }
+
+  state = {
+    opacity: new Animated.Value(0.3)
+  };
+  
+  // componentWillReceiveProps(nextProps) {
+  //   const { message } = this.props;
+  //   const { opacity } = this.state;
+
+  //   if (!message && nextProps.message) {
+  //     Animated.timing(
+  //       opacity,
+  //       {
+  //         toValue: 1,
+  //         duration: 800,
+  //         useNativeDriver: true,
+  //         easing: Easing.linear
+  //       }
+  //     ).start();
+  //   }
+  // }
 
   getIcon = () => {
     const { message } = this.props;
@@ -62,8 +73,9 @@ class Message extends Component {
   };
 
   render() {
-    const { style, message, actions } = this.props;
+    const { message, actions } = this.props;
     if (!message || !message.text) return null;
+    const style = MessageStyle();
 
     const icon = this.getIcon();
 
@@ -78,7 +90,7 @@ class Message extends Component {
           </CelText>
         </View>
         <TouchableOpacity onPress={() => actions.clearMessage()} style={style.closeButton}>
-          <Icon name="Close" height="17" width="17" viewBox="0 0 1000 1000" fill="#FFFFFF"/>
+          <Icon name="Close" height="17" width="17" viewBox="0 0 1000 1000" fill="#FFFFFF" />
         </TouchableOpacity>
       </Animated.View>
     );

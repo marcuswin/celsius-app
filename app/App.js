@@ -57,7 +57,7 @@ const CelsiusApplication = () => (
     <React.Fragment>
       <Message />
       <AppNavigation
-        ref={navigatorRef => { store.dispatch(actions.setTopLevelNavigator(navigatorRef)) }}
+        ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
       <FabMenu />
     </React.Fragment>

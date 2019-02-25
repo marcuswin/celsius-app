@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import RegisterStyle from "./Register.styles";
+// import RegisterStyle from "./Register.styles";
 import CelText from '../../atoms/CelText/CelText';
 import CelInput from '../../atoms/CelInput/CelInput';
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -14,7 +14,6 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 
 @connect(
   state => ({
-    style: RegisterStyle(),
     formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

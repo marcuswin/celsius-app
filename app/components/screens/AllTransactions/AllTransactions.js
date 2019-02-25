@@ -9,13 +9,15 @@ import AllTransactionsStyle from "./AllTransactions.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory';
 import transactionsUtil from "../../../utils/transactions-util";
+import API from '../../../constants/API';
+import apiUtil from '../../../utils/api-util';
+import LoadingState from '../../atoms/LoadingState/LoadingState';
 
 @connect(
   state => ({
-    style: AllTransactionsStyle(),
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    activeScreen: state.nav.activeScreen
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -39,21 +41,24 @@ class AllTransactions extends Component {
     actions.getAllTransactions();
   }
 
-  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'AllTransactions';
-
   render() {
-    const { actions, currencyRatesShort, transactions } = this.props
+    const { actions, currencyRatesShort, transactions, callsInProgress } = this.props
     const { header } = this.state;
     const transactionsArray = transactionsUtil.filterTransactions(transactions);
+    const loadingTransactions = apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress);
+    const style = AllTransactionsStyle();
 
     return (
-      <RegularLayout header={header} >
-        <View style={{ width: '100%' }}>
-          <TransactionsHistory
-            transactions={transactionsArray}
-            currencyRatesShort={currencyRatesShort}
-            navigateTo={actions.navigateTo}
-          />
+      <RegularLayout header={header}>
+        <View style={style.container}>
+          {loadingTransactions ?
+            <LoadingState />
+            : <TransactionsHistory
+              transactions={transactionsArray}
+              currencyRatesShort={currencyRatesShort}
+              navigateTo={actions.navigateTo}
+            />
+          }
         </View>
       </RegularLayout>
     )
