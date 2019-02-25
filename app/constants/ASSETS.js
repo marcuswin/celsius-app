@@ -23,9 +23,9 @@ const FONTS = [
 const WEIGHT = {
   
 
-  '100': { regular: 'barlow-thin', italic: 'barlow-thin-italic'},
-  '200': { regular: 'barlow-extra-light', italic: 'barlow-extra-light-italic' },
-  '300': { regular: 'barlow-light', italic: 'barlow-light-italic'},
+  "100": { regular: 'barlow-thin', italic: 'barlow-thin-italic'},
+  "200": { regular: 'barlow-extra-light', italic: 'barlow-extra-light-italic' },
+  "300": { regular: 'barlow-light', italic: 'barlow-light-italic'},
   '400': { regular: 'barlow-regular', italic: 'barlow-regular-italic'},
   '500': { regular: 'barlow-medium', italic: 'barlow-medium-italic'},
   '600': { regular: 'barlow-semi-bold', italic: 'barlow-bold-italic'},

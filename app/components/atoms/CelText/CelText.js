@@ -5,6 +5,7 @@ import { Text } from 'react-native';
 import testUtil from "../../../utils/test-util";
 import styleUtils, { getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES';
+// import ASSETS from '../../../constants/ASSETS';
 import CelTextStyle from './CelText.styles';
 
 class CelText extends Component {
@@ -12,6 +13,7 @@ class CelText extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     bold: PropTypes.bool,
+    weight: PropTypes.string,
     italic: PropTypes.bool,
     color: PropTypes.string,
     margin: PropTypes.string,
@@ -23,6 +25,7 @@ class CelText extends Component {
     allCaps: PropTypes.bool
   };
   static defaultProps = {
+    weight: "100",
     type: 'H5',
     bold: false,
     margin: "0 0 0 0",
@@ -34,10 +37,12 @@ class CelText extends Component {
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
   getFontStyle = () => {
-    const { type, bold, italic, margin, color, align } = this.props
+    const { type, bold, italic, margin, color, align } = this.props;
     const cmpStyle = CelTextStyle();
     const fontSize = { fontSize: this.getFontSize(type) };
+    // const font = ASSETS.WEIGHT[weight];
     let fontFamily = {};
+
     if (bold && italic) {
       fontFamily = { fontFamily: 'barlow-bold-italic' };
     } else if (bold) {
@@ -45,6 +50,7 @@ class CelText extends Component {
     } else if (italic) {
       fontFamily = { fontFamily: 'barlow-italic' };
     }
+
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
