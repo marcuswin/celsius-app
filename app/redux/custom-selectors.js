@@ -12,7 +12,7 @@ export const getDepositEligibleCoins = createSelector(getDepositCoins, getCoinRa
     eligibleCoins = rates.filter((coin) => {
       const filteredCoin = complianceDepositCoins.filter((complianceCoin) => (coin.short === complianceCoin));
       return filteredCoin && filteredCoin.length;
-    });
+    }).map(c => ({ label:c.short, value: c.short }));
   }
 
   return [

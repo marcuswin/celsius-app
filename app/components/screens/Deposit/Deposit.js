@@ -8,7 +8,6 @@ import cryptoUtil from "../../../utils/crypto-util";
 import testUtil from "../../../utils/test-util";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import * as appActions from '../../../redux/actions';
-import CoinSlider from '../../molecules/CoinSlider/CoinSlider';
 import { getDepositEligibleCoins } from '../../../redux/custom-selectors';
 import CopyButton from '../../atoms/CopyButton/CopyButton';
 import ShareButton from '../../atoms/ShareButton/ShareButton';
@@ -22,6 +21,7 @@ import Icon from '../../atoms/Icon/Icon';
 import UI from '../../../constants/UI';
 import CelModal from '../../organisms/CelModal/CelModal';
 import Spinner from '../../atoms/Spinner/Spinner';
+import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 
 @connect(
   state => ({
@@ -118,8 +118,10 @@ class Deposit extends Component {
     return defaultSelectedCoin;
   };
 
-  handleCoinSelect = (coinShort) => {
-    this.fetchAddress(coinShort);
+  handleCoinSelect = async (field, item) => {
+    const { actions } = this.props;
+    await actions.updateFormField(field, item);
+    await this.fetchAddress(item);
   };
 
   fetchAddress = async (currency) => {
@@ -187,7 +189,7 @@ class Deposit extends Component {
   };
 
   renderLoader = () => (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{marginTop: 50, justifyContent: 'center', alignItems: 'center'}}>
       <Spinner />
     </View>
   );
@@ -204,18 +206,17 @@ class Deposit extends Component {
         left: "back",
         right: "profile"
       }} padding={'20 0 40 0'}>
-        <View style={{ flexDirection: 'row'}}>
-          <CoinSlider
-            coinList={eligibleCoins}
-            updateFormField={actions.updateFormField}
-            onCoinSelect={(coinShort) => this.handleCoinSelect(coinShort)}
-            value={formData.selectedCoin}
-            field='selectedCoin'
-            defaultSelected={this.getDefaultSelectedCoin()}
-          />
-        </View>
 
-        {address ?
+        <CoinPicker
+          coinList={eligibleCoins}
+          updateFormField={actions.updateFormField}
+          onCoinSelect={this.handleCoinSelect}
+          value={formData.selectedCoin}
+          field='selectedCoin'
+          defaultSelected={this.getDefaultSelectedCoin()}
+        />
+
+        {address && !isFetchingAddress ?
           <View style={styles.container}>
             <Card>
               <View style={{alignItems: 'center'}}>
