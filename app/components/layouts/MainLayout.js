@@ -65,7 +65,7 @@ class MainLayout extends Component {
 
     if (maintenance) {
       return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }} scrollEnabled={false}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: '#899099' }} scrollEnabled={false}>
           <View style={{ flex: 1, }}>
             <MaintenanceMode />
           </View>
