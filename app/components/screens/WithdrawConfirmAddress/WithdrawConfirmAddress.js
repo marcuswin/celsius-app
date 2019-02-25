@@ -22,7 +22,7 @@ import addressUtil from "../../../utils/address-util";
   state => ({
     walletSummary: state.wallet.summary,
     formData: state.forms.formData,
-    withdrawalAddresses: state.wallet.withdrawalAddresses,
+    withdrawalAddresses: state.wallet.withdrawalAddresses
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -54,11 +54,11 @@ class WithdrawConfirmAddress extends Component {
   }
 
   confirmAddress = () => {
-    const { actions, withdrawalAddresses, formData } = this.props
+    const { actions, withdrawalAddresses, formData } = this.props;
 
-    actions.updateFormField('withdrawAddress', withdrawalAddresses[formData.coin.toUpperCase()].address)
-    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo('WithdrawConfirm')})
-  }
+    actions.updateFormField("withdrawAddress", withdrawalAddresses[formData.coin.toUpperCase()].address);
+    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawConfirm") });
+  };
 
   render() {
     const { header, coin, balanceCrypto, balanceUsd, address } = this.state;
@@ -76,8 +76,8 @@ class WithdrawConfirmAddress extends Component {
 
     // const address = formData[`${coin}WithdrawConfirmAddress`] ? addressUtil.addressTag(formData[`${coin}WithdrawConfirmAddress`]) : "";
     // const style = WithdrawalAddressStyle();
-    const hasTag = addressUtil.hasTag(address.address)
-    const addressDisplay = addressUtil.splitAddressTag(address.address)
+    const hasTag = addressUtil.hasTag(address.address);
+    const addressDisplay = addressUtil.splitAddressTag(address.address);
 
     return (
       <RegularLayout header={header}>
@@ -98,7 +98,7 @@ class WithdrawConfirmAddress extends Component {
         </View>
 
         <CelInput
-          field={'withdrawAddress'}
+          field={"withdrawAddress"}
           placeholder={"Withdrawal address"}
           value={addressDisplay.newAddress}
           disabled
@@ -115,15 +115,18 @@ class WithdrawConfirmAddress extends Component {
           explanationText={"Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. If you need to change your withdrawal address, please contact our support."}
         />
 
-        <CelInput
-          placeholder={placeHolderText}
-          value={addressDisplay.newTag}
-          field="coinTag"
-          margin="10 0 10 0"
-          disabled
-        />
+        {hasTag ? (
+          <CelInput
+            placeholder={placeHolderText}
+            value={addressDisplay.newTag}
+            field="coinTag"
+            margin="10 0 10 0"
+            disabled
+          />
+        ) : null
+        }
 
-        { hasTag ? (
+        {hasTag ? (
           <View>
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
               <TouchableOpacity>
