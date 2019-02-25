@@ -1,10 +1,59 @@
 const FONTS = [
-  {'barlow-regular': require('../../assets/fonts/Barlow/Barlow-Regular.otf')},
-  {'barlow-bold': require('../../assets/fonts/Barlow/Barlow-Bold.otf')},
-  {'barlow-bold-italic': require('../../assets/fonts/Barlow/Barlow-BoldItalic.otf')},
-  {'barlow-italic': require('../../assets/fonts/Barlow/Barlow-Italic.otf')},
-  {'barlow-semibold': require('../../assets/fonts/Barlow/Barlow-SemiBold.otf')},
+  { 'barlow-thin': require('../../assets/fonts/Barlow/Barlow-Thin.ttf') },
+  { 'barlow-thin-italic': require('../../assets/fonts/Barlow/Barlow-ThinItalic.ttf') },
+  { 'barlow-extra-light': require('../../assets/fonts/Barlow/Barlow-ExtraLight.ttf') },
+  { 'barlow-extra-light-italic': require('../../assets/fonts/Barlow/Barlow-ExtraLightItalic.ttf') },
+  { 'barlow-light': require('../../assets/fonts/Barlow/Barlow-Light.ttf') },
+  { 'barlow-light-italic': require('../../assets/fonts/Barlow/Barlow-LightItalic.ttf') },
+  { 'barlow-regular': require('../../assets/fonts/Barlow/Barlow-Regular.ttf') },
+  // { 'barlow-regular-italic': require('../../assets/fonts/Barlow/Barlow-RegularItalic.ttf') },
+  { 'barlow-medium': require('../../assets/fonts/Barlow/Barlow-Medium.ttf') },
+  { 'barlow-medium-italic': require('../../assets/fonts/Barlow/Barlow-MediumItalic.ttf') },
+  { 'barlow-semi-bold': require('../../assets/fonts/Barlow/Barlow-SemiBold.ttf') },
+  { 'barlow-semi-bold-italic': require('../../assets/fonts/Barlow/Barlow-SemiBoldItalic.ttf') },
+  { 'barlow-bold': require('../../assets/fonts/Barlow/Barlow-Bold.ttf') },
+  { 'barlow-bold-italic': require('../../assets/fonts/Barlow/Barlow-BoldItalic.ttf') },
+  { 'barlow-extra-bold': require('../../assets/fonts/Barlow/Barlow-ExtraBold.ttf') },
+  { 'barlow-extra-bold-italic': require('../../assets/fonts/Barlow/Barlow-ExtraBoldItalic.ttf') },
+  { 'barlow-black': require('../../assets/fonts/Barlow/Barlow-Black.ttf') },
+  { 'barlow-black-italic': require('../../assets/fonts/Barlow/Barlow-BlackItalic.ttf') },
+
 ];
+
+const WEIGHT = {
+  
+
+  '100': { regular: 'barlow-thin', italic: 'barlow-thin-italic'},
+  '200': { regular: 'barlow-extra-light', italic: 'barlow-extra-light-italic' },
+  '300': { regular: 'barlow-light', italic: 'barlow-light-italic'},
+  '400': { regular: 'barlow-regular', italic: 'barlow-regular-italic'},
+  '500': { regular: 'barlow-medium', italic: 'barlow-medium-italic'},
+  '600': { regular: 'barlow-semi-bold', italic: 'barlow-bold-italic'},
+  '700': { regular: 'barlow-bold', italic: 'barlow-bold-italic'},
+  '900': { regular: 'black', italic: 'black-italic'}
+};
+
+const FONT = {
+
+  Thin: 'barlow-thin',
+  ThinItalic: "barlow-thin-italic",
+  ExtraLight: 'barlow-extra-light',
+  ExtraLightItalic:'barlow-extra-light-italic',
+  Light:'barlow-light',
+  LightItalic:'barlow-light-italic',
+  Regular:'barlow-regular',
+  RegularItalic:'barlow-regular-italic',
+  Medium:'barlow-medium',
+  MediumItalic:'barlow-medium-italic',
+  SemiBold:'barlow-semi-bold',
+  SemiBoldItalic:'barlow-semi-bold-italic',
+  Bold: 'barlow-bold',
+  BoldItalic:'barlow-bold-italic',
+  ExtraBold:'barlow-extra-bold',
+  ExtraBoldItalic:'barlow-extra-bold-italic',
+  Black: 'barlow-black',
+  BlackItalic: 'barlow-black-italic',
+}
 
 const CACHE_IMAGES = [
   require('../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
@@ -63,4 +112,6 @@ const CACHE_IMAGES = [
 export default {
   FONTS,
   CACHE_IMAGES,
+  WEIGHT,
+  FONT
 }
