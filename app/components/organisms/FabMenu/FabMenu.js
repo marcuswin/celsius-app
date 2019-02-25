@@ -55,17 +55,17 @@ class FabMenu extends Component {
     });
   }
 
-  componentWillReceiveProps() {
-    const nextScreen = "home"
-    const currScreen = "home"
-    if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
-      const menuType = nextScreen === 'support' ? 'support' : 'menuType'
-      this.setState({
-        type: menuType,
-        menuItems: getMenuItems(menuType)
-      });
-    }
-  }
+  // componentWillReceiveProps() {
+  //   const nextScreen = "home"
+  //   const currScreen = "home"
+  //   if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
+  //     const menuType = nextScreen === 'support' ? 'support' : 'menuType'
+  //     this.setState({
+  //       type: menuType,
+  //       menuItems: getMenuItems(menuType)
+  //     });
+  //   }
+  // }
 
   getTintColor = () => {
     const { theme } = this.props;

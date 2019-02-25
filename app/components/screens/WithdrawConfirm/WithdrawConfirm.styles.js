@@ -8,7 +8,6 @@ const base = {
     address: {
         flexDirection: "column",
         justifyContent: "center",
-        // alignItems: "center",
         flexWrap: "wrap",
         paddingVertical: 15,
     },
@@ -18,11 +17,14 @@ const base = {
         marginBottom: 36
     },
     amountWrapper: {
-      paddingVertical: 20,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1
+        paddingVertical: 20,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
+    lineHeight: {
+        lineHeight: 23
     }
 }
 

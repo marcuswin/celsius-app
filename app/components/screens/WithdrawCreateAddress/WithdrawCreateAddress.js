@@ -1,41 +1,30 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
-// import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
-// import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
+import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
-import { heightPercentageToDP } from "../../../utils/styles-util";
 import formatter from "../../../utils/formatter";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
 import CelInput from "../../atoms/CelInput/CelInput";
-import { COLORS } from "../../../config/constants/style";
 
 
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    currencyRatesShort: state.currencies.currencyRatesShort,
-    currencies: state.currencies.rates,
-    formData: state.forms.formData,
-    withdrawalAddresses: state.wallet.withdrawalAddresses,
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WithdrawCreateAddress extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {};
 
   constructor(props) {
     super(props);
@@ -57,7 +46,7 @@ class WithdrawCreateAddress extends Component {
   }
 
   handleScan = (code) => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     const address = addressUtil.splitAddressTag(code)
     actions.updateFormField("withdrawAddress", address.newAddress);
     actions.updateFormField("coinTag", address.newTag);
@@ -74,6 +63,7 @@ class WithdrawCreateAddress extends Component {
   render() {
     const { header, coin, balanceCrypto, balanceUsd } = this.state;
     const { formData, actions } = this.props;
+    const style = WithdrawalAddressConfirmationStyle();
     let tagText;
     let placeHolderText;
 
@@ -90,39 +80,32 @@ class WithdrawCreateAddress extends Component {
 
     return (
       <RegularLayout header={header}>
-        <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd}/>
+        <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
 
-        <View style={{
-          marginTop: heightPercentageToDP("5.56%"),
-          marginBottom: heightPercentageToDP("5.56%"),
-          alignItems: "center"
-        }}>
+        <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
           <CelText type={"H1"}>{formatter.crypto(formData.amountCrypto)}</CelText>
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 
-        <View style={{ alignSelf: "flex-start" }}>
-          <CelText type={"H4"} style={{ marginBottom: 10 }}>{explainText}</CelText>
+        <View style={style.containerWithMargin}>
+          <CelText type={"H4"}>{explainText}</CelText>
         </View>
 
-          <CelInput
-            field="withdrawAddress"
-            placeholder={"Withdrawal address"}
-            value={formData.withdrawAddress}
-            multiline
-          />
+        <CelInput
+          field="withdrawAddress"
+          placeholder={"Withdrawal address"}
+          value={formData.withdrawAddress}
+          multiline
+        />
 
-        <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
+        <View style={style.containerWithMargin}>
           <TouchableOpacity onPress={this.handleScanClick}>
-            <CelText type={"H5"} style={[{
-              color: COLORS.blue,
-              textAlign: "left"
-            }]}>Scan QR Code</CelText>
+            <CelText type={"H5"} style={style.tagText}>Scan QR Code</CelText>
           </TouchableOpacity>
         </View>
 
-        { !!hasTag &&
+        {!!hasTag &&
           <React.Fragment>
             <CelInput
               placeholder={placeHolderText}
@@ -132,12 +115,7 @@ class WithdrawCreateAddress extends Component {
             />
 
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-              <TouchableOpacity>
-                <CelText type={"H5"} style={[{
-                  color: COLORS.blue,
-                  textAlign: "left"
-                }]}>{tagText}</CelText>
-              </TouchableOpacity>
+              <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
             </View>
           </React.Fragment>
         }
@@ -148,7 +126,7 @@ class WithdrawCreateAddress extends Component {
           titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support."}
           left
         />
-        <View style={{ marginBottom: heightPercentageToDP("7%"), marginTop: heightPercentageToDP("3.26%") }}>
+        <View style={style.button}>
           <CelButton
             disabled={!formData.withdrawAddress}
             onPress={actions.setCoinWithdrawalAddress}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import moment from 'moment';
@@ -28,20 +27,12 @@ import LoadingState from '../../atoms/LoadingState/LoadingState';
 @connect(
   state => ({
     coins: state.wallet.summary.coins,
-    activeScreen: state.nav.activeScreen,
     callsInProgress: state.api.callsInProgress,
-    lastCompletedCall: state.api.lastCompletedCall,
     transaction: state.transactions.transactionDetails
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
 
   state = {
     loading: true
@@ -52,8 +43,6 @@ class TransactionDetails extends Component {
     const transactionId = navigation.getParam('id');
     actions.getTransactionDetails(transactionId);
   }
-
-  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'TransactionDetails';
 
   renderSection = (sectionType) => {
     const { actions, coins, transaction } = this.props;
@@ -140,9 +129,7 @@ class TransactionDetails extends Component {
       ...header,
       title: transaction.coin ? transactionProps.title(transaction.coin.toUpperCase()) : header.title
     }
-
-    // return null;
-
+    
     return (
       <RegularLayout header={transactionHeader} padding="0 0 0 0">
         {sections.map(this.renderSection)}

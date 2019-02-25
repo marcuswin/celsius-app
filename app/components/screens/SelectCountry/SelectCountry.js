@@ -129,7 +129,7 @@ class SelectCountry extends Component {
 
   renderImage = (iso) => {
     const { style } = this.props;
-    return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style.flagImage} />
+    return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style.flagImage} /> // Todo(sb): change hardcoded link with our images folder link
   }
 
   render() {

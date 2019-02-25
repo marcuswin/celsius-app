@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -27,14 +26,11 @@ const { MODALS } = UI
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
-    activeScreen: state.nav.activeScreen,
-    withdrawalAddresses: state.wallet.withdrawalAddresses,
+    withdrawalAddresses: state.wallet.withdrawalAddresses
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawEnterAmount extends Component {
-  static propTypes = {};
-  static defaultProps = {}
 
   constructor(props) {
     super(props);
@@ -54,7 +50,6 @@ class WithdrawEnterAmount extends Component {
       },
       coinSelectItems,
     };
-
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
@@ -89,7 +84,7 @@ class WithdrawEnterAmount extends Component {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
-    const balanceUsd = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0].amount_usd;
+    const balanceUsd = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase()).amount_usd;
 
     let amountCrypto;
     let amountUsd;
@@ -99,7 +94,7 @@ class WithdrawEnterAmount extends Component {
       amountCrypto = amountUsd / coinRate;
     } else {
       amountCrypto = this.setCurrencyDecimals(newValue);
-      amountUsd =  amountCrypto * coinRate;
+      amountUsd = amountCrypto * coinRate;
     }
 
     if (amountUsd > balanceUsd) {
@@ -147,11 +142,11 @@ class WithdrawEnterAmount extends Component {
 
   render() {
     const { header, coinSelectItems } = this.state;
-    const { formData, actions, walletSummary, activeScreen } = this.props;
+    const { formData, actions, walletSummary } = this.props;
     const style = WithdrawEnterAmountStyle();
     if (!formData.coin) return null;
 
-    const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
+    const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
 
     return (
       <RegularLayout header={header}>
@@ -163,7 +158,7 @@ class WithdrawEnterAmount extends Component {
               opacity={0.65}
             >
               <CelText align="center" type="H7">
-                Balance: { formatter.crypto(coinData.amount, formData.coin) } | { formatter.usd(coinData.amount_usd) }
+                Balance: {formatter.crypto(coinData.amount, formData.coin)} | {formatter.usd(coinData.amount_usd)}
               </CelText>
             </Card>
 
@@ -180,7 +175,7 @@ class WithdrawEnterAmount extends Component {
 
               <CoinSwitch
                 updateFormField={actions.updateFormField}
-                onAmountPress={() => actions.toggleKeypad()}
+                onAmountPress={actions.toggleKeypad}
                 amountUsd={formData.amountUsd}
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
@@ -193,13 +188,12 @@ class WithdrawEnterAmount extends Component {
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
             >
-              { formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above' }
+              {formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above'}
             </CelButton>
           </View>
 
-          { activeScreen === 'WithdrawEnterAmount' && (
             <CelNumpad
-              field={formData.isUsd ? "amountUsd" : "amountCrypto" }
+              field={formData.isUsd ? "amountUsd" : "amountCrypto"}
               value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
               updateFormField={actions.updateFormField}
               setKeypadInput={actions.setKeypadInput}
@@ -208,7 +202,6 @@ class WithdrawEnterAmount extends Component {
               purpose={KEYPAD_PURPOSES.WITHDRAW}
               autofocus={false}
             />
-          )}
           <WithdrawInfoModal closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
         </View>
       </RegularLayout>

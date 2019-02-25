@@ -7,6 +7,9 @@ import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 const { height, width } = Dimensions.get('window');
 
 const base = {
+  container: {
+    flex: 1
+  },
   overlayBackground: {
     position: 'absolute',
     opacity: 0.75,
@@ -39,14 +42,14 @@ const base = {
 }
 
 const themed = {
-    light: {
-    },
+  light: {
+  },
 
-    dark: {
-    },
+  dark: {
+  },
 
-    celsius: {
-    }
+  celsius: {
+  }
 }
 
 const QrScannerStyle = () => getThemedStyle(base, themed);

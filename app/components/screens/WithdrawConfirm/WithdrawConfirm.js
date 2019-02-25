@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -20,39 +19,28 @@ import addressUtil from "../../../utils/address-util";
 
 @connect(
   state => ({
-    currencies: state.generalData.supportedCurrencies,
     walletSummary: state.wallet.summary,
-    currenciesRates: state.currencies.rates,
-    coin: state.wallet.currencies,
-    formData: state.forms.formData,
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawConfirm extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       header: {
         title: "Withdraw Confirm",
-        left: "back",
+        left: "back"
       }
     };
   }
-
 
   render() {
     const { header } = this.state;
     const { walletSummary, actions, formData } = this.props;
     const styles = WithdrawConfirmStyle();
 
-    const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
+    const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
     const newBalanceCrypto = coinData.amount - formData.amountCrypto
     const newBalanceUsd = coinData.amount_usd - formData.amountUsd
 
@@ -72,12 +60,12 @@ class WithdrawConfirm extends Component {
             <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">New wallet balance:</CelText>
-              <CelText style={{ lineHeight: 23 }} type="H6" bold>{formatter.crypto(newBalanceCrypto, formData.coin)}   |   {formatter.usd(newBalanceUsd)}</CelText>
+              <CelText style={styles.lineHeight} type="H6" bold>{formatter.crypto(newBalanceCrypto, formData.coin)}   |   {formatter.usd(newBalanceUsd)}</CelText>
             </View>
             <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Withdrawal address:</CelText>
-              <CelText style={{ lineHeight: 23 }} type="H6">{ address }</CelText>
+              <CelText style={styles.lineHeight} type="H6">{address}</CelText>
             </View>
           </View>
         </Card>

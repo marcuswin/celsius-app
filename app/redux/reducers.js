@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 
-import nav from './nav/navReducer';
 import api from './api/apiReducer';
 import ui from './ui/uiReducer';
 import user from './user/userReducer';
@@ -21,7 +20,6 @@ import transactions from './transactions/transactionsReducer';
 
 const appReducers = combineReducers({
   api,
-  nav,
   user,
   ui,
   generalData,

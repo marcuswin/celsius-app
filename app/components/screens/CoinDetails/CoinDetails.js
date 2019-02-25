@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Image } from "react-native";
-// import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -29,17 +28,11 @@ const { COLORS } = STYLES;
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    interestRates: state.generalData.interestRates,
-    activeScreen: state.nav.activeScreen
+    interestRates: state.generalData.interestRates
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CoinDetails extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {};
 
   constructor(props) {
     super(props);
@@ -67,12 +60,15 @@ class CoinDetails extends Component {
     actions.getAllTransactions({ limit: 5, coin: navigation.getParam("coin").toUpperCase() });
   }
 
-  shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'CoinDetails';
-
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
     const coin = navigation.getParam("coin");
-    return walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
+    return walletSummary.coins.find(c => c.short === coin.toUpperCase());
+  }
+
+  navigateToAllTransactions = () => {
+    const { actions } = this.props;
+    actions.navigateTo('AllTransactions');
   }
 
   render() {
@@ -174,7 +170,7 @@ class CoinDetails extends Component {
           <CelButton
             basic
             margin="15 0 15 0"
-            onPress={() => actions.navigateTo("AllTransactions")}
+            onPress={this.navigateToAllTransactions}
           >
             See all
           </CelButton>
