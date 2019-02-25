@@ -94,8 +94,8 @@ class XTicks extends Component {
           <CelText key={timeTick} type={"H7"}
             style={{
               position: "absolute",
-              bottom: heightPercentageToDP("1.2%"),
-              left: index * (width * 0.1125) - (width * 0.03),
+              bottom: heightPercentageToDP("2%"),
+              left: index * (width * 0.11) - (width * 0.03),
               color: index === 0 || index === ticks.length - 1 ? "transparent" : "gray"
             }}>{date}</CelText>
           // 0.108
@@ -106,7 +106,7 @@ class XTicks extends Component {
             style={{
               position: "absolute",
               bottom: 0,
-              left: index * (width * 0.11) - (width * 0.05),
+              left: index * (width * 0.11) - (width * 0.042),
               color: index === 0 || index === ticks.length - 1 ? "transparent" : "gray"
             }}>{date}</CelText>
           // 0.108
@@ -148,7 +148,7 @@ class XTicks extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{marginTop: 10, marginBottom: 10}}>
         {this.renderXAxis()}
       </View>
     );

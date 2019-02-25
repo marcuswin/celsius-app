@@ -66,7 +66,7 @@ class PeriodGraphView extends Component {
     const style = PeriodGraphViewStyle();
 
     return (
-      <View style={[style.periods, {width}]}>
+      <View style={[style.periods, {width, marginBottom: 10}]}>
         {periods.map((period) => (
           <TouchableOpacity key={period} style={{ alignItems: "center" }}
           onPress={() => this.activatePeriod(period)}>
