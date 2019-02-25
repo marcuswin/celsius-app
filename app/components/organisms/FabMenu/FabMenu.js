@@ -17,7 +17,7 @@ function getMenuItems(menu) {
       [
         { label: 'Wallet', screen: 'WalletLanding' },
         { label: 'Borrow', screen: 'BorrowStack' },
-        { label: 'CelPay', screen: 'CelPayChoseFriends' },
+        { label: 'CelPay', screen: 'CelPayChooseFriend' },
       ],
       [
         { label: 'Deposit', screen: 'Deposit' },

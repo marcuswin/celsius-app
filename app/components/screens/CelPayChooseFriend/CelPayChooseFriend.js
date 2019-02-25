@@ -46,7 +46,7 @@ const renderEmptyState = ({onContactImport, onSkip}) => (
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class CelPayChoseFriends extends Component {
+class CelPayChooseFriend extends Component {
 
   constructor(props) {
     super(props);
@@ -193,4 +193,4 @@ class CelPayChoseFriends extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelPayChoseFriends);
+export default testUtil.hookComponent(CelPayChooseFriend);
