@@ -1,4 +1,4 @@
-import Expo from 'expo'
+import * as Expo from 'expo'
 // import Sentry from './sentry-util';
 
 export {
