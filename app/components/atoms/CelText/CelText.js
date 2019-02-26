@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 import styleUtils, { getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES';
-// import ASSETS from '../../../constants/ASSETS';
+import ASSETS from '../../../constants/ASSETS';
 import CelTextStyle from './CelText.styles';
 
 class CelText extends Component {
 
   static propTypes = {
     type: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
-    bold: PropTypes.bool,
-    weight: PropTypes.string,
+    font: PropTypes.oneOf(['barlow']),
+    weight: PropTypes.oneOf(['100', '200', '300', '400', '500', '600', '700', '800', '900']),
     italic: PropTypes.bool,
     color: PropTypes.string,
     margin: PropTypes.string,
@@ -25,43 +25,46 @@ class CelText extends Component {
     allCaps: PropTypes.bool
   };
   static defaultProps = {
-    weight: "100",
+    font: 'barlow',
+    weight: '400',
     type: 'H5',
-    bold: false,
     margin: "0 0 0 0",
     style: {},
     align: 'left',
-    allCaps: false
+    allCaps: false,
+    italic: false,
   }
 
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
+  getFontFamily = () => {
+    const { font, weight, italic } = this.props
+
+    let fontFamily = `${font}${ASSETS.WEIGHT[weight.toString()]}`;
+    if (italic) fontFamily = `${fontFamily}-italic`
+
+    return fontFamily;
+  }
+
   getFontStyle = () => {
-    const { type, bold, italic, margin, color, align } = this.props;
+    const { type, margin, color, align, weight } = this.props
     const cmpStyle = CelTextStyle();
     const fontSize = { fontSize: this.getFontSize(type) };
-    // const font = ASSETS.WEIGHT[weight];
-    let fontFamily = {};
-
-    if (bold && italic) {
-      fontFamily = { fontFamily: 'barlow-bold-italic' };
-    } else if (bold) {
-      fontFamily = { fontFamily: 'barlow-bold' };
-    } else if (italic) {
-      fontFamily = { fontFamily: 'barlow-italic' };
-    }
-
+    const fontFamily = { fontFamily: this.getFontFamily() };
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    return [cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
+    
+    return [weight, cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
   }
 
   render() {
     const { children, style, allCaps } = this.props
     const fontStyle = this.getFontStyle();
     return (
-      <Text style={[fontStyle, style]}>{allCaps ? children.toUpperCase() : children}</Text>
+      <View>
+        <Text style={[fontStyle, style]}>{allCaps ? children.toUpperCase() : children}</Text>
+      </View>
     );
   }
 }
