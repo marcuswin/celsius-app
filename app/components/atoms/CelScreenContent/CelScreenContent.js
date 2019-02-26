@@ -7,7 +7,12 @@ import stylesUtil from '../../../utils/styles-util';
 // import CelScreenContentStyle from "./CelScreenContent.styles";
 
 const CelScreenContent = (props) => (
-  <Content style={stylesUtil.getPadding(props.padding || '0 30 0 30')} scrollEnabled={!props.scrollDisabled} enableOnAndroid bounces={false}>
+  <Content style={{
+      ...stylesUtil.getPadding(props.padding || '0 30 0 30'),
+      backgroundColor: '#EEEEEE',
+    }}
+    scrollEnabled={!props.scrollDisabled} enableOnAndroid bounces={false}
+  >
     {props.children}
     <View style={{ height: 50 }} />
   </Content>
