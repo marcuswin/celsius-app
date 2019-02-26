@@ -21,10 +21,10 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 const renderEmptyState = ({onContactImport, onSkip}) => (
   <View style={{flex: 1, alignItems: 'center', marginTop: 25}}>
     <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
-    <CelText bold type="H1" align="center">
+    <CelText weight='700' type="H1" align="center">
       Uhoh, no friends?
     </CelText>
-    <CelText margin="15 0 0 0" style={{paddingHorizontal: 20}} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
+    <CelText weight='300' margin="15 0 0 0" style={{paddingHorizontal: 20}} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
       Add your contacts or connect your Facebook or Twitter so you can easily send your friends some crypto.
     </CelText>
 
@@ -33,7 +33,7 @@ const renderEmptyState = ({onContactImport, onSkip}) => (
         Import contacts
       </CelButton>
 
-      <CelButton basic onPress={onSkip}>
+      <CelButton italic basic onPress={onSkip}>
         Skip this step
       </CelButton>
     </View>

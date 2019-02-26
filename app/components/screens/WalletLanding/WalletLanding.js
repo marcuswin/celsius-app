@@ -108,7 +108,7 @@ class WalletLanding extends Component {
         <View>
           <WalletDetailsCard walletSummary={walletSummary} navigateTo={actions.navigateTo} />
 
-          <CelText bold>Deposited coins</CelText>
+          <CelText weight='500'>Deposited coins</CelText>
 
           <View style={style.coinCardContainer}>
             <CoinWithAmount />

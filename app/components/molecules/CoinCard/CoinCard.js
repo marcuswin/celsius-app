@@ -31,7 +31,7 @@ class CoinCard extends Component {
         <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
-          <CelText style={{ lineHeight: 23, marginLeft: 5 }} type="H6" color={STYLES.COLORS.CELSIUS_BLUE}>
+          <CelText weight='400' style={{ lineHeight: 23, marginLeft: 5 }} type="H5" color={STYLES.COLORS.CELSIUS_BLUE}>
             Deposit
         </CelText>
         </View>
@@ -43,8 +43,8 @@ class CoinCard extends Component {
     const style = CoinCardStyle
     return (
       <Fragment>
-        <CelText style={style.lineHeight} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-        <CelText style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+        <CelText weight='600' style={style.lineHeight} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+        <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
       </Fragment>
     )
   }
@@ -55,7 +55,7 @@ class CoinCard extends Component {
     const diff = coinPriceChange < 0 ? "" : "+"
 
     return (
-      <CelText type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
+      <CelText weight='500' type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
     )
   }
 
