@@ -9,7 +9,7 @@ import stylesUtil from '../../../utils/styles-util';
 const CelScreenContent = (props) => (
   <Content style={{
       ...stylesUtil.getPadding(props.padding || '0 30 0 30'),
-      backgroundColor: '#EEEEEE',
+      backgroundColor: '#f3f3f3',
     }}
     scrollEnabled={!props.scrollDisabled} enableOnAndroid bounces={false}
   >

@@ -86,7 +86,7 @@ class SimpleLayout extends Component {
     contentStyles.marginBottom = Platform.OS === 'android' && keyboardHeight ? keyboardHeight : contentStyles.marginBottom;
 
     return (
-      <Container style={{ flex: 1 }}>
+      <Container style={{ flex: 1, backgroundColor: '#f3f3f3' }}>
         <MainHeader {...mainHeaderProps} />
         <Message />
         <CelHeading {...animatedHeadingProps} />
