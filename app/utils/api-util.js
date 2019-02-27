@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from "qs";
 import r from "jsrsasign";
-import { Constants, Location, Permissions } from 'expo';
+import { Constants } from 'expo';
 import { Base64 } from 'js-base64';
 import logger from './logger-util';
 
@@ -20,31 +20,31 @@ export default {
   parseValidationErrors,
 }
 
-let isUserAsked = false;
-async function _getLocationAsync() {
-  try {
-    let perm = await Permissions.getAsync(Permissions.LOCATION);
-
-    if (!isUserAsked && perm.status !== 'granted') {
-      perm = await Permissions.askAsync(Permissions.LOCATION);
-      isUserAsked = true;
-    }
-
-    if (perm.status !== 'granted') {
-      return false;
-    }
-
-    const options = {
-      accuracy: 3,
-      maximumAge: 300000,
-    };
-    const location = await Location.getCurrentPositionAsync(options);
-    return location && location.coords;
-  } catch (error) {
-    console.log({ error })
-    return false;
-  }
-};
+// let isUserAsked = false;
+// async function _getLocationAsync() {
+//   try {
+//     let perm = await Permissions.getAsync(Permissions.LOCATION);
+//
+//     if (!isUserAsked && perm.status !== 'granted') {
+//       perm = await Permissions.askAsync(Permissions.LOCATION);
+//       isUserAsked = true;
+//     }
+//
+//     if (perm.status !== 'granted') {
+//       return false;
+//     }
+//
+//     const options = {
+//       accuracy: 3,
+//       maximumAge: 300000,
+//     };
+//     const location = await Location.getCurrentPositionAsync(options);
+//     return location && location.coords;
+//   } catch (error) {
+//     console.log({ error })
+//     return false;
+//   }
+// };
 
 function initInterceptors() {
   axios.interceptors.request.use(
@@ -82,11 +82,11 @@ function initInterceptors() {
         newRequest.headers['X-Client-Version'] = ENV;
       }
 
-      const location = await _getLocationAsync();
-      if (location) {
-        newRequest.headers['geo-lat'] = location.latitude;
-        newRequest.headers['geo-long'] = location.longitude;
-      }
+      // const location = await _getLocationAsync();
+      // if (location) {
+      //   newRequest.headers['geo-lat'] = location.latitude;
+      //   newRequest.headers['geo-long'] = location.longitude;
+      // }
 
       /* eslint-disable no-underscore-dangle */
       logger.log({ [req.method.toUpperCase()]: newRequest });
