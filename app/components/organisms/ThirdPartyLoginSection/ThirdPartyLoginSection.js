@@ -69,6 +69,8 @@ class ThirdPartyLoginSection extends Component {
   googleAuth = async () => {
     const {type, actions} = this.props;
 
+    if (true) return actions.showMessage('warning', 'Google services are currently down, we are sorry for the inconvenience. For any additional information contact support at app@celsius.network')
+
     try {
       const result = await Google.logInAsync({
         behavior: 'web',
