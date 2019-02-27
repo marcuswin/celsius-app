@@ -37,6 +37,7 @@ const AddFundsStyle = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 8,
+    overflow: 'hidden',
   },
   qrBackground: {
     width: 141,

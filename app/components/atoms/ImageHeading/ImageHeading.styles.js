@@ -6,14 +6,13 @@ const imageSize = Math.min(((height - width) / (width * 2)), 0.5) * width;
 
 const ImageHeadingStyle = StyleSheet.create({
   wrapper: {
-
   },
   coloredSection: {
     backgroundColor: STYLES.PRIMARY_BLUE,
     height: imageSize / 2 + 10,
   },
   greySection: {
-    backgroundColor: STYLES.GRAY_3,
+    backgroundColor: '#f3f3f3',
     height: imageSize / 2 + 10,
   },
   imageWrapper: {
