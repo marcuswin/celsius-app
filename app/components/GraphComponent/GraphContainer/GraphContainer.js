@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -75,11 +75,11 @@ class GraphContainer extends Component {
     const style = GraphContainerStyle();
 
     return (
-      <SafeAreaView style={style.container}>
+      <View style={style.container}>
         {showPeriods && <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline} />}
         <Graph width={width} dateArray={dateArray} priceArray={priceArray} interest={interest} showCursor={showCursor} rate={rate} timeline={timeline} />
         {showXTicks && <XTicks width={width} time={dateArray} timeline={timeline} />}
-      </SafeAreaView>
+      </View>
     );
   }
 }

@@ -35,15 +35,16 @@ class RegularLayout extends Component {
             }
           </CelHeading>
         )}
-        <SafeAreaView style={{flex: 1}}>
-          <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{flexGrow: 1}, paddings]}>
+
+        <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
+          <SafeAreaView style={{ flex: 1 }}>
             <KeyboardShift>
               <React.Fragment>
                 {children}
               </React.Fragment>
             </KeyboardShift>
-          </ScrollView>
-        </SafeAreaView>
+          </SafeAreaView>
+        </ScrollView>
       </React.Fragment>
     );
   }
