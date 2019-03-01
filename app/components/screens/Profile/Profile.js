@@ -382,10 +382,8 @@ class ProfileScreen extends Component {
 
             {!!validSsn &&
               <React.Fragment>
-                <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER
-                  ID</Separator>
-                <CelInput editable={false} theme="white" value={formData.ssn} error={formErrors.ssn}
-                          field="ssn" labelText="SSN (optional)" autoCapitalize="sentences"/>
+                <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER ID</Separator>
+                <CelInput editable={false} theme="white" value={user.ssn} field="ssn" labelText="SSN (optional)" autoCapitalize="sentences"/>
               </React.Fragment>
             }
 
