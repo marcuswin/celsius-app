@@ -71,7 +71,7 @@ class ReferralModal extends Component {
 
 
         <Text style={[globalStyles.normalText, { textAlign: "center" }]}>
-          *$10 in BTC distributed after initial deposit of $1,000 or more. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.
+          *$10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.
         </Text>
 
       </CelModal>
