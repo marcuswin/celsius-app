@@ -107,6 +107,8 @@ class ThirdPartyLoginSection extends Component {
   facebookAuth = async () => {
     const {actions} = this.props;
 
+    if (true) return actions.showMessage('warning', 'Facebook services are currently down, we are sorry for the inconvenience. For any additional information contact support at app@celsius.network')
+
     try {
       const {type, token} = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
         permissions: ['public_profile', 'email'],
