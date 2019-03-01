@@ -16,6 +16,8 @@ import apiUtil from "../../../utils/api-util";
 import API from "../../../config/constants/API";
 import testUtil from "../../../utils/test-util";
 import { analyticsEvents } from "../../../utils/analytics-util";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+import { FONT_SCALE, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   state => ({
@@ -26,7 +28,7 @@ import { analyticsEvents } from "../../../utils/analytics-util";
     formErrors: state.ui.formErrors,
     callsInProgress: state.api.callsInProgress,
     kycRealStatus: state.users.user && state.users.user.kyc ? state.users.user.kyc.realStatus : null,
-    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency,
+    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency
   }),
   dispatch => ({ dispatch, actions: bindActionCreators(appActions, dispatch) })
 )
@@ -219,7 +221,7 @@ class NycBlackoutModal extends Component {
     }
 
     if (user && user.blocked_at === null) {
-      icoText = false
+      icoText = false;
     }
 
     let heading;
@@ -243,11 +245,11 @@ class NycBlackoutModal extends Component {
       additionalText = "If you need any more information, please contact app@celsius.network.";
     } else if (kycRealStatus === "ico_passed" && days === 0) {
       heading = "Hey there! Thanks so much for participating in our ICO.";
-      additionalText = `Please finish KYC process.`
+      additionalText = `Please finish KYC process.`;
     } else if (kycRealStatus === "ico_passed") {
       const text = icoText ? `${days} days ` : "";
       heading = "Hey there! Thanks so much for participating in our ICO.";
-      additionalText = `In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. You have ${text}to finish process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!`
+      additionalText = `In order to accurately maintain our records we must ask you to go through our Know Your Customer (KYC) process. You have ${text}to finish process. Typically this takes no more than two minutes - have your Passport or Driver’s License ready!`;
     } else {
       heading = "Hey! We're missing some important info from you!";
       additionalText = "Please complete your profile.";
@@ -259,107 +261,124 @@ class NycBlackoutModal extends Component {
         shouldRenderCloseButton={!!kycRealStatus && days > 0}
       >
         {initial &&
-          <View>
-            <View style={NycBlackoutModalStyle.modalWrapper}>
-              <Image style={NycBlackoutModalStyle.image}
-                source={require("../../../../assets/images/diane-with-laptop3x.png")} />
-              <Text style={[NycBlackoutModalStyle.heading]}>{heading}</Text>
-              <Text style={NycBlackoutModalStyle.explanation}>{additionalText}</Text>
-            </View>
-            {kycRealStatus === "ico_passed" ?
-              <CelButton
-                ref={testUtil.generateTestHook(this, 'NoKyc.VerifyProfile')}
-                onPress={() => {
-                  analyticsEvents.navigation('verifyProfile');
-                  actions.navigateTo('ProfileDetails');
-                  actions.closeModal();
-                }}
-              >
-                Verify profile
-            </CelButton>
-              : <CelButton
-                onPress={() => this.goToAddressInformationForm()}
-              >
-                Continue
-            </CelButton>
-            }
+        <View>
+          <View style={NycBlackoutModalStyle.modalWrapper}>
+            <Image style={NycBlackoutModalStyle.image}
+                   source={require("../../../../assets/images/diane-with-laptop3x.png")}/>
+            <Text style={[NycBlackoutModalStyle.heading]}>{heading}</Text>
+            <Text style={NycBlackoutModalStyle.explanation}>{additionalText}</Text>
           </View>
+          {kycRealStatus === "ico_passed" ?
+            <CelButton
+              ref={testUtil.generateTestHook(this, "NoKyc.VerifyProfile")}
+              onPress={() => {
+                analyticsEvents.navigation("verifyProfile");
+                actions.navigateTo("ProfileDetails");
+                actions.closeModal();
+              }}
+            >
+              Verify profile
+            </CelButton>
+            : <CelButton
+              onPress={() => this.goToAddressInformationForm()}
+            >
+              Continue
+            </CelButton>
+          }
+        </View>
         }
 
         {address &&
-          <View>
-            <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Residential Address</Text>
-            <CelInput editable shadow theme="white" value={formData.street} error={formErrors.street} field="street"
-              labelText="Street" autoCapitalize="sentences" />
-            <CelInput editable shadow theme="white" value={formData.buildingNumber} error={formErrors.building_number}
-              field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-            <CelInput editable shadow theme="white" value={formData.flatNumber} error={formErrors.flat_number}
-              field="flatNumber" labelText="Apartment number" autoCapitalize="sentences" />
-            <CelInput editable shadow theme="white" value={formData.city} error={formErrors.city} field="city"
-              labelText="City" autoCapitalize="sentences" />
-            <CelInput editable shadow theme="white" value={formData.zip} error={formErrors.zip} field="zip"
-              labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-            <CelSelect shadow theme="white" error={formErrors.country} field="country" type="country" labelText="Country"
-              value={formData.country} />
-            {formData.country === "United States" ?
-              <CelSelect shadow theme="white" error={formErrors.state} field="state" type="state" labelText="State"
-                value={formData.state} />
-              :
-              null
-            }
+        <View>
+          <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Residential Address</Text>
+          <CelInput editable shadow theme="white" value={formData.street} error={formErrors.street} field="street"
+                    labelText="Street" autoCapitalize="sentences"/>
+          <CelInput editable shadow theme="white" value={formData.buildingNumber} error={formErrors.building_number}
+                    field="buildingNumber" labelText="Building number" autoCapitalize="sentences"/>
+          <CelInput editable shadow theme="white" value={formData.flatNumber} error={formErrors.flat_number}
+                    field="flatNumber" labelText="Apartment number" autoCapitalize="sentences"/>
+          <CelInput editable shadow theme="white" value={formData.city} error={formErrors.city} field="city"
+                    labelText="City" autoCapitalize="sentences"/>
+          <CelInput editable shadow theme="white" value={formData.zip} error={formErrors.zip} field="zip"
+                    labelText="ZIP / Postal Code" autoCapitalize="sentences"/>
+          <CelSelect shadow theme="white" error={formErrors.country} field="country" type="country" labelText="Country"
+                     value={formData.country}/>
+          {formData.country === "United States" ?
+            <CelSelect shadow theme="white" error={formErrors.state} field="state" type="state" labelText="State"
+                       value={formData.state}/>
+            :
+            null
+          }
 
-            <View style={{ marginTop: 15, marginBottom: 30 }}>
-              <CelButton
-                onPress={() => this.submitAddressInformationForm()}
-                color="blue"
-                loading={isUpdatingAddressInfo}
-              >Taxpayer ID</CelButton>
-            </View>
-
+          <View style={{ marginTop: 15, marginBottom: 30 }}>
+            <CelButton
+              onPress={() => this.submitAddressInformationForm()}
+              color="blue"
+              loading={isUpdatingAddressInfo}
+            >Taxpayer ID</CelButton>
           </View>
+
+        </View>
         }
 
         {taxNo &&
-          <View>
-            {(formData.country === "United States" || formData.citizenship === "United States") ?
-              <View>
-                <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security Number</Text>
-                <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn"
-                  labelText="SSN (optional)" autoCapitalize="sentences" type={"password"} />
-              </View>
-              :
-              <React.Fragment>
-                <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Taxpayer ID</Text>
-                <CelInput secureTextEntry editable shadow theme="white" value={formData.itin} error={formErrors.itin} field="itin"
-                  labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" type={"password"} />
-                <CelInput secureTextEntry editable shadow theme="white" value={formData.national_id} error={formErrors.national_id}
-                  field="national_id" labelText="National ID Number (optional)" autoCapitalize="sentences" type={"password"} />
-              </React.Fragment>
-            }
-            <View style={{ marginTop: 15, marginBottom: 30 }}>
-              <CelButton
-                onPress={() => this.submitTaxpayerForm()}
-                color="blue"
-                loading={isUpdatingTaxpayerInfo}
-              >Finish</CelButton>
+        <View>
+          {(formData.country === "United States" || formData.citizenship === "United States") ?
+            <View>
+              <Text style={[NycBlackoutModalStyle.heading, { marginTop: 20, marginBottom: 20 }]}>Social Security
+                Number</Text>
+              <Text style={[globalStyles.normalText, { color: "black", textAlign: "auto",  fontSize: FONT_SCALE * 20, marginBottom: 20 }]}>Federal anti-money laundering (AML) regulations require us to collect this information.</Text>
+              <CelInput secureTextEntry editable shadow theme="white" value={formData.ssn} error={formErrors.ssn}
+                        field="ssn"
+                        labelText="SSN (optional)" autoCapitalize="sentences" type={"password"}/>
+              <InfoBubble
+                color={"#3D4853"}
+                renderContent={() => (
+                  <View>
+                    <Text style={[globalStyles.normalText, { color: "white" }]}>
+                      SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted
+                      and highly secured.
+                    </Text>
+                  </View>
+                )}
+              />
             </View>
+            :
+            <React.Fragment>
+              <Text style={[NycBlackoutModalStyle.heading, { marginBottom: 20 }]}>Taxpayer ID</Text>
+              <CelInput secureTextEntry editable shadow theme="white" value={formData.itin} error={formErrors.itin}
+                        field="itin"
+                        labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" type={"password"}/>
+              <CelInput secureTextEntry editable shadow theme="white" value={formData.national_id}
+                        error={formErrors.national_id}
+                        field="national_id" labelText="National ID Number (optional)" autoCapitalize="sentences"
+                        type={"password"}/>
+            </React.Fragment>
+          }
+          <View style={{ marginTop: 15, marginBottom: 30 }}>
+            <CelButton
+              onPress={() => this.submitTaxpayerForm()}
+              color="blue"
+              loading={isUpdatingTaxpayerInfo}
+            >Finish</CelButton>
           </View>
+        </View>
         }
 
         {finish &&
-          <View>
-            <View style={NycBlackoutModalStyle.modalWrapper}>
-              <Image style={NycBlackoutModalStyle.image}
-                source={require("../../../../assets/images/squirrel-modal3x.png")} />
-              <Text style={[NycBlackoutModalStyle.heading]}>Congrats!</Text>
-              <Text style={NycBlackoutModalStyle.explanation}>You have successfully updated your profile</Text>
-            </View>
-            <CelButton
-              onPress={() => this.closeForm()}
-            >
-              Done
-          </CelButton>
+        <View>
+          <View style={NycBlackoutModalStyle.modalWrapper}>
+            <Image style={NycBlackoutModalStyle.image}
+                   source={require("../../../../assets/images/squirrel-modal3x.png")}/>
+            <Text style={[NycBlackoutModalStyle.heading]}>Congrats!</Text>
+            <Text style={NycBlackoutModalStyle.explanation}>You have successfully updated your profile</Text>
           </View>
+          <CelButton
+            onPress={() => this.closeForm()}
+          >
+            Done
+          </CelButton>
+        </View>
         }
 
       </CelModal>

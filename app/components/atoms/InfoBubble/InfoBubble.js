@@ -42,7 +42,7 @@ class InfoBubble extends Component {
     const { showComponent } = this.state;
 
     return (showComponent ?
-      <View style={[InfoBubbleStyle.infoWrapper, { backgroundColor: COLORS[color] }, stylesUtil.getMargins(margin)]}>
+      <View style={[InfoBubbleStyle.infoWrapper, { backgroundColor: COLORS[color] || color }, stylesUtil.getMargins(margin)]}>
         {title &&
           <Text style={[InfoBubbleStyle.infoText, globalStyles.boldText, { marginBottom: 7, fontSize: FONT_SCALE * 18 }]}>{title}</Text>
         }

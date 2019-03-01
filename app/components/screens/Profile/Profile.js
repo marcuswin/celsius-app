@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import { Constants } from 'expo';
+import { Constants } from "expo";
 import { TouchableOpacity, Text, Linking, StyleSheet } from "react-native";
-import { View } from 'native-base';
+import { View } from "native-base";
 import { bindActionCreators } from "redux";
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import { connect } from "react-redux";
+import _ from "lodash";
 
 import testUtil from "../../../utils/test-util";
-import API from '../../../config/constants/API';
-import apiUtil from '../../../utils/api-util';
+import API from "../../../config/constants/API";
+import apiUtil from "../../../utils/api-util";
 import * as appActions from "../../../redux/actions";
-import CelButton from '../../atoms/CelButton/CelButton';
+import CelButton from "../../atoms/CelButton/CelButton";
 import BasicLayout from "../../layouts/BasicLayout/BasicLayout";
 import { MainHeader } from "../../molecules/MainHeader/MainHeader";
 import ImageHeading from "../../atoms/ImageHeading/ImageHeading";
@@ -27,20 +27,22 @@ import Separator from "../../atoms/Separator/Separator";
 import { MODALS } from "../../../config/constants/common";
 import { isBlacklistedCountry, isBlacklistedState } from "../../../utils/user-util";
 import EnterPromoCodeModal from "../../organisms/EnterPromoCodeModal/EnterPromoCodeModal";
+import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
+
 
 
 const { revisionId } = Constants.manifest;
 
 // eslint-disable-next-line
 const getError = (errors, field, def = null) => {
-  return _.get(errors, [field, 'msg'], def)
+  return _.get(errors, [field, "msg"], def);
 };
 
 const ProfileDetailsStyle = StyleSheet.create({
   appVersionText: {
-    textAlign: 'center',
-    color: COLORS.gray,
-  },
+    textAlign: "center",
+    color: COLORS.gray
+  }
 });
 
 @connect(
@@ -54,9 +56,9 @@ const ProfileDetailsStyle = StyleSheet.create({
     lastCompletedCall: state.api.lastCompletedCall,
     formData: state.ui.formData,
     activeScreen: state.nav.routes[state.nav.index].routeName,
-    appSettings: state.users.appSettings,
+    appSettings: state.users.appSettings
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class ProfileScreen extends Component {
   constructor(props) {
@@ -64,8 +66,9 @@ class ProfileScreen extends Component {
     this.state = {
       addressEditable: false,
       taxpayerEditable: false,
-      isBlackout: true,
-    }
+      isBlackout: true
+
+    };
   }
 
   componentDidMount = () => {
@@ -77,11 +80,11 @@ class ProfileScreen extends Component {
     const { formData, actions } = this.props;
     const formErrors = {};
 
-    if (!formData.street) formErrors.street = 'Street is required!';
-    if (!formData.city) formErrors.city = 'City is required!';
-    if (!formData.zip) formErrors.zip = 'Zip / Postal code is required!';
-    if (!formData.country) formErrors.country = 'Country is required!';
-    if (formData.country === "United States" && !formData.state) formErrors.state = 'State is required!';
+    if (!formData.street) formErrors.street = "Street is required!";
+    if (!formData.city) formErrors.city = "City is required!";
+    if (!formData.zip) formErrors.zip = "Zip / Postal code is required!";
+    if (!formData.country) formErrors.country = "Country is required!";
+    if (formData.country === "United States" && !formData.state) formErrors.state = "State is required!";
 
     if (!_.isEmpty(formErrors)) {
       actions.setFormErrors(formErrors);
@@ -91,16 +94,15 @@ class ProfileScreen extends Component {
   };
 
 
-
   validateTaxpayerForm = () => {
     const { formData, actions } = this.props;
     const formErrors = {};
 
     // if ((formData.country === "United States" || formData.citizenship === "United States" ) && !formData.ssn) formErrors.ssn = 'ssn is required!';
 
-    if ((formData.country === "United States" || formData.citizenship === "United States" ) && formData.ssn) {
+    if ((formData.country === "United States" || formData.citizenship === "United States") && formData.ssn) {
       const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
-      if (!regex.exec(formData.ssn)) formErrors.ssn = 'ssn is not valid!';
+      if (!regex.exec(formData.ssn)) formErrors.ssn = "ssn is not valid!";
     }
 
     if (!_.isEmpty(formErrors)) {
@@ -123,7 +125,7 @@ class ProfileScreen extends Component {
         city: formData.city,
         zip: formData.zip,
         country: formData.country,
-        state: formData.state,
+        state: formData.state
       };
       actions.updateProfileAddressInfo(updatedUser);
 
@@ -144,11 +146,11 @@ class ProfileScreen extends Component {
         ssn: formData.ssn,
         itin: formData.itin,
         national_id: formData.national_id
-      }
+      };
       actions.updateProfileTaxpayerInfo(updatedUser);
 
       if (!!isBlacklistedState(formData.state) || !!isBlacklistedCountry(formData.country)) {
-        actions.navigateTo("Home")
+        actions.navigateTo("Home");
       } else {
         actions.updateUserAppSettings({ declineAccess: false });
       }
@@ -158,7 +160,7 @@ class ProfileScreen extends Component {
 
   initForm = () => {
     const { actions, user, formData } = this.props;
-    const date = user && user.date_of_birth ? user.date_of_birth.split('-') : ['', '', ''];
+    const date = user && user.date_of_birth ? user.date_of_birth.split("-") : ["", "", ""];
 
     // TODO(ns): uncomment when Blackout is activated
 
@@ -195,20 +197,21 @@ class ProfileScreen extends Component {
         country: user.country ? user.country : user.citizenship,
         ssn: user.ssn,
         itin: user.itin,
-        national_id: user.national_id,
-      }
-      actions.initForm(data)
+        national_id: user.national_id
+      };
+      actions.initForm(data);
 
       // TODO(ns): uncomment when Blackout is activated, check if code below needed
 
+      if ((data.country === "United States" || data.citizenship === "United States") && !data.ssn) {
+        this.setState({ taxpayerEditable: true });
+      }
+
       // if (!data.street && !data.city && !data.zip && user.kyc.status === "passed") {
       //   this.setState({ addressEditable: true });
-        // if( days && days < 1) {
-        //   this.setState({ isBlackout: false });
-        // }
+      // if( days && days < 1) {
+      //   this.setState({ isBlackout: false });
       // }
-      // if ((((data.country === "United States" || data.citizenship === "United States" ) && !data.ssn) || ((data.country !== "United States" && data.citizenship !== "United States" ) && !data.itin && !data.national_id)) && user.kyc.status === "passed") {
-      //   this.setState({ taxpayerEditable: true });
       // }
     }
   };
@@ -226,27 +229,27 @@ class ProfileScreen extends Component {
         <MainHeader
           right={(
             <TouchableOpacity
-            ref={testUtil.generateTestHook(this, 'ProfileScreen.LogOut')}
-            onPress={actions.logoutUser}>
+              ref={testUtil.generateTestHook(this, "ProfileScreen.LogOut")}
+              onPress={actions.logoutUser}>
               <Text
                 style={[{
-                color: 'white',
-                paddingLeft: 5,
-                textAlign: 'right',
-                opacity: 0.8,
-                marginTop: 2,
-                fontSize: FONT_SCALE * 18,
-                fontFamily: 'agile-medium',
-              }]}>Log out</Text>
+                  color: "white",
+                  paddingLeft: 5,
+                  textAlign: "right",
+                  opacity: 0.8,
+                  marginTop: 2,
+                  fontSize: FONT_SCALE * 18,
+                  fontFamily: "agile-medium"
+                }]}>Log out</Text>
             </TouchableOpacity>
           )}
         />
-        <ImageHeading image={user.profile_picture} />
+        <ImageHeading image={user.profile_picture}/>
 
         <CelScreenContent>
           <CelButton
             ref={testUtil.generateTestHook(this, `ProfileScreen.changeAvatar`)}
-            onPress={() => actions.navigateTo('ProfileImage')}
+            onPress={() => actions.navigateTo("ProfileImage")}
             transparent
             color="blue"
             size="small"
@@ -259,7 +262,7 @@ class ProfileScreen extends Component {
 
           <View style={{ marginBottom: 30 }}>
             <CelButton
-              onPress={() => actions.navigateTo('ProfileSettings')}
+              onPress={() => actions.navigateTo("ProfileSettings")}
               color="blue"
               disabled={appSettings.declineAccess}
             >
@@ -286,15 +289,22 @@ class ProfileScreen extends Component {
             </CelButton>
           </View>
 
-          <Separator separatorSize={1.2} margin='5 0 20 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>PROFILE DETAILS</Separator>
+          <Separator separatorSize={1.2} margin='5 0 20 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>PROFILE
+            DETAILS</Separator>
 
           <CelForm disabled={isLoadingProfileInfo}>
-            <CelSelect disabled theme="white" error={formErrors.title} field="title" type="title" labelText="Title" value={formData.title} />
-            <CelInput editable={false} theme="white" value={formData.firstName} error={formErrors.first_name} field="firstName" labelText="First Name" autoCapitalize="sentences" />
-            <CelInput editable={false} theme="white" value={formData.middleName} error={formErrors.middle_name} field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences" />
-            <CelInput editable={false} theme="white" value={formData.lastName} error={formErrors.last_name} field="lastName" labelText="Last Name" autoCapitalize="sentences" />
-            <CelInput editable={false} theme="white" labelText="E-mail" value={formData.email} keyboardType='email-address' field="email" />
-            <CelPhoneInput editable={false} theme="white" labelText={getError(error, 'cellphone', "Phone number")} field="cellphone" value={formData.cellphone} />
+            <CelSelect disabled theme="white" error={formErrors.title} field="title" type="title" labelText="Title"
+                       value={formData.title}/>
+            <CelInput editable={false} theme="white" value={formData.firstName} error={formErrors.first_name}
+                      field="firstName" labelText="First Name" autoCapitalize="sentences"/>
+            <CelInput editable={false} theme="white" value={formData.middleName} error={formErrors.middle_name}
+                      field="middleName" labelText="Middle Name (optional)" autoCapitalize="sentences"/>
+            <CelInput editable={false} theme="white" value={formData.lastName} error={formErrors.last_name}
+                      field="lastName" labelText="Last Name" autoCapitalize="sentences"/>
+            <CelInput editable={false} theme="white" labelText="E-mail" value={formData.email}
+                      keyboardType='email-address' field="email"/>
+            <CelPhoneInput editable={false} theme="white" labelText={getError(error, "cellphone", "Phone number")}
+                           field="cellphone" value={formData.cellphone}/>
 
             <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText]}>
               Date of birth
@@ -302,76 +312,116 @@ class ProfileScreen extends Component {
 
             <View style={ProfileStyle.dateOfBirthContainer}>
               <View style={ProfileStyle.dateOfBirthInnerContainer}>
-                <CelSelect disabled theme="white" onlyError error={formErrors.month} field="month" type="month" labelText="Month" value={formData.month} flex={1.4} margin={"0 15 2 0"} />
-                <CelSelect disabled theme="white" onlyError error={formErrors.day} field="day" type="day" labelText="Day" value={formData.day} flex={1.1} margin={"0 15 2 0"} />
-                <CelSelect disabled theme="white" onlyError error={formErrors.year} field="year" type="year" labelText="Year" value={formData.year} flex={1} margin={"0 0 2 0"} />
+                <CelSelect disabled theme="white" onlyError error={formErrors.month} field="month" type="month"
+                           labelText="Month" value={formData.month} flex={1.4} margin={"0 15 2 0"}/>
+                <CelSelect disabled theme="white" onlyError error={formErrors.day} field="day" type="day"
+                           labelText="Day" value={formData.day} flex={1.1} margin={"0 15 2 0"}/>
+                <CelSelect disabled theme="white" onlyError error={formErrors.year} field="year" type="year"
+                           labelText="Year" value={formData.year} flex={1} margin={"0 0 2 0"}/>
               </View>
               {formErrors.dateOfBirth ? <Text style={globalStyles.errorText}>* {formErrors.dateOfBirth}</Text> : null}
             </View>
 
-            <CelSelect disabled theme="white" error={formErrors.citizenship} field="citizenship" type="country" labelText="Citizenship" value={formData.citizenship} />
-            <CelSelect disabled theme="white" error={formErrors.gender} field="gender" type="gender" labelText="Gender" value={formData.gender} />
-            <CelInput editable={false} theme="white" value={formData.companyName} error={formErrors.company_name} field="companyName" labelText="Company Name (optional)" autoCapitalize="sentences" />
+            <CelSelect disabled theme="white" error={formErrors.citizenship} field="citizenship" type="country"
+                       labelText="Citizenship" value={formData.citizenship}/>
+            <CelSelect disabled theme="white" error={formErrors.gender} field="gender" type="gender" labelText="Gender"
+                       value={formData.gender}/>
+            <CelInput editable={false} theme="white" value={formData.companyName} error={formErrors.company_name}
+                      field="companyName" labelText="Company Name (optional)" autoCapitalize="sentences"/>
 
-            <Separator separatorSize={0.6} margin='5 0 15 0' separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>ADDRESS</Separator>
+            <Separator separatorSize={0.6} margin='5 0 15 0' separatorColor={STYLES.GRAY_2}
+                       color={STYLES.GRAY_2}>ADDRESS</Separator>
 
             {addressEditable &&
-              <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText, { marginBottom: 20 }]}>
-                Due to Anti-Money Laundering laws and regulations, we must collect the information below.
-              </Text>
+            <Text style={[globalStyles.normalText, ProfileStyle.dateOfBirthText, { marginBottom: 20 }]}>
+              Due to Anti-Money Laundering laws and regulations, we must collect the information below.
+            </Text>
             }
 
-            <CelSelect disabled={!addressEditable || !isBlackout} theme="white" error={formErrors.country} field="country" type="country" labelText="Country" value={formData.country} />
+            <CelSelect disabled={!addressEditable || !isBlackout} theme="white" error={formErrors.country}
+                       field="country" type="country" labelText="Country" value={formData.country}/>
             {formData.country === "United States" ?
-              <CelSelect disabled={!addressEditable} theme="white" error={formErrors.state} field="state" type="state" labelText="State" value={formData.state} />
+              <CelSelect disabled={!addressEditable} theme="white" error={formErrors.state} field="state" type="state"
+                         labelText="State" value={formData.state}/>
               :
-             null
+              null
             }
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.city} error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.zip} error={formErrors.zip} field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.street} error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.buildingNumber} error={formErrors.building_number} field="buildingNumber" labelText="Building number" autoCapitalize="sentences" />
-            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.flatNumber} error={formErrors.flat_number} field="flatNumber" labelText="Apartment number" autoCapitalize="sentences" />
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.city}
+                      error={formErrors.city} field="city" labelText="City" autoCapitalize="sentences"/>
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.zip} error={formErrors.zip}
+                      field="zip" labelText="ZIP / Postal Code" autoCapitalize="sentences"/>
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.street}
+                      error={formErrors.street} field="street" labelText="Street" autoCapitalize="sentences"/>
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.buildingNumber}
+                      error={formErrors.building_number} field="buildingNumber" labelText="Building number"
+                      autoCapitalize="sentences"/>
+            <CelInput editable={addressEditable && isBlackout} theme="white" value={formData.flatNumber}
+                      error={formErrors.flat_number} field="flatNumber" labelText="Apartment number"
+                      autoCapitalize="sentences"/>
 
             {addressEditable &&
+            <View style={{ marginTop: 15, marginBottom: 30 }}>
+              <CelButton
+                onPress={this.submitAddressInformationForm}
+                color="blue"
+                loading={isUpdatingAddressInfo}
+                disabled={isUpdatingAddressInfo || !isBlackout}
+              >Submit address</CelButton>
+            </View>
+            }
+
+            {(!((formData.country === "United States" || formData.citizenship === "United States") && !taxpayerEditable) && !addressEditable) &&
+
+            // ToDo(ns): remove country and citizenship and probably addressEditable
+
+            <React.Fragment>
+              <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER
+                ID</Separator>
+              {(formData.country === "United States" || formData.citizenship === "United States") ?
+                <React.Fragment>
+                  <Text style={[globalStyles.normalText, { color: "black", textAlign: "auto",  fontSize: FONT_SCALE * 20, marginBottom: 20 }]}>Federal anti-money laundering (AML) regulations require us to collect this information.</Text>
+                  <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn}
+                            field="ssn" labelText="SSN (optional)" autoCapitalize="sentences"/>
+                  <InfoBubble
+                    color='#3D4853'
+                    renderContent={() => (
+                      <View>
+                        <Text style={[globalStyles.normalText, { color: "white" }]}>
+                          SSN and residency are needed to issue 1099 for the interest paid. Private information is
+                          encrypted
+                          and highly secured.
+                        </Text>
+                      </View>
+                    )}
+                  />
+                </React.Fragment>
+                :
+                <React.Fragment>
+                  <CelInput editable={taxpayerEditable} theme="white" value={formData.itin} error={formErrors.itin}
+                            field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences"/>
+                  <CelInput editable={taxpayerEditable} theme="white" value={formData.national_id}
+                            error={formErrors.national_id} field="national_id" labelText="National ID Number"
+                            autoCapitalize="sentences"/>
+                </React.Fragment>
+              }
+              {taxpayerEditable &&
               <View style={{ marginTop: 15, marginBottom: 30 }}>
                 <CelButton
-                  onPress={this.submitAddressInformationForm}
+                  onPress={this.submitTaxpayerForm}
                   color="blue"
-                  loading={isUpdatingAddressInfo}
-                  disabled={isUpdatingAddressInfo || !isBlackout}
-                >Submit address</CelButton>
+                  loading={isUpdatingTaxpayerInfo}
+                  disabled={isUpdatingTaxpayerInfo || !isBlackout}
+                >Submit Taxpayer id</CelButton>
               </View>
-            }
-            {(!((formData.country === "United States" || formData.citizenship === "United States") && !taxpayerEditable) && !addressEditable) &&
-              <React.Fragment>
-                <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER ID</Separator>
-                {(formData.country === "United States" || formData.citizenship === "United States" ) ?
-                  <CelInput editable={taxpayerEditable} theme="white" value={formData.ssn} error={formErrors.ssn} field="ssn" labelText="SSN (optional)" autoCapitalize="sentences" />
-                  :
-                  <React.Fragment>
-                    <CelInput editable={taxpayerEditable} theme="white" value={formData.itin} error={formErrors.itin} field="itin" labelText="Taxpayer ID - ITIN (optional)" autoCapitalize="sentences" />
-                    <CelInput editable={taxpayerEditable} theme="white" value={formData.national_id} error={formErrors.national_id} field="national_id" labelText="National ID Number" autoCapitalize="sentences" />
-                  </React.Fragment>
-                }
-                {taxpayerEditable &&
-                  <View style={{ marginTop: 15, marginBottom: 30 }}>
-                    <CelButton
-                      onPress={this.submitTaxpayerForm}
-                      color="blue"
-                      loading={isUpdatingTaxpayerInfo}
-                      disabled={isUpdatingTaxpayerInfo || !isBlackout}
-                    >Submit Taxpayer id</CelButton>
-                  </View>
-                }
-              </React.Fragment>
+              }
+            </React.Fragment>
             }
           </CelForm>
 
-          <View style={{ marginBottom: 10, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-            <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={'rgba(65, 86, 166, 0.6)'} />
+          <View style={{ marginBottom: 10, justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
+            <Icon name='TelegramIcon' height='25' width='25' viewBox="0 -4 32 32" fill={"rgba(65, 86, 166, 0.6)"}/>
             <CelButton
-              onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}
+              onPress={() => Linking.openURL("https://t.me/CelsiusNetwork")}
               transparent
               color="blue"
               size="medium"
@@ -383,7 +433,7 @@ class ProfileScreen extends Component {
 
           <View>
             <CelButton
-              onPress={() => actions.navigateTo('TermsOfUse')}
+              onPress={() => actions.navigateTo("TermsOfUse")}
               transparent
               color="blue"
               size="small"
@@ -393,14 +443,14 @@ class ProfileScreen extends Component {
               See Terms of Use
             </CelButton>
           </View>
-          {!!revisionId && <View style={{ marginTop: 10, }}>
+          {!!revisionId && <View style={{ marginTop: 10 }}>
             <Text style={ProfileDetailsStyle.appVersionText}>App Version - {revisionId}</Text>
           </View>}
         </CelScreenContent>
-        <ReferralModal />
-        <EnterPromoCodeModal />
+        <ReferralModal/>
+        <EnterPromoCodeModal/>
       </BasicLayout>
-    )
+    );
   }
 }
 
