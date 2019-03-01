@@ -135,7 +135,7 @@ class CameraScreen extends Component {
       //   { compress: 0.95, format: "jpg", base64: true }
       // );
 
-      const resizedPhoto = await ImageManipulator.manipulate(
+      const resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
         [{ resize: { height: 3500 } }],
         { compress: 0.95, format: "jpg", base64: true }
@@ -146,7 +146,7 @@ class CameraScreen extends Component {
       actions.takeCameraPhoto(base64String);
       this.setState({ isLoading: false, hasInitialPhoto: false });
     } catch (err) {
-      logger.log(err);
+      logger.err(err);
       this.setState({ isLoading: false });
     }
   };
