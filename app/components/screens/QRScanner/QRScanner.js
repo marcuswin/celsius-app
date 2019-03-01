@@ -79,7 +79,7 @@ class QRScannerScreen extends Component{
     return (
       <View style={{ flex: 1 }}>
         <BarCodeScanner
-          onBarCodeRead={this.state.handleBarCodeRead}
+          onBarCodeScanned={this.state.handleBarCodeRead}
           style={StyleSheet.absoluteFill}
         >
           { Platform.OS === 'ios' && <ScanOverlayBackground/> }
