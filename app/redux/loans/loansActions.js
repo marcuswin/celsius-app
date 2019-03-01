@@ -5,6 +5,7 @@ import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import { MODALS } from "../../config/constants/common";
 import loansService from '../../services/loans-service';
+import { analyticsEvents } from '../../utils/analytics-util';
 
 export {
   applyForALoan,
@@ -25,9 +26,9 @@ function applyForALoan() {
         term_of_loan: formData.termOfLoan,
       }
 
-      await loansService.apply(loanApplication);
+      const res = await loansService.apply(loanApplication);
       dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS });
-      // analyticsEvents.applyForLoan(res.data)
+      analyticsEvents.applyForLoan(res.data)
       // dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
       dispatch(openModal(MODALS.BORROW_SUCCESS_MODAL));
       dispatch(navigateTo('Home', true));

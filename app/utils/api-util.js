@@ -105,7 +105,7 @@ function initInterceptors() {
 
       if (verifyKey(data, sign)) {
         /* eslint-disable no-underscore-dangle */
-        logger.log({ RESPONSE: res });
+        // logger.log({ RESPONSE: res });
         /* eslint-enable no-underscore-dangle */
 
         return res;
