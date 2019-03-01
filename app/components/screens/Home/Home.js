@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
 import { KYC_STATUSES } from "../../../config/constants/common";
-import store from "../../../redux/store";
 import {
   shouldRenderInitialIdVerification
 } from "../../../utils/user-util";
@@ -15,7 +13,6 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import { STYLES } from "../../../config/constants/style";
 import { heightPercentageToDP } from "../../../utils/scale";
 
-const { CLIENT_VERSION, ENV } = Constants.manifest.extra;
 let interval;
 
 @connect(
@@ -43,16 +40,6 @@ class HomeScreen extends Component {
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
     if (!appInitialized) await actions.appInitStart();
-    const { backendStatus } = store.getState().generalData
-
-    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 && backendStatus &&
-      CLIENT_VERSION !== backendStatus.client_version) {
-
-      store.dispatch(actions.showMessage(
-        'warning',
-        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
-      ));
-    }
   }
 
   componentDidMount = async () => {
