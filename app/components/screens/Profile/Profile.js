@@ -66,8 +66,8 @@ class ProfileScreen extends Component {
     this.state = {
       addressEditable: false,
       taxpayerEditable: false,
-      isBlackout: true
-
+      isBlackout: true,
+      validSsn: false,
     };
   }
 
@@ -154,7 +154,10 @@ class ProfileScreen extends Component {
       } else {
         actions.updateUserAppSettings({ declineAccess: false });
       }
-      this.setState({ taxpayerEditable: false });
+      this.setState({
+        taxpayerEditable: false,
+        validSsn: true
+      });
     }
   };
 
@@ -171,6 +174,8 @@ class ProfileScreen extends Component {
     //   NycBlackoutTimestamp = moment.utc(new Date(user.blocked_at));
     //   days = NycBlackoutTimestamp.diff(currentTimestamp, "days") + 1;
     // }
+
+
 
     if (user) {
       const data = {
@@ -201,6 +206,11 @@ class ProfileScreen extends Component {
       };
       actions.initForm(data);
 
+      if (user.ssn) {
+        this.setState({
+          validSsn: true
+        })
+      }
       // TODO(ns): uncomment when Blackout is activated, check if code below needed
 
       if ((data.country === "United States" || data.citizenship === "United States") && !data.ssn) {
@@ -218,7 +228,7 @@ class ProfileScreen extends Component {
 
   render() {
     const { user, formData, actions, callsInProgress, error, formErrors, appSettings } = this.props;
-    const { addressEditable, taxpayerEditable, isBlackout } = this.state;
+    const { addressEditable, taxpayerEditable, isBlackout, validSsn } = this.state;
     const isLoadingProfileInfo = apiUtil.areCallsInProgress([API.GET_USER_PERSONAL_INFO], callsInProgress);
     const isUpdatingAddressInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_ADDRESS_INFO], callsInProgress);
     const isUpdatingTaxpayerInfo = apiUtil.areCallsInProgress([API.UPDATE_USER_TAXPAYER_INFO], callsInProgress);
@@ -368,6 +378,15 @@ class ProfileScreen extends Component {
                 disabled={isUpdatingAddressInfo || !isBlackout}
               >Submit address</CelButton>
             </View>
+            }
+
+            {!!validSsn &&
+              <React.Fragment>
+                <Separator margin='5 0 20 0' separatorSize={0.9} separatorColor={STYLES.GRAY_2} color={STYLES.GRAY_2}>TAXPAYER
+                  ID</Separator>
+                <CelInput editable={false} theme="white" value={formData.ssn} error={formErrors.ssn}
+                          field="ssn" labelText="SSN (optional)" autoCapitalize="sentences"/>
+              </React.Fragment>
             }
 
             {(!((formData.country === "United States" || formData.citizenship === "United States") && !taxpayerEditable) && !addressEditable) &&
