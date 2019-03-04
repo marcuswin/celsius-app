@@ -136,12 +136,7 @@ export default (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          first_name: action.google_user.given_name,
-          last_name: action.google_user.family_name,
-          email: action.google_user.email,
-          google_id: action.google_user.id,
-          access_token: action.google_user.accessToken,
-          profile_picture: action.google_user.picture,
+          ...action.google_user,
         },
       };
 
