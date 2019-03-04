@@ -205,6 +205,8 @@ const CONTACT_NETWORK = {
   TWITTER: 'Twitter'
 };
 
+const PREDIFINED_AMOUNTS = ["20", "50", "100", "ALL"];
+
 export default {
   FORBIDEN_COUNTRIES,
   ELIGIBLE_COINS,
@@ -220,5 +222,6 @@ export default {
   MONTHS,
   YEARS,
   STATE,
-  CONTACT_NETWORK
+  CONTACT_NETWORK,
+  PREDIFINED_AMOUNTS
 }

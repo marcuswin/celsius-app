@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -16,6 +16,7 @@ import UI, { KEYPAD_PURPOSES } from "../../../constants/UI";
 import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
+import DATA from '../../../constants/DATA';
 
 const { MODALS } = UI
 
@@ -54,6 +55,21 @@ class WithdrawEnterAmount extends Component {
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
     props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
+  }
+
+  onPressPredefinedAmount = (number) => {
+    const { formData, walletSummary, currencyRatesShort } = this.props;
+    let amount;
+
+    const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+    const walletSummaryObj = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
+
+    if (number === "ALL") {
+      amount = formData.isUsd ? walletSummaryObj.amount_usd.toString() : walletSummaryObj.amount;
+    } else {
+      amount = formData.isUsd ? number : (Number(number) / coinRate).toString()
+    }
+    this.handleAmountChange(amount)
   }
 
   getNumberOfDecimals(value) {
@@ -141,7 +157,7 @@ class WithdrawEnterAmount extends Component {
   }
 
   render() {
-    const { header, coinSelectItems } = this.state;
+    const { header, coinSelectItems, activePeriod } = this.state;
     const { formData, actions, walletSummary } = this.props;
     const style = WithdrawEnterAmountStyle();
     if (!formData.coin) return null;
@@ -183,25 +199,38 @@ class WithdrawEnterAmount extends Component {
               />
             </View>
 
+            <View style={{ flexDirection: "row", justifyContent: 'space-around', marginTop: 50 }}>
+              {DATA.PREDIFINED_AMOUNTS.map(predefinedAmount =>
+                <TouchableOpacity
+                  key={predefinedAmount}
+                  style={[style.periodButton, activePeriod === predefinedAmount ? style.selectedAmount : null]}
+                  onPress={() => this.onPressPredefinedAmount(`${predefinedAmount}`)}
+                >
+                  <CelText style={style.periodButtonText}>{predefinedAmount !== "ALL" ? `$${predefinedAmount}` : "ALL"}</CelText>
+                </TouchableOpacity>
+              )}
+            </View>
+
             <CelButton
-              margin="50 0 0 0"
+              margin="20 0 0 0"
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
+              iconRight="IconArrowRight"
             >
               {formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above'}
             </CelButton>
           </View>
 
-            <CelNumpad
-              field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-              value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
-              updateFormField={actions.updateFormField}
-              setKeypadInput={actions.setKeypadInput}
-              toggleKeypad={actions.toggleKeypad}
-              onPress={this.handleAmountChange}
-              purpose={KEYPAD_PURPOSES.WITHDRAW}
-              autofocus={false}
-            />
+          <CelNumpad
+            field={formData.isUsd ? "amountUsd" : "amountCrypto"}
+            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={this.handleAmountChange}
+            purpose={KEYPAD_PURPOSES.WITHDRAW}
+            autofocus={false}
+          />
           <WithdrawInfoModal closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
         </View>
       </RegularLayout>
