@@ -50,6 +50,7 @@ class WithdrawEnterAmount extends Component {
         onInfo: this.handleInfoPress,
       },
       coinSelectItems,
+      activePeriod: ""
     };
 
     props.actions.getCoinWithdrawalAddress(coin)
@@ -69,7 +70,7 @@ class WithdrawEnterAmount extends Component {
     } else {
       amount = formData.isUsd ? number : (Number(number) / coinRate).toString()
     }
-    this.handleAmountChange(amount)
+    this.handleAmountChange(amount, number)
   }
 
   getNumberOfDecimals(value) {
@@ -96,7 +97,7 @@ class WithdrawEnterAmount extends Component {
     return numberOfDecimals > allowedDecimals;
   }
 
-  handleAmountChange = (newValue) => {
+  handleAmountChange = (newValue, predefined = "") => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
@@ -119,6 +120,8 @@ class WithdrawEnterAmount extends Component {
     if (amountUsd > 20000) {
       return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
     }
+
+    this.setState({ activePeriod: predefined });
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
@@ -206,7 +209,7 @@ class WithdrawEnterAmount extends Component {
                   style={[style.periodButton, activePeriod === predefinedAmount ? style.selectedAmount : null]}
                   onPress={() => this.onPressPredefinedAmount(`${predefinedAmount}`)}
                 >
-                  <CelText style={style.periodButtonText}>{predefinedAmount !== "ALL" ? `$${predefinedAmount}` : "ALL"}</CelText>
+                  <CelText style={[style.periodButtonText, activePeriod === predefinedAmount ? style.selectedAmountText : null]}>{predefinedAmount !== "ALL" ? `$${predefinedAmount}` : "ALL"}</CelText>
                 </TouchableOpacity>
               )}
             </View>

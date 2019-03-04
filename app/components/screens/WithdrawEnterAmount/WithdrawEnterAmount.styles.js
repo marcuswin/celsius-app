@@ -1,4 +1,4 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
@@ -14,6 +14,14 @@ const base = {
     justifyContent: 'center',
     alignItems: 'center'
   },
+  selectedAmount: {
+    borderBottomWidth: 1,
+    paddingBottom: 2,
+    borderColor: STYLES.COLORS.CELSIUS_BLUE
+  },
+  selectedAmountText: {
+    color: STYLES.COLORS.CELSIUS_BLUE
+  }
 };
 
 const themed = {
