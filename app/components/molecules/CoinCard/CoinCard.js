@@ -10,7 +10,6 @@ import Icon from "../../atoms/Icon/Icon";
 import Graph from "../../GraphComponent/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
-import CoinCardStyle from './CoinCard.styles';
 import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
 
 class CoinCard extends Component {
@@ -39,15 +38,12 @@ class CoinCard extends Component {
     )
   }
 
-  coinCardFull = (coin) => {
-    const style = CoinCardStyle
-    return (
-      <Fragment>
-        <CelText weight='600' style={style.lineHeight} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-        <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
-      </Fragment>
-    )
-  }
+  coinCardFull = (coin) => (
+    <Fragment>
+      <CelText weight='600' type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+    </Fragment>
+  )
 
   renderPriceChange = (currencyRates) => {
     const coinPriceChange = currencyRates.price_change_usd['1d']

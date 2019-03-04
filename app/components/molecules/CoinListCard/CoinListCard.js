@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 
@@ -37,16 +37,13 @@ class CoinListCard extends Component {
     )
   }
 
-  coinCardFull = (coin) => {
-    const style = CoinListCardStyle();
-    return (
-      <Fragment>
-        <CelText weight='600' style={style.lineHeight} type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-        <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
-      </Fragment>
-    )
-  }
-
+  coinCardFull = (coin) => (
+    <Fragment>
+      <CelText weight='600' type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+    </Fragment>
+  )
+  
   renderPriceChange = (currencyRates) => {
     const coinPriceChange = currencyRates.price_change_usd['1d']
     const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
@@ -60,12 +57,14 @@ class CoinListCard extends Component {
   render() {
     const { coin, displayName, currencyRates, onCardPress } = this.props;
     const amount = coin.amount_usd > 0;
+    const style = CoinListCardStyle();
 
     const padding = '20 0 20 0';
     return (
       <Card margin="5 5 5 5" padding={padding} onPress={onCardPress}>
         <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
-          <Icon name={`Icon${coin.short}`} style={{ marginRight: 12 }} />
+          <Image source={{ uri: currencyRates.image_url }} style={style.coinImage} />
+          {/* <Icon name={`Icon${coin.short}`} style={{ marginRight: 12 }} /> */}
           <View>
             <CelText style={{ lineHeight: 23 }} type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}

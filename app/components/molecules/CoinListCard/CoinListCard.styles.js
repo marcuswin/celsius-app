@@ -4,6 +4,12 @@ import { getThemedStyle } from '../../../utils/styles-util';
 const base = {
     container: {
         flex: 1
+    },
+    coinImage: {
+        width: 40,
+        height: 40,
+        alignSelf: 'center',
+        marginRight: 12
     }
 }
 
