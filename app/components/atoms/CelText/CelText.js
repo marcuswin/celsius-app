@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 import styleUtils, { getScaledFont } from '../../../utils/styles-util'
@@ -54,7 +54,7 @@ class CelText extends Component {
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
     const marginStyle = styleUtils.getMargins(margin);
     const alignStyle = { textAlign: align };
-    
+
     return [weight, cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
   }
 
@@ -62,9 +62,7 @@ class CelText extends Component {
     const { children, style, allCaps } = this.props
     const fontStyle = this.getFontStyle();
     return (
-      <View>
-        <Text style={[fontStyle, style]}>{allCaps ? children.toUpperCase() : children}</Text>
-      </View>
+      <Text style={[fontStyle, style]}>{allCaps ? children.toUpperCase() : children}</Text>
     );
   }
 }
