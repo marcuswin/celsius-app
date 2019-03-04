@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, View, Text, Platform } from "react-native";
+import { TouchableOpacity, View, Text } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -64,7 +64,6 @@ class ThirdPartyLoginSection extends Component {
     const { type, actions } = this.props;
 
     if (Constants.appOwnership !== 'standalone') return actions.showMessage('warning', 'Google services are only available on standalone app');
-    if (Platform.OS !== 'ios') return actions.showMessage('warning', 'Google services are currently down, we are sorry for the inconvenience. For any additional information contact support at app@celsius.network')
 
     try {
       await GoogleSignIn.initAsync({

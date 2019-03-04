@@ -11,6 +11,7 @@ npm-debug.*
 app.json
 config.json
 /config
+google-services.json
 
 package-lock.json
 .vscode/launch.json
