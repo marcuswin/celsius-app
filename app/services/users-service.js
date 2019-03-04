@@ -106,11 +106,8 @@ function resetPassword(currentPassword, newPassword) {
 function googleLogin(data) {
   return axios.post(`${apiUrl}/users/google/login`, {
     email: data.email,
-    first_name: data.given_name,
-    last_name: data.family_name,
-    google_id: data.id,
-    profile_picture: data.picture,
-    access_token: data.accessToken,
+    google_id: data.google_id,
+    access_token: data.auth.accessToken,
   });
 }
 

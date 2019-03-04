@@ -63,6 +63,7 @@ class ThirdPartyLoginSection extends Component {
   googleAuth = async () => {
     const { type, actions } = this.props;
 
+    // TODO: set Google login from Expo Client
     if (Constants.appOwnership !== 'standalone') return actions.showMessage('warning', 'Google services are only available on standalone app');
 
     try {
@@ -97,11 +98,12 @@ class ThirdPartyLoginSection extends Component {
   facebookAuth = async () => {
     const {actions} = this.props;
 
-    if (true) return actions.showMessage('warning', 'Facebook services are currently down, we are sorry for the inconvenience. For any additional information contact support at app@celsius.network')
+    // if (true) return actions.showMessage('warning', 'Facebook services are currently down, we are sorry for the inconvenience. For any additional information contact support at app@celsius.network')
 
     try {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
-        permissions: ["public_profile", "email"]
+        permissions: ["public_profile", "email"],
+        behavior: "web",
       });
 
       if (type === "success") {
