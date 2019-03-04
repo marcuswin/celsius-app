@@ -5,8 +5,9 @@ const base = {
   container: {
     flex: 1
   },
-  explanation: {
-    marginTop: 20
+  wrapper: {
+    borderColor: "rgba(200,200,200,0.3)",
+    borderBottomWidth: 1
   }
 };
 
@@ -18,6 +19,6 @@ const themed = {
   celsius: {}
 };
 
-const TodayInterestRatesModalStyle = () => getThemedStyle(base, themed);
+const InterestRateInfoTableStyle = () => getThemedStyle(base, themed);
 
-export default TodayInterestRatesModalStyle;
+export default InterestRateInfoTableStyle;

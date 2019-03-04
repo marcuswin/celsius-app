@@ -88,7 +88,6 @@ class WithdrawInfoModal extends Component {
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
         picture={steps[currentStep - 1].image}
-        style={styles.modal}
       >
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>

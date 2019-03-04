@@ -1,17 +1,13 @@
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
+import { getThemedStyle } from '../../../utils/styles-util';
 
 
 const base = {
     container: {
         flex: 1,
-
     },
     wrapper: {
-        flex: 1,
         alignItems: 'center',
-        height: heightPercentageToDP('50%'),
         paddingTop: '10%',
-
     },
     button: {
         alignItems: 'center',
@@ -34,13 +30,6 @@ const base = {
         justifyContent: 'center',
         color: '#737A82',
         paddingBottom: 10,
-
-
-    },
-    modal: {
-        width: widthPercentageToDP("160%"),
-        height: heightPercentageToDP("16%"),
-
     },
     progressBar: {
         alignItems: 'center',
@@ -49,11 +38,7 @@ const base = {
         paddingVertical: 20,
 
     },
-    text: {
-        // paddingBottom: '15%',
-    
-    }
-}
+};
 
 const themed = {
     light: {

@@ -10,12 +10,12 @@ const TodayRatesModalStyle = StyleSheet.create({
     borderTopRightRadius: 8,
   },
   mainHeadingText: {
-    fontFamily: 'agile-extra-bold',
+    fontFamily: 'barlow-extra-bold',
     fontSize: FONT_SCALE * 46,
     color: STYLES.GRAY_7,
   },
   secondaryHeadingText: {
-    fontFamily: 'agile-extra-bold',
+    fontFamily: 'barlow-extra-bold',
     fontSize: FONT_SCALE * 20,
     color: STYLES.GRAY_7,
   },
@@ -23,12 +23,12 @@ const TodayRatesModalStyle = StyleSheet.create({
     marginTop: 15,
   },
   descriptionTitleText: {
-    fontFamily: 'agile-bold',
+    fontFamily: 'barlow-bold',
     fontSize: FONT_SCALE * 22,
     marginBottom: 10,
   },
   descriptionText: {
-    fontFamily: 'agile-extra-light',
+    fontFamily: 'barlow-extra-light',
     fontSize: FONT_SCALE * 18,
   },
   checkboxWrapper: {

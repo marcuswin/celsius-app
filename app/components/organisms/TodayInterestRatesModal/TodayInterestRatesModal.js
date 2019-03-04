@@ -1,31 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import TodayInterestRatesModalStyle from "./TodayInterestRatesModal.styles";
-import CelText from '../../atoms/CelText/CelText';
+import TodayInterestRatesModalStyle from "./TodayInterestRatesModal.styles";
+import CelText from "../../atoms/CelText/CelText";
 import CelModal from "../CelModal/CelModal";
-import UI, { EMPTY_STATES } from "../../../constants/UI";
-import EmptyState from "../../atoms/EmptyState/EmptyState";
+import UI from "../../../constants/UI";
+import InterestRateInfoTable from "../../molecules/InterestRateInfoTable/InterestRateInfoTable";
 
-const { MODALS } = UI
+import { heightPercentageToDP } from "../../../utils/styles-util";
+import CelButton from "../../atoms/CelButton/CelButton";
+
+const { MODALS } = UI;
 
 @connect(
   state => ({
-    interestRates: state.generalData.interestRates,
+    interestRates: state.generalData.interestRates
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class TodayInterestRatesModal extends Component {
 
   static propTypes = {
     // text: PropTypes.string
   };
-  static defaultProps = {
-  }
+  static defaultProps = {};
 
   constructor(props) {
     super(props);
@@ -33,11 +35,35 @@ class TodayInterestRatesModal extends Component {
   }
 
   render() {
-    // const style = TodayInterestRatesModalStyle();
+    const { actions } = this.props;
+    const style = TodayInterestRatesModalStyle();
+
     return (
-      <CelModal name={MODALS.TODAY_INTEREST_RATES_MODAL}>
-        <CelText>Earn interest in CEL for all your coins to receive higher rates! The longer you HODL the better rates you earn.</CelText>
-        <EmptyState purpose={EMPTY_STATES.UNDER_CONSTRUCTION}/>
+      <CelModal name={MODALS.TODAY_INTEREST_RATES_MODAL}
+                header
+                primaryText={"HODL"}
+                secondaryText={"with Celsius"}
+                marginTop={heightPercentageToDP("5%")}
+                height={heightPercentageToDP("90%")}
+      >
+        <CelText style={style.explanation}>Earn interest in CEL for all your coins to receive higher rates! The longer
+          you HODL the better rates you earn.</CelText>
+        <InterestRateInfoTable style={{ marginVertical: 20 }}/>
+
+        <CelButton
+          basic
+          margin="15 0 0 0"
+          onPress={() => actions.navigateTo("WalletLanding")}
+        >
+          See all
+        </CelButton>
+
+        <CelButton
+          onPress={() => actions.navigateTo("WalletLanding")}
+          margin="15 0 15 0"
+        >
+          Go to wallet
+        </CelButton>
       </CelModal>
     );
   }
