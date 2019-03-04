@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
@@ -12,6 +12,7 @@ import CoinCard from '../../molecules/CoinCard/CoinCard';
 import cryptoUtil from '../../../utils/crypto-util';
 import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCard';
 import WalletLandingStyle from './WalletLanding.styles';
+import CoinListCard from '../../molecules/CoinListCard/CoinListCard';
 
 @connect(
   state => ({
@@ -34,7 +35,8 @@ class WalletLanding extends Component {
         right: "profile"
       },
       coinWithAmount: [],
-      coinWithoutAmount: []
+      coinWithoutAmount: [],
+      activeView: 'Grid'
     };
   }
 
@@ -56,64 +58,129 @@ class WalletLanding extends Component {
     this.setState({ coinWithAmount, coinWithoutAmount });
   }
 
-  // shouldComponentUpdate = (nextProps) => nextProps.activeScreen === 'WalletLanding';
+  setGridView = () => {
+    const selectedView = 'Grid';
+    const { activeView } = this.state;
+    if (activeView !== selectedView) this.setState({ activeView: selectedView })
+  }
+
+  setListView = () => {
+    const selectedView = 'List';
+    const { activeView } = this.state;
+    if (activeView !== selectedView) this.setState({ activeView: selectedView })
+  }
 
   renderCoinWithAmount = () => {
     const { currenciesRates, currenciesGraphs, actions } = this.props;
-    const { coinWithAmount } = this.state;
+    const { coinWithAmount, activeView } = this.state;
 
-    return coinWithAmount.length ? coinWithAmount.map((coin) => {
-      const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
-      const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+    if (activeView === 'Grid') {
+      return coinWithAmount.length ? coinWithAmount.map((coin) => {
+        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
+        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
 
-      return <CoinCard
-        key={coin.short}
-        coin={coin}
-        displayName={currency.displayName}
-        currencyRates={currency}
-        onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
-        graphData={graphData}
-      />
-    }) : null;
+        return <CoinCard
+          key={coin.short}
+          coin={coin}
+          displayName={currency.displayName}
+          currencyRates={currency}
+          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+          graphData={graphData}
+        />
+      }) : null;
+    }
+
+    if (activeView === 'List') {
+      return coinWithAmount.length ? coinWithAmount.map((coin) => {
+        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
+        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+
+        return <CoinListCard
+          key={coin.short}
+          coin={coin}
+          displayName={currency.displayName}
+          currencyRates={currency}
+          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+          graphData={graphData}
+        />
+      }) : null;
+    }
+
+    return null;
   }
 
   renderCoinWithoutAmount = () => {
     const { currenciesRates, currenciesGraphs, actions } = this.props;
-    const { coinWithoutAmount } = this.state;
+    const { coinWithoutAmount, activeView } = this.state;
 
-    return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
-      const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
-      const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+    if (activeView === 'Grid') {
+      return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
+        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
+        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
 
-      return <CoinCard
-        key={coin.short}
-        coin={coin}
-        displayName={currency.displayName}
-        currencyRates={currency}
-        onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
-        graphData={graphData}
-      />
-    }) : null;
+        return <CoinCard
+          key={coin.short}
+          coin={coin}
+          displayName={currency.displayName}
+          currencyRates={currency}
+          onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
+          graphData={graphData}
+        />
+      }) : null;
+    }
+
+    if (activeView === 'List') {
+      return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
+        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
+        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+
+        return <CoinListCard
+          key={coin.short}
+          coin={coin}
+          displayName={currency.displayName}
+          currencyRates={currency}
+          onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
+          graphData={graphData}
+        />
+      }) : null;
+    }
+
+    return null;
+
+  }
+
+  renderCoinsCard = () => {
+    const CoinWithAmount = this.renderCoinWithAmount;
+    const CoinWithoutAmount = this.renderCoinWithoutAmount;
+    const style = WalletLandingStyle();
+    return (
+      <View style={style.coinCardContainer}>
+        <CoinWithAmount />
+        <CoinWithoutAmount />
+      </View>
+    )
   }
 
   render() {
     const { header } = this.state
     const { actions, walletSummary } = this.props;
-    const CoinWithAmount = this.renderCoinWithAmount;
-    const CoinWithoutAmount = this.renderCoinWithoutAmount;
-    const style = WalletLandingStyle();
+    const CoinsCard = this.renderCoinsCard;
 
     return (
       <RegularLayout header={header}>
         <View>
           <WalletDetailsCard walletSummary={walletSummary} navigateTo={actions.navigateTo} />
 
-          <CelText weight='500'>Deposited coins</CelText>
-
-          <View style={style.coinCardContainer}>
-            <CoinWithAmount />
-            <CoinWithoutAmount />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <CelText weight='500'>Deposited coins</CelText>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity onPress={this.setGridView}><CelText margin="0 12 0 0">Grid</CelText></TouchableOpacity>
+              <TouchableOpacity onPress={this.setListView}><CelText>List</CelText></TouchableOpacity>
+            </View>
           </View>
+
+          <CoinsCard />
+
         </View>
       </RegularLayout>
     );
