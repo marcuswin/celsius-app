@@ -19,6 +19,7 @@ import addressUtil from "../../../utils/address-util";
 
 @connect(
   state => ({
+    callsInProgress: state.api.callsInProgress,
     walletSummary: state.wallet.summary,
     formData: state.forms.formData
   }),
@@ -37,14 +38,14 @@ class WithdrawConfirm extends Component {
 
   render() {
     const { header } = this.state;
-    const { walletSummary, actions, formData } = this.props;
+    const { walletSummary, actions, formData, callsInProgress } = this.props;
     const styles = WithdrawConfirmStyle();
 
     const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
     const newBalanceCrypto = coinData.amount - formData.amountCrypto
     const newBalanceUsd = coinData.amount_usd - formData.amountUsd
 
-    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO])
+    const isLoading = apiUtil.areCallsInProgress([API.WITHDRAW_CRYPTO], callsInProgress)
 
     const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
 

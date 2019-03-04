@@ -61,10 +61,10 @@ function withdrawCrypto() {
       const { coin, amountCrypto, pin, code } = formData
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amountCrypto, { pin, code });
+      const res = await walletService.withdrawCrypto(coin, amountCrypto, { pin, twoFactorCode: code });
       dispatch(getWalletSummary());
       dispatch(withdrawCryptoSuccess(res.data.transaction));
-    } catch(err) {
+    } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
     }

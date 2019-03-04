@@ -26,6 +26,7 @@ export {
   getIcoUsersProfileInfo,
   getComplianceInfo,
   checkPIN,
+  checkTwoFactor,
   connectPhoneContacts,
   getConnectedContacts
 }
@@ -212,7 +213,7 @@ function getComplianceInfoSuccess(complianceInfo) {
   }
 }
 
-function checkPIN(onSuccess) {
+function checkPIN(onSuccess, onError) {
   return async (dispatch, getState) => {
     try {
       const { pin } = getState().forms.formData;
@@ -223,10 +224,32 @@ function checkPIN(onSuccess) {
 
       dispatch({ type: ACTIONS.CHECK_PIN_SUCCESS })
       if (onSuccess) onSuccess()
-    } catch(err) {
+    } catch (err) {
+      if (onError) onError();
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CHECK_PIN, err));
       dispatch(updateFormField('pin', ''))
+      dispatch(toggleKeypad())
+    }
+  }
+}
+
+function checkTwoFactor(onSuccess, onError) {
+  return async (dispatch, getState) => {
+    try {
+      const { code } = getState().forms.formData;
+
+      dispatch(startApiCall(API.CHECK_TWO_FACTOR))
+
+      await meService.checkTwoFactor(code)
+
+      dispatch({ type: ACTIONS.CHECK_TWO_FACTOR_SUCCESS })
+      if (onSuccess) onSuccess()
+    } catch (err) {
+      if (onError) onError();
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CHECK_TWO_FACTOR, err));
+      dispatch(updateFormField('code', ''))
       dispatch(toggleKeypad())
     }
   }

@@ -16,7 +16,7 @@ class Home extends Component {
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
     if (!appInitialized) actions.initCelsiusApp();
-    actions.loginUser({ email: 'filip.jovakaric+wlt@mvpworkshop.co', password: 'filip123' })
+    actions.loginUser({ email: 'filip.jovakaric+wlt2@mvpworkshop.co', password: 'filip123' })
   }
 
   componentDidUpdate(prevProps){

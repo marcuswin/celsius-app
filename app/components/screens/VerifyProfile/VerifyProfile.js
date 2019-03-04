@@ -30,137 +30,135 @@ class VerifyProfile extends Component {
       header: {
         transparent: true,
         left: "back"
-      }
+      },
+      value: ''
     };
   }
 
-  // onSuccess() {
-  //   const { navigation } = this.props;
-  //   const onSuccess = navigation.getParam('onSuccess')
-  //
-  //   onSuccess()
-  //   this.setState({ loading: false })
-  // }
+  componentDidMount = () => {
+
+  }
+
+
+  onCheckSuccess = () => {
+    const { navigation } = this.props;
+    const onSuccess = navigation.getParam('onSuccess')
+
+    onSuccess()
+    this.setState({ loading: false })
+  }
+
+  onCheckError = () => this.setState({ loading: false, value: '' });
 
   handlePINChange = (newValue) => {
-    const { actions, navigation } = this.props;
-    const onSuccess = navigation.getParam('onSuccess')
+    const { actions } = this.props;
 
     if (newValue.length > 4) return;
 
     actions.updateFormField('pin', newValue)
+    this.setState({ value: newValue })
 
     if (newValue.length === 4) {
       // TODO: check pin
       this.setState({ loading: true })
       actions.toggleKeypad()
-      actions.checkPIN(onSuccess)
+      actions.checkPIN(this.onCheckSuccess, this.onCheckError);
     }
   }
 
   handle2FAChange = (newValue) => {
-    const { actions, navigation } = this.props;
-    const onSuccess = navigation.getParam('onSuccess')
+    const { actions } = this.props;
 
     if (newValue.length > 6) return;
 
     actions.updateFormField('code', newValue)
+    this.setState({ value: newValue })
 
     if (newValue.length === 6) {
       this.setState({ loading: true })
       actions.toggleKeypad()
 
       // TODO: check code
-      actions.checkPIN(onSuccess)
+      actions.checkTwoFactor(this.onCheckSuccess, this.onCheckError);
     }
   }
 
   render2FA() {
-    const { header, loading } = this.state;
-    const { actions, formData } = this.props;
+    const { loading, value } = this.state;
+    const { actions } = this.props;
     const style = VerifyProfileStyle();
 
     return (
-      <RegularLayout header={header}>
-        <View style={style.container}>
-          <View style={style.wrapper}>
-            <CelText type="H1" bold align="center">Verification required</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your 2FA code to proceed</CelText>
+      <View style={style.wrapper}>
+        <CelText type="H1" bold align="center">Verification required</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your 2FA code to proceed</CelText>
 
-            <TouchableOpacity onPress={actions.toggleKeypad}>
-              <HiddenField value={formData.code} length={6} />
-            </TouchableOpacity>
+        <TouchableOpacity onPress={actions.toggleKeypad}>
+          <HiddenField value={value} length={6} />
+        </TouchableOpacity>
 
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your Code?</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your Code?</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
 
-            {loading && (
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
-                <Spinner />
-              </View>
-            )}
+        {loading && (
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
+            <Spinner />
           </View>
-
-          <CelNumpad
-            field="code"
-            value={formData.code}
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            toggleKeypad={actions.toggleKeypad}
-            onPress={this.handlePINChange}
-            purpose={KEYPAD_PURPOSES.VERIFICATION}
-          />
-        </View>
-      </RegularLayout>
+        )}
+      </View>
     );
   }
 
   renderPIN() {
-    const { header } = this.state;
-    const { actions, formData } = this.props;
+    const { loading, value } = this.state;
+    const { actions } = this.props;
     const style = VerifyProfileStyle();
 
     return (
-      <RegularLayout header={header}>
-        <View style={style.container}>
-          <View style={style.wrapper}>
-            <CelText type="H1" bold align="center">Verification required</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your PIN to proceed</CelText>
+      <View style={style.wrapper}>
+        <CelText type="H1" bold align="center">Verification required</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your PIN to proceed</CelText>
 
-            <TouchableOpacity onPress={actions.toggleKeypad}>
-              <HiddenField value={formData.pin} />
-            </TouchableOpacity>
+        <TouchableOpacity onPress={actions.toggleKeypad}>
+          <HiddenField value={value} />
+        </TouchableOpacity>
 
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your PIN?</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your PIN?</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
 
-            {this.state.loading && (
-              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
-                <Spinner />
-              </View>
-            )}
+        {loading && (
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
+            <Spinner />
           </View>
-
-          <CelNumpad
-            field="pin"
-            value={formData.pin}
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            toggleKeypad={actions.toggleKeypad}
-            onPress={this.handlePINChange}
-            purpose={KEYPAD_PURPOSES.VERIFICATION}
-          />
-        </View>
-      </RegularLayout>
+        )}
+      </View>
     );
   }
 
   render() {
-    const { is2FAEnabled } = this.props;
-    const Pin = this.renderPIN;
-    const Tfa = this.render2FA;
+    const { header, value } = this.state;
+    const { is2FAEnabled, actions } = this.props;
 
-    return is2FAEnabled ? <Pin /> : <Tfa />;
+    const field = is2FAEnabled ? "code" : "pin";
+    const onPressFunc = is2FAEnabled ? this.handle2FAChange : this.handlePINChange;
+    const style = VerifyProfileStyle();
+
+    return (
+      <RegularLayout padding="0 0 0 0" header={header}>
+        <View style={style.container}>
+          {is2FAEnabled ? this.render2FA() : this.renderPIN()}
+          <CelNumpad
+            field={field}
+            value={value}
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={onPressFunc}
+            purpose={KEYPAD_PURPOSES.VERIFICATION}
+          />
+        </View>
+      </RegularLayout>
+    )
   }
 }
 
