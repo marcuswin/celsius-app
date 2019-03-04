@@ -30,7 +30,13 @@ export {
     googleSuccess
 }
 
+
+
 // Twitter Actions
+/**
+ * Registers a new user through Twitter
+ * @param {Object} user
+ */
 function registerUserTwitter(user) {
     return async (dispatch, getState) => {
         dispatch(startApiCall(API.REGISTER_USER_TWITTER));
@@ -56,6 +62,10 @@ function registerUserTwitter(user) {
     }
 }
 
+
+/**
+ * @todo: move to registerUserTwitter
+ */
 function registerUserTwitterSuccess(data) {
 
     return (dispatch) => {
@@ -67,6 +77,11 @@ function registerUserTwitterSuccess(data) {
     }
 }
 
+
+/**
+ * Log a user in through Twitter
+ * @param {Object} user
+ */
 function loginTwitter(user) {
     return async dispatch => {
         dispatch(startApiCall(API.LOGIN_USER_TWITTER));
@@ -87,6 +102,10 @@ function loginTwitter(user) {
     }
 }
 
+
+/**
+ * @todo: move to loginUser
+ */
 function loginUserTwitterSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
@@ -102,18 +121,34 @@ function loginUserTwitterSuccess(data) {
     }
 }
 
+
+/**
+ * Closes Twitter modal
+ * @returns {Object} - Action
+ */
 function twitterClose() {
     return {
         type: ACTIONS.TWITTER_CLOSE,
     }
 }
 
+
+/**
+ * Opens Twitter Modal
+ * @returns {Object} - Action
+ */
 function twitterOpen() {
     return {
         type: ACTIONS.TWITTER_OPEN,
     }
 }
 
+
+/**
+ * Sets Twitter access token in reducer
+ * @param {Object} tokens
+ * @returns {Object} - Action
+ */
 function twitterGetAccessToken(tokens) {
     return {
         type: ACTIONS.TWITTER_GET_ACCESS_TOKEN,
@@ -121,6 +156,12 @@ function twitterGetAccessToken(tokens) {
     }
 }
 
+
+/**
+ * Successfully logged into Twitter
+ * @param {Object} user
+ * @returns {Object} - Action
+ */
 function twitterSuccess(user) {
     return {
         type: ACTIONS.TWITTER_SUCCESS,
@@ -128,7 +169,13 @@ function twitterSuccess(user) {
     }
 }
 
+
+
 // Facebook Actions
+/**
+ * Creates new user through Facebook
+ * @param {Object} user
+ */
 function registerUserFacebook(user) {
     return async (dispatch, getState) => {
         dispatch(startApiCall(API.REGISTER_USER_FACEBOOK));
@@ -154,6 +201,10 @@ function registerUserFacebook(user) {
     }
 }
 
+
+/**
+ * @todo: move to registerUserFacebook
+ */
 function registerUserFacebookSuccess(data) {
 
     return (dispatch) => {
@@ -165,6 +216,11 @@ function registerUserFacebookSuccess(data) {
     }
 }
 
+
+/**
+ * Logs a user in through Facebook
+ * @param {Object} user
+ */
 function loginFacebook(user) {
     return async dispatch => {
         dispatch(startApiCall(API.LOGIN_USER_FACEBOOK));
@@ -185,6 +241,10 @@ function loginFacebook(user) {
     }
 }
 
+
+/**
+ * @todo: move to loginUserFacebook
+ */
 function loginUserFacebookSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
@@ -200,6 +260,12 @@ function loginUserFacebookSuccess(data) {
     }
 }
 
+
+/**
+ * User successfully logged in through Facebook
+ * @param {Object} user
+ * @returns {Object} - Action
+ */
 function facebookSuccess(user) {
     return {
         type: ACTIONS.FACEBOOK_SUCCESS,
@@ -207,7 +273,12 @@ function facebookSuccess(user) {
     }
 }
 
+
 // Google Actions
+/**
+ * Creates a new user through Google
+ * @param {Object} user - response from google
+ */
 function registerUserGoogle(user) {
     return async (dispatch, getState) => {
         dispatch(startApiCall(API.REGISTER_USER_GOOGLE));
@@ -231,6 +302,10 @@ function registerUserGoogle(user) {
     }
 }
 
+
+/**
+ * @todo: move to registerUserGoogle
+ */
 function registerUserGoogleSuccess(data) {
 
     return (dispatch) => {
@@ -242,6 +317,11 @@ function registerUserGoogleSuccess(data) {
     }
 }
 
+
+/**
+ * Logs a user in through Google
+ * @param {Object} user - user from Google
+ */
 function loginGoogle(user) {
     return async dispatch => {
         dispatch(startApiCall(API.LOGIN_USER_GOOGLE));
@@ -262,6 +342,10 @@ function loginGoogle(user) {
     }
 }
 
+
+/**
+ * @todo: move to loginUserGoogle
+ */
 function loginUserGoogleSuccess(data) {
     analyticsEvents.sessionStart();
     return async (dispatch) => {
@@ -277,6 +361,12 @@ function loginUserGoogleSuccess(data) {
     }
 }
 
+
+/**
+ * User successfully logged in through Google
+ * @param {Object} user - user from Google
+ * @returns {Object} - Action
+ */
 function googleSuccess(user) {
     return {
         type: ACTIONS.GOOGLE_SUCCESS,

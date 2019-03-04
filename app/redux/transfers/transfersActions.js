@@ -1,5 +1,3 @@
-// TODO(fj) move mapTransfer to reducer
-
 import { Share } from "react-native";
 
 import ACTIONS from '../../constants/ACTIONS';
@@ -24,6 +22,11 @@ export {
   claimAllBranchTransfers
 }
 
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function getAllTransfers(transferStatus) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_ALL_TRANSFERS));
@@ -39,6 +42,10 @@ function getAllTransfers(transferStatus) {
   }
 }
 
+
+/**
+ * @todo: move to getAllTransfers
+ */
 function getAllTransfersSuccess(transfers) {
   return {
     type: ACTIONS.GET_ALL_TRANSFERS_SUCCESS,
@@ -47,6 +54,11 @@ function getAllTransfersSuccess(transfers) {
   }
 }
 
+
+/**
+ * Gets single transfer by hash
+ * @param {string} transferHash
+ */
 function getTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_TRANSFER));
@@ -62,6 +74,10 @@ function getTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to getTransfer
+ */
 function getTransferSuccess(transfer) {
   return {
     type: ACTIONS.GET_TRANSFER_SUCCESS,
@@ -70,6 +86,11 @@ function getTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function claimTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.CLAIM_TRANSFER));
@@ -87,6 +108,10 @@ function claimTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to claimTransfer
+ */
 function claimTransferSuccess(transfer) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
@@ -95,6 +120,11 @@ function claimTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Cancels a pending transfer
+ * @param {string} transferHash
+ */
 function cancelTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.cancel_TRANSFER));
@@ -112,6 +142,10 @@ function cancelTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to cancelTransfer
+ */
 function cancelTransferSuccess(transfer) {
   return {
     type: ACTIONS.CANCEL_TRANSFER_SUCCESS,
@@ -120,6 +154,12 @@ function cancelTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Creates a transfer
+ * @param {number|string} amount - 0.123456789|"0.123456789"
+ * @param {string} coin - ETH|eth
+ */
 function createTransfer(amount, coin) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_TRANSFER));
@@ -137,6 +177,10 @@ function createTransfer(amount, coin) {
   }
 }
 
+
+/**
+ * @todo: move to createTransfer
+ */
 function createTransferSuccess(transfer) {
   return {
     type: ACTIONS.CREATE_TRANSFER_SUCCESS,
@@ -145,6 +189,11 @@ function createTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Creates a transfer and a branch link and shares
+ * @deprecated: moved to celPayLink
+ */
 function createBranchTransfer(amount, amountUsd, coin, verification) {
   return async (dispatch, getState ) => {
     let apiCall = API.CREATE_TRANSFER;
@@ -180,6 +229,11 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
   }
 }
 
+
+/**
+ * Triggered when transfer branch link is registered
+ * @param {Object} deepLink - received deep link from branch
+ */
 function registerTransferLink(deepLink) {
   return async (dispatch, getState) => {
     try {
@@ -221,12 +275,23 @@ function registerTransferLink(deepLink) {
   }
 }
 
+
+/**
+ * Claims all pending transfers for newly registered user
+ */
 function claimAllBranchTransfers() {
   return (dispatch, getState) => {
     const { branchHashes } = getState().transfers;
     if (branchHashes && branchHashes.length) branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
   }
 }
+
+
+/**
+ * Maps all transfer props
+ * @param {Object} transfer
+ * @todo: move to reducer
+ */
 
 function mapTransfer(transfer) {
   if (!transfer) return;

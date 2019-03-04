@@ -9,6 +9,10 @@ export {
   getCurrencyGraphs,
 }
 
+
+/**
+ * Gets rates for all supported currencies
+ */
 function getCurrencyRates() {
   return async dispatch => {
     try {
@@ -26,6 +30,10 @@ function getCurrencyRates() {
   }
 }
 
+
+/**
+ * Gets data for all currency graphs
+ */
 function getCurrencyGraphs() {
   return async dispatch => {
     try {

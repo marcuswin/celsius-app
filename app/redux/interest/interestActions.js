@@ -9,6 +9,11 @@ export {
   getInterestChartData
 }
 
+
+/**
+ * Gets interest rates for all coins
+ * @deprecated: logic moved to getInitialCelsiusData
+ */
 function getInterestRates() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_INTEREST_RATES));
@@ -24,6 +29,10 @@ function getInterestRates() {
   }
 }
 
+/**
+ * Gets interest rates for all coins
+ * @deprecated: logic moved to getInitialCelsiusData
+ */
 function getInterestRatesSuccess(interestRates) {
   return {
     type: ACTIONS.GET_INTEREST_RATES_SUCCESS,
@@ -33,6 +42,10 @@ function getInterestRatesSuccess(interestRates) {
 }
 
 
+/**
+ * Gets graph data for interest
+ * @todo: wire with new graph endpoints
+ */
 function getInterestChartData(interval) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_INTEREST_CHART_DATA));
@@ -47,6 +60,9 @@ function getInterestChartData(interval) {
   }
 }
 
+/**
+ * @todo: move to getInterestChartData
+ */
 function getInterestChartDataSuccess(chartData) {
   return {
     type: ACTIONS.GET_INTEREST_CHART_DATA_SUCCESS,

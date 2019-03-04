@@ -30,6 +30,13 @@ export {
   setPin
 }
 
+
+/**
+ * Logs the user in
+ * @param {Object} params
+ * @param {string} params.email
+ * @param {string} params.password
+ */
 function loginUser({ email, password }) {
   return async dispatch => {
     dispatch(startApiCall(API.LOGIN_USER));
@@ -51,6 +58,10 @@ function loginUser({ email, password }) {
   }
 }
 
+
+/**
+ * @todo: move to loginUser
+ */
 async function loginUserSuccess(data) {
   analyticsEvents.sessionStart();
   return async dispatch => {
@@ -65,6 +76,11 @@ async function loginUserSuccess(data) {
   }
 }
 
+
+/**
+ * Registers a user signed up with email
+ * @param {Object} user
+ */
 function registerUser(user) {
   analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
@@ -94,6 +110,11 @@ function registerUser(user) {
   }
 }
 
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function registerUserSuccess(data) {
 
   return {
@@ -103,7 +124,13 @@ function registerUserSuccess(data) {
   }
 }
 
-// TODO(fj) should replace update user endpoint w patch /me
+
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */// TODO(fj) should replace update user endpoint w patch /me
 function updateUser(user) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER));
@@ -122,6 +149,12 @@ function updateUser(user) {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function updateUserSuccess(data) {
   return {
     type: ACTIONS.UPDATE_USER_SUCCESS,
@@ -130,6 +163,12 @@ function updateUserSuccess(data) {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function sendResetLink(email) {
   return async dispatch => {
     dispatch(startApiCall(API.SEND_RESET_LINK));
@@ -144,6 +183,12 @@ function sendResetLink(email) {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function sendResetLinkSuccess() {
   return {
     type: ACTIONS.SEND_RESET_LINK_SUCCESS,
@@ -151,6 +196,12 @@ function sendResetLinkSuccess() {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function resetPassword(currentPassword, newPassword) {
   return async dispatch => {
     dispatch(startApiCall(API.RESET_PASSWORD));
@@ -169,6 +220,12 @@ function resetPassword(currentPassword, newPassword) {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function resetPasswordSuccess() {
   return {
     type: ACTIONS.RESET_PASSWORD_SUCCESS,
@@ -176,6 +233,12 @@ function resetPasswordSuccess() {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function logoutUser() {
   return async dispatch => {
     try {
@@ -193,6 +256,12 @@ function logoutUser() {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function expireSession() {
   return async dispatch => {
     try {
@@ -205,6 +274,12 @@ function expireSession() {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function setPin(pinData) {
   return async dispatch => {
     dispatch(startApiCall(API.SET_PIN));
@@ -221,6 +296,12 @@ function setPin(pinData) {
   }
 }
 
+
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function setPinSuccess() {
   return {
     type: ACTIONS.SET_PIN_SUCCESS,

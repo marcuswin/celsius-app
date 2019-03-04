@@ -5,11 +5,11 @@ import * as NavActions from '../nav/navActions';
 import { showMessage } from "../ui/uiActions";
 import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
-import { KYC_STATUSES } from "../../config/constants/common";
 import apiUtil from "../../utils/api-util";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from "../forms/formsActions";
+import { KYC_STATUSES } from "../../config/constants/common";
 
 export {
   updateProfileInfo,
@@ -21,10 +21,13 @@ export {
   verifySMS,
   verifyKYCDocs,
   finishKYCVerification,
-  startKYC,
   getKYCStatus
 }
 
+/**
+ * Updates user personal info
+ * @param {Object} profileInfo
+ */
 function updateProfileInfo(profileInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
@@ -44,6 +47,10 @@ function updateProfileInfo(profileInfo) {
   }
 }
 
+/**
+ * Updates user address and residency info
+ * @param {Object} profileAddressInfo
+ */
 function updateProfileAddressInfo(profileAddressInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_ADDRESS_INFO));
@@ -63,6 +70,10 @@ function updateProfileAddressInfo(profileAddressInfo) {
   }
 }
 
+/**
+ * Updates user Taxpayer info
+ * @param {Object} profileTaxpayerInfo
+ */
 function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
@@ -82,6 +93,9 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
   }
 }
 
+/**
+ * @todo: move to updateProfileInfo
+ */
 export function updateProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS,
@@ -90,6 +104,9 @@ export function updateProfileInfoSuccess(personalInfo) {
   }
 }
 
+/**
+ * @todo: move to updateProfileAddressInfo
+ */
 function updateProfileAddressInfoSuccess(addressInfo) {
   return {
     type: ACTIONS.UPDATE_USER_ADDRESS_INFO_SUCCESS,
@@ -98,6 +115,9 @@ function updateProfileAddressInfoSuccess(addressInfo) {
   }
 }
 
+/**
+ * @todo: move to updateProfileTaxpayerInfo
+ */
 function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
   return {
     type: ACTIONS.UPDATE_USER_TAXPAYER_INFO_SUCCESS,
@@ -106,6 +126,10 @@ function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
   }
 }
 
+/**
+ * Gets users KYC documents
+ * @param {Object} documents
+ */
 function getKYCDocuments(documents) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_KYC_DOCUMENTS));
@@ -119,6 +143,9 @@ function getKYCDocuments(documents) {
   }
 }
 
+/**
+ * @todo: move to getKYCDocuments
+ */
 function getKYCDocumentsSuccess(documents) {
   return {
     type: ACTIONS.GET_KYC_DOCUMENTS_SUCCESS,
@@ -127,6 +154,10 @@ function getKYCDocumentsSuccess(documents) {
   }
 }
 
+/**
+ * Creates new KYC documents for user
+ * @param {Object} documents
+ */
 function createKYCDocuments(documents) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
@@ -140,6 +171,10 @@ function createKYCDocuments(documents) {
   }
 }
 
+
+/**
+ * @todo: move to createKYCDocuments
+ */
 function createKYCDocumentsSuccess() {
   return {
     type: ACTIONS.CREATE_KYC_DOCUMENTS_SUCCESS,
@@ -147,6 +182,9 @@ function createKYCDocumentsSuccess() {
   }
 }
 
+/**
+ * Sends phone verification SMS to user
+ */
 function sendVerificationSMS() {
   return async dispatch => {
     dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
@@ -160,6 +198,9 @@ function sendVerificationSMS() {
   }
 }
 
+/**
+ * @todo: move to sendVerificationSMS
+ */
 function sendVerificationSMSSuccess() {
   return {
     type: ACTIONS.SEND_VERIFICATION_SMS_SUCCESS,
@@ -167,6 +208,10 @@ function sendVerificationSMSSuccess() {
   }
 }
 
+/**
+ * Verifies the code received by SMS
+ * @param {string} verificationCode - eg: 123456
+ */
 function verifySMS(verificationCode) {
   return async dispatch => {
     dispatch(startApiCall(API.VERIFY_SMS));
@@ -180,6 +225,9 @@ function verifySMS(verificationCode) {
   }
 }
 
+/**
+ * @todo: move to verifySMS
+ */
 export function verifySMSSuccess() {
   return {
     type: ACTIONS.VERIFY_SMS_SUCCESS,
@@ -187,6 +235,9 @@ export function verifySMSSuccess() {
   }
 }
 
+/**
+ * Verifies if KYC documents are valid and send the SMS
+ */
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
@@ -242,6 +293,9 @@ function verifyKYCDocs() {
   }
 }
 
+/**
+ * Starts the KYC verification process on Onfido
+ */
 function finishKYCVerification() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
@@ -269,18 +323,18 @@ function finishKYCVerification() {
   }
 }
 
-function startKYC() {
-  return async dispatch => {
-    dispatch(startApiCall(API.START_KYC));
-    try {
-      await meService.startKYC();
-      dispatch(startKYCSuccess());
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.START_KYC, err));
-    }
-  }
-}
+// function startKYC() {
+//   return async dispatch => {
+//     dispatch(startApiCall(API.START_KYC));
+//     try {
+//       await meService.startKYC();
+//       dispatch(startKYCSuccess());
+//     } catch (err) {
+//       dispatch(showMessage('error', err.msg));
+//       dispatch(apiError(API.START_KYC, err));
+//     }
+//   }
+// }
 
 function startKYCSuccess() {
   return {
@@ -304,6 +358,9 @@ function getKYCStatus() {
   }
 }
 
+/**
+ * @todo: move to getKYCStatus
+ */
 function getKYCStatusSuccess(status) {
   return {
     type: ACTIONS.GET_KYC_STATUS_SUCCESS,

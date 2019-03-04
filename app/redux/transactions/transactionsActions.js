@@ -14,6 +14,14 @@ export {
   withdrawCrypto,
 }
 
+
+/**
+ * Gets transactions
+ * @param {Object} query
+ * @param {number} query.limit
+ * @param {string} query.type - one of @todo
+ * @param {string} query.coin - eg. BTC|ETH|XRP...
+ */
 function getAllTransactions(query = {}) {
   return async dispatch => {
     try {
@@ -32,6 +40,11 @@ function getAllTransactions(query = {}) {
   }
 }
 
+
+/**
+ * Gets single transaction by id
+ * @param {string} id
+ */
 function getTransactionDetails(transactionId = "") {
   return async dispatch => {
     try {
@@ -46,6 +59,10 @@ function getTransactionDetails(transactionId = "") {
   }
 }
 
+/**
+ * Gets single transaction by id
+ * @todo: move to getTransactionDetails
+ */
 function getTransactionDetailsSuccess(transaction) {
   return {
     type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
@@ -54,6 +71,9 @@ function getTransactionDetailsSuccess(transaction) {
   }
 }
 
+/**
+ * Withdraws crypto for the user
+ */
 function withdrawCrypto() {
   return async (dispatch, getState) => {
     try {
@@ -71,6 +91,9 @@ function withdrawCrypto() {
   }
 }
 
+/**
+ * @todo: move to withdrawCrypto
+ */
 function withdrawCryptoSuccess(transaction) {
   return (dispatch) => {
     dispatch({

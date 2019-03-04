@@ -31,6 +31,10 @@ export {
   getConnectedContacts
 }
 
+
+/**
+ * Gets profile info for user
+ */
 function getProfileInfo() {
   return async (dispatch) => {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
@@ -56,6 +60,10 @@ function getProfileInfo() {
   }
 }
 
+
+/**
+ * @todo: move to getProfileInfo
+ */
 export function getUserPersonalInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS,
@@ -64,6 +72,11 @@ export function getUserPersonalInfoSuccess(personalInfo) {
   }
 }
 
+
+/**
+ * Updates users profile picture
+ * @param {Object} image - image taken from camera
+ */
 function updateProfilePicture(image) {
   return async dispatch => {
     dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
@@ -78,6 +91,10 @@ function updateProfilePicture(image) {
   }
 }
 
+
+/**
+ * @todo: move to updateProfilePicture
+ */
 function updateProfilePictureSuccess(image) {
   return {
     type: ACTIONS.UPLOAD_PLOFILE_IMAGE_SUCCESS,
@@ -86,6 +103,11 @@ function updateProfilePictureSuccess(image) {
   }
 }
 
+
+/**
+ * gets two factor secret for user
+ * @param {string} pin
+ */
 function getTwoFactorSecret(pin) {
   return async dispatch => {
     try {
@@ -98,6 +120,11 @@ function getTwoFactorSecret(pin) {
   }
 }
 
+
+/**
+ * Enables two factor authentication for user
+ * @param {string} code - eg. 111111
+ */
 function enableTwoFactor(code) {
   return async dispatch => {
     try {
@@ -119,6 +146,11 @@ function enableTwoFactor(code) {
   }
 }
 
+
+/**
+ * Disables two factor for user, pin is fallback
+ * @param {string} pin
+ */
 function disableTwoFactor(pin) {
   return async dispatch => {
     try {
@@ -136,7 +168,11 @@ function disableTwoFactor(pin) {
   }
 }
 
-// Gets User App Settings from Secure Store
+
+
+/**
+ * Initializes app settings saved in Secure Storage
+ */
 function initUserAppSettings() {
   return async dispatch => {
     const appSettings = await getSecureStoreKey("APP_SETTINGS");
@@ -144,6 +180,11 @@ function initUserAppSettings() {
   }
 }
 
+
+/**
+ * Updates APP_SETTINGS in secure storage
+ * @param {Object} appSettings - settings to update
+ */
 function updateUserAppSettings(appSettings) {
   return async (dispatch, getState) => {
     try {
@@ -164,6 +205,10 @@ function updateUserAppSettings(appSettings) {
   }
 }
 
+
+/**
+ * Gets ICO data for user
+ */
 function getIcoUsersProfileInfo() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_ICO_USERS_INFO));
@@ -179,6 +224,10 @@ function getIcoUsersProfileInfo() {
   }
 }
 
+
+/**
+ * @todo: move to getIcoUsersProfileInfo
+ */
 function getIcoUsersProfileInfoSuccess(personalInfo) {
   return {
     type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
@@ -187,6 +236,10 @@ function getIcoUsersProfileInfoSuccess(personalInfo) {
   }
 }
 
+
+/**
+ * Gets all relevant compliance settings for user
+ */
 function getComplianceInfo() {
   return async (dispatch) => {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
@@ -205,6 +258,10 @@ function getComplianceInfo() {
   }
 }
 
+
+/**
+ * @todo: move to getComplianceInfo
+ */
 function getComplianceInfoSuccess(complianceInfo) {
   return {
     type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
@@ -213,6 +270,12 @@ function getComplianceInfoSuccess(complianceInfo) {
   }
 }
 
+
+/**
+ * Checks user pin code
+ * @param {Function} onSuccess - what to do if pin is correct
+ * @param {Function} onError - what to do if pin is wrong
+ */
 function checkPIN(onSuccess, onError) {
   return async (dispatch, getState) => {
     try {
@@ -255,6 +318,11 @@ function checkTwoFactor(onSuccess, onError) {
   }
 }
 
+
+/**
+ * Saves all contacts from users Phonebook
+ * @param {Object[]} contacts
+ */
 function connectPhoneContacts(contacts) {
   return async (dispatch) => {
     dispatch(startApiCall(API.CONNECT_PHONE_CONTACTS));
@@ -268,6 +336,10 @@ function connectPhoneContacts(contacts) {
   }
 }
 
+
+/**
+ * Gets all contacts for user
+ */
 function getConnectedContacts() {
   return async (dispatch) => {
     dispatch(startApiCall(API.GET_CONNECT_CONTACTS));
@@ -281,6 +353,10 @@ function getConnectedContacts() {
   }
 }
 
+
+/**
+ * @todo: move to getConnectedContacts
+ */
 function getConnectedContactsSuccess(contacts) {
   return {
     type: ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS,

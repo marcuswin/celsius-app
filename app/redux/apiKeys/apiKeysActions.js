@@ -1,5 +1,3 @@
-// TODO(fj): export as object
-
 import ACTIONS from '../../constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";
@@ -13,6 +11,10 @@ export {
   getAllAPIKeys,
 }
 
+/**
+ * Creates API key for user
+ * @param {Object} permissions - permissions set on CreateAPIKey screen
+ */
 function createAPIKey(permissions) {
   return async dispatch => {
     try {
@@ -32,6 +34,10 @@ function createAPIKey(permissions) {
   }
 }
 
+/**
+ * Revokes API key for user
+ * @param {string} keyId - id of the API key
+ */
 function revokeAPIKey(keyId) {
   return async dispatch => {
     try {
@@ -51,6 +57,9 @@ function revokeAPIKey(keyId) {
   }
 }
 
+/**
+ * Gets all API keys for user
+ */
 function getAllAPIKeys() {
   return async dispatch => {
     try {

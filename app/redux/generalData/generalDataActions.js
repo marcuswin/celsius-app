@@ -15,6 +15,10 @@ export {
   getBlacklistedCountries,
 }
 
+/**
+ * Gets all app data (interest rates, ...)
+ * @todo: add more data
+ */
 function getInitialCelsiusData() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_INITIAL_CELSIUS_DATA));
@@ -32,6 +36,10 @@ function getInitialCelsiusData() {
   }
 }
 
+/**
+ * Gets all supported currencies and their graph data
+ * @deprecated
+ */
 function getSupportedCurrencies() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_SUPPORTED_CURRENCIES));
@@ -47,6 +55,9 @@ function getSupportedCurrencies() {
   }
 }
 
+/**
+ * @deprecated
+ */
 function getSupportedCurrenciesSuccess(supportedCurrencies) {
   return {
     type: ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS,
@@ -55,6 +66,9 @@ function getSupportedCurrenciesSuccess(supportedCurrencies) {
   }
 }
 
+/**
+ * Gets all doc types for KYC
+ */
 function getKYCDocTypes() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_KYC_DOC_TYPES));
@@ -70,6 +84,10 @@ function getKYCDocTypes() {
   }
 }
 
+
+/**
+ * @todo: move to getKYCDocTypes
+ */
 function getKYCDocTypesSuccess(kycDocTypes) {
   return {
     type: ACTIONS.GET_KYC_DOC_TYPES_SUCCESS,
@@ -78,6 +96,9 @@ function getKYCDocTypesSuccess(kycDocTypes) {
   }
 }
 
+/**
+ * Gets backend status of the app
+ */
 function getBackendStatus() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_BACKEND_STATUS));
@@ -93,6 +114,10 @@ function getBackendStatus() {
   }
 }
 
+
+/**
+ * @todo: move to getBackendStatus
+ */
 function getBackendStatusSuccess(backendStatus) {
   return {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
@@ -101,6 +126,9 @@ function getBackendStatusSuccess(backendStatus) {
   }
 }
 
+/**
+ * @deprecated
+ */
 function getBlacklistedCountries() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_BLACKLISTED_COUNTRIES));
@@ -122,6 +150,9 @@ function getBlacklistedCountries() {
   }
 }
 
+/**
+ * @deprecated
+ */
 function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency) {
   return {
     type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,

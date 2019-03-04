@@ -1,18 +1,12 @@
-// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
-
 import ACTIONS from '../../constants/ACTIONS';
 import { MODALS } from "../../config/constants/common";
 import { screens } from '../../config/Navigator';
 
 
 export {
-  fireUserAction, // TODO: check what this does if it can be removed
-
-  // TODO(fj): ui
   setAppTheme,
   openFabMenu,
   closeFabMenu,
-  setInternetConnectivity,
   showMessage,
   clearMessage,
   openInitialModal,
@@ -20,8 +14,6 @@ export {
   closeModal,
   toggleKeypad,
   setKeypadInput,
-  setHeaderHeight, // TODO: check if used
-  refreshBottomNavigation, // TODO: remove or rename to toggle? or on/off
 
   // TODO(fj): scrolling - try to remove
   setKeyboardHeight,
@@ -34,6 +26,13 @@ export {
 
 let msgTimeout;
 
+
+/**
+ * Shows a flash message
+ * @param {string} msgType - one of warning|info|success|error
+ * @param {string} text - text to show
+ * @param {boolean} disableClear - should the message stay forever
+ */
 function showMessage(msgType, text, disableClear) {
   return dispatch => {
     clearTimeout(msgTimeout);
@@ -55,8 +54,11 @@ function showMessage(msgType, text, disableClear) {
 
 
 // Custom celsius keypad actions
+/**
+ * Sets the keypad input ref
+ * @param {Object} input - input ref
+ */
 let _keypadInputRef = null;
-
 function setKeypadInput(input) {
   return (dispatch, getState) => {
     const { isKeypadOpen } = getState().ui;
@@ -76,6 +78,10 @@ function setKeypadInput(input) {
   }
 }
 
+
+/**
+ * Toggles the native device keypad
+ */
 function toggleKeypad() {
   return (dispatch) => {
     if (_keypadInputRef) {
@@ -97,27 +103,21 @@ function toggleKeypad() {
   }
 }
 
-function setInternetConnectivity(connected) {
-  return {
-    type: ACTIONS.SET_INTERNET_CONNECTIVITY,
-    internetConnected: connected,
-  }
-}
 
+/**
+ * Clears flash message
+ * @returns {Object} - Action
+ */
 function clearMessage() {
   return {
     type: ACTIONS.CLEAR_MESSAGE,
   }
 }
 
-function setHeaderHeight(height, isAnimatedHeader = false) {
-  return {
-    type: ACTIONS.SET_HEADER_HEIGHT,
-    header: height,
-    isAnimatedHeader,
-  }
-}
 
+/**
+ * @deprecated
+ */
 function setKeyboardHeight(keyboardHeight) {
   return {
     type: ACTIONS.SET_KEYBOARD_HEIGHT,
@@ -125,6 +125,9 @@ function setKeyboardHeight(keyboardHeight) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function setInputLayout(field, layout) {
   return {
     type: ACTIONS.SET_INPUT_LAYOUT,
@@ -133,12 +136,18 @@ function setInputLayout(field, layout) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function clearInputLayouts() {
   return {
     type: ACTIONS.CLEAR_INPUT_LAYOUTS,
   };
 }
 
+/**
+ * @deprecated
+ */
 function scrollTo(scrollOptions = {}) {
   const { field, accordion } = scrollOptions;
 
@@ -187,6 +196,9 @@ function scrollTo(scrollOptions = {}) {
   }
 }
 
+/**
+ * @deprecated
+ */
 function setScrollElementLayout(element, layout) {
   return {
     type: ACTIONS.SET_SCROLL_ELEMENT_LAYOUT,
@@ -195,6 +207,9 @@ function setScrollElementLayout(element, layout) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function setScrollPosition(scrollPosition) {
   return {
     type: ACTIONS.SET_SCROLL_POSITION,
@@ -202,6 +217,10 @@ function setScrollPosition(scrollPosition) {
   };
 }
 
+/**
+ * Open initial modal on app opening
+ * @todo: refactor for v3
+ */
 function openInitialModal() {
   return (dispatch, getState) => {
     const openedModal = getState().ui.openedModal;
@@ -224,9 +243,15 @@ function openInitialModal() {
     if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
     }
-  };
+  }
 }
 
+
+/**
+ * Opens a modal
+ * @param {string} modalName - one of the modals from MODALS in UI.js
+ * @returns {Object} - Action
+ */
 function openModal(modalName) {
   return {
     type: ACTIONS.OPEN_MODAL,
@@ -234,25 +259,22 @@ function openModal(modalName) {
   };
 }
 
+/**
+ * Closes the opened modal
+ * @returns {Object} - Action
+ */
 function closeModal() {
   return {
     type: ACTIONS.CLOSE_MODAL,
   };
 }
 
-function refreshBottomNavigation() {
-  return {
-    type: ACTIONS.REFRESH_BOTTOM_NAVIGATION,
-  };
-}
 
-function fireUserAction(name) {
-  return {
-    type: ACTIONS.FIRE_USER_ACTION,
-    name,
-  };
-}
-
+/**
+ * Sets the theme of the app
+ * @param {string} msgType - one of THEMES
+ * @returns {Object} - Action
+ */
 function setAppTheme(theme) {
   return {
     type: ACTIONS.SET_APP_THEME,
@@ -260,12 +282,21 @@ function setAppTheme(theme) {
   };
 }
 
+
+/**
+ * Opens App Menu
+ * @returns {Object} - Action
+ */
 function openFabMenu() {
   return {
     type: ACTIONS.OPEN_FAB_MENU
   };
 }
 
+/**
+ * Closes App Menu
+ * @returns {Object} - Action
+ */
 function closeFabMenu() {
   return {
     type: ACTIONS.CLOSE_FAB_MENU

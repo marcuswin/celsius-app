@@ -1,5 +1,3 @@
-// TODO(fj): check what to do with mapping before api calls
-
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
 import { showMessage } from "../ui/uiActions";
@@ -12,6 +10,9 @@ export {
   applyForALoan,
 }
 
+/**
+ * Applies the user for a loan
+ */
 function applyForALoan() {
   return async (dispatch, getState) => {
     try {

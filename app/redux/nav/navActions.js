@@ -1,7 +1,3 @@
-// // TODO(fj): doublecheck Home navigation logic
-// // TODO(fj): doublecheck reset param. should get changed to screenProps.reset or something...
-// // TODO(fj): check if needs major refactoring after adding multiple stacks
-
 import { NavigationActions } from 'react-navigation';
 
 let _navigator;
@@ -13,16 +9,32 @@ export {
   getActiveScreen
 };
 
+
+/**
+ * Gets current active screen
+ * @returns {string} - active screen name
+ */
 function getActiveScreen() {
   const index = _navigator._navState.index;
   const index1 = _navigator._navState.routes[index].index;
   return _navigator._navState.routes[index].routes[index1].routeName;
 }
 
+
+/**
+ * Sets _navigator
+ * @param {Object} navigatorRef
+ */
 function setTopLevelNavigator(navigatorRef) {
   _navigator = navigatorRef;
 }
 
+
+/**
+ * Navigates to a screen
+ * @param {string} routeName - name of the screen
+ * @param {Object} params - parameters for the next screen
+ */
 function navigateTo(routeName, params) {
   return () => {
     _navigator.dispatch(
@@ -34,6 +46,10 @@ function navigateTo(routeName, params) {
   }
 }
 
+
+/**
+ * Navigates back
+ */
 function navigateBack() {
   return () => {
     _navigator.dispatch(

@@ -1,5 +1,3 @@
-// TODO(fj): check all actions that need to be here (loadingAssets...)
-
 import { Constants } from "expo";
 import { Platform } from "react-native";
 import uuid from "uuid";
@@ -22,18 +20,17 @@ import ASSETS from "../../constants/ASSETS";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
-// --------------------------------------------------------------------------------------
-
 export {
   initCelsiusApp,
   resetCelsiusApp,
   loadCelsiusAssets,
-  finishLoadingAssets,
   handleAppStateChange,
   setInternetConnection,
 }
 
-
+/**
+ * Initializes Celsius Application
+ */
 function initCelsiusApp() {
   return async (dispatch, getState) => {
     if (getState().app.appInitializing) return;
@@ -62,6 +59,9 @@ function initCelsiusApp() {
   };
 }
 
+/**
+ * Resets Celsius Application
+ */
 function resetCelsiusApp() {
   return async (dispatch) => {
     try {
@@ -78,6 +78,9 @@ function resetCelsiusApp() {
   };
 }
 
+/**
+ * Loads all Celsius App assets from ASSETS.js
+ */
 function loadCelsiusAssets() {
   return async dispatch => {
     dispatch({ type: ACTIONS.START_LOADING_ASSETS })
@@ -91,13 +94,16 @@ function loadCelsiusAssets() {
   }
 }
 
-function finishLoadingAssets() {
-  return { type: ACTIONS.FINISH_LOADING_ASSETS }
-}
-
 const ASK_FOR_PIN_AFTER = 25 * 1000;
 let pinTimeout;
 let startOfBackgroundTimer;
+
+
+/**
+ * Handles state change of the app
+ * @param {string} nextAppState - one of active|inactive|background
+ * @todo: check if it works in v3
+ */
 function handleAppStateChange(nextAppState) {
   return (dispatch, getState) => {
     const { profile } = getState().user;
@@ -139,6 +145,11 @@ function handleAppStateChange(nextAppState) {
   }
 }
 
+
+/**
+ * Sets internet connection in the reducer
+ * @param {boolean} connection
+ */
 function setInternetConnection(connection) {
   return {
     type: ACTIONS.SET_INTERNET_CONNECTION,
@@ -146,7 +157,9 @@ function setInternetConnection(connection) {
   }
 }
 
-// Initialize all data needed for the App
+/**
+ * Initialize all data needed for the App
+ */
 async function initAppData() {
   await store.dispatch(actions.getInitialCelsiusData())
 
@@ -194,6 +207,3 @@ async function initAppData() {
   // TODO: add compliance
   // await store.dispatch(actions.getBlacklistedCountries());
 }
-
-
-// --------------------------------------------------------------------------------------

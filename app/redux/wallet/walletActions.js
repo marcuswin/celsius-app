@@ -1,6 +1,3 @@
-// TODO(fj): export actions as object
-// TODO(fj): split into wallet and transactions
-
 import ACTIONS from '../../constants/ACTIONS';
 import API from "../../constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
@@ -27,6 +24,10 @@ export {
 }
 
 
+
+/**
+ * Gets wallet summary for user
+ */
 function getWalletSummary() {
   return async dispatch => {
     try {
@@ -44,6 +45,10 @@ function getWalletSummary() {
   }
 }
 
+
+/**
+ * @deprecated: replaced with getWalletSummary
+ */
 function getWalletDetails() {
   return async dispatch => {
     try {
@@ -58,6 +63,10 @@ function getWalletDetails() {
   }
 }
 
+
+/**
+ * @deprecated
+ */
 function getWalletDetailsSuccess(wallet) {
   const mixpanelBalances = {};
   wallet.data.forEach(c => {
@@ -71,6 +80,11 @@ function getWalletDetailsSuccess(wallet) {
   }
 }
 
+
+/**
+ * Gets Deposit address for coin
+ * @param {string} coin - btc|eth|xrp
+ */
 function getCoinAddress(coin) {
   return async dispatch => {
     try {
@@ -88,6 +102,10 @@ function getCoinAddress(coin) {
   }
 }
 
+
+/**
+ * @todo: move to getCoinAddress
+ */
 function getCoinAddressSuccess(address) {
   return {
     type: ACTIONS.GET_COIN_ADDRESS_SUCCESS,
@@ -96,6 +114,11 @@ function getCoinAddressSuccess(address) {
   }
 }
 
+
+/**
+ * Gets users withdrawal address for coin
+ * @param {string} coin - @todo: check if BTC or btc
+ */
 function getCoinWithdrawalAddress(coin) {
   return async dispatch => {
     try {
@@ -116,8 +139,7 @@ function getCoinWithdrawalAddress(coin) {
 }
 
 /**
- * @param {string} coin
- * @param {string} address
+ * Sets withdrawal address for user for coin
  */
 function setCoinWithdrawalAddress() {
   return async (dispatch, getState) => {
@@ -147,10 +169,7 @@ function setCoinWithdrawalAddress() {
 }
 
 /**
- * @param {string} coin
- * @param {string} address
- * @param {number} amount
- * @param {Object} verification
+ * @deprecated
  */
 function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;
@@ -181,9 +200,7 @@ function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verifi
 }
 
 /**
- * @param {string} coin
- * @param {WithdrawalAddress} address
- * @returns {{type: string, callName: string, address: *}}
+ * @todo: move to setCoinWithdrawalAddress
  */
 function setCoinWithdrawalAddressSuccess(coin, address) {
   return {
@@ -195,6 +212,11 @@ function setCoinWithdrawalAddressSuccess(coin, address) {
   }
 }
 
+
+/**
+ * Checks user pin code
+ * @param {Function} onSuccess - what to do if pin is correct
+ */
 function getCoinOriginatingAddressSuccess(address) {
   return {
     type: ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS,
@@ -203,10 +225,18 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
+
+/**
+ * @deprecated
+ */
 function storePin(pin) {
   return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
 }
 
+
+/**
+ * @deprecated: getTransactions has a filter instead
+ */
 function getCoinTransactions(coin) {
   return async dispatch => {
     try {
@@ -221,6 +251,10 @@ function getCoinTransactions(coin) {
   }
 }
 
+
+/**
+ * @deprecated
+ */
 function getCoinTransactionsSuccess(transactions) {
   return {
     type: ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS,
