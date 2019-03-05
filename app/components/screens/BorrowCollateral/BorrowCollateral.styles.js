@@ -1,23 +1,29 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
-    container: {
-        flex: 1
-    }
-}
+  container: {
+    flex: 1
+  },
+  wrapper: {
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  coinWrapper: {
+    marginBottom: heightPercentageToDP("3.7%")
+  }
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {}
+};
 
 const BorrowCollateralStyle = () => getThemedStyle(base, themed);
 
-export default BorrowCollateralStyle
+export default BorrowCollateralStyle;

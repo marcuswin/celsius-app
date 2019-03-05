@@ -1,4 +1,4 @@
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from '../../../constants/STYLES';
 
 const base = {
@@ -9,9 +9,9 @@ const base = {
     alignItems: 'center'
   },
   view: {
-    width: 60,
-    height: 60,
-    borderRadius: 60,
+    width: widthPercentageToDP("17%"),
+    height: widthPercentageToDP("17%"),
+    borderRadius: widthPercentageToDP("17%"),
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
