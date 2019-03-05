@@ -13,6 +13,7 @@ import cryptoUtil from '../../../utils/crypto-util';
 import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCard';
 import WalletLandingStyle from './WalletLanding.styles';
 import CoinListCard from '../../molecules/CoinListCard/CoinListCard';
+import LoadingScreen from '../LoadingScreen/LoadingScreen';
 
 @connect(
   state => ({
@@ -29,22 +30,40 @@ class WalletLanding extends Component {
 
   constructor(props) {
     super(props);
+
+    const { walletSummary } = props;
+    const coinWithAmount = [];
+    const coinWithoutAmount = [];
+    if (walletSummary) {
+      walletSummary.coins.forEach((coin) => {
+        const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
+        if (coin.amount_usd > 0) {
+          coinWithAmount.push(coin)
+        } else if (withoutAmountNoPrior) {
+          coinWithoutAmount.push(coin)
+        }
+      });
+    }
+    
     this.state = {
       header: {
         title: `Welcome ${props.user.first_name}!`,
         right: "profile"
       },
-      coinWithAmount: [],
-      coinWithoutAmount: [],
+      coinWithAmount,
+      coinWithoutAmount,
       activeView: 'Grid'
     };
   }
 
-  componentDidMount = () => {
-    const { walletSummary } = this.props;
+  componentDidMount = async () => {
+    const { actions } = this.props;
 
     const coinWithAmount = [];
     const coinWithoutAmount = [];
+
+    await actions.getWalletSummary()
+    const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
       const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
@@ -164,8 +183,9 @@ class WalletLanding extends Component {
   render() {
     const { header } = this.state
     const { actions, walletSummary } = this.props;
-    const CoinsCard = this.renderCoinsCard;
+    if (!walletSummary) return <LoadingScreen />;
 
+    const CoinsCard = this.renderCoinsCard;
     return (
       <RegularLayout header={header}>
         <View>

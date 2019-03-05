@@ -51,22 +51,23 @@ class CelInput extends Component {
         maxLenght: 100,
         autoCapitalize: 'none',
         value: "",
-        secureTextEntry: false
+        secureTextEntry: false,
+        multiline: false,
+        numberOfLines: 1
     }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-      if(nextProps.value !== prevState.propValue) {
-        return {
-          ...prevState,
-          propValue: nextProps.value,
-          textValue: nextProps.value
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.value !== prevState.propValue) {
+            return {
+                ...prevState,
+                propValue: nextProps.value,
+                textValue: nextProps.value
+            }
         }
-      }
-      return null;
-  }
+        return null;
+    }
 
-
-  constructor(props) {
+    constructor(props) {
         super(props);
 
         this.state = {

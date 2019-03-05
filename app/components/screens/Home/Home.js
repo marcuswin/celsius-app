@@ -9,19 +9,25 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 @connect(
   state => ({
     appInitialized: state.app.appInitialized,
+    user: state.user.profile
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Home extends Component {
   async componentWillMount() {
     const { actions, appInitialized } = this.props;
-    if (!appInitialized) actions.initCelsiusApp();
-    actions.loginUser({ email: 'filip.jovakaric+wlt2@mvpworkshop.co', password: 'filip123' })
+    if (!appInitialized) await actions.initCelsiusApp();
   }
 
-  componentDidUpdate(prevProps){
+  componentDidUpdate(prevProps) {
+    const { user } = this.props;
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
-      prevProps.actions.navigateTo('WalletLanding')
+      if (user.id) {
+        prevProps.actions.navigateTo('WalletLanding')
+      } else {
+        prevProps.actions.navigateTo('Login')
+      }
+
     }
   }
 

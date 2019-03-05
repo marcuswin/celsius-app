@@ -7,7 +7,6 @@ const fontSize = getScaledFont(STYLES.FONTSIZE.H4);
 const base = {
     container: {
         width: '100%',
-        flex: 1,
         height: 50,
         ...StyleSheet.flatten(stylesUtil.getPadding("12 16 15 16")),
         backgroundColor: STYLES.COLORS.WHITE,

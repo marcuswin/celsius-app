@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import { View } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -18,7 +19,10 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Login extends Component {
-
+  loginUser = async () => {
+    const { actions, formData: { email, password } } = this.props;
+    await actions.loginUser({ email, password });
+  }
   render() {
     const { formData } = this.props;
     const header = {
@@ -29,7 +33,7 @@ class Login extends Component {
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
         <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton margin="10 0 40 0" onPress={() => { }} >Log in</CelButton>
+        <CelButton margin="10 0 40 0" onPress={this.loginUser} >Log in</CelButton>
         <Separator text="or login with social media" />
       </AuthLayout>
     );

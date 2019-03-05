@@ -185,7 +185,6 @@ async function initAppData() {
 
       // get wallet details for verified users
       if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
-        await store.dispatch(actions.getWalletDetails());
         await store.dispatch(actions.getWalletSummary());
       }
     }
@@ -197,7 +196,7 @@ async function initAppData() {
     mixpanelAnalytics.identify(uuid());
 
     // TODO(fj): check if we need this...
-    store.dispatch(actions.fireUserAction("enteredInitialPin"));
+    // store.dispatch(actions.fireUserAction("enteredInitialPin"));
   }
 
   // get general data for te app

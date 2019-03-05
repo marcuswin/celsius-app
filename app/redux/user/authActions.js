@@ -47,10 +47,10 @@ function loginUser({ email, password }) {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(await loginUserSuccess(res.data));
+      await dispatch(await loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
-      dispatch(navigateTo('Home', true));
+      dispatch(navigateTo('WalletLanding'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));
@@ -246,7 +246,7 @@ function logoutUser() {
       await analyticsEvents.sessionEnd();
       analyticsEvents.logoutUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
-
+      await dispatch(navigateTo('Login'));
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
