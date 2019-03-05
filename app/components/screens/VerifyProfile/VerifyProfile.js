@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Clipboard } from "react-native";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -12,6 +12,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 import HiddenField from "../../atoms/HiddenField/HiddenField";
 import Spinner from "../../atoms/Spinner/Spinner";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -83,6 +84,19 @@ class VerifyProfile extends Component {
     }
   }
 
+  handlePaste = async () => {
+    const { actions } = this.props
+    this.setState({ loading: true })
+    const code = await Clipboard.getString()
+
+    if (code) {
+      this.handle2FAChange(code)
+    } else {
+      actions.showMessage('warning', 'Nothing to paste, please try again!')
+    }
+    this.setState({ loading: false })
+  }
+
   render2FA() {
     const { loading, value } = this.state;
     const { actions } = this.props;
@@ -100,10 +114,12 @@ class VerifyProfile extends Component {
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your Code?</CelText>
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
 
-        {loading && (
+        {loading ? (
           <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
             <Spinner />
           </View>
+        ) : (
+          <CelButton onPress={this.handlePaste}>Paste</CelButton>
         )}
       </View>
     );
