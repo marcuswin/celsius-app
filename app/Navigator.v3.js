@@ -3,7 +3,6 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import Home from "./components/screens/Home/Home";
 import WalletLanding from "./components/screens/WalletLanding/WalletLanding";
-import Borrow from "./components/screens/Borrow/Borrow";
 import CelPayChooseFriend from "./components/screens/CelPayChooseFriend/CelPayChooseFriend";
 import Deposit from "./components/screens/Deposit/Deposit";
 import Settings from "./components/screens/Settings/Settings";
@@ -30,6 +29,12 @@ import WithdrawConfirm from "./components/screens/WithdrawConfirm/WithdrawConfir
 import VerifyProfile from "./components/screens/VerifyProfile/VerifyProfile";
 import CelPayMessage from "./components/screens/CelPayMessage/CelPayMessage";
 import CelPayEnterAmount from "./components/screens/CelPayEnterAmount/CelPayEnterAmount";
+import BorrowEnterAmount from "./components/screens/BorrowEnterAmount/BorrowEnterAmount";
+import BorrowCollateral from "./components/screens/BorrowCollateral/BorrowCollateral";
+import BorrowLoanOption from "./components/screens/BorrowLoanOption/BorrowLoanOption";
+import BorrowLoanTerm from "./components/screens/BorrowLoanTerm/BorrowLoanTerm";
+import BorrowBankAccount from "./components/screens/BorrowBankAccount/BorrowBankAccount";
+import BorrowConfirm from "./components/screens/BorrowConfirm/BorrowConfirm";
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -99,6 +104,23 @@ const celPayProps = {
 }
 const celPayNavigator = createStackNavigator(celPayScreens, celPayProps);
 
+
+const borrowScreens = {
+  BorrowEnterAmount,
+  BorrowCollateral,
+  BorrowLoanOption,
+  BorrowLoanTerm,
+  BorrowBankAccount,
+  VerifyProfile,
+  BorrowConfirm,
+}
+
+const borrowProps = {
+  headerMode: "none",
+  initialRouteName: 'BorrowEnterAmount'
+}
+const borrowNavigator = createStackNavigator(borrowScreens, borrowProps);
+
 export const screens = {
   Home,
   Wallet: walletNavigator,
@@ -107,7 +129,7 @@ export const screens = {
   CelPay: celPayNavigator,
   Settings: SettingsNavigator,
   Auth: authNavigator,
-  Borrow,
+  Borrow: borrowNavigator,
   SelectCountry,
   Support,
   Community,
