@@ -28,7 +28,15 @@ const WEIGHT = {
   '500': '-medium',
   '600': '-semi-bold',
   '700': '-bold',
-  '900': '-black'
+  '900': '-black',
+  'thin': '-thin',
+  'extra-light': '-extra-light',
+  'light': '-light',
+  'regular': '-regular',
+  'medium': '-medium',
+  'semi-bold': '-semi-bold',
+  'bold': '-bold',
+  'black': '-black',
 };
 
 const CACHE_IMAGES = [

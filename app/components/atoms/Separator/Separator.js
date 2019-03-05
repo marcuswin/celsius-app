@@ -6,6 +6,7 @@ import testUtil from "../../../utils/test-util";
 
 import SeparatorStyle from "./Separator.styles";
 import CelText from '../CelText/CelText';
+import stylesUtil from "../../../utils/styles-util";
 
 class Separator extends Component {
 
@@ -17,7 +18,8 @@ class Separator extends Component {
     allCaps: PropTypes.bool,
     dashed: PropTypes.bool,
     color: PropTypes.string,
-    opacity: PropTypes.number
+    opacity: PropTypes.number,
+    margin: PropTypes.string,
   };
   static defaultProps = {
     vertical: false,
@@ -26,7 +28,8 @@ class Separator extends Component {
     allCaps: true,
     dashed: false,
     color: "",
-    opacity: 1
+    opacity: 1,
+    margin: "0 0 0 0"
   }
 
   getSeparatorColor = (style) => StyleSheet.flatten(style.separatorColor).color; // get color from raw json depending on style theme
@@ -42,12 +45,13 @@ class Separator extends Component {
   }
 
   renderLine = () => {
-    const { size, color, dashed, opacity } = this.props
+    const { size, color, dashed, opacity, margin } = this.props
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
+    const margins = stylesUtil.getMargins(margin);
 
     return (
-      <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid', opacity }]} />
+      <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid', opacity }, margins]} />
     )
   }
 
