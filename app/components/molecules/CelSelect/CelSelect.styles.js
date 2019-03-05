@@ -5,7 +5,6 @@ import stylesUtil, { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        flex: 1,
         height: 50,
         ...StyleSheet.flatten(stylesUtil.getPadding("12 16 15 16")),
         backgroundColor: STYLES.COLORS.WHITE,

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import RNPickerSelect from 'react-native-picker-select';
 import { lookup, countries } from "country-data";
 
+import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import CelSelectStyle from "./CelSelect.styles";
 import stylesUtil from '../../../utils/styles-util';
@@ -11,6 +14,10 @@ import Icon from '../../atoms/Icon/Icon';
 import DATA from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
 
+@connect(
+  () => ({}),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class CelSelect extends Component {
 
   static propTypes = {
@@ -160,7 +167,7 @@ class CelSelect extends Component {
     const { items, value } = this.state;
 
     return (
-      <View style={flex ? { flex } : {}}>
+      <View style={[{width: '100%'}, flex ? { flex } : {}]}>
         {type !== 'country' && type !== 'state' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}
