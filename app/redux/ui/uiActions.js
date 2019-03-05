@@ -90,7 +90,7 @@ function toggleKeypad() {
         _keypadInputRef.blur()
       } else {
         const timeout = setTimeout(() => {
-          _keypadInputRef.focus()
+          if (_keypadInputRef) _keypadInputRef.focus()
           clearTimeout(timeout)
         }, 5)
       }

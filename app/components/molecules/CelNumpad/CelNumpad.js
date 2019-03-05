@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { Constants } from 'expo';
 import { View, TouchableOpacity, TextInput } from 'react-native';
+import { withNavigationFocus } from 'react-navigation';
 
 import testUtil from "../../../utils/test-util";
 import CelNumpadStyle from "./CelNumpad.styles";
@@ -29,6 +30,12 @@ const BUTTONS = {
     ['7', '8', '9'],
     ['', '0', '<'],
   ],
+  [KEYPAD_PURPOSES.AMOUNT]: [
+    ['1', '2', '3'],
+    ['4', '5', '6'],
+    ['7', '8', '9'],
+    ['.', '0', '<'],
+  ],
 }
 
 const deviceModel = Constants.platform.ios ? Constants.platform.ios.model : Constants.platform.android.model;
@@ -38,6 +45,7 @@ const KEYBOARDS = {
   [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.VERIFICATION]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.CELPAY]: KEYBOARD_TYPE.NUMERIC,
+  [KEYPAD_PURPOSES.AMOUNT]: KEYBOARD_TYPE.NUMERIC,
 }
 
 class CelNumpad extends Component {
@@ -61,8 +69,12 @@ class CelNumpad extends Component {
     if (autofocus) toggleKeypad();
   }
 
-  componentWillUnmount() {
-    this.props.setKeypadInput(false)
+
+  componentDidUpdate(prevProps) {
+    const { isFocused, setKeypadInput } = this.props;
+    if (prevProps.isFocused === true && isFocused === false) {
+      setKeypadInput(false)
+    }
   }
 
   changeInputText = (text) => {
@@ -114,9 +126,11 @@ class CelNumpad extends Component {
   }
 
   render() {
-    const { purpose, setKeypadInput, value } = this.props
+    const { purpose, setKeypadInput, value, isFocused } = this.props
     const style = CelNumpadStyle()
     const buttons = BUTTONS[purpose]
+
+    if (!isFocused) return null;
 
     if (shouldShowCustomKeypad) {
       return (
@@ -153,4 +167,4 @@ class CelNumpad extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelNumpad);
+export default testUtil.hookComponent(withNavigationFocus(CelNumpad));
