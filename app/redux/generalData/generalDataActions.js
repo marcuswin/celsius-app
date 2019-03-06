@@ -16,7 +16,7 @@ export {
 }
 
 /**
- * Gets all app data (interest rates, ...)
+ * Gets all general app data (interest rates, borrow ltvs, ...)
  * @todo: add more data
  */
 function getInitialCelsiusData() {
@@ -27,7 +27,8 @@ function getInitialCelsiusData() {
       const res = await generalDataService.getCelsiusInitialData();
       dispatch({
         type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
-        interestRates: res.data.interest_rates
+        interestRates: res.data.interest_rates,
+        ltvs: res.data.borrow_ltvs,
       });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
