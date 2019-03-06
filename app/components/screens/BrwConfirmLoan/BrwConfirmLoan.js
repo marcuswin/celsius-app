@@ -60,7 +60,7 @@ class BRWTermOfLoan extends Component {
 
           <View style={{ flexDirection: 'row' }}>
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={[globalStyles.heading, { textAlign: 'center' }]}>{formData.ltv.interest * 100}%</Text>
+              <Text style={[globalStyles.heading, { textAlign: 'center' }]}>{Math.round(formData.ltv.interest * 10000) / 100 }%</Text>
               <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>Annual interest rate</Text>
             </View>
             <View style={{ width: '50%', padding: 10, justifyContent: 'center', alignItems: 'center' }}>

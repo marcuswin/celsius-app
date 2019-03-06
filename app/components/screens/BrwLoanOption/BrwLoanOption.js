@@ -12,9 +12,9 @@ import formatter from '../../../utils/formatter';
 import testUtil from "../../../utils/test-util";
 
 const LTVs = [
-  { percent: 0.2, interest: 0.05 },
-  { percent: 0.33, interest: 0.09 },
-  { percent: 0.5, interest: 0.12 }
+  { percent: 0.2, interest: 0.0495 },
+  { percent: 0.33, interest: 0.0695 },
+  { percent: 0.5, interest: 0.0895 }
 ];
 
 @connect(
@@ -58,7 +58,7 @@ class BRWLoanOption extends Component {
       <TouchableOpacity key={ltv.percent} onPress={() => this.selectOption(ltv)}>
         <Card style={{ marginVertical: 10, padding: 20, opacity: isOptionAvailable ? 1 : 0.5 }}>
           <Text style={globalStyles.normalText}>Loan option { i + 1 }</Text>
-          <Text style={[ globalStyles.heading, { textAlign: 'left'}]}>{ ltv.interest * 100}% interest</Text>
+          <Text style={[ globalStyles.heading, { textAlign: 'left'}]}>{ Math.round(ltv.interest * 10000) / 100 }% interest</Text>
           <Text style={globalStyles.normalText}>Locking { displayAmount } as collateral</Text>
         </Card>
         { !isOptionAvailable && <Text style={[globalStyles.normalText, { color: COLORS.blue }]}>Deposit more funds</Text> }

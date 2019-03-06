@@ -129,7 +129,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Annual interest rate:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{`${loan.interest * 100}%`}</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{`${Math.round(loan.interest * 10000) / 100}%`}</Text>
               </View>
               <Separator />
             </View>
