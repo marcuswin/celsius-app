@@ -27,7 +27,8 @@ const usersService = {
   getIcoPersonalInfo,
   getComplianceInfo,
   connectPhoneContacts,
-  getConnectedContacts
+  getConnectedContacts,
+  getLinkedBankAccount
 };
 
 function register(user) {
@@ -186,6 +187,10 @@ function connectPhoneContacts(contacts) {
 
 function getConnectedContacts() {
   return axios.get(`${apiUrl}/users/friends`);
+}
+
+function getLinkedBankAccount() {
+  return axios.get(`${apiUrl}/user/bank_info`)
 }
 
 export default usersService;

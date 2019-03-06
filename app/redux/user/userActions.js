@@ -28,7 +28,8 @@ export {
   checkPIN,
   checkTwoFactor,
   connectPhoneContacts,
-  getConnectedContacts
+  getConnectedContacts,
+  getLinkedBankAccount
 }
 
 
@@ -364,3 +365,32 @@ function getConnectedContactsSuccess(contacts) {
     contacts,
   }
 }
+
+/**
+ *
+ * Get linked bank account info
+ */
+function getLinkedBankAccount() {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.GET_LINKED_BANK_ACCOUNT))
+
+    try {
+      const res = await usersService.getLinkedBankAccount();
+      dispatch({type: ACTIONS.GET_LINKED_BANK_ACCOUNT_SUCCESS, bankAccountInfo: res.data})
+    } catch (err) {
+      logger.log(err)
+    }
+  }
+}
+
+// /**
+//  *
+//  * @param {Object} bankAccountInfo
+//  * @param {string} bankAccountInfo.bank_name
+//  * @param {string} bankAccountInfo.bank_routing_number
+//  * @param {string} bankAccountInfo.account_type
+//  * @param {string} bankAccountInfo.bank_account_number
+//  */
+// function linkBankAccount(bankAccountInfo) {
+//
+// }

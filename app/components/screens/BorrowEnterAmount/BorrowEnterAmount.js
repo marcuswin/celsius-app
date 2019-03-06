@@ -76,19 +76,19 @@ class BorrowEnterAmount extends Component {
   renderButton() {
     const { formData, actions } = this.props
 
-    if (formData.loanAmount > formData.maxAmount) {
-      return (
-        <CelButton
-          onPress={() => {
-            actions.navigateTo('Deposit')
-            actions.toggleKeypad()
-          }}
-          margin="20 0 0 0"
-        >
-          Deposit more
-        </CelButton>
-      )
-    }
+    // if (formData.loanAmount > formData.maxAmount) {
+    //   return (
+    //     <CelButton
+    //       onPress={() => {
+    //         actions.navigateTo('Deposit')
+    //         actions.toggleKeypad()
+    //       }}
+    //       margin="20 0 0 0"
+    //     >
+    //       Deposit more
+    //     </CelButton>
+    //   )
+    // }
 
     return (
       <CelButton

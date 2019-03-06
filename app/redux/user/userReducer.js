@@ -49,7 +49,8 @@ const initialState = {
   contacts: {
     friendsWithApp: [],
     friendsWithoutApp: []
-  }
+  },
+  bankAccountInfo: null
 };
 
 export default (state = initialState, action) => {
@@ -233,6 +234,14 @@ export default (state = initialState, action) => {
           friendsWithoutApp: [...action.contacts.friendsWithoutApp]
         }
       };
+
+    case ACTIONS.GET_LINKED_BANK_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        bankAccountInfo: {
+          ...action.bankAccountInfo
+        }
+      }
 
     default:
       return state;
