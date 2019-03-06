@@ -21,32 +21,32 @@ const BorrowConfirmModal = ({
   <CelModal name={MODALS.BORROW_CONFIRM}>
     <View>
       <CelText type="H2" weight="bold" align="center" margin="0 0 6 0">Confirm your loan</CelText>
-      <CelText type="H4" weight="300" align="center">By initiating loan you will lock your collateral and initiate a wire transfer of $10,000 to your bank account.</CelText>
+      <CelText type="H4" weight="300" align="center">By initiating loan you will lock your collateral and initiate a wire transfer of { formatter.usd(formData.loanAmount, { precision: 0 }) } to your bank account.</CelText>
 
       <Separator margin="22 0 22 0"/>
       <CelText align="center">You are about to borrow</CelText>
-      <CelText align="center" type="H1" weight="600">{ formatter.usd(formData.loanAmount) }</CelText>
+      <CelText align="center" type="H1" weight="600">{ formatter.usd(formData.loanAmount, { precision: 0 }) }</CelText>
 
       <Separator margin="30 0 16 0"/>
       <CelText type="H6" weight="300">Collateral</CelText>
-      <CelText type="H6" weight="500">0.12345678 BTC</CelText>
-      <CelText type="H6" weight="300">$ 22,000.00</CelText>
+      <CelText type="H6" weight="500">{ formatter.crypto(formData.amountCollateralCrypto, formData.coin) }</CelText>
+      <CelText type="H6" weight="300">{ formatter.usd(formData.amountCollateralUSD) }</CelText>
 
       <Separator margin="16 0 16 0"/>
       <CelText type="H6" weight="300">Term of loan</CelText>
-      <CelText type="H6" weight="500">12 months</CelText>
+      <CelText type="H6" weight="500">{ formData.termOfLoan } months</CelText>
 
       <Separator margin="16 0 16 0"/>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
         <View style={{ maxWidth: '45%', paddingHorizontal: 10 }}>
-          <CelText type="H3" weight="600" align="center">9%</CelText>
+          <CelText type="H3" weight="600" align="center">{ formatter.percentage(formData.interest) }%</CelText>
           <CelText type="H6" weight="300" align="center">Annual interest rate</CelText>
         </View>
 
         <Separator vertical/>
 
         <View style={{ width: '45%', paddingHorizontal: 5 }}>
-          <CelText type="H3" weight="600" align="center">$ 75</CelText>
+          <CelText type="H3" weight="600" align="center">{ formatter.usd(formData.monthlyPayment) }</CelText>
           <CelText type="H6" weight="300" align="center">Monthly interest payment</CelText>
         </View>
       </View>
@@ -61,8 +61,8 @@ const BorrowConfirmModal = ({
 )
 
 BorrowConfirmModal.propTypes = {
-  formData: PropTypes.instanceOf(Object),
-  onConfirm: PropTypes.func,
+  formData: PropTypes.instanceOf(Object).isRequired,
+  onConfirm: PropTypes.func.isRequired,
 }
 
 export default testUtil.hookComponent(BorrowConfirmModal);
