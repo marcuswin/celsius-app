@@ -186,6 +186,7 @@ async function initAppData() {
       // get wallet details for verified users
       if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
         await store.dispatch(actions.getWalletSummary());
+        await store.dispatch(actions.getComplianceInfo());
       }
     }
   } else {
