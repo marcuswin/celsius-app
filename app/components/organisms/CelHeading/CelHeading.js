@@ -70,7 +70,11 @@ class CelHeading extends Component {
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
       "profile":
         <CelButton basic onPress={() => { actions.navigateTo('Profile'); }}>
-          <Image style={{ width: 35, height: 35, borderRadius: 17 }} source={{ uri: profilePicture }} resizeMethod="resize" />
+          <Image
+            style={{ width: 35, height: 35, borderRadius: 17 }}
+            source={ profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+            resizeMethod="resize"
+          />
         </CelButton>,
       "logout": <CelButton basic onPress={() => { }}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
