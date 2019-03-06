@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Body, Button, Header, Icon, Left, List, ListItem, Text, Title, View} from "native-base";
+import {Body, Button, Header, Left, List, ListItem, Text, Title, View} from "native-base";
 import PropTypes from "prop-types";
 import {Modal, TouchableOpacity, TextInput} from "react-native";
 import {countries} from "country-data";
 import testUtil from "../../../utils/test-util";
 
-
+import Icon from "../../atoms/Icon/Icon"
 import SelectCountryStyles from "./SelectCountryModal.styles";
 
 
@@ -91,7 +91,7 @@ class SelectCountryModal extends Component {
         <Header style={[SelectCountryStyles.header]} iosBarStyle="light-content">
           <Left>
             <Button ref={testUtil.generateTestHook(this, 'SelectCountryModal.country')} title='Back' transparent onPress={() => onClose(null)}>
-              <Icon style={SelectCountryStyles.backArrow} name='arrow-back'/>
+              <Icon name="IconChevronLeft" height='20' width='20' fill="white" viewBox="0 0 22 22" />
             </Button>
           </Left>
           <Body>
