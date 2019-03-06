@@ -54,6 +54,11 @@ function getDefaultEmptyState(purpose, actions) {
       heading: 'Under Construction!',
       paragraphs: ['We are working really hard on this feature!'],
     },
+    [EMPTY_STATES.INSUFFICIENT_FUNDS]: {
+      image: require('../../../../assets/images/OfflineMode/deer-tangled3x.png'),
+      heading: 'Insufficient funds!',
+      paragraphs: ['PLEASE GIVE US US YOUR MONEYYYYYY!'],
+    }
   }[purpose];
 }
 
