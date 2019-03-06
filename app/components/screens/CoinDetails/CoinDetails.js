@@ -63,7 +63,10 @@ class CoinDetails extends Component {
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
     const coin = navigation.getParam("coin");
-    return walletSummary.coins.find(c => c.short === coin.toUpperCase());
+    if (walletSummary.coins) {
+      return walletSummary.coins.find(c => c.short === coin.toUpperCase());
+    }
+    return null;
   }
 
   navigateToAllTransactions = () => {
@@ -75,7 +78,7 @@ class CoinDetails extends Component {
     const { header, dateArray, priceArray, currency } = this.state;
     const { transactions, currencyRatesShort, actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails.short, limit: 5 });
+    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails && coinDetails.short, limit: 5 });
     const style = CoinDetailsStyle();
 
     return (
@@ -137,7 +140,7 @@ class CoinDetails extends Component {
                   <CelText type="H6"
                     color="rgba(60,72,84,0.7)">{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                 </View>
-                {!!interestRates[coinDetails.short] && (
+                {!!coinDetails && !!interestRates[coinDetails.short] && (
                   <View style={style.interestRateWrapper}>
                     <CelText type="H6" color="rgba(60,72,84,0.7)">Today's rate</CelText>
                     <Badge color={COLORS.GREEN}>

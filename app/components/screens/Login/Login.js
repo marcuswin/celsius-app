@@ -11,10 +11,13 @@ import CelInput from '../../atoms/CelInput/CelInput';
 import CelButton from '../../atoms/CelButton/CelButton';
 import Separator from '../../atoms/Separator/Separator';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
+import apiUtil from '../../../utils/api-util';
+import API from '../../../config/constants/API';
 
 @connect(
   state => ({
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -24,7 +27,8 @@ class Login extends Component {
     await actions.loginUser({ email, password });
   }
   render() {
-    const { formData } = this.props;
+    const { formData, callsInProgress } = this.props;
+    const loginLoadig = apiUtil.areCallsInProgress([API.LOGIN_USER], callsInProgress);
     const header = {
       right: "signup"
     }
@@ -33,7 +37,7 @@ class Login extends Component {
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
         <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton margin="10 0 40 0" onPress={this.loginUser} >Log in</CelButton>
+        <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoadig}>Log in</CelButton>
         <Separator text="or login with social media" />
       </AuthLayout>
     );

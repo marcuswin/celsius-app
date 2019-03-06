@@ -6,7 +6,7 @@ import testUtil from "../../../utils/test-util";
 import RegularLayoutStyle from "./RegularLayout.styles";
 import CelHeading from '../../organisms/CelHeading/CelHeading';
 import CelText from '../../atoms/CelText/CelText';
-import KeyboardShift from '../../../utils/keyboard-shift-util';
+// import KeyboardShift from '../../../utils/keyboard-shift-util';
 import stylesUtil from '../../../utils/styles-util';
 
 class RegularLayout extends Component {
@@ -37,12 +37,12 @@ class RegularLayout extends Component {
         )}
 
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
-          <SafeAreaView style={{ flex: 1 }}>
-            <KeyboardShift>
-              <React.Fragment>
-                {children}
-              </React.Fragment>
-            </KeyboardShift>
+          <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+            {/* <KeyboardShift>
+            <React.Fragment> */}
+            {children}
+            {/* </React.Fragment>
+            </KeyboardShift> */}
           </SafeAreaView>
         </ScrollView>
       </React.Fragment>
