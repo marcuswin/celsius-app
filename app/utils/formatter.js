@@ -12,6 +12,7 @@ export default {
   round,
   deepmerge,
   capitalize,
+  percentage,
 }
 
 function usd(amount, options = {}) {
@@ -32,6 +33,10 @@ function round(amount, options = {}) {
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function percentage(number) {
+  return Math.round(number * 10000) / 100;
 }
 
 function ordinalSuffixOf(number) {
