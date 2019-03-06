@@ -52,9 +52,10 @@ class BorrowCollateral extends Component {
     return (
       <View key={coin.name} style={style.coinWrapper}>
         <CircleButton
-          onPress={() => actions.navigateTo("Deposit", {coin: coin.short})}
+          onPress={() => actions.navigateTo("BorrowLoanOption", {coin: coin.short})}
           type={"coin"}
           icon={`Icon${coin.short}`}
+          disabled={coin.amount_usd < 10000}
         />
         <CelText weight={"500"} align="center" style={{marginTop: 10}}>{name}</CelText>
         <CelText weight={"300"} align="center" style={{color}}>{crypto}</CelText>
@@ -81,8 +82,8 @@ class BorrowCollateral extends Component {
           {availableCoins.map(coin => this.renderButton(coin))}
         </View>
 
-        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo("BorrowLoanOption")}>
-          Choose loan option
+        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo("Deposit")}>
+          Deposit more funds
         </CelButton>
 
       </RegularLayout>
