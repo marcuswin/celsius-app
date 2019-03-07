@@ -1,10 +1,10 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { showMessage } from "../ui/uiActions";
+import { showMessage, closeModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
-import { analyticsEvents } from "../../utils/analytics-util";
+// import { analyticsEvents } from "../../utils/analytics-util";
 
 export {
   applyForALoan,
@@ -21,19 +21,28 @@ function applyForALoan() {
 
       const loanApplication = {
         coin: formData.coin,
-        collateral_amount_usd: formData.amountCollateralUSD,
-        collateral_amount_crypto: formData.amountCollateralCrypto,
+        amount_collateral_usd: formData.amountCollateralUSD,
+        amount_collateral_crypto: formData.amountCollateralCrypto,
         ltv: formData.ltv.percent,
         interest: formData.ltv.interest,
         loan_amount: formData.loanAmount,
-        monthly_payment: formData.monthlyPayment || 0,
+        term_of_loan: formData.termOfLoan,
+        bank_info_id: formData.bankInfo.id,
       }
 
-      const res = await loansService.apply(loanApplication);
-      dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS });
-      analyticsEvents.applyForLoan(res.data)
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code,
+      }
+
+      const res = await loansService.apply(loanApplication, verification);
+      dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS, loan: res.data.loan });
+
+      // analyticsEvents.applyForLoan(res.data)
+
+      dispatch(closeModal());
       dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
-      dispatch(navigateTo('Home'));
+      dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
