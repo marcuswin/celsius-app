@@ -207,6 +207,11 @@ const CONTACT_NETWORK = {
 
 const PREDIFINED_AMOUNTS = ["20", "50", "100", "ALL"];
 
+const BANK_ACCOUNT_TYPE = [
+  {label: 'Checking', value: 'Checking'},
+  {label: 'Savings', value: 'Savings'}
+]
+
 export default {
   FORBIDEN_COUNTRIES,
   ELIGIBLE_COINS,
@@ -223,5 +228,6 @@ export default {
   YEARS,
   STATE,
   CONTACT_NETWORK,
-  PREDIFINED_AMOUNTS
+  PREDIFINED_AMOUNTS,
+  BANK_ACCOUNT_TYPE
 }

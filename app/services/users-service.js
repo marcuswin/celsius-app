@@ -28,7 +28,8 @@ const usersService = {
   getComplianceInfo,
   connectPhoneContacts,
   getConnectedContacts,
-  getLinkedBankAccount
+  getLinkedBankAccount,
+  linkBankAccount
 };
 
 function register(user) {
@@ -190,7 +191,11 @@ function getConnectedContacts() {
 }
 
 function getLinkedBankAccount() {
-  return axios.get(`${apiUrl}/user/bank_info`)
+  return axios.get(`${apiUrl}/bank/account`)
+}
+
+function linkBankAccount(bankAccountInfo) {
+  return axios.post(`${apiUrl}/bank/account`, bankAccountInfo)
 }
 
 export default usersService;

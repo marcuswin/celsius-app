@@ -29,7 +29,8 @@ export {
   checkTwoFactor,
   connectPhoneContacts,
   getConnectedContacts,
-  getLinkedBankAccount
+  getLinkedBankAccount,
+  linkBankAccount
 }
 
 
@@ -383,14 +384,24 @@ function getLinkedBankAccount() {
   }
 }
 
-// /**
-//  *
-//  * @param {Object} bankAccountInfo
-//  * @param {string} bankAccountInfo.bank_name
-//  * @param {string} bankAccountInfo.bank_routing_number
-//  * @param {string} bankAccountInfo.account_type
-//  * @param {string} bankAccountInfo.bank_account_number
-//  */
-// function linkBankAccount(bankAccountInfo) {
-//
-// }
+/**
+ * Set Bank account info
+ *
+ * @param {Object} bankAccountInfo
+ * @param {string} bankAccountInfo.bank_name
+ * @param {string} bankAccountInfo.bank_routing_number
+ * @param {string} bankAccountInfo.account_type
+ * @param {string} bankAccountInfo.bank_account_number
+ */
+function linkBankAccount(bankAccountInfo) {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.LINK_BANK_ACCOUNT))
+
+    try {
+      await usersService.linkBankAccount(bankAccountInfo)
+      dispatch({type: ACTIONS.LINK_BANK_ACCOUNT_SUCCESS})
+    } catch (err) {
+      logger.log(err)
+    }
+  }
+}
