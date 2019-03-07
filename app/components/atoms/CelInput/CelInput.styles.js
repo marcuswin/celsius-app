@@ -7,8 +7,14 @@ const fontSize = getScaledFont(STYLES.FONTSIZE.H4);
 const base = {
     container: {
         width: '100%',
-        height: 50,
+        borderRadius: 8
+    },
+    trans: {
+        backgroundColor: 'transparent'
+    },
+    inputWrapper: {
         ...StyleSheet.flatten(stylesUtil.getPadding("12 16 15 16")),
+        height: 50,
         backgroundColor: STYLES.COLORS.WHITE,
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.05,

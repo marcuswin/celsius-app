@@ -22,6 +22,9 @@ import API from '../../../config/constants/API';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Login extends Component {
+  state = {
+    error: ""
+  }
   loginUser = async () => {
     const { actions, formData: { email, password } } = this.props;
     await actions.loginUser({ email, password });
@@ -35,11 +38,11 @@ class Login extends Component {
     return (
       <AuthLayout header={header}>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
-        <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
+        <CelInput error={this.state.error} type="text" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoadig}>Log in</CelButton>
+        <CelButton margin="10 0 40 0" onPress={() => this.setState({ error: 'testing error' })} loading={loginLoadig}>Log in</CelButton>
         <Separator text="or login with social media" />
-      </AuthLayout>
+      </AuthLayout >
     );
   }
 }

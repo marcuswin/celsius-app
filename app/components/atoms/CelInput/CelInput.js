@@ -9,6 +9,7 @@ import CelInputText from './CelInputText';
 import stylesUtil from '../../../utils/styles-util';
 import CelSelect from '../../molecules/CelSelect/CelSelect';
 import CelTextArea from '../CelTextArea/CelTextArea';
+import CelText from '../CelText/CelText';
 
 class CelInput extends Component {
 
@@ -83,19 +84,18 @@ class CelInput extends Component {
 
   getInputStyle = () => {
     if (this.props.basic) return [];
-    const { disabled, margin } = this.props;
+    const { disabled } = this.props;
     const cmpStyle = CelInputStyle()
     const { active } = this.state;
-    const style = [cmpStyle.container, stylesUtil.getMargins(margin)];
+    const style = [cmpStyle.inputWrapper];
     if (active) style.push(cmpStyle.activeInput)
     if (disabled) style.push(cmpStyle.disabledInput)
     return style;
   }
 
-  render() {
-    const { type, value } = this.props
+  renderInputByType = () => {
+    const { type, value } = this.props;
     const inputStyle = this.getInputStyle();
-
     switch (type) {
       case 'password':
         return (
@@ -111,7 +111,6 @@ class CelInput extends Component {
           </View>
         )
       case 'text-area':
-
         return (
           <View style={[inputStyle, { height: "auto" }]}>
             <CelTextArea {...this.props} />
@@ -125,6 +124,20 @@ class CelInput extends Component {
           </View>
         )
     }
+  }
+
+  render() {
+    const { error, margin } = this.props
+    const cmpStyle = CelInputStyle();
+    const styleWrapper = [stylesUtil.getMargins(margin), cmpStyle.container, cmpStyle.trans];
+    const Input = this.renderInputByType;
+
+    return (
+      <View style={styleWrapper}>
+        <Input />
+        <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{!!error && error}</CelText>
+      </View>
+    )
   }
 }
 
