@@ -21,6 +21,7 @@ class CircleButton extends Component {
       PropTypes.string,
       PropTypes.bool
     ]),
+    disabled: PropTypes.bool,
     isSelected: PropTypes.bool,
     selectable: PropTypes.bool,
     type: PropTypes.oneOf(['menu', 'theme', 'coin']).isRequired,
@@ -28,7 +29,8 @@ class CircleButton extends Component {
 
   static defaultProps = {
     isSelected: false,
-    selectable: false
+    selectable: false,
+    disabled: false,
   };
 
   shouldComponentUpdate(nextProps) {
@@ -39,7 +41,7 @@ class CircleButton extends Component {
   getFillColor = (style) => StyleSheet.flatten(style.fillColor).color; // get color from raw json depending on style theme
 
   render() {
-    const { theme, style, onPress, text, icon, type, isSelected, selectable } = this.props;
+    const { disabled, theme, style, onPress, text, icon, type, isSelected, selectable } = this.props;
     let fillColor = "";
     const styleCmp = CircleButtonStyle(theme);
     if (icon) {
@@ -48,7 +50,7 @@ class CircleButton extends Component {
     const textStyle = [styleCmp.text, styleCmp[`text${type}`]];
 
     return (
-      <TouchableOpacity style={[styleCmp.container, style]} onPress={!onPress ? () => {} : onPress}>
+      <TouchableOpacity disabled={disabled} style={[styleCmp.container, style]} onPress={!onPress ? () => {} : onPress}>
         <View style={{opacity: isSelected || !selectable ? 1 : 0.5 }}>
           <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
             {icon &&

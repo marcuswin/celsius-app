@@ -12,7 +12,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
 import { HIGHLIGHTED_COUNTRIES } from '../../../constants/UI';
-import Separator from '../../../components.v2/atoms/Separator/Separator';
+import Separator from '../../atoms/Separator/Separator';
 
 @connect(
   state => ({
@@ -128,7 +128,7 @@ class SelectCountry extends Component {
   }
 
   renderImage = (iso) => {
-    const { style } = this.props;
+    const style = SelectCountryStyles();
     return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style.flagImage} /> // Todo(sb): change hardcoded link with our images folder link
   }
 

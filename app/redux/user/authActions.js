@@ -243,13 +243,13 @@ function logoutUser() {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      await analyticsEvents.sessionEnd();
-      analyticsEvents.logoutUser();
+      // await analyticsEvents.sessionEnd();
+      // analyticsEvents.logoutUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
-      await dispatch(navigateTo('Login'));
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
+      await dispatch(navigateTo('Login'));
     } catch (err) {
       logger.log(err);
     }

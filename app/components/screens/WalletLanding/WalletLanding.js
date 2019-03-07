@@ -57,12 +57,14 @@ class WalletLanding extends Component {
   }
 
   componentDidMount = async () => {
-    const { actions } = this.props;
+    const { actions, currenciesRates, currenciesGraphs } = this.props;
 
     const coinWithAmount = [];
     const coinWithoutAmount = [];
 
     await actions.getWalletSummary()
+    if (!currenciesRates) actions.getCurrencyRates()
+    if (!currenciesGraphs) actions.getCurrencyGraphs()
     const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
@@ -182,8 +184,9 @@ class WalletLanding extends Component {
 
   render() {
     const { header } = this.state
-    const { actions, walletSummary } = this.props;
-    if (!walletSummary) return <LoadingScreen />;
+    const { actions, walletSummary, currenciesRates, currenciesGraphs, user } = this.props;
+
+    if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
 
     const CoinsCard = this.renderCoinsCard;
     return (

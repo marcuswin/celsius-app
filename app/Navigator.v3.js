@@ -34,6 +34,8 @@ import BorrowCollateral from "./components/screens/BorrowCollateral/BorrowCollat
 import BorrowLoanOption from "./components/screens/BorrowLoanOption/BorrowLoanOption";
 import BorrowLoanTerm from "./components/screens/BorrowLoanTerm/BorrowLoanTerm";
 import BorrowBankAccount from "./components/screens/BorrowBankAccount/BorrowBankAccount";
+import BorrowLanding from "./components/screens/BorrowLanding/BorrowLanding";
+
 import { INITIAL_ROUTE } from "./constants/UI";
 
 const settingsScreens = {
@@ -111,6 +113,7 @@ const borrowScreens = {
   BorrowLoanTerm,
   BorrowBankAccount,
   VerifyProfile,
+  BorrowLanding
 }
 
 const borrowProps = {
