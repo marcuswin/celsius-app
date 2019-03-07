@@ -27,8 +27,23 @@ function cancel(transferHash) {
   return axios.post(`${apiUrl}/transfer/${transferHash}/cancel`);
 }
 
+/**
+ * Creates a CelPay transfer and link on /transfer
+ *
+ * @param {Object} transfer
+ * @param {string} transfer.amount
+ * @param {string} transfer.coin - eg. ETH
+ * @param {string} transfer.friend_id - uuid
+ * @param {string} transfer.message
+ * @param {Object} verification
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+ *
+ * @returns {Promise}
+ *
+ */
 function create(transfer, verification) {
-  return axios.put(`${apiUrl}/transfer`, {
+  return axios.post(`${apiUrl}/transfer`, {
     ...transfer,
     ...verification,
   });

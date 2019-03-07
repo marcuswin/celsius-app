@@ -19,7 +19,7 @@ const loansService = {
  * @param {string} loanApplication.bank_info_id - uuid of users bank_info
  * @param {Object} verification
  * @param {string} verification.pin - eg '1234'
- * @param {string} verification.verification_code - eg '123456'
+ * @param {string} verification.twoFactorCode - eg '123456'
  *
  * @returns {Promise}
  *
