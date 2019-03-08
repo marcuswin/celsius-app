@@ -61,20 +61,15 @@ function getAllLoans() {
 
       const res = await loansService.getAllLoans();
 
-      dispatch(getAllLoansSuccess(res.data));
+      dispatch({
+        type: ACTIONS.GET_ALL_LOANS_SUCCESS,
+        callName: API.GET_ALL_LOANS,
+        allLoans: res.data,
+      });
+
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_LOANS, err));
     }
-  }
-}
-
-function getAllLoansSuccess(loans) {
-  return (dispatch) => {
-    dispatch({
-      type: ACTIONS.GET_ALL_LOANS_SUCCESS,
-      callName: API.GET_ALL_LOANS,
-      allLoans: loans,
-    });
   }
 }

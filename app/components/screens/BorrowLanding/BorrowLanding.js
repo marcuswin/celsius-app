@@ -41,7 +41,7 @@ class BorrowLanding extends Component {
 
     this.state = {
       header: {
-        title: "Borrow Landing",
+        title: "Borrow",
         left: "back",
         right: "profile"
       },
