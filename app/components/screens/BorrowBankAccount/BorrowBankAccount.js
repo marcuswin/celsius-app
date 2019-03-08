@@ -44,7 +44,8 @@ class BorrowBankAccount extends Component {
   linkBankAccount = async () => {
     const { actions, formData } = this.props
     const isAmerican = this.isAmerican()
-    const isFormValid = this.validateBankInfoAccountForm();
+    // const isFormValid = this.validateBankInfoAccountForm();
+    const isFormValid = true
 
     if (isFormValid) {
       const bankAccountInfo = {

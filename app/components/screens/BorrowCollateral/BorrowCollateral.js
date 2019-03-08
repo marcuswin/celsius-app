@@ -39,11 +39,15 @@ class BorrowCollateral extends Component {
     };
   }
 
-  capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+  handleSelectCoin = (coin) => {
+    const { actions } = this.props
+
+    actions.updateFormField('coin', coin)
+    actions.navigateTo('BorrowLoanOption')
+  }
 
   renderButton = (coin) => {
-    const {actions} = this.props;
-    const name = this.capitalize(coin.name);
+    const name = formatter.capitalize(coin.name);
     const crypto = formatter.crypto(coin.amount, coin.short, {precision: 2});
     const fiat = formatter.usd(coin.amount_usd);
     const style = BorrowCollateralStyle();
@@ -52,7 +56,7 @@ class BorrowCollateral extends Component {
     return (
       <View key={coin.name} style={style.coinWrapper}>
         <CircleButton
-          onPress={() => actions.navigateTo("BorrowLoanOption", {coin: coin.short})}
+          onPress={() => this.handleSelectCoin(coin.short)}
           type={"coin"}
           icon={`Icon${coin.short}`}
           disabled={coin.amount_usd < 10000}

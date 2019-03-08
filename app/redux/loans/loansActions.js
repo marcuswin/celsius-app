@@ -22,13 +22,13 @@ function applyForALoan() {
 
       const loanApplication = {
         coin: formData.coin,
-        amount_collateral_usd: formData.amountCollateralUSD,
+        amount_collateral_usd: formData.amountCollateralUsd,
         amount_collateral_crypto: formData.amountCollateralCrypto,
-        ltv: formData.ltv.percent,
-        interest: formData.ltv.interest,
+        ltv: formData.ltv,
+        interest: formData.interest,
         loan_amount: formData.loanAmount,
         term_of_loan: formData.termOfLoan,
-        bank_info_id: formData.bankInfo.id,
+        bank_info_id: formData.bankInfo ? formData.bankInfo.id : null,
       }
 
       const verification = {

@@ -15,16 +15,14 @@ import STYLES from '../../../constants/STYLES';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
-  () => ({}),
+  (state) => ({
+    formData: state.forms.formData,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BorrowLoanTerm extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
+  static propTypes = {};
+  static defaultProps = {}
 
   constructor(props) {
     super(props);
@@ -33,38 +31,45 @@ class BorrowLoanTerm extends Component {
         title: "BorrowLoanTerm Screen",
         left: "back",
         right: "profile"
-      },
-      currentStep: 0
+      }
     };
+
+    props.actions.updateFormField('termOfLoan', 6)
   }
 
   changeSelectedLoan = (selectedStep) => {
-    const { currentStep } = this.state;
-    if (selectedStep !== currentStep) this.setState({ currentStep: selectedStep });
+    const { actions } = this.props;
+    actions.updateFormField('termOfLoan', selectedStep)
   }
 
   render() {
-    const { header, currentStep } = this.state;
-    const { actions } = this.props;
-    // const style = BorrowLoanTermStyle();
-    const terms = [
-      <CelText><CelText weight="bold" color={currentStep === 0 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>6 months</CelText> - Total interest: $450</CelText>,
-      <CelText><CelText weight="bold" color={currentStep === 1 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>12 months</CelText> - Total interest: $450</CelText>,
-      <CelText><CelText weight="bold" color={currentStep === 2 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>18 months</CelText> - Total interest: $450</CelText>,
-      <CelText><CelText weight="bold" color={currentStep === 3 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>24 months</CelText> - Total interest: $450</CelText>,
-      <CelText><CelText weight="bold" color={currentStep === 4 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>30 months</CelText> - Total interest: $450</CelText>,
-      <CelText><CelText weight="bold" color={currentStep === 5 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>38 months</CelText> - Total interest: $450</CelText>
+    const { header } = this.state;
+    const { actions, formData } = this.props;
+
+    const sliderItems = [
+      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>6 months</CelText> },
+      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>12 months</CelText> },
+      { value: 18, label: <CelText weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>18 months</CelText> },
+      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>24 months</CelText> },
+      { value: 30, label: <CelText weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>30 months</CelText> },
+      { value: 36, label: <CelText weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>36 months</CelText> },
     ]
 
     return (
       <RegularLayout header={header}>
         <ProgressBar steps={6} currentStep={4} />
         <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
-        <VerticalSlider onChange={this.changeSelectedLoan} values={terms} currentStep={currentStep} />
+
+        <VerticalSlider
+          items={sliderItems}
+          field="termOfLoan"
+          value={formData.termOfLoan}
+          updateFormField={actions.updateFormField}
+        />
+
         <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo('BorrowBankAccount')} iconRight="IconArrowRight">
           Bank account
         </CelButton>
-
       </RegularLayout>
     );
   }

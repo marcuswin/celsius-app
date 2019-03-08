@@ -143,10 +143,7 @@ class BorrowEnterAmount extends Component {
 
         <BorrowConfirmModal
           formData={formData}
-          onConfirm={(loan) => {
-            actions.updateFormFields(loan)
-            actions.applyForALoan()
-          }}
+          onConfirm={() => actions.applyForALoan()}
         />
       </RegularLayout>
     );

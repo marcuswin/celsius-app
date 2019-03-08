@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import BorrowLoanOptionStyle from "./BorrowLoanOption.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
@@ -41,7 +38,7 @@ class BorrowLoanOption extends Component {
     };
   }
 
-  initializeFormDatas = (interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) => {
+  setLoanOption = (interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) => {
     const {actions} = this.props;
 
     actions.updateFormFields({
@@ -56,10 +53,9 @@ class BorrowLoanOption extends Component {
   };
 
   renderInterestCard = (ltv) => {
-    const {formData, currencyRates, navigation} = this.props;
-    const coin = navigation.getParam('coin');
+    const {formData, currencyRates} = this.props;
 
-    const crypto = currencyRates[coin.toLowerCase()];
+    const crypto = currencyRates[formData.coin.toLowerCase()];
     const monthlyPayment = formData.loanAmount * ltv.interest / 12;
     const amountCollateralUsd = formData.loanAmount / ltv.percent;
     const amountCollateralCrypto = (amountCollateralUsd / crypto);
@@ -69,14 +65,14 @@ class BorrowLoanOption extends Component {
     // ToDo:(ns) add opacity on card if ineligible for LTV option
 
       return (
-          <View>
-            <Card onPress={() => this.initializeFormDatas(interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) }
+          <View key={ltv.interest}>
+            <Card onPress={() => this.setLoanOption(ltv.interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) }
                   padding="15 15 15 15"
                   margin="15 20 15 20"
             >
               <CelText weight={"300"} type={"H6"}>{`$${formatter.round(monthlyPayment)} per month`}</CelText>
               <CelText weight={"600"} type={"H3"}>{`${interest}% interest rate`}</CelText>
-              <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(amountCollateralCrypto)} ${coin} as collateral`}</CelText>
+              <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(amountCollateralCrypto)} ${formData.coin} as collateral`}</CelText>
             </Card>
           </View>
     )
@@ -84,20 +80,13 @@ class BorrowLoanOption extends Component {
 
   render() {
     const { header } = this.state;
-    const { actions, ltv } = this.props;
-    // const style = BorrowLoanOptionStyle();
+    const { ltv } = this.props;
 
     return (
       <RegularLayout header={header}>
         <ProgressBar steps={6} currentStep={3}/>
-
         <CelText weight={"300"} margin={"20 0 20 0"}>Choose your loan option:</CelText>
-
-        {ltv.map(ltvs => this.renderInterestCard(ltvs))}
-
-        <CelButton onPress={() => actions.navigateTo('BorrowLoanTerm')}>
-          Choose loan term
-        </CelButton>
+        {ltv.map(this.renderInterestCard)}
       </RegularLayout>
     );
   }
