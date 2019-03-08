@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -10,10 +10,12 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
     formData: state.forms.formData,
+    walletSummary: state.wallet.summary,
     ltv: state.loans.ltvs,
     currencyRates: state.currencies.currencyRatesShort,
   }),
@@ -31,7 +33,7 @@ class BorrowLoanOption extends Component {
     super(props);
     this.state = {
       header: {
-        title: "BorrowLoanOption Screen",
+        title: "Loan option",
         left: "back",
         right: "info"
       },
@@ -53,7 +55,7 @@ class BorrowLoanOption extends Component {
   };
 
   renderInterestCard = (ltv) => {
-    const {formData, currencyRates} = this.props;
+    const {formData, currencyRates, walletSummary, actions} = this.props;
 
     const crypto = currencyRates[formData.coin.toLowerCase()];
     const monthlyPayment = formData.loanAmount * ltv.interest / 12;
@@ -62,20 +64,30 @@ class BorrowLoanOption extends Component {
     const interest = formatter.percentage(ltv.interest);
     const loanToValue = ltv.percent;
 
-    // ToDo:(ns) add opacity on card if ineligible for LTV option
+    const isAllowed = walletSummary.coins.find(c => c.short === formData.coin).amount_usd > amountCollateralUsd
 
-      return (
-          <View key={ltv.interest}>
-            <Card onPress={() => this.setLoanOption(ltv.interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) }
-                  padding="15 15 15 15"
-                  margin="15 20 15 20"
-            >
-              <CelText weight={"300"} type={"H6"}>{`$${formatter.round(monthlyPayment)} per month`}</CelText>
-              <CelText weight={"600"} type={"H3"}>{`${interest}% interest rate`}</CelText>
-              <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(amountCollateralCrypto)} ${formData.coin} as collateral`}</CelText>
-            </Card>
-          </View>
-    )
+    return (
+      <View key={ltv.interest} style={{ paddingHorizontal: 20}}>
+        <Card onPress={isAllowed ? () => this.setLoanOption(ltv.interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) : undefined}
+              padding="15 15 15 15"
+              margin="25 0 5 0"
+              opacity={isAllowed ? 1 : 0.4}
+        >
+          <CelText weight={"300"} type={"H6"}>{`$${formatter.round(monthlyPayment)} per month`}</CelText>
+          <CelText weight={"600"} type={"H3"}>{`${interest}% interest rate`}</CelText>
+          <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(amountCollateralCrypto)} ${formData.coin} as collateral`}</CelText>
+        </Card>
+
+        { !isAllowed && (
+          <TouchableOpacity onPress={() => actions.navigateTo('Deposit', { coin: formData.coin })}>
+            <CelText margin="0 0 0 0">
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Deposit more coins to </CelText>
+              use this options
+            </CelText>
+          </TouchableOpacity>
+        )}
+      </View>
+  )
   };
 
   render() {

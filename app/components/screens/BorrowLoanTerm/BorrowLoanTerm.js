@@ -28,7 +28,7 @@ class BorrowLoanTerm extends Component {
     super(props);
     this.state = {
       header: {
-        title: "BorrowLoanTerm Screen",
+        title: "Term of loan",
         left: "back",
         right: "profile"
       }
