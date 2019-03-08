@@ -52,7 +52,6 @@ function getTransactionType(transaction) {
   if (transaction.type === "outgoing") return TRANSACTION_TYPES.OUT;
 }
 
-// TODO(fj) add filter
 function filterTransactions(transactions, filter = undefined) {
   if (!transactions) return [];
 
@@ -75,7 +74,7 @@ function filterTransactionsByType(transactions, type) {
   switch (type) {
     case 'interest':
       return transactions.filter(t => t.type === TRANSACTION_TYPES.INTEREST)
-    case 'reveiced':
+    case 'received':
       return transactions.filter(t => [TRANSACTION_TYPES.DEPOSIT_CONFIRMED, TRANSACTION_TYPES.DEPOSIT_PENDING].includes(t.type))
     case 'withdraw':
       return transactions.filter(t => [TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED, TRANSACTION_TYPES.WITHDRAWAL_PENDING].includes(t.type))

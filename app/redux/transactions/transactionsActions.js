@@ -19,7 +19,7 @@ export {
  * Gets transactions
  * @param {Object} query
  * @param {number} query.limit
- * @param {string} query.type - one of @todo
+ * @param {string} query.type - one of received|withdraw|interest
  * @param {string} query.coin - eg. BTC|ETH|XRP...
  */
 function getAllTransactions(query = {}) {

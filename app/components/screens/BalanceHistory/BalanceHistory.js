@@ -11,15 +11,12 @@ import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
-import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
 
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    transactions: state.transactions.transactionList,
-    currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -49,15 +46,9 @@ class BalanceHistory extends Component {
     };
   }
 
-  componentDidMount = () => {
-    const { actions } = this.props;
-    actions.getAllTransactions({ limit: 5 });
-  };
-
   render() {
-    const { transactions, actions, currencyRatesShort, walletSummary } = this.props
+    const { actions, walletSummary } = this.props
     const { header, dateArray, priceArray } = this.state;
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { limit: 5 });
     const style = BalanceHistoryStyle();
 
     return (
@@ -81,9 +72,7 @@ class BalanceHistory extends Component {
 
             <View style={[{ width: '100%', paddingHorizontal: 20 }]}>
               <TransactionsHistory
-                transactions={transactionsArray}
-                currencyRatesShort={currencyRatesShort}
-                navigateTo={actions.navigateTo}
+                additionalFilter={{ limit: 5 }}
               />
 
               <CelButton
