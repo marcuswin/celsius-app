@@ -71,10 +71,12 @@ export const AddressSection = ({ transaction, text, address }) => (
 )
 
 export const NoteSection = ({ text }) => (
-  <View style={{ width: '100%', paddingHorizontal: 20, paddingVertical: 20 }}>
-    <CelText>Note:</CelText>
-    <CelText italic>{text}</CelText>
-  </View>
+  text ? (
+    <View style={{ width: '100%', paddingHorizontal: 20, paddingVertical: 20 }}>
+      <CelText>Note:</CelText>
+      <CelText italic>{text}</CelText>
+    </View>
+  ) : null
 )
 
 export const InterestSection = ({ interestEarned, coin, navigateTo }) => (

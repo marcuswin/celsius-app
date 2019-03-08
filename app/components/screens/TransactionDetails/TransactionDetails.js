@@ -82,7 +82,7 @@ class TransactionDetails extends Component {
       case 'button:refer':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Borrow')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
       case 'note':
-        return <NoteSection key={sectionType} text={"Test this out!"} />;
+        return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
         return <InterestSection key={sectionType} navigateTo={actions.navigateTo} interestEarned={interestEarned} coin={transaction.coin.toUpperCase()} />;
       case 'loan:rejected':
