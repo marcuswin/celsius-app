@@ -16,9 +16,6 @@ import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
-    formLoan: {
-      loanAmount: 1000,
-    },
     formData: state.forms.formData,
     ltv: state.loans.ltvs,
     currencyRates: state.currencies.currencyRatesShort,
@@ -53,16 +50,18 @@ class BorrowLoanOption extends Component {
       amountCollateralCrypto,
       amountCollateralUsd,
       ltv: loanToValue
-    })
+    });
+
+    actions.navigateTo("BorrowLoanTerm")
   };
 
   renderInterestCard = (ltv) => {
-    const {formLoan, currencyRates, navigation} = this.props;
+    const {formData, currencyRates, navigation} = this.props;
     const coin = navigation.getParam('coin');
 
     const crypto = currencyRates[coin.toLowerCase()];
-    const monthlyPayment = formLoan.loanAmount * ltv.interest / 12;
-    const amountCollateralUsd = formLoan.loanAmount / ltv.percent;
+    const monthlyPayment = formData.loanAmount * ltv.interest / 12;
+    const amountCollateralUsd = formData.loanAmount / ltv.percent;
     const amountCollateralCrypto = (amountCollateralUsd / crypto);
     const interest = formatter.percentage(ltv.interest);
     const loanToValue = ltv.percent;
