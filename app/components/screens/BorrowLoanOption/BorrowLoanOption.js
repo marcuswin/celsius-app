@@ -53,7 +53,9 @@ class BorrowLoanOption extends Component {
       amountCollateralCrypto,
       amountCollateralUsd,
       ltv: loanToValue
-    })
+    });
+
+    actions.navigateTo("BorrowLoanTerm")
   };
 
   renderInterestCard = (ltv) => {
