@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -17,6 +17,7 @@ import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
 import DATA from '../../../constants/DATA';
+import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
 
 const { MODALS } = UI
 
@@ -58,19 +59,19 @@ class WithdrawEnterAmount extends Component {
     props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
   }
 
-  onPressPredefinedAmount = (number) => {
+  onPressPredefinedAmount = ({ label, value }) => {
     const { formData, walletSummary, currencyRatesShort } = this.props;
     let amount;
 
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
     const walletSummaryObj = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
 
-    if (number === "ALL") {
+    if (label === "ALL") {
       amount = formData.isUsd ? walletSummaryObj.amount_usd.toString() : walletSummaryObj.amount;
     } else {
-      amount = formData.isUsd ? number : (Number(number) / coinRate).toString()
+      amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
     }
-    this.handleAmountChange(amount, number)
+    this.handleAmountChange(amount, label)
   }
 
   getNumberOfDecimals(value) {
@@ -202,17 +203,7 @@ class WithdrawEnterAmount extends Component {
               />
             </View>
 
-            <View style={{ flexDirection: "row", justifyContent: 'space-around', marginTop: 50 }}>
-              {DATA.PREDIFINED_AMOUNTS.map(predefinedAmount =>
-                <TouchableOpacity
-                  key={predefinedAmount}
-                  style={[style.periodButton, activePeriod === predefinedAmount ? style.selectedAmount : null]}
-                  onPress={() => this.onPressPredefinedAmount(`${predefinedAmount}`)}
-                >
-                  <CelText style={[style.periodButtonText, activePeriod === predefinedAmount ? style.selectedAmountText : null]}>{predefinedAmount !== "ALL" ? `$${predefinedAmount}` : "ALL"}</CelText>
-                </TouchableOpacity>
-              )}
-            </View>
+            <PredefinedAmounts data={DATA.PREDIFINED_AMOUNTS} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod} />
 
             <CelButton
               margin="20 0 0 0"

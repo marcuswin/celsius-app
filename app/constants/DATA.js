@@ -205,11 +205,16 @@ const CONTACT_NETWORK = {
   TWITTER: 'Twitter'
 };
 
-const PREDIFINED_AMOUNTS = ["20", "50", "100", "ALL"];
+const PREDIFINED_AMOUNTS = [
+  { label: "$20", value: "20" },
+  { label: "$50", value: "50" },
+  { label: "$100", value: "100" },
+  { label: "ALL", value: "" }
+];
 
 const BANK_ACCOUNT_TYPE = [
-  {label: 'Checking', value: 'Checking'},
-  {label: 'Savings', value: 'Savings'}
+  { label: 'Checking', value: 'Checking' },
+  { label: 'Savings', value: 'Savings' }
 ]
 
 export default {

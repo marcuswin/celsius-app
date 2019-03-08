@@ -18,9 +18,6 @@ const base = {
     borderBottomWidth: 1,
     paddingBottom: 2,
     borderColor: STYLES.COLORS.CELSIUS_BLUE
-  },
-  selectedAmountText: {
-    color: STYLES.COLORS.CELSIUS_BLUE
   }
 };
 
