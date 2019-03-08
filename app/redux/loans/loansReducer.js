@@ -3,6 +3,7 @@ import ACTIONS from "../../constants/ACTIONS";
 function initialState() {
   return {
     ltvs: undefined,
+    allLoans: []
   };
 }
 
@@ -13,6 +14,13 @@ export default function loansReducer(state = initialState(), action) {
         ...state,
         ltvs: action.ltvs,
       };
+
+    case ACTIONS.GET_ALL_LOANS_SUCCESS:
+      return {
+        ...state,
+        allLoans: action.allLoans,
+      };
+
     default:
       return { ...state };
   }

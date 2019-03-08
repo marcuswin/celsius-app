@@ -117,7 +117,7 @@ function getTransactionsProps(transaction = []) {
         statusText: 'Received'
       }
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING:
-      return { // Withdrawn pending 
+      return { // Withdrawn pending
         title: (coin) => `${coin} Withdrawal`,
         color: STYLES.COLORS.ORANGE,
         iconName: 'TransactionSent',
@@ -258,7 +258,7 @@ function getTransactionsProps(transaction = []) {
 }
 
 function getTransactionSections(transaction = []) {
-  // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:montlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
+  // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
@@ -266,7 +266,7 @@ function getTransactionSections(transaction = []) {
     case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
 
     case TRANSACTION_TYPES.INTEREST: return ['info', 'date', 'time', 'status:noSeparator', 'interest', 'button:deposit', 'button:back']
-    case TRANSACTION_TYPES.COLLATERAL: return ['info', 'loan:date', 'time', 'status', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:montlyInterest', 'loan:totalInterest', 'button:applyForLoan', 'button:back']
+    case TRANSACTION_TYPES.COLLATERAL: return ['info', 'loan:date', 'time', 'status', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'button:applyForLoan', 'button:back']
     case TRANSACTION_TYPES.BONUS_TOKEN: return ['info', 'date', 'time', 'status'] // TODO
 
     case TRANSACTION_TYPES.CELPAY_PENDING: return ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:cancel', 'button:back'] // add sent to

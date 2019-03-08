@@ -18,7 +18,7 @@ class RegularLayout extends Component {
   };
 
   static defaultProps = {
-    padding: '20 20 40 20',
+    padding: '20 20 100 20',
     enableParentScroll: true
   };
 

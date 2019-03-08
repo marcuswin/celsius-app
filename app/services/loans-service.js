@@ -3,6 +3,7 @@ import apiUrl from './api-url';
 
 const loansService = {
   apply,
+  getAllLoans
 };
 
 /**
@@ -29,6 +30,10 @@ function apply(loanApplication, verification) {
     ...loanApplication,
     ...verification
   });
+}
+
+function getAllLoans() {
+  return axios.get(`${apiUrl}/loans`);
 }
 
 export default loansService;

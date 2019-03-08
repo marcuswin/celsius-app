@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Constants } from 'expo';
+import { TouchableOpacity, View } from 'react-native'
+import moment from 'moment';
 
+import formatter from "../../../utils/formatter";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import BorrowLandingStyle from "./BorrowLanding.styles";
+import BorrowLandingStyle from "./BorrowLanding.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import STYLES from '../../../constants/STYLES';
 
 import { EMPTY_STATES } from "../../../constants/UI";
 import StaticScreen from "../StaticScreen/StaticScreen";
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
+import CelButton from '../../atoms/CelButton/CelButton'
+import Card from '../../atoms/Card/Card'
+import Icon from '../../atoms/Icon/Icon'
+import { LOAN_STATUS } from '../../../config/constants/common'
+
+const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 
 @connect(
   state => ({
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
+    allLoans: state.loans.allLoans
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BorrowLanding extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
 
   constructor(props) {
     super(props);
@@ -41,14 +46,69 @@ class BorrowLanding extends Component {
         right: "profile"
       },
       maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2,
+      isLoading: true
     };
   }
 
-  render() {
-    const { header, maxAmount } = this.state;
-    const {loanCompliance} = this.props;
-    // const style = BorrowLandingStyle();
+  async componentDidMount() {
+    const { actions, loanCompliance } = this.props
 
+    if (loanCompliance.allowed) {
+      await actions.getAllLoans()
+    }
+
+    const { allLoans } = this.props
+    const { maxAmount } = this.state
+
+    this.setState({isLoading: false})
+    // If user has enough money for loan, and doesn't have any previous loans
+    // redirect to BorrowEnterAmount screen
+    if (maxAmount > MIN_LOAN_AMOUNT && (!allLoans || !allLoans.length)) {
+      actions.navigateTo('BorrowEnterAmount')
+    }
+  }
+
+  getLoanStatusDetails = (status) => {
+    switch (status) {
+      case LOAN_STATUS.ACTIVE:
+      case LOAN_STATUS.APPROVED:
+        return {
+          color: STYLES.COLORS.CELSIUS_BLUE,
+          displayText: 'Loan active'
+        }
+
+      case LOAN_STATUS.PENDING:
+        return {
+          color: STYLES.COLORS.ORANGE,
+          displayText: 'Loan pending'
+        }
+
+      case LOAN_STATUS.COMPLETED:
+        return {
+          color: STYLES.COLORS.GREEN,
+          displayText: 'Loan payout'
+        }
+
+      case LOAN_STATUS.REJECTED:
+        return {
+          color: STYLES.COLORS.RED,
+          displayText: 'Loan rejected'
+        }
+
+      default:
+        return {
+          color: STYLES.COLORS.CELSIUS_BLUE,
+          displayText: 'Loan active'
+        }
+    }
+  }
+
+  render() {
+    const { header, maxAmount, isLoading } = this.state;
+    const { actions, loanCompliance, allLoans } = this.props;
+    const style = BorrowLandingStyle();
+
+    if (isLoading) return <LoadingScreen header={header} />
 
     if (!loanCompliance.allowed) {
       return (
@@ -61,7 +121,7 @@ class BorrowLanding extends Component {
       )
     }
 
-    if(maxAmount < 5000) {
+    if (maxAmount < MIN_LOAN_AMOUNT) {
       return (
         <StaticScreen
           header={{
@@ -71,10 +131,37 @@ class BorrowLanding extends Component {
         />
       )
     }
-    
+
     return (
       <RegularLayout header={header}>
-        <CelText>Hello BorrowLanding</CelText>
+        <CelButton onPress={() => {actions.navigateTo('BorrowEnterAmount')}}>Apply for another loan</CelButton>
+        <View>
+          <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
+          {allLoans.map(loan => {
+            const loanStatusDetails = this.getLoanStatusDetails(loan.status)
+
+            return (
+              <Card key={loan.id}>
+                <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', flex: 1}} onPress={() => actions.navigateTo('TransactionDetails', {id: loan.id})}>
+                  <View style={[style.iconWrapper, {backgroundColor: loanStatusDetails.color}]}>
+                    <Icon name='TransactionLoan' height={25} width={25} fill={'#FFFFFF'}/>
+                  </View>
+                  <View style={style.info}>
+                    <View>
+                      <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
+                      <CelText type='H6' weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, {precision: 2})} LOCKED</CelText>
+                    </View>
+
+                    <View>
+                      <CelText type='H6' weight='300'>{moment(loan.created_at).format('MMM DD, YYYY').toUpperCase()}</CelText>
+                      <CelText color={loanStatusDetails.color}>{loanStatusDetails.displayText}</CelText>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </Card>
+            )
+          })}
+        </View>
       </RegularLayout>
     );
   }

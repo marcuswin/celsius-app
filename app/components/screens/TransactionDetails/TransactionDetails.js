@@ -49,6 +49,7 @@ class TransactionDetails extends Component {
 
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const interestEarned = coins.find((coin) => coin.short === transaction.coin.toUpperCase()).interest_earned;
+
     switch (sectionType) {
       case 'info':
         return <InfoSection key={sectionType} transaction={transaction} transactionProps={transactionProps} />;
@@ -97,7 +98,7 @@ class TransactionDetails extends Component {
         return <BasicSection key={sectionType} label="Repayment Deadline" value={""} />;
       case 'loan:annualInterestRate':
         return <BasicSection key={sectionType} label="Annual Interest Rate" value={""} />;
-      case 'loan:montlyInterest':
+      case 'loan:monthlyInterest':
         return <BasicSection key={sectionType} label="Monthly Interest" value={""} />;
       case 'loan:totalInterest':
         return <BasicSection key={sectionType} label="Total Interest Payment" value={""} noSeparator />;
@@ -129,7 +130,7 @@ class TransactionDetails extends Component {
       ...header,
       title: transaction.coin ? transactionProps.title(transaction.coin.toUpperCase()) : header.title
     }
-    
+
     return (
       <RegularLayout header={transactionHeader} padding="0 0 0 0">
         {sections.map(this.renderSection)}

@@ -23,7 +23,9 @@ class CelButton extends Component {
     margin: PropTypes.string,
     basic: PropTypes.bool,
     size: PropTypes.oneOf(buttonSizes),
-    textColor: PropTypes.string
+    textColor: PropTypes.string,
+    iconRightHeight: PropTypes.string,
+    iconRightWidth: PropTypes.string,
   };
 
   static defaultProps = {
@@ -33,13 +35,17 @@ class CelButton extends Component {
     margin: '0 0 0 0',
     basic: false,
     size: 'medium',
-    textColor: ''
+    textColor: '',
+    iconRightHeight: '46',
+    iconRightWidth: '26'
   }
 
   getButtonStyle = (style) => {
     const { margin, disabled, basic, size } = this.props;
     const buttonStyles = [style.container, style[`${size}Container`]];
+
     buttonStyles.push(stylesUtil.getMargins(margin));
+
     if (disabled) buttonStyles.push(style.disabledButton);
     if (basic) buttonStyles.push(style.basicButton);
 
@@ -57,13 +63,13 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight, basic, children } = this.props;
+    const { iconRight, basic, children, iconRightHeight, iconRightWidth } = this.props;
     return (
       <View style={{ paddingLeft: children ? 10 : 0 }}>
         <Icon
           name={iconRight}
-          height='46'
-          width='26'
+          height={iconRightHeight}
+          width={iconRightWidth}
           fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3}
         />
       </View>
@@ -102,7 +108,7 @@ class CelButton extends Component {
     const activeOpacity = basic ? 0.3 : 0.8;
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center'}}>
         {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );

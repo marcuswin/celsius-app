@@ -45,12 +45,12 @@ function getAllTransactions(query = {}) {
  * Gets single transaction by id
  * @param {string} id
  */
-function getTransactionDetails(transactionId = "") {
+function getTransactionDetails(id = "") {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
 
-      const res = await transactions.getTransaction(transactionId);
+      const res = await transactions.getTransaction(id);
       dispatch(getTransactionDetailsSuccess(res.data.transaction));
     } catch (err) {
       dispatch(showMessage('error', err.msg));

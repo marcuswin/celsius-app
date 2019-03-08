@@ -8,6 +8,7 @@ import loansService from "../../services/loans-service";
 
 export {
   applyForALoan,
+  getAllLoans
 }
 
 /**
@@ -47,5 +48,33 @@ function applyForALoan() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
     }
+  }
+}
+
+/**
+ * Get all loans for user
+ */
+function getAllLoans() {
+  return async (dispatch) => {
+    try {
+      startApiCall(API.GET_ALL_LOANS);
+
+      const res = await loansService.getAllLoans();
+
+      dispatch(getAllLoansSuccess(res.data));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ALL_LOANS, err));
+    }
+  }
+}
+
+function getAllLoansSuccess(loans) {
+  return (dispatch) => {
+    dispatch({
+      type: ACTIONS.GET_ALL_LOANS_SUCCESS,
+      callName: API.GET_ALL_LOANS,
+      allLoans: loans,
+    });
   }
 }

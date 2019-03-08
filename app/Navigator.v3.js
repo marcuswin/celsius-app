@@ -113,12 +113,13 @@ const borrowScreens = {
   BorrowLoanTerm,
   BorrowBankAccount,
   VerifyProfile,
-  BorrowLanding
+  BorrowLanding,
+  TransactionDetails
 }
 
 const borrowProps = {
   headerMode: "none",
-  initialRouteName: 'BorrowEnterAmount'
+  initialRouteName: 'BorrowLanding'
 }
 const borrowNavigator = createStackNavigator(borrowScreens, borrowProps);
 
