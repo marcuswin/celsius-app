@@ -37,8 +37,8 @@ class CelPayEnterAmount extends Component {
       .filter(c => celpayCompliance.coins.includes(c.short))
       .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
 
-    const names = formData.friend ? formData.friend.name.split(' ') : undefined;
-    const screenTitle = names ? `Send to ${names[0]} ${names[1][0]}` : 'Enter Amount'
+    const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
+    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Enter Amount'
 
     this.state = {
       header: {
@@ -186,15 +186,15 @@ class CelPayEnterAmount extends Component {
             </CelButton>
           </View>
 
-            <CelNumpad
-              field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-              value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
-              updateFormField={actions.updateFormField}
-              setKeypadInput={actions.setKeypadInput}
-              toggleKeypad={actions.toggleKeypad}
-              onPress={this.handleAmountChange}
-              purpose={KEYPAD_PURPOSES.CELPAY}
-            />
+          <CelNumpad
+            field={formData.isUsd ? "amountUsd" : "amountCrypto"}
+            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={this.handleAmountChange}
+            purpose={KEYPAD_PURPOSES.CELPAY}
+          />
         </View>
       </RegularLayout>
     );

@@ -30,6 +30,7 @@ class CelSelect extends Component {
     field: PropTypes.string.isRequired,
     labelText: PropTypes.string,
     margin: PropTypes.string,
+    error: PropTypes.string,
     flex: PropTypes.number,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
@@ -163,11 +164,11 @@ class CelSelect extends Component {
   renderImage = (style, iso) => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
 
   render() {
-    const { type, flex, disabled, onChange } = this.props;
+    const { type, flex, disabled, onChange, error } = this.props;
     const { items, value } = this.state;
 
     return (
-      <View style={[{width: '100%'}, flex ? { flex } : {}]}>
+      <View style={[{ width: '100%' }, flex ? { flex } : {}]}>
         {type !== 'country' && type !== 'state' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}
@@ -185,6 +186,11 @@ class CelSelect extends Component {
             onClose={this.selectValue}
           />
         } */}
+        {!!error && (
+          <View>
+            <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{!!error && error}</CelText>
+          </View>
+        )}
       </View>
     );
   }

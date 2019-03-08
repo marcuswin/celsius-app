@@ -11,7 +11,6 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
-import transactionsUtil from "../../../utils/transactions-util";
 import CoinDetailsStyle from "./CoinDetails.styles";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
@@ -25,7 +24,6 @@ const { COLORS } = STYLES;
   state => ({
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
-    transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
     interestRates: state.generalData.interestRates
@@ -55,11 +53,6 @@ class CoinDetails extends Component {
     };
   }
 
-  componentDidMount() {
-    const { actions, navigation } = this.props;
-    actions.getAllTransactions({ limit: 5, coin: navigation.getParam("coin").toUpperCase() });
-  }
-
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
     const coin = navigation.getParam("coin");
@@ -76,9 +69,8 @@ class CoinDetails extends Component {
 
   render() {
     const { header, dateArray, priceArray, currency } = this.state;
-    const { transactions, currencyRatesShort, actions, interestRates } = this.props;
+    const { actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { coin: coinDetails && coinDetails.short, limit: 5 });
     const style = CoinDetailsStyle();
 
     return (
@@ -165,9 +157,7 @@ class CoinDetails extends Component {
         </View>
         <View style={{ width: '100%' }}>
           <TransactionsHistory
-            transactions={transactionsArray}
-            currencyRatesShort={currencyRatesShort}
-            navigateTo={actions.navigateTo}
+            additionalFilter={{ coin: coinDetails && coinDetails.short, limit: 5 }}
           />
 
           <CelButton

@@ -11,7 +11,6 @@ import Card from "../../atoms/Card/Card";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from "../../../constants/STYLES";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
-import transactionsUtil from "../../../utils/transactions-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInterestStyle from "./WalletInterest.styles";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
@@ -23,8 +22,6 @@ const { MODALS } = UI
 @connect(
   (state) => ({
     walletSummary: state.wallet.summary,
-    transactions: state.transactions.transactionList,
-    currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -50,11 +47,6 @@ class WalletInterest extends Component {
     };
   }
 
-  componentDidMount() {
-    const { actions } = this.props
-    actions.getAllTransactions({ limit: 5, type: 'interest' })
-  }
-
   openInterestModal = () => {
     const { actions } = this.props;
     actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
@@ -67,8 +59,7 @@ class WalletInterest extends Component {
 
   render() {
     const { header, dateArray, priceArray } = this.state;
-    const { currencyRatesShort, actions, transactions, walletSummary } = this.props;
-    const transactionsArray = transactionsUtil.filterTransactions(transactions, { type: 'interest', limit: 5 });
+    const { walletSummary } = this.props;
     const style = WalletInterestStyle();
 
     return (
@@ -95,9 +86,8 @@ class WalletInterest extends Component {
 
           <View style={style.container}>
             <TransactionsHistory
-              transactions={transactionsArray}
-              currencyRatesShort={currencyRatesShort}
-              navigateTo={actions.navigateTo}
+              hasFilter={false}
+              additionalFilter={{ type: 'interest', limit: 5 }}
             />
 
             <CelButton

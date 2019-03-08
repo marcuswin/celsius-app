@@ -14,13 +14,7 @@ import CelInput from '../../atoms/CelInput/CelInput';
 
 @connect(
   state => ({
-    formData: {
-      ...state.forms.formData,
-      friend: {
-        first_name: 'Pera',
-        last_name: 'Detlic',
-      }
-    },
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -29,10 +23,12 @@ class CelPayMessage extends Component {
   constructor(props) {
     super(props);
 
-    const { friend } = props.formData
+    const { formData } = props;
+    const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
+    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Send'
     this.state = {
       header: {
-        title: `Send to ${friend.first_name} ${friend.last_name[0]}.`,
+        title: screenTitle,
         left: "back",
         right: "profile"
       }

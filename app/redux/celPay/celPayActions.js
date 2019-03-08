@@ -9,8 +9,8 @@ import formatter from "../../utils/formatter";
 import { navigateTo } from "../nav/navActions";
 
 export {
- celPayFriend,
- celPayShareLink,
+  celPayFriend,
+  celPayShareLink,
 }
 
 function celPayFriend() {
@@ -36,10 +36,12 @@ function celPayFriend() {
         transfer: transferData,
       })
 
-      const msg = `Successfully sent ${ formatter.crypto(amountCrypto, coin) } to ${ friend.name.split(' ')[0] }!`
+      const names = friend.name ? friend.name.split(' ') : undefined;
+      let msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}`;
+      if (names && names[0]) msg += ` to ${names[0]}!`;
       dispatch(showMessage('success', msg))
       dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }))
-    } catch(err) {
+    } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err))
       dispatch(showMessage('error', err.msg))
     }
@@ -73,7 +75,7 @@ function celPayShareLink() {
       const shareMsg = `You got ${ formatter.crypto(amountCrypto, coin) }! Click on the link to claim it ${branchLink}`;
       await Share.share({ message: shareMsg, title: 'Celsius CelPay' });
 
-      const msg = `Successfully sent ${ formatter.crypto(amountCrypto, coin) }!`;
+      const msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}!`;
       dispatch(showMessage('success', msg));
       dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }));
 
