@@ -34,14 +34,34 @@ import LoadingState from '../../atoms/LoadingState/LoadingState';
 )
 class TransactionDetails extends Component {
 
-  state = {
-    loading: true
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? params.title: 'Transaction details',
+      right: 'profile'
+    }
+  };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true
+    }
   }
 
   componentDidMount = () => {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
     actions.getTransactionDetails(transactionId);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.transaction !== this.props.transaction) {
+      const transactionProps = transactionsUtil.getTransactionsProps(this.props.transaction)
+      this.props.navigation.setParams({
+        title: transactionProps.title(this.props.transaction.coin.toUpperCase())
+      })
+    }
   }
 
   renderSection = (sectionType) => {
@@ -68,7 +88,7 @@ class TransactionDetails extends Component {
       case 'address:to':
         return <AddressSection key={sectionType} transaction={transaction} address={transaction.to_address} text="Withdrawn to:" />;
       case 'button:back':
-        return <CelButton key={sectionType} onPress={() => actions.navigateBack()} basic>Go back to wallet</CelButton>;
+        return <CelButton key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton>;
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
       case 'button:celpay:another':
@@ -111,28 +131,18 @@ class TransactionDetails extends Component {
 
   render() {
     const { transaction, callsInProgress } = this.props;
-    const header = {
-      title: "Transaction details",
-      left: "back",
-      right: "profile"
-    };
     const loadingTransactionDetails = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
 
     if (loadingTransactionDetails || !transaction) return (
-      <RegularLayout header={header} padding="0 0 0 0">
+      <RegularLayout padding="0 0 0 0">
         <LoadingState />
       </RegularLayout>
     )
 
-    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const sections = transactionsUtil.getTransactionSections(transaction);
-    const transactionHeader = {
-      ...header,
-      title: transaction.coin ? transactionProps.title(transaction.coin.toUpperCase()) : header.title
-    }
 
     return (
-      <RegularLayout header={transactionHeader} padding="0 0 0 0">
+      <RegularLayout padding="0 0 0 0">
         {sections.map(this.renderSection)}
       </RegularLayout>
     );

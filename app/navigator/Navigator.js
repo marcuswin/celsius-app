@@ -1,7 +1,6 @@
 import { createStackNavigator, createAppContainer, createSwitchNavigator } from "react-navigation";
 
 import Home from "../components/screens/Home/Home";
-import WalletLanding from "../components/screens/WalletLanding/WalletLanding";
 import Deposit from "../components/screens/Deposit/Deposit";
 import Settings from "../components/screens/Settings/Settings";
 import Support from "../components/screens/Support/Support";
@@ -14,11 +13,6 @@ import VerifyPhone from "../components/screens/VerifyPhone/VerifyPhone";
 import CreatePin from "../components/screens/CreatePin/CreatePin";
 import RepeatPin from "../components/screens/RepeatPin/RepeatPin";
 import SelectCountry from "../components/screens/SelectCountry/SelectCountry";
-import BalanceHistory from "../components/screens/BalanceHistory/BalanceHistory";
-import AllTransactions from "../components/screens/AllTransactions/AllTransactions";
-import WalletInterest from "../components/screens/WalletInterest/WalletInterest";
-import CoinDetails from "../components/screens/CoinDetails/CoinDetails";
-import TransactionDetails from "../components/screens/TransactionDetails/TransactionDetails";
 import WithdrawEnterAmount from "../components/screens/WithdrawEnterAmount/WithdrawEnterAmount";
 import WithdrawConfirmAddress from "../components/screens/WithdrawConfirmAddress/WithdrawConfirmAddress";
 import WithdrawCreateAddress from "../components/screens/WithdrawCreateAddress/WithdrawCreateAddress";
@@ -28,10 +22,9 @@ import VerifyProfile from "../components/screens/VerifyProfile/VerifyProfile";
 
 import { INITIAL_ROUTE } from "../constants/UI";
 import { borrowNavigator } from './flows/borrowFlow'
-import { transitionConfig } from './navigationConfig'
+import { defaultNavigationOptions, transitionConfig } from './navigationConfig'
 import { celPayNavigator } from './flows/celPayFlow'
-
-
+import { walletNavigator } from './flows/walletFlow'
 
 const settingsScreens = {
   Settings,
@@ -59,22 +52,6 @@ const authProps = {
 }
 const authNavigator = createStackNavigator(authScreens, authProps);
 
-const walletScreens = {
-  WalletLanding,
-  WalletInterest,
-  BalanceHistory,
-  AllTransactions,
-  CoinDetails,
-  TransactionDetails,
-  // Profile
-}
-
-const walletProps = {
-  headerMode: "none",
-  initialRouteName: 'WalletLanding'
-}
-const walletNavigator = createStackNavigator(walletScreens, walletProps);
-
 const withdrawScreens = {
   WithdrawEnterAmount,
   WithdrawCreateAddress,
@@ -89,28 +66,20 @@ const withdrawProps = {
 }
 const withdrawNavigator = createStackNavigator(withdrawScreens, withdrawProps);
 
-// const celPayScreens = {
-//   CelPayChooseFriend,
-//   CelPayEnterAmount,
-//   CelPayMessage,
-// }
-//
-// const celPayProps = {
-//   headerMode: "none",
-//   initialRouteName: 'CelPayChooseFriend'
-// }
-// const celPayNavigator = createStackNavigator(celPayScreens, celPayProps);
-
+const depositNavigator = createStackNavigator({Deposit}, {
+  transitionConfig,
+  defaultNavigationOptions
+})
 
 export const screens = {
   Home,
   Wallet: walletNavigator,
-  Deposit,
   Withdraw: withdrawNavigator,
-  CelPay: celPayNavigator,
+  CelPayFab: celPayNavigator,
   Settings: SettingsNavigator,
   Auth: authNavigator,
   Borrow: borrowNavigator,
+  DepositFab: depositNavigator,
   SelectCountry,
   Support,
   Community,
@@ -118,10 +87,10 @@ export const screens = {
 };
 
 
-
 const navigatorProps = {
   initialRouteName: INITIAL_ROUTE,
-  transitionConfig
+  transitionConfig,
+  defaultNavigationOptions
 };
 
 

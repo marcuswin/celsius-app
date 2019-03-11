@@ -4,13 +4,15 @@ import CelPayMessage from '../../components/screens/CelPayMessage/CelPayMessage'
 import CelPayEnterAmount from '../../components/screens/CelPayEnterAmount/CelPayEnterAmount'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
+import Profile from '../../components/screens/Profile/Profile'
 
-const celPayFlow = {
+export const celPayFlow = {
   screens: {
     CelPayChooseFriend,
     CelPayEnterAmount,
     CelPayMessage,
-    VerifyProfile
+    VerifyProfile,
+    Profile
   },
   props: {
     initialRouteName: 'CelPayChooseFriend',

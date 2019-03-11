@@ -22,8 +22,7 @@ class Profile extends Component {
   }
 
   static navigationOptions = () => ({
-    title: "Profile Screen",
-    right: "profile"
+    title: "Profile Screen"
   });
 
   constructor(props) {

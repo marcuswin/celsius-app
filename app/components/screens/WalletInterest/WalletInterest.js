@@ -28,6 +28,11 @@ const { MODALS } = UI
 )
 class WalletInterest extends Component {
 
+  static navigationOptions = {
+    title: 'Interest earned',
+    right: 'profile'
+  };
+
   constructor(props) {
     super(props);
 
@@ -37,11 +42,6 @@ class WalletInterest extends Component {
     const priceArray = currencyGraphs.LTC["1y"].map(data => data[1])
 
     this.state = {
-      header: {
-        title: "Interest earned",
-        left: "back",
-        right: "profile"
-      },
       dateArray,
       priceArray,
     };
@@ -58,12 +58,12 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { header, dateArray, priceArray } = this.state;
+    const { dateArray, priceArray } = this.state;
     const { walletSummary } = this.props;
     const style = WalletInterestStyle();
 
     return (
-      <RegularLayout header={header} >
+      <RegularLayout>
         <View>
           <View style={style.container}>
             <Card padding="15 15 15 15" onPress={this.openInterestModal}>

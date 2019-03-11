@@ -10,23 +10,16 @@ class AllTransactions extends Component {
   static propTypes = {};
   static defaultProps = {}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Transaction history",
-        left: "back",
-        right: "profile"
-      }
-    };
-  }
-
+  static navigationOptions = {
+    title: 'Transaction history',
+    right: 'profile'
+  };
+  
   render() {
-    const { header } = this.state;
     const style = AllTransactionsStyle();
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.container}>
           <TransactionsHistory />
         </View>

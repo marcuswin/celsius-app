@@ -17,10 +17,10 @@ function getMenuItems(menu) {
       [
         { label: 'Wallet', screen: 'WalletLanding' },
         { label: 'Borrow', screen: 'BorrowLanding' },
-        { label: 'CelPay', screen: 'CelPayChooseFriend' },
+        { label: 'CelPay', screen: 'CelPayFab' },
       ],
       [
-        { label: 'Deposit', screen: 'Deposit' },
+        { label: 'Deposit', screen: 'DepositFab' },
         { label: 'Settings', screen: 'Profile' },
         { label: 'Support', screen: 'Support' },
       ],

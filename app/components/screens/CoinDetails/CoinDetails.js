@@ -32,6 +32,14 @@ const { COLORS } = STYLES;
 )
 class CoinDetails extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title && params.coin ? `${params.title} - ${params.coin}` : 'Coin Details',
+      right: 'profile'
+    }
+  };
+
   constructor(props) {
     super(props);
     const { navigation, currencyGraphs } = props;
@@ -42,11 +50,6 @@ class CoinDetails extends Component {
     const priceArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1]);
 
     this.state = {
-      header: {
-        title: `${currency.displayName} - ${coin}`,
-        left: "back",
-        right: "profile"
-      },
       dateArray,
       priceArray,
       currency
@@ -68,13 +71,13 @@ class CoinDetails extends Component {
   }
 
   render() {
-    const { header, dateArray, priceArray, currency } = this.state;
+    const { dateArray, priceArray, currency } = this.state;
     const { actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.container}>
           <Card padding="0 0 0 0">
             <View style={style.coinAmountWrapper}>

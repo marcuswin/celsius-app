@@ -30,12 +30,21 @@ class WalletLanding extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? params.title : 'Welcome',
+      right: 'profile'
+    }
+  };
+
   constructor(props) {
     super(props);
 
-    const { walletSummary } = props;
+    const { walletSummary, navigation } = props;
     const coinWithAmount = [];
     const coinWithoutAmount = [];
+
     if (walletSummary) {
       walletSummary.coins.forEach((coin) => {
         const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
@@ -47,11 +56,11 @@ class WalletLanding extends Component {
       });
     }
 
+    navigation.setParams({
+      title: `Welcome ${props.user.first_name}!`
+    })
+
     this.state = {
-      header: {
-        title: `Welcome ${props.user.first_name}!`,
-        right: "profile"
-      },
       coinWithAmount,
       coinWithoutAmount,
       activeView: 'Grid'
@@ -109,7 +118,7 @@ class WalletLanding extends Component {
           coin={coin}
           displayName={currency.displayName}
           currencyRates={currency}
-          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName })}
           graphData={graphData}
         />
       }) : null;
@@ -125,7 +134,7 @@ class WalletLanding extends Component {
           coin={coin}
           displayName={currency.displayName}
           currencyRates={currency}
-          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short })}
+          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName })}
           graphData={graphData}
         />
       }) : null;
@@ -187,14 +196,14 @@ class WalletLanding extends Component {
   }
 
   render() {
-    const { header, activeView } = this.state
+    const { activeView } = this.state
     const { actions, walletSummary, currenciesRates, currenciesGraphs, user } = this.props;
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
 
     const CoinsCard = this.renderCoinsCard;
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View>
           <WalletDetailsCard walletSummary={walletSummary} navigateTo={actions.navigateTo} />
 

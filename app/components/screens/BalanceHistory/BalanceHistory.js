@@ -27,6 +27,11 @@ class BalanceHistory extends Component {
   };
   static defaultProps = {};
 
+  static navigationOptions = {
+      title: 'Wallet',
+      right: 'profile'
+  };
+
   constructor(props) {
     super(props);
 
@@ -36,11 +41,6 @@ class BalanceHistory extends Component {
     const priceArray = currencyGraphs.LTC["1y"].map(data => data[1]);
 
     this.state = {
-      header: {
-        title: "Wallet",
-        left: "back",
-        right: "profile"
-      },
       dateArray,
       priceArray
     };
@@ -48,11 +48,11 @@ class BalanceHistory extends Component {
 
   render() {
     const { actions, walletSummary } = this.props
-    const { header, dateArray, priceArray } = this.state;
+    const { dateArray, priceArray } = this.state;
     const style = BalanceHistoryStyle();
 
     return (
-      <RegularLayout padding="20 0 20 0" header={header} >
+      <RegularLayout padding="20 0 20 0" >
         <View>
           <View style={style.container}>
             <Card padding="15 15 15 15" margin="15 20 15 20">
