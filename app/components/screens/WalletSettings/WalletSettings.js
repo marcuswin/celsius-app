@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
-import CelText from '../../atoms/CelText/CelText';
+// import WalletSettingsStyle from "./WalletSettings.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import Separator from '../../atoms/Separator/Separator';
+import STYLES from '../../../constants/STYLES';
+import IconButton from '../../organisms/IconButton/IconButton';
 
 @connect(
-  state => ({
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class {{pascalCase name}} extends Component {
+class WalletSettings extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -24,19 +24,20 @@ class {{pascalCase name}} extends Component {
   }
 
   static navigationOptions = () => ({
-    title: "{{pascalCase name}} Screen",
-    right: "profile"
+    title: "WalletSettings"
   });
 
   render() {
-    const style = {{pascalCase name}}Style();
-    
+
     return (
       <RegularLayout>
-        <CelText>Hello {{pascalCase name}}</CelText>
+        <IconButton>Default currency</IconButton>
+        <IconButton margin="0 0 20 0">Default view</IconButton>
+        <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY}>INTEREST</Separator>
+        <IconButton>Earn interest in</IconButton>
       </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default testUtil.hookComponent(WalletSettings);

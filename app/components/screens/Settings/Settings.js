@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import { THEMES } from "../../../constants/UI";
+import testUtil from "../../../utils/test-util";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CircleButton from '../../atoms/CircleButton/CircleButton';
 import STYLES from '../../../constants/STYLES';
+import IconButton from '../../organisms/IconButton/IconButton';
+import CelButton from '../../atoms/CelButton/CelButton';
+import CelText from '../../atoms/CelText/CelText';
 
 @connect(
-  state => ({
-    theme: state.ui.theme
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Settings extends Component {
@@ -22,31 +19,27 @@ class Settings extends Component {
   static propTypes = {
     // text: PropTypes.string
   };
+
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Settings",
-        left: "back",
-        right: "logout"
-      }
-    };
-  }
+  static navigationOptions = () => ({
+    title: "Settings",
+    right: "logout"
+  });
 
   render() {
-    const { theme, actions } = this.props;
-    const { header } = this.state;
+    const { actions } = this.props;
 
     return (
-      <RegularLayout theme={theme} header={header}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <CircleButton icon={theme === THEMES.LIGHT ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: '#fff' }, theme === THEMES.LIGHT ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.LIGHT) }} />
-          <CircleButton icon={theme === THEMES.DARK ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: STYLES.COLORS.DARK_BACKGROUND }, theme === THEMES.DARK ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.DARK) }} />
-          <CircleButton icon={theme === THEMES.CELSIUS ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: STYLES.COLORS.CELSIUS }, theme === THEMES.CELSIUS ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.CELSIUS) }} />
-        </View>
+      <RegularLayout >
+        <IconButton onPress={() => actions.navigateTo("NotificationsSettings")} icon="Notifications">Notifications</IconButton>
+        <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
+        <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton>
+        <IconButton onPress={() => actions.navigateTo("Api")} margin="0 0 20 0" icon="Api">API</IconButton>
+        <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>
+        <CelButton basic onPress={() => { }} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
+        <CelText>App Version - 3.0</CelText>
       </RegularLayout>
     );
   }

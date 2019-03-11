@@ -21,7 +21,7 @@ function getMenuItems(menu) {
       ],
       [
         { label: 'Deposit', screen: 'DepositFab' },
-        { label: 'Settings', screen: 'Profile' },
+        { label: 'Settings', screen: 'ProfileFab' },
         { label: 'Support', screen: 'Support' },
       ],
       [

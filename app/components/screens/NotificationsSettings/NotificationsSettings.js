@@ -6,37 +6,37 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+// import NotificationsSettingsStyle from "./NotificationsSettings.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import IconButton from '../../organisms/IconButton/IconButton';
 
 @connect(
-  state => ({
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class {{pascalCase name}} extends Component {
+class NotificationsSettings extends Component {
 
   static propTypes = {
     // text: PropTypes.string
   };
   static defaultProps = {
   }
-
   static navigationOptions = () => ({
-    title: "{{pascalCase name}} Screen",
-    right: "profile"
+    title: "Notifications"
   });
 
+
   render() {
-    const style = {{pascalCase name}}Style();
-    
     return (
       <RegularLayout>
-        <CelText>Hello {{pascalCase name}}</CelText>
+        <CelText>Let us know how you’d like to recieve alerts</CelText>
+        <IconButton>SMS notifications</IconButton>
+        <IconButton margin="0 0 20 0">Email notifications</IconButton>
+        <IconButton margin="0 0 20 0">Push notifications</IconButton>
       </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default testUtil.hookComponent(NotificationsSettings);

@@ -6,16 +6,15 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
+// import ApiStyle from "./Api.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
-  state => ({
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class {{pascalCase name}} extends Component {
+class Api extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -24,19 +23,16 @@ class {{pascalCase name}} extends Component {
   }
 
   static navigationOptions = () => ({
-    title: "{{pascalCase name}} Screen",
-    right: "profile"
+    title: "Api"
   });
 
   render() {
-    const style = {{pascalCase name}}Style();
-    
     return (
-      <RegularLayout>
-        <CelText>Hello {{pascalCase name}}</CelText>
+      <RegularLayout >
+        <CelText>Hello Api</CelText>
       </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default testUtil.hookComponent(Api);

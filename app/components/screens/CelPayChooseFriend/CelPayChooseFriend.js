@@ -52,7 +52,7 @@ class CelPayChooseFriend extends Component {
     const { params } = navigation.state
     return {
       title: params && params.title ? params.title : 'CelPay',
-      right: params && params.right ? params.right : 'profile'
+      right: params && params.right ? params.right : ''
     }
   };
 

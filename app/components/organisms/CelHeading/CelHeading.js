@@ -62,9 +62,7 @@ class CelHeading extends Component {
       "login": <CelButton basic onPress={() => { actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
         <CelButton basic onPress={() => { actions.navigateTo('Settings'); }}>
-          <View>
-            <Icon name="Settings" width="35" height="35" />
-          </View>
+          <Icon name="Settings" width="35" height="35" />
         </CelButton>,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
@@ -72,7 +70,7 @@ class CelHeading extends Component {
         <CelButton basic onPress={() => { actions.navigateTo('Profile'); }}>
           <Image
             style={{ width: 35, height: 35, borderRadius: 17 }}
-            source={ profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+            source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
             resizeMethod="resize"
           />
         </CelButton>,

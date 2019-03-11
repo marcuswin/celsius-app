@@ -6,16 +6,16 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
-import CelText from '../../atoms/CelText/CelText';
+// import SecuritySettingsStyle from "./SecuritySettings.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import IconButton from '../../organisms/IconButton/IconButton';
+import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
-  state => ({
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class {{pascalCase name}} extends Component {
+class SecuritySettings extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -24,19 +24,24 @@ class {{pascalCase name}} extends Component {
   }
 
   static navigationOptions = () => ({
-    title: "{{pascalCase name}} Screen",
-    right: "profile"
+    title: "Security"
   });
 
+  logoutUser = async () => {
+    const { actions } = this.props;
+    await actions.logoutUser();
+  }
+
   render() {
-    const style = {{pascalCase name}}Style();
-    
     return (
       <RegularLayout>
-        <CelText>Hello {{pascalCase name}}</CelText>
+        <IconButton>Two-Factor Verification</IconButton>
+        <IconButton margin="0 0 20 0">Change PIN</IconButton>
+        <IconButton margin="0 0 20 0">Change password</IconButton>
+        <CelButton onPress={this.logoutUser}>Logout</CelButton>
       </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default testUtil.hookComponent(SecuritySettings);

@@ -71,9 +71,7 @@ class CelHeadingNew extends Component {
       "login": <CelButton basic onPress={() => { this.props.actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
         <CelButton basic onPress={() => { this.props.actions.navigateTo('Settings'); }}>
-          <View>
-            <Icon name="Settings" width="35" height="35" />
-          </View>
+          <Icon name="Settings" width="35" height="35" />
         </CelButton>,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
@@ -81,11 +79,11 @@ class CelHeadingNew extends Component {
         <CelButton basic onPress={() => { this.props.actions.navigateTo('Profile'); }}>
           <Image
             style={{ width: 35, height: 35, borderRadius: 17 }}
-            source={ profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+            source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
             resizeMethod="resize"
           />
         </CelButton>,
-      "logout": <CelButton basic onPress={() => { }}>Logout</CelButton>,
+      "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { this.props.actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
       "cancel": <CelButton basic onPress={() => { this.setState({ activeSearch: false, searchValue: '' }); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
     }[rightType];
