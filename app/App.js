@@ -14,7 +14,7 @@ import store from './redux/store';
 import * as actions from './redux/actions';
 import appUtil from './utils/app-util';
 import Sentry from './utils/sentry-util';
-import AppNavigation from './Navigator.v3';
+import AppNavigation from './navigator/Navigator';
 import FabMenu from './components/organisms/FabMenu/FabMenu';
 import Message from "./components/molecules/Message/Message";
 

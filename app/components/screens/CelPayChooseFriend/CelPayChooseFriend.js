@@ -59,10 +59,6 @@ class CelPayChooseFriend extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      header: {
-        left: "back",
-        title: "CelPay",
-      },
       hasContactPermission: false,
       isLoading: true
     };
@@ -92,11 +88,6 @@ class CelPayChooseFriend extends Component {
     })
 
     this.setState({
-      header: {
-        left: 'back',
-        title: permission ? "Choose a friend to CelPay" : "CelPay",
-        right: permission ? "search" : "profile"
-      },
       hasContactPermission: permission,
       isLoading: false
     });
@@ -136,11 +127,6 @@ class CelPayChooseFriend extends Component {
       right: permission ? "search" : "profile"
     })
     this.setState({
-      header: {
-        left: 'back',
-        title: permission ? "Choose a friend to CelPay" : "CelPay",
-        right: permission ? "search" : "profile"
-      },
       hasContactPermission: permission,
       isLoading: false
     });
@@ -194,15 +180,14 @@ class CelPayChooseFriend extends Component {
   );
 
   render() {
-    const { header, isLoading } = this.state;
+    const { isLoading } = this.state;
 
     const RenderContent = this.renderContent;
 
-    if (isLoading) return <LoadingScreen header={header} />
+    if (isLoading) return <LoadingScreen />
 
     return (
       <RegularLayout
-        header={header}
         enableParentScroll={false}
         padding={`0 20 ${isLoading ? '0' : '140'} 20`}
       >

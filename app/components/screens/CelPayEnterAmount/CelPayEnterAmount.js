@@ -29,9 +29,16 @@ class CelPayEnterAmount extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? params.title : 'Enter Amount',
+    }
+  };
+
   constructor(props) {
     super(props);
-    const { currencies, celpayCompliance, formData } = this.props;
+    const { currencies, celpayCompliance, formData, navigation } = this.props;
 
     const coinSelectItems = currencies
       .filter(c => celpayCompliance.coins.includes(c.short))
@@ -40,11 +47,11 @@ class CelPayEnterAmount extends Component {
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
     const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Enter Amount'
 
+    navigation.setParams({
+      title: screenTitle
+    })
+
     this.state = {
-      header: {
-        title: screenTitle,
-        left: "back",
-      },
       coinSelectItems,
     };
 
@@ -137,13 +144,13 @@ class CelPayEnterAmount extends Component {
       actions.navigateTo('CelPayMessage')
     } else {
       actions.navigateTo('VerifyProfile', {
-        onSuccess: () => actions.celPayShareLink()
+        onSuccess: () => actions.celPayShareLink
       })
     }
   }
 
   render() {
-    const { header, coinSelectItems } = this.state;
+    const { coinSelectItems } = this.state;
     const { formData, actions, walletSummary } = this.props;
     const style = CelPayEnterAmountStyle();
     if (!formData.coin) return null;
@@ -151,7 +158,7 @@ class CelPayEnterAmount extends Component {
     const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.container}>
           <View style={style.wrapper}>
             <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd} />

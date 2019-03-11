@@ -20,19 +20,24 @@ import CelInput from '../../atoms/CelInput/CelInput';
 )
 class CelPayMessage extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? params.title : 'Send',
+      right: "profile"
+    }
+  };
+
   constructor(props) {
     super(props);
 
-    const { formData } = props;
+    const { formData, navigation } = props;
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
     const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Send'
-    this.state = {
-      header: {
-        title: screenTitle,
-        left: "back",
-        right: "profile"
-      }
-    };
+
+    navigation.setParams({
+      title: screenTitle
+    })
   }
 
   handleSend = () => {
@@ -45,12 +50,11 @@ class CelPayMessage extends Component {
 
   // Link coin and amount from previous screen
   render() {
-    const { header } = this.state;
     const { formData } = this.props;
     const style = CelPayMessageStyle();
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.container}>
           <CelInput
             placeholder="Notes (optional)"
