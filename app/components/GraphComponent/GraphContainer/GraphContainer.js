@@ -28,6 +28,8 @@ class GraphContainer extends Component {
     showPeriods: PropTypes.bool,
     height: PropTypes.number,
     width: PropTypes.number,
+    interest: PropTypes.bool,
+    backgroundColor: PropTypes.string
   };
   static defaultProps = {
     showXTicks: false,
@@ -70,14 +72,14 @@ class GraphContainer extends Component {
   };
 
   render() {
-    const { periods, showPeriods, showXTicks, interest, width, showCursor } = this.props;
+    const { periods, showPeriods, showXTicks, interest, width, showCursor, backgroundColor } = this.props;
     const { dateArray, priceArray, timeline, rate } = this.state;
     const style = GraphContainerStyle();
 
     return (
       <View style={style.container}>
         {showPeriods && <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline} />}
-        <Graph width={width} dateArray={dateArray} priceArray={priceArray} interest={interest} showCursor={showCursor} rate={rate} timeline={timeline} />
+        <Graph width={width} dateArray={dateArray} priceArray={priceArray} interest={interest} showCursor={showCursor} rate={rate} timeline={timeline} backgroundColor={backgroundColor} />
         {showXTicks && <XTicks width={width} time={dateArray} timeline={timeline} />}
       </View>
     );

@@ -150,6 +150,7 @@ class CoinDetails extends Component {
                 dateArray={dateArray}
                 priceArray={priceArray}
                 interest
+                backgroundColor={"#FFFFFF"}
                 width={widthPercentageToDP("78%")}
               />
             </View>
