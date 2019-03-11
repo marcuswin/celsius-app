@@ -16,14 +16,22 @@ import CoinListCard from '../../molecules/CoinListCard/CoinListCard';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import Icon from '../../atoms/Icon/Icon';
 import STYLES from '../../../constants/STYLES';
+import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
 
 @connect(
-  state => ({
-    currenciesRates: state.currencies.rates,
-    walletSummary: state.wallet.summary,
-    currenciesGraphs: state.currencies.graphs,
-    user: state.user.profile,
-  }),
+  state => {
+    const branchTransfer = state.branch.transferHash && state.transfers.transfers[state.branch.transferHash]
+      ? state.transfers.transfers[state.branch.transferHash]
+      : null
+
+    return {
+      branchTransfer,
+      currenciesRates: state.currencies.rates,
+      walletSummary: state.wallet.summary,
+      currenciesGraphs: state.currencies.graphs,
+      user: state.user.profile,
+    }
+  },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WalletLanding extends Component {
@@ -188,7 +196,7 @@ class WalletLanding extends Component {
 
   render() {
     const { header, activeView } = this.state
-    const { actions, walletSummary, currenciesRates, currenciesGraphs, user } = this.props;
+    const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer } = this.props;
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
 
@@ -213,6 +221,12 @@ class WalletLanding extends Component {
           <CoinsCard />
 
         </View>
+
+        <CelPayReceivedModal
+          navigateTo={actions.navigateTo}
+          closeModal={actions.closeModal}
+          transfer={branchTransfer}
+        />
       </RegularLayout>
     );
   }
