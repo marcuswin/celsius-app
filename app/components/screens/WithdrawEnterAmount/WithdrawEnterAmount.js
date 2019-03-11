@@ -12,16 +12,14 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
-import UI, { KEYPAD_PURPOSES } from "../../../constants/UI";
+import { KEYPAD_PURPOSES, MODALS } from "../../../constants/UI";
 import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
-import DATA from '../../../constants/DATA';
+import { PREDIFINED_AMOUNTS } from '../../../constants/DATA';
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
 import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
-
-const { MODALS } = UI
 
 @connect(
   state => ({
@@ -200,7 +198,7 @@ class WithdrawEnterAmount extends Component {
               />
             </View>
 
-            <PredefinedAmounts data={DATA.PREDIFINED_AMOUNTS} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod} />
+            <PredefinedAmounts data={PREDIFINED_AMOUNTS} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod} />
 
             <CelButton
               margin="20 0 0 0"

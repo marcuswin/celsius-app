@@ -13,8 +13,8 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
-import UI from '../../../constants/UI'
-import DATA from '../../../constants/DATA'
+import { MODALS } from '../../../constants/UI'
+import { BANK_ACCOUNT_TYPE } from '../../../constants/DATA'
 import { showMessage } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store';
 
@@ -72,7 +72,7 @@ class BorrowBankAccount extends Component {
       await actions.linkBankAccount(bankAccountInfo)
       this.setState({isLoading: false})
 
-      actions.navigateTo('VerifyProfile', {onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
+      actions.navigateTo('VerifyProfile', {onSuccess: () => actions.openModal(MODALS.BORROW_CONFIRM)})
     }
   }
 
@@ -121,7 +121,7 @@ class BorrowBankAccount extends Component {
         <CelText weight='300' type='H4' style={{alignSelf: 'flex-start'}} margin={'0 0 10 0'}>Account type:</CelText>
 
         <CelSelect
-          items={DATA.BANK_ACCOUNT_TYPE}
+          items={BANK_ACCOUNT_TYPE}
           field={'selectedAccountType'}
           labelText={'Account type'}
           value={formData.selectedAccountType}

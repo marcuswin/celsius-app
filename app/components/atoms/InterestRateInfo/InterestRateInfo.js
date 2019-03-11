@@ -3,7 +3,7 @@ import { View, Text, Image, Linking } from "react-native";
 import { connect } from "react-redux";
 
 import InterestRateInfoStyle from "./InterestRateInfo.styles";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+// import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
   state => ({
@@ -55,10 +55,10 @@ class InterestRateInfo extends Component {
           </View>
         </View>
         {currencyInfo.short.toUpperCase() === "USD" && <View style={styles.usdInfoWrapper}>
-          <Text style={globalStyles.lightText}>
+          <Text>
             Start earning interest for dollars by <Text onPress={() => {
             Linking.openURL("mailto:sales@celsius.network");
-          }} style={globalStyles.blueTextColor}>getting in touch</Text> with
+          }}>getting in touch</Text> with
             our team.
           </Text>
         </View>}

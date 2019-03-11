@@ -6,13 +6,11 @@ import testUtil from "../../../utils/test-util";
 
 // import BorrowConfirmModalStyle from "./BorrowConfirmModal.styles";
 import CelModal from "../CelModal/CelModal";
-import UI from "../../../constants/UI";
+import { MODALS } from "../../../constants/UI";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter";
-
-const { MODALS } = UI
 
 const BorrowConfirmModal = ({
   formData,

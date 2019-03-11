@@ -3,7 +3,7 @@ import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";
 import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
-import { MODALS } from '../../config/constants/common';
+import { MODALS } from '../../constants/UI';
 
 export {
   createAPIKey,

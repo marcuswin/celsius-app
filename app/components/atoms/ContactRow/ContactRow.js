@@ -8,7 +8,7 @@ import ContactRowStyle from "./ContactRow.styles";
 import CelText from '../CelText/CelText';
 import STYLES from '../../../constants/STYLES';
 import Icon from '../Icon/Icon';
-import DATA from '../../../constants/DATA';
+import { CONTACT_NETWORK } from '../../../constants/DATA';
 
 
 class ContactRow extends Component {
@@ -33,11 +33,11 @@ class ContactRow extends Component {
 
   getNetworkImageUrl = (network) => {
     switch (network) {
-      case DATA.CONTACT_NETWORK.PHONE:
+      case CONTACT_NETWORK.PHONE:
         return require('../../../../assets/images/icons/contacts-circle/contacts-circle.png');
-      case DATA.CONTACT_NETWORK.FACEBOOK:
+      case CONTACT_NETWORK.FACEBOOK:
         return require('../../../../assets/images/icons/fb-circle/fb-circle.png');
-      case DATA.CONTACT_NETWORK.TWITTER:
+      case CONTACT_NETWORK.TWITTER:
         return require('../../../../assets/images/icons/tw-circle/tw-circle.png');
       default:
         return require('../../../../assets/images/icons/contacts-circle/contacts-circle.png');

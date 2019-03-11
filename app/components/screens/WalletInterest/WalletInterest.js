@@ -14,10 +14,8 @@ import TransactionsHistory from "../../molecules/TransactionsHistory/Transaction
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInterestStyle from "./WalletInterest.styles";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
-import UI from "../../../constants/UI";
+import { MODALS } from "../../../constants/UI";
 import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
-
-const { MODALS } = UI
 
 @connect(
   (state) => ({

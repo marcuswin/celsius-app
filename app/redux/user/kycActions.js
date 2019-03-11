@@ -9,7 +9,7 @@ import apiUtil from "../../utils/api-util";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from "../forms/formsActions";
-import { KYC_STATUSES } from "../../config/constants/common";
+import { KYC_STATUSES } from "../../constants/DATA";
 
 export {
   updateProfileInfo,

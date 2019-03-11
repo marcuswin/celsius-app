@@ -1,6 +1,5 @@
-// import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP } from '../../../utils/styles-util';
-import { COLORS } from '../../../config/constants/style';
+import STYLES from '../../../constants/STYLES';
 
 const base = {
     coinAmountContainer: {
@@ -13,7 +12,7 @@ const base = {
         marginBottom: 10
     },
     tagText: {
-        color: COLORS.blue,
+        color: STYLES.COLORS.blue,
         textAlign: "left"
     },
     button: {

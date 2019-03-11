@@ -5,13 +5,11 @@ import { View, ScrollView } from "react-native";
 import testUtil from "../../../utils/test-util";
 import CelText from '../../atoms/CelText/CelText';
 import CelModal from "../CelModal/CelModal";
-import UI from "../../../constants/UI";
+import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
 
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
-
-const { MODALS } = UI
 
 class WithdrawInfoModal extends Component {
   static propTypes = {

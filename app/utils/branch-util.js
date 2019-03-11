@@ -1,7 +1,7 @@
 import { Constants } from "expo";
 import Branch, { BranchEvent } from "react-native-branch";
 
-import { BRANCH_LINKS } from "../config/constants/common";
+import { BRANCH_LINKS } from "../constants/DATA";
 import store from '../redux/store';
 import Sentry from "./sentry-util";
 import * as actions from "../redux/actions";

@@ -8,13 +8,11 @@ import * as appActions from "../../../redux/actions";
 import TodayInterestRatesModalStyle from "./TodayInterestRatesModal.styles";
 import CelText from "../../atoms/CelText/CelText";
 import CelModal from "../CelModal/CelModal";
-import UI from "../../../constants/UI";
+import { MODALS } from "../../../constants/UI";
 import InterestRateInfoTable from "../../molecules/InterestRateInfoTable/InterestRateInfoTable";
 
 import { heightPercentageToDP } from "../../../utils/styles-util";
 import CelButton from "../../atoms/CelButton/CelButton";
-
-const { MODALS } = UI;
 
 @connect(
   state => ({

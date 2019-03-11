@@ -1,10 +1,7 @@
 import moment from "moment";
 
-// import { TRANSACTION_TYPES } from "../config/constants/common";
-import DATA from "../constants/DATA";
+import { TRANSACTION_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
-
-const TRANSACTION_TYPES = DATA.TRANSACTION_TYPES;
 
 const transactionsUtil = {
   mapTransaction,

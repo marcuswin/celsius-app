@@ -19,7 +19,7 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import CelButton from '../../atoms/CelButton/CelButton'
 import Card from '../../atoms/Card/Card'
 import Icon from '../../atoms/Icon/Icon'
-import { LOAN_STATUS } from '../../../config/constants/common'
+import { LOAN_STATUS } from '../../../constants/DATA'
 
 const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 

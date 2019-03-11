@@ -11,7 +11,7 @@ import testUtil from "../../../utils/test-util";
 import CelSelectStyle from "./CelSelect.styles";
 import stylesUtil from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
-import DATA from '../../../constants/DATA';
+import { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
 
 @connect(
@@ -74,17 +74,17 @@ class CelSelect extends Component {
   getItems = ({ type, items }) => {
     switch (type) {
       case 'title':
-        return DATA.PERSON_TITLE;
+        return PERSON_TITLE;
       case 'gender':
-        return DATA.GENDER;
+        return GENDER;
       case 'state':
-        return DATA.STATE;
+        return STATE;
       case 'day':
-        return DATA.DAYS;
+        return DAYS;
       case 'year':
-        return DATA.YEARS;
+        return YEARS;
       case 'month':
-        return DATA.MONTHS;
+        return MONTHS;
       default:
         return items;
     }

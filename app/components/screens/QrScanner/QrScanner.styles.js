@@ -1,7 +1,7 @@
 // import STYLES from '../../../constants/STYLES';
 import { Dimensions } from "react-native";
 import { getThemedStyle } from '../../../utils/styles-util';
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
+// import { FONT_SCALE, STYLES } from "../../../config/constants/style";
 
 
 const { height, width } = Dimensions.get('window');
@@ -23,17 +23,17 @@ const base = {
     zIndex: 20,
   },
   scanText: {
-    color: STYLES.WHITE_TEXT_COLOR,
+    // color: STYLES.WHITE_TEXT_COLOR,
     textAlign: 'center',
   },
   scanTitle: {
     marginTop: 10,
     marginHorizontal: 40,
     fontFamily: 'agile-bold',
-    fontSize: FONT_SCALE * 42,
+    // fontSize: FONT_SCALE * 42,
   },
   scanInstructions: {
-    fontSize: FONT_SCALE * 18,
+    // fontSize: FONT_SCALE * 18,
     paddingHorizontal: 40,
     bottom: 80,
     width,

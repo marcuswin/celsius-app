@@ -1,5 +1,5 @@
 import ACTIONS from "../../constants/ACTIONS";
-import { BRANCH_LINKS } from "../../config/constants/common";
+import { BRANCH_LINKS } from "../../constants/DATA";
 
 const initialState = {
   registeredLink: null,

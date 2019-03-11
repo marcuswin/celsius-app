@@ -12,7 +12,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import Separator from '../../atoms/Separator/Separator';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import apiUtil from '../../../utils/api-util';
-import API from '../../../config/constants/API';
+import API from '../../../constants/API';
 
 @connect(
   state => ({

@@ -9,7 +9,7 @@ import {
   deleteSecureStoreKey,
 } from "../../utils/expo-storage";
 import { mixpanelAnalytics } from "../../services/mixpanel";
-import { KYC_STATUSES, TRANSFER_STATUSES } from "../../config/constants/common";
+import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import { analyticsEvents } from "../../utils/analytics-util";

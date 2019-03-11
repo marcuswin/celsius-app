@@ -1,6 +1,5 @@
 import ACTIONS from '../../constants/ACTIONS';
-import { MODALS } from "../../config/constants/common";
-import { screens } from '../../config/Navigator';
+import { MODALS } from "../../constants/UI";
 
 
 export {
@@ -153,9 +152,10 @@ function scrollTo(scrollOptions = {}) {
 
   return (dispatch, getState) => {
 
-    const { screenHeight, bottomNavigation } = getState().ui.dimensions;
-    const activeScreen = getState().nav.routes[getState().nav.index].routeName
-    const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
+    const { screenHeight } = getState().ui.dimensions;
+    // const activeScreen = getState().nav.routes[getState().nav.index].routeName
+    // const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
+    const scrollBottomOffset = 40
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {

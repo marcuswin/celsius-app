@@ -7,9 +7,7 @@ import { withNavigationFocus } from 'react-navigation';
 import testUtil from "../../../utils/test-util";
 import CelNumpadStyle from "./CelNumpad.styles";
 import CelText from "../../atoms/CelText/CelText";
-import UI, { KEYPAD_PURPOSES, PHONES_WITH_CUSTOM_KEYPAD } from "../../../constants/UI";
-
-const { KEYBOARD_TYPE } = UI
+import { KEYBOARD_TYPE, KEYPAD_PURPOSES, PHONES_WITH_CUSTOM_KEYPAD } from "../../../constants/UI";
 
 const BUTTONS = {
   [KEYPAD_PURPOSES.WITHDRAW]: [

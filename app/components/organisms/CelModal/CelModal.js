@@ -10,10 +10,8 @@ import * as appActions from "../../../redux/actions";
 import CelModalStyle from "./CelModal.styles";
 import Icon from "../../atoms/Icon/Icon";
 
-import UI from "../../../constants/UI";
+import { MODALS } from '../../../constants/UI'
 import { heightPercentageToDP } from "../../../utils/styles-util";
-// import { BlurView, VibrancyView,  } from 'react-native-blur';
-// import { Button } from 'native-base';
 
 @connect(
   state => ({
@@ -23,7 +21,7 @@ import { heightPercentageToDP } from "../../../utils/styles-util";
 )
 class CelModal extends Component {
   static propTypes = {
-    name: PropTypes.oneOf(Object.keys(UI.MODALS)).isRequired,
+    name: PropTypes.oneOf(Object.keys(MODALS)).isRequired,
     shouldRenderCloseButton: PropTypes.bool,
     picture: PropTypes.number,
     header: PropTypes.bool,

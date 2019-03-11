@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import testUtil from "../../../utils/test-util";
 
 import CelModal from "../CelModal/CelModal";
-import UI from "../../../constants/UI";
+import { MODALS } from '../../../constants/UI'
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
 import formatter from "../../../utils/formatter";
@@ -18,7 +18,7 @@ const CelPayReceivedModal = ({
 
   return (
     <CelModal
-      name={UI.MODALS.CELPAY_RECEIVED_MODAL}
+      name={MODALS.CELPAY_RECEIVED_MODAL}
       picture={require('../../../../assets/images/frenchy.png')}
     >
       <CelText type="H2" align="center" weight="600" margin="5 0 15 0">Congrats!</CelText>

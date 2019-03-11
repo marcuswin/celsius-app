@@ -6,11 +6,11 @@ import transferService from '../../services/transfer-service';
 import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../config/constants/common";
+import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
 import { getAllTransactions } from "../transactions/transactionsActions";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { createCelPayBUO } from "../../utils/branch-util";
-import UI from "../../constants/UI";
+import { MODALS } from '../../constants/UI'
 
 export {
   getAllTransfers,
@@ -268,7 +268,7 @@ function registerTransferLink(deepLink) {
       res = await transferService.claim(transfer.hash);
       dispatch(claimTransferSuccess(res.data));
 
-      dispatch(openModal(UI.MODALS.CELPAY_RECEIVED_MODAL));
+      dispatch(openModal(MODALS.CELPAY_RECEIVED_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(callName, err));

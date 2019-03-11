@@ -18,7 +18,7 @@ import STYLES from '../../../constants/STYLES';
 import DepositStyle from './Deposit.styles';
 import Card from '../../atoms/Card/Card';
 import Icon from '../../atoms/Icon/Icon';
-import UI from '../../../constants/UI';
+import { MODALS } from '../../../constants/UI'
 import CelModal from '../../organisms/CelModal/CelModal';
 import Spinner from '../../atoms/Spinner/Spinner';
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
@@ -148,11 +148,11 @@ class Deposit extends Component {
     const { actions } = this.props;
 
     if (destinationTag) {
-      actions.openModal(UI.MODALS.DESTINATION_TAG_MODAL)
+      actions.openModal(MODALS.DESTINATION_TAG_MODAL)
     }
 
     if (memoId) {
-      actions.openModal(UI.MODALS.MEMO_ID_MODAL)
+      actions.openModal(MODALS.MEMO_ID_MODAL)
     }
   };
 
@@ -269,7 +269,7 @@ class Deposit extends Component {
 
         {isFetchingAddress && this.renderLoader()}
 
-        <CelModal name={UI.MODALS.DESTINATION_TAG_MODAL}>
+        <CelModal name={MODALS.DESTINATION_TAG_MODAL}>
           <CelText align='center' type='H1' margin='0 0 32 0'>Destination Tag for XRP</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Ripple (XRP) transactions require destination tags as an additional information.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>The Destination Tag is used to determine what account a given transaction should be assigned and credited to.</CelText>
@@ -280,7 +280,7 @@ class Deposit extends Component {
           </CelButton>
         </CelModal>
 
-        <CelModal name={UI.MODALS.MEMO_ID_MODAL}>
+        <CelModal name={MODALS.MEMO_ID_MODAL}>
           <CelText align='center' type='H1' margin='0 0 32 0'>Stellar (XLM) Memo ID</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Memo ID is used to determine what account a given transaction should be assigned and credited to.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Quoting the Memo ID with the Stellar wallet address ensures that your transaction is uniquely identified and processed successfully.</CelText>

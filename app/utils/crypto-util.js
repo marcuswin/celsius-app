@@ -3,7 +3,7 @@
 // TODO(fj): add conversion here
 // TODO(fj): check if other crypto methods are used throughout the app
 
-import { ELIGIBLE_COINS } from '../config/constants/common';
+import { ELIGIBLE_COINS } from '../constants/DATA';
 
 function isERC20(currency) {
   return ['eth', 'cel', 'omg', 'zrx'].indexOf(currency.toLowerCase()) !== -1;
