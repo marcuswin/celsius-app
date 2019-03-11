@@ -1,46 +1,59 @@
 import axios from "axios";
 import apiUrl from "./api-url";
 
-class TwoFactorService {
-  /**
-   * @param {number} pin
-   * @return {AxiosPromise<any>}
-   */
-  static async beginTwoFactorActivation(pin) {
-    const response = await axios.post(`${apiUrl}/users/two_factor/begin`, {
-      pin,
-    });
+const TwoFactorService = {
+  beginTwoFactorActivation,
+  enableTwoFactor,
+  disableTwoFactor,
+}
 
-    if (!response.data.ok) {
-      throw new Error('There was a problem generating your Two Factor secret. Please try again later.')
-    }
+/**
+ * Initializes the 2FA activation process
+ * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#4ce77b02-310c-46aa-987e-c82b0a23fc8b
+ *
+ * @param {number} pin
+ * @return {Promise}
+ */
+async function beginTwoFactorActivation(pin) {
+  const response = await axios.post(`${apiUrl}/users/two_factor/begin`, {
+    pin,
+  });
 
-    return response.data.secret;
+  if (!response.data.ok) {
+    throw new Error('There was a problem generating your Two Factor secret. Please try again later.')
   }
 
-  /**
-   * @param {string|number} code
-   * @return {Promise<*>}
-   */
-  static async enableTwoFactor(code) {
-    const response = await axios.post(`${apiUrl}/users/two_factor/activate`, {
-      twoFactorCode: code,
-    });
+  return response.data.secret;
+}
 
-    return response.data.ok;
-  }
+/**
+ * Enables 2FA for user
+ * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#d2f87206-2792-4973-ab3a-7a0e861b66a9
+ *
+ * @param {string|number} code
+ * @return {Promise}
+ */
+async function enableTwoFactor(code) {
+  const response = await axios.post(`${apiUrl}/users/two_factor/activate`, {
+    twoFactorCode: code,
+  });
 
-  /**
-   * @param {number} pin
-   * @return {Promise<void>}
-   */
-  static async disableTwoFactor(pin) {
-    const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
-      pin,
-    });
+  return response.data.ok;
+}
 
-    return response.data;
-  }
+/**
+ * Deactivates 2FA for user, PIN is fallback
+ * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#76a3af2e-1828-4f34-b61e-6b87a3442ba2
+ *
+ * @param {number} pin
+ * @return {Promise}
+ */
+async function disableTwoFactor(pin) {
+  const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
+    pin,
+  });
+
+  return response.data;
 }
 
 export default TwoFactorService;

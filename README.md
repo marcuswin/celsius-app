@@ -108,6 +108,9 @@ $ yarn run plop
 ### Tools
 
 * [React Native Debugger](https://github.com/jhen0409/react-native-debugger)
-* [Celsius API Docs](https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#bf6e3009-2736-4a6e-b1a0-c0928c704550)
+
+* [API Docs v1](https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#bf6e3009-2736-4a6e-b1a0-c0928c704550) 
+* [API Docs v3](https://documenter.getpostman.com/view/4207695/S11RLvpb) 
+
 * Testflight for iPhone
 * Sentry

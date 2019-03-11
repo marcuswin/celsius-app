@@ -32,6 +32,12 @@ function apply(loanApplication, verification) {
   });
 }
 
+
+/**
+ * Gets all loans for user from BackOffice db
+ *
+ * @returns {Promise}
+ */
 function getAllLoans() {
   return axios.get(`${apiUrl}/loans`);
 }
