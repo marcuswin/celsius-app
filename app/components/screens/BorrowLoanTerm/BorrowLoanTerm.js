@@ -24,16 +24,13 @@ class BorrowLoanTerm extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    title: "Term of loan",
+    right: "profile"
+  });
+
   constructor(props) {
     super(props);
-    this.state = {
-      header: {
-        title: "Term of loan",
-        left: "back",
-        right: "profile"
-      }
-    };
-
     props.actions.updateFormField('termOfLoan', 6)
   }
 
@@ -43,7 +40,6 @@ class BorrowLoanTerm extends Component {
   }
 
   render() {
-    const { header } = this.state;
     const { actions, formData } = this.props;
 
     const sliderItems = [
@@ -56,7 +52,7 @@ class BorrowLoanTerm extends Component {
     ]
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <ProgressBar steps={6} currentStep={4} />
         <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
 

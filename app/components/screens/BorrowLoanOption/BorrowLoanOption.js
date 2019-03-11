@@ -23,22 +23,10 @@ import STYLES from "../../../constants/STYLES";
 )
 class BorrowLoanOption extends Component {
 
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Loan option",
-        left: "back",
-        right: "info"
-      },
-    };
-  }
+  static navigationOptions = () => ({
+    title: "Loan option",
+    right: "info"
+  });
 
   setLoanOption = (interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) => {
     const {actions} = this.props;
@@ -91,11 +79,10 @@ class BorrowLoanOption extends Component {
   };
 
   render() {
-    const { header } = this.state;
     const { ltv } = this.props;
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <ProgressBar steps={6} currentStep={3}/>
         <CelText weight={"300"} margin={"20 0 20 0"}>Choose your loan option:</CelText>
         {ltv.map(this.renderInterestCard)}

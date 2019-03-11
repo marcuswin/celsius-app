@@ -25,13 +25,13 @@ class VerifyProfile extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    transparent: true,
+  });
+
   constructor(props) {
     super(props);
     this.state = {
-      header: {
-        transparent: true,
-        left: "back"
-      },
       value: ''
     };
   }
@@ -152,7 +152,7 @@ class VerifyProfile extends Component {
   }
 
   render() {
-    const { header, value } = this.state;
+    const { value } = this.state;
     const { is2FAEnabled, actions } = this.props;
 
     const field = is2FAEnabled ? "code" : "pin";
@@ -160,7 +160,7 @@ class VerifyProfile extends Component {
     const style = VerifyProfileStyle();
 
     return (
-      <RegularLayout padding="0 0 0 0" header={header}>
+      <RegularLayout padding="0 0 0 0">
         <View style={style.container}>
           {is2FAEnabled ? this.render2FA() : this.renderPIN()}
           <CelNumpad

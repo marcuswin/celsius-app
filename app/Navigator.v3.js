@@ -1,5 +1,6 @@
 import { Animated, Easing } from "react-native";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer, createSwitchNavigator } from "react-navigation";
+import React from 'react';
 
 import Home from "./components/screens/Home/Home";
 import WalletLanding from "./components/screens/WalletLanding/WalletLanding";
@@ -37,6 +38,32 @@ import BorrowBankAccount from "./components/screens/BorrowBankAccount/BorrowBank
 import BorrowLanding from "./components/screens/BorrowLanding/BorrowLanding";
 
 import { INITIAL_ROUTE } from "./constants/UI";
+import CelHeadingNew from './components/organisms/CelHeading/CelHeadingNew'
+
+// Screen Transitioning animation
+const transitionConfig = () => ({
+  transitionSpec: {
+    duration: 750,
+    easing: Easing.out(Easing.poly(4)),
+    timing: Animated.timing,
+    useNativeDriver: true,
+  },
+  screenInterpolator: sceneProps => {
+    const { scene, position } = sceneProps;
+    const { index } = scene;
+
+    const opacity = position.interpolate({
+      inputRange: [index - 1, index],
+      outputRange: [0, 1]
+    });
+
+    return { opacity };
+  }
+})
+
+const defaultNavigationOptions = {
+  header: props => <CelHeadingNew {...props} />
+}
 
 const settingsScreens = {
   Settings,
@@ -70,7 +97,8 @@ const walletScreens = {
   BalanceHistory,
   AllTransactions,
   CoinDetails,
-  TransactionDetails
+  TransactionDetails,
+  // Profile
 }
 
 const walletProps = {
@@ -114,12 +142,15 @@ const borrowScreens = {
   BorrowBankAccount,
   VerifyProfile,
   BorrowLanding,
-  TransactionDetails
+  TransactionDetails,
+  Profile,
+  Deposit
 }
 
 const borrowProps = {
-  headerMode: "none",
-  initialRouteName: 'BorrowLanding'
+  initialRouteName: 'BorrowLanding',
+  defaultNavigationOptions,
+  transitionConfig
 }
 const borrowNavigator = createStackNavigator(borrowScreens, borrowProps);
 
@@ -135,35 +166,18 @@ export const screens = {
   SelectCountry,
   Support,
   Community,
-  Profile,
   WithdrawConfirm,
 };
 
 
 
 const navigatorProps = {
-  headerMode: "none",
   initialRouteName: INITIAL_ROUTE,
-  transitionConfig: () => ({
-    transitionSpec: {
-      duration: 750,
-      easing: Easing.out(Easing.poly(4)),
-      timing: Animated.timing
-    },
-    screenInterpolator: sceneProps => {
-      const { scene, position } = sceneProps;
-      const { index } = scene;
-
-      const opacity = position.interpolate({
-        inputRange: [index - 1, index],
-        outputRange: [0, 1]
-      });
-
-      return { opacity };
-    }
-  })
+  transitionConfig
 };
 
-const AppNavigator = createStackNavigator(screens, navigatorProps);
+
+
+const AppNavigator = createSwitchNavigator(screens, navigatorProps);
 
 export default createAppContainer(AppNavigator);

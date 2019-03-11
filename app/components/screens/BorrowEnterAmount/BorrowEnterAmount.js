@@ -19,6 +19,8 @@ import STYLES from "../../../constants/STYLES";
 import BorrowConfirmModal from "../../organisms/BorrowConfirmModal/BorrowConfirmModal";
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
 import stylesUtil from '../../../utils/styles-util';
+import { showMessage } from '../../../redux/ui/uiActions'
+import store from '../../../redux/store';
 
 const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 
@@ -34,23 +36,23 @@ class BorrowEnterAmount extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    title: "Enter the amount",
+    right: "info",
+    onInfo: () => { store.dispatch(showMessage('warning', 'Not implemented yet!')) }
+  });
+
   constructor(props) {
     super(props);
     const { loanCompliance, walletSummary } = props
     const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short))
 
     this.state = {
-      header: {
-        title: "Enter the amount",
-        left: "back",
-        right: "info",
-        onInfo: () => props.actions.showMessage('warning', 'Not implemented yet!'),
-      },
       activePeriod: ""
     };
 
     props.actions.initForm({
-      loanAmount: '5000',
+      loanAmount: MIN_LOAN_AMOUNT.toString(),
       maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2,
     })
   }
@@ -66,7 +68,7 @@ class BorrowEnterAmount extends Component {
   getAmountColor = () => {
     const { formData } = this.props;
 
-    if (formData.loanAmount < 5000 || formData.loanAmount > formData.maxAmount) {
+    if (formData.loanAmount < MIN_LOAN_AMOUNT || formData.loanAmount > formData.maxAmount) {
       return STYLES.COLORS.ORANGE
     }
 
@@ -76,8 +78,8 @@ class BorrowEnterAmount extends Component {
   handleAmountChange = (newValue, predefined = "") => {
     const { actions, formData } = this.props;
 
-    if (newValue < 5000) {
-      actions.showMessage('warning', '$5,000 is the minimum to proceed.')
+    if (newValue < MIN_LOAN_AMOUNT) {
+      actions.showMessage('warning', `$${MIN_LOAN_AMOUNT} is the minimum to proceed.`)
       return;
     }
 
@@ -109,7 +111,7 @@ class BorrowEnterAmount extends Component {
 
     return (
       <CelButton
-        disabled={formData.loanAmount < 5000}
+        disabled={formData.loanAmount < MIN_LOAN_AMOUNT}
         onPress={() => {
           actions.navigateTo('BorrowCollateral')
           // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
@@ -124,7 +126,7 @@ class BorrowEnterAmount extends Component {
   }
 
   render() {
-    const { header, activePeriod } = this.state;
+    const { activePeriod } = this.state;
     const { actions, formData } = this.props;
     const predifinedAmount = [
       { label: `$${MIN_LOAN_AMOUNT} min`, value: 'min' },
@@ -133,7 +135,7 @@ class BorrowEnterAmount extends Component {
     // const style = BorrowEnterAmountStyle();
 
     return (
-      <RegularLayout header={header} padding="0 0 0 0">
+      <RegularLayout padding="0 0 0 0">
         <View style={[{ flex: 1, width: '100%', height: "100%" }, { ...stylesUtil.getPadding('20 20 100 20') }]}>
           <View style={{ alignItems: 'center' }}>
             <ProgressBar steps={6} currentStep={1} />

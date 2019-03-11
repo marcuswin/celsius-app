@@ -135,7 +135,7 @@ class CelInput extends Component {
     return (
       <View style={styleWrapper}>
         <Input />
-        <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{!!error && error}</CelText>
+        {error && <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{error}</CelText>}
       </View>
     )
   }

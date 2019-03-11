@@ -15,6 +15,8 @@ import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import UI from '../../../constants/UI'
 import DATA from '../../../constants/DATA'
+import { showMessage } from '../../../redux/ui/uiActions'
+import store from '../../../redux/store';
 
 @connect(
   state => ({
@@ -27,16 +29,16 @@ import DATA from '../../../constants/DATA'
 )
 class BorrowBankAccount extends Component {
 
+  static navigationOptions = () => ({
+    title: "Link bank account",
+    right: "info",
+    onInfo: () => store.dispatch(showMessage('warning', 'Not implemented yet!'))
+  });
+
   constructor(props) {
     super(props);
 
     this.state = {
-      header: {
-        title: "Link bank account",
-        left: "back",
-        right: "info",
-        onInfo: () => props.actions.showMessage('warning', 'Not implemented yet!'),
-      },
       isLoading: false
     }
   }
@@ -103,13 +105,13 @@ class BorrowBankAccount extends Component {
   };
 
   render() {
-    const { header, isLoading } = this.state
+    const { isLoading } = this.state
     const { formData, formErrors } = this.props
     const isAmerican = this.isAmerican()
     const bankRoutingNumberPlaceholder = isAmerican ? 'ACH ABA Number' : 'ABA Number'
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <ProgressBar steps={6} currentStep={5}/>
         <CelText weight='300' type='H4' margin={'30 0 30 0'} style={{alignSelf: 'flex-start'}}>Provide us with your bank account details:</CelText>
 

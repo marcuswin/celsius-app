@@ -33,6 +33,11 @@ import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 )
 class Deposit extends Component {
 
+  static navigationOptions = () => ({
+    title: "Deposit coins",
+    right: "profile"
+  });
+
   constructor(props) {
     super(props);
     this.state = {
@@ -201,11 +206,7 @@ class Deposit extends Component {
     const styles = DepositStyle();
 
     return (
-      <RegularLayout header={{
-        title: "Deposit coins",
-        left: "back",
-        right: "profile"
-      }} padding={'20 0 40 0'}>
+      <RegularLayout padding={'20 0 40 0'}>
 
         <CoinPicker
           coinList={eligibleCoins}

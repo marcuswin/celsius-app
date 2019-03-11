@@ -48,6 +48,14 @@ const renderEmptyState = ({onContactImport, onSkip}) => (
 )
 class CelPayChooseFriend extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? params.title : 'CelPay',
+      right: params && params.right ? params.right : 'profile'
+    }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -78,6 +86,11 @@ class CelPayChooseFriend extends Component {
       await this.getContacts();
     }
 
+    navigation.setParams({
+      title: permission ? "Choose a friend to CelPay" : "CelPay",
+      right: permission ? "search" : "profile"
+    })
+
     this.setState({
       header: {
         left: 'back',
@@ -104,6 +117,8 @@ class CelPayChooseFriend extends Component {
   };
 
   handleContactImport = async () => {
+    const { navigation } = this.props;
+
     const permission = await requestForPermission(Permissions.CONTACTS);
 
     this.setState({
@@ -116,6 +131,10 @@ class CelPayChooseFriend extends Component {
       await this.getContacts();
     }
 
+    navigation.setParams({
+      title: permission ? "Choose a friend to CelPay" : "CelPay",
+      right: permission ? "search" : "profile"
+    })
     this.setState({
       header: {
         left: 'back',

@@ -21,6 +21,11 @@ class Profile extends Component {
   static defaultProps = {
   }
 
+  static navigationOptions = () => ({
+    title: "Profile Screen",
+    right: "profile"
+  });
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -33,11 +38,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <RegularLayout header={{
-        title: "Profile Screen",
-        left: "back",
-        right: "profile"
-      }}>
+      <RegularLayout>
         <CelText>Hello Profile</CelText>
         <CelButton onPress={this.logoutUser}>Logout</CelButton>
       </RegularLayout>

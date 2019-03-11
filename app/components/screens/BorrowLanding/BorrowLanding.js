@@ -33,6 +33,11 @@ const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
 )
 class BorrowLanding extends Component {
 
+  static navigationOptions = () => ({
+    title: "Borrows",
+    right: "profile"
+  });
+
   constructor(props) {
     super(props);
     const {walletSummary, loanCompliance} = this.props;
@@ -40,11 +45,6 @@ class BorrowLanding extends Component {
     const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short))
 
     this.state = {
-      header: {
-        title: "Borrow",
-        left: "back",
-        right: "profile"
-      },
       maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2,
       isLoading: true
     };
@@ -113,9 +113,6 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) {
       return (
         <StaticScreen
-          header={{
-            title: "Borrow Landing",
-          }}
           emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }}
         />
       )
@@ -124,16 +121,13 @@ class BorrowLanding extends Component {
     if (maxAmount < MIN_LOAN_AMOUNT) {
       return (
         <StaticScreen
-          header={{
-            title: "Borrow Landing",
-          }}
           emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }}
         />
       )
     }
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <CelButton onPress={() => {actions.navigateTo('BorrowEnterAmount')}}>Apply for another loan</CelButton>
         <View>
           <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>

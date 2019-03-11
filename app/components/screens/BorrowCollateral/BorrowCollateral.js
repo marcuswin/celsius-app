@@ -23,21 +23,10 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 )
 class BorrowCollateral extends Component {
 
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {};
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Collateral",
-        left: "back",
-        right: "profile"
-      }
-    };
-  }
+  static navigationOptions = () => ({
+    title: "Collateral",
+    right: "profile"
+  });
 
   handleSelectCoin = (coin) => {
     const { actions } = this.props
@@ -69,14 +58,13 @@ class BorrowCollateral extends Component {
   };
 
   render() {
-    const { header } = this.state;
     const { actions, coins, walletCoins } = this.props;
     const style = BorrowCollateralStyle();
 
     const availableCoins = walletCoins.filter(coin => coins.includes(coin.short));
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
 
         <ProgressBar steps={6} currentStep={2}/>
 
