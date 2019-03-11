@@ -13,25 +13,29 @@ const CelPayReceivedModal = ({
   transfer,
   navigateTo,
   closeModal,
-}) => (
-  <CelModal
-    name={UI.MODALS.CELPAY_RECEIVED_MODAL}
-    picture={require('../../../../assets/images/frenchy.png')}
-  >
-    <CelText type="H2" align="center" weight="600" margin="5 0 15 0">Congrats!</CelText>
+}) => {
+  if (!transfer) return null;
 
-    <CelText align="center">
-      Your friend { transfer.from.name } just sent you
-      <CelText weight="600"> {formatter.crypto(transfer.amount, transfer.coin)} </CelText>
-      . It's already earning interest in your wallet which will be paid out on a weekly basis. Go to your wallet to find out more about interest rates.
-    </CelText>
+  return (
+    <CelModal
+      name={UI.MODALS.CELPAY_RECEIVED_MODAL}
+      picture={require('../../../../assets/images/frenchy.png')}
+    >
+      <CelText type="H2" align="center" weight="600" margin="5 0 15 0">Congrats!</CelText>
 
-    <CelButton onPress={() => {
-      closeModal()
-      navigateTo('WalletLanding')
-    }} margin="15 0 0 0">Go to wallet</CelButton>
-  </CelModal>
-)
+      <CelText align="center">
+        Your friend { transfer.from.name } just sent you
+        <CelText weight="600"> {formatter.crypto(transfer.amount, transfer.coin)} </CelText>
+        . It's already earning interest in your wallet which will be paid out on a weekly basis. Go to your wallet to find out more about interest rates.
+      </CelText>
+
+      <CelButton onPress={() => {
+        closeModal()
+        navigateTo('WalletLanding')
+      }} margin="15 0 0 0">Go to wallet</CelButton>
+    </CelModal>
+  )
+}
 
 CelPayReceivedModal.propTypes = {
   navigateTo: PropTypes.func.isRequired,
