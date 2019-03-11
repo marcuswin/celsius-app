@@ -52,6 +52,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/icons/contacts-circle/contacts-circle.png'),
   require('../../assets/images/icons/fb-circle/fb-circle.png'),
   require('../../assets/images/icons/tw-circle/tw-circle.png'),
+  require('../../assets/images/frenchy.png'),
 ];
 
 export default {
