@@ -14,6 +14,8 @@ import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCa
 import WalletLandingStyle from './WalletLanding.styles';
 import CoinListCard from '../../molecules/CoinListCard/CoinListCard';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
+import Icon from '../../atoms/Icon/Icon';
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
@@ -44,7 +46,7 @@ class WalletLanding extends Component {
         }
       });
     }
-    
+
     this.state = {
       header: {
         title: `Welcome ${props.user.first_name}!`,
@@ -90,6 +92,8 @@ class WalletLanding extends Component {
     const { activeView } = this.state;
     if (activeView !== selectedView) this.setState({ activeView: selectedView })
   }
+
+  getIconFillColor = (cond) => cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY;
 
   renderCoinWithAmount = () => {
     const { currenciesRates, currenciesGraphs, actions } = this.props;
@@ -183,7 +187,7 @@ class WalletLanding extends Component {
   }
 
   render() {
-    const { header } = this.state
+    const { header, activeView } = this.state
     const { actions, walletSummary, currenciesRates, currenciesGraphs, user } = this.props;
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
@@ -195,10 +199,14 @@ class WalletLanding extends Component {
           <WalletDetailsCard walletSummary={walletSummary} navigateTo={actions.navigateTo} />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <CelText weight='500'>Deposited coins</CelText>
+            <CelText style={{ alignSelf: 'center' }} weight='500'>Deposited coins</CelText>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={this.setGridView}><CelText margin="0 12 0 0">Grid</CelText></TouchableOpacity>
-              <TouchableOpacity onPress={this.setListView}><CelText>List</CelText></TouchableOpacity>
+              <TouchableOpacity onPress={this.setGridView}>
+                <Icon fill={this.getIconFillColor(activeView === "Grid")} name="GridView" width="18" />
+              </TouchableOpacity>
+              <TouchableOpacity style={{ marginLeft: 16 }} onPress={this.setListView}>
+                <Icon fill={this.getIconFillColor(activeView === "List")} name="ListView" width="18" />
+              </TouchableOpacity>
             </View>
           </View>
 
