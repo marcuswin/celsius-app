@@ -31,7 +31,7 @@ class WalletDetailsCard extends PureComponent {
           <TouchableOpacity style={walletDetailsCardStyle.balance} onPress={this.navigateToBalanceHistory}>
             <CelText weight='300' type="H6" color="rgba(61,72,83,0.7)">Total Wallet balance</CelText>
             <CelText weight='600' type="H3" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
-            <CelText color={STYLES.COLORS.RED}>{walletSummary.wallet_diff_24h}</CelText>
+            <CelText color={walletSummary.daily_diff < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN}>{walletSummary.daily_diff.toFixed(2)}%</CelText>
           </TouchableOpacity>
 
           <Separator vertical />
