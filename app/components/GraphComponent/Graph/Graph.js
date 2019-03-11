@@ -28,7 +28,8 @@ class Graph extends React.Component {
     cursorRadius: PropTypes.number,
     showCursor: PropTypes.bool,
     rate: PropTypes.string,
-    interest: PropTypes.bool
+    interest: PropTypes.bool,
+    backgroundColor: PropTypes.string
   };
 
   static defaultProps = {
@@ -37,6 +38,7 @@ class Graph extends React.Component {
     verticalPadding: heightPercentageToDP("2%"),
     labelWidth: widthPercentageToDP("20.33%"),
     cursorRadius: heightPercentageToDP("1.06%"),
+    backgroundColor: "#F3F3F3"
   };
 
   constructor(props) {
@@ -98,7 +100,7 @@ class Graph extends React.Component {
     this.line = d3.shape.line().x(d => this.scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
     this.lineProperties = path.svgPathProperties(this.line);
     this.lineLength = this.lineProperties.getTotalLength();
-    if (showCursor) this.moveCursor(this.lineLength/2);
+    if (showCursor) this.moveCursor(this.lineLength / 2);
   }
 
   moveCursor(value) {
@@ -121,7 +123,7 @@ class Graph extends React.Component {
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor, interest } = this.props;
+    const { width, height, showCursor, interest, backgroundColor } = this.props;
     const { color, loading } = this.state;
 
     return (
@@ -131,11 +133,14 @@ class Graph extends React.Component {
             {showCursor && !interest ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"30%"} />
-                <Stop stopColor={"#F3F3F3"} offset={"80%"} />
+                <Stop stopColor={backgroundColor} offset={"80%"} />
               </LinearGradient> : null
             }
-            { interest ?
-              <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" /> : null
+            {interest ?
+              <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
+                <Stop stopColor={color.area} offset={"30%"} />
+                <Stop stopColor={backgroundColor} offset={"80%"} />
+              </LinearGradient> : null
             }
             {!showCursor ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
