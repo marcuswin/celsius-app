@@ -1,11 +1,7 @@
-// TODO(fj): check branch links logic
-
 import ACTIONS from "../../constants/ACTIONS";
-import { BRANCH_LINKS } from "../../config/constants/common";
 
 function initialState() {
   return {
-    branchHashes: [],
     transfers: {},
   };
 }
@@ -14,15 +10,6 @@ export default function transfersReducer(state = initialState(), action) {
   const transfers = {};
 
   switch (action.type) {
-    case ACTIONS.BRANCH_LINK_REGISTERED:
-      if (action.link.link_type === BRANCH_LINKS.TRANSFER) {
-        return {
-          ...state,
-          branchHashes: [...state.branchHashes, action.link.transfer_hash],
-        };
-      }
-      return state;
-
     case ACTIONS.GET_ALL_TRANSFERS_SUCCESS:
       action.transfers.forEach(t => {
         if (t.hash) transfers[t.hash] = t;

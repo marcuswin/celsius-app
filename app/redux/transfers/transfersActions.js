@@ -6,10 +6,11 @@ import transferService from '../../services/transfer-service';
 import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
+import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../config/constants/common";
 import { getAllTransactions } from "../transactions/transactionsActions";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { createCelPayBUO } from "../../utils/branch-util";
+import UI from "../../constants/UI";
 
 export {
   getAllTransfers,
@@ -236,41 +237,41 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
  */
 function registerTransferLink(deepLink) {
   return async (dispatch, getState) => {
+    let callName;
+
     try {
-      const { userActions } = getState().ui;
+      // const { userActions } = getState().ui;
       const { profile } = getState().user;
 
-      if (profile) {
-        dispatch(startApiCall(API.GET_TRANSFER));
-        const res = await transferService.get(deepLink.transfer_hash);
-        const transfer = res.data;
-
-        if (!transfer.claimed_at) {
-          dispatch(getTransferSuccess(transfer));
-
-          dispatch(claimTransfer(transfer.hash));
-          if (userActions.enteredInitialPin) {
-            dispatch(openModal(MODALS.TRANSFER_RECEIVED));
-          }
-        } else {
-          dispatch(getTransferSuccess());
-          dispatch(showMessage('warning', 'Link has already been claimed!'));
-        }
-      } else {
-        dispatch(getTransferSuccess({
-          hash: deepLink.transfer_hash,
-          amount: deepLink.amount,
-          coin: deepLink.coin,
-          from: {
-            name: deepLink.from_name,
-            profile_picture: deepLink.profile_picture,
-          },
-        }));
-        dispatch(openModal(MODALS.TRANSFER_RECEIVED));
+      if (!profile) {
+        dispatch(showMessage('warring', 'In order to user a CelPay link you must be logged in'))
+        return;
       }
+
+      callName = API.GET_TRANSFER;
+      dispatch(startApiCall(API.GET_TRANSFER));
+      let res = await transferService.get(deepLink.hash);
+      const transfer = res.data;
+
+      if (transfer.claimed_at) {
+        dispatch(showMessage('warning', 'This CelPay Link has already been claimed!'));
+        dispatch(getTransferSuccess());
+        return;
+      }
+      dispatch(getTransferSuccess(transfer));
+
+      if (profile.kyc_status !== "passed") {
+        // TODO: handle CelPay links for not verified users
+      }
+
+      callName = API.CLAIM_TRANSFER;
+      res = await transferService.claim(transfer.hash);
+      dispatch(claimTransferSuccess(res.data));
+
+      dispatch(openModal(UI.MODALS.CELPAY_RECEIVED_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_TRANSFER, err));
+      dispatch(apiError(callName, err));
     }
   }
 }
