@@ -2,13 +2,9 @@ import ACTIONS from "../../constants/ACTIONS";
 import { BRANCH_LINKS } from "../../config/constants/common";
 
 const initialState = {
-  referralLinkId: null,
-
-  // link through which the app was opened
   registeredLink: null,
-  transferLink: null,
-  individualLink: null,
-  companyLink: null,
+
+  transferHash: null,
 };
 
 export default function branchReducer(state = initialState, action) {
@@ -17,6 +13,7 @@ export default function branchReducer(state = initialState, action) {
       return {
         ...state,
         registeredLink: action.link,
+        transferHash: action.link.hash,
       };
 
     case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:

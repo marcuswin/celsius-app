@@ -2,11 +2,10 @@ import ACTIONS from "../../constants/ACTIONS";
 import * as transfersActions from "../transfers/transfersActions";
 import * as uiActions from "../ui/uiActions";
 import branchService from "../../services/branch-service";
-import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { createIndividualLinkBUO } from "../../utils/branch-util";
-import logger from "../../utils/logger-util";
+import { BRANCH_LINKS } from '../../constants/DATA'
 
 export {
   registerBranchLink,
@@ -61,51 +60,21 @@ function getBranchIndividualLink() {
 };
 
 function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
       link: deepLink
     });
 
-    switch (deepLink.link_type) {
-      case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
-        break;
+    if (deepLink.link_type === BRANCH_LINKS.TRANSFER || deepLink.type === BRANCH_LINKS.TRANSFER) {
+      return dispatch(transfersActions.registerTransferLink(deepLink));
+    }
 
-      case BRANCH_LINKS.COMPANY_REFERRAL:
-        logger.logme({ companyLink: deepLink });
-
-        // TODO(fj): endpoint for checking valid link ?
-
-        if (!deepLink.referred_award_amount || !deepLink.referred_award_coin) return;
-
-        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().user.profile) {
-
-            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-          } else {
-            dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
-          }
-        } else {
-          dispatch(uiActions.showMessage("warning", "Sorry, but this link has expired!"));
-        }
-        break;
-
-      case BRANCH_LINKS.INDIVIDUAL_REFERRAL:
-        logger.logme({ individualLink: deepLink });
-        if (!getState().user.profile) {
-          // TODO(fj): check if individual link is valid on an enpoint //max number of users check|country|award change
-
-          // dispatch(saveBranchLink(deepLink));
-
-          dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-        } else {
-          dispatch(uiActions.showMessage("warning", "Sorry, but existing users can't use this link!"));
-        }
-        break;
-
-      default:
-
+    if (deepLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL || deepLink.type === BRANCH_LINKS.COMPANY_REFERRAL) {
+      // TODO
+    }
+    if (deepLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL || deepLink.type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
+      // TODO
     }
   };
 }
