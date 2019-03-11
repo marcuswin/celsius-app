@@ -26,18 +26,12 @@ import addressUtil from "../../../utils/address-util";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class WithdrawConfirm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Withdraw Confirm",
-        left: "back"
-      }
-    };
-  }
+
+  static navigationOptions = () => ({
+    title: "Withdraw Confirm"
+  })
 
   render() {
-    const { header } = this.state;
     const { walletSummary, actions, formData, callsInProgress } = this.props;
     const styles = WithdrawConfirmStyle();
 
@@ -50,7 +44,7 @@ class WithdrawConfirm extends Component {
     const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
 
     return (
-      <RegularLayout header={header} padding={'20 0 40 0'}>
+      <RegularLayout padding={'20 0 40 0'}>
         <Card>
           <View>
             <View style={styles.amountWrapper}>

@@ -31,6 +31,11 @@ class WithdrawConfirmAddress extends Component {
   };
   static defaultProps = {};
 
+  static navigationOptions = () => ({
+    title: "Withdrawal address",
+    right: "profile",
+  })
+
   constructor(props) {
     super(props);
 
@@ -39,11 +44,6 @@ class WithdrawConfirmAddress extends Component {
     const coinData = walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
 
     this.state = {
-      header: {
-        title: "Withdrawal address",
-        left: "back",
-        right: "profile"
-      },
       coin,
       balanceCrypto: coinData.amount,
       balanceUsd: coinData.amount_usd,
@@ -59,7 +59,7 @@ class WithdrawConfirmAddress extends Component {
   };
 
   render() {
-    const { header, coin, balanceCrypto, balanceUsd, address } = this.state;
+    const { coin, balanceCrypto, balanceUsd, address } = this.state;
     const { formData } = this.props;
     let tagText;
     let placeHolderText;
@@ -78,7 +78,7 @@ class WithdrawConfirmAddress extends Component {
     const addressDisplay = addressUtil.splitAddressTag(address.address);
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
 
         <View style={style.coinAmountContainer}>

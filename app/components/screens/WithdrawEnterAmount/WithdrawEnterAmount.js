@@ -18,6 +18,8 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
 import DATA from '../../../constants/DATA';
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
+import { openModal } from '../../../redux/ui/uiActions'
+import store from '../../../redux/store'
 
 const { MODALS } = UI
 
@@ -34,6 +36,12 @@ const { MODALS } = UI
 )
 class WithdrawEnterAmount extends Component {
 
+  static navigationOptions = () => ({
+    title: "Withdraw",
+    right: "info",
+    onInfo: () => { store.dispatch(openModal(MODALS.WITHDRAW_INFO_MODAL)) }
+  });
+
   constructor(props) {
     super(props);
     const { navigation, currencies, withdrawCompliance } = this.props;
@@ -44,12 +52,6 @@ class WithdrawEnterAmount extends Component {
       .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
 
     this.state = {
-      header: {
-        title: "Withdraw",
-        left: "back",
-        right: "info",
-        onInfo: this.handleInfoPress,
-      },
       coinSelectItems,
       activePeriod: ""
     };
@@ -155,13 +157,8 @@ class WithdrawEnterAmount extends Component {
     }
   }
 
-  handleInfoPress = () => {
-    const { actions } = this.props;
-    actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
-  }
-
   render() {
-    const { header, coinSelectItems, activePeriod } = this.state;
+    const { coinSelectItems, activePeriod } = this.state;
     const { formData, actions, walletSummary } = this.props;
     const style = WithdrawEnterAmountStyle();
     if (!formData.coin) return null;
@@ -169,7 +166,7 @@ class WithdrawEnterAmount extends Component {
     const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.container}>
           <View style={style.wrapper}>
             <Card

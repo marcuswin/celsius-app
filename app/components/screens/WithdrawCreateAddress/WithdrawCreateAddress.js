@@ -26,6 +26,11 @@ import CelInput from "../../atoms/CelInput/CelInput";
 )
 class WithdrawCreateAddress extends Component {
 
+  static navigationOptions = () => ({
+    title: "Withdrawal address",
+    right: "profile"
+  })
+
   constructor(props) {
     super(props);
 
@@ -34,11 +39,6 @@ class WithdrawCreateAddress extends Component {
     const coinData = walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
 
     this.state = {
-      header: {
-        title: "Withdrawal address",
-        left: "back",
-        right: "profile"
-      },
       coin,
       balanceCrypto: coinData.amount,
       balanceUsd: coinData.amount_usd,
@@ -61,7 +61,7 @@ class WithdrawCreateAddress extends Component {
   };
 
   render() {
-    const { header, coin, balanceCrypto, balanceUsd } = this.state;
+    const { coin, balanceCrypto, balanceUsd } = this.state;
     const { formData, actions } = this.props;
     const style = WithdrawalAddressConfirmationStyle();
     let tagText;
@@ -79,7 +79,7 @@ class WithdrawCreateAddress extends Component {
     const hasTag = addressUtil.hasCoinTag(formData.coin)
 
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
 
         <View style={style.coinAmountContainer}>

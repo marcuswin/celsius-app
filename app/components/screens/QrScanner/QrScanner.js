@@ -37,13 +37,17 @@ class QrScannerScreen extends Component {
     formField: 'lastQRScan',
   };
 
-  state = {
-    hasCameraPermission: null,
-    handleBarCodeRead: undefined,
-    header: {
-      left: "back",
-    },
-  };
+  static navigationOptions = () => ({
+    title: "QR code scan"
+  })
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      hasCameraPermission: null,
+      handleBarCodeRead: undefined,
+    };
+  }
 
   async componentDidMount() {
     let permission = await Permissions.getAsync(Permissions.CAMERA);
@@ -103,9 +107,8 @@ class QrScannerScreen extends Component {
   };
 
   render() {
-    const { header } = this.state;
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         {this.renderScanner()}
       </RegularLayout>
     )

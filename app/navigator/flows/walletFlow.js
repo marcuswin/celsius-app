@@ -9,6 +9,7 @@ import Profile from '../../components/screens/Profile/Profile'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import Deposit from '../../components/screens/Deposit/Deposit'
 import { celPayFlow } from './celPayFlow'
+import { withdrawFlow } from './withdrawFlow'
 
 
 const walletFlow = {
@@ -21,7 +22,8 @@ const walletFlow = {
     TransactionDetails,
     Profile,
     Deposit,
-    ...celPayFlow.screens
+    ...celPayFlow.screens,
+    ...withdrawFlow.screens
   },
   props: {
     initialRouteName: 'WalletLanding',
