@@ -77,7 +77,6 @@ class WalletInterest extends Component {
           <GraphContainer
             showCursor
             showPeriods
-            showXTicks
             interest
             type={"total-interest"}
           />

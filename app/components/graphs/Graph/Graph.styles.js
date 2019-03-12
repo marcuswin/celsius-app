@@ -20,7 +20,7 @@ const base = {
   },
   pointer: {
     position: "absolute",
-    top: 0,
+    bottom: heightPercentageToDP("25%"),
     left: 0,
     justifyContent: "center",
     alignItems: "center"
@@ -29,9 +29,9 @@ const base = {
     backgroundColor: "rgba(61,72,83,1)",
     borderRadius: 6,
     width: widthPercentageToDP("21.33%"),
-    height: heightPercentageToDP("3.1%"),
+    height: heightPercentageToDP("6.2%"),
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   labelText: {
     fontFamily: "barlow-regular",

@@ -119,7 +119,6 @@ class CoinDetails extends Component {
 
         <GraphContainer
           showCursor
-          showXTicks
           showPeriods
           type={'coin-balance'}
           coin={currency.short}
@@ -149,7 +148,6 @@ class CoinDetails extends Component {
                 periods={["MONTH", "YEAR", "All"]}
                 showCursor
                 showPeriods
-                showXTicks
                 dateArray={dateArray}
                 priceArray={priceArray}
                 interest
