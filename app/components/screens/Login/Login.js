@@ -38,7 +38,7 @@ class Login extends Component {
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
-        <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
+        <CelInput type="text" keyboardType='email-address' field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
         <Separator text="or login with social media" />
