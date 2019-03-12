@@ -10,6 +10,7 @@ import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile"
 import ChangePassword from "../../components/screens/ChangePassword/ChangePassword";
 import ChangePin from "../../components/screens/ChangePin/ChangePin";
 import TwoFactorSettings from "../../components/screens/TwoFactorSettings/TwoFactorSettings";
+import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 
 
@@ -25,7 +26,8 @@ export const profileFlow = {
     VerifyProfile,
     ChangePassword,
     ChangePin,
-    TwoFactorSettings
+    TwoFactorSettings,
+    ChangeAvatar
   },
   props: {
     initialRouteName: 'Profile',

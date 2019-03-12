@@ -6,47 +6,69 @@ import testUtil from "../../../utils/test-util";
 import stylesUtil from "../../../utils/styles-util";
 
 import CardStyle from "./Card.styles";
+import Icon from "../Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 
-const Card = ({
-  margin = "10 0 10 0",
-  padding = "20 20 20 20",
-  size = "full",
-  opacity = 1,
-  children,
-  styles = {},
-  onPress = null
-}) => {
-  const style = CardStyle();
+class Card extends React.Component {
 
-  const paddingStyles = stylesUtil.getPadding(padding);
-  const marginStyles = stylesUtil.getMargins(margin);
-  const opacityStyles = { opacity };
-  const cardStyles = [style.card, paddingStyles, marginStyles, opacityStyles, style[size], styles];
-
-  const card = (
-    <View style={cardStyles}>
-      {children}
-    </View>
-  );
-
-  if (onPress) {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        {card}
-      </TouchableOpacity>
-    );
+  static propTypes = {
+    margin: PropTypes.string,
+    opacity: PropTypes.number,
+    padding: PropTypes.string,
+    color: PropTypes.string,
+    onPress: PropTypes.func,
+    size: PropTypes.oneOf(['full', 'half']),
+    close: PropTypes.bool
+  };
+  static defaultProps = {
+    margin: "10 0 10 0",
+    padding: "20 20 20 20",
+    size: "full",
+    opacity: 1,
+    styles: {},
+    onPress: null,
+    close: false
   }
 
-  return card;
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true
+    };
+  }
 
-Card.propTypes = {
-  margin: PropTypes.string,
-  opacity: PropTypes.number,
-  padding: PropTypes.string,
-  color: PropTypes.string,
-  onPress: PropTypes.func,
-  size: PropTypes.oneOf(['full', 'half'])
-};
+  closeCard = () => this.setState({ open: false })
+
+  render() {
+    const { margin, padding, size, opacity, children, styles, onPress, close } = this.props;
+    const { open } = this.state;
+    const style = CardStyle();
+    const paddingStyles = stylesUtil.getPadding(padding);
+    const marginStyles = stylesUtil.getMargins(margin);
+    const opacityStyles = { opacity };
+    const cardStyles = [style.card, paddingStyles, marginStyles, opacityStyles, style[size], styles];
+
+    const card = (
+      <View style={cardStyles}>
+        {close && (
+          <TouchableOpacity style={{ position: 'absolute', right: 10, top: 0 }} onPress={this.closeCard}>
+            <Icon name='Close' color={STYLES.COLORS.DARK_GRAY_OPACITY} width="25" />
+          </TouchableOpacity>
+        )}
+        {children}
+      </View>
+    );
+    if (!open) return null;
+    if (onPress) {
+      return (
+        <TouchableOpacity onPress={onPress}>
+          {card}
+        </TouchableOpacity>
+      );
+    }
+
+    return card;
+  }
+}
 
 export default testUtil.hookComponent(Card);

@@ -22,7 +22,8 @@ class CelText extends Component {
       PropTypes.instanceOf(Object)
     ]),
     align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
-    allCaps: PropTypes.bool
+    allCaps: PropTypes.bool,
+    onPress: PropTypes.func
   };
   static defaultProps = {
     font: 'barlow',
@@ -59,10 +60,10 @@ class CelText extends Component {
   }
 
   render() {
-    const { children, style, allCaps } = this.props
+    const { children, style, allCaps, onPress } = this.props
     const fontStyle = this.getFontStyle();
     return (
-      <Text style={[fontStyle, style]}>{allCaps ? children.toUpperCase() : children}</Text>
+      <Text style={[fontStyle, style]} onPress={onPress}>{allCaps ? children.toUpperCase() : children}</Text>
     );
   }
 }
