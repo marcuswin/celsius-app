@@ -1,6 +1,6 @@
 
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-// import { COLORS, FONT_SCALE, STYLES } from "../../../config/constants/style";
+import STYLES from "../../../constants/STYLES";
 
 const currencyImageSize = widthPercentageToDP("10.67%");
 
@@ -34,14 +34,10 @@ const base = {
   infoWrapper: {
   },
   currencyName: {
-    // fontFamily: "barlow-medium",
-    // fontSize: FONT_SCALE * 15,
-    // marginBottom: 2
+    marginBottom: 2
   },
   currencyShort: {
-    // fontFamily: "barlow-medium",
-    // fontSize: FONT_SCALE * 18,
-    // color: COLORS.gray
+    color: STYLES.DARK_GRAY,
   },
   imageInfoWrapper: {
     flexDirection: "row",
@@ -52,7 +48,7 @@ const base = {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor: COLORS.green,
+    backgroundColor: STYLES.COLORS.GREEN,
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -72,29 +68,25 @@ const base = {
   },
   usdInfoWrapper: {
     marginTop: 10,
-    // backgroundColor: STYLES.GRAY_3,
+    backgroundColor: STYLES.COLORS.DARK_GRAY,
     borderRadius: 5,
     padding: 10
   },
   regularRateText: {
     color: "#000",
     fontFamily: "barlow-regular",
-    // fontSize: FONT_SCALE * 12,
   },
   celRateText: {
     color: "#fff",
     fontFamily: "barlow-semi-bold",
-    // fontSize: FONT_SCALE * 16,
   },
   regRateText: {
     color: "#000",
     fontFamily: "barlow-semi-bold",
-    // fontSize: FONT_SCALE * 16,
   },
   celsiusRateText: {
     color: "#fff",
     fontFamily: "barlow-regular",
-    // fontSize: FONT_SCALE * 12,
   }
 };
 

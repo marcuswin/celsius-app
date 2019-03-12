@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, Text, Image, Linking } from "react-native";
+import { View, Image, Linking } from "react-native";
 import { connect } from "react-redux";
 
 import InterestRateInfoStyle from "./InterestRateInfo.styles";
+import CelText from "../CelText/CelText";
 // import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(
@@ -39,28 +40,28 @@ class InterestRateInfo extends Component {
               />
             </View>
             <View style={styles.infoWrapper}>
-              <Text style={styles.currencyName}>{this.capitalize(currencyName)}</Text>
-              <Text style={styles.currencyShort}>{currencyInfo.short}</Text>
+              <CelText weight={"500"} type={"H5"} style={styles.currencyName}>{this.capitalize(currencyName)}</CelText>
+              <CelText weight={"500"} type={"H4"} style={styles.currencyShort}>{currencyInfo.short}</CelText>
             </View>
           </View>
           <View style={{ justifyContent: "space-around" }}>
             <View style={styles.regularRateWrapper}>
-              <Text style={styles.regularRateText}>Regular Rate</Text>
-              <Text style={styles.regRateText}>{rate}</Text>
+              <CelText type={"H7"} style={styles.regularRateText}>Regular Rate</CelText>
+              <CelText type={"H5"} style={styles.regRateText}>{rate}</CelText>
             </View>
             <View style={styles.celRateWrapper}>
-              <Text style={styles.celsiusRateText}>CEL Rate</Text>
-              <Text style={styles.celRateText}>{rate}</Text>
+              <CelText type={"H7"} style={styles.celsiusRateText}>CEL Rate</CelText>
+              <CelText type={"H5"} style={styles.celRateText}>{rate}</CelText>
             </View>
           </View>
         </View>
         {currencyInfo.short.toUpperCase() === "USD" && <View style={styles.usdInfoWrapper}>
-          <Text>
-            Start earning interest for dollars by <Text onPress={() => {
+          <CelText>
+            Start earning interest for dollars by <CelText onPress={() => {
             Linking.openURL("mailto:sales@celsius.network");
-          }}>getting in touch</Text> with
+          }}>getting in touch</CelText> with
             our team.
-          </Text>
+          </CelText>
         </View>}
       </View>
     );
