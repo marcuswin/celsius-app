@@ -24,7 +24,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
   state => {
-    const eligibleCoins = ['BCH', 'ETH'] // state.users.compliance.deposit.coins
+    const eligibleCoins = state.users.compliance.deposit.coins
     const possibleAddresses = eligibleCoins.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase())
     const walletAddresses = {};
 
