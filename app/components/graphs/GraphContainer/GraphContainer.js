@@ -124,7 +124,11 @@ class GraphContainer extends Component {
 
     return (
       <View style={[style.container, { width }]}>
-        {showPeriods && <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline}/>}
+        {showPeriods &&
+          <View style={style.period}>
+            <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline}/>
+          </View>
+        }
         {isLoading ? (
           <View style={style.spinner}>
             <Spinner/>
@@ -133,7 +137,7 @@ class GraphContainer extends Component {
           <Graph width={width} dateArray={dates} priceArray={prices} interest={interest} showCursor={showCursor}
                  rate={rate} timeline={timeline}/>
         )}
-        <View style={style.xTick}>
+        <View>
           {showXTicks && !isLoading && <XTicks width={width} time={dates} timeline={timeline}/>}
         </View>
       </View>
