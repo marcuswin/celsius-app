@@ -2,7 +2,6 @@ import { Constants } from "expo";
 import { Platform } from "react-native";
 import uuid from "uuid";
 
-import store from "../store";
 import * as actions from "../actions";
 import {
   getSecureStoreKey,
@@ -26,6 +25,7 @@ export {
   loadCelsiusAssets,
   handleAppStateChange,
   setInternetConnection,
+  initAppData,
 }
 
 /**
@@ -44,7 +44,7 @@ function initCelsiusApp() {
       await appUtil.initInternetConnectivityListener();
       await appUtil.pollBackendStatus();
 
-      await initAppData();
+      await dispatch(initAppData());
       await dispatch(actions.initUserAppSettings());
 
       await branchUtil.initBranch();
@@ -160,50 +160,53 @@ function setInternetConnection(connection) {
 /**
  * Initialize all data needed for the App
  */
-async function initAppData() {
-  await store.dispatch(actions.getInitialCelsiusData())
+function initAppData() {
+  return async (dispatch, getState) => {
 
-  // get user token
-  const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+    await dispatch(actions.getInitialCelsiusData())
 
-  // fetch user
-  if (token) await store.dispatch(actions.getProfileInfo());
+    // get user token
+    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
 
-  // get expired session
-  const { expiredSession } = store.getState().user;
+    // fetch user
+    if (token) await dispatch(actions.getProfileInfo());
 
-  if (token && !expiredSession) {
-    registerForPushNotificationsAsync();
+    // get expired session
+    const { expiredSession } = getState().user;
 
-    // get all KYC document types and claimed transfers for non-verified users
-    const { profile } = store.getState().user;
-    if (profile) {
-      if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
-        await store.dispatch(actions.getKYCDocTypes());
-        await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+    if (token && !expiredSession) {
+      registerForPushNotificationsAsync();
+
+      // get all KYC document types and claimed transfers for non-verified users
+      const { profile } = getState().user;
+      if (profile) {
+        if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
+          await dispatch(actions.getKYCDocTypes());
+          await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+        }
+
+        // get wallet details for verified users
+        if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
+          await dispatch(actions.getWalletSummary());
+          await dispatch(actions.getComplianceInfo());
+        }
       }
+    } else {
+      // logout if expired session or no token
+      await dispatch(actions.logoutUser());
 
-      // get wallet details for verified users
-      if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
-        await store.dispatch(actions.getWalletSummary());
-        await store.dispatch(actions.getComplianceInfo());
-      }
+      // initialize MixPanel with new user
+      mixpanelAnalytics.identify(uuid());
+
+      // TODO(fj): check if we need this...
+      // dispatch(actions.fireUserAction("enteredInitialPin"));
     }
-  } else {
-    // logout if expired session or no token
-    await store.dispatch(actions.logoutUser());
 
-    // initialize MixPanel with new user
-    mixpanelAnalytics.identify(uuid());
+    // get general data for te app
+    await dispatch(actions.getCurrencyRates());
+    await dispatch(actions.getCurrencyGraphs());
 
-    // TODO(fj): check if we need this...
-    // store.dispatch(actions.fireUserAction("enteredInitialPin"));
+    // TODO: add compliance
+    // await dispatch(actions.getBlacklistedCountries());
   }
-
-  // get general data for te app
-  await store.dispatch(actions.getCurrencyRates());
-  await store.dispatch(actions.getCurrencyGraphs());
-
-  // TODO: add compliance
-  // await store.dispatch(actions.getBlacklistedCountries());
 }

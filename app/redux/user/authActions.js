@@ -7,6 +7,7 @@ import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage } from '../ui/uiActions';
 import { getComplianceInfo } from "../user/userActions";
+import { initAppData } from "../app/appActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
@@ -47,8 +48,9 @@ function loginUser({ email, password }) {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      await dispatch(await loginUserSuccess(res.data));
+      await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
+      await dispatch(await loginUserSuccess(res.data));
 
       dispatch(navigateTo('WalletFab'));
     } catch (err) {
