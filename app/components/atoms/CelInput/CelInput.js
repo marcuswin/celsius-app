@@ -30,6 +30,7 @@ class CelInput extends Component {
     onChange: PropTypes.func, //
     autoCorrect: PropTypes.bool, //
     value: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
       PropTypes.string,
       PropTypes.number
     ]), //
@@ -106,8 +107,8 @@ class CelInput extends Component {
       case 'phone':
         return (
           <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
-            <CelSelect {...this.props} />
-            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={value.text} />
+            <CelSelect style={{width: 'auto'}} {...this.props} />
+            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={typeof value === 'string' ? value : ''} />
           </View>
         )
       case 'text-area':

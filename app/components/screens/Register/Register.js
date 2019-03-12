@@ -20,14 +20,18 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 )
 class Register extends Component {
 
+  static navigationOptions = () => (
+    {
+      right: 'login',
+      customCenterComponent: <ProgressBar steps={5} currentStep={1}/>
+    }
+  )
+
   render() {
     const { formData, actions } = this.props;
-    const header = {
-      right: "login",
-      children: <ProgressBar steps={5} currentStep={1} />
-    }
+
     return (
-      <AuthLayout header={header}>
+      <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Join Celsius</CelText>
         <CelInput type="text" field="firstname" placeholder="First name" />
         <CelInput type="text" field="lastname" placeholder="Last name" />

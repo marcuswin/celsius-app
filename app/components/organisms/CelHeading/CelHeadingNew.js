@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, SafeAreaView, StatusBar, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -37,6 +37,9 @@ class CelHeadingNew extends Component {
    *
    * @type {boolean}
    * transparent
+   *
+   * @type {React.Component}
+   * customCenterComponent
    */
 
   constructor(props) {
@@ -111,11 +114,20 @@ class CelHeadingNew extends Component {
   }
 
   getCenterContent = (sceneProps) => {
-    const { title } = sceneProps;
+    const { title, customCenterComponent } = sceneProps;
     const style = CelHeadingStyle()
+
     return (
       <View style={style.center}>
-        <CelText style={style.headerTitle} align="center" type="H3">{title || ""}</CelText>
+        {customCenterComponent
+          ?
+            <Fragment>
+              {customCenterComponent}
+            </Fragment>
+
+          :
+            <CelText style={style.headerTitle} align="center" type="H3">{title || ""}</CelText>
+        }
       </View>
     );
   }

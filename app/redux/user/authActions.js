@@ -50,7 +50,7 @@ function loginUser({ email, password }) {
       await dispatch(await loginUserSuccess(res.data));
       dispatch(claimAllBranchTransfers());
 
-      dispatch(navigateTo('WalletLanding'));
+      dispatch(navigateTo('WalletFab'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));
@@ -249,7 +249,7 @@ function logoutUser() {
       dispatch({
         type: ACTIONS.LOGOUT_USER,
       });
-      await dispatch(navigateTo('Login'));
+      await dispatch(navigateTo('Auth'));
     } catch (err) {
       logger.log(err);
     }
