@@ -12,6 +12,9 @@ const base = {
     width: widthPercentageToDP("100%"),
     justifyContent: "center",
     alignItems: "center"
+  },
+  period: {
+    marginBottom: heightPercentageToDP("5%"),
   }
 };
 

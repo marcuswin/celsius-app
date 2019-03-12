@@ -1,16 +1,16 @@
 import React from "react";
 import { View, Animated, TextInput } from "react-native";
 import { Svg } from "expo";
-// import moment from "moment";
+import moment from "moment";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
-import { scaleLinear, scalePoint } from "d3-scale";
+import { scaleLinear, scalePoint, scaleTime } from "d3-scale";
 import testUtil from "../../../utils/test-util";
-import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
+
 
 
 const { Path, Defs, LinearGradient, Stop } = Svg;
@@ -88,7 +88,7 @@ class Graph extends React.Component {
     const yDomain = [Math.min(...priceArray), Math.max(...priceArray)];
     const xRange = [0, width];
     const xDomain = dateArray;
-    // const timeDomain = [Math.max(...dateArray), Math.min(...dateArray)];
+    const timeDomain = [Math.min(...dateArray), Math.max(...dateArray)];
 
     // creating Obj out of two arrays
     const arrOfObjects = dateArray.map((x, i) => ({ x, y: priceArray[i] }));
@@ -96,7 +96,7 @@ class Graph extends React.Component {
     // Scaling and line making
     this.scaleX = scalePoint().domain(xDomain).range(xRange);
     this.scaleY = scaleLinear().domain(yDomain).range(yRange);
-    // this.scaleTime = scaleTime().domain(timeDomain).range(yRange);
+    this.scaleTime = scaleTime().domain(timeDomain).range(xRange);
     this.line = d3.shape.line().x(d => this.scaleX(d.x)).y(d => this.scaleY(d.y)).curve(d3.shape.curveBasis)(arrOfObjects);
     this.lineProperties = path.svgPathProperties(this.line);
     this.lineLength = this.lineProperties.getTotalLength();
@@ -104,14 +104,32 @@ class Graph extends React.Component {
   }
 
   moveCursor(value) {
-    const { width, height, cursorRadius, labelWidth, showCursor } = this.props;
+    const { width, cursorRadius, labelWidth, showCursor, timeline } = this.props;
     const { x, y } = this.lineProperties.getPointAtLength(this.lineLength - value);
+    let tm;
+
+    switch (timeline) {
+      case "1y":
+        tm = "MMM";
+        break;
+      case "1d":
+        tm = "kk";
+        break;
+      case "1m":
+        tm = "D";
+        break;
+      case "7d":
+        tm = "ddd";
+        break;
+      default:
+        tm = "1d";
+    }
 
     if (showCursor) {
       this.cursor.pointer.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
-      this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
+      // this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
       this.cursor.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
-      // this.cursor.dateText.current.setNativeProps({ text: this.scaleTime.invert(x) });
+      this.cursor.dateText.current.setNativeProps({ text: moment(this.scaleTime.invert(x)).format(tm) });
       if (x <= width / x) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
       } else if (x >= width - widthPercentageToDP("5%")) {
@@ -169,13 +187,10 @@ class Graph extends React.Component {
             </View>
           </View>
 
-          <View ref={this.cursor.dashedLine}>
-            <Separator vertical dashed />
-          </View>
-
           <View ref={this.cursor.label} style={[style.pointer]}>
             <View style={[style.label]}>
               <TextInput ref={this.cursor.labelText} style={style.labelText} editable={false} />
+              <TextInput ref={this.cursor.dateText} style={style.labelText} editable={false} />
             </View>
             <View style={[style.triangle]} />
           </View>

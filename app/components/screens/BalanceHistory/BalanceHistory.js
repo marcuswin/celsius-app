@@ -52,7 +52,6 @@ class BalanceHistory extends Component {
     const { actions, walletSummary } = this.props;
     const style = BalanceHistoryStyle();
 
-
     return (
       <RegularLayout padding="20 0 20 0">
         <View>
@@ -66,7 +65,6 @@ class BalanceHistory extends Component {
               <GraphContainer
                 showCursor
                 showPeriods
-                showXTicks
                 type={"total-balance"}
               />
             </View>
