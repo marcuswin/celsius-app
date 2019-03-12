@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { Constants } from 'expo';
@@ -103,6 +103,17 @@ class BorrowLanding extends Component {
     }
   }
 
+  applyForAnother = () => {
+    const { maxAmount } = this.state;
+    const { actions } = this.props
+
+    if (maxAmount < MIN_LOAN_AMOUNT) {
+      actions.showMessage('warning', 'Insufficient funds!')
+    } else {
+      actions.navigateTo('BorrowEnterAmount')
+    }
+  }
+
   render() {
     const { maxAmount, isLoading } = this.state;
     const { actions, loanCompliance, allLoans } = this.props;
@@ -128,7 +139,16 @@ class BorrowLanding extends Component {
 
     return (
       <RegularLayout>
-        <CelButton onPress={() => {actions.navigateTo('BorrowEnterAmount')}}>Apply for another loan</CelButton>
+        {maxAmount < MIN_LOAN_AMOUNT
+          ?
+            <Fragment>
+              <CelText type='H3' margin={'0 0 20 0'} color={STYLES.COLORS.RED}>Insufficient funds!</CelText>
+              <CelButton onPress={() => actions.navigateTo('Deposit')}>Deposit more coins</CelButton>
+            </Fragment>
+          :
+            <CelButton onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
+        }
+
         <View>
           <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
           {allLoans.map(loan => {
