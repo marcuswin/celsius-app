@@ -35,7 +35,7 @@ class SecuritySettings extends Component {
   render() {
     return (
       <RegularLayout>
-        <IconButton>Two-Factor Verification</IconButton>
+        <IconButton right="OFF">Two-Factor Verification</IconButton>
         <IconButton margin="0 0 20 0">Change PIN</IconButton>
         <IconButton margin="0 0 20 0">Change password</IconButton>
         <CelButton onPress={this.logoutUser}>Logout</CelButton>
