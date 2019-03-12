@@ -19,13 +19,8 @@ class RepeatPin extends Component {
   }
 
   render() {
-    const header = {
-      title: "RepeatPin Screen",
-      left: "back",
-      right: "profile"
-    }
     return (
-      <AuthLayout header={header}>
+      <AuthLayout>
         <CelText>Hello RepeatPin</CelText>
       </AuthLayout>
     );

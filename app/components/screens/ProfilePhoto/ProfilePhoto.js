@@ -6,13 +6,12 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import ProfilePhotoStyle from "./ProfilePhoto.styles";
+// import ProfilePhotoStyle from "./ProfilePhoto.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
-  state => ({
-  }),
+  () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ProfilePhoto extends Component {
@@ -29,7 +28,7 @@ class ProfilePhoto extends Component {
   });
 
   render() {
-    const style = ProfilePhotoStyle();
+    // const style = ProfilePhotoStyle();
     
     return (
       <RegularLayout>

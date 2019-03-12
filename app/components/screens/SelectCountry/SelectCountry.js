@@ -29,6 +29,13 @@ class SelectCountry extends Component {
     withPhones: false,
   };
 
+  static navigationOptions = () => (
+    {
+      title: "Dialing code",
+      right: 'search'
+    }
+  )
+
   static getDerivedStateFromProps(nextProps, prevState) {
 
     const newState = {};
@@ -86,7 +93,7 @@ class SelectCountry extends Component {
     return itemStyle;
   }
 
-  isLastHighlitedCountry = (country) => {
+  isLastHighligtedCountry = (country) => {
     const { filteredCountries: arr } = this.state;
     const hCArr = HIGHLIGHTED_COUNTRIES;
     if (country.name && hCArr.includes(country.name)) {
@@ -105,7 +112,7 @@ class SelectCountry extends Component {
     const field = navigation.getParam('field_name', 'NO-FIELD');
     const isActive = formData[field] && formData[field].name && formData[field].name.toLowerCase() === country.name.toLowerCase();
     const itemStyle = this.getSelectStyle(style, isActive);
-    const renderSeparator = this.isLastHighlitedCountry(country);
+    const renderSeparator = this.isLastHighligtedCountry(country);
     return (
       <React.Fragment>
         <TouchableOpacity style={{ flex: 1 }} onPress={() => { actions.updateFormField(field, country); actions.updateFormField('search', ""); actions.navigateBack() }}>
@@ -138,11 +145,7 @@ class SelectCountry extends Component {
     const itemStyle = this.getSelectStyle(style);
 
     return (
-      <RegularLayout header={{
-        title: "Dialing code",
-        left: 'back',
-        right: 'search'
-      }}>
+      <RegularLayout>
         <View style={{ width: '100%' }}>
           {filteredCountries.length > 0 ?
             <FlatList

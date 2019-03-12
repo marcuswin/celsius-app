@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, Linking } from 'react-native';
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CelButton from '../../atoms/CelButton/CelButton';
 import CelInput from '../../atoms/CelInput/CelInput';
 import Card from '../../atoms/Card/Card';
 import STYLES from '../../../constants/STYLES';
@@ -15,8 +14,6 @@ import Icon from '../../atoms/Icon/Icon';
 import Separator from '../../atoms/Separator/Separator';
 // import CelSelect from '../../molecules/CelSelect/CelSelect';
 import IconButton from '../../organisms/IconButton/IconButton';
-import { navigateTo } from '../../../redux/actions';
-import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 
 @connect(
   state => ({
@@ -49,7 +46,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { profilePicture, user } = this.props;
+    const { profilePicture, user, actions } = this.props;
     return (
       <RegularLayout>
         <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
@@ -61,8 +58,8 @@ class Profile extends Component {
           <View style={{ marginLeft: 20 }}>
             <CelText type="H2">{user.first_name}</CelText>
             <CelText type="H2">{user.last_name}</CelText>
-            <TouchableOpacity >
-              <CelText onPress={() => {actions.navigateTo('ProfilePhoto')}} color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change avatar</CelText>
+            <TouchableOpacity onPress={() => actions.navigateTo('ChangeAvatar')}>
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change avatar</CelText>
             </TouchableOpacity>
           </View>
         </View>
@@ -73,18 +70,20 @@ class Profile extends Component {
         <IconButton icon="Settings">Achievements</IconButton>
         <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
+        <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number" value={user.cellphone} />
 
         {/* <CelSelect type="phone" disabled value={user.cellphone} /> */}
 
-        <CelText>To make changes on your profile,</CelText>
-        <CelButton basic onPress={() => { }} color={STYLES.COLORS.CELSIUS_BLUE}>contact our support.</CelButton>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+          <CelText>To make changes on your profile, <CelText color={STYLES.COLORS.CELSIUS_BLUE} onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact our support.</CelText></CelText>
+        </View>
 
-        <Card>
-          <CelText align="center" type="H3">Let’s talk!</CelText>
-          <CelText align="center">We would love to hear from you. Do not hasitate to reach us out!</CelText>
-          <TouchableOpacity onPress={() => { }}>
-            <Icon name="telegram" fill={STYLES.COLORS.CELSIUS_BLUE} />
-            <CelText align="center" color={STYLES.COLORS.CELSIUS_BLUE} weight="500">Join our Telegram</CelText>
+        <Card close>
+          <CelText align="center" type="H3" weight="500" margin="0 0 10 0">Let’s talk!</CelText>
+          <CelText align="center" type='H4' weight="200" margin="0 0 10 0">We would love to hear from you. Do not hasitate to reach us out!</CelText>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={() => Linking.openURL('https://t.me/CelsiusNetwork')}>
+            <Icon name="Telegram" fill={STYLES.COLORS.CELSIUS_BLUE} width="21" style={{ marginRight: 10 }} />
+            <CelText align="center" color={STYLES.COLORS.CELSIUS_BLUE} weight="500" type='H4'>Join our Telegram</CelText>
           </TouchableOpacity>
         </Card>
       </RegularLayout>

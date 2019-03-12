@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const GraphContainerStyle = () => getThemedStyle(base, themed);
+const TwoFactorSettingsStyle = () => getThemedStyle(base, themed);
 
-export default GraphContainerStyle
+export default TwoFactorSettingsStyle

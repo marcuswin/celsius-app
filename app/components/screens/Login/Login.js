@@ -22,22 +22,25 @@ import API from '../../../constants/API';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Login extends Component {
+
+  static navigationOptions = () => ({
+    right: "signup"
+  })
+
   loginUser = async () => {
     const { actions, formData: { email, password } } = this.props;
     await actions.loginUser({ email, password });
   }
   render() {
     const { formData, callsInProgress } = this.props;
-    const loginLoadig = apiUtil.areCallsInProgress([API.LOGIN_USER], callsInProgress);
-    const header = {
-      right: "signup"
-    }
+    const loginLoading = apiUtil.areCallsInProgress([API.LOGIN_USER], callsInProgress);
+
     return (
-      <AuthLayout header={header}>
+      <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
         <CelInput type="text" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoadig}>Log in</CelButton>
+        <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
         <Separator text="or login with social media" />
       </AuthLayout>
     );

@@ -19,25 +19,18 @@ import CelButton from '../../atoms/CelButton/CelButton';
 )
 class EnterPhone extends Component {
 
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  static navigationOptions = () => (
+    {
+      right: 'login',
+      customCenterComponent: <ProgressBar steps={5} currentStep={2}/>
+    }
+  )
 
   render() {
     const { actions, formData } = this.props;
-    const header = {
-      left: "back",
-      children: <ProgressBar steps={5} currentStep={2} />
-    }
+
     return (
-      <AuthLayout header={header}>
+      <AuthLayout>
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
         <CelInput type="phone" field="phone" placeholder="Phone number" value={formData.phone} />
 

@@ -13,21 +13,13 @@ class Community extends Component {
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Celsius Community",
-        right: "profile"
-      }
-    };
-  }
+  static navigationOptions = () => ({
+    title: 'Celsius Community',
+  })
 
   render() {
-    const { header } = this.state;
     return (
       <StaticScreen
-        header={header}
         emptyState={{ purpose: EMPTY_STATES.NO_DATA }}
       />
     );

@@ -113,7 +113,7 @@ class EmptyState extends Component {
         ) : null}
 
         {support ? (
-          <CelButton onPress={() => { actions.navigateTo('Support') }} margin="8 0 8 0" basic>Contact support</CelButton>
+          <CelButton onPress={() => { actions.navigateTo('SupportFab') }} margin="8 0 8 0" basic>Contact support</CelButton>
         ) : null}
       </View>
 

@@ -12,19 +12,9 @@ class Borrow extends Component {
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: { title: "Enter the amount", right: "info" },
-    };
-  }
-
   render() {
-    const { header } = this.state;
     return (
-      <LoadingScreen
-        header={header}
-      />
+      <LoadingScreen/>
     );
   }
 }

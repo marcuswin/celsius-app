@@ -164,11 +164,11 @@ class CelSelect extends Component {
   renderImage = (style, iso) => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
 
   render() {
-    const { type, flex, disabled, onChange, error } = this.props;
+    const { type, flex, disabled, onChange, error, style } = this.props;
     const { items, value } = this.state;
 
     return (
-      <View style={[{ width: '100%' }, flex ? { flex } : {}]}>
+      <View style={[{ width: '100%' }, flex ? { flex } : {}, style]}>
         {type !== 'country' && type !== 'state' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}

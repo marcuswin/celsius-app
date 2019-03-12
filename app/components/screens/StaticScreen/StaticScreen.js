@@ -7,10 +7,10 @@ import StaticScreenStyle from "./StaticScreen.styles";
 
 class StaticScreen extends Component {
   render() {
-    const { header, emptyState } = this.props;
+    const { emptyState } = this.props;
     const style = StaticScreenStyle();
     return (
-      <RegularLayout header={header}>
+      <RegularLayout>
         <View style={style.wrapper}>
           <EmptyState {...emptyState} />
         </View>

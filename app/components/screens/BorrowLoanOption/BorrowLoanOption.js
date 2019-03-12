@@ -11,6 +11,7 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -80,6 +81,7 @@ class BorrowLoanOption extends Component {
 
   render() {
     const { ltv } = this.props;
+    if (!ltv) return <LoadingScreen />;
 
     return (
       <RegularLayout>

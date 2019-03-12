@@ -23,9 +23,9 @@ class Home extends Component {
     const { user } = this.props;
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
       if (user.id) {
-        prevProps.actions.navigateTo('WalletLanding')
+        prevProps.actions.navigateTo('WalletFab')
       } else {
-        prevProps.actions.navigateTo('Login')
+        prevProps.actions.navigateTo('Auth')
       }
 
     }

@@ -7,7 +7,7 @@ import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
 import Icon from "../../atoms/Icon/Icon";
-import Graph from "../../GraphComponent/Graph/Graph";
+import Graph from "../../graphs/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';

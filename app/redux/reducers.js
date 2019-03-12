@@ -16,6 +16,7 @@ import camera from './camera/cameraReducer';
 import forms from './forms/formsReducer';
 import currencies from './currencies/currenciesReducer';
 import transactions from './transactions/transactionsReducer';
+import graph from './graph/graphReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 const appReducers = combineReducers({
@@ -34,6 +35,7 @@ const appReducers = combineReducers({
   forms,
   currencies,
   transactions,
+  graph,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 })
 

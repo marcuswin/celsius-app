@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Modal, TouchableOpacity, ScrollView, Image, StyleSheet, Text } from "react-native";
+import { View, Modal, TouchableOpacity, ScrollView, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,6 +12,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 import { MODALS } from '../../../constants/UI'
 import { heightPercentageToDP } from "../../../utils/styles-util";
+import CelText from "../../atoms/CelText/CelText";
 
 @connect(
   state => ({
@@ -85,8 +86,8 @@ class CelModal extends Component {
             }
             {header ?
               <View style={style.modalHeadingWrapper}>
-                <Text style={style.mainHeadingText}>{primaryText}</Text>
-                <Text style={style.secondaryHeadingText}>{secondaryText}</Text>
+                <CelText type={"H1"} style={style.mainHeadingText}>{primaryText}</CelText>
+                <CelText type={"H3"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
               </View> : null
             }
 

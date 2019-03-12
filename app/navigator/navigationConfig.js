@@ -1,7 +1,7 @@
 // Screen Transitioning animation
 import React from 'react';
 import { Animated, Easing } from 'react-native'
-import CelHeadingNew from '../components/organisms/CelHeading/CelHeadingNew'
+import CelHeading from '../components/organisms/CelHeading/CelHeading'
 
 
 export const transitionConfig = () => ({
@@ -35,5 +35,5 @@ export const transitionConfig = () => ({
 })
 
 export const defaultNavigationOptions = {
-  header: props => <CelHeadingNew {...props} />
+  header: props => <CelHeading {...props} />
 }

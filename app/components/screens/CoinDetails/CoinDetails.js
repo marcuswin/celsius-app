@@ -16,7 +16,7 @@ import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
 import { widthPercentageToDP } from "../../../utils/styles-util";
-import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
+import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 
 const { COLORS } = STYLES;
 
@@ -118,11 +118,11 @@ class CoinDetails extends Component {
         </View>
 
         <GraphContainer
-          dateArray={dateArray}
-          priceArray={priceArray}
           showCursor
           showXTicks
           showPeriods
+          type={'coin-balance'}
+          coin={currency.short}
         />
 
         <View style={style.container}>

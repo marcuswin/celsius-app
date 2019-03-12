@@ -15,12 +15,16 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInterestStyle from "./WalletInterest.styles";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
 import { MODALS } from "../../../constants/UI";
-import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
+import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+
 
 @connect(
   (state) => ({
     walletSummary: state.wallet.summary,
-    currencyGraphs: state.currencies.graphs
+    transactions: state.transactions.transactionList,
+    currencyRatesShort: state.currencies.currencyRatesShort,
+    currencyGraphs: state.currencies.graphs,
+    chartData: state.interest.chartData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -34,14 +38,12 @@ class WalletInterest extends Component {
   constructor(props) {
     super(props);
 
-    const { currencyGraphs } = props;
-
-    const dateArray = currencyGraphs.LTC["1y"].map(data => data[0])
-    const priceArray = currencyGraphs.LTC["1y"].map(data => data[1])
-
     this.state = {
-      dateArray,
-      priceArray,
+      header: {
+        title: "Interest earned",
+        left: "back",
+        right: "profile"
+      },
     };
   }
 
@@ -56,7 +58,6 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { dateArray, priceArray } = this.state;
     const { walletSummary } = this.props;
     const style = WalletInterestStyle();
 
@@ -74,12 +75,11 @@ class WalletInterest extends Component {
           </View>
 
           <GraphContainer
-            dateArray={dateArray}
-            priceArray={priceArray}
             showCursor
             showPeriods
             showXTicks
             interest
+            type={"total-interest"}
           />
 
           <View style={style.container}>
