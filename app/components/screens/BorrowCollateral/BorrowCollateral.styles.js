@@ -12,7 +12,8 @@ const base = {
     justifyContent: "space-between"
   },
   coinWrapper: {
-    marginBottom: heightPercentageToDP("3.7%")
+    marginBottom: heightPercentageToDP("3.7%"),
+    width: '30%'
   }
 };
 
