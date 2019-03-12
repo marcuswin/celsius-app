@@ -1,5 +1,4 @@
 import { createStackNavigator } from 'react-navigation'
-import Profile from '../../components/screens/Profile/Profile'
 import BorrowLoanOption from '../../components/screens/BorrowLoanOption/BorrowLoanOption'
 import BorrowCollateral from '../../components/screens/BorrowCollateral/BorrowCollateral'
 import BorrowBankAccount from '../../components/screens/BorrowBankAccount/BorrowBankAccount'
@@ -10,6 +9,7 @@ import BorrowLanding from '../../components/screens/BorrowLanding/BorrowLanding'
 import BorrowEnterAmount from '../../components/screens/BorrowEnterAmount/BorrowEnterAmount'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
+import { profileFlow } from './profileFlow'
 
 const borrowFlow = {
   screens: {
@@ -21,8 +21,8 @@ const borrowFlow = {
     VerifyProfile,
     BorrowLanding,
     TransactionDetails,
-    Profile,
-    Deposit
+    Deposit,
+    ...profileFlow.screens,
   },
   props: {
     initialRouteName: 'BorrowLanding',

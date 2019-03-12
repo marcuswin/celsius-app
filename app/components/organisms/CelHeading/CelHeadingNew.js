@@ -8,10 +8,10 @@ import * as appActions from "../../../redux/actions";
 import CelHeadingStyle from "./CelHeading.styles";
 import stylesUtil from '../../../utils/styles-util';
 import CelButton from '../../atoms/CelButton/CelButton';
-import Icon from '../../atoms/Icon/Icon';
 import { THEMES } from '../../../constants/UI';
 import CelInput from '../../atoms/CelInput/CelInput';
 import CelText from '../../atoms/CelText/CelText'
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -70,9 +70,13 @@ class CelHeadingNew extends Component {
       "signup": <CelButton basic onPress={() => { this.props.actions.navigateTo('Register') }}>Sign up</CelButton>,
       "login": <CelButton basic onPress={() => { this.props.actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
-        <CelButton basic onPress={() => { this.props.actions.navigateTo('Settings'); }}>
-          <Icon name="Settings" width="35" height="35" />
-        </CelButton>,
+        <CelButton basic
+                   onPress={() => { this.props.actions.navigateTo('Settings'); }}
+                   iconRight="Settings"
+                   iconRightHeight='35'
+                   iconRightWidth='35'
+                   iconRightColor={STYLES.COLORS.DARK_BACKGROUND}
+        />,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
       "profile":

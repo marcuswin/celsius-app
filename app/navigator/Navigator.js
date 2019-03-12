@@ -17,7 +17,7 @@ import { borrowNavigator } from './flows/borrowFlow';
 import { defaultNavigationOptions, transitionConfig } from './navigationConfig';
 import { celPayNavigator } from './flows/celPayFlow';
 import { walletNavigator } from './flows/walletFlow';
-import { profileNavigator } from './flows/profileFlow';
+import { profileFlow, profileNavigator } from './flows/profileFlow';
 
 const authScreens = {
   // Auth,
@@ -34,7 +34,10 @@ const authProps = {
 }
 const authNavigator = createStackNavigator(authScreens, authProps);
 
-const depositNavigator = createStackNavigator({Deposit}, {
+const depositNavigator = createStackNavigator({
+  Deposit,
+  ...profileFlow.screens,
+}, {
   transitionConfig,
   defaultNavigationOptions
 })

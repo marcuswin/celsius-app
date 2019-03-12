@@ -10,7 +10,7 @@ import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile"
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 
 
-const profileFlow = {
+export const profileFlow = {
   screens: {
     Profile,
     Settings,

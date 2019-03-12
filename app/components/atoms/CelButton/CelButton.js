@@ -26,6 +26,7 @@ class CelButton extends Component {
     textColor: PropTypes.string,
     iconRightHeight: PropTypes.string,
     iconRightWidth: PropTypes.string,
+    iconRightColor: PropTypes.string
   };
 
   static defaultProps = {
@@ -63,14 +64,21 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight, basic, children, iconRightHeight, iconRightWidth } = this.props;
+    const { iconRight, basic, children, iconRightHeight, iconRightWidth, iconRightColor } = this.props;
+    let color
+    if (iconRightColor) {
+      color = iconRightColor
+    } else {
+      color = basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3
+    }
+
     return (
       <View style={{ paddingLeft: children ? 10 : 0 }}>
         <Icon
           name={iconRight}
           height={iconRightHeight}
           width={iconRightWidth}
-          fill={basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3}
+          fill={color}
         />
       </View>
     )
