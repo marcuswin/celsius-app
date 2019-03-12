@@ -31,7 +31,7 @@ class ChangeAvatar extends Component {
   });
 
   render() {
-    const { profilePicture } = this.props;
+    const { profilePicture, actions } = this.props;
 
     return (
       <RegularLayout>
@@ -41,7 +41,7 @@ class ChangeAvatar extends Component {
             source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
             resizeMethod="resize"
           />
-          <CelButton basic>Take a picture</CelButton>
+          <CelButton onPress={() => actions.navigateTo('CameraScreen')} basic>Take a picture</CelButton>
         </View>
         <Separator text="OR CHOOSE ONE BELOW" />
       </RegularLayout>

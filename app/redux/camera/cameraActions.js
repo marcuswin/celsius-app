@@ -20,12 +20,12 @@ export {
  */
 function getCameraRollPhotos() {
   return async (dispatch, getState) => {
-    const { cameraRoll } = getState();
+    const { camera } = getState();
 
-    if (!cameraRoll.hasMore) return;
+    if (!camera.hasMore) return;
 
     const config = {
-      after: cameraRoll.lastPhotoCursor,
+      after: camera.lastPhotoCursor,
       first: 30,
       assetType: "Photos"
     };
@@ -34,6 +34,7 @@ function getCameraRollPhotos() {
 
     try {
       const photos = await CameraRoll.getPhotos(config);
+      // console.log('photos', photos)
       dispatch(getCameraRollPhotosSuccess(photos));
     } catch (err) {
       dispatch(showMessage("error", err.msg));
@@ -48,9 +49,9 @@ function getCameraRollPhotos() {
  */
 function getCameraRollPhotosSuccess(photos) {
   return {
-    photos,
     type: ACTIONS.GET_CAMERA_ROLL_SUCCESS,
-    callName: API.GET_CAMERA_ROLL
+    callName: API.GET_CAMERA_ROLL,
+    photos
   };
 }
 

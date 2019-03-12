@@ -1,5 +1,3 @@
-import { Camera } from "expo";
-
 import ACTIONS from '../../constants/ACTIONS';
 
 const initialState = {
@@ -16,7 +14,6 @@ const initialState = {
 };
 
 export default function cameraReducer(state = initialState, action) {
-    let newState;
     let cameraRollPhotos;
     switch (action.type) {
         case ACTIONS.GET_CAMERA_ROLL_SUCCESS:
@@ -24,6 +21,13 @@ export default function cameraReducer(state = initialState, action) {
                 ...state.cameraRollPhotos,
                 ...action.photos.edges,
             ];
+            // console.log('camera', {
+            //     ...state,
+            //     cameraRollPhotos,
+            //     totalPhotos: cameraRollPhotos.length,
+            //     hasMore: action.photos.page_info.has_next_page,
+            //     lastPhotoCursor: action.photos.page_info.end_cursor,
+            // })
             return {
                 ...state,
                 cameraRollPhotos,
@@ -32,26 +36,10 @@ export default function cameraReducer(state = initialState, action) {
                 lastPhotoCursor: action.photos.page_info.end_cursor,
             };
 
-        case ACTIONS.TOGGLE_CAMERA:
-            if (state.camera.isOpen) {
-                newState = {
-                    ...state,
-                    ...initialState.camera
-                }
-            } else {
-                newState = {
-                    ...state,
-                    isOpen: true,
-                    photoName: action.photoName,
-                    camera: Camera.Constants.Type.back
-                }
-            }
-            return newState;
-
         case ACTIONS.FLIP_CAMERA:
             return {
                 ...state,
-                cameraType: state.camera.cameraType === 'back' ? 'front' : 'back',
+                cameraType: state.cameraType === 'back' ? 'front' : 'back',
             }
 
         case ACTIONS.ACTIVATE_CAMERA:
