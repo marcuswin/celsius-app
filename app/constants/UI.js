@@ -17,6 +17,13 @@ const CAMERA_COPY = {
   SELFIE: 'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.',
 }
 
+const GRAPHS = {
+  TOTAL_BALANCE: "TOTAL_BALANCE",
+  TOTAL_INTEREST: "TOTAL_INTEREST",
+  COIN_BALANCE: "COIN_BALANCE",
+  COIN_INTEREST: "COIN_INTEREST"
+}
+
 const MODALS = {
   BASIC_MODAL: 'BASIC_MODAL',
   WITHDRAW_INFO_MODAL: 'WITHDRAW_INFO_MODAL',
@@ -104,4 +111,5 @@ export {
   KEYPAD_PURPOSES,
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
+  GRAPHS
 }

@@ -12,12 +12,13 @@ import Card from "../../atoms/Card/Card";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
-import GraphContainer from "../../GraphComponent/GraphContainer/GraphContainer";
+import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    currencyGraphs: state.currencies.graphs
+    currencyGraphs: state.currencies.graphs,
+    walletTotalChartData: state.graph.walletTotalChartData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -35,24 +36,25 @@ class BalanceHistory extends Component {
   constructor(props) {
     super(props);
 
-    const { currencyGraphs } = this.props;
-
-    const dateArray = currencyGraphs.LTC["1y"].map(data => data[0]);
-    const priceArray = currencyGraphs.LTC["1y"].map(data => data[1]);
-
     this.state = {
-      dateArray,
-      priceArray
+      header: {
+        title: "Wallet",
+        left: "back",
+        right: "profile"
+      },
+      dateArray: [],
+      priceArray: [],
+      timeInterval: "1d"
     };
   }
 
   render() {
-    const { actions, walletSummary } = this.props
-    const { dateArray, priceArray } = this.state;
+    const { actions, walletSummary } = this.props;
     const style = BalanceHistoryStyle();
 
+
     return (
-      <RegularLayout padding="20 0 20 0" >
+      <RegularLayout padding="20 0 20 0">
         <View>
           <View style={style.container}>
             <Card padding="15 15 15 15" margin="15 20 15 20">
@@ -65,12 +67,11 @@ class BalanceHistory extends Component {
                 showCursor
                 showPeriods
                 showXTicks
-                dateArray={dateArray}
-                priceArray={priceArray}
+                type={"total-balance"}
               />
             </View>
 
-            <View style={[{ width: '100%', paddingHorizontal: 20 }]}>
+            <View style={[{ width: "100%", paddingHorizontal: 20 }]}>
               <TransactionsHistory
                 additionalFilter={{ limit: 5 }}
               />
@@ -81,11 +82,11 @@ class BalanceHistory extends Component {
                 onPress={() => actions.navigateTo("AllTransactions")}
               >
                 See all
-            </CelButton>
+              </CelButton>
             </View>
           </View>
         </View>
-      </RegularLayout >
+      </RegularLayout>
     );
   }
 }
