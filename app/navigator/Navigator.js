@@ -11,7 +11,6 @@ import VerifyPhone from "../components/screens/VerifyPhone/VerifyPhone";
 import CreatePin from "../components/screens/CreatePin/CreatePin";
 import RepeatPin from "../components/screens/RepeatPin/RepeatPin";
 import SelectCountry from "../components/screens/SelectCountry/SelectCountry";
-import WithdrawConfirm from "../components/screens/WithdrawConfirm/WithdrawConfirm";
 
 import { INITIAL_ROUTE } from "../constants/UI";
 import { borrowNavigator } from './flows/borrowFlow';
@@ -19,17 +18,6 @@ import { defaultNavigationOptions, transitionConfig } from './navigationConfig';
 import { celPayNavigator } from './flows/celPayFlow';
 import { walletNavigator } from './flows/walletFlow';
 import { profileNavigator } from './flows/profileFlow';
-
-// const settingsScreens = {
-//   Profile,
-//   Settings,
-//   VerifyProfile,
-// }
-// const settingsProps = {
-//   headerMode: "none",
-//   initialRouteName: 'Profile'
-// }
-// const SettingsNavigator = createStackNavigator(settingsScreens, settingsProps);
 
 const authScreens = {
   // Auth,
@@ -53,16 +41,15 @@ const depositNavigator = createStackNavigator({Deposit}, {
 
 export const screens = {
   Home,
-  Wallet: walletNavigator,
+  WalletFab: walletNavigator,
   CelPayFab: celPayNavigator,
   ProfileFab: profileNavigator,
   Auth: authNavigator,
-  Borrow: borrowNavigator,
+  BorrowFab: borrowNavigator,
   DepositFab: depositNavigator,
   SelectCountry,
   Support,
-  Community,
-  WithdrawConfirm,
+  Community
 };
 
 const navigatorProps = {

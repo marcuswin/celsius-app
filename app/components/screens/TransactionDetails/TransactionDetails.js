@@ -98,9 +98,9 @@ class TransactionDetails extends Component {
       case 'button:cancel':
         return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Borrow')}>Apply for another loan</CelButton>
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
       case 'button:refer':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Borrow')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
+        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':

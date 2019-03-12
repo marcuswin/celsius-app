@@ -15,8 +15,8 @@ function getMenuItems(menu) {
   return {
     main: [
       [
-        { label: 'Wallet', screen: 'WalletLanding' },
-        { label: 'Borrow', screen: 'BorrowLanding' },
+        { label: 'Wallet', screen: 'WalletFab' },
+        { label: 'Borrow', screen: 'BorrowFab' },
         { label: 'CelPay', screen: 'CelPayFab' },
       ],
       [
