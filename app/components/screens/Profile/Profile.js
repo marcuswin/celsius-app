@@ -15,6 +15,8 @@ import Icon from '../../atoms/Icon/Icon';
 import Separator from '../../atoms/Separator/Separator';
 // import CelSelect from '../../molecules/CelSelect/CelSelect';
 import IconButton from '../../organisms/IconButton/IconButton';
+import { navigateTo } from '../../../redux/actions';
+import ProfilePhoto from '../ProfilePhoto/ProfilePhoto';
 
 @connect(
   state => ({
@@ -59,8 +61,8 @@ class Profile extends Component {
           <View style={{ marginLeft: 20 }}>
             <CelText type="H2">{user.first_name}</CelText>
             <CelText type="H2">{user.last_name}</CelText>
-            <TouchableOpacity onPress={() => { }}>
-              <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change avatar</CelText>
+            <TouchableOpacity >
+              <CelText onPress={() => {actions.navigateTo('ProfilePhoto')}} color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change avatar</CelText>
             </TouchableOpacity>
           </View>
         </View>
