@@ -88,12 +88,9 @@ class CelInput extends Component {
         clearTimeout(this.changeTimer)
         const { field, onChange, actions } = this.props;
         if (onChange) {
-            // this.changeTimer = setTimeout(() => onChange(field, text), 750)
-          onChange(field, text)
+            this.changeTimer = setTimeout(() => onChange(field, text), 750)
         } else {
-            // this.changeTimer = setTimeout(() => actions.updateFormField(field, text), 750)
-          actions.updateFormField(field, text)
-
+            this.changeTimer = setTimeout(() => actions.updateFormField(field, text), 750)
         }
     }
 

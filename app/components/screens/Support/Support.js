@@ -13,21 +13,13 @@ class Support extends Component {
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      header: {
-        title: "Chat with support",
-        right: "close"
-      }
-    };
-  }
+  static navigationOptions = () => ({
+    title: 'Chat with support',
+  })
 
   render() {
-    const { header } = this.state;
     return (
       <StaticScreen
-        header={header}
         emptyState={{ purpose: EMPTY_STATES.USER_CLEARED }}
       />
     );

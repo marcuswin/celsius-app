@@ -104,11 +104,11 @@ class BorrowLanding extends Component {
   }
 
   render() {
-    const { header, maxAmount, isLoading } = this.state;
+    const { maxAmount, isLoading } = this.state;
     const { actions, loanCompliance, allLoans } = this.props;
     const style = BorrowLandingStyle();
 
-    if (isLoading) return <LoadingScreen header={header} />
+    if (isLoading) return <LoadingScreen/>
 
     if (!loanCompliance.allowed) {
       return (

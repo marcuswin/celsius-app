@@ -25,18 +25,10 @@ class Wallet extends Component {
   static defaultProps = {
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     const { formData } = this.props
     return (
-      <RegularLayout header={{
-        title: "Welcome, Stefan!",
-        right: "profile"
-      }}>
+      <RegularLayout>
         <CelButton onPress={() => { }}>Join Celsius</CelButton>
         <CelInput field="test" placeholder="Password" />
         <CelInput field="test1" placeholder="Password" type="password" value={formData.test1 || ""} />

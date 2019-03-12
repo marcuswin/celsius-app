@@ -22,10 +22,10 @@ function getMenuItems(menu) {
       [
         { label: 'Deposit', screen: 'DepositFab' },
         { label: 'Settings', screen: 'ProfileFab' },
-        { label: 'Support', screen: 'Support' },
+        { label: 'Support', screen: 'SupportFab' },
       ],
       [
-        { label: 'Community', screen: 'Community' },
+        { label: 'Community', screen: 'CommunityFab' },
       ]
     ],
     support: [],
@@ -91,7 +91,7 @@ class FabMenu extends Component {
         break;
 
       case 'support':
-        actions.navigateTo('Support');
+        actions.navigateTo('SupportFab');
         break;
 
       default:

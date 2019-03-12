@@ -1,4 +1,4 @@
-import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { createAppContainer, createStackNavigator, createSwitchNavigator } from "react-navigation";
 
 import Home from "../components/screens/Home/Home";
 import Support from "../components/screens/Support/Support";
@@ -13,6 +13,18 @@ import { profileNavigator } from './flows/profileFlow';
 import { authNavigator } from './flows/authFlow'
 import { depositNavigator } from './flows/depositFlow'
 
+
+
+export const supportNavigator = createStackNavigator({Support}, {
+  defaultNavigationOptions,
+  transitionConfig
+});
+
+export const communityNavigator = createStackNavigator({Community}, {
+  defaultNavigationOptions,
+  transitionConfig
+});
+
 export const screens = {
   Home,
   WalletFab: walletNavigator,
@@ -21,8 +33,8 @@ export const screens = {
   Auth: authNavigator,
   BorrowFab: borrowNavigator,
   DepositFab: depositNavigator,
-  Support,
-  Community
+  SupportFab: supportNavigator,
+  CommunityFab: communityNavigator
 };
 
 const navigatorProps = {
