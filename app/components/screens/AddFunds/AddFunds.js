@@ -24,7 +24,7 @@ import EmptyState from "../../atoms/EmptyState/EmptyState";
 
 @connect(
   state => {
-    const eligibleCoins = state.users.compliance.deposit.coins
+    const eligibleCoins = ['BCH', 'ETH'] // state.users.compliance.deposit.coins
     const possibleAddresses = eligibleCoins.filter(c => !cryptoUtil.isERC20(c) || c === "ETH").map(c => c.toLowerCase())
     const walletAddresses = {};
 
@@ -154,14 +154,32 @@ class AddFunds extends Component {
     Clipboard.setString(address);
   };
 
+  isNavCurrencyEligible() {
+    const { eligibleCoins, navigation} = this.props
+    const navCurrency = navigation.getParam("currency")
+    return !navCurrency || (eligibleCoins.includes(navCurrency.toLowerCase()) || eligibleCoins.includes(navCurrency.toUpperCase()));
+  }
+
   renderCompliance() {
-    const { depositCompliance, actions } = this.props
+    const { depositCompliance, actions, navigation } = this.props
+    const navCurrency = navigation.getParam("currency")
+
+    let text = depositCompliance.block_reason
+
+    if (!text && navCurrency) {
+      text = `Due to local laws and regulations, depositing ${ navCurrency.toUpperCase() } is unavailable in your region.`
+    }
+
+    if (!text) {
+      text = `Due to local laws and regulations, depositing coins is unavailable in your region.`
+    }
+
     return (
       <SimpleLayout
         mainHeader={{ backButton: false }}
         animatedHeading={{ text: 'Add Funds', textAlign: "center" }}
       >
-        <EmptyState purpose={"Compliance"} text={depositCompliance.block_reason} />
+        <EmptyState purpose={"Compliance"} text={ text } />
         <CelButton
           onPress={() => actions.navigateTo('Home')}
           margin="15 0 0 0"
@@ -176,9 +194,9 @@ class AddFunds extends Component {
     const { pickerItems, useAlternateAddress } = this.state;
     const { formData, navigation, actions, appSettings, depositCompliance } = this.props;
 
-    if (!depositCompliance.allowed) return this.renderCompliance()
-
     const navCurrency = navigation.getParam("currency");
+    if (!depositCompliance.allowed || !this.isNavCurrencyEligible()) return this.renderCompliance()
+
     let address;
     let addressXrp;
     let addressXlm;
