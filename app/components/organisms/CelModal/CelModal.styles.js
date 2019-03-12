@@ -1,5 +1,5 @@
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-// import { FONT_SCALE, STYLES } from "../../../constants/style";
+import STYLES from "../../../constants/STYLES";
 
 const base = {
   wrapper: {
@@ -47,9 +47,8 @@ const base = {
     position: "absolute",
     top: 0,
     width: widthPercentageToDP("90%"),
-    paddingTop: 20,
-    paddingBottom: 20,
-    // backgroundColor: STYLES.GRAY_1,
+    paddingTop: 10,
+    backgroundColor: STYLES.COLORS.LIGHT_GRAY,
     alignItems: "center",
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
@@ -58,13 +57,11 @@ const base = {
   },
   mainHeadingText: {
     fontFamily: "barlow-extra-bold",
-    // fontSize: FONT_SCALE * 46,
-    // color: STYLES.GRAY_7
+    color: STYLES.COLORS.MEDIUM_GRAY
   },
   secondaryHeadingText: {
     fontFamily: "barlow-extra-bold",
-    // fontSize: FONT_SCALE * 20,
-    // color: STYLES.GRAY_7
+    color: STYLES.COLORS.MEDIUM_GRAY
   }
 };
 

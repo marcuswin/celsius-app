@@ -7,6 +7,9 @@ import WalletSettings from "../../components/screens/WalletSettings/WalletSettin
 import SecuritySettings from "../../components/screens/SecuritySettings/SecuritySettings";
 import NotificationsSettings from "../../components/screens/NotificationsSettings/NotificationsSettings";
 import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile";
+import ChangePassword from "../../components/screens/ChangePassword/ChangePassword";
+import ChangePin from "../../components/screens/ChangePin/ChangePin";
+import TwoFactorSettings from "../../components/screens/TwoFactorSettings/TwoFactorSettings";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 
 
@@ -20,6 +23,9 @@ export const profileFlow = {
     Api,
     Appearance,
     VerifyProfile,
+    ChangePassword,
+    ChangePin,
+    TwoFactorSettings
   },
   props: {
     initialRouteName: 'Profile',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View, Text, Image, Platform } from "react-native";
+import { View, Image, Platform } from "react-native";
 import { BarCodeScanner, Permissions } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -10,6 +10,7 @@ import * as appActions from "../../../redux/actions";
 import QrScannerStyle from './QrScanner.styles';
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import testUtil from "../../../utils/test-util";
+import CelText from "../../atoms/CelText/CelText";
 
 const style = QrScannerStyle();
 
@@ -93,12 +94,12 @@ class QrScannerScreen extends Component {
         >
           {Platform.OS === 'ios' && <ScanOverlayBackground />}
           <ScanOverlayContent>
-            {!!scanTitle && <Text style={[style.scanText, style.scanTitle]}>{scanTitle}</Text>}
-            <Text style={[style.scanText, style.scanInstructions]}>
+            {!!scanTitle && <CelText type={"H1"} style={[style.scanText, style.scanTitle]}>{scanTitle}</CelText>}
+            <CelText type={"H4"} style={[style.scanText, style.scanInstructions]}>
               {hasCameraPermission === false ?
                 'Camera permission is needed in order to scan the QR Code.' :
                 'Please center the address’ QR code in the marked area.'}
-            </Text>
+            </CelText>
           </ScanOverlayContent>
           {Platform.OS !== 'ios' && <ScanOverlayBackground />}
         </BarCodeScanner>
