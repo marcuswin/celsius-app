@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, SafeAreaView, StatusBar, Image } from 'react-native';
+import { View, SafeAreaView, StatusBar, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -67,6 +67,7 @@ class CelHeading extends Component {
     const { profilePicture } = this.props;
     const { activeSearch } = this.state;
     const rightType = activeSearch ? "cancel" : right;
+    const style = CelHeadingStyle()
 
     return {
       "action": <CelButton basic onPress={() => { }}>Action</CelButton>,
@@ -74,22 +75,25 @@ class CelHeading extends Component {
       "login": <CelButton basic onPress={() => { this.props.actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
         <CelButton basic
-                   onPress={() => { this.props.actions.navigateTo('Settings'); }}
-                   iconRight="Settings"
-                   iconRightHeight='35'
-                   iconRightWidth='35'
-                   iconRightColor={STYLES.COLORS.DARK_BACKGROUND}
+          onPress={() => { this.props.actions.navigateTo('Settings'); }}
+          iconRight="Settings"
+          iconRightHeight='35'
+          iconRightWidth='35'
+          iconRightColor={STYLES.COLORS.DARK_BACKGROUND}
         />,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
       "profile":
-        <CelButton basic onPress={() => { this.props.actions.navigateTo('Profile'); }}>
-          <Image
-            style={{ width: 35, height: 35, borderRadius: 17 }}
-            source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
-            resizeMethod="resize"
-          />
-        </CelButton>,
+
+          <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }}>
+            <Image
+              style={style.profilePicutre}
+              source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+              resizeMethod="resize"
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
+      ,
       "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { this.props.actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
       "cancel": <CelButton basic onPress={() => { this.setState({ activeSearch: false, searchValue: '' }); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
@@ -121,12 +125,12 @@ class CelHeading extends Component {
       <View style={style.center}>
         {customCenterComponent
           ?
-            <Fragment>
-              {customCenterComponent}
-            </Fragment>
+          <Fragment>
+            {customCenterComponent}
+          </Fragment>
 
           :
-            <CelText style={style.headerTitle} align="center" type="H3">{title || ""}</CelText>
+          <CelText style={style.headerTitle} align="center" type="H3">{title || ""}</CelText>
         }
       </View>
     );

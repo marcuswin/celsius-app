@@ -21,14 +21,29 @@ const base = {
     },
     right: {
         flex: 1,
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
     },
     headingBackground: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
     },
     transparentBackground: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
-    }
+    },
+    profilePicutre: {
+        width: 36,
+        height: 36,
+        borderRadius: 18,
+    },
+    button: {
+        borderRadius: 17,
+        overflow: 'hidden',
+        borderColor: 'black'
+
+    },
+    // image: {
+    //     borderRadius: 17,
+    //     color: 'red'
+    // }
 }
 
 const themed = {
