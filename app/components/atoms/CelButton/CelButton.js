@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import testUtil from "../../../utils/test-util";
 import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
 import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
@@ -45,7 +45,7 @@ class CelButton extends Component {
     const { margin, disabled, basic, size } = this.props;
     const buttonStyles = [style.container, style[`${size}Container`]];
 
-    buttonStyles.push(stylesUtil.getMargins(margin));
+    buttonStyles.push(getMargins(margin));
 
     if (disabled) buttonStyles.push(style.disabledButton);
     if (basic) buttonStyles.push(style.basicButton);

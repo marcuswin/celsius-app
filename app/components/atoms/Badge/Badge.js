@@ -6,7 +6,7 @@ import testUtil from "../../../utils/test-util";
 
 import BadgeStyle from "./Badge.styles";
 import STYLES from "../../../constants/STYLES";
-import stylesUtil from "../../../utils/styles-util";
+import { getPadding, getMargins } from "../../../utils/styles-util";
 
 const { COLORS } = STYLES;
 
@@ -20,8 +20,8 @@ const Badge = ({
   const badgeStyles = [
     styles.container,
     { backgroundColor: color },
-    stylesUtil.getMargins(margin),
-    stylesUtil.getPadding(padding),
+    getMargins(margin),
+    getPadding(padding),
   ]
   return (
     <View style={badgeStyles}>

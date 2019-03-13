@@ -18,7 +18,7 @@ import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
 import BorrowConfirmModal from "../../organisms/BorrowConfirmModal/BorrowConfirmModal";
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
-import stylesUtil from '../../../utils/styles-util';
+import { getPadding } from '../../../utils/styles-util';
 import { showMessage } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store';
 
@@ -136,7 +136,7 @@ class BorrowEnterAmount extends Component {
 
     return (
       <RegularLayout padding="0 0 0 0">
-        <View style={[{ flex: 1, width: '100%', height: "100%" }, { ...stylesUtil.getPadding('20 20 100 20') }]}>
+        <View style={[{ flex: 1, width: '100%', height: "100%" }, { ...getPadding('20 20 100 20') }]}>
           <View style={{ alignItems: 'center' }}>
             <ProgressBar steps={6} currentStep={1} />
             <CelText align="center" type="H4" margin="30 0 60 0">How much would you like to borrow?</CelText>

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import testUtil from "../../../utils/test-util";
 import RegularLayoutStyle from "./RegularLayout.styles";
 // import KeyboardShift from '../../../utils/keyboard-shift-util';
-import stylesUtil from '../../../utils/styles-util';
+import { getPadding } from '../../../utils/styles-util';
 
 class RegularLayout extends Component {
 
@@ -22,7 +22,7 @@ class RegularLayout extends Component {
   render() {
     const { theme, children, padding, enableParentScroll } = this.props;
     const style = RegularLayoutStyle(theme);
-    const paddings = stylesUtil.getPadding(padding);
+    const paddings = getPadding(padding);
     return (
       <React.Fragment>
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{ flexGrow: 1 }, paddings]}>

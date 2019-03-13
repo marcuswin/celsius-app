@@ -8,7 +8,7 @@ import IconButtonStyle from "./IconButton.styles";
 import Icon from '../../atoms/Icon/Icon';
 import CelText from '../../atoms/CelText/CelText';
 import STYLES from '../../../constants/STYLES';
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 
 class IconButton extends Component {
 
@@ -44,7 +44,7 @@ class IconButton extends Component {
     const { children, icon, margin, onPress, hideIconRight, right } = this.props;
     const style = IconButtonStyle()
     return (
-      <TouchableOpacity style={[style.container, { ...stylesUtil.getMargins(margin) }]} onPress={onPress}>
+      <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {!!icon && <Icon fill={STYLES.COLORS.DARK_GRAY} name={icon} width="25" />}
           <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }}>{children}</CelText>

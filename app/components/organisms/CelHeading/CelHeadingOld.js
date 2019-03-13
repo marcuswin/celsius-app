@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import CelHeadingStyle from "./CelHeading.styles";
-import stylesUtil from '../../../utils/styles-util';
+import { getPadding } from '../../../utils/styles-util';
 import CelButton from '../../atoms/CelButton/CelButton';
 import Icon from '../../atoms/Icon/Icon';
 import { THEMES } from '../../../constants/UI';
@@ -107,7 +107,7 @@ class CelHeading extends Component {
   getContent = () => {
     const { searchValue } = this.state;
     const style = CelHeadingStyle()
-    const paddings = stylesUtil.getPadding("15 20 15 20")
+    const paddings = getPadding("15 20 15 20")
     const { activeSearch } = this.state;
     const leftStyle = activeSearch ? [style.left, { flexDirection: 'row', flex: 2 }] : style.left;
     return (

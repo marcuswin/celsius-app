@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
-import styleUtils, { getScaledFont } from '../../../utils/styles-util'
+import { getMargins, getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES';
 import ASSETS from '../../../constants/ASSETS';
 import CelTextStyle from './CelText.styles';
@@ -53,7 +53,7 @@ class CelText extends Component {
     const fontSize = { fontSize: this.getFontSize(type) };
     const fontFamily = { fontFamily: this.getFontFamily() };
     const colorStyle = color ? { color } : cmpStyle.textColor; // test this!
-    const marginStyle = styleUtils.getMargins(margin);
+    const marginStyle = getMargins(margin);
     const alignStyle = { textAlign: align };
 
     return [weight, cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];

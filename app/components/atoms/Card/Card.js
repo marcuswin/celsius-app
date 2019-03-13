@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { View, TouchableOpacity } from "react-native";
 
 import testUtil from "../../../utils/test-util";
-import stylesUtil from "../../../utils/styles-util";
+import { getPadding, getMargins } from "../../../utils/styles-util";
 
 import CardStyle from "./Card.styles";
 import Icon from "../Icon/Icon";
@@ -43,8 +43,8 @@ class Card extends React.Component {
     const { margin, padding, size, opacity, children, styles, onPress, close } = this.props;
     const { open } = this.state;
     const style = CardStyle();
-    const paddingStyles = stylesUtil.getPadding(padding);
-    const marginStyles = stylesUtil.getMargins(margin);
+    const paddingStyles = getPadding(padding);
+    const marginStyles = getMargins(margin);
     const opacityStyles = { opacity };
     const cardStyles = [style.card, paddingStyles, marginStyles, opacityStyles, style[size], styles];
 

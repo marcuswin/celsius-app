@@ -9,7 +9,7 @@ import { lookup, countries } from "country-data";
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import CelSelectStyle from "./CelSelect.styles";
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
 import { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
@@ -95,7 +95,7 @@ class CelSelect extends Component {
 
     const cmpStyle = CelSelectStyle();
     const style = [];
-    if (!transparent) style.push(cmpStyle.container, stylesUtil.getMargins(margin))
+    if (!transparent) style.push(cmpStyle.container, getMargins(margin))
     if (disabled) style.push(cmpStyle.disabledInput)
     return style;
   }

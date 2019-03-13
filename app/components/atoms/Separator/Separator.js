@@ -6,7 +6,7 @@ import testUtil from "../../../utils/test-util";
 
 import SeparatorStyle from "./Separator.styles";
 import CelText from '../CelText/CelText';
-import stylesUtil from "../../../utils/styles-util";
+import { getMargins } from "../../../utils/styles-util";
 
 class Separator extends Component {
 
@@ -48,7 +48,7 @@ class Separator extends Component {
     const { size, color, dashed, opacity, margin } = this.props
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
-    const margins = stylesUtil.getMargins(margin);
+    const margins = getMargins(margin);
 
     return (
       <View style={[style.separator, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid', opacity }, margins]} />

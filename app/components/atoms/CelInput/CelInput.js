@@ -6,7 +6,7 @@ import testUtil from "../../../utils/test-util";
 import CelInputStyle from "./CelInput.styles";
 import CelInputPassword from './CelInputPassword';
 import CelInputText from './CelInputText';
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 import CelSelect from '../../molecules/CelSelect/CelSelect';
 import CelTextArea from '../CelTextArea/CelTextArea';
 import CelText from '../CelText/CelText';
@@ -130,7 +130,7 @@ class CelInput extends Component {
   render() {
     const { error, margin } = this.props
     const cmpStyle = CelInputStyle();
-    const styleWrapper = [stylesUtil.getMargins(margin), cmpStyle.container, cmpStyle.trans];
+    const styleWrapper = [getMargins(margin), cmpStyle.container, cmpStyle.trans];
     const Input = this.renderInputByType;
 
     return (

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import stylesUtil, { getThemedStyle, getScaledFont } from '../../../utils/styles-util';
+import { getPadding, getThemedStyle, getScaledFont } from '../../../utils/styles-util';
 import STYLES from '../../../constants/STYLES';
 
 const fontSize = getScaledFont(STYLES.FONTSIZE.H4);
@@ -13,7 +13,7 @@ const base = {
         backgroundColor: 'transparent'
     },
     inputWrapper: {
-        ...StyleSheet.flatten(stylesUtil.getPadding("12 16 15 16")),
+        ...StyleSheet.flatten(getPadding("12 16 15 16")),
         height: 50,
         backgroundColor: STYLES.COLORS.WHITE,
         shadowOffset: { width: 0, height: 3 },

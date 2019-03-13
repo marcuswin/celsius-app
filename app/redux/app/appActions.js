@@ -14,7 +14,7 @@ import { registerForPushNotificationsAsync } from "../../utils/push-notification
 import { analyticsEvents } from "../../utils/analytics-util";
 import appUtil from "../../utils/app-util";
 import branchUtil from "../../utils/branch-util";
-import stylesUtil from "../../utils/styles-util";
+import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
@@ -39,7 +39,7 @@ function initCelsiusApp() {
       dispatch({ type: ACTIONS.APP_INIT_START });
       await appUtil.logoutOnEnvChange();
 
-      stylesUtil.disableAccessibilityFontScaling();
+      disableAccessibilityFontScaling();
 
       await appUtil.initInternetConnectivityListener();
       await appUtil.pollBackendStatus();

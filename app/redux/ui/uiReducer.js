@@ -4,7 +4,6 @@
 import { Dimensions, StatusBar } from 'react-native';
 
 import ACTIONS from '../../constants/ACTIONS';
-import device from "../../utils/device-util";
 import { THEMES } from '../../constants/UI';
 // import store from '../../redux/store';
 // import { KYC_STATUSES } from "../../config/constants/common";
@@ -14,16 +13,8 @@ import { THEMES } from '../../constants/UI';
 const { width, height } = Dimensions.get('window');
 
 function getBottomNavDimensions() {
-  let navHeight;
-  let navPaddingBottom;
-
-  if (device.isiPhoneX()) {
-    navHeight = 87 + 15;
-    navPaddingBottom = 30;
-  } else {
-    navHeight = 60 + 15;
-    navPaddingBottom = 5;
-  }
+  const navHeight = 60 + 15;
+  const navPaddingBottom = 5;
 
   return {
     height: navHeight,

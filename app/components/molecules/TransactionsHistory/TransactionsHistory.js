@@ -12,7 +12,7 @@ import TransactionsHistoryStyle from "./TransactionsHistory.styles";
 import TransactionRow from '../../atoms/TransactionRow/TransactionRow';
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 import apiUtil from '../../../utils/api-util';
 import API from "../../../constants/API";
 import LoadingState from "../../atoms/LoadingState/LoadingState";
@@ -96,7 +96,7 @@ class TransactionsHistory extends Component {
     const { filter } = this.state
     const { actions, margin, filterOptions, callsInProgress, hasFilter } = this.props
     const style = TransactionsHistoryStyle()
-    const margins = stylesUtil.getMargins(margin)
+    const margins = getMargins(margin)
 
     let content;
     if (apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress)) content = <LoadingState />

@@ -6,7 +6,7 @@ import testUtil from "../../../utils/test-util";
 
 import SwitchButtonStyle from "./SwitchButton.styles";
 import CelText from '../../atoms/CelText/CelText';
-import stylesUtil from '../../../utils/styles-util';
+import { getMargins } from '../../../utils/styles-util';
 
 class SwitchButton extends Component {
 
@@ -31,7 +31,7 @@ class SwitchButton extends Component {
     const { children, margin, onPress, value } = this.props;
     const style = SwitchButtonStyle()
     return (
-      <TouchableOpacity style={[style.container, { ...stylesUtil.getMargins(margin) }]} onPress={onPress}>
+      <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
         <CelText type="H4">{children}</CelText>
         <Switch value={value} onValueChange={this.changeValue} />
       </TouchableOpacity>
