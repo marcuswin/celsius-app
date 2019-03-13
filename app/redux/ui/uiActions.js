@@ -21,6 +21,7 @@ export {
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
+  setFabType
 }
 
 let msgTimeout;
@@ -272,7 +273,7 @@ function closeModal() {
 
 /**
  * Sets the theme of the app
- * @param {string} msgType - one of THEMES
+ * @param {string} theme - one of THEMES
  * @returns {Object} - Action
  */
 function setAppTheme(theme) {
@@ -301,4 +302,15 @@ function closeFabMenu() {
   return {
     type: ACTIONS.CLOSE_FAB_MENU
   };
+}
+
+/**
+ * Closes App Menu
+ * @returns {Object} - Action
+ */
+function setFabType(fabType) {
+  return {
+    type: ACTIONS.SET_FAB_TYPE,
+    fabType
+  }
 }

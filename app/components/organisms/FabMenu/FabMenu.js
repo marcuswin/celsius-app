@@ -37,6 +37,7 @@ function getMenuItems(menu) {
     fabMenuOpen: state.ui.fabMenuOpen,
     theme: state.ui.theme,
     appInitialized: state.app.appInitialized,
+    fabType: state.ui.fabType
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -45,15 +46,24 @@ class FabMenu extends Component {
     super(props);
     this.state = {
       menuItems: [],
-      type: 'main'
     };
   }
 
   componentDidMount = () => {
+    const { fabType } = this.props;
     this.setState({
-      menuItems: getMenuItems('main')
+      menuItems: getMenuItems(fabType)
     });
   }
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.fabType !== this.props.fabType && this.props.fabType !== 'hide') {
+      this.setState({
+        menuItems: getMenuItems(this.props.fabType)
+      });
+    }
+  }
+
 
   // componentWillReceiveProps() {
   //   const nextScreen = "home"
@@ -83,9 +93,8 @@ class FabMenu extends Component {
   }
 
   fabAction = () => {
-    const { type } = this.state;
-    const { actions } = this.props;
-    switch (type) {
+    const { actions, fabType } = this.props;
+    switch (fabType) {
       case 'main':
         this.toggleMenu();
         break;
@@ -137,18 +146,19 @@ class FabMenu extends Component {
 
   renderFab = () => {
     const style = FabMenuStyle();
-    const { type } = this.state;
+    const { fabType } = this.props;
     return (
       <View style={style.container}>
-        <Fab onPress={this.fabAction} type={type} />
+        <Fab onPress={this.fabAction} type={fabType} />
       </View>
     );
   }
 
   render() {
-    const { fabMenuOpen, appInitialized } = this.props
+    const { fabMenuOpen, appInitialized, fabType } = this.props
 
     if (!appInitialized) return null;
+    if (fabType === 'hide') return null;
 
     const FabMenuCmp = this.renderFabMenu;
     const FabButton = this.renderFab;

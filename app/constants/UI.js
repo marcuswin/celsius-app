@@ -83,6 +83,8 @@ const HIGHLIGHTED_COUNTRIES = [
   'United States'
 ]
 
+const FAB_TYPE = ['main', 'support', 'hide'];
+
 export default {
   KEYBOARD_TYPE,
   AUTO_CAPITALIZE,
@@ -96,6 +98,7 @@ export default {
   KEYPAD_PURPOSES,
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
+  FAB_TYPE
 }
 
 export {
@@ -111,5 +114,6 @@ export {
   KEYPAD_PURPOSES,
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
-  GRAPHS
+  GRAPHS,
+  FAB_TYPE
 }

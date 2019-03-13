@@ -15,6 +15,7 @@ export {
  * @returns {string} - active screen name
  */
 function getActiveScreen() {
+  if (!navigator._navState) return false;
   const index = _navigator._navState.index;
   const index1 = _navigator._navState.routes[index].index;
   return _navigator._navState.routes[index].routes[index1].routeName;

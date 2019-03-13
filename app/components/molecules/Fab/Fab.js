@@ -8,6 +8,7 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import FabStyle from "./Fab.styles";
 import CircleButton from '../../atoms/CircleButton/CircleButton';
+import { FAB_TYPE } from '../../../constants/UI';
 
 @connect(
   state => ({
@@ -18,7 +19,7 @@ import CircleButton from '../../atoms/CircleButton/CircleButton';
 class Fab extends Component {
   static propTypes = {
     onPress: PropTypes.func.isRequired,
-    type: PropTypes.oneOf(['main', 'support'])
+    type: PropTypes.oneOf(FAB_TYPE)
   };
   static defaultProps = {
   }

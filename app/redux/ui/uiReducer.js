@@ -62,6 +62,7 @@ const initialState = {
   // new v3
   theme: THEMES.LIGHT,
   fabMenuOpen: false,
+  fabType: 'main',
   isKeypadOpen: false,
 
   // keep
@@ -218,6 +219,14 @@ export default (state = initialState, action) => {
         ...state,
         fabMenuOpen: false
       }
+    case ACTIONS.SET_FAB_TYPE:
+      if (action.fabType !== state.fabType) {
+        return {
+          ...state,
+          fabType: action.fabType
+        }
+      }
+      return state;
 
     case ACTIONS.NAVIGATE_BACK:
     case ACTIONS.NAVIGATE:
