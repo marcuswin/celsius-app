@@ -46,8 +46,8 @@ class CoinDetails extends Component {
     const coin = navigation.getParam("coin");
     const currency = props.currencies.filter(c => c.short === coin.toUpperCase())[0];
 
-    const dateArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[0]);
-    const priceArray = currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1]);
+    const dateArray = currencyGraphs[coin.toUpperCase()] ? currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[0]) : [];
+    const priceArray = currencyGraphs[coin.toUpperCase()] ? currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1]) : [];
 
     this.state = {
       dateArray,
