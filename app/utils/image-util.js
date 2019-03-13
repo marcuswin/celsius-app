@@ -1,5 +1,3 @@
-// TODO(fj): when refactoring camera, check this util
-
 import isBase64 from "is-base64";
 import {Platform, ImageEditor, ImageStore} from 'react-native';
 import logger from './logger-util';
@@ -12,6 +10,13 @@ export default {
   convertCameraRollToB64,
 }
 
+
+/**
+ * Returns source of the image depending if it is required, a url or base64
+ *
+ * @param {number|string} image
+ * @returns {string}
+ */
 function getSource(image) {
   // check if base64
   if (isBase64Image(image)) return { uri: `data:image/png;base64,${image}` };
@@ -19,15 +24,28 @@ function getSource(image) {
   // check if url
   if (image && (image.includes('https://') || image.includes('http://'))) return { uri: image.replace('files', 'file-uploads') };
 
-  // check image is in the projet and fetched through require
+  // check image is in the project and fetched through require
   if (!isNaN(image)) return image ;
 }
 
-// NOTE(fj): isBase64 returns false on android, wtf?
+
+/**
+ * Package isBase64 returns false on android, wtf?
+ *
+ * @param {string} image - base64 string to check
+ * @returns {boolean}
+ */
 function isBase64Image(image) {
   return (isBase64(image) || (image && isNaN(image) && !isiOS && image.length > 10000));
 }
 
+
+/**
+ * Converts and crops camera roll image to base64
+ *
+ * @param {Object} cameraRollImage
+ * @param {function} onSuccess - callback
+ */
 function convertCameraRollToB64(cameraRollImage, onSuccess) {
   const { height, uri, width } = cameraRollImage.node.image
 

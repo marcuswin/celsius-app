@@ -1,5 +1,3 @@
-// TODO(fj): areCallsInProgress get callsInProgress from store
-
 import axios from 'axios';
 import qs from "qs";
 import r from "jsrsasign";
@@ -22,6 +20,10 @@ export default {
   parseValidationErrors,
 }
 
+
+/**
+ * Initializes axios interceptors for every HTTP request
+ */
 function initInterceptors() {
   axios.interceptors.request.use(
     async req => {
@@ -114,11 +116,26 @@ function initInterceptors() {
     });
 }
 
+
+/**
+ * Checks if api calls are in progress
+ *
+ * @param {Array} callsToCheck - array of api call names from API.js
+ * @param {Array} callsInProgress - calls currently in progress
+ * @returns {boolean}
+ */
 function areCallsInProgress(callsToCheck, callsInProgress = undefined) {
   const calls = callsInProgress || store.getState().api.callsInProgress
   return !!(calls.filter(cip => callsToCheck.indexOf(cip) !== -1).length);
 }
 
+
+/**
+ * Parses validation errors from server
+ *
+ * @param {Object} serverError - error response from the server
+ * @returns {Object} validationErrors - key/value pairs for errors, key is the field name, value is the error message from server
+ */
 function parseValidationErrors(serverError) {
   const errKeys = Object.keys(serverError.raw_error);
   const validationErrors = {};
@@ -130,6 +147,14 @@ function parseValidationErrors(serverError) {
   return validationErrors;
 }
 
+
+/**
+ * Verifies the data with signature key from the server
+ *
+ * @param {Object} address - data from server response
+ * @param {string} sign - sign from response headers
+ * @returns {boolean}
+ */
 function verifyKey(data, sign) {
   try {
     const sig2 = new r.KJUR.crypto.Signature({ alg: "SHA256withRSA" });

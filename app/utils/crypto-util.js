@@ -5,18 +5,36 @@
 
 import { ELIGIBLE_COINS } from '../constants/DATA';
 
+/**
+ * Checks if coin is ERC20
+ * @todo: add missing ERC20 coins
+ *
+ * @param {string} currency - eg. eth
+ * @returns {boolean}
+ */
 function isERC20(currency) {
   return ['eth', 'cel', 'omg', 'zrx'].indexOf(currency.toLowerCase()) !== -1;
 }
 
+/**
+ * Gets Celsius eligible coins
+ * @deprecated: moved to compliance
+ */
 function getEligibleCoins() {
   return ELIGIBLE_COINS;
 }
 
+/**
+ * Checks if coin is eligible
+ * @deprecated: moved to compliance
+ */
 function isEligibleCoin(coin) {
   return ELIGIBLE_COINS.indexOf(coin.toLowerCase()) !== -1;
 }
 
+/**
+ * WalletLanding page priority order for coins
+ */
 const priorityCoins = ["CEL", "BTC", "ETH", "XRP", "LTC", "ZRX"];
 
 

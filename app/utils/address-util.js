@@ -1,4 +1,20 @@
 
+export default {
+  splitAddressTag,
+  joinAddressTag,
+  hasTag,
+  hasCoinTag
+}
+
+
+/**
+ * Splits the address/public key into address and tag/memo
+ *
+ * @param {string} address - address for any coin
+ * @returns {Object} addressObj
+ * @returns {Object} addressObj.newAddress
+ * @returns {Object} addressObj.newTag - tag|memo id
+ */
 function splitAddressTag(address) {
   let addressArray;
   const addressObj = {};
@@ -19,16 +35,38 @@ function splitAddressTag(address) {
   return addressObj;
 }
 
+/**
+ * Checks if the address has a tag or memo id
+ *
+ * @param {string} address - address for any coin
+ * @returns {boolean}
+ */
 function hasTag(address) {
   const tag = address.indexOf("?dt=") !== -1 || address.indexOf("?memoId=") !== -1;
 
   return tag
 }
 
+
+/**
+ * Checks if coin address can have a tag or memo id
+ *
+ * @param {string} coin - eg. XRP|xrp
+ * @returns {boolean}
+ */
 function hasCoinTag(coin) {
   return ['XRP','xrp','XLM','xlm'].includes(coin)
 }
 
+
+/**
+ * Joins address and the tag or memo id
+ *
+ * @param {string} coin - eg. xrp
+ * @param {string} address - address for coin
+ * @param {string} coinTag - coin tag or memo id
+ * @returns {boolean}
+ */
 function joinAddressTag(coin, address, coinTag) {
   let newWithdrawalAddress;
   if (coin.toLowerCase() === "xrp" && coinTag) newWithdrawalAddress = address.concat("?dt=").concat(coinTag);
@@ -37,13 +75,3 @@ function joinAddressTag(coin, address, coinTag) {
 
   return newWithdrawalAddress
 }
-
-export default {
-  splitAddressTag,
-  joinAddressTag,
-  hasTag,
-  hasCoinTag
-}
-
-
-

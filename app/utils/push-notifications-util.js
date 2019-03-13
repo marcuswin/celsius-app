@@ -1,8 +1,15 @@
 import { Permissions, Notifications } from 'expo';
 import usersService from '../services/users-service.js';
 
-let pushNotificationsRegistered = false;
+export default {
+  registerForPushNotificationsAsync
+}
 
+
+/**
+ * Registers the user for push notifications service
+ */
+let pushNotificationsRegistered = false;
 export async function registerForPushNotificationsAsync() {
   if (pushNotificationsRegistered) {
     return;

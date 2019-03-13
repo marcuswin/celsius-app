@@ -10,6 +10,13 @@ const transactionsUtil = {
   getTransactionSections
 };
 
+
+/**
+ * Maps transaction props from server
+ *
+ * @param {Object} transaction
+ * @returns {Object}
+ */
 function mapTransaction(transaction) {
   return {
     ...transaction,
@@ -17,6 +24,13 @@ function mapTransaction(transaction) {
   };
 }
 
+
+/**
+ * Gets transaction type
+ *
+ * @param {Object} transaction
+ * @returns {function}
+ */
 function getTransactionType(transaction) {
   if (["canceled", "removed", "rejected", "rejeceted"].includes(transaction.state)) return TRANSACTION_TYPES.CANCELED;
 
@@ -49,6 +63,17 @@ function getTransactionType(transaction) {
   if (transaction.type === "outgoing") return TRANSACTION_TYPES.OUT;
 }
 
+
+/**
+ * Filters transactions by type, limit or coin
+ *
+ * @param {Object} transactions
+ * @param {Object} filter
+ * @param {number} filter.limit
+ * @param {string} filter.coin
+ * @param {string} filter.type
+ * @returns {Array}
+ */
 function filterTransactions(transactions, filter = undefined) {
   if (!transactions) return [];
 
@@ -67,6 +92,14 @@ function filterTransactions(transactions, filter = undefined) {
   return transactionArray;
 }
 
+
+/**
+ * Filters transactions by type
+ *
+ * @param {Array} transactions
+ * @param {string} type one of interest|withdraw|received
+ * @returns {Array}
+ */
 function filterTransactionsByType(transactions, type) {
   switch (type) {
     case 'interest':
@@ -80,6 +113,13 @@ function filterTransactionsByType(transactions, type) {
   }
 }
 
+
+/**
+ * Orders transactions
+ *
+ * @param {Array} transactions
+ * @returns {Array}
+ */
 function orderTransactionsByDate(transactions = []) {
   return transactions.sort((a, b) => {
     const date1 = moment(a.time)
@@ -96,7 +136,18 @@ function orderTransactionsByDate(transactions = []) {
   });
 }
 
-function getTransactionsProps(transaction = []) {
+
+/**
+ * Get UI props for TransactionDetails screen
+ *
+ * @param {Object} transaction
+ * @returns {Object} screenProps
+ * @returns {string} screenProps.title
+ * @returns {string} screenProps.color
+ * @returns {string} screenProps.iconName
+ * @returns {string} screenProps.statusText
+ */
+function getTransactionsProps(transaction) {
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING:
       return {
@@ -253,7 +304,13 @@ function getTransactionsProps(transaction = []) {
   }
 }
 
-function getTransactionSections(transaction = []) {
+/**
+ * Gets sections for TransactionDetails screen
+ *
+ * @param {Object} transaction
+ * @returns {Array}
+ */
+function getTransactionSections(transaction) {
   // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']

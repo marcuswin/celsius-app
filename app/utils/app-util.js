@@ -20,6 +20,10 @@ export default {
   cacheFonts,
 }
 
+
+/**
+ * Initializes all third party services used in Celsius app
+ */
 async function initializeThirdPartyServices() {
   Sentry.init();
   apiUtil.initInterceptors();
@@ -27,7 +31,10 @@ async function initializeThirdPartyServices() {
   await Segment.initialize({ androidWriteKey: SEGMENT_ANDROID_KEY, iosWriteKey: SEGMENT_IOS_KEY });
 }
 
-// For development use: Logout user when backend environment changes
+
+/**
+ * Logs the user out on environment change, helps developers
+ */
 async function logoutOnEnvChange() {
   const previousBaseUrl = await getSecureStoreKey("BASE_URL");
   if (previousBaseUrl !== baseUrl) {
@@ -36,16 +43,20 @@ async function logoutOnEnvChange() {
   }
 }
 
-// Listen for Breaks in Internet Connection
+
+/**
+ * Initializes the connectivity listener for the app
+ */
 function initInternetConnectivityListener() {
   NetInfo.isConnected.addEventListener("connectionChange", (isConnected) => store.dispatch(actions.setInternetConnection(isConnected)));
 }
 
 
-// Polls Status of Backend services every 30s
+/**
+ * Polls status of the backend app from /status every 30s
+ */
 const POLL_INTERVAL = 30 * 1000;
 let backendPollInterval;
-
 async function pollBackendStatus() {
   if (backendPollInterval) clearInterval(backendPollInterval);
   await store.dispatch(actions.getBackendStatus());
@@ -53,6 +64,13 @@ async function pollBackendStatus() {
   backendPollInterval = setInterval(async () => await store.dispatch(actions.getBackendStatus()), POLL_INTERVAL);
 }
 
+
+/**
+ * Caches app images
+ *
+ * @param {Array} images
+ * @returns {Array} - array of promises
+ */
 // For images that saved to the local file system,
 // use Expo.Asset.fromModule(image).downloadAsync()
 // to download and cache the image.
@@ -70,6 +88,13 @@ function cacheImages(images) {
   });
 }
 
+
+/**
+ * Verifies the data with signature key from the server
+ *
+ * @param {Array} fonts - data from server response
+ * @returns {Array} - array of promises
+ */
 // Fonts are preloaded using Expo.Font.loadAsync(font).
 // The font argument in this case is an object such as the following:
 // {agile-medium: require('../assets/fonts/Agile-Medium.otf')}.

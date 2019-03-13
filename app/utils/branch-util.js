@@ -14,7 +14,9 @@ export default {
   createTransactionDetailsBUO,
 }
 
-// Initialize & Subscribe to Branch
+/**
+ * Initialize & Subscribe to Branch
+ */
 async function initBranch() {
   try {
     Branch.subscribe((deepLink) => {
@@ -29,6 +31,11 @@ async function initBranch() {
   }
 }
 
+
+/**
+ * Creates branch universal object for individual referral links
+ * @deprecated: this is moved to backend
+ */
 async function createIndividualLinkBUO() {
   const { profile } = store.getState().user;
 
@@ -59,6 +66,11 @@ async function createIndividualLinkBUO() {
   return individualLinkBuo;
 }
 
+
+/**
+ * Creates branch universal object for CelPay links
+ * @deprecated: this is moved to backend
+ */
 async function createCelPayBUO(transfer) {
   const { profile } = store.getState().user;
 
@@ -85,6 +97,11 @@ async function createCelPayBUO(transfer) {
   return celPayBUO;
 }
 
+
+/**
+ * Creates branch universal object for CelPay links for display on TransactionDetails
+ * @deprecated
+ */
 async function createTransactionDetailsBUO(transaction) {
   const sender = `${transaction.transfer_data.sender.first_name} ${transaction.transfer_data.sender.last_name}`
   const celPayBUO = await createBUO(
@@ -110,6 +127,15 @@ async function createTransactionDetailsBUO(transaction) {
   return celPayBUO;
 }
 
+
+/**
+ * Creates Branch universal object
+ * @deprecated
+ *
+ * @param {string} canonicalIdentifier - identifier for the link on branch
+ * @param {Array} properties - link properties
+ * @returns {Object} BUO
+ */
 async function createBUO(canonicalIdentifier, properties) {
   if (Constants.appOwnership !== 'standalone') return;
   const { email } = store.getState().user.profile;

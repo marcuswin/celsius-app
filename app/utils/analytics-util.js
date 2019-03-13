@@ -1,6 +1,4 @@
-// TODO(fj): How to refactor this?
-// TODO(fj): create analyticsEventsTest with a loop
-// TODO(fj): move events to separate methods
+// TODO(fj): Rewrite from scratch
 
 import { Segment, Constants } from "expo";
 import { mixpanelEvents, initMixpanelUser, logoutMixpanelUser } from "../services/mixpanel";

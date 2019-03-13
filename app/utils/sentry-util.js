@@ -1,4 +1,4 @@
-// TODO(fj): make test sentry with a loop. move to methods
+// TODO(fj): remove Sentry from project?
 
 import { Constants } from 'expo';
 import Sentry from 'sentry-expo';

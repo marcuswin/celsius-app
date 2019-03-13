@@ -1,7 +1,3 @@
-// TODO(fj): add BigNumber here
-// TODO(fj): check round and ordinal suffix methods
-// TODO(fj): set crypto precision default to 5
-
 import currency from "currency-formatter";
 
 export default {
@@ -15,30 +11,88 @@ export default {
   percentage,
 }
 
+
+/**
+ * Formats number to $10,000.00
+ *
+ * @param {number|string} amount
+ * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
+ * @returns {string}
+ */
 function usd(amount, options = {}) {
   return currency.format(amount, { code: 'USD', ...options });
 }
 
+
+/**
+ * Formats number to 1.12345 CEL
+ * @deprecated
+ *
+ * @param {number|string} amount
+ * @returns {string}
+ */
 function cel(amount) {
   return currency.format(amount, { precision: 0, thousand: ',', symbol: 'CEL', format: '%v %s' })
 }
 
+
+/**
+ * Formats number to 1.12345 ETH
+ * @todo: should set default precision for each coin
+ *
+ * @param {number|string} amount
+ * @param {string} cryptocurrency - eg. ETH|XRP
+ * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
+ * @returns {string}
+ */
 function crypto(amount, cryptocurrency, options = {}) {
   return currency.format(amount, { precision: options.precision || 5, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
 }
 
+
+/**
+ * Formats number to 1.12
+ * @todo: do we need this?
+ *
+ * @param {number|string} amount
+ * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
+ * @returns {string}
+ */
 function round(amount, options = {}) {
   return currency.format(amount, { precision: options.precision || 2, thousand: ',' })
 }
 
+
+/**
+ * Capitalizes string
+ *
+ * @param {string} str
+ * @returns {string}
+ */
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+
+/**
+ * Formats percentage from number - 0.0695 * 100 = 6.950000000000001
+ *
+ * @param {number} number
+ * @returns {number}
+ */
 function percentage(number) {
   return Math.round(number * 10000) / 100;
 }
 
+
+
+/**
+ * Formats number to ordinal number - 1 -> 1st
+ * @deprecated
+ *
+ * @param {number} number
+ * @returns {string}
+ */
 function ordinalSuffixOf(number) {
   const j = number % 10;
   const k = number % 100;
@@ -56,7 +110,9 @@ function ordinalSuffixOf(number) {
 }
 
 // deep merge
-
+/**
+ * @todo
+ */
 function isMergeableObject(val) {
   const nonNullObject = val && typeof val === 'object'
 
@@ -65,15 +121,27 @@ function isMergeableObject(val) {
     && Object.prototype.toString.call(val) !== '[object Date]'
 }
 
+
+/**
+ * @todo
+ */
 function emptyTarget(val) {
   return Array.isArray(val) ? [] : {}
 }
 
+
+/**
+ * @todo
+ */
 function cloneIfNecessary(value, optionsArgument) {
   const clone = optionsArgument && optionsArgument.clone === true
   return (clone && isMergeableObject(value)) ? deepmerge(emptyTarget(value), value, optionsArgument) : value
 }
 
+
+/**
+ * @todo
+ */
 function defaultArrayMerge(target, source, optionsArgument) {
   const destination = target.slice()
   source.forEach((e, i) => {
@@ -88,6 +156,10 @@ function defaultArrayMerge(target, source, optionsArgument) {
   return destination
 }
 
+
+/**
+ * @todo
+ */
 function mergeObject(target, source, optionsArgument) {
   const destination = {}
   if (isMergeableObject(target)) {
@@ -105,6 +177,10 @@ function mergeObject(target, source, optionsArgument) {
   return destination
 }
 
+
+/**
+ * @todo
+ */
 function deepmerge(target, source, optionsArgument) {
   const array = Array.isArray(source);
   const options = optionsArgument || { arrayMerge: defaultArrayMerge }
@@ -116,6 +192,10 @@ function deepmerge(target, source, optionsArgument) {
   return mergeObject(target, source, optionsArgument)
 }
 
+
+/**
+ * @todo
+ */
 deepmerge.all = function deepmergeAll(array, optionsArgument) {
   if (!Array.isArray(array) || array.length < 2) {
     throw new Error('first argument should be an array with at least two elements')
