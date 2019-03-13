@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
@@ -5,11 +6,15 @@ const base = {
   wrapper: {
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: Platform.OS === 'android' ? 'rgba(243,243,243,0.9)' : 'rgba(243,243,243,0)',
+    // position: 'absolute',
+    height: '100%',
+    width: '100%'
   },
   modal: {
-    position: "relative",
+    position: "absolute",
     backgroundColor: "white",
-    width: widthPercentageToDP("90%"),
+    width: widthPercentageToDP("85%"),
     borderRadius: 8,
   },
   closeBtn: {

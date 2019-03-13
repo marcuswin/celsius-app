@@ -55,7 +55,7 @@ class CelModal extends Component {
     if (!picture) return null;
     return (
       <View style={style.imageWrapper}>
-        <Image source={picture} style={[style.modalImage]}/>
+        <Image source={picture} style={[style.modalImage]} />
       </View>
     );
   };
@@ -67,39 +67,39 @@ class CelModal extends Component {
     const tintColor = this.getTintColor();
 
     return (
-      <Modal
-        animationType="slide"
-        transparent
-        onRequestClose={() => actions.closeModal()}
-        visible={openedModal === name}
-      >
-        <BlurView tint={tintColor} intensity={100} style={StyleSheet.absoluteFill}/>
+        <Modal
+          animationType="slide"
+          transparent
+          onRequestClose={() => actions.closeModal()}
+          visible={openedModal === name}
+        >
+          <BlurView tint={tintColor} intensity={100} style={StyleSheet.absoluteFill} />
 
-        <View style={[style.wrapper]}>
+          <View style={[style.wrapper]}>
 
-          <View style={[style.modal, { marginTop, height }]}>
-            {this.renderImage()}
-            {shouldRenderCloseButton ?
-              <TouchableOpacity style={style.closeBtn} onPress={() => actions.closeModal()}>
-                <Icon name='Close' height='20' width='20' viewBox="0 0 1000 1000" fill={"#3D4853"}/>
-              </TouchableOpacity> : null
-            }
-            {header ?
-              <View style={style.modalHeadingWrapper}>
-                <CelText type={"H1"} style={style.mainHeadingText}>{primaryText}</CelText>
-                <CelText type={"H3"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
-              </View> : null
-            }
+            <View style={[style.modal, { marginTop, height }]}>
+              {this.renderImage()}
+              {shouldRenderCloseButton ?
+                <TouchableOpacity style={style.closeBtn} onPress={() => actions.closeModal()}>
+                  <Icon name='Close' height='20' width='20' viewBox="0 0 1000 1000" fill={"#3D4853"} />
+                </TouchableOpacity> : null
+              }
+              {header ?
+                <View style={style.modalHeadingWrapper}>
+                  <CelText type={"H1"} style={style.mainHeadingText}>{primaryText}</CelText>
+                  <CelText type={"H3"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
+                </View> : null
+              }
 
-            <ScrollView
-              style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : 40 }]}
-              showsVerticalScrollIndicator={false}
-            >
-              {children}
-            </ScrollView>
+              <ScrollView
+                style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : 40 }]}
+                showsVerticalScrollIndicator={false}
+              >
+                {children}
+              </ScrollView>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
     );
   }
 }
