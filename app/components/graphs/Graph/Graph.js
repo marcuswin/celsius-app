@@ -90,7 +90,7 @@ class Graph extends React.Component {
     const xDomain = dateArray;
     const timeDomain = [Math.min(...dateArray), Math.max(...dateArray)];
 
-    // creating Obj out of two arrays
+    // creating Obj out of two arrays for line purposes
     const arrOfObjects = dateArray.map((x, i) => ({ x, y: priceArray[i] }));
 
     // Scaling and line making
@@ -110,26 +110,28 @@ class Graph extends React.Component {
 
     switch (timeline) {
       case "1y":
-        tm = "MMM";
+        tm = "MMM YYYY";
         break;
       case "1d":
         tm = "kk";
         break;
       case "1m":
-        tm = "D";
+        tm = "D MMM";
         break;
       case "7d":
-        tm = "ddd";
+        tm = "dddd";
         break;
       default:
         tm = "1d";
     }
 
+    const timeStamp = !timeline || timeline === "1d" ? `${moment(this.scaleTime.invert(x)).format("kk")} h` : moment(this.scaleTime.invert(x)).format(tm);
+
     if (showCursor) {
       this.cursor.pointer.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
       // this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
       this.cursor.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
-      this.cursor.dateText.current.setNativeProps({ text: moment(this.scaleTime.invert(x)).format(tm) });
+      this.cursor.dateText.current.setNativeProps({ text: timeStamp });
       if (x <= width / x) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
       } else if (x >= width - widthPercentageToDP("5%")) {

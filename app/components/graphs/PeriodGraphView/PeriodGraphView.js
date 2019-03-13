@@ -14,7 +14,7 @@ class PeriodGraphView extends Component {
     periods: PropTypes.instanceOf(Array),
   };
   static defaultProps = {
-    periods: ["DAY", "WEEK", "MONTH", "YEAR", "ALL"],
+    periods: ["DAY", "WEEK", "MONTH", "YEAR"],
     showPeriods: false,
   }
   
@@ -25,7 +25,6 @@ class PeriodGraphView extends Component {
       // initial state
       activePeriod: "DAY"
     };
-
     // binders
   }
 
@@ -33,22 +32,21 @@ class PeriodGraphView extends Component {
     let tm;
 
     switch (period) {
-      case "YEAR":
-        tm = "1y";
-        break;
       case "DAY":
         tm = "1d";
-        break;
-      case "MONTH":
-        tm = "1m";
         break;
       case "WEEK":
         tm = "7d";
         break;
+      case "MONTH":
+        tm = "1m";
+        break;
+      case "YEAR":
+        tm = "1y";
+        break;
       default:
         tm = "1d";
     }
-
 
     this.setState({
       activePeriod: period,

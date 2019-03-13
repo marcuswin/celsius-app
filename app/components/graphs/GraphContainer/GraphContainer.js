@@ -59,25 +59,7 @@ class GraphContainer extends Component {
     };
   }
 
-  componentDidMount = () => this.fetchGraphData();
-
-
-  fetchGraphData = () => {
-    const { type, coin, actions } = this.props;
-    const { timeline } = this.state;
-
-    if (type === "total-balance") {
-      actions.getTotalWalletBalanceData(timeline);
-    }
-
-    if (type === "total-interest") {
-      actions.getInterestGraphData(timeline);
-    }
-
-    if (type === "coin-balance") {
-      actions.getCoinWalletBalanceData(coin, timeline);
-    }
-  };
+  componentDidMount = () => this.renderTimeline();
 
   splitArrays = () => {
     const { graphData } = this.props;
@@ -94,10 +76,25 @@ class GraphContainer extends Component {
   };
 
   renderTimeline = (period) => {
+    const { type, coin, actions } = this.props;
+
+    const timePeriod = !period ? "1d" : period;
+
+    if (type === "total-balance") {
+      actions.getTotalWalletBalanceData(timePeriod);
+    }
+
+    if (type === "total-interest") {
+      actions.getInterestGraphData(timePeriod);
+    }
+
+    if (type === "coin-balance") {
+      actions.getCoinWalletBalanceData(coin, timePeriod);
+    }
+
     this.setState({
       timeline: period
     });
-    this.fetchGraphData();
   };
 
   render() {
