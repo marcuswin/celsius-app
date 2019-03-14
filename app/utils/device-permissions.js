@@ -1,7 +1,7 @@
 import { Permissions } from 'expo';
 import { Linking, Platform } from 'react-native';
 
-export default {
+export {
   hasPermission,
   requestForPermission,
 }
