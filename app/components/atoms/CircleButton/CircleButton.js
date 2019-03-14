@@ -50,20 +50,22 @@ class CircleButton extends Component {
     const textStyle = [styleCmp.text, styleCmp[`text${type}`]];
 
     return (
-      <TouchableOpacity disabled={disabled} style={[styleCmp.container, style]} onPress={!onPress ? () => {} : onPress}>
-        <View style={{opacity: isSelected || !selectable ? 1 : 0.5 }}>
-          <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
-            {icon &&
-              <Icon name={icon} fill={fillColor} />
-            }
+      <View>
+        <TouchableOpacity disabled={disabled} style={[styleCmp.container, style]} onPress={!onPress ? () => { } : onPress}>
+          <View style={{ opacity: isSelected || !selectable ? 1 : 0.5, elevation: 2 }}>
+            <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
+              {icon &&
+                <Icon name={icon} fill={fillColor} />
+              }
+            </View>
           </View>
-          <View>
-            {text &&
-              <CelText align="center" style={textStyle}>{text}</CelText>
-            }
-          </View>
+        </TouchableOpacity>
+        <View>
+          {text &&
+            <CelText align="center" style={textStyle}>{text}</CelText>
+          }
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }

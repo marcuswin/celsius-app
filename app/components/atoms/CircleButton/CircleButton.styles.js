@@ -3,10 +3,18 @@ import STYLES from '../../../constants/STYLES';
 
 const base = {
   container: {
-    borderRadius: 60,
+    borderRadius: widthPercentageToDP("17%"),
     justifyContent: 'center',
     alignSelf: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 2,
+    shadowOffset: { width: 11, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 50,
+    width: widthPercentageToDP("17%"),
+    height: widthPercentageToDP("17%"),
+
+
   },
   view: {
     width: widthPercentageToDP("17%"),
@@ -16,11 +24,9 @@ const base = {
     alignSelf: 'center',
     alignItems: 'center',
     shadowColor: '#000000',
-    shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
-    elevation: 2,
-    zIndex: -1
+    zIndex: -1,
   },
   text: {
     marginTop: 10

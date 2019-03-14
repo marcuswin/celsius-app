@@ -5,14 +5,15 @@ const base = {
     container: {
         position: 'absolute',
         bottom: 30,
-        right: 20
+        right: 20,
+        
     },
     fabButtonStyle: {
         width: 60,
         height: 60,
         backgroundColor: STYLES.COLORS.CELSIUS,
         borderRadius: 60,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     logo: {
         width: 50,
