@@ -10,7 +10,7 @@ const base = {
     elevation: 2,
     // shadowOffset: { width: 11, height: 5 },
     shadowOpacity: 0.2,
-    shadowRadius: 10,
+    shadowRadius: 2,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 3 },
     width: widthPercentageToDP("17%"),
