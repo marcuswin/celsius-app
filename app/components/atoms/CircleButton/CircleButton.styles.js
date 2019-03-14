@@ -8,9 +8,11 @@ const base = {
     alignSelf: 'center',
     alignItems: 'center',
     elevation: 2,
-    shadowOffset: { width: 11, height: 5 },
+    // shadowOffset: { width: 11, height: 5 },
     shadowOpacity: 0.2,
-    shadowRadius: 50,
+    shadowRadius: 10,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 3 },
     width: widthPercentageToDP("17%"),
     height: widthPercentageToDP("17%"),
 
