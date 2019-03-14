@@ -21,9 +21,11 @@ class PeriodGraphView extends Component {
   constructor(props) {
     super(props);
 
+    const {type} = this.props;
+
     this.state = {
       // initial state
-      activePeriod: "DAY"
+      activePeriod: type === "coin-interest" ? "MONTH" : "DAY"
     };
     // binders
   }

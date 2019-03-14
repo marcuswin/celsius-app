@@ -8,7 +8,8 @@ import graphService from "../../services/graph-service"
 export {
   getTotalWalletBalanceData,
   getCoinWalletBalanceData,
-  getInterestGraphData
+  getInterestGraphData,
+  getCoinInterestGraphData
 }
 
 
@@ -75,5 +76,27 @@ function getInterestGraphDataSuccess(interestChart) {
     type: ACTIONS.GET_INTEREST_GRAPH_DATA_SUCCESS,
     callName: API.GET_INTEREST_GRAPH_DATA,
     interestChart,
+  }
+}
+
+function getCoinInterestGraphData(coin, interval) {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_COIN_INTEREST_GRAPH_DATA))
+    try {
+      const res = await graphService.getCoinInterestGraph(coin, interval);
+      const coinInterestChart = res.data;
+      dispatch(getCoinInterestGraphDataSuccess(coinInterestChart));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_COIN_INTEREST_GRAPH_DATA, err));
+    }
+  }
+}
+
+function getCoinInterestGraphDataSuccess(coinInterestChart) {
+  return {
+    type: ACTIONS.GET_COIN_INTEREST_GRAPH_DATA_SUCCESS,
+    callName: API.GET_COIN_INTEREST_GRAPH_DATA,
+    coinInterestChart,
   }
 }

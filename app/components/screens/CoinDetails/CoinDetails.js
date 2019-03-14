@@ -71,7 +71,7 @@ class CoinDetails extends Component {
   }
 
   render() {
-    const { dateArray, priceArray, currency } = this.state;
+    const { currency } = this.state;
     const { actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
@@ -144,15 +144,16 @@ class CoinDetails extends Component {
                   </View>
                 )}
               </View>
+              <Separator margin={"20 0 10 0"} opacity={0.3}/>
               <GraphContainer
-                periods={["MONTH", "YEAR", "All"]}
+                periods={["MONTH", "YEAR"]}
                 showCursor
                 showPeriods
-                dateArray={dateArray}
-                priceArray={priceArray}
                 interest
                 backgroundColor={"#FFFFFF"}
                 width={widthPercentageToDP("78%")}
+                type={"coin-interest"}
+                coin={currency.short}
               />
             </View>
           </Card>

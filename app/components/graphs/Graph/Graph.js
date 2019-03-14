@@ -104,9 +104,10 @@ class Graph extends React.Component {
   }
 
   moveCursor(value) {
-    const { width, cursorRadius, labelWidth, showCursor, timeline } = this.props;
+    const { width, cursorRadius, labelWidth, showCursor, timeline, type } = this.props;
     const { x, y } = this.lineProperties.getPointAtLength(this.lineLength - value);
     let tm;
+    let timeStamp;
 
     switch (timeline) {
       case "1y":
@@ -125,12 +126,18 @@ class Graph extends React.Component {
         tm = "1d";
     }
 
-    const timeStamp = !timeline || timeline === "1d" ? `${moment(this.scaleTime.invert(x)).format("kk")} h` : moment(this.scaleTime.invert(x)).format(tm);
+    if (type === "coin-interest") {
+     timeStamp = !timeline || timeline === "1m" ? `${moment(this.scaleTime.invert(x)).format("D MMM")}` : moment(this.scaleTime.invert(x)).format("MMM YYYY");
+   } else {
+     timeStamp = !timeline || timeline === "1d" ? `${moment(this.scaleTime.invert(x)).format("kk")} h` : moment(this.scaleTime.invert(x)).format(tm);
+   }
+
+    const amount = this.scaleY.invert(y) < 0 ? formatter.usd(this.scaleY.invert(y) * -1) : formatter.usd(this.scaleY.invert(y));
 
     if (showCursor) {
       this.cursor.pointer.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), left: x - cursorRadius });
       // this.cursor.dashedLine.current.setNativeProps({ top: y - heightPercentageToDP("1.2%"), height: height - y, left: x });
-      this.cursor.labelText.current.setNativeProps({ text: formatter.usd(this.scaleY.invert(y)) });
+      this.cursor.labelText.current.setNativeProps({ text: amount });
       this.cursor.dateText.current.setNativeProps({ text: timeStamp });
       if (x <= width / x) {
         this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x });
@@ -143,22 +150,29 @@ class Graph extends React.Component {
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor, interest, backgroundColor } = this.props;
+    const { width, height, showCursor, backgroundColor, type } = this.props;
     const { color, loading } = this.state;
+
+    const strokeWidth = type === "coin-interest" ? 3 : 2;
 
     return (
       !loading ?
         <Svg width={width} height={height}>
           <Defs>
-            {showCursor && !interest ?
+            { type === "coin-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={color.area} offset={"30%"} />
+                <Stop stopColor={"white"} offset={"100%"} />
+              </LinearGradient> : null
+            }
+            {(type === "total-balance" || type === "coin-balance") ?
+              <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
+                <Stop stopColor={color.area} offset={"50%"} />
                 <Stop stopColor={backgroundColor} offset={"80%"} />
               </LinearGradient> : null
             }
-            {interest ?
+            {type === "total-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={color.area} offset={"30%"} />
+                <Stop stopColor={color.area} offset={"50%"} />
                 <Stop stopColor={backgroundColor} offset={"80%"} />
               </LinearGradient> : null
             }
@@ -168,12 +182,12 @@ class Graph extends React.Component {
               </LinearGradient> : null
             }
           </Defs>
-          <Path d={this.line} stroke={color.line} strokeWidth={2} fill="transparent" />
+          <Path d={this.line} stroke={color.line} strokeWidth={strokeWidth} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
         </Svg>
         : null
     );
-  }
+  };
 
   renderPointer = () => {
     const { color } = this.state;
@@ -199,7 +213,7 @@ class Graph extends React.Component {
         </View>
         : null
     )
-  }
+  };
 
   renderScroll = () => {
     const { x, loading } = this.state;
