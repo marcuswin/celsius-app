@@ -44,7 +44,6 @@ class VerifyProfile extends Component {
   onCheckSuccess = () => {
     const { navigation } = this.props;
     const onSuccess = navigation.getParam('onSuccess')
-
     onSuccess()
     this.setState({ loading: false })
   }

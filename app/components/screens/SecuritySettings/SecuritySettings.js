@@ -36,7 +36,14 @@ class SecuritySettings extends Component {
     const { actions } = this.props;
     return (
       <RegularLayout>
-        <IconButton right="OFF" onPress={() => actions.navigateTo('TwoFactorSettings')}>Two-Factor Verification</IconButton>
+        <IconButton right="OFF" onPress={() => {
+          actions.navigateTo('VerifyProfile', {
+            onSuccess: () => actions.navigateTo('TwoFactorSettings')
+          })
+        }}>
+          Two-Factor Verification
+        </IconButton>
+
         <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePin')}>Change PIN</IconButton>
         <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
         <CelButton onPress={this.logoutUser}>Log out from all devices</CelButton>

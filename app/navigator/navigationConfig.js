@@ -35,5 +35,6 @@ export const transitionConfig = () => ({
 })
 
 export const defaultNavigationOptions = {
-  header: props => <CelHeading {...props} />
+  header: props => <CelHeading {...props} />,
+  gesturesEnabled: false
 }
