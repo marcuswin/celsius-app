@@ -14,6 +14,7 @@ const usersService = {
   facebookLogin,
   twitterLogin,
   resetPassword,
+  invalidateSession,
 
   // TODO: profile service
   update,
@@ -425,6 +426,17 @@ function getLinkedBankAccount() {
  */
 function linkBankAccount(bankAccountInfo) {
   return axios.post(`${apiUrl}/bank/account`, bankAccountInfo)
+}
+
+
+/**
+ * Log the user out from all devices
+ * @see https://documenter.getpostman.com/view/4207695/S11RLvpb#00bf42d5-3bd7-47e8-a8b8-d31e61f96f83
+ *
+ * @return {Promise}
+ */
+function invalidateSession() {
+  return axios.post(`${apiUrl}/user/invalidate_session`)
 }
 
 export default usersService;

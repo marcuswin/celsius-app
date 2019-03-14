@@ -27,6 +27,7 @@ export {
   sendResetLink,
   resetPassword,
   logoutUser,
+  logoutFromAllDevices,
   expireSession,
   setPin
 }
@@ -252,6 +253,27 @@ function logoutUser() {
         type: ACTIONS.LOGOUT_USER,
       });
       await dispatch(navigateTo('Auth'));
+    } catch (err) {
+      logger.log(err);
+    }
+  }
+}
+
+
+/**
+ * Logs the user out from all devices
+ */
+function logoutFromAllDevices() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.LOGOUT_FROM_ALL_DEVICES))
+      await usersService.invalidateSession()
+      dispatch({
+        type: ACTIONS.LOGOUT_FROM_ALL_DEVICES_SUCCESS,
+      })
+
+      await dispatch(logoutUser())
+      dispatch(showMessage('success', 'Successfully logged out from all devices.'))
     } catch (err) {
       logger.log(err);
     }

@@ -12,7 +12,9 @@ import IconButton from '../../organisms/IconButton/IconButton';
 import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
-  () => ({}),
+  (state) => ({
+    user: state.user.profile,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class SecuritySettings extends Component {
@@ -29,11 +31,12 @@ class SecuritySettings extends Component {
 
   logoutUser = async () => {
     const { actions } = this.props;
-    await actions.logoutUser();
+    await actions.logoutFromAllDevices();
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, user } = this.props;
+
     return (
       <RegularLayout>
         <IconButton right="OFF" onPress={() => {
@@ -44,8 +47,22 @@ class SecuritySettings extends Component {
           Two-Factor Verification
         </IconButton>
 
-        <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePin')}>Change PIN</IconButton>
-        <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
+        { true && (
+          <IconButton
+            margin="0 0 20 0"
+            onPress={() => actions.navigateTo('VerifyProfile', {
+              onSuccess: () => actions.navigateTo('ChangePin')
+            })}
+          >
+            Change PIN
+          </IconButton>
+        )}
+
+
+        { !user.registered_with_social && (
+          <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
+        )}
+
         <CelButton onPress={this.logoutUser}>Log out from all devices</CelButton>
       </RegularLayout>
     );
