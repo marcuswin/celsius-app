@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import apiUrl from './api-url';
-import imageUtil from '../utils/image-util';
 
 const usersService = {
   // TODO: auth service
@@ -127,7 +126,7 @@ function registerGoogle(googleUser) {
  * @param {string} user.lastName
  * @return {Promise}
  */
-function update({ firstName, lastName}) {
+function update({ firstName, lastName }) {
   return axios.put(`${apiUrl}/users/update`, {
     first_name: firstName,
     last_name: lastName,
@@ -332,13 +331,17 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
  * Updates profile image for user
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#029631f2-67bc-48c2-8463-f0d2572145a0
  *
- * @param {string} image - url|base64
+ * @param {Object} image - file object
  * @return {Promise}
  */
 function setProfileImage(image) {
-  // check if url of base64
-  const data = imageUtil.isBase64(image) ? { img_base64: image } : { img_url: image }
-  return axios.post(`${apiUrl}/me/profile_image`, data);
+  const formData = new FormData();
+  formData.append("profile_picture", {
+    name: 'picture.jpg',
+    type: "image/jpg",
+    uri: image.uri,
+  })
+  return axios.post(`${apiUrl}/user/profile/profile_picture`, formData);
 }
 
 
@@ -384,7 +387,7 @@ function getComplianceInfo() {
  * @return {Promise}
  */
 function connectPhoneContacts(contacts) {
-  return axios.post(`${apiUrl}/users/friends/contacts`, {contacts});
+  return axios.post(`${apiUrl}/users/friends/contacts`, { contacts });
 }
 
 /**

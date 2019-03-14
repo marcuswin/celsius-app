@@ -53,6 +53,8 @@ const CACHE_IMAGES = [
   require('../../assets/images/icons/fb-circle/fb-circle.png'),
   require('../../assets/images/icons/tw-circle/tw-circle.png'),
   require('../../assets/images/frenchy.png'),
+  require('../../assets/images/mask/card-mask-transparent.png'),
+  require('../../assets/images/mask/circle-mask.png'),
 ];
 
 export default {

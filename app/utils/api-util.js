@@ -29,15 +29,22 @@ function initInterceptors() {
     async req => {
       const newRequest = { ...req };
 
-      // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
-      if (req.method === 'post' && !req.url.includes('branch.io')) {
-        newRequest.data = qs.stringify(req.data);
+      if (req.url.includes('profile/profile_picture')) {
         newRequest.headers = {
           ...newRequest.headers,
-          Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'Content-Type': 'multipart/form-data',
         };
-      }
+        // console.log('re', req)
+      } else
+        // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
+        if (req.method === 'post' && !req.url.includes('branch.io')) {
+          newRequest.data = qs.stringify(req.data);
+          newRequest.headers = {
+            ...newRequest.headers,
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          };
+        }
 
       // get token from secure store
       try {
