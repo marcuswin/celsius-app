@@ -206,6 +206,7 @@ class WalletLanding extends Component {
   render() {
     const { activeView } = this.state
     const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer } = this.props;
+    const style = WalletLandingStyle();
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
 
@@ -218,7 +219,7 @@ class WalletLanding extends Component {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <CelText style={{ alignSelf: 'center' }} weight='500'>Deposited coins</CelText>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={this.setGridView}>
+              <TouchableOpacity onPress={this.setGridView} >
                 <Icon fill={this.getIconFillColor(activeView === "Grid")} name="GridView" width="18" />
               </TouchableOpacity>
               <TouchableOpacity style={{ marginLeft: 16 }} onPress={this.setListView}>
@@ -226,11 +227,10 @@ class WalletLanding extends Component {
               </TouchableOpacity>
             </View>
           </View>
-
-          <CoinsCard />
-
+          <View  style={style.scroll}>
+            <CoinsCard />
+          </View>
         </View>
-
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}
           closeModal={actions.closeModal}
