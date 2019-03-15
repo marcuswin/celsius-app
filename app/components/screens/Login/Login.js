@@ -27,14 +27,6 @@ class Login extends Component {
     right: "signup"
   })
 
-  constructor(props) {
-    super(props)
-    props.actions.initForm({
-      email: 'filip.jovakaric+wlt@mvpworkshop.co',
-      password: 'filip123'
-    })
-  }
-
   loginUser = async () => {
     const { actions, formData: { email, password } } = this.props;
     await actions.loginUser({ email, password });

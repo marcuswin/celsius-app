@@ -5,7 +5,7 @@ import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
-import { showMessage } from '../ui/uiActions';
+import { showMessage, toggleKeypad } from "../ui/uiActions";
 import { getComplianceInfo } from "../user/userActions";
 import { initAppData } from "../app/appActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
@@ -27,8 +27,10 @@ export {
   sendResetLink,
   resetPassword,
   logoutUser,
+  logoutFromAllDevices,
   expireSession,
-  setPin
+  setPin,
+  changePin,
 }
 
 
@@ -259,6 +261,27 @@ function logoutUser() {
 }
 
 
+/**
+ * Logs the user out from all devices
+ */
+function logoutFromAllDevices() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.LOGOUT_FROM_ALL_DEVICES))
+      await usersService.invalidateSession()
+      dispatch({
+        type: ACTIONS.LOGOUT_FROM_ALL_DEVICES_SUCCESS,
+      })
+
+      await dispatch(logoutUser())
+      dispatch(showMessage('success', 'Successfully logged out from all devices.'))
+    } catch (err) {
+      logger.log(err);
+    }
+  }
+}
+
+
 
 /**
  * Gets all transfers by status
@@ -294,6 +317,36 @@ function setPin(pinData) {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));
+    }
+  }
+}
+
+
+/**
+ * Changes PIN for user
+ */
+function changePin() {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState().forms
+
+      const pinData = {
+        pin: formData.pin,
+        new_pin: formData.newPin,
+        new_pin_confirm: formData.newPinConfirm,
+      }
+
+      dispatch(toggleKeypad());
+      dispatch(startApiCall(API.CHANGE_PIN));
+      await meService.changePin(pinData);
+
+      dispatch({ type: ACTIONS.CHANGE_PIN_SUCCESS });
+      dispatch({ type: ACTIONS.CLEAR_FORM });
+      dispatch(showMessage('success', 'Successfully changed PIN number'));
+      dispatch(navigateTo('SecuritySettings'));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CHANGE_PIN, err));
     }
   }
 }

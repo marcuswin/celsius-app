@@ -1,22 +1,26 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { Dimensions } from "react-native";
+import { getThemedStyle } from "../../../utils/styles-util";
+
+const { width } = Dimensions.get("window");
 
 const base = {
-    container: {
-        flex: 1
-    }
-}
+  container: {
+    flex: 1,
+    width
+  },
+  wrapper: {
+    paddingHorizontal: 20,
+  },
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {}
+};
 
 const ChangePinStyle = () => getThemedStyle(base, themed);
 

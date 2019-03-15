@@ -24,6 +24,17 @@ const COLORS = {
 
 }
 
+const imageSizes = {
+  'circle': {
+    width: 250,
+    height: 250
+  },
+  'document': {
+    width: 300,
+    height: 183
+  }
+}
+
 const FONTSIZE = {
   'H1': 40,
   'H2': 26,
@@ -36,7 +47,8 @@ const FONTSIZE = {
 
 export default {
   COLORS,
-  FONTSIZE
+  FONTSIZE,
+  imageSizes
 }
 
 // export {

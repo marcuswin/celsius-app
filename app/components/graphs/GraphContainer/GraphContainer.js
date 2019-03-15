@@ -13,6 +13,7 @@ import XTicks from "../XTicks/XTicks";
 import Spinner from "../../atoms/Spinner/Spinner";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
+import { widthPercentageToDP } from "../../../utils/styles-util";
 
 @connect(
   (state, props) => {
@@ -20,8 +21,8 @@ import API from "../../../constants/API";
 
     if (props.type === "total-balance") graphData = state.graph.walletTotalChartData;
     if (props.type === "total-interest") graphData = state.graph.interestChartData;
-    if (props.type === "coin-balance") graphData = state.graph.coinWalletChartData;
-    // if (props.type === "coin-interest") graphData = state.graph.coinInterestChartData;
+    if (props.type === "coin-balance" ) graphData = state.graph.coinWalletChartData;
+    if (props.type === "coin-interest") graphData = state.graph.coinInterestChartData;
 
     return {
       currenciesRates: state.currencies.rates,
@@ -77,8 +78,17 @@ class GraphContainer extends Component {
 
   renderTimeline = (period) => {
     const { type, coin, actions } = this.props;
+    let timePeriod;
 
-    const timePeriod = !period ? "1d" : period;
+     if (type === "coin-interest") {
+       timePeriod = !period ? "1m" : period;
+     } else {
+       timePeriod = !period ? "1d" : period;
+     }
+
+    this.setState({
+      timeline: timePeriod
+    });
 
     if (type === "total-balance") {
       actions.getTotalWalletBalanceData(timePeriod);
@@ -92,9 +102,10 @@ class GraphContainer extends Component {
       actions.getCoinWalletBalanceData(coin, timePeriod);
     }
 
-    this.setState({
-      timeline: period
-    });
+    if (type === "coin-interest") {
+      actions.getCoinInterestGraphData(coin, timePeriod);
+    }
+
   };
 
   render() {
@@ -105,13 +116,18 @@ class GraphContainer extends Component {
 
     if (!type) return null;
 
-    const isLoading = !graphData || !graphData.length || apiUtil.areCallsInProgress([
-      API.GET_WALLET_BALANCE_DATA,
-      API.GET_COIN_WALLET_BALANCE_DATA,
-      API.GET_INTEREST_GRAPH_DATA
-    ], callsInProgress);
+    const calls = [
+     { name: "total-balance", api: API.GET_WALLET_BALANCE_DATA},
+      { name: "coin-balance" , api: API.GET_COIN_WALLET_BALANCE_DATA},
+      { name: "total-interest", api: API.GET_INTEREST_GRAPH_DATA},
+      { name: "coin-interest", api: API.GET_COIN_INTEREST_GRAPH_DATA}
+    ];
+
+    const activeCall = calls.filter(call => call.name === type).map(item => item.api)
+    const isLoading = !graphData || !graphData.length || apiUtil.areCallsInProgress(activeCall, callsInProgress);
 
     const { dates, prices } = this.splitArrays();
+
     if (type === "coin-balance") {
       rate = currenciesRates.find((c) => c.short === coin).price_change_usd[timeline];
     }
@@ -119,19 +135,21 @@ class GraphContainer extends Component {
       rate = prices[prices.length - 1] > prices[prices.length - 2] ? 1 : -1;
     }
 
+    const spinnerWidth = type === "coin-interest" ? widthPercentageToDP("78%") : widthPercentageToDP("100%");
+
     return (
       <View style={[style.container, { width }]}>
         {showPeriods &&
           <View style={style.period}>
-            <PeriodGraphView width={width} periods={periods} onChange={this.renderTimeline}/>
+            <PeriodGraphView type={type} width={width} periods={periods} onChange={this.renderTimeline}/>
           </View>
         }
         {isLoading ? (
-          <View style={style.spinner}>
+          <View style={[style.spinner, {width: spinnerWidth}]}>
             <Spinner/>
           </View>
         ) : (
-          <Graph width={width} dateArray={dates} priceArray={prices} interest={interest} showCursor={showCursor}
+          <Graph type={type} width={width} dateArray={dates} priceArray={prices} interest={interest} showCursor={showCursor}
                  rate={rate} timeline={timeline}/>
         )}
         <View>

@@ -30,8 +30,29 @@ class ChangeAvatar extends Component {
     right: "settings"
   });
 
+  saveProfileImage = (photo) => {
+    const { actions } = this.props;
+
+    actions.updateProfilePicture(photo);
+    actions.updateFormField('profileImage', photo);
+    actions.navigateTo('Profile');
+  }
+
+  goToCamera = () => {
+    const { actions } = this.props;
+
+    actions.activateCamera({
+      cameraField: 'profileImage',
+      cameraHeading: 'Profile photo',
+      cameraCopy: 'Please center your face in the circle and take a selfie, to use as your profile photo.',
+      cameraType: 'front',
+      mask: 'circle',
+      onSave: this.saveProfileImage,
+    })
+  }
+
   render() {
-    const { profilePicture, actions } = this.props;
+    const { profilePicture } = this.props;
 
     return (
       <RegularLayout>
@@ -41,7 +62,7 @@ class ChangeAvatar extends Component {
             source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
             resizeMethod="resize"
           />
-          <CelButton onPress={() => actions.navigateTo('CameraScreen')} basic>Take a picture</CelButton>
+          <CelButton onPress={this.goToCamera} basic>Take a picture</CelButton>
         </View>
         <Separator text="OR CHOOSE ONE BELOW" />
       </RegularLayout>

@@ -51,7 +51,7 @@ class IconButton extends Component {
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {!!right && (
-            <View style={{ marginRight: 10 }}>
+            <View>
               {typeof right === 'string' ? (
                 <CelText type='H4' color={STYLES.COLORS.DARK_GRAY_OPACITY}>{right}</CelText>
               ) : right}
