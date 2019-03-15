@@ -193,16 +193,30 @@ class WalletLanding extends Component {
 
   renderAddMoreCoins = () => {
     const { actions } = this.props;
+    const { activeView } = this.state
     const style = WalletLandingStyle();
 
-    return (
-      <TouchableOpacity style={[ style.addMoreCoins ]} onPress={() => actions.navigateTo('Deposit')}>
-        <View style= {[style.coinsText]}>
-          <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo= '10' />
-          <CelText type="H5">  Add more coins </CelText>
-        </View>
-      </TouchableOpacity>
-    )
+    if (activeView === "Grid") {
+      return (
+        <TouchableOpacity style={[style.addMoreCoinsGrid]} onPress={() => actions.navigateTo('Deposit')}>
+          <View style={[style.coinsTextGrid]}>
+            <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
+            <CelText type="H5">  Add more coins </CelText>
+          </View>
+        </TouchableOpacity>
+      )
+    } 
+
+    if (activeView === "List") {
+      return (
+        <TouchableOpacity style={[style.addMoreCoinsList]} onPress={() => actions.navigateTo('Deposit')}>
+          <View style={[style.coinsTextList]}>
+            <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
+            <CelText type="H5">  Add more coins </CelText>
+          </View>
+        </TouchableOpacity>
+      )
+    } 
   }
 
 

@@ -7,7 +7,7 @@ const base = {
         flexWrap: 'wrap',
         justifyContent: 'space-between'
     },
-    addMoreCoins: {
+    addMoreCoinsGrid: {
         borderWidth: 1,
         borderStyle: 'dashed',
         borderRadius: 10,
@@ -17,11 +17,28 @@ const base = {
         marginTop: 5
  
     },
-    coinsText: {
+    coinsTextGrid: {
         marginTop: '35%',
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'space-between'
+    },
+
+    addMoreCoinsList: {
+        borderWidth: 1,
+        borderStyle: 'dashed',
+        borderRadius: 10,
+        width: '100%',
+        height: '10%',
+        borderColor: 'gray',
+        marginTop: 5,
+ 
+    },
+    coinsTextList: {
+        marginTop: '15%',
+        alignItems: 'center',
+        alignContent: 'center',
+        // justifyContent: 'space-between'
     }
 }
 

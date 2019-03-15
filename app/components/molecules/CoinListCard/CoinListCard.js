@@ -61,7 +61,7 @@ class CoinListCard extends Component {
 
     const padding = '20 0 20 0';
     return (
-      <Card margin="5 5 5 5" padding={padding} onPress={onCardPress}>
+      <Card margin="5 0 5 0" padding={padding} onPress={onCardPress}>
         <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
           <Image source={{ uri: currencyRates.image_url }} style={style.coinImage} />
           {/* <Icon name={`Icon${coin.short}`} style={{ marginRight: 12 }} /> */}
