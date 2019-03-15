@@ -59,7 +59,6 @@ class VerifyProfile extends Component {
     this.setState({ value: newValue })
 
     if (newValue.length === 4) {
-      // TODO: check pin
       this.setState({ loading: true })
       actions.toggleKeypad()
       actions.checkPIN(this.onCheckSuccess, this.onCheckError);
@@ -78,7 +77,6 @@ class VerifyProfile extends Component {
       this.setState({ loading: true })
       actions.toggleKeypad()
 
-      // TODO: check code
       actions.checkTwoFactor(this.onCheckSuccess, this.onCheckError);
     }
   }
@@ -103,7 +101,7 @@ class VerifyProfile extends Component {
 
     return (
       <View style={style.wrapper}>
-        <CelText type="H1" bold align="center">Verification required</CelText>
+        <CelText type="H1" align="center">Verification required</CelText>
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your 2FA code to proceed</CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
@@ -131,7 +129,7 @@ class VerifyProfile extends Component {
 
     return (
       <View style={style.wrapper}>
-        <CelText type="H1" bold align="center">Verification required</CelText>
+        <CelText type="H1" align="center">Verification required</CelText>
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your PIN to proceed</CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
