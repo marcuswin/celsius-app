@@ -9,7 +9,6 @@ import { deleteSecureStoreKey, getSecureStoreKey, setSecureStoreKey } from "../.
 import TwoFactorService from "../../services/two-factor-service";
 import logger from '../../utils/logger-util';
 import { analyticsEvents } from "../../utils/analytics-util";
-import Sentry from '../../utils/sentry-util';
 import meService from "../../services/me-service";
 import { updateFormField } from "../forms/formsActions";
 
@@ -45,11 +44,6 @@ function getProfileInfo() {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
       await analyticsEvents.initUser(personalInfo);
-
-      Sentry.setUserContext({
-        email: personalInfo.email,
-        id: personalInfo.id,
-      });
 
       dispatch(getUserPersonalInfoSuccess(personalInfo));
     } catch (err) {

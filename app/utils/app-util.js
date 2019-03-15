@@ -6,7 +6,6 @@ import { deleteSecureStoreKey, getSecureStoreKey, setSecureStoreKey } from "./ex
 import baseUrl from "../services/api-url";
 import store from "../redux/store";
 import * as actions from "../redux/actions";
-import Sentry from "./sentry-util";
 import apiUtil from "./api-util";
 
 const { SECURITY_STORAGE_AUTH_KEY, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
@@ -25,7 +24,6 @@ export default {
  * Initializes all third party services used in Celsius app
  */
 async function initializeThirdPartyServices() {
-  Sentry.init();
   apiUtil.initInterceptors();
   twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
   await Segment.initialize({ androidWriteKey: SEGMENT_ANDROID_KEY, iosWriteKey: SEGMENT_IOS_KEY });

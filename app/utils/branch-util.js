@@ -3,7 +3,6 @@ import Branch, { BranchEvent } from "react-native-branch";
 
 import { BRANCH_LINKS } from "../constants/DATA";
 import store from '../redux/store';
-import Sentry from "./sentry-util";
 import * as actions from "../redux/actions";
 import logger from '../utils/logger-util';
 
@@ -27,7 +26,7 @@ async function initBranch() {
       store.dispatch(actions.registerBranchLink(deepLink.params));
     });
   } catch (error) {
-    Sentry.captureException(error);
+    logger.log(error)
   }
 }
 
