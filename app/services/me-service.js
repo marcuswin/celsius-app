@@ -10,6 +10,7 @@ const meService = {
   getKYCStatus,
   setPin,
   checkPin,
+  changePin,
   checkTwoFactor,
 };
 
@@ -117,6 +118,21 @@ function setPin(data) {
  */
 function checkPin(pin) {
   return axios.post(`${apiUrl}/me/pin/check`, { pin });
+}
+
+
+/**
+ * Changes PIN number for the user
+ * @note https://documenter.getpostman.com/view/4207695/S11RLvpb#fd597763-179d-426a-88da-379b42f7a902
+ *
+ * @param {Object} pinData
+ * @param {string} pinData.pin - eg. '1111'
+ * @param {string} pinData.new_pin - eg. '1234'
+ * @param {string} pinData.new_pin_confirm - eg. '1234'
+ * @returns {Promise}
+ */
+function changePin(pinData) {
+  return axios.post(`${apiUrl}/user/change_pin`, pinData);
 }
 
 
