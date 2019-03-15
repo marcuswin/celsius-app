@@ -38,9 +38,9 @@ class CelHeading extends Component {
    * @type {boolean}
    * transparent
    *
-   * @description if sameBackground=true it will set header background color same as content background
+   * @description if headerSameColor=true it will set header background color same as content background
    * @type {boolean}
-   * sameBackground
+   * headerSameColor
    *
    * @type {React.Component}
    * customCenterComponent
