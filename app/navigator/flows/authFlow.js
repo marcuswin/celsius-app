@@ -23,7 +23,7 @@ const authFlow = {
     initialRouteName: 'Login',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
-      transparent: true,
+      headerSameColor: true,
     },
     transitionConfig
   }

@@ -26,7 +26,7 @@ class VerifyProfile extends Component {
   static defaultProps = {}
 
   static navigationOptions = () => ({
-    transparent: true,
+    headerSameColor: true,
   });
 
   constructor(props) {
