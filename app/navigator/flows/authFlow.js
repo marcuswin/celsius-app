@@ -1,26 +1,26 @@
 import { createStackNavigator } from 'react-navigation'
 
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
+import Welcome from '../../components/screens/Welcome/Welcome'
 import Login from '../../components/screens/Login/Login'
-import VerifyPhone from '../../components/screens/VerifyPhone/VerifyPhone'
-import RepeatPin from '../../components/screens/RepeatPin/RepeatPin'
-import EnterPhone from '../../components/screens/EnterPhone/EnterPhone'
-import Register from '../../components/screens/Register/Register'
-import CreatePin from '../../components/screens/CreatePin/CreatePin'
+import RegisterInitial from '../../components/screens/RegisterInitial/RegisterInitial'
+import RegisterEnterPhone from '../../components/screens/RegisterEnterPhone/RegisterEnterPhone'
+import RegisterVerifyPhone from '../../components/screens/RegisterVerifyPhone/RegisterVerifyPhone'
+import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
 import SelectCountry from '../../components/screens/SelectCountry/SelectCountry'
 
 const authFlow = {
   screens: {
+    Welcome,
     Login,
-    Register,
-    EnterPhone,
-    VerifyPhone,
-    CreatePin,
-    RepeatPin,
-    SelectCountry
+    RegisterInitial,
+    RegisterEnterPhone,
+    RegisterVerifyPhone,
+    RegisterSetPin,
+    SelectCountry,
   },
   props: {
-    initialRouteName: 'Login',
+    initialRouteName: 'Welcome',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
       headerSameColor: true,

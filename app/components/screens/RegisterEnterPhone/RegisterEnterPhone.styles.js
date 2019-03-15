@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CreatePinStyle = () => getThemedStyle(base, themed);
+const RegisterEnterPhoneStyle = () => getThemedStyle(base, themed);
 
-export default CreatePinStyle
+export default RegisterEnterPhoneStyle

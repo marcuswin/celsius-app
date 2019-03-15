@@ -17,7 +17,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class EnterPhone extends Component {
+class RegisterEnterPhone extends Component {
 
   static navigationOptions = () => (
     {
@@ -34,10 +34,10 @@ class EnterPhone extends Component {
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
         <CelInput type="phone" field="phone" placeholder="Phone number" value={formData.phone} />
 
-        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('VerifyPhone') }} iconRight="IconArrowRight">Verify phone number</CelButton>
+        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('RegisterVerifyPhone') }} iconRight="IconArrowRight">Verify phone number</CelButton>
       </AuthLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(EnterPhone);
+export default testUtil.hookComponent(RegisterEnterPhone);

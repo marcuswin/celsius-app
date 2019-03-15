@@ -6,7 +6,7 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 
-class CreatePin extends Component {
+class RegisterSetPin extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -36,4 +36,4 @@ class CreatePin extends Component {
   }
 }
 
-export default testUtil.hookComponent(CreatePin);
+export default testUtil.hookComponent(RegisterSetPin);

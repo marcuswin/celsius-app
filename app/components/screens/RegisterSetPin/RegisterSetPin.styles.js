@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const VerifyPhoneStyle = () => getThemedStyle(base, themed);
+const RegisterSetPinStyle = () => getThemedStyle(base, themed);
 
-export default VerifyPhoneStyle
+export default RegisterSetPinStyle

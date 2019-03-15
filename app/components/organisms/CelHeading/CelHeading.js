@@ -76,7 +76,7 @@ class CelHeading extends Component {
 
     return {
       "action": <CelButton basic onPress={() => { }}>Action</CelButton>,
-      "signup": <CelButton basic onPress={() => { this.props.actions.navigateTo('Register') }}>Sign up</CelButton>,
+      "signup": <CelButton basic onPress={() => { this.props.actions.navigateTo('RegisterInitial') }}>Sign up</CelButton>,
       "login": <CelButton basic onPress={() => { this.props.actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
         <CelButton basic

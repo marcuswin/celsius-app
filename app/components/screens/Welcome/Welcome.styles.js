@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const EnterPhoneStyle = () => getThemedStyle(base, themed);
+const WelcomeStyle = () => getThemedStyle(base, themed);
 
-export default EnterPhoneStyle
+export default WelcomeStyle

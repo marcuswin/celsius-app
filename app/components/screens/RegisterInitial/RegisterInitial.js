@@ -37,7 +37,7 @@ class Register extends Component {
         <CelInput type="text" field="lastname" placeholder="Last name" />
         <CelInput type="text" field="email" placeholder="E-mail" />
         <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
-        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('EnterPhone') }} iconRight="IconArrowRight">Create account</CelButton>
+        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('RegisterEnterPhone') }} iconRight="IconArrowRight">Create account</CelButton>
         <Separator text="or Register with social media" />
       </AuthLayout>
     );
