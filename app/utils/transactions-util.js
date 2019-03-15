@@ -301,6 +301,8 @@ function getTransactionsProps(transaction) {
         iconName: 'TransactionSent',
         statusText: 'Sent'
       }
+    default:
+      break;
   }
 }
 
@@ -339,6 +341,9 @@ function getTransactionSections(transaction) {
 
     case TRANSACTION_TYPES.IN: return ['info', 'date', 'time', 'status']
     case TRANSACTION_TYPES.OUT: return ['info', 'date', 'time', 'status']
+
+    default:
+      break;
   }
 }
 

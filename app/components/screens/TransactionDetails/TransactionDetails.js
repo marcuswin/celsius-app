@@ -23,6 +23,7 @@ import STYLES from '../../../constants/STYLES';
 import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
+import formatter from '../../../utils/formatter';
 
 @connect(
   state => ({
@@ -37,7 +38,7 @@ class TransactionDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params && params.title ? params.title: 'Transaction details',
+      title: params && params.title ? params.title : 'Transaction details',
       right: 'profile'
     }
   };
@@ -109,19 +110,19 @@ class TransactionDetails extends Component {
         return <LoanInfoSection key={sectionType} navigateTo={actions.navigateTo} />;
       // TODO(sb): Value need to be changed
       case 'loan:date':
-        return <BasicSection key={sectionType} label="Loan Initiation Date" value={moment.utc(transaction.time).format("HH:mm A")} />;
+        return <BasicSection key={sectionType} label="Loan Initiation Date" value={transaction.loan_data.initiation_date} />;
       case 'loan:amount':
-        return <BasicSection key={sectionType} label="Loan Amount" value={""} noSeparator />;
+        return <BasicSection key={sectionType} label="Loan Amount" value={transaction.loan_data.loan_amount} noSeparator />;
       case 'loan:collateral':
-        return <CollateralSection key={sectionType} dollarAmount="30000" coinAmount="8.57" coin="BTC" />;
+        return <CollateralSection key={sectionType} dollarAmount={transaction.loan_data.loan_collateral_usd} coinAmount={transaction.loan_data.loan_collateral_crypto} coin={transaction.coin.toUpperCase()} />;
       case 'loan:deadline':
-        return <BasicSection key={sectionType} label="Repayment Deadline" value={""} />;
+        return <BasicSection key={sectionType} label="Repayment Deadline" value={transaction.loan_data.repayment_deadline} />;
       case 'loan:annualInterestRate':
-        return <BasicSection key={sectionType} label="Annual Interest Rate" value={""} />;
+        return <BasicSection key={sectionType} label="Annual Interest Rate" value={transaction.loan_data.annual_interest_rate} />;
       case 'loan:monthlyInterest':
-        return <BasicSection key={sectionType} label="Monthly Interest" value={""} />;
+        return <BasicSection key={sectionType} label="Monthly Interest" value={formatter.usd(transaction.loan_data.monthly_interest_payment)} />;
       case 'loan:totalInterest':
-        return <BasicSection key={sectionType} label="Total Interest Payment" value={""} noSeparator />;
+        return <BasicSection key={sectionType} label="Total Interest Payment" value={formatter.usd(transaction.loan_data.total_interest_payment)} noSeparator />;
       case 'hodl:info':
         return <HodlInfoSection key={sectionType} date="April 29th" amount="20" coin="ETH" />;
       default:

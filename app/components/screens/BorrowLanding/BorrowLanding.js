@@ -40,7 +40,7 @@ class BorrowLanding extends Component {
 
   constructor(props) {
     super(props);
-    const {walletSummary, loanCompliance} = this.props;
+    const { walletSummary, loanCompliance } = this.props;
 
     const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short))
 
@@ -60,7 +60,7 @@ class BorrowLanding extends Component {
     const { allLoans } = this.props
     const { maxAmount } = this.state
 
-    this.setState({isLoading: false})
+    this.setState({ isLoading: false })
     // If user has enough money for loan, and doesn't have any previous loans
     // redirect to BorrowEnterAmount screen
     if (maxAmount > MIN_LOAN_AMOUNT && (!allLoans || !allLoans.length)) {
@@ -119,7 +119,7 @@ class BorrowLanding extends Component {
     const { actions, loanCompliance, allLoans } = this.props;
     const style = BorrowLandingStyle();
 
-    if (isLoading) return <LoadingScreen/>
+    if (isLoading) return <LoadingScreen />
 
     if (!loanCompliance.allowed) {
       return (
@@ -141,29 +141,28 @@ class BorrowLanding extends Component {
       <RegularLayout>
         {maxAmount < MIN_LOAN_AMOUNT
           ?
-            <Fragment>
-              <CelText type='H3' margin={'0 0 20 0'} color={STYLES.COLORS.RED}>Insufficient funds!</CelText>
-              <CelButton onPress={() => actions.navigateTo('Deposit')}>Deposit more coins</CelButton>
-            </Fragment>
+          <Fragment>
+            <CelText type='H3' margin={'0 0 20 0'} color={STYLES.COLORS.RED}>Insufficient funds!</CelText>
+            <CelButton onPress={() => actions.navigateTo('Deposit')}>Deposit more coins</CelButton>
+          </Fragment>
           :
-            <CelButton onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
+          <CelButton onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
         }
 
         <View>
           <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
           {allLoans.map(loan => {
             const loanStatusDetails = this.getLoanStatusDetails(loan.status)
-
             return (
               <Card key={loan.id}>
-                <TouchableOpacity style={{alignItems: 'center', flexDirection: 'row', flex: 1}} onPress={() => actions.navigateTo('TransactionDetails', {id: loan.id})}>
-                  <View style={[style.iconWrapper, {backgroundColor: loanStatusDetails.color}]}>
-                    <Icon name='TransactionLoan' height={25} width={25} fill={'#FFFFFF'}/>
+                <TouchableOpacity style={{ alignItems: 'center', flexDirection: 'row', flex: 1 }} onPress={() => actions.navigateTo('TransactionDetails', { id: loan.transaction_id })}>
+                  <View style={[style.iconWrapper, { backgroundColor: loanStatusDetails.color }]}>
+                    <Icon name='TransactionLoan' height={25} width={25} fill={'#FFFFFF'} />
                   </View>
                   <View style={style.info}>
                     <View>
                       <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
-                      <CelText type='H6' weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, {precision: 2})} LOCKED</CelText>
+                      <CelText type='H6' weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 2 })} LOCKED</CelText>
                     </View>
 
                     <View>
