@@ -41,7 +41,6 @@ import DestinationTagExplanationModalScreen from "../components/organisms/Destin
 import MemoIdExplanationModalScreen from "../components/organisms/MemoIdExplanationModal/MemoIdExplanationModal";
 import LoginPasscodeScreen from "../components/screens/Passcode/LoginPasscode";
 import CameraRollScreen from "../components/screens/CameraRoll/CameraRoll";
-import LoanApplicationScreen from "../components/screens/LoanApplication/LoanApplication";
 import SelectCoinScreen from "../components/screens/SelectCoin/SelectCoin";
 import SettingsScreen from "../components/screens/Settings/Settings";
 import TwoFAInfoScreen from "../components/screens/TwiFAInfo/TwoFAInfo";
@@ -104,11 +103,6 @@ export const screens = {
   HowToEarnInterest: {
     screen: HowToEarnInterestScreen,
     title: 'HowToEarnInterest',
-    bottomNavigation: true,
-  },
-  LoanApplication: {
-    screen: LoanApplicationScreen,
-    title: 'LoanApplication',
     bottomNavigation: true,
   },
 
