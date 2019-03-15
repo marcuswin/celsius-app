@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, activeView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
@@ -197,7 +197,7 @@ class WalletLanding extends Component {
 
     return (
       <TouchableOpacity style={[ style.addMoreCoins ]} onPress={() => actions.navigateTo('Deposit')}>
-        <View style= {[style.coinsText, backgroundColor='red', paddingTop= 100 ]}>
+        <View style= {[style.coinsText]}>
           <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo= '10' />
           <CelText type="H5">  Add more coins </CelText>
         </View>
@@ -223,7 +223,7 @@ class WalletLanding extends Component {
   render() {
     const { activeView } = this.state
     const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer } = this.props;
-    const style = WalletLandingStyle();
+    // const style = WalletLandingStyle();
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) return <LoadingScreen />;
 
