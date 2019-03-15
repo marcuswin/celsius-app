@@ -26,7 +26,8 @@ class CelButton extends Component {
     textColor: PropTypes.string,
     iconRightHeight: PropTypes.string,
     iconRightWidth: PropTypes.string,
-    iconRightColor: PropTypes.string
+    iconRightColor: PropTypes.string,
+    ghost: PropTypes.bool
   };
 
   static defaultProps = {
@@ -38,26 +39,28 @@ class CelButton extends Component {
     size: 'medium',
     textColor: '',
     iconRightHeight: '46',
-    iconRightWidth: '26'
+    iconRightWidth: '26',
+    ghost: false
   }
 
   getButtonStyle = (style) => {
-    const { margin, disabled, basic, size } = this.props;
+    const { margin, disabled, basic, size, ghost } = this.props;
     const buttonStyles = [style.container, style[`${size}Container`]];
 
     buttonStyles.push(getMargins(margin));
 
     if (disabled) buttonStyles.push(style.disabledButton);
     if (basic) buttonStyles.push(style.basicButton);
-
+    if (ghost) buttonStyles.push(style.ghostButton)
     return buttonStyles;
   }
 
   getTitleStyle = (style) => {
-    const { disabled, basic, size, textColor } = this.props;
+    const { disabled, basic, size, textColor, ghost } = this.props;
     const titleStyle = [style.baseTitle, style[`${size}Title`]];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
+    if (ghost) titleStyle.push(style.ghostTitle)
     if (textColor) titleStyle.push({ color: textColor })
 
     return titleStyle;
@@ -116,7 +119,7 @@ class CelButton extends Component {
     const activeOpacity = basic ? 0.3 : 0.8;
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center'}}>
+      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
         {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );

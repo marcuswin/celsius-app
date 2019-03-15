@@ -13,6 +13,7 @@ import TwoFactorSettings from "../../components/screens/TwoFactorSettings/TwoFac
 import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import CameraScreen from "../../components/screens/CameraScreen/CameraScreen";
 import ApiAuthorization from "../../components/screens/ApiAuthorization/ApiAuthorization";
+import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode
   from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
@@ -34,7 +35,8 @@ export const profileFlow = {
     TwoFactorSettings,
     TwoFaAuthAppConfirmationCode,
     ChangeAvatar,
-    CameraScreen
+    CameraScreen,
+    ConfirmCamera
   },
   props: {
     initialRouteName: 'Profile',

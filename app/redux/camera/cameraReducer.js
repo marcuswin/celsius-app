@@ -21,13 +21,6 @@ export default function cameraReducer(state = initialState, action) {
                 ...state.cameraRollPhotos,
                 ...action.photos.edges,
             ];
-            // console.log('camera', {
-            //     ...state,
-            //     cameraRollPhotos,
-            //     totalPhotos: cameraRollPhotos.length,
-            //     hasMore: action.photos.page_info.has_next_page,
-            //     lastPhotoCursor: action.photos.page_info.end_cursor,
-            // })
             return {
                 ...state,
                 cameraRollPhotos,

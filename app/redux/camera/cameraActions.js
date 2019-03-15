@@ -63,6 +63,7 @@ function getCameraRollPhotosSuccess(photos) {
 function takeCameraPhoto(photo) {
   return {
     type: ACTIONS.TAKE_CAMERA_PHOTO,
+    callName: API.TAKE_CAMERA_PHOTO,
     photo
   };
 }

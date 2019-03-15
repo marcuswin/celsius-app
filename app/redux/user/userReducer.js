@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           twitter_oauth_token: action.twitter_tokens.oauth_token,
           twitter_oauth_secret: action.twitter_tokens.oauth_token_secret,
         },
@@ -100,7 +100,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           first_name: names[0] ? names[0].trim() : '',
           last_name: names[1] ? names[1].trim() : '',
           email: action.twitter_user.email,
@@ -114,7 +114,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           first_name: action.facebook_user.first_name,
           last_name: action.facebook_user.last_name,
           email: action.facebook_user.email,
@@ -127,7 +127,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           first_name: action.google_user.given_name,
           last_name: action.google_user.family_name,
           email: action.google_user.email,
@@ -143,7 +143,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           ...action.personalInfo,
         },
       };
@@ -152,7 +152,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           ...action.addressInfo,
         },
       };
@@ -160,7 +160,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           ...action.taxpayerInfo,
         },
       };
@@ -168,7 +168,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           has_pin: true,
         }
       }
@@ -177,7 +177,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           profile_picture: action.image
         },
       }
@@ -187,7 +187,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           kyc: action.kyc,
         }
       }
@@ -213,7 +213,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: {
-          ...state.user,
+          ...state.profile,
           individual_referral_link: action.link
         }
       }

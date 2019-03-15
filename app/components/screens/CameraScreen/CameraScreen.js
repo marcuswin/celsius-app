@@ -11,8 +11,6 @@ import CameraScreenStyle from "./CameraScreen.styles";
 import Icon from '../../atoms/Icon/Icon';
 import STYLES from '../../../constants/STYLES';
 import API from '../../../constants/API';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 
 const { height, width } = Dimensions.get('window');
@@ -47,14 +45,9 @@ class CameraScreen extends Component {
     mask: 'circle'
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
-
-    return {
-      header: params && params.header || null,
-      transparent: true
-    }
-  };
+  static navigationOptions = () => ({
+    transparent: true,
+  })
 
   static defaultProps = {
     cameraField: 'lastPhoto',
@@ -65,11 +58,9 @@ class CameraScreen extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
       hasCameraPermission: false,
       hasCameraRollPermission: false,
       hasInitialPhoto: !!props.photo,
-      header: null
     };
   }
 
@@ -112,8 +103,19 @@ class CameraScreen extends Component {
     }
   }
 
+  getMaskImage = (mask) => {
+    switch (mask) {
+      case 'document':
+        return require('../../../../assets/images/mask/card-mask-transparent.png');
+      case 'circle':
+        return require('../../../../assets/images/mask/circle-mask.png');
+      default:
+        return null
+    }
+  }
+
   pickImage = async () => {
-    const { actions, mask } = this.props;
+    const { actions, mask, navigation } = this.props;
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [STYLES.imageSizes[mask].width, STYLES.imageSizes[mask].height],
@@ -121,21 +123,22 @@ class CameraScreen extends Component {
     if (result.cancelled) {
       return;
     }
+    actions.navigateTo('ConfirmCamera', { onSave: navigation.getParam('onSave') });
     actions.takeCameraPhoto(result);
   };
 
   takePhoto = async () => {
     if (!this.camera) return;
 
-    const { actions, mask } = this.props;
+    const { actions, mask, navigation } = this.props;
     try {
-      this.setState({ isLoading: true });
-      actions.startApiCall(API.TAKE_CAMERA_PHOTO)
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions();
       }
-      const photo = await this.camera.takePictureAsync();
 
+      actions.startApiCall(API.TAKE_CAMERA_PHOTO);
+      await actions.navigateTo('ConfirmCamera', { onSave: navigation.getParam('onSave') });
+      const photo = await this.camera.takePictureAsync();
 
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
@@ -158,66 +161,35 @@ class CameraScreen extends Component {
       actions.takeCameraPhoto(resizedPhoto);
     } catch (err) {
       // logger.log(err);
-      this.setState({ isLoading: false });
     }
   };
 
-  savePhoto = () => {
-    const { actions, cameraField, photo, navigation } = this.props;
-
-    const onSave = navigation.getParam('onSave');
-
-    if (onSave) {
-      onSave(photo);
-    } else {
-      actions.updateFormField(cameraField, photo);
-      actions.navigateBack();
-    }
-  }
-
-
   renderMask = () => {
     const { mask, cameraHeading, cameraCopy } = this.props;
+    const imageSource = this.getMaskImage(mask);
 
-    switch (mask) {
-      case 'document':
-        return (
-          <View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', width: '100%' }}>
-            <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
-              <Image source={require('../../../../assets/images/mask/card-mask-transparent.png')} style={{ width: 300, height: 183, alignSelf: 'center' }} />
-              <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
-            </View>
-            <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
+    return (
+      <View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', width: '100%' }}>
+        <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }}>
+          <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}>
+            <CelText weight="700" type='H1' align='center' style={{ alignSelf: 'flex-end', flex: 1 }}>{cameraHeading}</CelText>
+          </SafeAreaView>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
+          <Image source={imageSource} style={{ width: STYLES.imageSizes[mask].width, height: STYLES.imageSizes[mask].height, alignSelf: 'center' }} />
+          <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
+        </View>
+        <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }}>
+          <View style={{ width: STYLES.imageSizes[mask].width, alignSelf: 'center', marginTop: 20 }}>
+            <CelText weight='300' type='H4' align='center'>{cameraCopy}</CelText>
           </View>
-        )
-      case 'circle':
-        return (
-          <View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', width: '100%' }}>
-            <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }}>
-              <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}>
-                <CelText weight="700" type='H1' align='center' style={{ alignSelf: 'flex-end', flex: 1 }}>{cameraHeading}</CelText>
-              </SafeAreaView>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
-              <Image source={require('../../../../assets/images/mask/circle-mask.png')} style={{ width: STYLES.imageSizes[mask].width, height: STYLES.imageSizes[mask].height, alignSelf: 'center' }} />
-              <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }} />
-            </View>
-            <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }}>
-              <View style={{ width: STYLES.imageSizes[mask].width, alignSelf: 'center', marginTop: 20 }}>
-                <CelText weight='300' type='H4' align='center'>{cameraCopy}</CelText>
-              </View>
-            </View>
-          </View>
-        )
-      default:
-        return null
-    }
+        </View>
+      </View>
+    )
   }
 
-  renderCameraScreen() {
+  render() {
     const { cameraType, actions, cameraRollLastPhoto } = this.props;
     const style = CameraScreenStyle();
     const Mask = this.renderMask;
@@ -246,66 +218,7 @@ class CameraScreen extends Component {
           </View>
         </SafeAreaView>
       </Camera>
-    );
-  }
-
-  renderConfirmScreen = () => {
-    const { cameraHeading, photo, actions, mask } = this.props;
-    // navigation.setParams({
-    //   header: props => <CelHeading {...props} />,
-    // })
-
-    return (
-      <RegularLayout fabType='hide'>
-        <View style={{ alignSelf: 'center', flex: 1, justifyContent: 'center', width: '100%' }}>
-          <View style={{ flex: 1 }}>
-            <SafeAreaView style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}>
-              <CelText weight="700" type='H1' align='center' style={{ alignSelf: 'flex-end', flex: 1 }}>{cameraHeading}</CelText>
-            </SafeAreaView>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ flex: 1 }} />
-            <Image
-              resizeMode="cover"
-              source={photo}
-              style={{
-                width: STYLES.imageSizes[mask].width,
-                height: STYLES.imageSizes[mask].height, borderWidth: 5,
-                borderColor: STYLES.COLORS.WHITE,
-                borderRadius: mask === 'circle' ? STYLES.imageSizes[mask].width / 2 : 0,
-                backgroundColor: '#F1EFEE'
-              }}
-            />
-            <View style={{ flex: 1 }} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <View style={{ width: STYLES.imageSizes[mask].width, alignSelf: 'center', marginTop: 20 }}>
-              <CelButton
-                ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
-                onPress={actions.retakePhoto}
-                white
-                inverse
-              >
-                Retake Photo
-  </CelButton>
-              <CelButton
-                ref={testUtil.generateTestHook(this, 'CameraScreen.usePhoto')}
-                onPress={this.savePhoto}
-                white
-                margin="20 0 20 0"
-              >
-                Use Photo
-  </CelButton>
-            </View>
-          </View>
-        </View>
-      </RegularLayout>
     )
-  }
-
-  render() {
-    const { photo } = this.props;
-    return !photo ? this.renderCameraScreen() : this.renderConfirmScreen();
   }
 
 }

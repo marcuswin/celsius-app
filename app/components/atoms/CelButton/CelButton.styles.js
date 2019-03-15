@@ -48,6 +48,14 @@ const base = {
     smallTitle: {
         fontSize: getScaledFont(14)
     },
+    ghostButton: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: STYLES.COLORS.CELSIUS_BLUE
+    },
+    ghostTitle: {
+        color: STYLES.COLORS.CELSIUS_BLUE
+    }
 }
 
 const themed = {
