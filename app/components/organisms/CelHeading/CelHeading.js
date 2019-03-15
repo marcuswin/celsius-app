@@ -38,6 +38,10 @@ class CelHeading extends Component {
    * @type {boolean}
    * transparent
    *
+   * @description if sameBackground=true it will set header background color same as content background
+   * @type {boolean}
+   * sameBackground
+   *
    * @type {React.Component}
    * customCenterComponent
    */
@@ -164,12 +168,21 @@ class CelHeading extends Component {
   }
 
   render() {
+    let containerStyle
     const scene = this.props.scene.descriptor;
-    const { transparent } = scene.options
+    const { headerSameColor, transparent } = scene.options
     const { theme } = this.props;
     const style = CelHeadingStyle()
-    const statusBarColor = this.getStatusBarTextColor(theme);
-    const containerStyle = transparent ? style.transparentBackground : style.headingBackground;
+    const statusBarColor = this.getStatusBarTextColor(theme)
+
+    if (headerSameColor) {
+      containerStyle = style.sameBackground
+    } else if (transparent) {
+      containerStyle = style.transparentBackground
+    } else {
+      containerStyle = style.headingBackground
+    }
+
     const Content = this.getContent;
 
     return (
