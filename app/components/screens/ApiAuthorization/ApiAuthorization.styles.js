@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const ApiStyle = () => getThemedStyle(base, themed);
+const ApiAuthorizationStyle = () => getThemedStyle(base, themed);
 
-export default ApiStyle
+export default ApiAuthorizationStyle
