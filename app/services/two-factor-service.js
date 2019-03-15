@@ -11,7 +11,7 @@ const TwoFactorService = {
  * Initializes the 2FA activation process
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#4ce77b02-310c-46aa-987e-c82b0a23fc8b
  *
- * @param {number} pin
+ * @param {string|number} pin
  * @return {Promise}
  */
 async function beginTwoFactorActivation(pin) {
@@ -45,12 +45,12 @@ async function enableTwoFactor(code) {
  * Deactivates 2FA for user, PIN is fallback
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#76a3af2e-1828-4f34-b61e-6b87a3442ba2
  *
- * @param {number} pin
+ * @param {string|number} twoFactorCode
  * @return {Promise}
  */
-async function disableTwoFactor(pin) {
+async function disableTwoFactor(twoFactorCode) {
   const response = await axios.post(`${apiUrl}/users/two_factor/deactivate`, {
-    pin,
+    twoFactorCode
   });
 
   return response.data;

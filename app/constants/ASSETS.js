@@ -55,6 +55,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/frenchy.png'),
   require('../../assets/images/mask/card-mask-transparent.png'),
   require('../../assets/images/mask/circle-mask.png'),
+  require('../../assets/images/authSuccess3x.png'),
 ];
 
 export default {

@@ -13,6 +13,8 @@ import TwoFactorSettings from "../../components/screens/TwoFactorSettings/TwoFac
 import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import CameraScreen from "../../components/screens/CameraScreen/CameraScreen";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
+import TwoFaAuthAppConfirmationCode
+  from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
 
 
 export const profileFlow = {
@@ -28,6 +30,7 @@ export const profileFlow = {
     ChangePassword,
     ChangePin,
     TwoFactorSettings,
+    TwoFaAuthAppConfirmationCode,
     ChangeAvatar,
     CameraScreen
   },

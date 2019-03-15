@@ -139,7 +139,7 @@ function enableTwoFactor(code) {
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
 
-      dispatch(getUserPersonalInfoSuccess(personalInfo));
+      await dispatch(getUserPersonalInfoSuccess(personalInfo));
 
       return success;
     } catch (error) {
@@ -151,12 +151,12 @@ function enableTwoFactor(code) {
 
 /**
  * Disables two factor for user, pin is fallback
- * @param {string} pin
+ * @param {string} code
  */
-function disableTwoFactor(pin) {
+function disableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.disableTwoFactor(pin);
+      const success = await TwoFactorService.disableTwoFactor(code);
 
       const personalInfoRes = await usersService.getPersonalInfo();
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;

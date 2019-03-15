@@ -94,6 +94,7 @@ class CelModal extends Component {
               <ScrollView
                 style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : 40 }]}
                 showsVerticalScrollIndicator={false}
+                contentContainerStyle={{flexGrow: 1}}
               >
                 {children}
               </ScrollView>
