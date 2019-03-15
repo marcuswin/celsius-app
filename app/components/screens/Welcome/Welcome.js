@@ -38,6 +38,7 @@ class Welcome extends Component {
 
         <CelButton onPress={() => actions.navigateTo('RegisterInitial')} margin="20 0 20 0">Register</CelButton>
         <CelButton onPress={() => actions.navigateTo('Login')}>Login</CelButton>
+        <CelButton onPress={() => actions.navigateTo('KYC')} margin="20 0 20 0">KYC</CelButton>
       </RegularLayout>
     );
   }

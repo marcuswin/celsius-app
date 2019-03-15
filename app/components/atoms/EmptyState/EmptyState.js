@@ -78,6 +78,7 @@ class EmptyState extends Component {
     support: PropTypes.bool,
   }
   static defaultProps = {
+    paragraphs: [],
     // purpose: EMPTY_STATES.ERROR,
   }
 

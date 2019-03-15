@@ -11,6 +11,7 @@ import { celPayNavigator } from './flows/celPayFlow';
 import { walletNavigator } from './flows/walletFlow';
 import { profileNavigator } from './flows/profileFlow';
 import { authNavigator } from './flows/authFlow'
+import { kycNavigator } from './flows/kycFlow'
 import { depositNavigator } from './flows/depositFlow'
 
 
@@ -27,14 +28,15 @@ export const communityNavigator = createStackNavigator({Community}, {
 
 export const screens = {
   Home,
+  Auth: authNavigator,
+  KYC: kycNavigator,
   WalletFab: walletNavigator,
+  DepositFab: depositNavigator,
+  BorrowFab: borrowNavigator,
   CelPayFab: celPayNavigator,
   ProfileFab: profileNavigator,
-  Auth: authNavigator,
-  BorrowFab: borrowNavigator,
-  DepositFab: depositNavigator,
   SupportFab: supportNavigator,
-  CommunityFab: communityNavigator
+  CommunityFab: communityNavigator,
 };
 
 const navigatorProps = {
