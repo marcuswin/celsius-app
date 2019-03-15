@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Switch, View } from 'react-native'
+import { Platform, Switch, View } from 'react-native'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -14,6 +14,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import CelModal from '../../organisms/CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
+import STYLES from '../../../constants/STYLES'
 
 @connect(
   state => ({
@@ -41,8 +42,9 @@ class SecuritySettings extends Component {
 
   rightSwitch = () => {
     const { is2FAEnabled } = this.props
+    const isAndroid = Platform.OS === 'android'
     return (
-      <Switch value={is2FAEnabled} disabled/>
+      <Switch value={is2FAEnabled} disabled thumbColor={isAndroid ? STYLES.COLORS.WHITE : ''} trackColor={{true: isAndroid ? STYLES.COLORS.GREEN : ''}}/>
     )
   }
 
