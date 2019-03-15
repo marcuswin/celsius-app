@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 import Profile from '../../components/screens/Profile/Profile';
 import Settings from "../../components/screens/Settings/Settings";
 import Appearance from "../../components/screens/Appearance/Appearance";
-import Api from "../../components/screens/Api/Api";
+import ApiAuthorizationPermissions from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
 import WalletSettings from "../../components/screens/WalletSettings/WalletSettings";
 import SecuritySettings from "../../components/screens/SecuritySettings/SecuritySettings";
 import NotificationsSettings from "../../components/screens/NotificationsSettings/NotificationsSettings";
@@ -12,6 +12,7 @@ import ChangePin from "../../components/screens/ChangePin/ChangePin";
 import TwoFactorSettings from "../../components/screens/TwoFactorSettings/TwoFactorSettings";
 import ChangeAvatar from "../../components/screens/ChangeAvatar/ChangeAvatar";
 import CameraScreen from "../../components/screens/CameraScreen/CameraScreen";
+import ApiAuthorization from "../../components/screens/ApiAuthorization/ApiAuthorization";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode
   from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
@@ -24,7 +25,8 @@ export const profileFlow = {
     NotificationsSettings,
     SecuritySettings,
     WalletSettings,
-    Api,
+    ApiAuthorization,
+    ApiAuthorizationPermissions,
     Appearance,
     VerifyProfile,
     ChangePassword,

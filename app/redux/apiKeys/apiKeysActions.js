@@ -19,9 +19,8 @@ function createAPIKey(permissions) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.CREATE_API_KEY))
-
-      const apiKeyRes = await apiKeyService.create(permissions)
-
+      const apiKeyRes = await apiKeyService.create(permissions);
+      
       dispatch({
         type: ACTIONS.CREATE_API_KEY_SUCCESS,
         apiKey: apiKeyRes.data.api_key,

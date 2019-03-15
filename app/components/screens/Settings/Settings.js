@@ -36,7 +36,7 @@ class Settings extends Component {
         <IconButton onPress={() => actions.navigateTo("NotificationsSettings")} icon="Notifications">Notifications</IconButton>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
         <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton>
-        <IconButton onPress={() => actions.navigateTo("Api")} margin="0 0 20 0" icon="Api">API</IconButton>
+        <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton>
         <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>
         <CelButton basic onPress={() => { }} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
         <CelText>App Version - 3.0</CelText>

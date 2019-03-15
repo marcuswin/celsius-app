@@ -18,7 +18,7 @@ class SwitchButton extends Component {
     updateFormField: PropTypes.func.required,
   };
   static defaultProps = {
-    margin: '20 0 20 0',
+    margin: '20 0 0 0',
     value: false
   }
 
