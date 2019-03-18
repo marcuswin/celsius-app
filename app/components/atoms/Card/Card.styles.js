@@ -8,7 +8,6 @@ const base = {
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
-    overflow: 'hidden',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,

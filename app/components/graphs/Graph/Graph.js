@@ -240,12 +240,13 @@ class Graph extends React.Component {
   }
 
   render() {
+    const { style } = this.props
     const GraphSvg = this.renderGraphSvg;
     const Scroll = this.renderScroll;
     const Pointer = this.renderPointer;
 
     return (
-      <View>
+      <View style={style}>
         <GraphSvg />
         <Pointer />
         <Scroll />

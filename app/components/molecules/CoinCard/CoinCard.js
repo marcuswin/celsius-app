@@ -91,6 +91,7 @@ class CoinCard extends Component {
               rate={coinPriceChange}
               height={heightPercentageToDP("10%")}
               width={widthPercentageToDP("41%")}
+              style={{borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden'}}
             />
           </View>
           : null}
