@@ -24,8 +24,8 @@ function createAPIKey(permissions) {
       dispatch({
         type: ACTIONS.CREATE_API_KEY_SUCCESS,
         apiKey: apiKeyRes.data.api_key,
-      })
-      dispatch(openModal(MODALS.GENERATE_API_KEY))
+      });
+      dispatch(openModal(MODALS.GENERATE_API_KEY_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_API_KEY, err));
