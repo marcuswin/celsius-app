@@ -112,13 +112,13 @@ class TransactionDetails extends Component {
       case 'loan:date':
         return <BasicSection key={sectionType} label="Loan Initiation Date" value={transaction.loan_data.initiation_date} />;
       case 'loan:amount':
-        return <BasicSection key={sectionType} label="Loan Amount" value={transaction.loan_data.loan_amount} noSeparator />;
+        return <BasicSection key={sectionType} label="Loan Amount" value={formatter.usd(transaction.loan_data.loan_amount)} noSeparator />;
       case 'loan:collateral':
         return <CollateralSection key={sectionType} dollarAmount={transaction.loan_data.loan_collateral_usd} coinAmount={transaction.loan_data.loan_collateral_crypto} coin={transaction.coin.toUpperCase()} />;
       case 'loan:deadline':
-        return <BasicSection key={sectionType} label="Repayment Deadline" value={transaction.loan_data.repayment_deadline} />;
+        return <BasicSection key={sectionType} label="Repayment Deadline" value={moment(transaction.loan_data.repayment_deadline).format("MMMM DD, YYYY")} />;
       case 'loan:annualInterestRate':
-        return <BasicSection key={sectionType} label="Annual Interest Rate" value={transaction.loan_data.annual_interest_rate} />;
+        return <BasicSection key={sectionType} label="Annual Interest Rate" value={`${transaction.loan_data.annual_interest_rate}%`} />;
       case 'loan:monthlyInterest':
         return <BasicSection key={sectionType} label="Monthly Interest" value={formatter.usd(transaction.loan_data.monthly_interest_payment)} />;
       case 'loan:totalInterest':
