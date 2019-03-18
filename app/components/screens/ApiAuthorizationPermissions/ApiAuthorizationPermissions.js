@@ -12,6 +12,7 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
 import SwitchButton from "../../organisms/SwitchButton/SwitchButton";
+import ApiKeySuccessModal from "../../organisms/ApiKeySuccessModal/ApiKeySuccessModal";
 
 
 @connect(
@@ -32,6 +33,19 @@ class ApiAuthorizationPermissions extends Component {
     title: "Api Authorization",
   });
 
+  constructor(props) {
+    super(props);
+
+    const {actions} = this.props;
+
+    actions.updateFormFields({
+      readWalletBalance: false,
+      readTransactions: false,
+      readDeposits: false,
+      readWithdrawals: false
+    })
+  }
+
   generateApiKey = () => {
     const {formData, actions} = this.props;
 
@@ -42,10 +56,7 @@ class ApiAuthorizationPermissions extends Component {
       withdraw: formData.readWithdrawals
     };
 
-    // console.log("read_balance", formData.readWalletBalance, "read_transactions", formData.readTransactions, "read_deposits", formData.readDeposits, "withdraw",  formData.readWithdrawals)
-
     actions.createAPIKey(permissions);
-    actions.navigateTo("ApiAuthorization");
   };
 
   render() {
@@ -67,6 +78,7 @@ class ApiAuthorizationPermissions extends Component {
         >
           Generate API key
         </CelButton>
+        <ApiKeySuccessModal/>
       </RegularLayout>
     );
   }
