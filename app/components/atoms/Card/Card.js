@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { View, TouchableOpacity } from "react-native";
 
@@ -49,25 +49,25 @@ class Card extends React.Component {
     const cardStyles = [style.card, paddingStyles, marginStyles, opacityStyles, style[size], styles];
 
     const card = (
-      <View style={cardStyles}>
+      <Fragment>
         {close && (
           <TouchableOpacity style={{ position: 'absolute', right: 10, top: 0 }} onPress={this.closeCard}>
             <Icon name='Close' color={STYLES.COLORS.DARK_GRAY_OPACITY} width="25" />
           </TouchableOpacity>
         )}
         {children}
-      </View>
+      </Fragment>
     );
     if (!open) return null;
     if (onPress) {
       return (
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress} style={cardStyles}>
           {card}
         </TouchableOpacity>
       );
     }
 
-    return card;
+    return <View style={cardStyles}>{card}</View>;
   }
 }
 
