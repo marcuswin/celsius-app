@@ -42,7 +42,7 @@ class CelPayEnterAmount extends Component {
 
     const coinSelectItems = currencies
       .filter(c => celpayCompliance.coins.includes(c.short))
-      .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
+      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
     const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Enter Amount'
