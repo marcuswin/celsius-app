@@ -183,74 +183,52 @@ function resetPassword(currentPassword, newPassword) {
 /**
  * Logs a user into Celsius through Google
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#c74fa667-84dc-41eb-a760-aa09f74019f6
- * @deprecated probably
  *
- * @param {Object} data
- * @param {string} data.email
- * @param {string} data.given_name
- * @param {string} data.family_name
- * @param {string} data.id
- * @param {string} data.picture
- * @param {string} data.accessToken
+ * @param {Object} googleUser
+ * @param {string} googleUser.email
+ * @param {string} googleUser.first_name
+ * @param {string} googleUser.last_name
+ * @param {string} googleUser.google_id
+ * @param {string} googleUser.profile_picture
+ * @param {string} googleUser.access_token
  * @return {Promise}
  */
-function googleLogin(data) {
-  return axios.post(`${apiUrl}/users/google/login`, {
-    email: data.email,
-    first_name: data.given_name,
-    last_name: data.family_name,
-    google_id: data.id,
-    profile_picture: data.picture,
-    access_token: data.accessToken,
-  });
+function googleLogin(googleUser) {
+  return axios.post(`${apiUrl}/users/google/login`, googleUser);
 }
 
 
 /**
  * Logs a user into Celsius through Facebook
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#cfbd2ca1-c1a7-492f-b6e1-4c9e4f1a6da0
- * @deprecated probably
  *
- * @param {Object} data
- * @param {string} data.email
- * @param {string} data.first_name
- * @param {string} data.last_name
- * @param {string} data.id
- * @param {string} data.accessToken
+ * @param {Object} facebookUser
+ * @param {string} facebookUser.email
+ * @param {string} facebookUser.first_name
+ * @param {string} facebookUser.last_name
+ * @param {string} facebookUser.facebook_id
+ * @param {string} facebookUser.access_token
  * @return {Promise}
  */
-function facebookLogin(data) {
-  return axios.post(`${apiUrl}/users/facebook/login`, {
-    email: data.email,
-    first_name: data.first_name,
-    last_name: data.last_name,
-    facebook_id: data.id,
-    access_token: data.accessToken,
-  });
+function facebookLogin(facebookUser) {
+  return axios.post(`${apiUrl}/users/facebook/login`, facebookUser);
 }
 
 
 /**
  * Logs a user into Celsius through Twitter
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#6d7f3d95-b44b-41c2-a888-6d07fdfb82ae
- * @deprecated probably
  *
- * @param {Object} data
- * @param {string} data.email
- * @param {string} data.name
- * @param {string} data.id_str
- * @param {string} data.accessToken
- * @param {string} data.secret_token
+ * @param {Object} twitterUser
+ * @param {string} twitterUser.email
+ * @param {string} twitterUser.first_name
+ * @param {string} twitterUser.twitter_id - id from Twitter
+ * @param {string} twitterUser.access_token
+ * @param {string} twitterUser.secret_token
  * @return {Promise}
  */
-function twitterLogin(data) {
-  return axios.post(`${apiUrl}/users/twitter/login`, {
-    email: data.email,
-    first_name: data.name,
-    twitter_id: data.id_str,
-    access_token: data.accessToken,
-    secret_token: data.secret_token
-  });
+function twitterLogin(twitterUser) {
+  return axios.post(`${apiUrl}/users/twitter/login`, twitterUser);
 }
 
 /**

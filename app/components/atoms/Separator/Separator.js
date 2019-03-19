@@ -56,12 +56,13 @@ class Separator extends Component {
   }
 
   renderWithText = () => {
-    const { text, size, allCaps, fontType, color, dashed } = this.props
+    const { text, size, allCaps, fontType, color, dashed, margin } = this.props
     const style = SeparatorStyle();
     const separatorColor = color || this.getSeparatorColor(style);
+    const margins = getMargins(margin);
 
     return (
-      <View style={[style.content]} >
+      <View style={[style.content, margins]} >
         <View style={[style.left, { borderColor: separatorColor, borderWidth: size / 2, borderStyle: dashed ? 'dashed' : 'solid' }]} />
         <View style={style.center}>
           <CelText allCaps={allCaps} color={separatorColor} align="center" type={fontType}>{text}</CelText>
