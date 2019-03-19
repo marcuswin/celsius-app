@@ -17,6 +17,8 @@ import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import celPayBCH from "../../../../specs/celPay/celPayBCH";
+import CelPayEnterAmount from "../CelPayEnterAmount/CelPayEnterAmount";
 
 const { COLORS } = STYLES;
 
@@ -71,7 +73,7 @@ class CoinDetails extends Component {
   }
 
   render() {
-    const { currency } = this.state;
+    const { currency} = this.state;
     const { actions, interestRates } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
@@ -98,7 +100,7 @@ class CoinDetails extends Component {
                 <CelButton
                   basic
                   size="small"
-                  onPress={() => actions.navigateTo("WalletLanding")}
+                  onPress={() => actions.navigateTo('CelPayEnterAmount')}
                 >
                   Send
                   </CelButton>
