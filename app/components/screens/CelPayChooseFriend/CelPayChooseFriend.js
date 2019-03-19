@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Permissions, Contacts } from 'expo';
-import { Image, TouchableOpacity, View, ScrollView, Dimensions } from 'react-native';
+import { Image, TouchableOpacity, View, ScrollView } from 'react-native';
 
 import * as appActions from '../../../redux/actions';
 import testUtil from "../../../utils/test-util";
@@ -18,15 +18,11 @@ import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
-
-const titleSize = SCREEN_HEIGHT
-
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 10 }}>
     <View style={{ flex: 1, alignItems: 'center' }}>
       <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
-      <CelText weight='100' type='H2' align="center" style={{ type: titleSize <= 8 ? "H2" : "H1" }} >
+      <CelText weight='700' type='H2' align="center" >
         Uhoh, no friends?
     </CelText>
       <CelText weight='300' margin="15 0 0 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
