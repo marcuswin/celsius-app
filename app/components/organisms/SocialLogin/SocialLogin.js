@@ -23,17 +23,9 @@ class SocialLogin extends Component {
   }
 
   onTwitterSuccess = (twitterUser) => {
-    const { user, type, actions } = this.props;
+    const { type, actions } = this.props;
 
-    const u = twitterUser;
-    u.accessToken = user.twitter_oauth_token;
-    u.secret_token = user.twitter_oauth_secret;
-
-    if (type === "login") {
-      actions.loginTwitter(u);
-    } else {
-      actions.twitterSuccess(u);
-    }
+    actions.authTwitter(type, twitterUser)
   };
 
   onOpenTwitter = () => {

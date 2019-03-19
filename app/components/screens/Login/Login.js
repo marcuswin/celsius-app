@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import LoginStyle from "./Login.styles";
 import CelText from '../../atoms/CelText/CelText';
 import CelInput from '../../atoms/CelInput/CelInput';
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -13,6 +10,7 @@ import Separator from '../../atoms/Separator/Separator';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
+import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
 
 @connect(
   state => ({
@@ -22,7 +20,6 @@ import API from '../../../constants/API';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Login extends Component {
-
   static navigationOptions = () => ({
     right: "signup"
   })
@@ -32,16 +29,26 @@ class Login extends Component {
     await actions.loginUser({ email, password });
   }
   render() {
-    const { formData, callsInProgress } = this.props;
-    const loginLoading = apiUtil.areCallsInProgress([API.LOGIN_USER], callsInProgress);
+    const { formData, callsInProgress, actions } = this.props;
+    const loginLoading = apiUtil.areCallsInProgress([
+      API.LOGIN_USER,
+      API.LOGIN_USER_FACEBOOK,
+      API.LOGIN_USER_GOOGLE,
+      API.LOGIN_USER_TWITTER,
+    ], callsInProgress);
 
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
-        <CelInput type="text" keyboardType='email-address' field="email" placeholder="E-mail" value={formData.email} />
-        <CelInput type="password" field="password" placeholder="Password" value={formData.password} />
+
+        <SocialLogin type="login" actions={actions}/>
+
+        <Separator text="or login with email" margin="0 0 20 0"/>
+
+        <CelInput type="text" keyboardType='email-address' autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} />
+        <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} />
+
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
-        <Separator text="or login with social media" />
       </AuthLayout>
     );
   }
