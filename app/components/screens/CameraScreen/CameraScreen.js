@@ -51,6 +51,7 @@ class CameraScreen extends Component {
   }
 
   static navigationOptions = () => ({
+    headerSameColor: false,
     transparent: true
   })
 

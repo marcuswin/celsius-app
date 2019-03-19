@@ -1,5 +1,5 @@
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from 'axios'
+import apiUrl from './api-url'
 
 const meService = {
   sendVerificationSMS,
@@ -11,9 +11,8 @@ const meService = {
   setPin,
   checkPin,
   changePin,
-  checkTwoFactor,
-};
-
+  checkTwoFactor
+}
 
 /**
  * Send SMS for phone verification to user
@@ -21,12 +20,11 @@ const meService = {
  *
  * @returns {Promise}
  */
-function sendVerificationSMS() {
+function sendVerificationSMS () {
   return axios.post(`${apiUrl}/me/sms/send`, {
     fourDigit: true
-  });
+  })
 }
-
 
 /**
  * Verifies phone number with code from SMS
@@ -35,12 +33,11 @@ function sendVerificationSMS() {
  * @param {string} verificationCode - eg. '123456'
  * @returns {Promise}
  */
-function verifySMS(verificationCode) {
+function verifySMS (verificationCode) {
   return axios.post(`${apiUrl}/me/sms/verify`, {
-    verification_code: verificationCode,
-  });
+    verification_code: verificationCode
+  })
 }
-
 
 /**
  * Start the KYC process on Onfido for user
@@ -49,10 +46,9 @@ function verifySMS(verificationCode) {
  *
  * @returns {Promise}
  */
-function startKYC() {
-  return axios.post(`${apiUrl}/me/kyc/start`);
+function startKYC () {
+  return axios.post(`${apiUrl}/me/kyc/start`)
 }
-
 
 /**
  * Gets KYC status for user
@@ -61,12 +57,11 @@ function startKYC() {
  *
  * @returns {Promise}
  */
-function getKYCStatus() {
-  return axios.get(`${apiUrl}/me/kyc/status`);
+function getKYCStatus () {
+  return axios.get(`${apiUrl}/me/kyc/status`)
 }
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#9dfb9269-c3af-4723-8ec9-f62b380b3892
-
 
 /**
  * Gets kyc documents for user
@@ -75,12 +70,11 @@ function getKYCStatus() {
  *
  * @returns {Promise}
  */
-function getKYCDocuments() {
-  return axios.get(`${apiUrl}/me/documents`);
+function getKYCDocuments () {
+  return axios.get(`${apiUrl}/me/documents`)
 }
 
 // Docs: https://documenter.getpostman.com/view/4207695/celsius/RW1aHzQg#10e4b34c-ebc6-4b0f-a0d0-c2fcf97d74c4
-
 
 /**
  * Creates KYC documents for user
@@ -89,11 +83,23 @@ function getKYCDocuments() {
  *
  * @returns {Promise}
  */
-function createKYCDocuments(documents) {
-  return axios.put(`${apiUrl}/me/documents`, documents);
+function createKYCDocuments (documents) {
+  const formData = new FormData()
+  formData.append('document_front_image', {
+    name: 'front.jpg',
+    type: 'image/jpg',
+    uri: documents.front.uri
+  })
+  if (documents.back) {
+    formData.append('document_back_image', {
+      name: 'back.jpg',
+      type: 'image/jpg',
+      uri: documents.back.uri
+    })
+  }
+  formData.append('type', documents.type)
+  return axios.put(`${apiUrl}/user/profile/documents`, formData)
 }
-
-
 
 /**
  * Sets PIN number for user
@@ -104,10 +110,9 @@ function createKYCDocuments(documents) {
  * @para {string} data.pin_confirm - eg. '1111'
  * @returns {Promise}
  */
-function setPin(data) {
-  return axios.post(`${apiUrl}/me/pin/set`, data);
+function setPin (data) {
+  return axios.post(`${apiUrl}/me/pin/set`, data)
 }
-
 
 /**
  * Checks pin for user
@@ -116,10 +121,9 @@ function setPin(data) {
  * @param {string} pin - eg. '1111'
  * @returns {Promise}
  */
-function checkPin(pin) {
-  return axios.post(`${apiUrl}/me/pin/check`, { pin });
+function checkPin (pin) {
+  return axios.post(`${apiUrl}/me/pin/check`, { pin })
 }
-
 
 /**
  * Changes PIN number for the user
@@ -131,10 +135,9 @@ function checkPin(pin) {
  * @param {string} pinData.new_pin_confirm - eg. '1234'
  * @returns {Promise}
  */
-function changePin(pinData) {
-  return axios.post(`${apiUrl}/user/change_pin`, pinData);
+function changePin (pinData) {
+  return axios.post(`${apiUrl}/user/change_pin`, pinData)
 }
-
 
 /**
  * Checks 2FA code for user
@@ -144,10 +147,10 @@ function changePin(pinData) {
  * @param {string} code - eg. '123456'
  * @returns {Promise}
  */
-function checkTwoFactor(code) {
+function checkTwoFactor (code) {
   return axios.post(`${apiUrl}/me/twoFactor/check`, {
-    twoFactorCode: code,
-  });
+    twoFactorCode: code
+  })
 }
 
-export default meService;
+export default meService

@@ -1,42 +1,286 @@
-import React, { Component } from 'react';
-// import { View } from 'react-native';
+import React, { Component } from 'react'
+import { View } from 'react-native'
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-// import KYCVerifyIDStyle from "./KYCVerifyID.styles";
-// import CelText from '../../atoms/CelText/CelText';
-// import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import StaticScreen from "../StaticScreen/StaticScreen";
+import testUtil from '../../../utils/test-util'
+import * as appActions from '../../../redux/actions'
+import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
+import Card from '../../atoms/Card/Card'
+import CelText from '../../atoms/CelText/CelText'
+import Icon from '../../atoms/Icon/Icon'
+import Separator from '../../atoms/Separator/Separator'
+import STYLES from '../../../constants/STYLES'
+import CelButton from '../../atoms/CelButton/CelButton'
+import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
+import API from '../../../constants/API'
+import apiUtil from '../../../utils/api-util';
 
 @connect(
-  () => ({}),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  state => ({
+    formData: state.forms.formData,
+    test: state.user,
+    kycDocuments: state.user.kycDocuments,
+    callsInProgress: state.api.callsInProgress,
+    lastCompletedCall: state.api.lastCompletedCall,
+    kycDocTypes: state.generalData.kycDocTypes,
+    user: state.user.profile
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class KYCVerifyID extends Component {
-  static propTypes = {};
+  static propTypes = {}
   static defaultProps = {}
 
   static navigationOptions = () => ({
-    title: "Verify ID",
-  });
+    title: 'Verify ID',
+    customCenterComponent: <ProgressBar steps={4} currentStep={4} />
+  })
 
-  render() {
+  componentWillMount () {
     const { actions } = this.props
-    // const style = KYCVerifyIDStyle();
+    actions.getKYCDocTypes()
+  }
+
+  componentDidMount () {
+    const { actions } = this.props
+    actions.getKYCDocuments()
+  }
+
+  saveFrontImage = photo => {
+    const { actions } = this.props
+
+    actions.updateFormField('front', photo)
+    actions.navigateTo('KYCVerifyID')
+  }
+
+  goToFrontCamera = () => {
+    const { actions } = this.props
+
+    actions.activateCamera({
+      cameraField: 'front',
+      cameraHeading: 'Front side of the document',
+      cameraType: 'back',
+      mask: 'document'
+    })
+    actions.navigateTo('CameraScreen', { onSave: this.saveFrontImage })
+  }
+
+  saveBackImage = photo => {
+    const { actions } = this.props
+
+    actions.updateFormField('back', photo)
+    actions.navigateTo('KYCVerifyID')
+  }
+
+  goToBackCamera = () => {
+    const { actions } = this.props
+
+    actions.activateCamera({
+      cameraField: 'back',
+      cameraHeading: 'Back side of the document',
+      cameraType: 'back',
+      mask: 'document'
+    })
+    actions.navigateTo('CameraScreen', { onSave: this.saveBackImage })
+  }
+
+  submit = () => {
+    const { actions } = this.props
+    actions.verifyKYCDocs()
+  }
+
+  selectDocumentType = async type => {
+    const { actions } = this.props
+
+    actions.updateFormField('documentType', type)
+  }
+
+  renderInputState = (active, textInactive, textActive) => {
+    if (active) {
+      return (
+        <>
+          <CelText color={STYLES.COLORS.DARK_GRAY} type='H4' weight='300'>
+            {textActive}
+          </CelText>
+          <Icon name='CheckCircle' fill={STYLES.COLORS.GREEN} height='24' />
+        </>
+      )
+    }
+    return (
+      <>
+        <CelText color={STYLES.COLORS.GRAY} type='H4' weight='300'>
+          {textInactive}
+        </CelText>
+        <Icon name='KycCamera' height='24' fill={STYLES.COLORS.GRAY} />
+      </>
+    )
+  }
+
+  renderFrontCameraInput = () => {
+    const { formData } = this.props
+    return (
+      <Card onPress={this.goToFrontCamera}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          {this.renderInputState(
+            formData.front,
+            // (kycDocuments && !!kycDocuments.front) || formData.front,
+            'Front side photo',
+            'Front side photo taken'
+          )}
+        </View>
+      </Card>
+    )
+  }
+
+  renderBackCameraInput = () => {
+    const { formData } = this.props
+    return (
+      <Card onPress={this.goToBackCamera}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          {this.renderInputState(
+            formData.back,
+            // (kycDocuments && !!kycDocuments.back) || formData.back,
+            'Back side photo',
+            'Back side photo taken'
+          )}
+        </View>
+      </Card>
+    )
+  }
+
+  render () {
+    const { kycDocTypes, user, formData, callsInProgress } = this.props
+    let docs = []
+    let isLoading = false
+    if (kycDocTypes) {
+      isLoading = apiUtil.areCallsInProgress(
+        [API.CREATE_KYC_DOCUMENTS],
+        callsInProgress
+      )
+      docs = mapDocs(kycDocTypes[user.citizenship])
+    }
+    const docType = formData.documentType || docs[0].value
+
+    const FrontCamera = this.renderFrontCameraInput
+    const BackCamera = this.renderBackCameraInput
 
     return (
-      <StaticScreen
-        emptyState={{
-          heading: 'Verify ID screen coming soon',
-          button: 'Start KYC',
-          onPress: () => actions.navigateTo('KYCLanding'),
-        }}
-      />
-    );
+      <AuthLayout>
+        <View style={{ width: '100%', alignItems: 'center' }}>
+          <CelText type='H1' weight='700'>
+            Verify your ID
+          </CelText>
+          <CelText type='H4' weight='300' margin='10 0 20 0'>
+            Take a photo of one of your documents to confirm your identity.
+          </CelText>
+          {docs && (
+            <View
+              style={{
+                width: '100%',
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}
+            >
+              {docs.map(document =>
+                docType === document.value ? (
+                  <Card
+                    key={document.value}
+                    size='third'
+                    onPress={() => this.selectDocumentType(document.value)}
+                    styles={{ height: 100, justifyContent: 'flex-start' }}
+                  >
+                    <Icon
+                      height='24'
+                      fill={STYLES.COLORS.CELSIUS_BLUE}
+                      name={document.icon}
+                    />
+                    <CelText
+                      color={STYLES.COLORS.CELSIUS_BLUE}
+                      margin='10 0 0 0'
+                      align='center'
+                      type='H6'
+                    >
+                      {document.label}
+                    </CelText>
+                  </Card>
+                ) : (
+                  <Card
+                    key={document.value}
+                    size='third'
+                    onPress={() => this.selectDocumentType(document.value)}
+                    styles={{ height: 100, justifyContent: 'flex-start' }}
+                  >
+                    <Icon
+                      height='24'
+                      name={document.icon}
+                      fill={STYLES.COLORS.GRAY}
+                    />
+                    <CelText
+                      color={STYLES.COLORS.GRAY}
+                      margin='10 0 0 0'
+                      align='center'
+                      type='H6'
+                    >
+                      {document.label}
+                    </CelText>
+                  </Card>
+                )
+              )}
+            </View>
+          )}
+          <Separator text='Take photos' margin='20 0 20 0' />
+          <FrontCamera />
+          {docType !== 'passport' && <BackCamera />}
+          <CelButton
+            loading={isLoading}
+            margin='20 0 0 0'
+            onPress={this.submit}
+          >
+            Finish
+          </CelButton>
+        </View>
+      </AuthLayout>
+    )
   }
 }
 
-export default testUtil.hookComponent(KYCVerifyID);
+function mapDocs (docs) {
+  const kycDocs = []
+
+  if (!docs) {
+    return [
+      {
+        value: 'passport',
+        label: 'Passport',
+        icon: 'Passport'
+      }
+    ]
+  }
+  if (docs.identity_card) {
+    kycDocs.push({
+      value: 'identity_card',
+      label: 'National ID card',
+      icon: 'IDcard'
+    })
+  }
+  if (docs.passport) {
+    kycDocs.push({
+      value: 'passport',
+      label: 'Passport',
+      icon: 'Passport'
+    })
+  }
+  if (docs.driving_licence) {
+    kycDocs.push({
+      value: 'driving_licence',
+      label: "Driver's license",
+      icon: 'DrivingLicense'
+    })
+  }
+
+  return kycDocs
+}
+
+export default testUtil.hookComponent(KYCVerifyID)

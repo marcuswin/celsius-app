@@ -1,7 +1,6 @@
 import { CameraRoll } from "react-native";
 
 import ACTIONS from "../../constants/ACTIONS";
-import * as navActions from "../nav/navActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
 import API from "../../constants/API";
@@ -102,6 +101,5 @@ function activateCamera(cameraProps) {
       type: ACTIONS.ACTIVATE_CAMERA,
       ...cameraProps
     });
-    dispatch(navActions.navigateTo("CameraScreen", { onSave: cameraProps.onSave }));
   };
 }

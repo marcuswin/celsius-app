@@ -80,9 +80,9 @@ class ChangeAvatar extends Component {
       cameraHeading: 'Profile photo',
       cameraCopy: 'Please center your face in the circle and take a selfie, to use as your profile photo.',
       cameraType: 'front',
-      mask: 'circle',
-      onSave: this.saveProfileImage,
+      mask: 'circle'
     })
+    actions.navigateTo("CameraScreen", { onSave: this.saveProfileImage, });
   }
 
   saveProfileImage = (photo) => {
