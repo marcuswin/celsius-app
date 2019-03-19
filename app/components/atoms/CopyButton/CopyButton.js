@@ -7,21 +7,22 @@ import testUtil from "../../../utils/test-util";
 import CelText from '../CelText/CelText';
 
 const CopyButton = (props) => {
-  const { copyText } = props;
+  const { copyText, onCopy } = props;
 
   return (
-    <TouchableOpacity onPress={() => Clipboard.setString(copyText)}>
+    <TouchableOpacity onPress={() => {Clipboard.setString(copyText); onCopy()}}>
         <CelText>Copy</CelText>
     </TouchableOpacity>
   )
 }
 
 CopyButton.propTypes = {
-  copyText: PropTypes.string.isRequired
+  copyText: PropTypes.string.isRequired,
+  onCopy: PropTypes.func
 };
 
 CopyButton.defaultProps ={
-
+  onCopy: () => {}
 };
 
 export default testUtil.hookComponent(CopyButton);

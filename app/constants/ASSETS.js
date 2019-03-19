@@ -67,7 +67,11 @@ const CACHE_IMAGES = [
   require('../../assets/images/illustrations-v3/Shark/profile-shark.png'),
   require('../../assets/images/illustrations-v3/Sheep/profile-sheep.png'),
   require('../../assets/images/illustrations-v3/Unicorn/profile-unicorn.png'),
-
+  require('../../assets/images/emptyStates/KYC-Failed.png'),
+  require('../../assets/images/emptyStates/KYC-Pending.png'),
+  require('../../assets/images/pendingStates/pendingState1.png'),
+  require('../../assets/images/pendingStates/pendingState2.png'),
+  require('../../assets/images/pendingStates/pendingState3.png'),
 ];
 
 export default {

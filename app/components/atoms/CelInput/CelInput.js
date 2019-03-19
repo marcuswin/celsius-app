@@ -39,7 +39,8 @@ class CelInput extends Component {
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
     margin: PropTypes.string,
-    basic: PropTypes.bool
+    basic: PropTypes.bool,
+    helperButton: PropTypes.element
   };
 
   static defaultProps = {
@@ -91,12 +92,14 @@ class CelInput extends Component {
     const style = [cmpStyle.inputWrapper];
     if (active) style.push(cmpStyle.activeInput)
     if (disabled) style.push(cmpStyle.disabledInput)
+
     return style;
   }
 
   renderInputByType = () => {
-    const { type, value } = this.props;
+    const { type, value, helperButton } = this.props;
     const inputStyle = this.getInputStyle();
+
     switch (type) {
       case 'password':
         return (
@@ -118,12 +121,16 @@ class CelInput extends Component {
           </View>
         )
       case 'text':
-      default:
+      default: {
+        const helperButtonContainerStyle = helperButton ? {alignItems: 'center', flexDirection: 'row'} : {}
+        const helperButtonInputStyle = helperButton ? {flex: 1} : {}
         return (
-          <View style={inputStyle}>
-            <CelInputText {...this.props} />
+          <View style={[inputStyle, helperButtonContainerStyle]}>
+            <CelInputText {...this.props} style={helperButtonInputStyle}/>
+            {helperButton && helperButton()}
           </View>
         )
+      }
     }
   }
 

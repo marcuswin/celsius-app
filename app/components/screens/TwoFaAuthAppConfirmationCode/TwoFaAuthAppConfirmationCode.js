@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Image, View, Keyboard } from 'react-native'
+import { Image, View, Keyboard, TouchableOpacity, Clipboard } from 'react-native'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -14,6 +14,7 @@ import CelInput from '../../atoms/CelInput/CelInput'
 import CelButton from '../../atoms/CelButton/CelButton'
 import { MODALS } from '../../../constants/UI'
 import CelModal from '../../organisms/CelModal/CelModal'
+import UI from '../../../constants/STYLES'
 
 @connect(
   state => ({
@@ -49,17 +50,36 @@ class TwoFaAuthAppConfirmationCode extends Component {
     actions.navigateTo('SecuritySettings')
   }
 
+  pasteCodeHelperButton = () => (
+    <View style={{paddingLeft: 10, borderLeftColor: UI.COLORS.LIGHT_GRAY, borderLeftWidth: 2 }}>
+    <TouchableOpacity onPress={this.paste}>
+      <CelText weight='300'>Paste code</CelText>
+    </TouchableOpacity>
+    </View>
+  )
+
+  paste = async () => {
+    const { actions } = this.props
+    const code = await Clipboard.getString()
+
+    if (code) {
+      actions.updateFormField('confirmationCode', code)
+    } else {
+      actions.showMessage('warning', 'Nothing to paste.')
+    }
+  }
+
   render() {
     const { formData } = this.props;
     const style = TwoFaAuthAppConfirmationCodeStyle();
 
     return (
       <RegularLayout>
-        <CelText>Please enter the confirmation code from your authentication app:</CelText>
+        <CelText type='H4' align='center'>Please enter the confirmation code from your authentication app:</CelText>
 
-        <CelInput placeholder='Confirmation code' field={'confirmationCode'} value={formData.confirmationCode} margin={'20 0 0 0'}/>
-        <CelButton onPress={this.verifyAuthCode} margin={'20 0 0 0'} disabled={!formData.confirmationCode}>
-          Verify authentication app
+        <CelInput placeholder='Confirmation code' field={'confirmationCode'} value={formData.confirmationCode} margin={'30 0 0 0'} helperButton={this.pasteCodeHelperButton}/>
+        <CelButton onPress={this.verifyAuthCode} margin={'20 0 0 0'} disabled={!formData.confirmationCode} iconRight={"IconArrowRight"}>
+          Verify Auth App
         </CelButton>
 
         <CelModal name={MODALS.VERIFY_AUTHAPP_MODAL} shouldRenderCloseButton={false} >

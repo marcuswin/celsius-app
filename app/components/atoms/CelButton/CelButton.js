@@ -67,16 +67,18 @@ class CelButton extends Component {
   }
 
   renderIconRight = () => {
-    const { iconRight, basic, children, iconRightHeight, iconRightWidth, iconRightColor } = this.props;
+    const { iconRight, basic, children, iconRightHeight, iconRightWidth, iconRightColor, disabled } = this.props;
     let color
     if (iconRightColor) {
       color = iconRightColor
+    } else if (basic) {
+      color = STYLES.COLORS.DARK_GRAY_OPACITY
     } else {
-      color = basic ? STYLES.COLORS.DARK_GRAY_OPACITY : STYLES.COLORS.WHITE_OPACITY3
+      color = disabled ? STYLES.COLORS.MEDIUM_GRAY : STYLES.COLORS.WHITE_OPACITY3
     }
 
     return (
-      <View style={{ paddingLeft: children ? 10 : 0 }}>
+      <View style={{ paddingLeft: children ? 10 : 0, opacity: disabled ? 0.3 : 1 }}>
         <Icon
           name={iconRight}
           height={iconRightHeight}
