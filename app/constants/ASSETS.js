@@ -56,6 +56,18 @@ const CACHE_IMAGES = [
   require('../../assets/images/mask/card-mask-transparent.png'),
   require('../../assets/images/mask/circle-mask.png'),
   require('../../assets/images/authSuccess3x.png'),
+  require('../../assets/images/illustrations-v3/Cat/profile-cat.png'),
+  require('../../assets/images/illustrations-v3/Deer/profile-deer.png'),
+  require('../../assets/images/illustrations-v3/Diane/profile-diane.png'),
+  require('../../assets/images/illustrations-v3/Dog/profile-dog.png'),
+  require('../../assets/images/illustrations-v3/Fox/profile-fox.png'),
+  require('../../assets/images/illustrations-v3/Hyppo/profile-hyppo.png'),
+  require('../../assets/images/illustrations-v3/Monkey boy/profile-monkeyboy.png'),
+  require('../../assets/images/illustrations-v3/Monkey girl/profile-monkeygirl.png'),
+  require('../../assets/images/illustrations-v3/Shark/profile-shark.png'),
+  require('../../assets/images/illustrations-v3/Sheep/profile-sheep.png'),
+  require('../../assets/images/illustrations-v3/Unicorn/profile-unicorn.png'),
+
 ];
 
 export default {
