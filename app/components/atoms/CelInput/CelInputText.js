@@ -86,12 +86,7 @@ class CelInput extends Component {
     onChangeText = (text) => {
         this.setState({ textValue: text })
         clearTimeout(this.changeTimer)
-        const { field, onChange, actions } = this.props;
-        if (onChange) {
-            this.changeTimer = setTimeout(() => onChange(field, text), 750)
-        } else {
-            this.changeTimer = setTimeout(() => actions.updateFormField(field, text), 750)
-        }
+        this.changeTimer = setTimeout(() => this.handleChangeText(text), 750)
     }
 
     onInputFocus = () => {
@@ -104,12 +99,22 @@ class CelInput extends Component {
         const { onBlur } = this.props;
         if (onBlur) onBlur();
         this.setState({ active: false })
+        this.handleChangeText(this.state.textValue)
     }
 
     getPlaceholderTextColor = (style) => StyleSheet.flatten(style.textPlaceholderColor).color; // get color from raw json depending on style theme
 
+    handleChangeText = (text) => {
+      const { field, onChange, actions } = this.props;
+      if (onChange) {
+        onChange(field, text)
+      } else {
+        actions.updateFormField(field, text)
+      }
+    }
+
     render() {
-        const { multiline, numberOfLines, theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style } = this.props
+        const { multiline, numberOfLines, theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style, autoCapitalize } = this.props
         const { textValue } = this.state;
         const editable = !disabled;
         const cmpStyle = CelInputStyle(theme);
@@ -122,6 +127,7 @@ class CelInput extends Component {
                 value={textValue}
                 autoFocus={autoFocus}
                 editable={editable}
+                autoCapitalize={autoCapitalize}
                 maxLength={maxLenght}
                 placeholder={placeholder}
                 multiline={multiline}
