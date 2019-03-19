@@ -17,8 +17,6 @@ import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
-import celPayBCH from "../../../../specs/celPay/celPayBCH";
-import CelPayEnterAmount from "../CelPayEnterAmount/CelPayEnterAmount";
 
 const { COLORS } = STYLES;
 
