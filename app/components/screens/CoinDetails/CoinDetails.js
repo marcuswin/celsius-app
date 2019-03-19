@@ -35,7 +35,7 @@ class CoinDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params && params.title && params.coin ? `${params.title} - ${params.coin}` : 'Coin Details',
+      title: params && params.title && params.coin ? `${params.title}  (${params.coin})` : 'Coin Details',
       right: 'profile'
     }
   };
