@@ -11,7 +11,7 @@ const base = {
         borderRadius: 8,
         marginVertical: 20,
         height: 50,
-        backgroundColor: STYLES.COLORS.WHITE
+        backgroundColor: STYLES.COLORS.CELSIUS_BLUE
     }
 }
 

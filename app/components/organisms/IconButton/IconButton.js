@@ -53,11 +53,11 @@ class IconButton extends Component {
           {!!right && (
             <View>
               {typeof right === 'string' ? (
-                <CelText type='H4' color={STYLES.COLORS.DARK_GRAY_OPACITY}>{right}</CelText>
+                <CelText type='H4' color={STYLES.COLORS.DARK_GRAY}>{right}</CelText>
               ) : right}
             </View>
           )}
-          {!hideIconRight && <Icon name='IconChevronRight' width='10' fill={STYLES.COLORS.DARK_GRAY_OPACITY} />}
+          {!hideIconRight && <Icon name='IconChevronRight' width='10' fill={STYLES.COLORS.GRAY} />}
         </View>
       </TouchableOpacity>
     );

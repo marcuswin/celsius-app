@@ -11,6 +11,7 @@ const COLORS = {
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',
   MEDIUM_GRAY: '#737A82',
+  GRAY: '#BBBFC2',
   DARK_GRAY: '#3D4853',
   DARK_GRAY_OPACITY: "rgba(61, 72, 83, 0.15)",
   CELSIUS_BLUE: '#4156A6',
