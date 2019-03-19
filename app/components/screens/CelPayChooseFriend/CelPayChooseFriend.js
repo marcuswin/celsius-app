@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Permissions, Contacts } from 'expo';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, ScrollView, Dimensions } from 'react-native';
 
 import * as appActions from '../../../redux/actions';
 import testUtil from "../../../utils/test-util";
@@ -18,26 +18,32 @@ import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
-const renderEmptyState = ({onContactImport, onSkip}) => (
-  <View style={{flex: 1, alignItems: 'center', marginTop: 25}}>
-    <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
-    <CelText weight='700' type="H1" align="center">
-      Uhoh, no friends?
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+
+const titleSize = SCREEN_HEIGHT
+
+const renderEmptyState = ({ onContactImport, onSkip }) => (
+  <ScrollView style={{ paddingBottom: 90, paddingTop: 10 }}>
+    <View style={{ flex: 1, alignItems: 'center' }}>
+      <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
+      <CelText weight='100' type='H2' align="center" style={{ type: titleSize <= 8 ? "H2" : "H1" }} >
+        Uhoh, no friends?
     </CelText>
-    <CelText weight='300' margin="15 0 0 0" style={{paddingHorizontal: 20}} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
-      Add your contacts or connect your Facebook or Twitter so you can easily send your friends some crypto.
+      <CelText weight='300' margin="15 0 0 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
+        Add your contacts or connect your Facebook or Twitter so you can easily send your friends some crypto.
     </CelText>
 
-    <View style={{flex: 1, justifyContent: 'flex-end'}}>
-      <CelButton margin="30 0 0 0" onPress={onContactImport}>
-        Import contacts
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <CelButton margin="30 0 0 0" onPress={onContactImport}>
+          Import contacts
       </CelButton>
 
-      <CelButton italic basic onPress={onSkip}>
-        Skip this step
+        <CelButton italic basic onPress={onSkip}>
+          Skip this step
       </CelButton>
+      </View>
     </View>
-  </View>
+  </ScrollView>
 );
 
 @connect(
@@ -158,25 +164,25 @@ class CelPayChooseFriend extends Component {
     return (
       !hasContactPermission
         ?
-          <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip}/>
+        <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip} />
         :
-          <View style={{flex: 1, width: '100%'}}>
-            <TouchableOpacity onPress={this.sendLink} style={{flexDirection: 'row', alignItems: 'center'}}>
-              <CelText color={STYLES.COLORS.CELSIUS_BLUE} bold type='H4' align='left' margin={'20 0 20 0'}>
-                Send as a link
+        <View style={{ flex: 1, width: '100%' }}>
+          <TouchableOpacity onPress={this.sendLink} style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <CelText color={STYLES.COLORS.CELSIUS_BLUE} bold type='H4' align='left' margin={'20 0 20 0'}>
+              Send as a link
               </CelText>
-              <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY}/>
-            </TouchableOpacity>
-            <View style={{width: '100%'}}>
-              <Separator size={2} opacity={0.07}/>
-            </View>
-            <ContactList contacts={contacts} onContactPress={this.handleContactPress}/>
+            <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />
+          </TouchableOpacity>
+          <View style={{ width: '100%' }}>
+            <Separator size={2} opacity={0.07} />
           </View>
+          <ContactList contacts={contacts} onContactPress={this.handleContactPress} />
+        </View>
     )
   };
 
   renderLoader = () => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Spinner/></View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Spinner /></View>
   );
 
   render() {
@@ -191,7 +197,7 @@ class CelPayChooseFriend extends Component {
         enableParentScroll={false}
         padding={`0 20 ${isLoading ? '0' : '140'} 20`}
       >
-        <RenderContent {...this.props}/>
+        <RenderContent {...this.props} />
       </RegularLayout>
     );
   }
