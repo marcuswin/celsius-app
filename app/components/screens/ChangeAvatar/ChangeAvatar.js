@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -12,27 +12,23 @@ import Separator from '../../atoms/Separator/Separator';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
-
-// const images = [
-//   { img = require('../../assets/images/illustrations-v3/Cat/profile-cat.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Deer/profile-deer.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Diane/profile-diane.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Dog/profile-dog.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Fox/profile-fox.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Hyppo/profile-hyppo.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Monkey boy/profile-monkeyboy.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Monkey girl/profile-monkeygirl.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Shark/profile-shark.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Sheep/profile-sheep.png') },
-//   { img =  require('../../assets/images/illustrations-v3/Unicorn/profile-unicorn.png') },
-// ];
-
 const images = [
-  { img: ('../../assets/images/illustrations-v3/Cat/profile-cat.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Cat/profile-cat.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Deer/profile-deer.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Diane/profile-diane.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Dog/profile-dog.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Fox/profile-fox.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Hyppo/profile-hyppo.png') },
+  { url: require('../../../../assets/images/illustrations-v3/MonkeyBoy/profile-monkeyboy.png') },
+  { url: require('../../../../assets/images/illustrations-v3/MonkeyGirl/profile-monkeygirl.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Shark/profile-shark.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Sheep/profile-sheep.png') },
+  { url: require('../../../../assets/images/illustrations-v3/Unicorn/profile-unicorn.png') },
 ]
 @connect(
   state => ({
-    profilePicture: state.user.profile.profile_picture
+    profilePicture: state.user.profile.profile_picture,
+
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -44,6 +40,7 @@ class ChangeAvatar extends Component {
     // text: PropTypes.string
 
   };
+
   static defaultProps = {
   }
 
@@ -51,26 +48,28 @@ class ChangeAvatar extends Component {
     title: "Change Avatar",
     right: "settings"
   });
-  
+
   constructor(props) {
     super(props);
 
     this.state = {
       activeImage: props.profilePicture,
-    };
+
+    }
+
   }
+
+
+
 
   // event hanlders
-  setActiveImage = (image) => {
-    this.setState({ activeImage: image.img });
+  setActiveImage = (imgSrc) => {
+    this.setState({ activeImage: imgSrc.url });
   }
 
-  saveProfileImage = (photo) => {
-    const { actions } = this.props;
+  updateProfilePicture = () => {
+    // const { activeImage } = this.state;
 
-    actions.updateProfilePicture(photo);
-    actions.updateFormField('profileImage', photo);
-    actions.navigateTo('Profile');
   }
 
   goToCamera = () => {
@@ -86,43 +85,36 @@ class ChangeAvatar extends Component {
     })
   }
 
-  // renderImage = (images) => {
-  //   const style = ChangeAvatarStyle()
-
-  //   return (
-  //     <View style={[style.imageBorder, flex= 1, flexDirection= 'row']} >
-  //       <Image style={style.image} source={images.img} />
-  //       { images.map(this.images) }
-  //     </View>
-  //   );
-  // };
-
-  updateProfilePicture = () => {
-    const { activeImage } = this.state;
+  saveProfileImage = (photo) => {
     const { actions } = this.props;
-    actions.updateProfilePicture(activeImage);
+
+    actions.updateProfilePicture(photo);
+    actions.updateFormField('profileImage', photo);
+    actions.navigateTo('Profile');
   }
 
-  renderImages = (image) => {
+  renderImage = (imgSrc) => {
+    const style = ChangeAvatarStyle()
     const { activeImage } = this.state;
-    const viewStyles = [ChangeAvatarStyle.imageWrapper];
-    if (image.img === activeImage) viewStyles.push(ChangeAvatarStyle.activeImage);
-    const imageStyles = ChangeAvatarStyle.image;
+    const viewStyles = [style.imageWrapper];
+    if (imgSrc.url === activeImage) viewStyles.push(style.activeImage);
 
     return (
-      <TouchableOpacity key={images.indexOf(image)} onPress={() => this.setActiveImage(image)}>
-        <View>
-          <Image source={{ uri: image.img }}
-            style={imageStyles}
-          />
+      <TouchableOpacity key={images.indexOf(imgSrc)} style={style.avatar} onPress={() => this.setActiveImage(imgSrc)}>
+        <View style={viewStyles}>
+          <Image style={style.image} source={imgSrc.url} />
         </View>
       </TouchableOpacity>
-    )
-  }
-
+    );
+  };
 
   render() {
     const { profilePicture } = this.props;
+    // const { activeImage, callsInProgress } = this.state;
+
+    const style = ChangeAvatarStyle()
+
+    // const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
 
     return (
       <RegularLayout>
@@ -136,10 +128,12 @@ class ChangeAvatar extends Component {
         </View>
         <Separator text="OR CHOOSE ONE BELOW" />
         <ScrollView>
-          <View >
-            {/* {images.map(this.renderImages)} */}
+          <View style={style.imageBorder}>
+            {images.map(this.renderImage)}
           </View>
-          <CelButton> Change avatar </CelButton>
+          <View style={style.button}>
+            <CelButton onPress={this.updateProfilePicture}> Change avatar </CelButton>
+          </View>
         </ScrollView>
       </RegularLayout>
     );
