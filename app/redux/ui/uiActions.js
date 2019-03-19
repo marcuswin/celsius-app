@@ -305,12 +305,13 @@ function closeFabMenu() {
 }
 
 /**
- * Closes App Menu
+ * Sets FAB menu type
  * @returns {Object} - Action
  */
 function setFabType(fabType) {
-  return {
-    type: ACTIONS.SET_FAB_TYPE,
-    fabType
+  return (dispatch, getState) => {
+    if (fabType !== getState().ui.fabType) {
+      dispatch({ type: ACTIONS.SET_FAB_TYPE, fabType })
+    }
   }
 }
