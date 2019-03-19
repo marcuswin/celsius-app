@@ -15,9 +15,9 @@ class AuthLayout extends Component {
     const { children } = this.props
     const theme = THEMES.LIGHT
 
-    const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { theme })
-    );
+    const childrenWithProps = React.Children.map(children, child => {
+      if (child) return React.cloneElement(child, { theme })
+    });
 
     return (
       <RegularLayout>

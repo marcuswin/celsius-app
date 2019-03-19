@@ -5,6 +5,7 @@ import API from "../../constants/API";
 import { startApiCall, apiError } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import { showMessage } from "../ui/uiActions";
+import { updateFormFields } from "../forms/formsActions";
 import { claimAllBranchTransfers } from "../transfers/transfersActions";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from "../../services/users-service";
@@ -55,7 +56,14 @@ function authTwitter(type, twitterUser) {
         ...twitterUser,
       }))
     } else {
-      // TODO: updateFormFields
+      dispatch(updateFormFields({
+        email: twitterUser.email,
+        firstName: twitterUser.name,
+        lastName: '',
+        twitterId: twitterUser.id_str,
+        accessToken: twitterUser.twitter_oauth_token,
+        secretToken: twitterUser.twitter_oauth_secret,
+      }))
     }
   }
 }
@@ -211,7 +219,13 @@ function facebookAuth(authReason) {
         if (authReason === "login") {
           dispatch(loginFacebook(user));
         } else {
-          // TODO: updateFormFields
+          dispatch(updateFormFields({
+            email: user.email,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            facebookId: user.id,
+            accessToken: user.accessToken,
+          }))
         }
       }
     } catch (e) {
@@ -348,7 +362,14 @@ function googleAuth(authReason) {
         if (authReason === "login") {
           dispatch(loginGoogle(user));
         } else {
-          // TODO: updateFormFields
+          dispatch(updateFormFields({
+            email: user.email,
+            firstName: user.givenName,
+            lastName: user.familyName,
+            googleId: user.id,
+            profilePicture: user.photoURL,
+            accessToken: user.access_token,
+          }))
         }
       } else {
         return { cancelled: true };
