@@ -315,18 +315,22 @@ function expireSession() {
 
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Sets the PIN number during registration
  */
-function setPin(pinData) {
-  return async dispatch => {
-    dispatch(startApiCall(API.SET_PIN));
+function setPin() {
+  return async (dispatch, getState) => {
     try {
-      await meService.setPin(pinData);
+      const { formData } = getState().forms
+
+      dispatch(startApiCall(API.SET_PIN));
+      await meService.setPin({
+        pin: formData.pin,
+        pin_confirm: formData.pinConfirm,
+      });
       dispatch(setPinSuccess());
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(navigateTo('NoKyc'));
-      analyticsEvents.pinSet();
+      dispatch(navigateTo('KYCLanding'));
+      // analyticsEvents.pinSet();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));

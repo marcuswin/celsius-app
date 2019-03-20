@@ -14,12 +14,13 @@ import Icon from "../../atoms/Icon/Icon";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 import StaticScreen from "../StaticScreen/StaticScreen";
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 const progressSteps = ["Verify Identity", "Secured by PIN", "Account created"];
 
 @connect(
   state => ({
-    kycStatus: state.user.profile.kyc.status
+    kycStatus: state.user.profile.kyc ? state.user.profile.kyc.status : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

@@ -1,36 +1,134 @@
 import React, { Component } from 'react';
+import { TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import CelText from '../../atoms/CelText/CelText';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
+import ChangePinStyle from "../ChangePin/ChangePin.styles";
+import { KEYPAD_PURPOSES } from "../../../constants/UI";
+import HiddenField from "../../atoms/HiddenField/HiddenField";
+import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
+import * as appActions from "../../../redux/actions";
+import Spinner from "../../atoms/Spinner/Spinner";
+import CelButton from "../../atoms/CelButton/CelButton";
 
-
+@connect(
+  (state) => ({
+    formData: state.forms.formData,
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class RegisterSetPin extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
+  static propTypes = {};
+  static defaultProps = {}
 
   static navigationOptions = () => (
     {
-      right: 'login',
-      customCenterComponent: <ProgressBar steps={5} currentStep={4}/>
+      customCenterComponent: <ProgressBar steps={3} currentStep={2}/>
     }
   )
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      pinCreated: false,
+      loading: false,
+    };
+  }
+
+  handlePINChange = (newValue) => {
+    const { pinCreated } = this.state;
+    const { actions } = this.props;
+
+    if (newValue.length > 4) return;
+
+    const field = pinCreated ? 'pinConfirm' : 'pin'
+
+    actions.updateFormField(field, newValue)
+
+    if (newValue.length === 4) {
+      this.handlePinFinish(newValue)
+    }
+  }
+
+  handlePinFinish = (newValue) => {
+    const { pinCreated } = this.state;
+    const { actions, formData, navigation } = this.props;
+
+    if (!pinCreated) {
+      this.setState({ pinCreated: true })
+      navigation.setParams({ customCenterComponent: <ProgressBar steps={3} currentStep={3}/> })
+    } else if (formData.pin === newValue) {
+      actions.setPin()
+      this.setState({ loading: true })
+    } else {
+      actions.showMessage('error', 'Both PIN numbers should be the same.')
+      actions.updateFormField('pinConfirm','')
+    }
+  }
+
+  handleBack = () => {
+    const { actions } = this.props
+
+    actions.updateFormFields({
+      pin: '',
+      pinConfirm: '',
+    })
+
+    this.setState({
+      pinCreated: false,
+    })
   }
 
   render() {
+    const { loading, pinCreated } = this.state;
+    const { actions, formData } = this.props;
+
+    const field = !pinCreated ? 'pin' : 'pinConfirm';
+    const headingText = !pinCreated ? 'Create PIN' : 'Repeat PIN';
+    const subheadingText = !pinCreated
+      ? 'To make your transactions even more secure, create your 4-digit PIN.'
+      : 'You\'re almost there!';
+
+    const style = ChangePinStyle();
+
     return (
-      <AuthLayout>
-        <CelText margin="0 0 14 0" type="H1" align="center">Create a PIN</CelText>
-        <CelText margin="0 0 30 0" type="H4" align="center">We have sent you an SMS with a code.</CelText>
+      <AuthLayout padding="0 0 0 0">
+        <View style={style.container}>
+          <View style={style.wrapper}>
+            <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">{ headingText }</CelText>
+            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 30 0">{ subheadingText }</CelText>
+
+            <TouchableOpacity onPress={actions.toggleKeypad}>
+              <HiddenField value={formData[field]} />
+            </TouchableOpacity>
+
+            {pinCreated && !loading && (
+              <CelButton basic onPress={this.handleBack}>
+                Back
+              </CelButton>
+            )}
+
+            {loading && (
+              <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
+                <Spinner />
+              </View>
+            )}
+          </View>
+
+          <CelNumpad
+            field={field}
+            value={formData[field]}
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={this.handlePINChange}
+            purpose={KEYPAD_PURPOSES.VERIFICATION}
+          />
+        </View>
       </AuthLayout>
     );
   }
