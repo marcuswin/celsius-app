@@ -34,7 +34,8 @@ class CelSelect extends Component {
     flex: PropTypes.number,
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
-    transparent: PropTypes.bool
+    transparent: PropTypes.bool,
+    showCountryFlag: PropTypes.bool
   };
   static defaultProps = {
     type: 'native',
@@ -43,7 +44,8 @@ class CelSelect extends Component {
     labelText: '',
     margin: '0 0 15 0',
     disabled: false,
-    transparent: false
+    transparent: false,
+    showCountryFlag: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -52,7 +54,7 @@ class CelSelect extends Component {
     const items = prevState.items;
 
     if (value && items && type) {
-      const item = type === 'country' ? lookup.countries({ name: value })[0] : items.filter(i => i.value === value)[0];
+      const item = type === 'country' ? lookup.countries({ name: value.name })[0] : items.filter(i => i.value === value)[0];
       return {
         value: item
       };
@@ -95,8 +97,10 @@ class CelSelect extends Component {
 
     const cmpStyle = CelSelectStyle();
     const style = [];
+
     if (!transparent) style.push(cmpStyle.container, getMargins(margin))
     if (disabled) style.push(cmpStyle.disabledInput)
+
     return style;
   }
 
@@ -117,21 +121,22 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { disabled, labelText, type, actions, field } = this.props;
+    const { disabled, labelText, type, actions, field, showCountryFlag } = this.props;
     const { visible, value } = this.state;
 
     const inputStyle = this.getInputStyle();
     const cmpStyle = CelSelectStyle();
     const textColor = this.getTextColor(cmpStyle);
     const iconColor = this.getIconColor(cmpStyle);
+
     let onPress = () => this.setState({ visible: !visible });
+
     if (type === 'country') {
       onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
     } else if (type === 'phone') {
       onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
-    } else if (type === 'state') {
-      onPress = () => actions.navigateTo('SelectState');
     }
+
     const country = this.props.value ? this.props.value : countries.US;
 
     if (type === 'phone') {
@@ -147,10 +152,16 @@ class CelSelect extends Component {
         </TouchableOpacity>
       );
     }
+
     return (
       <TouchableOpacity
         onPress={onPress}
-        style={inputStyle}>
+        style={[inputStyle, {flex: 1, flexDirection: 'row', alignItems: 'center'}]}
+      >
+        {type === 'country' && showCountryFlag && this.state.value && this.state.value.alpha2 ?
+          this.renderImage([cmpStyle.flagImage, {marginRight: 5}], this.state.value.alpha2)
+          : null
+        }
         <CelText type="H4" color={textColor}>{value ? (value.label || value.name) : labelText}</CelText>
         {!disabled &&
           <View style={cmpStyle.iconRight}>
@@ -169,7 +180,7 @@ class CelSelect extends Component {
 
     return (
       <View style={[{ width: '100%' }, flex ? { flex } : {}, style]}>
-        {type !== 'country' && type !== 'state' && type !== 'phone' ?
+        {type !== 'country' && type !== 'phone' ?
           <RNPickerSelect
             disabled={disabled}
             items={items}

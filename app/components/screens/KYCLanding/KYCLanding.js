@@ -28,8 +28,7 @@ class KYCLanding extends Component {
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: "KYC Landing",
-    right: "profile"
+    title: "KYC Landing"
   });
 
   componentDidMount() {

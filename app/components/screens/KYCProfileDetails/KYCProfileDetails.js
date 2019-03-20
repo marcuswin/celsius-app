@@ -9,12 +9,12 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 // import KYCProfileDetailsStyle from "./KYCProfileDetails.styles";
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelButton from '../../atoms/CelButton/CelButton'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
+import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
 
 @connect(
   state => ({
@@ -75,7 +75,7 @@ class KYCProfileDetails extends Component {
   }
 
   submitProfileDetails = async () => {
-    const {formData, actions} = this.props
+    const { formData, actions } = this.props
     const updatedUser = {
       first_name: formData.firstName,
       last_name: formData.lastName,
@@ -102,7 +102,7 @@ class KYCProfileDetails extends Component {
     if (isLoading) return <LoadingScreen />
 
     return (
-      <RegularLayout padding={'0 20 100 20'}>
+      <AuthLayout>
         <CelText type='H1' weight='bold' margin={'0 0 30 0'}>Profile details</CelText>
 
         <CelInput type="text" field="firstName" placeholder='First name' value={formData.firstName} error={formErrors.first_name} />
@@ -122,14 +122,14 @@ class KYCProfileDetails extends Component {
         }
 
         <CelSelect type='gender' field='gender' labelText='Gender' value={formData.gender} error={formErrors.gender} margin='15 0 15 0'/>
-        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship ? formData.citizenship.name : ''} error={formErrors.citizenship} margin='0 0 30 0'/>
+        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship} error={formErrors.citizenship} margin='0 0 0 0'/>
 
-        <View style={{flex: 1, justifyContent: 'flex-end'}}>
+        <View style={{flex: 1, justifyContent: 'flex-end', marginTop: 30}}>
           <CelButton onPress={this.submitProfileDetails} iconRight='IconArrowRight' loading={updatingProfileInProgress}>
             Your residential address
           </CelButton>
         </View>
-      </RegularLayout>
+      </AuthLayout>
     );
   }
 }
