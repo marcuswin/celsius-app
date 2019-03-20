@@ -130,7 +130,7 @@ class ChangeAvatar extends Component {
 
   render() {
     const { profilePicture } = this.props;
-    const { activeImage, callsInProgress } = this.state;
+    const { callsInProgress } = this.state;
 
     const style = ChangeAvatarStyle()
 
