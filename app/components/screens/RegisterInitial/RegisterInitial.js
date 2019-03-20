@@ -11,10 +11,15 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
+import Separator from "../../atoms/Separator/Separator";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../constants/API";
 
 @connect(
   state => ({
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    formErrors: state.forms.formErrors,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -27,25 +32,99 @@ class Register extends Component {
     }
   )
 
+  isFormValid = () => {
+    const { actions, formData } = this.props;
+
+    const errors = {}
+    const isUsingSocial = formData.googleId || formData.facebookId || formData.twitterId;
+
+    if (!formData.firstName) errors.firstName = 'First name is required!'
+    if (!formData.lastName) errors.lastName = 'Last name is required!'
+    if (!formData.email) errors.email = 'Email is required!'
+    if (!isUsingSocial && !formData.password) errors.password = 'Password is required!'
+
+    if (Object.keys(errors).length) {
+      actions.setFormErrors(errors);
+      return false
+    }
+
+    return true;
+  }
+
+  submitForm = () => {
+    const { actions } = this.props;
+    const isFormValid = this.isFormValid()
+
+    if (isFormValid) {
+      actions.createAccount()
+    }
+  }
+
   render() {
-    const { formData, actions } = this.props;
+    const { formData, actions, callsInProgress, formErrors } = this.props;
 
     const isUsingSocial = formData.googleId || formData.facebookId || formData.twitterId;
+
+    const registerLoading = apiUtil.areCallsInProgress([
+      API.REGISTER_USER,
+      API.REGISTER_USER_FACEBOOK,
+      API.REGISTER_USER_GOOGLE,
+      API.REGISTER_USER_TWITTER,
+    ], callsInProgress);
+
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Join Celsius</CelText>
 
         <SocialLogin type="register" actions={actions} />
 
-        <CelInput margin="20 0 20 0" type="text" field="firstName" value={formData.firstName} placeholder="First name" />
-        <CelInput type="text" field="lastName" value={formData.lastName} placeholder="Last name" />
+        <Separator allCaps text="Create your account" margin="20 0 20 0"/>
 
+        <CelInput
+          disabled={registerLoading}
+          type="text"
+          field="firstName"
+          value={formData.firstName}
+          error={formErrors.firstName}
+          placeholder="First name"
+        />
+        <CelInput
+          disabled={registerLoading}
+          type="text"
+          field="lastName"
+          value={formData.lastName}
+          error={formErrors.lastName}
+          placeholder="Last name"
+        />
 
-        <CelInput editable={!isUsingSocial} type="text" value={formData.email} field="email" placeholder="E-mail" />
+        <CelInput
+          disabled={!!isUsingSocial || registerLoading}
+          type="text"
+          value={formData.email}
+          error={formErrors.email}
+          field="email"
+          placeholder="E-mail"
+        />
 
-        { !isUsingSocial && <CelInput type="password" field="password" placeholder="Password" value={formData.password} /> }
+        { !isUsingSocial && (
+          <CelInput
+            disabled={registerLoading}
+            type="password"
+            field="password"
+            placeholder="Password"
+            value={formData.password}
+            error={formErrors.password}
+          />
+        ) }
 
-        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('RegisterSetPin') }} iconRight="IconArrowRight">Create account</CelButton>
+        <CelButton
+          margin="10 0 40 0"
+          onPress={this.submitForm}
+          iconRight="IconArrowRight"
+          loading={registerLoading}
+        >
+          Create account
+        </CelButton>
 
         <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our Terms of Use</CelText>
       </AuthLayout>
