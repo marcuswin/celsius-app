@@ -451,5 +451,6 @@ function registerSocialSuccess(network, token, user) {
     // dispatch(claimAllBranchTransfers());
     // await analyticsEvents.sessionStart();
     // analyticsEvents.finishedSignup("Google", referralLinkId, res.data.user);
+    dispatch(navigateTo('RegisterSetPin'))
   }
 }

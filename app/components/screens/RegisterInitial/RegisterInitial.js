@@ -24,13 +24,23 @@ import API from "../../../constants/API";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Register extends Component {
-
   static navigationOptions = () => (
     {
       right: 'login',
-      customCenterComponent: <ProgressBar steps={5} currentStep={1}/>
+      customCenterComponent: <ProgressBar steps={3} currentStep={1}/>
     }
   )
+
+  constructor(props) {
+    super(props)
+
+    props.actions.initForm({
+      firstName: 'Lemi',
+      lastName: 'Ticki',
+      email: `lemi+${ new Date().getTime() }@mvpworkshop.co`,
+      password: 'Filip123',
+    })
+  }
 
   isFormValid = () => {
     const { actions, formData } = this.props;
