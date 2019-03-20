@@ -49,6 +49,10 @@ class Login extends Component {
         <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} />
 
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
+
+        <CelButton basic onPress={() => actions.navigateTo('ForgotPassword')}>
+          Forgot password
+        </CelButton>
       </AuthLayout>
     );
   }

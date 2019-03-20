@@ -183,36 +183,23 @@ function updateUserSuccess(data) {
 
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Sends an email with the reset password link
  */
-function sendResetLink(email) {
-  return async dispatch => {
-    dispatch(startApiCall(API.SEND_RESET_LINK));
+function sendResetLink() {
+  return async (dispatch, getState) => {
     try {
-      await usersService.sendResetLink(email);
+      const { formData } = getState().forms
+      dispatch(startApiCall(API.SEND_RESET_LINK));
+      await usersService.sendResetLink(formData.email);
       dispatch(showMessage('info', 'Email sent!'));
-      dispatch(sendResetLinkSuccess());
+      dispatch(navigateTo('Login'));
+      dispatch({type: ACTIONS.SEND_RESET_LINK_SUCCESS});
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SEND_RESET_LINK, err));
     }
   }
 }
-
-
-
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */
-function sendResetLinkSuccess() {
-  return {
-    type: ACTIONS.SEND_RESET_LINK_SUCCESS,
-    callName: API.SEND_RESET_LINK,
-  }
-}
-
 
 
 /**
