@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 
 @connect(
@@ -23,11 +24,16 @@ class Home extends Component {
     const { user } = this.props;
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
       if (user.id) {
-        prevProps.actions.navigateTo('KYC')
-      } else {
-        prevProps.actions.navigateTo('Auth')
-      }
+        if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
+          return prevProps.actions.navigateTo('FabWallet')
+        }
+        if (!user.has_pin) {
+          return prevProps.actions.navigateTo('RegisterSetPin')
+        }
 
+        return prevProps.actions.navigateTo('KYC')
+      }
+      return prevProps.actions.navigateTo('Auth')
     }
   }
 
