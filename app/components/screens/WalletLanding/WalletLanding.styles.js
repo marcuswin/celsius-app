@@ -15,13 +15,6 @@ const base = {
         height: '18%',
         borderColor: 'gray',
         marginTop: 5
- 
-    },
-    coinsTextGrid: {
-        marginTop: '35%',
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'space-between'
     },
 
     addMoreCoinsList: {
@@ -32,8 +25,16 @@ const base = {
         height: '10%',
         borderColor: 'gray',
         marginTop: 5,
- 
     },
+
+    coinsTextGrid: {
+        marginTop: '35%',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'space-between'
+
+    },
+
     coinsTextList: {
         marginTop: '15%',
         alignItems: 'center',

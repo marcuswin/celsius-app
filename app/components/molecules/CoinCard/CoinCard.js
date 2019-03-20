@@ -75,7 +75,7 @@ class CoinCard extends Component {
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
-      <Card style={{ flexDirection: 'row', flexWrap: 'wrap' }} size="half" margin="5 0 5 0" padding={padding} onPress={onCardPress}>
+      <Card style={{ flexDirection: 'row', flexWrap: 'wrap' }} size="half" margin="5 5 5 5" padding={padding} onPress={onCardPress}>
         <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
           <View>
             <CelText style={{ lineHeight: 23 }} type="H6">{displayName}</CelText>
