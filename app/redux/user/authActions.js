@@ -8,6 +8,7 @@ import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
 import { getComplianceInfo } from "../user/userActions";
 import { initAppData } from "../app/appActions";
+import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
@@ -20,6 +21,7 @@ import meService from '../../services/me-service';
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
+  createAccount,
   loginUser,
   registerUser,
   registerUserSuccess,
@@ -361,5 +363,31 @@ function setPinSuccess() {
   return {
     type: ACTIONS.SET_PIN_SUCCESS,
     callName: API.SET_PIN,
+  }
+}
+
+
+/**
+ * Creates an account for user no matter the registration method
+ */
+function createAccount() {
+  return (dispatch, getState) => {
+    const { formData } = getState().forms
+
+    if (formData.googleId) {
+      dispatch(registerUserGoogle())
+    }
+
+    if (formData.facebookId) {
+      dispatch(registerUserFacebook())
+    }
+
+    if (formData.twitterId) {
+      dispatch(registerUserTwitter())
+    }
+
+    if (!formData.googleId && !formData.facebookId && !formData.twitterId) {
+      // console.log('Should register with email')
+    }
   }
 }

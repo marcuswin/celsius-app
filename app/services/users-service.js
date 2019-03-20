@@ -55,65 +55,57 @@ function register(user) {
 /**
  * Registers a user through Twitter
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#aade0752-df0f-4265-8917-929e4870fbd4
- * @deprecated probably
  *
  * @param {Object} twitterUser
+ * @param {string} twitterUser.email
+ * @param {string} twitterUser.first_name
+ * @param {string} twitterUser.last_name
+ * @param {string} twitterUser.twitter_id
+ * @param {string} twitterUser.profile_picture
+ * @param {string} twitterUser.access_token
+ * @param {string} twitterUser.secret_token
+ * @param {string} twitterUser.referral_link_id
  * @return {Promise}
  */
 function registerTwitter(twitterUser) {
-  const { email, firstName, lastName } = twitterUser;
-  return axios.post(`${apiUrl}/users/twitter`, {
-    email,
-    first_name: firstName,
-    last_name: lastName,
-    twitter_id: twitterUser.twitter_id,
-    twitter_screen_name: twitterUser.twitter_screen_name,
-    profile_picture: twitterUser.profile_picture,
-    access_token: twitterUser.twitter_oauth_token,
-    secret_token: twitterUser.twitter_oauth_secret,
-    referral_link_id: twitterUser.referralLinkId || undefined,
-  });
+  return axios.post(`${apiUrl}/users/twitter`, twitterUser);
 }
 
 
 /**
  * Registers a user through Facebook
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#14c50dea-3b2d-4319-9c8f-0c1ac9dcfbbc
- * @deprecated probably
  *
  * @param {Object} facebookUser
+ * @param {Object} facebookUser.email
+ * @param {Object} facebookUser.first_name
+ * @param {Object} facebookUser.last_name
+ * @param {Object} facebookUser.facebook_id
+ * @param {Object} facebookUser.access_token
+ * @param {Object} facebookUser.referral_link_id
  * @return {Promise}
  */
 function registerFacebook(facebookUser) {
-  const { email, firstName, lastName } = facebookUser;
-  return axios.post(`${apiUrl}/users/facebook`, {
-    email,
-    first_name: firstName,
-    last_name: lastName,
-    facebook_id: facebookUser.facebook_id,
-    access_token: facebookUser.access_token,
-    referral_link_id: facebookUser.referralLinkId || undefined,
-  });
+  return axios.post(`${apiUrl}/users/facebook`, facebookUser);
 }
+
 
 /**
  * Registers a user through Google
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#ab2d7b2c-7507-4e84-a98c-0e064fc86451
  *
  * @param {Object} googleUser
+ * @param {Object} googleUser.email
+ * @param {Object} googleUser.first_name
+ * @param {Object} googleUser.last_name
+ * @param {Object} googleUser.google_id
+ * @param {Object} googleUser.profile_picture
+ * @param {Object} googleUser.access_token
+ * @param {Object} googleUser.referral_link_id
  * @return {Promise}
  */
 function registerGoogle(googleUser) {
-  const { email, firstName, lastName } = googleUser;
-  return axios.post(`${apiUrl}/users/google`, {
-    email,
-    first_name: firstName,
-    last_name: lastName,
-    google_id: googleUser.google_id,
-    profile_picture: googleUser.picture,
-    access_token: googleUser.access_token,
-    referral_link_id: googleUser.referralLinkId || undefined,
-  });
+  return axios.post(`${apiUrl}/users/google`, googleUser);
 }
 
 
