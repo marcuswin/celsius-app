@@ -234,6 +234,6 @@ const analyticsEventsUtil = {
   }
 }
 
-const analyticsEvents = ENV !== 'TEST' ? analyticsEventsUtil : analyticsEventsTest;
+const analyticsEvents = ENV === 'NEVER_USE' ? analyticsEventsUtil : analyticsEventsTest;
 
 export { analyticsEvents }

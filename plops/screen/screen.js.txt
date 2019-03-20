@@ -16,12 +16,8 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class {{pascalCase name}} extends Component {
-
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
+  static propTypes = {};
+  static defaultProps = {}
 
   static navigationOptions = () => ({
     title: "{{pascalCase name}} Screen",
