@@ -39,17 +39,17 @@ const usersService = {
 /**
  * Registers a user with email/password
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#a6c7198c-d7a5-402d-b1ff-308da2def3ed
- * @deprecated probably
  *
  * @param {Object} user
+ * @param {Object} user.first_name
+ * @param {Object} user.last_name
+ * @param {Object} user.email
+ * @param {Object} user.password
+ * @param {Object} user.referral_link_id
  * @return {Promise}
  */
 function register(user) {
-  return axios.post(`${apiUrl}/users/register`, {
-    email: user.email,
-    password: user.password,
-    referral_link_id: user.referralLinkId || undefined,
-  });
+  return axios.post(`${apiUrl}/users/register`, user);
 }
 
 /**

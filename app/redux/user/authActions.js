@@ -85,26 +85,37 @@ async function loginUserSuccess(data) {
 
 /**
  * Registers a user signed up with email
- * @param {Object} user
  */
-function registerUser(user) {
-  analyticsEvents.startedSignup('Email');
+function registerUser() {
+  // analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
-    dispatch(startApiCall(API.REGISTER_USER));
     try {
+      const { formData } = getState().forms
       const referralLinkId = getState().branch.referralLinkId;
-      const res = await usersService.register({
-        ...user,
-        referralLinkId,
-      });
+
+      const user = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        referral_link_id: referralLinkId || undefined,
+      }
+
+      dispatch(startApiCall(API.REGISTER_USER));
+      const res = await usersService.register(user);
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(registerUserSuccess(res.data));
-      dispatch(claimAllBranchTransfers());
-      await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      // dispatch(claimAllBranchTransfers());
+      // await analyticsEvents.sessionStart();
+      // analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      dispatch({
+        type: ACTIONS.REGISTER_USER_SUCCESS,
+        user: res.data.user,
+      });
+
+      dispatch(navigateTo('RegisterSetPin'))
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -387,7 +398,7 @@ function createAccount() {
     }
 
     if (!formData.googleId && !formData.facebookId && !formData.twitterId) {
-      // console.log('Should register with email')
+      dispatch(registerUser())
     }
   }
 }
