@@ -67,6 +67,10 @@ function updateProfileAddressInfo(profileAddressInfo) {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       analyticsEvents.profileAddressAdded(updatedProfileData.data);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
+
+      return {
+        success: true
+      }
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -74,6 +78,9 @@ function updateProfileAddressInfo(profileAddressInfo) {
         dispatch(showMessage('error', err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_ADDRESS_INFO, err));
+      return {
+        success: false
+      }
     }
   }
 }

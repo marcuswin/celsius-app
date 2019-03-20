@@ -280,12 +280,13 @@ function updateProfileInfo(profileInfo) {
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#55dd21a1-2e99-4c6d-865c-a605eaef5b57
  *
  * @param {Object} profileAddressInfo
- * @param {string} profileAddressInfo.country - eg. "Serbia",
+ * @param {string} profileAddressInfo.country - eg. "Serbia"
  * @param {string} profileAddressInfo.state - US state
- * @param {string} profileAddressInfo.city - eg. "Beograd",
- * @param {string} profileAddressInfo.zip - eg. "11FG0",
+ * @param {string} profileAddressInfo.city - eg. "Beograd"
+ * @param {string} profileAddressInfo.zip - eg. "11FG0"
  * @param {string} profileAddressInfo.street
- * @param {string} profileAddressInfo.building_number - eg. "456b",
+ * @param {string} [profileAddressInfo.building_number] - eg. "456b"
+ * @param {string} [profileAddressInfo.flat_number]
  * @return {Promise}
  */
 function updateProfileAddressInfo(profileAddressInfo) {
