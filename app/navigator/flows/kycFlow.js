@@ -8,6 +8,7 @@ import KYCTaxpayer from '../../components/screens/KYCTaxpayer/KYCTaxpayer'
 import KYCVerifyID from '../../components/screens/KYCVerifyID/KYCVerifyID'
 import CameraScreen from '../../components/screens/CameraScreen/CameraScreen'
 import ConfirmCamera from '../../components/screens/ConfirmCamera/ConfirmCamera'
+import SelectCountry from '../../components/screens/SelectCountry/SelectCountry'
 
 const kycFlow = {
   screens: {
@@ -16,6 +17,7 @@ const kycFlow = {
     KYCAddressInfo,
     KYCTaxpayer,
     KYCVerifyID,
+    SelectCountry,
     CameraScreen,
     ConfirmCamera
   },
@@ -23,10 +25,10 @@ const kycFlow = {
     initialRouteName: 'KYCLanding',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
-      headerSameColor: true
+      headerSameColor: true,
     },
     transitionConfig
   }
 }
 
-export const kycNavigator = createStackNavigator(kycFlow.screens, kycFlow.props)
+export const kycNavigator = createStackNavigator(kycFlow.screens, kycFlow.props);

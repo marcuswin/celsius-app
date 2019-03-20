@@ -87,6 +87,14 @@ class SelectCountry extends Component {
     };
   }
 
+  onCountrySelect = async (field, country) => {
+    const { actions } = this.props
+    await actions.updateFormField(field, country);
+    await actions.updateFormField('search', "");
+    await actions.updateFormField('activeSearch', false);
+    actions.navigateBack()
+  }
+
   getSelectStyle = (style, isActive = false) => {
     const itemStyle = [style.item];
     if (isActive) itemStyle.push(style.activeItem);
@@ -107,7 +115,7 @@ class SelectCountry extends Component {
   }
 
   renderCountries = ({ item: country }) => {
-    const { actions, navigation, formData } = this.props;
+    const { navigation, formData } = this.props;
     const style = SelectCountryStyles();
     const field = navigation.getParam('field_name', 'NO-FIELD');
     const isActive = formData[field] && formData[field].name && formData[field].name.toLowerCase() === country.name.toLowerCase();
@@ -115,7 +123,7 @@ class SelectCountry extends Component {
     const renderSeparator = this.isLastHighligtedCountry(country);
     return (
       <React.Fragment>
-        <TouchableOpacity style={{ flex: 1 }} onPress={() => { actions.updateFormField(field, country); actions.updateFormField('search', ""); actions.navigateBack() }}>
+        <TouchableOpacity style={{ flex: 1 }} onPress={() => this.onCountrySelect(field, country)}>
           <View style={itemStyle}>
             <View style={style.left}>
               {this.renderImage(country.alpha2)}

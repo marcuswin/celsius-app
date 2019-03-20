@@ -23,7 +23,7 @@ class Home extends Component {
     const { user } = this.props;
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
       if (user.id) {
-        prevProps.actions.navigateTo('WalletFab')
+        prevProps.actions.navigateTo('KYC')
       } else {
         prevProps.actions.navigateTo('Auth')
       }

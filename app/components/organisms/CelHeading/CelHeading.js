@@ -17,6 +17,7 @@ import STYLES from "../../../constants/STYLES";
   state => ({
     profilePicture: state.user.profile.profile_picture,
     message: state.ui.message,
+    formData: state.forms.formData,
     theme: state.ui.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -50,18 +51,16 @@ class CelHeading extends Component {
     super(props);
     this.state = {
       activeSearch: false,
-      searchValue: ''
     }
   }
 
   getLeftContent = (sceneProps) => {
     const { hideBack, right } = sceneProps;
-    const { actions, scenes } = this.props;
-    const { activeSearch } = this.state;
+    const { actions, scenes, formData } = this.props;
     const backScreenName = scenes[this.props.index - 1]  ? scenes[this.props.index - 1].route.routeName : ''
 
     // if search is active and right part of header is type of search
-    if (right === "search" && activeSearch) return <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />
+    if (right === "search" && formData.activeSearch) return <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />
 
     // By default if scene prop hideBack is true or it's first screen in the stack, hide back arrow
     return this.props.scene.index === 0 || hideBack === true ? null : <CelButton iconRightColor={STYLES.COLORS.GRAY} basic onPress={() => {actions.navigateBack(backScreenName);}} iconRight="IconChevronLeft" />
@@ -69,9 +68,9 @@ class CelHeading extends Component {
 
   getRightContent = (sceneProps) => {
     const { right, onInfo } = sceneProps;
-    const { profilePicture } = this.props;
-    const { activeSearch } = this.state;
-    const rightType = activeSearch ? "cancel" : right;
+    const { profilePicture, formData, actions } = this.props;
+
+    const rightType = formData.activeSearch ? "cancel" : right;
     const style = CelHeadingStyle()
 
     return {
@@ -87,7 +86,7 @@ class CelHeading extends Component {
           iconRightColor={STYLES.COLORS.DARK_BACKGROUND}
         />,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
-      "search": <CelButton basic onPress={() => { this.setState({ activeSearch: true }) }} iconRight="Search" />,
+      "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":
 
           <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }}>
@@ -101,7 +100,7 @@ class CelHeading extends Component {
       ,
       "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { this.props.actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):
-      "cancel": <CelButton basic onPress={() => { this.setState({ activeSearch: false, searchValue: '' }); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
+      "cancel": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', false); this.props.actions.updateFormField('search', "") }}>Cancel</CelButton>,
     }[rightType];
   }
 
@@ -142,24 +141,24 @@ class CelHeading extends Component {
   }
 
   getContent = () => {
-    const { searchValue, activeSearch } = this.state;
+    const { formData } = this.props;
     const scene = this.props.scene.descriptor
 
     const style = CelHeadingStyle()
     const paddings = getPadding("15 20 15 20")
-    const leftStyle = activeSearch ? [style.left, { flexDirection: 'row', flex: 2 }] : style.left;
+    const leftStyle = formData.activeSearch ? [style.left, { flexDirection: 'row', flex: 2 }] : style.left;
 
     return (
       <View style={[style.content, paddings]}>
         <View style={leftStyle}>
           {this.getLeftContent(scene.options)}
-          {activeSearch && (
+          {formData.activeSearch && (
             <View style={[{ width: '100%', justifyContent: 'center', alignSelf: 'center', marginLeft: 12 }]}>
-              <CelInput autoFocus={activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={searchValue} />
+              <CelInput autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
             </View>
           )}
         </View>
-        {!activeSearch && this.getCenterContent(scene.options)}
+        {!formData.activeSearch && this.getCenterContent(scene.options)}
         <View style={style.right}>
           {this.getRightContent(scene.options)}
         </View>
