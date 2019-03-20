@@ -12,41 +12,46 @@ const base = {
     container: {
         flex: 1
     },
-    imageBorder: {
+    wrapper: {
         flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignContent: 'flex-start',
         alignItems: 'center',
-        
+    },
+    activeImage: {
+        borderColor: STYLES.COLORS.GREEN,
+        width: smallImageSize,
+        height: smallImageSize,
+        zIndex: -20
     },
     imageWrapper: {
         width: smallImageSize,
         height: smallImageSize,
+        borderColor: "transparent",
         borderRadius: 50,
-        borderWidth: 3,
-        borderColor: 'transparent',
+        borderWidth: 5,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      activeImage: {
-        borderColor: STYLES.COLORS.GREEN,
-        width: smallImageSize ,
-        height: smallImageSize,
-        
-      },
-      image: {
+        zIndex: 100,
+
+    },
+    image: {
         width: smallImageSize,
         height: smallImageSize,
         borderRadius: (smallImageSize) / 2,
-      },
-      avatar: {
-          paddingLeft: 20,
-          paddingTop: 20,
-      },
-      button: {
-          paddingTop: 30
-      }
+        borderColor: 'transparent',
+        borderWidth: 5
+
+
+    },
+    avatar: {
+        marginLeft: 20,
+        marginTop: 20,
+    },
+    button: {
+        paddingTop: 30
+    }
 }
 
 const themed = {

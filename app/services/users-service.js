@@ -314,12 +314,17 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
  * @return {Promise}
  */
 function setProfileImage(image) {
-  const formData = new FormData();
-  formData.append("profile_picture", {
-    name: 'picture.jpg',
-    type: "image/jpg",
-    uri: image.uri,
-  })
+  let formData
+  if (image.includes('https')) {
+    formData = { url: image };
+  } else {
+    formData = new FormData();
+    formData.append("profile_picture", {
+      name: 'picture.jpg',
+      type: "image/jpg",
+      uri: image.uri,
+    })
+  }
   return axios.post(`${apiUrl}/user/profile/profile_picture`, formData);
 }
 

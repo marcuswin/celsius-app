@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import {Constants} from 'expo';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import apiUtil from "../../../utils/api-util";
+import API from "../../../constants/API";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -12,18 +15,22 @@ import Separator from '../../atoms/Separator/Separator';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
+const {API_URL} = Constants.manifest.extra;
+
 const images = [
-  { url: require('../../../../assets/images/illustrations-v3/Cat/profile-cat.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Deer/profile-deer.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Diane/profile-diane.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Dog/profile-dog.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Fox/profile-fox.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Hyppo/profile-hyppo.png') },
-  { url: require('../../../../assets/images/illustrations-v3/MonkeyBoy/profile-monkeyboy.png') },
-  { url: require('../../../../assets/images/illustrations-v3/MonkeyGirl/profile-monkeygirl.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Shark/profile-shark.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Sheep/profile-sheep.png') },
-  { url: require('../../../../assets/images/illustrations-v3/Unicorn/profile-unicorn.png') },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/cat/profile-cat.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/deer/profile-deer.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/diane/profile-diane.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/dog/profile-dog.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/fox/profile-fox.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/hyppo/profile-hyppo.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/monkeyboy/profile-monkeyboy.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/monkeygirl/profile-monkeygirl.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/shark/profile-shark.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/sheep/profile-sheep.png` },
+  { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/unicorn/profile-unicorn.png` },
+
 ]
 @connect(
   state => ({
@@ -59,8 +66,19 @@ class ChangeAvatar extends Component {
 
   }
 
+  // lifecycle methods
+  componentWillReceiveProps(nextProps) {
+    const { actions, lastCompletedCall, profileImage } = this.props;
 
+    // set image after camera
+    if (nextProps.profileImage !== profileImage) {
+      this.setState({ activeImage: nextProps.profileImage });
+    }
 
+    if (lastCompletedCall !== nextProps.lastCompletedCall && nextProps.lastCompletedCall === API.UPLOAD_PLOFILE_IMAGE) {
+      actions.navigateTo('Profile');
+    }
+  }
 
   // event hanlders
   setActiveImage = (imgSrc) => {
@@ -68,8 +86,10 @@ class ChangeAvatar extends Component {
   }
 
   updateProfilePicture = () => {
-    // const { activeImage } = this.state;
-
+    const { activeImage } = this.state;
+    const { actions } = this.props;
+    actions.updateProfilePicture(activeImage);
+  
   }
 
   goToCamera = () => {
@@ -96,13 +116,13 @@ class ChangeAvatar extends Component {
   renderImage = (imgSrc) => {
     const style = ChangeAvatarStyle()
     const { activeImage } = this.state;
-    const viewStyles = [style.imageWrapper];
-    if (imgSrc.url === activeImage) viewStyles.push(style.activeImage);
+    const imageStyle = [style.image];
+    if (imgSrc.url === activeImage) imageStyle.push(style.activeImage);
 
     return (
       <TouchableOpacity key={images.indexOf(imgSrc)} style={style.avatar} onPress={() => this.setActiveImage(imgSrc)}>
-        <View style={viewStyles}>
-          <Image style={style.image} source={imgSrc.url} />
+        <View>
+          <Image style={imageStyle} source={{uri: imgSrc.url}} />
         </View>
       </TouchableOpacity>
     );
@@ -110,12 +130,11 @@ class ChangeAvatar extends Component {
 
   render() {
     const { profilePicture } = this.props;
-    // const { activeImage, callsInProgress } = this.state;
+    const { activeImage, callsInProgress } = this.state;
 
     const style = ChangeAvatarStyle()
 
-    // const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
-
+    const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
     return (
       <RegularLayout>
         <View style={{ alignItems: 'center', marginBottom: 10 }}>
@@ -128,11 +147,11 @@ class ChangeAvatar extends Component {
         </View>
         <Separator text="OR CHOOSE ONE BELOW" />
         <ScrollView>
-          <View style={style.imageBorder}>
+          <View style={style.wrapper}>
             {images.map(this.renderImage)}
           </View>
           <View style={style.button}>
-            <CelButton onPress={this.updateProfilePicture}> Change avatar </CelButton>
+            <CelButton onPress={this.updateProfilePicture()} isLoading={isLoading}> Change avatar </CelButton>
           </View>
         </ScrollView>
       </RegularLayout>
