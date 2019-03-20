@@ -6,7 +6,6 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
-import { getComplianceInfo } from "../user/userActions";
 import { initAppData } from "../app/appActions";
 import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
@@ -14,7 +13,6 @@ import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storag
 import usersService from '../../services/users-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
-import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 
@@ -37,48 +35,38 @@ export {
 
 
 /**
- * Logs the user in
- * @param {Object} params
- * @param {string} params.email
- * @param {string} params.password
+ * Logs the user in with email and password
  */
-function loginUser({ email, password }) {
-  return async dispatch => {
-    dispatch(startApiCall(API.LOGIN_USER));
+function loginUser() {
+  return async (dispatch, getState) => {
 
     try {
-      const res = await usersService.login({ email, password });
+      const { formData } = getState().forms
+
+      dispatch(startApiCall(API.LOGIN_USER));
+      const res = await usersService.login({
+        email: formData.email,
+        password: formData.password,
+      });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
-      await dispatch(await loginUserSuccess(res.data));
+
+      dispatch({
+        type: ACTIONS.LOGIN_USER_SUCCESS,
+        callName: API.LOGIN_USER,
+        tokens: res.data.auth0,
+        user: res.data.user,
+      })
 
       dispatch(navigateTo('WalletFab'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));
     }
-  }
-}
-
-
-/**
- * @todo: move to loginUser
- */
-async function loginUserSuccess(data) {
-  analyticsEvents.sessionStart();
-  return async dispatch => {
-    await dispatch(getComplianceInfo());
-
-    dispatch({
-      type: ACTIONS.LOGIN_USER_SUCCESS,
-      callName: API.LOGIN_USER,
-      tokens: data.auth0,
-      user: data.user,
-    })
   }
 }
 
@@ -314,7 +302,7 @@ function setPin() {
         pin: formData.pin,
         pin_confirm: formData.pinConfirm,
       });
-      dispatch(setPinSuccess());
+      dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(navigateTo('KYCLanding'));
       // analyticsEvents.pinSet();
@@ -352,19 +340,6 @@ function changePin() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CHANGE_PIN, err));
     }
-  }
-}
-
-
-
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */
-function setPinSuccess() {
-  return {
-    type: ACTIONS.SET_PIN_SUCCESS,
-    callName: API.SET_PIN,
   }
 }
 

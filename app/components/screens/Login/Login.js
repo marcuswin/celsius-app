@@ -24,10 +24,11 @@ class Login extends Component {
     right: "signup"
   })
 
-  loginUser = async () => {
-    const { actions, formData: { email, password } } = this.props;
-    await actions.loginUser({ email, password });
+  loginUser = () => {
+    const { actions } = this.props;
+    actions.loginUser();
   }
+  
   render() {
     const { formData, callsInProgress, actions } = this.props;
     const loginLoading = apiUtil.areCallsInProgress([
