@@ -13,6 +13,7 @@ import { THEMES } from "../../../constants/UI";
 import Icon from "../../atoms/Icon/Icon";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
+import StaticScreen from "../StaticScreen/StaticScreen";
 
 const progressSteps = ["Verify Identity", "Secured by PIN", "Account created"];
 
@@ -125,7 +126,19 @@ class KYCLanding extends Component {
   };
 
   render() {
-    const { kycStatus } = this.props;
+    const { kycStatus, actions } = this.props;
+
+    if (kycStatus === "passed") {
+        return (
+          <StaticScreen
+            emptyState={{
+              heading: 'KYC Landing screen coming soon',
+              button: 'Add profile details',
+              onPress: () => actions.navigateTo('KYCProfileDetails'),
+            }}
+          />
+        )
+    }
 
     return this.renderKycStatus(kycStatus);
   }
