@@ -10,7 +10,7 @@ import Icon from "../../atoms/Icon/Icon";
 import Graph from "../../graphs/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
-import { heightPercentageToDP, widthPercentageToDP } from '../../../utils/styles-util';
+import { heightPercentageToDP } from '../../../utils/styles-util';
 
 class CoinCard extends Component {
   static propTypes = {
@@ -66,13 +66,13 @@ class CoinCard extends Component {
 
     }
 
-    const padding = graphData ? '12 12 0 12' : '12 12 12 12';
+    const padding = graphData ? '12 0 0 0' : undefined; // undefined so it will fallback to default card prop padding
 
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
-      <Card style={{ flexDirection: 'row', flexWrap: 'wrap' }} size="half" margin="5 0 5 0" padding={padding} onPress={onCardPress}>
-        <View style={{ flexDirection: "row"}}>
+      <Card size="half" padding={padding} onPress={onCardPress}>
+        <View style={{ flexDirection: "row", marginHorizontal: 12}}>
           <View>
             <CelText weight='300' type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
@@ -82,14 +82,11 @@ class CoinCard extends Component {
           </View>
         </View>
         {graphData ?
-          <View style={{ alignItems: "center" }}>
-            <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
-              rate={coinPriceChange}
-              height={heightPercentageToDP("10%")}
-              width={widthPercentageToDP("41%")}
-              style={{borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden'}}
-            />
-          </View>
+          <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
+            rate={coinPriceChange}
+            height={heightPercentageToDP("10%")}
+            style={{borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden'}}
+          />
           : null}
       </Card>
     )

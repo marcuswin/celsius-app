@@ -40,7 +40,7 @@ class Appearance extends Component {
 
         <View style={style.container}>
 
-          <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY}>COLOR THEME</Separator>
+          <Separator>COLOR THEME</Separator>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <CircleButton icon={theme === THEMES.LIGHT ? 'Close' : false} theme={theme} type="theme" style={[{ backgroundColor: '#fff' }, theme === THEMES.LIGHT ? {} : { borderColor: 'transparent' }]} onPress={() => { actions.setAppTheme(THEMES.LIGHT) }} />

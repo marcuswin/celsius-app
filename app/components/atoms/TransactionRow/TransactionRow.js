@@ -10,7 +10,6 @@ import CelText from '../CelText/CelText';
 import formatter from '../../../utils/formatter';
 import Separator from '../Separator/Separator';
 import transactionsUtil from "../../../utils/transactions-util";
-import STYLES from '../../../constants/STYLES';
 
 class TransactionRow extends Component {
 
@@ -69,7 +68,7 @@ class TransactionRow extends Component {
           </View>
 
         </TouchableOpacity>
-        {count - 1 !== index && <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />}
+        {count - 1 !== index && <Separator/>}
       </View>
     );
   }

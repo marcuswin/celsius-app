@@ -35,7 +35,7 @@ class ContactList extends Component {
 
   renderSeparator = () => (
     <View style={{marginTop: 25}}>
-      <Separator size={2} opacity={0.07} />
+      <Separator size={2} />
     </View>
   );
 

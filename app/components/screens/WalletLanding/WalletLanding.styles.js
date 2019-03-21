@@ -1,4 +1,4 @@
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle, widthPercentageToDP } from '../../../utils/styles-util';
 
 
 const base = {
@@ -11,10 +11,10 @@ const base = {
     borderWidth: 1,
     borderStyle: 'dashed',
     borderRadius: 10,
-    width: '46%',
-    height: '18%',
+    width: widthPercentageToDP("50%") - 28, // same width as Card.styles.js style half
+    minHeight: 130,
     borderColor: 'gray',
-    marginTop: 5,
+    marginVertical: 8,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -24,9 +24,9 @@ const base = {
     borderStyle: 'dashed',
     borderRadius: 10,
     width: '100%',
-    height: '10%',
+    height: 80,
     borderColor: 'gray',
-    marginTop: 5,
+    marginVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'

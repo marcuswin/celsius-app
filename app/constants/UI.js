@@ -86,6 +86,11 @@ const HIGHLIGHTED_COUNTRIES = [
   'United States'
 ]
 
+const WALLET_LANDING_VIEW_TYPES = {
+  GRID: 'GRID',
+  LIST: 'LIST'
+}
+
 const FAB_TYPE = ['main', 'support', 'hide'];
 
 export default {
@@ -102,7 +107,7 @@ export default {
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
   GRAPHS,
-  FAB_TYPE
+  FAB_TYPE,
 }
 
 export {
@@ -119,5 +124,6 @@ export {
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
   GRAPHS,
-  FAB_TYPE
+  FAB_TYPE,
+  WALLET_LANDING_VIEW_TYPES
 }

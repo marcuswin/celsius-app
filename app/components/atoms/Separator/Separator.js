@@ -27,7 +27,7 @@ class Separator extends Component {
     allCaps: true,
     dashed: false,
     color: '',
-    opacity: 1,
+    opacity: 0.08,
     margin: '0 0 0 0'
   }
 

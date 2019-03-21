@@ -3,16 +3,9 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        flexDirection: "row",
-    },
-    balance: {
-        flex: 1,
-
-    },
-    interest: {
-        flex: 1,
-        marginLeft: 10
-    },
+      flexDirection: "row",
+      justifyContent: 'space-between'
+    }
 }
 
 const themed = {

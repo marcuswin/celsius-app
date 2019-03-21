@@ -32,7 +32,7 @@ class WalletDetailsCard extends PureComponent {
     return (
       <Card padding='12 12 12 12'>
         <View style={walletDetailsCardStyle.container}>
-          <TouchableOpacity style={walletDetailsCardStyle.balance} onPress={this.navigateToBalanceHistory}>
+          <TouchableOpacity onPress={this.navigateToBalanceHistory}>
             <CelText weight='300' type="H6">Total Wallet balance</CelText>
             <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -41,9 +41,9 @@ class WalletDetailsCard extends PureComponent {
             </View>
           </TouchableOpacity>
 
-          <Separator vertical opacity={0.07}/>
+          <Separator vertical/>
 
-          <TouchableOpacity style={walletDetailsCardStyle.interest} onPress={this.navigateToWalletInterest}>
+          <TouchableOpacity onPress={this.navigateToWalletInterest}>
             <CelText weight='300' type="H6">Total Interest earned</CelText>
             <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
             <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
