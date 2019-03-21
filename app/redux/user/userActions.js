@@ -75,10 +75,9 @@ export function getUserPersonalInfoSuccess(personalInfo) {
  */
 function updateProfilePicture(image) {
   return async dispatch => {
-    dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
     try {
+      dispatch(startApiCall(API.UPLOAD_PLOFILE_IMAGE));
       const res = await usersService.setProfileImage(image);
-
       dispatch(updateProfilePictureSuccess(res.data.img_url));
     } catch (err) {
       dispatch(showMessage('error', err.msg));

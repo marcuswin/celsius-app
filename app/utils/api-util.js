@@ -33,14 +33,13 @@ function initInterceptors () {
       const newRequest = { ...req }
 
       if (
-        req.url.includes('profile/profile_picture') ||
+        (req.url.includes('profile/profile_picture') && !req.data.profile_picture_url) ||
         req.url.includes('user/profile/documents')
       ) {
         newRequest.headers = {
           ...newRequest.headers,
           'Content-Type': 'multipart/form-data'
         }
-        // console.log('re', req)
       }
       // set x-www-form-urlencoded -> https://github.com/axios/axios#using-applicationx-www-form-urlencoded-format
       else if (req.method === 'post' && !req.url.includes('branch.io')) {
