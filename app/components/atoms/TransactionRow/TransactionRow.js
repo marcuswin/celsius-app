@@ -15,7 +15,9 @@ class TransactionRow extends Component {
 
   static propTypes = {
     transaction: PropTypes.instanceOf(Object).isRequired,
-    onPress: PropTypes.func.isRequired
+    onPress: PropTypes.func.isRequired,
+    count: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired
   };
   static defaultProps = {
   }
@@ -33,7 +35,7 @@ class TransactionRow extends Component {
   }
 
   render() {
-    const { transaction, onPress } = this.props;
+    const { transaction, onPress, count, index } = this.props;
     if (!transaction) return null;
 
     const { color, iconName, statusText } = transactionsUtil.getTransactionsProps(transaction);
@@ -48,25 +50,25 @@ class TransactionRow extends Component {
             </View>
             <View style={style.amounts}>
               <View>
-                <CelText bold type='H3'>{formatter.usd(transaction.amount_usd)}</CelText>
+                <CelText  weight="semi-bold" type='H3'>{formatter.usd(transaction.amount_usd)}</CelText>
               </View>
               <View>
-                <CelText type='H6'>{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+                <CelText type='H6' weight="light">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
               </View>
             </View>
           </View>
 
           <View style={style.rightSide}>
             <View style={style.statusText}>
-              <CelText bold type='H6' color={color}>{statusText}</CelText>
+              <CelText type='H6' weight="medium" color={color}>{statusText}</CelText>
             </View>
             <View>
-              <CelText type='H6'>{transaction.time}</CelText>
+              <CelText type='H6' weight="light">{transaction.time}</CelText>
             </View>
           </View>
 
         </TouchableOpacity>
-        <Separator />
+        {count - 1 !== index && <Separator/>}
       </View>
     );
   }

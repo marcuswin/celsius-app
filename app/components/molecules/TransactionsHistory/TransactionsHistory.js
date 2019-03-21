@@ -19,6 +19,7 @@ import LoadingState from "../../atoms/LoadingState/LoadingState";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
 import * as appActions from "../../../redux/actions";
 import transactionsUtil from "../../../utils/transactions-util";
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
@@ -37,7 +38,7 @@ class TransactionsHistory extends Component {
     hasFilter: PropTypes.bool,
   };
   static defaultProps = {
-    margin: '20 0 20 0',
+    margin: '20 0 0 0',
     filterOptions: [
       { label: 'Withdrawn', value: 'withdraw' },
       { label: 'Received', value: 'received' },
@@ -108,17 +109,18 @@ class TransactionsHistory extends Component {
       <View style={[style.container, margins]}>
         <View style={style.filterContainer}>
           <View>
-            <CelText bold type='H6'>Transaction history</CelText>
+            <CelText weight="medium" type='H6'>Transaction history</CelText>
           </View>
           { hasFilter && (
             <RNPickerSelect
+              placeholder={{ label: "Show only:", color:'rgba(0,0,0,0.5)' }}
               items={filterOptions}
               onValueChange={this.handleFilterChange}
               value={filter || null}
               style={{ height: 16, width: 16 }}
             >
               <View style={{ height: 16, width: 16 }}>
-                <Icon name="Filter" width="16" height="16" />
+                <Icon name="Filter" width="16" height="16" fill={STYLES.COLORS.DARK_GRAY} />
               </View>
             </RNPickerSelect>
           )}
@@ -127,9 +129,11 @@ class TransactionsHistory extends Component {
         { content || (
           <FlatList
             data={transactionsDisplay}
-            renderItem={({ item }) =>
+            renderItem={({ item, index }) =>
               <TransactionRow
                 transaction={item}
+                index={index}
+                count={transactionsDisplay.length}
                 onPress={() => actions.navigateTo('TransactionDetails', { id: item.id })}
               />
             }

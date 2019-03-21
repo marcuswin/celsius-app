@@ -89,7 +89,7 @@ class WalletInterest extends Component {
 
             <CelButton
               basic
-              margin="15 0 15 0"
+              margin="0 0 15 0"
               onPress={this.navigateToAllTransactions}
             >
               See all
