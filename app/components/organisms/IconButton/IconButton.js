@@ -46,7 +46,7 @@ class IconButton extends Component {
     return (
       <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {!!icon && <Icon fill={STYLES.COLORS.DARK_GRAY} name={icon} width="25" />}
+          {!!icon && <Icon fill={STYLES.COLORS.DARK_GRAY6} name={icon} width="25" />}
           <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }}>{children}</CelText>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -57,7 +57,7 @@ class IconButton extends Component {
               ) : right}
             </View>
           )}
-          {!hideIconRight && <Icon name='IconChevronRight' width='10' fill={STYLES.COLORS.GRAY} />}
+          {!hideIconRight && <Icon name='IconChevronRight' height='12' width='7.7' fill={STYLES.COLORS.MEDIUM_GRAY3} />}
         </View>
       </TouchableOpacity>
     );
