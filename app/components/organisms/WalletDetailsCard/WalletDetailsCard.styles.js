@@ -4,7 +4,6 @@ import { getThemedStyle } from '../../../utils/styles-util';
 const base = {
     container: {
         flexDirection: "row",
-        justifyContent: "space-around"
     },
     balance: {
         flex: 1,

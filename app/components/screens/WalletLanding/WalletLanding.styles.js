@@ -11,17 +11,13 @@ const base = {
         borderWidth: 1,
         borderStyle: 'dashed',
         borderRadius: 10,
-        width: '50%',
+        width: '46%',
         height: '18%',
         borderColor: 'gray',
-        marginTop: 5
- 
-    },
-    coinsTextGrid: {
-        marginTop: '35%',
+        marginTop: 5,
         alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
+
     },
 
     addMoreCoinsList: {
@@ -32,7 +28,10 @@ const base = {
         height: '10%',
         borderColor: 'gray',
         marginTop: 5,
- 
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+
     },
     coinsTextList: {
         marginTop: '15%',

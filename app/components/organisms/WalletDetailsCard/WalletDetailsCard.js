@@ -9,6 +9,7 @@ import Separator from '../../atoms/Separator/Separator';
 import WalletDetailsCardStyle from "./WalletDetailsCard.styles";
 import formatter from '../../../utils/formatter';
 import STYLES from '../../../constants/STYLES';
+import Icon from '../../atoms/Icon/Icon'
 
 class WalletDetailsCard extends PureComponent {
 
@@ -24,21 +25,27 @@ class WalletDetailsCard extends PureComponent {
   render() {
     const { walletSummary } = this.props;
     const walletDetailsCardStyle = WalletDetailsCardStyle();
+    const dailyDiff = walletSummary.daily_diff
+    const textColor = dailyDiff < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
+    const arrowType = dailyDiff < 0 ? "DownArrow" : "UpArrow"
 
     return (
-      <Card>
+      <Card padding='12 12 12 12'>
         <View style={walletDetailsCardStyle.container}>
           <TouchableOpacity style={walletDetailsCardStyle.balance} onPress={this.navigateToBalanceHistory}>
-            <CelText weight='300' type="H6" color="rgba(61,72,83,0.7)">Total Wallet balance</CelText>
-            <CelText weight='600' type="H3" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
-            { walletSummary.daily_diff && <CelText color={walletSummary.daily_diff < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN}>{walletSummary.daily_diff.toFixed(2)}%</CelText>}
+            <CelText weight='300' type="H6">Total Wallet balance</CelText>
+            <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+              <Icon name={arrowType} fill={textColor} height={6} width={6}/>
+              <CelText weight='500' color={textColor} margin='0 0 0 3'>{dailyDiff ? Math.abs(dailyDiff).toFixed(2) : 0} %</CelText>
+            </View>
           </TouchableOpacity>
 
-          <Separator vertical />
+          <Separator vertical opacity={0.07}/>
 
           <TouchableOpacity style={walletDetailsCardStyle.interest} onPress={this.navigateToWalletInterest}>
-            <CelText weight='300' type="H6" color="rgba(61,72,83,0.7)">Total Interest earned</CelText>
-            <CelText weight='600' type="H3" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
+            <CelText weight='300' type="H6">Total Interest earned</CelText>
+            <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
             <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
           </TouchableOpacity>
         </View>

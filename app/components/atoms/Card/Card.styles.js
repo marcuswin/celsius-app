@@ -1,4 +1,4 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES';
 
 import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 
@@ -8,10 +8,7 @@ const base = {
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2
+    ...STYLES.SHADOW_STYLES
   },
   full: {
     width: widthPercentageToDP("89.07%")

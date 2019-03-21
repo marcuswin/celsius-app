@@ -89,9 +89,9 @@ class CelHeading extends Component {
       "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":
 
-          <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }}>
+          <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{...STYLES.SHADOW_STYLES}}>
             <Image
-              style={style.profilePicutre}
+              style={style.profilePicture}
               source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
               resizeMethod="resize"
               resizeMode="cover"
@@ -134,7 +134,7 @@ class CelHeading extends Component {
           </Fragment>
 
           :
-          <CelText style={style.headerTitle} align="center" type="H3">{title || ""}</CelText>
+          <CelText style={style.headerTitle} align="center" weight='medium' type="H3">{title || ""}</CelText>
         }
       </View>
     );

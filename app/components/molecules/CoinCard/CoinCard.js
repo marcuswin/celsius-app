@@ -21,37 +21,35 @@ class CoinCard extends Component {
     graphData: PropTypes.instanceOf(Object)
   };
 
-  coinCardEmpty = (coin, currencyRates) => {
-    const marketValue = currencyRates.market_quotes_usd.price
-    const text = `1 ${coin.short} = ${formatter.crypto(marketValue, "", { precision: 5 })}`
-
-    return (
-      <Fragment>
-        <CelText style={{ lineHeight: 23 }} type="H5">{text}</CelText>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
-          <CelText weight='400' style={{ lineHeight: 23, marginLeft: 5 }} type="H5" color={STYLES.COLORS.CELSIUS_BLUE}>
-            Deposit
-        </CelText>
-        </View>
-      </Fragment>
-    )
-  }
+  coinCardEmpty = () => (
+    <View>
+      <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(0)}</CelText>
+      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+        <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
+        <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
+          Deposit
+      </CelText>
+      </View>
+    </View>
+  )
 
   coinCardFull = (coin) => (
     <Fragment>
-      <CelText weight='600' type="H3" bold>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText weight='300' style={{ lineHeight: 23 }} type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
 
   renderPriceChange = (currencyRates) => {
     const coinPriceChange = currencyRates.price_change_usd['1d']
     const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
-    const diff = coinPriceChange < 0 ? "" : "+"
+    const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
 
     return (
-      <CelText weight='500' type="H7" color={textColor} >{diff} {coinPriceChange} %</CelText>
+      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <Icon name={arrowType} fill={textColor} height={6} width={6}/>
+        <CelText weight='500' type="H7" color={textColor} margin='0 0 0 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
+      </View>
     )
   }
 
@@ -68,20 +66,18 @@ class CoinCard extends Component {
 
     }
 
-    //  if (currencyGraphs[coin.short]["1y"].length > 20) .filter((e, z) => z % 8 === 0)
-
-    const padding = graphData ? '20 0 0 0' : '20 0 20 0';
+    const padding = graphData ? '12 12 0 12' : '12 12 12 12';
 
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
       <Card style={{ flexDirection: 'row', flexWrap: 'wrap' }} size="half" margin="5 0 5 0" padding={padding} onPress={onCardPress}>
-        <View style={{ flexDirection: "row", paddingHorizontal: 12 }}>
+        <View style={{ flexDirection: "row"}}>
           <View>
-            <CelText style={{ lineHeight: 23 }} type="H6">{displayName}</CelText>
+            <CelText weight='300' type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
-          <View style={{ position: 'absolute', right: 12 }} >
+          <View style={{ position: 'absolute', right: 0 }} >
             {this.renderPriceChange(currencyRates)}
           </View>
         </View>

@@ -36,6 +36,13 @@ const imageSizes = {
   }
 }
 
+const SHADOW_STYLES = {
+  shadowOffset: { width: 0, height: 3 },
+  shadowOpacity: 0.03,
+  shadowRadius: 3,
+  elevation: 3
+}
+
 const FONTSIZE = {
   'H1': 40,
   'H2': 26,
@@ -49,7 +56,8 @@ const FONTSIZE = {
 export default {
   COLORS,
   FONTSIZE,
-  imageSizes
+  imageSizes,
+  SHADOW_STYLES
 }
 
 // export {

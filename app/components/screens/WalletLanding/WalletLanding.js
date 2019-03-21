@@ -199,24 +199,20 @@ class WalletLanding extends Component {
     if (activeView === "Grid") {
       return (
         <TouchableOpacity style={[style.addMoreCoinsGrid]} onPress={() => actions.navigateTo('Deposit')}>
-          <View style={[style.coinsTextGrid]}>
-            <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
-            <CelText type="H5">  Add more coins </CelText>
-          </View>
+          <Icon fill={'gray'} width="17" height="17" name="CirclePlus"/>
+          <CelText type="H5" margin='5 0 0 0'>Deposit coins</CelText>
         </TouchableOpacity>
       )
-    } 
+    }
 
     if (activeView === "List") {
       return (
         <TouchableOpacity style={[style.addMoreCoinsList]} onPress={() => actions.navigateTo('Deposit')}>
-          <View style={[style.coinsTextList]}>
-            <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
-            <CelText type="H5">  Add more coins </CelText>
-          </View>
+          <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
+          <CelText type="H5" margin='0 0 0 5'>Deposit coins</CelText>
         </TouchableOpacity>
       )
-    } 
+    }
   }
 
 
