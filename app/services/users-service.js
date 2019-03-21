@@ -307,18 +307,19 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
  * @return {Promise}
  */
 function setProfileImage(image) {
-  let formData
-  if (image.includes('https')) {
-    formData = { url: image };
+  const formData = new FormData()
+  let pictureUrl
+  if (typeof image === 'string' && image.includes('https')) {
+    pictureUrl = { profile_picture_url: image }
   } else {
-    formData = new FormData();
     formData.append("profile_picture", {
       name: 'picture.jpg',
       type: "image/jpg",
       uri: image.uri,
     })
   }
-  return axios.post(`${apiUrl}/user/profile/profile_picture`, formData);
+
+  return axios.post(`${apiUrl}/user/profile/profile_picture`, pictureUrl || formData);
 }
 
 

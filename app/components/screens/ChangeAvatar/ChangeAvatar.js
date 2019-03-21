@@ -12,6 +12,7 @@ import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
 import Separator from '../../atoms/Separator/Separator';
+import Spinner from '../../atoms/Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
@@ -35,7 +36,7 @@ const images = [
 @connect(
   state => ({
     profilePicture: state.user.profile.profile_picture,
-
+    callsInProgress: state.api.callsInProgress,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -61,7 +62,6 @@ class ChangeAvatar extends Component {
 
     this.state = {
       activeImage: props.profilePicture,
-
     }
 
   }
@@ -81,14 +81,18 @@ class ChangeAvatar extends Component {
   }
 
   // event hanlders
-  setActiveImage = (imgSrc) => {
+  // setActiveImage = (imgSrc) => {
+  //   this.setState({ activeImage: imgSrc.url });
+  // }
+  
+  updateProfilePicture = (imgSrc) => {
+    const { actions, callsInProgress } = this.props;
+    
+    const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
+    if (isLoading) return
+    
+    actions.updateProfilePicture(imgSrc.url);
     this.setState({ activeImage: imgSrc.url });
-  }
-
-  updateProfilePicture = () => {
-    const { activeImage } = this.state;
-    const { actions } = this.props;
-    actions.updateProfilePicture(activeImage);
   }
 
   goToCamera = () => {
@@ -101,12 +105,12 @@ class ChangeAvatar extends Component {
       cameraType: 'front',
       mask: 'circle'
     })
-    actions.navigateTo("CameraScreen", { onSave: this.saveProfileImage, });
+    actions.navigateTo("CameraScreen", { onSave: this.saveCameraPhoto });
   }
 
-  saveProfileImage = (photo) => {
+  saveCameraPhoto = (photo) => {
     const { actions } = this.props;
-
+    
     actions.updateProfilePicture(photo);
     actions.updateFormField('profileImage', photo);
     actions.navigateTo('Profile');
@@ -119,7 +123,7 @@ class ChangeAvatar extends Component {
     if (imgSrc.url === activeImage) imageStyle.push(style.activeImage);
 
     return (
-      <TouchableOpacity key={images.indexOf(imgSrc)} style={style.avatar} onPress={() => this.setActiveImage(imgSrc)}>
+      <TouchableOpacity key={images.indexOf(imgSrc)} style={style.avatar} onPress={() => this.updateProfilePicture(imgSrc)}>
         <View>
           <Image style={imageStyle} source={{uri: imgSrc.url}} />
         </View>
@@ -132,25 +136,26 @@ class ChangeAvatar extends Component {
     const { callsInProgress } = this.state;
 
     const style = ChangeAvatarStyle()
-
     const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
+
     return (
       <RegularLayout>
         <View style={{ alignItems: 'center', marginBottom: 10 }}>
-          <Image
-            style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}
-            source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
-            resizeMethod="resize"
-          />
+          { isLoading ? (
+            <Spinner />
+          ) : (
+            <Image
+              style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}
+              source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+              resizeMethod="resize"
+            />
+          ) }
           <CelButton onPress={this.goToCamera} basic>Take a picture</CelButton>
         </View>
         <Separator text="OR CHOOSE ONE BELOW" />
         <ScrollView>
           <View style={style.wrapper}>
             {images.map(this.renderImage)}
-          </View>
-          <View style={style.button}>
-            <CelButton onPress={this.updateProfilePicture()} isLoading={isLoading}> Change avatar </CelButton>
           </View>
         </ScrollView>
       </RegularLayout>
