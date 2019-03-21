@@ -17,6 +17,7 @@ const {
   GOOGLE_WEB_CLIENT_ID,
   GOOGLE_ANDROID_CLIENT_ID,
   GOOGLE_IOS_CLIENT_ID,
+  GOOGLE_CLIENT_ID,
 } = Constants.manifest.extra;
 
 export {
@@ -307,27 +308,26 @@ function authGoogle(authReason) {
       } else {
         // for standalone apps
         await GoogleSignIn.initAsync({
-          clientId: GOOGLE_WEB_CLIENT_ID
+          clientId: GOOGLE_CLIENT_ID
         });
         await GoogleSignIn.askForPlayServicesAsync();
         result = await GoogleSignIn.signInAsync();
       };
 
       if (result.type === "success") {
+        // NOTE: different response for Expo and for standalone app
         const user = result.user;
-        user.access_token = result.accessToken
+        user.email = user.email;
+        user.firstName = user.givenName || user.firstName;
+        user.lastName = user.familyName || user.lastName;
+        user.googleId = user.id || user.uid;
+        user.profilePicture = user.photoURL;
+        user.accessToken = result.access_token || user.auth.accessToken;
 
         if (authReason === "login") {
           dispatch(loginGoogle(user));
         } else {
-          dispatch(updateFormFields({
-            email: user.email,
-            firstName: user.givenName,
-            lastName: user.familyName,
-            googleId: user.id,
-            profilePicture: user.photoURL,
-            accessToken: user.access_token,
-          }))
+          dispatch(updateFormFields(user))
         }
       } else {
         return { cancelled: true };
@@ -388,12 +388,13 @@ function loginGoogle(googleUser) {
     try {
       const user = {
         email: googleUser.email,
-        first_name: googleUser.givenName,
-        last_name: googleUser.familyName,
-        google_id: googleUser.id,
-        profile_picture: googleUser.photoURL,
-        access_token: googleUser.access_token,
+        first_name: googleUser.firstName,
+        last_name: googleUser.lastName,
+        google_id: googleUser.googleId,
+        profile_picture: googleUser.profilePicture,
+        access_token: googleUser.accessToken,
       }
+
       const res = await usersService.googleLogin(user);
 
       await dispatch(loginSocialSuccess('google', res.data.id_token));
