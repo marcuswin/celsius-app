@@ -11,6 +11,7 @@ const base = {
     marginTop: heightPercentageToDP("2.02%")
   },
   active: {
+    marginTop: 5,
     width: widthPercentageToDP("3.5%"),
     borderTopColor: "rgba(65,86,166,1)",
     borderTopWidth: 1

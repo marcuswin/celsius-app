@@ -13,6 +13,7 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -56,9 +57,9 @@ class BalanceHistory extends Component {
       <RegularLayout padding="20 0 20 0">
         <View>
           <View style={style.container}>
-            <Card padding="15 15 15 15" margin="15 20 15 20">
-              <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
-              <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            <Card styles={{ alignSelf: 'center' }} margin="0 0 0 0">
+              <CelText type="H6" color={STYLES.COLORS.DARK_GRAY7}>Total wallet balance</CelText>
+              <CelText type="H2" weight="semi-bold">{formatter.usd(walletSummary.total_amount_usd)}</CelText>
             </Card>
 
             <View style={{ alignItems: "center" }}>
@@ -76,7 +77,6 @@ class BalanceHistory extends Component {
 
               <CelButton
                 basic
-                margin="15 0 15 0"
                 onPress={() => actions.navigateTo("AllTransactions")}
               >
                 See all
