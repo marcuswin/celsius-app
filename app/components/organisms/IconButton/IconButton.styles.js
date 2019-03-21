@@ -11,10 +11,7 @@ const base = {
     borderRadius: 8,
     marginVertical: 20,
     height: 50,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 0.5
+    ...STYLES.SHADOW_STYLES
   }
 }
 
