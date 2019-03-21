@@ -45,15 +45,13 @@ class TransactionRow extends Component {
       <View>
         <TouchableOpacity style={style.container} onPress={onPress}>
           <View style={style.leftSide}>
-            <View style={style.iconStyle}>
-              <Icon name={iconName} height='18' width='15' fill={color} />
-            </View>
+            <Icon name={iconName} height='16' width='16' fill={color} />
             <View style={style.amounts}>
               <View>
-                <CelText  weight="semi-bold" type='H3'>{formatter.usd(transaction.amount_usd)}</CelText>
+                <CelText  weight="600" type='H3'>{formatter.usd(transaction.amount_usd)}</CelText>
               </View>
               <View>
-                <CelText type='H6' weight="light">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+                <CelText type='H6' weight='200'>{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
               </View>
             </View>
           </View>
@@ -63,7 +61,7 @@ class TransactionRow extends Component {
               <CelText type='H6' weight="medium" color={color}>{statusText}</CelText>
             </View>
             <View>
-              <CelText type='H6' weight="light">{transaction.time}</CelText>
+              <CelText type='H6' weight='200'>{transaction.time}</CelText>
             </View>
           </View>
 

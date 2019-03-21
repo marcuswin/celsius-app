@@ -13,7 +13,6 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
-import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -54,34 +53,33 @@ class BalanceHistory extends Component {
     const style = BalanceHistoryStyle();
 
     return (
-      <RegularLayout padding="20 0 20 0">
+      <RegularLayout padding="20 0 100 0">
         <View>
           <View style={style.container}>
-            <Card styles={{ alignSelf: 'center' }} margin="0 0 0 0">
-              <CelText type="H6" color={STYLES.COLORS.DARK_GRAY7}>Total wallet balance</CelText>
-              <CelText type="H2" weight="semi-bold">{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+            <Card styles={{ alignSelf: 'center' }}>
+              <CelText weight='300' type="H6">Total wallet balance</CelText>
+              <CelText weight='600' type="H3">{formatter.usd(walletSummary.total_amount_usd)}</CelText>
             </Card>
+          </View>
 
-            <View style={{ alignItems: "center" }}>
-              <GraphContainer
-                showCursor
-                showPeriods
-                type={"total-balance"}
-              />
-            </View>
+          <GraphContainer
+            showCursor
+            showPeriods
+            type={"total-balance"}
+          />
 
-            <View style={[{ width: "100%", paddingHorizontal: 20 }]}>
-              <TransactionsHistory
-                additionalFilter={{ limit: 5 }}
-              />
+          <View style={style.container}>
+            <TransactionsHistory
+              hasFilter={false}
+              additionalFilter={{ limit: 5 }}
+            />
 
-              <CelButton
-                basic
-                onPress={() => actions.navigateTo("AllTransactions")}
-              >
-                See all
-              </CelButton>
-            </View>
+            <CelButton
+              basic
+              onPress={() => actions.navigateTo("AllTransactions")}
+            >
+              See all
+            </CelButton>
           </View>
         </View>
       </RegularLayout>

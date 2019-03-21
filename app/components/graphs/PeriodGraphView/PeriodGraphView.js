@@ -17,7 +17,7 @@ class PeriodGraphView extends Component {
     periods: ["DAY", "WEEK", "MONTH", "YEAR"],
     showPeriods: false,
   }
-  
+
   constructor(props) {
     super(props);
 
@@ -70,7 +70,7 @@ class PeriodGraphView extends Component {
         {periods.map((period) => (
           <TouchableOpacity key={period} style={{ alignItems: "center" }}
           onPress={() => this.activatePeriod(period)}>
-            <CelText key={period} type={"H7"}
+            <CelText key={period} type='H6' weight='500'
                      style={{ color: activePeriod === period ? "rgba(65,86,166,1)" : "rgba(59,71,85,0.5)" }}>
               {period}
             </CelText>

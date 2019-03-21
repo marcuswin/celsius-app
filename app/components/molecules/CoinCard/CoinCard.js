@@ -23,7 +23,7 @@ class CoinCard extends Component {
 
   coinCardEmpty = () => (
     <View>
-      <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(0)}</CelText>
+      <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(0)}</CelText>
       <View style={{ flexDirection: 'row', alignItems: 'center'}}>
         <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
         <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
@@ -35,7 +35,7 @@ class CoinCard extends Component {
 
   coinCardFull = (coin) => (
     <Fragment>
-      <CelText weight='600' type="H3" bold margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
       <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )

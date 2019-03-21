@@ -99,11 +99,10 @@ class TransactionsHistory extends Component {
     const style = TransactionsHistoryStyle()
     const margins = getMargins(margin)
 
-    let content;
-    if (apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress)) content = <LoadingState />
+    if (apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress)) return <LoadingState />
 
     const transactionsDisplay = this.prepTransactions()
-    if (!transactionsDisplay || !transactionsDisplay.length) content = <EmptyState heading="Sorry" paragraphs={['No transactions in your wallet']} />
+    if (!transactionsDisplay || !transactionsDisplay.length) return <EmptyState heading="Sorry" paragraphs={['No transactions in your wallet']} />
 
     return (
       <View style={[style.container, margins]}>
@@ -126,20 +125,18 @@ class TransactionsHistory extends Component {
           )}
         </View>
 
-        { content || (
-          <FlatList
-            data={transactionsDisplay}
-            renderItem={({ item, index }) =>
-              <TransactionRow
-                transaction={item}
-                index={index}
-                count={transactionsDisplay.length}
-                onPress={() => actions.navigateTo('TransactionDetails', { id: item.id })}
-              />
-            }
-            keyExtractor={(item) => item.id}
-          />
-        )}
+        <FlatList
+          data={transactionsDisplay}
+          renderItem={({ item, index }) =>
+            <TransactionRow
+              transaction={item}
+              index={index}
+              count={transactionsDisplay.length}
+              onPress={() => actions.navigateTo('TransactionDetails', { id: item.id })}
+            />
+          }
+          keyExtractor={(item) => item.id}
+        />
 
       </View>
     );

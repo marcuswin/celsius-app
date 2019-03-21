@@ -62,41 +62,38 @@ class WalletInterest extends Component {
     const style = WalletInterestStyle();
 
     return (
-      <RegularLayout>
-        <View>
-          <View style={style.container}>
-            <Card padding="15 15 15 15" onPress={this.openInterestModal}>
-              <CelText type="H6" color="rgba(61,72,83,0.7)">Total interest earned</CelText>
-              <View style={style.amountWrapper}>
-                <CelText type="H2" bold>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
-                <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
-              </View>
-            </Card>
-          </View>
-
-          <GraphContainer
-            showCursor
-            showPeriods
-            interest
-            type={"total-interest"}
-          />
-
-          <View style={style.container}>
-            <TransactionsHistory
-              hasFilter={false}
-              additionalFilter={{ type: 'interest', limit: 5 }}
-            />
-
-            <CelButton
-              basic
-              margin="0 0 15 0"
-              onPress={this.navigateToAllTransactions}
-            >
-              See all
-            </CelButton>
-          </View>
+      <RegularLayout padding='20 0 100 0'>
+        <View style={style.container}>
+          <Card onPress={this.openInterestModal}>
+            <CelText type="H6" weight='300'>Total interest earned</CelText>
+            <View style={style.amountWrapper}>
+              <CelText weight='600' type="H3">{formatter.usd(walletSummary.total_interest_earned)}</CelText>
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
+            </View>
+          </Card>
         </View>
 
+        <GraphContainer
+          showCursor
+          showPeriods
+          interest
+          type={"total-interest"}
+        />
+
+        <View style={style.container}>
+          <TransactionsHistory
+            hasFilter={false}
+            additionalFilter={{ type: 'interest', limit: 5 }}
+          />
+
+          <CelButton
+            basic
+            margin="0 0 15 0"
+            onPress={this.navigateToAllTransactions}
+          >
+            See all
+          </CelButton>
+        </View>
         <TodayInterestRatesModal />
       </RegularLayout>
     );

@@ -20,7 +20,7 @@ const base = {
   },
   inputIOS: {
     fontSize: 26,
-    fontFamily: 'barlow-regular'
+    fontFamily: 'barlow-regular',
   },
   iconContainer: {
     position: 'relative',
