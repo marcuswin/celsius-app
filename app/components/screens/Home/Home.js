@@ -26,7 +26,8 @@ class Home extends Component {
 
     if (callsInProgress[0] && apiCalls.indexOf(callsInProgress[0]) === -1) {
       apiCalls.push(callsInProgress[0]);
-      return { progress: prevState.progress + (10 / 6) / 10 };
+      return { progress: prevState.progress + (1 / 6) };
+      // six is current number of calls being called while loading app
     }
     return null;
   }
