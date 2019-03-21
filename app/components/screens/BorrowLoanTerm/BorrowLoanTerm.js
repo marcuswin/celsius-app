@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { View } from 'react-native'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -53,9 +54,10 @@ class BorrowLoanTerm extends Component {
 
     return (
       <RegularLayout>
-        <ProgressBar steps={6} currentStep={4} />
-        <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
-
+        <View style={{alignItems: 'center'}}>
+          <ProgressBar steps={6} currentStep={4} />
+          <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
+        </View>
         <VerticalSlider
           items={sliderItems}
           field="termOfLoan"

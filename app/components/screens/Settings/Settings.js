@@ -39,7 +39,7 @@ class Settings extends Component {
         <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton>
         {/* <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton> */}
         <CelButton basic onPress={() => { }} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
-        <CelText>App Version - 3.0</CelText>
+        <CelText align='center'>App Version - 3.0</CelText>
       </RegularLayout>
     );
   }

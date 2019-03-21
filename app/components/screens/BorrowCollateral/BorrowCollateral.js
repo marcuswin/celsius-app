@@ -65,10 +65,10 @@ class BorrowCollateral extends Component {
 
     return (
       <RegularLayout>
-
-        <ProgressBar steps={6} currentStep={2}/>
-
-        <CelText margin={"30 0 30 0"} weight={"300"}>Choose a coin to use as a collateral:</CelText>
+        <View style={{alignItems: 'center'}}>
+          <ProgressBar steps={6} currentStep={2}/>
+          <CelText margin={"30 0 30 0"} weight={"300"}>Choose a coin to use as a collateral:</CelText>
+        </View>
 
         <View style={style.wrapper}>
           {availableCoins.map(coin => this.renderButton(coin))}

@@ -112,7 +112,9 @@ class BorrowBankAccount extends Component {
 
     return (
       <RegularLayout>
-        <ProgressBar steps={6} currentStep={5}/>
+        <View style={{alignItems: 'center'}}>
+          <ProgressBar steps={6} currentStep={5}/>
+        </View>
         <CelText weight='300' type='H4' margin={'30 0 30 0'} style={{alignSelf: 'flex-start'}}>Provide us with your bank account details:</CelText>
 
         <CelInput placeholder='Bank name' field={'bankName'} value={formData.bankName} error={formErrors.bankName}/>

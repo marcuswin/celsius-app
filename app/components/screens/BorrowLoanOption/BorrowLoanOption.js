@@ -85,7 +85,9 @@ class BorrowLoanOption extends Component {
 
     return (
       <RegularLayout>
-        <ProgressBar steps={6} currentStep={3}/>
+        <View style={{alignItems: 'center'}}>
+          <ProgressBar steps={6} currentStep={3}/>
+        </View>
         <CelText weight={"300"} margin={"20 0 20 0"}>Choose your loan option:</CelText>
         {ltv.map(this.renderInterestCard)}
       </RegularLayout>
