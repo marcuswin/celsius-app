@@ -14,6 +14,7 @@ import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
 import Separator from "../../atoms/Separator/Separator";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
+import { KEYBOARD_TYPE } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -30,17 +31,6 @@ class Register extends Component {
       customCenterComponent: <ProgressBar steps={3} currentStep={1}/>
     }
   )
-
-  constructor(props) {
-    super(props)
-
-    props.actions.initForm({
-      firstName: 'Lemi',
-      lastName: 'Ticki',
-      email: `lemi+${ new Date().getTime() }@mvpworkshop.co`,
-      password: 'Filip123',
-    })
-  }
 
   isFormValid = () => {
     const { actions, formData } = this.props;
@@ -92,6 +82,7 @@ class Register extends Component {
 
         <CelInput
           disabled={registerLoading}
+          autoCapitalize="words"
           type="text"
           field="firstName"
           value={formData.firstName}
@@ -100,6 +91,7 @@ class Register extends Component {
         />
         <CelInput
           disabled={registerLoading}
+          autoCapitalize="words"
           type="text"
           field="lastName"
           value={formData.lastName}
@@ -114,6 +106,7 @@ class Register extends Component {
           error={formErrors.email}
           field="email"
           placeholder="E-mail"
+          keyboardType={KEYBOARD_TYPE.EMAIL}
         />
 
         { !isUsingSocial && (

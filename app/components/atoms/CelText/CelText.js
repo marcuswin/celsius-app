@@ -27,7 +27,6 @@ class CelText extends Component {
   };
   static defaultProps = {
     font: 'barlow',
-    weight: '400',
     type: 'H5',
     margin: "0 0 0 0",
     style: {},
@@ -38,17 +37,24 @@ class CelText extends Component {
 
   getFontSize = (type) => getScaledFont(STYLES.FONTSIZE[type])
 
-  getFontFamily = () => {
-    const { font, weight, italic } = this.props
+  getFontWeightForType(type) {
+    if (type === 'H1') return 'bold'
 
-    let fontFamily = `${font}${ASSETS.WEIGHT[weight.toString()]}`;
+    return 'regular'
+  }
+
+  getFontFamily = () => {
+    const { font, weight, italic, type } = this.props
+
+    const fontWeight = weight || this.getFontWeightForType(type)
+    let fontFamily = `${font}${ASSETS.WEIGHT[fontWeight.toString()]}`;
     if (italic) fontFamily = `${fontFamily}-italic`
 
     return fontFamily;
   }
 
   getFontStyle = () => {
-    const { type, margin, color, align, weight } = this.props
+    const { type, margin, color, align } = this.props
     const cmpStyle = CelTextStyle();
     const fontSize = { fontSize: this.getFontSize(type) };
     const fontFamily = { fontFamily: this.getFontFamily() };
@@ -56,7 +62,7 @@ class CelText extends Component {
     const marginStyle = getMargins(margin);
     const alignStyle = { textAlign: align };
 
-    return [weight, cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
+    return [cmpStyle.text, fontSize, fontFamily, colorStyle, marginStyle, alignStyle];
   }
 
   render() {
