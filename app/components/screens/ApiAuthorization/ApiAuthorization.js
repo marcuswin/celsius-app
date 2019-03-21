@@ -52,7 +52,7 @@ class ApiAuthorization extends Component {
           Generate API key
         </CelButton>
 
-        <Separator margin={"30 0 10 0"} opacity={0.3}/>
+        {!!apiKeys && apiKeys.length > 0 && <Separator margin={"30 0 24 0"} opacity={0.3}/>}
 
         { !!apiKeys &&
           apiKeys.map(apiKey => (
