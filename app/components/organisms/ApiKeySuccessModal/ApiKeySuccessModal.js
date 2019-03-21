@@ -52,7 +52,7 @@ class ApiKeySuccessModal extends Component {
           <Separator margin={"20 0 0 0"} size={2} opacity={0.07}/>
           <View style={style.copyShareButtonsWrapper}>
             <CopyButton copyText={apiKey}/>
-            <Separator vertical size={2} opacity={0.07}/>
+            <Separator vertical size={2}/>
             <ShareButton shareText={apiKey}/>
           </View>
         </View>

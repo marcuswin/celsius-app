@@ -17,6 +17,7 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import Icon from '../../atoms/Icon/Icon';
 import STYLES from '../../../constants/STYLES';
 import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
+import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 
 @connect(
   state => {
@@ -71,7 +72,7 @@ class WalletLanding extends Component {
     this.state = {
       coinWithAmount,
       coinWithoutAmount,
-      activeView: 'Grid'
+      activeView: WALLET_LANDING_VIEW_TYPES.GRID
     };
   }
 
@@ -98,29 +99,24 @@ class WalletLanding extends Component {
     this.setState({ coinWithAmount, coinWithoutAmount });
   }
 
-  setGridView = () => {
-    const selectedView = 'Grid';
-    const { activeView } = this.state;
-    if (activeView !== selectedView) this.setState({ activeView: selectedView })
-  }
-
-  setListView = () => {
-    const selectedView = 'List';
-    const { activeView } = this.state;
-    if (activeView !== selectedView) this.setState({ activeView: selectedView })
-  }
-
   getIconFillColor = (cond) => cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY;
+
+  toggleView = (viewType) => {
+    this.setState({ activeView: viewType })
+  }
 
   renderCoinWithAmount = () => {
     const { currenciesRates, currenciesGraphs, actions } = this.props;
     const { coinWithAmount, activeView } = this.state;
 
-    if (activeView === 'Grid') {
-      return coinWithAmount.length ? coinWithAmount.map((coin) => {
-        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
+    return coinWithAmount.length ? coinWithAmount.map((coin) => {
+      const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
+      const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+
+      // Render grid item
+      if (isGrid) {
         return <CoinCard
           key={coin.short}
           coin={coin}
@@ -129,66 +125,53 @@ class WalletLanding extends Component {
           onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName })}
           graphData={graphData}
         />
-      }) : null;
-    }
+      }
 
-    if (activeView === 'List') {
-      return coinWithAmount.length ? coinWithAmount.map((coin) => {
-        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
+      // Render list item
+      return <CoinListCard
+        key={coin.short}
+        coin={coin}
+        displayName={currency.displayName}
+        currencyRates={currency}
+        onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName })}
+      />
+    })
 
-        return <CoinListCard
-          key={coin.short}
-          coin={coin}
-          displayName={currency.displayName}
-          currencyRates={currency}
-          onCardPress={() => actions.navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName })}
-          graphData={graphData}
-        />
-      }) : null;
-    }
-
-    return null;
+    : null;
   }
 
   renderCoinWithoutAmount = () => {
     const { currenciesRates, currenciesGraphs, actions } = this.props;
     const { coinWithoutAmount, activeView } = this.state;
 
-    if (activeView === 'Grid') {
-      return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
+    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
+
+    return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
         const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
         const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
 
-        return <CoinCard
-          key={coin.short}
-          coin={coin}
-          displayName={currency.displayName}
-          currencyRates={currency}
-          onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
-          graphData={graphData}
-        />
-      }) : null;
-    }
+        // Render grid item
+        if (isGrid) {
+          return <CoinCard
+            key={coin.short}
+            coin={coin}
+            displayName={currency.displayName}
+            currencyRates={currency}
+            onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
+            graphData={graphData}
+          />
+        }
 
-    if (activeView === 'List') {
-      return coinWithoutAmount.length ? coinWithoutAmount.map((coin) => {
-        const currency = currenciesRates.find(c => c.short === coin.short.toUpperCase())
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short]) ? currenciesGraphs[coin.short] : null;
-
+        // Render list item
         return <CoinListCard
           key={coin.short}
           coin={coin}
           displayName={currency.displayName}
           currencyRates={currency}
           onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
-          graphData={graphData}
         />
-      }) : null;
-    }
-
-    return null;
-
+      })
+      : null;
   }
 
   renderAddMoreCoins = () => {
@@ -196,23 +179,15 @@ class WalletLanding extends Component {
     const { activeView } = this.state
     const style = WalletLandingStyle();
 
-    if (activeView === "Grid") {
-      return (
-        <TouchableOpacity style={[style.addMoreCoinsGrid]} onPress={() => actions.navigateTo('Deposit')}>
-          <Icon fill={'gray'} width="17" height="17" name="CirclePlus"/>
-          <CelText type="H5" margin='5 0 0 0'>Deposit coins</CelText>
-        </TouchableOpacity>
-      )
-    }
+    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
+    const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList
 
-    if (activeView === "List") {
-      return (
-        <TouchableOpacity style={[style.addMoreCoinsList]} onPress={() => actions.navigateTo('Deposit')}>
-          <Icon fill={'gray'} width="17" height="17" name="CirclePlus" paddingTo='10' />
-          <CelText type="H5" margin='0 0 0 5'>Deposit coins</CelText>
-        </TouchableOpacity>
-      )
-    }
+    return (
+      <TouchableOpacity style={gridStyle} onPress={() => actions.navigateTo('Deposit')}>
+        <Icon fill={'gray'} width="17" height="17" name="CirclePlus"/>
+        <CelText type="H5" margin={isGrid ? '5 0 0 0' : '0 0 0 5'}>Deposit coins</CelText>
+      </TouchableOpacity>
+    )
   }
 
 
@@ -246,11 +221,11 @@ class WalletLanding extends Component {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <CelText style={{ alignSelf: 'center' }} weight='500'>Deposited coins</CelText>
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={this.setGridView} >
-                <Icon fill={this.getIconFillColor(activeView === "Grid")} name="GridView" width="18" />
+              <TouchableOpacity onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}>
+                <Icon fill={this.getIconFillColor(activeView === WALLET_LANDING_VIEW_TYPES.GRID)} name="GridView" width="18" />
               </TouchableOpacity>
-              <TouchableOpacity style={{ marginLeft: 16 }} onPress={this.setListView}>
-                <Icon fill={this.getIconFillColor(activeView === "List")} name="ListView" width="18" />
+              <TouchableOpacity style={{ marginLeft: 16 }} onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}>
+                <Icon fill={this.getIconFillColor(activeView === WALLET_LANDING_VIEW_TYPES.LIST)} name="ListView" width="18" />
               </TouchableOpacity>
             </View>
           </View>

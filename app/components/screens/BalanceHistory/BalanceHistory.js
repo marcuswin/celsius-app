@@ -56,7 +56,7 @@ class BalanceHistory extends Component {
       <RegularLayout padding="20 0 20 0">
         <View>
           <View style={style.container}>
-            <Card padding="15 15 15 15" margin="15 20 15 20">
+            <Card padding="0 0 0 0" margin="15 20 15 20">
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Total wallet balance</CelText>
               <CelText type="H2" bold>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
             </Card>

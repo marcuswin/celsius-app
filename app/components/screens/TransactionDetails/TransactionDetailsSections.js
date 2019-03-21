@@ -27,7 +27,7 @@ export const BasicSection = ({ label, value, noSeparator = false }) => (
       <CelText type="H6">{label}:</CelText>
       <CelText type="H6">{value}</CelText>
     </View>
-    {!noSeparator && <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />}
+    {!noSeparator && <Separator />}
   </View>
 )
 
@@ -49,7 +49,7 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
       <CelText>Status:</CelText>
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
-    {!noSeparator && <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />}
+    {!noSeparator && <Separator />}
   </View>
 )
 

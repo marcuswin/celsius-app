@@ -39,7 +39,7 @@ class RegularLayout extends Component {
     return (
       <React.Fragment>
         <ScrollView keyboardShouldPersistTaps='handled' keyboardDismissMode='on-drag' scrollEnabled={enableParentScroll} style={style.container} contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
-          <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
+          <SafeAreaView style={{ flex: 1 }}>
             {/* <KeyboardShift>
             <React.Fragment> */}
             {children}

@@ -52,12 +52,12 @@ class WithdrawConfirm extends Component {
               <CelText align="center" type="H1" bold>{formatter.usd(formData.amountUsd)}</CelText>
               <CelText align="center" color={STYLES.COLORS.DARK_GRAY_OPACITY} type="H2">{formatter.crypto(formData.amountCrypto, formData.coin)}</CelText>
             </View>
-            <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
+            <Separator />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">New wallet balance:</CelText>
               <CelText style={styles.lineHeight} type="H6" bold>{formatter.crypto(newBalanceCrypto, formData.coin)}   |   {formatter.usd(newBalanceUsd)}</CelText>
             </View>
-            <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY} />
+            <Separator />
             <View style={styles.address}>
               <CelText type="H6" color="color: rgba(61,72,83,0.7)">Withdrawal address:</CelText>
               <CelText style={styles.lineHeight} type="H6">{address}</CelText>

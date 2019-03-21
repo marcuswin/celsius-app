@@ -8,7 +8,6 @@ import * as appActions from "../../../redux/actions";
 // import WalletSettingsStyle from "./WalletSettings.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Separator from '../../atoms/Separator/Separator';
-import STYLES from '../../../constants/STYLES';
 import IconButton from '../../organisms/IconButton/IconButton';
 
 @connect(
@@ -33,7 +32,7 @@ class WalletSettings extends Component {
       <RegularLayout>
         <IconButton>Default currency</IconButton>
         <IconButton margin="0 0 20 0">Default view</IconButton>
-        <Separator color={STYLES.COLORS.DARK_GRAY_OPACITY}>INTEREST</Separator>
+        <Separator >INTEREST</Separator>
         <IconButton>Earn interest in</IconButton>
       </RegularLayout>
     );

@@ -77,22 +77,22 @@ class CoinDetails extends Component {
     const style = CoinDetailsStyle();
 
     return (
-      <RegularLayout>
+      <RegularLayout padding={'20 0 100 0'}>
         <View style={style.container}>
-          <Card padding="0 0 0 0">
+          <Card>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
                 <View style={style.imageWrapper}>
                   <Image source={{ uri: currency.image_url }} style={style.coinImage} />
                 </View>
-                <View>
+                <View style={{marginLeft: 5}}>
                   <CelText type="H6">{currency.displayName}</CelText>
                   <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
                   <CelText type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
 
-              <Separator vertical style={style.separator} />
+              <Separator vertical style={style.separator}/>
 
               <View style={style.buttons}>
                 <CelButton
@@ -144,7 +144,7 @@ class CoinDetails extends Component {
                   </View>
                 )}
               </View>
-              <Separator margin={"20 0 10 0"} opacity={0.3}/>
+              <Separator margin={"20 0 10 0"}/>
               <GraphContainer
                 periods={["MONTH", "YEAR"]}
                 showCursor
@@ -158,7 +158,7 @@ class CoinDetails extends Component {
             </View>
           </Card>
         </View>
-        <View style={{ width: '100%' }}>
+        <View style={style.container}>
           <TransactionsHistory
             additionalFilter={{ coin: coinDetails && coinDetails.short, limit: 5 }}
           />
