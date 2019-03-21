@@ -10,6 +10,7 @@ import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
+import { widthPercentageToDP } from '../../../utils/styles-util';
 
 function getMenuItems(menu) {
   return {
@@ -129,7 +130,7 @@ class FabMenu extends Component {
 
   renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} />;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={widthPercentageToDP("10%")} />;
   }
 
   renderFabMenu = () => {
