@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+// import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
+// import { BlurView, VibrancyView } from 'react-native-blur';
 import { BlurView } from 'expo';
-
-import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
+
+import { widthPercentageToDP } from '../../../utils/styles-util';
+import testUtil from "../../../utils/test-util";
 import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
-import { widthPercentageToDP } from '../../../utils/styles-util';
+
 
 function getMenuItems(menu) {
   return {
@@ -138,11 +141,23 @@ class FabMenu extends Component {
     const { menuItems } = this.state;
     const tintColor = this.getTintColor();
 
+    if (Platform.OS !== 'android') {
+      return (
+        <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]} >
+          <View>
+            {menuItems.map(this.renderMenuRow)}
+          </View>
+        </BlurView>
+      )
+    }
     return (
-      <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]}>
-        {menuItems.map(this.renderMenuRow)}
+      <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]} >
+        <View>
+          {menuItems.map(this.renderMenuRow)}
+        </View>
       </BlurView>
     )
+
   }
 
   renderFab = () => {
@@ -167,7 +182,7 @@ class FabMenu extends Component {
     return (
       <Fragment>
         {fabMenuOpen ? <FabMenuCmp /> : null}
-        <FabButton />
+        <FabButton backgroundColor='red' />
       </Fragment>
     )
   }

@@ -11,6 +11,10 @@ const base = {
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginBottom: 30
+    },
+    wrapper: {
+        paddingBottom: 1000,
+        backgroundColor: 'white'
     }
 }
 
