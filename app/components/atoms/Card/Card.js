@@ -21,7 +21,7 @@ class Card extends React.Component {
   }
   static defaultProps = {
     margin: '10 0 10 0',
-    padding: '20 20 20 20',
+    padding: '12 12 12 12',
     size: 'full',
     opacity: 1,
     styles: {},
