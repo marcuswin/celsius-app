@@ -6,20 +6,20 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
-import { getComplianceInfo } from "../user/userActions";
 import { initAppData } from "../app/appActions";
+import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from '../../services/users-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
-import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
+  createAccount,
   loginUser,
   registerUser,
   registerUserSuccess,
@@ -35,24 +35,32 @@ export {
 
 
 /**
- * Logs the user in
- * @param {Object} params
- * @param {string} params.email
- * @param {string} params.password
+ * Logs the user in with email and password
  */
-function loginUser({ email, password }) {
-  return async dispatch => {
-    dispatch(startApiCall(API.LOGIN_USER));
+function loginUser() {
+  return async (dispatch, getState) => {
 
     try {
-      const res = await usersService.login({ email, password });
+      const { formData } = getState().forms
+
+      dispatch(startApiCall(API.LOGIN_USER));
+      const res = await usersService.login({
+        email: formData.email,
+        password: formData.password,
+      });
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
-      await dispatch(await loginUserSuccess(res.data));
+
+      dispatch({
+        type: ACTIONS.LOGIN_USER_SUCCESS,
+        callName: API.LOGIN_USER,
+        tokens: res.data.auth0,
+        user: res.data.user,
+      })
 
       dispatch(navigateTo('WalletFab'));
     } catch (err) {
@@ -64,45 +72,38 @@ function loginUser({ email, password }) {
 
 
 /**
- * @todo: move to loginUser
- */
-async function loginUserSuccess(data) {
-  analyticsEvents.sessionStart();
-  return async dispatch => {
-    await dispatch(getComplianceInfo());
-
-    dispatch({
-      type: ACTIONS.LOGIN_USER_SUCCESS,
-      callName: API.LOGIN_USER,
-      tokens: data.auth0,
-      user: data.user,
-    })
-  }
-}
-
-
-/**
  * Registers a user signed up with email
- * @param {Object} user
  */
-function registerUser(user) {
-  analyticsEvents.startedSignup('Email');
+function registerUser() {
+  // analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
-    dispatch(startApiCall(API.REGISTER_USER));
     try {
+      const { formData } = getState().forms
       const referralLinkId = getState().branch.referralLinkId;
-      const res = await usersService.register({
-        ...user,
-        referralLinkId,
-      });
+
+      const user = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        referral_link_id: referralLinkId || undefined,
+      }
+
+      dispatch(startApiCall(API.REGISTER_USER));
+      const res = await usersService.register(user);
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      dispatch(registerUserSuccess(res.data));
-      dispatch(claimAllBranchTransfers());
-      await analyticsEvents.sessionStart();
-      analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      // dispatch(claimAllBranchTransfers());
+      // await analyticsEvents.sessionStart();
+      // analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
+      dispatch({
+        type: ACTIONS.REGISTER_USER_SUCCESS,
+        user: res.data.user,
+      });
+
+      dispatch(navigateTo('RegisterSetPin'))
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -170,36 +171,23 @@ function updateUserSuccess(data) {
 
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Sends an email with the reset password link
  */
-function sendResetLink(email) {
-  return async dispatch => {
-    dispatch(startApiCall(API.SEND_RESET_LINK));
+function sendResetLink() {
+  return async (dispatch, getState) => {
     try {
-      await usersService.sendResetLink(email);
+      const { formData } = getState().forms
+      dispatch(startApiCall(API.SEND_RESET_LINK));
+      await usersService.sendResetLink(formData.email);
       dispatch(showMessage('info', 'Email sent!'));
-      dispatch(sendResetLinkSuccess());
+      dispatch(navigateTo('Login'));
+      dispatch({type: ACTIONS.SEND_RESET_LINK_SUCCESS});
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SEND_RESET_LINK, err));
     }
   }
 }
-
-
-
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */
-function sendResetLinkSuccess() {
-  return {
-    type: ACTIONS.SEND_RESET_LINK_SUCCESS,
-    callName: API.SEND_RESET_LINK,
-  }
-}
-
 
 
 /**
@@ -302,18 +290,22 @@ function expireSession() {
 
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Sets the PIN number during registration
  */
-function setPin(pinData) {
-  return async dispatch => {
-    dispatch(startApiCall(API.SET_PIN));
+function setPin() {
+  return async (dispatch, getState) => {
     try {
-      await meService.setPin(pinData);
-      dispatch(setPinSuccess());
+      const { formData } = getState().forms
+
+      dispatch(startApiCall(API.SET_PIN));
+      await meService.setPin({
+        pin: formData.pin,
+        pin_confirm: formData.pinConfirm,
+      });
+      dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(navigateTo('NoKyc'));
-      analyticsEvents.pinSet();
+      dispatch(navigateTo('KYCLanding'));
+      // analyticsEvents.pinSet();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));
@@ -352,14 +344,27 @@ function changePin() {
 }
 
 
-
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Creates an account for user no matter the registration method
  */
-function setPinSuccess() {
-  return {
-    type: ACTIONS.SET_PIN_SUCCESS,
-    callName: API.SET_PIN,
+function createAccount() {
+  return (dispatch, getState) => {
+    const { formData } = getState().forms
+
+    if (formData.googleId) {
+      dispatch(registerUserGoogle())
+    }
+
+    if (formData.facebookId) {
+      dispatch(registerUserFacebook())
+    }
+
+    if (formData.twitterId) {
+      dispatch(registerUserTwitter())
+    }
+
+    if (!formData.googleId && !formData.facebookId && !formData.twitterId) {
+      dispatch(registerUser())
+    }
   }
 }

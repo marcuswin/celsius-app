@@ -3,21 +3,17 @@ import { createStackNavigator } from 'react-navigation'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import Welcome from '../../components/screens/Welcome/Welcome'
 import Login from '../../components/screens/Login/Login'
+import ForgotPassword from '../../components/screens/ForgotPassword/ForgotPassword'
 import RegisterInitial from '../../components/screens/RegisterInitial/RegisterInitial'
-import RegisterEnterPhone from '../../components/screens/RegisterEnterPhone/RegisterEnterPhone'
-import RegisterVerifyPhone from '../../components/screens/RegisterVerifyPhone/RegisterVerifyPhone'
 import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
-import SelectCountry from '../../components/screens/SelectCountry/SelectCountry'
 
 const authFlow = {
   screens: {
     Welcome,
     Login,
+    ForgotPassword,
     RegisterInitial,
-    RegisterEnterPhone,
-    RegisterVerifyPhone,
     RegisterSetPin,
-    SelectCountry,
   },
   props: {
     initialRouteName: 'Welcome',

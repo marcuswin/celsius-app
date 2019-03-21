@@ -47,10 +47,10 @@ class SocialLogin extends Component {
     return (
       <View style={style.container}>
         <View style={style.wrapper}>
-          <TouchableOpacity onPress={() => actions.facebookAuth(type)}>
+          <TouchableOpacity onPress={() => actions.authFacebook(type)}>
             <Icon name="Facebook" height="35" width="35" fill="#bdc1c3"/>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => actions.googleAuth(type)}>
+          <TouchableOpacity onPress={() => actions.authGoogle(type)}>
             <Icon name="Google" height="35" width="35" fill="#bdc1c3"/>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onOpenTwitter}>

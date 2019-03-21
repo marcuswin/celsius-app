@@ -89,7 +89,6 @@ class ChangeAvatar extends Component {
     const { activeImage } = this.state;
     const { actions } = this.props;
     actions.updateProfilePicture(activeImage);
-  
   }
 
   goToCamera = () => {

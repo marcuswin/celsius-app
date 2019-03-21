@@ -11,6 +11,7 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
+import { KEYBOARD_TYPE } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -24,10 +25,11 @@ class Login extends Component {
     right: "signup"
   })
 
-  loginUser = async () => {
-    const { actions, formData: { email, password } } = this.props;
-    await actions.loginUser({ email, password });
+  loginUser = () => {
+    const { actions } = this.props;
+    actions.loginUser();
   }
+
   render() {
     const { formData, callsInProgress, actions } = this.props;
     const loginLoading = apiUtil.areCallsInProgress([
@@ -45,10 +47,14 @@ class Login extends Component {
 
         <Separator text="or login with email" margin="0 0 20 0"/>
 
-        <CelInput type="text" keyboardType='email-address' autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} />
+        <CelInput type="text" keyboardType={KEYBOARD_TYPE.EMAIL} autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} />
         <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} />
 
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
+
+        <CelButton basic onPress={() => actions.navigateTo('ForgotPassword')}>
+          Forgot password
+        </CelButton>
       </AuthLayout>
     );
   }
