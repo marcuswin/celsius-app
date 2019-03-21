@@ -9,6 +9,7 @@ import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles
 import CelText from "../../atoms/CelText/CelText";
 
 const apiCalls = [];
+const randomMessages = ["Simply go to your settings and change the way you receive interest"];
 
 @connect(
   state => ({
@@ -55,11 +56,12 @@ class Home extends Component {
         }
         return prevProps.actions.navigateTo("KYC");
       }
-      return prevProps.actions.navigateTo("Auth");
+      return prevProps.actions.navigateTo("WelcomeScreen");
     }
   }
 
   render() {
+    const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
     return (
       <View
         style={{ justifyContent: "center", alignItems: "center", padding: 40, marginTop: heightPercentageToDP("25%") }}>
@@ -70,8 +72,7 @@ class Home extends Component {
                  height: widthPercentageToDP("33%")
                }}/>
         <CelText align={"center"} margin={"20 0 20 0"} weight={"600"} type={"H2"}>Earn interest in CEL!</CelText>
-        <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>Simply go to your settings and change
-          the way you receive interest</CelText>
+        <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>{randomMsg}</CelText>
         <Loader progress={this.state.progress}/>
       </View>
     );
