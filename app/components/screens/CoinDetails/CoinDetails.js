@@ -79,39 +79,41 @@ class CoinDetails extends Component {
     return (
       <RegularLayout padding={'20 0 100 0'}>
         <View style={style.container}>
-          <Card>
+          <Card padding={'0 0 0 0'}>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
                 <View style={style.imageWrapper}>
                   <Image source={{ uri: currency.image_url }} style={style.coinImage} />
                 </View>
-                <View style={{marginLeft: 5}}>
-                  <CelText type="H6">{currency.displayName}</CelText>
-                  <CelText type="H3" bold>{formatter.usd(coinDetails.amount_usd)}</CelText>
-                  <CelText type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
+                <View style={{marginLeft: 12}}>
+                  <CelText weight='300' type="H6">{currency.displayName}</CelText>
+                  <CelText weight='600' type="H3" bold margin={'3 0 3 0'}>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                  <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
 
-              <Separator vertical style={style.separator}/>
+              <View style={style.buttonWrapper}>
+                <Separator vertical/>
 
-              <View style={style.buttons}>
-                <CelButton
-                  basic
-                  size="small"
-                  onPress={() => actions.navigateTo('CelPayEnterAmount')}
-                >
-                  Send
+                <View style={style.buttons}>
+                  <CelButton
+                    basic
+                    size="small"
+                    onPress={() => actions.navigateTo('CelPayEnterAmount')}
+                  >
+                    Send
                   </CelButton>
 
-                <Separator />
+                  <Separator />
 
-                <CelButton
-                  basic
-                  size="small"
-                  onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
-                >
-                  Deposit
+                  <CelButton
+                    basic
+                    size="small"
+                    onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
+                  >
+                    Deposit
                   </CelButton>
+                </View>
               </View>
             </View>
           </Card>
