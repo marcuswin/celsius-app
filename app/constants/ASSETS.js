@@ -72,6 +72,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/pendingStates/pendingState1.png'),
   require('../../assets/images/pendingStates/pendingState2.png'),
   require('../../assets/images/pendingStates/pendingState3.png'),
+  require('../../assets/images/splashScreen-celsius.png'),
 ];
 
 export default {
