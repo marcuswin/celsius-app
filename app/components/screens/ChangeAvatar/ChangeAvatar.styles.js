@@ -18,6 +18,7 @@ const base = {
         flexDirection: 'row',
         alignContent: 'flex-start',
         alignItems: 'center',
+        marginTop: 10
     },
     activeImage: {
         borderColor: STYLES.COLORS.GREEN,
@@ -51,6 +52,10 @@ const base = {
     },
     button: {
         paddingTop: 30
+    },
+
+    text: {
+
     }
 }
 

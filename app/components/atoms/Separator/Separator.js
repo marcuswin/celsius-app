@@ -18,6 +18,7 @@ class Separator extends Component {
     dashed: PropTypes.bool,
     color: PropTypes.string,
     opacity: PropTypes.number,
+    textOpacity: PropTypes.number,
     margin: PropTypes.string
   }
   static defaultProps = {
@@ -28,6 +29,7 @@ class Separator extends Component {
     dashed: false,
     color: '',
     opacity: 0.08,
+    textOpacity: 1,
     margin: '0 0 0 0'
   }
 
@@ -77,7 +79,7 @@ class Separator extends Component {
   }
 
   renderWithText = () => {
-    const { text, size, allCaps, fontType, color, dashed, margin } = this.props
+    const { text, opacity, textOpacity, size, allCaps, fontType, color, dashed, margin } = this.props
     const style = SeparatorStyle()
     const separatorColor = color || this.getSeparatorColor(style)
     const margins = getMargins(margin)
@@ -90,11 +92,12 @@ class Separator extends Component {
             {
               borderColor: separatorColor,
               borderWidth: size / 2,
-              borderStyle: dashed ? 'dashed' : 'solid'
+              borderStyle: dashed ? 'dashed' : 'solid',
+              opacity
             }
           ]}
         />
-        <View style={style.center}>
+        <View style={[style.center, {opacity: textOpacity}]}>
           <CelText
             allCaps={allCaps}
             color={separatorColor}
@@ -110,7 +113,8 @@ class Separator extends Component {
             {
               borderColor: separatorColor,
               borderWidth: size / 2,
-              borderStyle: dashed ? 'dashed' : 'solid'
+              borderStyle: dashed ? 'dashed' : 'solid',
+              opacity
             }
           ]}
         />
