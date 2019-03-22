@@ -219,6 +219,29 @@ class Deposit extends Component {
 
         {address && !isFetchingAddress ?
           <View style={styles.container}>
+            {destinationTag || memoId ?
+              <Card>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <CelText style={{opacity: 0.7}}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <CelText>{destinationTag || memoId}</CelText>
+                    <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
+                      <Icon name="InfoCircle" height="18" width="18" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{marginLeft: 10}}/>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                <View style={styles.copyShareWrapper}>
+                  <Separator />
+                  <View style={styles.copyShareButtonsWrapper}>
+                    <CopyButton copyText={destinationTag || memoId}/>
+                    <Separator vertical />
+                    <ShareButton shareText={destinationTag || memoId}/>
+                  </View>
+                </View>
+              </Card>
+              : null}
+
             <Card>
               <View style={{alignItems: 'center'}}>
                 <QRCode
@@ -242,28 +265,7 @@ class Deposit extends Component {
 
             {alternateAddress && this.renderSwitchAddressBlock(alternateAddress, formData.selectedCoin)}
 
-            {destinationTag || memoId ?
-              <Card>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <CelText style={{opacity: 0.7}}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CelText>{destinationTag || memoId}</CelText>
-                    <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
-                      <Icon name="InfoCircle" height="18" width="18" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{marginLeft: 10}}/>
-                    </TouchableOpacity>
-                  </View>
-                </View>
 
-                <View style={styles.copyShareWrapper}>
-                  <Separator />
-                  <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton copyText={destinationTag || memoId}/>
-                    <Separator vertical />
-                    <ShareButton shareText={destinationTag || memoId}/>
-                  </View>
-                </View>
-              </Card>
-              : null}
           </View>
         : null }
 
