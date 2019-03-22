@@ -26,7 +26,7 @@ async function initBranch() {
       store.dispatch(actions.registerBranchLink(deepLink.params));
     });
   } catch (error) {
-    logger.log(error)
+    logger.err(error)
   }
 }
 
@@ -151,6 +151,6 @@ async function createBUO(canonicalIdentifier, properties) {
       url: `${url}/`,
     }
   } catch(err) {
-    logger.logme({ err })
+    logger.err({ err })
   }
 }

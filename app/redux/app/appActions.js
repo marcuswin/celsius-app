@@ -16,6 +16,7 @@ import appUtil from "../../utils/app-util";
 import branchUtil from "../../utils/branch-util";
 import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
+import loggerUtil from "../../utils/logger-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -54,7 +55,7 @@ function initCelsiusApp() {
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {
-      // console.log(e);
+      loggerUtil.err(e)
     }
   };
 }
@@ -73,7 +74,7 @@ function resetCelsiusApp() {
 
       await dispatch(initCelsiusApp());
     } catch (e) {
-      // console.log(e);
+      loggerUtil.err(e)
     }
   };
 }

@@ -195,7 +195,7 @@ function updateUserAppSettings(appSettings) {
         appSettings: newAppSettings,
       });
     } catch (err) {
-      logger.log(err)
+      logger.err(err)
     }
   }
 }
@@ -326,7 +326,7 @@ function connectPhoneContacts(contacts) {
       await usersService.connectPhoneContacts(contacts);
       dispatch({ type: ACTIONS.CONNECT_PHONE_CONTACTS_SUCCESS });
     } catch (err) {
-      logger.log(err)
+      logger.err(err)
     }
   }
 }
@@ -343,7 +343,7 @@ function getConnectedContacts() {
       const res = await usersService.getConnectedContacts();
       dispatch(getConnectedContactsSuccess(res.data.contacts));
     } catch (err) {
-      logger.log(err)
+      logger.err(err)
     }
   }
 }
@@ -372,7 +372,7 @@ function getLinkedBankAccount() {
       const res = await usersService.getLinkedBankAccount();
       dispatch({type: ACTIONS.GET_LINKED_BANK_ACCOUNT_SUCCESS, bankAccountInfo: res.data})
     } catch (err) {
-      logger.log(err)
+      logger.err(err)
     }
   }
 }
@@ -394,7 +394,7 @@ function linkBankAccount(bankAccountInfo) {
       await usersService.linkBankAccount(bankAccountInfo)
       dispatch({type: ACTIONS.LINK_BANK_ACCOUNT_SUCCESS})
     } catch (err) {
-      logger.log(err)
+      logger.err(err)
     }
   }
 }

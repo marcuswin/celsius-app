@@ -18,6 +18,7 @@ import Icon from '../../atoms/Icon/Icon'
 import STYLES from '../../../constants/STYLES'
 import API from '../../../constants/API'
 import CelText from '../../atoms/CelText/CelText'
+import loggerUtil from '../../../utils/logger-util';
 
 const { height, width } = Dimensions.get('window')
 
@@ -183,7 +184,7 @@ class CameraScreen extends Component {
 
       actions.takeCameraPhoto(resizedPhoto)
     } catch (err) {
-      // logger.log(err);
+      loggerUtil.err(err)
     }
   }
 

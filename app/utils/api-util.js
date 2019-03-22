@@ -63,7 +63,7 @@ function initInterceptors () {
           }
         }
       } catch (err) {
-        logger.log(err)
+        logger.err(err)
       }
 
       if (ENV === 'PRODUCTION' || ENV === 'PREPROD') {

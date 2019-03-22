@@ -243,7 +243,7 @@ function logoutUser() {
       });
       await dispatch(navigateTo('Auth'));
     } catch (err) {
-      logger.log(err);
+      logger.err(err);
     }
   }
 }
@@ -264,7 +264,7 @@ function logoutFromAllDevices() {
       await dispatch(logoutUser())
       dispatch(showMessage('success', 'Successfully logged out from all devices.'))
     } catch (err) {
-      logger.log(err);
+      logger.err(err);
     }
   }
 }
@@ -282,7 +282,7 @@ function expireSession() {
         type: ACTIONS.EXPIRE_SESSION,
       });
     } catch (err) {
-      logger.log(err);
+      logger.err(err);
     }
   }
 }

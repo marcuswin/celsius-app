@@ -296,7 +296,7 @@ function verifyKYCDocs() {
         analyticsEvents.KYCStarted();
       }
     } catch (err) {
-      logger.log({ err });
+      logger.err({ err });
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
       } else {
