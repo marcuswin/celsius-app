@@ -81,7 +81,7 @@ class TwoFactorSettings extends Component {
           <CelText align='center' style={style.secretText} onPress={() => Linking.openURL(this.getQRCode(secret))}>{secret}</CelText>
 
           <View style={{paddingVertical: 15, width: '100%'}}>
-            <Separator size={2}/>
+            <Separator />
           </View>
           <CopyButton copyText={secret} onCopy={() => actions.showMessage("success", "Secret copied to clipboard!")}/>
         </Card>

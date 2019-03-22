@@ -49,10 +49,10 @@ class ApiKeySuccessModal extends Component {
 
         <View style={style.copyShareWrapper}>
           <CelText align={"center"} weigth={"400"} type={"H4"}>{apiKey}</CelText>
-          <Separator margin={"20 0 0 0"} size={2} opacity={0.07}/>
+          <Separator margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
             <CopyButton copyText={apiKey}/>
-            <Separator vertical size={2}/>
+            <Separator vertical />
             <ShareButton shareText={apiKey}/>
           </View>
         </View>

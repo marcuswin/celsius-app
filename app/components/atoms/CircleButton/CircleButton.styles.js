@@ -1,9 +1,9 @@
-import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
-import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util'
+import STYLES from '../../../constants/STYLES'
 
 const base = {
   container: {
-    borderRadius: widthPercentageToDP("17%"),
+    borderRadius: 30,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
@@ -13,22 +13,20 @@ const base = {
     shadowRadius: 2,
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 3 },
-    width: widthPercentageToDP("17%"),
-    height: widthPercentageToDP("17%"),
-
-
+    width: 60,
+    height: 60
   },
   view: {
-    width: widthPercentageToDP("17%"),
-    height: widthPercentageToDP("17%"),
-    borderRadius: widthPercentageToDP("17%"),
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
-    zIndex: -1,
+    zIndex: -1
   },
   text: {
     marginTop: 10
@@ -74,13 +72,13 @@ const themed = {
 
   celsius: {
     viewmenu: {
-      backgroundColor: STYLES.COLORS.CELSIUS,
+      backgroundColor: STYLES.COLORS.CELSIUS
     },
     textmenu: {
       color: STYLES.COLORS.WHITE
     },
     viewcoin: {
-      backgroundColor: STYLES.COLORS.CELSIUS,
+      backgroundColor: STYLES.COLORS.CELSIUS
     },
     textcoin: {
       color: STYLES.COLORS.WHITE
@@ -91,6 +89,7 @@ const themed = {
   }
 }
 
-const CircleButtonStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
+const CircleButtonStyle = theme =>
+  theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed)
 
 export default CircleButtonStyle

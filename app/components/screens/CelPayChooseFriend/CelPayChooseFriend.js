@@ -170,7 +170,7 @@ class CelPayChooseFriend extends Component {
             <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />
           </TouchableOpacity>
           <View style={{ width: '100%' }}>
-            <Separator size={2} />
+            <Separator />
           </View>
           <ContactList contacts={contacts} onContactPress={this.handleContactPress} />
         </View>

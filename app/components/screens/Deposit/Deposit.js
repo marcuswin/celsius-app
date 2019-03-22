@@ -206,7 +206,7 @@ class Deposit extends Component {
     const styles = DepositStyle();
 
     return (
-      <RegularLayout padding={'20 0 40 0'}>
+      <RegularLayout padding={'20 0 100 0'}>
 
         <CoinPicker
           coinList={eligibleCoins}
@@ -230,10 +230,10 @@ class Deposit extends Component {
                 <CelText type='H4' align={'center'} style={{marginTop: 10}}>{useAlternateAddress ? alternateAddress : address}</CelText>
 
                 <View style={styles.copyShareWrapper}>
-                  <Separator size={2}/>
+                  <Separator/>
                   <View style={styles.copyShareButtonsWrapper}>
                     <CopyButton copyText={useAlternateAddress ? alternateAddress : address}/>
-                    <Separator vertical size={2}/>
+                    <Separator vertical/>
                     <ShareButton shareText={useAlternateAddress ? alternateAddress : address}/>
                   </View>
                 </View>
@@ -255,10 +255,10 @@ class Deposit extends Component {
                 </View>
 
                 <View style={styles.copyShareWrapper}>
-                  <Separator size={2} />
+                  <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
                     <CopyButton copyText={destinationTag || memoId}/>
-                    <Separator vertical size={2}/>
+                    <Separator vertical />
                     <ShareButton shareText={destinationTag || memoId}/>
                   </View>
                 </View>

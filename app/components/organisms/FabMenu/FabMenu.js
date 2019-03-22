@@ -6,8 +6,6 @@ import { bindActionCreators } from "redux";
 // import { BlurView, VibrancyView } from 'react-native-blur';
 import { BlurView } from 'expo';
 import * as appActions from "../../../redux/actions";
-
-import { widthPercentageToDP } from '../../../utils/styles-util';
 import testUtil from "../../../utils/test-util";
 import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
@@ -133,7 +131,7 @@ class FabMenu extends Component {
 
   renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={widthPercentageToDP("10%")} />;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={35} />;
   }
 
   renderFabMenu = () => {

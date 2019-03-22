@@ -91,6 +91,8 @@ class CelHeading extends Component {
         return 'light-content'
       case THEMES.CELSIUS:
         return 'light-content'
+      default:
+        return 'light-content'
     }
   }
 
