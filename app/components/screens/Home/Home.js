@@ -10,6 +10,7 @@ import CelText from "../../atoms/CelText/CelText";
 
 const apiCalls = [];
 const randomMessages = ["Simply go to your settings and change the way you receive interest"];
+let randomMsg;
 
 @connect(
   state => ({
@@ -43,6 +44,7 @@ class Home extends Component {
   async componentDidMount() {
     const { actions, appInitialized } = this.props;
     if (!appInitialized) await actions.initCelsiusApp();
+    randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
   }
 
   componentDidUpdate(prevProps) {
@@ -62,7 +64,6 @@ class Home extends Component {
   }
 
   render() {
-    const randomMsg = randomMessages[Math.floor(Math.random() * randomMessages.length)];
     return (
       <View
         style={{ justifyContent: "center", alignItems: "center", padding: 40, marginTop: heightPercentageToDP("25%") }}>
