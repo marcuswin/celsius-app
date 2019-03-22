@@ -103,7 +103,7 @@ class KYCProfileDetails extends Component {
 
     return (
       <AuthLayout>
-        <CelText type='H1' weight='bold' margin={'0 0 30 0'}>Profile details</CelText>
+        <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Profile details</CelText>
 
         <CelInput type="text" field="firstName" placeholder='First name' value={formData.firstName} error={formErrors.first_name} />
         <CelInput type="text" field="middleName" placeholder='Middle name (optional)' value={formData.middleName} />

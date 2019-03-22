@@ -90,7 +90,7 @@ class KYCTaxpayer extends Component {
     return (
       <AuthLayout>
 
-        <CelText weight={"700"} type={"H1"}>Taxpayer ID</CelText>
+        <CelText weight={"700"} type={"H1"} align='center'>Taxpayer ID</CelText>
 
         <CelText align={"center"} margin={"10 0 0 0"} type={"H4"} weight={"300"}>We need this information due to
           anti-money laundering (AML) regulations and background checks.</CelText>

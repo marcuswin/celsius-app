@@ -92,7 +92,7 @@ class KYCAddressInfo extends Component {
 
     return (
       <AuthLayout>
-        <CelText type='H1' weight='bold' margin={'0 0 30 0'}>Address info</CelText>
+        <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Address info</CelText>
 
         <CelInput type="text" field="street" placeholder='Address' value={formData.street} error={formErrors.street} />
         <CelInput type="text" field="flatNumber" placeholder='Apartment number (optional)' value={formData.flatNumber} />

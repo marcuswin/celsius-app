@@ -9,7 +9,8 @@ const base = {
     resizeMode: "contain",
     width: widthPercentageToDP("40.5%"),
     height: widthPercentageToDP("40.5%"),
-    marginBottom: heightPercentageToDP("4%")
+    marginBottom: heightPercentageToDP("4%"),
+    alignSelf: 'center'
   },
   progressWrapper: {
     height: heightPercentageToDP("21.55%"),
