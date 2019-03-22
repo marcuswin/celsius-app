@@ -17,7 +17,8 @@ const baseContainer = {
   paddingLeft: 20,
   paddingRight: 20,
   alignItems: "flex-start",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  elevation: 1
 };
 
 const base = {
