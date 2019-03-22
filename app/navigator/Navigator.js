@@ -13,7 +13,7 @@ import { profileNavigator } from './flows/profileFlow';
 import { authNavigator } from './flows/authFlow'
 import { kycNavigator } from './flows/kycFlow'
 import { depositNavigator } from './flows/depositFlow'
-import WelcomeScreen from '../components/screens/WelcomeScreen/WelcomeScreen'
+import Welcome from '../components/screens/Welcome/Welcome'
 
 
 
@@ -38,7 +38,7 @@ export const screens = {
   ProfileFab: profileNavigator,
   SupportFab: supportNavigator,
   CommunityFab: communityNavigator,
-  WelcomeScreen,
+  Welcome,
 };
 
 const navigatorProps = {

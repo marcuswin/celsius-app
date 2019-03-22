@@ -1,49 +1,42 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
+import { View, Image, TouchableOpacity } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-
+import * as actions from '../../../redux/actions';
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-// import WelcomeStyle from "./Welcome.styles";
+
+import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
-import CelButton from '../../atoms/CelButton/CelButton';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
-  () => ({
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  null,
+  dispatch => ({ actions: bindActionCreators(actions, dispatch) }),
 )
-class Welcome extends Component {
+class WelcomeScreen extends Component {
+  static propTypes = {};
+  static defaultProps = {}
 
-  static propTypes = {
-    // text: PropTypes.string
-  };
-  static defaultProps = {
-  }
-
-  static navigationOptions = () => ({
-    title: "Welcome Screen",
-  });
 
   render() {
-    const { actions } = this.props
-    // const style = WelcomeStyle();
-    
+    const style = WelcomeStyle();
+
     return (
       <RegularLayout>
-        <CelText>Hello Welcome</CelText>
-
-        <CelButton onPress={() => actions.navigateTo('RegisterInitial')} margin="20 0 20 0">Register</CelButton>
-        <CelButton onPress={() => actions.navigateTo('Login')}>Login</CelButton>
-        <CelButton onPress={() => actions.navigateTo('KYC')} margin="20 0 20 0">KYC</CelButton>
-        <CelButton onPress={() => actions.navigateTo('WelcomeScreen')} margin="20 0 20 0">Welcome Screen</CelButton>
-
+        <View style={style.wrapper}>
+          <Image
+            source={require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png')} style={{ height: 160, resizeMode: 'contain' }}
+          />
+          <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celisus</CelText>
+          <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow, and pay on the blockchain. Let’s bring the next 100M people into Crypto, together.</CelText>
+          <CelButton style={style.button} onPress={actions.navigateTo('Home')}>Join Celsius</CelButton>
+          <TouchableOpacity onPress={actions.navigateTo('Login')}><CelText>Already have an account</CelText></TouchableOpacity>
+        </View>
       </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(Welcome);
+export default testUtil.hookComponent(WelcomeScreen);
