@@ -42,9 +42,10 @@ class SecuritySettings extends Component {
 
   rightSwitch = () => {
     const { is2FAEnabled } = this.props
-    const isAndroid = Platform.OS === 'android'
+    const isIos = Platform.OS === 'ios'
+    const falseColor = isIos ? "transparent" : STYLES.COLORS.DARK_GRAY3;
     return (
-      <Switch value={is2FAEnabled} disabled thumbColor={isAndroid ? STYLES.COLORS.WHITE : ''} trackColor={{true: isAndroid ? STYLES.COLORS.GREEN : ''}}/>
+      <Switch value={is2FAEnabled} disabled thumbColor={STYLES.COLORS.WHITE} ios_backgroundColor={STYLES.COLORS.DARK_GRAY3} trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}/>
     )
   }
 
