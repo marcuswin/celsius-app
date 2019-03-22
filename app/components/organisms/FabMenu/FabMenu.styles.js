@@ -10,11 +10,14 @@ const base = {
     menuItemsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 30
+        marginBottom: 30,
     },
-    wrapper: {
-        paddingBottom: 1000,
-        backgroundColor: 'white'
+    head: {
+        opacity: 0.90,
+        backgroundColor: 'white',
+        height: '100%',
+        width: '100%',
+        paddingTop: '60%'
     }
 }
 

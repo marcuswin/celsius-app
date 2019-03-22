@@ -152,10 +152,11 @@ class FabMenu extends Component {
     }
     return (
       <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]} >
-        <View>
-          {menuItems.map(this.renderMenuRow)}
+        <View style={style.head}>
+            {menuItems.map(this.renderMenuRow)}
         </View>
       </BlurView>
+
     )
 
   }
@@ -171,6 +172,7 @@ class FabMenu extends Component {
   }
 
   render() {
+    const style = FabMenuStyle();
     const { fabMenuOpen, appInitialized, fabType } = this.props
 
     if (!appInitialized) return null;
@@ -181,8 +183,8 @@ class FabMenu extends Component {
 
     return (
       <Fragment>
-        {fabMenuOpen ? <FabMenuCmp /> : null}
-        <FabButton backgroundColor='red' />
+        {fabMenuOpen ? <FabMenuCmp style={style.menu} /> : null}
+        <FabButton />
       </Fragment>
     )
   }
