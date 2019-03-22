@@ -57,13 +57,13 @@ class CelHeading extends Component {
   getLeftContent = (sceneProps) => {
     const { hideBack, right } = sceneProps;
     const { actions, scenes, formData } = this.props;
-    const backScreenName = scenes[this.props.index - 1]  ? scenes[this.props.index - 1].route.routeName : ''
+    const backScreenName = scenes[this.props.index - 1] ? scenes[this.props.index - 1].route.routeName : ''
 
     // if search is active and right part of header is type of search
     if (right === "search" && formData.activeSearch) return <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />
 
     // By default if scene prop hideBack is true or it's first screen in the stack, hide back arrow
-    return this.props.scene.index === 0 || hideBack === true ? null : <CelButton iconRightColor={STYLES.COLORS.GRAY} basic onPress={() => {actions.navigateBack(backScreenName);}} iconRight="IconChevronLeft" />
+    return this.props.scene.index === 0 || hideBack === true ? null : <CelButton iconRightColor={STYLES.COLORS.GRAY} basic onPress={() => { actions.navigateBack(backScreenName); }} iconRight="IconChevronLeft" />
   }
 
   getRightContent = (sceneProps) => {
@@ -83,20 +83,21 @@ class CelHeading extends Component {
           iconRight="Settings"
           iconRightHeight='35'
           iconRightWidth='35'
-          iconRightColor={STYLES.COLORS.DARK_BACKGROUND}
+          iconRightColor='#3D4853'
+          opacity={0.9}
         />,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":
 
-          <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{...STYLES.SHADOW_STYLES}}>
-            <Image
-              style={style.profilePicture}
-              source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
-              resizeMethod="resize"
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{ ...STYLES.SHADOW_STYLES }}>
+          <Image
+            style={style.profilePicture}
+            source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+            resizeMethod="resize"
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
       ,
       "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,
       "close": <CelButton basic onPress={() => { this.props.actions.navigateBack(); }}>Close</CelButton>, // TODO(sb):

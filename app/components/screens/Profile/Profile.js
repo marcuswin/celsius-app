@@ -24,13 +24,14 @@ import IconButton from '../../organisms/IconButton/IconButton';
 )
 class Profile extends Component {
 
-  static propTypes = {
+  static propTypes = { 
     // text: PropTypes.string
   };
   static defaultProps = {
   }
 
   static navigationOptions = () => ({
+    // left: "back",
     title: "Your profile",
     right: "settings"
   });
@@ -51,7 +52,8 @@ class Profile extends Component {
       <RegularLayout>
         <View style={{ flexDirection: 'row', alignSelf: 'flex-start' }}>
           <Image
-            style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}
+            style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE 
+          }}
             source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
             resizeMethod="resize"
           />
