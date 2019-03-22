@@ -6,6 +6,7 @@ import testUtil from "../../../utils/test-util";
 
 import SimpleSelectStyle from "./SimpleSelect.styles";
 import Icon from "../../atoms/Icon/Icon";
+import STYLES from '../../../constants/STYLES';
 
 const SimpleSelect = (props) => {
   const style = SimpleSelectStyle()
@@ -21,7 +22,7 @@ const SimpleSelect = (props) => {
       style={style}
       useNativeAndroidPickerStyle={false}
       value={displayValue}
-      Icon={() => <Icon name="CaretDown" width={15} height={15} />}
+      Icon={() => <Icon name="CaretDown" width={10} fill={STYLES.COLORS.DARK_GRAY} />}
       items={items}
     />
   )
