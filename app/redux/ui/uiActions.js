@@ -81,16 +81,21 @@ function setKeypadInput(input) {
 
 /**
  * Toggles the native device keypad
+ *
+ * @param {boolean} shouldOpen - if keypad should be turned on or off
  */
-function toggleKeypad() {
+function toggleKeypad(shouldOpen) {
   return (dispatch) => {
     if (_keypadInputRef) {
       const isFocused = _keypadInputRef.isFocused()
+
       if (isFocused) {
-        _keypadInputRef.blur()
+        // already opened
+        if (shouldOpen !== true) _keypadInputRef.blur()
       } else {
+        // closed
         const timeout = setTimeout(() => {
-          if (_keypadInputRef) _keypadInputRef.focus()
+          if (_keypadInputRef && shouldOpen !== false) _keypadInputRef.focus()
           clearTimeout(timeout)
         }, 5)
       }

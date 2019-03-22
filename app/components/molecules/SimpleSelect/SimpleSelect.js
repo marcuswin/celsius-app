@@ -22,7 +22,7 @@ const SimpleSelect = (props) => {
       style={style}
       useNativeAndroidPickerStyle={false}
       value={displayValue}
-      Icon={() => <Icon name="CaretDown" width={10} fill={STYLES.COLORS.DARK_GRAY} />}
+      Icon={() => <Icon name="CaretDown" width={8} fill={STYLES.COLORS.DARK_GRAY} />}
       items={items}
     />
   )

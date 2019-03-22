@@ -58,11 +58,12 @@ class BorrowEnterAmount extends Component {
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
-    const { formData } = this.props;
+    const { formData, actions } = this.props;
     let amount;
     if (value === 'max') amount = formData.maxAmount;
     if (value === 'min') amount = MIN_LOAN_AMOUNT;
-    this.handleAmountChange(amount, label);
+    this.handleAmountChange(amount.toString(), label);
+    actions.toggleKeypad(false)
   }
 
   getAmountColor = () => {
@@ -79,13 +80,11 @@ class BorrowEnterAmount extends Component {
     const { actions, formData } = this.props;
 
     if (newValue < MIN_LOAN_AMOUNT) {
-      actions.showMessage('warning', `$${MIN_LOAN_AMOUNT} is the minimum to proceed.`)
-      return;
+      // actions.showMessage('warning', `$${MIN_LOAN_AMOUNT} is the minimum to proceed.`)
     }
 
     if (newValue > formData.maxAmount) {
-      actions.showMessage('warning', `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`)
-      return;
+      // actions.showMessage('warning', `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`)
     }
 
     actions.updateFormField('loanAmount', newValue)
@@ -114,7 +113,6 @@ class BorrowEnterAmount extends Component {
         disabled={formData.loanAmount < MIN_LOAN_AMOUNT}
         onPress={() => {
           actions.navigateTo('BorrowCollateral')
-          // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
           actions.toggleKeypad()
         }}
         margin="20 0 0 0"
@@ -143,7 +141,7 @@ class BorrowEnterAmount extends Component {
 
             <View style={{ width: '100%' }}>
               <TouchableOpacity onPress={actions.toggleKeypad} style={{ width: '100%' }}>
-                <CelText color={this.getAmountColor()} type="H1" align="center">{formatter.usd(formData.loanAmount, { code: '', precision: 0 })}</CelText>
+                <CelText color={this.getAmountColor()} type="H1" weight="regular" align="center">{formatter.usd(formData.loanAmount, { code: '', precision: 0 })}</CelText>
                 <View style={{ position: 'absolute', right: 0, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
                   <CelText type="H3">USD</CelText>
                 </View>

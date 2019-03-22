@@ -8,6 +8,7 @@ import CoinSwitchStyle from "./CoinSwitch.styles";
 import CelText from "../CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Icon from "../Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 
 const CoinSwitch = (props) => {
   const style = CoinSwitchStyle()
@@ -18,14 +19,16 @@ const CoinSwitch = (props) => {
   return (
     <View style={style.container}>
       { props.onAmountPress ? (
-        <TouchableOpacity onPress={props.onAmountPress} style>
-          <CelText align="center" type="H1">{ upperValue }</CelText>
-          <CelText align="center" type="H2">{ lowerValue }</CelText>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity onPress={props.onAmountPress}>
+            <CelText align="center" type="H1" margin="20 0 20 0" weight="regular">{ upperValue }</CelText>
+          </TouchableOpacity>
+          <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
+        </View>
       ) : (
-        <View style>
-          <CelText align="center" type="H1">{ upperValue }</CelText>
-          <CelText align="center" type="H2">{ lowerValue }</CelText>
+        <View>
+          <CelText align="center" type="H1" margin="20 0 20 0" weight="regular">{ upperValue }</CelText>
+          <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
         </View>
       )}
       <View style={style.switchButton}>
