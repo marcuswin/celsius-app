@@ -223,7 +223,7 @@ class Deposit extends Component {
               <View style={{alignItems: 'center'}}>
                 <QRCode
                   value={useAlternateAddress ? alternateAddress : address}
-                  size={120}
+                  size={100}
                   bgColor='#FFF'
                   fgColor='#000'
                 />
