@@ -1,4 +1,3 @@
-
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
@@ -9,8 +8,6 @@ const base = {
     flex: 1
   },
   mainWrapper: {
-    borderColor: "rgba(200,200,200,0.3)",
-    borderBottomWidth: 1,
     paddingVertical: 11,
     marginVertical: 15
   },
@@ -52,7 +49,7 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: widthPercentageToDP("36%"),
+    width: widthPercentageToDP("32%"),
     height: heightPercentageToDP("5%")
   },
   regularRateWrapper: {
@@ -63,7 +60,7 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: widthPercentageToDP("36%"),
+    width: widthPercentageToDP("32%"),
     height: heightPercentageToDP("5%")
   },
   usdInfoWrapper: {
@@ -73,7 +70,7 @@ const base = {
     padding: 10
   },
   regularRateText: {
-    color: "#000",
+    color: STYLES.COLORS.MEDIUM_GRAY,
     fontFamily: "barlow-regular",
   },
   celRateText: {
@@ -81,7 +78,7 @@ const base = {
     fontFamily: "barlow-semi-bold",
   },
   regRateText: {
-    color: "#000",
+    color: STYLES.COLORS.MEDIUM_GRAY,
     fontFamily: "barlow-semi-bold",
   },
   celsiusRateText: {

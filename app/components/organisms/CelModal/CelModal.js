@@ -35,8 +35,8 @@ class CelModal extends Component {
     shouldRenderCloseButton: true,
     picture: null,
     header: false,
-    marginTop: heightPercentageToDP("15%"),
-    height: heightPercentageToDP("65%")
+    // marginTop: heightPercentageToDP("15%"),
+    // height: heightPercentageToDP("65%")
   };
 
   getTintColor = () => {
@@ -61,10 +61,12 @@ class CelModal extends Component {
   };
 
   render() {
-    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, marginTop, height } = this.props;
+    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
     const style = CelModalStyle();
 
-    const tintColor = this.getTintColor();
+    // const tintColor = this.getTintColor();
+
+    const size = picture ? {paddingVertical: heightPercentageToDP("18%")} : {paddingVertical: heightPercentageToDP("5%")}
 
     return (
         <Modal
@@ -73,21 +75,21 @@ class CelModal extends Component {
           onRequestClose={() => actions.closeModal()}
           visible={openedModal === name}
         >
-          <BlurView tint={tintColor} intensity={100} style={StyleSheet.absoluteFill} />
+          <BlurView tint={"dark"} intensity={100} style={StyleSheet.absoluteFill} />
 
-          <View style={[style.wrapper]}>
+          <View style={[style.wrapper, size ]}>
 
-            <View style={[style.modal, { marginTop, height }]}>
+            <View style={[style.modal]}>
               {this.renderImage()}
               {shouldRenderCloseButton ?
                 <TouchableOpacity style={style.closeBtn} onPress={() => actions.closeModal()}>
-                  <Icon name='Close' height='20' width='20' viewBox="0 0 1000 1000" fill={"#3D4853"} />
+                  <Icon name='Close' height='15' width='15' viewBox="0 0 1000 1000" fill={"#3D4853"} />
                 </TouchableOpacity> : null
               }
               {header ?
                 <View style={style.modalHeadingWrapper}>
                   <CelText type={"H1"} style={style.mainHeadingText}>{primaryText}</CelText>
-                  <CelText type={"H3"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
+                  <CelText type={"H3"} weight={"400"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
                 </View> : null
               }
 

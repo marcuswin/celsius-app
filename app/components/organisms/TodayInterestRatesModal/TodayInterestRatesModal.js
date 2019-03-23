@@ -10,9 +10,8 @@ import CelText from "../../atoms/CelText/CelText";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import InterestRateInfoTable from "../../molecules/InterestRateInfoTable/InterestRateInfoTable";
-
-import { heightPercentageToDP } from "../../../utils/styles-util";
 import CelButton from "../../atoms/CelButton/CelButton";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -25,33 +24,35 @@ class TodayInterestRatesModal extends Component {
   static propTypes = {
     // text: PropTypes.string
   };
-  static defaultProps = {};
+  static defaultProps = {
+  };
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      pressed: false
+    };
   }
 
   render() {
     const { actions } = this.props;
+    const {pressed} = this.state;
     const style = TodayInterestRatesModalStyle();
+
+    // TODO(ns): LEARN MORE button navigation needs to be added
 
     return (
       <CelModal name={MODALS.TODAY_INTEREST_RATES_MODAL}
                 header
                 primaryText={"HODL"}
                 secondaryText={"with Celsius"}
-                marginTop={heightPercentageToDP("5%")}
-                height={heightPercentageToDP("90%")}
       >
-        <CelText style={style.explanation}>Earn interest in CEL for all your coins to receive higher rates! The longer
-          you HODL the better rates you earn.</CelText>
-        <InterestRateInfoTable style={{ marginVertical: 20 }}/>
+        <CelText align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
+        <InterestRateInfoTable pressed={pressed} style={{ marginVertical: 20 }}/>
 
         <CelButton
           basic
-          margin="15 0 0 0"
-          onPress={() => actions.navigateTo("WalletLanding")}
+          onPress={() => this.setState({pressed: true})}
         >
           See all
         </CelButton>

@@ -26,8 +26,8 @@ class InterestRateInfo extends Component {
     const additionalWrapperStyle = compact ? styles.mainWrapperCompact : {};
 
     const currencyInfo = walletCurrencies[currency.toUpperCase()];
-
     const currencyName = currencyInfo.name;
+    const name = currencyInfo.short === "DAI" ? "MakerDAO" : currencyName;
 
     return (
       <View style={[styles.mainWrapper, additionalWrapperStyle]}>
@@ -40,17 +40,17 @@ class InterestRateInfo extends Component {
               />
             </View>
             <View style={styles.infoWrapper}>
-              <CelText weight={"500"} type={"H5"} style={styles.currencyName}>{this.capitalize(currencyName)}</CelText>
+              <CelText weight={"500"} type={"H5"} style={styles.currencyName}>{this.capitalize(name)}</CelText>
               <CelText weight={"500"} type={"H4"} style={styles.currencyShort}>{currencyInfo.short}</CelText>
             </View>
           </View>
           <View style={{ justifyContent: "space-around" }}>
             <View style={styles.regularRateWrapper}>
-              <CelText type={"H7"} style={styles.regularRateText}>Regular Rate</CelText>
+              <CelText type={"H7"} style={styles.regularRateText}>Regular</CelText>
               <CelText type={"H5"} style={styles.regRateText}>{rate}</CelText>
             </View>
             <View style={styles.celRateWrapper}>
-              <CelText type={"H7"} style={styles.celsiusRateText}>CEL Rate</CelText>
+              <CelText type={"H7"} style={styles.celsiusRateText}>Bonus</CelText>
               <CelText type={"H5"} style={styles.celRateText}>{rate}</CelText>
             </View>
           </View>
