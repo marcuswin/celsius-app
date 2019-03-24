@@ -84,7 +84,7 @@ export default class App extends Component {
   handleAppStateChange = (nextAppState) => {
 
     const { user } = store.getState().users;
-    const askForPinAfter = 25000
+    const askForPinAfter = 3 * 60 * 1000
     if (nextAppState === 'active') {
       analyticsEvents.openApp();
       if (user) {
