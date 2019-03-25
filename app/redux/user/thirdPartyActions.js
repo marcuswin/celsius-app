@@ -193,7 +193,7 @@ function authFacebook(authReason) {
     try {
       const { type, token } = await Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID.toString(), {
         permissions: ["public_profile", "email"],
-        behavior: "web"
+        behavior: "system"
       });
 
       if (type === "success") {
