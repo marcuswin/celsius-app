@@ -48,7 +48,7 @@ function initCelsiusApp() {
       await dispatch(initAppData());
       await dispatch(actions.initUserAppSettings());
 
-      await branchUtil.initBranch();
+      await dispatch(branchUtil.initBranch());
 
       analyticsEvents.openApp();
       if (getState().user.profile) analyticsEvents.sessionStart();

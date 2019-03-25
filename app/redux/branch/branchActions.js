@@ -61,19 +61,19 @@ function getBranchIndividualLink() {
 
 function registerBranchLink(deepLink) {
   return (dispatch) => {
+    const deepLinkParams = deepLink.params;
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
-      link: deepLink
+      link: deepLinkParams
     });
-
-    if (deepLink.link_type === BRANCH_LINKS.TRANSFER || deepLink.type === BRANCH_LINKS.TRANSFER) {
-      return dispatch(transfersActions.registerTransferLink(deepLink));
+    if ( deepLinkParams.link_type === BRANCH_LINKS.TRANSFER ||  deepLinkParams.type === BRANCH_LINKS.TRANSFER) {
+      return dispatch(transfersActions.registerTransferLink(deepLinkParams));
     }
 
-    if (deepLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL || deepLink.type === BRANCH_LINKS.COMPANY_REFERRAL) {
+    if ( deepLinkParams.link_type === BRANCH_LINKS.COMPANY_REFERRAL ||  deepLinkParams.type === BRANCH_LINKS.COMPANY_REFERRAL) {
       // TODO
     }
-    if (deepLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL || deepLink.type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
+    if ( deepLinkParams.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ||  deepLinkParams.type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
       // TODO
     }
   };

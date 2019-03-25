@@ -16,17 +16,19 @@ export default {
 /**
  * Initialize & Subscribe to Branch
  */
-async function initBranch() {
-  try {
-    Branch.subscribe((deepLink) => {
-      // Use for standalone debugging
-      // logger.logme({ deepLink })
-
-      if (!deepLink || !deepLink["+clicked_branch_link"] || deepLink.error || !deepLink.params) return;
-      store.dispatch(actions.registerBranchLink(deepLink.params));
-    });
-  } catch (error) {
-    logger.err(error)
+function initBranch() {
+  return async dispatch => {
+    try {
+      Branch.subscribe((deepLink) => {
+        // Use for standalone debugging
+        // logger.logme(deepLink)
+  
+        if (!deepLink || !deepLink.params["+clicked_branch_link"] || deepLink.error || !deepLink.params) return;
+        dispatch(actions.registerBranchLink(deepLink));
+      });
+    } catch (error) {
+      logger.err(error)
+    }
   }
 }
 
