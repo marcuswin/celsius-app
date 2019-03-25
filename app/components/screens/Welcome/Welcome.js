@@ -12,7 +12,8 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
 
 @connect(
-  null,
+  () => ({
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Welcome extends Component {

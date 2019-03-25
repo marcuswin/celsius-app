@@ -61,11 +61,13 @@ function err(e, isFatal = false) {
   const { revisionId } = Constants.manifest;
 
   const state = store.getState();
-  const { user } = state.users;
-  const userData = user && { user_id: user.id, email: user.email };
+
+  const user  = state.users ? state.users.user : null;
+  const userData = user ? { user_id: user.id, email: user.email } : null;
 
   const { nav } = state;
-  const activeScreen = nav.routes[nav.index].routeName;
+
+  const activeScreen = state.nav ? nav.routes[nav.index].routeName : '';
 
   const error = {
     name: e.name,
