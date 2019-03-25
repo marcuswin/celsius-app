@@ -1,13 +1,9 @@
 // import STYLES from '../../../constants/STYLES';
-import { Dimensions } from "react-native";
 import { getThemedStyle } from "../../../utils/styles-util";
-
-const { width } = Dimensions.get("window");
 
 const base = {
   container: {
-    flex: 1,
-    width
+    flex: 1
   },
   wrapper: {
     paddingHorizontal: 20,

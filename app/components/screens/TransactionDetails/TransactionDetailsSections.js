@@ -54,20 +54,22 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
 )
 
 export const AddressSection = ({ transaction, text, address }) => (
-  <Card margin="30 20 10 20">
-    <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
-      <CelText>{text}</CelText>
-      {!!transaction.transaction_id &&
-        <TouchableOpacity
-          style={{ flexDirection: 'row', alignItems: 'flex-start' }}
-          onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
-          <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {getBlockExplorerLink(transaction).text}</CelText>
-          <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE} style={{ marginLeft: 5 }} />
-        </TouchableOpacity>
-      }
-    </View>
-    <CelText type="H3">{address}</CelText>
-  </Card>
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 20 0'}>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText>{text}</CelText>
+        {!!transaction.transaction_id &&
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'flex-start' }}
+            onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
+            <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {getBlockExplorerLink(transaction).text}</CelText>
+            <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE} style={{ marginLeft: 5 }} />
+          </TouchableOpacity>
+        }
+      </View>
+      <CelText type="H3">{address}</CelText>
+    </Card>
+  </View>
 )
 
 export const NoteSection = ({ text }) => (

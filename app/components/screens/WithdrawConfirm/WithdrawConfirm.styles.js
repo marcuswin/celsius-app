@@ -2,41 +2,40 @@
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
-    container: {
-        flex: 1
-    },
-    address: {
-        flexDirection: "column",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        paddingVertical: 15,
-    },
-    bottom: {
-        flex: 1,
-        alignItems: 'flex-end',
-        marginBottom: 36
-    },
-    amountWrapper: {
-        paddingVertical: 20,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1
-    },
-    lineHeight: {
-        lineHeight: 23
-    }
+  container: {
+    flex: 1
+  },
+  address: {
+    flexDirection: "column",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    paddingVertical: 15,
+  },
+  bottom: {
+    marginTop: 20,
+    marginBottom: 36,
+  },
+  amountWrapper: {
+    paddingVertical: 20,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  lineHeight: {
+    lineHeight: 23
+  }
 }
 
 const themed = {
-    light: {
-    },
+  light: {
+  },
 
-    dark: {
-    },
+  dark: {
+  },
 
-    celsius: {
-    }
+  celsius: {
+  }
 }
 
 const WithdrawConfirmStyle = () => getThemedStyle(base, themed);

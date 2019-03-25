@@ -44,7 +44,7 @@ class WithdrawConfirm extends Component {
     const address = addressUtil.joinAddressTag(formData.coin.toLowerCase(), formData.withdrawAddress, formData.coinTag)
 
     return (
-      <RegularLayout padding={'20 0 40 0'}>
+      <RegularLayout>
         <Card>
           <View>
             <View style={styles.amountWrapper}>
