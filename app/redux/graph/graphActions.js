@@ -9,7 +9,16 @@ export {
   getTotalWalletBalanceData,
   getCoinWalletBalanceData,
   getInterestGraphData,
-  getCoinInterestGraphData
+  getCoinInterestGraphData,
+  activeTimeline
+}
+
+function activeTimeline(time, period) {
+  return {
+    type: ACTIONS.GET_ACTIVE_TIMELINE,
+    time,
+    period
+  }
 }
 
 

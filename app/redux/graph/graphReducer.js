@@ -5,13 +5,23 @@ function initialState() {
     walletTotalChartData: [],
     coinWalletChartData: [],
     interestChartData: [],
-    coinInterestChartData: []
+    coinInterestChartData: [],
+    timeline: {}
   };
 }
 
 export default function graphReducer(state = initialState(), action) {
 
   switch (action.type) {
+    case ACTIONS.GET_ACTIVE_TIMELINE:
+      return {
+        ...state,
+        timeline: {
+          ...state.timeline,
+          period: action.period,
+          time: action.time,
+        }
+      };
     case ACTIONS.GET_WALLET_BALANCE_DATA_SUCCESS:
       return {
         ...state,

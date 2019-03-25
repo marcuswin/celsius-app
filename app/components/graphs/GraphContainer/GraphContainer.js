@@ -27,7 +27,8 @@ import { widthPercentageToDP } from "../../../utils/styles-util";
     return {
       currenciesRates: state.currencies.rates,
       callsInProgress: state.api.callsInProgress,
-      graphData
+      graphData,
+      time: state.graph.timeline.time
     };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -61,6 +62,14 @@ class GraphContainer extends Component {
   }
 
   componentDidMount = () => this.renderTimeline();
+
+  componentDidUpdate(prevProps, prevState) {
+    const {type, time} = this.props;
+
+    if (type !== "coin-interest" && time && prevState.timeline !== time) {
+      this.renderTimeline(this.props.time)
+    }
+  }
 
   splitArrays = () => {
     const { graphData } = this.props;
