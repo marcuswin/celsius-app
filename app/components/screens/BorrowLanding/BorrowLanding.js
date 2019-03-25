@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Constants } from 'expo';
 import { TouchableOpacity, View } from 'react-native'
 import moment from 'moment';
 
@@ -21,13 +20,12 @@ import Card from '../../atoms/Card/Card'
 import Icon from '../../atoms/Icon/Icon'
 import { LOAN_STATUS } from '../../../constants/DATA'
 
-const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
-
 @connect(
   state => ({
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
-    allLoans: state.loans.allLoans
+    allLoans: state.loans.allLoans,
+    minimumLoanAmount: state.generalData.minimumLoanAmount
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -51,7 +49,7 @@ class BorrowLanding extends Component {
   }
 
   async componentDidMount() {
-    const { actions, loanCompliance } = this.props
+    const { actions, loanCompliance, minimumLoanAmount } = this.props
 
     if (loanCompliance.allowed) {
       await actions.getAllLoans()
@@ -63,7 +61,7 @@ class BorrowLanding extends Component {
     this.setState({ isLoading: false })
     // If user has enough money for loan, and doesn't have any previous loans
     // redirect to BorrowEnterAmount screen
-    if (maxAmount > MIN_LOAN_AMOUNT && (!allLoans || !allLoans.length)) {
+    if (maxAmount > minimumLoanAmount && (!allLoans || !allLoans.length)) {
       actions.navigateTo('BorrowEnterAmount')
     }
   }
@@ -105,9 +103,9 @@ class BorrowLanding extends Component {
 
   applyForAnother = () => {
     const { maxAmount } = this.state;
-    const { actions } = this.props
+    const { actions, minimumLoanAmount } = this.props
 
-    if (maxAmount < MIN_LOAN_AMOUNT) {
+    if (maxAmount < minimumLoanAmount) {
       actions.showMessage('warning', 'Insufficient funds!')
     } else {
       actions.navigateTo('BorrowEnterAmount')
@@ -116,7 +114,7 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, loanCompliance, allLoans } = this.props;
+    const { actions, loanCompliance, allLoans, minimumLoanAmount } = this.props;
     const style = BorrowLandingStyle();
 
     if (isLoading) return <LoadingScreen />
@@ -129,7 +127,7 @@ class BorrowLanding extends Component {
       )
     }
 
-    if (maxAmount < MIN_LOAN_AMOUNT) {
+    if (maxAmount < minimumLoanAmount) {
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }}
@@ -139,7 +137,7 @@ class BorrowLanding extends Component {
 
     return (
       <RegularLayout>
-        {maxAmount < MIN_LOAN_AMOUNT
+        {maxAmount < minimumLoanAmount
           ?
           <Fragment>
             <CelText type='H3' margin={'0 0 20 0'} color={STYLES.COLORS.RED}>Insufficient funds!</CelText>
