@@ -144,7 +144,7 @@ class CelPayEnterAmount extends Component {
       actions.navigateTo('CelPayMessage')
     } else {
       actions.navigateTo('VerifyProfile', {
-        onSuccess: () => actions.celPayShareLink
+        onSuccess: actions.celPayShareLink
       })
     }
   }
