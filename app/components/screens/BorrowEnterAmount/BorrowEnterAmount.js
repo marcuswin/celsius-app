@@ -1,117 +1,129 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import React, { Component } from "react";
+import { View, TouchableOpacity, Slider } from "react-native";
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Constants } from 'expo';
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
-import CelText from '../../atoms/CelText/CelText';
-import CelButton from '../../atoms/CelButton/CelButton';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
+import CelText from "../../atoms/CelText/CelText";
+import CelButton from "../../atoms/CelButton/CelButton";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
 import BorrowConfirmModal from "../../organisms/BorrowConfirmModal/BorrowConfirmModal";
-import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
-import { getPadding } from '../../../utils/styles-util';
-import { showMessage } from '../../../redux/ui/uiActions'
-import store from '../../../redux/store';
-
-const { MIN_LOAN_AMOUNT } = Constants.manifest.extra;
+import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmounts";
+import { getPadding} from "../../../utils/styles-util";
+import { showMessage } from "../../../redux/ui/uiActions";
+import store from "../../../redux/store";
 
 @connect(
   (state) => ({
     loanCompliance: state.user.compliance.loan,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
+    walletTotal: state.wallet.total,
+    minimumLoanAmount: state.generalData.minimumLoanAmount
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowEnterAmount extends Component {
   static propTypes = {};
-  static defaultProps = {}
+  static defaultProps = {};
 
   static navigationOptions = () => ({
     title: "Enter the amount",
     right: "info",
-    onInfo: () => { store.dispatch(showMessage('warning', 'Not implemented yet!')) }
+    onInfo: () => {
+      store.dispatch(showMessage("warning", "Not implemented yet!"));
+    }
   });
 
   constructor(props) {
     super(props);
-    const { loanCompliance, walletSummary } = props
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short))
+    const { loanCompliance, walletSummary, minimumLoanAmount } = props;
+    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
 
     this.state = {
-      activePeriod: ""
+      activePeriod: "",
+      sliderValue: 12500
     };
 
     props.actions.initForm({
-      loanAmount: MIN_LOAN_AMOUNT.toString(),
-      maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2,
-    })
+      loanAmount: minimumLoanAmount.toString(),
+      maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2
+    });
+  }
+
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.initForm({ amountCheck: 10000 });
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
-    const { formData, actions } = this.props;
+    const { formData, minimumLoanAmount, actions } = this.props;
     let amount;
-    if (value === 'max') amount = formData.maxAmount;
-    if (value === 'min') amount = MIN_LOAN_AMOUNT;
-    this.handleAmountChange(amount.toString(), label);
+    if (value === "max") amount = formData.maxAmount;
+    if (value === "min") amount = minimumLoanAmount;
+    this.handleAmountChange(amount, label);
     actions.toggleKeypad(false)
-  }
+  };
 
   getAmountColor = () => {
-    const { formData } = this.props;
+    const { formData, minimumLoanAmount } = this.props;
 
-    if (formData.loanAmount < MIN_LOAN_AMOUNT || formData.loanAmount > formData.maxAmount) {
-      return STYLES.COLORS.ORANGE
+    if (formData.loanAmount < minimumLoanAmount || formData.loanAmount > formData.maxAmount) {
+      return STYLES.COLORS.ORANGE;
     }
 
-    return STYLES.COLORS.DARK_GRAY
-  }
+    return STYLES.COLORS.DARK_GRAY;
+  };
 
   handleAmountChange = (newValue, predefined = "") => {
-    const { actions, formData } = this.props;
+    const { actions, formData, minimumLoanAmount } = this.props;
 
-    if (newValue < MIN_LOAN_AMOUNT) {
-      // actions.showMessage('warning', `$${MIN_LOAN_AMOUNT} is the minimum to proceed.`)
+    if (newValue < minimumLoanAmount) {
+      // actions.showMessage("warning", `$${minimumLoanAmount} is the minimum to proceed.`);
+      // return;
     }
 
     if (newValue > formData.maxAmount) {
-      // actions.showMessage('warning', `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`)
+      // actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
+      // return;
     }
 
-    actions.updateFormField('loanAmount', newValue)
+    actions.updateFormField("loanAmount", newValue);
     this.setState({ activePeriod: predefined });
-  }
+  };
 
   renderButton() {
-    const { formData, actions } = this.props
+    const { formData, actions, minimumLoanAmount } = this.props;
 
     if (formData.loanAmount > formData.maxAmount) {
       return (
         <CelButton
           onPress={() => {
-            actions.navigateTo('Deposit')
-            actions.toggleKeypad()
+            actions.navigateTo("Deposit");
+            actions.toggleKeypad();
           }}
           margin="20 0 0 0"
         >
           Deposit more
         </CelButton>
-      )
+      );
     }
 
     return (
       <CelButton
-        disabled={formData.loanAmount < MIN_LOAN_AMOUNT}
+        disabled={formData.loanAmount < minimumLoanAmount}
         onPress={() => {
+          actions.navigateTo("BorrowCollateral");
+          // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
+          actions.toggleKeypad();
           actions.navigateTo('BorrowCollateral')
           actions.toggleKeypad()
         }}
@@ -120,23 +132,63 @@ class BorrowEnterAmount extends Component {
       >
         Choose collateral
       </CelButton>
-    )
+    );
   }
 
   render() {
-    const { activePeriod } = this.state;
-    const { actions, formData } = this.props;
+    const { activePeriod, sliderValue } = this.state;
+    const { actions, formData, maxAmount, walletSummary, minimumLoanAmount } = this.props;
     const predifinedAmount = [
-      { label: `$${MIN_LOAN_AMOUNT} min`, value: 'min' },
-      { label: `${formatter.usd(formData.maxAmount)} max`, value: 'max' }
-    ]
-    // const style = BorrowEnterAmountStyle();
+      { label: `$${minimumLoanAmount} min`, value: "min" },
+      { label: `${formatter.usd(formData.maxAmount)} max`, value: "max" }
+    ];
+
+    const style = BorrowEnterAmountStyle();
+
+    if ( maxAmount < minimumLoanAmount) {
+      return (
+        <RegularLayout>
+          <View style={style.amountsWrapper}>
+            <View style={[style.value, { backgroundColor: "white",}]}>
+              <CelText type={"H6"} weight={"400"}>With coin value of:</CelText>
+              <CelText type={"H2"} weight={"400"}>{formatter.usd(sliderValue, { precision: 0 })}</CelText>
+            </View>
+            <View style={[style.value, { backgroundColor: "#EEEEEE",}]}>
+              <CelText type={"H6"} weight={"400"}>You can borrow:</CelText>
+              <CelText type={"H2"} weight={"400"}>{formatter.usd(sliderValue / 2, { precision: 0 })}</CelText>
+            </View>
+          </View>
+
+          <View style={style.slider}>
+            <Slider
+              minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}
+              maximumTrackTintColor={STYLES.COLORS.DARK_GRAY_OPACITY}
+              minimumValue={10000}
+              maximumValue={20000}
+              step={500}
+              value={this.state.sliderValue}
+              onValueChange={value => this.setState({ sliderValue: value })}
+            />
+          </View>
+          <CelText margin={"20 0 20 0"} align={"center"} type={"H3"}
+                   weight={"600"}>{`To apply for a loan you only need ${formatter.usd(10000 - walletSummary.total_amount_usd)} in crypto to deposit`}</CelText>
+          <CelText margin={"10 0 20 0"} align={"center"} type={"H4"} weight={"400"}>Deposit more coins to start your
+            first loan application</CelText>
+
+          <CelButton
+            onPress={() => actions.navigateTo("Deposit")}
+          >
+            Deposit more coins
+          </CelButton>
+        </RegularLayout>
+      );
+    }
 
     return (
       <RegularLayout padding="0 0 0 0">
-        <View style={[{ flex: 1, width: '100%', height: "100%" }, { ...getPadding('20 20 100 20') }]}>
-          <View style={{ alignItems: 'center' }}>
-            <ProgressBar steps={6} currentStep={1} />
+        <View style={[{ flex: 1, width: "100%", height: "100%" }, { ...getPadding("20 20 100 20") }]}>
+          <View style={{ alignItems: "center" }}>
+            <ProgressBar steps={6} currentStep={1}/>
             <CelText align="center" type="H4" margin="30 0 60 0">How much would you like to borrow?</CelText>
 
             <View style={{ width: '100%' }}>
@@ -149,7 +201,8 @@ class BorrowEnterAmount extends Component {
             </View>
           </View>
 
-          <PredefinedAmounts data={predifinedAmount} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod} />
+          <PredefinedAmounts data={predifinedAmount} onSelect={this.onPressPredefinedAmount}
+                             activePeriod={activePeriod}/>
           {this.renderButton()}
 
           <CelNumpad
@@ -166,7 +219,7 @@ class BorrowEnterAmount extends Component {
           formData={formData}
           onConfirm={() => actions.applyForALoan()}
         />
-      </RegularLayout >
+      </RegularLayout>
     );
   }
 }
