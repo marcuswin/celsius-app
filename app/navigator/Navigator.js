@@ -3,6 +3,7 @@ import { createAppContainer, createStackNavigator, createSwitchNavigator } from 
 import Home from "../components/screens/Home/Home";
 import Support from "../components/screens/Support/Support";
 import Community from "../components/screens/Community/Community";
+import Welcome from '../components/screens/Welcome/Welcome'
 
 import { INITIAL_ROUTE } from "../constants/UI";
 import { borrowNavigator } from './flows/borrowFlow';
@@ -13,7 +14,6 @@ import { profileNavigator } from './flows/profileFlow';
 import { authNavigator } from './flows/authFlow'
 import { kycNavigator } from './flows/kycFlow'
 import { depositNavigator } from './flows/depositFlow'
-import Welcome from '../components/screens/Welcome/Welcome'
 
 
 
@@ -38,7 +38,7 @@ export const screens = {
   ProfileFab: profileNavigator,
   SupportFab: supportNavigator,
   CommunityFab: communityNavigator,
-  Welcome,
+  Welcome
 };
 
 const navigatorProps = {

@@ -48,7 +48,7 @@ const VERIFY_IDENTITY_ACTION_TYPES = {
   CONFIRM_SET_PIN: 'CONFIRM_SET_PIN',
 };
 
-const INITIAL_ROUTE = 'Home';
+const INITIAL_ROUTE = 'Welcome';
 
 const THEMES = {
   LIGHT: 'light',

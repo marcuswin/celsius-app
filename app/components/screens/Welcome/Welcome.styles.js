@@ -10,6 +10,7 @@ const base = {
         alignItems: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
+        paddingTop: 40
     },
     title: {
         marginTop: 10,
@@ -36,6 +37,6 @@ const themed = {
     }
 }
 
-const WelcomeScreenStyle = () => getThemedStyle(base, themed);
+const WelcomeStyle = () => getThemedStyle(base, themed);
 
-export default WelcomeScreenStyle
+export default WelcomeStyle
