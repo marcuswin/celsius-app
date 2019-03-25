@@ -8,6 +8,7 @@ function initialState() {
     kycDocTypes: undefined,
     backendStatus: undefined,
     interestRates: undefined,
+    minimumLoanAmount: undefined,
 
     // TODO: remove
     supportedCurrencies: undefined,
@@ -51,6 +52,7 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         interestRates: action.interestRates,
+        minimumLoanAmount: action.minimumLoanAmount
       };
 
     case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:

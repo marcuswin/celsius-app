@@ -29,10 +29,11 @@ function getInitialCelsiusData() {
         type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
         interestRates: res.data.interest_rates,
         ltvs: res.data.borrow_ltvs,
+        minimumLoanAmount: res.data.minimum_usd_amount
       });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_SUPPORTED_CURRENCIES, err));
+      dispatch(apiError(API.GET_INITIAL_CELSIUS_DATA, err));
     }
   }
 }
