@@ -60,7 +60,7 @@ class WithdrawEnterAmount extends Component {
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
-    const { formData, walletSummary, currencyRatesShort } = this.props;
+    const { formData, walletSummary, currencyRatesShort, actions } = this.props;
     let amount;
 
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
@@ -72,16 +72,20 @@ class WithdrawEnterAmount extends Component {
       amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
     }
     this.handleAmountChange(amount, label)
+    actions.toggleKeypad(false)
   }
 
+  // TODO: move to formatter? check CelPayEnterAmount
   getNumberOfDecimals(value) {
     const splitValue = value.split('.')
     const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0;
     return numberOfDecimals;
   }
 
+  // TODO: move to formatter? check CelPayEnterAmount
   getAllowedDecimals = (currency) => currency === 'USD' ? 2 : 5
 
+  // TODO: move to formatter? check CelPayEnterAmount
   setCurrencyDecimals(value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value;
     // remove last digit
@@ -91,6 +95,7 @@ class WithdrawEnterAmount extends Component {
     return value.slice(0, allowedDecimals - numberOfDecimals);
   }
 
+  // TODO: move to formatter? check CelPayEnterAmount
   hasEnoughDecimals(value = '', currency) {
     const numberOfDecimals = this.getNumberOfDecimals(value)
     const allowedDecimals = this.getAllowedDecimals(currency);

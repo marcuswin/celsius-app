@@ -12,7 +12,7 @@ import STYLES from "../../../constants/STYLES";
 
 const CoinSwitch = (props) => {
   const style = CoinSwitchStyle()
-  const { isUsd, amountUsd, amountCrypto, updateFormField, coin } = props;
+  const { isUsd, amountUsd, amountCrypto, updateFormField, coin, amountColor } = props;
 
   const upperValue = isUsd ? formatter.usd(amountUsd) : formatter.crypto(amountCrypto);
   const lowerValue = !isUsd ? formatter.usd(amountUsd) : formatter.crypto(amountCrypto, coin);
@@ -21,13 +21,13 @@ const CoinSwitch = (props) => {
       { props.onAmountPress ? (
         <View>
           <TouchableOpacity onPress={props.onAmountPress}>
-            <CelText align="center" type="H1" margin="20 0 20 0" weight="regular">{ upperValue }</CelText>
+            <CelText align="center" type="H1" margin="10 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
           </TouchableOpacity>
           <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
         </View>
       ) : (
         <View>
-          <CelText align="center" type="H1" margin="20 0 20 0" weight="regular">{ upperValue }</CelText>
+          <CelText align="center" type="H1" margin="10 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
           <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
         </View>
       )}
@@ -47,6 +47,7 @@ CoinSwitch.propTypes = {
   updateFormField: PropTypes.func.isRequired,
   onAmountPress: PropTypes.func,
   coin: PropTypes.string,
+  amountColor: PropTypes.string,
 }
 
 export default testUtil.hookComponent(CoinSwitch);
