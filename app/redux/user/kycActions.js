@@ -257,7 +257,6 @@ export function verifySMSSuccess() {
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
-    const { profile } = getState().user;
     let callName;
     let res;
 
@@ -270,33 +269,14 @@ function verifyKYCDocs() {
         type: formData.documentType,
       });
       dispatch(createKYCDocumentsSuccess(res.data));
-      analyticsEvents.documentsAdded();
 
-      if (profile.cellphone !== formData.cellphone || !profile.cellphone_verified) {
-        callName = API.UPDATE_USER_PERSONAL_INFO;
-        dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
-        res = await usersService.updateProfileInfo({
-          cellphone: formData.cellphone
-        });
-        dispatch(updateProfileInfoSuccess(res.data));
+      callName = API.START_KYC;
+      dispatch(startApiCall(API.START_KYC));
+      await meService.startKYC();
+      dispatch(startKYCSuccess());
 
-        callName = API.SEND_VERIFICATION_SMS;
-        dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
-        await meService.sendVerificationSMS();
-        dispatch(sendVerificationSMSSuccess());
-
-        dispatch(NavActions.navigateTo('VerifyPhoneNumber'));
-        dispatch(showMessage('success', 'SMS sent!'));
-      } else {
-        callName = API.START_KYC;
-        dispatch(startApiCall(API.START_KYC));
-        await meService.startKYC();
-        dispatch(startKYCSuccess());
-
-        dispatch(NavActions.navigateTo('NoKyc'));
-        dispatch(showMessage('success', 'KYC verification proccess has started!'));
-        analyticsEvents.KYCStarted();
-      }
+      dispatch(NavActions.navigateTo('KYCLanding'));
+      dispatch(showMessage('success', 'KYC verification proccess has started!'));
     } catch (err) {
       logger.err({ err });
       if (err.type === 'Validation error') {

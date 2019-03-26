@@ -38,14 +38,15 @@ class KYCVerifyID extends Component {
     customCenterComponent: <ProgressBar steps={4} currentStep={4} />
   })
 
-  componentWillMount () {
-    const { actions } = this.props
-    actions.getKYCDocTypes()
-  }
+  // componentWillMount () {
+  //   const { actions } = this.props
+  //   actions.getKYCDocTypes()
+  // }
 
   componentDidMount () {
     const { actions } = this.props
     actions.getKYCDocuments()
+    this.selectDocumentType('passport')
   }
 
   saveFrontImage = photo => {
@@ -86,9 +87,28 @@ class KYCVerifyID extends Component {
     actions.navigateTo('CameraScreen', { onSave: this.saveBackImage })
   }
 
+  isFormValid = () => {
+    const { actions, formData } = this.props;
+
+    let error
+    if (formData.documentType !== 'passport' && !formData.back) error = 'Back image of document is required!'
+    if (!formData.front) error = 'Front image of document is required!'
+    if (!formData.documentType) error = 'Please select a document type!'
+
+    if (error) {
+      actions.showMessage('error', error);
+      return false
+    }
+
+    return true;
+  }
+
   submit = () => {
     const { actions } = this.props
-    actions.verifyKYCDocs()
+
+    if (this.isFormValid()) {
+      actions.verifyKYCDocs()
+    }
   }
 
   selectDocumentType = async type => {
@@ -180,7 +200,7 @@ class KYCVerifyID extends Component {
               style={{
                 width: '100%',
                 flexDirection: 'row',
-                justifyContent: 'space-between'
+                justifyContent: 'space-around'
               }}
             >
               {docs.map(document =>
