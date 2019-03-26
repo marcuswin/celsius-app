@@ -69,9 +69,8 @@ class Profile extends Component {
     const ssn = { ssn: formData.ssn };
 
     this.setState({ updatingTaxInfo: true });
-    actions.updateTaxpayerInfo(ssn, () => {
-      this.setState({ updatingTaxInfo: false });
-    });
+    await actions.updateTaxpayerInfo(ssn);
+    this.setState({ updatingTaxInfo: false })
   };
 
   render() {

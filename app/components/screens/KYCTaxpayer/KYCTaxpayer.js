@@ -73,10 +73,13 @@ class KYCTaxpayer extends Component {
       };
     }
     this.setState({ updatingTaxInfo: true });
-    actions.updateTaxpayerInfo(updateTaxInfo, () => {
+    const response = await actions.updateTaxpayerInfo(updateTaxInfo);
+
+    if (response.success) {
       actions.navigateTo("KYCVerifyID");
-      this.setState({ updatingTaxInfo: false });
-    });
+    }
+
+    this.setState({ updatingTaxInfo: false });
   };
 
   render() {

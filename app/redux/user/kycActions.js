@@ -27,9 +27,8 @@ export {
 /**
  * Updates user personal info
  * @param {Object} profileInfo
- * @param onSuccess
  */
-function updateProfileInfo(profileInfo, onSuccess) {
+function updateProfileInfo(profileInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
 
@@ -37,7 +36,7 @@ function updateProfileInfo(profileInfo, onSuccess) {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       analyticsEvents.profileDetailsAdded(updatedProfileData.data);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-      dispatch(onSuccess());
+
       return {
         success: true
       }
@@ -98,7 +97,11 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
       analyticsEvents.profileTaxpayerInfoAdded(updatedProfileData.data);
-      dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
+      await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
+
+      return {
+        success: true
+      }
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -106,6 +109,11 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
         dispatch(showMessage('error', err.msg));
       }
       dispatch(apiError(API.UPDATE_USER_TAXPAYER_INFO, err));
+
+      return {
+        success: false
+      }
+
     }
   }
 }
