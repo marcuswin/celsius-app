@@ -40,7 +40,7 @@ class CameraScreen extends Component {
     cameraHeading: PropTypes.string,
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
-    photo: PropTypes.string,
+    photo: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Object)]),
     mask: PropTypes.oneOf(['circle', 'document']),
     onSave: PropTypes.func
   }
