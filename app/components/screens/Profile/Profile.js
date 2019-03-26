@@ -104,7 +104,7 @@ class Profile extends Component {
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email}/>
         <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number"
                   value={user.cellphone}/>
-        <CelInput margin="0 0 20 0" disabled={user.ssn} type="text" field="ssn" placeholder="Social Security Number"
+        <CelInput margin="0 0 20 0" disabled={!!user.ssn} type="text" field="ssn" placeholder="Social Security Number"
                   value={ssn} error={formErrors.ssn}/>
 
         {!user.ssn &&
