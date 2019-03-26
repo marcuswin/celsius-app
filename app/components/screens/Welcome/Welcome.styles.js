@@ -10,7 +10,7 @@ const base = {
         alignItems: 'center',
         alignContent: 'center',
         flexWrap: 'wrap',
-        paddingTop: 40
+        paddingTop: 60
     },
     title: {
         marginTop: 10,

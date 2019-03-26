@@ -183,6 +183,7 @@ function initAppData() {
       if (profile) {
         if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
+          await dispatch(actions.getKYCDocTypes());
         }
 
         // get wallet details for verified users
@@ -206,6 +207,5 @@ function initAppData() {
     // get general data for te app
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
-    await dispatch(actions.getKYCDocTypes());
   }
 }

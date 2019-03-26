@@ -16,6 +16,7 @@ import logger from '../../utils/logger-util';
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from '../../constants/DATA'
+import { getKYCDocTypes } from "../generalData/generalDataActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -66,7 +67,7 @@ function loginUser() {
       })
 
       if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
-        dispatch(navigateTo('WaleltFab'));
+        dispatch(navigateTo('WalletFab'));
       } else {
         dispatch(navigateTo('KYC'));
       }
@@ -103,7 +104,7 @@ function registerUser() {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      // dispatch(claimAllBranchTransfers());
+      dispatch(claimAllBranchTransfers());
       // await analyticsEvents.sessionStart();
       // analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
       dispatch({
@@ -312,6 +313,7 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
+      dispatch(getKYCDocTypes());
       dispatch(navigateTo('KYCLanding'));
       // analyticsEvents.pinSet();
     } catch (err) {

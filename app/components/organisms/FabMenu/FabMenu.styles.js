@@ -4,11 +4,12 @@ const base = {
   container: {
   },
   menuContainer: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   menuItemsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginBottom: 30,
   },
   background: {
     opacity: 0.90,

@@ -20,6 +20,10 @@ class Welcome extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    headerSameColor: false,
+    transparent: true
+  })
 
   render() {
     const style = WelcomeStyle();
