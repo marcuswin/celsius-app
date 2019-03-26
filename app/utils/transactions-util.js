@@ -47,10 +47,8 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.amount === "locked") return TRANSACTION_TYPES.REFERRER_HODL;
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
 
-  // TODO(sb): TRANSACTION_TYPES.TRANSFER_ONHOLD (CELPAY_ONHOLD)
-  // TODO(sb): TRANSACTION_TYPES.TRANSFER_EXPIRED (CELPAY_EXPIRED) === RETURNED
-
-
+  if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_ONHOLD;
+  if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_RETURNED;
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data) return TRANSACTION_TYPES.CELPAY_RECEIVED;
   if (transaction.nature === "outbound_transfer" && transaction.transfer_data) {
     if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_PENDING;

@@ -24,12 +24,14 @@ import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
+import { KYC_STATUSES } from '../../../constants/DATA';
 
 @connect(
   state => ({
     coins: state.wallet.summary.coins,
     callsInProgress: state.api.callsInProgress,
-    transaction: state.transactions.transactionDetails
+    transaction: state.transactions.transactionDetails,
+    user: state.user.profile
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -66,10 +68,11 @@ class TransactionDetails extends Component {
   }
 
   renderSection = (sectionType) => {
-    const { actions, coins, transaction } = this.props;
+    const { actions, coins, transaction, user } = this.props;
 
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const interestEarned = coins.find((coin) => coin.short === transaction.coin.toUpperCase()).interest_earned;
+    const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
 
     switch (sectionType) {
       case 'info':
@@ -89,13 +92,13 @@ class TransactionDetails extends Component {
       case 'address:to':
         return <AddressSection key={sectionType} transaction={transaction} address={transaction.to_address} text="Withdrawn to:" />;
       case 'button:back':
-        return <CelButton key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton>;
+          return kycPassed ? <CelButton key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
       case 'button:celpay:another':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay another friend</CelButton>;
+      return kycPassed ? <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay another friend</CelButton> : null;
       case 'button:celpay:friend':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay a friend</CelButton>;
+          return kycPassed ? <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay a friend</CelButton> : null;
       case 'button:cancel':
         return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':

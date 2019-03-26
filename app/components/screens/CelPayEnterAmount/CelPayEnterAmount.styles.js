@@ -3,8 +3,7 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    // flex: 1,
-    // height: "100%"
+    flex: 1
   },
   wrapper: {
     paddingHorizontal: 20,
