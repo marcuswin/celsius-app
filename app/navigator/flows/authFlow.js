@@ -6,6 +6,7 @@ import ForgotPassword from '../../components/screens/ForgotPassword/ForgotPasswo
 import RegisterInitial from '../../components/screens/RegisterInitial/RegisterInitial'
 import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
 import TermsOfUse from '../../components/screens/TermsOfUse/TermsOfUse'
+import Welcome from '../../components/screens/Welcome/Welcome'
 
 
 const authFlow = {
@@ -15,9 +16,10 @@ const authFlow = {
     RegisterInitial,
     RegisterSetPin,
     TermsOfUse,
+    Welcome
   },
   props: {
-    initialRouteName: 'Login',
+    initialRouteName: 'Welcome',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
       headerSameColor: true,

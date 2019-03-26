@@ -15,6 +15,7 @@ import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
+import { KYC_STATUSES } from '../../constants/DATA'
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -55,14 +56,21 @@ function loginUser() {
       await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
 
+      const user = res.data.user
+
       dispatch({
         type: ACTIONS.LOGIN_USER_SUCCESS,
         callName: API.LOGIN_USER,
         tokens: res.data.auth0,
-        user: res.data.user,
+        user,
       })
 
-      dispatch(navigateTo('WalletFab'));
+      if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
+        dispatch(navigateTo('WaleltFab'));
+      } else {
+        dispatch(navigateTo('KYC'));
+      }
+
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOGIN_USER, err));

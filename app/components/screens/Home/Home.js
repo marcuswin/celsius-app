@@ -58,7 +58,7 @@ class Home extends Component {
         }
         return prevProps.actions.navigateTo("KYC");
       }
-      return prevProps.actions.navigateTo("WelcomeScreen");
+      return prevProps.actions.navigateTo("Welcome");
     }
   }
 

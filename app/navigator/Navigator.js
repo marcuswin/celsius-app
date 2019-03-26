@@ -3,7 +3,6 @@ import { createAppContainer, createStackNavigator, createSwitchNavigator } from 
 import Home from "../components/screens/Home/Home";
 import Support from "../components/screens/Support/Support";
 import Community from "../components/screens/Community/Community";
-import Welcome from '../components/screens/Welcome/Welcome';
 
 import { INITIAL_ROUTE } from "../constants/UI";
 import { borrowNavigator } from './flows/borrowFlow';
@@ -37,8 +36,7 @@ export const screens = {
   CelPayFab: celPayNavigator,
   ProfileFab: profileNavigator,
   SupportFab: supportNavigator,
-  CommunityFab: communityNavigator,
-  Welcome,
+  CommunityFab: communityNavigator
 };
 
 const navigatorProps = {

@@ -194,8 +194,9 @@ function initAppData() {
       }
     } else {
       // logout if expired session or no token
-      await dispatch(actions.logoutUser());
-
+      if (token) {
+        await dispatch(actions.logoutUser());
+      }
       // initialize MixPanel with new user
       mixpanelAnalytics.identify(uuid());
 
