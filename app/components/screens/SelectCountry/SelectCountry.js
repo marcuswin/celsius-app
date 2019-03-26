@@ -85,6 +85,8 @@ class SelectCountry extends Component {
       allCountries: [],
       filteredCountries: [],
     };
+
+    this.hideCallingCodes = props.navigation.getParam('hideCallingCodes', false);
   }
 
   onCountrySelect = async (field, country) => {
@@ -127,7 +129,7 @@ class SelectCountry extends Component {
           <View style={itemStyle}>
             <View style={style.left}>
               {this.renderImage(country.alpha2)}
-              <CelText type="H4" align="left" style={{ marginLeft: 5, width: 50 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
+              {!this.hideCallingCodes && <CelText type="H4" align="left" style={{ marginLeft: 5, width: 50 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>}
               <CelText type="H4" align="left" style={{ marginLeft: 10, maxWidth: 150 }}>
                 {country.name}
               </CelText>

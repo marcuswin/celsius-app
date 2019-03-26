@@ -98,7 +98,7 @@ class KYCAddressInfo extends Component {
         <CelInput type="text" field="flatNumber" placeholder='Apartment number (optional)' value={formData.flatNumber} />
         <CelInput type="text" field="city" placeholder='City' value={formData.city} error={formErrors.city}/>
         <CelInput type="text" field="zip" placeholder='ZIP/Postal Code' value={formData.zip} error={formErrors.zip}/>
-        <CelSelect type='country' field='country' labelText='Country' showCountryFlag value={formData.country} error={formErrors.country} margin='0 0 0 0'/>
+        <CelSelect type='country' field='country' labelText='Country' showCountryFlag hideCallingCodes value={formData.country} error={formErrors.country} margin='0 0 0 0'/>
 
         {formData.country && formData.country.name === 'United States' &&
           <CelSelect type='state' field='state' labelText='State' value={formData.state} error={formErrors.state} margin='20 0 0 0'/>

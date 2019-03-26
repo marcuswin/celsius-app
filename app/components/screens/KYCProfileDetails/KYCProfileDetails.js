@@ -155,7 +155,7 @@ class KYCProfileDetails extends Component {
         }
 
         <CelSelect type='gender' field='gender' labelText='Gender' value={formData.gender} error={formErrors.gender} margin='15 0 0 0'/>
-        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship} error={formErrors.citizenship} margin='15 0 0 0'/>
+        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship} error={formErrors.citizenship} hideCallingCodes margin='15 0 0 0'/>
 
         <View style={{flex: 1, justifyContent: 'flex-end', marginTop: 30}}>
           <CelButton onPress={this.submitProfileDetails} iconRight='IconArrowRight' loading={updatingProfileInProgress}>

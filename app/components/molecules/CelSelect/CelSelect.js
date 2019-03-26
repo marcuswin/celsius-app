@@ -35,7 +35,8 @@ class CelSelect extends Component {
     disabled: PropTypes.bool,
     onChange: PropTypes.func,
     transparent: PropTypes.bool,
-    showCountryFlag: PropTypes.bool
+    showCountryFlag: PropTypes.bool,
+    hideCallingCodes: PropTypes.bool
   };
   static defaultProps = {
     type: 'native',
@@ -45,7 +46,8 @@ class CelSelect extends Component {
     margin: '0 0 15 0',
     disabled: false,
     transparent: false,
-    showCountryFlag: false
+    showCountryFlag: false,
+    hideCallingCodes: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -121,7 +123,7 @@ class CelSelect extends Component {
   };
 
   renderSelect() {
-    const { disabled, labelText, type, actions, field, showCountryFlag } = this.props;
+    const { disabled, labelText, type, actions, field, showCountryFlag, hideCallingCodes } = this.props;
     const { visible, value } = this.state;
 
     const inputStyle = this.getInputStyle();
@@ -132,9 +134,9 @@ class CelSelect extends Component {
     let onPress = () => this.setState({ visible: !visible });
 
     if (type === 'country') {
-      onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
+      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, hideCallingCodes });
     } else if (type === 'phone') {
-      onPress = () => actions.navigateTo('SelectCountry', { field_name: field });
+      onPress = () => actions.navigateTo('SelectCountry', { field_name: field, hideCallingCodes });
     }
 
     const country = this.props.value ? this.props.value : countries.US;
