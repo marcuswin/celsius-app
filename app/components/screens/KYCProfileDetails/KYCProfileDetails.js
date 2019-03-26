@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { View } from 'react-native'
+import moment from 'moment';
+import _ from 'lodash';
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -20,7 +22,8 @@ import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
   state => ({
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    user: state.user.profile
+    user: state.user.profile,
+    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -74,22 +77,54 @@ class KYCProfileDetails extends Component {
     }
   }
 
-  submitProfileDetails = async () => {
-    const { formData, actions } = this.props
-    const updatedUser = {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      middle_name: formData.middleName,
-      date_of_birth: `${formData.month}/${formData.day}/${formData.year}`,
-      gender: formData.gender,
-      citizenship: formData.citizenship.name,
+  validateForm = (formData) => {
+    const {actions, blacklistedCountryResidency} = this.props;
+    const formErrors = {};
+
+    const date = moment(`${formData.year}-${formData.month}-${formData.day}`, "YYYY-MM-DD");
+    const dateHasValue = formData.month && formData.day && formData.year;
+    const isValidDate = date.isValid();
+    const isAdult = moment().diff(date, 'years', false) >= 18;
+
+    if (!formData.firstName) formErrors.first_name = 'First Name is required!';
+    if (!formData.lastName) formErrors.last_name = 'Last Name is required!';
+    if (!formData.month) formErrors.dateOfBirth = 'Date of Birth is required!';
+    if (!formData.day) formErrors.dateOfBirth = 'Date of Birth is required!';
+    if (!formData.year) formErrors.dateOfBirth = 'Date of Birth is required!';
+    if (dateHasValue && !isValidDate) formErrors.dateOfBirth =  'Date of Birth not valid!';
+    if (dateHasValue && isValidDate && !isAdult) formErrors.dateOfBirth = 'You must be at least 18 years old to use Celsius application.';
+    if (!formData.citizenship) formErrors.citizenship = 'Citizenship is required!';
+    if (blacklistedCountryResidency.indexOf(formData.citizenship) !== -1) formErrors.citizenship = "We can't work with people from this region!";
+    if (!formData.gender) formErrors.gender = 'Gender is required!';
+
+    if (!_.isEmpty(formErrors)) {
+      actions.setFormErrors(formErrors)
+      return false
     }
 
-    this.setState({updatingProfileInProgress: true})
-    const response = await actions.updateProfileInfo(updatedUser)
+    return true;
+  }
 
-    if (response.success) {
-      actions.navigateTo('KYCAddressInfo')
+  submitProfileDetails = async () => {
+    const { formData, actions } = this.props
+    const isFormValid = this.validateForm(formData)
+
+    if (isFormValid) {
+      const updatedUser = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        middle_name: formData.middleName,
+        date_of_birth: `${formData.month}/${formData.day}/${formData.year}`,
+        gender: formData.gender,
+        citizenship: formData.citizenship.name,
+      }
+
+      this.setState({updatingProfileInProgress: true})
+      const response = await actions.updateProfileInfo(updatedUser)
+
+      if (response.success) {
+        actions.navigateTo('KYCAddressInfo')
+      }
     }
 
     this.setState({updatingProfileInProgress: false})
@@ -115,14 +150,12 @@ class KYCProfileDetails extends Component {
           <CelSelect field='day' flex={1.1} type='day' labelText='Day' value={formData.day} margin="0 16 0 0" />
           <CelSelect field='year' flex={1} type='year' labelText='Year' value={formData.year} margin='0 0 0 0'/>
         </View>
-        {formErrors.date_of_birth &&
-          <View style={{alignSelf: 'flex-start'}}>
-            <CelText margin="5 0 0 0" color="red" style={{height: 20}}>{formErrors.date_of_birth}</CelText>
-          </View>
+        {formErrors.dateOfBirth &&
+            <CelText margin="5 0 0 0" color="red">{formErrors.dateOfBirth}</CelText>
         }
 
-        <CelSelect type='gender' field='gender' labelText='Gender' value={formData.gender} error={formErrors.gender} margin='15 0 15 0'/>
-        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship} error={formErrors.citizenship} margin='0 0 0 0'/>
+        <CelSelect type='gender' field='gender' labelText='Gender' value={formData.gender} error={formErrors.gender} margin='15 0 0 0'/>
+        <CelSelect type='country' field='citizenship' labelText='Citizenship' value={formData.citizenship} error={formErrors.citizenship} margin='15 0 0 0'/>
 
         <View style={{flex: 1, justifyContent: 'flex-end', marginTop: 30}}>
           <CelButton onPress={this.submitProfileDetails} iconRight='IconArrowRight' loading={updatingProfileInProgress}>
