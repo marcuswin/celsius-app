@@ -29,7 +29,8 @@ export {
   connectPhoneContacts,
   getConnectedContacts,
   getLinkedBankAccount,
-  linkBankAccount
+  linkBankAccount,
+  profileTaxpayerInfo
 }
 
 
@@ -53,6 +54,31 @@ function getProfileInfo() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
     }
+  }
+}
+
+/**
+ * Get profile taxpayer info
+ */
+function profileTaxpayerInfo() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_USER_TAXPAYER_INFO));
+
+    try {
+      const taxPayerInfo = await usersService.getProfileTaxpayerInfo();
+      dispatch(profileTaxpayerInfoSuccess(taxPayerInfo.data.taxpayer_info));
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_USER_TAXPAYER_INFO, err));
+    }
+  }
+}
+
+function profileTaxpayerInfoSuccess(taxPayerInfo) {
+  return {
+    type: ACTIONS.GET_USER_TAXPAYER_INFO_SUCCESS,
+    callName: API.GET_USER_TAXPAYER_INFO,
+    taxPayerInfo
   }
 }
 

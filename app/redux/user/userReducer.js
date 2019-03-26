@@ -136,15 +136,16 @@ export default (state = initialState, action) => {
           profile_picture: action.google_user.picture,
         },
       };
-
     case ACTIONS.GET_ICO_USERS_INFO_SUCCESS:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
     case ACTIONS.UPDATE_USER_PERSONAL_INFO_SUCCESS:
+    case ACTIONS.GET_USER_TAXPAYER_INFO_SUCCESS:
       return {
         ...state,
         profile: {
           ...state.profile,
           ...action.personalInfo,
+          ...action.taxPayerInfo
         },
       };
 

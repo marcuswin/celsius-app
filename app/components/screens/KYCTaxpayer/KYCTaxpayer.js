@@ -12,6 +12,7 @@ import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import Card from "../../atoms/Card/Card";
 
 @connect(
   state => ({
@@ -39,21 +40,20 @@ class KYCTaxpayer extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { actions, user } = this.props;
-    await actions.getProfileInfo();
+    actions.profileTaxpayerInfo();
     this.setState({ isLoading: false });
     this.initForm(user);
   }
 
   initForm = (user) => {
     const { actions } = this.props;
-
     if (user) {
       if (user.country === "United States" || user.citizenship === "United States") {
-        actions.initForm({ ssn: user.ssn });
+        actions.updateFormFields({ ssn: user.ssn });
       } else {
-        actions.initForm({
+        actions.updateFormFields({
           itin: user.itin,
           national_id: user.national_id
         });
@@ -73,11 +73,10 @@ class KYCTaxpayer extends Component {
       };
     }
     this.setState({ updatingTaxInfo: true });
-    const response = await actions.updateProfileInfo(updateTaxInfo);
-    if (response.success) {
+    actions.updateTaxpayerInfo(updateTaxInfo, () => {
       actions.navigateTo("KYCVerifyID");
-    }
-    this.setState({ updatingTaxInfo: false });
+      this.setState({ updatingTaxInfo: false });
+    });
   };
 
   render() {
@@ -96,8 +95,16 @@ class KYCTaxpayer extends Component {
           anti-money laundering (AML) regulations and background checks.</CelText>
 
         {(user.country === "United States" || user.citizenship === "United States") ?
-          <CelInput margin="20 0 20 0" type="text" field="ssn" placeholder="Social Security Number (optional)"
-                    value={formData.ssn} error={formErrors.ssn}/>
+          <React.Fragment>
+            <CelInput margin="20 0 20 0" type="text" field="ssn" placeholder="Social Security Number (optional)"
+                      value={formData.ssn} error={formErrors.ssn}/>
+            <Card margin={"0 0 20 0"}>
+              <CelText type={"H5"} weight={"300"}>
+                SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and
+                highly secured.
+              </CelText>
+            </Card>
+          </React.Fragment>
           :
           <React.Fragment>
             <CelInput margin="20 0 20 0" type="text" field="itin" placeholder="E-International Tax ID Number (optional)"
