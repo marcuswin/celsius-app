@@ -149,11 +149,9 @@ class FabMenu extends Component {
       )
     }
     return (
-      <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]} >
-        <View style={style.head}>
-            {menuItems.map(this.renderMenuRow)}
-        </View>
-      </BlurView>
+      <View style={[StyleSheet.absoluteFill, style.menuContainer, style.background]}>
+        {menuItems.map(this.renderMenuRow)}
+      </View>
 
     )
 
