@@ -65,46 +65,45 @@ class InfoBox extends Component {
           alignItems: "center"
         }}>
           {left &&
-          <View style={{ paddingRight: 20 }}>
-            <Icon name="WarningCircle" width="23" height="23" stroke={backgroundColor} fill={color}/>
-          </View>
+            <View style={{ paddingRight: 20 }}>
+              <Icon name="WarningCircle" width="23" height="23" stroke={backgroundColor} fill={color} />
+            </View>
           }
           <CelText type={"H4"} style={{ color }}>{titleText}</CelText>
           <View>
             {children}
           </View>
           {right &&
-          <View style={{ paddingLeft: 20 }}>
-            <Icon name="WarningCircle" width="23" height="23" stroke={backgroundColor} fill={color}/>
-          </View>
+            <View style={{ paddingLeft: 20 }}>
+              <Icon name="WarningCircle" width="23" height="23" stroke={backgroundColor} fill={color} />
+            </View>
           }
           {triangle &&
-          <View style={{ paddingLeft: 20 }}>
-            <View style={{
-              width: 0,
-              height: 0,
-              backgroundColor: "transparent",
-              borderStyle: "solid",
-              marginTop: heightPercentageToDP("1%"),
-              borderLeftWidth: widthPercentageToDP("1.5%"),
-              borderRightWidth: widthPercentageToDP("1.5%"),
-              borderBottomWidth: widthPercentageToDP("1.5%"),
-              borderLeftColor: "transparent",
-              borderRightColor: "transparent",
-              borderBottomColor: "white",
-              transform: [
-                { rotate }
-              ]
-            }}/>
-          </View>
+            <View style={{ paddingLeft: 20 }}>
+              <View style={{
+                width: 0,
+                height: 0,
+                backgroundColor: "transparent",
+                borderStyle: "solid",
+                marginTop: heightPercentageToDP("1%"),
+                borderLeftWidth: widthPercentageToDP("1.5%"),
+                borderRightWidth: widthPercentageToDP("1.5%"),
+                borderBottomWidth: widthPercentageToDP("1.5%"),
+                borderLeftColor: "transparent",
+                borderRightColor: "transparent",
+                borderBottomColor: "white",
+                transform: [
+                  { rotate }
+                ]
+              }} />
+            </View>
           }
         </View>
         {(triangle && open) &&
-        <View style={{marginTop: 5, width: "70%", paddingRight: 10, flexDirection: "row", alignItems: "flex-end", height: heightPercentageToDP("19.05%")}}>
-          <View style={{width: "30%"}}/>
-          <CelText type={"H6"} style={{ color }}>{explanationText}</CelText>
-        </View>
-          }
+          <View style={{ marginTop: 20, width: "100%", jutifyContetn: 'center', alignContent: 'center', alignItems: "center",  }}>
+            <CelText type={"H6"} style={{  color, width: '90%', paddingBottom: heightPercentageToDP("2%") }}>{explanationText}</CelText>
+          </View>
+        }
       </TouchableOpacity>
     );
   }
