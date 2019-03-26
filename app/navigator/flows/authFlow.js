@@ -5,6 +5,8 @@ import Login from '../../components/screens/Login/Login'
 import ForgotPassword from '../../components/screens/ForgotPassword/ForgotPassword'
 import RegisterInitial from '../../components/screens/RegisterInitial/RegisterInitial'
 import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
+import TermsOfUse from '../../components/screens/TermsOfUse/TermsOfUse'
+
 
 const authFlow = {
   screens: {
@@ -12,6 +14,7 @@ const authFlow = {
     ForgotPassword,
     RegisterInitial,
     RegisterSetPin,
+    TermsOfUse,
   },
   props: {
     initialRouteName: 'Login',
