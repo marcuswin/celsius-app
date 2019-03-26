@@ -22,17 +22,6 @@ import Card from '../../atoms/Card/Card'
 
 const progressSteps = ['Verify Identity', 'Secured by PIN', 'Account created']
 
-function getClaimedTransfers (transactions) {
-  if (!transactions) return []
-  const transfers = []
-
-  Object.keys(transactions).forEach(t => {
-    if (transactions[t].status === 'claimed') transfers.push(transactions[t])
-  })
-
-  return transfers
-}
-
 @connect(
   state => ({
     kycStatus: state.user.profile.kyc
@@ -58,16 +47,15 @@ class KYCLanding extends Component {
     const { actions } = this.props
 
     actions.getKYCStatus()
-    // actions.getAllTransfers(TRANSFER_STATUSES.claimed)
     actions.getAllTransactions({ type: 'celpay' })
+    actions.getWalletSummary()
   }
 
   // rendering methods
   renderCard = () => {
     const { transactions, actions } = this.props
-    const claimedTransfers = getClaimedTransfers(transactions)
 
-    if (claimedTransfers && claimedTransfers.length > 1) {
+    if (transactions && Object.keys(transactions).length > 1) {
       return (
         <Card margin='0 0 20 0'>
           <CelText>
@@ -83,7 +71,7 @@ class KYCLanding extends Component {
       )
     }
 
-    if (claimedTransfers && claimedTransfers.length) {
+    if (transactions && Object.keys(transactions).length) {
       return (
         <Card margin='0 0 20 0'>
           <CelText align='center'>

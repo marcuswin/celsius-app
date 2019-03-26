@@ -182,7 +182,6 @@ function initAppData() {
       const { profile } = getState().user;
       if (profile) {
         if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
-          await dispatch(actions.getKYCDocTypes());
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
@@ -207,8 +206,6 @@ function initAppData() {
     // get general data for te app
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
-
-    // TODO: add compliance
-    // await dispatch(actions.getBlacklistedCountries());
+    await dispatch(actions.getKYCDocTypes());
   }
 }
