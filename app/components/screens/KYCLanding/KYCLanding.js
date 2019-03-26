@@ -24,6 +24,7 @@ const progressSteps = ['Verify Identity', 'Secured by PIN', 'Account created']
 
 @connect(
   state => ({
+    profile: state.user.profile,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
@@ -39,12 +40,22 @@ class KYCLanding extends Component {
   static propTypes = {}
   static defaultProps = {}
 
-  static navigationOptions = () => ({
-    title: 'KYC Landing'
-  })
+
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      title: params && params.title ? `Welcome, ${ params.title}`: 'Welcome'
+    }
+  };
+
+
 
   componentDidMount () {
-    const { actions } = this.props
+    const { actions, profile, navigation } = this.props
+
+    navigation.setParams({
+      title: profile.first_name
+    })
 
     actions.getKYCStatus()
     actions.getAllTransactions({ type: 'celpay' })
