@@ -21,6 +21,18 @@ import ErrorBoundary from './ErrorBoundary'
 
 appUtil.initializeThirdPartyServices()
 
+function getActiveRouteName(navigationState) {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+}
+
 export default class App extends Component {
   constructor () {
     super()
@@ -64,9 +76,19 @@ const CelsiusApplication = () => (
     <React.Fragment>
       <Message />
       <AppNavigation
+        onNavigationStateChange={(prevState, currentState) => {
+          const currentScreen = getActiveRouteName(currentState)
+          const prevScreen = getActiveRouteName(prevState)
+
+          if (prevScreen !== currentScreen) {
+            store.dispatch(actions.setActiveScreen(currentScreen))
+          }
+        }}
         ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
       <FabMenu />
     </React.Fragment>
   </Provider>
 )
+
+

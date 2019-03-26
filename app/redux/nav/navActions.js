@@ -1,4 +1,5 @@
 import { NavigationActions, StackActions } from 'react-navigation';
+import ACTIONS from '../../constants/ACTIONS'
 
 let _navigator;
 
@@ -7,8 +8,15 @@ export {
   navigateBack,
   setTopLevelNavigator,
   getActiveScreen,
-  getNavigator
+  getNavigator,
+  setActiveScreen
 };
+
+function setActiveScreen(screenName) {
+  return dispatch => {
+      dispatch({type: ACTIONS.SET_ACTIVE_SCREEN, payload: {screenName}})
+  }
+}
 
 
 /**

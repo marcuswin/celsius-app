@@ -30,6 +30,8 @@ class PeriodGraphView extends Component {
     if (nextProps.type !== "coin-interest" && nextProps.period && nextProps.period !== prevState.activePeriod) {
       return { activePeriod: nextProps.period };
     }
+
+    return null
   }
 
   constructor(props) {
