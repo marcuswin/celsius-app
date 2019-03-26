@@ -14,8 +14,10 @@ import TransactionsHistory from "../../molecules/TransactionsHistory/Transaction
 import CelButton from "../../atoms/CelButton/CelButton";
 import WalletInterestStyle from "./WalletInterest.styles";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
-import { MODALS } from "../../../constants/UI";
+import { EMPTY_STATES, MODALS } from "../../../constants/UI";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import StaticScreen from "../StaticScreen/StaticScreen";
+
 
 
 @connect(
@@ -60,6 +62,14 @@ class WalletInterest extends Component {
   render() {
     const { walletSummary } = this.props;
     const style = WalletInterestStyle();
+
+   if (walletSummary.total_interest_earned <= 0) {
+     return (
+       <StaticScreen
+         emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }}
+       />
+     )
+   }
 
     return (
       <RegularLayout padding='20 0 100 0'>
