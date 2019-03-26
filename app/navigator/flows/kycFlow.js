@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation'
 
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import KYCLanding from '../../components/screens/KYCLanding/KYCLanding'
+import TransactionsOnHold from '../../components/screens/TransactionsOnHold/TransactionsOnHold'
 import KYCProfileDetails from '../../components/screens/KYCProfileDetails/KYCProfileDetails'
 import KYCAddressInfo from '../../components/screens/KYCAddressInfo/KYCAddressInfo'
 import KYCTaxpayer from '../../components/screens/KYCTaxpayer/KYCTaxpayer'
@@ -13,6 +14,7 @@ import SelectCountry from '../../components/screens/SelectCountry/SelectCountry'
 const kycFlow = {
   screens: {
     KYCLanding,
+    TransactionsOnHold,
     KYCProfileDetails,
     KYCAddressInfo,
     KYCTaxpayer,
