@@ -14,7 +14,7 @@ import { KYC_STATUSES } from "../../constants/DATA";
 export {
   updateProfileInfo,
   updateProfileAddressInfo,
-  updateProfileTaxpayerInfo,
+  updateTaxpayerInfo,
   getKYCDocuments,
   createKYCDocuments,
   sendVerificationSMS,
@@ -27,8 +27,9 @@ export {
 /**
  * Updates user personal info
  * @param {Object} profileInfo
+ * @param onSuccess
  */
-function updateProfileInfo(profileInfo) {
+function updateProfileInfo(profileInfo, onSuccess) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_PERSONAL_INFO));
 
@@ -36,10 +37,11 @@ function updateProfileInfo(profileInfo) {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
       analyticsEvents.profileDetailsAdded(updatedProfileData.data);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
-
+      dispatch(onSuccess());
       return {
         success: true
       }
+
     } catch (err) {
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
@@ -89,7 +91,7 @@ function updateProfileAddressInfo(profileAddressInfo) {
  * Updates user Taxpayer info
  * @param {Object} profileTaxpayerInfo
  */
-function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
+function updateTaxpayerInfo(profileTaxpayerInfo) {
   return async dispatch => {
     dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
 
