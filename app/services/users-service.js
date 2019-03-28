@@ -69,7 +69,7 @@ function registerGoogle(googleUser) {
     last_name: lastName,
     google_id: googleUser.google_id,
     profile_picture: googleUser.picture,
-    access_token: googleUser.access_token,
+    access_token: googleUser.access_token || googleUser.auth.accessToken,
     referral_link_id: googleUser.referralLinkId || undefined,
   });
 }
