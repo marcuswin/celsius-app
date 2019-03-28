@@ -365,13 +365,13 @@ class TransactionConfirmation extends Component {
       return true;
     }
 
-    if (withdrawalAddressValue && formData.currency === "xrp" && formData.hasTagValue) {
-      return !formData.coinTag;
-    }
-
-    if (withdrawalAddressValue && formData.currency === "xlm" && formData.hasMemoIdValue) {
-      return !formData.coinMemoId;
-    }
+    // if (withdrawalAddressValue && formData.currency === "xrp" && formData.hasTagValue) {
+    //   return !formData.coinTag;
+    // }
+    //
+    // if (withdrawalAddressValue && formData.currency === "xlm" && formData.hasMemoIdValue) {
+    //   return !formData.coinMemoId;
+    // }
 
     if (withdrawalAddressValue) return false;
     return !withdrawalAddress.address || !withdrawalAddress.manually_set;
