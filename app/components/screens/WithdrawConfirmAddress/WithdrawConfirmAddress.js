@@ -96,6 +96,7 @@ class WithdrawConfirmAddress extends Component {
           placeholder={"Withdrawal address"}
           value={addressDisplay.newAddress}
           disabled
+          type= 'text-area'
           multiline
           numberOfLines={2}
         />
