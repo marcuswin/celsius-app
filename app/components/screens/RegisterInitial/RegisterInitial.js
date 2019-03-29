@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { View } from 'react-native';
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -15,6 +16,7 @@ import Separator from "../../atoms/Separator/Separator";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
 import { KEYBOARD_TYPE } from "../../../constants/UI";
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
@@ -128,8 +130,12 @@ class Register extends Component {
         >
           Create account
         </CelButton>
+        <View >
+          <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our
+              <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE} onPress={()=> actions.navigateTo('TermsOfUse')}> Terms of Use</CelText>
+          </CelText>
+        </View>
 
-        <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our Terms of Use</CelText>
       </AuthLayout>
     );
   }

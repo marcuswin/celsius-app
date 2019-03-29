@@ -79,7 +79,7 @@ class WithdrawConfirmAddress extends Component {
 
     return (
       <RegularLayout>
-        <BalanceView opacity={0.65} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
+        <BalanceView opacity={0.80} coin={coin} crypto={balanceCrypto} usd={balanceUsd} />
 
         <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
