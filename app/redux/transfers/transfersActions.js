@@ -118,6 +118,9 @@ function cancelTransferSuccess(transfer) {
   }
 }
 
+/*
+* @deprecated
+*/
 function createTransfer(amount, coin) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_TRANSFER));
@@ -143,9 +146,18 @@ function createTransferSuccess(transfer) {
   }
 }
 
-function createBranchTransfer(amount, amountUsd, coin, verification) {
+function createBranchTransfer(amount, amountUsd, coin, verificationCode) {
   return async (dispatch, getState) => {
     try {
+      const { user } = getState().users;
+
+      const verification = {}
+      if (user.two_factor_enabled) {
+        verification.twoFactorCode = verificationCode
+      } else {
+        verification.pin = verificationCode
+      }
+
       let apiCall = API.CREATE_TRANSFER;
       dispatch(startApiCall(apiCall));
       const res = await transferService.create({
@@ -159,7 +171,6 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
       const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
       const usdAmount = currencyAmount * amount;
 
-      const { user } = getState().users;
 
       apiCall = API.CREATE_BRANCH_LINK;
       dispatch(startApiCall(apiCall));
