@@ -9,6 +9,7 @@ const branchService = {
   get,
   createEvent,
   getIndividualLink,
+  getByUrl
 };
 
 
@@ -55,6 +56,16 @@ function createEvent(event) {
     ...event,
     branch_key: BRANCH_KEY,
   });
+}
+
+/**
+ * Get an analytics event on Branch by URL
+ * @external
+ *
+ * @returns {Promise}
+ */
+function getByUrl(url) {
+  return axios.get(`${apiUrl}/branch?url=${url}`);
 }
 
 export default branchService;

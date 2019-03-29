@@ -18,6 +18,7 @@ import Icon from '../../atoms/Icon/Icon';
 import STYLES from '../../../constants/STYLES';
 import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
+import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 
 @connect(
   state => {
@@ -238,6 +239,7 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
+        <ReferralReceivedModal />
       </RegularLayout>
     );
   }
