@@ -234,7 +234,7 @@ class Deposit extends Component {
                 <View style={styles.copyShareWrapper}>
                   <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton copyText={destinationTag || memoId}/>
+                    <CopyButton copyText={destinationTag || memoId} onCopy={() => actions.showMessage("success", "Destination tag copied to clipboard!")}/>
                     <Separator vertical />
                     <ShareButton shareText={destinationTag || memoId}/>
                   </View>
@@ -255,7 +255,7 @@ class Deposit extends Component {
                 <View style={styles.copyShareWrapper}>
                   <Separator/>
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton copyText={useAlternateAddress ? alternateAddress : address}/>
+                    <CopyButton onCopy={() => actions.showMessage("success", "Address copied to clipboard!")} copyText={useAlternateAddress ? alternateAddress : address}/>
                     <Separator vertical/>
                     <ShareButton shareText={useAlternateAddress ? alternateAddress : address}/>
                   </View>

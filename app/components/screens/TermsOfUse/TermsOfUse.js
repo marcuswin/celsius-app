@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -188,7 +188,7 @@ class TermsOfUse extends Component {
   };
 
   renderScreen(section, index) {
-    style = TermsOfUseStyle()
+    const style = TermsOfUseStyle()
     return (
       <View key={index} style={style.wrapper}>
         <CelText type='H3' weight='bold' style={style.heading}>{section.heading}</CelText>

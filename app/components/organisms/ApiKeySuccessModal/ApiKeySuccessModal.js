@@ -51,7 +51,7 @@ class ApiKeySuccessModal extends Component {
           <CelText align={"center"} weigth={"400"} type={"H4"}>{apiKey}</CelText>
           <Separator margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
-            <CopyButton copyText={apiKey}/>
+            <CopyButton copyText={apiKey} onCopy={() => actions.showMessage("success", "API key copied to clipboard!")} />
             <Separator vertical />
             <ShareButton shareText={apiKey}/>
           </View>
