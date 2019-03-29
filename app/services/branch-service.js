@@ -27,11 +27,11 @@ function get(id) {
 }
 
 function getByUrl(url) {
-  return axios.get(`${apiUrl}/branch?url=${url}`);
+  return axios.get(`${apiUrl}/branch?url=${url}`, { params: { url } });
 }
 
 function getBySlug(slug) {
-  return axios.get(`${apiUrl}/branch?slug=${slug}`);
+  return axios.get(`${apiUrl}/branch?slug=${slug}`, { params: { slug } });
 }
 
 function getIndividualLink() {
