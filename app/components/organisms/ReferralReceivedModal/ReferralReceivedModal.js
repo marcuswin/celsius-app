@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 
 import testUtil from '../../../utils/test-util'
-
+import formatter from "../../../utils/formatter";
 // import ReferralReceivedModalStyle from "./ReferralReceivedModal.styles";
 import CelModal from '../CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
-import formatter from '../../../utils/formatter'
 import { BRANCH_LINKS } from '../../../constants/DATA'
 
 @connect(
@@ -21,64 +19,58 @@ import { BRANCH_LINKS } from '../../../constants/DATA'
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class ReferralReceivedModal extends Component {
-  getModalCopy (branchLink) {
-    let modalCopy
-    let sender
-    let amountCopy
-    if (branchLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
-      sender = branchLink.owner ? branchLink.owner.display_name : 'your firend'
-      modalCopy = `You and ${sender} will receive up to $20 in BTC once you join*! Now that’s what we call “friends with benefits,” Clock’s ticking - you have 5 days to reach the minimum deposit!`
-    }
-    if (branchLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
-      amountCopy = Number(branchLink.minimum_deposit_for_reward)
-        ? ` of ${formatter.usd(branchLink.minimum_deposit_for_reward)} or more`
-        : ''
-      modalCopy = `Thanks for joining Celsius Network! You will receive ${
-        branchLink.referred_award_amount
-      } in ${
-        branchLink.referred_award_coin
-      } after your first deposit${amountCopy}!`
-    }
-
-    return modalCopy
-  }
-
   closeAndGoToSignup = () => {
     const { actions } = this.props
 
     actions.closeModal()
-    actions.navigateTo('SignupOne')
+    actions.navigateTo('RegisterInitial')
   }
+
   render () {
     const { referralLink } = this.props
 
     if (!referralLink) return null
-
-    const copy = this.getModalCopy(referralLink)
     return (
-      <CelModal name={MODALS.REFERRAL_RECEIVED_MODAL}>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          {/* <Image
-            source={require('../../../../assets/images/hodl-bear.png')}
-            style={{ width: 120, height: 120, borderRadius: 60 }}
-          /> */}
-        </View>
-
-        <CelText>Welcome to Celsius Network!</CelText>
-
-        <CelText>{copy}</CelText>
-
+      <CelModal
+        name={MODALS.REFERRAL_RECEIVED_MODAL}
+        picture={require('../../../../assets/images/frenchy.png')}
+      >
+        <CelText margin='20 0 0 0' align='center' weight='bold' type='H2'>
+          Welcome to Celsius!
+        </CelText>
+        {referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL && (
+          <CelText>
+            You have been referred by {referralLink.owner.display_name} and
+            receiver{' '}
+            <CelText weight='bold'>
+              {referralLink.referred_award_amount}{' '}
+              {referralLink.referred_award_base_currency}{' '}
+            </CelText>
+            as a reward. To see it in your wallet, please sign up and verify
+            your profile.
+          </CelText>
+        )}
+        {referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL && (
+          <CelText>
+            You will receive{' '}
+            <CelText weight='bold'>
+              {referralLink.referred_award_amount}{' '}
+              {referralLink.referred_award_base_currency ||
+                referralLink.referred_award_coin}{' '}
+            </CelText>
+            {isNaN(referralLink.minimum_deposit_for_reward) ? (
+              <CelText>after you verify your account!</CelText>
+            ) : (
+              <CelText>
+                after your first deposit of{' '}
+                {formatter.usd(referralLink.minimum_deposit_for_reward)} or more!
+              </CelText>
+            )}
+          </CelText>
+        )}
         <CelButton onPress={this.closeAndGoToSignup} margin='30 0 20 0'>
           Sign Up
         </CelButton>
-
-        {referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL && (
-          <CelText>
-            *$10 in BTC distributed after initial deposit of $1,000 or more.
-            Additional $10 bonus distributed after keeping $1,000 or more for 90
-            days. Wallet balance value is based on time of deposit.
-          </CelText>
-        )}
       </CelModal>
     )
   }

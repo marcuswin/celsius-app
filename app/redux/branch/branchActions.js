@@ -89,8 +89,8 @@ function registerBranchLink (deepLink) {
 function registerReferralLink (deepLink) {
   return async (dispatch, getState) => {
     try {
-      const { user } = getState().users
-      if (user) {
+      const { profile } = getState().user
+      if (profile.id) {
         return dispatch(
           uiActions.showMessage(
             'warning',
