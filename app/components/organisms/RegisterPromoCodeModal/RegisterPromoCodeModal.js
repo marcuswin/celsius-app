@@ -16,7 +16,9 @@ import CelButton from "../../atoms/CelButton/CelButton";
 @connect(
   state => ({
     formData: state.forms.formData,
-    formErrors: state.forms.formErrors
+    formErrors: state.forms.formErrors,
+    promoCode: state.branch.promoCode,
+    referralLink: state.branch.registeredLink
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -60,9 +62,19 @@ class RegisterPromoCodeModal extends Component {
 
   render() {
     const { confirmed } = this.state;
-    const { formData, actions, formErrors } = this.props;
+    const { formData, actions, formErrors, promoCode, type, referralLink } = this.props;
     const style = RegisterPromoCodeModalStyle();
+    const code = {};
 
+    if (type === "celsius" && promoCode) {
+      code.amount = promoCode.referred_award_amount;
+      code.coin = promoCode.referred_award_coin
+    }
+
+    if (type === "register" && referralLink) {
+      code.amount = referralLink.referred_award_amount;
+      code.coin = referralLink.referred_award_coin
+    }
 
     return (
       <CelModal
@@ -76,7 +88,6 @@ class RegisterPromoCodeModal extends Component {
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Enter a promo code</CelText>
             <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>Receive your prize with the right
               promo code:</CelText>
-
             <CelInput margin="0 0 20 0" type="text" field="promoCode" placeholder="Promo code"
                       value={formData.promoCode} error={formErrors.promoCode}/>
 
@@ -91,9 +102,8 @@ class RegisterPromoCodeModal extends Component {
         {confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>You have received 10 CEL. You can
-              now see it in your wallet.</CelText>
-
+            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{`You have received ${code.amount} ${code.coin}. You can
+              now see it in your wallet.`}</CelText>
             <CelButton
               onPress={() => {
                 actions.closeModal();

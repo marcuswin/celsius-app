@@ -184,7 +184,6 @@ function registrationPromoCode(onSuccess) {
         throw new Error("Sorry, but this promo code is not valid!")
       }
     } catch (err) {
-      // console.log(err);
       dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
       // dispatch(actions.showMessage("warning", "Sorry, but this promo code is not valid!"));
       dispatch(actions.setFormErrors({

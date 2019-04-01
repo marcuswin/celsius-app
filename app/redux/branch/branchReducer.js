@@ -16,6 +16,7 @@ export default function branchReducer (state = initialState, action) {
         registeredLink: action.link,
         transferHash: action.link.hash
       }
+    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
     case ACTIONS.GET_LINK_BY_URL_SUCCESS:
       return {
         ...state,
@@ -46,15 +47,6 @@ export default function branchReducer (state = initialState, action) {
         ...state,
         promoCode: action.code
       };
-
-    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
-        return {
-          state,
-          registeredLink: {
-            ...state.registeredLink,
-            ...action.branchLink
-          }
-        };
 
     default:
       return state
