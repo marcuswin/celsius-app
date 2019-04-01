@@ -149,7 +149,7 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return
 
-    const { actions, mask, navigation } = this.props
+    const { actions, mask, navigation, cameraType } = this.props
     try {
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions()
@@ -161,24 +161,33 @@ class CameraScreen extends Component {
       })
       const photo = await this.camera.takePictureAsync()
       const { size } = this.state
+
+      const imageManipulations = [
+        {
+          resize: {
+            width: size.width,
+            height: size.height
+          }
+        },
+        {
+          crop: {
+            originX: (size.width - STYLES.imageSizes[mask].width) / 2,
+            originY: (size.height - STYLES.imageSizes[mask].height) / 2,
+            width: STYLES.imageSizes[mask].width,
+            height: STYLES.imageSizes[mask].height
+          }
+        }
+      ]
+
+      if (cameraType === 'front') {
+        imageManipulations.push({
+          flip: { horizontal: cameraType === 'front' }
+        })
+      }
+
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
-        [
-          {
-            resize: {
-              width: size.width,
-              height: size.height
-            }
-          },
-          {
-            crop: {
-              originX: (size.width - STYLES.imageSizes[mask].width) / 2,
-              originY: (size.height - STYLES.imageSizes[mask].height) / 2,
-              width: STYLES.imageSizes[mask].width,
-              height: STYLES.imageSizes[mask].height
-            }
-          }
-        ],
+        imageManipulations,
         { compress: 0.95, format: 'jpg' }
       )
 
