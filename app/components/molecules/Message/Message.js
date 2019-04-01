@@ -12,7 +12,8 @@ import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
-    message: state.ui.message
+    message: state.ui.message,
+    openedModal: state.ui.openedModal,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -73,8 +74,8 @@ class Message extends Component {
   };
 
   render() {
-    const { message, actions } = this.props;
-    if (!message || !message.text) return null;
+    const { openedModal, message, actions } = this.props;
+    if (openedModal || !message || !message.text) return null;
     const style = MessageStyle();
 
     const icon = this.getIcon();

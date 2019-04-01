@@ -16,7 +16,8 @@ import CelText from "../../atoms/CelText/CelText";
 
 @connect(
   state => ({
-    openedModal: state.ui.openedModal
+    openedModal: state.ui.openedModal,
+    message: state.ui.message,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -61,7 +62,7 @@ class CelModal extends Component {
   };
 
   render() {
-    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
+    const { message, openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
     const style = CelModalStyle();
 
     // const tintColor = this.getTintColor();
@@ -78,7 +79,6 @@ class CelModal extends Component {
           <BlurView tint={"dark"} intensity={100} style={StyleSheet.absoluteFill} />
 
           <View style={[style.wrapper, size ]}>
-
             <View style={[style.modal]}>
               {this.renderImage()}
               {shouldRenderCloseButton ?
@@ -98,6 +98,10 @@ class CelModal extends Component {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{flexGrow: 1}}
               >
+                { message && (
+                  <CelText>{ message.text }</CelText>
+                )}
+
                 {children}
               </ScrollView>
             </View>
