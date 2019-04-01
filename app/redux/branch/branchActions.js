@@ -148,7 +148,7 @@ function submitProfileCode(onSuccess) {
     } catch (err) {
       dispatch(apiError(API.CHECK_PROFILE_PROMO_CODE, err));
       dispatch(actions.setFormErrors({
-        promoCode: "Oops, it seems that the promo code you entered is not valid. Please, try again!"
+        promoCode: err.msg
       }));
     }
   };
