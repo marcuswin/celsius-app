@@ -10,6 +10,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
+import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 
 @connect(
   () => ({
@@ -38,6 +39,7 @@ class Welcome extends Component {
           <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow, and pay on the blockchain. Let’s bring the next 100M people into Crypto, together.</CelText>
           <CelButton style={style.button} onPress={() => actions.navigateTo('RegisterInitial')}>Join Celsius</CelButton>
           <TouchableOpacity onPress={() => actions.navigateTo('Login')}><CelText>Already have an account</CelText></TouchableOpacity>
+        <ReferralReceivedModal />
         </View>
       </RegularLayout>
     );
