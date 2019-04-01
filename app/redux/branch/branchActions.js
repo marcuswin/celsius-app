@@ -1,19 +1,22 @@
-import ACTIONS from '../../constants/ACTIONS'
-import * as transfersActions from '../transfers/transfersActions'
-import * as uiActions from '../ui/uiActions'
 import branchService from '../../services/branch-service'
 import API from '../../constants/API'
 import { apiError, startApiCall } from '../api/apiActions'
 import { createIndividualLinkBUO } from '../../utils/branch-util'
 import { BRANCH_LINKS } from '../../constants/DATA'
 import { MODALS } from '../../constants/UI'
+import ACTIONS from "../../constants/ACTIONS";
+import * as transfersActions from "../transfers/transfersActions";
+import * as actions from "../../redux/actions";
+
 
 export {
   registerBranchLink,
   saveBranchLink,
   getBranchIndividualLink,
-  createBranchIndividualLink
-}
+  createBranchIndividualLink,
+  submitProfileCode,
+  registrationPromoCode
+};
 
 function saveBranchLink (rawLink) {
   return async dispatch => {
@@ -54,8 +57,8 @@ function getBranchIndividualLink () {
         link: branchLinkRes.data.url
       })
     } catch (err) {
-      dispatch(uiActions.showMessage('error', err.msg))
-      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err))
+      dispatch(actions.showMessage("error", err.msg));
+      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
     }
   }
 }
@@ -80,7 +83,6 @@ function registerBranchLink (deepLink) {
       deepLinkParams.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ||
       deepLinkParams.type === BRANCH_LINKS.INDIVIDUAL_REFERRAL
     ) {
-      // TODO
       return dispatch(registerReferralLink(deepLinkParams))
     }
   }
@@ -92,7 +94,7 @@ function registerReferralLink (deepLink) {
       const { profile } = getState().user
       if (profile.id) {
         return dispatch(
-          uiActions.showMessage(
+          actions.showMessage(
             'warning',
             "Sorry, but existing users can't use this link!"
           )
@@ -107,7 +109,7 @@ function registerReferralLink (deepLink) {
       if (!linkResData.valid) {
         dispatch(apiError(API.GET_LINK_BY_URL))
         dispatch(
-          uiActions.showMessage(
+          actions.showMessage(
             'warning',
             'Sorry, but this link is not valid anymore!'
           )
@@ -125,11 +127,69 @@ function registerReferralLink (deepLink) {
         ) {
           return
         }
-        dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL))
+        dispatch(actions.openModal(MODALS.REFERRAL_RECEIVED_MODAL))
       }
     } catch (err) {
       dispatch(apiError(API.GET_LINK_BY_URL, err))
-      dispatch(uiActions.showMessage('error', err.msg))
+      dispatch(actions.showMessage('error', err.msg))
+    }
+  }
+}
+
+function submitProfileCode(onSuccess) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.CHECK_PROFILE_PROMO_CODE));
+      const { formData } = getState().forms;
+
+      const res = await branchService.submitProfileCode(formData.promoCode);
+      dispatch(submitProfileCodeSuccess(res.data.branch_link));
+      if(onSuccess) onSuccess()
+    } catch (err) {
+      dispatch(apiError(API.CHECK_PROFILE_PROMO_CODE, err));
+      dispatch(actions.setFormErrors({
+        promoCode: "Oops, it seems that the promo code you entered is not valid. Please, try again!"
+      }));
+    }
+  };
+}
+
+function submitProfileCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.CHECK_PROFILE_PROMO_CODE_SUCCESS,
+    callName: API.CHECK_PROFILE_PROMO_CODE,
+    code: promoCodeInfo
+  };
+}
+
+function registrationPromoCode(onSuccess) {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState().forms;
+      // check promo code
+      if (formData.promoCode && formData.promoCode !== "") {
+        dispatch(startApiCall(API.SUBMIT_PROMO_CODE));
+
+        const linkRes = await branchService.submitRegistrationCode(formData.promoCode);
+        const linkResData = linkRes.data;
+
+        dispatch({
+          type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+          callName: API.SUBMIT_PROMO_CODE,
+          branchLink: linkResData.branch_link
+        });
+
+        if(onSuccess) onSuccess()
+      } else {
+        throw new Error("Sorry, but this promo code is not valid!")
+      }
+    } catch (err) {
+      // console.log(err);
+      dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
+      // dispatch(actions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      dispatch(actions.setFormErrors({
+        promoCode: "Sorry, but this promo code is not valid!"
+      }));
     }
   }
 }

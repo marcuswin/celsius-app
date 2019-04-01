@@ -9,7 +9,9 @@ const branchService = {
   get,
   createEvent,
   getIndividualLink,
-  getByUrl
+  getByUrl,
+  submitProfileCode,
+  submitRegistrationCode
 };
 
 
@@ -47,8 +49,6 @@ function getIndividualLink() {
 
 /**
  * Creates an analytics event on Branch
- * @external
- *
  * @returns {Promise}
  */
 function createEvent(event) {
@@ -59,13 +59,33 @@ function createEvent(event) {
 }
 
 /**
+<<<<<<< HEAD
  * Get an analytics event on Branch by URL
- * @external
- *
  * @returns {Promise}
  */
 function getByUrl(url) {
   return axios.get(`${apiUrl}/branch?url=${url}`);
 }
+
+/**
+ *
+ * @param promoCode
+ * @returns {Promise}
+ */
+
+function submitProfileCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
+}
+
+/**
+ *
+ * @param promoCode
+ * @returns {Promise}
+ */
+
+function submitRegistrationCode(promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
+}
+
 
 export default branchService;

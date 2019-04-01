@@ -3,9 +3,10 @@ import { BRANCH_LINKS } from '../../constants/DATA'
 
 const initialState = {
   registeredLink: null,
+  promoCode: null,
+  transferHash: null,
+};
 
-  transferHash: null
-}
 
 export default function branchReducer (state = initialState, action) {
   switch (action.type) {
@@ -39,6 +40,21 @@ export default function branchReducer (state = initialState, action) {
             ? action.branchLink.id
             : state.referralLinkId
       }
+
+    case ACTIONS.CHECK_PROFILE_PROMO_CODE_SUCCESS:
+      return {
+        ...state,
+        promoCode: action.code
+      };
+
+    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
+        return {
+          state,
+          registeredLink: {
+            ...state.registeredLink,
+            ...action.branchLink
+          }
+        };
 
     default:
       return state

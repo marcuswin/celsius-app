@@ -15,6 +15,8 @@ import Separator from "../../atoms/Separator/Separator";
 // import CelSelect from '../../molecules/CelSelect/CelSelect';
 import IconButton from "../../organisms/IconButton/IconButton";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { MODALS } from "../../../constants/UI";
+import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 
 @connect(
   state => ({
@@ -97,7 +99,7 @@ class Profile extends Component {
         </View>
 
         <IconButton icon="Refer">Refer your friends</IconButton>
-        <IconButton margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
+        <IconButton margin="0 0 20 0" icon="Settings" onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}>Enter a promo code</IconButton>
         <Separator/>
         <IconButton icon="Settings">Achievements</IconButton>
         <Separator/>
@@ -144,6 +146,7 @@ class Profile extends Component {
               Telegram</CelText>
           </TouchableOpacity>
         </Card>
+        <RegisterPromoCodeModal type={"celsius"}/>
       </RegularLayout>
     );
   }
