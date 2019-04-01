@@ -141,14 +141,13 @@ class CelPayChooseFriend extends Component {
 
   sendLink = async () => {
     const { actions } = this.props;
-    actions.initForm();
     actions.navigateTo('CelPayEnterAmount');
   };
 
   handleContactPress = async (contact) => {
     const { actions } = this.props;
 
-    actions.initForm({ friend: contact });
+    actions.updateFormField('friend', contact);
     actions.navigateTo('CelPayEnterAmount');
   };
 

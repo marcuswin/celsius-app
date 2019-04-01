@@ -56,9 +56,9 @@ class CelPayEnterAmount extends Component {
       coinSelectItems,
     };
 
-
-    props.actions.updateFormField('coin', 'BTC')
-
+    if (!formData.coin) {
+      props.actions.updateFormField('coin', 'BTC')
+    }
   }
 
   // TODO: move to formatter? check WithdrawEnterAmount

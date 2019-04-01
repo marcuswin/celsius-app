@@ -26,7 +26,8 @@ const { COLORS } = STYLES;
     walletSummary: state.wallet.summary,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    interestRates: state.generalData.interestRates
+    interestRates: state.generalData.interestRates,
+    celpayCompliance: state.user.compliance.celpay,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -70,11 +71,21 @@ class CoinDetails extends Component {
     actions.navigateTo('AllTransactions');
   }
 
+  goToCelPay = () => {
+    const { currency } = this.state;
+    const { actions } = this.props;
+
+    actions.updateFormField('coin', currency.short)
+    actions.navigateTo('CelPayFab')
+  }
+
   render() {
     const { currency} = this.state;
-    const { actions, interestRates } = this.props;
+    const { actions, interestRates, celpayCompliance } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
+
+    const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     return (
       <RegularLayout padding={'20 0 100 0'}>
@@ -94,15 +105,19 @@ class CoinDetails extends Component {
                 <Separator vertical/>
 
                 <View style={style.buttons}>
-                  <CelButton
-                    basic
-                    size="small"
-                    onPress={() => actions.navigateTo('CelPayEnterAmount')}
-                  >
-                    Send
-                  </CelButton>
+                  { isCoinEligibleForCelPay && (
+                    <View>
+                      <CelButton
+                        basic
+                        size="small"
+                        onPress={this.goToCelPay}
+                      >
+                        Send
+                      </CelButton>
 
-                  <Separator />
+                      <Separator />
+                    </View>
+                  ) }
 
                   <CelButton
                     basic
