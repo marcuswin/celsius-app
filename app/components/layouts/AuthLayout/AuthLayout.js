@@ -20,7 +20,9 @@ class AuthLayout extends Component {
     });
 
     return (
-      <RegularLayout>
+      <RegularLayout
+        fabType="hide"
+      >
         {childrenWithProps}
       </RegularLayout>
     );

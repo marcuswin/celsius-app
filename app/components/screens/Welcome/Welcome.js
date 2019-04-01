@@ -30,7 +30,7 @@ class Welcome extends Component {
     const style = WelcomeStyle();
     const { actions } = this.props
     return (
-      <RegularLayout>
+      <RegularLayout fabType="hide">
         <View style={style.wrapper}>
           <Image
             source={require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png')} style={{ height: 140, resizeMode: 'contain' }}
