@@ -15,8 +15,9 @@ import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
 import Separator from "../../atoms/Separator/Separator";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
-import { KEYBOARD_TYPE } from "../../../constants/UI";
 import STYLES from '../../../constants/STYLES';
+import { KEYBOARD_TYPE, MODALS } from "../../../constants/UI";
+import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 
 @connect(
   state => ({
@@ -123,7 +124,7 @@ class Register extends Component {
         ) }
 
         <CelButton
-          margin="10 0 40 0"
+          margin="10 0 10 0"
           onPress={this.submitForm}
           iconRight="IconArrowRight"
           loading={registerLoading}
@@ -136,6 +137,16 @@ class Register extends Component {
           </CelText>
         </View>
 
+        <CelButton
+          margin="0 0 20 0"
+          onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
+          basic
+        >
+          Have a promo code?
+        </CelButton>
+
+        <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our Terms of Use</CelText>
+        <RegisterPromoCodeModal type={"register"}/>
       </AuthLayout>
     );
   }
