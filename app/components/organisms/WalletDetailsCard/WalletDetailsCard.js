@@ -10,6 +10,7 @@ import WalletDetailsCardStyle from "./WalletDetailsCard.styles";
 import formatter from '../../../utils/formatter';
 import STYLES from '../../../constants/STYLES';
 import Icon from '../../atoms/Icon/Icon'
+import { MODALS } from "../../../constants/UI";
 
 class WalletDetailsCard extends PureComponent {
 
@@ -19,8 +20,8 @@ class WalletDetailsCard extends PureComponent {
   };
 
   navigateToBalanceHistory = () => this.props.navigateTo('BalanceHistory');
-
-  navigateToWalletInterest = () => this.props.navigateTo('WalletInterest')
+  navigateToWalletInterest = () => this.props.navigateTo('WalletInterest');
+  openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 
   render() {
     const { walletSummary } = this.props;
@@ -43,12 +44,19 @@ class WalletDetailsCard extends PureComponent {
 
           <Separator vertical/>
 
-          <TouchableOpacity onPress={this.navigateToWalletInterest}>
-            <CelText weight='300' type="H6">Total Interest earned</CelText>
-            <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
-            <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={this.navigateToWalletInterest}>
+              <CelText weight='300' type="H6">Total Interest earned</CelText>
+              <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={this.openInterestModal}>
+              <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Todays rates</CelText>
+            </TouchableOpacity>
+          </View>
         </View>
+
+
       </Card>
     );
   }

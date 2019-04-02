@@ -19,7 +19,6 @@ import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 import StaticScreen from "../StaticScreen/StaticScreen";
 
 
-
 @connect(
   (state) => ({
     walletSummary: state.wallet.summary,

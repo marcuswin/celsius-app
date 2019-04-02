@@ -18,6 +18,7 @@ import Icon from '../../atoms/Icon/Icon';
 import STYLES from '../../../constants/STYLES';
 import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
+import TodayInterestRatesModal from "../WalletInterest/WalletInterest";
 
 @connect(
   state => {
@@ -216,7 +217,11 @@ class WalletLanding extends Component {
     return (
       <RegularLayout>
         <View>
-          <WalletDetailsCard walletSummary={walletSummary} navigateTo={actions.navigateTo} />
+          <WalletDetailsCard
+            walletSummary={walletSummary}
+            navigateTo={actions.navigateTo}
+            openModal={actions.openModal}
+          />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <CelText style={{ alignSelf: 'center' }} weight='500'>Deposited coins</CelText>
@@ -238,6 +243,8 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
+
+        <TodayInterestRatesModal />
       </RegularLayout>
     );
   }
