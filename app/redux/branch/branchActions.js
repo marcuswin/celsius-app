@@ -48,13 +48,11 @@ function getBranchIndividualLink () {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_INDIVIDUAL_LINK))
-
       const branchLinkRes = await branchService.getIndividualLink()
 
       dispatch({
         type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
-        callName: API.GET_INDIVIDUAL_LINK,
-        link: branchLinkRes.data.url
+        link: branchLinkRes.data.branch_link.branch_link
       })
     } catch (err) {
       dispatch(actions.showMessage("error", err.msg));

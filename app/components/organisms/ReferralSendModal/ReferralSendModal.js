@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Share } from 'react-native'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 import Separator from "../../atoms/Separator/Separator";
+import STYLES from "../../../constants/STYLES";
 
 import testUtil from '../../../utils/test-util'
 
@@ -28,7 +29,6 @@ import ReferralSendModalStyle from './ReferralSendModal.styles';
 class ReferralSendModal extends Component {
 
   static propTypes = {
-    text: PropTypes.string,
     code: PropTypes.string,
   };
   static defaultProps = {
@@ -42,36 +42,41 @@ class ReferralSendModal extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { actions, user, openedModal } = nextProps;
-    if (this.props.openedModal !== MODALS.REFERRAL_SEND_MODAL && openedModal === MODALS.REFERRAL_SEND_MODAL && !user.individual_referral_link) {
+  componentDidUpdate(prevProps) {
+    const { actions, openedModal } = prevProps;
+
+    if (this.props.openedModal === MODALS.REFERRAL_SEND_MODAL && openedModal !== MODALS.REFERRAL_SEND_MODAL && !this.props.user.individual_referral_link) {
       actions.getBranchIndividualLink();
     }
   }
+  getSlug = (link) => link.split("/")[link.split("/").length - 1];
 
-  // getSlug = (link) => link.split("/")[link.split("/").length - 1];
-
+  getShare = (link) => link;
 
   render() {
-    const { actions, user} = this.props;
+
+    const { actions, user } = this.props;
     const style = ReferralSendModalStyle();
 
-    const slug = user.individual_referral_link;
+    if (!user.individual_referral_link) return null;
 
-    // console.log(user.individual_referral_link)
+    const slug = this.getSlug(user.individual_referral_link);
+    const shareLink = this.getShare(user.individual_referral_link)
 
     return (
       <CelModal name={MODALS.REFERRAL_SEND_MODAL}
-        picture={require('../../../../assets/images/illustrations-v3/Dog/profile-dog.png')}
-
+        picture={require('../../../../assets/images/icons/referrals/dog.png')}
+        style={{ paddingBottom: 30 }}
       >
-        <CelText type="H3" weight="bold" align={"center"}>Refer your friends!</CelText>
+        <CelText type="H3" weight="bold" align={"center"} style={{ paddingTop: 30 }}>Refer your friends!</CelText>
 
-        <CelText align={"center"} weight='300' style={style.explanation}>Use your unique promo code or link to invite your friends to Celsius. You’ll both receive up to <CelText weight='600'>$20 </CelText>when they join*!</CelText>
+        <CelText color={STYLES.COLORS.DARK_GRAY} align={"center"} weight='300' style={style.explanation}>Use your unique promo code or link to invite your friends to Celsius. You’ll both receive up to <CelText weight='600'>$20 </CelText>when they join*!</CelText>
 
         <View style={style.copyShareWrapper}>
-          <CelText align={"center"} weigth={"400"} type={"H4"}>{slug}</CelText>
-          <Separator margin={"20 0 0 0"} />
+          <View styles={{ backgroundColor: 'red' }}>
+            <CelText align={"center"} weigth={"400"} type={"H4"} >{slug}</CelText>
+          </View>
+          <Separator style={{ backgroundColor: 'red' }} margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
             <CopyButton copyText={slug} onCopy={() => actions.showMessage("success", "Promo code key copied to clipboard!")} />
             <Separator vertical />
@@ -80,14 +85,11 @@ class ReferralSendModal extends Component {
         </View>
 
         <CelText align={"center"} style={style.explanation}>*$10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit. </CelText>
-
-        <CelButton
-          onPress={() => actions.navigateTo("WalletLanding")}
-          margin="15 0 15 0"
-        >
+        <CelButton onPress={() => Share.share({ message: shareLink })}>
           Share a unique link
         </CelButton>
       </CelModal>
+
     );
   }
 }

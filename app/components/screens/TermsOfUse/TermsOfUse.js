@@ -181,12 +181,6 @@ class TermsOfUse extends Component {
     }
   }
 
-
-  componentDidMount = () => {
-
-    // require('./Terms.txt').then(r => r.text()).then(text => console.log(text))
-  };
-
   renderScreen(section, index) {
     const style = TermsOfUseStyle()
     return (

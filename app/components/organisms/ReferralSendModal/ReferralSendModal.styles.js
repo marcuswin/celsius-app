@@ -11,14 +11,24 @@ const base = {
         borderColor: STYLES.COLORS.LIGHT_GRAY,
         borderWidth: 2,
         borderRadius: 8,
-        padding: 20
-      },
-    
-      copyShareButtonsWrapper: {
+        padding: 10,
+        marginVertical: 10,
+
+    },
+
+    copyShareButtonsWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         paddingTop: 15
-      }
+    },
+    explanation: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        marginLeft: '7%',
+        marginRight: '7%',
+        alignItems: 'stretch',
+        alignContent: 'stretch',
+    }
 }
 
 const themed = {

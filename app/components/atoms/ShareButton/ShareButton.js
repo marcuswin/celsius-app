@@ -7,11 +7,11 @@ import testUtil from "../../../utils/test-util";
 import CelText from '../CelText/CelText';
 
 const ShareButton = (props) => {
-  const { shareText, title } = props;
+  const { shareText, title, name = 'Share' } = props;
 
   return (
-    <TouchableOpacity onPress={() => Share.share({ message: shareText, title })}>
-      <CelText>Share</CelText>
+    <TouchableOpacity onPress={() => Share.share({ message: shareText, title, name })}>
+      <CelText>{name}</CelText>
     </TouchableOpacity>
   )
 }

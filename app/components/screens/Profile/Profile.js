@@ -82,7 +82,6 @@ class Profile extends Component {
   openReferralSendModal = () => {
     const { actions } = this.props;
     actions.openModal(MODALS.REFERRAL_SEND_MODAL);
-    // console.log('opening')
   }
 
   render() {
