@@ -172,7 +172,7 @@ class VerifyProfile extends Component {
     const style = VerifyProfileStyle();
 
     return (
-      <RegularLayout padding="0 0 0 0">
+      <RegularLayout padding="0 0 0 0" fabType={"hide"}>
         <View style={style.container}>
           {is2FAEnabled ? this.render2FA() : this.renderPIN()}
           <CelNumpad
