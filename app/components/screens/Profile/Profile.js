@@ -18,6 +18,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import { MODALS } from "../../../constants/UI";
 // import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
+import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 
 
 
@@ -108,7 +109,7 @@ class Profile extends Component {
         </View>
 
         <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
-        <IconButton margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
+        <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
         <Separator/>
         <IconButton icon="Settings">Achievements</IconButton>
         <Separator />
@@ -155,7 +156,8 @@ class Profile extends Component {
               Telegram</CelText>
           </TouchableOpacity>
         </Card>
-        <ReferralSendModal />
+        <ReferralSendModal/>
+        <RegisterPromoCodeModal type={"celsius"}/>
       </RegularLayout>
     );
   }
