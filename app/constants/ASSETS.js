@@ -43,6 +43,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
   require('../../assets/images/illustrations-v3/PolarBearHODL3x.png'),
   require('../../assets/images/illustrations-v3/PolarBearSad3x.png'),
+  require('../../assets/images/illustrations-v3/stamp3x.png'),
   require('../../assets/images/bear-happyKYC3x.png'),
   require('../../assets/images/deerTransactionHistory.png'),
   require('../../assets/images/illuNoKYC3x.png'),

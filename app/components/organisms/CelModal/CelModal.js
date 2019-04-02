@@ -56,7 +56,7 @@ class CelModal extends Component {
     if (!picture) return null;
     return (
       <View style={style.imageWrapper}>
-        <Image source={picture} style={[style.modalImage]} />
+        <Image source={picture} style={[style.modalImage]} resizeMode='contain' />
       </View>
     );
   };

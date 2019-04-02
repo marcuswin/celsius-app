@@ -33,7 +33,7 @@ const base = {
     basicButton: {
         borderColor: 'transparent',
         backgroundColor: 'transparent',
-        // height: 'auto',
+        height: 'auto',
         paddingLeft: 0,
         paddingRight: 0
     },

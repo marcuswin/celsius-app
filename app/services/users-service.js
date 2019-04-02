@@ -1,7 +1,7 @@
 // TODO(fj): split into auth service and profile service?
 
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from 'axios'
+import apiUrl from './api-url'
 
 const usersService = {
   // TODO: auth service
@@ -32,9 +32,9 @@ const usersService = {
   connectPhoneContacts,
   getConnectedContacts,
   getLinkedBankAccount,
-  linkBankAccount
-};
-
+  linkBankAccount,
+  getCelsiusMemberStatus
+}
 
 /**
  * Registers a user with email/password
@@ -48,8 +48,8 @@ const usersService = {
  * @param {Object} user.referral_link_id
  * @return {Promise}
  */
-function register(user) {
-  return axios.post(`${apiUrl}/users/register`, user);
+function register (user) {
+  return axios.post(`${apiUrl}/users/register`, user)
 }
 
 /**
@@ -67,10 +67,9 @@ function register(user) {
  * @param {string} twitterUser.referral_link_id
  * @return {Promise}
  */
-function registerTwitter(twitterUser) {
-  return axios.post(`${apiUrl}/users/twitter`, twitterUser);
+function registerTwitter (twitterUser) {
+  return axios.post(`${apiUrl}/users/twitter`, twitterUser)
 }
-
 
 /**
  * Registers a user through Facebook
@@ -85,10 +84,9 @@ function registerTwitter(twitterUser) {
  * @param {Object} facebookUser.referral_link_id
  * @return {Promise}
  */
-function registerFacebook(facebookUser) {
-  return axios.post(`${apiUrl}/users/facebook`, facebookUser);
+function registerFacebook (facebookUser) {
+  return axios.post(`${apiUrl}/users/facebook`, facebookUser)
 }
-
 
 /**
  * Registers a user through Google
@@ -104,10 +102,9 @@ function registerFacebook(facebookUser) {
  * @param {Object} googleUser.referral_link_id
  * @return {Promise}
  */
-function registerGoogle(googleUser) {
-  return axios.post(`${apiUrl}/users/google`, googleUser);
+function registerGoogle (googleUser) {
+  return axios.post(`${apiUrl}/users/google`, googleUser)
 }
-
 
 /**
  * Updates user info
@@ -119,13 +116,12 @@ function registerGoogle(googleUser) {
  * @param {string} user.lastName
  * @return {Promise}
  */
-function update({ firstName, lastName }) {
+function update ({ firstName, lastName }) {
   return axios.put(`${apiUrl}/users/update`, {
     first_name: firstName,
-    last_name: lastName,
-  });
+    last_name: lastName
+  })
 }
-
 
 /**
  * Logs a user into Celsius with email/password
@@ -136,13 +132,12 @@ function update({ firstName, lastName }) {
  * @param {string} user.password
  * @return {Promise}
  */
-function login({ email, password }) {
+function login ({ email, password }) {
   return axios.post(`${apiUrl}/users/login`, {
     email,
-    password,
-  });
+    password
+  })
 }
-
 
 /**
  * Send an email to the user with the reset password link
@@ -151,10 +146,10 @@ function login({ email, password }) {
  * @param {string} email
  * @return {Promise}
  */
-function sendResetLink(email) {
+function sendResetLink (email) {
   return axios.post(`${apiUrl}/users/send_reset_link`, {
-    email,
-  });
+    email
+  })
 }
 
 /**
@@ -165,11 +160,11 @@ function sendResetLink(email) {
  * @param {string} newPassword
  * @return {Promise}
  */
-function resetPassword(currentPassword, newPassword) {
+function resetPassword (currentPassword, newPassword) {
   return axios.post(`${apiUrl}/users/reset_password`, {
     current_password: currentPassword,
-    new_password: newPassword,
-  });
+    new_password: newPassword
+  })
 }
 
 /**
@@ -185,10 +180,9 @@ function resetPassword(currentPassword, newPassword) {
  * @param {string} googleUser.access_token
  * @return {Promise}
  */
-function googleLogin(googleUser) {
-  return axios.post(`${apiUrl}/users/google/login`, googleUser);
+function googleLogin (googleUser) {
+  return axios.post(`${apiUrl}/users/google/login`, googleUser)
 }
-
 
 /**
  * Logs a user into Celsius through Facebook
@@ -202,10 +196,9 @@ function googleLogin(googleUser) {
  * @param {string} facebookUser.access_token
  * @return {Promise}
  */
-function facebookLogin(facebookUser) {
-  return axios.post(`${apiUrl}/users/facebook/login`, facebookUser);
+function facebookLogin (facebookUser) {
+  return axios.post(`${apiUrl}/users/facebook/login`, facebookUser)
 }
-
 
 /**
  * Logs a user into Celsius through Twitter
@@ -219,8 +212,8 @@ function facebookLogin(facebookUser) {
  * @param {string} twitterUser.secret_token
  * @return {Promise}
  */
-function twitterLogin(twitterUser) {
-  return axios.post(`${apiUrl}/users/twitter/login`, twitterUser);
+function twitterLogin (twitterUser) {
+  return axios.post(`${apiUrl}/users/twitter/login`, twitterUser)
 }
 
 /**
@@ -229,8 +222,8 @@ function twitterLogin(twitterUser) {
  *
  * @return {Promise}
  */
-function getPersonalInfo() {
-  return axios.get(`${apiUrl}/me`);
+function getPersonalInfo () {
+  return axios.get(`${apiUrl}/me`)
 }
 
 /**
@@ -239,8 +232,8 @@ function getPersonalInfo() {
  *
  * @return {Promise}
  */
-function getProfileAddressInfo() {
-  return axios.get(`${apiUrl}/me/address`);
+function getProfileAddressInfo () {
+  return axios.get(`${apiUrl}/me/address`)
 }
 
 /**
@@ -249,10 +242,9 @@ function getProfileAddressInfo() {
  *
  * @return {Promise}
  */
-function getProfileTaxpayerInfo() {
-  return axios.get(`${apiUrl}/me/taxpayer_info`);
+function getProfileTaxpayerInfo () {
+  return axios.get(`${apiUrl}/me/taxpayer_info`)
 }
-
 
 /**
  * Updates user info
@@ -262,10 +254,9 @@ function getProfileTaxpayerInfo() {
  * @param {Object} profileInfo
  * @return {Promise}
  */
-function updateProfileInfo(profileInfo) {
-  return axios.patch(`${apiUrl}/me`, profileInfo);
+function updateProfileInfo (profileInfo) {
+  return axios.patch(`${apiUrl}/me`, profileInfo)
 }
-
 
 /**
  * Updates address info for user
@@ -281,8 +272,8 @@ function updateProfileInfo(profileInfo) {
  * @param {string} [profileAddressInfo.flat_number]
  * @return {Promise}
  */
-function updateProfileAddressInfo(profileAddressInfo) {
-  return axios.post(`${apiUrl}/me/address`, profileAddressInfo);
+function updateProfileAddressInfo (profileAddressInfo) {
+  return axios.post(`${apiUrl}/me/address`, profileAddressInfo)
 }
 
 /**
@@ -295,8 +286,8 @@ function updateProfileAddressInfo(profileAddressInfo) {
  * @param {string} profileTaxpayerInfo.national_id
  * @return {Promise}
  */
-function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
-  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo);
+function updateProfileTaxpayerInfo (profileTaxpayerInfo) {
+  return axios.post(`${apiUrl}/me/taxpayer_info`, profileTaxpayerInfo)
 }
 
 /**
@@ -306,22 +297,24 @@ function updateProfileTaxpayerInfo(profileTaxpayerInfo) {
  * @param {Object} image - file object
  * @return {Promise}
  */
-function setProfileImage(image) {
+function setProfileImage (image) {
   const formData = new FormData()
   let pictureUrl
   if (typeof image === 'string' && image.includes('https')) {
     pictureUrl = { profile_picture_url: image }
   } else {
-    formData.append("profile_picture", {
+    formData.append('profile_picture', {
       name: 'picture.jpg',
-      type: "image/jpg",
-      uri: image.uri,
+      type: 'image/jpg',
+      uri: image.uri
     })
   }
 
-  return axios.post(`${apiUrl}/user/profile/profile_picture`, pictureUrl || formData);
+  return axios.post(
+    `${apiUrl}/user/profile/profile_picture`,
+    pictureUrl || formData
+  )
 }
-
 
 /**
  * Adds Expo push notification token to user
@@ -330,12 +323,11 @@ function setProfileImage(image) {
  * @param {string} token
  * @return {Promise}
  */
-async function addExpoPushToken(token) {
+async function addExpoPushToken (token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
-    expo_push_token: token,
-  });
+    expo_push_token: token
+  })
 }
-
 
 /**
  * Gets ICO info for user
@@ -343,7 +335,7 @@ async function addExpoPushToken(token) {
  *
  * @return {Promise}
  */
-function getIcoPersonalInfo() {
+function getIcoPersonalInfo () {
   return axios.get(`${apiUrl}/me/kyc/ico_data`)
 }
 
@@ -353,8 +345,8 @@ function getIcoPersonalInfo() {
  *
  * @return {Promise}
  */
-function getComplianceInfo() {
-  return axios.get(`${apiUrl}/me/compliance`);
+function getComplianceInfo () {
+  return axios.get(`${apiUrl}/me/compliance`)
 }
 
 /**
@@ -364,8 +356,8 @@ function getComplianceInfo() {
  * @param {Object} contacts - @todo check payload
  * @return {Promise}
  */
-function connectPhoneContacts(contacts) {
-  return axios.post(`${apiUrl}/users/friends/contacts`, { contacts });
+function connectPhoneContacts (contacts) {
+  return axios.post(`${apiUrl}/users/friends/contacts`, { contacts })
 }
 
 /**
@@ -374,8 +366,8 @@ function connectPhoneContacts(contacts) {
  *
  * @return {Promise}
  */
-function getConnectedContacts() {
-  return axios.get(`${apiUrl}/users/friends`);
+function getConnectedContacts () {
+  return axios.get(`${apiUrl}/users/friends`)
 }
 
 /**
@@ -384,7 +376,7 @@ function getConnectedContacts() {
  *
  * @return {Promise}
  */
-function getLinkedBankAccount() {
+function getLinkedBankAccount () {
   return axios.get(`${apiUrl}/bank/account`)
 }
 
@@ -401,10 +393,9 @@ function getLinkedBankAccount() {
  * @param {string} bankAccountInfo.swift
  * @return {Promise}
  */
-function linkBankAccount(bankAccountInfo) {
+function linkBankAccount (bankAccountInfo) {
   return axios.post(`${apiUrl}/bank/account`, bankAccountInfo)
 }
-
 
 /**
  * Log the user out from all devices
@@ -412,8 +403,16 @@ function linkBankAccount(bankAccountInfo) {
  *
  * @return {Promise}
  */
-function invalidateSession() {
+function invalidateSession () {
   return axios.post(`${apiUrl}/user/invalidate_session`)
 }
 
-export default usersService;
+/**
+ * Get the user member status
+ * @return {Promise}
+ */
+function getCelsiusMemberStatus () {
+  return axios.get(`${apiUrl}/user/membership`)
+}
+
+export default usersService

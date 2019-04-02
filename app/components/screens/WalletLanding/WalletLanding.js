@@ -19,6 +19,7 @@ import STYLES from '../../../constants/STYLES';
 import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
+import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
 
 
 @connect(
@@ -79,7 +80,7 @@ class WalletLanding extends Component {
   }
 
   componentDidMount = async () => {
-    const { actions, currenciesRates, currenciesGraphs } = this.props;
+    const { actions, currenciesRates, currenciesGraphs, user } = this.props;
 
     const coinWithAmount = [];
     const coinWithoutAmount = [];
@@ -87,6 +88,7 @@ class WalletLanding extends Component {
     await actions.getWalletSummary()
     if (!currenciesRates) actions.getCurrencyRates()
     if (!currenciesGraphs) actions.getCurrencyGraphs()
+    if(!user.is_member) actions.getCelsiusMemberStatus()
     const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
@@ -246,6 +248,7 @@ class WalletLanding extends Component {
         />
 
         <TodayInterestRatesModal />
+        <BecameCelMemberModal />
       </RegularLayout>
     );
   }
