@@ -50,7 +50,8 @@ const initialState = {
     friendsWithApp: [],
     friendsWithoutApp: []
   },
-  bankAccountInfo: null
+  bankAccountInfo: null,
+  screen: undefined,
 };
 
 export default (state = initialState, action) => {
@@ -242,6 +243,12 @@ export default (state = initialState, action) => {
         bankAccountInfo: {
           ...action.bankAccountInfo
         }
+      }
+
+    case ACTIONS.GET_PREVIOUS_SCREEN_SUCCESS:
+      return {
+        ...state,
+        screen: action.screen
       }
 
     default:

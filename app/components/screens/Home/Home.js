@@ -51,7 +51,7 @@ class Home extends Component {
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
       if (user.id) {
         if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
-          return prevProps.actions.navigateTo("WalletFab");
+          return prevProps.actions.navigateTo("VerifyProfile");
         }
         if (!user.has_pin) {
           return prevProps.actions.navigateTo("RegisterSetPin");

@@ -1,11 +1,12 @@
 import { Constants } from "expo";
 import { Platform } from "react-native";
 import uuid from "uuid";
+import store from '../../redux/store'
 
 import * as actions from "../actions";
 import {
   getSecureStoreKey,
-  deleteSecureStoreKey,
+  deleteSecureStoreKey
 } from "../../utils/expo-storage";
 import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
@@ -26,8 +27,8 @@ export {
   loadCelsiusAssets,
   handleAppStateChange,
   setInternetConnection,
-  initAppData,
-}
+  initAppData
+};
 
 /**
  * Initializes Celsius Application
@@ -55,7 +56,7 @@ function initCelsiusApp() {
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {
-      loggerUtil.err(e)
+      loggerUtil.err(e);
     }
   };
 }
@@ -74,7 +75,7 @@ function resetCelsiusApp() {
 
       await dispatch(initCelsiusApp());
     } catch (e) {
-      loggerUtil.err(e)
+      loggerUtil.err(e);
     }
   };
 }
@@ -84,20 +85,17 @@ function resetCelsiusApp() {
  */
 function loadCelsiusAssets() {
   return async dispatch => {
-    dispatch({ type: ACTIONS.START_LOADING_ASSETS })
+    dispatch({ type: ACTIONS.START_LOADING_ASSETS });
 
     const imageAssets = appUtil.cacheImages(ASSETS.CACHE_IMAGES);
     const fontAssets = appUtil.cacheFonts(ASSETS.FONTS);
 
     await Promise.all([...imageAssets, ...fontAssets]);
 
-    dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS })
-  }
+    dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
+  };
 }
 
-const ASK_FOR_PIN_AFTER = 25 * 1000;
-let pinTimeout;
-let startOfBackgroundTimer;
 
 
 /**
@@ -105,14 +103,18 @@ let startOfBackgroundTimer;
  * @param {string} nextAppState - one of active|inactive|background
  * @todo: check if it works in v3
  */
+const ASK_FOR_PIN_AFTER = 30 * 60 * 100;
+let pinTimeout;
+let startOfBackgroundTimer;
+
 function handleAppStateChange(nextAppState) {
-  return (dispatch, getState) => {
-    const { profile } = getState().user;
-    const { appState } = getState().app;
+  return (dispatch) => {
+    const { profile } = store.getState().user;
+    const { appState } = store.getState().app;
+    const { activeScreen } = store.getState().nav;
 
     if (nextAppState === "active") {
-      analyticsEvents.openApp();
-      if (profile) analyticsEvents.sessionStart()
+      if (profile) analyticsEvents.sessionStart();
 
       if (Platform.OS === "ios") {
         clearTimeout(pinTimeout);
@@ -120,18 +122,16 @@ function handleAppStateChange(nextAppState) {
 
       if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
         startOfBackgroundTimer = null;
-        // dispatch(actions.navigateTo("LoginPasscode"));
+        dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
       }
     }
 
     if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
-      analyticsEvents.sessionEnd();
-
       if (Platform.OS === "ios") {
         pinTimeout = setTimeout(() => {
-          // dispatch(actions.navigateTo("LoginPasscode"));
-          clearTimeout(pinTimeout);
-        }, ASK_FOR_PIN_AFTER);
+            dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+            clearTimeout(pinTimeout);
+        }, ASK_FOR_PIN_AFTER)
       }
 
       if (Platform.OS === "android") {
@@ -141,9 +141,9 @@ function handleAppStateChange(nextAppState) {
 
     dispatch({
       type: ACTIONS.SET_APP_STATE,
-      appState: nextAppState,
-    })
-  }
+      appState: nextAppState
+    });
+  };
 }
 
 
@@ -154,8 +154,8 @@ function handleAppStateChange(nextAppState) {
 function setInternetConnection(connection) {
   return {
     type: ACTIONS.SET_INTERNET_CONNECTION,
-    internetConnected: connection,
-  }
+    internetConnected: connection
+  };
 }
 
 /**
@@ -164,7 +164,7 @@ function setInternetConnection(connection) {
 function initAppData() {
   return async (dispatch, getState) => {
 
-    await dispatch(actions.getInitialCelsiusData())
+    await dispatch(actions.getInitialCelsiusData());
 
     // get user token
     const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
@@ -207,5 +207,6 @@ function initAppData() {
     // get general data for te app
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
-  }
+    await dispatch(actions.getKYCDocTypes());
+  };
 }

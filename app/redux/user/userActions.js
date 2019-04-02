@@ -30,7 +30,8 @@ export {
   getConnectedContacts,
   getLinkedBankAccount,
   linkBankAccount,
-  profileTaxpayerInfo
+  profileTaxpayerInfo,
+  getPreviousPinScreen
 }
 
 
@@ -306,7 +307,7 @@ function checkPIN(onSuccess, onError) {
 
       await meService.checkPin(pin)
 
-      dispatch({ type: ACTIONS.CHECK_PIN_SUCCESS })
+      dispatch({ type: ACTIONS.CHECK_PIN_SUCCESS });
       if (onSuccess) onSuccess()
     } catch (err) {
       if (onError) onError();
@@ -423,4 +424,25 @@ function linkBankAccount(bankAccountInfo) {
       logger.err(err)
     }
   }
+}
+
+function getPreviousPinScreen (activeScreen) {
+  return async (dispatch) => {
+    dispatch(startApiCall(API.GET_PREVIOUS_SCREEN))
+    let screen;
+    try {
+      if (activeScreen !== "VerifyProfile") {
+        screen = activeScreen;
+        dispatch({
+          type: ACTIONS.GET_PREVIOUS_SCREEN_SUCCESS,
+          callName: API.GET_PREVIOUS_SCREEN,
+          screen
+        })
+      }
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_PREVIOUS_SCREEN, err));
+    }
+  }
+
 }

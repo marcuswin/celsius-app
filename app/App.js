@@ -5,21 +5,21 @@
 
 // TODO(fj): create offline and no internet screens or a static screen with type?
 
-import React, { Component } from 'react'
-import { AppLoading } from 'expo'
-import { Provider } from 'react-redux'
-import { AppState, BackHandler } from 'react-native'
+import React, { Component } from "react";
+import { AppLoading } from "expo";
+import { Provider } from "react-redux";
+import { AppState, BackHandler } from "react-native";
 
-import store from './redux/store'
-import * as actions from './redux/actions'
-import appUtil from './utils/app-util'
-import AppNavigation from './navigator/Navigator'
-import FabMenu from './components/organisms/FabMenu/FabMenu'
-import Message from './components/molecules/Message/Message'
-import captureException from './utils/errorhandling-util'
-import ErrorBoundary from './ErrorBoundary'
+import store from "./redux/store";
+import * as actions from "./redux/actions";
+import appUtil from "./utils/app-util";
+import AppNavigation from "./navigator/Navigator";
+import FabMenu from "./components/organisms/FabMenu/FabMenu";
+import Message from "./components/molecules/Message/Message";
+import captureException from "./utils/errorhandling-util";
+import ErrorBoundary from "./ErrorBoundary";
 
-appUtil.initializeThirdPartyServices()
+appUtil.initializeThirdPartyServices();
 
 function getActiveRouteName(navigationState) {
   if (!navigationState) {
@@ -34,26 +34,30 @@ function getActiveRouteName(navigationState) {
 }
 
 export default class App extends Component {
-  constructor () {
-    super()
-    this.state = { isReady: false }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isReady: false,
+    };
   }
 
-  componentDidMount () {
-    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () =>
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
       store.dispatch(actions.navigateBack())
-    )
-    AppState.addEventListener('change', actions.handleAppStateChange)
-  }
-  componentWillUnmount () {
-    this.backHandler.remove()
-    AppState.removeEventListener('change')
+    );
+    AppState.addEventListener("change", (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
   }
 
-  initApp = async () => await store.dispatch(await actions.loadCelsiusAssets())
+  componentWillUnmount() {
+    this.backHandler.remove();
+    AppState.removeEventListener("change",  (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
+  }
 
-  render () {
-    const { isReady } = this.state
+  initApp = async () => await store.dispatch(await actions.loadCelsiusAssets());
+
+  render() {
+    const { isReady } = this.state;
 
     return (
       <ErrorBoundary>
@@ -64,31 +68,31 @@ export default class App extends Component {
             onError={error => captureException(error)}
           />
         ) : (
-          <CelsiusApplication />
+          <CelsiusApplication/>
         )}
       </ErrorBoundary>
-    )
+    );
   }
 }
 
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
-      <Message />
+      <Message/>
       <AppNavigation
         onNavigationStateChange={(prevState, currentState) => {
-          const currentScreen = getActiveRouteName(currentState)
-          const prevScreen = getActiveRouteName(prevState)
+          const currentScreen = getActiveRouteName(currentState);
+          const prevScreen = getActiveRouteName(prevState);
 
           if (prevScreen !== currentScreen) {
-            store.dispatch(actions.setActiveScreen(currentScreen))
+            store.dispatch(actions.setActiveScreen(currentScreen));
           }
         }}
         ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
-      <FabMenu />
+      <FabMenu/>
     </React.Fragment>
   </Provider>
-)
+);
 
 

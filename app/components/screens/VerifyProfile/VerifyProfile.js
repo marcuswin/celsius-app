@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { View, TouchableOpacity, Clipboard } from "react-native";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import VerifyProfileStyle from "./VerifyProfile.styles";
-import CelText from '../../atoms/CelText/CelText';
-import CelNumpad from '../../molecules/CelNumpad/CelNumpad';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelText from "../../atoms/CelText/CelText";
+import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
 import HiddenField from "../../atoms/HiddenField/HiddenField";
 import Spinner from "../../atoms/Spinner/Spinner";
@@ -17,82 +17,98 @@ import CelButton from "../../atoms/CelButton/CelButton";
 @connect(
   state => ({
     formData: state.forms.formData,
-    is2FAEnabled: state.user.profile.two_factor_enabled
+    is2FAEnabled: state.user.profile.two_factor_enabled,
+    previousScreen: state.user.screen
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class VerifyProfile extends Component {
   static propTypes = {};
-  static defaultProps = {}
+  static defaultProps = {};
 
-  static navigationOptions = () => ({
-    headerSameColor: true,
-  });
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params } = navigation.state;
+  //   // console.log("parametar", params)
+  //   return {
+  //     headerSameColor: true,
+  //     hideBack: true
+  //   };
+  // };
 
   constructor(props) {
     super(props);
     this.state = {
-      value: ''
+      value: ""
     };
   }
 
   componentDidMount = () => {
-
-  }
+    const { navigation, actions } = this.props;
+    const activeScreen = navigation.getParam("activeScreen");
+    actions.getPreviousPinScreen(activeScreen)
+  };
 
 
   onCheckSuccess = () => {
-    const { navigation } = this.props;
-    const onSuccess = navigation.getParam('onSuccess')
-    onSuccess(this.state.value)
-    this.setState({ loading: false })
-  }
+    const { navigation, actions, previousScreen } = this.props;
+    const onSuccess = navigation.getParam("onSuccess");
+    const activeScreen = navigation.getParam("activeScreen");
 
-  onCheckError = () => this.setState({ loading: false, value: '' });
+    if (activeScreen) {
+      if (activeScreen === "VerifyProfile") return onSuccess(actions.navigateTo(previousScreen));
+      onSuccess(actions.navigateTo(activeScreen));
+    } else {
+      onSuccess(actions.navigateTo("WalletLanding"));
+    }
+
+    this.setState({ loading: false });
+  };
+
+  onCheckError = () => this.setState({ loading: false, value: "" });
 
   handlePINChange = (newValue) => {
     const { actions } = this.props;
 
     if (newValue.length > 4) return;
 
-    actions.updateFormField('pin', newValue)
-    this.setState({ value: newValue })
+    actions.updateFormField("pin", newValue);
+    this.setState({ value: newValue });
 
     if (newValue.length === 4) {
-      this.setState({ loading: true })
-      actions.toggleKeypad()
+      this.setState({ loading: true });
+      actions.toggleKeypad();
       actions.checkPIN(this.onCheckSuccess, this.onCheckError);
     }
-  }
+  };
 
   handle2FAChange = (newValue) => {
     const { actions } = this.props;
 
     if (newValue.length > 6) return;
 
-    actions.updateFormField('code', newValue)
-    this.setState({ value: newValue })
+    actions.updateFormField("code", newValue);
+    this.setState({ value: newValue });
 
     if (newValue.length === 6) {
-      this.setState({ loading: true })
-      actions.toggleKeypad()
+      this.setState({ loading: true });
+      actions.toggleKeypad();
 
       actions.checkTwoFactor(this.onCheckSuccess, this.onCheckError);
     }
-  }
+  };
 
   handlePaste = async () => {
-    const { actions } = this.props
-    this.setState({ loading: true })
-    const code = await Clipboard.getString()
+    const { actions } = this.props;
+    this.setState({ loading: true });
+    const code = await Clipboard.getString();
 
     if (code) {
-      this.handle2FAChange(code)
+      this.handle2FAChange(code);
     } else {
-      actions.showMessage('warning', 'Nothing to paste, please try again!')
+      actions.showMessage("warning", "Nothing to paste, please try again!");
     }
-    this.setState({ loading: false })
-  }
+    this.setState({ loading: false });
+  };
 
   render2FA() {
     const { loading, value } = this.state;
@@ -102,18 +118,19 @@ class VerifyProfile extends Component {
     return (
       <View style={style.wrapper}>
         <CelText type="H1" align="center">Verification required</CelText>
-        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your 2FA code to proceed</CelText>
+        <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your 2FA code to
+          proceed</CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} length={6} />
+          <HiddenField value={value} length={6}/>
         </TouchableOpacity>
 
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your Code?</CelText>
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
 
         {loading ? (
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
-            <Spinner />
+          <View style={{ alignItems: "center", justifyContent: "center", marginTop: 15 }}>
+            <Spinner/>
           </View>
         ) : (
           <CelButton onPress={this.handlePaste}>Paste</CelButton>
@@ -133,15 +150,15 @@ class VerifyProfile extends Component {
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 10 0">Please enter your PIN to proceed</CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} />
+          <HiddenField value={value}/>
         </TouchableOpacity>
 
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 0 0">Forgot your PIN?</CelText>
         <CelText color="rgba(61,72,83,0.7)" align="center" margin="5 0 10 0">Contact our support for help</CelText>
 
         {loading && (
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 15 }}>
-            <Spinner />
+          <View style={{ alignItems: "center", justifyContent: "center", marginTop: 15 }}>
+            <Spinner/>
           </View>
         )}
       </View>
@@ -171,7 +188,7 @@ class VerifyProfile extends Component {
           />
         </View>
       </RegularLayout>
-    )
+    );
   }
 }
 
