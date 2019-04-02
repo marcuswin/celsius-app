@@ -27,7 +27,7 @@ const base = {
   },
   label: {
     backgroundColor: "rgba(61,72,83,1)",
-    borderRadius: 6,
+    borderRadius: 8,
     width: widthPercentageToDP("21.33%"),
     height: heightPercentageToDP("6.2%"),
     justifyContent: "center",
@@ -35,7 +35,8 @@ const base = {
   },
   labelText: {
     fontFamily: "barlow-regular",
-    color: "white"
+    color: "white",
+    height: heightPercentageToDP("2.7%"),
   },
   triangle: {
     width: 0,
