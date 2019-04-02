@@ -26,14 +26,13 @@ class VerifyProfile extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  // static navigationOptions = ({ navigation }) => {
-  //   const { params } = navigation.state;
-  //   // console.log("parametar", params)
-  //   return {
-  //     headerSameColor: true,
-  //     hideBack: true
-  //   };
-  // };
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state;
+    return {
+      headerSameColor: true,
+      hideBack: params && params.hideBack || false
+    };
+  };
 
   constructor(props) {
     super(props);
@@ -45,7 +44,8 @@ class VerifyProfile extends Component {
   componentDidMount = () => {
     const { navigation, actions } = this.props;
     const activeScreen = navigation.getParam("activeScreen");
-    actions.getPreviousPinScreen(activeScreen)
+    actions.getPreviousPinScreen(activeScreen);
+    if (activeScreen) this.props.navigation.setParams({ hideBack: true });
   };
 
 
@@ -57,8 +57,6 @@ class VerifyProfile extends Component {
     if (activeScreen) {
       if (activeScreen === "VerifyProfile") return onSuccess(actions.navigateTo(previousScreen));
       onSuccess(actions.navigateTo(activeScreen));
-    } else {
-      onSuccess(actions.navigateTo("WalletLanding"));
     }
 
     this.setState({ loading: false });
