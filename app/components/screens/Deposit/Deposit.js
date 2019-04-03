@@ -131,7 +131,7 @@ class Deposit extends Component {
 
   fetchAddress = async (currency) => {
     const { actions, walletAddresses } = this.props;
-    this.setState({isFetchingAddress: true});
+    this.setState({ isFetchingAddress: true });
     // Every ERC20 has the same address, so we use ETH address
     // Also check if it's already fetched and stored in redux state to avoid additional http requests
     if (cryptoUtil.isERC20(currency) && !walletAddresses.ETHAddress) {
@@ -141,7 +141,7 @@ class Deposit extends Component {
       await actions.getCoinAddress(currency);
     }
 
-    this.setState({isFetchingAddress: false, useAlternateAddress: false})
+    this.setState({ isFetchingAddress: false, useAlternateAddress: false })
   };
 
   openModal = (destinationTag, memoId) => {
@@ -158,6 +158,7 @@ class Deposit extends Component {
 
   renderSwitchAddressBlock = (alternativeAddress, currency) => {
     const { useAlternateAddress } = this.state;
+    const style = DepositStyle();
     let alternateText1 = '';
     let alternateText2 = '';
     let buttonText = '';
@@ -177,15 +178,15 @@ class Deposit extends Component {
     }
 
     return (
-      <Card styles={{backgroundColor: STYLES.COLORS.CELSIUS_BLUE}}>
-        <CelText color='#FFFFFF'>
+      <Card styles={{ backgroundColor: STYLES.COLORS.CELSIUS_BLUE }}>
+        <CelText style={style.infoBubble} alignItems='center' color='#FFFFFF'>
           If your wallet doesn't support <CelText bold color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText bold color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
         </CelText>
 
         <CelButton
           white
-          onPress={() => {this.setState({useAlternateAddress: !this.state.useAlternateAddress})}}
-          style={{borderWidth: 0.5, borderColor: '#FFFFFF', marginTop: 10}}
+          onPress={() => { this.setState({ useAlternateAddress: !this.state.useAlternateAddress }) }}
+          style={{ borderWidth: 0.5, borderColor: '#FFFFFF', marginTop: 10, marginBottom: 10 }}
         >
           {buttonText}
         </CelButton>
@@ -194,7 +195,7 @@ class Deposit extends Component {
   };
 
   renderLoader = () => (
-    <View style={{marginTop: 50, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ marginTop: 50, justifyContent: 'center', alignItems: 'center' }}>
       <Spinner />
     </View>
   );
@@ -221,12 +222,12 @@ class Deposit extends Component {
           <View style={styles.container}>
             {destinationTag || memoId ?
               <Card>
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <CelText style={{opacity: 0.7}}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <CelText style={{ opacity: 0.7 }}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <CelText>{destinationTag || memoId}</CelText>
                     <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
-                      <Icon name="InfoCircle" height="18" width="18" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{marginLeft: 10}}/>
+                      <Icon name="InfoCircle" height="18" width="18" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{ marginLeft: 10 }} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -234,30 +235,30 @@ class Deposit extends Component {
                 <View style={styles.copyShareWrapper}>
                   <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton copyText={destinationTag || memoId} onCopy={() => actions.showMessage("success", "Destination tag copied to clipboard!")}/>
+                    <CopyButton copyText={destinationTag || memoId} onCopy={() => actions.showMessage("success", "Destination tag copied to clipboard!")} />
                     <Separator vertical />
-                    <ShareButton shareText={destinationTag || memoId}/>
+                    <ShareButton shareText={destinationTag || memoId} />
                   </View>
                 </View>
               </Card>
               : null}
 
             <Card>
-              <View style={{alignItems: 'center'}}>
+              <View style={{ alignItems: 'center' }}>
                 <QRCode
                   value={useAlternateAddress ? alternateAddress : address}
                   size={100}
                   bgColor='#FFF'
                   fgColor='#000'
                 />
-                <CelText type='H4' align={'center'} style={{marginTop: 10}}>{useAlternateAddress ? alternateAddress : address}</CelText>
+                <CelText type='H4' align={'center'} style={{ marginTop: 10 }}>{useAlternateAddress ? alternateAddress : address}</CelText>
 
                 <View style={styles.copyShareWrapper}>
-                  <Separator/>
+                  <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton onCopy={() => actions.showMessage("success", "Address copied to clipboard!")} copyText={useAlternateAddress ? alternateAddress : address}/>
-                    <Separator vertical/>
-                    <ShareButton shareText={useAlternateAddress ? alternateAddress : address}/>
+                    <CopyButton onCopy={() => actions.showMessage("success", "Address copied to clipboard!")} copyText={useAlternateAddress ? alternateAddress : address} />
+                    <Separator vertical />
+                    <ShareButton shareText={useAlternateAddress ? alternateAddress : address} />
                   </View>
                 </View>
               </View>
@@ -267,7 +268,7 @@ class Deposit extends Component {
 
 
           </View>
-        : null }
+          : null}
 
         {isFetchingAddress && this.renderLoader()}
 

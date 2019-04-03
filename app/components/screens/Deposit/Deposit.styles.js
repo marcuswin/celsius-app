@@ -17,6 +17,12 @@ const base = {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     paddingTop: 15
+  },
+  infoBubble: {
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: '5%',
+    paddingVertical: '2%',
   }
 };
 
