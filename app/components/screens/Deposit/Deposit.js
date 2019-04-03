@@ -227,7 +227,7 @@ class Deposit extends Component {
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <CelText>{destinationTag || memoId}</CelText>
                     <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
-                      <Icon name="InfoCircle" height="18" width="18" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{ marginLeft: 10 }} />
+                      <Icon name="Info" height="19" width="19" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{ marginLeft: 10, marginTop: 2 }} />
                     </TouchableOpacity>
                   </View>
                 </View>
