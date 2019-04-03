@@ -7,6 +7,7 @@ import RegisterInitial from '../../components/screens/RegisterInitial/RegisterIn
 import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetPin'
 import TermsOfUse from '../../components/screens/TermsOfUse/TermsOfUse'
 import Welcome from '../../components/screens/Welcome/Welcome'
+import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 
 
 const authFlow = {
@@ -16,7 +17,8 @@ const authFlow = {
     RegisterInitial,
     RegisterSetPin,
     TermsOfUse,
-    Welcome
+    Welcome,
+    VerifyProfile
   },
   props: {
     initialRouteName: 'Welcome',

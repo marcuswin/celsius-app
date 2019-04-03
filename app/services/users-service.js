@@ -412,7 +412,7 @@ function invalidateSession () {
  * @return {Promise}
  */
 function getCelsiusMemberStatus () {
-  return axios.get(`${apiUrl}/user/membership`)
+  return axios.post(`${apiUrl}/user/membership`)
 }
 
 export default usersService

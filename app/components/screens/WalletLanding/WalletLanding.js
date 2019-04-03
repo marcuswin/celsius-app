@@ -88,7 +88,7 @@ class WalletLanding extends Component {
     await actions.getWalletSummary()
     if (!currenciesRates) actions.getCurrencyRates()
     if (!currenciesGraphs) actions.getCurrencyGraphs()
-    if(!user.is_member) actions.getCelsiusMemberStatus()
+    if(!user.celsius_member) actions.getCelsiusMemberStatus()
     const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
