@@ -38,13 +38,9 @@ class KYCVerifyID extends Component {
     customCenterComponent: <ProgressBar steps={4} currentStep={4} />
   })
 
-  // componentWillMount () {
-  //   const { actions } = this.props
-  //   actions.getKYCDocTypes()
-  // }
-
   componentDidMount () {
     const { actions } = this.props
+    actions.getKYCDocTypes()
     actions.getKYCDocuments()
     this.selectDocumentType('passport')
   }
@@ -172,15 +168,14 @@ class KYCVerifyID extends Component {
 
   render () {
     const { kycDocTypes, user, formData, callsInProgress } = this.props
-    let docs = []
-    let isLoading = false
-    if (kycDocTypes) {
-      isLoading = apiUtil.areCallsInProgress(
-        [API.CREATE_KYC_DOCUMENTS],
-        callsInProgress
-      )
-      docs = mapDocs(kycDocTypes[user.citizenship])
-    }
+
+    if (!kycDocTypes) return null
+
+    const isLoading = apiUtil.areCallsInProgress(
+      [API.CREATE_KYC_DOCUMENTS],
+      callsInProgress
+    )
+    const docs = mapDocs(kycDocTypes[user.citizenship])
     const docType = formData.documentType || docs[0].value
 
     const FrontCamera = this.renderFrontCameraInput

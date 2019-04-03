@@ -16,7 +16,6 @@ import logger from '../../utils/logger-util';
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from '../../constants/DATA'
-import { getKYCDocTypes } from "../generalData/generalDataActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -313,7 +312,6 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(getKYCDocTypes());
       dispatch(navigateTo('KYCLanding'));
       // analyticsEvents.pinSet();
     } catch (err) {
