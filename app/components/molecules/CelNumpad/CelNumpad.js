@@ -63,16 +63,29 @@ class CelNumpad extends Component {
   }
 
   componentDidMount() {
-    const { autofocus, toggleKeypad } = this.props;
+    const { autofocus, toggleKeypad, setKeypadInput } = this.props;
     if (autofocus) toggleKeypad();
+
+    if (this.inputRef) {
+      setKeypadInput(this.inputRef)
+    }
   }
 
 
   componentDidUpdate(prevProps) {
     const { isFocused, setKeypadInput } = this.props;
+
     if (prevProps.isFocused === true && isFocused === false) {
       setKeypadInput(false)
     }
+    if (prevProps.isFocused === false && isFocused === true) {
+      setKeypadInput(this.inputRef)
+    }
+  }
+
+  componentWillUnmount() {
+    const { setKeypadInput } = this.props
+    setKeypadInput(false)
   }
 
   changeInputText = (text) => {
@@ -124,7 +137,7 @@ class CelNumpad extends Component {
   }
 
   render() {
-    const { purpose, setKeypadInput, value, isFocused } = this.props
+    const { purpose, value, isFocused } = this.props
     const style = CelNumpadStyle()
     const buttons = BUTTONS[purpose]
 
@@ -159,7 +172,7 @@ class CelNumpad extends Component {
         value={value || ''}
         onChangeText={this.changeInputText}
         keyboardType={KEYBOARDS[purpose]}
-        ref={(input) => setKeypadInput(input)}
+        ref={(input) => { this.inputRef = input }}
       />
     );
   }

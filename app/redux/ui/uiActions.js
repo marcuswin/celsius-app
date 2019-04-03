@@ -62,6 +62,7 @@ let _keypadInputRef = null;
 function setKeypadInput(input) {
   return (dispatch, getState) => {
     const { isKeypadOpen } = getState().ui;
+
     if (input === false) {
       // close keypad
       if (isKeypadOpen) dispatch({
