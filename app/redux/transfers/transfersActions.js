@@ -8,7 +8,6 @@ import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
 import { getAllTransactions } from "../transactions/transactionsActions";
-import { analyticsEvents } from "../../utils/analytics-util";
 import { createCelPayBUO } from "../../utils/branch-util";
 import { MODALS } from '../../constants/UI'
 
@@ -226,7 +225,7 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
 
     Share.share({ message: `${profile.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
     dispatch(navigateTo('Home'));
-    analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
+    // TODO(fj): analytics
   }
 }
 

@@ -7,7 +7,6 @@ import usersService from '../../services/users-service';
 import meService from '../../services/me-service';
 import apiUtil from "../../utils/api-util";
 import logger from '../../utils/logger-util';
-import { analyticsEvents } from "../../utils/analytics-util";
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
 
@@ -34,7 +33,6 @@ function updateProfileInfo(profileInfo) {
 
     try {
       const updatedProfileData = await usersService.updateProfileInfo(profileInfo);
-      analyticsEvents.profileDetailsAdded(updatedProfileData.data);
       dispatch(updateProfileInfoSuccess(updatedProfileData.data));
 
       return {
@@ -66,7 +64,6 @@ function updateProfileAddressInfo(profileAddressInfo) {
 
     try {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
-      analyticsEvents.profileAddressAdded(updatedProfileData.data);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
 
       return {
@@ -96,7 +93,6 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
 
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
-      analyticsEvents.profileTaxpayerInfoAdded(updatedProfileData.data);
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
 
       return {
@@ -310,13 +306,11 @@ function finishKYCVerification() {
       dispatch(startApiCall(API.VERIFY_SMS));
       await meService.verifySMS(formData.verificationCode);
       dispatch(verifySMSSuccess());
-      analyticsEvents.phoneVerified();
 
       callName = API.START_KYC;
       dispatch(startApiCall(API.START_KYC));
       await meService.startKYC();
       dispatch(startKYCSuccess());
-      analyticsEvents.KYCStarted();
 
       dispatch(NavActions.navigateTo('NoKyc', true));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));

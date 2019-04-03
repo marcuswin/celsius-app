@@ -30,9 +30,6 @@ class SocialLogin extends Component {
 
   onOpenTwitter = () => {
     const { actions } = this.props;
-    // if (type === "signup") {
-      // analyticsEvents.startedSignup("Twitter");
-    // }
     this.fakeTwitterButton.onButtonPress();
     actions.twitterOpen();
   };

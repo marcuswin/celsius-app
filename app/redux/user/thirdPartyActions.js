@@ -9,6 +9,7 @@ import { updateFormFields } from "../forms/formsActions";
 import { setSecureStoreKey } from "../../utils/expo-storage";
 import usersService from "../../services/users-service";
 import { initAppData } from "../app/appActions";
+import { claimAllBranchTransfers } from "../transfers/transfersActions";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -449,9 +450,7 @@ function registerSocialSuccess(network, token, user) {
       user,
     });
 
-    // dispatch(claimAllBranchTransfers());
-    // await analyticsEvents.sessionStart();
-    // analyticsEvents.finishedSignup("Google", referralLinkId, res.data.user);
+    dispatch(claimAllBranchTransfers());
     dispatch(navigateTo('RegisterSetPin'))
   }
 }

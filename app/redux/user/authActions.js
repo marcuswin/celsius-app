@@ -83,7 +83,6 @@ function loginUser() {
  * Registers a user signed up with email
  */
 function registerUser() {
-  // analyticsEvents.startedSignup('Email');
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms
@@ -104,8 +103,6 @@ function registerUser() {
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
       dispatch(claimAllBranchTransfers());
-      // await analyticsEvents.sessionStart();
-      // analyticsEvents.finishedSignup('Email', referralLinkId, res.data.user);
       dispatch({
         type: ACTIONS.REGISTER_USER_SUCCESS,
         user: res.data.user,
@@ -243,8 +240,6 @@ function logoutUser() {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      // await analyticsEvents.sessionEnd();
-      // analyticsEvents.logoutUser();
       if (Constants.appOwnership === 'standalone') Branch.logout();
       dispatch({
         type: ACTIONS.LOGOUT_USER,
@@ -313,7 +308,6 @@ function setPin() {
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(navigateTo('KYCLanding'));
-      // analyticsEvents.pinSet();
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));

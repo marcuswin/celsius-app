@@ -12,7 +12,6 @@ import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
-import { analyticsEvents } from "../../utils/analytics-util";
 import appUtil from "../../utils/app-util";
 import branchUtil from "../../utils/branch-util";
 import { disableAccessibilityFontScaling } from "../../utils/styles-util";
@@ -50,9 +49,6 @@ function initCelsiusApp() {
       await dispatch(actions.initUserAppSettings());
 
       await dispatch(branchUtil.initBranch());
-
-      analyticsEvents.openApp();
-      if (getState().user.profile) analyticsEvents.sessionStart();
 
       dispatch({ type: ACTIONS.APP_INIT_DONE });
     } catch (e) {
@@ -114,8 +110,6 @@ function handleAppStateChange(nextAppState) {
     const { activeScreen } = store.getState().nav;
 
     if (nextAppState === "active") {
-      if (profile) analyticsEvents.sessionStart();
-
       if (Platform.OS === "ios") {
         clearTimeout(pinTimeout);
       }

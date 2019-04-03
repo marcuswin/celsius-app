@@ -12,7 +12,6 @@ import {
 } from '../../utils/expo-storage'
 import TwoFactorService from '../../services/two-factor-service'
 import logger from '../../utils/logger-util'
-import { analyticsEvents } from '../../utils/analytics-util'
 import meService from '../../services/me-service'
 import { updateFormField } from '../forms/formsActions'
 import { MODALS } from '../../constants/UI'
@@ -50,8 +49,6 @@ function getProfileInfo () {
     try {
       const personalInfoRes = await usersService.getPersonalInfo()
       const personalInfo = personalInfoRes.data.profile || personalInfoRes.data
-      await analyticsEvents.initUser(personalInfo)
-
       dispatch(getUserPersonalInfoSuccess(personalInfo))
     } catch (err) {
       if (err.status === 422) {

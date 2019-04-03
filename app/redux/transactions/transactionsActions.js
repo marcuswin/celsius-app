@@ -5,7 +5,6 @@ import { showMessage } from "../ui/uiActions";
 import transactions from "../../services/transactions-service";
 import walletService from "../../services/wallet-service";
 import { navigateTo } from "../nav/navActions";
-import { analyticsEvents } from "../../utils/analytics-util";
 import { getWalletSummary } from "../wallet/walletActions";
 
 export {
@@ -103,11 +102,5 @@ function withdrawCryptoSuccess(transaction) {
     });
 
     dispatch(navigateTo('TransactionDetails', { id: transaction.id }))
-
-    analyticsEvents.confirmWithdraw({
-      id: transaction.id,
-      amount: transaction.amount,
-      coin: transaction.coin
-    });
   }
 }
