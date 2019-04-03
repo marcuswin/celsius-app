@@ -64,22 +64,25 @@ export default class KeyboardShift extends Component {
     const { height: windowHeight } = Dimensions.get('window')
     const keyboardHeight = event.endCoordinates.height
     const currentlyFocusedField = TextInputState.currentlyFocusedField()
-    UIManager.measure(
-      currentlyFocusedField,
-      (_originX, _originY, _width, height, _pageX, pageY) => {
-        const fieldHeight = height + 20 // zbog bottom paddinga
-        const fieldTop = pageY
-        const gap = windowHeight - keyboardHeight - (fieldTop + fieldHeight)
-        if (gap >= 0) {
-          return
+
+    if (currentlyFocusedField) {
+      UIManager.measure(
+        currentlyFocusedField,
+        (_originX, _originY, _width, height, _pageX, pageY) => {
+          const fieldHeight = height + 20 // zbog bottom paddinga
+          const fieldTop = pageY
+          const gap = windowHeight - keyboardHeight - (fieldTop + fieldHeight)
+          if (gap >= 0) {
+            return
+          }
+          Animated.timing(this.state.shift, {
+            toValue: gap,
+            duration: 500,
+            useNativeDriver: true
+          }).start()
         }
-        Animated.timing(this.state.shift, {
-          toValue: gap,
-          duration: 500,
-          useNativeDriver: true
-        }).start()
-      }
-    )
+      )
+    }
   }
 
   handleKeyboardDidHide = () => {
