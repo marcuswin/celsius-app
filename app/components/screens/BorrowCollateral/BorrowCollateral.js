@@ -17,7 +17,8 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 @connect(
   state => ({
     coins: state.user.compliance.loan.coins,
-    walletCoins: state.wallet.summary.coins
+    walletCoins: state.wallet.summary.coins,
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -36,11 +37,14 @@ class BorrowCollateral extends Component {
   }
 
   renderButton = (coin) => {
+    const { formData } = this.props
     const name = formatter.capitalize(coin.name);
     const crypto = formatter.crypto(coin.amount, coin.short, {precision: 2});
     const fiat = formatter.usd(coin.amount_usd);
     const style = BorrowCollateralStyle();
-    const color = coin.amount_usd < 10000 ? "rgba(239,70,26,1)" : "rgba(60,71,84,0.7)";
+    const collateralAmount = formData.loanAmount * 2
+
+    const color = coin.amount_usd < collateralAmount ? "rgba(239,70,26,1)" : "rgba(60,71,84,0.7)";
 
     return (
       <View key={coin.name} style={style.coinWrapper}>
@@ -48,7 +52,7 @@ class BorrowCollateral extends Component {
           onPress={() => this.handleSelectCoin(coin.short)}
           type={"coin"}
           icon={`Icon${coin.short}`}
-          disabled={coin.amount_usd < 10000}
+          disabled={coin.amount_usd < collateralAmount}
         />
         <CelText weight={"500"} align="center" style={{marginTop: 10}}>{name}</CelText>
         <CelText weight={"300"} align="center" style={{color}}>{crypto}</CelText>

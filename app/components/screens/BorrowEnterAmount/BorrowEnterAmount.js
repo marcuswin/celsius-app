@@ -53,22 +53,19 @@ class BorrowEnterAmount extends Component {
       sliderValue: 12500
     };
 
+    const maxAmount = eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2
+
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
-      maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2
+      maxAmount,
     });
-  }
-
-  componentDidMount() {
-    const { actions } = this.props;
-    actions.initForm({ amountCheck: 10000 });
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
     const { formData, minimumLoanAmount, actions } = this.props;
     let amount;
     if (value === "max") amount = formData.maxAmount;
-    if (value === "min") amount = minimumLoanAmount;
+    if (value === "min") amount = minimumLoanAmount.toString();
     this.handleAmountChange(amount, label);
     actions.toggleKeypad(false)
   };
