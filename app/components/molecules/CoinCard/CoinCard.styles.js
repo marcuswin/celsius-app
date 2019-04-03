@@ -6,13 +6,12 @@ const base = {
     container: {
         flex: 1
     },
-    // balance: {
-    //     flex: 1,
-    // },
-    // text: {
-    //     fontSize: FONT_SCALE * 18,
-    //     color: '#737A82',
-
+    balance: {
+        flex: 1,
+    },
+    text: {
+        color: '#737A82',
+    }
     // },
     // interest: {
     //     flex: 1,

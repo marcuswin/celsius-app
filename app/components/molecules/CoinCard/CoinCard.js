@@ -11,6 +11,7 @@ import Graph from "../../graphs/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP } from '../../../utils/styles-util';
+import CoinCardStyle from './CoinCard.styles';
 
 class CoinCard extends Component {
   static propTypes = {
@@ -24,7 +25,7 @@ class CoinCard extends Component {
   coinCardEmpty = () => (
     <View>
       <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(0)}</CelText>
-      <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
         <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
           Deposit
@@ -34,9 +35,9 @@ class CoinCard extends Component {
   )
 
   coinCardFull = (coin) => (
-    <Fragment>
-      <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+    <Fragment >
+      <CelText style={CoinCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText color='#737A82' weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
 
@@ -46,9 +47,9 @@ class CoinCard extends Component {
     const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
 
     return (
-      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name={arrowType} fill={textColor} height={6} width={6}/>
-        <CelText weight='500' type="H7" color={textColor} margin='0 0 0 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+        <Icon name={arrowType} fill={textColor} height={6} width={6} />
+        <CelText weight='500' type="H7" color={textColor} margin='1 0 2 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
       </View>
     )
   }
@@ -56,6 +57,7 @@ class CoinCard extends Component {
   render = () => {
     const { coin, displayName, currencyRates, onCardPress, graphData } = this.props;
     const amount = coin.amount_usd > 0;
+    const style = CoinCardStyle();
     let dateArray;
     let priceArray;
 
@@ -72,9 +74,9 @@ class CoinCard extends Component {
 
     return (
       <Card size="half" padding={padding} onPress={onCardPress}>
-        <View style={{ flexDirection: "row", marginHorizontal: 12}}>
-          <View>
-            <CelText weight='300' type="H6">{displayName}</CelText>
+        <View style={{ flexDirection: "row", marginHorizontal: 12 }}>
+          <View >
+            <CelText style={style.text} weight='300' type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
           <View style={{ position: 'absolute', right: 0 }} >
@@ -85,7 +87,7 @@ class CoinCard extends Component {
           <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
             rate={coinPriceChange}
             height={heightPercentageToDP("10%")}
-            style={{borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden'}}
+            style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
           />
           : null}
       </Card>
