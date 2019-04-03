@@ -7,6 +7,7 @@ import { showMessage } from "../ui/uiActions";
 import transfersService from "../../services/transfer-service";
 import formatter from "../../utils/formatter";
 import { navigateTo } from "../nav/navActions";
+import analytics from "../../utils/analytics";
 
 export {
   celPayFriend,
@@ -41,6 +42,8 @@ function celPayFriend() {
       if (names && names[0]) msg += ` to ${names[0]}!`;
       dispatch(showMessage('success', msg))
       dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }))
+
+      analytics.celpayCompleted(transferData)
     } catch (err) {
       dispatch(apiError(API.CREATE_TRANSFER, err))
       dispatch(showMessage('error', err.msg))
@@ -69,7 +72,6 @@ function celPayShareLink() {
         transfer: transferData,
       })
 
-      // create branch link or get from BE on creation
       const branchLink = transferRes.data.branch_link;
 
       const shareMsg = `You got ${ formatter.crypto(amountCrypto, coin) }! Click on the link to claim it ${branchLink}`;
@@ -79,6 +81,7 @@ function celPayShareLink() {
       dispatch(showMessage('success', msg));
       dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }));
 
+      analytics.celpayCompleted(transferData)
     } catch(err) {
       dispatch(apiError(API.CREATE_TRANSFER, err))
       dispatch(showMessage('error', err.msg))

@@ -43,17 +43,25 @@ async function logoutUser() {
 /**
  * Fires an event when a users completes the registration process (sets PIN number)
  *
- * @param {string} method - email|facebook|google|twitter
- * @param {uuid} referralLinkId - id of the link or promo code user used for registration
  * @param {object} user
+ * @param {object} user.facebook_id - indicates user registered through facebook
+ * @param {object} user.google_id - indicates user registered through google
+ * @param {object} user.twitter_id - indicates user registered through twitter
+ * @param {object} user.id
+ * @param {object} user.referral_link_id - id of the person who referred the user
  */
-async function registrationCompleted(method, referralLinkId, user) {
-  const userId = user.id;
+async function registrationCompleted(user) {
+  let method = 'email'
+  if (user.facebook_id) method = 'facebook'
+  if (user.google_id) method = 'google'
+  if (user.twitter_id) method = 'twitter'
+
   await Segment.trackWithProperties('ACHIEVE_LEVEL', {
     ...appInfo,
-    user_data: { developer_identity: userId },
+    user_data: { developer_identity: user.id },
     method,
-    referral_link_id: referralLinkId,
+    referral_link_id: user.referral_link_id,
+    action: 'User completed registration'
   })
 }
 
@@ -71,7 +79,8 @@ async function kycStarted() {
     user_data: { developer_identity: userId },
     products: {
       $og_description: description,
-      description
+      description,
+      action: 'User started KYC'
     }
   })
 }
@@ -81,23 +90,24 @@ async function kycStarted() {
  * Fires an event when a user finishes a withdrawal
  * @todo: check if needs moving to BE?
  *
- * @param {object} withdrawInfo
+ * @param {object} withdrawTransaction
  */
-async function withdrawCompleted(withdrawInfo) {
+async function withdrawCompleted(withdrawTransaction) {
   const { currencyRatesShort } = store.getState().generalData;
-  const info = {
-    ...withdrawInfo,
-    amountUsd: withdrawInfo.amount * currencyRatesShort[withdrawInfo.coin],
+  const payload = {
+    ...withdrawTransaction,
+    amountUsd: withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin],
   }
 
   await Segment.trackWithProperties('ADD_TO_WISHLIST', {
     ...appInfo,
-    revenue: Number(info.amountUsd),
+    revenue: Number(payload.amountUsd),
     currency: 'USD',
+    amount_usd: payload.amountUsd.toString(),
+    amount_crypto: payload.amount.toString(),
+    coin: payload.coin,
     action: 'Withdraw',
-    amount_usd: info.amountUsd.toString(),
-    amount_crypto: info.amount.toString(),
-    coin: info.coin
+    id: payload.id,
   });
 }
 
@@ -105,17 +115,23 @@ async function withdrawCompleted(withdrawInfo) {
 /**
  * Fires an event when a user finishes a CelPay
  *
- * @param {object} celPayInfo
+ * @param {object} celPayTransfer
+ * @param {string} celPayTransfer.amount
+ * @param {string} celPayTransfer.coin - eg. BTC|ETH
+ * @param {uuid} celPayTransfer.id
  */
-async function celpayCompleted(celPayInfo) {
+async function celpayCompleted(celPayTransfer) {
+  const { currencyRatesShort } = store.getState().generalData;
+  const amountUsd = celPayTransfer.amount * currencyRatesShort[celPayTransfer.coin]
   await Segment.trackWithProperties('SPEND_CREDITS', {
     ...appInfo,
-    revenue: Number(celPayInfo.amountUsd),
+    revenue: Number(amountUsd),
     currency: 'USD',
+    amount_usd: amountUsd.toString(),
+    amount_crypto: celPayTransfer.amount.toString(),
+    coin: celPayTransfer.coin,
+    id: celPayTransfer.id,
     action: 'CelPay',
-    amount_usd: celPayInfo.amountUsd.toString(),
-    amount_crypto: celPayInfo.amount.toString(),
-    coin: celPayInfo.coin
   });
 }
 
@@ -130,14 +146,14 @@ async function loanApplied(loanData) {
     ...appInfo,
     revenue: Number(loanData.amount_collateral_usd),
     currency: "USD",
-    action: 'Applied for loan',
-    id: loanData.id,
     coin: loanData.coin,
     amount_usd: loanData.amount_collateral_usd.toString(),
     amount_crypto: loanData.amount_collateral_crypto.toString(),
     ltv: loanData.ltv.toString(),
     interest: loanData.interest.toString(),
-    monthly_payment: loanData.monthly_payment.toString()
+    monthly_payment: loanData.monthly_payment.toString(),
+    id: loanData.id,
+    action: 'Applied for loan',
   })
 }
 

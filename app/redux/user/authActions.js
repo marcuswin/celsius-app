@@ -16,6 +16,7 @@ import logger from '../../utils/logger-util';
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from '../../constants/DATA'
+import analytics from "../../utils/analytics";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -299,6 +300,7 @@ function setPin() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms
+      const user = getState().user.profile
 
       dispatch(startApiCall(API.SET_PIN));
       await meService.setPin({
@@ -308,6 +310,8 @@ function setPin() {
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(navigateTo('KYCLanding'));
+
+      analytics.registrationCompleted(user)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));

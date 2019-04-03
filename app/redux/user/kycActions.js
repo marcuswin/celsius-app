@@ -9,6 +9,7 @@ import apiUtil from "../../utils/api-util";
 import logger from '../../utils/logger-util';
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
+import analytics from "../../utils/analytics";
 
 export {
   updateProfileInfo,
@@ -281,6 +282,8 @@ function verifyKYCDocs() {
 
       dispatch(NavActions.navigateTo('KYCLanding'));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
+
+      analytics.kycStarted()
     } catch (err) {
       logger.err({ err });
       if (err.type === 'Validation error') {

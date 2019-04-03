@@ -6,6 +6,7 @@ import transactions from "../../services/transactions-service";
 import walletService from "../../services/wallet-service";
 import { navigateTo } from "../nav/navActions";
 import { getWalletSummary } from "../wallet/walletActions";
+import analytics from "../../utils/analytics";
 
 export {
   getAllTransactions,
@@ -83,6 +84,8 @@ function withdrawCrypto() {
       const res = await walletService.withdrawCrypto(coin, amountCrypto, { pin, twoFactorCode: code });
       dispatch(getWalletSummary());
       dispatch(withdrawCryptoSuccess(res.data.transaction));
+
+      analytics.withdrawCompleted(res.data.transaction)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));

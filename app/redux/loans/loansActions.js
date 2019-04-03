@@ -4,6 +4,7 @@ import { showMessage, closeModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
+import analytics from "../../utils/analytics";
 
 export {
   applyForALoan,
@@ -37,10 +38,11 @@ function applyForALoan() {
 
       const res = await loansService.apply(loanApplication, verification);
       dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS, loan: res.data.loan });
-      // TODO(fj): analytics loan
       dispatch(closeModal());
       dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
       dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
+
+      analytics.loanApplied(res.data.loan)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));
