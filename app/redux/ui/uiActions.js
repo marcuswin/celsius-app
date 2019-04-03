@@ -57,13 +57,15 @@ function showMessage(msgType, text, disableClear) {
 /**
  * Sets the keypad input ref
  * @param {Object} input - input ref
+ * @param {Object} field - active field for keypad input
  */
 let _keypadInputRef = null;
-function setKeypadInput(input) {
+let _activeField = null;
+function setKeypadInput(input, field) {
   return (dispatch, getState) => {
     const { isKeypadOpen } = getState().ui;
 
-    if (input === false) {
+    if (input === false && field === _activeField) {
       // close keypad
       if (isKeypadOpen) dispatch({
         type: ACTIONS.TOGGLE_KEYPAD,
@@ -71,10 +73,12 @@ function setKeypadInput(input) {
       });
 
       _keypadInputRef = null
+      _activeField = null
     }
 
-    if (!_keypadInputRef && input) {
+    if (input && field !== _activeField) {
       _keypadInputRef = input
+      _activeField = field
     }
   }
 }

@@ -110,7 +110,7 @@ class EmptyState extends Component {
 
         <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
 
-        {paragraphs.map(paragraph => (
+        {paragraphs && paragraphs.map(paragraph => (
           <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"} key={paragraph}>{paragraph}</CelText>
         ))}
 
