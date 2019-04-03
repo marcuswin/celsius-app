@@ -38,7 +38,7 @@ class WalletDetailsCard extends PureComponent {
             <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(walletSummary.total_amount_usd)}</CelText>
             <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
               <Icon name={arrowType} fill={textColor} height={6} width={6}/>
-              <CelText weight='500' color={textColor} margin='0 0 0 3'>{dailyDiff ? Math.abs(dailyDiff).toFixed(2) : 0} %</CelText>
+              <CelText weight='500' color={textColor} margin='0 0 3 3'>{dailyDiff ? Math.abs(dailyDiff).toFixed(2) : 0} %</CelText>
             </View>
           </TouchableOpacity>
 
