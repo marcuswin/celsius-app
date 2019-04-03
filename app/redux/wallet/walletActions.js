@@ -128,6 +128,7 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount,
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
       dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }));
+      dispatch(showMessage('success', 'Check your email to confirm your withdrawal!'));
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(currentApiCall, error));
@@ -167,6 +168,7 @@ export function withdrawCrypto(coin, amount, verification) {
       dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
       dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }));
+      dispatch(showMessage('success', 'Check your email to confirm your withdrawal!'));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
