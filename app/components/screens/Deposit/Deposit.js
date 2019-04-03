@@ -224,7 +224,7 @@ class Deposit extends Component {
               <Card>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <CelText style={{ opacity: 0.7 }}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
                     <CelText>{destinationTag || memoId}</CelText>
                     <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
                       <Icon name="Info" height="19" width="19" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{ marginLeft: 10, marginTop: 2 }} />
@@ -244,14 +244,14 @@ class Deposit extends Component {
               : null}
 
             <Card>
-              <View style={{ alignItems: 'center' }}>
+              <View style={styles.qrCode}>
                 <QRCode
                   value={useAlternateAddress ? alternateAddress : address}
                   size={100}
                   bgColor='#FFF'
                   fgColor='#000'
                 />
-                <CelText type='H4' align={'center'} style={{ marginTop: 10 }}>{useAlternateAddress ? alternateAddress : address}</CelText>
+                <CelText type='H4' align={'center'} style={{ marginTop: 10, marginBottom: 10 }}>{useAlternateAddress ? alternateAddress : address}</CelText>
 
                 <View style={styles.copyShareWrapper}>
                   <Separator />

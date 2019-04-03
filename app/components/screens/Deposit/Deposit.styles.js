@@ -5,12 +5,12 @@ const base = {
   container: {
     flex: 1,
     marginHorizontal: 20,
-    marginTop: 20
+    marginTop: 10
   },
 
   copyShareWrapper: {
     width: '100%',
-    marginTop: 15
+    // marginTop: 15
   },
 
   copyShareButtonsWrapper: {
@@ -23,6 +23,11 @@ const base = {
     alignItems: 'center',
     paddingHorizontal: '5%',
     paddingVertical: '2%',
+  },
+  qrCode: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    alignItems: 'center'
   }
 };
 

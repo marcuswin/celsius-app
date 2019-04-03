@@ -21,7 +21,7 @@ class CoinPicker extends Component {
   };
 
   static defaultProps = {
-    onCoinSelect: () => {},
+    onCoinSelect: () => { },
     value: '',
     defaultSelected: ''
   };
@@ -44,7 +44,7 @@ class CoinPicker extends Component {
 
         <CircleButton
           iconSize={30}
-          style={{ marginBottom: 10, marginTop: 10 }}
+          style={{ marginBottom: 5, marginTop: 20 }}
           type="coin"
           icon={`Icon${value}`}
         />
@@ -54,7 +54,7 @@ class CoinPicker extends Component {
           field='selectedCoin'
           displayValue={value}
           onChange={(field, item) => onCoinSelect(field, item)}
-          style={{justifyContent: 'center'}}
+          style={{ justifyContent: 'center' }}
         />
       </View>
     );

@@ -55,12 +55,12 @@ class CircleButton extends Component {
         <TouchableOpacity disabled={disabled} style={[styleCmp.container, style]} onPress={!onPress ? () => { } : onPress}>
           <View style={{ opacity: isSelected || !selectable ? 1 : 0.5, elevation: 2 }}>
             <View style={[styleCmp.view, styleCmp[`view${type}`]]}>
-              {icon && 
+              {icon &&
                 (iconSize ? (
                   <Icon name={icon} fill={fillColor} width={iconSize} />
                 ) : (
-                <Icon name={icon} fill={fillColor}/>
-              ))}
+                    <Icon name={icon} fill={fillColor} />
+                  ))}
             </View>
           </View>
         </TouchableOpacity>
