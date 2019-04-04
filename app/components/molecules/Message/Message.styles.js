@@ -9,11 +9,12 @@ const { width } = Dimensions.get("window");
 const baseContainer = {
   flexDirection: "row",
   position: "absolute",
+  alignSelf: 'center',
   top: 0,
-  width,
+  width, 
   zIndex: 100,
   paddingTop: 40,
-  paddingBottom: 10,
+  paddingBottom: 15,
   paddingLeft: 20,
   paddingRight: 20,
   alignItems: "flex-start",
@@ -48,7 +49,7 @@ const base = {
   },
   closeButton: {
     width: "15%",
-    paddingTop: 5,
+    paddingTop: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end"
