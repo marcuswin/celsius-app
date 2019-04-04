@@ -1,23 +1,51 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
+
+const height = heightPercentageToDP("23.5%");
 
 const base = {
-    container: {
-        flex: 1
-    }
-}
+  container: {
+    flex: 1
+  },
+  outerCircle: {
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(255,255,255,0.3)",
+    height: heightPercentageToDP("20.3%"),
+    width: heightPercentageToDP("20.3%"),
+    borderRadius: height / 2
+  },
+  innerCircle: {
+    position: "absolute",
+    top: heightPercentageToDP("0.8%"),
+    left: heightPercentageToDP("0.8%%"),
+    width: heightPercentageToDP("18.7%"),
+    height: heightPercentageToDP("18.7%"),
+    borderRadius: height / 2,
+    backgroundColor: "rgba(65, 86, 166, 1)"
+  },
+  contentCircle: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    top: heightPercentageToDP("1.65%"),
+    left: heightPercentageToDP("1.65%"),
+    width: heightPercentageToDP("17%"),
+    height: heightPercentageToDP("17%"),
+    borderRadius: height/ 2,
+    backgroundColor: "rgba(255,255,255,0.3)"
+  }
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
+  celsius: {}
 };
 
 const PieProgressBarStyle = () => getThemedStyle(base, themed);
 
-export default PieProgressBarStyle
+export default PieProgressBarStyle;

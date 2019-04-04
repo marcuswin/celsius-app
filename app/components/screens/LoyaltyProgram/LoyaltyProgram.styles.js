@@ -40,7 +40,20 @@ const base = {
   hodlImage: {
     resizeMode: "contain",
     height: heightPercentageToDP("20%"),
-    width: widthPercentageToDP("85%")}
+    width: widthPercentageToDP("85%")
+  },
+  arcChart: {
+    marginHorizontal: widthPercentageToDP("8%")
+  },
+  contentWrapper: {
+    marginHorizontal: 20,
+    marginTop: heightPercentageToDP("1.5%")
+  },
+  interestCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 };
 
 const themed = {
