@@ -87,7 +87,7 @@ export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
     </Card>
-    <Card padding="20 20 0 20">
+    <Card>
       <View style={{ alignItems: 'flex-start' }}>
         <CelText type="H4" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
         <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
@@ -111,11 +111,13 @@ export const LoanInfoSection = ({ navigateTo }) => (
 )
 
 export const HodlInfoSection = ({ date, amount, coin }) => (
-  <Card>
-    <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Keep your initial deposit of {formatter.crypto(amount, coin.toUpperCase())} until
-        <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>to unlock your HODL reward.
-      </CelText>
-  </Card >
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
+    <Card>
+      <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Keep your initial deposit of {formatter.crypto(amount, coin.toUpperCase())} until
+          <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>to unlock your HODL reward.
+        </CelText>
+    </Card>
+  </View>
 )
 
 function getBlockExplorerLink(transaction) {
