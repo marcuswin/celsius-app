@@ -68,8 +68,6 @@ class BorrowBankAccount extends Component {
       this.setState({isLoading: true})
       await actions.linkBankAccount(bankAccountInfo)
       this.setState({isLoading: false})
-
-      // actions.navigateTo('VerifyProfile', {onSuccess: () => actions.openModal(MODALS.BORROW_CONFIRM)})
     }
   }
 

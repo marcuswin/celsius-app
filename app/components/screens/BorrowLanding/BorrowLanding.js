@@ -24,8 +24,7 @@ import { LOAN_STATUS } from '../../../constants/DATA'
   state => ({
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
-    // allLoans: state.loans.allLoans,
-    allLoans: undefined,
+    allLoans: state.loans.allLoans,
     minimumLoanAmount: state.generalData.minimumLoanAmount
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
