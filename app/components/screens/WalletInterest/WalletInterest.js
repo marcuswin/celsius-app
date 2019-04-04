@@ -25,7 +25,8 @@ import StaticScreen from "../StaticScreen/StaticScreen";
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    chartData: state.interest.chartData
+    chartData: state.interest.chartData,
+    user: state.user.profile
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -59,16 +60,11 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { walletSummary } = this.props;
+    const { walletSummary, user } = this.props;
     const style = WalletInterestStyle();
 
-   if (walletSummary.total_interest_earned <= 0) {
-     return (
-       <StaticScreen
-         emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }}
-       />
-     )
-   }
+    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_INTEREST }} />
+    if (walletSummary.total_interest_earned <= 0) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }} />
 
     return (
       <RegularLayout padding='20 0 100 0'>

@@ -65,7 +65,28 @@ function getDefaultEmptyState(purpose, actions) {
       paragraphs: ["We're paying interest in kind every Monday! It means you will earn interest in BTC for your BTC deposits. ETH for ETH, etc. YOu can earn up to 7% a year on your coins."],
       button: "Check this week's rates",
       onPress: () =>  actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
-    }
+    },
+    [EMPTY_STATES.NON_MEMBER_CELPAY]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Send crypto to your friends",
+      paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by adding some CEL to your wallet"],
+      button: "Deposit CEL",
+      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
+    },
+    [EMPTY_STATES.NON_MEMBER_INTEREST]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Start earning interest",
+      paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by adding some CEL to your wallet"],
+      button: "Deposit CEL",
+      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
+    },
+    [EMPTY_STATES.NON_MEMBER_BORROW]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Borrow Dollars for Crypto",
+      paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by adding some CEL to your wallet"],
+      button: "Deposit CEL",
+      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
+    },
   }[purpose];
 }
 
@@ -104,7 +125,7 @@ class EmptyState extends Component {
     return (
       <View style={style.container}>
         <View>
-          <Image source={image || require("../../../../assets/images/deerTransactionHistory.png")}
+          <Image source={image || require("../../../../assets/images/diane-sad.png")}
                  style={{ width: 140, height: 140, resizeMode: "contain" }}/>
         </View>
 

@@ -22,10 +22,12 @@ import { LOAN_STATUS } from '../../../constants/DATA'
 
 @connect(
   state => ({
+    user: state.user.profile,
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
     allLoans: state.loans.allLoans,
-    minimumLoanAmount: state.generalData.minimumLoanAmount
+    minimumLoanAmount: 200000,
+    // minimumLoanAmount: state.generalData.minimumLoanAmount
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -114,26 +116,13 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, loanCompliance, allLoans, minimumLoanAmount } = this.props;
+    const { actions, user, loanCompliance, allLoans, minimumLoanAmount } = this.props;
     const style = BorrowLandingStyle();
 
+    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />
+    if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
+    if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />
     if (isLoading) return <LoadingScreen />
-
-    if (!loanCompliance.allowed) {
-      return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }}
-        />
-      )
-    }
-
-    if (maxAmount < minimumLoanAmount) {
-      return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }}
-        />
-      )
-    }
 
     return (
       <RegularLayout>

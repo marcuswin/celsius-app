@@ -17,6 +17,8 @@ import Separator from '../../atoms/Separator/Separator';
 import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import StaticScreen from "../StaticScreen/StaticScreen";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 10 }}>
@@ -44,7 +46,8 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
 
 @connect(
   state => ({
-    contacts: getFilteredContacts(state)
+    contacts: getFilteredContacts(state),
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -181,11 +184,13 @@ class CelPayChooseFriend extends Component {
   );
 
   render() {
+    const { user } = this.props;
     const { isLoading } = this.state;
 
-    const RenderContent = this.renderContent;
-
+    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (isLoading) return <LoadingScreen />
+
+    const RenderContent = this.renderContent;
 
     return (
       <RegularLayout
