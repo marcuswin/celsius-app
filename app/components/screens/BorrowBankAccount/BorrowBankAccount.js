@@ -6,14 +6,12 @@ import _ from 'lodash'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import BorrowBankAccountStyle from "./BorrowBankAccount.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
-import { MODALS } from '../../../constants/UI'
 import { BANK_ACCOUNT_TYPE } from '../../../constants/DATA'
 import { showMessage } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store';
@@ -46,8 +44,7 @@ class BorrowBankAccount extends Component {
   linkBankAccount = async () => {
     const { actions, formData } = this.props
     const isAmerican = this.isAmerican()
-    // const isFormValid = this.validateBankInfoAccountForm();
-    const isFormValid = true
+    const isFormValid = this.validateBankInfoAccountForm();
 
     if (isFormValid) {
       const bankAccountInfo = {
@@ -72,7 +69,7 @@ class BorrowBankAccount extends Component {
       await actions.linkBankAccount(bankAccountInfo)
       this.setState({isLoading: false})
 
-      actions.navigateTo('VerifyProfile', {onSuccess: () => actions.openModal(MODALS.BORROW_CONFIRM)})
+      // actions.navigateTo('VerifyProfile', {onSuccess: () => actions.openModal(MODALS.BORROW_CONFIRM)})
     }
   }
 

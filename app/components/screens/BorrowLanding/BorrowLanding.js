@@ -24,7 +24,8 @@ import { LOAN_STATUS } from '../../../constants/DATA'
   state => ({
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
-    allLoans: state.loans.allLoans,
+    // allLoans: state.loans.allLoans,
+    allLoans: undefined,
     minimumLoanAmount: state.generalData.minimumLoanAmount
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -149,7 +150,7 @@ class BorrowLanding extends Component {
 
         <View>
           <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
-          {allLoans.map(loan => {
+          {allLoans && allLoans.map(loan => {
             const loanStatusDetails = this.getLoanStatusDetails(loan.status)
             return (
               <Card key={loan.id}>

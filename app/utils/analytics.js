@@ -144,7 +144,7 @@ async function celpayCompleted(celPayTransfer) {
 async function loanApplied(loanData) {
   await Segment.trackWithProperties('Product Added', { // ADD_TO_CART
     ...appInfo,
-    revenue: Number(loanData.amount_collateral_usd),
+    revenue: Number(loanData.loan_amount),
     currency: "USD",
     coin: loanData.coin,
     amount_usd: loanData.amount_collateral_usd.toString(),

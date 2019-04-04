@@ -13,8 +13,10 @@ import {
 import TwoFactorService from '../../services/two-factor-service'
 import logger from '../../utils/logger-util'
 import meService from '../../services/me-service'
-import { updateFormField } from '../forms/formsActions'
+import { setFormErrors, updateFormField } from "../forms/formsActions";
+import { navigateTo } from "../nav/navActions";
 import { MODALS } from '../../constants/UI'
+import apiUtil from "../../utils/api-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra
 
@@ -403,13 +405,19 @@ function getLinkedBankAccount () {
  */
 function linkBankAccount (bankAccountInfo) {
   return async dispatch => {
-    dispatch(startApiCall(API.LINK_BANK_ACCOUNT))
-
     try {
-      await usersService.linkBankAccount(bankAccountInfo)
+      dispatch(startApiCall(API.LINK_BANK_ACCOUNT))
+      const bankRes = await usersService.linkBankAccount(bankAccountInfo)
       dispatch({ type: ACTIONS.LINK_BANK_ACCOUNT_SUCCESS })
+      dispatch(updateFormField('bankInfo', bankRes.data))
+      dispatch(navigateTo('VerifyProfile', {onSuccess: () => dispatch(openModal(MODALS.BORROW_CONFIRM))}))
     } catch (err) {
-      logger.err(err)
+      if (err.type === 'Validation error') {
+        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
+      } else {
+        dispatch(showMessage('error', err.msg));
+      }
+      dispatch(apiError(API.LINK_BANK_ACCOUNT, err))
     }
   }
 }
