@@ -1,28 +1,55 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import RNPickerSelect from "react-native-picker-select";
+import React from 'react'
+import PropTypes from 'prop-types'
+import RNPickerSelect from 'react-native-picker-select'
 
-import testUtil from "../../../utils/test-util";
+import testUtil from '../../../utils/test-util'
 
-import SimpleSelectStyle from "./SimpleSelect.styles";
-import Icon from "../../atoms/Icon/Icon";
-import STYLES from '../../../constants/STYLES';
+import SimpleSelectStyle from './SimpleSelect.styles'
+import Icon from '../../atoms/Icon/Icon'
+import STYLES from '../../../constants/STYLES'
 
-const SimpleSelect = (props) => {
+const SimpleSelect = props => {
   const style = SimpleSelectStyle()
-  const { displayValue, items, onChange, updateFormField, field } = props
+  let additionalStyle
 
+  const {
+    displayValue,
+    items,
+    onChange,
+    updateFormField,
+    field,
+    iconName,
+    fillColor,
+    iconWidth,
+    style:selectStyle
+  } = props
+  if (selectStyle) {
+    additionalStyle = {
+      inputAndroid: {
+        ...selectStyle
+      },
+      inputIOS: {
+        ...selectStyle
+      }
+    }
+  }
   return (
     <RNPickerSelect
-      onValueChange={(item) => {
+      onValueChange={item => {
         if (item) {
           return onChange ? onChange(field, item) : updateFormField(field, item)
         }
       }}
-      style={style}
+      style={{ ...style, ...additionalStyle }}
       useNativeAndroidPickerStyle={false}
       value={displayValue}
-      Icon={() => <Icon name="CaretDown" width={8} fill={STYLES.COLORS.DARK_GRAY} />}
+      Icon={() => (
+        <Icon
+          name={iconName || 'CaretDown'}
+          width={iconWidth || 8}
+          fill={fillColor || STYLES.COLORS.DARK_GRAY}
+        />
+      )}
       items={items}
     />
   )
@@ -35,6 +62,10 @@ SimpleSelect.propTypes = {
   updateFormField: PropTypes.func,
   onChange: PropTypes.func,
   field: PropTypes.string.isRequired,
+  iconName: PropTypes.string,
+  fillColor: PropTypes.string,
+  iconWidth: PropTypes.number,
+  style: PropTypes.instanceOf(Object)
 }
 
-export default testUtil.hookComponent(SimpleSelect);
+export default testUtil.hookComponent(SimpleSelect)

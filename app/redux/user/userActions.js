@@ -38,7 +38,9 @@ export {
   linkBankAccount,
   profileTaxpayerInfo,
   getPreviousPinScreen,
-  getCelsiusMemberStatus
+  getCelsiusMemberStatus,
+  getUserAppSettings,
+  setUserAppSettings
 }
 
 /**
@@ -452,6 +454,34 @@ function getCelsiusMemberStatus () {
     } catch (err) {
       dispatch(showMessage('error', err.msg))
       dispatch(apiError(API.GET_PREVIOUS_SCREEN, err))
+    }
+  }
+}
+
+function getUserAppSettings () {
+  return async dispatch => {
+    try {
+      const userAppData = await usersService.getUserAppSettings()
+      dispatch({
+        type: ACTIONS.GET_APP_SETTINGS,
+        userAppData: userAppData.data
+      })
+    } catch (e) {
+      dispatch(showMessage('error', e.msg))
+    }
+  }
+}
+
+function setUserAppSettings (data) {
+  return async dispatch => {
+    try {
+      const userAppData = await usersService.setUserAppSettings(data)
+      dispatch({
+        type: ACTIONS.GET_APP_SETTINGS,
+        userAppData: userAppData.data
+      })
+    } catch (e) {
+      dispatch(showMessage('error', e.msg))
     }
   }
 }

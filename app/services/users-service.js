@@ -33,7 +33,9 @@ const usersService = {
   getConnectedContacts,
   getLinkedBankAccount,
   linkBankAccount,
-  getCelsiusMemberStatus
+  getCelsiusMemberStatus,
+  getUserAppSettings,
+  setUserAppSettings
 }
 
 /**
@@ -413,6 +415,14 @@ function invalidateSession () {
  */
 function getCelsiusMemberStatus () {
   return axios.post(`${apiUrl}/user/membership`)
+}
+
+function getUserAppSettings () {
+  return axios.get(`${apiUrl}/user_app_settings`)
+}
+
+function setUserAppSettings (data) {
+  return axios.put(`${apiUrl}/user_app_settings`, data)
 }
 
 export default usersService
