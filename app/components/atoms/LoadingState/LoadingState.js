@@ -10,7 +10,7 @@ import Spinner from "../Spinner/Spinner";
 
 const LoadingState = ({
   heading = 'Please wait...',
-  image = require("../../../../assets/images/deerTransactionHistory.png"),
+  image = require("../../../../assets/images/victory-bear3x.png"),
 }) => {
   const style = LoadingStateStyle();
   return (

@@ -11,35 +11,17 @@ import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
-
-
-function getMenuItems(menu) {
-  return {
-    main: [
-      [
-        { label: 'Wallet', screen: 'WalletFab' },
-        { label: 'Borrow', screen: 'BorrowFab' },
-        { label: 'CelPay', screen: 'CelPayFab' },
-      ],
-      [
-        { label: 'Deposit', screen: 'DepositFab' },
-        { label: 'Settings', screen: 'ProfileFab' },
-        { label: 'Support', screen: 'SupportFab' },
-      ],
-      [
-        { label: 'Community', screen: 'CommunityFab' },
-      ]
-    ],
-    support: [],
-  }[menu];
-}
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 @connect(
   state => ({
     fabMenuOpen: state.ui.fabMenuOpen,
     theme: state.ui.theme,
     appInitialized: state.app.appInitialized,
-    fabType: state.ui.fabType
+    fabType: state.ui.fabType,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -54,18 +36,39 @@ class FabMenu extends Component {
   componentDidMount = () => {
     const { fabType } = this.props;
     this.setState({
-      menuItems: getMenuItems(fabType)
+      menuItems: this.getMenuItems(fabType)
     });
   }
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.fabType !== this.props.fabType && this.props.fabType !== 'hide') {
       this.setState({
-        menuItems: getMenuItems(this.props.fabType)
+        menuItems: this.getMenuItems(this.props.fabType)
       });
     }
   }
 
+  getMenuItems(menu) {
+    const { kycStatus } = this.props
+    return {
+      main: [
+        [
+          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletFab' : 'KYC' },
+          { label: 'Borrow', screen: 'BorrowFab' },
+          { label: 'CelPay', screen: 'CelPayFab' },
+        ],
+        [
+          { label: 'Deposit', screen: 'DepositFab' },
+          { label: 'Settings', screen: 'ProfileFab' },
+          // { label: 'Support', screen: 'SupportFab' },
+        ],
+        // [
+        //   { label: 'Community', screen: 'CommunityFab' },
+        // ]
+      ],
+      support: [],
+    }[menu];
+  }
 
   // componentWillReceiveProps() {
   //   const nextScreen = "home"

@@ -16,7 +16,6 @@ import {
   widthPercentageToDP
 } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES'
-import StaticScreen from '../StaticScreen/StaticScreen'
 import { KYC_STATUSES } from '../../../constants/DATA'
 import Card from '../../atoms/Card/Card'
 
@@ -212,19 +211,7 @@ class KYCLanding extends Component {
   }
 
   render () {
-    const { kycStatus, actions } = this.props
-
-    if (kycStatus === 'passed') {
-      return (
-        <StaticScreen
-          emptyState={{
-            heading: 'KYC Landing screen coming soon',
-            button: 'Add profile details',
-            onPress: () => actions.navigateTo('KYCProfileDetails')
-          }}
-        />
-      )
-    }
+    const { kycStatus } = this.props
     return (
       <RegularLayout theme={THEMES.LIGHT}>
         {this.renderCard()}
