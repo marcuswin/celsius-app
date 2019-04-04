@@ -34,6 +34,8 @@ const usersService = {
   getLinkedBankAccount,
   linkBankAccount,
   getCelsiusMemberStatus,
+  getLoyaltyInfo
+  getCelsiusMemberStatus,
   getUserAppSettings,
   setUserAppSettings
 }
@@ -349,6 +351,10 @@ function getIcoPersonalInfo () {
  */
 function getComplianceInfo () {
   return axios.get(`${apiUrl}/me/compliance`)
+}
+
+function getLoyaltyInfo() {
+  return axios.get(`${apiUrl}/user/loyalty`)
 }
 
 /**
