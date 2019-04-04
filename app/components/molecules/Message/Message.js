@@ -91,7 +91,7 @@ class Message extends Component {
           </CelText>
         </View>
         <TouchableOpacity onPress={() => actions.clearMessage()} style={style.closeButton}>
-          <Icon name="Close" height="17" width="17" viewBox="0 0 1000 1000" fill="#FFFFFF" />
+          <Icon name="Close" height="20" width="20" viewBox="0 0 1000 1000" fill="#FFFFFF" />
         </TouchableOpacity>
       </Animated.View>
     );
