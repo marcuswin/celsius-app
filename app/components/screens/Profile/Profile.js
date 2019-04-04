@@ -110,7 +110,7 @@ class Profile extends Component {
         <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
         <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
         <Separator/>
-        <IconButton icon="Settings">Achievements</IconButton>
+        <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
         <Separator />
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
         <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number"
