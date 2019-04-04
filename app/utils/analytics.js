@@ -18,6 +18,10 @@ const analytics = {
   withdrawCompleted,
   celpayCompleted,
   loanApplied,
+  sessionStarted,
+  sessionEnded,
+  buttonPressed,
+  navigated,
 }
 
 /**
@@ -154,6 +158,50 @@ async function loanApplied(loanData) {
     monthly_payment: loanData.monthly_payment.toString(),
     id: loanData.id,
     action: 'Applied for loan',
+  })
+}
+
+
+/**
+ * Fires an event when a user starts a session - login|register|app open|app state to active
+ */
+async function sessionStarted() {
+  await identifyUser()
+  await Segment.trackWithProperties('Session ended', appInfo)
+}
+
+
+/**
+ * Fires an event when a user ends the session - logout|app state to background
+ */
+async function sessionEnded() {
+  await Segment.trackWithProperties('Session started', appInfo)
+  await logoutUser()
+}
+
+
+/**
+ * Fires an event when a user fires NAVIGATE_TO or NAVIGATE_BACK actions
+ *
+ * @param {string} screen
+ */
+async function navigated(screen) {
+  await Segment.trackWithProperties('Navigated to', {
+    ...appInfo,
+    screen,
+  })
+}
+
+
+/**
+ * Fires an event when a user presses a CelButton
+ *
+ * @param {string} buttonText - copy on the button
+ */
+async function buttonPressed(buttonText) {
+  await Segment.trackWithProperties('Button pressed', {
+    ...appInfo,
+    button: buttonText,
   })
 }
 
