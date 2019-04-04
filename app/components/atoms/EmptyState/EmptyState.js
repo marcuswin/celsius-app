@@ -66,6 +66,27 @@ function getDefaultEmptyState(purpose, actions) {
       button: "Check this week's rates",
       onPress: () =>  actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
     },
+    [EMPTY_STATES.NON_VERIFIED_CELPAY]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Send crypto to your friends",
+      paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
+      button: "Verify profile",
+      onPress: () =>  actions.navigateTo("KYC")
+    },
+    [EMPTY_STATES.NON_VERIFIED_DEPOSIT]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Start earning interest",
+      paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
+      button: "Verify profile",
+      onPress: () =>  actions.navigateTo("KYC")
+    },
+    [EMPTY_STATES.NON_VERIFIED_BORROW]: {
+      // image: require("../../../../assets/images/money-bear3x.png"),
+      heading: "Borrow Dollars for Crypto",
+      paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
+      button: "Verify profile",
+      onPress: () =>  actions.navigateTo("KYC")
+    },
     [EMPTY_STATES.NON_MEMBER_CELPAY]: {
       // image: require("../../../../assets/images/money-bear3x.png"),
       heading: "Send crypto to your friends",

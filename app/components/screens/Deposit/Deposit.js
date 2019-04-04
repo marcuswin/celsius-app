@@ -18,16 +18,21 @@ import STYLES from '../../../constants/STYLES';
 import DepositStyle from './Deposit.styles';
 import Card from '../../atoms/Card/Card';
 import Icon from '../../atoms/Icon/Icon';
-import { MODALS } from '../../../constants/UI'
+import { EMPTY_STATES, MODALS } from "../../../constants/UI";
 import CelModal from '../../organisms/CelModal/CelModal';
 import Spinner from '../../atoms/Spinner/Spinner';
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
+import { KYC_STATUSES } from "../../../constants/DATA";
+import StaticScreen from "../StaticScreen/StaticScreen";
 
 @connect(
   state => ({
     eligibleCoins: getDepositEligibleCoins(state),
     formData: state.forms.formData,
-    walletAddresses: state.wallet.addresses
+    walletAddresses: state.wallet.addresses,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -201,10 +206,12 @@ class Deposit extends Component {
   );
 
   render() {
-    const { actions, formData, eligibleCoins } = this.props;
+    const { actions, formData, eligibleCoins, kycStatus } = this.props;
     const { address, alternateAddress, destinationTag, memoId } = this.getAddress(formData.selectedCoin);
     const { useAlternateAddress, isFetchingAddress } = this.state;
     const styles = DepositStyle();
+
+    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }} />
 
     return (
       <RegularLayout padding={'20 0 100 0'}>

@@ -19,6 +19,7 @@ import { getFilteredContacts } from '../../../redux/custom-selectors';
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 10 }}>
@@ -48,6 +49,9 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
   state => ({
     contacts: getFilteredContacts(state),
     user: state.user.profile,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -184,9 +188,10 @@ class CelPayChooseFriend extends Component {
   );
 
   render() {
-    const { user } = this.props;
+    const { user, kycStatus } = this.props;
     const { isLoading } = this.state;
 
+    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (isLoading) return <LoadingScreen />
 

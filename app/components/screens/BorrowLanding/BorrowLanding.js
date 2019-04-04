@@ -18,7 +18,7 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import CelButton from '../../atoms/CelButton/CelButton'
 import Card from '../../atoms/Card/Card'
 import Icon from '../../atoms/Icon/Icon'
-import { LOAN_STATUS } from '../../../constants/DATA'
+import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -26,8 +26,10 @@ import { LOAN_STATUS } from '../../../constants/DATA'
     loanCompliance: state.user.compliance.loan,
     walletSummary: state.wallet.summary,
     allLoans: state.loans.allLoans,
-    minimumLoanAmount: 200000,
-    // minimumLoanAmount: state.generalData.minimumLoanAmount
+    minimumLoanAmount: state.generalData.minimumLoanAmount,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -116,9 +118,11 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, user, loanCompliance, allLoans, minimumLoanAmount } = this.props;
+    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount } = this.props;
     const style = BorrowLandingStyle();
 
+
+    if (!kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />
