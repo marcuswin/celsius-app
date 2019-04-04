@@ -17,7 +17,7 @@ import ApiAuthorization from "../../components/screens/ApiAuthorization/ApiAutho
 import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
-
+import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
 
 export const profileFlow = {
   screens: {
@@ -37,7 +37,8 @@ export const profileFlow = {
     TwoFaAuthAppConfirmationCode,
     ChangeAvatar,
     CameraScreen,
-    ConfirmCamera
+    ConfirmCamera,
+    LoyaltyProgram,
   },
   props: {
     initialRouteName: 'Profile',

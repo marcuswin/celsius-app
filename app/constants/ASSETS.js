@@ -76,6 +76,11 @@ const CACHE_IMAGES = [
   require('../../assets/images/splashScreen-celsius.png'),
   require('../../assets/images/money-bear3x.png'),
   require('../../assets/images/victory-bear3x.png'),
+  require('../../assets/images/loyaltyIcons/hodl-ratiox.png'),
+  require('../../assets/images/loyaltyIcons/level-upx.png'),
+  require('../../assets/images/loyaltyIcons/membershipx.png'),
+  require('../../assets/images/loyaltyIcons/withdrawx.png'),
+  require('../../assets/images/HODL-ratio.png'),
 ];
 
 export default {

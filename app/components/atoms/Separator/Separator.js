@@ -36,9 +36,10 @@ class Separator extends Component {
   getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const { size, color, dashed, opacity } = this.props
+    const { size, color, dashed, opacity, margin } = this.props
     const style = SeparatorStyle()
     const separatorColor = color || this.getSeparatorColor(style)
+    const margins = getMargins(margin)
 
     return (
       <View
@@ -50,7 +51,8 @@ class Separator extends Component {
             borderWidth: size / 2,
             borderStyle: dashed ? 'dashed' : 'solid',
             opacity
-          }
+          },
+          margins
         ]}
       />
     )
