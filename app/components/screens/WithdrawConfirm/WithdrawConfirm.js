@@ -108,6 +108,20 @@ class WithdrawConfirm extends Component {
           Number(newBalanceCrypto) < 1 &&
           !!user.celsius_member ? (
             <InfoBox
+                backgroundColor={STYLES.COLORS.RED}
+                padding='15 15 15 15'
+                color='white'
+              >
+                <CelText color={STYLES.COLORS.WHITE}>
+                Withdrawing will leave you with less than 1 CEL in your wallet, which result in losing your Celsius membership. This will restrict you from using all the available Celsius features. Are you sure that you want to withdraw?
+              </CelText>
+              </InfoBox>
+            ) : null}
+          {/* TODO tier changes by HODL ratio */}
+          {/* {formData.coin === 'CEL' &&
+          Number(newBalanceCrypto) < 1 &&
+          !!user.celsius_member ? (
+            <InfoBox
                 backgroundColor={STYLES.COLORS.ORANGE}
                 padding='15 15 15 15'
                 color='white'
@@ -124,7 +138,7 @@ class WithdrawConfirm extends Component {
                 to 0.25. Are you sure that you want to withdraw?
               </CelText>
               </InfoBox>
-            ) : null}
+            ) : null} */}
           <CelButton
             margin='10 0 0 0'
             loading={isLoading}

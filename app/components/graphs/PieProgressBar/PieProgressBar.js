@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { View, ART } from 'react-native';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
 import * as d3 from 'd3'
 
 import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-// import PieProgressBarStyle from "./PieProgressBar.styles";
+import PieProgressBarStyle from "./PieProgressBar.styles";
 import { heightPercentageToDP } from "../../../utils/styles-util";
 import CelText from "../../atoms/CelText/CelText";
 
@@ -16,36 +13,12 @@ const {Surface, Group, Shape} = ART;
 const width = heightPercentageToDP("23.5%");
 const height = heightPercentageToDP("23.5%");
 
-const userPurchases = [
-  {
-    itemName: 'Mountain Dew',
-    price: 100
-  },
-  {
-    itemName: 'Shoes',
-    price: 20
-  },
-];
-
-const sectionAngles = d3.pie().value(d => d.price)(userPurchases)
-const path = d3.arc()
-  .outerRadius(heightPercentageToDP("23.5%") / 2.5) // must be less than 1/2 the chart's height/width
-  .innerRadius(heightPercentageToDP("23.5%") /2.3) // the size of the inner 'donut' whitespace
-  .startAngle(0)
-  .endAngle(Math.PI / 100 * 2 * 77)
-  .cornerRadius(8)
-
-@connect(
-  () => ({
-
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class PieProgressBar extends Component {
 
   static propTypes = {
-    path: PropTypes.func.isRequired,
-    value: PropTypes.func.isRequired
+    amount: PropTypes.string,
+    max: PropTypes.number,
+    min: PropTypes.number,
   };
   static defaultProps = {
   };
@@ -53,29 +26,30 @@ class PieProgressBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
 
-  // componentDidMount() {
-  //   this.calculateProgress()
-  // }
-
-  // calculateProgress() {
-  // }
-
   render() {
-    // const style = PieProgressBarStyle();
+    const {amount, max, min} = this.props;
+    const style = PieProgressBarStyle();
+    const percentage = (amount - min) * 100 / (max - min);
+    const section = d3.pie().value(amount)({});
+    const path = d3.arc()
+      .outerRadius(height / 2.5) // must be less than 1/2 the chart's height/width
+      .innerRadius(height /2.3) // the size of the inner 'donut' whitespace
+      .startAngle(0)
+      .endAngle(Math.PI / 100 * 2 * (percentage))
+      .cornerRadius(8);
 
     return (
-        <View style={{marginTop: 10,justifyContent: "center", alignItems: "center",backgroundColor: "rgba(255,255,255,0.3)", height: heightPercentageToDP("20.3%"), width: heightPercentageToDP("20.3%"), borderRadius: height/2}}>
+        <View style={style.outerCircle}>
           <Surface width={width} height={height}>
             <Group x={width/2} y={height/2}>
               {
-                sectionAngles.map(section => (
+                section.map(sec => (
                   <Shape
-                    key={section.index}
-                    d={path(section)}
+                    key={section}
+                    d={path(sec)}
                     stroke="rgba(65, 86, 166, 0.3)"
                     fill={`white`}
                     strokeWidth={2}
@@ -84,12 +58,12 @@ class PieProgressBar extends Component {
               }
             </Group>
           </Surface>
-          <View style={{position: "absolute", top: heightPercentageToDP("0.8%"),left: heightPercentageToDP("0.8%%"), width: heightPercentageToDP("18.7%"), height: heightPercentageToDP("18.7%"), borderRadius: height/ 2, backgroundColor: "rgba(65, 86, 166, 1)"}}/>
-          <View style={{position: "absolute", justifyContent: "center", alignItems: "center", top: heightPercentageToDP("1.65%"),left: heightPercentageToDP("1.65%"), width: heightPercentageToDP("17%"), height: heightPercentageToDP("17%"), borderRadius: height/ 2, backgroundColor: "rgba(255,255,255,0.3)"}}>
-            <CelText color={"white"} type={"H3"} weight={700}>
-              7,045
+          <View style={style.innerCircle}/>
+          <View style={style.contentCircle}>
+            <CelText color={"white"} type={"H3"} weight={"700"}>
+              {amount}
             </CelText>
-            <CelText color={"white"} type={"H5"} weight={300}>
+            <CelText color={"white"} type={"H5"} weight={"300"}>
               CEL coins
             </CelText>
           </View>

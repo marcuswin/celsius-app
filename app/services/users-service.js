@@ -33,7 +33,10 @@ const usersService = {
   getConnectedContacts,
   getLinkedBankAccount,
   linkBankAccount,
-  getCelsiusMemberStatus
+  getCelsiusMemberStatus,
+  getLoyaltyInfo,
+  getUserAppSettings,
+  setUserAppSettings
 }
 
 /**
@@ -350,6 +353,16 @@ function getComplianceInfo () {
 }
 
 /**
+ * Gets Loyalty info for user
+ *
+ * @returns {Promise}
+ */
+
+function getLoyaltyInfo() {
+  return axios.get(`${apiUrl}/user/loyalty`)
+}
+
+/**
  * Connects contacts from device phone book
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#0b117565-209f-4b10-8f5a-a02c63815330
  *
@@ -413,6 +426,14 @@ function invalidateSession () {
  */
 function getCelsiusMemberStatus () {
   return axios.post(`${apiUrl}/user/membership`)
+}
+
+function getUserAppSettings () {
+  return axios.get(`${apiUrl}/user_app_settings`)
+}
+
+function setUserAppSettings (data) {
+  return axios.put(`${apiUrl}/user_app_settings`, data)
 }
 
 export default usersService

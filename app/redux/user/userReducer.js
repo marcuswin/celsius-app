@@ -1,7 +1,7 @@
 // TODO(fj): check if we need appSettings anymore? *needed for permission decline check (blackout!)
 // TODO(fj): map user with additional props
 
-import ACTIONS from '../../constants/ACTIONS';
+import ACTIONS from "../../constants/ACTIONS";
 
 const initialState = {
   userLocation: undefined,
@@ -52,6 +52,7 @@ const initialState = {
   },
   bankAccountInfo: null,
   screen: undefined,
+  loyaltyInfo: null
 };
 
 export default (state = initialState, action) => {
@@ -249,7 +250,22 @@ export default (state = initialState, action) => {
       return {
         ...state,
         screen: action.screen
+      };
+
+    case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
+      return {
+        ...state,
+        loyaltyInfo: {
+          ...action.loyaltyInfo
+        }
+      };
+
+    case ACTIONS.GET_APP_SETTINGS: {
+      return {
+        ...state,
+        appSettings: { ...state.appSettings, ...action.userAppData }
       }
+    }
 
     default:
       return state;

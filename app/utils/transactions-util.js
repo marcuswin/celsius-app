@@ -253,7 +253,7 @@ function getTransactionsProps(transaction) {
         title: () => `HODL Award`,
         color: STYLES.COLORS.CELSIUS_BLUE,
         iconName: 'TransactionLocked',
-        statusText: 'Locked'
+        statusText: 'Locked reward'
       }
     case TRANSACTION_TYPES.REFERRED:
       return { // T
@@ -330,7 +330,7 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'date', 'time', 'status', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'note', 'button:celpay:friend', 'button:back'] // add sent to
 
-    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator', 'button:refer', 'button:back']
+    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
     case TRANSACTION_TYPES.REFERRED: return ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
     case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'hodl:info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
     case TRANSACTION_TYPES.REFERRER: return ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info

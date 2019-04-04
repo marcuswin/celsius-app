@@ -27,7 +27,7 @@ class Graph extends React.Component {
     labelWidth: PropTypes.number,
     cursorRadius: PropTypes.number,
     showCursor: PropTypes.bool,
-    rate: PropTypes.string,
+    rate: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
     interest: PropTypes.bool,
     backgroundColor: PropTypes.string
   };

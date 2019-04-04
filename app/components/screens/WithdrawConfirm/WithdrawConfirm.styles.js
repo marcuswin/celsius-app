@@ -12,7 +12,7 @@ const base = {
     paddingVertical: 15,
   },
   bottom: {
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 36,
   },
   amountWrapper: {
