@@ -1,6 +1,5 @@
 import { Constants } from "expo";
 import { Platform } from "react-native";
-import uuid from "uuid";
 import store from '../../redux/store'
 
 import * as actions from "../actions";
@@ -8,7 +7,6 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { mixpanelAnalytics } from "../../services/mixpanel";
 import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
@@ -17,6 +15,7 @@ import branchUtil from "../../utils/branch-util";
 import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
+import analytics from "../../utils/analytics";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -97,7 +96,6 @@ function loadCelsiusAssets() {
 /**
  * Handles state change of the app
  * @param {string} nextAppState - one of active|inactive|background
- * @todo: check if it works in v3
  */
 const ASK_FOR_PIN_AFTER = 30 * 60 * 100;
 let pinTimeout;
@@ -118,6 +116,8 @@ function handleAppStateChange(nextAppState) {
         startOfBackgroundTimer = null;
         dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
       }
+
+      analytics.sessionStarted()
     }
 
     if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
@@ -131,6 +131,8 @@ function handleAppStateChange(nextAppState) {
       if (Platform.OS === "android") {
         startOfBackgroundTimer = new Date().getTime();
       }
+
+      analytics.sessionEnded()
     }
 
     dispatch({
@@ -170,7 +172,9 @@ function initAppData() {
     const { expiredSession } = getState().user;
 
     if (token && !expiredSession) {
+      analytics.sessionStarted();
       registerForPushNotificationsAsync();
+      dispatch(actions.claimAllBranchTransfers());
 
       // get all KYC document types and claimed transfers for non-verified users
       const { profile } = getState().user;
@@ -185,16 +189,9 @@ function initAppData() {
           await dispatch(actions.getComplianceInfo());
         }
       }
-    } else {
+    } else if (token) {
       // logout if expired session or no token
-      if (token) {
-        await dispatch(actions.logoutUser());
-      }
-      // initialize MixPanel with new user
-      mixpanelAnalytics.identify(uuid());
-
-      // TODO(fj): check if we need this...
-      // dispatch(actions.fireUserAction("enteredInitialPin"));
+      await dispatch(actions.logoutUser());
     }
 
     // get general data for te app

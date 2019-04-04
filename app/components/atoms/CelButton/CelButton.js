@@ -10,6 +10,7 @@ import CelText from '../CelText/CelText';
 import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
+import analytics from "../../../utils/analytics";
 
 const buttonSizes = ['small', 'medium'];
 
@@ -66,6 +67,13 @@ class CelButton extends Component {
     return titleStyle;
   }
 
+  handlePress = () => {
+    const { onPress, children } = this.props
+
+    analytics.buttonPressed(children)
+    onPress()
+  }
+
   renderIconRight = () => {
     const { iconRight, basic, children, iconRightHeight, iconRightWidth, iconRightColor, disabled } = this.props;
     let color
@@ -115,13 +123,13 @@ class CelButton extends Component {
   }
 
   render() {
-    const { onPress, disabled, loading, basic } = this.props;
+    const { disabled, loading, basic } = this.props;
     const Loader = this.renderLoader;
     const Button = this.renderButton;
     const activeOpacity = basic ? 0.3 : 0.8;
 
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
+      <TouchableOpacity onPress={this.handlePress} disabled={disabled || loading} activeOpacity={activeOpacity} style={{ alignItems: 'center' }}>
         {loading ? <Loader /> : <Button />}
       </TouchableOpacity>
     );
