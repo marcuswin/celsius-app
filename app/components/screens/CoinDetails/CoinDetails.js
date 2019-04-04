@@ -80,7 +80,7 @@ class CoinDetails extends Component {
   }
 
   render() {
-    const { currency} = this.state;
+    const { currency } = this.state;
     const { actions, interestRates, celpayCompliance } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
@@ -94,7 +94,7 @@ class CoinDetails extends Component {
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
                 <Image source={{ uri: currency.image_url }} style={style.coinImage} />
-                <View style={{marginLeft: 12}}>
+                <View style={{ marginLeft: 12 }}>
                   <CelText weight='300' type="H6">{currency.displayName}</CelText>
                   <CelText weight='600' type="H3" margin={'3 0 3 0'}>{formatter.usd(coinDetails.amount_usd)}</CelText>
                   <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
@@ -102,12 +102,13 @@ class CoinDetails extends Component {
               </View>
 
               <View style={style.buttonWrapper}>
-                <Separator vertical/>
+                <Separator vertical />
 
                 <View style={style.buttons}>
-                  { isCoinEligibleForCelPay && (
+                  {isCoinEligibleForCelPay && (
                     <View>
                       <CelButton
+                        margin='0 0 15 0'
                         basic
                         size="small"
                         onPress={this.goToCelPay}
@@ -117,9 +118,10 @@ class CoinDetails extends Component {
 
                       <Separator />
                     </View>
-                  ) }
+                  )}
 
                   <CelButton
+                    margin='10 0 0 0'
                     basic
                     size="small"
                     onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
@@ -150,14 +152,16 @@ class CoinDetails extends Component {
                 </View>
                 {!!coinDetails && !!interestRates[coinDetails.short] && (
                   <View style={style.interestRateWrapper}>
-                    <CelText type="H6" weight='300'>Today's rate</CelText>
-                    <Badge color={COLORS.GREEN}>
-                      <CelText type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
-                    </Badge>
+                    <CelText type="H6" weight='300'>Rate this week</CelText>
+                    <View>
+                      <Badge color={COLORS.GREEN}>
+                        <CelText type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                      </Badge>
+                    </View>
                   </View>
                 )}
               </View>
-              <Separator margin={"20 0 10 0"}/>
+              <Separator margin={"20 0 10 0"} />
               <GraphContainer
                 periods={["MONTH", "YEAR"]}
                 showCursor

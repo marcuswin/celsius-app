@@ -1,13 +1,15 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from "../../../utils/styles-util";
+import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
   buttonWrapper: {
     flexDirection: "row",
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    // justifyContent: "center"
   },
   buttons: {
     marginLeft: 10,
@@ -31,12 +33,16 @@ const base = {
     position: 'absolute'
   },
   interestCardWrapper: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingVertical: widthPercentageToDP("3%"),
+    paddingHorizontal: widthPercentageToDP("3%"),
+
   },
   interestRateWrapper: {
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    
   }
 };
 
