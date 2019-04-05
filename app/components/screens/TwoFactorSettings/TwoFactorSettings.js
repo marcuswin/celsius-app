@@ -44,9 +44,10 @@ class TwoFactorSettings extends Component {
   }
 
   async componentDidMount() {
-    const {navigation, actions} = this.props;
+    const { formData, actions} = this.props;
 
-    const pin = navigation.getParam("pin");
+    const pin = formData.pin;
+    // TODO(fj): refactor action to user reducer and usual flowf
     const secret = await actions.getTwoFactorSecret(pin);
 
     if (secret) {

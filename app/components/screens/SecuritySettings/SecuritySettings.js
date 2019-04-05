@@ -71,7 +71,7 @@ class SecuritySettings extends Component {
             actions.openModal(MODALS.REMOVE_AUTHAPP_MODAL)
           } else {
             actions.navigateTo('VerifyProfile', {
-              onSuccess: (pin) => actions.navigateTo('TwoFactorSettings', {pin})
+              onSuccess: () => actions.navigateTo('TwoFactorSettings')
             })
           }
         }}>
