@@ -50,7 +50,8 @@ function getCoinWalletBalanceData(coin, interval) {
     try {
       const res = await graphService.getCoinWalletBalance(coin, interval);
       const coinWallet = res.data;
-      dispatch(getCoinWalletBalanceDataSuccess(coinWallet))
+      const coinLastValue = coinWallet[coinWallet.length - 1][1];
+      dispatch(getCoinWalletBalanceDataSuccess(coinWallet, coinLastValue))
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_COIN_WALLET_BALANCE_DATA, err));
@@ -58,11 +59,12 @@ function getCoinWalletBalanceData(coin, interval) {
   }
 }
 
-function getCoinWalletBalanceDataSuccess(coinWallet) {
+function getCoinWalletBalanceDataSuccess(coinWallet, coinLastValue) {
   return {
     type: ACTIONS.GET_COIN_WALLET_BALANCE_DATA_SUCCESS,
     callName: API.GET_COIN_WALLET_BALANCE_DATA,
     coinWallet,
+    coinLastValue
   }
 }
 

@@ -6,7 +6,8 @@ function initialState() {
     coinWalletChartData: [],
     interestChartData: [],
     coinInterestChartData: [],
-    timeline: {}
+    timeline: {},
+    coinLastValue: undefined,
   };
 }
 
@@ -31,7 +32,8 @@ export default function graphReducer(state = initialState(), action) {
     case ACTIONS.GET_COIN_WALLET_BALANCE_DATA_SUCCESS:
       return {
         ...state,
-        coinWalletChartData: action.coinWallet
+        coinWalletChartData: action.coinWallet,
+        coinLastValue: action.coinLastValue
       };
 
     case ACTIONS.GET_INTEREST_GRAPH_DATA_SUCCESS:
