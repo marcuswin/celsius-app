@@ -9,11 +9,12 @@ import CelPayEnterAmountStyle from "./CelPayEnterAmount.styles";
 import CelButton from '../../atoms/CelButton/CelButton';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
-import { KEYPAD_PURPOSES } from "../../../constants/UI";
+import { KEYPAD_PURPOSES, MODALS } from "../../../constants/UI";
 import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
 import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
 import STYLES from "../../../constants/STYLES";
+import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
   state => ({
@@ -23,6 +24,8 @@ import STYLES from "../../../constants/STYLES";
     currencies: state.currencies.rates,
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
+    loyaltyInfo: state.user.loyaltyInfo,
+    isCelsiusMember: state.user.profile.celsius_member,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -54,11 +57,17 @@ class CelPayEnterAmount extends Component {
 
     this.state = {
       coinSelectItems,
+
     };
 
     if (!formData.coin) {
       props.actions.updateFormField('coin', 'BTC')
     }
+  }
+
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.getLoyaltyInfo();
   }
 
   // TODO: move to formatter? check WithdrawEnterAmount
@@ -143,7 +152,19 @@ class CelPayEnterAmount extends Component {
   }
 
   handleNextStep = () => {
-    const { actions, formData } = this.props;
+    const { actions, formData, walletSummary, loyaltyInfo, isCelsiusMember } = this.props;
+
+    const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
+    const newBalance = coinData.amount - formData.amountCrypto
+
+    if (isCelsiusMember && formData.coin === 'CEL' && newBalance < 1) return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
+    if (formData.coin === 'CEL' && newBalance < loyaltyInfo.min_for_tier)  return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
+
+    this.navigateToNextStep()
+  }
+
+  navigateToNextStep = () => {
+    const { actions, formData } = this.props
 
     if (formData.friend) {
       actions.navigateTo('CelPayMessage')
@@ -156,7 +177,7 @@ class CelPayEnterAmount extends Component {
 
   render() {
     const { coinSelectItems } = this.state;
-    const { formData, actions, walletSummary } = this.props;
+    const { formData, actions, walletSummary, loyaltyInfo } = this.props;
     const style = CelPayEnterAmountStyle();
     if (!formData.coin) return null;
 
@@ -209,6 +230,33 @@ class CelPayEnterAmount extends Component {
             purpose={KEYPAD_PURPOSES.CELPAY}
           />
         </View>
+
+        <InfoModal
+          name={MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL}
+          heading="Watch out"
+          paragraphs={[
+            "You are about to CelPay your last CEL token. Without CEL tokens you will lose your Celsius membership.",
+            "Celsius members can earn interest on their coin, apply for a loan and utilize CelPay.",
+          ]}
+          yesCopy="Continue"
+          onYes={this.navigateToNextStep}
+          noCopy="Go back"
+          onNo={actions.closeModal}
+        />
+
+        { loyaltyInfo && (
+          <InfoModal
+            name={MODALS.CELPAY_LOSE_TIER_WARNING_MODAL}
+            heading="Watch out"
+            paragraphs={[
+              `You are about to lose you ${ loyaltyInfo.tier } Celsius Loyalty Level.`,
+            ]}
+            yesCopy="Continue"
+            onYes={this.navigateToNextStep}
+            noCopy="Go back"
+            onNo={actions.closeModal}
+          />
+        )}
       </RegularLayout>
     );
   }
