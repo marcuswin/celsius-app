@@ -151,7 +151,7 @@ class KYCLanding extends Component {
         <View style={style.progressWrapper}>
           <Image style={style.progressImage} source={status.imageState} />
           <View style={style.stepsWrapper}>
-            {kycErrors.map(e => (
+            {kycErrors && kycErrors.map(e => (
               <CelText align={'center'} type={'H4'} weight={'300'} key={e}>
                 {e}
               </CelText>
