@@ -250,6 +250,7 @@ class CelPayEnterAmount extends Component {
             heading="Watch out"
             paragraphs={[
               `You are about to lose you ${ loyaltyInfo.tier } Celsius Loyalty Level.`,
+              "Withdrawing CEL tokens affects your HODL ratio and Loyalty level.",
             ]}
             yesCopy="Continue"
             onYes={this.navigateToNextStep}
