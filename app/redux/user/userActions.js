@@ -17,6 +17,7 @@ import { setFormErrors, updateFormField } from "../forms/formsActions";
 import { navigateTo } from "../nav/navActions";
 import { MODALS } from '../../constants/UI'
 import apiUtil from "../../utils/api-util";
+import { getWalletSummary } from "../wallet/walletActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra
 
@@ -444,13 +445,23 @@ function getPreviousPinScreen (activeScreen) {
   }
 }
 
+
+/**
+ * If user has never been a member, he receives 1CEL and becomes a member
+ */
 function getCelsiusMemberStatus () {
   return async dispatch => {
     try {
+      dispatch(startApiCall(API.GET_MEMBER_STATUS))
       const celMemberStatus = await usersService.getCelsiusMemberStatus()
       if (celMemberStatus.data.is_new_member) {
         dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL))
       }
+      dispatch(getWalletSummary())
+      dispatch({
+        type: ACTIONS.GET_MEMBER_STATUS_SUCCESS,
+        isNewMember: celMemberStatus.data.is_new_member,
+      })
     } catch (err) {
       dispatch(showMessage('error', err.msg))
       dispatch(apiError(API.GET_PREVIOUS_SCREEN, err))

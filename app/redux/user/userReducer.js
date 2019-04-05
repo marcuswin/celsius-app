@@ -267,6 +267,16 @@ export default (state = initialState, action) => {
       }
     }
 
+    case ACTIONS.GET_MEMBER_STATUS_SUCCESS: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          celsius_member: action.isNewMember || state.profile.celisus_member,
+        }
+      }
+    }
+
     default:
       return state;
 
