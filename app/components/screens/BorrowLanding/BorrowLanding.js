@@ -59,13 +59,17 @@ class BorrowLanding extends Component {
       await actions.getAllLoans()
     }
 
-    const { allLoans } = this.props
+    const { allLoans, user, kycStatus } = this.props
     const { maxAmount } = this.state
 
     this.setState({ isLoading: false })
     // If user has enough money for loan, and doesn't have any previous loans
+    // and has passed kyc and is ceslius member
     // redirect to BorrowEnterAmount screen
-    if (maxAmount > minimumLoanAmount && (!allLoans || !allLoans.length)) {
+    if (
+      maxAmount > minimumLoanAmount && (!allLoans || !allLoans.length) &&
+      kycStatus === KYC_STATUSES.passed && user.celsius_member
+    ) {
       actions.navigateTo('BorrowEnterAmount')
     }
   }
