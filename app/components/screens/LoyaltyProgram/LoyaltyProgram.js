@@ -13,6 +13,9 @@ import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
+import Spinner from "../../atoms/Spinner/Spinner";
+import { heightPercentageToDP } from "../../../utils/styles-util";
+
 
 @connect(
   state => ({
@@ -128,7 +131,10 @@ class LoyaltyProgram extends Component {
               </Card>
             </View>
           </View>
-          : null }
+          :
+          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: heightPercentageToDP("40%")}}>
+            <Spinner />
+          </View> }
       </RegularLayout>
     );
   }
