@@ -39,7 +39,8 @@ const base = {
   imageInfoWrapper: {
     flexDirection: "row",
     paddingVertical: heightPercentageToDP("3.5%"),
-    marginLeft: 10
+    marginLeft: 10,
+    alignItems: 'center'
   },
   celRateWrapper: {
     flexDirection: "row",
