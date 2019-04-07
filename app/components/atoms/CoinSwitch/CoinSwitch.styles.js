@@ -13,6 +13,7 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
+    marginTop: 10,
   }
 };
 
