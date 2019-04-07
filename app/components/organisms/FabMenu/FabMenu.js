@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 // import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
@@ -140,11 +140,12 @@ class FabMenu extends Component {
   renderFabMenu = () => {
     const style = FabMenuStyle();
     const { menuItems } = this.state;
+    const { actions } = this.props;
     const tintColor = this.getTintColor();
 
     if (Platform.OS !== 'android') {
       return (
-        <BlurView tint={tintColor} intensity={90} style={[StyleSheet.absoluteFill, style.menuContainer]} >
+        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill, style.menuContainer]} >
           <View>
             {menuItems.map(this.renderMenuRow)}
           </View>
@@ -152,9 +153,9 @@ class FabMenu extends Component {
       )
     }
     return (
-      <View style={[StyleSheet.absoluteFill, style.menuContainer, style.background]}>
+      <TouchableOpacity style={[StyleSheet.absoluteFill, style.menuContainer, style.background]} onPress={() => actions.closeFabMenu()}>
         {menuItems.map(this.renderMenuRow)}
-      </View>
+      </TouchableOpacity>
 
     )
 

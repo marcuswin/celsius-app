@@ -12,7 +12,7 @@ const base = {
     marginBottom: 30,
   },
   background: {
-    opacity: 0.90,
+    opacity: 0.95,
     backgroundColor: 'white'
   }
 }

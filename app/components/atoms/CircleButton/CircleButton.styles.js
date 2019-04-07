@@ -7,11 +7,10 @@ const base = {
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    elevation: 2,
-    // shadowOffset: { width: 11, height: 5 },
+    elevation: 3,
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    shadowColor: '#000000',
+    shadowColor: STYLES.COLORS.DARK_GRAY,
     shadowOffset: { width: 0, height: 3 },
     width: 60,
     height: 60
@@ -23,7 +22,7 @@ const base = {
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    shadowColor: '#000000',
+    shadowColor: STYLES.COLORS.DARK_GRAY,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
     zIndex: -1
