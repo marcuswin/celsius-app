@@ -66,7 +66,7 @@ class Message extends Component {
       case "warning":
         return { name: "WarningCircle" };
       case "error":
-        return { name: "CloseCircle" };
+        return { name: "AlertIcon" };
       case "success":
       default:
         return { name: "CheckCircle" };

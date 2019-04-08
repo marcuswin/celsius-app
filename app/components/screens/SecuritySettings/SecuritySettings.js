@@ -66,7 +66,7 @@ class SecuritySettings extends Component {
     const { actions, is2FAEnabled, user } = this.props;
     return (
       <RegularLayout>
-        <IconButton right={this.rightSwitch()} hideIconRight onPress={() => {
+        <IconButton margin={"20 0 20 0"} right={this.rightSwitch()} hideIconRight onPress={() => {
           if (is2FAEnabled) {
             actions.openModal(MODALS.REMOVE_AUTHAPP_MODAL)
           } else {
@@ -91,7 +91,7 @@ class SecuritySettings extends Component {
 
 
         { !user.registered_with_social && (
-          <IconButton margin="0 0 20 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
+          <IconButton margin="0 0 30 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
         )}
 
         <CelButton onPress={this.logoutUser}>Log out from all devices</CelButton>
