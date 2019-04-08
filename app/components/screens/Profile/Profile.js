@@ -130,6 +130,7 @@ class Profile extends Component {
               onPress={() => this.updateNumber()}
               margin={"20 0 20 0"}
               loading={updatingTaxInfo}
+              disabled={!formData.ssn}
             >
               Submit SSN
           </CelButton>
