@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
+import { Constants } from "expo";
 import { Image, TouchableOpacity, View, Linking } from "react-native";
 
 import * as appActions from "../../../redux/actions";
@@ -12,15 +13,13 @@ import Card from "../../atoms/Card/Card";
 import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
-// import CelSelect from '../../molecules/CelSelect/CelSelect';
 import IconButton from "../../organisms/IconButton/IconButton";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { MODALS } from "../../../constants/UI";
-// import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 
-
+const { revisionId } = Constants.manifest;
 
 @connect(
   state => ({
@@ -155,6 +154,9 @@ class Profile extends Component {
               Telegram</CelText>
           </TouchableOpacity>
         </Card>
+
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
+
         <ReferralSendModal/>
         <RegisterPromoCodeModal type={"celsius"}/>
       </RegularLayout>
