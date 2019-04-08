@@ -56,7 +56,7 @@ class BorrowLoanTerm extends Component {
       <RegularLayout>
         <View style={{alignItems: 'center'}}>
           <ProgressBar steps={6} currentStep={4} />
-          <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
+          <CelText margin={"20 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
         </View>
         <VerticalSlider
           items={sliderItems}

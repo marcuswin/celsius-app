@@ -47,8 +47,8 @@ class TodayInterestRatesModal extends Component {
                 primaryText={"HODL"}
                 secondaryText={"with Celsius"}
       >
-        <CelText align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
-        <InterestRateInfoTable pressed={pressed} style={{ marginVertical: 20 }}/>
+        <CelText weight='300' fontSize='H1' align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
+        <InterestRateInfoTable pressed={pressed}/>
 
         <CelButton
           basic

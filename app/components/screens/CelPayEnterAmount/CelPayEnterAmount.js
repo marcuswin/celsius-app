@@ -100,7 +100,7 @@ class CelPayEnterAmount extends Component {
   }
 
 
-   getAmountColor = () => this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
+  getAmountColor = () => this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
 
   handleAmountChange = (newValue) => {
     const { formData, currencyRatesShort, actions } = this.props
@@ -126,7 +126,7 @@ class CelPayEnterAmount extends Component {
   isAmountValid = () => {
     const { formData, walletSummary } = this.props
     const balanceUsd = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0].amount_usd;
-    const {amountUsd} = formData
+    const { amountUsd } = formData
 
     if (amountUsd > balanceUsd) return false
     if (amountUsd > 2000) return false
@@ -158,7 +158,7 @@ class CelPayEnterAmount extends Component {
     const newBalance = coinData.amount - formData.amountCrypto
 
     if (isCelsiusMember && formData.coin === 'CEL' && newBalance < 1) return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
-    if (formData.coin === 'CEL' && newBalance < loyaltyInfo.min_for_tier)  return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
+    if (formData.coin === 'CEL' && newBalance < loyaltyInfo.min_for_tier) return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
 
     this.navigateToNextStep()
   }
@@ -189,7 +189,7 @@ class CelPayEnterAmount extends Component {
           <View style={style.wrapper}>
             <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd} />
 
-            <View>
+            <View style={style.amounts}>
               <View style={style.selectWrapper}>
                 <SimpleSelect
                   items={coinSelectItems}
@@ -244,12 +244,12 @@ class CelPayEnterAmount extends Component {
           onNo={actions.closeModal}
         />
 
-        { loyaltyInfo && (
+        {loyaltyInfo && (
           <InfoModal
             name={MODALS.CELPAY_LOSE_TIER_WARNING_MODAL}
             heading="Watch out"
             paragraphs={[
-              `You are about to lose you ${ loyaltyInfo.tier } Celsius Loyalty Level.`,
+              `You are about to lose you ${loyaltyInfo.tier} Celsius Loyalty Level.`,
               "Withdrawing CEL tokens affects your HODL ratio and Loyalty level.",
             ]}
             yesCopy="Continue"

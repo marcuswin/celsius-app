@@ -153,7 +153,7 @@ class ChangeAvatar extends Component {
           <CelButton onPress={this.goToCamera} basic>Take a picture</CelButton>
         </View>
         <Separator color={STYLES.COLORS.DARK_GRAY} opacity={0.1} textOpacity={0.5} text="OR CHOOSE ONE BELOW" />
-        <ScrollView>
+        <ScrollView ref='_scrollView'>
           <View style={style.wrapper}>
             {images.map(this.renderImage)}
           </View>

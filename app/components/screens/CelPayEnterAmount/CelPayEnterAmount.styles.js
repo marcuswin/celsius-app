@@ -6,13 +6,18 @@ const base = {
     flex: 1
   },
   wrapper: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
   },
   selectWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
   },
+  amounts: {
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'center'
+  }
 };
 
 const themed = {

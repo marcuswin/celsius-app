@@ -13,8 +13,8 @@ const BalanceView = (props) => {
   const {crypto, usd, coin, opacity} = props;
 
   return (
-      <Card padding="10 10 10 10" opacity={opacity}>
-        <CelText weight='300' align="center" type="H7">
+      <Card backgroundColor={'red'} padding="10 10 10 10" opacity={opacity}>
+        <CelText  weight='300' align="center" type="H7">
           New balance: { formatter.crypto(crypto, coin) } | { formatter.usd(usd)  }
         </CelText>
       </Card>
