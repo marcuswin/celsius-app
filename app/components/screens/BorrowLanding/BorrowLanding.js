@@ -145,7 +145,7 @@ class BorrowLanding extends Component {
         }
 
         <View>
-          <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
+          <CelText type='H6' weight='500' margin={'20 0 30 0'}>Your loans</CelText>
           {allLoans && allLoans.map(loan => {
             const loanStatusDetails = this.getLoanStatusDetails(loan.status)
             return (
