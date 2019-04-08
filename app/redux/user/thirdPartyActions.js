@@ -11,6 +11,7 @@ import usersService from "../../services/users-service";
 import { initAppData } from "../app/appActions";
 import { claimAllBranchTransfers } from "../transfers/transfersActions";
 import analytics from "../../utils/analytics";
+import logger from "../../utils/logger-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -49,6 +50,11 @@ export {
 function authTwitter(type, twitterUser) {
   return (dispatch, getState) => {
     const user = getState().user.profile
+
+    const twitterNames = twitterUser.name.split(' ')
+    user.firstName = twitterNames.shift()
+    user.lastName = twitterNames.join(' ')
+
     if (type === 'login') {
       dispatch(loginTwitter({
         ...user,
@@ -57,8 +63,8 @@ function authTwitter(type, twitterUser) {
     } else {
       dispatch(updateFormFields({
         email: twitterUser.email,
-        firstName: twitterUser.name,
-        lastName: '',
+        firstName: user.firstName,
+        lastName: user.lastName,
         twitterId: twitterUser.id_str,
         accessToken: twitterUser.twitter_oauth_token,
         secretToken: twitterUser.twitter_oauth_secret,
