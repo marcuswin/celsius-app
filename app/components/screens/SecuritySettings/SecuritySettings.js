@@ -45,7 +45,7 @@ class SecuritySettings extends Component {
     const isIos = Platform.OS === 'ios'
     const falseColor = isIos ? "transparent" : STYLES.COLORS.DARK_GRAY3;
     return (
-      <Switch value={is2FAEnabled} disabled thumbColor={STYLES.COLORS.WHITE} ios_backgroundColor={STYLES.COLORS.DARK_GRAY3} trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}/>
+      <Switch value={is2FAEnabled} disabled thumbColor={STYLES.COLORS.WHITE} ios_backgroundColor={STYLES.COLORS.DARK_GRAY3} trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }} />
     )
   }
 
@@ -78,7 +78,7 @@ class SecuritySettings extends Component {
           Two-Factor Verification
         </IconButton>
 
-        { !is2FAEnabled && (
+        {!is2FAEnabled && (
           <IconButton
             margin="0 0 20 0"
             onPress={() => actions.navigateTo('VerifyProfile', {
@@ -97,16 +97,16 @@ class SecuritySettings extends Component {
         <CelButton onPress={this.logoutUser}>Log out from all devices</CelButton>
 
         <CelModal name={MODALS.REMOVE_AUTHAPP_MODAL}>
-            <CelText type='H2' align='center' weight='bold' margin='20 0 0 0'>Remove Auth App</CelText>
-            <CelText type='H4' align='center' weight='extra-light' margin='20 0 0 0'>If you remove authentication application you will lose a second step of verification. Are you sure you want to proceed?</CelText>
-            <View style={{flex: 1, justifyContent: 'flex-end'}}>
-              <CelButton onPress={this.removeTwoFactor}>
-                Remove
+          <CelText type='H2' align='center' weight='bold' margin='30 0 0 0'>Remove Auth App</CelText>
+          <CelText type='H4' align='center' weight='extra-light' margin='16 0 0 0'>If you remove authentication application you will lose a second step of verification. Are you sure you want to proceed?</CelText>
+          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <CelButton margin="30 0 20 0" onPress={this.removeTwoFactor}>
+              Remove
               </CelButton>
-              <CelButton onPress={() => actions.closeModal()} basic>
-                Cancel
+            <CelButton  margin="0 0 20 0" onPress={() => actions.closeModal()} basic>
+              Cancel
               </CelButton>
-            </View>
+          </View>
         </CelModal>
       </RegularLayout>
     );

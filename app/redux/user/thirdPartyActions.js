@@ -11,7 +11,6 @@ import usersService from "../../services/users-service";
 import { initAppData } from "../app/appActions";
 import { claimAllBranchTransfers } from "../transfers/transfersActions";
 import analytics from "../../utils/analytics";
-import logger from "../../utils/logger-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,

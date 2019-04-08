@@ -126,7 +126,7 @@ class BorrowLanding extends Component {
     const style = BorrowLandingStyle();
 
 
-    if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />
+    if (!kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />
@@ -145,7 +145,7 @@ class BorrowLanding extends Component {
         }
 
         <View>
-          <CelText type='H6' weight='500' margin={'20 0 30 0'}>Your loans</CelText>
+          <CelText type='H6' weight='500' margin={'20 0 0 0'}>Your loans</CelText>
           {allLoans && allLoans.map(loan => {
             const loanStatusDetails = this.getLoanStatusDetails(loan.status)
             return (
