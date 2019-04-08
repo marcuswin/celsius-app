@@ -27,7 +27,7 @@ import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/Regis
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class Register extends Component {
+class RegisterInitial extends Component {
   static navigationOptions = () => (
     {
       right: 'login',
@@ -131,11 +131,6 @@ class Register extends Component {
         >
           Create account
         </CelButton>
-        <View >
-          <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our
-              <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE} onPress={()=> actions.navigateTo('TermsOfUse')}> Terms of Use</CelText>
-          </CelText>
-        </View>
 
         <CelButton
           margin="0 0 20 0"
@@ -145,11 +140,16 @@ class Register extends Component {
           Have a promo code?
         </CelButton>
 
-        <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our Terms of Use</CelText>
+        <View>
+          <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our
+              <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE} onPress={()=> actions.navigateTo('TermsOfUse')}> Terms of Use</CelText>
+          </CelText>
+        </View>
+
         <RegisterPromoCodeModal type={"register"}/>
       </AuthLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(Register);
+export default testUtil.hookComponent(RegisterInitial);
