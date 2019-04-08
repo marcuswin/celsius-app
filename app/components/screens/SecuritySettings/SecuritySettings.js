@@ -66,7 +66,7 @@ class SecuritySettings extends Component {
     const { actions, is2FAEnabled, user } = this.props;
     return (
       <RegularLayout>
-        <IconButton margin={"20 0 0 0"} right={this.rightSwitch()} hideIconRight onPress={() => {
+        <IconButton margin={"20 0 20 0"} right={this.rightSwitch()} hideIconRight onPress={() => {
           if (is2FAEnabled) {
             actions.openModal(MODALS.REMOVE_AUTHAPP_MODAL)
           } else {
@@ -80,7 +80,7 @@ class SecuritySettings extends Component {
 
         { !is2FAEnabled && (
           <IconButton
-            margin="20 0 20 0"
+            margin="0 0 20 0"
             onPress={() => actions.navigateTo('VerifyProfile', {
               onSuccess: () => actions.navigateTo('ChangePin')
             })}

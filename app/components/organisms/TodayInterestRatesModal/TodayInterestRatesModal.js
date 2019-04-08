@@ -34,6 +34,12 @@ class TodayInterestRatesModal extends Component {
     };
   }
 
+  navigateToLoyalty = () => {
+    const {actions} = this.props;
+    actions.navigateTo("LoyaltyProgram");
+    actions.closeModal()
+  };
+
   render() {
     const { actions } = this.props;
     const {pressed} = this.state;
@@ -47,15 +53,17 @@ class TodayInterestRatesModal extends Component {
                 primaryText={"HODL"}
                 secondaryText={"with Celsius"}
       >
-        <CelText weight='300' fontSize='H1' align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
+        <CelText weight='300' fontSize='H1' align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText onPress={this.navigateToLoyalty} style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
         <InterestRateInfoTable pressed={pressed}/>
 
-        <CelButton
-          basic
-          onPress={() => this.setState({pressed: true})}
-        >
-          See all
-        </CelButton>
+        { !pressed &&
+          <CelButton
+            basic
+            onPress={() => this.setState({ pressed: true })}
+          >
+            See all
+          </CelButton>
+        }
 
         <CelButton
           onPress={() => actions.navigateTo("WalletLanding")}
