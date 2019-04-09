@@ -86,8 +86,7 @@ class RegisterPromoCodeModal extends Component {
         {!confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Enter a promo code</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>Receive your prize with the right
-              promo code:</CelText>
+
             <CelInput margin="0 0 20 0" type="text" field="promoCode" placeholder="Promo code"
                       value={formData.promoCode} error={formErrors.promoCode}/>
 
