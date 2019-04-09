@@ -14,7 +14,7 @@ const AUTO_CAPITALIZE = {
 
 const CAMERA_COPY = {
   DOCUMENT:
-    'Please center your document in the marked area. Ensure that there’s enough light in the room for better picture quality.',
+    `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
   SELFIE:
     'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.'
 }
