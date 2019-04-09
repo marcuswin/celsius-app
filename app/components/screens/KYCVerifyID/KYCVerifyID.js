@@ -253,7 +253,7 @@ class KYCVerifyID extends Component {
             margin='20 0 0 0'
             onPress={this.submit}
           >
-            Finish
+            Submit
           </CelButton>
         </View>
       </AuthLayout>
