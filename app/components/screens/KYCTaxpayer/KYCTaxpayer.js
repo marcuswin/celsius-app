@@ -136,7 +136,7 @@ class KYCTaxpayer extends Component {
           iconRightWidth={"20"}
           loading={updatingTaxInfo}
         >
-          Verify your ID
+          Continue
         </CelButton>
 
         <CelButton
