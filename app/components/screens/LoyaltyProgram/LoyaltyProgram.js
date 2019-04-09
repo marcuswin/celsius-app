@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-// import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -10,12 +9,9 @@ import LoyaltyProgramStyle from "./LoyaltyProgram.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Card from "../../atoms/Card/Card";
-import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
-import Spinner from "../../atoms/Spinner/Spinner";
-import { heightPercentageToDP } from "../../../utils/styles-util";
-
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -41,48 +37,44 @@ class LoyaltyProgram extends Component {
     const { loyaltyInfo, actions } = this.props;
     const style = LoyaltyProgramStyle();
 
+    if (!loyaltyInfo) return <LoadingScreen/>
+    const hasTier = loyaltyInfo.tier !== "NONE"
+
     return (
       <RegularLayout padding={"0 0 100 0"}>
-        {loyaltyInfo ?
           <View>
-            <View style={style.progressView}>
-              <View style={style.arcChart}>
-                <PieProgressBar amount={loyaltyInfo.cel_amount} max={loyaltyInfo.max_for_tier}
-                  min={loyaltyInfo.min_for_tier}
-                />
-              </View>
-              <View>
-                <CelText color={"white"} type={"H5"} weight={"300"}>
-                  CEL coins
-                </CelText>
-                <CelText color={"white"} type={"H3"} weight={"700"}>
-                  {`${loyaltyInfo.tier} (Lvl.${loyaltyInfo.tier_level})`}
-                </CelText>
-                <CelText color={"white"} type={"H5"} weight={"300"}>
-                  {`${loyaltyInfo.hodl_ratio} HODL ratio`}
-                </CelText>
-              </View>
-            </View>
-            <View style={style.contentWrapper}>
-              <Card style={style.bonusCard}>
-                <View style={style.interestCard}>
-                  <View>
-                    <CelText align={"center"} type={"H4"} weight={"300"}>Your earn</CelText>
-                    <CelText align={"center"} type={"H4"} weight={"300"}>interest bonus</CelText>
-                    <CelText margin={"10 0 0 0"} align={"center"} type={"H2"} weight={"700"}>{`${loyaltyInfo.earn_interest_bonus}%`}</CelText>
-                  </View>
-                  <Separator vertical margin={"0 20 0 20"}/>
-                  <View>
-                    <CelText align={"center"} type={"H4"} weight={"300"}>Your paid</CelText>
-                    <CelText align={"center"} type={"H4"} weight={"300"}>interest bonus</CelText>
-                    <CelText margin={"10 0 0 0"} align={"center"} type={"H2"} weight={"700"}>0%</CelText>
-                  </View>
+            { hasTier && (
+              <View style={style.progressView}>
+                <View style={style.arcChart}>
+                  <PieProgressBar amount={loyaltyInfo.cel_amount} max={loyaltyInfo.max_for_tier}
+                    min={loyaltyInfo.min_for_tier}
+                  />
                 </View>
-                <TouchableOpacity>
-                  <CelText margin={"10 0 10 0"} align={"center"} weight={"300"}
-                           color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"}>Learn how we calculate bonuses</CelText>
-                </TouchableOpacity>
-              </Card>
+                <View>
+                  <CelText color={"white"} type={"H5"} weight={"300"}>
+                    CEL coins
+                  </CelText>
+                  <CelText color={"white"} type={"H3"} weight={"700"}>
+                    {`${loyaltyInfo.tier} (Lvl.${loyaltyInfo.tier_level})`}
+                  </CelText>
+                  <CelText color={"white"} type={"H5"} weight={"300"}>
+                    {`${loyaltyInfo.hodl_ratio} HODL ratio`}
+                  </CelText>
+                </View>
+              </View>
+            )}
+            <View style={style.contentWrapper}>
+              { hasTier && (
+                <Card style={style.bonusCard}>
+                  <View style={style.interestCard}>
+                    <View>
+                      <CelText align={"center"} type={"H4"} weight={"300"}>Your earn</CelText>
+                      <CelText align={"center"} type={"H4"} weight={"300"}>interest bonus</CelText>
+                      <CelText margin={"10 0 0 0"} align={"center"} type={"H2"} weight={"700"}>{`${loyaltyInfo.earn_interest_bonus}%`}</CelText>
+                    </View>
+                  </View>
+                </Card>
+              )}
 
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 <View style={style.circle}>
@@ -120,21 +112,20 @@ class LoyaltyProgram extends Component {
                 </CelText>
               </View>
 
-              <Card close margin={"30 0 0 0"}>
-                <CelText type={"H4"} weight={"500"}>Want to earn better interest?</CelText>
-                <CelText type={"H4"} weight={"300"} margin={"15 0 15 0"}>Switch to earning interest in CEL, and earn
-                  X.XX%
-                  better rates.</CelText>
-                <TouchableOpacity>
-                  <CelText onPress={() => actions.navigateTo("WalletSettings")} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}>Change settings</CelText>
-                </TouchableOpacity>
-              </Card>
+              { hasTier && (
+                <Card close margin={"30 0 0 0"}>
+                  <CelText type={"H4"} weight={"500"}>Want to earn better interest?</CelText>
+                  <CelText type={"H4"} weight={"300"} margin={"15 0 15 0"}>Switch to earning interest in CEL, and earn
+                    { loyaltyInfo.earn_interest_bonus }%
+                    better rates.
+                  </CelText>
+                  <TouchableOpacity>
+                    <CelText onPress={() => actions.navigateTo("WalletSettings")} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}>Change settings</CelText>
+                  </TouchableOpacity>
+                </Card>
+              )}
             </View>
           </View>
-          :
-          <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: heightPercentageToDP("40%")}}>
-            <Spinner />
-          </View> }
       </RegularLayout>
     );
   }
