@@ -18,6 +18,10 @@ class TermsOfUse extends Component {
   static propTypes = {};
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    title: 'Terms Of Use',
+  });
+
   constructor(props) {
     super(props);
 
@@ -203,8 +207,7 @@ class TermsOfUse extends Component {
           animatedHeading={{ text: 'Terms of Use' }}
           background={'white'}
         >
-          <CelText type='H2' weight='bold' style={{ paddingLeft: '7%', paddingTop: 40 }}> Terms Of Use </CelText>
-          {terms.map(this.renderScreen)}
+          { terms.map(this.renderScreen) }
         </ScrollView>
       </View>
     );
