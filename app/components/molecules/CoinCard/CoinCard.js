@@ -89,7 +89,7 @@ class CoinCard extends Component {
             height={heightPercentageToDP("10%")}
             style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
           />
-          : null}
+          : <View style={{ marginBottom: '40%' }} />}
       </Card>
     )
   }

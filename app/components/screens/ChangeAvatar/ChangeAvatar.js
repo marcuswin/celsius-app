@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import {Constants} from 'expo';
+import { Constants } from 'expo';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -16,7 +16,7 @@ import Spinner from '../../atoms/Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
-const {API_URL} = Constants.manifest.extra;
+const { API_URL } = Constants.manifest.extra;
 
 const images = [
   { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png` },
@@ -84,13 +84,13 @@ class ChangeAvatar extends Component {
   // setActiveImage = (imgSrc) => {
   //   this.setState({ activeImage: imgSrc.url });
   // }
-  
+
   updateProfilePicture = (imgSrc) => {
     const { actions, callsInProgress } = this.props;
-    
+
     const isLoading = apiUtil.areCallsInProgress([API.UPLOAD_PLOFILE_IMAGE], callsInProgress);
     if (isLoading) return
-    
+
     actions.updateProfilePicture(imgSrc.url);
     this.setState({ activeImage: imgSrc.url });
   }
@@ -110,7 +110,7 @@ class ChangeAvatar extends Component {
 
   saveCameraPhoto = (photo) => {
     const { actions } = this.props;
-    
+
     actions.updateProfilePicture(photo);
     actions.updateFormField('profileImage', photo);
     actions.navigateTo('Profile');
@@ -125,7 +125,7 @@ class ChangeAvatar extends Component {
     return (
       <TouchableOpacity key={images.indexOf(imgSrc)} style={style.avatar} onPress={() => this.updateProfilePicture(imgSrc)}>
         <View>
-          <Image style={imageStyle} source={{uri: imgSrc.url}} />
+          <Image style={imageStyle} source={{ uri: imgSrc.url }} />
         </View>
       </TouchableOpacity>
     );
@@ -140,17 +140,19 @@ class ChangeAvatar extends Component {
 
     return (
       <RegularLayout>
-        <View style={{ alignItems: 'center', marginBottom: 10 }}>
-          { isLoading ? (
-            <Spinner />
+        <View style={{ alignItems: 'center', marginBottom: 10, height: 130 }}>
+          {isLoading ? (
+            <View style={{ width: 100, height: 100, paddingLeft: 20, paddingTop: 20, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}>
+              <Spinner />
+            </View>
           ) : (
-            <Image
-              style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}
-              source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
-              resizeMethod="resize"
-            />
-          ) }
-          <CelButton onPress={this.goToCamera} basic>Take a picture</CelButton>
+              <Image
+                style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: STYLES.COLORS.WHITE }}
+                source={profilePicture ? { uri: profilePicture } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+                resizeMethod="resize"
+              />
+            )}
+          <CelButton style={{ marginTop: 7 }} onPress={this.goToCamera} basic>Take a picture</CelButton>
         </View>
         <Separator color={STYLES.COLORS.DARK_GRAY} opacity={0.1} textOpacity={0.5} text="OR CHOOSE ONE BELOW" />
         <ScrollView>

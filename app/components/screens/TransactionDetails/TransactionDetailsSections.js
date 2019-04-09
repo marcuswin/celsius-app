@@ -46,8 +46,8 @@ export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
 export const StatusSection = ({ transactionProps, noSeparator = false }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20 }}>
-      <CelText>Status:</CelText>
-      <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
+      <CelText type="H6">Status:</CelText>
+      <CelText type="H6" color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
     {!noSeparator && <Separator />}
   </View>
@@ -85,12 +85,12 @@ export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
-      <CelText type="H3" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
+      <CelText type="H3" weight="600" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
     </Card>
     <Card>
-      <View style={{ alignItems: 'flex-start' }}>
-        <CelText type="H4" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
-        <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
+      <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
+        <CelText type="H4" weight="500" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
+        <CelText type="H4" weight="300" style={{ marginBottom: 10}} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
         <CelButton basic onPress={() => navigateTo('Settings')}>Change settings</CelButton>
       </View>
     </Card>

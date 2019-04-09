@@ -98,8 +98,8 @@ class Profile extends Component {
             resizeMethod="resize"
           />
           <View style={{ marginLeft: 20 }}>
-            <CelText type="H2">{user.first_name}</CelText>
-            <CelText type="H2">{user.last_name}</CelText>
+            <CelText weight="600" type="H2">{user.first_name}</CelText>
+            <CelText weight="600" type="H2">{user.last_name}</CelText>
             <TouchableOpacity onPress={() => actions.navigateTo("ChangeAvatar")}>
               <CelText color={STYLES.COLORS.CELSIUS_BLUE} margin="10 0 0 0">Change avatar</CelText>
             </TouchableOpacity>
@@ -108,7 +108,7 @@ class Profile extends Component {
 
         <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
         <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
-        <Separator/>
+        <Separator />
         <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
         <Separator />
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
