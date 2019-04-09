@@ -24,6 +24,7 @@ import Spinner from '../../atoms/Spinner/Spinner';
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import StaticScreen from "../StaticScreen/StaticScreen";
+import IconButton from '../../organisms/IconButton/IconButton';
 
 @connect(
   state => ({
@@ -212,7 +213,6 @@ class Deposit extends Component {
     const styles = DepositStyle();
 
     if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }} />
-
     return (
       <RegularLayout padding={'20 0 100 0'}>
 
@@ -278,6 +278,17 @@ class Deposit extends Component {
           : null}
 
         {isFetchingAddress && this.renderLoader()}
+
+        {formData.selectedCoin === "CEL" ?
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            <IconButton
+              margin="20 0 0 0"
+              onPress={() => actions.navigateTo('LoyaltyProgram')}
+            >
+              <CelText size='h4' weight='300'> Learn about the CEL Loyalty Program </CelText>
+            </IconButton>
+          </View>
+          : null}
 
         <CelModal name={MODALS.DESTINATION_TAG_MODAL}>
           <CelText align='center' type='H1' margin='0 0 32 0'>Destination Tag for XRP</CelText>
