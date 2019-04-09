@@ -172,20 +172,18 @@ function enableTwoFactor (code) {
 
 /**
  * Disables two factor for user, pin is fallback
- * @param {string} code
  */
-function disableTwoFactor (code) {
-  return async dispatch => {
+function disableTwoFactor () {
+  return async (dispatch, getState) => {
     try {
-      const success = await TwoFactorService.disableTwoFactor(code)
-
-      const personalInfoRes = await usersService.getPersonalInfo()
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data
-
-      dispatch(getUserPersonalInfoSuccess(personalInfo))
-
-      return success
+      const { code } = getState().forms.formData
+      dispatch(startApiCall(API.DISABLE_TWO_FACTOR))
+      await TwoFactorService.disableTwoFactor(code)
+      dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS })
+      dispatch(navigateTo('SecuritySettings'))
+      dispatch(showMessage('success', 'Two-Factor Verification removed'))
     } catch (error) {
+      dispatch(apiError(API.DISABLE_TWO_FACTOR))
       dispatch(showMessage('error', error.msg))
     }
   }

@@ -277,6 +277,16 @@ export default (state = initialState, action) => {
       }
     }
 
+    case ACTIONS.DISABLE_TWO_FACTOR_SUCCESS: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          two_factor_enabled: false,
+        }
+      }
+    }
+
     default:
       return state;
 
