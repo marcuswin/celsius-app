@@ -24,7 +24,7 @@ class BecameCelMemberModal extends Component {
     actions.navigateTo('Deposit')
   }
 
-  render () {
+  render() {
     const { actions } = this.props;
     return (
       <CelModal
@@ -32,17 +32,16 @@ class BecameCelMemberModal extends Component {
         picture={require('../../../../assets/images/illustrations-v3/stamp3x.png')}
       >
         <CelText margin='20 0 0 0' align='center' weight='bold' type='H2'>
-          Welcome! You have just earned 1 CEL!
+          Congrats! You have earned 1 CEL token!
         </CelText>
-        <CelText margin='16 0 10 0' type='H4'>
-          The value of Celsius is its community. As a reward for joining you
-          have just earned 1 CEL token. Start HODLing to earn more!
+        <CelText margin='16 0 10 0' type='H4' weight='300' align='center'>
+          This CEL token allows you to take advantage of Celsius' products. Without any CEL you will be unable to earn, borrow, or pay, so keep HODLing!
         </CelText>
         <CelButton onPress={this.closeAndGoToDeposit} margin='30 0 20 0'>
           Deposit coins
         </CelButton>
-        <CelButton basic onPress={() => actions.navigateTo('LoyaltyProgram')}>
-          Learn about CEL HODL
+        <CelButton size={32} basic onPress={() => actions.navigateTo('LoyaltyProgram')}>
+          Learn about the CEL Loyalty Program
         </CelButton>
       </CelModal>
     )
