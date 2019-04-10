@@ -75,13 +75,13 @@ class Profile extends Component {
 
     this.setState({ updatingTaxInfo: true });
     await actions.updateTaxpayerInfo(ssn);
-    this.setState({ updatingTaxInfo: false })
+    this.setState({ updatingTaxInfo: false });
   };
 
   openReferralSendModal = () => {
     const { actions } = this.props;
     actions.openModal(MODALS.REFERRAL_SEND_MODAL);
-  }
+  };
 
   render() {
     const { profilePicture, user, actions, formData, formErrors } = this.props;
@@ -107,56 +107,63 @@ class Profile extends Component {
         </View>
 
         <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
-        <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0" icon="Settings">Enter a promo code</IconButton>
-        <Separator />
+        <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0"
+                    icon="Settings">Enter a promo code</IconButton>
+        <Separator/>
         <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
-        <Separator />
-        <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
+        <Separator/>
+        <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email}/>
         <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number"
-          value={user.cellphone} />
-        <CelInput margin="0 0 20 0" disabled={!!user.ssn} type="text" field="ssn" placeholder="Social Security Number"
-          value={ssn} error={formErrors.ssn} />
-
-        {!user.ssn &&
-          <React.Fragment>
-            <Card margin={"0 0 20 0"}>
-              <CelText type={"H5"} weight={"300"}>
-                SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and
-                highly secured.
-            </CelText>
-            </Card>
-            <CelButton
-              onPress={() => this.updateNumber()}
-              margin={"20 0 20 0"}
-              loading={updatingTaxInfo}
-              disabled={!formData.ssn}
-            >
-              Submit SSN
-          </CelButton>
-          </React.Fragment>
-        }
+                  value={user.cellphone}/>
 
         {/* <CelSelect type="phone" disabled value={user.cellphone} /> */}
 
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
           <CelText>To make changes on your profile, <CelText color={STYLES.COLORS.CELSIUS_BLUE}
-            onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact
+                                                             onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact
             our support.</CelText></CelText>
         </View>
+
+        <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"}/>
+
+        {!user.ssn &&
+        <View>
+          <CelText type={"H4"} weight={"300"}>
+            We are required to collect SSN from all American users. Please provide your SSN to start earning interest.
+            This information is encrypted and highly secured.
+          </CelText>
+        </View>
+        }
+
+        <CelInput margin="20 0 20 0" disabled={!!user.ssn} type="password" field="ssn"
+                  placeholder="Social Security Number"
+                  value={ssn} error={formErrors.ssn}/>
+
+        {!user.ssn &&
+        <CelButton
+          onPress={() => this.updateNumber()}
+          margin={"20 0 20 0"}
+          loading={updatingTaxInfo}
+          disabled={!formData.ssn}
+        >
+          Submit SSN
+        </CelButton>
+        }
 
         <Card close>
           <CelText align="center" type="H3" weight="500" margin="0 0 10 0">Let’s talk!</CelText>
           <CelText align="center" type='H4' weight="200" margin="0 0 10 0">We would love to hear from you. Do not
             hasitate to reach us out!</CelText>
           <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}
-            onPress={() => Linking.openURL("https://t.me/CelsiusNetwork")}>
-            <Icon name="Telegram" fill={STYLES.COLORS.CELSIUS_BLUE} width="21" style={{ marginRight: 10 }} />
+                            onPress={() => Linking.openURL("https://t.me/CelsiusNetwork")}>
+            <Icon name="Telegram" fill={STYLES.COLORS.CELSIUS_BLUE} width="21" style={{ marginRight: 10 }}/>
             <CelText align="center" color={STYLES.COLORS.CELSIUS_BLUE} weight="500" type='H4'>Join our
               Telegram</CelText>
           </TouchableOpacity>
         </Card>
 
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App
+          version: {revisionId}</CelText>
 
         <ReferralSendModal/>
         <RegisterPromoCodeModal type={"celsius"}/>
