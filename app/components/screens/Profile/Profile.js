@@ -18,6 +18,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 const { revisionId } = Constants.manifest;
 
@@ -87,6 +88,7 @@ class Profile extends Component {
     const { profilePicture, user, actions, formData, formErrors } = this.props;
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
+    const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
@@ -110,8 +112,14 @@ class Profile extends Component {
         <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0"
                     icon="Settings">Enter a promo code</IconButton>
         <Separator/>
-        <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
-        <Separator/>
+
+        { shouldShowAchievements && (
+          <View>
+            <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
+            <Separator/>
+          </View>
+        )}
+
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email}/>
         <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number"
                   value={user.cellphone}/>
