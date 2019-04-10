@@ -40,7 +40,7 @@ class BecameCelMemberModal extends Component {
         <CelButton onPress={this.closeAndGoToDeposit} margin='30 0 20 0'>
           Deposit coins
         </CelButton>
-        <CelButton size={32} basic onPress={() => actions.navigateTo('LoyaltyProgram')}>
+        <CelButton size="small" basic onPress={() => actions.navigateTo('LoyaltyProgram')}>
           Learn about the CEL Loyalty Program
         </CelButton>
       </CelModal>

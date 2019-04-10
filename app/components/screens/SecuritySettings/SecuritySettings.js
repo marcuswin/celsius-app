@@ -53,13 +53,7 @@ class SecuritySettings extends Component {
     const { actions } = this.props;
     await actions.closeModal()
 
-    actions.navigateTo('VerifyProfile', {
-      onSuccess: async (pin) => {
-        await actions.disableTwoFactor(pin)
-        await actions.navigateTo('SecuritySettings')
-        actions.showMessage('success', 'Two-Factor Verification removed')
-      }
-    })
+    actions.navigateTo('VerifyProfile', { onSuccess: actions.disableTwoFactor })
   }
 
   render() {

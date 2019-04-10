@@ -39,16 +39,6 @@ class KYCLanding extends Component {
   static propTypes = {}
   static defaultProps = {}
 
-
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state
-    return {
-      title: params && params.title ? `Welcome, ${ params.title}!`: 'Welcome!'
-    }
-  };
-
-
-
   componentDidMount () {
     const { actions, profile, navigation } = this.props
 
@@ -101,7 +91,7 @@ class KYCLanding extends Component {
       status = {
         title: 'Here you will be able to add, send and receive coins',
         explanation:
-          'It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.',
+          'In order to do that, please verify your ID. Verification usually takes less than 24h.',
         image: require('../../../../assets/images/emptyStates/KYC-Pending.png'),
         imageState: require('../../../../assets/images/pendingStates/pendingState1.png')
       }

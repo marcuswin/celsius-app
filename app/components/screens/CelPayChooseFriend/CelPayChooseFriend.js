@@ -22,22 +22,22 @@ import { EMPTY_STATES } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
-  <ScrollView style={{ paddingBottom: 90, paddingTop: 10 }}>
+  <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
     <View style={{ flex: 1, alignItems: 'center' }}>
       <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
-      <CelText weight='700' type='H2' align="center" >
+      <CelText weight='700' type='H2' align="center" margin={"30 0 16 0"} >
         Uhoh, no friends?
     </CelText>
-      <CelText weight='300' margin="15 0 0 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
+      <CelText weight='300' margin="0 0 30 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
         Add your contacts or connect your Facebook or Twitter so you can easily send your friends some crypto.
     </CelText>
 
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <CelButton margin="30 0 0 0" onPress={onContactImport}>
+        <CelButton margin="0 0 16 0" onPress={onContactImport}>
           Import contacts
       </CelButton>
 
-        <CelButton italic basic onPress={onSkip}>
+        <CelButton margin={"14 0 0 0"} italic basic onPress={onSkip}>
           Skip this step
       </CelButton>
       </View>
@@ -117,7 +117,7 @@ class CelPayChooseFriend extends Component {
   };
 
   handleContactImport = async () => {
-    const { navigation } = this.props;
+    const { navigation, actions } = this.props;
 
     const permission = await requestForPermission(Permissions.CONTACTS);
 
@@ -129,6 +129,8 @@ class CelPayChooseFriend extends Component {
       const { data } = await Contacts.getContactsAsync();
       await this.setContacts(data);
       await this.getContacts();
+    } else {
+      actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
     }
 
     navigation.setParams({
@@ -191,7 +193,7 @@ class CelPayChooseFriend extends Component {
     const { user, kycStatus } = this.props;
     const { isLoading } = this.state;
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
+    if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (isLoading) return <LoadingScreen />
 

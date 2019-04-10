@@ -12,6 +12,7 @@ import { MODALS } from "../../../constants/UI";
 import CelModal from "../CelModal/CelModal";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { BRANCH_LINKS } from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -66,14 +67,19 @@ class RegisterPromoCodeModal extends Component {
     const style = RegisterPromoCodeModalStyle();
     const code = {};
 
+    let congratsText
     if (type === "celsius" && promoCode) {
       code.amount = promoCode.referred_award_amount;
       code.coin = promoCode.referred_award_coin
+      congratsText = `You have received ${code.amount} ${code.coin}. You can now see it in your wallet.`
     }
 
     if (type === "register" && referralLink) {
       code.amount = referralLink.referred_award_amount;
-      code.coin = referralLink.referred_award_coin
+      code.coin = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ? 'USD' : referralLink.referred_award_coin
+      congratsText = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL
+        ? 'You will receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
+        : `You have received ${code.amount} ${code.coin}. You can now see it in your wallet.`
     }
 
     return (
@@ -86,8 +92,7 @@ class RegisterPromoCodeModal extends Component {
         {!confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Enter a promo code</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>Receive your prize with the right
-              promo code:</CelText>
+
             <CelInput margin="0 0 20 0" type="text" field="promoCode" placeholder="Promo code"
                       value={formData.promoCode} error={formErrors.promoCode}/>
 
@@ -102,8 +107,7 @@ class RegisterPromoCodeModal extends Component {
         {confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{`You have received ${code.amount} ${code.coin}. You can
-              now see it in your wallet.`}</CelText>
+            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{ congratsText }</CelText>
             <CelButton
               onPress={() => {
                 actions.closeModal();

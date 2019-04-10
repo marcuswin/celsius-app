@@ -49,6 +49,28 @@ class WithdrawInfoModal extends Component {
         }
       ]
     };
+    // steps: [
+    // {
+    //   image: require('../../../../assets/images/illustrations-v3/PolarBearHODL3x.png'),
+    //   title: "Are you sure you want to withdraw?",
+    //   description: "The longer you HODL and the more you HODL, the more interest you’ll earn with Celsius. Withdrawing your funds will reduce the amount of interest you could potentially earn.",
+    // },
+    //   {
+    //     image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),
+    //     title: "Daily withdrawal limit is $20,000",
+    //     description: "For your security, if you would like to withdraw more than $20,000 worth of your coins, you will be required to contact us at app@celsius.network, or chat with a member of our team, so that we can verify your identity before transferring your funds.",
+    //   },
+    //   {
+    //     image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
+    //     title: "Don’t forget to check your withdrawal address",
+    //     description: "Take a closer look at the address you wish to send your funds to. If you transferred money from an exchange, the address may not be correct. If you need to change your withdrawal address, please contact us at app@celsius.network, or chat with a member of our team.",
+    //   },
+    //   {
+    //     image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
+    //     title: "Transactions are safely secured with BitGo",
+    //     description: "BitGo is a leading custodial service powering exchanges like Kraken and UPbit. Coins will be moved from time to time to exchanges or to Hedge funds borrowing coins in order to short the market, in this case, coins are converted to fiat and secured in an FDIC-insured bank account.",
+    //   },
+    // ]
   }
 
   continue = () => {

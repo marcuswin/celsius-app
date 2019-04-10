@@ -8,11 +8,11 @@ import * as appActions from "../../../redux/actions";
 // import KYCTaxpayerStyle from "./KYCTaxpayer.styles";
 import CelText from "../../atoms/CelText/CelText";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
-import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import Card from "../../atoms/Card/Card";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -65,19 +65,19 @@ class KYCTaxpayer extends Component {
     const { actions, formData, user } = this.props;
     let updateTaxInfo;
     // check validation
-    const errors  = {};
-    const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
+    // const errors  = {};
+    // const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
     if (user.country === "United States" || user.citizenship === "United States") {
       if (formData.ssn === "" || !formData.ssn) {
         actions.navigateTo("KYCVerifyID");
         return
       }
-      if (!regex.exec(formData.ssn)) {
-        errors.ssn = "ssn is not valid!";
-        actions.setFormErrors(errors);
-        return
-      }
-        updateTaxInfo = { ssn: formData.ssn };
+      // if (!regex.exec(formData.ssn)) {
+      //   errors.ssn = "ssn is not valid!";
+      //   actions.setFormErrors(errors);
+      //   return
+      // }
+      updateTaxInfo = { ssn: formData.ssn };
     } else {
       updateTaxInfo = {
         national_id: formData.national_id,
@@ -95,14 +95,14 @@ class KYCTaxpayer extends Component {
   };
 
   render() {
-    const { formData, formErrors, user } = this.props;
+    const { formData, formErrors, user, actions } = this.props;
     const { updatingTaxInfo, isLoading } = this.state;
     // const style = KYCTaxpayerStyle();
 
     if (isLoading) return <LoadingScreen/>;
 
     return (
-      <AuthLayout>
+      <RegularLayout>
 
         <CelText weight={"700"} type={"H1"} align='center'>Taxpayer ID</CelText>
 
@@ -111,7 +111,7 @@ class KYCTaxpayer extends Component {
 
         {(user.country === "United States" || user.citizenship === "United States") ?
           <React.Fragment>
-            <CelInput margin="20 0 20 0" type="text" field="ssn" placeholder="Social Security Number (optional)"
+            <CelInput margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
                       value={formData.ssn} error={formErrors.ssn}/>
             <Card margin={"0 0 20 0"}>
               <CelText type={"H5"} weight={"300"}>
@@ -136,10 +136,19 @@ class KYCTaxpayer extends Component {
           iconRightWidth={"20"}
           loading={updatingTaxInfo}
         >
-          Verify your ID
+          Continue
         </CelButton>
 
-      </AuthLayout>
+        <CelButton
+          onPress={() => actions.navigateTo('KYCVerifyID')}
+          disabled={updatingTaxInfo}
+          basic
+          margin="20 0 20 0"
+        >
+          Skip
+        </CelButton>
+
+      </RegularLayout>
     );
   }
 }

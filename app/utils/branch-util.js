@@ -8,6 +8,7 @@ import logger from '../utils/logger-util';
 
 export default {
   initBranch,
+  getReferralId,
   createCelPayBUO,
   createIndividualLinkBUO,
   createTransactionDetailsBUO,
@@ -30,6 +31,17 @@ function initBranch() {
       logger.err(error)
     }
   }
+}
+
+
+/**
+ * Gets the id of the referral the user used for registrations. handles branch link and manual entering of code
+ */
+function getReferralId() {
+  const registeredLink = store.getState().branch.registeredLink;
+  const referralLinkId = store.getState().branch.referralLinkId;
+
+  return registeredLink ? registeredLink.id : referralLinkId
 }
 
 

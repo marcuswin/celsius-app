@@ -40,7 +40,7 @@ class CelInput extends Component {
     onFocus: PropTypes.func,
     margin: PropTypes.string,
     basic: PropTypes.bool,
-    helperButton: PropTypes.element
+    helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   };
 
   static defaultProps = {

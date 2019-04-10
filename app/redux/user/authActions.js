@@ -17,6 +17,7 @@ import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
 import { KYC_STATUSES } from '../../constants/DATA'
 import analytics from "../../utils/analytics";
+import branchUtil from "../../utils/branch-util"
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -87,7 +88,7 @@ function registerUser() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms
-      const referralLinkId = getState().branch.referralLinkId;
+      const referralLinkId = branchUtil.getReferralId();
 
       const user = {
         first_name: formData.firstName,

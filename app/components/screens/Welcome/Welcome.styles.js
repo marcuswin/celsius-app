@@ -9,7 +9,6 @@ const base = {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
-        flexWrap: 'wrap',
         paddingTop: 60
     },
     title: {

@@ -155,7 +155,7 @@ class SelectCountry extends Component {
     const itemStyle = this.getSelectStyle(style);
 
     return (
-      <RegularLayout>
+      <RegularLayout fabType="hide">
         <View style={{ width: '100%' }}>
           {filteredCountries.length > 0 ?
             <FlatList

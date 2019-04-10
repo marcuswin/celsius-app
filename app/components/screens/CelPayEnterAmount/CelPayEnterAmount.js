@@ -15,6 +15,8 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
 import BalanceView from "../../atoms/BalanceView/BalanceView";
 import STYLES from "../../../constants/STYLES";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
+import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmounts";
+import { PREDIFINED_AMOUNTS } from '../../../constants/DATA';
 
 @connect(
   state => ({
@@ -42,17 +44,22 @@ class CelPayEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-    const { currencies, celpayCompliance, formData, navigation } = this.props;
+    const { currencies, celpayCompliance, formData, navigation, walletSummary } = this.props;
 
     const coinSelectItems = currencies
       .filter(c => celpayCompliance.coins.includes(c.short))
+      .filter(c => {
+        const balanceUsd = walletSummary.coins.filter(coin => coin.short === c.short.toUpperCase())[0].amount_usd;
+        return balanceUsd > 0
+      })
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
     const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Enter Amount'
 
     navigation.setParams({
-      title: screenTitle
+      title: screenTitle,
+      activePeriod: ""
     })
 
     this.state = {
@@ -68,6 +75,24 @@ class CelPayEnterAmount extends Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getLoyaltyInfo();
+  }
+
+  onPressPredefinedAmount = ({ label, value }) => {
+    const { formData, walletSummary, currencyRatesShort, actions } = this.props;
+    let amount;
+
+    this.setState({ activePeriod: label});
+
+    const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+    const walletSummaryObj = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
+
+    if (label === "ALL") {
+      amount = formData.isUsd ? walletSummaryObj.amount_usd.toString() : walletSummaryObj.amount;
+    } else {
+      amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
+    }
+    this.handleAmountChange(amount, label)
+    actions.toggleKeypad(false)
   }
 
   // TODO: move to formatter? check WithdrawEnterAmount
@@ -87,7 +112,7 @@ class CelPayEnterAmount extends Component {
       return formData.friend ? 'Add a note' : 'Send';
     }
     return 'Enter amount above';
-  }
+  };
 
   // TODO: move to formatter? check WithdrawEnterAmount
   setCurrencyDecimals(value, currency) {
@@ -99,11 +124,10 @@ class CelPayEnterAmount extends Component {
     return value.slice(0, allowedDecimals - numberOfDecimals);
   }
 
-
   getAmountColor = () => this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
 
   handleAmountChange = (newValue) => {
-    const { formData, currencyRatesShort, actions } = this.props
+    const { formData, currencyRatesShort, actions } = this.props;
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
     let amountCrypto;
@@ -173,10 +197,10 @@ class CelPayEnterAmount extends Component {
         onSuccess: actions.celPayShareLink
       })
     }
-  }
+  };
 
   render() {
-    const { coinSelectItems } = this.state;
+    const { coinSelectItems, activePeriod } = this.state;
     const { formData, actions, walletSummary, loyaltyInfo } = this.props;
     const style = CelPayEnterAmountStyle();
     if (!formData.coin) return null;
@@ -211,8 +235,10 @@ class CelPayEnterAmount extends Component {
               />
             </View>
 
+            <PredefinedAmounts data={PREDIFINED_AMOUNTS} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod}/>
+
             <CelButton
-              margin="50 0 0 0"
+              margin="70 0 0 0"
               disabled={!this.isAmountValid() || !(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
             >

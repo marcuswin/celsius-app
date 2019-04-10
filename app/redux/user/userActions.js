@@ -172,20 +172,18 @@ function enableTwoFactor (code) {
 
 /**
  * Disables two factor for user, pin is fallback
- * @param {string} code
  */
-function disableTwoFactor (code) {
-  return async dispatch => {
+function disableTwoFactor () {
+  return async (dispatch, getState) => {
     try {
-      const success = await TwoFactorService.disableTwoFactor(code)
-
-      const personalInfoRes = await usersService.getPersonalInfo()
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data
-
-      dispatch(getUserPersonalInfoSuccess(personalInfo))
-
-      return success
+      const { code } = getState().forms.formData
+      dispatch(startApiCall(API.DISABLE_TWO_FACTOR))
+      await TwoFactorService.disableTwoFactor(code)
+      dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS })
+      dispatch(navigateTo('SecuritySettings'))
+      dispatch(showMessage('success', 'Two-Factor Verification removed'))
     } catch (error) {
+      dispatch(apiError(API.DISABLE_TWO_FACTOR))
       dispatch(showMessage('error', error.msg))
     }
   }
@@ -469,29 +467,48 @@ function getCelsiusMemberStatus () {
   }
 }
 
+
+/**
+ * Gets app settings for user
+ */
 function getUserAppSettings () {
   return async dispatch => {
     try {
+      dispatch(startApiCall(API.GET_APP_SETTINGS))
       const userAppData = await usersService.getUserAppSettings()
       dispatch({
-        type: ACTIONS.GET_APP_SETTINGS,
+        type: ACTIONS.GET_APP_SETTINGS_SUCCESS,
         userAppData: userAppData.data
       })
     } catch (e) {
+      dispatch(apiError(API.GET_APP_SETTINGS, e))
       dispatch(showMessage('error', e.msg))
     }
   }
 }
 
+
+/**
+ * Sets app settings for user
+ *
+ * @param {Object} data
+ * @param {boolean} data.interest_in_cel
+ */
 function setUserAppSettings (data) {
   return async dispatch => {
     try {
+      dispatch(startApiCall(API.SET_APP_SETTINGS))
       const userAppData = await usersService.setUserAppSettings(data)
       dispatch({
-        type: ACTIONS.GET_APP_SETTINGS,
+        type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
         userAppData: userAppData.data
       })
+
+      if (data.interest_in_cel) {
+        dispatch(showMessage('success', 'Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest go to your settings.'))
+      }
     } catch (e) {
+      dispatch(apiError(API.SET_APP_SETTINGS, e))
       dispatch(showMessage('error', e.msg))
     }
   }

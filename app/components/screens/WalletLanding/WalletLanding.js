@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import _ from "lodash";
+import { withNavigationFocus } from "react-navigation";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -85,10 +86,10 @@ class WalletLanding extends Component {
     const coinWithAmount = [];
     const coinWithoutAmount = [];
 
-    await actions.getWalletSummary()
-    if (!currenciesRates) actions.getCurrencyRates()
-    if (!currenciesGraphs) actions.getCurrencyGraphs()
-    if (!user.celsius_member) actions.getCelsiusMemberStatus()
+    await actions.getWalletSummary();
+    if (!currenciesRates) actions.getCurrencyRates();
+    if (!currenciesGraphs) actions.getCurrencyGraphs();
+    if (!user.celsius_member) actions.getCelsiusMemberStatus();
     const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
@@ -101,6 +102,13 @@ class WalletLanding extends Component {
     });
 
     this.setState({ coinWithAmount, coinWithoutAmount });
+  };
+
+  componentDidUpdate(prevProps) {
+    const {actions, isFocused} = this.props;
+    if (prevProps.isFocused !== isFocused && isFocused === true) {
+      actions.getWalletSummary()
+    }
   }
 
   getIconFillColor = (cond) => cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY;
@@ -254,4 +262,4 @@ class WalletLanding extends Component {
   }
 }
 
-export default testUtil.hookComponent(WalletLanding);
+export default testUtil.hookComponent(withNavigationFocus(WalletLanding));
