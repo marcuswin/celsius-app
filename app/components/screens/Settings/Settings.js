@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
@@ -10,6 +11,8 @@ import IconButton from '../../organisms/IconButton/IconButton';
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
+
+const { revisionId } = Constants.manifest;
 
 @connect(
   (state) => ({
@@ -46,7 +49,7 @@ class Settings extends Component {
         { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
         {/* <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton> */}
         <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
-        <CelText align='center'>App Version - 3.0</CelText>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
       </RegularLayout>
     );
   }
