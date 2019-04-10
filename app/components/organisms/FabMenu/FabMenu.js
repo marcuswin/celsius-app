@@ -59,7 +59,7 @@ class FabMenu extends Component {
         ],
         [
           { label: 'Deposit', screen: 'DepositFab' },
-          { label: 'Settings', screen: 'ProfileFab' },
+          { label: 'Settings', screen: 'Settings' },
           // { label: 'Support', screen: 'SupportFab' },
         ],
         // [
