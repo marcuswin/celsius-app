@@ -71,7 +71,7 @@ class CelModal extends Component {
 
     return (
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent
           onRequestClose={() => actions.closeModal()}
           visible={openedModal === name}
