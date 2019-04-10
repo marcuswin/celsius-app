@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { View, SafeAreaView, StatusBar, Image, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
+import { Image } from "react-native-expo-image-cache";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
@@ -92,7 +93,7 @@ class CelHeading extends Component {
         <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{ ...STYLES.SHADOW_STYLES }}>
           <Image
             style={style.profilePicture}
-            source={profilePicture ? { uri: profilePicture, cache: 'force-cache' } : require('../../../../assets/images/empty-profile/empty-profile.png')}
+            uri={profilePicture}
             resizeMethod="resize"
             resizeMode="cover"
           />
