@@ -89,6 +89,7 @@ class Profile extends Component {
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
     const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
+    const isUSCitizen = user.citizenship === 'United States'
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
@@ -132,31 +133,36 @@ class Profile extends Component {
             our support.</CelText></CelText>
         </View>
 
-        <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"}/>
 
-        {!user.ssn &&
-        <View>
-          <CelText margin={"0 0 20 0"} type={"H4"} weight={"300"}>
-            We are required to collect SSN from all American users. Please provide your SSN to start earning interest.
-            This information is encrypted and highly secured.
-          </CelText>
-        </View>
-        }
+        { isUSCitizen && (
+          <View>
+            <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"}/>
 
-        <CelInput margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
-                  placeholder="Social Security Number"
-                  value={ssn} error={formErrors.ssn}/>
+            {!user.ssn &&
+            <View>
+              <CelText margin={"0 0 20 0"} type={"H4"} weight={"300"}>
+                We are required to collect SSN from all American users. Please provide your SSN to start earning interest.
+                This information is encrypted and highly secured.
+              </CelText>
+            </View>
+            }
 
-        {!user.ssn &&
-        <CelButton
-          onPress={() => this.updateNumber()}
-          margin={"20 0 20 0"}
-          loading={updatingTaxInfo}
-          disabled={!formData.ssn}
-        >
-          Submit SSN
-        </CelButton>
-        }
+            <CelInput margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
+                      placeholder="Social Security Number"
+                      value={ssn} error={formErrors.ssn}/>
+
+            {!user.ssn &&
+            <CelButton
+              onPress={() => this.updateNumber()}
+              margin={"20 0 20 0"}
+              loading={updatingTaxInfo}
+              disabled={!formData.ssn}
+            >
+              Submit SSN
+            </CelButton>
+            }
+          </View>
+        )}
 
         <Card close>
           <CelText align="center" type="H3" weight="500" margin="0 0 10 0">Let’s talk!</CelText>
