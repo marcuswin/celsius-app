@@ -260,14 +260,17 @@ export default (state = initialState, action) => {
         }
       };
 
-    case ACTIONS.GET_APP_SETTINGS: {
+    case ACTIONS.SET_APP_SETTINGS_SUCCESS:
+    case ACTIONS.GET_APP_SETTINGS_SUCCESS:
       return {
         ...state,
-        appSettings: { ...state.appSettings, ...action.userAppData }
+        appSettings: {
+          ...state.appSettings,
+          ...action.userAppData
+        }
       }
-    }
 
-    case ACTIONS.GET_MEMBER_STATUS_SUCCESS: {
+    case ACTIONS.GET_MEMBER_STATUS_SUCCESS:
       return {
         ...state,
         profile: {
@@ -275,9 +278,8 @@ export default (state = initialState, action) => {
           celsius_member: action.isNewMember || state.profile.celisus_member,
         }
       }
-    }
 
-    case ACTIONS.DISABLE_TWO_FACTOR_SUCCESS: {
+    case ACTIONS.DISABLE_TWO_FACTOR_SUCCESS:
       return {
         ...state,
         profile: {
@@ -285,7 +287,6 @@ export default (state = initialState, action) => {
           two_factor_enabled: false,
         }
       }
-    }
 
     default:
       return state;

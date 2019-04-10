@@ -467,29 +467,48 @@ function getCelsiusMemberStatus () {
   }
 }
 
+
+/**
+ * Gets app settings for user
+ */
 function getUserAppSettings () {
   return async dispatch => {
     try {
+      dispatch(startApiCall(API.GET_APP_SETTINGS))
       const userAppData = await usersService.getUserAppSettings()
       dispatch({
-        type: ACTIONS.GET_APP_SETTINGS,
+        type: ACTIONS.GET_APP_SETTINGS_SUCCESS,
         userAppData: userAppData.data
       })
     } catch (e) {
+      dispatch(apiError(API.GET_APP_SETTINGS, e))
       dispatch(showMessage('error', e.msg))
     }
   }
 }
 
+
+/**
+ * Sets app settings for user
+ *
+ * @param {Object} data
+ * @param {boolean} data.interest_in_cel
+ */
 function setUserAppSettings (data) {
   return async dispatch => {
     try {
+      dispatch(startApiCall(API.SET_APP_SETTINGS))
       const userAppData = await usersService.setUserAppSettings(data)
       dispatch({
-        type: ACTIONS.GET_APP_SETTINGS,
+        type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
         userAppData: userAppData.data
       })
+
+      if (data.interest_in_cel) {
+        dispatch(showMessage('success', 'Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest go to your settings.'))
+      }
     } catch (e) {
+      dispatch(apiError(API.SET_APP_SETTINGS, e))
       dispatch(showMessage('error', e.msg))
     }
   }
