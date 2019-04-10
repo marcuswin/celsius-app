@@ -42,7 +42,7 @@ class LoyaltyProgram extends Component {
     let status;
 
     if (!loyaltyInfo || !appSettings) return <LoadingScreen/>
-    const hasTier = loyaltyInfo.tier !== "NONE";
+    const hasTier = loyaltyInfo.tier.title !== "NONE";
 
     if (loyaltyInfo.tier.title === "SILVER") {
       status = "GOLD"
