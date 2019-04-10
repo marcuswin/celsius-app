@@ -128,14 +128,14 @@ class Profile extends Component {
 
         {!user.ssn &&
         <View>
-          <CelText type={"H4"} weight={"300"}>
+          <CelText margin={"0 0 20 0"} type={"H4"} weight={"300"}>
             We are required to collect SSN from all American users. Please provide your SSN to start earning interest.
             This information is encrypted and highly secured.
           </CelText>
         </View>
         }
 
-        <CelInput margin="20 0 20 0" disabled={!!user.ssn} type="password" field="ssn"
+        <CelInput margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
                   placeholder="Social Security Number"
                   value={ssn} error={formErrors.ssn}/>
 

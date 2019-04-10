@@ -111,7 +111,7 @@ class KYCTaxpayer extends Component {
 
         {(user.country === "United States" || user.citizenship === "United States") ?
           <React.Fragment>
-            <CelInput margin="20 0 20 0" type="text" field="ssn" placeholder="Social Security Number (optional)"
+            <CelInput margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
                       value={formData.ssn} error={formErrors.ssn}/>
             <Card margin={"0 0 20 0"}>
               <CelText type={"H5"} weight={"300"}>
