@@ -52,7 +52,8 @@ const base = {
     paddingTop: 4,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    opacity: 0.5
   }
 };
 

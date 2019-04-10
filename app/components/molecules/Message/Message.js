@@ -86,7 +86,7 @@ class Message extends Component {
           <Icon {...icon} height='29' width='29' fill={STYLES.COLORS.WHITE} />
         </View>
         <View style={{ width: "65%" }}>
-          <CelText color="white">
+          <CelText margin={"5 0 0 0"} color="white">
             {message.text}
           </CelText>
         </View>
