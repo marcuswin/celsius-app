@@ -42,8 +42,16 @@ class ContactList extends Component {
   renderContactsWithApp = () => {
     const { contacts, onContactPress } = this.props;
 
+    const sortedContacts = contacts.friendsWithApp.sort((a,b) => {
+      if (a.name[0] < b.name[0])
+        return -1;
+      if (a.name[0] > b.name[0])
+        return 1;
+      return 0;
+    })
+
     return (
-      contacts.friendsWithApp.map(contact => <ContactRow key={contact.id} contact={contact} hasApp onPress={() => onContactPress(contact)}/>)
+      sortedContacts.map(contact => <ContactRow key={contact.id} contact={contact} hasApp onPress={() => onContactPress(contact)}/>)
     )
   };
 
@@ -62,13 +70,11 @@ class ContactList extends Component {
     const { contacts } = this.props;
     const style = ContactListStyle();
     const RenderContactsWithApp = this.renderContactsWithApp;
-    const RenderContactsWithoutApp = this.renderContactsWithoutApp;
 
     return (
       <ScrollView style={style.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}}>
         <View>
           {contacts.friendsWithApp && contacts.friendsWithApp.length ? <RenderContactsWithApp/> : null}
-          {contacts.friendsWithoutApp && contacts.friendsWithoutApp.length ? <RenderContactsWithoutApp /> : null}
         </View>
       </ScrollView>
     );
