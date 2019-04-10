@@ -26,6 +26,7 @@ const base = {
 
     },
     description: {
+        textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
         color: '#737A82',
@@ -41,14 +42,12 @@ const base = {
     modalButton: {
         marginTop: 20,
         backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
-
     },
     whiteButton: {
         marginTop: 20,
-        backgroundColor: "white",
-        color: 'red',
-        borderColor: STYLES.COLORS.CELSIUS_BLUE,
+        backgroundColor: 'transparent',
         borderWidth: 1,
+        borderColor: STYLES.COLORS.CELSIUS_BLUE
 
     }
 };

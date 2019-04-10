@@ -86,18 +86,17 @@ class WithdrawInfoModal extends Component {
 
   buttonColor = () => {
     const styles = WithdrawInfoModalStyle();
-    // const ghostButtonStyles = styles.whiteButton
     const { currentStep } = this.state;
 
     const normalButton = [styles.modalButton]
-    
+
     if (currentStep !== 4) {
       normalButton.push(styles.whiteButton)
     }
     return (
-      <CelButton style={normalButton} onPress={this.continue} >
-        {currentStep === 4 ? 'Continue' : 'Next tip'}
-      </CelButton >
+      <View >
+        {currentStep === 4 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+      </View >
     )
   }
 
