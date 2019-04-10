@@ -41,18 +41,18 @@ class CoinCard extends Component {
     </Fragment>
   )
 
-  renderPriceChange = (currencyRates) => {
-    const coinPriceChange = currencyRates.price_change_usd['1d']
-    const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
-    const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
-
-    return (
-      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-        <Icon name={arrowType} fill={textColor} height={6} width={6} />
-        <CelText weight='500' type="H7" color={textColor} margin='1 0 2 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
-      </View>
-    )
-  }
+  // renderPriceChange = (currencyRates) => {
+  //   const coinPriceChange = currencyRates.price_change_usd['1d']
+  //   const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
+  //   const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
+  //
+  //   return (
+  //     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+  //       <Icon name={arrowType} fill={textColor} height={6} width={6} />
+  //       <CelText weight='500' type="H7" color={textColor} margin='1 0 2 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
+  //     </View>
+  //   )
+  // }
 
   render = () => {
     const { coin, displayName, currencyRates, onCardPress, graphData } = this.props;
@@ -78,9 +78,6 @@ class CoinCard extends Component {
           <View >
             <CelText style={style.text} weight='300' type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
-          </View>
-          <View style={{ position: 'absolute', right: 0 }} >
-            {this.renderPriceChange(currencyRates)}
           </View>
         </View>
         {graphData ?
