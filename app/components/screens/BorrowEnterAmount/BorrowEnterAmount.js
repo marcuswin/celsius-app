@@ -86,13 +86,13 @@ class BorrowEnterAmount extends Component {
     const { actions, formData, minimumLoanAmount } = this.props;
 
     if (newValue < minimumLoanAmount) {
-      // actions.showMessage("warning", `$${minimumLoanAmount} is the minimum to proceed.`);
-      // return;
+      actions.showMessage("warning", `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed..`);
+      return;
     }
 
     if (newValue > formData.maxAmount) {
-      // actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
-      // return;
+      actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
+      return;
     }
 
     actions.updateFormField("loanAmount", newValue);
