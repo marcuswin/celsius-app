@@ -1,5 +1,5 @@
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
-
 
 const base = {
     container: {
@@ -38,6 +38,19 @@ const base = {
         paddingVertical: 20,
 
     },
+    modalButton: {
+        marginTop: 20,
+        backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
+
+    },
+    whiteButton: {
+        marginTop: 20,
+        backgroundColor: "white",
+        color: 'red',
+        borderColor: STYLES.COLORS.CELSIUS_BLUE,
+        borderWidth: 1,
+
+    }
 };
 
 const themed = {

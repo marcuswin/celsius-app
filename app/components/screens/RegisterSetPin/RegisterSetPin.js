@@ -88,9 +88,9 @@ class RegisterSetPin extends Component {
     const { actions, formData } = this.props;
 
     const field = !pinCreated ? 'pin' : 'pinConfirm';
-    const headingText = !pinCreated ? 'Create PIN' : 'Repeat PIN';
+    const headingText = !pinCreated ? 'Create a PIN' : 'Repeat PIN';
     const subheadingText = !pinCreated
-      ? 'To make your transactions even more secure, create your 4-digit PIN.'
+      ? 'Create a unique PIN to secure your account.'
       : 'You\'re almost there!';
 
     const style = ChangePinStyle();
