@@ -11,6 +11,7 @@ import usersService from "../../services/users-service";
 import { initAppData } from "../app/appActions";
 import { claimAllBranchTransfers } from "../transfers/transfersActions";
 import analytics from "../../utils/analytics";
+import branchUtil from "../../utils/branch-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -81,7 +82,7 @@ function registerUserTwitter() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms;
-      const referralLinkId = getState().branch.referralLinkId;
+      const referralLinkId = branchUtil.getReferralId();
 
       const twitterUser = {
         email: formData.email,
@@ -235,7 +236,7 @@ function registerUserFacebook() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms;
-      const referralLinkId = getState().branch.referralLinkId;
+      const referralLinkId = branchUtil.getReferralId();
 
       const facebookUser = {
         email: formData.email,
@@ -353,7 +354,7 @@ function registerUserGoogle() {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms;
-      const referralLinkId = getState().branch.referralLinkId;
+      const referralLinkId = branchUtil.getReferralId();
 
       const googleUser = {
         email: formData.email,
