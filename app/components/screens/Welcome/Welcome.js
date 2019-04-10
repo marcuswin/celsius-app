@@ -38,8 +38,8 @@ class Welcome extends Component {
           <Image
             source={require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png')} style={{ height: 140, resizeMode: 'contain' }}
           />
-          <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celisus Network</CelText>
-          <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow, and pay on the blockchain. Let’s bring the next 100M people into crypto together.</CelText>
+          <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celsius Network</CelText>
+          <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow and pay on the blockchain. Let’s bring the next 100M people into crypto together.</CelText>
           <CelButton style={style.button} onPress={() => actions.navigateTo('RegisterInitial')}>Join Celsius</CelButton>
           <TouchableOpacity onPress={() => actions.navigateTo('Login')}><CelText>Already have an account</CelText></TouchableOpacity>
 
