@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -9,13 +9,14 @@ import LoyaltyProgramStyle from "./LoyaltyProgram.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Card from "../../atoms/Card/Card";
-import STYLES from "../../../constants/STYLES";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
 
 @connect(
   state => ({
-    loyaltyInfo: state.user.loyaltyInfo
+    loyaltyInfo: state.user.loyaltyInfo,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -31,13 +32,14 @@ class LoyaltyProgram extends Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getLoyaltyInfo();
+    actions.getUserAppSettings();
   }
 
   render() {
-    const { loyaltyInfo, actions } = this.props;
+    const { loyaltyInfo, appSettings, actions } = this.props;
     const style = LoyaltyProgramStyle();
 
-    if (!loyaltyInfo) return <LoadingScreen/>
+    if (!loyaltyInfo || !appSettings) return <LoadingScreen/>
     const hasTier = loyaltyInfo.tier !== "NONE"
 
     return (
@@ -112,18 +114,12 @@ class LoyaltyProgram extends Component {
                 </CelText>
               </View>
 
-              { hasTier && (
-                <Card close margin={"30 0 0 0"}>
-                  <CelText type={"H4"} weight={"500"}>Want to earn better interest?</CelText>
-                  <CelText type={"H4"} weight={"300"} margin={"15 0 15 0"}>Switch to earning interest in CEL, and earn
-                    { loyaltyInfo.earn_interest_bonus }%
-                    better rates.
-                  </CelText>
-                  <TouchableOpacity>
-                    <CelText onPress={() => actions.navigateTo("WalletSettings")} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}>Change settings</CelText>
-                  </TouchableOpacity>
-                </Card>
-              )}
+              <CelInterestCard
+                tier={loyaltyInfo.tier}
+                interestBonus={loyaltyInfo.earn_interest_bonus}
+                interestInCel={appSettings.interest_in_cel}
+                setUserAppSettings={actions.setUserAppSettings}
+              />
             </View>
           </View>
       </RegularLayout>
