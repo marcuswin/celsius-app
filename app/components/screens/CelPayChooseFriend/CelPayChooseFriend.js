@@ -37,7 +37,7 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
           Import contacts
       </CelButton>
 
-        <CelButton italic basic onPress={onSkip}>
+        <CelButton margin={"14 0 0 0"} italic basic onPress={onSkip}>
           Skip this step
       </CelButton>
       </View>
