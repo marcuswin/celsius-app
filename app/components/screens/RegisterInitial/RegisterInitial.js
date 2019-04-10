@@ -133,7 +133,7 @@ class RegisterInitial extends Component {
         </CelButton>
 
         <CelButton
-          margin="0 0 20 0"
+          margin="20 0 20 0"
           onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
           basic
         >
