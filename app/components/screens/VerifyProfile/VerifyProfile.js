@@ -38,7 +38,9 @@ class VerifyProfile extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: ''
+      value: '',
+      loading: false,
+      verificationError: false,
     }
   }
 
@@ -66,7 +68,13 @@ class VerifyProfile extends Component {
     this.setState({ loading: false })
   }
 
-  onCheckError = () => this.setState({ loading: false, value: '' })
+  onCheckError = () => {
+    this.setState({ loading: false, value: '', verificationError: true })
+    const timeout = setTimeout(() => {
+      this.setState({ verificationError: false })
+      clearTimeout(timeout)
+    }, 1000)
+  }
 
   handlePINChange = newValue => {
     const { actions } = this.props
@@ -113,7 +121,7 @@ class VerifyProfile extends Component {
   }
 
   render2FA () {
-    const { loading, value } = this.state
+    const { loading, value, verificationError } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -127,7 +135,7 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} length={6} />
+          <HiddenField value={value} length={6} error={verificationError}/>
         </TouchableOpacity>
 
         <ContactSupport
@@ -152,7 +160,7 @@ class VerifyProfile extends Component {
   }
 
   renderPIN () {
-    const { loading, value } = this.state
+    const { loading, value, verificationError } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -166,7 +174,7 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} />
+          <HiddenField value={value} error={verificationError}/>
         </TouchableOpacity>
 
         <ContactSupport

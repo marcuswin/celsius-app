@@ -10,8 +10,8 @@ const base = {
     marginVertical: 5
   },
   basicCircle: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
     borderRadius: 10,
     margin: 10
@@ -21,6 +21,9 @@ const base = {
   },
   lastCircle: {
     backgroundColor: STYLES.COLORS.GREEN,
+  },
+  errorCircle: {
+    backgroundColor: STYLES.COLORS.RED,
   }
 };
 
