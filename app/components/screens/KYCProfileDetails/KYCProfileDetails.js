@@ -16,7 +16,7 @@ import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelButton from '../../atoms/CelButton/CelButton'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
-import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -137,7 +137,7 @@ class KYCProfileDetails extends Component {
     if (isLoading) return <LoadingScreen />
 
     return (
-      <AuthLayout>
+      <RegularLayout>
         <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Profile details</CelText>
 
         <CelInput type="text" field="firstName" placeholder='First name' value={formData.firstName} error={formErrors.first_name} />
@@ -162,7 +162,7 @@ class KYCProfileDetails extends Component {
             Your residential address
           </CelButton>
         </View>
-      </AuthLayout>
+      </RegularLayout>
     );
   }
 }

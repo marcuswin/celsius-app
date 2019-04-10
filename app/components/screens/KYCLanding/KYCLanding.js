@@ -40,12 +40,12 @@ class KYCLanding extends Component {
   static defaultProps = {}
 
 
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state
-    return {
-      title: params && params.title ? `Welcome, ${ params.title}!`: 'Welcome!'
-    }
-  };
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params } = navigation.state
+  //   return {
+  //     title: params && params.title ? `Welcome, ${ params.title}!`: 'Welcome!'
+  //   }
+  // };
 
 
 
@@ -213,7 +213,7 @@ class KYCLanding extends Component {
   render () {
     const { kycStatus } = this.props
     return (
-      <RegularLayout theme={THEMES.LIGHT}>
+      <RegularLayout theme={THEMES.LIGHT} fabType="main">
         {this.renderCard()}
         {this.renderKycStatus(kycStatus)}
       </RegularLayout>

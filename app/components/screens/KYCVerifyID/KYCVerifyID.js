@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
-import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
 import Icon from '../../atoms/Icon/Icon'
@@ -16,6 +15,7 @@ import CelButton from '../../atoms/CelButton/CelButton'
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import API from '../../../constants/API'
 import apiUtil from '../../../utils/api-util';
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -182,7 +182,7 @@ class KYCVerifyID extends Component {
     const BackCamera = this.renderBackCameraInput
 
     return (
-      <AuthLayout>
+      <RegularLayout>
         <View style={{ width: '100%', alignItems: 'center' }}>
           <CelText type='H1' weight='700'>
             Verify your ID
@@ -256,7 +256,7 @@ class KYCVerifyID extends Component {
             Submit
           </CelButton>
         </View>
-      </AuthLayout>
+      </RegularLayout>
     )
   }
 }

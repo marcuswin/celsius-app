@@ -9,11 +9,11 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 // import KYCAddressInfoStyle from "./KYCAddressInfo.styles";
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
-import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
 import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelButton from '../../atoms/CelButton/CelButton'
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -91,7 +91,7 @@ class KYCAddressInfo extends Component {
     const { updatingAddressInfoInProgress } = this.state
 
     return (
-      <AuthLayout>
+      <RegularLayout>
         <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Address info</CelText>
 
         <CelInput type="text" field="street" placeholder='Address' value={formData.street} error={formErrors.street} />
@@ -109,7 +109,7 @@ class KYCAddressInfo extends Component {
             Your Taxpayer ID
           </CelButton>
         </View>
-      </AuthLayout>
+      </RegularLayout>
     );
   }
 }

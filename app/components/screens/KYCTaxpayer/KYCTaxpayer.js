@@ -8,11 +8,11 @@ import * as appActions from "../../../redux/actions";
 // import KYCTaxpayerStyle from "./KYCTaxpayer.styles";
 import CelText from "../../atoms/CelText/CelText";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
-import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import Card from "../../atoms/Card/Card";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -102,7 +102,7 @@ class KYCTaxpayer extends Component {
     if (isLoading) return <LoadingScreen/>;
 
     return (
-      <AuthLayout>
+      <RegularLayout>
 
         <CelText weight={"700"} type={"H1"} align='center'>Taxpayer ID</CelText>
 
@@ -148,7 +148,7 @@ class KYCTaxpayer extends Component {
           Skip
         </CelButton>
 
-      </AuthLayout>
+      </RegularLayout>
     );
   }
 }
