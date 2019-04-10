@@ -30,7 +30,7 @@ class ForgotPassword extends Component {
     const { formData, actions, callsInProgress } = this.props
     const loading = apiUtil.areCallsInProgress(API.SEND_RESET_LINK, callsInProgress);
     return (
-      <RegularLayout>
+      <RegularLayout fabType="hide">
         <CelText margin="0 0 20 15">Enter your email to change your password</CelText>
 
         <CelInput type="text" keyboardType='email-address' autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} />
