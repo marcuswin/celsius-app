@@ -81,6 +81,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/loyaltyIcons/membershipx.png'),
   require('../../assets/images/loyaltyIcons/withdrawx.png'),
   require('../../assets/images/HODL-ratio.png'),
+  require('../../assets/images/HODL-loyalty3x.png'),
 ];
 
 export default {

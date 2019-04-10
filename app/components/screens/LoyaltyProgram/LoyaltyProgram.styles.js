@@ -40,7 +40,7 @@ const base = {
   hodlImage: {
     resizeMode: "contain",
     height: heightPercentageToDP("20%"),
-    width: widthPercentageToDP("85%")
+    width: widthPercentageToDP("70%")
   },
   arcChart: {
     marginHorizontal: widthPercentageToDP("8%")
