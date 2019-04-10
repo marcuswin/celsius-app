@@ -12,6 +12,7 @@ import Card from "../../atoms/Card/Card";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 
 @connect(
   state => ({
@@ -38,30 +39,42 @@ class LoyaltyProgram extends Component {
   render() {
     const { loyaltyInfo, appSettings, actions } = this.props;
     const style = LoyaltyProgramStyle();
+    let status;
 
     if (!loyaltyInfo || !appSettings) return <LoadingScreen/>
-    const hasTier = loyaltyInfo.tier !== "NONE"
+    const hasTier = loyaltyInfo.tier !== "NONE";
+
+    if (loyaltyInfo.tier.title === "SILVER") {
+      status = "GOLD"
+    } else {
+      status = "PLATINUM"
+    }
 
     return (
       <RegularLayout padding={"0 0 100 0"}>
           <View>
             { hasTier && (
-              <View style={style.progressView}>
-                <View style={style.arcChart}>
-                  <PieProgressBar amount={loyaltyInfo.cel_amount} max={loyaltyInfo.max_for_tier}
-                    min={loyaltyInfo.min_for_tier}
-                  />
+              <View>
+                <View style={style.progressView}>
+                  <View style={style.arcChart}>
+                    <PieProgressBar amount={loyaltyInfo.cel_amount} max={loyaltyInfo.max_for_tier}
+                                    min={loyaltyInfo.min_for_tier}
+                    />
+                  </View>
+                  <View>
+                    <CelText color={"white"} type={"H5"} weight={"300"}>
+                      CEL coins
+                    </CelText>
+                    <CelText color={"white"} type={"H3"} weight={"700"}>
+                      {`${loyaltyInfo.tier.title} (Lvl.${loyaltyInfo.tier_level})`}
+                    </CelText>
+                    <CelText color={"white"} type={"H5"} weight={"300"}>
+                      {`${loyaltyInfo.hodl_ratio} HODL ratio`}
+                    </CelText>
+                  </View>
                 </View>
-                <View>
-                  <CelText color={"white"} type={"H5"} weight={"300"}>
-                    CEL coins
-                  </CelText>
-                  <CelText color={"white"} type={"H3"} weight={"700"}>
-                    {`${loyaltyInfo.tier} (Lvl.${loyaltyInfo.tier_level})`}
-                  </CelText>
-                  <CelText color={"white"} type={"H5"} weight={"300"}>
-                    {`${loyaltyInfo.hodl_ratio} HODL ratio`}
-                  </CelText>
+                <View style={{backgroundColor: "rgba(65,86,166, 0.7)", height: heightPercentageToDP("6%"), justifyContent: "center"}}>
+                  <CelText align={"center"} type={"H6"} weight={"300"} color={"white"}>{`You only need ${loyaltyInfo.max_for_tier - Number(loyaltyInfo.cel_amount)}  more CEL to reach ${status}`}</CelText>
                 </View>
               </View>
             )}
@@ -70,8 +83,8 @@ class LoyaltyProgram extends Component {
                 <Card style={style.bonusCard}>
                   <View style={style.interestCard}>
                     <View>
-                      <CelText align={"center"} type={"H4"} weight={"300"}>Your earn</CelText>
-                      <CelText align={"center"} type={"H4"} weight={"300"}>interest bonus</CelText>
+                      <CelText align={"center"} type={"H4"} weight={"300"}>Bonus for earning</CelText>
+                      <CelText align={"center"} type={"H4"} weight={"300"}>interest in CEL</CelText>
                       <CelText margin={"10 0 0 0"} align={"center"} type={"H2"} weight={"700"}>{`${loyaltyInfo.earn_interest_bonus}%`}</CelText>
                     </View>
                   </View>
@@ -85,8 +98,7 @@ class LoyaltyProgram extends Component {
                 </View>
                 <CelText style={style.title} type={"H3"} weight={"600"}>Celsius Membership</CelText>
                 <CelText style={style.explanation} align={"center"} type={"H4"} weight={"300"}>
-                  Only 1 CEL token gives you a privilege of being a Celsius member (earn interest, apply for a loan and
-                  utilize CelPay).
+                  Users must have at least one CEL token in their Celsius wallet to be a member. Members can earn interest, take out loans, and use CelPay.
                 </CelText>
 
                 <View style={style.circle}>
@@ -94,7 +106,10 @@ class LoyaltyProgram extends Component {
                          source={require("../../../../assets/images/loyaltyIcons/hodl-ratiox.png")}/>
                 </View>
                 <CelText style={style.title} type={"H3"} weight={"600"}>HODL RATIO</CelText>
-                <Image style={style.hodlImage} source={require("../../../../assets/images/HODL-ratio.png")}/>
+                <Image style={style.hodlImage} source={require("../../../../assets/images/HODL-loyalty3x.png")}/>
+                <Card>
+                  <CelText type="H4" weight="300">Interest payments on loans do not affect your HOLD ratio</CelText>
+                </Card>
 
                 <View style={style.circle}>
                   <Image style={style.image} source={require("../../../../assets/images/loyaltyIcons/level-upx.png")}/>
