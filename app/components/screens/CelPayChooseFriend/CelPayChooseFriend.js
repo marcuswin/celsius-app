@@ -117,7 +117,7 @@ class CelPayChooseFriend extends Component {
   };
 
   handleContactImport = async () => {
-    const { navigation } = this.props;
+    const { navigation, actions } = this.props;
 
     const permission = await requestForPermission(Permissions.CONTACTS);
 
@@ -129,6 +129,8 @@ class CelPayChooseFriend extends Component {
       const { data } = await Contacts.getContactsAsync();
       await this.setContacts(data);
       await this.getContacts();
+    } else {
+      actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
     }
 
     navigation.setParams({
