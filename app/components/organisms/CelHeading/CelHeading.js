@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
+import { Image as RNImage, View, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
 import { Image } from "react-native-expo-image-cache";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -91,12 +91,21 @@ class CelHeading extends Component {
       "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":
         <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{ ...STYLES.SHADOW_STYLES }}>
-          <Image
-            style={style.profilePicture}
-            uri={profilePicture}
-            resizeMethod="resize"
-            resizeMode="cover"
-          />
+          { profilePicture ? (
+            <Image
+              style={style.profilePicture}
+              uri={profilePicture}
+              resizeMethod="resize"
+              resizeMode="cover"
+            />
+          ) : (
+            <RNImage
+              style={style.profilePicture}
+              source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+              resizeMethod="resize"
+              resizeMode="cover"
+            />
+          )}
         </TouchableOpacity>
       ,
       "logout": <CelButton basic onPress={() => this.props.actions.logoutUser()}>Logout</CelButton>,

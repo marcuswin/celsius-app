@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
 import { Constants } from "expo";
-import { Image, TouchableOpacity, View, Linking } from "react-native";
+import { Image as RNImage, TouchableOpacity, View, Linking } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
@@ -94,13 +95,23 @@ class Profile extends Component {
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-          <Image
-            style={{
-              width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
-            }}
-            source={profilePicture ? { uri: profilePicture } : require("../../../../assets/images/empty-profile/empty-profile.png")}
-            resizeMethod="resize"
-          />
+          { profilePicture ? (
+            <Image
+              style={{
+                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+              }}
+              uri={profilePicture}
+              resizeMethod="resize"
+            />
+          ) : (
+            <RNImage
+              style={{
+                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+              }}
+              source={require("../../../../assets/images/empty-profile/empty-profile.png")}
+              resizeMethod="resize"
+            />
+          )}
           <View style={{ marginLeft: 20 }}>
             <CelText weight="600" type="H2">{user.first_name}</CelText>
             <CelText weight="600" type="H2">{user.last_name}</CelText>
