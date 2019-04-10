@@ -162,11 +162,13 @@ class WithdrawEnterAmount extends Component {
 
   render() {
     const { coinSelectItems, activePeriod } = this.state;
-    const { formData, actions, walletSummary } = this.props;
+    const { formData, actions, walletSummary, navigation } = this.props;
     const style = WithdrawEnterAmountStyle();
     if (!formData.coin) return null;
 
     const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
+
+    const coin = navigation.getParam('coin')
 
     return (
       <RegularLayout>
@@ -225,7 +227,7 @@ class WithdrawEnterAmount extends Component {
             purpose={KEYPAD_PURPOSES.WITHDRAW}
             autofocus={false}
           />
-          <WithdrawInfoModal closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
+          <WithdrawInfoModal type={coin === 'CEL'} closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
         </View>
       </RegularLayout>
     );

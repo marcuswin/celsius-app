@@ -17,6 +17,7 @@ class WithdrawInfoModal extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     toggleKeypad: PropTypes.func,
+    type: PropTypes.bool,
   };
   static defaultProps = {}
 
@@ -48,35 +49,20 @@ class WithdrawInfoModal extends Component {
         }
       ]
     };
-    // steps: [
-    // {
-    //   image: require('../../../../assets/images/illustrations-v3/PolarBearHODL3x.png'),
-    //   title: "Are you sure you want to withdraw?",
-    //   description: "The longer you HODL and the more you HODL, the more interest you’ll earn with Celsius. Withdrawing your funds will reduce the amount of interest you could potentially earn.",
-    // },
-    //   {
-    //     image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),
-    //     title: "Daily withdrawal limit is $20,000",
-    //     description: "For your security, if you would like to withdraw more than $20,000 worth of your coins, you will be required to contact us at app@celsius.network, or chat with a member of our team, so that we can verify your identity before transferring your funds.",
-    //   },
-    //   {
-    //     image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
-    //     title: "Don’t forget to check your withdrawal address",
-    //     description: "Take a closer look at the address you wish to send your funds to. If you transferred money from an exchange, the address may not be correct. If you need to change your withdrawal address, please contact us at app@celsius.network, or chat with a member of our team.",
-    //   },
-    //   {
-    //     image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
-    //     title: "Transactions are safely secured with BitGo",
-    //     description: "BitGo is a leading custodial service powering exchanges like Kraken and UPbit. Coins will be moved from time to time to exchanges or to Hedge funds borrowing coins in order to short the market, in this case, coins are converted to fiat and secured in an FDIC-insured bank account.",
-    //   },
-    // ]
   }
 
   continue = () => {
     const { currentStep } = this.state
-    const { closeModal, toggleKeypad } = this.props
+    const { closeModal, toggleKeypad, type } = this.props
 
-    if (currentStep === 4) {
+    if (type) {
+      if (currentStep === 4) {
+        if (toggleKeypad) toggleKeypad();
+        closeModal();
+      } else {
+        this.setState({ currentStep: currentStep + 1 })
+      }
+    } else if (currentStep === 3) {
       if (toggleKeypad) toggleKeypad();
       closeModal();
     } else {
@@ -87,30 +73,44 @@ class WithdrawInfoModal extends Component {
   buttonColor = () => {
     const styles = WithdrawInfoModalStyle();
     const { currentStep } = this.state;
+    const { type } = this.props;
 
     const normalButton = [styles.modalButton]
 
-    if (currentStep !== 4) {
+    if (type) {
+      if (currentStep !== 4) {
+        normalButton.push(styles.whiteButton)
+      }
+      return (
+        <View >
+          {currentStep === 4 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+        </View >
+      )
+    }
+    if (currentStep !== 3) {
       normalButton.push(styles.whiteButton)
     }
     return (
       <View >
-        {currentStep === 4 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+        {currentStep === 3 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
       </View >
     )
+
   }
 
   renderStep() {
     const { steps, currentStep } = this.state;
-    const { closeModal } = this.props
+    const { closeModal, type } = this.props
     const styles = WithdrawInfoModalStyle();
     const ButtonStyle = this.buttonColor;
+
+    const three = steps.slice(1, 4)
 
     return (
       <View>
         <ScrollView>
-          <CelText type='H2' bold style={styles.title} > {steps[currentStep - 1].title}</CelText>
-          <CelText type='H4' style={styles.description}>{steps[currentStep - 1].description}</CelText>
+          <CelText type='H2' bold style={styles.title}> {type ? steps[currentStep - 1].title : three[currentStep - 1].title}</CelText>
+          <CelText type='H4' style={styles.description}>{type ? steps[currentStep - 1].description : three[currentStep - 1].description}</CelText>
           <View style={styles.button}>
             <ButtonStyle />
             <TouchableOpacity style={{ marginTop: 10 }} onPress={() => closeModal()}>
@@ -125,6 +125,14 @@ class WithdrawInfoModal extends Component {
   render() {
     const styles = WithdrawInfoModalStyle();
     const { steps, currentStep } = this.state;
+    const { type } = this.props;
+    let numberOfSteps
+
+    if (type) {
+      numberOfSteps = 4
+    } else {
+      numberOfSteps = 3
+    }
 
     return (
       <CelModal
@@ -134,7 +142,7 @@ class WithdrawInfoModal extends Component {
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>
             <ProgressBar
-              steps={4}
+              steps={numberOfSteps}
               currentStep={currentStep} />
           </View>
           <View>
