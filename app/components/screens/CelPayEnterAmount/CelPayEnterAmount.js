@@ -44,10 +44,14 @@ class CelPayEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-    const { currencies, celpayCompliance, formData, navigation } = this.props;
+    const { currencies, celpayCompliance, formData, navigation, walletSummary } = this.props;
 
     const coinSelectItems = currencies
       .filter(c => celpayCompliance.coins.includes(c.short))
+      .filter(c => {
+        const balanceUsd = walletSummary.coins.filter(coin => coin.short === c.short.toUpperCase())[0].amount_usd;
+        return balanceUsd > 0
+      })
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
