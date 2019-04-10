@@ -13,6 +13,7 @@ import { KEYPAD_PURPOSES } from '../../../constants/UI'
 import HiddenField from '../../atoms/HiddenField/HiddenField'
 import Spinner from '../../atoms/Spinner/Spinner'
 import CelButton from '../../atoms/CelButton/CelButton'
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 @connect(
   state => ({
@@ -129,12 +130,9 @@ class VerifyProfile extends Component {
           <HiddenField value={value} length={6} />
         </TouchableOpacity>
 
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 0 0'>
-          Forgot your Code?
-        </CelText>
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='5 0 10 0'>
-          Contact our support for help
-        </CelText>
+        <ContactSupport
+          copy="Forgot your code? Contact out support at app@celsius.network."
+        />
 
         {loading ? (
           <View
@@ -171,12 +169,9 @@ class VerifyProfile extends Component {
           <HiddenField value={value} />
         </TouchableOpacity>
 
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 0 0'>
-          Forgot your PIN?
-        </CelText>
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='5 0 10 0'>
-          Contact our support for help
-        </CelText>
+        <ContactSupport
+          copy="Forgot PIN? Contact our support at app@celsius.network."
+        />
 
         {loading && (
           <View

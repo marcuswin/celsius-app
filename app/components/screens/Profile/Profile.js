@@ -19,6 +19,7 @@ import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import { KYC_STATUSES } from "../../../constants/DATA";
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 const { revisionId } = Constants.manifest;
 
@@ -127,12 +128,9 @@ class Profile extends Component {
 
         {/* <CelSelect type="phone" disabled value={user.cellphone} /> */}
 
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
-          <CelText>To make changes on your profile, <CelText color={STYLES.COLORS.CELSIUS_BLUE}
-                                                             onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact
-            our support.</CelText></CelText>
-        </View>
-
+        <ContactSupport
+          copy="To make changes on your profile, contact our support at app@celsius.network."
+        />
 
         { isUSCitizen && (
           <View>

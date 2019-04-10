@@ -8,6 +8,7 @@ import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
 import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View>
@@ -99,13 +100,10 @@ export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
 
 export const LoanInfoSection = ({ navigateTo }) => (
   <Card>
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-      <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Your loan application was rejected, please apply for a new loan or</CelText>
-      <TouchableOpacity onPress={() => Linking.openURL("mailto:app@celsius.network")}>
-        <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE}>contact our support </CelText>
-      </TouchableOpacity>
-      <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>for more details.</CelText>
-    </View>
+    <ContactSupport
+      copy="Your loan application was rejected, please apply for a new loan or contact our support at app@celsius.network for more details."
+    />
+
     <CelButton margin="16 0 10 0" onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
   </Card>
 )
