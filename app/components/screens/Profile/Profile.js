@@ -164,7 +164,7 @@ class Profile extends Component {
           </View>
         )}
 
-        <Card close>
+        <Card>
           <CelText align="center" type="H3" weight="500" margin="0 0 10 0">Let’s talk!</CelText>
           <CelText align="center" type='H4' weight="200" margin="0 0 10 0">We would love to hear from you. Do not
             hasitate to reach us out!</CelText>

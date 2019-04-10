@@ -106,7 +106,7 @@ class WalletLanding extends Component {
 
   componentDidUpdate(prevProps) {
     const {actions, isFocused} = this.props;
-    if (prevProps.isFocused !== isFocused) {
+    if (prevProps.isFocused !== isFocused && isFocused === true) {
       actions.getWalletSummary()
     }
   }
