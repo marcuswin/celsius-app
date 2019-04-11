@@ -60,7 +60,7 @@ class CelPayChooseFriend extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params && params.title ? params.title : 'CelPay',
+      title: params && params.title ? params.title : 'No friends?',
       right: params && params.right ? params.right : ''
     }
   };
@@ -92,7 +92,7 @@ class CelPayChooseFriend extends Component {
     }
 
     navigation.setParams({
-      title: permission ? "Choose a friend to CelPay" : "CelPay",
+      title: permission ? "Choose a friend to CelPay" : "No friends?",
       right: permission ? "search" : "profile"
     })
 
@@ -134,7 +134,7 @@ class CelPayChooseFriend extends Component {
     }
 
     navigation.setParams({
-      title: permission ? "Choose a friend to CelPay" : "CelPay",
+      title: permission ? "Choose a friend to CelPay" : "No friends?",
       right: permission ? "search" : "profile"
     })
     this.setState({
