@@ -10,6 +10,7 @@ const COLORS = {
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',
   MEDIUM_GRAY: '#737A82',
+  MEDIUM_GRAY1: 'rgba(115,122,130,0.1)',
   MEDIUM_GRAY3: 'rgba(115,122,130,0.3)',
   GRAY: '#BBBFC2',
   DARK_GRAY: '#3D4853',

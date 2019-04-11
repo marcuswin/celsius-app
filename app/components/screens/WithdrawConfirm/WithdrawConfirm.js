@@ -30,7 +30,7 @@ import InfoBox from "../../atoms/InfoBox/InfoBox";
 )
 class WithdrawConfirm extends Component {
   static navigationOptions = () => ({
-    title: "Withdraw Confirm"
+    title: "Confirm withdrawal details "
   });
 
   componentDidMount() {
@@ -160,8 +160,9 @@ class WithdrawConfirm extends Component {
             loading={isLoading}
             onPress={actions.withdrawCrypto}
           >
-            Withdraw
+            Send email verification
           </CelButton>
+          <CelText margin= '30 0 0 0' color='gray' style={{ paddingVertical: 10, paddingHorizontal: 10, borderRadius: 8, backgroundColor: STYLES.COLORS.MEDIUM_GRAY5}}> Follow instructions in email to complete this withdrawal.</CelText>
         </View>
       </RegularLayout>
     );
