@@ -162,7 +162,7 @@ class WithdrawConfirm extends Component {
           >
             Send email verification
           </CelButton>
-          <CelText margin= '30 0 0 0' color='gray' style={{ paddingVertical: 10, paddingHorizontal: 10, borderRadius: 8, backgroundColor: STYLES.COLORS.MEDIUM_GRAY5}}> Follow instructions in email to complete this withdrawal.</CelText>
+          <CelText margin= '30 0 0 0' color='gray' style={{ paddingVertical: 10, paddingHorizontal: 10, borderRadius: 8, backgroundColor: STYLES.COLORS.MEDIUM_GRAY1}}> Follow instructions in email to complete this withdrawal.</CelText>
         </View>
       </RegularLayout>
     );
