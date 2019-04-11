@@ -75,6 +75,7 @@ class ApiAuthorizationPermissions extends Component {
         <CelButton
           onPress={() => this.generateApiKey()}
           margin={"30 0 10 0"}
+          disabled={!formData.readWithdrawals && !formData.readDeposits && !formData.readTransactions && !formData.readWalletBalance}
         >
           Generate API key
         </CelButton>
