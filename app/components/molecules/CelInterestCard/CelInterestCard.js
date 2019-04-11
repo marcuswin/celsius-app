@@ -39,7 +39,7 @@ class CelInterestCard extends Component {
     return (
       <Card close margin={"30 0 0 0"}>
         <CelText type={"H4"} weight={"500"}>Want to earn better interest?</CelText>
-        <CelText type={"H4"} weight={"300"} margin={"15 0 15 0"}>
+        <CelText color='gray' type={"H4"} weight={"300"} margin={"15 0 15 0"}>
           Switch to earning interest in CEL, and earn { interestBonus }% better rates.
         </CelText>
 
