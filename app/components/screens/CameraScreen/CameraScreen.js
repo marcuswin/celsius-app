@@ -29,6 +29,7 @@ const { height, width } = Dimensions.get('window')
     photo: state.camera.photo,
     cameraField: state.camera.cameraField,
     cameraHeading: state.camera.cameraHeading,
+    cameraDescription: state.camera.cameraDescription,
     cameraCopy: state.camera.cameraCopy,
     mask: state.camera.mask
   }),
@@ -38,6 +39,7 @@ class CameraScreen extends Component {
   static propTypes = {
     cameraField: PropTypes.string,
     cameraHeading: PropTypes.string,
+    cameraDescription: PropTypes.string,
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
     photo: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Object)]),
@@ -48,6 +50,7 @@ class CameraScreen extends Component {
   static defaultProps = {
     cameraField: 'lastPhoto',
     cameraHeading: 'Take Photo',
+    cameraDescription: `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
     mask: 'circle'
   }
 
@@ -58,10 +61,12 @@ class CameraScreen extends Component {
 
   static defaultProps = {
     cameraField: 'lastPhoto',
-    cameraHeading: 'Take Photo'
+    cameraHeading: 'Take Photo',
+    cameraDescription: `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
+
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -75,7 +80,7 @@ class CameraScreen extends Component {
     }
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     const { actions } = this.props
     actions.setFabType('hide')
     await this.getCameraPermissions()
@@ -198,7 +203,7 @@ class CameraScreen extends Component {
   }
 
   renderMask = () => {
-    const { mask, cameraHeading } = this.props
+    const { mask, cameraHeading, cameraDescription } = this.props
     const imageSource = this.getMaskImage(mask)
 
     return (
@@ -237,6 +242,27 @@ class CameraScreen extends Component {
           <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }} />
         </View>
         <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
+          <SafeAreaView
+            style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}
+          >
+            <CelText
+              weight='300'
+              type='H4'
+              align='center'
+              style={{ alignSelf: 'flex-end', flex: 1, paddingVertical: 20, paddingHorizontal: 110, }}
+            >
+              {cameraDescription}
+            </CelText>
+          </SafeAreaView>
+        </View>
+        <SafeAreaView>
+          <CelText weight='700'
+            type='H1'
+            align='center'
+            style={{ alignSelf: 'flex-end', flex: 1 }}
+          />
+        </SafeAreaView>
+        <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
           <View
             style={{
               width: STYLES.imageSizes[mask].width,
@@ -249,7 +275,7 @@ class CameraScreen extends Component {
     )
   }
 
-  render () {
+  render() {
     const { cameraType, actions, cameraRollLastPhoto } = this.props
     const style = CameraScreenStyle()
     const Mask = this.renderMask
