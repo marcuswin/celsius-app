@@ -29,7 +29,6 @@ const { height, width } = Dimensions.get('window')
     photo: state.camera.photo,
     cameraField: state.camera.cameraField,
     cameraHeading: state.camera.cameraHeading,
-    cameraDescription: state.camera.cameraDescription,
     cameraCopy: state.camera.cameraCopy,
     mask: state.camera.mask
   }),
@@ -39,7 +38,6 @@ class CameraScreen extends Component {
   static propTypes = {
     cameraField: PropTypes.string,
     cameraHeading: PropTypes.string,
-    cameraDescription: PropTypes.string,
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
     photo: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Object)]),
@@ -50,7 +48,6 @@ class CameraScreen extends Component {
   static defaultProps = {
     cameraField: 'lastPhoto',
     cameraHeading: 'Take Photo',
-    cameraDescription: `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
     mask: 'circle'
   }
 
@@ -62,7 +59,6 @@ class CameraScreen extends Component {
   static defaultProps = {
     cameraField: 'lastPhoto',
     cameraHeading: 'Take Photo',
-    cameraDescription: `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
 
   }
 
@@ -203,7 +199,7 @@ class CameraScreen extends Component {
   }
 
   renderMask = () => {
-    const { mask, cameraHeading, cameraDescription } = this.props
+    const { mask, cameraHeading } = this.props
     const imageSource = this.getMaskImage(mask)
 
     return (
@@ -251,8 +247,7 @@ class CameraScreen extends Component {
               align='center'
               style={{ alignSelf: 'flex-end', flex: 1, paddingVertical: 20, paddingHorizontal: 110, }}
             >
-              {cameraDescription}
-            </CelText>
+              Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.            </CelText>
           </SafeAreaView>
         </View>
         <SafeAreaView>

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-// import { Constants } from "expo";
+import { Constants } from "expo";
 import { Image, TouchableOpacity, View } from "react-native";
 
 import * as appActions from "../../../redux/actions";
@@ -19,7 +19,7 @@ import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/Regis
 import { KYC_STATUSES } from "../../../constants/DATA";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
-// const { revisionId } = Constants.manifest;
+const { revisionId } = Constants.manifest;
 
 @connect(
   state => ({
@@ -159,6 +159,8 @@ class Profile extends Component {
             }
           </View>
         )}
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App
+          version: {revisionId}</CelText>
 
         <ReferralSendModal />
         <RegisterPromoCodeModal type={"celsius"} />
