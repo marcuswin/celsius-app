@@ -208,7 +208,7 @@ class CelPayEnterAmount extends Component {
     const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
 
     return (
-      <RegularLayout>
+      <RegularLayout fabType={"hide"}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd} />
