@@ -70,7 +70,6 @@ class ContactList extends Component {
 
   render() {
     const { contacts } = this.props;
-    contacts.friendsWithApp = []
     const style = ContactListStyle();
     const RenderContactsWithApp = this.renderContactsWithApp;
 
