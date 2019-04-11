@@ -192,6 +192,7 @@ class WithdrawEnterAmount extends Component {
                   displayValue={formData.coin}
                   updateFormField={actions.updateFormField}
                   onChange={this.handleCoinChange}
+                  placeholder="Choose a coin"
                 />
               </View>
 
