@@ -17,9 +17,6 @@ const base = {
 
     alignItems: "center",
     justifyContent: "center",
-
-    borderWidth: 1,
-    borderColor: 'black',
   },
   buttonsWrapper: {
     width: 240,
