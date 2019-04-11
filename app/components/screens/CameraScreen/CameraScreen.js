@@ -293,7 +293,7 @@ class CameraScreen extends Component {
             >
               <Icon
                 name='Shutter'
-                fill={STYLES.COLORS.DARK_GRAY_OPACITY}
+                fill={STYLES.COLORS.CELSIUS_BLUE}
                 width='60'
                 height='60'
               />
