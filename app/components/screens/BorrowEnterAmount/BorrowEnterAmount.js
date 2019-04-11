@@ -183,10 +183,11 @@ class BorrowEnterAmount extends Component {
       );
     }
 
+    
     return (
       <RegularLayout padding="0 0 0 0">
         <View style={[{ flex: 1, width: "100%", height: "100%" }, { ...getPadding("20 20 100 20") }]}>
-          <View style={{ alignItems: "center" }}>
+          <View style={{ paddingTop: 10, alignItems: "center" }}>
             <ProgressBar steps={6} currentStep={1} />
             <CelText align="center" type="H4" margin="30 0 60 0">How much would you like to borrow?</CelText>
 
@@ -221,12 +222,12 @@ class BorrowEnterAmount extends Component {
             toggleKeypad={actions.toggleKeypad}
             onPress={this.handleAmountChange}
             purpose={KEYPAD_PURPOSES.AMOUNT}
-          />
+            />
         </View>
         <BorrowConfirmModal
           formData={formData}
           onConfirm={() => actions.applyForALoan()}
-        />
+          />
       </RegularLayout>
     );
   }
