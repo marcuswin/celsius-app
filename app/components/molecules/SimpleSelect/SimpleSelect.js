@@ -35,6 +35,7 @@ const SimpleSelect = props => {
   }
   return (
     <RNPickerSelect
+      placeholder={{}}
       onValueChange={item => {
         if (item) {
           return onChange ? onChange(field, item) : updateFormField(field, item)
