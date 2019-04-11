@@ -79,7 +79,6 @@ export default class App extends Component {
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
-      <Message/>
       <AppNavigation
         onNavigationStateChange={(prevState, currentState) => {
           const currentScreen = getActiveRouteName(currentState);
@@ -91,6 +90,7 @@ const CelsiusApplication = () => (
         }}
         ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
+      <Message/>
       <FabMenu/>
     </React.Fragment>
   </Provider>
