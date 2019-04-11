@@ -25,12 +25,12 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 class BorrowLoanOption extends Component {
 
   static navigationOptions = () => ({
-    title: "Loan option",
+    title: "Select your loan",
     right: "info"
   });
 
   setLoanOption = (interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) => {
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.updateFormFields({
       interest,
@@ -44,7 +44,7 @@ class BorrowLoanOption extends Component {
   };
 
   renderInterestCard = (ltv) => {
-    const {formData, currencyRates, walletSummary, actions} = this.props;
+    const { formData, currencyRates, walletSummary, actions } = this.props;
 
     const crypto = currencyRates[formData.coin.toLowerCase()];
     const monthlyPayment = formData.loanAmount * ltv.interest / 12;
@@ -56,18 +56,18 @@ class BorrowLoanOption extends Component {
     const isAllowed = walletSummary.coins.find(c => c.short === formData.coin).amount_usd > amountCollateralUsd
 
     return (
-      <View key={ltv.interest} style={{ paddingHorizontal: 20}}>
+      <View key={ltv.interest} style={{ paddingHorizontal: 20 }}>
         <Card onPress={isAllowed ? () => this.setLoanOption(ltv.interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) : undefined}
-              padding="15 15 15 15"
-              margin="25 0 5 0"
-              opacity={isAllowed ? 1 : 0.4}
+          padding="15 15 15 15"
+          margin="25 0 5 0"
+          opacity={isAllowed ? 1 : 0.4}
         >
           <CelText weight={"300"} type={"H6"}>{`$${formatter.round(monthlyPayment)} per month`}</CelText>
           <CelText weight={"600"} type={"H3"}>{`${interest}% interest rate`}</CelText>
           <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(amountCollateralCrypto)} ${formData.coin} as collateral`}</CelText>
         </Card>
 
-        { !isAllowed && (
+        {!isAllowed && (
           <TouchableOpacity onPress={() => actions.navigateTo('Deposit', { coin: formData.coin })}>
             <CelText margin="0 0 0 0">
               <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Deposit more coins to </CelText>
@@ -76,7 +76,7 @@ class BorrowLoanOption extends Component {
           </TouchableOpacity>
         )}
       </View>
-  )
+    )
   };
 
   render() {
@@ -85,10 +85,10 @@ class BorrowLoanOption extends Component {
 
     return (
       <RegularLayout>
-        <View style={{alignItems: 'center'}}>
-          <ProgressBar steps={6} currentStep={3}/>
+        <View style={{ paddingTop: 10, alignItems: 'center' }}>
+          <ProgressBar steps={6} currentStep={3} />
         </View>
-        <CelText weight={"300"} margin={"20 0 20 0"}>Choose your loan option:</CelText>
+        <CelText weight={"300"} margin={"20 0 20 0"} align='center'>Choose your interest rate:</CelText>
         {ltv.map(this.renderInterestCard)}
       </RegularLayout>
     );
