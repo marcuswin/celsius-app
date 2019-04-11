@@ -71,22 +71,25 @@ function navigateTo(routeName, params) {
  * Navigates back
  */
 function navigateBack(backScreenName) {
-
-  // If back button leads to VerifyProfile, skip it and go back one more screen
-  if (backScreenName === 'VerifyProfile') {
-    analytics.navigated('Back')
-    // n: 2 indicates we want to navigate 2 screens back
-    return () => {
-      _navigator.dispatch(
-        StackActions.pop({ n: 2 })
-      )
-    }
-  }
-
-  analytics.navigated(backScreenName)
   return () => {
-    _navigator.dispatch(
-      NavigationActions.back()
-    );
+    if (!backScreenName) return
+
+    // If back button leads to VerifyProfile, skip it and go back one more screen
+    if (backScreenName === 'VerifyProfile') {
+      analytics.navigated('Back')
+      // n: 2 indicates we want to navigate 2 screens back
+      // return () => {
+        _navigator.dispatch(
+          StackActions.pop({ n: 2 })
+        )
+      // }
+    }
+
+    analytics.navigated(backScreenName)
+    // return () => {
+      _navigator.dispatch(
+        NavigationActions.back()
+      );
+//    }
   }
 }

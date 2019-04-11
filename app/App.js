@@ -43,9 +43,10 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       store.dispatch(actions.navigateBack())
-    );
+      return true
+    });
     AppState.addEventListener("change", (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
   }
 
