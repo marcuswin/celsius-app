@@ -24,8 +24,8 @@ const base = {
     },
     input: {
         height: 23,
-        fontSize,
-        fontFamily: 'barlow-regular',
+        fontSize, 
+        fontFamily: 'barlow-light',
     },
     disabledInput: {
         opacity: 0.6
@@ -46,7 +46,7 @@ const themed = {
             color: STYLES.COLORS.DARK_GRAY
         },
         textPlaceholderColor: {
-            color: STYLES.COLORS.DARK_GRAY_OPACITY
+            color: STYLES.COLORS.MEDIUM_GRAY
         }
     },
 
@@ -70,7 +70,7 @@ const themed = {
             color: STYLES.COLORS.DARK_GRAY
         },
         textPlaceholderColor: {
-            color: STYLES.COLORS.DARK_GRAY_OPACITY
+            color: STYLES.COLORS.MEDIUM_GRAY
         }
     }
 }
