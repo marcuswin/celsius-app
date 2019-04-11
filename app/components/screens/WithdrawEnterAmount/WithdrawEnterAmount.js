@@ -171,7 +171,7 @@ class WithdrawEnterAmount extends Component {
     const coin = navigation.getParam('coin')
 
     return (
-      <RegularLayout fabType={"hide"}>
+      <RegularLayout padding="20 0 0 0" fabType={"hide"}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <Card
@@ -218,18 +218,19 @@ class WithdrawEnterAmount extends Component {
             </CelButton>
           </View>
 
-          <CelNumpad
-            field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            toggleKeypad={actions.toggleKeypad}
-            onPress={this.handleAmountChange}
-            purpose={KEYPAD_PURPOSES.WITHDRAW}
-            autofocus={false}
-          />
-          <WithdrawInfoModal type={coin === 'CEL'} closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
         </View>
+
+        <CelNumpad
+          field={formData.isUsd ? "amountUsd" : "amountCrypto"}
+          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+          updateFormField={actions.updateFormField}
+          setKeypadInput={actions.setKeypadInput}
+          toggleKeypad={actions.toggleKeypad}
+          onPress={this.handleAmountChange}
+          purpose={KEYPAD_PURPOSES.WITHDRAW}
+          autofocus={false}
+        />
+        <WithdrawInfoModal type={coin === 'CEL'} closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
       </RegularLayout>
     );
   }

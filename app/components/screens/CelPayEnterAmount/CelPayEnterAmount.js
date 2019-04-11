@@ -208,7 +208,7 @@ class CelPayEnterAmount extends Component {
     const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
 
     return (
-      <RegularLayout fabType={"hide"}>
+      <RegularLayout padding='20 0 0 0' fabType={"hide"}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <BalanceView opacity={0.65} coin={formData.coin} crypto={coinData.amount} usd={coinData.amount_usd} />
@@ -246,17 +246,17 @@ class CelPayEnterAmount extends Component {
               {this.getButtonCopy()}
             </CelButton>
           </View>
-
-          <CelNumpad
-            field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-            value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            toggleKeypad={actions.toggleKeypad}
-            onPress={this.handleAmountChange}
-            purpose={KEYPAD_PURPOSES.CELPAY}
-          />
         </View>
+
+        <CelNumpad
+          field={formData.isUsd ? "amountUsd" : "amountCrypto"}
+          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+          updateFormField={actions.updateFormField}
+          setKeypadInput={actions.setKeypadInput}
+          toggleKeypad={actions.toggleKeypad}
+          onPress={this.handleAmountChange}
+          purpose={KEYPAD_PURPOSES.CELPAY}
+        />
 
         <InfoModal
           name={MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL}
