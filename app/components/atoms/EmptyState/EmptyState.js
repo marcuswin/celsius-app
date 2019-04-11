@@ -109,6 +109,13 @@ function getDefaultEmptyState(purpose, actions) {
       button: "Deposit CEL",
       onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
     },
+    [EMPTY_STATES.NO_CONTACTS]: {
+      image: require("../../../../assets/images/diane-sad3x.png"),
+      heading: "No friends",
+      paragraphs: ["None of your friends has installed Celsius app. You can still CelPay them with a link"],
+      button: "Send link",
+      onPress: () =>  actions.navigateTo('CelPayEnterAmount')
+    },
   }[purpose];
 }
 

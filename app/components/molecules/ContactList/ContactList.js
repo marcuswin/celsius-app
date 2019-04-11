@@ -7,6 +7,8 @@ import testUtil from "../../../utils/test-util";
 import ContactListStyle from "./ContactList.styles";
 import ContactRow from '../../atoms/ContactRow/ContactRow';
 import Separator from '../../atoms/Separator/Separator';
+import EmptyState from "../../atoms/EmptyState/EmptyState";
+import { EMPTY_STATES } from "../../../constants/UI";
 
 class ContactList extends Component {
 
@@ -68,13 +70,14 @@ class ContactList extends Component {
 
   render() {
     const { contacts } = this.props;
+    contacts.friendsWithApp = []
     const style = ContactListStyle();
     const RenderContactsWithApp = this.renderContactsWithApp;
 
     return (
       <ScrollView style={style.container} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 100}}>
         <View>
-          {contacts.friendsWithApp && contacts.friendsWithApp.length ? <RenderContactsWithApp/> : null}
+          {contacts.friendsWithApp && contacts.friendsWithApp.length ? <RenderContactsWithApp/> : <EmptyState purpose={EMPTY_STATES.NO_CONTACTS} />}
         </View>
       </ScrollView>
     );
