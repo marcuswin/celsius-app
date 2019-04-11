@@ -13,6 +13,7 @@ import { KEYPAD_PURPOSES } from '../../../constants/UI'
 import HiddenField from '../../atoms/HiddenField/HiddenField'
 import Spinner from '../../atoms/Spinner/Spinner'
 import CelButton from '../../atoms/CelButton/CelButton'
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 @connect(
   state => ({
@@ -37,7 +38,9 @@ class VerifyProfile extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: ''
+      value: '',
+      loading: false,
+      verificationError: false,
     }
   }
 
@@ -65,7 +68,13 @@ class VerifyProfile extends Component {
     this.setState({ loading: false })
   }
 
-  onCheckError = () => this.setState({ loading: false, value: '' })
+  onCheckError = () => {
+    this.setState({ loading: false, value: '', verificationError: true })
+    const timeout = setTimeout(() => {
+      this.setState({ verificationError: false })
+      clearTimeout(timeout)
+    }, 1000)
+  }
 
   handlePINChange = newValue => {
     const { actions } = this.props
@@ -112,7 +121,7 @@ class VerifyProfile extends Component {
   }
 
   render2FA () {
-    const { loading, value } = this.state
+    const { loading, value, verificationError } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -126,15 +135,12 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} length={6} />
+          <HiddenField value={value} length={6} error={verificationError}/>
         </TouchableOpacity>
 
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 0 0'>
-          Forgot your Code?
-        </CelText>
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='5 0 10 0'>
-          Contact our support for help
-        </CelText>
+        <ContactSupport
+          copy="Forgot your code? Contact out support at app@celsius.network."
+        />
 
         {loading ? (
           <View
@@ -154,7 +160,7 @@ class VerifyProfile extends Component {
   }
 
   renderPIN () {
-    const { loading, value } = this.state
+    const { loading, value, verificationError } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -168,15 +174,12 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} />
+          <HiddenField value={value} error={verificationError}/>
         </TouchableOpacity>
 
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 0 0'>
-          Forgot your PIN?
-        </CelText>
-        <CelText color='rgba(61,72,83,0.7)' align='center' margin='5 0 10 0'>
-          Contact our support for help
-        </CelText>
+        <ContactSupport
+          copy="Forgot PIN? Contact our support at app@celsius.network."
+        />
 
         {loading && (
           <View

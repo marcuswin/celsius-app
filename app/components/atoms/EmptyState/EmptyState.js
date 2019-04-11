@@ -10,6 +10,7 @@ import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
 import { THEMES, EMPTY_STATES, MODALS } from "../../../constants/UI";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
+import ContactSupport from "../ContactSupport/ContactSupport";
 
 
 function getDefaultEmptyState(purpose, actions) {
@@ -140,7 +141,7 @@ class EmptyState extends Component {
       ...this.state,
       ...this.props
     };
-    const { image, heading, paragraphs, onPress, button, support, actions } = emptyStateProps;
+    const { image, heading, paragraphs, onPress, button, support } = emptyStateProps;
 
     const style = EmptyStateStyle();
     return (
@@ -161,9 +162,7 @@ class EmptyState extends Component {
         ) : null}
 
         {support ? (
-          <CelButton onPress={() => {
-            actions.navigateTo("SupportFab");
-          }} margin="8 0 8 0" basic>Contact support</CelButton>
+          <ContactSupport />
         ) : null}
         <TodayInterestRatesModal />
       </View>

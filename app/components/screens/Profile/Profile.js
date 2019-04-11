@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
 // import { Constants } from "expo";
-import { Image, TouchableOpacity, View, Linking } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
@@ -17,6 +17,7 @@ import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import { KYC_STATUSES } from "../../../constants/DATA";
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 // const { revisionId } = Constants.manifest;
 
@@ -125,14 +126,11 @@ class Profile extends Component {
 
         {/* <CelSelect type="phone" disabled value={user.cellphone} /> */}
 
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
-          <CelText>To make changes on your profile, <CelText color={STYLES.COLORS.CELSIUS_BLUE}
-            onPress={() => Linking.openURL("mailto:app@celsius.network")}>contact
-            our support.</CelText></CelText>
-        </View>
+        <ContactSupport
+          copy="To make changes on your profile, contact our support at app@celsius.network."
+        />
 
-
-        {isUSCitizen && (
+        { isUSCitizen && (
           <View>
             <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"} />
 
