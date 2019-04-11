@@ -13,11 +13,11 @@ import Icon from "../../atoms/Icon/Icon";
 import { MODALS } from '../../../constants/UI'
 import { heightPercentageToDP } from "../../../utils/styles-util";
 import CelText from "../../atoms/CelText/CelText";
+import Message from "../../molecules/Message/Message";
 
 @connect(
   state => ({
     openedModal: state.ui.openedModal,
-    message: state.ui.message,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -62,7 +62,7 @@ class CelModal extends Component {
   };
 
   render() {
-    const { message, openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
+    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
     const style = CelModalStyle();
 
     // const tintColor = this.getTintColor();
@@ -77,6 +77,7 @@ class CelModal extends Component {
           visible={openedModal === name}
         >
           <BlurView tint={"dark"} intensity={100} style={StyleSheet.absoluteFill} />
+          <Message />
 
           <View style={[style.wrapper, size ]}>
             <View style={[style.modal]}>
@@ -94,14 +95,10 @@ class CelModal extends Component {
               }
 
               <ScrollView
-                style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : 40 }]}
+                style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : heightPercentageToDP("8%") }]}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{flexGrow: 1}}
               >
-                { message && (
-                  <CelText>{ message.text }</CelText>
-                )}
-
                 {children}
               </ScrollView>
             </View>
