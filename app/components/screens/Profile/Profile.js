@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-import { Constants } from "expo";
+// import { Constants } from "expo";
 import { Image, TouchableOpacity, View, Linking } from "react-native";
 
 import * as appActions from "../../../redux/actions";
@@ -9,9 +9,7 @@ import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
-import Card from "../../atoms/Card/Card";
 import STYLES from "../../../constants/STYLES";
-import Icon from "../../atoms/Icon/Icon";
 import Separator from "../../atoms/Separator/Separator";
 import IconButton from "../../organisms/IconButton/IconButton";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -20,7 +18,7 @@ import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendMod
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import { KYC_STATUSES } from "../../../constants/DATA";
 
-const { revisionId } = Constants.manifest;
+// const { revisionId } = Constants.manifest;
 
 @connect(
   state => ({
@@ -163,12 +161,6 @@ class Profile extends Component {
             }
           </View>
         )}
-        <Separator text='SOCIAL SECURITY NUMBER' />
-        <CelText margin="20 0 0 0" > We are required to collect SSN from all American users. Please provide your SSN to start earning interest. This information is encrypted and highly secured.</CelText>
-        <CelInput margin= '20 0 20 0' placeholder="Social Security Number"> </CelInput>
-        <CelButton > Submit SSN </CelButton>
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App
-          version: {revisionId}</CelText>
 
         <ReferralSendModal />
         <RegisterPromoCodeModal type={"celsius"} />
