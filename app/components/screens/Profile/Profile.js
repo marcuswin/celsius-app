@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
 import { Constants } from "expo";
-import { Image, TouchableOpacity, View, Linking } from "react-native";
+import { Image as RNImage, TouchableOpacity, View, Linking } from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
@@ -94,13 +95,23 @@ class Profile extends Component {
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-          <Image
-            style={{
-              width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
-            }}
-            source={profilePicture ? { uri: profilePicture } : require("../../../../assets/images/empty-profile/empty-profile.png")}
-            resizeMethod="resize"
-          />
+          { profilePicture ? (
+            <Image
+              style={{
+                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+              }}
+              uri={profilePicture}
+              resizeMethod="resize"
+            />
+          ) : (
+            <RNImage
+              style={{
+                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+              }}
+              source={require("../../../../assets/images/empty-profile/empty-profile.png")}
+              resizeMethod="resize"
+            />
+          )}
           <View style={{ marginLeft: 20 }}>
             <CelText weight="600" type="H2">{user.first_name}</CelText>
             <CelText weight="600" type="H2">{user.last_name}</CelText>
@@ -110,14 +121,25 @@ class Profile extends Component {
           </View>
         </View>
 
-        <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
-        <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0"
-                    icon="Settings">Enter a promo code</IconButton>
+        <IconButton onPress={this.openReferralSendModal} icon="Refer" color="blue">Refer your friends</IconButton>
+        <IconButton
+          onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
+          margin="0 0 20 0"
+          icon="Bell"
+        >
+          Enter a promo code
+        </IconButton>
+
         <Separator/>
 
         { shouldShowAchievements && (
           <View>
-            <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
+            <IconButton
+              onPress={() => actions.navigateTo("LoyaltyProgram")}
+              icon="Accomplishments"
+            >
+              Achievements
+            </IconButton>
             <Separator/>
           </View>
         )}
@@ -145,7 +167,7 @@ class Profile extends Component {
             </View>
             }
 
-            <CelInput margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
+            <CelInput keyboardType={"number-pad"} margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
                       placeholder="Social Security Number"
                       value={ssn} error={formErrors.ssn}/>
 

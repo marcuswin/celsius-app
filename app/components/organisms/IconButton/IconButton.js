@@ -20,34 +20,52 @@ class IconButton extends Component {
       PropTypes.element
     ]),
     hideIconRight: PropTypes.bool,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    color: PropTypes.oneOf(['white', 'blue']),
   };
   static defaultProps = {
     margin: '20 0 20 0',
-    hideIconRight: false
+    hideIconRight: false,
+    color: "white",
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      // initial state
+      ...this.getColors()
     };
 
     // binders
   }
 
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
+  getColors() {
+    const { color } = this.props
+
+    if (color === 'white') {
+      return {
+        primary: STYLES.COLORS.WHITE,
+        secondary: STYLES.COLORS.DARK_GRAY6,
+      }
+    }
+
+    if (color === 'blue') {
+      return {
+        primary: STYLES.COLORS.CELSIUS_BLUE,
+        secondary: STYLES.COLORS.WHITE,
+      }
+    }
+  }
+
   render() {
+    const { primary, secondary } = this.state;
     const { children, icon, margin, onPress, hideIconRight, right } = this.props;
     const style = IconButtonStyle()
     return (
-      <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
+      <TouchableOpacity style={[style.container, { ...getMargins(margin) }, { backgroundColor: primary }]} onPress={onPress}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {!!icon && <Icon fill={STYLES.COLORS.DARK_GRAY6} name={icon} width="25" />}
-          <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }}>{children}</CelText>
+          {!!icon && <Icon fill={secondary} name={icon} width="25" />}
+          <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }} color={secondary}>{children}</CelText>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {!!right && (
@@ -57,7 +75,7 @@ class IconButton extends Component {
               ) : right}
             </View>
           )}
-          {!hideIconRight && <Icon name='IconChevronRight' height='12' width='7.7' fill={STYLES.COLORS.MEDIUM_GRAY3} />}
+          {!hideIconRight && <Icon name='IconChevronRight' height='12' width='7.7' fill={secondary} />}
         </View>
       </TouchableOpacity>
     );

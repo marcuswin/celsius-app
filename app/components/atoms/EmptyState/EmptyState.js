@@ -56,9 +56,9 @@ function getDefaultEmptyState(purpose, actions) {
       paragraphs: ["We are working really hard on this feature!"]
     },
     [EMPTY_STATES.INSUFFICIENT_FUNDS]: {
-      image: require("../../../../assets/images/OfflineMode/deer-tangled3x.png"),
+      image: require("../../../../assets/images/diane-sad3x.png"),
       heading: "Insufficient funds!",
-      // paragraphs: ["PLEASE GIVE US US YOUR MONEYYYYYY!"]
+      paragraphs: ["Please deposit more funds in order to gain eligibility to use this feature."]
     },
     [EMPTY_STATES.ZERO_INTEREST]: {
       image: require("../../../../assets/images/money-bear3x.png"),

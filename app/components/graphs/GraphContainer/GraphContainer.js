@@ -141,7 +141,7 @@ class GraphContainer extends Component {
       rate = currenciesRates.find((c) => c.short === coin).price_change_usd[timeline];
     }
     if (type === "total-balance") {
-      rate = prices[prices.length - 1] > prices[prices.length - 2] ? 1 : -1;
+      rate = prices[prices.length - 1] >= prices[prices.length - 2] ? 1 : -1;
     }
 
     const spinnerWidth = type === "coin-interest" ? widthPercentageToDP("78%") : widthPercentageToDP("100%");

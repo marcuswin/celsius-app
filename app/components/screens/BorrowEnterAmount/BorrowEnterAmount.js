@@ -144,7 +144,7 @@ class BorrowEnterAmount extends Component {
 
     if ( maxAmount < minimumLoanAmount) {
       return (
-        <RegularLayout>
+        <RegularLayout fabType={"hide"}>
           <View style={style.amountsWrapper}>
             <View style={[style.value, { backgroundColor: "white",}]}>
               <CelText type={"H6"} weight={"400"}>With coin value of:</CelText>
@@ -182,7 +182,7 @@ class BorrowEnterAmount extends Component {
     }
 
     return (
-      <RegularLayout padding="0 0 0 0">
+      <RegularLayout padding="0 0 0 0" fabType={"hide"}>
         <View style={[{ flex: 1, width: "100%", height: "100%" }, { ...getPadding("20 20 100 20") }]}>
           <View style={{ alignItems: "center" }}>
             <ProgressBar steps={6} currentStep={1}/>

@@ -73,22 +73,24 @@ class TwoFactorSettings extends Component {
           Scan the QR code or enter the code manually in your auth app.
         </CelText>
         <Card styles={{alignItems: 'center', marginTop: 25}} >
-          <QRCode
-            value={this.getQRCode(secret)}
-            size={141}
-            bgColor='black'
-            fgColor='white'
-          />
+          <View style={{marginTop: 15, marginBottom: 10}}>
+            <QRCode
+              value={this.getQRCode(secret)}
+              size={141}
+              bgColor='black'
+              fgColor='white'
+            />
+          </View>
           <CelText align='center' style={style.secretText} onPress={() => Linking.openURL(this.getQRCode(secret))}>{secret}</CelText>
 
           <View style={{paddingVertical: 15, width: '100%'}}>
-            <Separator />
+            <Separator margin={"10 0 0 0"}/>
           </View>
-          <CopyButton copyText={secret} onCopy={() => actions.showMessage("success", "Secret copied to clipboard!")}/>
+          <CopyButton copyText={secret} onCopy={() => actions.showMessage("success", "The secret code copied to clipboard.")}/>
         </Card>
 
         <View style={{flex: 1, justifyContent: 'flex-end'}}>
-          <CelButton onPress={() => {actions.navigateTo('TwoFaAuthAppConfirmationCode')}}>
+          <CelButton margin={"25 0 25 0"} onPress={() => {actions.navigateTo('TwoFaAuthAppConfirmationCode')}}>
             Continue
           </CelButton>
         </View>

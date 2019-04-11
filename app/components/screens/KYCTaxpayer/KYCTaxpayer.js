@@ -64,19 +64,13 @@ class KYCTaxpayer extends Component {
   submitTaxpayerInfo = async () => {
     const { actions, formData, user } = this.props;
     let updateTaxInfo;
-    // check validation
-    // const errors  = {};
-    // const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
+    const errors  = {};
     if (user.country === "United States" || user.citizenship === "United States") {
       if (formData.ssn === "" || !formData.ssn) {
-        actions.navigateTo("KYCVerifyID");
+        errors.ssn = "Please enter valid SSN.";
+        actions.setFormErrors(errors);
         return
       }
-      // if (!regex.exec(formData.ssn)) {
-      //   errors.ssn = "ssn is not valid!";
-      //   actions.setFormErrors(errors);
-      //   return
-      // }
       updateTaxInfo = { ssn: formData.ssn };
     } else {
       updateTaxInfo = {
@@ -111,7 +105,7 @@ class KYCTaxpayer extends Component {
 
         {(user.country === "United States" || user.citizenship === "United States") ?
           <React.Fragment>
-            <CelInput margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
+            <CelInput keyboardType={"number-pad"} margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
                       value={formData.ssn} error={formErrors.ssn}/>
             <Card margin={"0 0 20 0"}>
               <CelText type={"H5"} weight={"300"}>

@@ -171,7 +171,7 @@ class WithdrawEnterAmount extends Component {
     const coin = navigation.getParam('coin')
 
     return (
-      <RegularLayout>
+      <RegularLayout fabType={"hide"}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <Card
@@ -192,6 +192,7 @@ class WithdrawEnterAmount extends Component {
                   displayValue={formData.coin}
                   updateFormField={actions.updateFormField}
                   onChange={this.handleCoinChange}
+                  placeholder="Choose a coin"
                 />
               </View>
 
