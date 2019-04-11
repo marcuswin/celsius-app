@@ -121,14 +121,25 @@ class Profile extends Component {
           </View>
         </View>
 
-        <IconButton onPress={this.openReferralSendModal} icon="Refer">Refer your friends</IconButton>
-        <IconButton onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)} margin="0 0 20 0"
-                    icon="Settings">Enter a promo code</IconButton>
+        <IconButton onPress={this.openReferralSendModal} icon="Refer" color="blue">Refer your friends</IconButton>
+        <IconButton
+          onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
+          margin="0 0 20 0"
+          icon="Bell"
+        >
+          Enter a promo code
+        </IconButton>
+
         <Separator/>
 
         { shouldShowAchievements && (
           <View>
-            <IconButton onPress={() => actions.navigateTo("LoyaltyProgram")} icon="Settings">Achievements</IconButton>
+            <IconButton
+              onPress={() => actions.navigateTo("LoyaltyProgram")}
+              icon="Accomplishments"
+            >
+              Achievements
+            </IconButton>
             <Separator/>
           </View>
         )}
