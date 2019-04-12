@@ -113,7 +113,9 @@ class CelNumpad extends Component {
       newValue = value.toString().slice(0, -1);
 
     } else if (button === '.') {
-      if (!value.toString().includes('.')) {
+      if (!value) {
+        newValue = '.'
+      } else if (!value.toString().includes('.')) {
         newValue = `${value}${button}`
       } else {
         newValue = value

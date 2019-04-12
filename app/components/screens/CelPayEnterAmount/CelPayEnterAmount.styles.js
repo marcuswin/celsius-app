@@ -1,12 +1,16 @@
 // import STYLES from '../../../constants/STYLES';
+import { Dimensions } from "react-native";
 import { getThemedStyle } from "../../../utils/styles-util";
+
+const { width } = Dimensions.get("window");
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
+    width
   },
   wrapper: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
   },
   selectWrapper: {
     flexDirection: 'row',
