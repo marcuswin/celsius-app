@@ -13,7 +13,6 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
-import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
 
 @connect(
   state => ({
@@ -68,10 +67,6 @@ class BalanceHistory extends Component {
             showPeriods
             type={"total-balance"}
           />
-          <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
-            <CelInterestCard
-            />
-          </View>
 
           <View style={style.container}>
             <TransactionsHistory

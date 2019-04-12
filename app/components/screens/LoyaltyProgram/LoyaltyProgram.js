@@ -130,7 +130,7 @@ class LoyaltyProgram extends Component {
               </View>
 
               <CelInterestCard
-                tier={loyaltyInfo.tier}
+                tier={loyaltyInfo.tier.title}
                 interestBonus={loyaltyInfo.earn_interest_bonus}
                 interestInCel={appSettings.interest_in_cel}
                 setUserAppSettings={actions.setUserAppSettings}
