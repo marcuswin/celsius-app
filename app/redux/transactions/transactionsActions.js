@@ -82,28 +82,20 @@ function withdrawCrypto() {
       dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
       const res = await walletService.withdrawCrypto(coin, amountCrypto, { pin, twoFactorCode: code });
+
+      dispatch({
+        type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
+        transaction: res.data.transaction,
+      });
+
       dispatch(getWalletSummary());
-      dispatch(withdrawCryptoSuccess(res.data.transaction));
+      dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }))
+      dispatch(showMessage('success', 'An email verification has been sent.'))
 
       analytics.withdrawCompleted(res.data.transaction)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.WITHDRAW_CRYPTO, err));
     }
-  }
-}
-
-/**
- * @todo: move to withdrawCrypto
- */
-function withdrawCryptoSuccess(transaction) {
-  return (dispatch) => {
-    dispatch({
-      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-      callName: API.WITHDRAW_CRYPTO,
-      transaction,
-    });
-
-    dispatch(navigateTo('TransactionDetails', { id: transaction.id }))
   }
 }

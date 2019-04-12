@@ -57,7 +57,7 @@ class KYCVerifyID extends Component {
 
     actions.activateCamera({
       cameraField: 'front',
-      cameraHeading: 'Front side of the document',
+      cameraHeading: 'Front side photo',
       cameraType: 'back',
       mask: 'document'
     })
@@ -76,7 +76,7 @@ class KYCVerifyID extends Component {
 
     actions.activateCamera({
       cameraField: 'back',
-      cameraHeading: 'Back side of the document',
+      cameraHeading: 'Back side photo',
       cameraType: 'back',
       mask: 'document'
     })

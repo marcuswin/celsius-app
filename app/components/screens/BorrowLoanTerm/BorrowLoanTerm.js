@@ -8,6 +8,7 @@ import { View } from 'react-native'
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 // import BorrowLoanTermStyle from "./BorrowLoanTerm.styles";
+import formatter from "../../../utils/formatter";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -17,7 +18,7 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
   (state) => ({
-    formData: state.forms.formData,
+    formData: state.forms.formData, 
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -54,9 +55,9 @@ class BorrowLoanTerm extends Component {
 
     return (
       <RegularLayout>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ paddingTop: 10, alignItems: 'center'}}>
           <ProgressBar steps={6} currentStep={4} />
-          <CelText margin={"30 0 30 0"} weight={"300"}>Select for how long the loan will last:</CelText>
+          <CelText margin={"30 0 30 0"} weight={"300"}>How long would you like to borrow {formatter.usd(formData.loanAmount)}?</CelText>
         </View>
         <VerticalSlider
           items={sliderItems}

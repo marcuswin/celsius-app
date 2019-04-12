@@ -18,7 +18,7 @@ import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
   state => ({
     walletSummary: state.wallet.summary,
     currencyGraphs: state.currencies.graphs,
-    walletTotalChartData: state.graph.walletTotalChartData
+    walletTotalChartData: state.graph.walletTotalChartData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -29,8 +29,8 @@ class BalanceHistory extends Component {
   static defaultProps = {};
 
   static navigationOptions = {
-      title: 'Wallet',
-      right: 'profile'
+    title: 'Wallet',
+    right: 'profile'
   };
 
   constructor(props) {

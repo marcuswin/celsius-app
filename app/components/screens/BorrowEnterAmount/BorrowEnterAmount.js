@@ -17,9 +17,11 @@ import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
 import BorrowConfirmModal from "../../organisms/BorrowConfirmModal/BorrowConfirmModal";
 import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmounts";
-import { getPadding} from "../../../utils/styles-util";
+import { getPadding } from "../../../utils/styles-util";
 import { showMessage } from "../../../redux/ui/uiActions";
 import store from "../../../redux/store";
+import Card from "../../atoms/Card/Card";
+
 
 @connect(
   (state) => ({
@@ -36,7 +38,7 @@ class BorrowEnterAmount extends Component {
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: "Enter the amount",
+    title: "Enter the loan amount",
     right: "info",
     onInfo: () => {
       store.dispatch(showMessage("warning", "Not implemented yet!"));
@@ -84,13 +86,11 @@ class BorrowEnterAmount extends Component {
     const { actions, formData, minimumLoanAmount } = this.props;
 
     if (newValue < minimumLoanAmount) {
-      // actions.showMessage("warning", `$${minimumLoanAmount} is the minimum to proceed.`);
-      // return;
+      actions.showMessage("warning", `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed..`);
     }
 
     if (newValue > formData.maxAmount) {
-      // actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
-      // return;
+      actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
     }
 
     actions.updateFormField("loanAmount", newValue);
@@ -142,15 +142,15 @@ class BorrowEnterAmount extends Component {
 
     const style = BorrowEnterAmountStyle();
 
-    if ( maxAmount < minimumLoanAmount) {
+    if (maxAmount < minimumLoanAmount) {
       return (
         <RegularLayout fabType={"hide"}>
           <View style={style.amountsWrapper}>
-            <View style={[style.value, { backgroundColor: "white",}]}>
+            <View style={[style.value, { backgroundColor: "white", }]}>
               <CelText type={"H6"} weight={"400"}>With coin value of:</CelText>
               <CelText type={"H2"} weight={"400"}>{formatter.usd(sliderValue, { precision: 0 })}</CelText>
             </View>
-            <View style={[style.value, { backgroundColor: "#EEEEEE",}]}>
+            <View style={[style.value, { backgroundColor: "#EEEEEE", }]}>
               <CelText type={"H6"} weight={"400"}>You can borrow:</CelText>
               <CelText type={"H2"} weight={"400"}>{formatter.usd(sliderValue / 2, { precision: 0 })}</CelText>
             </View>
@@ -168,7 +168,7 @@ class BorrowEnterAmount extends Component {
             />
           </View>
           <CelText margin={"20 0 20 0"} align={"center"} type={"H3"}
-                   weight={"600"}>{`To apply for a loan you only need ${formatter.usd(10000 - walletSummary.total_amount_usd)} in crypto to deposit`}</CelText>
+            weight={"600"}>{`To apply for a loan you only need ${formatter.usd(10000 - walletSummary.total_amount_usd)} in crypto to deposit`}</CelText>
           <CelText margin={"10 0 20 0"} align={"center"} type={"H4"} weight={"400"}>Deposit more coins to start your
             first loan application</CelText>
 
@@ -181,26 +181,36 @@ class BorrowEnterAmount extends Component {
       );
     }
 
+    
     return (
       <RegularLayout padding="0 0 0 0" fabType={"hide"}>
         <View style={[{ flex: 1, width: "100%", height: "100%" }, { ...getPadding("20 20 100 20") }]}>
-          <View style={{ alignItems: "center" }}>
-            <ProgressBar steps={6} currentStep={1}/>
+          <View style={{ paddingTop: 10, alignItems: "center" }}>
+            <ProgressBar steps={6} currentStep={1} />
             <CelText align="center" type="H4" margin="30 0 60 0">How much would you like to borrow?</CelText>
 
             <View style={{ width: '100%' }}>
               <TouchableOpacity onPress={actions.toggleKeypad} style={{ width: '100%' }}>
-                <CelText color={this.getAmountColor()} type="H1" weight="regular" align="center">{formatter.usd(formData.loanAmount, { code: '', precision: 0 })}</CelText>
+                <CelText color={this.getAmountColor()} type="H1" weight="regular" align="center">{'$ '}{formatter.usd(formData.loanAmount, { code: '', precision: 0 })}</CelText>
                 <View style={{ position: 'absolute', right: 0, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-                  <CelText type="H3">USD</CelText>
+                  <CelText color='gray' type="H3">USD</CelText>
                 </View>
               </TouchableOpacity>
             </View>
           </View>
 
           <PredefinedAmounts data={predifinedAmount} onSelect={this.onPressPredefinedAmount}
-                             activePeriod={activePeriod}/>
+            activePeriod={activePeriod} />
+          
+          <Card margin='20 0 5 0'>
+            <CelText type="H6" color='gray' >
+              The max amount is based on your wallet balance.
+            </CelText>
+          </Card>
+
           {this.renderButton()}
+
+
 
           <CelNumpad
             field={"loanAmount"}
@@ -210,12 +220,12 @@ class BorrowEnterAmount extends Component {
             toggleKeypad={actions.toggleKeypad}
             onPress={this.handleAmountChange}
             purpose={KEYPAD_PURPOSES.AMOUNT}
-          />
+            />
         </View>
         <BorrowConfirmModal
           formData={formData}
           onConfirm={() => actions.applyForALoan()}
-        />
+          />
       </RegularLayout>
     );
   }
