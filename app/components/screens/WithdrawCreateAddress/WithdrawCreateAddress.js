@@ -123,7 +123,7 @@ class WithdrawCreateAddress extends Component {
         <InfoBox
           color={"white"}
           backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support."}
+          titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at app@celsius.network."}
           left
         />
         <View style={style.button}>
