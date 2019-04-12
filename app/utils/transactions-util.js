@@ -194,7 +194,7 @@ function getTransactionsProps(transaction) {
     case TRANSACTION_TYPES.BONUS_TOKEN:
       return { // free cels NEMA
         title: () => `Bonus CEL`,
-        color: STYLES.COLORS.RED,
+        color: STYLES.COLORS.CELSIUS_BLUE,
         iconName: 'ReceiveArrowTransactions',
         statusText: 'Bonus'
       }
