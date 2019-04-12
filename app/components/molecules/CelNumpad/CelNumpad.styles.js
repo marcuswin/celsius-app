@@ -7,16 +7,16 @@ const { width, height } = Dimensions.get("window");
 // TODO: make responsive
 const base = {
   container: {
-    width: width + 10,
-    height: 400,
+    width,
+    height: 240,
 
     position: "absolute",
     zIndex: 200,
-    top: height - 500,
-    left: -5,
+    top: height - 400,
+    left: 0,
 
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonsWrapper: {
     width: 240,

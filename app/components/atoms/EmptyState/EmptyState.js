@@ -56,9 +56,9 @@ function getDefaultEmptyState(purpose, actions) {
       paragraphs: ["We are working really hard on this feature!"]
     },
     [EMPTY_STATES.INSUFFICIENT_FUNDS]: {
-      image: require("../../../../assets/images/OfflineMode/deer-tangled3x.png"),
+      image: require("../../../../assets/images/diane-sad3x.png"),
       heading: "Insufficient funds!",
-      // paragraphs: ["PLEASE GIVE US US YOUR MONEYYYYYY!"]
+      paragraphs: ["Please deposit more funds in order to gain eligibility to use this feature."]
     },
     [EMPTY_STATES.ZERO_INTEREST]: {
       image: require("../../../../assets/images/money-bear3x.png"),
@@ -108,6 +108,13 @@ function getDefaultEmptyState(purpose, actions) {
       paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by adding some CEL to your wallet"],
       button: "Deposit CEL",
       onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
+    },
+    [EMPTY_STATES.NO_CONTACTS]: {
+      image: require("../../../../assets/images/diane-sad3x.png"),
+      heading: "No friends",
+      paragraphs: ["None of your friends has installed Celsius app. You can still CelPay them with a link"],
+      button: "Send link",
+      onPress: () =>  actions.navigateTo('CelPayEnterAmount')
     },
   }[purpose];
 }

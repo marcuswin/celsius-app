@@ -43,9 +43,10 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () =>
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       store.dispatch(actions.navigateBack())
-    );
+      return true
+    });
     AppState.addEventListener("change", (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
   }
 
@@ -78,7 +79,6 @@ export default class App extends Component {
 const CelsiusApplication = () => (
   <Provider store={store}>
     <React.Fragment>
-      <Message/>
       <AppNavigation
         onNavigationStateChange={(prevState, currentState) => {
           const currentScreen = getActiveRouteName(currentState);
@@ -90,6 +90,7 @@ const CelsiusApplication = () => (
         }}
         ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
       />
+      <Message/>
       <FabMenu/>
     </React.Fragment>
   </Provider>

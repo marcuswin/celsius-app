@@ -113,7 +113,9 @@ class CelNumpad extends Component {
       newValue = value.toString().slice(0, -1);
 
     } else if (button === '.') {
-      if (!value.toString().includes('.')) {
+      if (!value) {
+        newValue = '.'
+      } else if (!value.toString().includes('.')) {
         newValue = `${value}${button}`
       } else {
         newValue = value
@@ -145,7 +147,6 @@ class CelNumpad extends Component {
     if (shouldShowCustomKeypad) {
       return (
         <View style={style.container}>
-
           <View style={style.buttonsWrapper}>
             { buttons.map(btns => (
               <View key={btns[0]} style={style.buttonsRow}>
@@ -155,7 +156,7 @@ class CelNumpad extends Component {
                     style={style.button}
                     onPress={() => this.pressButton(btn)}
                   >
-                    <CelText type="H1">{ btn }</CelText>
+                    <CelText type="H0">{ btn }</CelText>
                   </TouchableOpacity>
                 ))}
               </View>

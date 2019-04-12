@@ -47,6 +47,7 @@ const SHADOW_STYLES = {
 }
 
 const FONTSIZE = {
+  H0: 44,
   H1: 40,
   H2: 26,
   H3: 21,

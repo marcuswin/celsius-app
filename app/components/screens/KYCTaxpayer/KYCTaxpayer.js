@@ -50,7 +50,7 @@ class KYCTaxpayer extends Component {
   initForm = (user) => {
     const { actions } = this.props;
     if (user) {
-      if (user.country === "United States" || user.citizenship === "United States") {
+      if (this.isFromUS()) {
         actions.updateFormFields({ ssn: user.ssn });
       } else {
         actions.updateFormFields({
@@ -61,22 +61,25 @@ class KYCTaxpayer extends Component {
     }
   };
 
+  isFromUS = () => {
+    const { formData } = this.props;
+
+    let usCitizen = false
+    if (formData.citizenship.name === 'United States' || formData.country.name === 'United States') usCitizen = true
+    // if (user.citizenship === 'United States' || user.country === 'United States') usCitizen = true
+    return usCitizen
+  }
+
   submitTaxpayerInfo = async () => {
-    const { actions, formData, user } = this.props;
+    const { actions, formData } = this.props;
     let updateTaxInfo;
-    // check validation
-    // const errors  = {};
-    // const regex = /^(?!(000|666|9))\d{3}-(?!00)\d{2}-(?!0000)\d{4}$|^(?!(000|666|9))\d{3}(?!00)\d{2}(?!0000)\d{4}$/;
-    if (user.country === "United States" || user.citizenship === "United States") {
+    const errors  = {};
+    if (this.isFromUS()) {
       if (formData.ssn === "" || !formData.ssn) {
-        actions.navigateTo("KYCVerifyID");
+        errors.ssn = "Please enter valid SSN.";
+        actions.setFormErrors(errors);
         return
       }
-      // if (!regex.exec(formData.ssn)) {
-      //   errors.ssn = "ssn is not valid!";
-      //   actions.setFormErrors(errors);
-      //   return
-      // }
       updateTaxInfo = { ssn: formData.ssn };
     } else {
       updateTaxInfo = {
@@ -95,7 +98,7 @@ class KYCTaxpayer extends Component {
   };
 
   render() {
-    const { formData, formErrors, user, actions } = this.props;
+    const { formData, formErrors, actions } = this.props;
     const { updatingTaxInfo, isLoading } = this.state;
     // const style = KYCTaxpayerStyle();
 
@@ -109,9 +112,9 @@ class KYCTaxpayer extends Component {
         <CelText align={"center"} margin={"10 0 0 0"} type={"H4"} weight={"300"}>We need this information due to
           anti-money laundering (AML) regulations and background checks.</CelText>
 
-        {(user.country === "United States" || user.citizenship === "United States") ?
+        {(this.isFromUS()) ?
           <React.Fragment>
-            <CelInput margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
+            <CelInput keyboardType={"number-pad"} margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
                       value={formData.ssn} error={formErrors.ssn}/>
             <Card margin={"0 0 20 0"}>
               <CelText type={"H5"} weight={"300"}>

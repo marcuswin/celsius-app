@@ -11,7 +11,7 @@ import CelTextStyle from './CelText.styles';
 class CelText extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
+    type: PropTypes.oneOf(['H0', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
     font: PropTypes.oneOf(['barlow']),
     weight: PropTypes.oneOf(['100', '200', '300', '400', '500', '600', '700', '800', '900', 'thin', 'extra-light', 'light', 'regular', 'medium', 'semi-bold', 'bold', 'black']),
     italic: PropTypes.bool,

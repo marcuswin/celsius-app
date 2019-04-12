@@ -202,6 +202,7 @@ class KYCLanding extends Component {
 
   render () {
     const { kycStatus } = this.props
+    if (kycStatus === KYC_STATUSES.passed) return null
     return (
       <RegularLayout theme={THEMES.LIGHT}>
         {this.renderCard()}

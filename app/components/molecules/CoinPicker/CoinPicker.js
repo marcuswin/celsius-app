@@ -53,6 +53,7 @@ class CoinPicker extends Component {
           items={coinList}
           field='selectedCoin'
           displayValue={value}
+          placeholder="Choose a coin"
           onChange={(field, item) => onCoinSelect(field, item)}
           style={{ justifyContent: 'center' }}
         />

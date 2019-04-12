@@ -21,6 +21,7 @@ const SimpleSelect = props => {
     iconName,
     fillColor,
     iconWidth,
+    placeholder,
     style:selectStyle
   } = props
   if (selectStyle) {
@@ -33,8 +34,10 @@ const SimpleSelect = props => {
       }
     }
   }
+
   return (
     <RNPickerSelect
+      placeholder={{ label: placeholder } || {}}
       onValueChange={item => {
         if (item) {
           return onChange ? onChange(field, item) : updateFormField(field, item)
@@ -63,6 +66,7 @@ SimpleSelect.propTypes = {
   onChange: PropTypes.func,
   field: PropTypes.string.isRequired,
   iconName: PropTypes.string,
+  placeholder: PropTypes.string,
   fillColor: PropTypes.string,
   iconWidth: PropTypes.number,
   style: PropTypes.instanceOf(Object)
