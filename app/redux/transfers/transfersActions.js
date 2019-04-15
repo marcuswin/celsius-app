@@ -10,6 +10,7 @@ import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/
 import { getAllTransactions } from "../wallet/walletActions";
 import { analyticsEvents } from "../../utils/analytics-util";
 import { createCelPayBUO } from "../../utils/branch-util";
+import formatter from "../../utils/formatter";
 
 export {
   getAllTransfers,
@@ -171,7 +172,6 @@ function createBranchTransfer(amount, amountUsd, coin, verificationCode) {
       const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
       const usdAmount = currencyAmount * amount;
 
-
       apiCall = API.CREATE_BRANCH_LINK;
       dispatch(startApiCall(apiCall));
       const branchLink = await createCelPayBUO(transfer)
@@ -184,8 +184,15 @@ function createBranchTransfer(amount, amountUsd, coin, verificationCode) {
         }
       });
 
-      Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
+      await Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
       dispatch(navigateTo('Home'));
+
+      if (transfer.confirmed_at) {
+        dispatch(showMessage('success', `CelPay of ${ formatter.crypto(amount, coin.toUpperCase()) } successful`))
+      } else {
+        dispatch(showMessage('success', `Please confirm your CelPay transfer with the link sent to your email.`))
+      }
+
       analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -205,13 +212,16 @@ function registerTransferLink(deepLink) {
         const res = await transferService.get(deepLink.transfer_hash);
         const transfer = res.data;
 
-        if (!transfer.claimed_at) {
+        if (!transfer.claimed_at && transfer.confirmed_at) {
           dispatch(getTransferSuccess(transfer));
 
           dispatch(claimTransfer(transfer.hash));
           if (userActions.enteredInitialPin) {
             dispatch(openModal(MODALS.TRANSFER_RECEIVED));
           }
+        } else if(!transfer.confirmed_at) {
+          dispatch(getTransferSuccess());
+          dispatch(showMessage('warning', 'Link has not been confirmed!'));
         } else {
           dispatch(getTransferSuccess());
           dispatch(showMessage('warning', 'Link has already been claimed!'));
