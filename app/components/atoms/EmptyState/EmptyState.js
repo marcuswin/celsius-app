@@ -116,6 +116,13 @@ function getDefaultEmptyState(purpose, actions) {
       button: "Send link",
       onPress: () =>  actions.navigateTo('CelPayEnterAmount')
     },
+    [EMPTY_STATES.NO_LOANS]: {
+      image: require("../../../../assets/images/diane-sad3x.png"),
+      heading: "No loans",
+      paragraphs: ["You haven't borrowed anything yet."],
+      button: "Apply for loan",
+      onPress: () =>  actions.navigateTo("BorrowEnterAmount")
+    },
   }[purpose];
 }
 
