@@ -11,14 +11,14 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 export const InfoSection = ({ transaction, transactionProps }) => (
-  <View>
-    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+  <View style={{ marginBottom: 10 }}>
+    <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
       <Icon width="12" fill={transactionProps.color} name={transactionProps.iconName} style={{ marginRight: 5 }} />
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
-    <CelText color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
+    <CelText maring='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+    <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 )
 
@@ -38,7 +38,7 @@ export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
       <CelText type="H6">Locked Collateral:</CelText>
       <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
     </View>
-    <View style={{ alignItems: 'flex-end' }}>
+    <View style={{ maring:'0 0 20 0', alignItems: 'flex-end'  }}>
       <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
     </View>
   </View>
@@ -91,7 +91,7 @@ export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
     <Card>
       <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
         <CelText type="H4" weight="500" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
-        <CelText type="H4" weight="300" style={{ marginBottom: 10}} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
+        <CelText type="H4" weight="300" style={{ marginBottom: 10 }} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
         <CelButton basic onPress={() => navigateTo('Settings')}>Change settings</CelButton>
       </View>
     </Card>

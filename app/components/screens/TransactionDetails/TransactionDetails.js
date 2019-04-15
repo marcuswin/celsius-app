@@ -18,6 +18,7 @@ import {
   HodlInfoSection,
   CollateralSection,
 } from './TransactionDetailsSections';
+import { showMessage } from '../../../redux/ui/uiActions'
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
 import apiUtil from '../../../utils/api-util';
@@ -25,6 +26,7 @@ import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
 import { KYC_STATUSES } from '../../../constants/DATA';
+import store from "../../../redux/store";
 
 @connect(
   state => ({
@@ -41,7 +43,9 @@ class TransactionDetails extends Component {
     const { params } = navigation.state
     return {
       title: params && params.title ? params.title : 'Transaction details',
-      right: 'profile'
+      right: 'profile',
+      onInfo: () => store.dispatch(showMessage('warning', 'Not implemented yet!'))
+
     }
   };
 
@@ -93,7 +97,7 @@ class TransactionDetails extends Component {
       case 'address:to':
         return <AddressSection key={sectionType} transaction={transaction} address={transaction.to_address} text="Withdrawn to:" />;
       case 'button:back':
-        return kycPassed ? <CelButton margin="16 0 0 0" key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
+        return kycPassed ? <CelButton margin="16 0 80 0" key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
       case 'button:celpay:another':
@@ -109,7 +113,7 @@ class TransactionDetails extends Component {
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
-        return <InterestSection key={sectionType} navigateTo={actions.navigateTo} interestEarned={interestEarned} coin={transaction.coin.toUpperCase()} />;
+        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={interestEarned} coin={transaction.coin.toUpperCase()} />;
       case 'loan:rejected':
         return <LoanInfoSection key={sectionType} navigateTo={actions.navigateTo} />;
       // TODO(sb): Value need to be changed
@@ -128,7 +132,7 @@ class TransactionDetails extends Component {
       case 'loan:totalInterest':
         return <BasicSection key={sectionType} label="Total Interest Payment" value={formatter.usd(transaction.loan_data.total_interest_payment)} noSeparator />;
       case 'hodl:info':
-        return <HodlInfoSection key={sectionType} date="April 29th" amount="20" coin="ETH" />;
+        return <HodlInfoSection margin="16 0 10 0" key={sectionType} date="April 29th" amount="20" coin="ETH" />;
       case 'type':
         return <BasicSection key={sectionType} label="Type" value="CelPay" />
       default:

@@ -42,6 +42,7 @@ const base = {
   },
   interestRateWrapper: {
     justifyContent: 'space-between',
+    alignContent: 'center',
     
   }
 };
