@@ -118,9 +118,9 @@ function getDefaultEmptyState(purpose, actions) {
     },
     [EMPTY_STATES.NO_LOANS]: {
       image: require("../../../../assets/images/diane-sad3x.png"),
-      heading: "No loans",
-      paragraphs: ["You haven't borrowed anything yet."],
-      button: "Apply for loan",
+      heading: "Borrow dollars by using crypto",
+      paragraphs: ["You can apply for as many loans as you like, as long as you have enough collateral in your wallet."],
+      button: "Apply for a loan",
       onPress: () =>  actions.navigateTo("BorrowEnterAmount")
     },
   }[purpose];
