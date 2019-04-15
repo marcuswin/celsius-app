@@ -68,12 +68,20 @@ class BrwLoanDetails extends Component {
     return textColor
   }
 
+
+  getMonthlyInterestPayment = () => {
+    const { loan } = this.state;
+    const isZero = loan.monthly_interest === "0"
+    return isZero ? loan.monthly_interest : loan.amount_collateral_usd * loan.interest / loan.term_of_loan
+  }
+
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
   render() {
     const { loan } = this.state;
 
     const payOffDate = moment(loan.created_at).add(loan.term_of_loan, 'months').format('DD MMMM YYYY')
+    const monthlyInterestPayment = this.getMonthlyInterestPayment()
     return (
       <BasicLayout>
         <MainHeader backButton />
@@ -137,7 +145,7 @@ class BrwLoanDetails extends Component {
             <View style={BrwLoanDetailsStyle.infoDetail}>
               <View style={BrwLoanDetailsStyle.row}>
                 <Text style={BrwLoanDetailsStyle.text}>Monthly interest payment:</Text>
-                <Text style={BrwLoanDetailsStyle.info}>{formatter.usd(loan.amount_collateral_usd * loan.interest / loan.term_of_loan)}</Text>
+                <Text style={BrwLoanDetailsStyle.info}>{formatter.usd(monthlyInterestPayment)}</Text>
               </View>
               <Separator />
             </View>
