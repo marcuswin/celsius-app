@@ -71,8 +71,8 @@ class BrwLoanDetails extends Component {
 
   getMonthlyInterestPayment = () => {
     const { loan } = this.state;
-    const isZero = loan.monthly_interest === "0"
-    return isZero ? loan.monthly_interest : loan.amount_collateral_usd * loan.interest / loan.term_of_loan
+    const isZero = loan.monthly_interest === "0" || !loan.monthly_interest
+    return !isZero ? loan.monthly_interest : loan.amount_collateral_usd * loan.interest / loan.term_of_loan
   }
 
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
