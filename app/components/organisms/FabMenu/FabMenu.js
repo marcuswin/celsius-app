@@ -53,12 +53,12 @@ class FabMenu extends Component {
     return {
       main: [
         [
-          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletFab' : 'KYC' },
-          { label: 'Borrow', screen: 'BorrowFab' },
-          { label: 'CelPay', screen: 'CelPayFab' },
+          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletLanding' : 'KYC' },
+          { label: 'Borrow', screen: 'BorrowLanding' },
+          { label: 'CelPay', screen: 'CelPayChooseFriend' },
         ],
         [
-          { label: 'Deposit', screen: 'DepositFab' },
+          { label: 'Deposit', screen: 'Deposit' },
           { label: 'Settings', screen: 'Settings' },
           // { label: 'Support', screen: 'SupportFab' },
         ],
