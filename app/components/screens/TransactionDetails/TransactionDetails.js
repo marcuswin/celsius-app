@@ -18,7 +18,6 @@ import {
   HodlInfoSection,
   CollateralSection,
 } from './TransactionDetailsSections';
-import { showMessage } from '../../../redux/ui/uiActions'
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
 import apiUtil from '../../../utils/api-util';
@@ -26,7 +25,6 @@ import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
 import { KYC_STATUSES } from '../../../constants/DATA';
-import store from "../../../redux/store";
 
 @connect(
   state => ({
@@ -44,8 +42,6 @@ class TransactionDetails extends Component {
     return {
       title: params && params.title ? params.title : 'Transaction details',
       right: 'profile',
-      onInfo: () => store.dispatch(showMessage('warning', 'Not implemented yet!'))
-
     }
   };
 
