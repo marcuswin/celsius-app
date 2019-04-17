@@ -3,14 +3,13 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-        // flex: 1
+        flex: 1
     },
     wrapper: {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
         alignSelf: 'center',
-        flexGrow: 1,
         paddingTop: '30%'
     },
     title: {
