@@ -116,6 +116,13 @@ function getDefaultEmptyState(purpose, actions) {
       button: "Send link",
       onPress: () =>  actions.navigateTo('CelPayEnterAmount')
     },
+    [EMPTY_STATES.NO_LOANS]: {
+      image: require("../../../../assets/images/diane-sad3x.png"),
+      heading: "Borrow dollars by using crypto",
+      paragraphs: ["You can apply for as many loans as you like, as long as you have enough collateral in your wallet."],
+      button: "Apply for a loan",
+      onPress: () =>  actions.navigateTo("BorrowEnterAmount")
+    },
   }[purpose];
 }
 
