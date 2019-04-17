@@ -59,6 +59,7 @@ import BRWConfirmLoanScreen from "../components/screens/BrwConfirmLoan/BrwConfir
 import BRWAllLoansScreen from "../components/screens/BrwAllLoans/BrwAllLoans";
 import BRWLoanDetailsScreen from "../components/screens/BrwLoanDetails/BrwLoanDetails";
 import OfflineScreen from "../components/screens/Offline/Offline";
+import LockedAccountScreen from "../components/screens/LockedAccount/LockedAccount";
 import ComplianceScreen from "../components/screens/Compliance/Compliance";
 // NOTE(fj): plop screenGen importing new Screen here
 
@@ -294,6 +295,10 @@ export const screens = {
     screen: OfflineScreen,
     title: 'Offline',
     bottomNavigation: false,
+  },
+  LockedAccount: {
+    screen: LockedAccountScreen,
+    title: 'LockedAccount'
   },
   Compliance: {
     screen: ComplianceScreen,

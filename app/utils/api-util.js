@@ -135,6 +135,10 @@ function initInterceptors() {
       if (err.status === 401 && err.slug === "SESSION_EXPIRED") {
         store.dispatch(actions.expireSession());
       }
+      // console.log('err', error.response.status)
+      if (error.response.status === 429) {
+        store.dispatch(actions.navigateTo("LockedAccount"));
+      }
 
       /* eslint-disable no-underscore-dangle */
       logger.log({ API_ERROR: err });
