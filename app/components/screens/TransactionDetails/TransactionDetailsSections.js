@@ -9,6 +9,7 @@ import STYLES from "../../../constants/STYLES";
 import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
+import CopyButton from "../../atoms/CopyButton/CopyButton";
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -38,7 +39,7 @@ export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
       <CelText type="H6">Locked Collateral:</CelText>
       <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
     </View>
-    <View style={{ maring:'0 0 20 0', alignItems: 'flex-end'  }}>
+    <View style={{ maring: '0 0 20 0', alignItems: 'flex-end' }}>
       <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
     </View>
   </View>
@@ -71,6 +72,22 @@ export const AddressSection = ({ transaction, text, address }) => (
       <CelText type="H3">{address}</CelText>
     </Card>
   </View>
+
+)
+
+export const TransactionSection = ({ transaction, text, actions }) => (
+
+  transaction.transaction_id ? (
+    <View style={{ paddingHorizontal: 20 }}>
+      <Card margin={'20 0 20 0'}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+          <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+        </View>
+        <CelText weight='500' style={{ paddingBottom: 10 }} type="H4">{transaction.transaction_id}</CelText>
+        <CopyButton text="Copy ID" style={{ color: STYLES.COLORS.MEDIUM_GRAY }} color='red' copyText={transaction.transaction_id} onPress={() => actions.showMessage('success', 'dsdsds')} />
+      </Card>
+    </View>
+  ) : null
 )
 
 export const NoteSection = ({ text }) => (
