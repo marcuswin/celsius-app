@@ -140,9 +140,9 @@ class KYCProfileDetails extends Component {
       <RegularLayout>
         <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Profile details</CelText>
 
-        <CelInput type="text" field="firstName" placeholder='First name' value={formData.firstName} error={formErrors.first_name} />
-        <CelInput type="text" field="middleName" placeholder='Middle name (optional)' value={formData.middleName} />
-        <CelInput type="text" field="lastName" placeholder='Last name' value={formData.lastName} error={formErrors.last_name}/>
+        <CelInput type="text" field="firstName" placeholder='First name' value={formData.firstName} error={formErrors.first_name} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.middle.focus()}}/>
+        <CelInput type="text" field="middleName" placeholder='Middle name (optional)' value={formData.middleName} refs={(input) => {this.middle = input}} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.last.focus()}}/>
+        <CelInput type="text" field="lastName" placeholder='Last name' value={formData.lastName} error={formErrors.last_name} refs={(input) => {this.last = input}}/>
 
         <CelText type='H4' style={{alignSelf: 'flex-start', marginBottom: 10}}>Date of birth</CelText>
         <View style={{ flexDirection: 'row' }}>

@@ -42,8 +42,8 @@ class ChangePassword extends Component {
 
     return (
       <RegularLayout>
-        <CelInput type="password" field='oldPassword' placeholder="Current password" value={formData.oldPassword} />
-        <CelInput type="password" field='newPassword' placeholder="New password" value={formData.newPassword} />
+        <CelInput type="password" field='oldPassword' placeholder="Current password" value={formData.oldPassword} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.pass.focus()}}/>
+        <CelInput type="password" field='newPassword' placeholder="New password" value={formData.newPassword} refs={(input) => {this.pass = input}}/>
         <CelButton onPress={this.changePassword} loading={changingPassword}>Change password</CelButton>
       </RegularLayout>
     );

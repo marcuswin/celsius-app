@@ -99,6 +99,9 @@ class WithdrawConfirmAddress extends Component {
           type='text-area'
           multiline
           numberOfLines={2}
+          returnKeyType={hasTag ? "next" : "done"}
+          blurOnSubmiting={!hasTag}
+          onSubmitEditing={() => {if(hasTag)this.tag.focus()}}
         />
 
         <InfoBox
@@ -117,6 +120,7 @@ class WithdrawConfirmAddress extends Component {
             field="coinTag"
             margin="10 0 10 0"
             disabled
+            refs={(input) => {this.tag = input}}
           />
         ) : null
         }

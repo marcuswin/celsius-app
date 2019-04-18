@@ -75,6 +75,8 @@ class RegisterInitial extends Component {
       API.REGISTER_USER_TWITTER,
     ], callsInProgress);
 
+    // TODO(ns): check ref if !isUsingSocial for pass input
+
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Join Celsius</CelText>
@@ -91,6 +93,9 @@ class RegisterInitial extends Component {
           value={formData.firstName}
           error={formErrors.firstName}
           placeholder="First name"
+          returnKeyType={"next"}
+          blurOnSubmiting={false}
+          onSubmitEditing={() => {this.last.focus()}}
         />
         <CelInput
           disabled={registerLoading}
@@ -100,6 +105,10 @@ class RegisterInitial extends Component {
           value={formData.lastName}
           error={formErrors.lastName}
           placeholder="Last name"
+          returnKeyType={"next"}
+          blurOnSubmiting={false}
+          onSubmitEditing={() => {this.email.focus()}}
+          refs={(input) => {this.last = input}}
         />
 
         <CelInput
@@ -110,6 +119,10 @@ class RegisterInitial extends Component {
           field="email"
           placeholder="E-mail"
           keyboardType={KEYBOARD_TYPE.EMAIL}
+          returnKeyType={!isUsingSocial ? "next" : "done"}
+          blurOnSubmiting={false}
+          onSubmitEditing={() => { if(!isUsingSocial)this.pass.focus()}}
+          refs={(input) => {this.email = input}}
         />
 
         { !isUsingSocial && (
@@ -120,6 +133,7 @@ class RegisterInitial extends Component {
             placeholder="Password"
             value={formData.password}
             error={formErrors.password}
+            refs={(input) => {this.pass = input}}
           />
         ) }
 

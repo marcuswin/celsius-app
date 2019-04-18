@@ -114,7 +114,7 @@ class CelInput extends Component {
     }
 
     render() {
-        const { multiline, numberOfLines, theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style, autoCapitalize } = this.props
+        const { onSubmitEditing, returnKeyType, refs, multiline, numberOfLines, theme, disabled, maxLenght, autoFocus, placeholder, keyboardType, secureTextEntry, style, autoCapitalize } = this.props
         const { textValue } = this.state;
         const editable = !disabled;
         const cmpStyle = CelInputStyle(theme);
@@ -122,6 +122,9 @@ class CelInput extends Component {
 
         return (
             <TextInput
+                ref={refs}
+                returnKeyType={returnKeyType}
+                onSubmitEditing={onSubmitEditing}
                 style={[cmpStyle.input, style]}
                 onChangeText={this.onChangeText}
                 value={textValue}
