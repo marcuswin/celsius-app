@@ -214,7 +214,7 @@ class BorrowEnterAmount extends Component {
 
           <CelNumpad
             field={"loanAmount"}
-            value={formData.loanAmount}
+            value={formData.loanAmount || ''}
             updateFormField={actions.updateFormField}
             setKeypadInput={actions.setKeypadInput}
             toggleKeypad={actions.toggleKeypad}
