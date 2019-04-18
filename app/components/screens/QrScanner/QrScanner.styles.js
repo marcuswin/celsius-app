@@ -27,7 +27,6 @@ const base = {
   scanTitle: {
     marginTop: 10,
     marginHorizontal: 40,
-    fontFamily: 'agile-bold',
   },
   scanInstructions: {
     paddingHorizontal: 40,

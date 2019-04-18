@@ -94,8 +94,6 @@ function cacheImages(images) {
  * @returns {Array} - array of promises
  */
 // Fonts are preloaded using Expo.Font.loadAsync(font).
-// The font argument in this case is an object such as the following:
-// {agile-medium: require('../assets/fonts/Agile-Medium.otf')}.
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
