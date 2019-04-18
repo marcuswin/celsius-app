@@ -1,6 +1,6 @@
 import { Constants } from "expo";
 import { Platform } from "react-native";
-import store from '../../redux/store'
+import store from "../../redux/store";
 
 import * as actions from "../actions";
 import {
@@ -92,7 +92,6 @@ function loadCelsiusAssets() {
 }
 
 
-
 /**
  * Handles state change of the app
  * @param {string} nextAppState - one of active|inactive|background
@@ -107,32 +106,34 @@ function handleAppStateChange(nextAppState) {
     const { appState } = store.getState().app;
     const { activeScreen } = store.getState().nav;
 
-    if (nextAppState === "active") {
-      if (Platform.OS === "ios") {
-        clearTimeout(pinTimeout);
+    if (profile && profile.has_pin) {
+      if (nextAppState === "active") {
+        if (Platform.OS === "ios") {
+          clearTimeout(pinTimeout);
+        }
+
+        if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
+          startOfBackgroundTimer = null;
+          dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+        }
+
+        analytics.sessionStarted();
       }
 
-      if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
-        startOfBackgroundTimer = null;
-        dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
-      }
-
-      analytics.sessionStarted()
-    }
-
-    if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
-      if (Platform.OS === "ios") {
-        pinTimeout = setTimeout(() => {
+      if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
+        if (Platform.OS === "ios") {
+          pinTimeout = setTimeout(() => {
             dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
             clearTimeout(pinTimeout);
-        }, ASK_FOR_PIN_AFTER)
-      }
+          }, ASK_FOR_PIN_AFTER);
+        }
 
-      if (Platform.OS === "android") {
-        startOfBackgroundTimer = new Date().getTime();
-      }
+        if (Platform.OS === "android") {
+          startOfBackgroundTimer = new Date().getTime();
+        }
 
-      analytics.sessionEnded()
+        analytics.sessionEnded();
+      }
     }
 
     dispatch({
