@@ -135,7 +135,15 @@ function initInterceptors() {
       if (err.status === 401 && err.slug === "SESSION_EXPIRED") {
         store.dispatch(actions.expireSession());
       }
-      // console.log('err', error.response.status)
+      
+      if(err.status === 403 && err.slug === "USER_SUSPENDED") {
+        const { user } = store.getState().users;
+        if(user) {
+          await store.dispatch(await actions.logoutUser());
+        }
+        await store.dispatch(await actions.showMessage("error", err.msg));
+      }
+      
       if (error.response.status === 429) {
         store.dispatch(actions.navigateTo("LockedAccount"));
       }
