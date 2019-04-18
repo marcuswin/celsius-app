@@ -52,6 +52,7 @@ function getDefaultEmptyState(purpose, actions) {
     },
     [EMPTY_STATES.UNDER_CONSTRUCTION]: {
       image: require("../../../../assets/images/OfflineMode/deer-tangled3x.png"),
+      title: 'Verification in progress',
       heading: "Under Construction!",
       paragraphs: ["We are working really hard on this feature!"]
     },
@@ -69,24 +70,27 @@ function getDefaultEmptyState(purpose, actions) {
     },
     [EMPTY_STATES.NON_VERIFIED_CELPAY]: {
       // image: require("../../../../assets/images/money-bear3x.png"),
+      title: 'Verification in progress',
       heading: "Send crypto to your friends",
       paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
-      button: "Verify profile",
-      onPress: () =>  actions.navigateTo("KYCProfileDetails")
+      // button: "Verify profile",
+      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
     },
     [EMPTY_STATES.NON_VERIFIED_DEPOSIT]: {
       // image: require("../../../../assets/images/money-bear3x.png"),
+      title: 'Verification in progress',
       heading: "Start earning interest",
       paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
-      button: "Verify profile",
-      onPress: () =>  actions.navigateTo("KYCProfileDetails")
+      // button: "Verify profile",
+      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
     },
     [EMPTY_STATES.NON_VERIFIED_BORROW]: {
       // image: require("../../../../assets/images/money-bear3x.png"),
+      title: 'Verification in progress',
       heading: "Borrow Dollars for Crypto",
       paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
-      button: "Verify profile",
-      onPress: () =>  actions.navigateTo("KYCProfileDetails")
+      // button: "Verify profile",
+      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
     },
     [EMPTY_STATES.NON_MEMBER_CELPAY]: {
       // image: require("../../../../assets/images/money-bear3x.png"),
@@ -155,7 +159,7 @@ class EmptyState extends Component {
       ...this.state,
       ...this.props
     };
-    const { image, heading, paragraphs, onPress, button, support } = emptyStateProps;
+    const { image, heading, paragraphs, onPress, button, support, title } = emptyStateProps;
 
     const style = EmptyStateStyle();
     return (
@@ -164,6 +168,8 @@ class EmptyState extends Component {
           <Image source={image || require("../../../../assets/images/diane-sad.png")}
                  style={{ width: 140, height: 140, resizeMode: "contain" }}/>
         </View>
+
+        <CelText margin="20 0 15 0" align="center" type="H1" weight={"500"} bold>{title}</CelText>
 
         <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
 
