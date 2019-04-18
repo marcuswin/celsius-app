@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import EmptyStateStyle from "./EmptyState.styles";
+import STYLES from "../../../constants/STYLES";
 import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
 import { THEMES, EMPTY_STATES, MODALS } from "../../../constants/UI";
@@ -169,7 +170,7 @@ class EmptyState extends Component {
                  style={{ width: 140, height: 140, resizeMode: "contain" }}/>
         </View>
 
-        <CelText margin="20 0 15 0" align="center" type="H1" weight={"500"} bold>{title}</CelText>
+        <CelText color={STYLES.COLORS.ORANGE} margin="10 0 0 0" align="center" type="H4" weight={"400"} bold>{title}</CelText>
 
         <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
 
