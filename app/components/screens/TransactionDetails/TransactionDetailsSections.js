@@ -69,7 +69,7 @@ export const AddressSection = ({ transaction, text, address }) => (
           </TouchableOpacity>
         }
       </View>
-      <CelText type="H3">{address}</CelText>
+      <CelText weight='500' type="H4">{address}</CelText>
     </Card>
   </View>
 
@@ -77,14 +77,14 @@ export const AddressSection = ({ transaction, text, address }) => (
 
 export const TransactionSection = ({ transaction, text, actions }) => (
 
-  transaction.transaction_id ? (
+  (transaction && transaction.transaction_id) ? (
     <View style={{ paddingHorizontal: 20 }}>
       <Card margin={'20 0 20 0'}>
         <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
           <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
         </View>
         <CelText weight='500' style={{ paddingBottom: 10 }} type="H4">{transaction.transaction_id}</CelText>
-        <CopyButton text="Copy ID" style={{ color: STYLES.COLORS.MEDIUM_GRAY }} color='red' copyText={transaction.transaction_id} onPress={() => actions.showMessage('success', 'dsdsds')} />
+        <CopyButton text="Copy ID" color={STYLES.COLORS.CELSIUS_BLUE} copyText={transaction.transaction_id} onCopy={() => { actions.showMessage("success", "Transaction ID copied to clipboard!") }} />
       </Card>
     </View>
   ) : null

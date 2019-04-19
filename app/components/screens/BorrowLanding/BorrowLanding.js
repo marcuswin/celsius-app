@@ -176,9 +176,7 @@ class BorrowLanding extends Component {
             <CelButton onPress={() => actions.navigateTo("Deposit")}>Deposit more coins</CelButton>
           </Fragment>
           :
-          <Fragment>
-            <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
-          </Fragment>
+          <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
         }
       </RegularLayout>
     )

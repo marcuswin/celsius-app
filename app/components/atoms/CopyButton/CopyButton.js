@@ -8,12 +8,12 @@ import CelText from '../CelText/CelText';
 
 const CopyButton = (props) => {
   // To do add propTypes
-  const { copyText, onCopy, text='Copy' } = props;
+  const { copyText, onCopy, text='Copy',color } = props;
   
 
   return (
     <TouchableOpacity onPress={() => {Clipboard.setString(copyText); onCopy()}}>
-        <CelText>{text}</CelText>
+        <CelText color={color}>{text}</CelText>
     </TouchableOpacity>
   )
 }

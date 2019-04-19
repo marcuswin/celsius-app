@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, View, TouchableOpacity } from 'react-native'
+import { Image, View } from 'react-native'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -119,7 +119,7 @@ class KYCLanding extends Component {
       <View>
         <Image source={status.image} style={style.image} />
 
-        <View style={{ flex: 1, alignContent: 'center', justifyContet: 'center', marginBottom: 10}} >
+        <View style={{ flex: 1, alignContent: 'center', justifyContet: 'center', marginBottom: 10 }} >
           {this.renderStatus()}
         </View>
         <CelText
@@ -176,7 +176,7 @@ class KYCLanding extends Component {
         align={'center'}
         type={'H2'}
         weight={'500'}
-        style={ style.kycStatus }
+        style={style.kycStatus}
         color={kycColor}
       >
         {kyc}
@@ -186,26 +186,18 @@ class KYCLanding extends Component {
 
   renderProgressSteps = kycStatus => {
     const { actions } = this.props
-
+    
     return progressSteps.map(step => (
-      <TouchableOpacity
+      <CelButton
         key={step}
         onPress={() => actions.navigateTo('KYCProfileDetails')}
-        disabled={!(step === 'Verify Identity' && kycStatus === 'collecting')}
-        style={{ flexDirection: step === 'Verify Identity' ? 'row' : 'column', alignContent: 'center', }}
-        paddingLeft={20}
-
+        disabled={!(step === 'Verify Identity' && kycStatus === 'collecting' || kycStatus === 'rejected')}
+        weight={'500'}
+        type={'H4'}
+        margin='0 0 0 70'
       >
-        <CelButton
-          onPress={() => actions.navigateTo('KYCProfileDetails')}
-          disabled={!(step === 'Verify Identity' && kycStatus === 'collecting' || kycStatus === 'rejected')}
-          weight={'500'}
-          type={'H4'}
-          margin='0 0 0 70'
-        >
-          {step}
-        </CelButton>
-      </TouchableOpacity>
+        {step}
+      </CelButton>
     ))
   }
   render() {

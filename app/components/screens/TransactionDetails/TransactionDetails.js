@@ -132,7 +132,7 @@ class TransactionDetails extends Component {
       case 'type':
         return <BasicSection key={sectionType} label="Type" value="CelPay" />
       case 'transactionId':
-        return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" />;
+        return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions}/>;
       default:
         return null;
     }

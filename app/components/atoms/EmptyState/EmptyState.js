@@ -9,132 +9,21 @@ import EmptyStateStyle from "./EmptyState.styles";
 import STYLES from "../../../constants/STYLES";
 import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
-import { THEMES, EMPTY_STATES, MODALS } from "../../../constants/UI";
+import { THEMES, EMPTY_STATES } from "../../../constants/UI";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
 import ContactSupport from "../ContactSupport/ContactSupport";
-
-
-function getDefaultEmptyState(purpose, actions) {
-  if (!purpose) return {};
-
-  return {
-    [EMPTY_STATES.FIRST_TIME]: {
-      image: require("../../../../assets/images/bear-happyKYC3x.png"),
-      heading: "Welcome",
-      paragraphs: ["Ready to start exploring Celsius"],
-      button: "Go to Wallet",
-      onPress: () => actions.navigateTo("WalletLanding")
-    },
-    [EMPTY_STATES.ERROR]: {
-      image: require("../../../../assets/images/illuNoKYC3x.png"),
-      heading: "Oooops...",
-      paragraphs: ["Something broke. We apologize for any inconvenience."],
-      button: "Go Home",
-      onPress: () => actions.navigateTo("Home")
-    },
-    [EMPTY_STATES.NO_DATA]: {
-      image: require("../../../../assets/images/deerTransactionHistory.png"),
-      heading: "Sorry!",
-      paragraphs: ["No data to show!"],
-      button: "Go Home",
-      onPress: () => actions.navigateTo("Home")
-    },
-    [EMPTY_STATES.USER_CLEARED]: {
-      image: require("../../../../assets/images/bear-happyKYC3x.png"),
-      heading: "Great job!",
-      paragraphs: ["Ready to start exploring Celsius"],
-      button: "Go Home",
-      onPress: () => actions.navigateTo("Home")
-    },
-    [EMPTY_STATES.COMPLIANCE]: {
-      image: require("../../../../assets/images/OfflineMode/deer-tangled3x.png"),
-      heading: "Sorry!",
-      paragraphs: ["We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region."]
-    },
-    [EMPTY_STATES.UNDER_CONSTRUCTION]: {
-      image: require("../../../../assets/images/OfflineMode/deer-tangled3x.png"),
-      title: 'Verification in progress',
-      heading: "Under Construction!",
-      paragraphs: ["We are working really hard on this feature!"]
-    },
-    [EMPTY_STATES.INSUFFICIENT_FUNDS]: {
-      image: require("../../../../assets/images/diane-sad3x.png"),
-      heading: "Insufficient funds!",
-      paragraphs: ["Please deposit more funds in order to gain eligibility to use this feature."]
-    },
-    [EMPTY_STATES.ZERO_INTEREST]: {
-      image: require("../../../../assets/images/money-bear3x.png"),
-      heading: "Keep HODLing",
-      paragraphs: ["We're paying interest in kind every Monday! It means you will earn interest in BTC for your BTC deposits. ETH for ETH, etc. YOu can earn up to 7% a year on your coins."],
-      button: "Check this week's rates",
-      onPress: () =>  actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
-    },
-    [EMPTY_STATES.NON_VERIFIED_CELPAY]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      title: 'Verification in progress',
-      heading: "Send crypto to your friends",
-      paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
-      // button: "Verify profile",
-      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
-    },
-    [EMPTY_STATES.NON_VERIFIED_DEPOSIT]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      title: 'Verification in progress',
-      heading: "Start earning interest",
-      paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
-      // button: "Verify profile",
-      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
-    },
-    [EMPTY_STATES.NON_VERIFIED_BORROW]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      title: 'Verification in progress',
-      heading: "Borrow Dollars for Crypto",
-      paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
-      // button: "Verify profile",
-      // onPress: () =>  actions.navigateTo("KYCProfileDetails")
-    },
-    [EMPTY_STATES.NON_MEMBER_CELPAY]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      heading: "Send crypto to your friends",
-      paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by adding some CEL to your wallet"],
-      button: "Deposit CEL",
-      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
-    },
-    [EMPTY_STATES.NON_MEMBER_INTEREST]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      heading: "Start earning interest",
-      paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by adding some CEL to your wallet"],
-      button: "Deposit CEL",
-      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
-    },
-    [EMPTY_STATES.NON_MEMBER_BORROW]: {
-      // image: require("../../../../assets/images/money-bear3x.png"),
-      heading: "Borrow Dollars for Crypto",
-      paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by adding some CEL to your wallet"],
-      button: "Deposit CEL",
-      onPress: () =>  actions.navigateTo("Deposit", { coin: "CEL" })
-    },
-    [EMPTY_STATES.NO_CONTACTS]: {
-      image: require("../../../../assets/images/diane-sad3x.png"),
-      heading: "No friends",
-      paragraphs: ["None of your friends has installed Celsius app. You can still CelPay them with a link"],
-      button: "Send link",
-      onPress: () =>  actions.navigateTo('CelPayEnterAmount')
-    },
-    [EMPTY_STATES.NO_LOANS]: {
-      image: require("../../../../assets/images/diane-sad3x.png"),
-      heading: "Borrow dollars by using crypto",
-      paragraphs: ["You can apply for as many loans as you like, as long as you have enough collateral in your wallet."],
-      button: "Apply for a loan",
-      onPress: () =>  actions.navigateTo("BorrowEnterAmount")
-    },
-  }[purpose];
-}
+import emptyStateUtil from '../../../utils/empty-state-util'
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 @connect(
-  () => ({}),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+  state => ({
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
+
 class EmptyState extends Component {
   static propTypes = {
     purpose: PropTypes.oneOf(Object.keys(EMPTY_STATES)),
@@ -151,7 +40,7 @@ class EmptyState extends Component {
   constructor(props) {
     super(props);
 
-    this.state = getDefaultEmptyState(props.purpose, props.actions);
+    this.state = emptyStateUtil(props.purpose, props.actions);
   }
 
 
@@ -161,16 +50,30 @@ class EmptyState extends Component {
       ...this.props
     };
     const { image, heading, paragraphs, onPress, button, support, title } = emptyStateProps;
-
+    const { kycStatus } = this.props
     const style = EmptyStateStyle();
+    let kyc = 'Collecting'
+    let kycColor = STYLES.COLORS.CELSIUS_BLUE
+
+    if (kycStatus === 'rejected') {
+      kyc = 'Rejected'
+      kycColor = STYLES.COLORS.RED
+    }
+    if (kycStatus === 'pending' ||
+      kycStatus === 'sending' ||
+      kycStatus === 'sent') {
+      kyc = 'In progress'
+      kycColor = STYLES.COLORS.ORANGE
+    } 
+
     return (
       <View style={style.container}>
         <View>
           <Image source={image || require("../../../../assets/images/diane-sad.png")}
-                 style={{ width: 140, height: 140, resizeMode: "contain" }}/>
+            style={{ width: 140, height: 140, resizeMode: "contain" }} />
         </View>
 
-        <CelText color={STYLES.COLORS.ORANGE} margin="10 0 0 0" align="center" type="H4" weight={"400"} bold>{title}</CelText>
+        <CelText margin="10 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title(kyc) || ''}</CelText>
 
         <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
 

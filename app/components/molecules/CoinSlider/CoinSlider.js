@@ -5,7 +5,6 @@ import { ScrollView, View } from 'react-native';
 import testUtil from "../../../utils/test-util";
 
 import CircleButton from '../../atoms/CircleButton/CircleButton';
-import CelText from '../../atoms/CelText/CelText';
 
 class CoinSlider extends Component {
 
@@ -38,7 +37,7 @@ class CoinSlider extends Component {
 
     return (
       <View>
-        <CelText type="H4" align='center'>Choose coin to deposit</CelText>
+        {/* <CelText type="H4" align='center'>Choose coin to deposit</CelText> */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{marginTop: 18}} contentContainerStyle={{paddingRight: 35}}>
           {coinList.map(coin =>
             <CircleButton
