@@ -59,7 +59,6 @@ function createEvent(event) {
 }
 
 /**
-<<<<<<< HEAD
  * Get an analytics event on Branch by URL
  * @returns {Promise}
  */
