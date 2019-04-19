@@ -41,11 +41,9 @@ class TodayInterestRatesModal extends Component {
   };
 
   render() {
-    const { actions } = this.props;
+    const { actions, interestRates } = this.props;
     const {pressed} = this.state;
     const style = TodayInterestRatesModalStyle();
-
-    // TODO(ns): LEARN MORE button navigation needs to be added
 
     return (
       <CelModal name={MODALS.TODAY_INTEREST_RATES_MODAL}
@@ -56,7 +54,7 @@ class TodayInterestRatesModal extends Component {
         <CelText weight='300' fontSize='H1' align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText onPress={this.navigateToLoyalty} style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
         <InterestRateInfoTable pressed={pressed}/>
 
-        { !pressed &&
+        { (!pressed && Object.keys(interestRates).length > 5) &&
           <CelButton
             basic
             onPress={() => this.setState({ pressed: true })}

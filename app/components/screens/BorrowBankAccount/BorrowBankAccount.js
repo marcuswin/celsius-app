@@ -112,8 +112,8 @@ class BorrowBankAccount extends Component {
         </View>
         <CelText weight='300' type='H4' margin={'30 0 30 0'} style={{alignSelf: 'flex-start'}}>Provide us with your bank account details:</CelText>
 
-        <CelInput placeholder='Bank name' field={'bankName'} value={formData.bankName} error={formErrors.bankName}/>
-        <CelInput placeholder={bankRoutingNumberPlaceholder} field={'bankRoutingNumber'} value={formData.bankRoutingNumber} error={formErrors.bankRoutingNumber}/>
+        <CelInput placeholder='Bank name' field={'bankName'} value={formData.bankName} error={formErrors.bankName} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.bank.focus()}}/>
+        <CelInput placeholder={bankRoutingNumberPlaceholder} field={'bankRoutingNumber'} value={formData.bankRoutingNumber} error={formErrors.bankRoutingNumber} returnKeyType={ !isAmerican ? "next" : ""} blurOnSubmiting={false} onSubmitEditing={() => {if(!isAmerican)this.currency.focus()}} refs={(input) => {this.bank = input}}/>
 
         <CelText weight='300' type='H4' style={{alignSelf: 'flex-start'}} margin={'0 0 10 0'}>Account type:</CelText>
 
@@ -125,9 +125,9 @@ class BorrowBankAccount extends Component {
           error={formErrors.selectedAccountType}
         />
 
-        {!isAmerican && <CelInput placeholder='Currency' field={'currencyType'} value={formData.currencyType} error={formErrors.currencyType}/>}
-        {!isAmerican && <CelInput placeholder='SWIFT' field={'swift'} value={formData.swift} error={formErrors.swift}/>}
-        {!isAmerican && <CelInput placeholder='IBAN' field={'iban'} value={formData.iban} error={formErrors.iban}/>}
+        {!isAmerican && <CelInput placeholder='Currency' field={'currencyType'} value={formData.currencyType} error={formErrors.currencyType} returnKeyType={"next"}  blurOnSubmiting={false} onSubmitEditing={() => {this.swift.focus()}} refs={(input) => {this.currency = input}}/>}
+        {!isAmerican && <CelInput placeholder='SWIFT' field={'swift'} value={formData.swift} error={formErrors.swift} returnKeyType={"next"}  blurOnSubmiting={false} onSubmitEditing={() => {this.iban.focus()}} refs={(input) => {this.swift = input}}/>}
+        {!isAmerican && <CelInput placeholder='IBAN' field={'iban'} value={formData.iban} error={formErrors.iban} refs={(input) => {this.iban = input}}/>}
 
         {isAmerican && <CelInput placeholder='Your bank account number' field={'bankAccountNumber'} value={formData.bankAccountNumber} error={formErrors.bankAccountNumber}/>}
 

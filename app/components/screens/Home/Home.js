@@ -9,7 +9,7 @@ import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles
 import CelText from "../../atoms/CelText/CelText";
 
 const apiCalls = [];
-const randomMessages = ["Simply go to your settings and change the way you receive interest"];
+const randomMessages = ["Simply go to your settings and change the way you receive interest", "2FA is available, this will make your app more secure"];
 
 @connect(
   state => ({

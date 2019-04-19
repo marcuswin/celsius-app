@@ -30,6 +30,7 @@ class ReferralReceivedModal extends Component {
     const { referralLink } = this.props
 
     if (!referralLink) return null
+    const owner = referralLink.owner ? referralLink.owner.display_name : 'a friend'
     return (
       <CelModal
         name={MODALS.REFERRAL_RECEIVED_MODAL}
@@ -40,7 +41,7 @@ class ReferralReceivedModal extends Component {
         </CelText>
         {referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL && (
           <CelText>
-            You have been referred by {referralLink.owner.display_name} and
+            You have been referred by { owner } and
             receiver{' '}
             <CelText weight='bold'>
               {referralLink.referred_award_amount}{' '}

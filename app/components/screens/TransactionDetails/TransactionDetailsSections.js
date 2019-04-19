@@ -18,7 +18,7 @@ export const InfoSection = ({ transaction, transactionProps }) => (
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText maring='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+    <CelText margin='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
     <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 )
