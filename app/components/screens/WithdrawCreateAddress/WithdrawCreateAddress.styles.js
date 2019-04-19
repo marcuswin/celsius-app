@@ -12,7 +12,7 @@ const base = {
         marginBottom: 10
     },
     tagText: {
-        color: STYLES.COLORS.blue,
+        color: STYLES.COLORS.CELSIUS_BLUE,
         textAlign: "left"
     },
     button: {
