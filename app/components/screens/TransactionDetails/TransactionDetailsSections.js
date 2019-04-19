@@ -17,7 +17,7 @@ export const InfoSection = ({ transaction, transactionProps }) => (
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText maring='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+    <CelText margin='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
     <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 )
@@ -38,7 +38,7 @@ export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
       <CelText type="H6">Locked Collateral:</CelText>
       <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
     </View>
-    <View style={{ maring:'0 0 20 0', alignItems: 'flex-end'  }}>
+    <View style={{ alignItems: 'flex-end'  }}>
       <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
     </View>
   </View>
