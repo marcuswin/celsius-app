@@ -15,6 +15,8 @@ const ALL_CONFIGS = {
 if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
   copyFileFromCelsiusCreds('app.json')
   copyFileFromCelsiusCreds('google-services.json')
+  copyFileFromCelsiusCreds('build_android.sh')
+  copyFileFromCelsiusCreds('celsius.jks')
   // eslint-disable-next-line no-console
   console.log(`Created app.json for ${CONFIG} environment successfully`);
   return true;
