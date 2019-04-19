@@ -212,7 +212,7 @@ class VerifyProfile extends Component {
           {is2FAEnabled ? this.render2FA() : this.renderPIN()}
           <CelNumpad
             field={field}
-            value={value || ''}
+            value={value}
             updateFormField={actions.updateFormField}
             setKeypadInput={actions.setKeypadInput}
             toggleKeypad={actions.toggleKeypad}

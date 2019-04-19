@@ -56,10 +56,12 @@ class CelNumpad extends Component {
     setKeypadInput: PropTypes.func.isRequired,
     toggleKeypad: PropTypes.func.isRequired,
     purpose: PropTypes.string.isRequired,
+
   }
 
   static defaultProps = {
     autofocus: true,
+    value: ''
   }
 
   componentDidMount() {
