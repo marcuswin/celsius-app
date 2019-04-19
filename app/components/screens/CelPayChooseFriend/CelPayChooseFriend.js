@@ -20,6 +20,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
+import logger from "../../../utils/logger-util";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
@@ -126,9 +127,13 @@ class CelPayChooseFriend extends Component {
     });
 
     if (permission) {
-      const { data } = await Contacts.getContactsAsync();
-      await this.setContacts(data);
-      await this.getContacts();
+      try {
+        const { data } = await Contacts.getContactsAsync();
+        await this.getContacts();
+        await this.setContacts(data);
+      } catch (err) {
+        logger.log(err)
+      }
     } else {
       actions.showMessage('warning', 'In order to CelPay directly to your friends, go to your phone settings and allow Celsius app to access your contacts.')
     }

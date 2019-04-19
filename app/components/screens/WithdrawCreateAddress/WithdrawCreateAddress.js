@@ -97,6 +97,9 @@ class WithdrawCreateAddress extends Component {
           placeholder={"Withdrawal address"}
           value={formData.withdrawAddress}
           multiline
+          returnKeyType={hasTag ? "next" : "done"}
+          blurOnSubmiting={!hasTag}
+          onSubmitEditing={() => {if(hasTag)this.tag.focus()}}
         />
 
         <View style={style.containerWithMargin}>
@@ -112,6 +115,7 @@ class WithdrawCreateAddress extends Component {
               value={formData.coinTag}
               field={`coinTag`}
               margin={"10 0 10 0"}
+              refs={(input) => {this.tag = input}}
             />
 
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>

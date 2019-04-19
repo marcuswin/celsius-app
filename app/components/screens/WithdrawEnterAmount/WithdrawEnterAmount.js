@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react'
+import { View } from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import testUtil from "../../../utils/test-util";
-import * as appActions from "../../../redux/actions";
-import WithdrawEnterAmountStyle from "./WithdrawEnterAmount.styles";
-import CelText from '../../atoms/CelText/CelText';
-import CelButton from '../../atoms/CelButton/CelButton';
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import Card from "../../atoms/Card/Card";
-import formatter from "../../../utils/formatter";
-import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
-import { KEYPAD_PURPOSES, MODALS } from "../../../constants/UI";
-import CoinSwitch from "../../atoms/CoinSwitch/CoinSwitch";
-import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect";
-import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal';
-import { PREDIFINED_AMOUNTS } from '../../../constants/DATA';
-import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts';
+import testUtil from '../../../utils/test-util'
+import * as appActions from '../../../redux/actions'
+import WithdrawEnterAmountStyle from './WithdrawEnterAmount.styles'
+import CelText from '../../atoms/CelText/CelText'
+import CelButton from '../../atoms/CelButton/CelButton'
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
+import Card from '../../atoms/Card/Card'
+import formatter from '../../../utils/formatter'
+import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
+import { KEYPAD_PURPOSES, MODALS } from '../../../constants/UI'
+import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
+import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
+import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal'
+import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
+import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 
@@ -30,19 +30,20 @@ import store from '../../../redux/store'
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WithdrawEnterAmount extends Component {
-
   static navigationOptions = () => ({
-    title: "Withdraw",
-    right: "info",
-    onInfo: () => { store.dispatch(openModal(MODALS.WITHDRAW_INFO_MODAL)) }
-  });
+    title: 'Withdraw',
+    right: 'info',
+    onInfo: () => {
+      store.dispatch(openModal(MODALS.WITHDRAW_INFO_MODAL))
+    }
+  })
 
-  constructor(props) {
-    super(props);
-    const { navigation, currencies, withdrawCompliance } = this.props;
+  constructor (props) {
+    super(props)
+    const { navigation, currencies, withdrawCompliance } = this.props
     const coin = navigation.getParam('coin') || 'BTC'
 
     const coinSelectItems = currencies
@@ -51,8 +52,8 @@ class WithdrawEnterAmount extends Component {
 
     this.state = {
       coinSelectItems,
-      activePeriod: ""
-    };
+      activePeriod: ''
+    }
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
@@ -60,14 +61,18 @@ class WithdrawEnterAmount extends Component {
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
-    const { formData, walletSummary, currencyRatesShort, actions } = this.props;
-    let amount;
+    const { formData, walletSummary, currencyRatesShort, actions } = this.props
+    let amount
 
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
-    const walletSummaryObj = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
+    const walletSummaryObj = walletSummary.coins.find(
+      c => c.short === formData.coin.toUpperCase()
+    )
 
-    if (label === "ALL") {
-      amount = formData.isUsd ? walletSummaryObj.amount_usd.toString() : walletSummaryObj.amount;
+    if (label === 'ALL') {
+      amount = formData.isUsd
+        ? walletSummaryObj.amount_usd.toString()
+        : walletSummaryObj.amount
     } else {
       amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
     }
@@ -76,48 +81,50 @@ class WithdrawEnterAmount extends Component {
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  getNumberOfDecimals(value) {
+  getNumberOfDecimals (value) {
     const splitValue = value.split('.')
-    const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0;
-    return numberOfDecimals;
+    const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0
+    return numberOfDecimals
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  getAllowedDecimals = (currency) => currency === 'USD' ? 2 : 5
+  getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   // TODO: move to formatter? check CelPayEnterAmount
-  setCurrencyDecimals(value, currency) {
-    if (!this.hasEnoughDecimals(value, currency)) return value;
+  setCurrencyDecimals (value, currency) {
+    if (!this.hasEnoughDecimals(value, currency)) return value
     // remove last digit
     const numberOfDecimals = this.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency);
+    const allowedDecimals = this.getAllowedDecimals(currency)
 
-    return value.slice(0, allowedDecimals - numberOfDecimals);
+    return value.slice(0, allowedDecimals - numberOfDecimals)
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  hasEnoughDecimals(value = '', currency) {
+  hasEnoughDecimals (value = '', currency) {
     const numberOfDecimals = this.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency);
+    const allowedDecimals = this.getAllowedDecimals(currency)
 
-    return numberOfDecimals > allowedDecimals;
+    return numberOfDecimals > allowedDecimals
   }
 
-  handleAmountChange = (newValue, predefined = "") => {
+  handleAmountChange = (newValue, predefined = '') => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
-    const balanceUsd = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase()).amount_usd;
+    const balanceUsd = walletSummary.coins.find(
+      c => c.short === formData.coin.toUpperCase()
+    ).amount_usd
 
-    let amountCrypto;
-    let amountUsd;
+    let amountCrypto
+    let amountUsd
 
     if (formData.isUsd) {
-      amountUsd = this.setCurrencyDecimals(newValue, 'USD');
-      amountCrypto = amountUsd / coinRate;
+      amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+      amountCrypto = amountUsd / coinRate
     } else {
-      amountCrypto = this.setCurrencyDecimals(newValue);
-      amountUsd = amountCrypto * coinRate;
+      amountCrypto = this.setCurrencyDecimals(newValue)
+      amountUsd = amountCrypto * coinRate
     }
 
     if (amountUsd > balanceUsd) {
@@ -127,11 +134,11 @@ class WithdrawEnterAmount extends Component {
       return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
     }
 
-    this.setState({ activePeriod: predefined });
+    this.setState({ activePeriod: predefined })
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: amountUsd.toString(),
+      amountUsd: amountUsd.toString()
     })
   }
 
@@ -141,17 +148,17 @@ class WithdrawEnterAmount extends Component {
     actions.updateFormFields({
       [field]: value,
       amountUsd: undefined,
-      amountCrypto: undefined,
-    });
+      amountCrypto: undefined
+    })
 
     if (!withdrawalAddresses[value.toUpperCase()]) {
-      actions.getCoinWithdrawalAddress(value);
+      actions.getCoinWithdrawalAddress(value)
     }
   }
 
   handleNextStep = () => {
-    const { actions, formData, withdrawalAddresses } = this.props;
-    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address;
+    const { actions, formData, withdrawalAddresses } = this.props
+    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address
 
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
@@ -160,27 +167,26 @@ class WithdrawEnterAmount extends Component {
     }
   }
 
-  render() {
-    const { coinSelectItems, activePeriod } = this.state;
-    const { formData, actions, walletSummary, navigation } = this.props;
-    const style = WithdrawEnterAmountStyle();
-    if (!formData.coin) return null;
+  render () {
+    const { coinSelectItems, activePeriod } = this.state
+    const { formData, actions, walletSummary, navigation } = this.props
+    const style = WithdrawEnterAmountStyle()
+    if (!formData.coin) return null
 
-    const coinData = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase());
+    const coinData = walletSummary.coins.find(
+      c => c.short === formData.coin.toUpperCase()
+    )
 
     const coin = navigation.getParam('coin')
 
     return (
-      <RegularLayout padding="20 0 0 0" fabType={"hide"}>
+      <RegularLayout padding='20 0 0 0' fabType={'hide'}>
         <View style={style.container}>
           <View style={style.wrapper}>
-            <Card
-              padding="10 10 10 10"
-              margin="0 0 45 0"
-              opacity={0.65}
-            >
-              <CelText align="center" type="H7">
-                Balance: {formatter.crypto(coinData.amount, formData.coin)} | {formatter.usd(coinData.amount_usd)}
+            <Card padding='10 10 10 10' margin='0 0 45 0' opacity={0.65}>
+              <CelText align='center' type='H7'>
+                Balance: {formatter.crypto(coinData.amount, formData.coin)} |{' '}
+                {formatter.usd(coinData.amount_usd)}
               </CelText>
             </Card>
 
@@ -188,11 +194,11 @@ class WithdrawEnterAmount extends Component {
               <View style={style.selectWrapper}>
                 <SimpleSelect
                   items={coinSelectItems}
-                  field="coin"
+                  field='coin'
                   displayValue={formData.coin}
                   updateFormField={actions.updateFormField}
                   onChange={this.handleCoinChange}
-                  placeholder="Choose a coin"
+                  placeholder='Choose a coin'
                 />
               </View>
 
@@ -206,23 +212,28 @@ class WithdrawEnterAmount extends Component {
               />
             </View>
 
-            <PredefinedAmounts data={PREDIFINED_AMOUNTS} onSelect={this.onPressPredefinedAmount} activePeriod={activePeriod} />
+            <PredefinedAmounts
+              data={PREDIFINED_AMOUNTS}
+              onSelect={this.onPressPredefinedAmount}
+              activePeriod={activePeriod}
+            />
 
             <CelButton
-              margin="20 0 0 0"
+              margin='20 0 0 0'
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
-              iconRight="IconArrowRight"
+              iconRight='IconArrowRight'
             >
-              {formData.amountUsd && Number(formData.amountUsd) > 0 ? 'Check wallet address' : 'Enter amount above'}
+              {formData.amountUsd && Number(formData.amountUsd) > 0
+                ? 'Check wallet address'
+                : 'Enter amount above'}
             </CelButton>
           </View>
-
         </View>
 
         <CelNumpad
-          field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
+          field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
+          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''}
           updateFormField={actions.updateFormField}
           setKeypadInput={actions.setKeypadInput}
           toggleKeypad={actions.toggleKeypad}
@@ -230,10 +241,14 @@ class WithdrawEnterAmount extends Component {
           purpose={KEYPAD_PURPOSES.WITHDRAW}
           autofocus={false}
         />
-        <WithdrawInfoModal type={coin === 'CEL'} closeModal={actions.closeModal} toggleKeypad={actions.toggleKeypad} />
+        <WithdrawInfoModal
+          type={coin === 'CEL'}
+          closeModal={actions.closeModal}
+          toggleKeypad={actions.toggleKeypad}
+        />
       </RegularLayout>
-    );
+    )
   }
 }
 
-export default testUtil.hookComponent(WithdrawEnterAmount);
+export default testUtil.hookComponent(WithdrawEnterAmount)

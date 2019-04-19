@@ -116,7 +116,7 @@ class ChangePin extends Component {
 
           <CelNumpad
             field={field}
-            value={formData[field]}
+            value={formData[field] || ''}
             updateFormField={actions.updateFormField}
             setKeypadInput={actions.setKeypadInput}
             toggleKeypad={actions.toggleKeypad}

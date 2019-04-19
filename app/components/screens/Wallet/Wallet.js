@@ -30,8 +30,8 @@ class Wallet extends Component {
     return (
       <RegularLayout>
         <CelButton onPress={() => { }}>Join Celsius</CelButton>
-        <CelInput field="test" placeholder="Password" />
-        <CelInput field="test1" placeholder="Password" type="password" value={formData.test1 || ""} />
+        <CelInput field="test" placeholder="Password" returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.pass.focus()}}/>
+        <CelInput field="test1" placeholder="Password" type="password" value={formData.test1 || ""} refs={(input) => {this.pass = input}}/>
       </RegularLayout>
     );
   }

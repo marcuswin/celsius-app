@@ -47,8 +47,8 @@ class Login extends Component {
 
         <Separator text="or login with email" margin="0 0 20 0"/>
 
-        <CelInput type="text" keyboardType={KEYBOARD_TYPE.EMAIL} autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} />
-        <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} />
+        <CelInput type="text" keyboardType={KEYBOARD_TYPE.EMAIL} autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.pass.focus()}}/>
+        <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} refs={(input) => {this.pass = input}}/>
 
         <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
 

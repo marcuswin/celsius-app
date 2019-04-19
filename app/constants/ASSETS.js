@@ -17,7 +17,6 @@ const FONTS = [
   { 'barlow-extra-bold-italic': require('../../assets/fonts/Barlow/Barlow-ExtraBoldItalic.ttf') },
   { 'barlow-black': require('../../assets/fonts/Barlow/Barlow-Black.ttf') },
   { 'barlow-black-italic': require('../../assets/fonts/Barlow/Barlow-BlackItalic.ttf') },
-
 ];
 
 const WEIGHT = {
@@ -56,6 +55,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/frenchy.png'),
   require('../../assets/images/mask/card-mask-transparent.png'),
   require('../../assets/images/mask/circle-mask.png'),
+  require('../../assets/images/mask/square-mask-01.png'),
   require('../../assets/images/authSuccess3x.png'),
   require('../../assets/images/illustrations-v3/Cat/profile-cat.png'),
   require('../../assets/images/illustrations-v3/Deer/profile-deer.png'),

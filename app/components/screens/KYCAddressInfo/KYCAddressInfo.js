@@ -94,10 +94,10 @@ class KYCAddressInfo extends Component {
       <RegularLayout>
         <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>Address info</CelText>
 
-        <CelInput type="text" field="street" placeholder='Address' value={formData.street} error={formErrors.street} />
-        <CelInput type="text" field="flatNumber" placeholder='Apartment number (optional)' value={formData.flatNumber} />
-        <CelInput type="text" field="city" placeholder='City' value={formData.city} error={formErrors.city}/>
-        <CelInput type="text" field="zip" placeholder='ZIP/Postal Code' value={formData.zip} error={formErrors.zip}/>
+        <CelInput type="text" field="street" placeholder='Address' value={formData.street} error={formErrors.street} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.flat.focus()}}/>
+        <CelInput type="text" field="flatNumber" placeholder='Apartment number (optional)' value={formData.flatNumber} refs={(input) => {this.flat = input}} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.city.focus()}}/>
+        <CelInput type="text" field="city" placeholder='City' value={formData.city} error={formErrors.city} returnKeyType={"next"} refs={(input) => {this.city = input}} blurOnSubmiting={false} onSubmitEditing={() => {this.zip.focus()}}/>
+        <CelInput type="text" field="zip" placeholder='ZIP/Postal Code' value={formData.zip} error={formErrors.zip} refs={(input) => {this.zip = input}}/>
         <CelSelect type='country' field='country' labelText='Country' showCountryFlag hideCallingCodes value={formData.country} error={formErrors.country} margin='0 0 0 0'/>
 
         {formData.country && formData.country.name === 'United States' &&
@@ -108,7 +108,7 @@ class KYCAddressInfo extends Component {
           <CelButton onPress={this.submitAddressInfo} iconRight='IconArrowRight' loading={updatingAddressInfoInProgress}>
             Your Taxpayer ID
           </CelButton>
-        </View>
+        </View> 
       </RegularLayout>
     );
   }
