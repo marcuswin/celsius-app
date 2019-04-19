@@ -250,7 +250,7 @@ class CelPayEnterAmount extends Component {
 
         <CelNumpad
           field={formData.isUsd ? "amountUsd" : "amountCrypto"}
-          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''}
+          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto}
           updateFormField={actions.updateFormField}
           setKeypadInput={actions.setKeypadInput}
           toggleKeypad={actions.toggleKeypad}
