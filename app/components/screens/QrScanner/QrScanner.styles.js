@@ -1,40 +1,31 @@
-import { Dimensions } from "react-native";
-import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
-const { height, width } = Dimensions.get('window');
 
 const base = {
   container: {
     flex: 1
   },
-  overlayBackground: {
-    position: 'absolute',
-    opacity: 0.75,
-    width,
-    height,
-    zIndex: -5,
+  barcodeWrapper: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%"
   },
-  overlayContent: {
-    width,
-    height,
-    zIndex: 20,
+  mask: { backgroundColor: "rgba(241,239,238,0.6)", flex: 1 },
+  image: {
+    width: 250,
+    height: 250,
+    alignSelf: "center"
   },
-  scanText: {
-    color: STYLES.COLORS.WHITE,
-    textAlign: 'center',
-  },
-  scanTitle: {
-    marginTop: 10,
-    marginHorizontal: 40,
-  },
-  scanInstructions: {
-    paddingHorizontal: 40,
-    bottom: 80,
-    width,
-    position: 'absolute',
-  },
-}
+  imageWrapper: { flexDirection: "row" },
+  safeArea: { flex: 1, flexDirection: "row", marginBottom: 20 },
+  permission: { alignSelf: "flex-end", flex: 1, paddingVertical: 20, paddingHorizontal: 20 },
+  view: {
+    width: 250,
+    alignSelf: "center",
+    marginTop: 20
+  }
+};
 
 const themed = {
   light: {

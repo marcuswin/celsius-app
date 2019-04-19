@@ -29,7 +29,7 @@ const analytics = {
  */
 async function identifyUser() {
   const user = store.getState().user.profile
-  if (!user) return
+  if (!user || !user.id) return
 
   Segment.identifyWithTraits(user.id, {
     email: user.email
