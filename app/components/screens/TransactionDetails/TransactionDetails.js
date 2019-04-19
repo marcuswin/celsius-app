@@ -17,6 +17,7 @@ import {
   LoanInfoSection,
   HodlInfoSection,
   CollateralSection,
+  TransactionSection,
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -67,13 +68,12 @@ class TransactionDetails extends Component {
     }
   }
 
+  
   renderSection = (sectionType) => {
     const { actions, coins, transaction, user } = this.props;
-
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const interestEarned = coins.find((coin) => coin.short === transaction.coin.toUpperCase()).interest_earned;
     const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
-
 
     switch (sectionType) {
       case 'info':
@@ -131,6 +131,8 @@ class TransactionDetails extends Component {
         return <HodlInfoSection margin="16 0 10 0" key={sectionType} date="April 29th" amount="20" coin="ETH" />;
       case 'type':
         return <BasicSection key={sectionType} label="Type" value="CelPay" />
+      case 'transactionId':
+        return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions}/>;
       default:
         return null;
     }
