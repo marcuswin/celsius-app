@@ -60,6 +60,7 @@ class ApiKeySuccessModal extends Component {
         <CelButton
           margin={"20 0 20 0"}
           onPress={() => {
+            actions.navigateTo('ApiAuthorization')
             actions.updateFormFields({
               readWalletBalance: false,
               readTransactions: false,
