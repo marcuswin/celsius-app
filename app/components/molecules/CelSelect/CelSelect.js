@@ -21,7 +21,7 @@ import CelText from '../../atoms/CelText/CelText';
 class CelSelect extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone']),
+    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone', "phone-verify"]),
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
@@ -144,7 +144,7 @@ class CelSelect extends Component {
     if (type === 'phone') {
       return (
         <TouchableOpacity onPress={onPress}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10, backgroundColor: "white", borderRadius: 8 }}>
             {this.renderImage(cmpStyle.flagImage, country.alpha2)}
             <CelText type="H4" align="left" style={{ marginLeft: 5, marginRight: 5 }}>{country.countryCallingCodes ? country.countryCallingCodes[0] : ''}</CelText>
             <View style={{ height: 30, justifyContent: 'center', alignItems: 'center' }}>

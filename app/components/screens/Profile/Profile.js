@@ -57,10 +57,22 @@ class Profile extends Component {
     this.initForm(user);
   }
 
+  componentDidUpdate(prevProps) {
+    const {user,actions} = this.props;
+    if (prevProps.user.cellphone_verified !== user.cellphone_verified) {
+      actions.updateFormFields({
+        cellphone: user.cellphone,
+      })
+    }
+  }
+
   initForm = (user) => {
     const { actions } = this.props;
     if (user) {
-      actions.updateFormFields({ ssn: user.ssn });
+      actions.updateFormFields({
+        ssn: user.ssn,
+        cellphone_verified: user.cellphone_verified
+      });
     }
   };
 
@@ -69,7 +81,7 @@ class Profile extends Component {
     await actions.logoutUser();
   };
 
-  updateNumber = async () => {
+  updateSSNNumber = async () => {
     const { actions, formData } = this.props;
 
     const ssn = { ssn: formData.ssn };
@@ -89,7 +101,8 @@ class Profile extends Component {
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
     const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
-    const isUSCitizen = user.citizenship === 'United States'
+    const isUSCitizen = user.citizenship === 'United States';
+
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
@@ -143,10 +156,16 @@ class Profile extends Component {
         )}
 
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email}/>
-        <CelInput margin="0 0 20 0" disabled type="text" field="phone" placeholder="Phone number"
-                  value={user.cellphone}/>
+        <CelInput type="text" field='cellphone' disabled placeholder='Phone number' error={formErrors.cellphone} value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"}/>
 
-        {/* <CelSelect type="phone" disabled value={user.cellphone} /> */}
+        { !user.cellphone_verified &&
+          <CelButton
+            margin={"20 0 20 0"}
+            onPress={() => actions.navigateTo("RegisterEnterPhone")}
+          >
+            Enter Phone Number
+          </CelButton>
+        }
 
         <ContactSupport
           copy="To make changes on your profile, contact our support at app@celsius.network."
@@ -171,7 +190,7 @@ class Profile extends Component {
 
             {!user.ssn &&
               <CelButton
-                onPress={() => this.updateNumber()}
+                onPress={() => this.updateSSNNumber()}
                 margin={"20 0 20 0"}
                 loading={updatingTaxInfo}
                 disabled={!formData.ssn}
