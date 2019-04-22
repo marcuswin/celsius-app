@@ -50,6 +50,7 @@ const base = {
     width: 36,
     height: 36,
     borderRadius: 18,
+    ...STYLES.SHADOW_STYLES
   },
 
   button: {
