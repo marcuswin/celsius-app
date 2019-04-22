@@ -12,7 +12,7 @@ import formatter from '../../../utils/formatter';
 import testUtil from "../../../utils/test-util";
 
 const LTVs = [
-  { percent: 0.2, interest: 0.0495 },
+  { percent: 0.25, interest: 0.0495 },
   { percent: 0.33, interest: 0.0695 },
   { percent: 0.5, interest: 0.0895 }
 ];
