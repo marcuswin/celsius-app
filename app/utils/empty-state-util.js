@@ -66,7 +66,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_VERIFIED_CELPAY:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				title: status => status,
 				heading: "Send crypto to your friends",
 				paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
@@ -75,7 +74,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_VERIFIED_DEPOSIT:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				title: status => status,
 				heading: "Start earning interest",
 				paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
@@ -84,7 +82,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_VERIFIED_BORROW:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				title: status => status,
 				heading: "Borrow Dollars for Crypto",
 				paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
@@ -93,7 +90,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_MEMBER_CELPAY:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				heading: "Send crypto to your friends",
 				paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by adding some CEL to your wallet"],
 				button: "Deposit CEL",
@@ -101,7 +97,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_MEMBER_INTEREST:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				heading: "Start earning interest",
 				paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by adding some CEL to your wallet"],
 				button: "Deposit CEL",
@@ -109,7 +104,6 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.NON_MEMBER_BORROW:
 			return {
-				// image: require("../../assets/images/money-bear3x.png"),
 				heading: "Borrow Dollars for Crypto",
 				paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by adding some CEL to your wallet"],
 				button: "Deposit CEL",
