@@ -206,11 +206,11 @@ function createKYCDocumentsSuccess() {
 /**
  * Sends phone verification SMS to user
  */
-function sendVerificationSMS() {
+function sendVerificationSMS(phone) {
   return async dispatch => {
     dispatch(startApiCall(API.SEND_VERIFICATION_SMS));
     try {
-      await meService.sendVerificationSMS();
+      await meService.sendVerificationSMS(phone);
       dispatch(sendVerificationSMSSuccess());
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -239,6 +239,9 @@ function verifySMS(verificationCode) {
     try {
       await meService.verifySMS(verificationCode);
       dispatch(verifySMSSuccess());
+      return {
+        success: true
+      }
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.VERIFY_SMS, err));

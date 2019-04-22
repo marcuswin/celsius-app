@@ -18,6 +18,9 @@ import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera"
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
 import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
+import RegisterEnterPhone from "../../components/screens/RegisterEnterPhone/RegisterEnterPhone";
+import RegisterVerifyPhone from "../../components/screens/RegisterVerifyPhone/RegisterVerifyPhone";
+import SelectCountry from "../../components/screens/SelectCountry/SelectCountry";
 
 export const profileFlow = {
   screens: {
@@ -39,6 +42,9 @@ export const profileFlow = {
     CameraScreen,
     ConfirmCamera,
     LoyaltyProgram,
+    RegisterEnterPhone,
+    RegisterVerifyPhone,
+    SelectCountry
   },
   props: {
     initialRouteName: 'Profile',
