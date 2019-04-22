@@ -53,9 +53,9 @@ class VerticalSlider extends Component {
         </View>
 
         <View style={{ flex: 1 }}>
-          {items.map((item, index) => (
+          {items.map((item) => (
             <TouchableOpacity
-              key={`value-${index}`}
+              key={`value-${item}`}
               style={{ height: 50, justifyContent: 'center' }}
               onPress={() => this.handleChangeSlideValue(item.value)}
             >

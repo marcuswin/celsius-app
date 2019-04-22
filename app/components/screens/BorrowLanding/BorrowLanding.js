@@ -127,13 +127,47 @@ class BorrowLanding extends Component {
 
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
-      emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }}/>;
-    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }}/>;
-    if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }}/>;
-    if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }}/>;
-    if (isLoading) return <LoadingScreen/>;
+      emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
+    if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />;
+    if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
+    if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />;
+    if (isLoading) return <LoadingScreen />;
 
-    return (
+    if (allLoans.length > 0) {
+      return (
+        <RegularLayout>
+          <View>
+            <CelButton margin='10 0 25 0' onPress={() => actions.navigateTo("BorrowEnterAmount")}>Apply for another loan</CelButton>
+            {allLoans && allLoans.map(loan => {
+              const loanStatusDetails = this.getLoanStatusDetails(loan.status);
+              return (
+                <Card key={loan.id}>
+                  <CelText type='H6' weight='500' margin={"0 0 0 0"}>Your loans</CelText>
+                  <TouchableOpacity style={{ alignItems: "center", flexDirection: "row", flex: 1 }}
+                    onPress={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}>
+                    <View style={[style.iconWrapper, { backgroundColor: loanStatusDetails.color }]}>
+                      <Icon name='TransactionLoan' height={25} width={25} fill={"#FFFFFF"} />
+                    </View>
+                    <View style={style.info}>
+                      <View>
+                        <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
+                        <CelText type='H6'
+                          weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 2 })} LOCKED</CelText>
+                      </View>
+                      <View>
+                        <CelText type='H6'
+                          weight='300'>{moment(loan.created_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
+                        <CelText color={loanStatusDetails.color}>{loanStatusDetails.displayText}</CelText>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                </Card>
+              );
+            })}
+          </View>
+        </RegularLayout>
+      )
+    } return (
       <RegularLayout>
         {maxAmount < minimumLoanAmount
           ?
@@ -142,44 +176,13 @@ class BorrowLanding extends Component {
             <CelButton onPress={() => actions.navigateTo("Deposit")}>Deposit more coins</CelButton>
           </Fragment>
           :
-          <Fragment>
-            <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }}/>
-          </Fragment>
+          <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
         }
-
-        <View>
-          <CelButton onPress={() => actions.navigateTo("BorrowEnterAmount")}>Apply for another loan</CelButton>
-          {allLoans && allLoans.map(loan => {
-            const loanStatusDetails = this.getLoanStatusDetails(loan.status);
-            return (
-              <Card key={loan.id}>
-                <CelText type='H6' weight='500' margin={"20 0 0 0"}>Your loans</CelText>
-                <TouchableOpacity style={{ alignItems: "center", flexDirection: "row", flex: 1 }}
-                                  onPress={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}>
-                  <View style={[style.iconWrapper, { backgroundColor: loanStatusDetails.color }]}>
-                    <Icon name='TransactionLoan' height={25} width={25} fill={"#FFFFFF"}/>
-                  </View>
-                  <View style={style.info}>
-                    <View>
-                      <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
-                      <CelText type='H6'
-                               weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 2 })} LOCKED</CelText>
-                    </View>
-
-                    <View>
-                      <CelText type='H6'
-                               weight='300'>{moment(loan.created_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
-                      <CelText color={loanStatusDetails.color}>{loanStatusDetails.displayText}</CelText>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </Card>
-            );
-          })}
-        </View>
       </RegularLayout>
-    );
+    )
   }
 }
+
+
 
 export default testUtil.hookComponent(BorrowLanding);
