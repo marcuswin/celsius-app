@@ -33,17 +33,27 @@ class ApiAuthorization extends Component {
   });
 
   componentDidMount() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.getAllAPIKeys()
   }
 
+  componentDidUpdate(prevProps ) {
+    const { actions } = this.props;
+
+    if (prevProps.apiKeys.length <= this.props.apiKeys.length) {
+      return actions.getAllAPIKeys()
+    }
+  }
+
+
   render() {
     // const style = ApiAuthorizationStyle();
-    const {apiKeys, actions} = this.props;
-    
+    const { apiKeys, actions } = this.props;
+
+
     return (
       <RegularLayout>
-        <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"} >Generate a secure API key that enables external services to read some of the Celsius data. </CelText>
+        <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"}>Generate a secure API key that enables external services to read some of the Celsius data. </CelText>
 
         <CelButton
           onPress={() => actions.navigateTo("ApiAuthorizationPermissions")}
@@ -54,7 +64,7 @@ class ApiAuthorization extends Component {
 
         {!!apiKeys && apiKeys.length > 0 && <Separator margin={"30 0 24 0"} />}
 
-        { !!apiKeys &&
+        {!!apiKeys &&
           apiKeys.map(apiKey => (
             <CelApiDropdown apiKey={apiKey} key={apiKey.id}>
               {apiKey.lastFourCharacters}
