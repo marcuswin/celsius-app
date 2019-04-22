@@ -183,7 +183,7 @@ class WithdrawEnterAmount extends Component {
       <RegularLayout padding='20 0 0 0' fabType={'hide'}>
         <View style={style.container}>
           <View style={style.wrapper}>
-            <Card padding='10 10 10 10' margin='0 0 45 0' opacity={0.65}>
+            <Card padding='10 10 10 10' margin='0 0 45 0'>
               <CelText align='center' type='H7'>
                 Balance: {formatter.crypto(coinData.amount, formData.coin)} |{' '}
                 {formatter.usd(coinData.amount_usd)}

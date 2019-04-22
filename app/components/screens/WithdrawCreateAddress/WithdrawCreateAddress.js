@@ -84,7 +84,7 @@ class WithdrawCreateAddress extends Component {
 
         <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"}>{formatter.crypto(formData.amountCrypto)}</CelText>
+          <CelText type={"H1"} weight={"semi-bold"}>{formatter.crypto(formData.amountCrypto)}</CelText>
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 
