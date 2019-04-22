@@ -285,7 +285,7 @@ class Deposit extends Component {
               margin="20 0 0 0"
               onPress={() => actions.navigateTo('LoyaltyProgram')}
             >
-              <CelText size='h4' weight='300'> Learn about the CEL Loyalty Program </CelText>
+              <CelText align='left' size='h4' weight='300'>Learn about the CEL Loyalty Program </CelText>
             </IconButton>
           </View>
           : null}
