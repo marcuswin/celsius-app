@@ -64,7 +64,7 @@ class EmptyState extends Component {
       kycStatus === 'sent') {
       kyc = 'In progress'
       kycColor = STYLES.COLORS.ORANGE
-    } 
+    }
 
     return (
       <View style={style.container}>
