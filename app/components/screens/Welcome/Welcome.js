@@ -11,7 +11,7 @@ import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
-import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
+// import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
 
 const { revisionId } = Constants.manifest;
@@ -46,7 +46,6 @@ class Welcome extends Component {
 
           <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: {revisionId}</CelText>
         </View>
-        <ReferralReceivedModal />
       </RegularLayout>
     );
   }
