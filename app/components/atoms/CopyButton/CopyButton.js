@@ -8,25 +8,30 @@ import CelText from '../CelText/CelText';
 import CopyButtonStyle from './CopyButton.styles';
 
 const CopyButton = (props) => {
+
+
   // To do add propTypes
-  const { copyText, onCopy, text = 'Copy', color } = props;
+  const { copyText, onCopy, text, color } = props;
   const style = CopyButtonStyle();
 
 
   return (
-    <TouchableOpacity style={ style.container} onPress={() => { Clipboard.setString(copyText); onCopy() }}>
+    <TouchableOpacity style={style.container} onPress={() => { Clipboard.setString(copyText); onCopy() }}>
       <CelText color={color}>{text}</CelText>
     </TouchableOpacity>
   )
-} 
+}
 
 CopyButton.propTypes = {
   copyText: PropTypes.string.isRequired,
-  onCopy: PropTypes.func
+  onCopy: PropTypes.func,
+  text: PropTypes.string,
+  color: PropTypes.string
 };
 
 CopyButton.defaultProps = {
-  onCopy: () => { }
+  onCopy: () => { },
+  text: 'Copy',
 };
 
 export default testUtil.hookComponent(CopyButton);
