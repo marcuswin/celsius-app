@@ -12,7 +12,9 @@ import CelButton from '../../atoms/CelButton/CelButton';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.forms.formData
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class RegisterVerifyPhone extends Component {
@@ -35,15 +37,26 @@ class RegisterVerifyPhone extends Component {
     this.state = {};
   }
 
+  verify = async (verificationCode) => {
+    const {actions} = this.props;
+    actions.verifySMS(verificationCode);
+    const response = await actions.verifySMS(verificationCode);
+    if (response.success) {
+      actions.getProfileInfo()
+      actions.navigateTo("Profile")
+    }
+  };
+
   render() {
-    const { actions } = this.props;
+    const { actions, formData } = this.props;
 
     return (
       <AuthLayout>
         <CelText margin="0 0 14 0" type="H1" align="center">Verify your phone number</CelText>
         <CelText margin="0 0 30 0" type="H4" align="center">We have sent you an SMS with a code.</CelText>
-        <CelInput type="text" field="sixCode" placeholder="Enter six digit code" />
-        <CelButton margin="10 0 40 0" onPress={() => { actions.navigateTo('RegisterSetPin') }} basic>Resend code</CelButton>
+        <CelInput type="text" field="sixCode" placeholder="Enter six digit code" value={formData.sixCode}/>
+        <CelButton margin={"0 0 30"} onPress={() => this.verify(formData.sixCode)}>Verify</CelButton>
+        <CelButton margin="30 0 40 0" onPress={() => { actions.navigateTo('RegisterSetPin') }} basic>Resend code</CelButton>
       </AuthLayout>
     );
   }
