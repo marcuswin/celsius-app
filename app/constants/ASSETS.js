@@ -1,3 +1,7 @@
+import { Constants } from 'expo';
+
+const { API_URL } = Constants.manifest.extra;
+
 const FONTS = [
   { 'barlow-thin': require('../../assets/fonts/Barlow/Barlow-Thin.ttf') },
   { 'barlow-thin-italic': require('../../assets/fonts/Barlow/Barlow-ThinItalic.ttf') },
@@ -83,6 +87,18 @@ const CACHE_IMAGES = [
   require('../../assets/images/HODL-ratio.png'),
   require('../../assets/images/HODL-loyalty3x.png'),
   require('../../assets/images/Onboarding-Welcome3x.png'),
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/cat/profile-cat.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/deer/profile-deer.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/diane/profile-diane.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/dog/profile-dog.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/fox/profile-fox.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/hyppo/profile-hyppo.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/monkeyboy/profile-monkeyboy.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/monkeygirl/profile-monkeygirl.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/shark/profile-shark.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/sheep/profile-sheep.png`,
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/unicorn/profile-unicorn.png`
 ];
 
 export default {

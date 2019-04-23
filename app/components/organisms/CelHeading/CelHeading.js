@@ -90,7 +90,7 @@ class CelHeading extends Component {
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":
-        <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }} style={{ ...STYLES.SHADOW_STYLES }}>
+        <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Profile'); }}>
           { profilePicture ? (
             <Image
               style={style.profilePicture}
