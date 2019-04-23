@@ -51,7 +51,7 @@ export default function appReducer(state = initialState(), action) {
     case ACTIONS.SET_INTERNET_CONNECTION:
       return {
         ...state,
-        internetConnected: true
+        internetConnected: action.internetConnected
       };
 
     default:

@@ -98,7 +98,8 @@ const CACHE_IMAGES = [
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/monkeygirl/profile-monkeygirl.png`,
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/shark/profile-shark.png`,
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/sheep/profile-sheep.png`,
-  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/unicorn/profile-unicorn.png`
+  `${API_URL.replace('/api/v3', '')}/profile-images/avatar/unicorn/profile-unicorn.png`,
+  require('../../assets/images/deer-sad.png'),
 ];
 
 export default {

@@ -67,7 +67,6 @@ const initialState = {
 
   // keep
   message: undefined,
-  internetConnected: true,
   openedModal: undefined,
 
   // check to remove
@@ -106,13 +105,7 @@ export default (state = initialState, action) => {
           text: action.text,
         }
       };
-
-    case ACTIONS.SET_INTERNET_CONNECTIVITY:
-      return {
-        ...state,
-        internetConnected: action.internetConnected
-      };
-
+      
     case ACTIONS.CLEAR_MESSAGE:
       return {
         ...state,
