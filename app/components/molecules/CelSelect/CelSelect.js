@@ -21,7 +21,7 @@ import CelText from '../../atoms/CelText/CelText';
 class CelSelect extends Component {
 
   static propTypes = {
-    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone', "phone-verify"]),
+    type: PropTypes.oneOf(['gender', 'title', 'country', 'native', 'state', 'day', 'month', 'year', 'phone']),
     items: PropTypes.instanceOf(Array),
     value: PropTypes.oneOfType([
       PropTypes.instanceOf(Object),
