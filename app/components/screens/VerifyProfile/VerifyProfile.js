@@ -35,12 +35,13 @@ class VerifyProfile extends Component {
     }
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       value: '',
       loading: false,
       verificationError: false,
+      forgotPin: false
     }
   }
 
@@ -70,10 +71,18 @@ class VerifyProfile extends Component {
 
   onCheckError = () => {
     this.setState({ loading: false, value: '', verificationError: true })
+    this.setForgotPin();
     const timeout = setTimeout(() => {
       this.setState({ verificationError: false })
       clearTimeout(timeout)
     }, 1000)
+  }
+
+  setForgotPin = () => {
+    const verificationError = this.state;
+    if (verificationError) {
+      this.setState({ forgotPin: true })
+    }
   }
 
   handlePINChange = newValue => {
@@ -120,8 +129,8 @@ class VerifyProfile extends Component {
     this.setState({ loading: false })
   }
 
-  render2FA () {
-    const { loading, value, verificationError } = this.state
+  render2FA() {
+    const { loading, value, verificationError, forgotPin } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -135,13 +144,14 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} length={6} error={verificationError}/>
+          <HiddenField value={value} length={6} error={verificationError} />
         </TouchableOpacity>
-
-        <ContactSupport
-          copy="Forgot your code? Contact out support at app@celsius.network."
-        />
-
+        <View>
+          {(forgotPin) &&
+            <ContactSupport
+              copy="Forgot your code? Contact out support at app@celsius.network."
+            />}
+        </View>
         {loading ? (
           <View
             style={{
@@ -153,14 +163,14 @@ class VerifyProfile extends Component {
             <Spinner />
           </View>
         ) : (
-          <CelButton onPress={this.handlePaste}>Paste</CelButton>
-        )}
+            <CelButton onPress={this.handlePaste}>Paste</CelButton>
+          )}
       </View>
     )
   }
 
-  renderPIN () {
-    const { loading, value, verificationError } = this.state
+  renderPIN() {
+    const { loading, value, verificationError, forgotPin } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
 
@@ -174,12 +184,14 @@ class VerifyProfile extends Component {
         </CelText>
 
         <TouchableOpacity onPress={actions.toggleKeypad}>
-          <HiddenField value={value} error={verificationError}/>
+          <HiddenField value={value} error={verificationError} />
         </TouchableOpacity>
-
-        <ContactSupport
-          copy="Forgot PIN? Contact our support at app@celsius.network."
-        />
+        <View>
+          {(forgotPin) &&
+            <ContactSupport
+              copy="Forgot PIN? Contact our support at app@celsius.network."
+            />}
+        </View>
 
         {loading && (
           <View
@@ -196,7 +208,7 @@ class VerifyProfile extends Component {
     )
   }
 
-  render () {
+  render() {
     const { value } = this.state
     const { is2FAEnabled, actions } = this.props
 
