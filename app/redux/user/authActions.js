@@ -103,6 +103,7 @@ function registerUser() {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+      await dispatch(initAppData());
 
       analytics.sessionStarted()
       dispatch(claimAllBranchTransfers());
