@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, Image } from "react-native";
 import moment from "moment";
 
 import formatter from "../../../utils/formatter";
@@ -47,6 +47,7 @@ class BorrowLanding extends Component {
     const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
 
     this.state = {
+      eligibleCoins,
       maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0) / 2,
       isLoading: true
     };
@@ -122,15 +123,34 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount } = this.props;
+    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary } = this.props;
     const style = BorrowLandingStyle();
 
+
+    const walletCoins = walletSummary.coins
+    const indexOfLargestAmount = walletCoins.map(x => x.amount_usd).indexOf(Math.max(...walletCoins.map(x => x.amount_usd)))
+    const largestAmount = walletCoins[indexOfLargestAmount].amount_usd
+    const largestAmountCoin = walletCoins[indexOfLargestAmount].short
+    const largestAmountInCoin = minimumLoanAmount*10000*largestAmount
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />;
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
-    if (maxAmount < minimumLoanAmount) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />;
+    if (maxAmount < minimumLoanAmount) {
+      return (
+        <View style={style.container}>
+        <View>
+          <Image source={require("../../../../assets/images/diane-sad.png")}
+            style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
+        </View>
+
+        <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { largestAmountInCoin - largestAmount } more { largestAmountCoin }</CelText>
+
+        <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is $5.000. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
+      </View>
+      )
+    }
     if (isLoading) return <LoadingScreen />;
 
     if (allLoans.length > 0) {
