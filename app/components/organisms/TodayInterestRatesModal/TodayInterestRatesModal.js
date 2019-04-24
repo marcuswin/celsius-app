@@ -64,7 +64,10 @@ class TodayInterestRatesModal extends Component {
         }
 
         <CelButton
-          onPress={() => actions.navigateTo("WalletLanding")}
+          onPress={() => {
+            actions.navigateTo("WalletLanding");
+            actions.closeModal()
+          }}
           margin="15 0 15 0"
         >
           Go to wallet

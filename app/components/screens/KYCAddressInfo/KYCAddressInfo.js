@@ -87,7 +87,7 @@ class KYCAddressInfo extends Component {
   }
 
   render() {
-    const { formData, formErrors } = this.props
+    const { formData, formErrors, actions } = this.props
     const { updatingAddressInfoInProgress } = this.state
 
     return (
@@ -108,7 +108,14 @@ class KYCAddressInfo extends Component {
           <CelButton onPress={this.submitAddressInfo} iconRight='IconArrowRight' loading={updatingAddressInfoInProgress}>
             Your Taxpayer ID
           </CelButton>
-        </View> 
+        </View>
+        <CelButton
+          onPress={() => actions.navigateTo("WalletFab")}
+          basic
+          margin={"20 0 20 0"}
+        >
+          Do it later
+        </CelButton>
       </RegularLayout>
     );
   }

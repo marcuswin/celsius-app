@@ -134,7 +134,7 @@ class KYCProfileDetails extends Component {
   }
 
   render () {
-    const { formData, formErrors } = this.props
+    const { formData, formErrors, actions } = this.props
     const { isLoading, updatingProfileInProgress } = this.state
     // const style = KYCProfileDetailsStyle();
     if (isLoading) return <LoadingScreen />
@@ -247,6 +247,13 @@ class KYCProfileDetails extends Component {
             Your residential address
           </CelButton>
         </View>
+        <CelButton
+          onPress={() => actions.navigateTo("WalletFab")}
+          basic
+          margin={"20 0 20 0"}
+        >
+          Do it later
+        </CelButton>
       </RegularLayout>
     )
   }

@@ -9,6 +9,7 @@ import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { celPayFlow } from './celPayFlow'
 import { withdrawFlow } from './withdrawFlow'
 import { profileFlow } from './profileFlow'
+import Deposit from "../../components/screens/Deposit/Deposit";
 
 
 const walletFlow = {
@@ -19,7 +20,7 @@ const walletFlow = {
     CoinDetails,
     AllTransactions,
     TransactionDetails,
-    // Deposit,
+    Deposit,
     ...profileFlow.screens,
     ...celPayFlow.screens,
     ...withdrawFlow.screens
