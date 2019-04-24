@@ -8,9 +8,7 @@ import KYCProfileDetails from '../../components/screens/KYCProfileDetails/KYCPro
 import KYCAddressInfo from '../../components/screens/KYCAddressInfo/KYCAddressInfo'
 import KYCTaxpayer from '../../components/screens/KYCTaxpayer/KYCTaxpayer'
 import KYCVerifyID from '../../components/screens/KYCVerifyID/KYCVerifyID'
-import CameraScreen from '../../components/screens/CameraScreen/CameraScreen'
-import ConfirmCamera from '../../components/screens/ConfirmCamera/ConfirmCamera'
-import SelectCountry from '../../components/screens/SelectCountry/SelectCountry'
+import { profileFlow } from "./profileFlow";
 
 const kycFlow = {
   screens: {
@@ -21,9 +19,7 @@ const kycFlow = {
     KYCAddressInfo,
     KYCTaxpayer,
     KYCVerifyID,
-    SelectCountry,
-    CameraScreen,
-    ConfirmCamera
+    ...profileFlow.screens
   },
   props: {
     initialRouteName: 'KYCLanding',

@@ -41,24 +41,24 @@ class FabMenu extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.fabType !== this.props.fabType && this.props.fabType !== 'hide') {
+    if ((prevProps.fabType !== this.props.fabType && this.props.fabType !== 'hide') || (prevProps.kycStatus !== this.props.kycStatus)) {
       this.setState({
         menuItems: this.getMenuItems(this.props.fabType)
       });
     }
-  }
+  };
 
   getMenuItems(menu) {
     const { kycStatus } = this.props
     return {
       main: [
         [
-          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletLanding' : 'KYC' },
-          { label: 'Borrow', screen: 'BorrowLanding' },
-          { label: 'CelPay', screen: 'CelPayChooseFriend' },
+          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletFab' : 'KYC' },
+          { label: 'Borrow', screen: 'BorrowFab' },
+          { label: 'CelPay', screen: 'CelPayFab' },
         ],
         [
-          { label: 'Deposit', screen: 'Deposit' },
+          { label: 'Deposit', screen: 'DepositFab' },
           { label: 'Settings', screen: 'Settings' },
           // { label: 'Support', screen: 'SupportFab' },
         ],
