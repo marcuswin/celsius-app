@@ -62,7 +62,7 @@ const initialState = {
   // new v3
   theme: THEMES.LIGHT,
   fabMenuOpen: false,
-  fabType: 'main',
+  fabType: 'hide',
   isKeypadOpen: false,
 
   // keep
