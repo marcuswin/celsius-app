@@ -13,6 +13,8 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import Card from "../../atoms/Card/Card";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import { MODALS } from "../../../constants/UI";
+import SsnModal from "../../organisms/SsnModal/SsnModal";
 
 @connect(
   state => ({
@@ -143,14 +145,14 @@ class KYCTaxpayer extends Component {
         </CelButton>
 
         <CelButton
-          onPress={() => actions.navigateTo('KYCVerifyID')}
+          onPress={() => actions.openModal(MODALS.SSN_MODAL)}
           disabled={updatingTaxInfo}
           basic
           margin="20 0 20 0"
         >
           Skip
         </CelButton>
-
+      <SsnModal/>
       </RegularLayout>
     );
   }
