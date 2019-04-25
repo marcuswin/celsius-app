@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { View } from 'react-native';
 import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import KYCTaxpayerStyle from "./KYCTaxpayer.styles";
+import KYCTaxpayerStyle from "./KYCTaxpayer.styles";
 import CelText from "../../atoms/CelText/CelText";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import Card from "../../atoms/Card/Card";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
@@ -28,7 +28,7 @@ class KYCTaxpayer extends Component {
 
   static navigationOptions = () => ({
     title: "Taxpayer ID",
-    customCenterComponent: <ProgressBar steps={4} currentStep={3}/>
+    customCenterComponent: <ProgressBar steps={4} currentStep={3} />
   });
 
   constructor(props) {
@@ -61,6 +61,8 @@ class KYCTaxpayer extends Component {
     }
   };
 
+
+
   isFromUS = () => {
     const { formData } = this.props;
 
@@ -73,14 +75,28 @@ class KYCTaxpayer extends Component {
   submitTaxpayerInfo = async () => {
     const { actions, formData } = this.props;
     let updateTaxInfo;
-    const errors  = {};
+    const errors = {};
     if (this.isFromUS()) {
-      if (formData.ssn === "" || !formData.ssn) {
-        errors.ssn = "Please enter valid SSN.";
-        actions.setFormErrors(errors);
+      if (!formData.ssn1 || formData.ssn1.length < 3) {
+        errors.ssn1 = "";
+      }
+      if (!formData.ssn2 || formData.ssn2.length < 2) {
+        errors.ssn2 = "";
+      }
+      if (!formData.ssn3 || formData.ssn3.length < 4) {
+        errors.ssn3 = "";
+      }
+      if ((formData.ssn1 && formData.ssn1 === "" || !formData.ssn1) && (formData.ssn2 === "" || !formData.ssn2) && (formData.ssn3 === "" || !formData.ssn3)) {
+        errors.ssn = "Please enter valid SSN."
         return
       }
-      updateTaxInfo = { ssn: formData.ssn };
+      if (errors.ssn || errors.ssn1 || errors.ssn2 || errors.ssn3) {
+        actions.setFormErrors(errors);
+      }
+      updateTaxInfo = {
+        ssn: formData.ssn1 + formData.ssn2 + formData.ssn3
+      };
+
     } else {
       updateTaxInfo = {
         national_id: formData.national_id,
@@ -97,51 +113,98 @@ class KYCTaxpayer extends Component {
     this.setState({ updatingTaxInfo: false });
   };
 
+
+
   render() {
     const { formData, formErrors, actions } = this.props;
     const { updatingTaxInfo, isLoading } = this.state;
-    // const style = KYCTaxpayerStyle();
+    const style = KYCTaxpayerStyle();
 
-    if (isLoading) return <LoadingScreen/>;
 
+    if (isLoading) return <LoadingScreen />;
     return (
       <RegularLayout>
 
         <CelText weight={"700"} type={"H1"} align='center'>Taxpayer ID</CelText>
 
-        <CelText align={"center"} margin={"10 0 0 0"} type={"H4"} weight={"300"}>We need this information due to
-          anti-money laundering (AML) regulations and background checks.</CelText>
+        <CelText align={"center"} margin={"10 0 0 0"} type={"H4"} weight={"300"}>US residents must provide their SSN to earn interest through Celsius.
+        This is an optional step and can be entered later.</CelText>
 
         {(this.isFromUS()) ?
-          <React.Fragment>
-            <CelInput keyboardType={"number-pad"} margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
-                      value={formData.ssn} error={formErrors.ssn}/>
-            <Card margin={"0 0 20 0"}>
-              <CelText type={"H5"} weight={"300"}>
-                SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and
-                highly secured.
+          <View>
+            <View style={style.ssnInput}>
+              <CelInput
+                onFocus={this.ssnField}
+                large={false}
+                style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
+                maxLenght={3}
+                keyboardType={"number-pad"}
+                margin="0 10 0 10" field="ssn1"
+                placeholder="XXX"
+                value={formData.ssn1}
+                error={formErrors.ssn1}
+                onSubmitEditing={() => { this.ssn2.focus() }}
+                returnKeyType={"next"}
+
+              />
+              <CelText style={{ flex: 0.1 }}>
+                {'-'}
               </CelText>
-            </Card>
-          </React.Fragment>
+              <CelInput
+                large={false}
+                maxLenght={2}
+                style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
+                keyboardType={"number-pad"}
+                margin="0 10 0 10"
+                field="ssn2"
+                placeholder="XX"
+                value={formData.ssn2}
+                error={formErrors.ssn2}
+                refs={(input) => { this.ssn2 = input }}
+                onSubmitEditing={() => { this.ssn3.focus() }}
+                returnKeyType={"next"}
+              />
+              <CelText style={{ flex: 0.1 }}>
+                {'-'}
+              </CelText>
+              <CelInput
+                large={false}
+                maxLenght={4}
+                style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
+                keyboardType={"number-pad"}
+                margin="0 10 0 10"
+                field="ssn3"
+                placeholder="XXXX"
+                value={formData.ssn3}
+                error={formErrors.ssn3}
+                refs={(input) => { this.ssn3 = input }}
+              />
+            </View>
+            <View style={{ height: 40, alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
+              <CelText color='red' >{formErrors.ssn}</CelText>
+            </View>
+          </View>
           :
           <React.Fragment>
             <CelInput margin="20 0 20 0" type="text" field="itin" placeholder="E-International Tax ID Number (optional)"
-                      value={formData.itin} error={formErrors.itin}/>
+              value={formData.itin} error={formErrors.itin} />
             <CelInput margin="0 0 30 0" type="text" field="national_id" placeholder="E-National ID Number (optional)"
-                      value={formData.national_id} error={formErrors.national_id}/>
+              value={formData.national_id} error={formErrors.national_id} />
           </React.Fragment>
         }
+        <View style={{ flexWrap: 'wrap', alignContent: 'center', justifyContent: 'center' }}>
+          <CelButton
+            onPress={() => this.submitTaxpayerInfo()}
+            iconRight={"IconArrowRight"}
+            iconRightHeight={"20"}
+            iconRightWidth={"20"}
+            loading={updatingTaxInfo}
+          >
+            {(this.isFromUS()) ?
+              'Submit SSN' : 'Continue'}
 
-        <CelButton
-          onPress={() => this.submitTaxpayerInfo()}
-          iconRight={"IconArrowRight"}
-          iconRightHeight={"20"}
-          iconRightWidth={"20"}
-          loading={updatingTaxInfo}
-        >
-          Continue
-        </CelButton>
-
+          </CelButton>
+        </View>
         <CelButton
           onPress={() => actions.navigateTo('KYCVerifyID')}
           disabled={updatingTaxInfo}
