@@ -101,7 +101,7 @@ class KYCLanding extends Component {
         text: 'In progress',
         title: 'Your identity verification is in progress',
         explanation:
-          'It usually finishes within 24 hours. If it takes longer, get in touch with our support.',
+          'It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.',
         image: require('../../../../assets/images/emptyStates/KYC-Pending.png'),
       }
     }
