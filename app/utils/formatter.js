@@ -46,7 +46,7 @@ function cel(amount) {
  * @returns {string}
  */
 function crypto(amount, cryptocurrency, options = {}) {
-  return currency.format(amount, { precision: options.precision || 5, thousand: ',', symbol: cryptocurrency, format: '%v %s' })
+  return currency.format(amount, { precision: options.precision || 5, thousand: ',', symbol: (typeof options.symbol !== 'undefined' ? options.symbol : cryptocurrency), format: '%v %s' })
 }
 
 

@@ -54,7 +54,7 @@ class TodayInterestRatesModal extends Component {
         <CelText weight='300' fontSize='H1' align={"center"} style={style.explanation}>Bonus rates are provided if you chose to earn interest in CEL tokens. <CelText onPress={this.navigateToLoyalty} style={{color: STYLES.COLORS.CELSIUS_BLUE}}>Learn more</CelText></CelText>
         <InterestRateInfoTable pressed={pressed}/>
 
-        { (!pressed && Object.keys(interestRates).length > 5) &&
+        { (!pressed && interestRates && Object.keys(interestRates).length > 5) &&
           <CelButton
             basic
             onPress={() => this.setState({ pressed: true })}
@@ -64,7 +64,10 @@ class TodayInterestRatesModal extends Component {
         }
 
         <CelButton
-          onPress={() => actions.navigateTo("WalletLanding")}
+          onPress={() => {
+            actions.navigateTo("WalletLanding");
+            actions.closeModal()
+          }}
           margin="15 0 15 0"
         >
           Go to wallet

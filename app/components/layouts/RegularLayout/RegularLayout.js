@@ -2,16 +2,24 @@ import React, { Component } from 'react'
 import { ScrollView, SafeAreaView } from 'react-native'
 import PropTypes from 'prop-types'
 import { withNavigationFocus } from 'react-navigation'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { setFabType } from '../../../redux/actions'
+import * as appActions from '../../../redux/actions'
 import testUtil from '../../../utils/test-util'
 import RegularLayoutStyle from './RegularLayout.styles'
 // import KeyboardShift from '../../../utils/keyboard-shift-util';
 import { getPadding } from '../../../utils/styles-util'
-import store from '../../../redux/store'
 import { FAB_TYPE } from '../../../constants/UI'
 import KeyboardShift from '../../../utils/keyboard-shift-util'
+import OfflineMode from '../../atoms/OfflineMode/OfflineMode';
 
+@connect(
+  state => ({
+    internetConnected: state.app.internetConnected,
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
+)
 class RegularLayout extends Component {
   static propTypes = {
     padding: PropTypes.string,
@@ -24,16 +32,20 @@ class RegularLayout extends Component {
     enableParentScroll: true,
     fabType: 'main'
   }
+  componentDidMount() {
+    const { fabType, actions } = this.props
+    actions.setFabType(fabType)
+  }
 
   componentDidUpdate () {
-    const { isFocused, fabType } = this.props
+    const { isFocused, fabType, actions } = this.props
     if (isFocused === true) {
-      store.dispatch(setFabType(fabType))
+      actions.setFabType(fabType)
     }
   }
 
   render () {
-    const { theme, children, padding, enableParentScroll } = this.props
+    const { theme, children, padding, enableParentScroll, internetConnected } = this.props
     const style = RegularLayoutStyle(theme)
     const paddings = getPadding(padding)
     return (
@@ -46,9 +58,11 @@ class RegularLayout extends Component {
           contentContainerStyle={[{ flexGrow: 1 }, paddings]}
         >
           <SafeAreaView style={{ flex: 1 }}>
+          {!internetConnected ? <OfflineMode /> : (
             <KeyboardShift>
               <>{children}</>
             </KeyboardShift>
+            )}
           </SafeAreaView>
         </ScrollView>
       </React.Fragment>

@@ -62,12 +62,11 @@ const initialState = {
   // new v3
   theme: THEMES.LIGHT,
   fabMenuOpen: false,
-  fabType: 'main',
+  fabType: 'hide',
   isKeypadOpen: false,
 
   // keep
   message: undefined,
-  internetConnected: true,
   openedModal: undefined,
 
   // check to remove
@@ -106,13 +105,7 @@ export default (state = initialState, action) => {
           text: action.text,
         }
       };
-
-    case ACTIONS.SET_INTERNET_CONNECTIVITY:
-      return {
-        ...state,
-        internetConnected: action.internetConnected
-      };
-
+      
     case ACTIONS.CLEAR_MESSAGE:
       return {
         ...state,

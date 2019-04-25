@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import Card from '../../atoms/Card/Card';
@@ -10,7 +12,18 @@ import WalletDetailsCardStyle from "./WalletDetailsCard.styles";
 import formatter from '../../../utils/formatter';
 import STYLES from '../../../constants/STYLES';
 import { MODALS } from "../../../constants/UI";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import * as appActions from "../../../redux/actions";
 
+@connect(
+  state => ({
+      kycStatus: state.user.profile.kyc
+        ? state.user.profile.kyc.status
+        : KYC_STATUSES.collecting,
+
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class WalletDetailsCard extends PureComponent {
 
   static propTypes = {
@@ -19,8 +32,16 @@ class WalletDetailsCard extends PureComponent {
   };
 
   navigateToBalanceHistory = () => this.props.navigateTo('BalanceHistory');
-  navigateToDeposit = () => this.props.navigateTo('Deposit', { coin: "CEL" });
-  navigateToWalletInterest = () => this.props.navigateTo('WalletInterest');
+  navigateToDeposit = () => {
+    const {kycStatus, actions} = this.props;
+    if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('Deposit', { coin: "CEL" })
+    actions.navigateTo("KYC");
+  };
+  navigateToWalletInterest = () =>{
+    const {kycStatus, actions} = this.props;
+    if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('WalletInterest')
+    actions.navigateTo("KYC");
+  };
   openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 
   render() {

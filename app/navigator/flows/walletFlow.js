@@ -6,10 +6,10 @@ import AllTransactions from '../../components/screens/AllTransactions/AllTransac
 import BalanceHistory from '../../components/screens/BalanceHistory/BalanceHistory'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
-import Deposit from '../../components/screens/Deposit/Deposit'
 import { celPayFlow } from './celPayFlow'
 import { withdrawFlow } from './withdrawFlow'
 import { profileFlow } from './profileFlow'
+import Deposit from "../../components/screens/Deposit/Deposit";
 
 
 const walletFlow = {

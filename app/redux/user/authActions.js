@@ -103,6 +103,7 @@ function registerUser() {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+      await dispatch(initAppData());
 
       analytics.sessionStarted()
       dispatch(claimAllBranchTransfers());
@@ -313,7 +314,11 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
+      if(user.kyc && user.kyc.status === KYC_STATUSES.passed){
+        dispatch(navigateTo('WalletLanding'));
+      }else{
       dispatch(navigateTo('KYCLanding'));
+      }
 
       analytics.registrationCompleted(user)
     } catch (err) {

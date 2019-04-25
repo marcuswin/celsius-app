@@ -21,6 +21,7 @@ import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayRecei
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
+import { KYC_STATUSES } from "../../../constants/DATA";
 
 
 @connect(
@@ -35,6 +36,9 @@ import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCel
       walletSummary: state.wallet.summary,
       currenciesGraphs: state.currencies.graphs,
       user: state.user.profile,
+      kycStatus: state.user.profile.kyc
+        ? state.user.profile.kyc.status
+        : KYC_STATUSES.collecting,
     }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -153,7 +157,7 @@ class WalletLanding extends Component {
   }
 
   renderCoinWithoutAmount = () => {
-    const { currenciesRates, currenciesGraphs, actions } = this.props;
+    const { currenciesRates, currenciesGraphs, actions, kycStatus } = this.props;
     const { coinWithoutAmount, activeView } = this.state;
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
@@ -169,7 +173,7 @@ class WalletLanding extends Component {
           coin={coin}
           displayName={currency.displayName}
           currencyRates={currency}
-          onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
+          onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYC")}
           graphData={graphData}
         />
       }
@@ -180,14 +184,14 @@ class WalletLanding extends Component {
         coin={coin}
         displayName={currency.displayName}
         currencyRates={currency}
-        onCardPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
+        onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYC")}
       />
     })
       : null;
   }
 
   renderAddMoreCoins = () => {
-    const { actions } = this.props;
+    const { actions, kycStatus } = this.props;
     const { activeView } = this.state
     const style = WalletLandingStyle();
 
@@ -195,7 +199,7 @@ class WalletLanding extends Component {
     const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList
 
     return (
-      <TouchableOpacity style={gridStyle} onPress={() => actions.navigateTo('Deposit')}>
+      <TouchableOpacity style={gridStyle} onPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYC")}>
         <Icon fill={'gray'} width="17" height="17" name="CirclePlus" />
         <CelText type="H5" margin={isGrid ? '5 0 0 0' : '0 0 0 5'}>Deposit coins</CelText>
       </TouchableOpacity>

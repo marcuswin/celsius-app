@@ -109,8 +109,11 @@ class KYCVerifyID extends Component {
 
   selectDocumentType = async type => {
     const { actions } = this.props
-
-    actions.updateFormField('documentType', type)
+    actions.updateFormFields({
+      'documentType': type,
+      'front': '',
+      'back': ''
+    })
   }
 
   renderInputState = (active, textInactive, textActive) => {
@@ -167,7 +170,7 @@ class KYCVerifyID extends Component {
   }
 
   render () {
-    const { kycDocTypes, user, formData, callsInProgress } = this.props
+    const { kycDocTypes, user, formData, callsInProgress, actions } = this.props
 
     if (!kycDocTypes) return null
 
@@ -254,6 +257,13 @@ class KYCVerifyID extends Component {
             onPress={this.submit}
           >
             Submit
+          </CelButton>
+          <CelButton
+            onPress={() => actions.navigateTo("WalletFab")}
+            basic
+            margin={"20 0 20 0"}
+          >
+            Do it later
           </CelButton>
         </View>
       </RegularLayout>

@@ -50,7 +50,7 @@ class Home extends Component {
     const { user } = this.props;
     if (prevProps.appInitialized === false && this.props.appInitialized === true) {
       if (user.id) {
-        if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
+        if (user.kyc && user.kyc.status === KYC_STATUSES.passed && user.has_pin) {
           return prevProps.actions.navigateTo("VerifyProfile", {activeScreen: "WalletLanding"});
         }
         if (!user.has_pin) {

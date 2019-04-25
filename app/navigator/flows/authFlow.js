@@ -10,7 +10,7 @@ import Welcome from '../../components/screens/Welcome/Welcome'
 import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 
 
-const authFlow = {
+export const authFlow = {
   screens: {
     Login,
     ForgotPassword,

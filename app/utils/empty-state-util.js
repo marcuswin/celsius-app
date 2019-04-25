@@ -124,8 +124,11 @@ function getDefaultEmptyState(purpose, actions) {
 				paragraphs: ["You can apply for as many loans as you like, as long as you have enough collateral in your wallet."],
 				button: "Apply for a loan",
 				onPress: () => actions.navigateTo("BorrowEnterAmount")
-			}
+      }
+      default:
+      return {}
 	}
+
 }
 
 export default getDefaultEmptyState;

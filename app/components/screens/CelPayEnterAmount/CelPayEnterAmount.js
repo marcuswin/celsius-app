@@ -192,10 +192,12 @@ class CelPayEnterAmount extends Component {
 
     if (formData.friend) {
       actions.navigateTo('CelPayMessage')
+      actions.closeModal()
     } else {
       actions.navigateTo('VerifyProfile', {
         onSuccess: actions.celPayShareLink
       })
+      actions.closeModal()
     }
   };
 
