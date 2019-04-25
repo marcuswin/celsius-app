@@ -174,7 +174,7 @@ class CelSelect extends Component {
     );
   }
 
-  renderImage = (style, iso) => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
+  renderImage = (style, iso = "") => <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style} />;
 
   render() {
     const { type, flex, disabled, onChange, error, style } = this.props;

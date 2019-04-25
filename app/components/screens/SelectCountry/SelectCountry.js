@@ -144,7 +144,7 @@ class SelectCountry extends Component {
     );
   }
 
-  renderImage = (iso) => {
+  renderImage = (iso = "") => {
     const style = SelectCountryStyles();
     return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" style={style.flagImage} /> // Todo(sb): change hardcoded link with our images folder link
   }
