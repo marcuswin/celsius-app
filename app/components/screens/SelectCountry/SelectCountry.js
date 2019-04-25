@@ -31,7 +31,7 @@ class SelectCountry extends Component {
 
   static navigationOptions = () => (
     {
-      title: "Dialing code",
+      title: "Select Country",
       right: 'search'
     }
   )

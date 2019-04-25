@@ -72,7 +72,6 @@ function navigateTo(routeName, params) {
  */
 function navigateBack(backScreenName) {
   return () => {
-    if (!backScreenName) return
 
     // If back button leads to VerifyProfile, skip it and go back one more screen
     if (backScreenName === 'VerifyProfile') {
