@@ -142,16 +142,18 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
     if (maxAmount < minimumLoanAmount) {
       return (
-        <View style={style.container}>
-        <View>
-          <Image source={require("../../../../assets/images/diane-sad.png")}
-            style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
+        <RegularLayout>
+          <View style={style.container}>
+            <View>
+              <Image source={require("../../../../assets/images/diane-sad.png")}
+              style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
+            </View>
+
+          <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto(minimumAmountInCoin - largestAmount, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
+
+          <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is {formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
         </View>
-
-        <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto(minimumAmountInCoin - largestAmount, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
-
-        <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is {formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
-      </View>
+      </RegularLayout>
       )
     }
     if (isLoading) return <LoadingScreen />;

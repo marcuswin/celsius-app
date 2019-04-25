@@ -109,8 +109,11 @@ class KYCVerifyID extends Component {
 
   selectDocumentType = async type => {
     const { actions } = this.props
-
-    actions.updateFormField('documentType', type)
+    actions.updateFormFields({
+      'documentType': type,
+      'front': '',
+      'back': ''
+    })
   }
 
   renderInputState = (active, textInactive, textActive) => {

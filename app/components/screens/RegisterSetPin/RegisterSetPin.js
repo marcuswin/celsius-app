@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import CelText from '../../atoms/CelText/CelText';
-import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import ChangePinStyle from "../ChangePin/ChangePin.styles";
 import { KEYPAD_PURPOSES } from "../../../constants/UI";
@@ -14,6 +13,7 @@ import CelNumpad from "../../molecules/CelNumpad/CelNumpad";
 import * as appActions from "../../../redux/actions";
 import Spinner from "../../atoms/Spinner/Spinner";
 import CelButton from "../../atoms/CelButton/CelButton";
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 
 @connect(
   (state) => ({
@@ -96,7 +96,7 @@ class RegisterSetPin extends Component {
     const style = ChangePinStyle();
 
     return (
-      <AuthLayout padding="0 0 0 0">
+      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">{ headingText }</CelText>
@@ -129,7 +129,7 @@ class RegisterSetPin extends Component {
             purpose={KEYPAD_PURPOSES.VERIFICATION}
           />
         </View>
-      </AuthLayout>
+      </RegularLayout>
     );
   }
 }
