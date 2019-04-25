@@ -23,23 +23,11 @@ import Steps from "../../molecules/Steps/Steps";
 )
 class BRWChooseCollateral extends Component {
   onSelectCoin(walletCurrency) {
-    const { actions, formData, currencyRatesShort } = this.props;
+    const {actions} = this.props;
 
     actions.updateFormField('coin', walletCurrency.currency.short);
     actions.updateFormField('totalAmount', walletCurrency.total);
-
-    if (['XRP', 'LTC'].indexOf(walletCurrency.currency.short) !== -1) {
-      const collateralAmountUSD = Number(formData.amount) / 0.5;
-      const collateralAmountCrypto = collateralAmountUSD / currencyRatesShort[walletCurrency.currency.short.toLowerCase()];
-
-      actions.updateFormField('ltv', { percent: 0.5, interest: 0.12 })
-      actions.updateFormField('collateralAmountUSD', collateralAmountUSD)
-      actions.updateFormField('collateralAmountCrypto', collateralAmountCrypto)
-      actions.navigateTo('BRWTermOfLoan');
-    } else {
-      actions.navigateTo('BRWLoanOption');
-    }
-
+    actions.navigateTo('BRWLoanOption');
   }
 
   capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
