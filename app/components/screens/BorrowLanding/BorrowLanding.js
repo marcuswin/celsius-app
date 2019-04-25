@@ -127,11 +127,14 @@ class BorrowLanding extends Component {
     const style = BorrowLandingStyle();
 
 
-    const walletCoins = walletSummary.coins
-    const indexOfLargestAmount = walletCoins.map(x => x.amount_usd).indexOf(Math.max(...walletCoins.map(x => x.amount_usd)))
-    const largestAmount = walletCoins[indexOfLargestAmount].amount_usd
+    const walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
+    const arrayOfAmountUsd = walletCoins.map(x => x.amount_usd)
+    const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd))
+    const largestAmountUsd = walletCoins[indexOfLargestAmount].amount_usd
+    const largestAmount = walletCoins[indexOfLargestAmount].amount
     const largestAmountCoin = walletCoins[indexOfLargestAmount].short
-    const largestAmountInCoin = minimumLoanAmount*10000*largestAmount
+    const coinUsdRatio = largestAmountUsd / largestAmount
+    const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
@@ -145,9 +148,9 @@ class BorrowLanding extends Component {
             style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
         </View>
 
-        <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { largestAmountInCoin - largestAmount } more { largestAmountCoin }</CelText>
+        <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto(minimumAmountInCoin - largestAmount, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
 
-        <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is $5.000. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
+        <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is {formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
       </View>
       )
     }
