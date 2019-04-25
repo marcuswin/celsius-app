@@ -66,21 +66,21 @@ class KYCTaxpayer extends Component {
   isFromUS = () => {
     const { formData } = this.props;
 
-    let usCitizen = false
-    if (formData.citizenship.name === 'United States' || formData.country.name === 'United States') usCitizen = true
+    let usCitizen = false;
+    if (formData.citizenship.name === "United States" || formData.country.name === "United States") usCitizen = true;
     // if (user.citizenship === 'United States' || user.country === 'United States') usCitizen = true
-    return usCitizen
-  }
+    return usCitizen;
+  };
 
   submitTaxpayerInfo = async () => {
     const { actions, formData } = this.props;
     let updateTaxInfo;
-    const errors  = {};
+    const errors = {};
     if (this.isFromUS()) {
       if (formData.ssn === "" || !formData.ssn) {
         errors.ssn = "Please enter valid SSN.";
         actions.setFormErrors(errors);
-        return
+        return;
       }
       updateTaxInfo = { ssn: formData.ssn };
     } else {
@@ -116,7 +116,8 @@ class KYCTaxpayer extends Component {
 
         {(this.isFromUS()) ?
           <React.Fragment>
-            <CelInput keyboardType={"number-pad"} margin="20 0 20 0" type="password" field="ssn" placeholder="Social Security Number (optional)"
+            <CelInput keyboardType={"number-pad"} margin="20 0 20 0" type="password" field="ssn"
+                      placeholder="Social Security Number (optional)"
                       value={formData.ssn} error={formErrors.ssn}/>
             <Card margin={"0 0 20 0"}>
               <CelText type={"H5"} weight={"300"}>
@@ -144,15 +145,15 @@ class KYCTaxpayer extends Component {
           Continue
         </CelButton>
 
-        <CelButton
+        {this.isFromUS() && <CelButton
           onPress={() => actions.openModal(MODALS.SSN_MODAL)}
           disabled={updatingTaxInfo}
           basic
           margin="20 0 20 0"
         >
           Skip
-        </CelButton>
-      <SsnModal/>
+        </CelButton>}
+        <SsnModal/>
       </RegularLayout>
     );
   }
