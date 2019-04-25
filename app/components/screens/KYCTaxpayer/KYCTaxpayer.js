@@ -13,6 +13,8 @@ import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import { MODALS } from "../../../constants/UI";
+import SsnModal from "../../organisms/SsnModal/SsnModal";
 
 @connect(
   state => ({
@@ -66,11 +68,11 @@ class KYCTaxpayer extends Component {
   isFromUS = () => {
     const { formData } = this.props;
 
-    let usCitizen = false
-    if (formData.citizenship.name === 'United States' || formData.country.name === 'United States') usCitizen = true
+    let usCitizen = false;
+    if (formData.citizenship.name === "United States" || formData.country.name === "United States") usCitizen = true;
     // if (user.citizenship === 'United States' || user.country === 'United States') usCitizen = true
-    return usCitizen
-  }
+    return usCitizen;
+  };
 
   submitTaxpayerInfo = async () => {
     const { actions, formData } = this.props;
@@ -205,15 +207,27 @@ class KYCTaxpayer extends Component {
 
           </CelButton>
         </View>
-        <CelButton
-          onPress={() => actions.navigateTo('KYCVerifyID')}
+
+
+        {this.isFromUS() ? <CelButton
+          onPress={() => actions.openModal(MODALS.SSN_MODAL)}
           disabled={updatingTaxInfo}
           basic
           margin="20 0 20 0"
         >
           Skip
-        </CelButton>
+        </CelButton> :
 
+          <CelButton
+          onPress={() => actions.navigateTo('KYCVerifyID')}
+            disabled={updatingTaxInfo}
+            basic
+            margin="20 0 20 0"
+          >
+            Skip
+        </CelButton>
+        }
+        <SsnModal />
       </RegularLayout>
     );
   }

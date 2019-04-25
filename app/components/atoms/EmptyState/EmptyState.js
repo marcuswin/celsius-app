@@ -58,8 +58,7 @@ class EmptyState extends Component {
     const style = EmptyStateStyle();
     let kyc = 'Collecting'
     let kycColor = STYLES.COLORS.CELSIUS_BLUE
-
-    if (kycStatus === 'R                              ejected') {
+    if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
       kyc = 'Rejected'
       kycColor = STYLES.COLORS.RED
     }
@@ -77,7 +76,7 @@ class EmptyState extends Component {
             style={{ width: 140, height: 140, resizeMode: "contain" }} />
         </View>
 
-        <CelText margin="10 0 0 0" align="center" type="H5" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''}</CelText>
+        <CelText margin="10 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''}</CelText>
 
         <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
 
@@ -91,7 +90,7 @@ class EmptyState extends Component {
 
         {support ? (
           <ContactSupport />
-        ) : null} 
+        ) : null}
         <TodayInterestRatesModal />
       </View>
 

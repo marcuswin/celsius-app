@@ -153,28 +153,22 @@ class KYCLanding extends Component {
   renderStatus = () => {
     const { kycStatus } = this.props
     const style = KYCLandingStyle()
-    let kyc
-    let kycColor
-
-    if (kycStatus === 'rejected') {
+    let kyc = ''
+    let kycColor = STYLES.COLORS.CELSIUS_BLUE
+    if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
       kyc = 'Rejected'
       kycColor = STYLES.COLORS.RED
-    }
-    if (kycStatus === 'pending' ||
+    } else if (kycStatus === 'pending' ||
       kycStatus === 'sending' ||
       kycStatus === 'sent') {
       kyc = 'In progress'
       kycColor = STYLES.COLORS.ORANGE
     }
-    else {
-      kyc = ''
-      kycColor = STYLES.COLORS.CELSIUS_BLUE
-    }
     return (
       <CelText
         margin={'0 0 20 0'}
         align={'center'}
-        type={'H2'}
+        type={'H3'}
         weight={'500'}
         style={style.kycStatus}
         color={kycColor}
@@ -186,7 +180,7 @@ class KYCLanding extends Component {
 
   renderProgressSteps = kycStatus => {
     const { actions } = this.props
-    
+
     return progressSteps.map(step => (
       <CelButton
         key={step}
