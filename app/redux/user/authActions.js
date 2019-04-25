@@ -314,7 +314,11 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
+      if(user.kyc && user.kyc.status === KYC_STATUSES.passed){
+        dispatch(navigateTo('WalletLanding'));
+      }else{
       dispatch(navigateTo('KYCLanding'));
+      }
 
       analytics.registrationCompleted(user)
     } catch (err) {
