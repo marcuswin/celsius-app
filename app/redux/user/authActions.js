@@ -15,7 +15,6 @@ import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
 import { setFormErrors } from '../forms/formsActions';
 import meService from '../../services/me-service';
-import { KYC_STATUSES } from '../../constants/DATA'
 import analytics from "../../utils/analytics";
 import branchUtil from "../../utils/branch-util"
 
@@ -66,12 +65,7 @@ function loginUser() {
         tokens: res.data.auth0,
         user,
       })
-
-      if (user.kyc && user.kyc.status === KYC_STATUSES.passed) {
         dispatch(navigateTo('WalletFab'));
-      } else {
-        dispatch(navigateTo('KYC'));
-      }
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -314,11 +308,7 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      if(user.kyc && user.kyc.status === KYC_STATUSES.passed){
-        dispatch(navigateTo('WalletLanding'));
-      }else{
-      dispatch(navigateTo('KYCLanding'));
-      }
+      dispatch(navigateTo('WalletFab'));
 
       analytics.registrationCompleted(user)
     } catch (err) {

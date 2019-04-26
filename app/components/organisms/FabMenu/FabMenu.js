@@ -49,11 +49,10 @@ class FabMenu extends Component {
   };
 
   getMenuItems(menu) {
-    const { kycStatus } = this.props
     return {
       main: [
         [
-          { label: 'Wallet', screen: kycStatus === KYC_STATUSES.passed ? 'WalletFab' : 'KYC' },
+          { label: 'Wallet', screen: 'WalletFab' },
           { label: 'Borrow', screen: 'BorrowFab' },
           { label: 'CelPay', screen: 'CelPayFab' },
         ],

@@ -56,7 +56,7 @@ class Home extends Component {
         if (!user.has_pin) {
           return prevProps.actions.navigateTo("RegisterSetPin");
         }
-        return prevProps.actions.navigateTo("KYC");
+        return prevProps.actions.navigateTo("WalletFab");
       }
       return prevProps.actions.navigateTo("Welcome");
     }
