@@ -91,16 +91,31 @@ class CelPayChooseFriend extends Component {
       await this.setContacts(data);
       await this.getContacts();
     }
-
+    const haseFrieds = this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
     navigation.setParams({
-      title: permission ? "Choose a friend to CelPay" : "No friends?",
-      right: permission ? "search" : "profile"
+      title: permission && haseFrieds ? "Choose a friend to CelPay" : "No friends?",
+      right: permission && haseFrieds ? "search" : "profile"
     })
 
     this.setState({
       hasContactPermission: permission,
       isLoading: false
     });
+  }
+
+  
+  // lifecycle methods
+  async componentWillReceiveProps(nextProps) {
+    const { navigation } = this.props;
+
+    // set image after camera
+    if (nextProps.contacts && nextProps.contacts.friendsWithApp && nextProps.contacts.friendsWithApp.length > 0) {
+      const permission = await hasPermission(Permissions.CONTACTS);
+      navigation.setParams({
+        title: permission ? "Choose a friend to CelPay" : "No friends?",
+        right: permission ? "search" : "profile"
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -139,8 +154,8 @@ class CelPayChooseFriend extends Component {
     }
 
     navigation.setParams({
-      title: permission ? "Choose a friend to CelPay" : "No friends?",
-      right: permission ? "search" : "profile"
+      title: permission && this.props.contacts.length > 0 ? "Choose a friend to CelPay" : "No friends?",
+      right: permission && this.props.contacts.length > 0 ? "search" : "profile"
     })
     this.setState({
       hasContactPermission: permission,
