@@ -69,24 +69,24 @@ function getDefaultEmptyState(purpose, actions) {
 				title: status => status,
 				heading: "Send crypto to your friends",
 				paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_VERIFIED_DEPOSIT:
 			return {
 				title: status => status,
 				heading: "Start earning interest",
 				paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_VERIFIED_BORROW:
 			return {
 				title: status => status,
 				heading: "Borrow Dollars for Crypto",
 				paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_MEMBER_CELPAY:
 			return {

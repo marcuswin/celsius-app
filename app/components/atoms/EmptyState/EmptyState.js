@@ -66,6 +66,7 @@ class EmptyState extends Component {
       kycColor = STYLES.COLORS.ORANGE
     }
 
+
     return (
       <View style={style.container}>
         <View>
@@ -82,7 +83,7 @@ class EmptyState extends Component {
         ))}
 
         {button && onPress ? (
-          <CelButton margin="10 0 10 0" onPress={onPress}>{button}</CelButton>
+          <CelButton margin="10 0 10 0" disabled={["pending", "sending", "sent"].indexOf(kycStatus) !== -1} onPress={onPress}>{button}</CelButton>
         ) : null}
 
         {support ? (
