@@ -78,8 +78,6 @@ class CameraScreen extends Component {
   async componentWillMount () {
     const { actions } = this.props
     actions.setFabType('hide')
-    await this.getCameraPermissions()
-    await this.getCameraRollPermissions()
   }
 
   getCameraPermissions = async () => {
