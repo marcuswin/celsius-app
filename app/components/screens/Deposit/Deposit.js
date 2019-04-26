@@ -34,6 +34,7 @@ import IconButton from '../../organisms/IconButton/IconButton';
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
+    depositCompliance: state.user.compliance.deposit,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -207,12 +208,13 @@ class Deposit extends Component {
   );
 
   render() {
-    const { actions, formData, eligibleCoins, kycStatus } = this.props;
+    const { actions, formData, eligibleCoins, kycStatus, depositCompliance } = this.props;
     const { address, alternateAddress, destinationTag, memoId } = this.getAddress(formData.selectedCoin);
     const { useAlternateAddress, isFetchingAddress } = this.state;
     const styles = DepositStyle();
 
     if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }} />
+    if (!depositCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
     return (
       <RegularLayout padding={'20 0 100 0'}>
 

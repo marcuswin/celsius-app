@@ -22,6 +22,9 @@ import { KYC_STATUSES } from "../../../constants/DATA";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
+    celpayCompliance: state.user.compliance.celpay,
+    depositCompliance: state.user.compliance.deposit,
+    loanCompliance: state.user.compliance.loan,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -49,22 +52,24 @@ class FabMenu extends Component {
   };
 
   getMenuItems(menu) {
-    return {
-      main: [
-        [
-          { label: 'Wallet', screen: 'WalletFab' },
-          { label: 'Borrow', screen: 'BorrowFab' },
-          { label: 'CelPay', screen: 'CelPayFab' },
-        ],
-        [
-          { label: 'Deposit', screen: 'DepositFab' },
-          { label: 'Settings', screen: 'Settings' },
-          // { label: 'Support', screen: 'SupportFab' },
-        ],
-        // [
-        //   { label: 'Community', screen: 'CommunityFab' },
-        // ]
+    const {depositCompliance, celpayCompliance, loanCompliance} = this.props;
+    const main = [
+      [
+        { label: 'Wallet', screen: 'WalletFab' },
       ],
+      [
+        { label: 'Settings', screen: 'Settings' },
+        // { label: 'Support', screen: 'SupportFab' },
+      ],
+      // [
+      //   { label: 'Community', screen: 'CommunityFab' },
+      // ]
+    ]
+    if (depositCompliance.allowed) main[1].push({ label: 'Deposit', screen: 'DepositFab' });
+    if (loanCompliance.allowed) main[0].push({ label: 'Borrow', screen: 'BorrowFab' });
+    if (celpayCompliance.allowed) main[0].push({ label: 'CelPay', screen: 'CelPayFab' });
+    return {
+      main,
       support: [],
     }[menu];
   }

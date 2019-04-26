@@ -53,6 +53,7 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
+    celpayCompliance: state.user.compliance.celpay,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -195,11 +196,12 @@ class CelPayChooseFriend extends Component {
   );
 
   render() {
-    const { user, kycStatus } = this.props;
+    const { user, kycStatus, celpayCompliance } = this.props;
     const { isLoading } = this.state;
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
+    if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
     if (isLoading) return <LoadingScreen />
 
     const RenderContent = this.renderContent;
