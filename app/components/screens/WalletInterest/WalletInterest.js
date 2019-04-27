@@ -75,7 +75,7 @@ class WalletInterest extends Component {
     const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance, email } = this.props;
     const style = WalletInterestStyle();
 
-    const disabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
+    const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     if (!appSettings || !loyaltyInfo) return <LoadingScreen />
     if (!interestCompliance) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
@@ -101,15 +101,15 @@ class WalletInterest extends Component {
           type={"total-interest"}
         />
 
-        <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
+     { notDisabled &&
+       <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
           <CelInterestCard
             tier={loyaltyInfo.tier.title}
             interestBonus={loyaltyInfo.earn_interest_bonus}
             interestInCel={appSettings.interest_in_cel}
             setUserAppSettings={actions.setUserAppSettings}
-            disabled={!disabled}
           />
-        </View>
+        </View>}
 
         <View style={style.container}>
           <TransactionsHistory

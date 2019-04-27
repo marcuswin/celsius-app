@@ -6,6 +6,7 @@ import testUtil from "../../../utils/test-util";
 import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
+import Spinner from "../../atoms/Spinner/Spinner";
 // import Spinner from "../../atoms/Spinner/Spinner";
 
 class CelInterestCard extends Component {
@@ -14,7 +15,6 @@ class CelInterestCard extends Component {
     interestBonus: PropTypes.number.isRequired,
     interestInCel: PropTypes.bool,
     setUserAppSettings: PropTypes.func.isRequired,
-    disabled: PropTypes.bool
   };
   static defaultProps = {}
 
@@ -32,8 +32,8 @@ class CelInterestCard extends Component {
   }
 
   render() {
-    const { interestBonus, interestInCel, tier, disabled } = this.props
-    // const { loading } = this.state
+    const { interestBonus, interestInCel, tier } = this.props
+    const { loading } = this.state
     if (tier === 'NONE') return null
     const falseColor = Platform.OS === 'ios' ? "transparent" : STYLES.COLORS.DARK_GRAY3;
 
@@ -43,10 +43,9 @@ class CelInterestCard extends Component {
         <CelText color='gray' type={"H4"} weight={"300"} margin={"15 0 15 0"}>
           Switch to earning interest in CEL, and earn { interestBonus }% better rates.
         </CelText>
-        {/* { loading ? ( */}
-          {/* <Spinner size={35} /> */}
-        {/* ) : ( */}
-        { disabled ? null :
+         { loading ? (
+           <Spinner size={35} />
+         ) : (
             <Switch
               thumbColor={STYLES.COLORS.WHITE}
               ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
@@ -54,9 +53,7 @@ class CelInterestCard extends Component {
               value={interestInCel}
               onValueChange={this.handleValueChange}
             />
-        }
-        {/* )} */}
-
+         )}
       </Card>
     );
   }

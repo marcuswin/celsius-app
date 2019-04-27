@@ -53,7 +53,7 @@ class LoyaltyProgram extends Component {
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
 
-    const disabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
+    const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     // Todo(ns) make text below(and calculation) PieProgressBar visible and useful
 
@@ -171,13 +171,13 @@ class LoyaltyProgram extends Component {
               </CelText>
             </View>
 
+            { notDisabled &&
             <CelInterestCard
               tier={loyaltyInfo.tier.title}
               interestBonus={loyaltyInfo.earn_interest_bonus}
               interestInCel={appSettings.interest_in_cel}
               setUserAppSettings={actions.setUserAppSettings}
-              disabled={!disabled}
-            />
+            />}
             <CelButton
               margin={"30 0 10 0"}
               onPress={() => actions.navigateTo("Deposit", { coin: "CEL" })}
