@@ -97,17 +97,22 @@ export const SentTo = ({ transaction, text }) => (
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
         <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
       </View>
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row'}}>
-        {!transaction.transfer_data.claimer.profile_picture ? require('../../../../assets/images/empty-profile/empty-profile.png') : <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }} style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
-      <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10  }}>
-        <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
-        <CelText style={{paddingTop: 5}} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-        {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null} 
-        </CelText>
-      </View>
-      <View style={{paddingTop: 10}}>
-        <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
-      </View>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        {!transaction.transfer_data.claimer.profile_picture ?
+          <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+          :
+          <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
+        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+          <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+          <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+            {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
+          </CelText>
+        </View>
+        <View style={{ paddingTop: 10 }}>
+          <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
+        </View>
       </View>
     </Card>
   </View>
