@@ -31,6 +31,7 @@ import LoadingScreen from "../BalanceHistory/BalanceHistory";
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
+    interestCompliance: state.user.compliance.interest
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -70,10 +71,11 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { walletSummary, user, appSettings, loyaltyInfo, actions } = this.props;
+    const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance } = this.props;
     const style = WalletInterestStyle();
 
     if (!appSettings || !loyaltyInfo) return <LoadingScreen />
+    if (!interestCompliance) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_INTEREST }} />
     if (walletSummary.total_interest_earned <= 0) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }} />
 
