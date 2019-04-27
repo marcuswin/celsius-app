@@ -96,7 +96,7 @@ class RegisterSetPin extends Component {
     const style = ChangePinStyle();
 
     return (
-      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
+      <RegularLayout padding='20 0 100 0' fabType={'hide'}>
         <View style={style.container}>
           <View style={style.wrapper}>
             <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">{ headingText }</CelText>
