@@ -31,7 +31,8 @@ import LoadingScreen from "../BalanceHistory/BalanceHistory";
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
-    interestCompliance: state.user.compliance.interest
+    interestCompliance: state.user.compliance.interest,
+    email: state.user.profile.email
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -71,8 +72,10 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance } = this.props;
+    const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance, email } = this.props;
     const style = WalletInterestStyle();
+
+    const disabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     if (!appSettings || !loyaltyInfo) return <LoadingScreen />
     if (!interestCompliance) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
@@ -104,6 +107,7 @@ class WalletInterest extends Component {
             interestBonus={loyaltyInfo.earn_interest_bonus}
             interestInCel={appSettings.interest_in_cel}
             setUserAppSettings={actions.setUserAppSettings}
+            disabled={!disabled}
           />
         </View>
 

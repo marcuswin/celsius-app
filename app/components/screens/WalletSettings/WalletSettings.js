@@ -8,8 +8,8 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 // import WalletSettingsStyle from "./WalletSettings.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-// import Separator from '../../atoms/Separator/Separator'
-// import IconButton from '../../organisms/IconButton/IconButton'
+import Separator from "../../atoms/Separator/Separator";
+import IconButton from "../../organisms/IconButton/IconButton";
 import STYLES from "../../../constants/STYLES";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
@@ -22,7 +22,8 @@ import CelText from "../../atoms/CelText/CelText";
   state => ({
     appSettings: state.user.appSettings,
     formData: state.forms.formData,
-    callsInProgress: state.api.callsInProgress
+    callsInProgress: state.api.callsInProgress,
+    email: state.user.profile.email
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -65,30 +66,33 @@ class WalletSettings extends Component {
   };
 
   render() {
-    const { callsInProgress } = this.props;
+    const { callsInProgress, email } = this.props;
 
     const loading = apiUtil.areCallsInProgress([API.GET_APP_SETTINGS], callsInProgress);
     if (loading) return <LoadingScreen/>;
+    const disabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     return (
       <RegularLayout>
-        {/* <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton>
-        <IconButton margin='0 0 20 0'>Default view</IconButton> */}
-        {/* <Separator text='INTEREST' />*/}
+        <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton>
+        <IconButton margin='0 0 20 0'>Default view</IconButton>
+        <Separator text='INTEREST'/>
 
-        {/* <IconButton */}
-        {/* margin={"20 0 20 0"} */}
-        {/* right={this.rightSwitch()} */}
-        {/* hideIconRight */}
-        {/* onPress={() => this.changeInterestEarn()} */}
-        {/* > */}
-        {/* Earn interest in CEL */}
-        {/* </IconButton> */}
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <Card size={"half"}>
-            <CelText align={"center"} weight={"500"} type={"H5"}>COMING SOON!</CelText>
-          </Card>
-        </View>
+        {disabled ?
+          <IconButton
+            margin={"20 0 20 0"}
+            right={this.rightSwitch()}
+            hideIconRight
+            onPress={() => this.changeInterestEarn()}
+          >
+            Earn interest in CEL
+          </IconButton> :
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Card size={"half"}>
+              <CelText align={"center"} weight={"500"} type={"H5"}>COMING SOON!</CelText>
+            </Card>
+          </View>
+        }
       </RegularLayout>
     );
   }

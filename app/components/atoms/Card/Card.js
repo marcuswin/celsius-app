@@ -26,7 +26,8 @@ class Card extends React.Component {
     opacity: 1,
     styles: {},
     onPress: null,
-    close: false
+    close: false,
+    color: "white"
   }
 
   constructor (props) {
@@ -47,7 +48,8 @@ class Card extends React.Component {
       children,
       styles,
       onPress,
-      close
+      close,
+      color
     } = this.props
     const { open } = this.state
     const style = CardStyle()
@@ -67,7 +69,7 @@ class Card extends React.Component {
       <Fragment>
         {close && (
           <TouchableOpacity
-            style={{ position: 'absolute', right: 10, top: 0 }}
+            style={{ position: 'absolute', right: 10, top: 0, backgroundColor: color }}
             onPress={this.closeCard}
           >
             <Icon

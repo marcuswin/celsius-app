@@ -1,6 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
-import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
@@ -8,9 +7,10 @@ const base = {
   },
   progressView: {
     height: heightPercentageToDP("25.5%"),
-    backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-evenly",
+    paddingHorizontal: 40
   },
   bonusCard: {
     width: widthPercentageToDP("89%"),
@@ -22,6 +22,13 @@ const base = {
     width: widthPercentageToDP("9%"),
     height: widthPercentageToDP("9%"),
   },
+  starIcon: {
+    resizeMode: "contain",
+    width: widthPercentageToDP("18.3%"),
+    height: widthPercentageToDP("18.3%"),
+    marginTop: heightPercentageToDP("3%"),
+    marginBottom: heightPercentageToDP("0.5%"),
+  },
   circle: {
     width: widthPercentageToDP("17%"),
     height: widthPercentageToDP("17%"),
@@ -29,30 +36,35 @@ const base = {
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: heightPercentageToDP("3%")
+    marginTop: heightPercentageToDP("3%"),
+    // marginTop: heightPercentageToDP("1,53%"),
+    marginBottom: heightPercentageToDP("0.8%"),
   },
   title: {
-    marginTop: heightPercentageToDP("1.5%")
+    marginBottom: heightPercentageToDP("0.4%")
   },
   explanation: {
-    marginTop: heightPercentageToDP("0.8%")
+    marginBottom: heightPercentageToDP("1.73%")
   },
   hodlImage: {
     resizeMode: "contain",
-    height: heightPercentageToDP("20%"),
-    width: widthPercentageToDP("70%")
+    height: heightPercentageToDP("30%"),
+    width: widthPercentageToDP("90%"),
+    marginTop: heightPercentageToDP("1.73%")
   },
   arcChart: {
     marginHorizontal: widthPercentageToDP("8%")
   },
   contentWrapper: {
     marginHorizontal: 20,
-    marginTop: heightPercentageToDP("1.5%")
+    marginTop: heightPercentageToDP("1.5%"),
+    alignItems: "center",
+    justifyContent: "center"
   },
   interestCard: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-between"
   }
 };
 

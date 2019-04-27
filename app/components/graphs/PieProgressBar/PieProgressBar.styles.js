@@ -11,7 +11,6 @@ const base = {
     marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.3)",
     height: heightPercentageToDP("20.3%"),
     width: heightPercentageToDP("20.3%"),
     borderRadius: height / 2
@@ -23,7 +22,6 @@ const base = {
     width: heightPercentageToDP("18.7%"),
     height: heightPercentageToDP("18.7%"),
     borderRadius: height / 2,
-    backgroundColor: "rgba(65, 86, 166, 1)"
   },
   contentCircle: {
     position: "absolute",
@@ -34,7 +32,7 @@ const base = {
     width: heightPercentageToDP("17%"),
     height: heightPercentageToDP("17%"),
     borderRadius: height/ 2,
-    backgroundColor: "rgba(255,255,255,0.3)"
+    // backgroundColor: "rgba(255,255,255,0.3)"
   }
 };
 
