@@ -61,10 +61,10 @@ class CoinDetails extends Component {
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
     const coin = navigation.getParam("coin");
-    if (walletSummary.coins) {
+    if (walletSummary && walletSummary.coins) {
       return walletSummary.coins.find(c => c.short === coin.toUpperCase());
     }
-    return null;
+    return {};
   }
 
   navigateToAllTransactions = () => {
@@ -151,7 +151,7 @@ class CoinDetails extends Component {
                   <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                   <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                 </View>
-                {!!coinDetails && !!interestRates[coinDetails.short] && (
+                {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                   <View style={style.interestRateWrapper}>
                     <CelText type="H6" weight='300'>Current rate</CelText>
                     <View>
