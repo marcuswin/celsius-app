@@ -12,6 +12,7 @@ export {
   disableAccessibilityFontScaling,
   widthPercentageToDP,
   heightPercentageToDP,
+  getFont
 };
 
 
@@ -126,6 +127,26 @@ function heightPercentageToDP(heightPercent) {
  * @param {number} fontSize
  * @retunrs {number}
  */
+
 function getScaledFont(fontSize) {
   return fontSize;
+}
+
+
+
+/**
+ * Gets scaled font size for different devices or different themes
+ *
+ * @param {number} fontSize
+ * @retunrs {number}
+ */
+
+function getFont(fontSize) {
+
+  const scale = 350
+
+  const ratio = fontSize / scale; // get ratio based on your standard scale 
+  const newSize = Math.round(ratio * width);
+  return newSize;
+
 }
