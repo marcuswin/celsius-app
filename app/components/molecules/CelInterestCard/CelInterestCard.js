@@ -7,6 +7,7 @@ import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
 import Spinner from "../../atoms/Spinner/Spinner";
+// import Spinner from "../../atoms/Spinner/Spinner";
 
 class CelInterestCard extends Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class CelInterestCard extends Component {
     setUserAppSettings: PropTypes.func.isRequired,
   };
   static defaultProps = {}
-  
+
   constructor(props) {
     super(props);
 
@@ -25,13 +26,13 @@ class CelInterestCard extends Component {
 
   handleValueChange = async (value) => {
     const { setUserAppSettings } = this.props;
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     await setUserAppSettings({ interest_in_cel: value })
     this.setState({ loading: false })
   }
 
   render() {
-    const { interestInCel, interestBonus, tier } = this.props
+    const { interestBonus, interestInCel, tier } = this.props
     const { loading } = this.state
     if (tier === 'NONE') return null
     const falseColor = Platform.OS === 'ios' ? "transparent" : STYLES.COLORS.DARK_GRAY3;
@@ -42,19 +43,17 @@ class CelInterestCard extends Component {
         <CelText color='gray' type={"H4"} weight={"300"} margin={"15 0 15 0"}>
           Switch to earning interest in CEL, and earn { interestBonus }% better rates.
         </CelText>
-
-        { loading ? (
-          <Spinner size={35} />
-        ) : (
-          <Switch
-            thumbColor={STYLES.COLORS.WHITE}
-            ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
-            trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
-            value={interestInCel}
-            onValueChange={this.handleValueChange}
-          />
-        )}
-
+         { loading ? (
+           <Spinner size={35} />
+         ) : (
+            <Switch
+              thumbColor={STYLES.COLORS.WHITE}
+              ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
+              trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
+              value={interestInCel}
+              onValueChange={this.handleValueChange}
+            />
+         )}
       </Card>
     );
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
+import { Permissions } from 'expo'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -44,7 +45,23 @@ class KYCVerifyID extends Component {
     actions.getKYCDocuments()
     this.selectDocumentType('passport')
   }
+  
+  getCameraPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA)
 
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA)
+    }
+  }
+
+  getCameraRollPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL)
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+    }
+  }
+  
   saveFrontImage = photo => {
     const { actions } = this.props
 
@@ -52,7 +69,7 @@ class KYCVerifyID extends Component {
     actions.navigateTo('KYCVerifyID')
   }
 
-  goToFrontCamera = () => {
+  goToFrontCamera = async () => {
     const { actions } = this.props
 
     actions.activateCamera({
@@ -61,6 +78,9 @@ class KYCVerifyID extends Component {
       cameraType: 'back',
       mask: 'document'
     })
+    
+    await this.getCameraPermissions()
+    await this.getCameraRollPermissions()
     actions.navigateTo('CameraScreen', { onSave: this.saveFrontImage })
   }
 
@@ -71,7 +91,7 @@ class KYCVerifyID extends Component {
     actions.navigateTo('KYCVerifyID')
   }
 
-  goToBackCamera = () => {
+  goToBackCamera = async () => {
     const { actions } = this.props
 
     actions.activateCamera({
@@ -80,6 +100,9 @@ class KYCVerifyID extends Component {
       cameraType: 'back',
       mask: 'document'
     })
+    
+    await this.getCameraPermissions()
+    await this.getCameraRollPermissions()
     actions.navigateTo('CameraScreen', { onSave: this.saveBackImage })
   }
 

@@ -8,10 +8,12 @@ import RegisterSetPin from '../../components/screens/RegisterSetPin/RegisterSetP
 import TermsOfUse from '../../components/screens/TermsOfUse/TermsOfUse'
 import Welcome from '../../components/screens/Welcome/Welcome'
 import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
+import LockedAccount from '../../components/screens/LockedAccount/LockedAccount'
 
 
 export const authFlow = {
   screens: {
+    LockedAccount,
     Login,
     ForgotPassword,
     RegisterInitial,

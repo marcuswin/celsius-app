@@ -31,6 +31,8 @@ import LoadingScreen from "../BalanceHistory/BalanceHistory";
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
+    interestCompliance: state.user.compliance.interest,
+    email: state.user.profile.email
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -70,10 +72,13 @@ class WalletInterest extends Component {
   }
 
   render() {
-    const { walletSummary, user, appSettings, loyaltyInfo, actions } = this.props;
+    const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance, email } = this.props;
     const style = WalletInterestStyle();
 
+    const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
+
     if (!appSettings || !loyaltyInfo) return <LoadingScreen />
+    if (!interestCompliance) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_INTEREST }} />
     if (walletSummary.total_interest_earned <= 0) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }} />
 
@@ -96,14 +101,15 @@ class WalletInterest extends Component {
           type={"total-interest"}
         />
 
-        <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
+     { notDisabled &&
+       <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
           <CelInterestCard
             tier={loyaltyInfo.tier.title}
             interestBonus={loyaltyInfo.earn_interest_bonus}
             interestInCel={appSettings.interest_in_cel}
             setUserAppSettings={actions.setUserAppSettings}
           />
-        </View>
+        </View>}
 
         <View style={style.container}>
           <TransactionsHistory

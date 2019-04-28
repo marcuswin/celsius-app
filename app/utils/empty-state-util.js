@@ -39,13 +39,13 @@ function getDefaultEmptyState(purpose, actions) {
 			}
 		case EMPTY_STATES.COMPLIANCE:
 			return {
-				image: require("../../assets/images/OfflineMode/deer-tangled3x.png"),
+				image: require("../../assets/images/diane-sad3x.png"),
 				heading: "Sorry!",
 				paragraphs: ["We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region."]
 			}
 		case EMPTY_STATES.UNDER_CONSTRUCTION:
 			return {
-				image: require("../../assets/images/OfflineMode/deer-tangled3x.png"),
+				image: require("../../assets/images/diane-sad3x.png"),
 				title: status => status,
 				heading: "Under Construction!",
 				paragraphs: ["We are working really hard on this feature!"]
@@ -60,7 +60,7 @@ function getDefaultEmptyState(purpose, actions) {
 			return {
 				image: require("../../assets/images/money-bear3x.png"),
 				heading: "Keep HODLing",
-				paragraphs: ["We're paying interest in kind every Monday! It means you will earn interest in BTC for your BTC deposits. ETH for ETH, etc. YOu can earn up to 7% a year on your coins."],
+				paragraphs: ["We're paying interest in kind every Monday! It means you will earn interest in BTC for your BTC deposits. ETH for ETH, etc. You can earn up to 7% a year on your coins."],
 				button: "Check this week's rates",
 				onPress: () => actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
 			}
@@ -69,24 +69,24 @@ function getDefaultEmptyState(purpose, actions) {
 				title: status => status,
 				heading: "Send crypto to your friends",
 				paragraphs: ["Quickly, easily and with no fees or keys required. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_VERIFIED_DEPOSIT:
 			return {
 				title: status => status,
 				heading: "Start earning interest",
 				paragraphs: ["Start earning 7% a year on your coin. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_VERIFIED_BORROW:
 			return {
 				title: status => status,
 				heading: "Borrow Dollars for Crypto",
 				paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
-				// button: "Verify profile",
-				// onPress: () =>  actions.navigateTo("KYCProfileDetails")
+				button: "Verify profile",
+				onPress: () =>  actions.navigateTo("KYCProfileDetails")
 			}
 		case EMPTY_STATES.NON_MEMBER_CELPAY:
 			return {

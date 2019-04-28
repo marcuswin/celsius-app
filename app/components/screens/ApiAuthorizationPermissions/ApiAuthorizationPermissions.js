@@ -30,7 +30,7 @@ class ApiAuthorizationPermissions extends Component {
   }
 
   static navigationOptions = () => ({
-    title: "Api Authorization",
+    title: "API Authorization",
   });
 
   constructor(props) {

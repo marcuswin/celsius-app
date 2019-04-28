@@ -16,8 +16,6 @@ class OfflineMode extends Component {
           />
         </View>
 
-        {/* <CelText margin="10 0 0 0" align="center" type="H3" weight={"500"} bold>No internet connection</CelText> */}
-
         <CelText
           margin='20 0 15 0'
           align='center'

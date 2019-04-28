@@ -136,7 +136,8 @@ class GraphContainer extends Component {
     const isLoading = !graphData || !graphData.length || apiUtil.areCallsInProgress(activeCall, callsInProgress);
 
     const { dates, prices } = this.splitArrays();
-
+    
+    if(!currenciesRates) return null
     if (type === "coin-balance") {
       rate = currenciesRates.find((c) => c.short === coin).price_change_usd[timeline];
     }

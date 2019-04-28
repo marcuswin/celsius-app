@@ -283,7 +283,7 @@ function verifyKYCDocs() {
       await meService.startKYC();
       dispatch(startKYCSuccess());
 
-      dispatch(NavActions.navigateTo('WalletLanding'));
+      dispatch(NavActions.navigateTo('WalletFab'));
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
 
       analytics.kycStarted()

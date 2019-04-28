@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Constants } from 'expo';
+import { Constants, Permissions } from 'expo';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -85,6 +85,22 @@ class ChangeAvatar extends Component {
   //   this.setState({ activeImage: imgSrc.url });
   // }
 
+  getCameraPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA)
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA)
+    }
+  }
+
+  getCameraRollPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA_ROLL)
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+    }
+  }
+
   updateProfilePicture = (imgSrc) => {
     const { actions, callsInProgress } = this.props;
 
@@ -94,8 +110,9 @@ class ChangeAvatar extends Component {
     actions.updateProfilePicture(imgSrc.url);
     this.setState({ activeImage: imgSrc.url });
   }
+  
 
-  goToCamera = () => {
+  goToCamera = async () => {
     const { actions } = this.props;
 
     actions.activateCamera({
@@ -105,6 +122,9 @@ class ChangeAvatar extends Component {
       cameraType: 'front',
       mask: 'circle'
     })
+    
+    await this.getCameraPermissions()
+    await this.getCameraRollPermissions()
     actions.navigateTo("CameraScreen", { onSave: this.saveCameraPhoto });
   }
 
