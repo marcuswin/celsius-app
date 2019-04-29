@@ -79,21 +79,10 @@ class KYCTaxpayer extends Component {
     let updateTaxInfo;
     const errors = {};
     if (this.isFromUS()) {
-      if (!formData.ssn1 || formData.ssn1.length < 3) {
-        errors.ssn1 = "";
-      }
-      if (!formData.ssn2 || formData.ssn2.length < 2) {
-        errors.ssn2 = "";
-      }
-      if (!formData.ssn3 || formData.ssn3.length < 4) {
-        errors.ssn3 = "";
-      }
-      if ((formData.ssn1 && formData.ssn1 === "" || !formData.ssn1) && (formData.ssn2 === "" || !formData.ssn2) && (formData.ssn3 === "" || !formData.ssn3)) {
+      if ( (!formData.ssn1 || formData.ssn1.length < 3) || (!formData.ssn2 || formData.ssn2.length < 2) || (!formData.ssn3 || formData.ssn3.length < 4)) {
         errors.ssn = "Please enter valid SSN."
-        return
-      }
-      if (errors.ssn || errors.ssn1 || errors.ssn2 || errors.ssn3) {
         actions.setFormErrors(errors);
+        return 
       }
       updateTaxInfo = {
         ssn: formData.ssn1 + formData.ssn2 + formData.ssn3
