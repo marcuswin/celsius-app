@@ -459,6 +459,7 @@ function registerSocialSuccess(network, token, user) {
 
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers());
+    await dispatch(initAppData());
     dispatch(navigateTo('RegisterSetPin'))
   }
 }

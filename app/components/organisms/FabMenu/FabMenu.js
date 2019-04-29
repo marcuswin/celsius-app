@@ -177,9 +177,9 @@ class FabMenu extends Component {
 
   render() {
     const style = FabMenuStyle();
-    const { fabMenuOpen, appInitialized, fabType } = this.props
+    const { fabMenuOpen, fabType } = this.props
 
-    if (!appInitialized) return null;
+    // if (!appInitialized) return null; // Too many bugs with this one line of code :D
     if (fabType === 'hide') return null;
 
     const FabMenuCmp = this.renderFabMenu;
