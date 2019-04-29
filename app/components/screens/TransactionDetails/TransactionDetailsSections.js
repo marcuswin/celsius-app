@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Linking } from "react-native";
+import { View, TouchableOpacity, Linking, Image } from "react-native";
 
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
@@ -10,6 +10,7 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
+
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -85,6 +86,39 @@ export const TransactionSection = ({ transaction, text, actions }) => (
         </View>
         <CelText weight='500' style={{ paddingBottom: 10 }} type="H4">{transaction.transaction_id}</CelText>
         <CopyButton text="Copy ID" color={STYLES.COLORS.CELSIUS_BLUE} copyText={transaction.transaction_id} onCopy={() => { actions.showMessage("success", "Transaction ID copied to clipboard!") }} />
+      </Card>
+    </View>
+  ) : null
+)
+
+export const SentTo = ({ transaction, text }) => (
+  (transaction.transfer_data.claimer) ? (
+    <View style={{ paddingHorizontal: 20 }}>
+      <Card margin={'20 0 20 0'}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+          <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+        </View>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          {!transaction.transfer_data || !transaction.transfer_data.claimer || !transaction.transfer_data.claimer.profile_picture ?
+            <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+              style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+            :
+            <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
+              style={{
+                width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3, ...STYLES.SHADOW_STYLES,
+              }} />}
+          {transaction.transfer_data && transaction.transfer_data.claimer && (
+            <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+              <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+              <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+                {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
+              </CelText>
+            </View>
+          )}
+          <View style={{ paddingTop: 10 }}>
+            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
+          </View>
+        </View>
       </Card>
     </View>
   ) : null

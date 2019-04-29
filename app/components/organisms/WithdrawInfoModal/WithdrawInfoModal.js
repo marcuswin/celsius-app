@@ -8,10 +8,7 @@ import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
-
-
-
-import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
+import DotsBar from '../../atoms/DotsBar/DotsBar';
 
 class WithdrawInfoModal extends Component {
   static propTypes = {
@@ -163,9 +160,7 @@ class WithdrawInfoModal extends Component {
       >
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>
-            <ProgressBar
-              steps={numberOfSteps}
-              currentStep={currentStep} />
+          <DotsBar length={numberOfSteps} currentStep={currentStep}/>
           </View>
           <View>
             {this.renderStep()}

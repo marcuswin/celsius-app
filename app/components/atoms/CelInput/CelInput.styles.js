@@ -6,8 +6,10 @@ import STYLES from '../../../constants/STYLES';
 const fontSize = getScaledFont(STYLES.FONTSIZE.H4);
 const base = {
     container: {
-        width: '100%',
         borderRadius: 8
+    },
+    fullScreen: {
+        width: '100%',
     },
     trans: {
         backgroundColor: 'transparent'
@@ -24,7 +26,7 @@ const base = {
     },
     input: {
         height: 23,
-        fontSize, 
+        fontSize,
         fontFamily: 'barlow-light',
     },
     disabledInput: {

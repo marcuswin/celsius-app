@@ -7,15 +7,12 @@ const base = {
     },
     wrapper: {
         alignItems: 'center',
-        paddingTop: '10%',
+        paddingTop: 10,
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        // position: 'absolute',
-        // bottom: 0,
         paddingBottom: 40,
-        paddingTop: 10
     },
     title: {
         textAlign: 'center',
@@ -36,7 +33,8 @@ const base = {
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 20,
-        paddingVertical: 20,
+        // paddingVertical: 20,
+        paddingBottom: 10
 
     },
     modalButton: {
