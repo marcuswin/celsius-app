@@ -326,15 +326,15 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_PENDING: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:cancel', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_CLAIMED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_SENT: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
-    case TRANSACTION_TYPES.CELPAY_RECEIVED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
+    case TRANSACTION_TYPES.CELPAY_RECEIVED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_RETURNED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
-    case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
-    case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
+    case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
+    case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
 
-    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
-    case TRANSACTION_TYPES.REFERRED: return ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
-    case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'hodl:info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
-    case TRANSACTION_TYPES.REFERRER: return ['info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'sentToRefferal', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
+    case TRANSACTION_TYPES.REFERRED: return ['info', 'sentToRefferal', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'sentToRefferal', 'hodl:info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
+    case TRANSACTION_TYPES.REFERRER: return ['info', 'sentToRefferal', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
 
     case TRANSACTION_TYPES.CANCELED: return ['info', 'date', 'time', 'status'] // this is random!,
 

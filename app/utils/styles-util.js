@@ -142,7 +142,6 @@ function getScaledFont(fontSize) {
  */
 
 function getFont(fontSize) {
-
   const scale = 350
 
   const ratio = fontSize / scale; // get ratio based on your standard scale 

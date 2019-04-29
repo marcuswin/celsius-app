@@ -135,7 +135,7 @@ class TransactionDetails extends Component {
       case 'transactionId':
         return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions} />;
       case 'sentTo':
-        return <SentTo key={sectionType} transaction={transaction} text="Sent to:" actions={actions}  />;
+        return <SentTo key={sectionType} transaction={transaction} text="Sent to:" actions={actions} />;
       default:
         return null;
     }

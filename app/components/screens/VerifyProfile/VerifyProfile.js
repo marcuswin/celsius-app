@@ -79,7 +79,7 @@ class VerifyProfile extends Component {
   }
 
   setForgotPin = () => {
-    const verificationError = this.state;
+    const { verificationError } = this.state;
     if (verificationError) {
       this.setState({ forgotPin: true })
     }
