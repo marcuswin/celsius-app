@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { View, Image } from "react-native";
 import * as appActions from "../../../redux/actions";
-import { KYC_STATUSES } from "../../../constants/DATA";
+import { KYC_STATUSES, RANDOM_MESSAGES } from "../../../constants/DATA";
 import Loader from "../../atoms/Loader/Loader";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import CelText from "../../atoms/CelText/CelText";
 
 const apiCalls = [];
-const randomMessages = ["Simply go to your settings and change the way you receive interest", "2FA is available, this will make your app more secure"];
 
 @connect(
   state => ({
@@ -37,7 +36,7 @@ class Home extends Component {
 
     this.state = {
       progress: 0,
-      randomMsg: randomMessages[Math.floor(Math.random() * randomMessages.length)]
+      randomMsg: RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)]
     }
   }
 
@@ -73,8 +72,8 @@ class Home extends Component {
                  width: widthPercentageToDP("33%"),
                  height: widthPercentageToDP("33%")
                }}/>
-        <CelText align={"center"} margin={"20 0 20 0"} weight={"600"} type={"H2"}>Earn interest in CEL!</CelText>
-        <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>{randomMsg}</CelText>
+        <CelText align={"center"} margin={"20 0 20 0"} weight={"600"} type={"H2"}>{randomMsg.title}</CelText>
+        <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>{randomMsg.text}</CelText>
         <Loader progress={this.state.progress}/>
       </View>
     );

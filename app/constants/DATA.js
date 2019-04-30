@@ -128,7 +128,34 @@ const MONTHS = [
   { label: 'Oct', value: '10' },
   { label: 'Nov', value: '11' },
   { label: 'Dec', value: '12' }
-]
+];
+
+const RANDOM_MESSAGES = [
+  {
+    title: "Interest Income",
+    text: "Make your Mondays a whole lot more interesting. Deposit coins and receive weekly interest payments directly to your Celsius wallet."
+  },
+  {
+    title: "Crypto is the New Collateral",
+    text: "Crypto-backed loans give you access to the cash you need at rates you deserve without selling your coins! "
+  },
+  {
+    title: "No Fees, No Worries",
+    text: "CelPay is the easiest way to send and receive crypto instantly - without the fees."
+  },
+  {
+    title: "Unity in Community",
+    text: "Celsius Network’s promise is to only act in the best interest of our community by offering unmatched financial services that are safe, secure, and rewarding."
+  },
+  {
+    title: "Join the CEL-ebration!",
+    text: "Get the most out of your Celsius app by earning in CEL! Earning interest in the CEL token gets you up to xx% more interest."
+  },
+  {
+    title: "Security is our Top Priority",
+    text: "Did you know Celsius uses BitGo as its custodian? This way we can give top security to all our customers. Be sure to turn on two-factor authentication in your profile settings to make the app as secure as possible!"
+  }
+];
 
 const years = [];
 const currentYear = (new Date()).getFullYear();
@@ -265,5 +292,6 @@ export {
   CONTACT_NETWORK,
   PREDIFINED_AMOUNTS,
   BANK_ACCOUNT_TYPE,
-  LOAN_STATUS
+  LOAN_STATUS,
+  RANDOM_MESSAGES
 }
