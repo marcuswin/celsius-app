@@ -29,7 +29,18 @@ const base = {
 
   headingBackground: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    ...STYLES.SHADOW_STYLES
+
+
+    ...Platform.select({
+      android: {
+        borderColor: STYLES.COLORS.MEDIUM_GRAY1,
+        borderBottomWidth: 2,
+
+      },
+      ios: {
+        ...STYLES.SHADOW_STYLES,
+      }
+    })
   },
 
   transparentBackground: {
@@ -50,19 +61,23 @@ const base = {
     width: 36,
     height: 36,
     borderRadius: 18,
-    ...STYLES.SHADOW_STYLES
+
+    ...Platform.select({
+      android: {
+        borderColor: STYLES.COLORS.MEDIUM_GRAY1,
+        borderBottomWidth: 2,
+      },
+      ios: {
+        ...STYLES.SHADOW_STYLES,
+      }
+    })
   },
 
   button: {
     borderRadius: 17,
     overflow: 'hidden',
     borderColor: 'black'
-
-  },
-  // image: {
-  //     borderRadius: 17,
-  //     color: 'red'
-  // }
+  }
 }
 
 const themed = {
