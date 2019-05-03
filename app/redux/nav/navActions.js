@@ -10,7 +10,8 @@ export {
   setTopLevelNavigator,
   getActiveScreen,
   getNavigator,
-  setActiveScreen
+  setActiveScreen,
+  resetToFlow
 };
 
 function setActiveScreen(screenName) {
@@ -90,5 +91,19 @@ function navigateBack(backScreenName) {
         NavigationActions.back()
       );
 //    }
+  }
+}
+
+function resetToFlow(flow) {
+  return () => {
+    _navigator.dispatch(
+      StackActions.reset({
+        index: 0,
+        key: null,
+        actions: [
+          NavigationActions.navigate({ routeName: flow })
+        ]
+      })
+    )
   }
 }
