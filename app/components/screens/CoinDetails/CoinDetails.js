@@ -77,7 +77,7 @@ class CoinDetails extends Component {
     const { actions } = this.props;
 
     actions.updateFormField('coin', currency.short)
-    actions.navigateTo('CelPayFab')
+    actions.navigateTo('CelPayChooseFriend')
   }
 
   render() {
