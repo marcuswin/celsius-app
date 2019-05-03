@@ -9,6 +9,7 @@ import KYCAddressInfo from '../../components/screens/KYCAddressInfo/KYCAddressIn
 import KYCTaxpayer from '../../components/screens/KYCTaxpayer/KYCTaxpayer'
 import KYCVerifyID from '../../components/screens/KYCVerifyID/KYCVerifyID'
 import { profileFlow } from "./profileFlow";
+import { walletFlow } from "./walletFlow";
 
 const kycFlow = {
   screens: {
@@ -19,7 +20,8 @@ const kycFlow = {
     KYCAddressInfo,
     KYCTaxpayer,
     KYCVerifyID,
-    ...profileFlow.screens
+    ...profileFlow.screens,
+    ...walletFlow.screens
   },
   props: {
     initialRouteName: 'KYCLanding',

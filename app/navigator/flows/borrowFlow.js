@@ -11,7 +11,7 @@ import TransactionDetails from '../../components/screens/TransactionDetails/Tran
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
 
-const borrowFlow = {
+export const borrowFlow = {
   screens: {
     BorrowEnterAmount,
     BorrowCollateral,
