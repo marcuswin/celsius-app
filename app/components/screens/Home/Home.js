@@ -64,17 +64,61 @@ class Home extends Component {
   render() {
     const {randomMsg} = this.state;
     return (
-      <View
-        style={{ justifyContent: "center", alignItems: "center", padding: 40, marginTop: heightPercentageToDP("25%") }}>
-        <Image source={require("../../../../assets/images/splashScreen-celsius.png")}
-               style={{
-                 resizeMode: "contain",
-                 width: widthPercentageToDP("33%"),
-                 height: widthPercentageToDP("33%")
-               }}/>
-        <CelText align={"center"} margin={"20 0 20 0"} weight={"600"} type={"H2"}>{randomMsg.title}</CelText>
-        <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>{randomMsg.text}</CelText>
-        <Loader progress={this.state.progress}/>
+      <View style={{ flex: 1 }}>
+        <View
+          style={{ justifyContent: "center", alignItems: "center", padding: 40, marginTop: heightPercentageToDP("15%") }}>
+          <Image source={require("../../../../assets/images/splashScreen-celsius-new.png")}
+                style={{
+                  resizeMode: "contain",
+                  width: widthPercentageToDP("33%"),
+                  height: widthPercentageToDP("33%")
+                }}/>
+          <CelText align={"center"} margin={"20 0 10 0"} weight={"600"} type={"H2"}>{randomMsg.title}</CelText>
+          <CelText align={"center"} margin={"0 0 20 0"} type={"H4"} weight={"300"}>{randomMsg.text}</CelText>
+          <Loader progress={this.state.progress}/>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Image
+              source={require("../../../../assets/images/PartnerLogos/BitGo.png")}
+              style={{
+                resizeMode: "contain",
+                width: widthPercentageToDP("18%"),
+                marginLeft: 35,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require("../../../../assets/images/PartnerLogos/DP.png")}
+              style={{
+                resizeMode: "contain",
+                width: widthPercentageToDP("18%"),
+                marginLeft: 5,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require("../../../../assets/images/PartnerLogos/EY.png")}
+              style={{
+                resizeMode: "contain",
+                width: widthPercentageToDP("18%"),
+                marginLeft: 5,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require("../../../../assets/images/PartnerLogos/mvp_workshop.png")}
+              style={{
+                resizeMode: "contain",
+                width: widthPercentageToDP("18%"),
+                marginLeft: 5,
+                marginRight: 35,
+                alignSelf: 'flex-end'
+              }}
+            />
+        </View>
       </View>
     );
   }
