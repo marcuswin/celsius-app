@@ -112,8 +112,9 @@ class Home extends Component {
               source={require("../../../../assets/images/PartnerLogos/mvp_workshop.png")}
               style={{
                 resizeMode: "contain",
-                width: widthPercentageToDP("18%"),
-                marginLeft: 5,
+                width: widthPercentageToDP("22%"),
+                opacity: 0.7,
+                marginLeft: 0,
                 marginRight: 35,
                 alignSelf: 'flex-end'
               }}
