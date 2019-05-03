@@ -94,7 +94,7 @@ class CelPayChooseFriend extends Component {
     }
     const haseFrieds = this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
     navigation.setParams({
-      title: permission && haseFrieds ? "Choose a friend to CelPay" : "No friends?",
+      title: permission && haseFrieds ? "Choose a friend" : "No friends?",
       right: permission && haseFrieds ? "search" : "profile"
     })
 
@@ -113,7 +113,7 @@ class CelPayChooseFriend extends Component {
     if (nextProps.contacts && nextProps.contacts.friendsWithApp && nextProps.contacts.friendsWithApp.length > 0) {
       const permission = await hasPermission(Permissions.CONTACTS);
       navigation.setParams({
-        title: permission ? "Choose a friend to CelPay" : "No friends?",
+        title: permission ? "Choose a friend" : "No friends?",
         right: permission ? "search" : "profile"
       })
     }
@@ -155,7 +155,7 @@ class CelPayChooseFriend extends Component {
     }
 
     navigation.setParams({
-      title: permission && this.props.contacts.length > 0 ? "Choose a friend to CelPay" : "No friends?",
+      title: permission && this.props.contacts.length > 0 ? "Choose a friend" : "No friends?",
       right: permission && this.props.contacts.length > 0 ? "search" : "profile"
     })
     this.setState({
