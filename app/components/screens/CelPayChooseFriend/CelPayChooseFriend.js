@@ -62,7 +62,7 @@ class CelPayChooseFriend extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params && params.title ? params.title : 'No friends?',
+      title: params && params.title ? params.title : 'CelPay',
       right: params && params.right ? params.right : ''
     }
   };
