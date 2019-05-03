@@ -70,7 +70,7 @@ class FabMenu extends Component {
     if (withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
     if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
     if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
-    if (user) main[1].push({label: "Settings", screen: "Profile"});
+    if (user) main[1].push({label: "Profile", screen: "Profile"});
 
     return {
       main,
