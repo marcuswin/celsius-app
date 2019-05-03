@@ -162,7 +162,6 @@ class CoinDetails extends Component {
                   </View>
                 )}
               </View>
-              <Separator margin={"20 0 10 0"} />
               <GraphContainer
                 periods={["MONTH", "YEAR"]}
                 showCursor
