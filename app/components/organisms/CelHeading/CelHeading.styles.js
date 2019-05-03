@@ -64,8 +64,8 @@ const base = {
 
     ...Platform.select({
       android: {
-        borderColor: STYLES.COLORS.MEDIUM_GRAY1,
-        borderBottomWidth: 2,
+        borderColor: '#E9E9E9',
+        borderWidth: 1,
       },
       ios: {
         ...STYLES.SHADOW_STYLES,
