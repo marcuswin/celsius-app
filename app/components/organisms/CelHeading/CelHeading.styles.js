@@ -33,7 +33,7 @@ const base = {
 
     ...Platform.select({
       android: {
-        borderColor: STYLES.COLORS.MEDIUM_GRAY1,
+        borderColor: '#E9E9E9',
         borderBottomWidth: 2,
 
       },

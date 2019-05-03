@@ -10,7 +10,7 @@ const base = {
     borderRadius: 8,
     ...Platform.select({
       android: {
-        borderColor: STYLES.COLORS.MEDIUM_GRAY1,
+        borderColor: '#E9E9E9',
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
         borderRightWidth: 0.5,
