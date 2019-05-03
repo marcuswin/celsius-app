@@ -27,7 +27,6 @@ class RegisterVerifyPhone extends Component {
 
   static navigationOptions = () => (
     {
-      right: 'login',
       customCenterComponent: <ProgressBar steps={5} currentStep={3}/>
     }
   )
