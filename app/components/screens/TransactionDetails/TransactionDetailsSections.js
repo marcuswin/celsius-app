@@ -111,7 +111,7 @@ export const SentTo = ({ transaction, text }) => (
             <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
               <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
               <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-                {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.number : null}
+                {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
               </CelText>
             </View>
           )}

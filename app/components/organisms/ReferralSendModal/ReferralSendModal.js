@@ -15,7 +15,6 @@ import { MODALS } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import ShareButton from "../../atoms/ShareButton/ShareButton";
 import ReferralSendModalStyle from './ReferralSendModal.styles';
 
 @connect(
@@ -68,26 +67,25 @@ class ReferralSendModal extends Component {
         picture={require('../../../../assets/images/icons/referrals/dog.png')}
         style={{ paddingBottom: 30 }}
       >
-        <CelText type="H3" weight="bold" align={"center"} style={{ paddingTop: 30 }}>Refer your friends!</CelText>
+        <CelText type="H2" weight="bold" align={"center"} style={{ paddingTop: 30 }}>Refer your friends!</CelText>
 
         <CelText color={STYLES.COLORS.DARK_GRAY} align={"center"} weight='300' style={style.explanation}>Use your unique promo code or link to invite your friends to Celsius. You’ll both receive up to <CelText weight='600'>$20 </CelText>when they join*!</CelText>
 
         <View style={style.copyShareWrapper}>
-          <View styles={{ backgroundColor: 'red' }}>
+          <View styles={{ backgroundColor: 'red', paddingTop: 10 }}>
             <CelText align={"center"} weigth={"400"} type={"H4"} >{slug}</CelText>
           </View>
           <Separator style={{ backgroundColor: 'red' }} margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
             <CopyButton copyText={slug} onCopy={() => actions.showMessage("success", "Promo code key copied to clipboard!")} />
-            <Separator vertical />
-            <ShareButton shareText={slug} />
           </View>
         </View>
-
-        <CelText align={"center"} style={style.explanation}>*$10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit. </CelText>
-        <CelButton onPress={() => Share.share({ message: shareLink })}>
-          Share a unique link
+        <View style={style.shareWrapper}>
+          <CelButton onPress={() => Share.share({ message: shareLink })}>
+            Share a unique link
         </CelButton>
+        </View>
+        <CelText type='H6' align={"left"} style={style.explanation}>*$10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit. </CelText>
       </CelModal>
 
     );
