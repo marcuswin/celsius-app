@@ -25,6 +25,8 @@ import { KYC_STATUSES } from "../../../constants/DATA";
     celpayCompliance: state.user.compliance.celpay,
     depositCompliance: state.user.compliance.deposit,
     loanCompliance: state.user.compliance.loan,
+    withdrawCompliance: state.user.compliance.withdraw,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -52,22 +54,24 @@ class FabMenu extends Component {
   };
 
   getMenuItems(menu) {
-    const {depositCompliance, celpayCompliance, loanCompliance} = this.props;
+    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user} = this.props;
     const main = [
       [
-        { label: 'Wallet', screen: 'WalletFab' },
+        { label: 'Wallet', screen: 'WalletLanding' },
       ],
+      [],
       [
         { label: 'Settings', screen: 'Settings' },
-        // { label: 'Support', screen: 'SupportFab' },
-      ],
-      // [
-      //   { label: 'Community', screen: 'CommunityFab' },
-      // ]
-    ]
-    if (depositCompliance.allowed) main[1].push({ label: 'Deposit', screen: 'DepositFab' });
-    if (loanCompliance.allowed) main[0].push({ label: 'Borrow', screen: 'BorrowFab' });
-    if (celpayCompliance.allowed) main[0].push({ label: 'CelPay', screen: 'CelPayFab' });
+        // { label: 'Community', screen: 'CommunityFab' },
+        // { label: 'Support', screen: 'SupportFab' }
+      ]
+    ];
+    if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
+    if (withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
+    if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
+    if (user) main[1].push({label: "Settings", screen: "Profile"});
+
     return {
       main,
       support: [],
@@ -95,7 +99,7 @@ class FabMenu extends Component {
       case THEMES.DARK:
         return 'dark';
       case THEMES.CELSIUS:
-        return 'dark';
+        return 'celsius';
       default:
         return 'light'
     }
@@ -138,7 +142,7 @@ class FabMenu extends Component {
 
   renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.navigateTo(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={35} />;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={33} />;
   }
 
   renderFabMenu = () => {
