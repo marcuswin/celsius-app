@@ -36,7 +36,7 @@ function getAllTransfers(transferStatus) {
       const transfers = res.data;
       dispatch(getAllTransfersSuccess(transfers.map(mapTransfer)));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      // dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_TRANSFERS, err));
     }
   }

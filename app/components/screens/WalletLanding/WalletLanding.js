@@ -173,7 +173,7 @@ class WalletLanding extends Component {
           coin={coin}
           displayName={currency.displayName}
           currencyRates={currency}
-          onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYC")}
+          onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYCLanding")}
           graphData={graphData}
         />
       }
@@ -184,7 +184,7 @@ class WalletLanding extends Component {
         coin={coin}
         displayName={currency.displayName}
         currencyRates={currency}
-        onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYC")}
+        onCardPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit', { coin: coin.short }) : actions.navigateTo("KYCLanding")}
       />
     })
       : null;
@@ -199,7 +199,7 @@ class WalletLanding extends Component {
     const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList
 
     return (
-      <TouchableOpacity style={gridStyle} onPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYC")}>
+      <TouchableOpacity style={gridStyle} onPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding")}>
         <Icon fill={'gray'} width="17" height="17" name="CirclePlus" />
         <CelText type="H5" margin={isGrid ? '5 0 0 0' : '0 0 0 5'}>Deposit coins</CelText>
       </TouchableOpacity>

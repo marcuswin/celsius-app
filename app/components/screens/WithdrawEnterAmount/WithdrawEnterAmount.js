@@ -12,14 +12,16 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import Card from '../../atoms/Card/Card'
 import formatter from '../../../utils/formatter'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
-import { KEYPAD_PURPOSES, MODALS } from '../../../constants/UI'
+import { EMPTY_STATES, KEYPAD_PURPOSES, MODALS } from "../../../constants/UI";
 import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
 import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal'
-import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
+import { KYC_STATUSES, PREDIFINED_AMOUNTS } from "../../../constants/DATA";
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
+import StaticScreen from "../StaticScreen/StaticScreen";
+
 
 @connect(
   state => ({
@@ -28,7 +30,10 @@ import store from '../../../redux/store'
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
-    withdrawalAddresses: state.wallet.withdrawalAddresses
+    withdrawalAddresses: state.wallet.withdrawalAddresses,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -169,7 +174,7 @@ class WithdrawEnterAmount extends Component {
 
   render () {
     const { coinSelectItems, activePeriod } = this.state
-    const { formData, actions, walletSummary, navigation } = this.props
+    const { formData, actions, walletSummary, navigation, kycStatus } = this.props
     const style = WithdrawEnterAmountStyle()
     if (!formData.coin) return null
 
@@ -179,8 +184,10 @@ class WithdrawEnterAmount extends Component {
 
     const coin = navigation.getParam('coin')
 
+    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+
     return (
-      <RegularLayout padding='20 0 0 0' fabType={'hide'}>
+      <RegularLayout padding='20 0 0 0' >
         <View style={style.container}>
           <View style={style.wrapper}>
             <Card padding='10 10 10 10' margin='0 0 45 0'>

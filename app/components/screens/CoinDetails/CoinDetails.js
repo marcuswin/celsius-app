@@ -77,7 +77,7 @@ class CoinDetails extends Component {
     const { actions } = this.props;
 
     actions.updateFormField('coin', currency.short)
-    actions.navigateTo('CelPayFab')
+    actions.navigateTo('CelPayChooseFriend')
   }
 
   render() {
@@ -162,7 +162,6 @@ class CoinDetails extends Component {
                   </View>
                 )}
               </View>
-              <Separator margin={"20 0 10 0"} />
               <GraphContainer
                 periods={["MONTH", "YEAR"]}
                 showCursor

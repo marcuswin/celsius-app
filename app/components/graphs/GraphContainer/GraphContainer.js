@@ -14,6 +14,7 @@ import Spinner from "../../atoms/Spinner/Spinner";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
 import { widthPercentageToDP } from "../../../utils/styles-util";
+import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   (state, props) => {
@@ -136,6 +137,10 @@ class GraphContainer extends Component {
     const isLoading = !graphData || !graphData.length || apiUtil.areCallsInProgress(activeCall, callsInProgress);
 
     const { dates, prices } = this.splitArrays();
+    if(interest && !isLoading && prices.length > 0) {
+      const sum = prices.reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue))
+      if(Number(sum) === 0) return null
+    }
     
     if(!currenciesRates) return null
     if (type === "coin-balance") {
@@ -149,6 +154,7 @@ class GraphContainer extends Component {
 
     return (
       <View style={[style.container, { width }]}>
+      {interest && <Separator margin={"20 0 10 0"} />}
         {showPeriods &&
           <View style={style.period}>
             <PeriodGraphView type={type} width={width} periods={periods} onChange={this.renderTimeline}/>
