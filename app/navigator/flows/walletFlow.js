@@ -9,10 +9,10 @@ import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { celPayFlow } from './celPayFlow'
 import { withdrawFlow } from './withdrawFlow'
 import { profileFlow } from './profileFlow'
-import Deposit from "../../components/screens/Deposit/Deposit";
+import { depositFlow } from './depositFlow'
+import { borrowFlow } from './borrowFlow'
 
-
-const walletFlow = {
+export const walletFlow = {
   screens: {
     WalletLanding,
     WalletInterest,
@@ -20,10 +20,11 @@ const walletFlow = {
     CoinDetails,
     AllTransactions,
     TransactionDetails,
-    Deposit,
+    ...depositFlow.screens,
     ...profileFlow.screens,
     ...celPayFlow.screens,
-    ...withdrawFlow.screens
+    ...withdrawFlow.screens,
+    ...borrowFlow.screens,
   },
   props: {
     initialRouteName: 'WalletLanding',

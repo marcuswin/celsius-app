@@ -41,7 +41,7 @@ function celPayFriend() {
       let msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}`;
       if (names && names[0]) msg += ` to ${names[0]}!`;
       dispatch(showMessage('success', msg))
-      dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }))
+      dispatch(navigateTo('TransactionDetails', {form: "celPay", id: transferData.transaction_id }))
 
       analytics.celpayCompleted(transferData)
     } catch (err) {

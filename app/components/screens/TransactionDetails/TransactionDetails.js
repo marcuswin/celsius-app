@@ -44,6 +44,7 @@ class TransactionDetails extends Component {
     return {
       title: params && params.title ? params.title : 'Transaction details',
       right: 'profile',
+      headerLeft: params && params.form === "celPay" ? "celPay" : ""
     }
   };
 

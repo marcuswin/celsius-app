@@ -35,12 +35,12 @@ class WalletDetailsCard extends PureComponent {
   navigateToDeposit = () => {
     const {kycStatus, actions} = this.props;
     if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('Deposit', { coin: "CEL" })
-    actions.navigateTo("KYC");
+    actions.navigateTo("KYCLanding");
   };
   navigateToWalletInterest = () =>{
     const {kycStatus, actions} = this.props;
     if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('WalletInterest')
-    actions.navigateTo("KYC");
+    actions.navigateTo("KYCLanding");
   };
   openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 

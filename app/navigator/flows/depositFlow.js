@@ -4,7 +4,7 @@ import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import Deposit from '../../components/screens/Deposit/Deposit'
 import { profileFlow } from './profileFlow'
 
-const depositFlow = {
+export const depositFlow = {
   screens: {
     Deposit,
     ...profileFlow.screens,
