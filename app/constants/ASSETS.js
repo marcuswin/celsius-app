@@ -64,7 +64,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/illustrations-v3/Dog/profile-dog.png'),
   require('../../assets/images/emptyStates/KYC-Failed.png'),
   require('../../assets/images/emptyStates/KYC-Pending.png'),
-  require('../../assets/images/splashScreen-celsius.png'),
+  require('../../assets/images/splashScreen-celsius-new.png'),
   require('../../assets/images/money-bear3x.png'),
   require('../../assets/images/victory-bear3x.png'),
   require('../../assets/images/loyaltyIcons/hodl-ratiox.png'),
