@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -101,35 +101,46 @@ class CoinDetails extends Component {
                   <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
-
+              <Separator />
               <View style={style.buttonWrapper}>
-                <Separator vertical />
+                <TouchableOpacity style={{ marginLeft: widthPercentageToDP('3.3%'), marginRight: widthPercentageToDP('3.3%') }} onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })} >
+                  <View style={style.buttonItself}>
+                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                          source={require('../../../../assets/images/icons/plus-icn-small.png')}
+                          />
+                    <CelText>
+                      Deposit
+                    </CelText>
+                  </View>
+                </TouchableOpacity>
+                <Separator vertical height={ '35%' } top={ 20 } />
+                {isCoinEligibleForCelPay && (
+                <TouchableOpacity onPress={this.goToCelPay} style={{ marginLeft: widthPercentageToDP('6.9%'), marginRight: widthPercentageToDP('6.9%') }}>
 
-                <View style={style.buttons}>
-                  {isCoinEligibleForCelPay && (
-                    <View>
-                      <CelButton
-                        margin='0 0 15 0'
-                        basic
-                        size="small"
-                        onPress={this.goToCelPay}
-                      >
-                        Send
-                      </CelButton>
-
-                      <Separator />
+                    <View style={style.buttonItself}>
+                      <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                            source={require('../../../../assets/images/icons/icon-send-small.png')} />
+                      <CelText>
+                        CelPay
+                      </CelText>
                     </View>
-                  )}
 
-                  <CelButton
-                    margin='10 0 0 0'
-                    basic
-                    size="small"
-                    onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}
-                  >
-                    Deposit
-                  </CelButton>
-                </View>
+                </TouchableOpacity>
+                )}
+
+                {isCoinEligibleForCelPay && (
+                  <Separator vertical height={ '35%' } top={ 20 }  />
+                )}
+
+                <TouchableOpacity style={style.buttons} onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
+                  <View style={style.buttonItself}>
+                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                          source={require('../../../../assets/images/icons/withdraw-small.png')} />
+                    <CelText>
+                      Withdraw
+                    </CelText>
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
           </Card>

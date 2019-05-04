@@ -7,22 +7,24 @@ const base = {
     marginBottom: 10,
   },
   buttonWrapper: {
+    flex: 1,
     flexDirection: "row",
     paddingHorizontal: 12,
-    // justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   buttons: {
     marginLeft: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignContent:  'center'
   },
   coinAmountWrapper: {
-    flexDirection: "row",
     justifyContent: "space-between",
   },
   amountFlexBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12
+    padding: 12,
   },
   coinImage: {
     width: 30,
@@ -43,7 +45,12 @@ const base = {
   interestRateWrapper: {
     justifyContent: 'space-between',
     alignContent: 'center',
-    
+
+  },
+  buttonItself: {
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 };
 
