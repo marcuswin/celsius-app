@@ -28,7 +28,8 @@ class KYCAddressInfo extends Component {
   static defaultProps = {}
 
   static navigationOptions = () => ({
-    customCenterComponent: <ProgressBar steps={4} currentStep={2}/>
+    customCenterComponent: <ProgressBar steps={4} currentStep={2}/>,
+    headerSameColor: true
   });
 
   constructor(props) {
