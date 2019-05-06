@@ -66,11 +66,11 @@ class Graph extends React.Component {
   }
 
   componentDidMount() {
-    const { showCursor } = this.props;
-    this.calculateLine()
-    this.setState({ loading: false });;
+    const { showCursor, type } = this.props;
+    this.calculateLine();
+    this.setState({ loading: false });
 
-    if (showCursor) this.moveCursor(0);
+    if (showCursor) this.moveCursor(type === "total-balance" || type === "coin-balance" ? 10 : 0);
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
