@@ -326,7 +326,7 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_PENDING: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:cancel', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_CLAIMED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_SENT: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
-    case TRANSACTION_TYPES.CELPAY_RECEIVED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
+    case TRANSACTION_TYPES.CELPAY_RECEIVED: return ['info', 'sentFrom', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_RETURNED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to

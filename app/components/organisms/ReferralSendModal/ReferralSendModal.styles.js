@@ -13,13 +13,14 @@ const base = {
         borderRadius: 8,
         padding: 10,
         marginVertical: 10,
+      
 
     },
 
     copyShareButtonsWrapper: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: 15
+        paddingTop: 5
     },
     explanation: {
         paddingTop: 10,
@@ -28,6 +29,9 @@ const base = {
         marginRight: '7%',
         alignItems: 'stretch',
         alignContent: 'stretch',
+    },
+    shareWrapper: {
+        paddingVertical: 20,
     }
 }
 

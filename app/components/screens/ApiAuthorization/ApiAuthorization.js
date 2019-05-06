@@ -50,7 +50,6 @@ class ApiAuthorization extends Component {
     // const style = ApiAuthorizationStyle();
     const { apiKeys, actions } = this.props;
 
-
     return (
       <RegularLayout>
         <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"}>Generate a secure API key that enables external services to read some of the Celsius data. </CelText>

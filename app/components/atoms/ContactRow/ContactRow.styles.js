@@ -1,4 +1,5 @@
-// import STYLES from '../../../constants/STYLES';
+import { Platform } from 'react-native';
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
@@ -12,13 +13,22 @@ const base = {
   contactImageWrapper: {
     shadowColor: '#000000',
     marginLeft: 10,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 5,
-    elevation: 2,
     borderRadius: 50/2,
     width: 50,
-    height: 50
+    height: 50,
+    ...Platform.select({
+      android: {
+          borderColor: '#E9E9E9',
+          borderTopWidth: 0.2,
+          borderLeftWidth: 0.2,
+          borderRightWidth: 0.5,
+          borderBottomWidth: 2,
+      },
+      ios: {
+          ...STYLES.SHADOW_STYLES,
+      }
+  })
+
   },
 
   contactImage: {
