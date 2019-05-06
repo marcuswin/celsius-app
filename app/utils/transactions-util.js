@@ -311,7 +311,7 @@ function getTransactionsProps(transaction) {
  * @returns {Array}
  */
 function getTransactionSections(transaction) {
-
+  
   // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']

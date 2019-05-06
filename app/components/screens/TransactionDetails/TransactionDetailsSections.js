@@ -57,6 +57,7 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
 )
 
 export const AddressSection = ({ transaction, text, address }) => (
+
   <View style={{ paddingHorizontal: 20 }}>
     <Card margin={'20 0 20 0'}>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
@@ -70,10 +71,17 @@ export const AddressSection = ({ transaction, text, address }) => (
           </TouchableOpacity>
         }
       </View>
-      <CelText weight='500' type="H4">{address}</CelText>
+      <CelText weight='500' type="H4">{address.split('?')[0]}</CelText>
     </Card>
-  </View>
+    <Card margin={'10 0 20 0'}>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}/>
+      {transaction.id === 'xrp' ?
+        <CelText weight='500' type="H4">Destination Tag: {address.split('=')[1]}</CelText>
+        : <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
+      }
+    </Card>
 
+  </View>
 )
 
 export const TransactionSection = ({ transaction, text, actions }) => (
@@ -160,7 +168,7 @@ export const SentFrom = ({ transaction, text }) => (
 export const ReferrerHODL = ({ transaction, text, date }) => (
   <View style={{ paddingHorizontal: 20 }}>
     <Card margin={'20 0 20 0'}>
-      <View style={{ flex:1,  justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
         <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
       </View>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -177,17 +185,17 @@ export const ReferrerHODL = ({ transaction, text, date }) => (
           </CelText>
         </View>
       </View>
-      <CelText style={{marginTop: 20}}type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.transfer_data.claimer.first_name} keeps initial deposit until
+      <CelText style={{ marginTop: 20 }} type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.transfer_data.claimer.first_name} keeps initial deposit until
           <CelText type="H5" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>, your referral reward will unlock.
         </CelText>
     </Card>
   </View>
 )
 
-export const Referrer = ({ transaction, text}) => (
+export const Referrer = ({ transaction, text }) => (
   <View style={{ paddingHorizontal: 20 }}>
     <Card margin={'20 0 20 0'}>
-      <View style={{ flex:1,  justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
         <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
       </View>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -211,7 +219,7 @@ export const Referrer = ({ transaction, text}) => (
 export const Referred = ({ transaction, text }) => (
   <View style={{ paddingHorizontal: 20 }}>
     <Card margin={'20 0 20 0'}>
-      <View style={{ flex:1,  justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
         <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
       </View>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
