@@ -23,7 +23,13 @@ export default function appReducer(state = initialState(), action) {
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
+    case ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS:
+    case ACTIONS.REGISTER_USER_GOOGLE_SUCCESS:
+    case ACTIONS.REGISTER_USER_TWITTER_SUCCESS:
     case ACTIONS.LOGIN_USER_SUCCESS:
+    case ACTIONS.LOGIN_USER_GOOGLE_SUCCESS:
+    case ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS:
+    case ACTIONS.LOGIN_USER_TWITTER_SUCCESS:
     case ACTIONS.APP_INIT_DONE:
       return {
         ...state,
