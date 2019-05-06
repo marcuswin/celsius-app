@@ -28,11 +28,11 @@ class Community extends Component {
     return (
       <RegularLayout>
 
-        <Card>
-          <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-            <Image style={{ resizeMode: "cover", height: widthPercentageToDP("30%"),
+        <Card padding={"0 0 0 0"}>
+          <View style={{flexDirection: "row", justifyContent: "flex-end", margin: 12}}>
+            <Image style={{ position: "absolute", left: 10, bottom: -10, resizeMode: "cover", height: widthPercentageToDP("30%"),
               width: widthPercentageToDP("30%"), overflow: "visible" }}
-                   source={require("../../../../assets/images/diane-sad.png")}/>
+                   source={require("../../../../assets/images/community/dogIllustration.png")}/>
             <View>
               <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
               <CelText weight={"600"} align={"left"} type={"H1"}>4.564</CelText>
@@ -78,15 +78,15 @@ class Community extends Component {
         <CommunityDashboard name={"INTEREST"} info buttonTypes={["earned", "average", "rates"]}/>
 
         <CommunityDashboard name={"REFERRED"}>
-          <Card>
-            <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-              <View>
+          <Card padding={"0 0 0 0"}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <View style={{margin: 12}}>
                 <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>
                 <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>
               </View>
-              <Image style={{ resizeMode: "cover", width: widthPercentageToDP("20%"),
-                height: widthPercentageToDP("20%"), overflow: "visible" }}
-                     source={require("../../../../assets/images/diane-sad.png")}/>
+              <Image style={{ position: "absolute", bottom: 0, right: 0, resizeMode: "cover", width: widthPercentageToDP("22%"),
+                height: widthPercentageToDP("20.4%"), overflow: "hidden" }}
+                     source={require("../../../../assets/images/community/frenchie.png")}/>
             </View>
           </Card>
         </CommunityDashboard>
