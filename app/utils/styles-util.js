@@ -12,7 +12,8 @@ export {
   disableAccessibilityFontScaling,
   widthPercentageToDP,
   heightPercentageToDP,
-  getFont
+  getFont,
+  getFontSize
 };
 
 
@@ -146,6 +147,27 @@ function getFont(fontSize) {
 
   const ratio = fontSize / scale; // get ratio based on your standard scale 
   const newSize = Math.round(ratio * width);
+  return newSize;
+
+}
+
+/**
+ * Gets scaled font size type 
+ *
+ * @param {number} newSize
+ * @retunrs {number}
+ */
+
+function getFontSize() {
+  let newSize;
+
+  if (width > 350) {
+    newSize = 'H4'
+  } else if (width < 350 && width > 250) {
+    newSize = 'H6'
+  } else
+    newSize = 'H7'
+
   return newSize;
 
 }
