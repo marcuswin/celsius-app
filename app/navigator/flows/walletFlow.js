@@ -5,6 +5,7 @@ import WalletInterest from '../../components/screens/WalletInterest/WalletIntere
 import AllTransactions from '../../components/screens/AllTransactions/AllTransactions'
 import BalanceHistory from '../../components/screens/BalanceHistory/BalanceHistory'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
+import Community from "../../components/screens/Community/Community";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { celPayFlow } from './celPayFlow'
 import { withdrawFlow } from './withdrawFlow'
@@ -20,6 +21,7 @@ export const walletFlow = {
     CoinDetails,
     AllTransactions,
     TransactionDetails,
+    Community,
     ...depositFlow.screens,
     ...profileFlow.screens,
     ...celPayFlow.screens,
