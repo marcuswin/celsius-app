@@ -24,12 +24,12 @@ const base = {
   imageWrapper: {
     position: "absolute",
     zIndex: 10,
-    top: -heightPercentageToDP("16%")/1.7,
-    left: widthPercentageToDP("90%")/2 - heightPercentageToDP("16%")/2,
+    top: -heightPercentageToDP("20%")/1.7,
+    left: widthPercentageToDP("80%")/2 - heightPercentageToDP("18%")/2,
   },
   modalImage: {
-    width: heightPercentageToDP("16%"),
-    height: heightPercentageToDP("16%")
+    width: heightPercentageToDP("22.5%"),
+    height: heightPercentageToDP("22.5%")
   },
   contentWrapper: {
     paddingRight: 20,
