@@ -27,6 +27,7 @@ import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
     walletSummary: state.wallet.summary,
     allLoans: state.loans.allLoans,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
+    ltv: state.loans.ltvs,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting
@@ -123,10 +124,12 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary } = this.props;
+    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary, ltv } = this.props;
     const style = BorrowLandingStyle();
 
-
+    /* Calculating difference between largest coin amount and
+    minimum amount needed for loan based on current LTV.
+    */
     const walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
     const arrayOfAmountUsd = walletCoins.map(x => x.amount_usd)
     const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd))
@@ -135,6 +138,8 @@ class BorrowLanding extends Component {
     const largestAmountCoin = walletCoins[indexOfLargestAmount].short
     const coinUsdRatio = largestAmountUsd / largestAmount
     const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
+    const minLtv = Math.max(...ltv.map(x => x.percent))
+
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
@@ -149,10 +154,11 @@ class BorrowLanding extends Component {
               style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
             </View>
 
-          <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto(minimumAmountInCoin - largestAmount, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
+          <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
 
           <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is {formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
         </View>
+        <CelButton onPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding")} color={STYLES.COLORS.CELSIUS_BLUE} margin= '25 auto auto auto' >Deposit coins</CelButton>
       </RegularLayout>
       )
     }

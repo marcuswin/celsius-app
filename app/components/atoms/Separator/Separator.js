@@ -19,7 +19,9 @@ class Separator extends Component {
     color: PropTypes.string,
     opacity: PropTypes.number,
     textOpacity: PropTypes.number,
-    margin: PropTypes.string
+    margin: PropTypes.string,
+    height: PropTypes.string,
+    top: PropTypes.number
   }
   static defaultProps = {
     vertical: false,
@@ -30,13 +32,15 @@ class Separator extends Component {
     color: '',
     opacity: 0.08,
     textOpacity: 1,
-    margin: '0 0 0 0'
+    margin: '0 0 0 0',
+    height: '100%',
+    top: 0
   }
 
   getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color // get color from raw json depending on style theme
 
   renderVertical = () => {
-    const { size, color, dashed, opacity, margin } = this.props
+    const { size, color, dashed, opacity, margin, height, top } = this.props
     const style = SeparatorStyle()
     const separatorColor = color || this.getSeparatorColor(style)
     const margins = getMargins(margin)
@@ -50,7 +54,9 @@ class Separator extends Component {
             width: size,
             borderWidth: size / 2,
             borderStyle: dashed ? 'dashed' : 'solid',
-            opacity
+            opacity,
+            height,
+            top
           },
           margins
         ]}

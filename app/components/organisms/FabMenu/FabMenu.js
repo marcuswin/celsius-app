@@ -72,8 +72,8 @@ class FabMenu extends Component {
       [],
       [
         { label: 'Settings', screen: 'Settings' },
-        // { label: 'Community', screen: 'CommunityFab' },
-        // { label: 'Support', screen: 'SupportFab' }
+        { label: 'Community', screen: 'Community' },
+        // { label: 'Support', screen: 'Support' }
       ]
     ];
     if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
