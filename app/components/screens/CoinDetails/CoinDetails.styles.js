@@ -24,11 +24,11 @@ const base = {
   amountFlexBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: 14,
   },
   coinImage: {
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   },
   separator: {
     right: 0,

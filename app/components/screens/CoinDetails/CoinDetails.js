@@ -95,9 +95,9 @@ class CoinDetails extends Component {
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
                 <Image source={{ uri: currency.image_url }} style={style.coinImage} />
-                <View style={{ marginLeft: 12 }}>
+                <View style={{ marginLeft: 16 }}>
                   <CelText weight='300' type="H6">{currency.displayName}</CelText>
-                  <CelText weight='600' type="H3" margin={'3 0 3 0'}>{formatter.usd(coinAmount)}</CelText>
+                  <CelText weight='600' type="H2" margin={'3 0 3 0'}>{formatter.usd(coinAmount)}</CelText>
                   <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
@@ -105,7 +105,7 @@ class CoinDetails extends Component {
               <View style={style.buttonWrapper}>
                 <TouchableOpacity style={{ marginLeft: widthPercentageToDP('3.3%'), marginRight: widthPercentageToDP('3.3%') }} onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })} >
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
                           source={require('../../../../assets/images/icons/plus-icn-small.png')}
                           />
                     <CelText>
@@ -118,7 +118,7 @@ class CoinDetails extends Component {
                 <TouchableOpacity onPress={this.goToCelPay} style={{ marginLeft: widthPercentageToDP('6.9%'), marginRight: widthPercentageToDP('6.9%') }}>
 
                     <View style={style.buttonItself}>
-                      <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                      <Image style={{ alignSelf: 'center', width: 30, height: 25, marginBottom: 5, marginTop: 6  }}
                             source={require('../../../../assets/images/icons/icon-send-small.png')} />
                       <CelText>
                         CelPay
@@ -134,7 +134,7 @@ class CoinDetails extends Component {
 
                 <TouchableOpacity style={style.buttons} onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 10 }}
+                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 5, marginTop: 6  }}
                           source={require('../../../../assets/images/icons/withdraw-small.png')} />
                     <CelText>
                       Withdraw
