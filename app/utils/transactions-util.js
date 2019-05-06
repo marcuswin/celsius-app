@@ -208,7 +208,7 @@ function getTransactionsProps(transaction) {
     case TRANSACTION_TYPES.CELPAY_CLAIMED:
       return {
         title: (coin) => `${coin} Claimed`,
-        color: STYLES.COLORS.ORANGE,
+        color: STYLES.COLORS.GREEN,
         iconName: 'TransactionSent',
         statusText: 'Claimed'
       }
