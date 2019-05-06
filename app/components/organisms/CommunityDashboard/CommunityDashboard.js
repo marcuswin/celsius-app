@@ -52,38 +52,38 @@ class CommunityDashboard extends Component {
 
     if (name === "BORROW" && button === "loans") {
       number = 20000;
-      explanationText = "samo jako, drukcije nikako";
+      explanationText = "Highest $ loan taken";
     }
     if (name === "BORROW" && button === "average") {
       number = 25000;
-      explanationText = "jasta more";
+      explanationText = "Highest $ loan takene";
     }
     if (name === "BORROW" && button === "total") {
-      explanationText = "jebes mi sve ako imam ikakve podatke";
+      explanationText = "Highest $ loan taken";
       number = 28000;
     }
     if (name === "CELPAY" && button === "sent") {
-      explanationText = "jasta more";
+      explanationText = "Sent via CelPay in total";
       number = 12000;
     }
     if (name === "CELPAY" && button === "transactions") {
-      explanationText = "jebes mi sve ako imam ikakve podatke";
+      explanationText = "Sent via CelPay in total";
       number = 15000;
     }
     if (name === "CELPAY" && button === "total") {
-      explanationText = "samo jako, drukcije nikako";
+      explanationText = "Sent via CelPay in total";
       number = 18000;
     }
     if (name === "INTEREST" && button === "earned") {
-      explanationText = "jebes mi sve ako imam ikakve podatke";
+      explanationText = "Total community earn";
       number = 33000;
     }
     if (name === "INTEREST" && button === "average") {
-      explanationText = "samo jako, drukcije nikako";
+      explanationText = "Total community earn";
       number = 38000;
     }
     if (name === "INTEREST" && button === "rates") {
-      explanationText = "jasta more";
+      explanationText = "Total community earn";
       number = 31000;
     }
 
