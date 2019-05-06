@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { getThemedStyle } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES'
 
@@ -7,13 +8,22 @@ const base = {
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    elevation: 3,
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    shadowColor: STYLES.COLORS.DARK_GRAY,
-    shadowOffset: { width: 0, height: 3 },
     width: 60,
-    height: 60
+    height: 60,
+    ...Platform.select({
+      android: {
+          shadowOffset: { width: 0, height: 3 },
+          borderColor: '#E9E9E9',
+          borderRadius: 30,
+          borderTopWidth: 0.2,
+          borderLeftWidth: 0.2,
+          borderRightWidth: 0.5,
+          borderBottomWidth: 4,
+      },
+      ios: {
+          ...STYLES.SHADOW_STYLES,
+      }
+  })
   },
   view: {
     width: 60,
@@ -25,7 +35,8 @@ const base = {
     shadowColor: STYLES.COLORS.DARK_GRAY,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
-    zIndex: -1
+    zIndex: -1,
+    
   },
   text: {
     marginTop: 10

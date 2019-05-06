@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import STYLES from '../../../constants/STYLES';
 import { getPadding, getThemedStyle } from '../../../utils/styles-util';
@@ -8,11 +8,19 @@ const base = {
         height: 50,
         ...StyleSheet.flatten(getPadding("12 16 15 16")),
         backgroundColor: STYLES.COLORS.WHITE,
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.05,
-        shadowRadius: 5,
-        elevation: 0.5,
         borderRadius: 8,
+        ...Platform.select({
+            android: {
+                borderColor: '#E9E9E9',
+                borderTopWidth: 0.2,
+                borderLeftWidth: 0.2,
+                borderRightWidth: 0.5,
+                borderBottomWidth: 2,
+            },
+            ios: {
+                ...STYLES.SHADOW_STYLES,
+            }
+        })
     },
     disabledInput: {
         opacity: 0.6
