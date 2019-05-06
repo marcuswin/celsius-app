@@ -20,8 +20,10 @@ class TransactionsOnHold extends Component {
   static defaultProps = {}
 
   static navigationOptions = () => ({
+    headerSameColor: true,
     title: 'Transactions on-hold'
-  })
+  });
+
 
   render () {
     return (

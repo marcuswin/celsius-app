@@ -35,6 +35,10 @@ class KYCLanding extends Component {
   static propTypes = {}
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    headerSameColor: true,
+  });
+
   componentDidMount() {
     const { actions, profile, navigation } = this.props
 

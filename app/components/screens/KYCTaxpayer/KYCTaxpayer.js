@@ -30,7 +30,8 @@ class KYCTaxpayer extends Component {
 
   static navigationOptions = () => ({
     title: "Taxpayer ID",
-    customCenterComponent: <ProgressBar steps={4} currentStep={3} />
+    customCenterComponent: <ProgressBar steps={4} currentStep={3} />,
+    headerSameColor: true
   });
 
   constructor(props) {
