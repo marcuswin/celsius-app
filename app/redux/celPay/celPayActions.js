@@ -4,6 +4,7 @@ import ACTIONS from '../../constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";
 import { showMessage } from "../ui/uiActions";
+import { clearForm } from "../forms/formsActions";
 import transfersService from "../../services/transfer-service";
 import formatter from "../../utils/formatter";
 import { navigateTo } from "../nav/navActions";
@@ -41,6 +42,7 @@ function celPayFriend() {
       let msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}`;
       if (names && names[0]) msg += ` to ${names[0]}!`;
       dispatch(showMessage('success', msg))
+      dispatch(clearForm());
       dispatch(navigateTo('TransactionDetails', {form: "celPay", id: transferData.transaction_id }))
 
       analytics.celpayCompleted(transferData)
@@ -79,6 +81,7 @@ function celPayShareLink() {
 
       const msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}!`;
       dispatch(showMessage('success', msg));
+      dispatch(clearForm());
       dispatch(navigateTo('TransactionDetails', { id: transferData.transaction_id }));
 
       analytics.celpayCompleted(transferData)
