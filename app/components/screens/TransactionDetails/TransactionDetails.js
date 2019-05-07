@@ -18,6 +18,8 @@ import {
   HodlInfoSection,
   CollateralSection,
   TransactionSection,
+  SentTo,
+  SentFrom
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -43,7 +45,8 @@ class TransactionDetails extends Component {
     return {
       title: params && params.title ? params.title : 'Transaction details',
       right: 'profile',
-      headerLeft: params && params.form === "celPay" ? "celPay" : ""
+      headerLeft: params && params.form === "celPay" ? "celPay" : "",
+      headerSameColor: true,
     }
   };
 
@@ -69,7 +72,7 @@ class TransactionDetails extends Component {
     }
   }
 
-  
+
   renderSection = (sectionType) => {
     const { actions, coins, transaction, user } = this.props;
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
@@ -133,7 +136,11 @@ class TransactionDetails extends Component {
       case 'type':
         return <BasicSection key={sectionType} label="Type" value="CelPay" />
       case 'transactionId':
-        return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions}/>;
+        return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions} />;
+      case 'sentTo':
+        return <SentTo key={sectionType} transaction={transaction} text="Sent to:" actions={actions} />;
+        case 'sentFrom':
+        return <SentFrom key={sectionType} transaction={transaction} text="From:" actions={actions} />;
       default:
         return null;
     }

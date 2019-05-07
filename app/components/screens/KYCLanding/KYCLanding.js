@@ -35,6 +35,10 @@ class KYCLanding extends Component {
   static propTypes = {}
   static defaultProps = {}
 
+  static navigationOptions = () => ({
+    headerSameColor: true,
+  });
+
   componentDidMount() {
     const { actions, profile, navigation } = this.props
 
@@ -101,7 +105,7 @@ class KYCLanding extends Component {
         text: 'In progress',
         title: 'Your identity verification is in progress',
         explanation:
-          'It usually finishes within 24 hours. If it takes longer, get in touch with our support.',
+          'It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.',
         image: require('../../../../assets/images/emptyStates/KYC-Pending.png'),
       }
     }
@@ -153,28 +157,22 @@ class KYCLanding extends Component {
   renderStatus = () => {
     const { kycStatus } = this.props
     const style = KYCLandingStyle()
-    let kyc
-    let kycColor
-
-    if (kycStatus === 'rejected') {
+    let kyc = ''
+    let kycColor = STYLES.COLORS.CELSIUS_BLUE
+    if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
       kyc = 'Rejected'
       kycColor = STYLES.COLORS.RED
-    }
-    if (kycStatus === 'pending' ||
+    } else if (kycStatus === 'pending' ||
       kycStatus === 'sending' ||
       kycStatus === 'sent') {
       kyc = 'In progress'
       kycColor = STYLES.COLORS.ORANGE
     }
-    else {
-      kyc = ''
-      kycColor = STYLES.COLORS.CELSIUS_BLUE
-    }
     return (
       <CelText
         margin={'0 0 20 0'}
         align={'center'}
-        type={'H2'}
+        type={'H3'}
         weight={'500'}
         style={style.kycStatus}
         color={kycColor}
@@ -186,7 +184,7 @@ class KYCLanding extends Component {
 
   renderProgressSteps = kycStatus => {
     const { actions } = this.props
-    
+
     return progressSteps.map(step => (
       <CelButton
         key={step}

@@ -36,7 +36,8 @@ class KYCVerifyID extends Component {
 
   static navigationOptions = () => ({
     title: 'Verify ID',
-    customCenterComponent: <ProgressBar steps={4} currentStep={4} />
+    customCenterComponent: <ProgressBar steps={4} currentStep={4} />,
+    headerSameColor: true
   })
 
   componentDidMount () {

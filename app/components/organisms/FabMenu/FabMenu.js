@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View, StyleSheet, Platform, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 // import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
@@ -36,6 +36,10 @@ class FabMenu extends Component {
     this.state = {
       menuItems: [],
     };
+    
+    this.springValue = new Animated.Value(1)
+    this.pulseValue = new Animated.Value(1)
+    this.opacityValue = new Animated.Value(1)
   }
 
   componentDidMount = () => {
@@ -43,6 +47,12 @@ class FabMenu extends Component {
     this.setState({
       menuItems: this.getMenuItems(fabType)
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if((nextProps.appInitialized && nextProps.appInitialized !== this.props.appInitialized && nextProps.user.has_pin) || (nextProps.appInitialized && nextProps.user.has_pin &&  nextProps.user.has_pin !== this.props.user.has_pin)) {
+      this.doAnimate()
+    }
   }
 
   componentDidUpdate = (prevProps) => {
@@ -99,10 +109,54 @@ class FabMenu extends Component {
       case THEMES.DARK:
         return 'dark';
       case THEMES.CELSIUS:
-        return 'celsius';
+        return 'dark';
       default:
         return 'light'
     }
+  }
+
+  doAnimate () {
+    setTimeout(()=>{ this.spring() }, 1000)
+    setTimeout(()=>{ this.spring() }, 2500)
+    setTimeout(()=>{ this.spring() }, 4000)
+  }
+
+  spring () {
+    this.springValue.setValue(1.1)
+    this.pulseValue.setValue(1)
+    this.opacityValue.setValue(0.8)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 1,
+        friction: 2,
+        // damping: 6,
+        tension: 9,
+        // bounciness: 1,
+        // stiffness: 100,
+        // overshootClamping: true,
+        // speed: 0.01,
+        useNativeDriver: true
+      }
+    ).start()
+    Animated.timing(
+      this.pulseValue,
+      {
+        toValue: 1.7,
+        duration: 1500,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }
+    ).start()
+    Animated.timing(
+      this.opacityValue,
+      {
+        toValue: 0,
+        duration: 1500,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }
+    ).start()
   }
 
   fabAction = () => {
@@ -164,7 +218,6 @@ class FabMenu extends Component {
       <TouchableOpacity style={[StyleSheet.absoluteFill, style.menuContainer, style.background]} onPress={() => actions.closeFabMenu()}>
         {menuItems.map(this.renderMenuRow)}
       </TouchableOpacity>
-
     )
 
   }
@@ -173,17 +226,20 @@ class FabMenu extends Component {
     const style = FabMenuStyle();
     const { fabType } = this.props;
     return (
-      <View style={style.container}>
-        <Fab onPress={this.fabAction} type={fabType} />
-      </View>
+      <Fragment>
+        <Animated.View style={[style.fabButton, style.opacityCircle, {transform: [{scale: this.pulseValue}],  opacity: this.opacityValue} ]}/>
+        <Animated.View style={[style.fabButton, { transform: [{scale: this.springValue} ]} ]}>
+          <Fab onPress={this.fabAction} type={fabType} />
+        </Animated.View>
+      </Fragment>
     );
   }
 
   render() {
     const style = FabMenuStyle();
-    const { fabMenuOpen, appInitialized, fabType } = this.props
+    const { fabMenuOpen, fabType } = this.props
 
-    if (!appInitialized) return null;
+    // if (!appInitialized) return null; // Too many bugs with this one line of code :D
     if (fabType === 'hide') return null;
 
     const FabMenuCmp = this.renderFabMenu;

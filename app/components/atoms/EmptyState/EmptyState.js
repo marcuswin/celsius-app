@@ -43,6 +43,10 @@ class EmptyState extends Component {
     this.state = emptyStateUtil(props.purpose, props.actions);
   }
 
+  // timer = () => {
+  //   this.setState({timer: null, counter: 0})
+  // }
+
 
   render() {
     const emptyStateProps = {
@@ -52,10 +56,9 @@ class EmptyState extends Component {
     const { image, heading, paragraphs, onPress, button, support, title } = emptyStateProps;
     const { kycStatus } = this.props
     const style = EmptyStateStyle();
-    let kyc = ''
+    let kyc = 'Collecting'
     let kycColor = STYLES.COLORS.CELSIUS_BLUE
-
-    if (kycStatus === 'rejected') {
+    if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
       kyc = 'Rejected'
       kycColor = STYLES.COLORS.RED
     }

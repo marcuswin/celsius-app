@@ -51,7 +51,8 @@ class WalletLanding extends Component {
     const { params } = navigation.state
     return {
       title: params && params.title ? params.title : 'Welcome',
-      right: 'profile'
+      right: 'profile',
+      hideBack: true
     }
   };
 

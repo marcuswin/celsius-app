@@ -27,7 +27,7 @@ const kycFlow = {
     initialRouteName: 'KYCLanding',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
-      headerSameColor: true,
+      headerSameColor: false,
     },
     transitionConfig
   }

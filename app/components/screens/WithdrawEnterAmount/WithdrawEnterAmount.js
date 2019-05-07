@@ -187,7 +187,7 @@ class WithdrawEnterAmount extends Component {
     if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
 
     return (
-      <RegularLayout padding='20 0 0 0' fabType={'hide'}>
+      <RegularLayout padding='20 0 0 0' >
         <View style={style.container}>
           <View style={style.wrapper}>
             <Card padding='10 10 10 10' margin='0 0 45 0'>

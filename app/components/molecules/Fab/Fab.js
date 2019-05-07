@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
@@ -39,9 +38,7 @@ class Fab extends Component {
     const style = FabStyle();
 
     return (
-      <View style={style.container}>
-        <CircleButton style={style.fabButtonStyle} type="menu" theme={'celsius'} onPress={onPress} icon={iconName} />
-      </View>
+      <CircleButton style={style.fabButtonStyle} type="menu" theme={'celsius'} onPress={onPress} icon={iconName} />
     );
   }
 }

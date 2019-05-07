@@ -41,6 +41,7 @@ class CelInput extends Component {
     margin: PropTypes.string,
     basic: PropTypes.bool,
     helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    large: PropTypes.bool
   };
 
   static defaultProps = {
@@ -52,7 +53,8 @@ class CelInput extends Component {
     autoCapitalize: 'none',
     value: "",
     margin: '0 0 20 0',
-    basic: false
+    basic: false,
+    large: true
   }
 
   constructor(props) {
@@ -135,9 +137,9 @@ class CelInput extends Component {
   }
 
   render() {
-    const { error, margin } = this.props
+    const { error, margin, large } = this.props
     const cmpStyle = CelInputStyle();
-    const styleWrapper = [getMargins(margin), cmpStyle.container, cmpStyle.trans];
+    const styleWrapper = [getMargins(margin), cmpStyle.container, cmpStyle.trans, large ? cmpStyle.fullScreen : {}];
     const Input = this.renderInputByType;
 
     return (
