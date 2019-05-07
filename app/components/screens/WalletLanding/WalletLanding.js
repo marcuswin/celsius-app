@@ -22,6 +22,7 @@ import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
 import { KYC_STATUSES } from "../../../constants/DATA";
+import { getSecureStoreKey } from '../../../utils/expo-storage';
 
 
 @connect(
@@ -106,7 +107,9 @@ class WalletLanding extends Component {
       }
     });
 
-    this.setState({ coinWithAmount, coinWithoutAmount });
+    const defaultView = (await getSecureStoreKey('DEFAULT_VIEW')) || WALLET_LANDING_VIEW_TYPES.GRID
+
+    this.setState({ coinWithAmount, coinWithoutAmount, activeView: defaultView });
   };
 
   componentDidUpdate(prevProps) {
