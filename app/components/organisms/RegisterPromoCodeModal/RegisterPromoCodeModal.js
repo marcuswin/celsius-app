@@ -67,7 +67,7 @@ class RegisterPromoCodeModal extends Component {
     const style = RegisterPromoCodeModalStyle();
     const code = {};
 
-    let congratsText
+    let congratsText;
     if (type === "celsius" && promoCode) {
       code.amount = promoCode.referred_award_amount;
       code.coin = promoCode.referred_award_coin;
@@ -78,10 +78,21 @@ class RegisterPromoCodeModal extends Component {
 
     if (type === "register" && referralLink) {
       code.amount = referralLink.referred_award_amount;
-      code.coin = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ? 'USD' : referralLink.referred_award_coin
-      congratsText = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL
-        ? 'You will receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
-        : `You have received ${code.amount} ${code.coin}. You can now see it in your wallet.`
+      code.coin = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ? 'USD' : referralLink.referred_award_coin;
+      if (referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
+        congratsText = 'You will receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
+      }
+      if (referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
+        if (referralLink.referred_award_trigger === "sign-up") {
+          congratsText = `You have received ${code.amount} ${code.coin}. Please sign up to see it in your wallet.`
+        }
+        if (referralLink.referred_award_trigger === "passed-kyc") {
+          congratsText = `You have received ${code.amount} ${code.coin}. Please pass kyc to see it in your wallet.`
+        }
+        if (referralLink.referred_award_trigger === "first-deposit") {
+          congratsText = `You have received ${code.amount} ${code.coin}. Please deposit additional funds into celsius wallet to see reward.`
+        }
+      }
     }
 
     return (

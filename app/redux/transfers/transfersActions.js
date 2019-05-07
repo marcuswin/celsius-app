@@ -7,6 +7,7 @@ import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
+import { getWalletSummary } from "../wallet/walletActions";
 import { getAllTransactions } from "../transactions/transactionsActions";
 import { createCelPayBUO } from "../../utils/branch-util";
 import { MODALS } from '../../constants/UI'
@@ -242,7 +243,7 @@ function registerTransferLink(deepLink) {
       const { profile } = getState().user;
 
       if (!profile) {
-        dispatch(showMessage('warring', 'In order to user a CelPay link you must be logged in'))
+        dispatch(showMessage('warning', 'In order to user a CelPay link you must be logged in'))
         return;
       }
 
@@ -258,19 +259,17 @@ function registerTransferLink(deepLink) {
       }
       dispatch(getTransferSuccess(transfer));
 
-      if (profile.kyc_status !== "passed") {
-        // TODO: handle CelPay links for not verified users
-      }
-
       callName = API.CLAIM_TRANSFER;
       res = await transferService.claim(transfer.hash);
       dispatch(claimTransferSuccess(res.data));
 
+      dispatch(getWalletSummary());
       dispatch(openModal(MODALS.CELPAY_RECEIVED_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(callName, err));
     }
+
   }
 }
 

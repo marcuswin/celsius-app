@@ -97,7 +97,7 @@ async function kycStarted() {
  * @param {object} withdrawTransaction
  */
 async function withdrawCompleted(withdrawTransaction) {
-  const { currencyRatesShort } = store.getState().generalData;
+  const { currencyRatesShort } = store.getState().currencies;
   const payload = {
     ...withdrawTransaction,
     amountUsd: withdrawTransaction.amount * currencyRatesShort[withdrawTransaction.coin],
@@ -125,7 +125,7 @@ async function withdrawCompleted(withdrawTransaction) {
  * @param {uuid} celPayTransfer.id
  */
 async function celpayCompleted(celPayTransfer) {
-  const { currencyRatesShort } = store.getState().generalData;
+  const { currencyRatesShort } = store.getState().currencies;
   const amountUsd = celPayTransfer.amount * currencyRatesShort[celPayTransfer.coin]
   await Segment.trackWithProperties('SPEND_CREDITS', {
     ...appInfo,
