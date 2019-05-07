@@ -50,39 +50,39 @@ class CommunityDashboard extends Component {
     let explanationText;
 
 
-    if (name === "BORROW" && button === "loans") {
+    if (name === "BORROW" && button === "Loans") {
       number = 20000;
       explanationText = "Highest $ loan taken";
     }
-    if (name === "BORROW" && button === "average") {
+    if (name === "BORROW" && button === "Average") {
       number = 25000;
       explanationText = "Highest $ loan takene";
     }
-    if (name === "BORROW" && button === "total") {
+    if (name === "BORROW" && button === "Total") {
       explanationText = "Highest $ loan taken";
       number = 28000;
     }
-    if (name === "CELPAY" && button === "sent") {
+    if (name === "CELPAY" && button === "Sent") {
       explanationText = "Sent via CelPay in total";
       number = 12000;
     }
-    if (name === "CELPAY" && button === "transactions") {
+    if (name === "CELPAY" && button === "Transactions") {
       explanationText = "Sent via CelPay in total";
       number = 15000;
     }
-    if (name === "CELPAY" && button === "total") {
+    if (name === "CELPAY" && button === "Total") {
       explanationText = "Sent via CelPay in total";
       number = 18000;
     }
-    if (name === "INTEREST" && button === "earned") {
+    if (name === "INTEREST" && button === "Earned") {
       explanationText = "Total community earn";
       number = 33000;
     }
-    if (name === "INTEREST" && button === "average") {
+    if (name === "INTEREST" && button === "Average") {
       explanationText = "Total community earn";
       number = 38000;
     }
-    if (name === "INTEREST" && button === "rates") {
+    if (name === "INTEREST" && button === "Rates") {
       explanationText = "Total community earn";
       number = 31000;
     }
@@ -109,13 +109,15 @@ class CommunityDashboard extends Component {
             <TouchableOpacity key={button} style={style.button} onPress={() => this.handlePress(button)}>
               <View style={style.innerStyle}>
                 <Icon
-                  name={"Wallet"}
+                  name={button}
                   height={20}
                   width={20}
-                  stroke={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
+                  stroke={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
+                  fill={"white"}
+                  strokeWidth={0.5}
                 />
                 <CelText type={"H6"} weight={"500"} align={"center"}
-                         color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}>
+                         color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
                   {button.toUpperCase()}
                 </CelText>
                 {activeButton === button &&

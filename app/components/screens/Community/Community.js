@@ -71,11 +71,11 @@ class Community extends Component {
           <CelText weight={"300"} align={"center"} type={"H6"} style={{marginTop: heightPercentageToDP("0.5%")}}>HOLA</CelText>
         </CommunityDashboard>
 
-        <CommunityDashboard name={"BORROW"} info buttonTypes={["loans", "average", "total"]}/>
+        <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>
 
-        <CommunityDashboard name={"CELPAY"} info buttonTypes={["sent", "transactions", "total"]}/>
+        <CommunityDashboard name={"CELPAY"} info buttonTypes={["Sent", "Transactions", "Total"]}/>
 
-        <CommunityDashboard name={"INTEREST"} info buttonTypes={["earned", "average", "rates"]}/>
+        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average", "Rates"]}/>
 
         <CommunityDashboard name={"REFERRED"}>
           <Card padding={"0 0 0 0"}>
