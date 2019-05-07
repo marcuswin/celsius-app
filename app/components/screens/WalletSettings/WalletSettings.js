@@ -18,8 +18,11 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Spinner from '../../atoms/Spinner/Spinner'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
-import { getSecureStoreKey, setSecureStoreKey } from '../../../utils/expo-storage'
-import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI';
+import {
+  getSecureStoreKey,
+  setSecureStoreKey
+} from '../../../utils/expo-storage'
+import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 
 @connect(
   state => ({
@@ -52,6 +55,13 @@ class WalletSettings extends Component {
     actions.getUserAppSettings()
     const defaultView = await getSecureStoreKey('DEFAULT_VIEW')
     this.setState({ defaultView })
+  }
+  
+  getViewText = defaultView => {
+    if (defaultView === WALLET_LANDING_VIEW_TYPES.GRID) {
+      return 'Grid'
+    }
+    return 'List'
   }
 
   changeInterestEarn = () => {
@@ -101,21 +111,24 @@ class WalletSettings extends Component {
       !!email.includes('@mvpworkshop.co')
 
     const filterOptions = [
-      { label: WALLET_LANDING_VIEW_TYPES.GRID, value: WALLET_LANDING_VIEW_TYPES.GRID },
-      { label: WALLET_LANDING_VIEW_TYPES.LIST, value: WALLET_LANDING_VIEW_TYPES.LIST }
+      { label: 'Grid view', value: WALLET_LANDING_VIEW_TYPES.GRID },
+      { label: 'List view', value: WALLET_LANDING_VIEW_TYPES.LIST }
     ]
 
     return (
       <RegularLayout>
         {/* <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton> */}
         <RNPickerSelect
-          placeholder={{ label: 'Chooise default view', color: 'rgba(0,0,0,0.5)' }}
+          placeholder={{
+            label: 'Chooise default view',
+            color: 'rgba(0,0,0,0.5)'
+          }}
           items={filterOptions}
           onValueChange={this.handleViewChange}
           value={defaultView || null}
           style={{ height: 16, width: 16 }}
         >
-          <IconButton margin='0 0 20 0'>Default view</IconButton>
+          <IconButton margin='0 0 20 0'>Default view: {this.getViewText(defaultView)}</IconButton>
         </RNPickerSelect>
         <Separator text='INTEREST' />
 
