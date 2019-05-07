@@ -8,13 +8,14 @@ import IconButtonStyle from "./IconButton.styles";
 import Icon from '../../atoms/Icon/Icon';
 import CelText from '../../atoms/CelText/CelText';
 import STYLES from '../../../constants/STYLES';
-import { getMargins } from '../../../utils/styles-util';
+import { getMargins, getPadding } from '../../../utils/styles-util';
 
 class IconButton extends Component {
 
   static propTypes = {
     icon: PropTypes.string,
     margin: PropTypes.string,
+    padding: PropTypes.string,
     right: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element
@@ -25,6 +26,7 @@ class IconButton extends Component {
   };
   static defaultProps = {
     margin: '20 0 20 0',
+    padding: '0 18 0 18',
     hideIconRight: false,
     color: "white",
   }
@@ -59,10 +61,10 @@ class IconButton extends Component {
 
   render() {
     const { primary, secondary } = this.state;
-    const { children, icon, margin, onPress, hideIconRight, right } = this.props;
+    const { children, icon, margin, padding, onPress, hideIconRight, right } = this.props;
     const style = IconButtonStyle()
     return (
-      <TouchableOpacity style={[style.container, { ...getMargins(margin) }, { backgroundColor: primary }]} onPress={onPress}>
+      <TouchableOpacity style={[style.container, { ...getMargins(margin), ...getPadding(padding) }, { backgroundColor: primary }]} onPress={onPress}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {!!icon && <Icon fill={secondary} name={icon} width="25" />}
           <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }} color={secondary}>{children}</CelText>

@@ -73,7 +73,7 @@ class LoyaltyProgram extends Component {
               <View style={[style.progressView, {backgroundColor: color}]}>
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
                   <CelText color={"white"} type={"H3"} weight={"700"}>
-                    {`$${celAmount.amount_usd}`}
+                    {formatter.usd(celAmount.amount_usd)}
                   </CelText>
                   <CelText color={"white"} type={"H5"} weight={"300"}>
                     CEL coins
@@ -111,8 +111,7 @@ class LoyaltyProgram extends Component {
                        source={require("../../../../assets/images/loyaltyIcons/star-bg3x.png")}/>
                 <CelText type={"H3"} weight={"700"} style={{
                   position: "absolute",
-                  top: widthPercentageToDP("23.3%") / 3.5,
-                  left: widthPercentageToDP("23.3") / 3
+                  top: widthPercentageToDP("23.3%") / 3.5
                 }}>{`${Math.round(formatter.percentage(celAmount.amount_usd / walletSummary.total_amount_usd))}%`}</CelText>
               </View>
               <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>of your

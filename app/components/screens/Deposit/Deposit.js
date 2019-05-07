@@ -181,7 +181,7 @@ class Deposit extends Component {
       alternateText1 = `${useAlternateAddress ? "Cash Address" : "Bitcoin"}`;
       alternateText2 = `${useAlternateAddress ? "Bitcoin" : "Cash Address"}`;
 
-      buttonText = `Use ${useAlternateAddress ? "Bitcoin" : "Cash Address"}-format address`;
+      buttonText = `Use ${useAlternateAddress ? "Bitcoin" : "Cash Address"}-format`;
     }
 
     return (
@@ -285,9 +285,10 @@ class Deposit extends Component {
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             <IconButton
               margin="20 0 0 0"
+              padding="15 18 15 18"
               onPress={() => actions.navigateTo('LoyaltyProgram')}
             >
-              <CelText align='left' size='h4' weight='300'>Learn about the CEL Loyalty Program </CelText>
+              <CelText align='left' type='H4' weight='300'>Learn about the CEL Loyalty Program </CelText>
             </IconButton>
           </View>
           : null}

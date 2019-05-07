@@ -1,5 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, getFont } from '../../../utils/styles-util';
+import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
@@ -16,8 +16,7 @@ const base = {
     },
     title: {
         marginTop: 10,
-        marginBottom: 10,
-        fontSize: getFont(34),
+        marginBottom: 10
 
     },
     subtitle: {

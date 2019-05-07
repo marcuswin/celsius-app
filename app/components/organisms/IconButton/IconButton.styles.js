@@ -7,11 +7,9 @@ const base = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    paddingHorizontal: 18,
-    // paddingVertical: 15,
     borderRadius: 8,
     marginVertical: 20,
-    height: 50,
+    minHeight: 50,
     ...Platform.select({
       android: {
         borderColor: '#E9E9E9',

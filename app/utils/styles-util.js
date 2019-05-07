@@ -1,4 +1,4 @@
-import { Dimensions, PixelRatio, Text, TextInput, StyleSheet } from "react-native";
+import { Dimensions, PixelRatio, Text, TextInput, StyleSheet, Platform} from "react-native";
 import formatter from './formatter';
 import store from '../redux/store';
 
@@ -129,7 +129,12 @@ function heightPercentageToDP(heightPercent) {
  */
 
 function getScaledFont(fontSize) {
-  return fontSize;
+  const scale = width / 320;
+  const newSize = fontSize * scale 
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  }
+  return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
 }
 
 
