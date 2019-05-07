@@ -311,7 +311,7 @@ function getTransactionsProps(transaction) {
  * @returns {Array}
  */
 function getTransactionSections(transaction) {
-
+  
   // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
@@ -331,10 +331,10 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_EXPIRED: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
 
-    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'sentToRefferal', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
-    case TRANSACTION_TYPES.REFERRED: return ['info', 'sentToRefferal', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
-    case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'sentToRefferal', 'hodl:info', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
-    case TRANSACTION_TYPES.REFERRER: return ['info', 'sentToRefferal', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
+    case TRANSACTION_TYPES.REFERRED: return ['info', 'referred', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'referrerHODL', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
+    case TRANSACTION_TYPES.REFERRER: return ['info', 'referrer', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
 
     case TRANSACTION_TYPES.CANCELED: return ['info', 'date', 'time', 'status'] // this is random!,
 

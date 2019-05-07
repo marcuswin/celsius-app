@@ -19,7 +19,10 @@ import {
   CollateralSection,
   TransactionSection,
   SentTo,
-  SentFrom
+  SentFrom,
+  ReferrerHODL,
+  Referrer,
+  Referred
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -139,8 +142,14 @@ class TransactionDetails extends Component {
         return <TransactionSection key={sectionType} transaction={transaction} text="Transaction ID:" actions={actions} />;
       case 'sentTo':
         return <SentTo key={sectionType} transaction={transaction} text="Sent to:" actions={actions} />;
-        case 'sentFrom':
+      case 'sentFrom':
         return <SentFrom key={sectionType} transaction={transaction} text="From:" actions={actions} />;
+      case 'referrerHODL':
+        return <ReferrerHODL key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+      case 'referrer':
+        return <Referrer key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+      case 'referred':
+        return <Referred key={sectionType} transaction={transaction} text="From:" actions={actions} />;
       default:
         return null;
     }

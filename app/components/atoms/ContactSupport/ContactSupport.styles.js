@@ -3,12 +3,13 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
     container: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: 20,
-      marginTop: 20,
-    }
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 20,
+        marginTop: 20,
+    },
 }
 
 const themed = {

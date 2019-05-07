@@ -20,6 +20,8 @@ import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/Regis
 import { KYC_STATUSES } from "../../../constants/DATA";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
+import { getFontSize } from '../../../utils/styles-util';
+
 const { revisionId } = Constants.manifest;
 
 @connect(
@@ -58,7 +60,7 @@ class Profile extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {user,actions} = this.props;
+    const { user, actions } = this.props;
     if (prevProps.user.cellphone_verified !== user.cellphone_verified) {
       actions.updateFormFields({
         cellphone: user.cellphone,
@@ -106,7 +108,7 @@ class Profile extends Component {
     return (
       <RegularLayout>
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
-          { profilePicture ? (
+          {profilePicture ? (
             <Image
               style={{
                 width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
@@ -115,14 +117,14 @@ class Profile extends Component {
               resizeMethod="resize"
             />
           ) : (
-            <RNImage
-              style={{
-                width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
-              }}
-              source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-              resizeMethod="resize"
-            />
-          )}
+              <RNImage
+                style={{
+                  width: 100, height: 100, borderRadius: 50, borderWidth: 4, borderColor: STYLES.COLORS.WHITE
+                }}
+                source={require("../../../../assets/images/empty-profile/empty-profile.png")}
+                resizeMethod="resize"
+              />
+            )}
           <View style={{ marginLeft: 20 }}>
             <CelText weight="600" type="H2">{user.first_name}</CelText>
             <CelText weight="600" type="H2">{user.last_name}</CelText>
@@ -141,9 +143,9 @@ class Profile extends Component {
           Enter a promo code
         </IconButton>
 
-        <Separator/>
+        <Separator />
 
-        { shouldShowAchievements && (
+        {shouldShowAchievements && (
           <View>
             <IconButton
               onPress={() => actions.navigateTo("LoyaltyProgram")}
@@ -151,14 +153,14 @@ class Profile extends Component {
             >
               Achievements
             </IconButton>
-            <Separator/>
+            <Separator />
           </View>
         )}
 
-        <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email}/>
-        <CelInput type="text" field='cellphone' disabled placeholder='Phone number' error={formErrors.cellphone} value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"}/>
+        <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
+        <CelInput type="text" field='cellphone' disabled placeholder='Phone number' error={formErrors.cellphone} value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"} />
 
-        { !user.cellphone_verified &&
+        {!user.cellphone_verified &&
           <CelButton
             margin={"20 0 20 0"}
             onPress={() => actions.navigateTo("RegisterEnterPhone")}
@@ -166,14 +168,15 @@ class Profile extends Component {
             Enter Phone Number
           </CelButton>
         }
-
         <ContactSupport
+          content='flex-start'
+          fontSize= {getFontSize()}
+          align='left'
           copy="To make changes on your profile, contact our support at app@celsius.network."
         />
-
-        { isUSCitizen && (
+        {isUSCitizen && (
           <View>
-            <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"}/>
+            <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"} />
 
             {!user.ssn &&
               <View>
