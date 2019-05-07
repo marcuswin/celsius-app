@@ -70,8 +70,10 @@ class RegisterPromoCodeModal extends Component {
     let congratsText
     if (type === "celsius" && promoCode) {
       code.amount = promoCode.referred_award_amount;
-      code.coin = promoCode.referred_award_coin
-      congratsText = `You have received ${code.amount} ${code.coin}. You can now see it in your wallet.`
+      code.coin = promoCode.referred_award_coin;
+      code.maximumDays = promoCode.maximum_days_to_claim;
+      code.minimumAmount = promoCode.minimum_deposit_for_reward;
+      congratsText = `If you deposit $${code.minimumAmount} in next ${code.maximumDays} days, you will earn $${code.amount} in ${code.coin}.`
     }
 
     if (type === "register" && referralLink) {
@@ -88,7 +90,6 @@ class RegisterPromoCodeModal extends Component {
         name={MODALS.REGISTER_PROMO_CODE_MODAL}
         style={style.container}
       >
-
         {!confirmed ?
           <View>
             <CelText margin={"40 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Enter a promo code</CelText>
