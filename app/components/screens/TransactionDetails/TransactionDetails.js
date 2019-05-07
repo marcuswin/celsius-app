@@ -87,7 +87,7 @@ class TransactionDetails extends Component {
       case 'date:deposited':
         return <BasicSection key={sectionType} label="Date deposited" value={moment(transaction.time).format("D MMM YYYY")} />;
       case 'time':
-        return <BasicSection key={sectionType} label="Time" value={moment.utc(transaction.time).format("HH:mm A")} />;
+        return <BasicSection key={sectionType} label="Time" value={moment.utc(transaction.time).format("h:mm A (z)")} />;
       case 'status':
         return <StatusSection key={sectionType} transactionProps={transactionProps} />;
       case 'status:noSeparator':
