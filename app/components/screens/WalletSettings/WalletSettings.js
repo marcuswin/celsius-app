@@ -18,10 +18,6 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Spinner from '../../atoms/Spinner/Spinner'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
-import {
-  getSecureStoreKey,
-  setSecureStoreKey
-} from '../../../utils/expo-storage'
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 
 @connect(
@@ -52,11 +48,10 @@ class WalletSettings extends Component {
 
   async componentDidMount () {
     const { actions } = this.props
-    actions.getUserAppSettings()
-    const defaultView = await getSecureStoreKey('DEFAULT_VIEW')
-    this.setState({ defaultView })
+    await actions.getUserAppSettings()
+    this.setState({ defaultView: this.props.appSettings.default_wallet_view })
   }
-  
+
   getViewText = defaultView => {
     if (defaultView === WALLET_LANDING_VIEW_TYPES.GRID) {
       return 'Grid'
@@ -93,8 +88,9 @@ class WalletSettings extends Component {
   }
 
   handleViewChange = async view => {
+    const { actions } = this.props
     this.setState({ defaultView: view })
-    await setSecureStoreKey('DEFAULT_VIEW', view)
+    actions.setUserAppSettings({ default_wallet_view: view})
   }
 
   render () {
@@ -114,7 +110,7 @@ class WalletSettings extends Component {
       { label: 'Grid view', value: WALLET_LANDING_VIEW_TYPES.GRID },
       { label: 'List view', value: WALLET_LANDING_VIEW_TYPES.LIST }
     ]
-
+    
     return (
       <RegularLayout>
         {/* <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton> */}
@@ -128,7 +124,9 @@ class WalletSettings extends Component {
           value={defaultView || null}
           style={{ height: 16, width: 16 }}
         >
-          <IconButton margin='0 0 20 0'>Default view: {this.getViewText(defaultView)}</IconButton>
+          <IconButton margin='0 0 20 0'>
+            Default view: {this.getViewText(defaultView)}
+          </IconButton>
         </RNPickerSelect>
         <Separator text='INTEREST' />
 

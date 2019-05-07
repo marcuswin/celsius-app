@@ -22,7 +22,6 @@ import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
 import { KYC_STATUSES } from "../../../constants/DATA";
-import { getSecureStoreKey } from '../../../utils/expo-storage';
 
 
 @connect(
@@ -33,6 +32,7 @@ import { getSecureStoreKey } from '../../../utils/expo-storage';
 
     return {
       branchTransfer,
+      appSettings: state.user.appSettings,
       currenciesRates: state.currencies.rates,
       walletSummary: state.wallet.summary,
       currenciesGraphs: state.currencies.graphs,
@@ -78,11 +78,10 @@ class WalletLanding extends Component {
     navigation.setParams({
       title: `Welcome ${props.user.first_name}!`
     })
-
     this.state = {
       coinWithAmount,
       coinWithoutAmount,
-      activeView: WALLET_LANDING_VIEW_TYPES.GRID
+      activeView: props.appSettings.default_wallet_view
     };
   }
 
@@ -107,9 +106,7 @@ class WalletLanding extends Component {
       }
     });
 
-    const defaultView = (await getSecureStoreKey('DEFAULT_VIEW')) || WALLET_LANDING_VIEW_TYPES.GRID
-
-    this.setState({ coinWithAmount, coinWithoutAmount, activeView: defaultView });
+    this.setState({ coinWithAmount, coinWithoutAmount });
   };
 
   componentDidUpdate(prevProps) {

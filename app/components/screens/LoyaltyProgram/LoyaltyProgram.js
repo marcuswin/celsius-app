@@ -112,7 +112,7 @@ class LoyaltyProgram extends Component {
                 <CelText type={"H3"} weight={"700"} style={{
                   position: "absolute",
                   top: widthPercentageToDP("23.3%") / 3.5
-                }}>{`${Math.round(formatter.percentage(celAmount.amount_usd / walletSummary.total_amount_usd))}%`}</CelText>
+                }}>{`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}</CelText>
               </View>
               <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>of your
                 wallet balance</CelText>

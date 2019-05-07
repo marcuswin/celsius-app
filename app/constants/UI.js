@@ -108,8 +108,8 @@ const HIGHLIGHTED_COUNTRIES = [
 ]
 
 const WALLET_LANDING_VIEW_TYPES = {
-  GRID: 'GRID',
-  LIST: 'LIST'
+  GRID: 'grid',
+  LIST: 'list'
 }
 
 const FAB_TYPE = ['main', 'support', 'hide']
