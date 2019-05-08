@@ -37,7 +37,7 @@ class WithdrawInfoModal extends Component {
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
           title: "Don’t forget to check your withdrawal address",
-          description: "Take a closer look at the address you wish to send your funds to. If you transferred money from an exchange, the address may not be correct. If you need to change your withdrawal address, please contact us at app@celsius.network, or chat with a member of our team.",
+          description: "Celsius uses a smart-contract based wallet for ETH and ERC20 coins, some wallets and exchanges (e.g. Bitfinex) do not support transactions from a smart-contract source. We recommend a one time test withdrawal with a small sum. Contact app@celsius.network if you are unsure.",
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
