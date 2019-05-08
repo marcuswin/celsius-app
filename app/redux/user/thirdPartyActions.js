@@ -321,6 +321,8 @@ function authGoogle(authReason) {
           clientId: GOOGLE_CLIENT_ID
         });
         await GoogleSignIn.askForPlayServicesAsync();
+        const isSignedIn = await GoogleSignIn.isSignedInAsync()
+        if (isSignedIn) await GoogleSignIn.signOutAsync();
         result = await GoogleSignIn.signInAsync();
       };
 
