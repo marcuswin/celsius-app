@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 
 import CommunityDashboardStyle from "./CommunityDashboard.styles";
@@ -12,6 +15,12 @@ import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
 
 
+@connect(
+  state => ({
+    communityStats: state.community.stats
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class CommunityDashboard extends Component {
 
   static propTypes = {
@@ -39,13 +48,25 @@ class CommunityDashboard extends Component {
 
   // lifecycle methods
   componentDidMount() {
-    // get all data for community screen, call handlePress to calculate initial values
+    const {name, communityStats} = this.props;
+    if (name === "CELPAY") {
+      this.setState({
+        primaryNumber: formatter.usd(communityStats.highest_celpay_transaction_usd),
+        explanation: "Highest CelPay sent"
+      })
+    }
+    if (name === "INTEREST") {
+      this.setState({
+        primaryNumber: formatter.usd(communityStats.total_interests_usd),
+        explanation: "Total community earn"
+      })
+    }
   }
 
   // event hanlders
   // rendering methods
   handlePress = (button) => {
-    const { name } = this.props;
+    const { name, communityStats } = this.props;
     let number;
     let explanationText;
 
@@ -63,27 +84,27 @@ class CommunityDashboard extends Component {
       number = 28000;
     }
     if (name === "CELPAY" && button === "Sent") {
-      explanationText = "Sent via CelPay in total";
-      number = 12000;
+      explanationText = "Highest CelPay sent";
+      number = formatter.usd(communityStats.highest_celpay_transaction_usd);
     }
     if (name === "CELPAY" && button === "Transactions") {
-      explanationText = "Sent via CelPay in total";
-      number = 15000;
+      explanationText = "Number of CelPay transactions";
+      number = communityStats.celpay_transactions_num;
     }
     if (name === "CELPAY" && button === "Total") {
       explanationText = "Sent via CelPay in total";
-      number = 18000;
+      number = formatter.usd(communityStats.total_celpay_sent_usd);
     }
     if (name === "INTEREST" && button === "Earned") {
       explanationText = "Total community earn";
-      number = 33000;
+      number = formatter.usd(communityStats.total_interests_usd);
     }
     if (name === "INTEREST" && button === "Average") {
-      explanationText = "Total community earn";
-      number = 38000;
+      explanationText = "Average community earn";
+      number = formatter.usd(communityStats.average_interest_earned_usd);
     }
     if (name === "INTEREST" && button === "Rates") {
-      explanationText = "Total community earn";
+      explanationText = "Interest rates";
       number = 31000;
     }
 
@@ -131,7 +152,7 @@ class CommunityDashboard extends Component {
         {info &&
         <View>
           <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={style.primary}>{formatter.usd(primaryNumber)}</CelText>
+                   style={style.primary}>{primaryNumber}</CelText>
           <CelText weight={"300"} align={"center"} type={"H6"} style={style.explanation}>{explanation}</CelText>
         </View>
         }
