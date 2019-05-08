@@ -147,7 +147,9 @@ class KYCLanding extends Component {
                 {e}
               </CelText>
             ))}
+            <View style={{ marginHorizontal: '6%'}}>
             {this.renderProgressSteps(kycStatus)}
+            </View>
           </View>
         </View>
       </View>
