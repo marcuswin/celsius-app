@@ -43,7 +43,7 @@ function loginUser() {
   return async (dispatch, getState) => {
 
     try {
-      const { formData } = getState().forms
+      const { formData } = getState().forms;
 
       dispatch(startApiCall(API.LOGIN_USER));
       const res = await usersService.login({
@@ -57,6 +57,7 @@ function loginUser() {
       await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
 
+      const { appSettings } = getState().user;
       const user = res.data.user
 
       dispatch({
@@ -64,8 +65,11 @@ function loginUser() {
         callName: API.LOGIN_USER,
         tokens: res.data.auth0,
         user,
-      })
-        dispatch(navigateTo('WalletFab'));
+      });
+      if(appSettings && !appSettings.accepted_terms_of_use) {
+        return dispatch(navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "WalletFab"}))
+      }
+       dispatch(navigateTo('WalletFab'));
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -98,6 +102,7 @@ function registerUser() {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
       await dispatch(initAppData());
+      const { appSettings } = getState().user;
 
       analytics.sessionStarted()
       dispatch(claimAllBranchTransfers());
@@ -105,7 +110,9 @@ function registerUser() {
         type: ACTIONS.REGISTER_USER_SUCCESS,
         user: res.data.user,
       });
-
+      if(appSettings && !appSettings.accepted_terms_of_use) {
+        return dispatch(navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "RegisterSetPin"}))
+      }
       dispatch(navigateTo('RegisterSetPin'))
     } catch (err) {
       if (err.type === 'Validation error') {

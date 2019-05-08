@@ -36,6 +36,11 @@ class Settings extends Component {
     right: "logout"
   });
 
+  componentDidMount() {
+    const {actions} = this.props;
+    actions.getUserAppSettings()
+  }
+
   render() {
     const { actions, kycStatus } = this.props;
 
