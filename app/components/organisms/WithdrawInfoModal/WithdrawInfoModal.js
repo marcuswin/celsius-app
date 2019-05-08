@@ -48,6 +48,7 @@ class WithdrawInfoModal extends Component {
     };
   }
 
+
   continue = () => {
     const { currentStep } = this.state
     const { closeModal, toggleKeypad, type } = this.props
@@ -124,18 +125,22 @@ class WithdrawInfoModal extends Component {
     const { steps, currentStep } = this.state;
     const { type } = this.props;
     let numberOfSteps
-
+    
     if (type) {
       numberOfSteps = 4
     } else {
       numberOfSteps = 3
     }
 
+    if (!currentStep) {
+      this.setState({ currentStep: 1 })
+    }
+
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
         picture={steps[currentStep - 1].image}
-      >
+        >
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>
           <DotsBar length={numberOfSteps} currentStep={currentStep}/>
@@ -144,7 +149,6 @@ class WithdrawInfoModal extends Component {
             {this.renderStep()}
           </View>
         </View>
-
       </CelModal>
     );
   }
