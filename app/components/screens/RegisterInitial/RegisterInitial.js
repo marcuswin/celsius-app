@@ -73,6 +73,7 @@ class RegisterInitial extends Component {
       API.REGISTER_USER_FACEBOOK,
       API.REGISTER_USER_GOOGLE,
       API.REGISTER_USER_TWITTER,
+      API.SOCIAL_REGISTER,
     ], callsInProgress);
 
     // TODO(ns): check ref if !isUsingSocial for pass input
