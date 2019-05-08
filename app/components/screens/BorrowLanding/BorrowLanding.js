@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { TouchableOpacity, View, Image } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import moment from "moment";
 
 import formatter from "../../../utils/formatter";
@@ -147,19 +147,15 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
     if (maxAmount < minimumLoanAmount) {
       return (
-        <RegularLayout>
-          <View style={style.container}>
-            <View>
-              <Image source={require("../../../../assets/images/diane-sad.png")}
-              style={{ width: 140, height: 140, resizeMode: "contain", alignSelf: 'center' }} />
-            </View>
-
-          <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>To apply for a loan you just need { formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) }more { largestAmountCoin }</CelText>
-
-          <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"}>The current loan minimum is {formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.</CelText>
-        </View>
-        <CelButton onPress={() => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding")} color={STYLES.COLORS.CELSIUS_BLUE} margin= '25 auto auto auto' >Deposit coins</CelButton>
-      </RegularLayout>
+        <StaticScreen
+        emptyState={{
+          image: require("../../../../assets/images/diane-sad3x.png"),
+          heading: `To apply for a loan you just need ${ formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) }more ${ largestAmountCoin }`,
+          paragraphs: [`The current loan minimum is ${ formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.`],
+          onPress: () => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding"),
+          button: 'Deposit Coins'
+        }}
+      />
       )
     }
     if (isLoading) return <LoadingScreen />;

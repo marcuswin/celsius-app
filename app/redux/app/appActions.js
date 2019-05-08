@@ -199,5 +199,6 @@ function initAppData() {
     // get general data for te app
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
+    await dispatch(actions.getCommunityStatistics())
   };
 }

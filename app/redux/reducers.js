@@ -18,6 +18,7 @@ import currencies from './currencies/currenciesReducer';
 import transactions from './transactions/transactionsReducer';
 import graph from './graph/graphReducer';
 import nav from './nav/navReducer'
+import community from './community/communityReducer';
 // NOTE(fj): plop reduxGen importing new Reducer here
 
 const appReducers = combineReducers({
@@ -37,7 +38,8 @@ const appReducers = combineReducers({
   currencies,
   transactions,
   graph,
-  nav
+  nav,
+  community,
   // NOTE(fj): plop reduxGen inserting new Reducer here
 })
 

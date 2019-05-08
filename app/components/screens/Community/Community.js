@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 import { View, Image } from "react-native";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
+import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CommunityDashboard from "../../organisms/CommunityDashboard/CommunityDashboard";
 import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
-import Icon from "../../atoms/Icon/Icon";
+import CommunityStyle from "./Community.styles";
 
 
+@connect(
+  state => ({
+      communityStats: state.community.stats
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
 class Community extends Component {
 
   static propTypes = {
@@ -25,75 +33,77 @@ class Community extends Component {
   });
 
   render() {
+    const {communityStats} = this.props;
+    const style = CommunityStyle();
+
+    const highestDeposit = communityStats.highest_deposit;
+    const image = communityStats.interest_rates.filter(obj => obj.coin === highestDeposit.coin);
+
     return (
       <RegularLayout>
 
         <Card padding={"0 0 0 0"}>
-          <View style={{flexDirection: "row", justifyContent: "flex-end", margin: 12}}>
-            <Image style={{ position: "absolute", left: 10, bottom: -10, resizeMode: "cover", height: widthPercentageToDP("30%"),
-              width: widthPercentageToDP("30%"), overflow: "visible" }}
-                   source={require("../../../../assets/images/community/dogIllustration.png")}/>
+          <View style={style.imageView}>
+            <Image source={require("../../../../assets/images/community/dogIllustration.png")} style={style.communityImage}/>
             <View>
               <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
-              <CelText weight={"600"} align={"left"} type={"H1"}>4.564</CelText>
+              <CelText weight={"600"} align={"left"} type={"H1"}>{communityStats.users_num}</CelText>
               <CelText weight={"300"} align={"left"} type={"H6"}>members</CelText>
             </View>
           </View>
         </Card>
 
         <CommunityDashboard name={"DEPOSITS"}>
-          <Icon
-            width={44}
-            height={44}
-            name={"IconETH"}
-          />
+          <View style={style.image}>
+            <Image source={{uri: image[0].currency.image_url}} style={style.coinImage}/>
+          </View>
           <CelText margin={"10 0 0 0"} weight={"300"} align={"center"} type={"H6"}>Most deposited coin</CelText>
           <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={{marginTop: heightPercentageToDP("1.25%")}}>TRT</CelText>
-          <CelText weight={"300"} align={"center"} type={"H5"} style={{marginTop: heightPercentageToDP("0.5%")}}>HALO</CelText>
+                   style={style.text}>{`${formatter.crypto(highestDeposit.total)} ${highestDeposit.coin}`}</CelText>
+          <CelText weight={"300"} align={"center"} type={"H5"} style={style.secondText}>{formatter.usd(highestDeposit.total_usd)}</CelText>
 
-          <Card style={{marginTop: heightPercentageToDP("0.8%")}}>
-            <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-              <View style={{flexDirection: "column"}}>
+          <Card style={style.amountsCard}>
+            <View style={style.amountsView}>
+              <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Total coins deposited</CelText>
-                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(3000000)}</CelText>
+                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.total_deposits_usd)}</CelText>
               </View>
               <Separator vertical/>
-              <View style={{flexDirection: "column"}}>
+              <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Avg. deposit over time</CelText>
-                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(20000)}</CelText>
+                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.average_deposit_usd)}</CelText>
               </View>
             </View>
           </Card>
 
           <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={{marginTop: heightPercentageToDP("1.25%")}}>PRP</CelText>
-          <CelText weight={"300"} align={"center"} type={"H6"} style={{marginTop: heightPercentageToDP("0.5%")}}>HOLA</CelText>
+                   style={style.text}>{communityStats.total_depositors_num}</CelText>
+          <CelText weight={"300"} align={"center"} type={"H6"} style={style.secondText}>Members are depositing</CelText>
         </CommunityDashboard>
 
-        <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>
+        {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 
         <CommunityDashboard name={"CELPAY"} info buttonTypes={["Sent", "Transactions", "Total"]}/>
 
-        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average", "Rates"]}/>
+        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]}/>
 
-        <CommunityDashboard name={"REFERRED"}>
-          <Card padding={"0 0 0 0"}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <View style={{margin: 12}}>
-                <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>
-                <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>
-              </View>
-              <Image style={{ position: "absolute", bottom: 0, right: 0, resizeMode: "cover", width: widthPercentageToDP("22%"),
-                height: widthPercentageToDP("20.4%"), overflow: "hidden" }}
-                     source={require("../../../../assets/images/community/frenchie.png")}/>
-            </View>
-          </Card>
-        </CommunityDashboard>
+        {/* <CommunityDashboard name={"REFERRED"}>*/}
+          {/* <Card padding={"0 0 0 0"}>*/}
+            {/* <View style={{ flexDirection: "row", justifyContent: "space-between" }}>*/}
+              {/* <View style={{margin: 12}}>*/}
+                {/* <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>*/}
+                {/* <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>*/}
+              {/* </View>*/}
+              {/* <Image style={{ position: "absolute", bottom: 0, right: 0, resizeMode: "cover", width: widthPercentageToDP("22%"),*/}
+                {/* height: widthPercentageToDP("20.4%"), overflow: "hidden" }}*/}
+                     {/* source={require("../../../../assets/images/community/frenchie.png")}/>*/}
+            {/* </View>*/}
+          {/* </Card>*/}
+        {/* </CommunityDashboard>*/}
 
-        <CommunityDashboard name={"PRODUCT UPDATES"}/>
+        {/* <CommunityDashboard name={"PRODUCT UPDATES"}/> */}
 
-        <CommunityDashboard name={"MEET US IN PERSON AT"}/>
+        {/* <CommunityDashboard name={"MEET US IN PERSON AT"}/> */}
 
       </RegularLayout>
     );
