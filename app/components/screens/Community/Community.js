@@ -62,13 +62,13 @@ class Community extends Component {
                    style={style.text}>{`${formatter.crypto(highestDeposit.total)} ${highestDeposit.coin}`}</CelText>
           <CelText weight={"300"} align={"center"} type={"H5"} style={style.secondText}>{formatter.usd(highestDeposit.total_usd)}</CelText>
 
-          <Card style={style.amountsCard}>
+          <Card margin={"20 0 0 0"}>
             <View style={style.amountsView}>
               <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Total coins deposited</CelText>
                 <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.total_deposits_usd)}</CelText>
               </View>
-              <Separator vertical/>
+              <Separator margin={"10 0 10 0"}/>
               <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Avg. deposit over time</CelText>
                 <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.average_deposit_usd)}</CelText>
@@ -87,19 +87,17 @@ class Community extends Component {
 
         <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]}/>
 
-        {/* <CommunityDashboard name={"REFERRED"}>*/}
-          {/* <Card padding={"0 0 0 0"}>*/}
-            {/* <View style={{ flexDirection: "row", justifyContent: "space-between" }}>*/}
-              {/* <View style={{margin: 12}}>*/}
-                {/* <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>*/}
-                {/* <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>*/}
-              {/* </View>*/}
-              {/* <Image style={{ position: "absolute", bottom: 0, right: 0, resizeMode: "cover", width: widthPercentageToDP("22%"),*/}
-                {/* height: widthPercentageToDP("20.4%"), overflow: "hidden" }}*/}
-                     {/* source={require("../../../../assets/images/community/frenchie.png")}/>*/}
-            {/* </View>*/}
-          {/* </Card>*/}
-        {/* </CommunityDashboard>*/}
+         {/* <CommunityDashboard name={"REFERRED"}>*/}
+           {/* <Card padding={"0 0 0 0"}>*/}
+             {/* <View style={{ flexDirection: "row", justifyContent: "space-between" }}>*/}
+               {/* <View style={{margin: 12}}>*/}
+                 {/* <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>*/}
+                 {/* <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>*/}
+               {/* </View>*/}
+               {/* <Image style={style.bulldogImage} source={require("../../../../assets/images/community/frenchie.png")}/>*/}
+             {/* </View>*/}
+           {/* </Card>*/}
+         {/* </CommunityDashboard>*/}
 
         {/* <CommunityDashboard name={"PRODUCT UPDATES"}/> */}
 
