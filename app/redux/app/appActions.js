@@ -185,6 +185,11 @@ function initAppData() {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
+        // get general data for te app
+        await dispatch(actions.getCurrencyRates());
+        await dispatch(actions.getCurrencyGraphs());
+        await dispatch(actions.getCommunityStatistics())
+        
         // get wallet details for verified users
         if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
           await dispatch(actions.getWalletSummary());
@@ -196,9 +201,5 @@ function initAppData() {
       await dispatch(actions.logoutUser());
     }
 
-    // get general data for te app
-    await dispatch(actions.getCurrencyRates());
-    await dispatch(actions.getCurrencyGraphs());
-    await dispatch(actions.getCommunityStatistics())
   };
 }

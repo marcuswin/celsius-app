@@ -65,10 +65,11 @@ function authTwitter(type, twitterUser) {
         email: twitterUser.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        twitter_screen_name: twitterUser.screen_name,
         twitterId: twitterUser.id_str,
-        accessToken: twitterUser.twitter_oauth_token,
-        secretToken: twitterUser.twitter_oauth_secret,
-        profilePicture: twitterUser.profile_picture,
+        accessToken: user.twitter_oauth_token,
+        secretToken: user.twitter_oauth_secret,
+        profilePicture: twitterUser.profile_image_url,
       }))
     }
   }
@@ -92,6 +93,7 @@ function registerUserTwitter() {
         profile_picture: formData.profilePicture,
         access_token: formData.accessToken,
         secret_token: formData.secretToken,
+        twitter_screen_name: formData.twitter_screen_name,
         referral_link_id: referralLinkId || undefined,
       }
 
@@ -451,7 +453,7 @@ function loginSocialSuccess(network, token) {
 function registerSocialSuccess(network, token, user) {
   return async (dispatch) => {
     await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
-
+    
     dispatch({
       type: ACTIONS[`REGISTER_USER_${ network.toUpperCase() }_SUCCESS`],
       user,
