@@ -40,7 +40,7 @@
     "expo-mixpanel-analytics": "0.0.7",
     "js-base64": "^2.4.9",
     "jsrsasign": "^8.0.12",
-    "lodash": "4.17.5",
+    "lodash": "^4.17.11",
     "moment": "^2.22.1",
     "prop-types": "15.6.0",
     "qs": "6.5.1",
