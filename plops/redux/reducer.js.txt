@@ -1,18 +1,15 @@
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 
-function initialState() {
-    return {
-        // intial state goes here
-    };
+const initialState = {
 }
 
-export default function {{camelCase name}}Reducer($$state = initialState(), action) {
+export default function {{camelCase name}}Reducer(state = initialState, action) {
 
     switch (action.type) {
     // case ACTIONS.TEST_ACTION:
-    //     return { ...$$state };
+    //     return { ...state };
 
     default:
-        return { ...$$state };
+        return { ...state };
     }
 }

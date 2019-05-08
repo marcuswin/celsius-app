@@ -1,8 +1,23 @@
-import { StyleSheet } from 'react-native';
-// import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const ApiAuthorizationStyle = StyleSheet.create({
+const base = {
+    container: {
+        flex: 1
+    }
+}
 
-});
+const themed = {
+    light: {
+    },
 
-export default ApiAuthorizationStyle;
+    dark: {
+    },
+
+    celsius: {
+    }
+}
+
+const ApiAuthorizationStyle = () => getThemedStyle(base, themed);
+
+export default ApiAuthorizationStyle

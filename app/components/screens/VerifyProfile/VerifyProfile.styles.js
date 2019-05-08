@@ -1,40 +1,27 @@
-import { StyleSheet } from 'react-native';
+// import STYLES from '../../../constants/STYLES';
+import { Dimensions } from "react-native";
+import { getThemedStyle } from "../../../utils/styles-util";
 
-const VerifyProfileStyle = StyleSheet.create({
-  centeredColumn: {
-    justifyContent: 'center',
-    alignItems: 'center',
+const { width } = Dimensions.get("window");
+
+const base = {
+  container: {
+    flex: 1,
+    width
   },
-  documentViewWrapper: {
-    backgroundColor: '#5366ad',
-    opacity: 0.7,
-    borderRadius: 8,
-    width: 88,
-    height: 101,
-    alignItems: 'center',
-    justifyContent: 'center'
+  wrapper: {
+    paddingHorizontal: 20,
   },
-  documentViewWrapperSelected: {
-    backgroundColor: '#828fc2',
-    opacity: 1,
-    borderRadius: 8,
-    width: 88,
-    height: 101,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  documentTypeWrapper: {
-    paddingTop: 14,
-    alignItems: 'center',
-    width: 50,
-    height: 43
-  },
-  documentTypeName: {
-    fontSize: 12,
-    fontFamily: 'agile-light',
-    color: '#ffffff',
-    textAlign: 'center',
-  },
-});
+};
+
+const themed = {
+  light: {},
+
+  dark: {},
+
+  celsius: {}
+};
+
+const VerifyProfileStyle = () => getThemedStyle(base, themed);
 
 export default VerifyProfileStyle;

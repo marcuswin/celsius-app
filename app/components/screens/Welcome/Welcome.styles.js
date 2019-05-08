@@ -1,22 +1,47 @@
-import {Dimensions, Platform, StyleSheet} from 'react-native';
-import {STYLES, PIXEL_RATIO} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const {height} = Dimensions.get('window');
+const base = {
+    container: {
+        flex: 1,
+        alignContent: 'center',
 
-const WelcomeStyle = StyleSheet.create({
-  content: {
-    backgroundColor: STYLES.PRIMARY_BLUE,
-  },
-  view: {
-    minHeight: Platform.OS === 'ios' ? (height - (PIXEL_RATIO * 50) + 40) : 'auto',
-    justifyContent: 'center',
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
-  buttonWrapper: {
-    justifyContent: 'center',
+    },
+    wrapper: {
+        flex: 1,
+        alignItems: 'center',
+        alignContent: 'center',
+        paddingVertical: '30%',
 
-  },
-});
+    },
+    title: {
+        marginTop: 10,
+        marginBottom: 10
 
-export default WelcomeStyle;
+    },
+    subtitle: {
+        marginRight: 25,
+        marginLeft: 25,
+
+    },
+    button: {
+        marginTop: 20,
+        marginBottom: 20,
+
+    }
+}
+
+const themed = {
+    light: {
+    },
+
+    dark: {
+    },
+
+    celsius: {
+    }
+}
+
+const WelcomeStyle = () => getThemedStyle(base, themed);
+
+export default WelcomeStyle

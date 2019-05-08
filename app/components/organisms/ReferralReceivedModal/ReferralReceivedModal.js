@@ -1,62 +1,80 @@
-import React, {Component} from 'react';
-import { Text, View, Image } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as appActions from '../../../redux/actions'
 
-import * as appActions from "../../../redux/actions";
-import { BRANCH_LINKS, MODALS } from "../../../config/constants/common";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import CelModal from "../../atoms/CelModal/CelModal";
-import CelButton from "../../atoms/CelButton/CelButton";
+import testUtil from '../../../utils/test-util'
+import formatter from "../../../utils/formatter";
+// import ReferralReceivedModalStyle from "./ReferralReceivedModal.styles";
+import CelModal from '../CelModal/CelModal'
+import { MODALS } from '../../../constants/UI'
+import CelText from '../../atoms/CelText/CelText'
+import CelButton from '../../atoms/CelButton/CelButton'
+import { BRANCH_LINKS } from '../../../constants/DATA'
 
 @connect(
   state => ({
-    referralLink: state.branch.allLinks.find(bl => bl.link_type === BRANCH_LINKS.COMPANY_REFERRAL),
+    referralLink: state.branch.registeredLink
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class ReferralReceivedModal extends Component {
   closeAndGoToSignup = () => {
-    const { actions } = this.props;
+    const { actions } = this.props
 
-    actions.closeModal();
-    actions.navigateTo('SignupOne');
+    actions.closeModal()
+    actions.navigateTo('RegisterInitial')
   }
-  render() {
-    const { referralLink } = this.props;
 
-    if (!referralLink) return null;
+  render () {
+    const { referralLink } = this.props
 
-    let text;
-    if (referralLink.referred_award_trigger === 'first-deposit') {
-      text = 'To see it in your wallet, please sign up, verify your profile and make a first deposit.';
-    } else {
-      text = 'To see it in your wallet, please sign up and verify your profile.';
-    }
-
+    if (!referralLink) return null
+    const owner = referralLink.owner ? referralLink.owner.display_name : 'a friend'
     return (
-      <CelModal name={MODALS.REFERRAL_RECEIVED_MODAL}>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Image source={require('../../../../assets/images/hodl-bear.png') } style={{ width: 120, height: 120, borderRadius: 60 }} />
-        </View>
-
-        <Text style={[globalStyles.largeHeading, { marginTop: 15, marginBottom: 10 }]}>Welcome to Celsius!</Text>
-
-        <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>
-          You have been referred by { referralLink.company_name } and received
-          <Text style={[globalStyles.normalText, globalStyles.boldText]}> { referralLink.referred_award_amount } { referralLink.referred_award_coin } </Text>
-          as a reward. { text }
-        </Text>
-
-        <CelButton
-          onPress={this.closeAndGoToSignup}
-          margin="30 0 0 0"
-        >
+      <CelModal
+        name={MODALS.REFERRAL_RECEIVED_MODAL}
+        picture={require('../../../../assets/images/frenchy.png')}
+      >
+        <CelText margin='20 0 0 0' align='center' weight='bold' type='H2'>
+          Welcome to Celsius!
+        </CelText>
+        {referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL && (
+          <CelText>
+            You have been referred by { owner } and
+            receiver{' '}
+            <CelText weight='bold'>
+              {referralLink.referred_award_amount}{' '}
+              {referralLink.referred_award_base_currency}{' '}
+            </CelText>
+            as a reward. To see it in your wallet, please sign up and verify
+            your profile.
+          </CelText>
+        )}
+        {referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL && (
+          <CelText>
+            You will receive{' '}
+            <CelText weight='bold'>
+              {referralLink.referred_award_amount}{' '}
+              {referralLink.referred_award_base_currency ||
+                referralLink.referred_award_coin}{' '}
+            </CelText>
+            {isNaN(referralLink.minimum_deposit_for_reward) ? (
+              <CelText>after you verify your account!</CelText>
+            ) : (
+              <CelText>
+                after your first deposit of{' '}
+                {formatter.usd(referralLink.minimum_deposit_for_reward)} or more!
+              </CelText>
+            )}
+          </CelText>
+        )}
+        <CelButton onPress={this.closeAndGoToSignup} margin='30 0 20 0'>
           Sign Up
         </CelButton>
       </CelModal>
-    );
+    )
   }
 }
 
-export default ReferralReceivedModal;
+export default testUtil.hookComponent(ReferralReceivedModal)

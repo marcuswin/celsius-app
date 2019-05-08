@@ -1,15 +1,28 @@
-import { StyleSheet } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const TwoFaAuthAppConfirmationCodeStyle = StyleSheet.create({
-  title: {
-    marginTop: 25,
-    fontSize: FONT_SCALE * 20,
+const base = {
+  container: {
+    flex: 1
   },
-  input: {
-    marginTop: 20,
-    marginBottom: 20
+  buttonBottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginTop: 20
   }
-});
+}
 
-export default TwoFaAuthAppConfirmationCodeStyle;
+const themed = {
+  light: {
+  },
+
+  dark: {
+  },
+
+  celsius: {
+  }
+}
+
+const TwoFaAuthAppConfirmationCodeStyle = () => getThemedStyle(base, themed);
+
+export default TwoFaAuthAppConfirmationCodeStyle

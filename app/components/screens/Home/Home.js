@@ -1,97 +1,165 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-import { Constants } from "expo";
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { View, Image, ScrollView, SafeAreaView } from 'react-native'
+import * as appActions from '../../../redux/actions'
+import { KYC_STATUSES, RANDOM_MESSAGES } from '../../../constants/DATA'
+import Loader from '../../atoms/Loader/Loader'
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+  getPadding
+} from '../../../utils/styles-util'
+import CelText from '../../atoms/CelText/CelText'
 
-import * as appActions from "../../../redux/actions";
-import NoKyc from "../NoKyc/NoKyc";
-import CreatePasscode from "../Passcode/CreatePasscode";
-import { KYC_STATUSES } from "../../../config/constants/common";
-import WelcomeScreen from "../Welcome/Welcome";
-import SignupTwo from "../Signup/SignupTwo";
-import { registerForPushNotificationsAsync } from "../../../utils/push-notifications-util";
-import { getSecureStoreKey } from "../../../utils/expo-storage";
-import WalletBalance from "../WalletBalance/WalletBalance";
-import store from "../../../redux/store";
-import { shouldRenderInitialIdVerification } from "../../../utils/user-util";
-import VerifyIdentity from "../VerifyIdentity/VerifyIdentityScreen";
-import logger from "../../../utils/logger-util";
-
-const { SECURITY_STORAGE_AUTH_KEY, CLIENT_VERSION, ENV } = Constants.manifest.extra;
+const apiCalls = []
 
 @connect(
   state => ({
-    user: state.users.user,
-    expiredSession: state.users.expiredSession,
-    displayedRatesModal: state.ui.showedTodayRatesOnOpen,
-    appSettings: state.users.appSettings,
-    openedModal: state.ui.openedModal,
-    userActions: state.ui.userActions,
-    callsInProgress: state.api.callsInProgress,
-    branchHashes: state.transfers.branchHashes,
+    appInitialized: state.app.appInitialized,
+    user: state.user.profile,
+    callsInProgress: state.api.callsInProgress
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class HomeScreen extends Component {
-  async componentWillMount() {
-    const { actions, expiredSession } = this.props;
+class Home extends Component {
+  static getDerivedStateFromProps (nextProps, prevState) {
+    const { callsInProgress } = nextProps
 
-    if (expiredSession) {
-      await actions.logoutUser();
-    } else {
-      try {
-        // get user token
-        const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-        // get user from db
-        if (token) {
-          await actions.getProfileInfo();
+    if (callsInProgress[0] && apiCalls.indexOf(callsInProgress[0]) === -1) {
+      apiCalls.push(callsInProgress[0])
+      return { progress: prevState.progress + 1 / 6 }
+      // six is current number of calls being called while loading app
+    }
+    return null
+  }
 
-          // Anything beyond this point is considered as the user has logged in.
-          registerForPushNotificationsAsync();
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      progress: 0,
+      randomMsg: RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)]
+    }
+  }
+
+  async componentDidMount () {
+    const { actions, appInitialized } = this.props
+    if (!appInitialized) await actions.initCelsiusApp()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { user } = this.props
+    if (
+      prevProps.appInitialized === false &&
+      this.props.appInitialized === true
+    ) {
+      if (user.id) {
+        if (
+          user.kyc &&
+          user.kyc.status === KYC_STATUSES.passed &&
+          user.has_pin
+        ) {
+          return prevProps.actions.navigateTo('VerifyProfile', {
+            activeScreen: 'WalletLanding'
+          })
         }
-      } catch (err) {
-        logger.log(err);
+        if (!user.has_pin) {
+          return prevProps.actions.navigateTo('RegisterSetPin')
+        }
+        return prevProps.actions.navigateTo('WalletFab')
       }
+      return prevProps.actions.navigateTo('Welcome')
     }
-
-    if (['PREPROD', 'PRODUCTION'].indexOf(ENV) !== -1 &&
-      CLIENT_VERSION !== store.getState().generalData.backendStatus.client_version) {
-
-      store.dispatch(actions.showMessage(
-        'warning',
-        ['When Update?', '', 'Right now! Please head to the app store and download the newest update. Stay cool.'].join('\n'),
-      ));
-    }
-
   }
 
-  componentDidUpdate() {
-    const { actions } = this.props;
+  render () {
+    const { randomMsg } = this.state
+    const paddings = getPadding('0 20 0 20')
 
-    actions.refreshBottomNavigation();
-  }
-
-  loginPasscode = () => {
-    const { actions, userActions } = this.props;
-
-    if (!userActions.enteredInitialPin) {
-      actions.fireUserAction('enteredInitialPin');
-      actions.openInitialModal();
-    }
-  };
-
-  render() {
-    const { user, userActions } = this.props;
-
-    if (!user) return <WelcomeScreen />;
-
-    if (!user.first_name || !user.last_name) return <SignupTwo />;
-    if (!user.has_pin) return <CreatePasscode />;
-    if (shouldRenderInitialIdVerification(userActions)) return <VerifyIdentity verificationCallback={this.loginPasscode} label="login" help backButton={false} />;
-    if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) return <NoKyc />;
-
-    return <WalletBalance />;
+    return (
+      <ScrollView contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
+        <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
+          <View
+            style={{
+              marginTop: heightPercentageToDP('15%'),
+              alignItems: 'center'
+            }}
+          >
+            <Image
+              source={require('../../../../assets/images/splashScreen-celsius-new.png')}
+              style={{
+                resizeMode: 'contain',
+                width: widthPercentageToDP('33%'),
+                height: widthPercentageToDP('33%'),
+                marginBottom: 20
+              }}
+            />
+            <CelText
+              align={'center'}
+              margin={'20 0 10 0'}
+              weight={'600'}
+              type={'H2'}
+            >
+              {randomMsg.title}
+            </CelText>
+            <CelText
+              align={'center'}
+              margin={'0 0 20 0'}
+              type={'H4'}
+              weight={'300'}
+            >
+              {randomMsg.text}
+            </CelText>
+            <Loader progress={this.state.progress} />
+          </View>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+            <Image
+              source={require('../../../../assets/images/PartnerLogos/BitGo.png')}
+              style={{
+                resizeMode: 'contain',
+                width: widthPercentageToDP('18%'),
+                marginLeft: 35,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require('../../../../assets/images/PartnerLogos/DP.png')}
+              style={{
+                resizeMode: 'contain',
+                width: widthPercentageToDP('18%'),
+                marginLeft: 5,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require('../../../../assets/images/PartnerLogos/EY.png')}
+              style={{
+                resizeMode: 'contain',
+                width: widthPercentageToDP('18%'),
+                marginLeft: 5,
+                marginRight: 5,
+                alignSelf: 'flex-end'
+              }}
+            />
+            <Image
+              source={require('../../../../assets/images/PartnerLogos/mvp_workshop.png')}
+              style={{
+                resizeMode: 'contain',
+                width: widthPercentageToDP('22%'),
+                opacity: 0.7,
+                marginLeft: 0,
+                marginRight: 35,
+                alignSelf: 'flex-end'
+              }}
+            />
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    )
   }
 }
 
-export default HomeScreen;
+export default Home

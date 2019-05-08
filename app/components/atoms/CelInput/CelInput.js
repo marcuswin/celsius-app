@@ -1,101 +1,69 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
 
-import {AUTO_CAPITALIZE, KEYBOARD_TYPE} from "../../../config/constants/common";
-import TextInput from "./TextInput";
-import PasswordInput from "./PasswordInput";
-import SixDigitInput from "./SixDigitInput";
-import * as appActions from "../../../redux/actions";
-import InputErrorWrapper from "../InputErrorWrapper/InputErrorWrapper";
-import PinInput from "./PinInput";
 import testUtil from "../../../utils/test-util";
+import CelInputStyle from "./CelInput.styles";
+import CelInputPassword from './CelInputPassword';
+import CelInputText from './CelInputText';
+import { getMargins } from '../../../utils/styles-util';
+import CelSelect from '../../molecules/CelSelect/CelSelect';
+import CelTextArea from '../CelTextArea/CelTextArea';
+import CelText from '../CelText/CelText';
 
-
-const INPUT_TYPES = {
-  TEXT: 'TEXT',
-  NUMBER: 'NUMBER',
-  PHONE: 'PHONE',
-  PASSWORD: 'PASSWORD',
-  SIX_DIGIT: 'SIX_DIGIT',
-  PIN: 'PIN',
-}
-
-const inputTypes = [
-  INPUT_TYPES.TEXT, INPUT_TYPES.TEXT.toLowerCase(),
-  INPUT_TYPES.NUMBER, INPUT_TYPES.NUMBER.toLowerCase(),
-  INPUT_TYPES.PHONE, INPUT_TYPES.PHONE.toLowerCase(),
-  INPUT_TYPES.PASSWORD, INPUT_TYPES.PASSWORD.toLowerCase(),
-  // SIX_DIXIT, six-digit
-  INPUT_TYPES.SIX_DIGIT, INPUT_TYPES.SIX_DIGIT.toLowerCase().replace('_', '-'),
-  INPUT_TYPES.PIN, INPUT_TYPES.PIN.toLowerCase(),
-]
-
-@connect(
-  () => ({}),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CelInput extends Component {
-  static propTypes = {
-    type: PropTypes.oneOf(inputTypes),
-    theme: PropTypes.oneOf(['blue', 'white']),
-    field: PropTypes.string.isRequired,
-    error: PropTypes.string,
 
-    // inherited from CelInput
-    labelText: PropTypes.string,
-    floatingLabel: PropTypes.bool,
-    // for Input
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  static propTypes = {
+    type: PropTypes.oneOf(['text', 'password', 'phone', 'checkbox', 'pin', 'tfa', 'number', 'text-area']),
+    autoFocus: PropTypes.bool,
+    // autoComplete: // android only
+    disabled: PropTypes.bool,
+    maxLenght: PropTypes.number,
     placeholder: PropTypes.string,
-    onChange: PropTypes.func,
-    onPress: PropTypes.func,
-    editable: PropTypes.bool,
-    maxLength: PropTypes.number,
-    digits: PropTypes.number,
-    testSelector: PropTypes.string,
-    showDigits: PropTypes.bool,
-    secureTextEntry: PropTypes.bool,
-    keyboardType: PropTypes.string,
-    returnKeyType: PropTypes.string,
-    multiline: PropTypes.bool,
-    autoCapitalize: PropTypes.string,
-    autoCorrect: PropTypes.bool,
-    spellCheck: PropTypes.bool,
+    keyboardType: PropTypes.oneOf(['default', 'number-pad', 'decimal-pad', 'numeric', 'email-address', 'phone-pad']),
+    returnKeyType: PropTypes.oneOf(['done', 'go', 'next', 'search', 'send']),
+    style: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
+      PropTypes.number
+    ]),
+    autoCapitalize: PropTypes.oneOf(['none', 'sentences', 'words', 'characters']),
+    onChange: PropTypes.func, //
+    autoCorrect: PropTypes.bool, //
+    value: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
+      PropTypes.string,
+      PropTypes.number
+    ]), //
+    field: PropTypes.string.isRequired, //
+    error: PropTypes.string, //
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+    margin: PropTypes.string,
+    basic: PropTypes.bool,
+    helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    large: PropTypes.bool
   };
 
   static defaultProps = {
     type: 'text',
-    theme: 'blue',
-    // inherited from CelInput
-    floatingLabel: true,
-    // for Input
-    value: '',
-    placeholder: '',
-    editable: true,
-    maxLength: 100,
-    digits: 4,
-    testSelector: null,
-    showDigits: false,
-    keyboardType: KEYBOARD_TYPE.DEFAULT,
-    multiline: false,
-    autoCapitalize: AUTO_CAPITALIZE.NONE,
-    autoCorrect: false,
-    spellCheck: false,
+    keyboardType: 'default',
+    autoFocus: false,
+    disabled: false,
+    maxLenght: 100,
+    autoCapitalize: 'none',
+    value: "",
+    margin: '0 0 20 0',
+    basic: false,
+    large: true
   }
 
-  onFocus = () => {
-    const { onPress, actions, field } = this.props;
-    if (onPress) {
-      onPress();
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      active: false
     }
-
-    // keyboard fires after focus
-    actions.scrollTo({ field });
-
-    return false;
-  };
+  }
 
   onChangeText = (text) => {
     const { field, onChange, actions } = this.props;
@@ -106,96 +74,81 @@ class CelInput extends Component {
     }
   }
 
-
-  handleLayout = (layout) => {
-    const { field, actions } = this.props;
-    actions.setInputLayout(field, layout);
+  onInputFocus = () => {
+    const { onFocus } = this.props;
+    if (onFocus) onFocus();
+    this.setState({ active: true })
   }
 
-  // rendering methods
-  render() {    
-    const { theme, error, type, field } = this.props;
+  onInputBlur = () => {
+    const { onBlur } = this.props;
+    if (onBlur) onBlur();
+    this.setState({ active: false })
+  }
 
-    this.state = {
-      active: false,
-    };
+  getInputStyle = () => {
+    if (this.props.basic) return [];
+    const { disabled } = this.props;
+    const cmpStyle = CelInputStyle()
+    const { active } = this.state;
+    const style = [cmpStyle.inputWrapper];
+    if (active) style.push(cmpStyle.activeInput)
+    if (disabled) style.push(cmpStyle.disabledInput)
 
-    let inputField;
+    return style;
+  }
+
+  renderInputByType = () => {
+    const { type, value, helperButton } = this.props;
+    const inputStyle = this.getInputStyle();
 
     switch (type) {
-      case INPUT_TYPES.NUMBER:
-      case INPUT_TYPES.NUMBER.toLowerCase():
-        inputField = (
-          <TextInput
-            { ...this.props }
-            onChange={this.onChangeText}
-            onFocus={this.onFocus}
-            keyboardType={KEYBOARD_TYPE.NUMERIC}
-            onLayout={this.handleLayout}
-          />
-        );
-        break;
-
-      case INPUT_TYPES.PASSWORD:
-      case INPUT_TYPES.PASSWORD.toLowerCase():
-        inputField = (
-          <PasswordInput
-            { ...this.props }
-            onChange={this.onChangeText}
-            onFocus={this.onFocus}
-            onLayout={this.handleLayout}
-          />
-        );
-        break;
-
-      case INPUT_TYPES.SIX_DIGIT:
-      case "six-digit":
-        inputField = (
-          <SixDigitInput
-            { ...this.props }
-            onChange={this.onChangeText}
-            onFocus={this.onFocus}
-            onLayout={this.handleLayout}
-          />
-        );
-        break;
-
-      case INPUT_TYPES.PIN:
-      case INPUT_TYPES.PIN.toLowerCase():
-        inputField = (
-          <PinInput
-            { ...this.props } 
-            onChange={this.onChangeText}
-            onFocus={this.onFocus}
-            onLayout={this.handleLayout}
-          />
+      case 'password':
+        return (
+          <View style={inputStyle}>
+            <CelInputPassword {...this.props} />
+          </View>
         )
-        break;
-
-      case INPUT_TYPES.TEXT:
-      case INPUT_TYPES.TEXT.toLowerCase():
-      default:
-        inputField = (
-          <TextInput
-            { ...this.props }
-            onChange={this.onChangeText}
-            onFocus={this.onFocus}
-            onLayout={this.handleLayout}
-          />
+      case 'phone':
+        return (
+          <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
+            <CelSelect style={{width: 'auto'}} {...this.props} />
+            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={typeof value === 'string' ? value : ''} />
+          </View>
         )
+      case 'text-area':
+        return (
+          <View style={[inputStyle, { height: "auto" }]}>
+            <CelTextArea {...this.props} />
+          </View>
+        )
+      case 'text':
+      default: {
+        const helperButtonContainerStyle = helperButton ? {alignItems: 'center', flexDirection: 'row'} : {}
+        const helperButtonInputStyle = helperButton ? {flex: 1} : {}
+        return (
+          <View style={[inputStyle, helperButtonContainerStyle]}>
+            <CelInputText {...this.props} style={helperButtonInputStyle}/>
+            {helperButton && helperButton()}
+          </View>
+        )
+      }
     }
+  }
+
+  render() {
+    const { error, margin, large } = this.props
+    const cmpStyle = CelInputStyle();
+    const styleWrapper = [getMargins(margin), cmpStyle.container, cmpStyle.trans, large ? cmpStyle.fullScreen : {}];
+    const Input = this.renderInputByType;
 
     return (
-      <InputErrorWrapper
-        field={field}
-        theme={theme}
-        error={error}
-      >
-        {inputField}
-      </InputErrorWrapper>
-    );
+      <View style={styleWrapper}>
+        <Input />
+        {error && <CelText margin="5 0 0 0" color="red" style={{ height: 20 }}>{error}</CelText>}
+      </View>
+    )
   }
 }
 
 export default testUtil.hookComponent(CelInput);
-

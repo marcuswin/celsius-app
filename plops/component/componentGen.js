@@ -5,7 +5,7 @@ module.exports = {
       type: 'list',
       name: 'type',
       message: 'What is your React Native Component type?',
-      choices: ['atom', 'molecule', 'organism', 'layout']
+      choices: ['atom', 'molecule', 'organism', 'layout', 'graph']
     },
     {
       type: 'input',
@@ -16,7 +16,7 @@ module.exports = {
       type: 'list',
       name: 'complexity',
       message: 'What is the complexity of your React Component?',
-      choices: ['dumb', 'smart', 'connected'],
+      choices: ['dumb', 'smart', 'connected', 'graphs'],
     }
   ],
   actions: [

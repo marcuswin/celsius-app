@@ -1,44 +1,54 @@
-import ACTIONS from "../../config/constants/ACTIONS";
-import { BRANCH_LINKS } from "../../config/constants/common";
+import ACTIONS from '../../constants/ACTIONS'
+import { BRANCH_LINKS } from '../../constants/DATA'
 
 const initialState = {
-  initialized: false,
-  referralObject: null,
-  referralLinkId: null,
-
-  allLinks: [],
-  createdLinks: [],
-  savedLinks: [],
+  registeredLink: null,
+  promoCode: null,
+  transferHash: null,
 };
 
-export default function branchReducer(state = initialState, action) {
+
+export default function branchReducer (state = initialState, action) {
   switch (action.type) {
     case ACTIONS.BRANCH_LINK_REGISTERED:
       return {
         ...state,
-        allLinks: [ ...state.allLinks, action.link ],
-      };
-
-    case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:
+        registeredLink: action.link,
+        transferHash: action.link.hash
+      }
+    case ACTIONS.SUBMIT_PROMO_CODE_SUCCESS:
+    case ACTIONS.GET_LINK_BY_URL_SUCCESS:
       return {
         ...state,
-        createdLinks: [
-          ...state.createdLinks,
-          action.branchLink
-        ]
-      };
+        registeredLink: {
+          ...state.registeredLink,
+          ...action.branchLink
+        }
+      }
+    case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:
+      return {
+        ...state
+      }
 
     case ACTIONS.SAVE_BRANCH_LINK_SUCCESS:
       return {
         ...state,
-        savedLinks: [
-          ...state.savedLinks,
-          action.branchLink
-        ],
-        referralLinkId: [BRANCH_LINKS.COMPANY_REFERRAL, BRANCH_LINKS.INDIVIDUAL_REFERRAL].indexOf(action.branchLink.link_type) !== -1 ? action.branchLink.id : state.referralLinkId,
+        referralLinkId:
+          [
+            BRANCH_LINKS.COMPANY_REFERRAL,
+            BRANCH_LINKS.INDIVIDUAL_REFERRAL
+          ].indexOf(action.branchLink.link_type) !== -1
+            ? action.branchLink.id
+            : state.referralLinkId
+      }
+
+    case ACTIONS.CHECK_PROFILE_PROMO_CODE_SUCCESS:
+      return {
+        ...state,
+        promoCode: action.code
       };
 
     default:
-      return state;
+      return state
   }
 }

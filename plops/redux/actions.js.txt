@@ -1,6 +1,10 @@
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 
-// export function testAction(payload) {
+export {
+//  testAction
+}
+
+// function testAction(payload) {
 //     return {
 //         type: ACTIONS.TEST_ACTION,
 //         payload,

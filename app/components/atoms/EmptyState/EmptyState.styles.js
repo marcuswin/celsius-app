@@ -1,19 +1,20 @@
-import {Dimensions, StyleSheet} from 'react-native';
-import { heightPercentageToDP } from "../../../utils/scale";
-// import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+import { getThemedStyle } from "../../../utils/styles-util";
 
-const { width } = Dimensions.get('window');
-
-const EmptyStateStyle = StyleSheet.create({
-  wrapper: {
-    marginTop: heightPercentageToDP("10%"),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    height: width * 0.4,
-    width: width * 0.4 + 16,
+const base = {
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
   }
-});
+};
+
+const themed = {
+  light: {},
+
+  dark: {},
+
+  celsius: {}
+};
+
+const EmptyStateStyle = () => getThemedStyle(base, themed);
 
 export default EmptyStateStyle;

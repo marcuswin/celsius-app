@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
 import SvgIcon from 'react-native-svg-icon';
-import svgs from './Svgs';
+import PropTypes from 'prop-types';
+import { View } from 'react-native'
 
-const Icon = (props) => {
-  let viewBox;
+import testUtil from "../../../utils/test-util";
+import Svgs from '../../../constants/SVGS';
 
-  if (svgs[`${props.name}ViewBox`]) {
-    viewBox = svgs[`${props.name}ViewBox`];
+class Icon extends Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    fill: PropTypes.string
+  };
+  static defaultProps = {
+    fill: '#000'
   }
-  return <SvgIcon viewBox={ viewBox || props.viewBox } {...props} svgs={svgs}/>;
+
+  render() {
+    const { name, fill, style } = this.props
+
+    const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
+    return <View style={{overflow: 'hidden'}}><SvgIcon viewBox={viewBox} name={name} svgs={Svgs} fill={fill} {...this.props} style={[{ alignSelf: 'center', justifyContent: 'center' }, style]} /></View>;
+  }
 }
 
-export default Icon;
+export default testUtil.hookComponent(Icon);

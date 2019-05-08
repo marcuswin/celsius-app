@@ -1,26 +1,20 @@
-import {Dimensions, StatusBar} from 'react-native';
-import {Camera} from "expo";
+// TODO(fj): split according to the actions
+// TODO(fj): try to delete as much code as we can
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import device from "../../utils/device-util";
-import { screens } from '../../config/Navigator';
-import store from '../../redux/store';
-import { KYC_STATUSES } from "../../config/constants/common";
-import { shouldRenderInitialIdVerification } from "../../utils/user-util";
+import { Dimensions, StatusBar } from 'react-native';
 
-const {width, height} = Dimensions.get('window');
+import ACTIONS from '../../constants/ACTIONS';
+import { THEMES } from '../../constants/UI';
+// import store from '../../redux/store';
+// import { KYC_STATUSES } from "../../config/constants/common";
+// import { shouldRenderInitialIdVerification } from "../../utils/user-util";
+// import { screens } from "../../config/Navigator";
+
+const { width, height } = Dimensions.get('window');
 
 function getBottomNavDimensions() {
-  let navHeight;
-  let navPaddingBottom;
-
-  if (device.isiPhoneX()) {
-    navHeight = 87 + 15;
-    navPaddingBottom = 30;
-  } else {
-    navHeight = 60 + 15;
-    navPaddingBottom = 5;
-  }
+  const navHeight = 60 + 15;
+  const navPaddingBottom = 5;
 
   return {
     height: navHeight,
@@ -29,51 +23,58 @@ function getBottomNavDimensions() {
 }
 
 
-function shouldShowBottomNavigation(action) {
-  const { type } = action;
-  const { nav } = store.getState();
-  const { user } = store.getState().users;
-  const { userActions } = store.getState().ui;
-  let routeName;
+// function shouldShowBottomNavigation(action) {
+//   const { type } = action;
+//   const { nav } = store.getState();
+//   const { profile } = store.getState().user;
+//   const { userActions } = store.getState().ui;
+//   let routeName;
 
-  if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
-  if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
-  if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
-  if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
-  if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
-  if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
+//   if (type === ACTIONS.NAVIGATE) routeName = action.routeName;
+//   if (type === ACTIONS.NAVIGATION_RESET) routeName = action.actions[0].routeName;
+//   if (type === ACTIONS.NAVIGATE_BACK) routeName = nav.routes[nav.routes.length - 2].routeName;
+//   if (type === ACTIONS.LOGOUT_USER) routeName = 'Welcome';
+//   if (type === ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS || type === ACTIONS.FIRE_USER_ACTION) routeName = nav.routes[nav.routes.length - 1].routeName;
+//   if (type === ACTIONS.REFRESH_BOTTOM_NAVIGATION) routeName = nav.routes[nav.routes.length - 1].routeName;
 
-  let showNav;
+//   let showNav;
 
-  if (routeName !== 'Home') {
-    showNav = !!screens[routeName].bottomNavigation;
-  } else if (!user) {
-    showNav = false;
-  } else if (!user.first_name || !user.last_name) {
-    showNav = false;
-  } else if (!user.has_pin) {
-    showNav = false;
-  } else if (shouldRenderInitialIdVerification(userActions)) {
-    showNav = false;
-  } else if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-    showNav = true;
-  } else {
-    showNav = true;
-  }
+//   if (routeName !== 'Home') {
+//     showNav = !!screens[routeName].bottomNavigation;
+//   } else if (!profile) {
+//     showNav = false;
+//   } else if (!profile.first_name || !profile.last_name) {
+//     showNav = false;
+//   } else if (!profile.has_pin) {
+//     showNav = false;
+//   } else if (shouldRenderInitialIdVerification(userActions)) {
+//     showNav = false;
+//   } else if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
+//     showNav = true;
+//   } else {
+//     showNav = true;
+//   }
 
-
-
-  return showNav;
-}
+//   return showNav;
+// }
 
 const initialState = {
+  // new v3
+  theme: THEMES.LIGHT,
+  fabMenuOpen: false,
+  fabType: 'hide',
+  isKeypadOpen: false,
+
+  // keep
+  message: undefined,
+  openedModal: undefined,
+
+  // check to remove
+  maintenanceMode: false,
   userActions: {
     enteredInitialPin: false,
   },
   keyboardHeight: 0,
-  message: undefined,
-  internetConnected: true,
-  maintenanceMode: false,
   dimensions: {
     statusBar: StatusBar.currentHeight || 0,
     header: 70,
@@ -82,27 +83,17 @@ const initialState = {
     screenHeight: height,
     bottomNavigation: getBottomNavDimensions(),
   },
-  camera: {
-    cameraField: undefined,
-    cameraHeading: undefined,
-    cameraCopy: undefined,
-    cameraType: 'back',
-    photo: undefined,
-    mask: undefined,
-  },
-  hasBottomNavigation: false,
   scrollTo: undefined,
   scrollPosition: 0,
-  formData: {},
-  formErrors: {},
-  portfolioFormData: [],
   formInputLayouts: {},
   scrollLayouts: {},
-  openedModal: undefined,
+
+  // remove
+  hasBottomNavigation: false,
+
 };
 
 export default (state = initialState, action) => {
-  let newState;
   let layout;
 
   switch (action.type) {
@@ -114,13 +105,7 @@ export default (state = initialState, action) => {
           text: action.text,
         }
       };
-
-    case ACTIONS.SET_INTERNET_CONNECTIVITY:
-      return {
-        ...state,
-        internetConnected: action.internetConnected
-      };
-
+      
     case ACTIONS.CLEAR_MESSAGE:
       return {
         ...state,
@@ -136,111 +121,16 @@ export default (state = initialState, action) => {
         }
       };
 
-    case ACTIONS.TOGGLE_CAMERA:
-      if (state.camera.isOpen) {
-        newState = {
-          ...state,
-          camera: { ...initialState.camera },
-        }
-      } else {
-        newState = {
-          ...state,
-          camera: {
-            isOpen: true,
-            photoName: action.photoName,
-            camera: Camera.Constants.Type.back,
-          }
-        }
-      }
-      return newState;
-
-    case ACTIONS.FLIP_CAMERA:
-      return {
-        ...state,
-        camera: {
-          ...state.camera,
-          cameraType: state.camera.cameraType === 'back' ? 'front' : 'back',
-        }
-      }
-
-    case ACTIONS.ACTIVATE_CAMERA:
-      return {
-        ...state,
-        camera: {
-          ...state.camera,
-          cameraField: action.cameraField,
-          cameraType: action.cameraType,
-          cameraHeading: action.cameraHeading,
-          cameraCopy: action.cameraCopy,
-          photo: action.photo,
-          mask: action.mask,
-        }
-      }
-
-    case ACTIONS.TAKE_CAMERA_PHOTO:
-      return {
-        ...state,
-        camera: {
-          ...state.camera,
-          photo: action.photo,
-        }
-      }
-
-    case ACTIONS.RETAKE_PHOTO:
-      return {
-        ...state,
-        camera: {
-          ...state.camera,
-          photo: undefined,
-        }
-      }
-
-    case ACTIONS.UPDATE_FORM_FIELD:
-      return {
-        ...state,
-        formData: {
-          ...state.formData,
-          [action.field]: action.value,
-        }
-      }
-
-    case ACTIONS.INIT_FORM:
-      return {
-        ...state,
-        formData: action.formData,
-      }
-
-    case ACTIONS.CLEAR_FORM:
-      return {
-        ...state,
-        formData: {},
-      }
-
-    case ACTIONS.SET_FORM_ERRORS:
-      return {
-        ...state,
-        formErrors: {
-          ...state.formErrors,
-          ...action.formErrors,
-        },
-      }
-
-    case ACTIONS.CLEAR_FORM_ERRORS:
-      return {
-        ...state,
-        formErrors: {},
-      }
-
-    case ACTIONS.UPDATE_PORTFOLIO_FORM_DATA:
-      return {
-        ...state,
-        portfolioFormData: action.data
-      }
-
     case ACTIONS.SET_KEYBOARD_HEIGHT:
       return {
         ...state,
         keyboardHeight: action.keyboardHeight
+      }
+
+    case ACTIONS.TOGGLE_KEYPAD:
+      return {
+        ...state,
+        isKeypadOpen: action.isKeypadOpen,
       }
 
     case ACTIONS.SET_INPUT_LAYOUT:
@@ -307,22 +197,44 @@ export default (state = initialState, action) => {
           [action.name]: true,
         },
       }
+    case ACTIONS.SET_APP_THEME:
+      return {
+        ...state,
+        theme: action.theme
+      }
+    case ACTIONS.OPEN_FAB_MENU:
+      return {
+        ...state,
+        fabMenuOpen: true
+      }
+    case ACTIONS.CLOSE_FAB_MENU:
+      return {
+        ...state,
+        fabMenuOpen: false
+      }
+    case ACTIONS.SET_FAB_TYPE:
+      if (action.fabType !== state.fabType) {
+        return {
+          ...state,
+          fabType: action.fabType
+        }
+      }
+      return state;
 
     case ACTIONS.NAVIGATE_BACK:
     case ACTIONS.NAVIGATE:
     case ACTIONS.NAVIGATION_RESET:
     case ACTIONS.REFRESH_BOTTOM_NAVIGATION:
-    case ACTIONS.LOGOUT_USER:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,
-        hasBottomNavigation: shouldShowBottomNavigation(action),
+        // hasBottomNavigation: shouldShowBottomNavigation(action),
       }
 
-      // return {
-      //   ...state,
-      //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
-      // }
+    // return {
+    //   ...state,
+    //   hasBottomNavigation: shouldShowBottomNavigation(action.actions[0].routeName),
+    // }
 
     default:
       return state;

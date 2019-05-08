@@ -1,15 +1,16 @@
 import { Share } from "react-native";
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from '../../config/constants/API';
+import ACTIONS from '../../constants/ACTIONS';
+import API from '../../constants/API';
 import transferService from '../../services/transfer-service';
 import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { BRANCH_LINKS, MODALS, TRANSFER_STATUSES } from "../../config/constants/common";
-import { createBUO } from "../branch/branchActions";
-import { getAllTransactions } from "../wallet/walletActions";
-import { analyticsEvents } from "../../utils/analytics-util";
+import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
+import { getWalletSummary } from "../wallet/walletActions";
+import { getAllTransactions } from "../transactions/transactionsActions";
+import { createCelPayBUO } from "../../utils/branch-util";
+import { MODALS } from '../../constants/UI'
 
 export {
   getAllTransfers,
@@ -22,6 +23,11 @@ export {
   claimAllBranchTransfers
 }
 
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function getAllTransfers(transferStatus) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_ALL_TRANSFERS));
@@ -31,12 +37,16 @@ function getAllTransfers(transferStatus) {
       const transfers = res.data;
       dispatch(getAllTransfersSuccess(transfers.map(mapTransfer)));
     } catch (err) {
-      dispatch(showMessage('error', err.msg));
+      // dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_TRANSFERS, err));
     }
   }
 }
 
+
+/**
+ * @todo: move to getAllTransfers
+ */
 function getAllTransfersSuccess(transfers) {
   return {
     type: ACTIONS.GET_ALL_TRANSFERS_SUCCESS,
@@ -45,6 +55,11 @@ function getAllTransfersSuccess(transfers) {
   }
 }
 
+
+/**
+ * Gets single transfer by hash
+ * @param {string} transferHash
+ */
 function getTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_TRANSFER));
@@ -60,6 +75,10 @@ function getTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to getTransfer
+ */
 function getTransferSuccess(transfer) {
   return {
     type: ACTIONS.GET_TRANSFER_SUCCESS,
@@ -68,6 +87,11 @@ function getTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Gets all transfers by status
+ * @param {string} transferStatus - @todo: check all statuses
+ */
 function claimTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.CLAIM_TRANSFER));
@@ -85,6 +109,10 @@ function claimTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to claimTransfer
+ */
 function claimTransferSuccess(transfer) {
   return {
     type: ACTIONS.CLAIM_TRANSFER_SUCCESS,
@@ -93,6 +121,11 @@ function claimTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Cancels a pending transfer
+ * @param {string} transferHash
+ */
 function cancelTransfer(transferHash) {
   return async dispatch => {
     dispatch(startApiCall(API.cancel_TRANSFER));
@@ -110,6 +143,10 @@ function cancelTransfer(transferHash) {
   }
 }
 
+
+/**
+ * @todo: move to cancelTransfer
+ */
 function cancelTransferSuccess(transfer) {
   return {
     type: ACTIONS.CANCEL_TRANSFER_SUCCESS,
@@ -118,6 +155,12 @@ function cancelTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Creates a transfer
+ * @param {number|string} amount - 0.123456789|"0.123456789"
+ * @param {string} coin - ETH|eth
+ */
 function createTransfer(amount, coin) {
   return async dispatch => {
     dispatch(startApiCall(API.CREATE_TRANSFER));
@@ -135,6 +178,10 @@ function createTransfer(amount, coin) {
   }
 }
 
+
+/**
+ * @todo: move to createTransfer
+ */
 function createTransferSuccess(transfer) {
   return {
     type: ACTIONS.CREATE_TRANSFER_SUCCESS,
@@ -143,6 +190,11 @@ function createTransferSuccess(transfer) {
   }
 }
 
+
+/**
+ * Creates a transfer and a branch link and shares
+ * @deprecated: moved to celPayLink
+ */
 function createBranchTransfer(amount, amountUsd, coin, verification) {
   return async (dispatch, getState ) => {
     let apiCall = API.CREATE_TRANSFER;
@@ -158,92 +210,86 @@ function createBranchTransfer(amount, amountUsd, coin, verification) {
     const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
     const usdAmount = currencyAmount * amount;
 
-    const { user } = getState().users;
-    const userName = `${user.first_name} ${user.last_name}`;
+    const { profile } = getState().user;
 
     apiCall = API.CREATE_BRANCH_LINK;
     dispatch(startApiCall(apiCall));
-    const branchLink = await createBUO(
-      `transfer:${transfer.hash}`,
-      {
-        locallyIndex: true,
-        title: `You received ${Number(amount).toFixed(5)} ${coin.toUpperCase()}`,
-        contentImageUrl: 'https://image.ibb.co/kFkHnK/Celsius_Device_Mock_link.jpg',
-        contentDescription: 'Click on the link to get your money!',
-        contentMetadata: {
-          customMetadata: {
-            amount: transfer.amount,
-            coin: transfer.coin,
-            from_name: userName,
-            from_profile_picture: user.profile_picture,
-            transfer_hash: transfer.hash,
-            link_type: BRANCH_LINKS.TRANSFER,
-          }
-        }
-      },
-      user.email
-    );
+    const branchLink = await createCelPayBUO(transfer)
     dispatch({
       type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
+      callName: API.CREATE_BRANCH_LINK,
       branchLink: {
         ...branchLink,
         linkType: BRANCH_LINKS.TRANSFER
       }
     });
 
-    Share.share({ message: `${user.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
+    Share.share({ message: `${profile.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
     dispatch(navigateTo('Home'));
-    analyticsEvents.celPayTransfer({ amount, amountUsd, coin, hash: transfer.hash })
   }
 }
 
+
+/**
+ * Triggered when transfer branch link is registered
+ * @param {Object} deepLink - received deep link from branch
+ */
 function registerTransferLink(deepLink) {
   return async (dispatch, getState) => {
+    let callName;
+
     try {
-      const { userActions } = getState().ui;
-      const { user } = getState().users;
+      // const { userActions } = getState().ui;
+      const { profile } = getState().user;
 
-      if (user) {
-        dispatch(startApiCall(API.GET_TRANSFER));
-        const res = await transferService.get(deepLink.transfer_hash);
-        const transfer = res.data;
-
-        if (!transfer.claimed_at) {
-          dispatch(getTransferSuccess(transfer));
-
-          dispatch(claimTransfer(transfer.hash));
-          if (userActions.enteredInitialPin) {
-            dispatch(openModal(MODALS.TRANSFER_RECEIVED));
-          }
-        } else {
-          dispatch(getTransferSuccess());
-          dispatch(showMessage('warning', 'Link has already been claimed!'));
-        }
-      } else {
-        dispatch(getTransferSuccess({
-          hash: deepLink.transfer_hash,
-          amount: deepLink.amount,
-          coin: deepLink.coin,
-          from: {
-            name: deepLink.from_name,
-            profile_picture: deepLink.profile_picture,
-          },
-        }));
-        dispatch(openModal(MODALS.TRANSFER_RECEIVED));
+      if (!profile) {
+        dispatch(showMessage('warning', 'In order to user a CelPay link you must be logged in'))
+        return;
       }
+
+      callName = API.GET_TRANSFER;
+      dispatch(startApiCall(API.GET_TRANSFER));
+      let res = await transferService.get(deepLink.hash);
+      const transfer = res.data;
+
+      if (transfer.claimed_at) {
+        dispatch(showMessage('warning', 'This CelPay Link has already been claimed!'));
+        dispatch(getTransferSuccess());
+        return;
+      }
+      dispatch(getTransferSuccess(transfer));
+
+      callName = API.CLAIM_TRANSFER;
+      res = await transferService.claim(transfer.hash);
+      dispatch(claimTransferSuccess(res.data));
+
+      dispatch(getWalletSummary());
+      dispatch(openModal(MODALS.CELPAY_RECEIVED_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_TRANSFER, err));
+      dispatch(apiError(callName, err));
     }
+
   }
 }
 
+
+/**
+ * Claims all pending transfers for newly registered user
+ */
 function claimAllBranchTransfers() {
   return (dispatch, getState) => {
     const { branchHashes } = getState().transfers;
     if (branchHashes && branchHashes.length) branchHashes.forEach(bh => dispatch(claimTransfer(bh)));
   }
 }
+
+
+/**
+ * Maps all transfer props
+ * @param {Object} transfer
+ * @todo: move to reducer
+ */
 
 function mapTransfer(transfer) {
   if (!transfer) return;

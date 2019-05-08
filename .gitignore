@@ -2,6 +2,8 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 .DS_Store
+google-services.json
+turtle_cli/
 
 # IDEs
 .idea/
@@ -11,5 +13,9 @@ npm-debug.*
 app.json
 config.json
 /config
+build_android.sh
+celsius.jks
+shell.apk
 
 package-lock.json
+.vscode/launch.json

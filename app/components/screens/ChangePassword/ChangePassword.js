@@ -1,83 +1,53 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import React, { Component } from 'react';
+// import { View } from 'react-native';
+// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
+import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelInput from '../../atoms/CelInput/CelInput';
 import CelButton from '../../atoms/CelButton/CelButton';
-import API from "../../../config/constants/API";
-import apiUtil from "../../../utils/api-util";
-import CelInput from "../../atoms/CelInput/CelInput";
-import CelForm from "../../atoms/CelForm/CelForm";
+import apiUtil from '../../../utils/api-util';
+import API from '../../../constants/API';
 
 @connect(
   state => ({
-    callsInProgress: state.api.callsInProgress,
-    formData: state.ui.formData,
+    formData: state.forms.formData,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-
 class ChangePassword extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      animatedHeading: {
-        text: 'Change Password'
-      },
-    };
+  static propTypes = {
+    // text: PropTypes.string
+  };
+  static defaultProps = {
   }
 
-  // lifecycle methods
-  // event handlers
-  handleChangePassword = () => {
-    const { formData, actions } = this.props;
-    const { currentPassword, newPassword } = formData;
+  static navigationOptions = () => ({
+    title: "Change password"
+  });
 
-    actions.resetPassword(currentPassword, newPassword);
+  changePassword = async () => {
+    const { actions, formData: { oldPassword, newPassword } } = this.props;
+    await actions.resetPassword(oldPassword, newPassword);
   }
 
-  // rendering methods
   render() {
-    const {animatedHeading} = this.state;
-    const {callsInProgress, formData} = this.props;
-
-    const isLoading = apiUtil.areCallsInProgress([API.RESET_PASSWORD], callsInProgress);
+    const { formData, callsInProgress } = this.props;
+    const changingPassword = apiUtil.areCallsInProgress([API.RESET_PASSWORD], callsInProgress);
 
     return (
-      <SimpleLayout
-        animatedHeading={animatedHeading}
-      >
-        <CelForm disabled={isLoading} margin="20 0 0 0">
-          <CelInput
-            theme="white"
-            type="password"
-            labelText="Current password"
-            value={formData.currentPassword}
-            field="currentPassword"
-          />
-
-          <CelInput
-            theme="white"
-            type="password"
-            labelText="New password"
-            value={formData.newPassword}
-            field="newPassword"
-          />
-        </CelForm>
-
-        <CelButton
-          margin="40 0 0 0"
-          color="blue"
-          loading={isLoading}
-          onPress={this.handleChangePassword}
-        >
-          Change password
-        </CelButton>
-      </SimpleLayout>
+      <RegularLayout>
+        <CelInput type="password" field='oldPassword' placeholder="Current password" value={formData.oldPassword} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.pass.focus()}}/>
+        <CelInput type="password" field='newPassword' placeholder="New password" value={formData.newPassword} refs={(input) => {this.pass = input}}/>
+        <CelButton onPress={this.changePassword} loading={changingPassword}>Change password</CelButton>
+      </RegularLayout>
     );
   }
 }
 
-export default ChangePassword;
+export default testUtil.hookComponent(ChangePassword);

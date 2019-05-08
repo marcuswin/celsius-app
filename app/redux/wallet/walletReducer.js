@@ -1,10 +1,12 @@
+// TODO(fj): split into wallet and transactions
+
 import BigNumber from 'bignumber.js';
 
-import ACTIONS from '../../config/constants/ACTIONS';
-import { TRANSACTION_TYPES } from "../../config/constants/common";
+import ACTIONS from '../../constants/ACTIONS';
 
 function initialState() {
   return {
+    summary: undefined,
     addresses: {},
     withdrawalAddresses: {},
     transactions: {},
@@ -18,10 +20,14 @@ function initialState() {
 }
 
 export default function walletReducer(state = initialState(), action) {
-  const newTransactions = {};
   let currencies;
 
   switch (action.type) {
+    case ACTIONS.GET_WALLET_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        summary: action.wallet,
+      }
     case ACTIONS.GET_COIN_ADDRESS_SUCCESS:
       return {
         ...state,
@@ -38,27 +44,6 @@ export default function walletReducer(state = initialState(), action) {
           ...state.withdrawalAddresses,
           ...action.address,
         }
-      };
-    case ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS:
-    case ACTIONS.WITHDRAW_CRYPTO_SUCCESS:
-      return {
-        ...state,
-        transactions: {
-          ...state.transactions,
-          [action.transaction.id]: mapTransaction(action.transaction),
-        },
-        activeTransactionId: action.transaction.id,
-      };
-
-    case ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS:
-    case ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS:
-      action.transactions.forEach(t => { newTransactions[t.id] = mapTransaction(t) });
-      return {
-        ...state,
-        transactions: {
-          ...state.transactions,
-          ...newTransactions,
-        },
       };
 
     case ACTIONS.GET_COIN_BALANCE_SUCCESS:
@@ -93,41 +78,7 @@ export default function walletReducer(state = initialState(), action) {
         pin: action.pin,
       }
 
-    case ACTIONS.LOGOUT_USER:
-      return { ...initialState() }
-
     default:
       return state;
   }
-}
-
-function mapTransaction(transaction) {
-  return {
-    ...transaction,
-    type: getTransactionType(transaction)
-  };
-}
-
-function getTransactionType(transaction) {
-  if (["canceled", "removed", "rejected", "rejeceted"].includes(transaction.state)) return TRANSACTION_TYPES.CANCELED;
-
-  if (transaction.nature === 'deposit' && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
-  if (transaction.nature === 'deposit' && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
-  if (transaction.nature === 'withdrawal' && !transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
-  if (transaction.nature === 'withdrawal' && transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
-  if (transaction.nature === 'interest') return TRANSACTION_TYPES.INTEREST;
-  if (transaction.nature === 'collateral') return TRANSACTION_TYPES.COLLATERAL;
-  if (transaction.nature === 'bonus_token') return TRANSACTION_TYPES.BONUS_TOKEN;
-  if (transaction.nature === 'referred_award') return TRANSACTION_TYPES.REFERRED_AWARD;
-
-  if (transaction.nature === 'inbound_transfer' && transaction.transfer_data) return TRANSACTION_TYPES.TRANSFER_RECEIVED;
-  if (transaction.nature === 'outbound_transfer' && transaction.transfer_data) {
-    if (!transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_PENDING;
-    if (transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_CLAIMED;
-    if (transaction.transfer_data.claimed_at && transaction.transfer_data.cleared_at) return TRANSACTION_TYPES.TRANSFER_SENT;
-    if (transaction.transfer_data.expired_at) return TRANSACTION_TYPES.TRANSFER_RETURNED;
-  }
-
-  if (transaction.type === 'incoming') return TRANSACTION_TYPES.IN;
-  if (transaction.type === 'outgoing') return TRANSACTION_TYPES.OUT;
 }

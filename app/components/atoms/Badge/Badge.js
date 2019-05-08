@@ -1,19 +1,39 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import PropTypes from 'prop-types';
+import { View } from 'react-native';
 
-const Badge = ({ text, color }) => (
-  <View style={{
-    height: 20, borderRadius: 10, paddingLeft: 10, paddingRight: 10, backgroundColor: color, justifyContent: 'center', alignItems: 'center', alignSelf: 'flex-start',
-  }}>
-    <Text style={{
-      fontSize: 12,
-      fontFamily: 'agile-medium',
-      color: 'white',
-      textAlign: 'center',
-    }}>
-      { text }
-    </Text>
-  </View>
-)
+import testUtil from "../../../utils/test-util";
 
-export default Badge;
+import BadgeStyle from "./Badge.styles";
+import STYLES from "../../../constants/STYLES";
+import { getPadding, getMargins } from "../../../utils/styles-util";
+
+const { COLORS } = STYLES;
+
+const Badge = ({
+  color = COLORS.GREEN,
+  margin = "5 5 5 5",
+  padding = "5 5 5 5",
+  children
+}) => {
+  const styles = BadgeStyle()
+  const badgeStyles = [
+    styles.container,
+    { backgroundColor: color },
+    getMargins(margin),
+    getPadding(padding),
+  ]
+  return (
+    <View style={badgeStyles}>
+      { children }
+    </View>
+  )
+}
+
+Badge.propTypes = {
+  color: PropTypes.string,
+  margin: PropTypes.string,
+  padding: PropTypes.string,
+}
+
+export default testUtil.hookComponent(Badge);

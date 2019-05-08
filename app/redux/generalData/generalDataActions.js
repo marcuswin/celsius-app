@@ -2,15 +2,46 @@ import { showMessage } from "../ui/uiActions";
 import generalDataService from "../../services/general-data-service";
 import kycService from "../../services/kyc-service";
 import { apiError, startApiCall } from "../api/apiActions";
-import API from "../../config/constants/API";
-import ACTIONS from '../../config/constants/ACTIONS';
+import API from "../../constants/API";
+import ACTIONS from '../../constants/ACTIONS';
 
 export {
-  getSupportedCurrencies,
   getKYCDocTypes,
   getBackendStatus,
+  getInitialCelsiusData,
+
+  // remove
+  getSupportedCurrencies,
+  getBlacklistedCountries,
 }
 
+/**
+ * Gets all general app data (interest rates, borrow ltvs, ...)
+ * @todo: add more data
+ */
+function getInitialCelsiusData() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_INITIAL_CELSIUS_DATA));
+
+    try {
+      const res = await generalDataService.getCelsiusInitialData();
+      dispatch({
+        type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
+        interestRates: res.data.interest_rates,
+        ltvs: res.data.borrow_ltvs,
+        minimumLoanAmount: res.data.minimum_usd_amount
+      });
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_INITIAL_CELSIUS_DATA, err));
+    }
+  }
+}
+
+/**
+ * Gets all supported currencies and their graph data
+ * @deprecated
+ */
 function getSupportedCurrencies() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_SUPPORTED_CURRENCIES));
@@ -26,6 +57,9 @@ function getSupportedCurrencies() {
   }
 }
 
+/**
+ * @deprecated
+ */
 function getSupportedCurrenciesSuccess(supportedCurrencies) {
   return {
     type: ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS,
@@ -34,6 +68,9 @@ function getSupportedCurrenciesSuccess(supportedCurrencies) {
   }
 }
 
+/**
+ * Gets all doc types for KYC
+ */
 function getKYCDocTypes() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_KYC_DOC_TYPES));
@@ -49,6 +86,10 @@ function getKYCDocTypes() {
   }
 }
 
+
+/**
+ * @todo: move to getKYCDocTypes
+ */
 function getKYCDocTypesSuccess(kycDocTypes) {
   return {
     type: ACTIONS.GET_KYC_DOC_TYPES_SUCCESS,
@@ -57,6 +98,9 @@ function getKYCDocTypesSuccess(kycDocTypes) {
   }
 }
 
+/**
+ * Gets backend status of the app
+ */
 function getBackendStatus() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_BACKEND_STATUS));
@@ -72,10 +116,52 @@ function getBackendStatus() {
   }
 }
 
+
+/**
+ * @todo: move to getBackendStatus
+ */
 function getBackendStatusSuccess(backendStatus) {
   return {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
     callName: API.GET_BACKEND_STATUS,
     backendStatus,
+  }
+}
+
+/**
+ * @deprecated
+ */
+function getBlacklistedCountries() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_BLACKLISTED_COUNTRIES));
+
+    try {
+      const res = await generalDataService.getBlacklisted();
+      const blacklistedCountries = res.data;
+
+      const blacklistedCountryLocation = blacklistedCountries.location.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedCountryResidency = blacklistedCountries.residency.filter(c => c.country !== "United States" ).map(value => value.country);
+      const blacklistedStatesLocation = blacklistedCountries.location.filter(c => c.country === "United States").map(value => value.state);
+      const blacklistedStatesResidency = blacklistedCountries.residency.filter(c => c.country === "United States").map(value => value.state);
+
+      dispatch(getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_BLACKLISTED_COUNTRIES, err));
+    }
+  }
+}
+
+/**
+ * @deprecated
+ */
+function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency) {
+  return {
+    type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,
+    callName: API.GET_BLACKLISTED_COUNTRIES,
+    blacklistedCountryLocation,
+    blacklistedCountryResidency,
+    blacklistedStatesLocation,
+    blacklistedStatesResidency
   }
 }

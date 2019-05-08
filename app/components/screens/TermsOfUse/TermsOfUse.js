@@ -1,22 +1,27 @@
-import React, {Component} from 'react';
-import {Text, View} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
-import {Container} from 'native-base';
+import React, { Component } from 'react';
+import { View, ScrollView } from 'react-native';
+// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 
+import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-import CelButton from '../../atoms/CelButton/CelButton';
-import TermsOfUseStyle from "./TermsOfUse.styles";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import { STYLES } from "../../../config/constants/style";
+import CelText from '../../atoms/CelText/CelText';
+import TermsOfUseStyle from './TermsOfUse.styles';
 
 @connect(
-  (state) => ({
-    agreedToTermsOfUse: state.users.agreedToTermsOfUse,
+  () => ({
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TermsOfUse extends Component {
+  static propTypes = {};
+  static defaultProps = {}
+
+  static navigationOptions = () => ({
+    title: 'Terms Of Use',
+  });
+
   constructor(props) {
     super(props);
 
@@ -25,8 +30,8 @@ class TermsOfUse extends Component {
         {
           // termsOfService: 'Terms of Service',
           text: 'CELSIUS NETWORK LIMITED (“WE”, “OUR”, “US” OR THE “COMPANY”) WELCOMES YOU (“USER”, “YOU” OR “YOUR”) TO OUR WEBSITE AT https://celsius.network (THE “WEBSITE”).  THE FOLLOWING TERMS (THE “TERMS”) STIPULATE THE TERMS AND CONDITIONS OF YOUR USE OF THE WEBSITE. THE WEBSITE IS PROVIDED SOLELY FOR YOUR OWN USE. BY ACCESSING OR USING OUR WEBSITE, YOU AGREE TO THESE TERMS. YOUR USE OF THE WEBSITE IS EXPRESSLY CONDITIONED ON YOUR COMPLIANCE AND CONSENT WITH THESE TERMS. IF YOU DO NOT AGREE TO ANY OF THE PROVISIONS OF THE TERMS YOU SHOULD IMMEDIATELY STOP USING THE WEBSITE.\n' +
-          '\n' +
-          'In addition to these Terms, please also review our Privacy Policy, available at https://celsius.network/privacy-policy/, which these Terms are incorporated hereto by reference, along with such other policies of which you may be notified of by us from time to time.',
+            '\n' +
+            'In addition to these Terms, please also review our Privacy Policy, available at https://celsius.network/privacy-policy/, which these Terms are incorporated hereto by reference, along with such other policies of which you may be notified of by us from time to time.',
         },
         {
           heading: 'Use Restrictions',
@@ -43,8 +48,8 @@ class TermsOfUse extends Component {
         {
           heading: "Third Party Websites",
           text: 'The Website may contain links to websites or pages which are not maintained by Company. Links to third party websites are provided for your convenience and information only. Third party web sites are not under the Company’s control and the Company is not responsible for the content or accuracy of those sites or the products or services offered on or through those sites. The inclusion of a link through the Website does not imply the Company’s endorsement of the third party website or that the Company is affiliated with the third party website’s owners or sponsors.\n' +
-          '\n' +
-          'You acknowledge and agree that we are not liable for any loss or damage which may be incurred by you as a result of the availability of those external sites, resources or advertisements, or as a result of any reliance placed by you on the completeness, accuracy or existence of any advertising, products or other materials on, or available from, such websites or resources. We recommend that you to be aware when you leave the Website and to read the terms and conditions and privacy policy of each other website that you visit.',
+            '\n' +
+            'You acknowledge and agree that we are not liable for any loss or damage which may be incurred by you as a result of the availability of those external sites, resources or advertisements, or as a result of any reliance placed by you on the completeness, accuracy or existence of any advertising, products or other materials on, or available from, such websites or resources. We recommend that you to be aware when you leave the Website and to read the terms and conditions and privacy policy of each other website that you visit.',
         },
         {
           heading: 'Company Trademarks',
@@ -81,43 +86,43 @@ class TermsOfUse extends Component {
         {
           heading: 'I Definitions applicable to the Deposit Terms',
           text: "“Business Day” means a trading day on the New York Stock Exchange.\n" +
-          "“Digital Currency” means digital currency that the Celsius and User agree upon in the Deposit Term Sheet (e.g. Bitcoin (BTC), Ether (ETH), or CEL Tokens) or any other digital currency Celsius agrees to accept). \n" +
-          "“Digital Currency Address” means an identifier of 26-34 alphanumeric characters that represents a possible destination for a transfer of Digital Currency.\n" +
-          "“Hard Fork” means a permanent divergence in the relevant Digital Currency blockchain, commonly occurs when non-upgraded nodes can’t validate blocks created by upgraded nodes that follow newer consensus rules.\n" +
-          "“Interest” means the interest calculated by Celsius as described at https://celsius.network/cel-token-interest-explained/ on the Deposited Amount.\n" +
-          "“Deposit Effective Date” means the first full calendar day upon which a Deposited Amount is received by Celsius and eligible for Interest.\n"
+            "“Digital Currency” means digital currency that the Celsius and User agree upon in the Deposit Term Sheet (e.g. Bitcoin (BTC), Ether (ETH), or CEL Tokens) or any other digital currency Celsius agrees to accept). \n" +
+            "“Digital Currency Address” means an identifier of 26-34 alphanumeric characters that represents a possible destination for a transfer of Digital Currency.\n" +
+            "“Hard Fork” means a permanent divergence in the relevant Digital Currency blockchain, commonly occurs when non-upgraded nodes can’t validate blocks created by upgraded nodes that follow newer consensus rules.\n" +
+            "“Interest” means the interest calculated by Celsius as described at https://celsius.network/cel-token-interest-explained/ on the Deposited Amount.\n" +
+            "“Deposit Effective Date” means the first full calendar day upon which a Deposited Amount is received by Celsius and eligible for Interest.\n"
         },
         {
           heading: 'II Identify Verification',
           text: 'User agrees to provide Celsius with such information as Celsius deems necessary, in its sole discretion, to verify User’s identity in order to comply with any law, rule or regulation of any jurisdiction, including our obligations to refuse Deposited Amounts that stem from money laundering, terrorist financing, fraud, or any other financial crime. As such, Deposit may be required to provide certain personal information, including, but not limited to, name, address, telephone number, e-mail address, date of birth, taxpayer identification number, a government identification, and information regarding your bank account (e.g. bank name, type of account, ACH details, etc.).\n' +
-          'In providing Celsius with this or any other information that may be required, User confirms that the information is accurate and authentic and agrees to update  any of the information upon any change. \n' +
-          'User authorizes Celsius to make inquiries, whether directly or through third parties, that it considers necessary to verify User’s identity or protect either party against fraud or other financial crimes. User expressly acknowledges and agrees that any  personal information may be disclosed to a third party in order to conduct  (i) credit reference checks, fraud prevention or financial crimes. The intent on the foregoing is to verify User’s identity and is not intended to have an adverse effect on User’s credit rating. Celsius shall take any and all actions it deems reasonably necessary based on the results of all inquiries. \n'
+            'In providing Celsius with this or any other information that may be required, User confirms that the information is accurate and authentic and agrees to update  any of the information upon any change. \n' +
+            'User authorizes Celsius to make inquiries, whether directly or through third parties, that it considers necessary to verify User’s identity or protect either party against fraud or other financial crimes. User expressly acknowledges and agrees that any  personal information may be disclosed to a third party in order to conduct  (i) credit reference checks, fraud prevention or financial crimes. The intent on the foregoing is to verify User’s identity and is not intended to have an adverse effect on User’s credit rating. Celsius shall take any and all actions it deems reasonably necessary based on the results of all inquiries. \n'
         },
         {
           heading: 'III Deposits of Digital Currency',
           text: '(a) Deposits of Digital Currency\n' +
-          'Subject to the Deposit Terms, User may deposit a specified amount of Digital Currency and receive Interest. \n' +
-          '(b) Deposit Procedure\n' +
-          'From time to time User may Deposit a specific amount of Digital CurrencyUser’s transmission of Digital Currency to the Digital Currency Address provided by Celsius (the “Deposited Amount”) shall reflect User’s confirmation of the terms of the applicable Deposit Term Sheet and User’s reaffirmation of these Deposit Terms.\n' +
-          '(c) Redelivery of Digital Currency\n' +
-          'Upon your  electronic request, subject to a Hard Fork, Celsius shall redeliver of the Digital Currency on or before 5:00 pm New York time of the second Business Day. \n' +
-          '(d)\tIn the event of a Hard Fork, User acknowledges and agrees that Celsius may temporarily suspend the redelivery of Digital Currency (with or without advance notice to you) and that Celsius may, in its sole discretion, decide whether or not to support (or cease supporting) the resulting branch generated in connection with a Hard Fork (“New Token”). User acknowledges and agrees that Celsius assumes absolutely no responsibility whatsoever in respect of an unsupported branch of a forked protocol including, but not limited to the New Token. If the Hard Fork occurs, Celsius will use commercially reasonable efforts after a Hard Fork and creation of the New Token to repay the Digital Currency with any combination of a one-time Digital Currency payment of the relevant Digital Currency reflecting the amount of the New Token due using a methodology Celsius determines, in is reasonable opinion, returns the value of the Digital Currency to User. \n'
+            'Subject to the Deposit Terms, User may deposit a specified amount of Digital Currency and receive Interest. \n' +
+            '(b) Deposit Procedure\n' +
+            'From time to time User may Deposit a specific amount of Digital CurrencyUser’s transmission of Digital Currency to the Digital Currency Address provided by Celsius (the “Deposited Amount”) shall reflect User’s confirmation of the terms of the applicable Deposit Term Sheet and User’s reaffirmation of these Deposit Terms.\n' +
+            '(c) Redelivery of Digital Currency\n' +
+            'Upon your  electronic request, subject to a Hard Fork, Celsius shall redeliver of the Digital Currency on or before 5:00 pm New York time of the second Business Day. \n' +
+            '(d)\tIn the event of a Hard Fork, User acknowledges and agrees that Celsius may temporarily suspend the redelivery of Digital Currency (with or without advance notice to you) and that Celsius may, in its sole discretion, decide whether or not to support (or cease supporting) the resulting branch generated in connection with a Hard Fork (“New Token”). User acknowledges and agrees that Celsius assumes absolutely no responsibility whatsoever in respect of an unsupported branch of a forked protocol including, but not limited to the New Token. If the Hard Fork occurs, Celsius will use commercially reasonable efforts after a Hard Fork and creation of the New Token to repay the Digital Currency with any combination of a one-time Digital Currency payment of the relevant Digital Currency reflecting the amount of the New Token due using a methodology Celsius determines, in is reasonable opinion, returns the value of the Digital Currency to User. \n'
         },
         {
           heading: 'IV Interest',
           text: '(a) Interest Calculation\n' +
-          'At such time as the Digital Currency is delivered to Digital Currency Address, Celsius will  commence calculating Interest and pay such Interest in CEL Tokens (or BCT/ETH if CEL is restricted by law).   \n' +
-          '(b) Taxes and Fees\n' +
-          'All transfer or other taxes or third-party fees payable with respect to the transfer and/or return of any Deposited Amount hereunder shall be paid by User. Celsius shall report to the Internal Revenue Service (“IRS”) all interest paid to User under the Deposit Terms and shall, where required by any law, rule or regulation of any jurisdiction, provide User Form 1099-INT documenting the amount reported to the IRS. \n'
+            'At such time as the Digital Currency is delivered to Digital Currency Address, Celsius will  commence calculating Interest and pay such Interest in CEL Tokens (or BCT/ETH if CEL is restricted by law).   \n' +
+            '(b) Taxes and Fees\n' +
+            'All transfer or other taxes or third-party fees payable with respect to the transfer and/or return of any Deposited Amount hereunder shall be paid by User. Celsius shall report to the Internal Revenue Service (“IRS”) all interest paid to User under the Deposit Terms and shall, where required by any law, rule or regulation of any jurisdiction, provide User Form 1099-INT documenting the amount reported to the IRS. \n'
         },
         {
           heading: 'V Representations and Warranties',
           text: '(a) User represents and warrants that it has or will have at the time of transfer of any Digital Currency, the right to transfer such Digital Currency, subject to the terms and conditions hereof, and that it owns the Digital Currency, free and clear of all liens.\n' +
-          '(b) Compliance with Laws. User is in compliance in all material respects with the requirements of all federal, state and local statutes, rules, regulations, orders, injunctions, decrees and other regulatory requirements applicable to it or its property and operations.\n' +
-          '(c) User represents and warrants that is understands that Celsius may, for its own account, pledge and repledge from time to time, without notice to the User, either separately or in common with other such cryptocurrency, any or all of the Digital Currency that comprises the Deposited Amount held by Celsius for the benefit of User and that Celsius may do so without retaining in its possession or control for delivery, a like amount of similar cryptocurrency.  \n' +
-          '(d) KYC and AML. Celsius shall have received all documentation and other information requested and as required by regulatory authorities under applicable “know your customer” and anti-money laundering rules and regulations, including without limitation the Act.\n' +
-          '(e) USA PATRIOT Act Notice.  In order to the requirements of the USA Patriot Act (Title III of Pub. L. 107-56 (signed into law October 26, 2001)) (the “Act”), to the extent applicable, Celsius shall have received all documentation and other information requested that Celsius may be required to obtain, verify and record information that identifies User, and other information that will allow Celsius to identify User in accordance with the Act. User is in compliance, in all material respects, with the Act. No part of the proceeds of any  Digital Currency or Interest will be used by User, directly or indirectly, for any payments to any governmental official or employee, political party, official of a political party, candidate for political office, or anyone else acting in an official capacity, in order to obtain, retain or direct business or obtain any improper advantage, in violation of the United States Foreign Corrupt Practices Act of 1977, as amended. In addition, if Celsius is required by law or regulation or internal policies to do so, it shall have the right to periodically conduct (i) Patriot Act searches, OFAC/PEP searches, and customary individual background checks for User and (ii) OFAC/PEP searches and customary individual background checks for the User, or the key principals if an entity, and User agrees to cooperate in respect of the conduct of such searches and further agrees that the reasonable costs and charges for such searches shall be deducted from any Interest. \n' +
-          '(f) Foreign Assets Control Regulations. Neither of the Deposited Amount nor the use of the Interest will violate (and User nor any of its affiliates is in violation of) the Trading With the Enemy Act (50 U.S.C. § 1 et seq., as amended) (the “Trading With the Enemy Act”) or any of the foreign assets control regulations of the United States Treasury Department (31 CFR, Subtitle B, Chapter V, as amended) (the “Foreign Assets Control Regulations”) or any enabling legislation or executive order relating thereto (which for the avoidance of doubt shall include, but shall not be limited to (i) Executive Order 13224 of September 21, 2001 Blocking Property and Prohibiting Transactions With Persons Who Commit, Threaten to Commit, or Support Terrorism (66 Fed. Reg. 49079 (2001)) (the “Executive Order”) and (ii) the Uniting and Strengthening America by Providing Appropriate Tools Required to Intercept and Obstruct Terrorism Act of 2001 (Public Law 107-56)). Furthermore, none of the Borrowers or their Affiliates (i) is or will become a “blocked person” as described in the Executive Order, the Trading With the Enemy Act or the Foreign Assets Control Regulations,  (ii) has violated any anti-terrorism laws, (iii) engages or will engage in any dealings or transactions, or be otherwise associated, with any such “blocked person” or in any manner violative of any such order (the “OFAC Sanctions Programs”), (iv) conducts any business or engages in making or receiving any contribution of goods, services or money to or for the benefit of any person described in this subsection (e), or (v) engages in or conspires to engage in any transaction that evades or avoids, or has the purpose of evading or avoiding, or attempts to violate, any of the prohibitions set forth in any anti-terrorism law. Each representation and warranty shall be made by Borrower as of the date of the Deposit Terms and as of the date of any renewal, extension or modification of the Loan.\n'
+            '(b) Compliance with Laws. User is in compliance in all material respects with the requirements of all federal, state and local statutes, rules, regulations, orders, injunctions, decrees and other regulatory requirements applicable to it or its property and operations.\n' +
+            '(c) User represents and warrants that is understands that Celsius may, for its own account, pledge and repledge from time to time, without notice to the User, either separately or in common with other such cryptocurrency, any or all of the Digital Currency that comprises the Deposited Amount held by Celsius for the benefit of User and that Celsius may do so without retaining in its possession or control for delivery, a like amount of similar cryptocurrency.  \n' +
+            '(d) KYC and AML. Celsius shall have received all documentation and other information requested and as required by regulatory authorities under applicable “know your customer” and anti-money laundering rules and regulations, including without limitation the Act.\n' +
+            '(e) USA PATRIOT Act Notice.  In order to the requirements of the USA Patriot Act (Title III of Pub. L. 107-56 (signed into law October 26, 2001)) (the “Act”), to the extent applicable, Celsius shall have received all documentation and other information requested that Celsius may be required to obtain, verify and record information that identifies User, and other information that will allow Celsius to identify User in accordance with the Act. User is in compliance, in all material respects, with the Act. No part of the proceeds of any  Digital Currency or Interest will be used by User, directly or indirectly, for any payments to any governmental official or employee, political party, official of a political party, candidate for political office, or anyone else acting in an official capacity, in order to obtain, retain or direct business or obtain any improper advantage, in violation of the United States Foreign Corrupt Practices Act of 1977, as amended. In addition, if Celsius is required by law or regulation or internal policies to do so, it shall have the right to periodically conduct (i) Patriot Act searches, OFAC/PEP searches, and customary individual background checks for User and (ii) OFAC/PEP searches and customary individual background checks for the User, or the key principals if an entity, and User agrees to cooperate in respect of the conduct of such searches and further agrees that the reasonable costs and charges for such searches shall be deducted from any Interest. \n' +
+            '(f) Foreign Assets Control Regulations. Neither of the Deposited Amount nor the use of the Interest will violate (and User nor any of its affiliates is in violation of) the Trading With the Enemy Act (50 U.S.C. § 1 et seq., as amended) (the “Trading With the Enemy Act”) or any of the foreign assets control regulations of the United States Treasury Department (31 CFR, Subtitle B, Chapter V, as amended) (the “Foreign Assets Control Regulations”) or any enabling legislation or executive order relating thereto (which for the avoidance of doubt shall include, but shall not be limited to (i) Executive Order 13224 of September 21, 2001 Blocking Property and Prohibiting Transactions With Persons Who Commit, Threaten to Commit, or Support Terrorism (66 Fed. Reg. 49079 (2001)) (the “Executive Order”) and (ii) the Uniting and Strengthening America by Providing Appropriate Tools Required to Intercept and Obstruct Terrorism Act of 2001 (Public Law 107-56)). Furthermore, none of the Borrowers or their Affiliates (i) is or will become a “blocked person” as described in the Executive Order, the Trading With the Enemy Act or the Foreign Assets Control Regulations,  (ii) has violated any anti-terrorism laws, (iii) engages or will engage in any dealings or transactions, or be otherwise associated, with any such “blocked person” or in any manner violative of any such order (the “OFAC Sanctions Programs”), (iv) conducts any business or engages in making or receiving any contribution of goods, services or money to or for the benefit of any person described in this subsection (e), or (v) engages in or conspires to engage in any transaction that evades or avoids, or has the purpose of evading or avoiding, or attempts to violate, any of the prohibitions set forth in any anti-terrorism law. Each representation and warranty shall be made by Borrower as of the date of the Deposit Terms and as of the date of any renewal, extension or modification of the Loan.\n'
         },
         {
           heading: 'VI Indemnification',
@@ -126,16 +131,16 @@ class TermsOfUse extends Component {
         {
           heading: 'VII Limitation of Liability, No Warranty',
           text: 'IN NO EVENT SHALL CELSIUS, ITS AFFILIATES AND SERVICE PROVIDERS, OR ANY OF THEIR RESPECTIVE OFFICERS, DIRECTORS, AGENTS, JOINT VENTURERS, EMPLOYEES OR REPRESENTATIVES, BE LIABLE (A) FOR ANY AMOUNT GREATER THAN THE VALUE OF THE SUPPORTED DIGITAL CURRENCY ON DEPOSIT OR (B) FOR ANY LOST PROFITS OR ANY SPECIAL, INCIDENTAL, INDIRECT, INTANGIBLE, OR CONSEQUENTIAL DAMAGES, WHETHER BASED IN CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, OR OTHERWISE, ARISING OUT OF OR IN CONNECTION WITH AUTHORIZED OR UNAUTHORIZED USE OF ANY CELSIUS SERVICES, OR THE DEPOSIT TERMS, EVEN IF AN AUTHORIZED REPRESENTATIVE OF CELSIUS HAS BEEN ADVISED OF OR KNEW OR SHOULD HAVE KNOWN OF THE POSSIBILITY OF SUCH DAMAGES. THIS MEANS, BY WAY OF EXAMPLE ONLY (AND WITHOUT LIMITING THE SCOPE OF THE PRECEDING SENTENCE), THAT IF USER CLAIMS THAT CELSIUS FAILED TO RETURN ITS DIGITAL CURRENCY, USER’S DAMAGES ARE LIMITED TO NO MORE THAN THE VALUE OF THE SUPPORTED DIGITAL CURRENCY AT ISSUE IN THE TRANSACTION, AND THAT USER MAY NOT RECOVER FOR LOST PROFITS, LOST BUSINESS OPPORTUNITES, OR OTHER TYPES OF SPECIAL, INCIDENTIAL, INDIRECT, INTANGIBLE, OR CONSEQUENTIAL DAMAGES IN EXCESS OF THE VALUE OF THE DEPOSITED AMOUNT AT ISSUE IN THE TRANSACTION. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES SO THE ABOVE LIMITATION MAY NOT APPLY TO YOU.\n' +
-          '\n' +
-          'CELSIUS’ SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY REPRESENTATION OR WARRANTY, WHETHER EXPRESS, IMPLIED OR STATUTORY. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, CELSIUS SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND/OR NON-INFRINGEMENT. CELSIUS DOES NOT MAKE ANY REPRESENTATIONS OR WARRANTIES THAT ACCESS TO THE SERVICESOR ANY OF THE MATERIALS CONTAINED THEREIN, WILL BE CONTINUOUS, UNINTERRUPTED, TIMELY, OR ERROR-FREE.\n' +
-          '\n' +
-          'Celsius makes no representations about the accuracy or completeness of historical Digital Currency price data. Celsius will make reasonable efforts to ensure that requests for electronic debits and credits involving bank accounts and check issuances are processed in a timely manner but Celsius makes no representations or warranties regarding the amount of time needed to complete processing which is dependent upon many factors outside of our control.\n'
+            '\n' +
+            'CELSIUS’ SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY REPRESENTATION OR WARRANTY, WHETHER EXPRESS, IMPLIED OR STATUTORY. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, CELSIUS SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND/OR NON-INFRINGEMENT. CELSIUS DOES NOT MAKE ANY REPRESENTATIONS OR WARRANTIES THAT ACCESS TO THE SERVICESOR ANY OF THE MATERIALS CONTAINED THEREIN, WILL BE CONTINUOUS, UNINTERRUPTED, TIMELY, OR ERROR-FREE.\n' +
+            '\n' +
+            'Celsius makes no representations about the accuracy or completeness of historical Digital Currency price data. Celsius will make reasonable efforts to ensure that requests for electronic debits and credits involving bank accounts and check issuances are processed in a timely manner but Celsius makes no representations or warranties regarding the amount of time needed to complete processing which is dependent upon many factors outside of our control.\n'
         },
         {
           heading: 'VIII Governing Law, Dispute Resolution, Waiver of Jury Trial',
           text: '(a) Arbitration Terms. In the event of any dispute arising out of or relating to the Deposit Terms (“Disputes”), the parties shall, except in the case of non-payment by Client, the parties agree to continue to fulfill their obligations to one another hereunder while submitting the Dispute to binding arbitration in the New York, NY, Any such arbitration shall be conducted under the rules established by the American Arbitration Association (“AAA”), or such other rules as the parties may agree, using a single, independent arbitrator with significant industry experience.   If the parties are unable to agree on an arbitrator within thirty (30) days after any party shall have given written notice to the other that it desires to submit any issue to arbitration, then the AAA shall appoint an arbitrator. The award of the arbitrator shall be made in writing, shall be within the scope of the Deposit Terms, shall not change any of its terms or conditions, shall be binding and conclusive on all parties, and may include a finding for the payment of the costs of the arbitration proceeding (including reasonable attorneys’ fees). It is further agreed that judgment of a court having jurisdiction may be entered upon the award of the arbitrator.\n' +
-          '(b) SUBMISSION TO ARBITRATION. EACH OF CELSIUS AND USER IRREVOCABLY AND UNCONDITIONALLY (i) SUBMITS ANY DISPUTE OF ANY NATURE BETWEEN THE PARTIES OR CELSIUS INCLUDING ANY CONFIRMATION OR ANY LOAN OR RELATING IN ANY WAY TO THE DEPOSIT TERMS TO ARBITRATION AS PROVIDED FOR ABOVE AND (ii) WAIVES, TO THE FULLEST EXTENT IT MAY EFFECTIVELY DO SO, ANY DEFENSE OF AN INCONVENIENT FORUM TO THE MAINTENANCE OF SUCH ACTION OR PROCEEDING IN ANY COURT AND ANY RIGHT OF JURISDICTION ON ACCOUNT OF ITS PLACE OF RESIDENCE OR DOMICILE.\n' +
-          '(c) WAIVER OF COURT AND WAIVER JURY TRIAL. EACH OF CELSIUS AND USER HEREBY IRREVOCABLY WAIVES ANY RIGHT THAT IT MAY HAVE TO FILE ANY CLAIMS IN ANY COURT OF LAW OR SEEK A TRIAL BY JURY IN ANY ACTION, PROCEEDING OR COUNTERCLAIM ARISING OUT OF OR IN ANY WAY RELATING TO THE DEPOSIT TERMS. ANY CONFIRMATION, ANY LOAN OR THE TRANSACTIONS CONTEMPLATED THEREBY.\n'
+            '(b) SUBMISSION TO ARBITRATION. EACH OF CELSIUS AND USER IRREVOCABLY AND UNCONDITIONALLY (i) SUBMITS ANY DISPUTE OF ANY NATURE BETWEEN THE PARTIES OR CELSIUS INCLUDING ANY CONFIRMATION OR ANY LOAN OR RELATING IN ANY WAY TO THE DEPOSIT TERMS TO ARBITRATION AS PROVIDED FOR ABOVE AND (ii) WAIVES, TO THE FULLEST EXTENT IT MAY EFFECTIVELY DO SO, ANY DEFENSE OF AN INCONVENIENT FORUM TO THE MAINTENANCE OF SUCH ACTION OR PROCEEDING IN ANY COURT AND ANY RIGHT OF JURISDICTION ON ACCOUNT OF ITS PLACE OF RESIDENCE OR DOMICILE.\n' +
+            '(c) WAIVER OF COURT AND WAIVER JURY TRIAL. EACH OF CELSIUS AND USER HEREBY IRREVOCABLY WAIVES ANY RIGHT THAT IT MAY HAVE TO FILE ANY CLAIMS IN ANY COURT OF LAW OR SEEK A TRIAL BY JURY IN ANY ACTION, PROCEEDING OR COUNTERCLAIM ARISING OUT OF OR IN ANY WAY RELATING TO THE DEPOSIT TERMS. ANY CONFIRMATION, ANY LOAN OR THE TRANSACTIONS CONTEMPLATED THEREBY.\n'
         },
         {
           heading: 'IX Electronic Communications',
@@ -168,59 +173,45 @@ class TermsOfUse extends Component {
         {
           heading: 'XVI Term and Termination',
           text: 'The Deposit Terms shall commence on User’s initial use of the Services provided for herein.  The Deposit Terms continue so long as User maintains any Digital Currency in User’s Digital Wallet Address. \n' +
-          'In the event of a termination of the Deposit Terms, any Digital Amounts shall be redelivered and any Interest owed shall be paid on or before 5:00 pm New York time of the second Business Day.\n'
+            'In the event of a termination of the Deposit Terms, any Digital Amounts shall be redelivered and any Interest owed shall be paid on or before 5:00 pm New York time of the second Business Day.\n'
         },
         {
           heading: 'XVII Miscellaneous',
           text: 'Whenever used herein, the singular number shall include the plural and the plural the singular. The Deposit Terms is solely for the benefit of the parties hereto and their respective successors and assigns, and no other person shall have any right, benefit, priority or interest under, or because of the existence of, the Deposit Terms. The section headings are for convenience only and shall not affect the interpretation or construction of the Deposit Terms. The Parties acknowledge that the Deposit Terms and any Order are the result of negotiation between the Parties which are represented by sophisticated counsel and therefore none of the Deposit Terms’ provisions will be construed against the drafter.\n'
         }
+
       ]
-    };
+
+    }
   }
 
-  // lifecycle methods
-  // event hanlders
-  onPress = () => {
-    const { actions } = this.props;
-
-    actions.toggleTermsOfUse();
-    actions.navigateBack();
-  }
-
-  // rendering methods
   renderScreen(section, index) {
+    const style = TermsOfUseStyle()
     return (
-      <View style={TermsOfUseStyle.content} key={index}>
-        <Text style={TermsOfUseStyle.title}>{section.heading}</Text>
-        <Text style={TermsOfUseStyle.text}>{section.text}</Text>
+      <View key={index} style={style.wrapper}>
+        <CelText type='H3' weight='bold' style={style.heading}>{section.heading}</CelText>
+        <CelText style={style.text}> {section.text}</CelText>
       </View>
     )
   }
 
+
   render() {
     const { terms } = this.state;
-    const { actions, agreedToTermsOfUse } = this.props;
+    // const style = TermsOfUseStyle();
 
     return (
-      <Container style={TermsOfUseStyle.buttonContainer}>
-        <SimpleLayout
-          mainHeader={{ backButton: false, onCancel: actions.navigateBack}}
+      <View>
+        <ScrollView
+          mainHeader={{ backButton: false, onCancel: appActions.navigateBack }}
           animatedHeading={{ text: 'Terms of Use' }}
-          background={STYLES.PRIMARY_BLUE}
-
+          background={'white'}
         >
-            {terms.map(this.renderScreen)}
-        </SimpleLayout>
-
-        { !agreedToTermsOfUse ? (
-          <View style={TermsOfUseStyle.button}>
-            <CelButton white onPress={this.onPress}>I agree</CelButton>
-          </View>
-        ): null }
-
-      </Container>
+          { terms.map(this.renderScreen) }
+        </ScrollView>
+      </View>
     );
   }
 }
 
-export default TermsOfUse;
+export default testUtil.hookComponent(TermsOfUse);

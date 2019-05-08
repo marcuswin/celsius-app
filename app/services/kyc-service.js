@@ -6,6 +6,12 @@ const kycService = {
 };
 
 
+/**
+ * Gets documents that Onfido supports for all countries
+ * @todo: move to getCelsiusInitialData
+ *
+ * @returns {Promise}
+ */
 function getKYCDocTypes() {
   return axios.get(`${apiUrl}/kyc/countries`);
 }

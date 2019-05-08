@@ -1,34 +1,57 @@
-import { StyleSheet } from 'react-native';
-import {FONT_SCALE} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
-const SeparatorStyle = StyleSheet.create({
-  centeredColumn: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dummyBorder: {
-    width: '100%',
-    height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  middleBorderText: {
-    fontFamily: 'agile-light',
-    fontSize: FONT_SCALE * 14,
-    opacity: 1,
-    color: '#88A2C7',
-    lineHeight: FONT_SCALE * 17,
-    textAlign: 'center',
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: 'rgba(200,200,200,0.3)'
-  },
-  textColumn: {
-    // width: 175,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
+const base = {
+    content: {
+        width: '100%',
+        alignItems: 'center',
+        flexDirection: 'row',
+        // height: 60,
+    },
+    separator: {
+        width: '100%'
+    },
+    separatorVertical: {
+        height: '100%'
+    },
+    center: {
+        alignSelf: 'center',
+        justifyContent: 'center'
+    },
+    left: {
+        flex: 1,
+        marginRight: 10,
+        alignItems: 'flex-start',
+    },
+    right: {
+        flex: 1,
+        marginLeft: 10,
+        alignItems: 'flex-end'
 
-export default SeparatorStyle;
+    }
+}
+
+const themed = {
+    light: {
+        separatorColor: {
+            color: STYLES.COLORS.MEDIUM_GRAY
+        }
+    },
+
+    dark: {
+        separatorColor: {
+            color: STYLES.COLORS.WHITE_OPACITY3
+        }
+    },
+
+    celsius: {
+        separatorColor: {
+            color: STYLES.COLORS.MEDIUM_GRAY
+        }
+    }
+}
+
+const SeparatorStyle = () => getThemedStyle(base, themed);
+
+export default SeparatorStyle

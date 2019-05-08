@@ -1,13 +1,55 @@
-import ACTIONS from '../../config/constants/ACTIONS';
-import API from "../../config/constants/API";
+import ACTIONS from '../../constants/ACTIONS';
+import API from "../../constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
-import { analyticsEvents } from "../../utils/analytics-util";
+import { navigateTo } from "../nav/navActions";
+import addressUtil from "../../utils/address-util"
+
+export {
+  // new v3
+  getWalletSummary,
+
+  // keep, maybe refactor
+  getCoinAddress,
+  getCoinWithdrawalAddress,
+  setCoinWithdrawalAddress,
+  setCoinWithdrawalAddressAndWithdrawCrypto,
+
+  // remove
+  getWalletDetails,
+  getCoinTransactions,
+  storePin, // check use, and move somewhere else...
+}
 
 
-export function getWalletDetails() {
+
+/**
+ * Gets wallet summary for user
+ */
+function getWalletSummary() {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_WALLET_SUMMARY));
+      const res = await walletService.getWalletSummary()
+
+      dispatch({
+        type: ACTIONS.GET_WALLET_SUMMARY_SUCCESS,
+        wallet: res.data,
+      })
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_WALLET_SUMMARY, err));
+    }
+  }
+}
+
+
+/**
+ * @deprecated: replaced with getWalletSummary
+ */
+function getWalletDetails() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_WALLET_DETAILS));
@@ -21,6 +63,10 @@ export function getWalletDetails() {
   }
 }
 
+
+/**
+ * @deprecated
+ */
 function getWalletDetailsSuccess(wallet) {
   const mixpanelBalances = {};
   wallet.data.forEach(c => {
@@ -34,7 +80,12 @@ function getWalletDetailsSuccess(wallet) {
   }
 }
 
-export function getCoinAddress(coin) {
+
+/**
+ * Gets Deposit address for coin
+ * @param {string} coin - btc|eth|xrp
+ */
+function getCoinAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ADDRESS));
@@ -51,6 +102,10 @@ export function getCoinAddress(coin) {
   }
 }
 
+
+/**
+ * @todo: move to getCoinAddress
+ */
 function getCoinAddressSuccess(address) {
   return {
     type: ACTIONS.GET_COIN_ADDRESS_SUCCESS,
@@ -59,7 +114,12 @@ function getCoinAddressSuccess(address) {
   }
 }
 
-export function getCoinWithdrawalAddress(coin) {
+
+/**
+ * Gets users withdrawal address for coin
+ * @param {string} coin - @todo: check if BTC or btc
+ */
+function getCoinWithdrawalAddress(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
@@ -79,19 +139,28 @@ export function getCoinWithdrawalAddress(coin) {
 }
 
 /**
- * @param {string} coin
- * @param {string} address
+ * Sets withdrawal address for user for coin
  */
-export function setCoinWithdrawalAddress(coin, address) {
-  return async dispatch => {
+function setCoinWithdrawalAddress() {
+  return async (dispatch, getState) => {
     try {
-      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
+      const { formData } = getState().forms;
+      const { coin, coinTag, withdrawAddress } = formData;
 
+      const address = addressUtil.joinAddressTag(coin, withdrawAddress, coinTag)
+
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
       const response = await walletService.setCoinWithdrawalAddress(coin, address);
       dispatch(setCoinWithdrawalAddressSuccess(coin, {
           address: response.data.address,
           manually_set: response.data.manually_set,
       }));
+
+      dispatch(navigateTo('VerifyProfile', {
+        onSuccess: () => {
+          dispatch(navigateTo('WithdrawConfirm'))
+        }
+      }))
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS, error));
@@ -100,12 +169,9 @@ export function setCoinWithdrawalAddress(coin, address) {
 }
 
 /**
- * @param {string} coin
- * @param {string} address
- * @param {number} amount
- * @param {Object} verification
+ * @deprecated
  */
-export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
+function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
   let currentApiCall;
 
   return async dispatch => {
@@ -123,8 +189,8 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount,
       currentApiCall = API.WITHDRAW_CRYPTO;
       dispatch(startApiCall(currentApiCall));
 
-      const res = await walletService.withdrawCrypto(coin, amount, verification);
-      dispatch(withdrawCryptoSuccess(res.data.transaction));
+      await walletService.withdrawCrypto(coin, amount, verification);
+      // dispatch(withdrawCryptoSuccess(res.data.transaction));
       dispatch(getWalletDetails());
     } catch (error) {
       dispatch(showMessage('error', error.msg));
@@ -134,9 +200,7 @@ export function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount,
 }
 
 /**
- * @param {string} coin
- * @param {WithdrawalAddress} address
- * @returns {{type: string, callName: string, address: *}}
+ * @todo: move to setCoinWithdrawalAddress
  */
 function setCoinWithdrawalAddressSuccess(coin, address) {
   return {
@@ -148,6 +212,11 @@ function setCoinWithdrawalAddressSuccess(coin, address) {
   }
 }
 
+
+/**
+ * Checks user pin code
+ * @param {Function} onSuccess - what to do if pin is correct
+ */
 function getCoinOriginatingAddressSuccess(address) {
   return {
     type: ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS,
@@ -156,64 +225,19 @@ function getCoinOriginatingAddressSuccess(address) {
   }
 }
 
-export function withdrawCrypto(coin, amount, verification) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.WITHDRAW_CRYPTO));
 
-      const res = await walletService.withdrawCrypto(coin, amount, verification);
-      dispatch(withdrawCryptoSuccess(res.data.transaction));
-      dispatch(getWalletDetails());
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.WITHDRAW_CRYPTO, err));
-    }
-  }
-}
-
-function withdrawCryptoSuccess(transaction) {
-  return (dispatch) => {
-    dispatch({
-      type: ACTIONS.WITHDRAW_CRYPTO_SUCCESS,
-      callName: API.WITHDRAW_CRYPTO,
-      transaction,
-    });
-
-    analyticsEvents.confirmWithdraw({
-      id: transaction.id,
-      amount: transaction.amount,
-      coin: transaction.coin
-    });
-  }
-}
-
-export function storePin(pin) {
+/**
+ * @deprecated
+ */
+function storePin(pin) {
   return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
 }
 
-export function getTransactionDetails(transactionId) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_TRANSACTION_DETAILS));
 
-      const res = await walletService.getTransaction(transactionId);
-      dispatch(getTransactionDetailsSuccess(res.data.transaction));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_TRANSACTION_DETAILS, err));
-    }
-  }
-}
-
-function getTransactionDetailsSuccess(transaction) {
-  return {
-    type: ACTIONS.GET_TRANSACTION_DETAILS_SUCCESS,
-    callName: API.GET_TRANSACTION_DETAILS,
-    transaction,
-  }
-}
-
-export function getCoinTransactions(coin) {
+/**
+ * @deprecated: getTransactions has a filter instead
+ */
+function getCoinTransactions(coin) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_COIN_TRANSACTIONS));
@@ -227,32 +251,14 @@ export function getCoinTransactions(coin) {
   }
 }
 
+
+/**
+ * @deprecated
+ */
 function getCoinTransactionsSuccess(transactions) {
   return {
     type: ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS,
     callName: API.GET_COIN_TRANSACTIONS,
-    transactions,
-  }
-}
-
-export function getAllTransactions() {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_ALL_TRANSACTIONS));
-
-      const res = await walletService.getAllTransactions();
-      dispatch(getAllTransactionsSuccess(res.data.transactions));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_ALL_TRANSACTIONS, err));
-    }
-  }
-}
-
-function getAllTransactionsSuccess(transactions) {
-  return {
-    type: ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS,
-    callName: API.GET_ALL_TRANSACTIONS,
     transactions,
   }
 }

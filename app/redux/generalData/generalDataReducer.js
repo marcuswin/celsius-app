@@ -1,10 +1,21 @@
-import ACTIONS from '../../config/constants/ACTIONS';
+// TODO(fj) add currency rates to initial state
+// TODO(fj) split graphs ?
+
+import ACTIONS from '../../constants/ACTIONS';
 
 function initialState() {
   return {
-    supportedCurrencies: undefined,
     kycDocTypes: undefined,
     backendStatus: undefined,
+    interestRates: undefined,
+    minimumLoanAmount: undefined,
+
+    // TODO: remove
+    supportedCurrencies: undefined,
+    blacklistedCountryLocation: [],
+    blacklistedCountryResidency: [],
+    blacklistedStatesLocation: [],
+    blacklistedStatesResidency: []
   };
 }
 
@@ -35,6 +46,22 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         backendStatus: action.backendStatus,
+      };
+
+    case ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS:
+      return {
+        ...state,
+        interestRates: action.interestRates,
+        minimumLoanAmount: action.minimumLoanAmount
+      };
+
+    case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:
+      return {
+        ...state,
+        blacklistedCountryLocation: action.blacklistedCountryLocation,
+        blacklistedCountryResidency: action.blacklistedCountryResidency,
+        blacklistedStatesLocation: action.blacklistedStatesLocation,
+        blacklistedStatesResidency: action.blacklistedStatesResidency
       };
 
   default:

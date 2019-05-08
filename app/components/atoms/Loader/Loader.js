@@ -1,60 +1,80 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
+import React, { Component } from 'react'
+import { View, Animated } from 'react-native'
+import STYLES from '../../../constants/STYLES'
+import testUtil from '../../../utils/test-util'
 
-import Icon from "../../atoms/Icon/Icon";
+class ProgressBar extends Component {
+  static defaultProps = {
+    height: 10,
+    width: '50%',
+    borderWidth: 2,
+    borderRadius: 4,
+    borderColor: 'white',
+    barColor: STYLES.COLORS.MEDIUM_GRAY3
+  }
 
-const wrapperStyles = {
-  justifyContent: 'center',
-  alignItems: 'center',
-  paddingTop: 20,
-};
-
-let dotInterval;
-
-class Loader extends React.Component {
-  constructor() {
-    super();
+  constructor (props) {
+    super(props)
 
     this.state = {
-      dots: '.',
-      time: 0,
+      progress: 0
     }
   }
-  componentWillMount() {
-    dotInterval = setInterval(() => {
-      if (this.state.dots === '. . .') {
-        this.setState({ dots: '.' })
-      } else {
-        this.setState({ dots: `${this.state.dots} .` })
-      }
-
-      this.setState({ time: this.state.time + 0.5 })
-    }, 500)
+  // lifecycle methods
+  componentWillMount () {
+    this.animation = new Animated.Value(this.props.progress)
   }
 
-  componentWillUnmount() {
-    clearInterval(dotInterval);
-    this.setState({ time: 0 })
+  componentDidUpdate (prevProps) {
+    if (prevProps.progress !== this.props.progress) {
+      Animated.timing(this.animation, {
+        toValue: this.props.progress
+      }).start()
+    }
   }
-  render() {
+
+  // event hanlders
+  // rendering methods
+  render () {
+    const {
+      height,
+      borderColor,
+      borderWidth,
+      borderRadius,
+      barColor,
+      width
+    } = this.props
+
+    const widthInterpolated = this.animation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '100%'],
+      extrapolate: 'clamp'
+    })
+
     return (
-      <View style={wrapperStyles}>
-        <Icon
-          name='CelsiusWithCircle'
-          width='150'
-          height='150'
-          fill={'#c8c8c8'}
-        />
-
-        <View style={{ width: '100%', marginTop: 15 }}>
-          <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>Loading { this.state.dots }</Text>
-          <Text style={[globalStyles.normalText, { textAlign: 'center' }]}>Please wait!</Text>
-          { this.state.time > 10 &&  <Text style={[globalStyles.normalText, { textAlign: 'center', marginTop: 5 }]}>It seem that your internet connection is slow. This may take longer than expected!</Text> }
+        <View
+          style={{
+            width, height,
+            borderColor,
+            borderWidth,
+            borderRadius,
+            backgroundColor: STYLES.COLORS.LIGHT_GRAY
+          }}
+        >
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: widthInterpolated,
+              backgroundColor: barColor,
+              borderRadius: 4
+            }}
+          />
         </View>
-      </View>
     )
   }
 }
 
-export default Loader;
+export default testUtil.hookComponent(ProgressBar)

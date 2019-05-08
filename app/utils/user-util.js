@@ -11,4 +11,3 @@ export function shouldRenderInitialIdVerification(userData) {
 
   return !userData.enteredInitialPin;
 }
-

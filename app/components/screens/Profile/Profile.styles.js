@@ -1,20 +1,23 @@
-import { StyleSheet } from 'react-native';
-import { STYLES } from '../../../config/constants/style';
-// import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const ProfileStyle = StyleSheet.create({
-    dateOfBirthText: {
-        color: STYLES.GRAY_2,
-        marginBottom: 10,
-        marginTop: 5
-    },
-    dateOfBirthContainer: {
-        marginBottom: 15
-    },
-    dateOfBirthInnerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
+const base = {
+    container: {
+        flex: 1
     }
-});
+}
 
-export default ProfileStyle;
+const themed = {
+    light: {
+    },
+
+    dark: {
+    },
+
+    celsius: {
+    }
+}
+
+const ProfileStyle = () => getThemedStyle(base, themed);
+
+export default ProfileStyle

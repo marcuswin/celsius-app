@@ -1,19 +1,19 @@
-import AppNavigator from '../../config/Navigator';
-import ACTIONS from "../../config/constants/ACTIONS";
+import ACTIONS from '../../constants/ACTIONS'
 
 const initialState = {
-  index: 0,
-  routes: [{ key: 'Init', routeName: 'Home' }],
-};
+  activeScreen: ''
+}
 
-export default (state = initialState, action) => {
-  const newState = AppNavigator.router.getStateForAction(action, state);
-
+export default function navReducer(state = initialState, action) {
   switch (action.type) {
-    case ACTIONS.LOGOUT_USER:
-    case ACTIONS.EXPIRE_SESSION:
-      return initialState;
+    case ACTIONS.SET_ACTIVE_SCREEN: {
+      const { screenName } = action.payload
+      return {
+        ...state,
+        activeScreen: screenName
+      }
+    }
     default:
-      return newState || state;
+      return { ...state };
   }
-};
+}

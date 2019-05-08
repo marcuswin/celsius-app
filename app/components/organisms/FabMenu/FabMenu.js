@@ -1,0 +1,257 @@
+import React, { Component, Fragment } from 'react';
+import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+// import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
+// import { BlurView, VibrancyView } from 'react-native-blur';
+import { BlurView } from 'expo';
+import * as appActions from "../../../redux/actions";
+import testUtil from "../../../utils/test-util";
+import FabMenuStyle from "./FabMenu.styles";
+import Fab from '../../molecules/Fab/Fab';
+import CircleButton from '../../atoms/CircleButton/CircleButton';
+import { THEMES } from '../../../constants/UI';
+import { KYC_STATUSES } from "../../../constants/DATA";
+
+@connect(
+  state => ({
+    fabMenuOpen: state.ui.fabMenuOpen,
+    theme: state.ui.theme,
+    appInitialized: state.app.appInitialized,
+    fabType: state.ui.fabType,
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
+    celpayCompliance: state.user.compliance.celpay,
+    depositCompliance: state.user.compliance.deposit,
+    loanCompliance: state.user.compliance.loan,
+    withdrawCompliance: state.user.compliance.withdraw,
+    user: state.user.profile,
+  }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+)
+class FabMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuItems: [],
+    };
+    
+    this.springValue = new Animated.Value(1)
+    this.pulseValue = new Animated.Value(1)
+    this.opacityValue = new Animated.Value(1)
+  }
+
+  componentDidMount = () => {
+    const { fabType } = this.props;
+    this.setState({
+      menuItems: this.getMenuItems(fabType)
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if((nextProps.appInitialized && nextProps.appInitialized !== this.props.appInitialized && nextProps.user.has_pin) || (nextProps.appInitialized && nextProps.user.has_pin &&  nextProps.user.has_pin !== this.props.user.has_pin)) {
+      this.doAnimate()
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if ((prevProps.fabType !== this.props.fabType && this.props.fabType !== 'hide') || (prevProps.kycStatus !== this.props.kycStatus)) {
+      this.setState({
+        menuItems: this.getMenuItems(this.props.fabType)
+      });
+    }
+  };
+
+  getMenuItems(menu) {
+    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user} = this.props;
+    const main = [
+      [
+        { label: 'Wallet', screen: 'WalletLanding' },
+      ],
+      [],
+      [
+        { label: 'Settings', screen: 'Settings' },
+        { label: 'Community', screen: 'Community' },
+        // { label: 'Support', screen: 'Support' }
+      ]
+    ];
+    if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
+    if (withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
+    if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
+    if (user) main[1].push({label: "Profile", screen: "Profile"});
+
+    return {
+      main,
+      support: [],
+    }[menu];
+  }
+
+  // componentWillReceiveProps() {
+  //   const nextScreen = "home"
+  //   const currScreen = "home"
+  //   if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
+  //     const menuType = nextScreen === 'support' ? 'support' : 'menuType'
+  //     this.setState({
+  //       type: menuType,
+  //       menuItems: getMenuItems(menuType)
+  //     });
+  //   }
+  // }
+
+  getTintColor = () => {
+    const { theme } = this.props;
+
+    switch (theme) {
+      case THEMES.LIGHT:
+        return 'light';
+      case THEMES.DARK:
+        return 'dark';
+      case THEMES.CELSIUS:
+        return 'dark';
+      default:
+        return 'light'
+    }
+  }
+
+  doAnimate () {
+    setTimeout(()=>{ this.spring() }, 1000)
+    setTimeout(()=>{ this.spring() }, 2500)
+    setTimeout(()=>{ this.spring() }, 4000)
+  }
+
+  spring () {
+    this.springValue.setValue(1.1)
+    this.pulseValue.setValue(1)
+    this.opacityValue.setValue(0.8)
+    Animated.spring(
+      this.springValue,
+      {
+        toValue: 1,
+        friction: 2,
+        // damping: 6,
+        tension: 9,
+        // bounciness: 1,
+        // stiffness: 100,
+        // overshootClamping: true,
+        // speed: 0.01,
+        useNativeDriver: true
+      }
+    ).start()
+    Animated.timing(
+      this.pulseValue,
+      {
+        toValue: 1.7,
+        duration: 1500,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }
+    ).start()
+    Animated.timing(
+      this.opacityValue,
+      {
+        toValue: 0,
+        duration: 1500,
+        easing: Easing.linear,
+        useNativeDriver: true
+      }
+    ).start()
+  }
+
+  fabAction = () => {
+    const { actions, fabType } = this.props;
+    switch (fabType) {
+      case 'main':
+        this.toggleMenu();
+        break;
+
+      case 'support':
+        actions.navigateTo('SupportFab');
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  toggleMenu = () => {
+    const { fabMenuOpen, actions } = this.props;
+    if (fabMenuOpen) {
+      actions.closeFabMenu()
+    } else {
+      actions.openFabMenu()
+    }
+  }
+
+  renderMenuRow = (menuRow) => {
+    const style = FabMenuStyle();
+
+    return (
+      <View key={menuRow[0].label} style={style.menuItemsContainer}>
+        {menuRow.map(this.renderMenuItem)}
+      </View>
+    );
+  }
+
+  renderMenuItem = (item) => {
+    const { theme, actions } = this.props;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={33} />;
+  }
+
+  renderFabMenu = () => {
+    const style = FabMenuStyle();
+    const { menuItems } = this.state;
+    const { actions } = this.props;
+    const tintColor = this.getTintColor();
+
+    if (Platform.OS !== 'android') {
+      return (
+        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill, style.menuContainer]} >
+          <View>
+            {menuItems.map(this.renderMenuRow)}
+          </View>
+        </BlurView>
+      )
+    }
+    return (
+      <TouchableOpacity style={[StyleSheet.absoluteFill, style.menuContainer, style.background]} onPress={() => actions.closeFabMenu()}>
+        {menuItems.map(this.renderMenuRow)}
+      </TouchableOpacity>
+    )
+
+  }
+
+  renderFab = () => {
+    const style = FabMenuStyle();
+    const { fabType } = this.props;
+    return (
+      <Fragment>
+        <Animated.View style={[style.fabButton, style.opacityCircle, {transform: [{scale: this.pulseValue}],  opacity: this.opacityValue} ]}/>
+        <Animated.View style={[style.fabButton, { transform: [{scale: this.springValue} ]} ]}>
+          <Fab onPress={this.fabAction} type={fabType} />
+        </Animated.View>
+      </Fragment>
+    );
+  }
+
+  render() {
+    const style = FabMenuStyle();
+    const { fabMenuOpen, fabType } = this.props
+
+    // if (!appInitialized) return null; // Too many bugs with this one line of code :D
+    if (fabType === 'hide') return null;
+
+    const FabMenuCmp = this.renderFabMenu;
+    const FabButton = this.renderFab;
+
+    return (
+      <Fragment>
+        {fabMenuOpen ? <FabMenuCmp style={style.menu} /> : null}
+        <FabButton />
+      </Fragment>
+    )
+  }
+}
+
+export default testUtil.hookComponent(FabMenu);

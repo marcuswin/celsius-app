@@ -1,99 +1,78 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity } from "react-native";
-import { View } from 'native-base';
+// import { View } from 'react-native';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import * as appActions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
-// import SettingsStyle from "./Settings.styles";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import { FONT_SCALE, STYLES, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import CelButton from '../../atoms/CelButton/CelButton';
-import Separator from '../../atoms/Separator/Separator';
-import CelApiDropdown from '../../organisms/CelApiDropdown/CelApiDropdown';
 
+import testUtil from "../../../utils/test-util";
+import * as appActions from "../../../redux/actions";
+// import ApiAuthorizationStyle from "./ApiAuthorization.styles";
+import CelText from '../../atoms/CelText/CelText';
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelButton from "../../atoms/CelButton/CelButton";
+import Separator from "../../atoms/Separator/Separator";
+import STYLES from "../../../constants/STYLES";
+import CelApiDropdown from "../../molecules/CelApiDropdown/CelApiDropdown";
 
 @connect(
   state => ({
-    user: state.users.user,
-    apiKeys: state.apiKeys.keys,
-    activeScreen: state.nav.routes[state.nav.index].routeName
+    apiKeys: state.apiKeys.keys
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class ApiAuthorization extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      // initial state
-    };
+  static propTypes = {
+    // text: PropTypes.string
+  };
+  static defaultProps = {
   }
 
-  componentDidMount = () => {
+  static navigationOptions = () => ({
+    title: "API Authorization",
+  });
+
+  componentDidMount() {
     const { actions } = this.props;
-    actions.getAllAPIKeys();
+    actions.getAllAPIKeys()
   }
 
+  componentDidUpdate(prevProps ) {
+    const { actions } = this.props;
 
-  componentWillReceiveProps(nextProps) {
-    const { actions, activeScreen } = this.props;
-
-    if (activeScreen !== nextProps.activeScreen && nextProps.activeScreen === 'ApiAuthorization') {
-      actions.getAllAPIKeys();
+    if (prevProps.apiKeys.length <= this.props.apiKeys.length) {
+      return actions.getAllAPIKeys()
     }
   }
 
 
   render() {
-    const { actions, apiKeys } = this.props;
-
-    const logoutButton = () => (
-
-      <TouchableOpacity onPress={actions.logoutUser}>
-        <Text style={[{
-          color: 'white',
-          paddingLeft: 5,
-          textAlign: 'right',
-          opacity: 0.8,
-          marginTop: 2,
-          fontSize: FONT_SCALE * 18,
-          fontFamily: 'agile-medium',
-        }]}>Log out</Text>
-      </TouchableOpacity>
-    )
+    // const style = ApiAuthorizationStyle();
+    const { apiKeys, actions } = this.props;
 
     return (
-      <SimpleLayout
-        mainHeader={{ backButton: true, right: logoutButton() }}
-        animatedHeading={{ text: 'Api Auth' }}
-        background={STYLES.GRAY_1}
-        bottomNavigation
-      >
-        <Text style={[globalStyles.normalText, { marginTop: 30 }]}>
-          Generate a secure API key that enables external services to read some of the Celsius data.
-        </Text>
-        <View style={{ marginTop: 30 }}>
-          <CelButton
-            onPress={() => actions.navigateTo('ApiKeyGenerate')}
-            color="blue"
-          >Generate API key</CelButton>
-        </View>
-        {apiKeys.length > 0 &&
-          <View>
-            <Separator margin="35 0 25 0" />
-            {
-              apiKeys.map(apiKey => (
-                <CelApiDropdown apiKey={apiKey} key={apiKey.id}>
-                  {apiKey.lastFourCharacters}
-                </CelApiDropdown>
-              ))
-            }
-          </View>
+      <RegularLayout>
+        <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"}>Generate a secure API key that enables external services to read some of the Celsius data. </CelText>
+
+        <CelButton
+          onPress={() => actions.navigateTo("ApiAuthorizationPermissions")}
+          margin={"30 0 10 0"}
+        >
+          Generate API key
+        </CelButton>
+
+        {!!apiKeys && apiKeys.length > 0 && <Separator margin={"30 0 24 0"} />}
+
+        {!!apiKeys &&
+          apiKeys.map(apiKey => (
+            <CelApiDropdown apiKey={apiKey} key={apiKey.id}>
+              {apiKey.lastFourCharacters}
+            </CelApiDropdown>
+          ))
         }
-      </SimpleLayout >
+      </RegularLayout>
     );
   }
 }
 
-export default ApiAuthorization;
+export default testUtil.hookComponent(ApiAuthorization);

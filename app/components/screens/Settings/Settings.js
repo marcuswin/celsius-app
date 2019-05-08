@@ -1,99 +1,58 @@
-import React, {Component} from 'react';
-import { Text, TouchableOpacity} from "react-native";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { Constants } from "expo";
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
 import * as appActions from "../../../redux/actions";
-// import {STYLES} from "../../../config/constants/style";
-// import SettingsStyle from "./Settings.styles";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import { FONT_SCALE, STYLES } from "../../../config/constants/style";
-import Separator from "../../atoms/Separator/Separator";
-import CelCustomButton from "../../atoms/CelCustomButton/CelCustomButton";
+import testUtil from "../../../utils/test-util";
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import STYLES from '../../../constants/STYLES';
+import IconButton from '../../organisms/IconButton/IconButton';
+import CelButton from '../../atoms/CelButton/CelButton';
+import CelText from '../../atoms/CelText/CelText';
+import { KYC_STATUSES } from "../../../constants/DATA";
 
+const { revisionId } = Constants.manifest;
 
 @connect(
-  state => ({
-    user: state.users.user,
+  (state) => ({
+    kycStatus: state.user.profile.kyc
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class Settings extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      // initial state
-    };
-    // binders
+  static propTypes = {
+    // text: PropTypes.string
+  };
+
+  static defaultProps = {
   }
 
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
+  static navigationOptions = () => ({
+    title: "Settings",
+    right: "logout"
+  });
 
   render() {
-    const {actions, user} = this.props;
+    const { actions, kycStatus } = this.props;
 
-    const logoutButton = () => (
-
-      <TouchableOpacity onPress={actions.logoutUser}>
-        <Text style={[{
-          color: 'white',
-          paddingLeft: 5,
-          textAlign: 'right',
-          opacity: 0.8,
-          marginTop: 2,
-          fontSize: FONT_SCALE * 18,
-          fontFamily: 'agile-medium',
-        }]}>Log out</Text>
-      </TouchableOpacity>
-    )
+    const hasPassedKYC = kycStatus === KYC_STATUSES.passed
 
     return (
-     <SimpleLayout
-       mainHeader={{ backButton: true, right: logoutButton() }}
-       animatedHeading={{ text: 'Settings' }}
-       background={ STYLES.GRAY_1 }
-       bottomNavigation
-     >
-
-        <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>SECURITY</Separator>
-
-       { !user.facebook_id && !user.google_id && !user.twitter_id ? (
-         <CelCustomButton
-           onPress={() => actions.navigateTo('ChangePassword')}
-           iconRight={"IconChevronRight"}
-           iconRightColor={'rgba(137,144,153,0.6)'}
-           iconRightHeight={'20'}
-         >
-           Change password
-         </CelCustomButton>
-       ) : null}
-
-       <CelCustomButton
-         onPress={() => actions.navigateTo('TwoFAInfo')}
-         iconRight={"IconChevronRight"}
-         iconRightColor={'rgba(137,144,153,0.6)'}
-         value={user.two_factor_enabled ? "ON" : "OFF"}
-         iconRightHeight={'20'}
-       >
-         Two-Factor Verif.
-       </CelCustomButton>
-
-       <Separator margin="20 0 20 0" separatorSize={0.6} color={'black'} separatorColor={"rgba(137,144,153,0.5)"}>API</Separator>
-       <CelCustomButton
-           onPress={() => actions.navigateTo('ApiAuthorization')}
-           iconRight={"IconChevronRight"}
-           iconRightColor={'rgba(137,144,153,0.6)'}
-           iconRightHeight={'20'}
-         >
-          API Authorization
-         </CelCustomButton>
-
-     </SimpleLayout>
+      <RegularLayout>
+        {/* <IconButton onPress={() => actions.navigateTo("NotificationsSettings")} icon="Notifications">Notifications</IconButton> */}
+        <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
+        { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
+        { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
+        {/* <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton> */}
+        <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
+      </RegularLayout>
     );
   }
 }
 
-export default Settings;
+export default testUtil.hookComponent(Settings);

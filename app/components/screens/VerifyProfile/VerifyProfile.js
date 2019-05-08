@@ -1,193 +1,240 @@
-import React, { Component } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-import _ from "lodash";
-import { Col, Grid } from "react-native-easy-grid";
-import testUtil from "../../../utils/test-util";
+import React, { Component } from 'react'
+import { View, TouchableOpacity, Clipboard } from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import * as appActions from "../../../redux/actions";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyles, STYLES } from "../../../config/constants/style";
-import { CAMERA_COPY } from "../../../config/constants/common";
-import Separator from "../../atoms/Separator/Separator";
-import CelButton from "../../atoms/CelButton/CelButton";
-import CameraInput from "../../atoms/CameraInput/CameraInput";
-import CelPhoneInput from "../../molecules/CelPhoneInput/CelPhoneInput";
-import CelForm from "../../atoms/CelForm/CelForm";
-import Icon from "../../atoms/Icon/Icon";
-import VerifyProfileStyle from "./VerifyProfile.styles";
-
-import apiUtil from "../../../utils/api-util";
-import API from "../../../config/constants/API";
+import testUtil from '../../../utils/test-util'
+import * as appActions from '../../../redux/actions'
+import VerifyProfileStyle from './VerifyProfile.styles'
+import CelText from '../../atoms/CelText/CelText'
+import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
+import { KEYPAD_PURPOSES } from '../../../constants/UI'
+import HiddenField from '../../atoms/HiddenField/HiddenField'
+import Spinner from '../../atoms/Spinner/Spinner'
+import CelButton from '../../atoms/CelButton/CelButton'
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 @connect(
   state => ({
-    formData: state.ui.formData,
-    formErrors: state.ui.formErrors,
-    user: state.users.user,
-    kycDocuments: state.users.kycDocuments,
-    callsInProgress: state.api.callsInProgress,
-    lastCompletedCall: state.api.lastCompletedCall,
-    kycDocTypes: state.generalData.kycDocTypes,
+    formData: state.forms.formData,
+    is2FAEnabled: state.user.profile.two_factor_enabled,
+    previousScreen: state.user.screen
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class VerifyProfile extends Component {
-  // lifecycle methods
+  static propTypes = {}
+  static defaultProps = {}
 
-  componentWillMount() {
-    const { actions } = this.props;
-    actions.getKYCDocTypes();
-  }
-
-  componentDidMount() {
-    const { actions } = this.props;
-
-    actions.getKYCDocuments();
-    this.initForm();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { kycDocuments } = this.props;
-
-    if (kycDocuments && !prevProps.kycDocuments) {
-      this.initForm();
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+    return {
+      headerSameColor: true,
+      hideBack: (params && params.hideBack) || false
     }
   }
 
-  // event hanlders
-  validateForm = () => {
-    const { formData, actions } = this.props;
-    const formErrors = {};
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: '',
+      loading: false,
+      verificationError: false,
+      forgotPin: false
+    }
+  }
 
-    if (!formData.documentType) formErrors.document_type = 'Document Type is required!';
-    if (!formData.front) formErrors.front = 'Front side photo is required!';
-    if (!formData.back && formData.documentType !== 'passport') formErrors.back = 'Back side photo is required!';
-    if (!formData.cellphone) formErrors.cellphone = 'Cell phone is required!';
+  componentDidMount = () => {
+    const { navigation, actions } = this.props
+    const activeScreen = navigation.getParam('activeScreen')
+    actions.getPreviousPinScreen(activeScreen)
+    if (activeScreen) this.props.navigation.setParams({ hideBack: true })
+  }
 
-    if (!_.isEmpty(formErrors)) {
-      actions.setFormErrors(formErrors);
+  onCheckSuccess = () => {
+    const { navigation, actions, previousScreen } = this.props
+    const onSuccess = navigation.getParam('onSuccess')
+    const activeScreen = navigation.getParam('activeScreen')
+    if (activeScreen) {
+      if (activeScreen === 'VerifyProfile') {
+        actions.navigateTo(previousScreen)
+        return
+      }
+      actions.navigateTo(activeScreen)
+      return
+    }
+    onSuccess()
+
+    this.setState({ loading: false })
+  }
+
+  onCheckError = () => {
+    this.setState({ loading: false, value: '', verificationError: true })
+    this.setForgotPin();
+    const timeout = setTimeout(() => {
+      this.setState({ verificationError: false })
+      clearTimeout(timeout)
+    }, 1000)
+  }
+
+  setForgotPin = () => {
+    const { verificationError } = this.state;
+    if (verificationError) {
+      this.setState({ forgotPin: true })
+    }
+  }
+
+  handlePINChange = newValue => {
+    const { actions } = this.props
+
+    if (newValue.length > 4) return
+
+    actions.updateFormField('pin', newValue)
+    this.setState({ value: newValue })
+
+    if (newValue.length === 4) {
+      this.setState({ loading: true })
+      actions.toggleKeypad()
+      actions.checkPIN(this.onCheckSuccess, this.onCheckError)
+    }
+  }
+
+  handle2FAChange = newValue => {
+    const { actions } = this.props
+
+    if (newValue.length > 6) return
+
+    actions.updateFormField('code', newValue)
+    this.setState({ value: newValue })
+
+    if (newValue.length === 6) {
+      this.setState({ loading: true })
+      actions.toggleKeypad()
+
+      actions.checkTwoFactor(this.onCheckSuccess, this.onCheckError)
+    }
+  }
+
+  handlePaste = async () => {
+    const { actions } = this.props
+    this.setState({ loading: true })
+    const code = await Clipboard.getString()
+
+    if (code) {
+      this.handle2FAChange(code)
     } else {
-      return true;
+      actions.showMessage('warning', 'Nothing to paste, please try again!')
     }
+    this.setState({ loading: false })
   }
 
-  submitForm = () => {
-    const { actions } = this.props;
-    const isFormValid = this.validateForm();
-
-    if (isFormValid === true) {
-      actions.verifyKYCDocs();
-    }
-  }
-
-  initForm = () => {
-    const { actions, user, kycDocuments, formData } = this.props;
-    if (kycDocuments) {
-      actions.initForm({
-        ...formData,
-        cellphone: user.cellphone,
-        documentType: kycDocuments.type ? kycDocuments.type : 'passport',
-        front: kycDocuments.front ? kycDocuments.front : undefined,
-        back: kycDocuments.back ? kycDocuments.back : undefined,
-      })
-    } else {
-      actions.initForm({
-        ...formData,
-        cellphone: user.cellphone,
-        documentType: undefined,
-        front: undefined,
-        back: undefined,
-      })
-    }
-  }
-
-  selectDocumentType = async (type) => {
-    const { actions } = this.props;
-
-    actions.updateFormField("documentType", type);
-  }
-  // rendering methods
-  render() {
-    const { formData, formErrors, callsInProgress, user, kycDocTypes } = this.props;
-
-    let isLoading = false;
-    let docs;
-
-    if (kycDocTypes) {
-      isLoading = apiUtil.areCallsInProgress([API.UPDATE_USER_PERSONAL_INFO, API.START_KYC, API.CREATE_KYC_DOCUMENTS], callsInProgress);
-      docs = mapDocs(kycDocTypes[user.citizenship]);
-    }
+  render2FA() {
+    const { loading, value, verificationError, forgotPin } = this.state
+    const { actions } = this.props
+    const style = VerifyProfileStyle()
 
     return (
-      <SimpleLayout
-      ref={testUtil.generateTestHook(this, `VerifyProfile.home`)}
-        animatedHeading={{ text: 'Verify Profile' }}
-        background={STYLES.PRIMARY_BLUE}
-      >
-        <Text style={[globalStyles.normalText, { color: 'white' }]}>
-          Please take a photo of your ID or passport to confirm your identity.
-        </Text>
-        {formData.documentType ?
-          <View>
-            <CelForm margin="30 0 35 0" disabled={isLoading}>
+      <View style={style.wrapper}>
+        <CelText type='H1' align='center'>
+          Verification required
+        </CelText>
+        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 10 0'>
+          Please enter your 2FA code to proceed
+        </CelText>
 
-              {docs && <Grid>
-                {docs.map(document =>
-                  <Col key={document.value} style={VerifyProfileStyle.centeredColumn}>
-                    <TouchableOpacity ref={testUtil.generateTestHook(this, `VerifyProfile.${document.value}`)} onPress={() => this.selectDocumentType(document.value)}>
-                      <View
-                        style={formData.documentType === document.value ? VerifyProfileStyle.documentViewWrapperSelected : VerifyProfileStyle.documentViewWrapper}>
-                        <Icon name={document.icon.name} width="38" height="29" viewBox={document.icon.viewBox} />
-                        <View style={VerifyProfileStyle.documentTypeWrapper}>
-                          <Text style={VerifyProfileStyle.documentTypeName}>{document.label}</Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </Col>
-                )}
-              </Grid>
-              }
+        <TouchableOpacity onPress={actions.toggleKeypad}>
+          <HiddenField value={value} length={6} error={verificationError} />
+        </TouchableOpacity>
+        <View>
+          {(forgotPin) &&
+            <ContactSupport
+              copy="Forgot your code? Contact out support at app@celsius.network."
+            />}
+        </View>
+        {loading ? (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 15
+            }}
+          >
+            <Spinner />
+          </View>
+        ) : (
+            <CelButton onPress={this.handlePaste}>Paste</CelButton>
+          )}
+      </View>
+    )
+  }
 
-              <Separator margin="15 0 15 0">TAKE PHOTOS</Separator>
+  renderPIN() {
+    const { loading, value, verificationError, forgotPin } = this.state
+    const { actions } = this.props
+    const style = VerifyProfileStyle()
 
-              <CameraInput mask="document" labelTextActive="Front side of the document" labelTextInactive="Front side photo" value={formData.front} error={formErrors.front} field="front" cameraCopy={CAMERA_COPY.DOCUMENT} />
-              {formData.documentType !== 'passport' ? (
-                <CameraInput mask="document" labelTextActive="Back side of the document" labelTextInactive="Back side photo" value={formData.back} error={formErrors.back} field="back" cameraCopy={CAMERA_COPY.DOCUMENT} />
-              ) : null}
+    return (
+      <View style={style.wrapper}>
+        <CelText type='H1' align='center'>
+          Verification required
+        </CelText>
+        <CelText color='rgba(61,72,83,0.7)' align='center' margin='10 0 10 0'>
+          Please enter your PIN to proceed
+        </CelText>
 
-              <Separator margin="20 0 15 0">PHONE</Separator>
+        <TouchableOpacity onPress={actions.toggleKeypad}>
+          <HiddenField value={value} error={verificationError} />
+        </TouchableOpacity>
+        <View>
+          {(forgotPin) &&
+            <ContactSupport
+              copy="Forgot PIN? Contact our support at app@celsius.network."
+            />}
+        </View>
 
-              <CelPhoneInput labelText="Phone Number" error={formErrors.cellphone} field="cellphone" value={formData.cellphone} />
-            </CelForm>
+        {loading && (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 15
+            }}
+          >
+            <Spinner />
+          </View>
+        )}
+      </View>
+    )
+  }
 
-            <CelButton
-              ref={testUtil.generateTestHook(this, 'VerifyProfile.verify')}
-              onPress={this.submitForm}
-              iconRight="IconArrowRight"
-              loading={isLoading}
-              disabled={isLoading}
-              white
-              margin="0 0 0 0"
-            >
-              {user.cellphone !== formData.cellphone || !user.cellphone_verified ? 'Verify phone number' : 'Start KYC'}
-            </CelButton>
-          </View> : null}
-      </SimpleLayout>
-    );
+  render() {
+    const { value } = this.state
+    const { is2FAEnabled, actions } = this.props
+
+    const field = is2FAEnabled ? 'code' : 'pin'
+    const onPressFunc = is2FAEnabled
+      ? this.handle2FAChange
+      : this.handlePINChange
+    const style = VerifyProfileStyle()
+
+    return (
+      <RegularLayout padding='0 0 0 0' fabType={'hide'}>
+        <View style={style.container}>
+          {is2FAEnabled ? this.render2FA() : this.renderPIN()}
+          <CelNumpad
+            field={field}
+            value={value}
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={onPressFunc}
+            purpose={KEYPAD_PURPOSES.VERIFICATION}
+          />
+        </View>
+      </RegularLayout>
+    )
   }
 }
 
-function mapDocs(docs) {
-  const kycDocs = [];
-
-  if (!docs) return [{ value: 'passport', label: 'Passport', icon: { name: 'Passport', viewBox: '0 0 38 30' } }];
-  if (docs.identity_card) kycDocs.push({ value: 'identity_card', label: 'National ID card', icon: { name: 'IDcard', viewBox: '0 0 38 30' } });
-  if (docs.passport) kycDocs.push({ value: 'passport', label: 'Passport', icon: { name: 'Passport', viewBox: '0 0 38 30' } });
-  if (docs.driving_licence) kycDocs.push({ value: 'driving_licence', label: "Driver's license", icon: { name: 'DrivingLicense', viewBox: '0 0 42 29' } });
-
-  return kycDocs;
-}
-
-export default testUtil.hookComponent(VerifyProfile);
+export default testUtil.hookComponent(VerifyProfile)

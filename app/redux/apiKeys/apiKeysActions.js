@@ -1,22 +1,31 @@
-import ACTIONS from '../../config/constants/ACTIONS';
+import ACTIONS from '../../constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
-import API from "../../config/constants/API";
+import API from "../../constants/API";
 import { showMessage, openModal } from "../ui/uiActions";
 import apiKeyService from "../../services/api-key-service";
-import { MODALS } from '../../config/constants/common';
+import { MODALS } from '../../constants/UI';
 
-export function createAPIKey(permissions) {
+export {
+  createAPIKey,
+  revokeAPIKey,
+  getAllAPIKeys,
+}
+
+/**
+ * Creates API key for user
+ * @param {Object} permissions - permissions set on CreateAPIKey screen
+ */
+function createAPIKey(permissions) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.CREATE_API_KEY))
-
-      const apiKeyRes = await apiKeyService.create(permissions)
-
+      const apiKeyRes = await apiKeyService.create(permissions);
+      
       dispatch({
         type: ACTIONS.CREATE_API_KEY_SUCCESS,
         apiKey: apiKeyRes.data.api_key,
-      })
-      dispatch(openModal(MODALS.GENERATE_API_KEY))
+      });
+      dispatch(openModal(MODALS.GENERATE_API_KEY_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CREATE_API_KEY, err));
@@ -24,7 +33,11 @@ export function createAPIKey(permissions) {
   }
 }
 
-export function revokeAPIKey(keyId) {
+/**
+ * Revokes API key for user
+ * @param {string} keyId - id of the API key
+ */
+function revokeAPIKey(keyId) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.DELETE_API_KEY))
@@ -43,7 +56,10 @@ export function revokeAPIKey(keyId) {
   }
 }
 
-export function getAllAPIKeys() {
+/**
+ * Gets all API keys for user
+ */
+function getAllAPIKeys() {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.GET_API_KEYS))

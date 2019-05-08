@@ -1,41 +1,41 @@
-import React, { Component } from "react";
-import { Image, Text, View } from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react'
+import { View, Image } from 'react-native'
+import testUtil from '../../../utils/test-util'
+import OfflineModeStyle from './OfflineMode.styles'
+import CelText from '../CelText/CelText'
 
-import * as actions from "../../../redux/actions";
-import OfflineModeStyle from "./OfflineMode.styles";
-import { GLOBAL_STYLE_DEFINITIONS as globalStyle } from "../../../config/constants/style";
-
-
-@connect(
-  state => ({
-    connected: state.ui.internetConnected
-  }),
-  dispatch => bindActionCreators(actions, dispatch)
-)
 class OfflineMode extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // initial state
-    };
-    // binders
-  }
-
-  // lifecycle methods
-  // event hanlders
-  // rendering methods
-  render() {
+  render () {
+    const style = OfflineModeStyle()
     return (
-      <View style={OfflineModeStyle.background}>
-        <Image source={require("../../../../assets/images/OfflineMode/deer-tangled3x.png")} style={OfflineModeStyle.image}/>
-        <Text style={[globalStyle.heading, OfflineModeStyle.header]}>There's no internet connection</Text>
-        <Text style={[globalStyle.normalText, OfflineModeStyle.explanation]}>Please, make sure that your Wi-Fi or Cellular data is turned on, then <Text style={{fontFamily: 'agile-book'}}>try again</Text>.</Text>
+      <View style={style.container}>
+        <View>
+          <Image
+            source={require('../../../../assets/images/deer-sad.png')}
+            style={{ width: 200, height: 200, resizeMode: 'contain' }}
+          />
+        </View>
+
+        <CelText
+          margin='20 0 15 0'
+          align='center'
+          type='H1'
+          weight={'700'}
+          bold
+        >
+          No internet connection
+        </CelText>
+        <CelText margin='5 0 15 0' align='center' type='H4' weight={'300'}>
+          Please, make sure that your Wi-Fi or Cellular data is turned on, then{' '}
+          <CelText type='H4' weight={'bold'}>
+            try again.
+          </CelText>
+        </CelText>
       </View>
-    );
+    )
   }
 }
 
-export default OfflineMode;
+OfflineMode.propTypes = {}
+
+export default testUtil.hookComponent(OfflineMode)

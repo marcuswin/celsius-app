@@ -1,29 +1,20 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { STYLES } from "../../../config/constants/style";
+import { getThemedStyle } from "../../../utils/styles-util";
 
-const {width, height} = Dimensions.get('window');
-
-const OfflineModeStyle = StyleSheet.create({
-  background: {
-    height,
-    width,
-    backgroundColor: STYLES.GRAY_1,
-    flexDirection: "column",
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  image: {
-    width: width/2,
-    height: width/2 * 0.96,
-  },
-  header: {
-    textAlign: 'center',
-    marginTop: 20
-  },
-  explanation: {
-    textAlign: 'center',
-    marginTop: 10
+const base = {
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
   }
-});
+};
 
-export default OfflineModeStyle;
+const themed = {
+  light: {},
+
+  dark: {},
+
+  celsius: {}
+};
+
+const EmptyStateStyle = () => getThemedStyle(base, themed);
+
+export default EmptyStateStyle;

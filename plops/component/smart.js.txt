@@ -1,11 +1,19 @@
-import React, {Component} from 'react';
-// import {} from 'react-native';
-// import {} from 'native-base';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { View } from 'react-native';
 
-// import {STYLES} from "../../config/constants/style";
+import testUtil from "../../../utils/test-util";
+
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
 class {{pascalCase name}} extends Component {
+
+  static propTypes = {
+    // text: PropTypes.string
+  };
+  static defaultProps = {
+  }
+  
   constructor(props) {
     super(props);
 
@@ -20,10 +28,13 @@ class {{pascalCase name}} extends Component {
   // event hanlders
   // rendering methods
   render() {
+    const style = {{pascalCase name}}Style()
     return (
-      <{{pascalCase name}} />
+      <View style={style.container}>
+        <{{pascalCase name}} />
+      </View>
     );
   }
 }
 
-export default {{pascalCase name}};
+export default testUtil.hookComponent({{pascalCase name}});

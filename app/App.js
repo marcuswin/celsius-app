@@ -1,251 +1,99 @@
-import React, { Component } from 'react';
-import { Segment, Asset, AppLoading, Font, Constants } from 'expo';
-import Branch from 'react-native-branch';
-import { Provider } from 'react-redux';
-import { Image, NetInfo, AppState, Platform, Text, TextInput } from 'react-native';
-import twitter from 'react-native-simple-twitter';
-import Sentry from 'sentry-expo';
-import uuid from 'uuid';
+// TODO(fj): init segment in app actions (removed from App.v2.js)
+// TODO(fj): move handle app state change to app action (removed logic from App.v2.js)
+// TODO(fj): move app loading assets to app action (removed logic from App.v2.js)
+// TODO(fj): merge App and MainLayout?
 
-import store from './redux/store';
-import apiUtil from './utils/api-util';
-import * as actions from './redux/actions';
-import MainLayout from './components/layouts/MainLayout';
-import { CACHE_IMAGES, FONTS } from "./config/constants/style";
-import { getSecureStoreKey, deleteSecureStoreKey, setSecureStoreKey } from "./utils/expo-storage";
-import baseUrl from "./services/api-url";
-import { mixpanelAnalytics } from "./services/mixpanel";
-import { KYC_STATUSES, TRANSFER_STATUSES } from "./config/constants/common";
-import { analyticsEvents } from "./utils/analytics-util";
+// TODO(fj): create offline and no internet screens or a static screen with type?
 
-const { SENTRY_DSN, TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY, SECURITY_STORAGE_AUTH_KEY, SEGMENT_ANDROID_KEY, SEGMENT_IOS_KEY } = Constants.manifest.extra;
+import React, { Component } from "react";
+import { AppLoading } from "expo";
+import { Provider } from "react-redux";
+import { AppState, BackHandler } from "react-native";
 
-if (SENTRY_DSN) {
-  Sentry.enableInExpoDevelopment = true;
-  Sentry.config(SENTRY_DSN).install();
-}
+import store from "./redux/store";
+import * as actions from "./redux/actions";
+import appUtil from "./utils/app-util";
+import AppNavigation from "./navigator/Navigator";
+import FabMenu from "./components/organisms/FabMenu/FabMenu";
+import Message from "./components/molecules/Message/Message";
+import captureException from "./utils/errorhandling-util";
+import ErrorBoundary from "./ErrorBoundary";
 
-let startOfBackgroundTimer;
+appUtil.initializeThirdPartyServices();
 
-// Initialize axios interceptors
-apiUtil.initInterceptors();
-
-// For images that saved to the local file system,
-// use Expo.Asset.fromModule(image).downloadAsync()
-// to download and cache the image.
-// There is also a loadAsync() helper method to cache a batch of assets.
-// For web images, use Image.prefetch(image).
-// Continue referencing the image normally,
-// e.g. with <Image source={require('path/to/image.png')} />
-function cacheImages(images) {
-  return images.map(image => {
-    if (typeof image === 'string') {
-      return Image.prefetch(image);
-    }
-
-    return Asset.fromModule(image).downloadAsync();
-  });
-}
-
-// Fonts are preloaded using Expo.Font.loadAsync(font).
-// The font argument in this case is an object such as the following:
-// {agile-medium: require('../assets/fonts/Agile-Medium.otf')}.
-function cacheFonts(fonts) {
-  return fonts.map(font => Font.loadAsync(font));
-}
-
-function handleConnectivityChange(isConnected) {
-  store.dispatch(actions.setInternetConnectivity(isConnected));
-}
-
-function handleDeepLink(deepLink) {
-  if (!deepLink || !deepLink['+clicked_branch_link']) {
-    return;
+function getActiveRouteName(navigationState) {
+  if (!navigationState) {
+    return null;
   }
-
-  store.dispatch(actions.registerBranchLink(deepLink));
-}
-
-function pollBackendStatus() {
-  setInterval(async () => {
-    await store.dispatch(actions.getBackendStatus());
-  }, 30000);
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
 }
 
 export default class App extends Component {
-  // Init Application
-  static async initApp() {
-    await App.loadAssetsAsync();
-
-    if (!SECURITY_STORAGE_AUTH_KEY) {
-      console.error('NO SECURITY_STORAGE_AUTH_KEY')
-    }
-
-    // disables letter sizing in phone's Accessibility menu
-    if (Text.defaultProps == null) Text.defaultProps = {};
-    Text.defaultProps.allowFontScaling = false;
-
-    // same same as with Text, but different
-    if (TextInput.defaultProps == null) TextInput.defaultProps = {};
-    TextInput.defaultProps.allowFontScaling = false;
-
-    // logout user if backend environment has changed
-    const previousBaseUrl = await getSecureStoreKey('BASE_URL');
-    if (previousBaseUrl !== baseUrl) {
-      await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      await setSecureStoreKey('BASE_URL', baseUrl);
-    }
-
-    await Segment.initialize({
-      androidWriteKey: SEGMENT_ANDROID_KEY,
-      iosWriteKey: SEGMENT_IOS_KEY,
-    });
-
-    // get user token
-    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    // get user from db
-    if (token) {
-      await store.dispatch(actions.getProfileInfo());
-      await store.dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
-
-      const { user } = store.getState().users;
-      if (!user.kyc || (user.kyc && user.kyc.status !== KYC_STATUSES.passed)) {
-        await store.dispatch(actions.getKYCDocTypes());
-      }
-    } else {
-      mixpanelAnalytics.identify(uuid())
-      store.dispatch(actions.fireUserAction("enteredInitialPin"))
-    }
-
-    // get user app settings
-    const appSettings = await getSecureStoreKey('APP_SETTINGS');
-    if (appSettings) {
-      store.dispatch(actions.updateUserAppSettings(JSON.parse(appSettings)));
-    }
-
-    // get general data for te app
-    await store.dispatch(actions.getSupportedCurrencies())
-    await store.dispatch(actions.getBackendStatus())
-
-    pollBackendStatus();
-
-    // init twitter login service
-    twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
-
-    const initialConnection = await NetInfo.isConnected.fetch();
-
-    handleConnectivityChange(initialConnection);
-
-    try {
-      Branch.subscribe((deepLink) => {
-        if (deepLink.error || !deepLink.params) {
-          return;
-        }
-
-        handleDeepLink(deepLink.params);
-      });
-    } catch (error) {
-      Sentry.captureException(error);
-    }
-
-
-    NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      handleConnectivityChange
-    );
-
-    analyticsEvents.openApp();
-
-    const { user } = store.getState().users;
-    if (user) {
-      analyticsEvents.sessionStart();
-    }
-  }
-
-  // Assets are cached differently depending on where
-  // they’re stored and how they’re used.
-  static async loadAssetsAsync() {
-    const imageAssets = cacheImages(CACHE_IMAGES);
-
-    const fontAssets = cacheFonts(FONTS);
-
-    await Promise.all([...imageAssets, ...fontAssets]);
-  }
-
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isReady: false,
-      appState: AppState.currentState
     };
   }
 
   componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-
+    this.backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      store.dispatch(actions.navigateBack())
+      return true
+    });
+    AppState.addEventListener("change", (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
   }
+
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    this.backHandler.remove();
+    AppState.removeEventListener("change",  (nextState) => store.dispatch(actions.handleAppStateChange(nextState)));
   }
 
-  // fire mixpanel when app is activated from background
-  handleAppStateChange = (nextAppState) => {
-
-    const { user } = store.getState().users;
-    const askForPinAfter = 25000
-    if (nextAppState === 'active') {
-      analyticsEvents.openApp();
-      if (user) {
-        analyticsEvents.sessionStart();
-      }
-      if (Platform.OS === "ios") {
-        clearTimeout(this.timeout)
-      } else if (new Date().getTime() - startOfBackgroundTimer > askForPinAfter) {
-        startOfBackgroundTimer = null;
-        store.dispatch(actions.navigateTo("LoginPasscode"));
-      }
-    }
-
-    if (user && user.has_pin && this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
-      analyticsEvents.sessionEnd();
-      if (Platform.OS === "ios") {
-        this.timeout = setTimeout(() => {
-          store.dispatch(actions.navigateTo("LoginPasscode"));
-          clearTimeout(this.timeout)
-        }, askForPinAfter)
-      } else {
-        startOfBackgroundTimer = new Date().getTime();
-      }
-    }
-    this.setState({ appState: nextAppState });
-  };
+  initApp = async () => await store.dispatch(await actions.loadCelsiusAssets());
 
   render() {
-    if (!this.state.isReady) {
-
-      // A React component that tells Expo to keep the app loading screen open
-      // if it is the first and only component rendered in your app. When it
-      // is removed, the loading screen will disappear
-      // and your app will be visible.
-      //
-      // This is incredibly useful to let you download and cache fonts,
-      // logo and icon images and other assets that you want to be sure the
-      // user has on their device for an optimal experience
-      // before rendering they start using the app.
-      return (
-        <AppLoading
-          startAsync={App.initApp}
-          onFinish={() => this.setState({ isReady: true })}
-          onError={error => { Sentry.captureException(error) }}
-        />
-      );
-    }
+    const { isReady } = this.state;
 
     return (
-      <Provider store={store}>
-        <MainLayout />
-      </Provider>
+      <ErrorBoundary>
+        {!isReady ? (
+          <AppLoading
+            startAsync={async () => await this.initApp()}
+            onFinish={() => this.setState({ isReady: true })}
+            onError={error => captureException(error)}
+          />
+        ) : (
+          <CelsiusApplication/>
+        )}
+      </ErrorBoundary>
     );
   }
 }
+
+const CelsiusApplication = () => (
+  <Provider store={store}>
+    <React.Fragment>
+      <AppNavigation
+        onNavigationStateChange={(prevState, currentState) => {
+          const currentScreen = getActiveRouteName(currentState);
+          const prevScreen = getActiveRouteName(prevState);
+
+          if (prevScreen !== currentScreen) {
+            store.dispatch(actions.setActiveScreen(currentScreen));
+          }
+        }}
+        ref={navigatorRef => actions.setTopLevelNavigator(navigatorRef)}
+      />
+      <Message/>
+      <FabMenu/>
+    </React.Fragment>
+  </Provider>
+);
+
+

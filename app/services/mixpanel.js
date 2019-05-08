@@ -1,3 +1,5 @@
+// TODO(fj): make this go through Segment?
+
 import uuid from 'uuid'
 import { Constants } from 'expo';
 import moment from 'moment';

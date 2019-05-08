@@ -1,113 +1,63 @@
-import React, {Component} from 'react';
-import {Text} from 'react-native';
-import {connect} from 'react-redux';
-import {View} from 'native-base';
-import {bindActionCreators} from 'redux';
-import {Constants} from "expo";
-
-import CelButton from '../../atoms/CelButton/CelButton';
-import LoginForm from "../../organisms/LoginForm/LoginForm";
-import LoginStyle from "./Login.styles";
-import * as appActions from "../../../redux/actions";
-import {getSecureStoreKey} from '../../../utils/expo-storage';
-import Separator from "../../atoms/Separator/Separator";
-import ThirdPartyLoginSection from "../../organisms/ThirdPartyLoginSection/ThirdPartyLoginSection";
-import SimpleLayout from "../../layouts/SimpleLayout/SimpleLayout";
-import {STYLES} from "../../../config/constants/style";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import testUtil from "../../../utils/test-util";
-
-const {SECURITY_STORAGE_AUTH_KEY} = Constants.manifest.extra;
+import * as appActions from "../../../redux/actions";
+import CelText from '../../atoms/CelText/CelText';
+import CelInput from '../../atoms/CelInput/CelInput';
+import CelButton from '../../atoms/CelButton/CelButton';
+import Separator from '../../atoms/Separator/Separator';
+import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
+import apiUtil from '../../../utils/api-util';
+import API from '../../../constants/API';
+import SocialLogin from "../../organisms/SocialLogin/SocialLogin";
+import { KEYBOARD_TYPE } from "../../../constants/UI";
 
 @connect(
   state => ({
-    nav: state.nav,
-    user: state.users.user,
-    dimensions: state.ui.dimensions,
+    formData: state.forms.formData,
+    callsInProgress: state.api.callsInProgress
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
+class Login extends Component {
+  static navigationOptions = () => ({
+    right: "signup"
+  })
 
-class LoginScreen extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      // these are predefined values, actual values from component and device may differ
-      textHeight: 70,
-      buttonHeight: 125,
-      headingHeight: 100,
-      smIcon: 158,
-      separator: 67
-    };
-
-    this.handleLogin = this.handleLogin.bind(this);
-    this.setHeight = this.setHeight.bind(this);
+  loginUser = () => {
+    const { actions } = this.props;
+    actions.loginUser();
   }
 
-  componentWillMount = async () => {
-    const {actions} = this.props;
-    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    if (token) actions.navigateTo('Home', true);
-  };
-
-  getFormHeight = () => {
-    const {textHeight, buttonHeight, headingHeight, smIcon, separator} = this.state;
-    const {dimensions} = this.props;
-
-    return Math.max(dimensions.screenHeight - dimensions.header - dimensions.statusBar - textHeight - buttonHeight - headingHeight - smIcon - separator, 250);
-  };
-
-  setHeight = (elName, dimensions) => {
-    this.setState({
-      [`${elName}Height`]: dimensions.height,
-    })
-  };
-
-  handleLogin = async data => {
-    const {actions} = this.props;
-    await actions.loginBorrower(data);
-    actions.openInitialModal();
-  };
-
   render() {
-    const {actions} = this.props;
-
-    const formHeight = this.getFormHeight();
+    const { formData, callsInProgress, actions } = this.props;
+    const loginLoading = apiUtil.areCallsInProgress([
+      API.LOGIN_USER,
+      API.LOGIN_USER_FACEBOOK,
+      API.LOGIN_USER_GOOGLE,
+      API.LOGIN_USER_TWITTER,
+    ], callsInProgress);
 
     return (
-      <SimpleLayout
-        mainHeader={{ backButton: false, rightLink: { screen: 'SignupOne', text: 'Sign Up' }}}
-        animatedHeading={{ text: 'Welcome Back!' }}
-        background={STYLES.PRIMARY_BLUE}
-      >
+      <AuthLayout>
+        <CelText margin="0 0 30 0" align="center" type="H1">Welcome back</CelText>
 
-        <Text style={LoginStyle.description}>
-          Looks like your session timed out! Please log in again.
-        </Text>
+        <SocialLogin type="login" actions={actions}/>
 
-        <View style={{paddingTop: 30}}>
-          <ThirdPartyLoginSection type="login" />
-        </View>
+        <Separator text="or login with email" margin="0 0 20 0"/>
 
-        <Separator margin='35 0 5 0'>OR LOGIN WITH E-MAIL</Separator>
+        <CelInput type="text" keyboardType={KEYBOARD_TYPE.EMAIL} autoCapitalize="none" field="email" placeholder="E-mail" value={formData.email} returnKeyType={"next"} blurOnSubmiting={false} onSubmitEditing={() => {this.pass.focus()}}/>
+        <CelInput type="password" field="password" placeholder="Password" autoCapitalize="none" value={formData.password} refs={(input) => {this.pass = input}}/>
 
-        <View style={[LoginStyle.formWrapper, {height: formHeight}]}>
-          <LoginForm ref={testUtil.generateTestHook(this, `LoginScreen.loginButton`)} onSubmit={(data) => this.handleLogin(data)} buttonText={'Log in'}/>
-        </View>
+        <CelButton margin="10 0 40 0" onPress={this.loginUser} loading={loginLoading}>Log in</CelButton>
 
-        <CelButton
-          ref={testUtil.generateTestHook(this, 'LoginScreen.forgotPassword')}
-          size="small"
-          transparent
-          margin="25 0 0 0"
-          onPress={() => actions.navigateTo('ForgottenPassword')}
-        >
-          Forgot password?
+        <CelButton basic onPress={() => actions.navigateTo('ForgotPassword')}>
+          Forgot password
         </CelButton>
-      </SimpleLayout>
+      </AuthLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(LoginScreen);
-
+export default testUtil.hookComponent(Login);

@@ -1,7 +1,23 @@
-import { StyleSheet } from 'react-native';
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const SettingsStyle = StyleSheet.create({
+const base = {
+    container: {
+        flex: 1
+    }
+}
 
-});
+const themed = {
+    light: {
+    },
 
-export default SettingsStyle;
+    dark: {
+    },
+
+    celsius: {
+    }
+}
+
+const SettingsStyle = () => getThemedStyle(base, themed);
+
+export default SettingsStyle

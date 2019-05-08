@@ -1,6 +1,6 @@
 import store from '../app/redux/store';
 import * as actions from '../app/redux/actions';
-import ACTIONS from "../app/config/constants/ACTIONS";
+import ACTIONS from "../app/constants/ACTIONS";
 
 
 const { dispatch, getState } = store;
@@ -16,12 +16,12 @@ export async function fillIn2(identifier, str) {
 }
 
 export async function test(component) {
-  console.log(component)
+  // console.log(component)
   component.props.onCancel()
 }
 
 export async function submit(component) {
-  console.log(component)
+  // console.log(component)
   component.props.onSubmit()
 }
 
@@ -119,7 +119,7 @@ export function kycPassed() {
 
 export function resetBeforeEach() {
   dispatch(actions.navigateTo('home'))
-  console.log(`Starting test suit +`)
+  // console.log(`Starting test suit +`)
 }
 
 export function WalletDetailsSetup() {
@@ -128,7 +128,7 @@ export function WalletDetailsSetup() {
 }
 
 export function loginUserSetup() {
-  dispatch(actions.loginBorrower( {
+  dispatch(actions.loginUser( {
 
       email: 'filip.jovakaric+wlt@mvpworkshop.co',
       password: 'filip123',

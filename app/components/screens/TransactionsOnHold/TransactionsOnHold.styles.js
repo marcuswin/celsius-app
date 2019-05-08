@@ -1,8 +1,23 @@
-import { StyleSheet } from 'react-native';
-// import {FONT_SCALE, STYLES} from "../../../config/constants/style";
+// import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
-const TransactionsOnHoldStyle = StyleSheet.create({
+const base = {
+    container: {
+        flex: 1
+    }
+}
 
-});
+const themed = {
+    light: {
+    },
 
-export default TransactionsOnHoldStyle;
+    dark: {
+    },
+
+    celsius: {
+    }
+}
+
+const TransactionsOnHoldStyle = () => getThemedStyle(base, themed);
+
+export default TransactionsOnHoldStyle

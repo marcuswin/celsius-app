@@ -1,122 +1,192 @@
-import Branch, {BranchEvent} from "react-native-branch";
-import { Constants } from 'expo';
-import ACTIONS from "../../config/constants/ACTIONS";
-import * as transfersActions from '../transfers/transfersActions';
-import * as uiActions from '../ui/uiActions';
-import branchService from '../../services/branch-service';
-import { BRANCH_LINKS, MODALS } from "../../config/constants/common";
-import API from "../../config/constants/API";
-import { apiError, startApiCall } from "../api/apiActions";
+import branchService from '../../services/branch-service'
+import API from '../../constants/API'
+import { apiError, startApiCall } from '../api/apiActions'
+import { createIndividualLinkBUO } from '../../utils/branch-util'
+import { BRANCH_LINKS } from '../../constants/DATA'
+import { MODALS } from '../../constants/UI'
+import ACTIONS from "../../constants/ACTIONS";
+import * as transfersActions from "../transfers/transfersActions";
+import * as actions from "../../redux/actions";
+
 
 export {
   registerBranchLink,
-  createBranchLink,
-  createBranchReferralLink,
-  createBUO,
   saveBranchLink,
-}
+  getBranchIndividualLink,
+  createBranchIndividualLink,
+  submitProfileCode,
+  registrationPromoCode
+};
 
-function createBranchLink(linkType, canonicalIdentifier, properties) {
-  return async (dispatch, getState) => {
-    if (Constants.appOwnership !== 'standalone') return dispatch(uiActions.showMessage('info', 'Cannot create referral link at this time!'));
+function saveBranchLink (rawLink) {
+  return async dispatch => {
     try {
-      dispatch(startApiCall(API.CREATE_BRANCH_LINK));
-      const { user } = getState().users;
-      const branchLink = await createBUO(canonicalIdentifier, properties, user.email);
-
-      dispatch({
-        type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
-        branchLink: {
-          linkType,
-          ...branchLink
-        }
-      });
-    } catch(err) {
-      dispatch(apiError(API.CREATE_BRANCH_LINK, err));
-    }
-  }
-}
-
-function saveBranchLink(rawLink) {
-  return async (dispatch) => {
-    try {
-      dispatch(startApiCall(API.SAVE_BRANCH_LINK));
-      const branchLink = await branchService.create(rawLink);
+      dispatch(startApiCall(API.SAVE_BRANCH_LINK))
+      const branchLink = await branchService.create(rawLink)
 
       dispatch({
         type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
-        branchLink: branchLink.data,
-      });
-    } catch(err) {
-      dispatch(apiError(API.SAVE_BRANCH_LINK, err));
+        branchLink: branchLink.data
+      })
+    } catch (err) {
+      dispatch(apiError(API.SAVE_BRANCH_LINK, err))
     }
   }
 }
 
-async function createBUO(canonicalIdentifier, properties, email) {
-  if (Constants.appOwnership !== 'standalone') return;
-
-  const branchObject = await Branch.createBranchUniversalObject(canonicalIdentifier, properties);
-  Branch.setIdentity(email);
-  branchObject.logEvent(BranchEvent.ViewItem);
-
-  const { url } = await branchObject.generateShortUrl();
-
-  return {
-    branchObject,
-    url: `${url}/`,
+function createBranchIndividualLink () {
+  return async dispatch => {
+    const branchLink = await createIndividualLinkBUO()
+    dispatch({
+      type: ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK,
+      link: branchLink.url
+    })
   }
 }
 
-function createBranchReferralLink() {
-  return (dispatch, getState) => {
-    const { user } = getState().users;
-    dispatch(createBranchLink(
-      BRANCH_LINKS.INDIVIDUAL_REFERRAL,
-      `referral:${user.id}`,
-      {
-        locallyIndex: true,
-        title: 'Download the App Now to Earn Interest Like Me',
-        contentImageUrl: 'https://image.ibb.co/jWfnh9/referall_image.png',
-        contentDescription: 'Deposit coins & earn up to 5% interest annually on BTC, ETH, LTC and more.',
-        contentMetadata: {
-          customMetadata: {
-            referrer_id: user.id,
-            link_type: BRANCH_LINKS.INDIVIDUAL_REFERRAL,
-          }
-        }
-      }
-    ))
+function getBranchIndividualLink () {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.GET_INDIVIDUAL_LINK))
+      const branchLinkRes = await branchService.getIndividualLink()
+
+      dispatch({
+        type: ACTIONS.GET_INDIVIDUAL_LINK_SUCCESS,
+        link: branchLinkRes.data.branch_link.branch_link
+      })
+    } catch (err) {
+      dispatch(actions.showMessage("error", err.msg));
+      dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
+    }
   }
 }
 
-function registerBranchLink(deepLink) {
-  return (dispatch, getState) => {
+function registerBranchLink (deepLink) {
+  return dispatch => {
+    const deepLinkParams = deepLink.params
     dispatch({
       type: ACTIONS.BRANCH_LINK_REGISTERED,
-      link: deepLink,
+      link: deepLinkParams
     })
+    if (
+      deepLinkParams.link_type === BRANCH_LINKS.TRANSFER ||
+      deepLinkParams.type === BRANCH_LINKS.TRANSFER
+    ) {
+      return dispatch(transfersActions.registerTransferLink(deepLinkParams))
+    }
 
-    switch (deepLink.link_type) {
-      case BRANCH_LINKS.TRANSFER:
-        dispatch(transfersActions.registerTransferLink(deepLink));
-        break;
+    if (
+      deepLinkParams.link_type === BRANCH_LINKS.COMPANY_REFERRAL ||
+      deepLinkParams.type === BRANCH_LINKS.COMPANY_REFERRAL ||
+      deepLinkParams.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ||
+      deepLinkParams.type === BRANCH_LINKS.INDIVIDUAL_REFERRAL
+    ) {
+      return dispatch(registerReferralLink(deepLinkParams))
+    }
+  }
+}
 
-      case BRANCH_LINKS.COMPANY_REFERRAL:
-        if (!deepLink.expiration_date || new Date(deepLink.expiration_date) > new Date()) {
-          if (!getState().users.user) {
-            // TODO: should save all branch links
-            dispatch(saveBranchLink(deepLink));
-            dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL));
-          } else {
-            dispatch(uiActions.showMessage('warning', 'Sorry, but existing users can\'t use this link!'))
-          }
-        } else {
-          dispatch(uiActions.showMessage('warning', 'Sorry, but this link has expired!'))
+function registerReferralLink (deepLink) {
+  return async (dispatch, getState) => {
+    try {
+      const { profile } = getState().user
+      if (profile.id) {
+        return dispatch(
+          actions.showMessage(
+            'warning',
+            "Sorry, but existing users can't use this link!"
+          )
+        )
+      }
+
+      dispatch(startApiCall(API.GET_LINK_BY_URL))
+
+      const linkRes = await branchService.getByUrl(deepLink['~referring_link'])
+      const linkResData = linkRes.data
+
+      if (!linkResData.valid) {
+        dispatch(apiError(API.GET_LINK_BY_URL))
+        dispatch(
+          actions.showMessage(
+            'warning',
+            'Sorry, but this link is not valid anymore!'
+          )
+        )
+      } else {
+        dispatch({
+          type: ACTIONS.GET_LINK_BY_URL_SUCCESS,
+          callName: API.GET_LINK_BY_URL,
+          branchLink: linkResData.branch_link
+        })
+
+        if (
+          !linkResData.branch_link.referred_award_amount ||
+          !linkResData.branch_link.referred_award_coin
+        ) {
+          return
         }
-        break;
-      default:
+        dispatch(actions.openModal(MODALS.REFERRAL_RECEIVED_MODAL))
+      }
+    } catch (err) {
+      dispatch(apiError(API.GET_LINK_BY_URL, err))
+      dispatch(actions.showMessage('error', err.msg))
+    }
+  }
+}
 
+function submitProfileCode(onSuccess) {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(startApiCall(API.CHECK_PROFILE_PROMO_CODE));
+      const { formData } = getState().forms;
+
+      const res = await branchService.submitProfileCode(formData.promoCode);
+      dispatch(submitProfileCodeSuccess(res.data.branch_link));
+      if(onSuccess) onSuccess()
+    } catch (err) {
+      dispatch(apiError(API.CHECK_PROFILE_PROMO_CODE, err));
+      dispatch(actions.setFormErrors({
+        promoCode: err.msg
+      }));
+    }
+  };
+}
+
+function submitProfileCodeSuccess(promoCodeInfo) {
+  return {
+    type: ACTIONS.CHECK_PROFILE_PROMO_CODE_SUCCESS,
+    callName: API.CHECK_PROFILE_PROMO_CODE,
+    code: promoCodeInfo
+  };
+}
+
+function registrationPromoCode(onSuccess) {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState().forms;
+      // check promo code
+      if (formData.promoCode && formData.promoCode !== "") {
+        dispatch(startApiCall(API.SUBMIT_PROMO_CODE));
+
+        const linkRes = await branchService.submitRegistrationCode(formData.promoCode);
+        const linkResData = linkRes.data;
+
+        dispatch({
+          type: ACTIONS.SUBMIT_PROMO_CODE_SUCCESS,
+          callName: API.SUBMIT_PROMO_CODE,
+          branchLink: linkResData.branch_link
+        });
+
+        if(onSuccess) onSuccess()
+      } else {
+        throw new Error("Sorry, but this promo code is not valid!")
+      }
+    } catch (err) {
+      dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
+      // dispatch(actions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      dispatch(actions.setFormErrors({
+        promoCode: "Sorry, but this promo code is not valid!"
+      }));
     }
   }
 }

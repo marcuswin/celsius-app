@@ -1,17 +1,16 @@
 import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
-import { clearSecureStorage } from "../app/utils/expo-storage";
-
 import axios from "axios";
 import { Constants } from "expo";
-const {API_URL} = Constants.manifest.extra;
 
+const { API_URL } = Constants.manifest.extra;
 const { dispatch, getState } = store;
 
 export default {
   waitForWelcomeScreen,
   resetTests,
   callToComplete,
+  waitForExists,
   testPassed,
   testFailed,
 }
@@ -30,7 +29,8 @@ async function waitForWelcomeScreen(spec) {
       dispatch(actions.navigateTo('Welcome'))
       welcome = null
     }
-    console.log(`Try: ${ tryCount++ } | ${ activeScreen }`)
+    tryCount++
+    // // console.log(`Try: ${ tryCount } | ${ activeScreen }`)
     if (!welcome) await spec.pause(1000)
   }
 
@@ -38,22 +38,59 @@ async function waitForWelcomeScreen(spec) {
 }
 
 export async function resetTests(spec) {
-  await clearSecureStorage();
-  dispatch(actions.clearForm());
-  await dispatch(actions.logoutUser());
+  await dispatch(actions.resetApp());
   await waitForWelcomeScreen(spec);
 }
 
 export async function callToComplete(spec, callName) {
   let tryCount = 1;
-  let lastCompletedCall = getState().api.history[getState().api.history.length - 1];
-  while (lastCompletedCall.includes(callName) && tryCount < 20) {
-    console.log(`Try: ${ tryCount++ } | ${ lastCompletedCall }`)
+  let lastCompletedCall = getState().api.history[0];
+  // // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
+  while (!lastCompletedCall.includes(callName) && tryCount < 50) {
+    tryCount++
     await spec.pause(500)
-    lastCompletedCall = getState().api.history[getState().api.history.length - 1];
+    lastCompletedCall = getState().api.history[0];
+    // // console.log(`Try: ${ tryCount } | ${ lastCompletedCall } | ${ callName }`)
   }
 
-  if (tryCount === 20) throw new Error('Too many tries!');
+  if (tryCount === 20) {
+    throw new Error('Too many tries!');
+  }
+}
+
+export async function waitForExists(spec, screen) {
+  let activeScreen;
+  let tryCount = 1;
+
+  while (!activeScreen && tryCount < 10) {
+    try {
+      activeScreen = await spec.exists(screen)
+    } catch (e) {
+      activeScreen = null
+    }
+    tryCount++
+    if (!activeScreen) await spec.pause(500)
+  }
+
+  if (tryCount === 20) throw new Error(`spec.exists('${screen})': Too many tries!`);
+}
+
+export async function waitToFindComponent(spec, component) {
+  let activeComponent;
+  let tryCount = 1;
+
+  while (!activeComponent && tryCount < 10) {
+    try {
+      activeComponent = await spec.findComponent(component)
+    } catch (e) {
+      activeComponent = null
+    }
+    tryCount++
+    if (!activeComponent) await spec.pause(500)
+  }
+
+  if (tryCount === 20) throw new Error(`spec.findComponent('${component})': Too many tries!`);
+  if (activeComponent) return activeComponent;
 }
 
 export function testPassed(spec) {
@@ -76,14 +113,25 @@ export async function containsText(component, text) {
   };
 }
 
-export async function resetNonUser(){
-  return axios.get(API_URL + '/test/reset_non_user')
+export async function resetNonUser() {
+  return axios.post(API_URL + '/test/reset_non_user')
 }
 
-export async function resetNonKycUser(){
-  return axios.get(API_URL + '/test/reset_non_kyc_user')
+export async function resetNonKycUser() {
+  return axios.post(API_URL + '/test/reset_non_kyc_user')
 }
 
-export async function resetKycUser(){
+export async function resetKycUser() {
   return axios.post(API_URL + '/test/reset_kyc_user')
+}
+
+export const errorCatchWrapper = fn => {
+  return async () => {
+    try {
+      return await fn()
+    } catch (err) {
+      // console.log("ERR:", err)
+      throw err;
+    }
+  }
 }

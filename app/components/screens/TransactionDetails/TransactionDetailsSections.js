@@ -1,244 +1,289 @@
 import React from "react";
-import { Text, View, Image, Linking, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Linking, Image } from "react-native";
 
-import { COLORS, GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
-import TransactionDetailsStyle from "./TransactionDetails.styles";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
-import InfoBubble from "../../atoms/InfoBubble/InfoBubble";
 import Icon from "../../atoms/Icon/Icon";
-import HippoBubble from "../../molecules/HippoBubble/HippoBubble";
-import Triangle from "../../atoms/Triangle/Triangle";
+import CelText from "../../atoms/CelText/CelText";
+import STYLES from "../../../constants/STYLES";
+import Card from "../../atoms/Card/Card";
+import CelButton from "../../atoms/CelButton/CelButton";
+import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
+import CopyButton from "../../atoms/CopyButton/CopyButton";
 
-export const BasicSection = ({ label, value }) => (
-  <View style={TransactionDetailsStyle.infoDetail}>
-    <View style={TransactionDetailsStyle.row}>
-      <Text style={TransactionDetailsStyle.text}>{label}:</Text>
-      <Text style={TransactionDetailsStyle.info}>{value}</Text>
+
+export const InfoSection = ({ transaction, transactionProps }) => (
+  <View style={{ marginBottom: 10 }}>
+    <View style={{ marginTop: 10, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <Icon width="12" fill={transactionProps.color} name={transactionProps.iconName} style={{ marginRight: 5 }} />
+      <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
-    <Separator />
+
+    <CelText margin='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+    <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 )
 
-export const StatusSection = ({ transaction }) => (
-  <View style={TransactionDetailsStyle.infoDetail}>
-    <View style={TransactionDetailsStyle.row}>
-      <Text style={TransactionDetailsStyle.text}>Status:</Text>
-      {getStatusText(transaction)}
+export const BasicSection = ({ label, value, noSeparator = false }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20 }}>
+      <CelText type="H6">{label}:</CelText>
+      <CelText type="H6">{value}</CelText>
     </View>
-    <Separator />
+    {!noSeparator && <Separator />}
   </View>
 )
 
-export const InfoSection = ({ transaction }) => (
-  <View style={{ marginHorizontal: 30 }}>
-    <InfoBubble
-      color="gray"
-      margin={"22 0 25 0"}
-      renderContent={(textStyles) => (
-        <View>
-          <Text style={textStyles}>
-            {getInfoSectionText(transaction)}
-          </Text>
-        </View>
-      )}
-    />
-  </View>
-)
-
-export const LinkSection = ({ url, onPress }) => (
-  <TouchableOpacity
-    style={TransactionDetailsStyle.infoDetail}
-    onPress={onPress}
-  >
-    <View style={[TransactionDetailsStyle.row, { flexDirection: 'column' }]}>
-      <Text style={TransactionDetailsStyle.text}>Transaction link:</Text>
-      <Text
-        style={[TransactionDetailsStyle.info, {
-          textAlign: "left",
-          fontFamily: "inconsolata-regular",
-          marginBottom: 5,
-          color: COLORS.blue,
-        }]}
-      >
-        {url}
-      </Text>
+export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20, backgroundColor: STYLES.COLORS.DARK_GRAY_OPACITY, paddingVertical: 20 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10 }}>
+      <CelText type="H6">Locked Collateral:</CelText>
+      <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
     </View>
-    <Separator />
-  </TouchableOpacity>
-)
-
-export const BlockExplorerSection = ({ transaction }) => (
-  <View style={TransactionDetailsStyle.infoDetail}>
-    <TouchableOpacity
-      style={[TransactionDetailsStyle.row, { alignItems: 'flex-start' }]}
-      onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
-      <Text
-        style={TransactionDetailsStyle.info}
-      >
-        View on {getBlockExplorerLink(transaction).text}
-      </Text>
-      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue} />
-    </TouchableOpacity>
-    <Separator />
-  </View>
-)
-
-export const ManageTransactionSection = ({ onPress }) => (
-  <View style={TransactionDetailsStyle.infoDetail}>
-    <TouchableOpacity
-      style={[TransactionDetailsStyle.row, { alignItems: 'flex-start' }]}
-      onPress={onPress}>
-      <Text
-        style={TransactionDetailsStyle.info}
-      >
-        Manage transaction
-      </Text>
-      <Icon name='NewWindowIcon' height='17' width='17' fill={COLORS.blue} />
-    </TouchableOpacity>
-    <Separator />
-  </View>
-)
-
-export const AddressSection = ({ text, address }) => (
-  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-    <View style={{ flexDirection: "column" }}>
-      <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        {text}:
-      </Text>
-      <Text
-        style={[TransactionDetailsStyle.info, {
-          textAlign: "left",
-          fontFamily: "inconsolata-regular",
-          marginBottom: 5
-        }]}
-      >
-        {address}
-      </Text>
+    <View style={{ maring: '0 0 20 0', alignItems: 'flex-end' }}>
+      <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
     </View>
   </View>
 )
 
-export const TransactionLinkSection = ({ transactionLink }) => (
-  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-    <View style={{ flexDirection: "column" }}>
-      <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        Transaction link:
-      </Text>
-      <Text
-        style={[TransactionDetailsStyle.info, {
-          textAlign: "left",
-          fontFamily: "inconsolata-regular",
-          marginBottom: 5
-        }]}
-      >
-        {transactionLink}
-      </Text>
+export const StatusSection = ({ transactionProps, noSeparator = false }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 20 }}>
+      <CelText type="H6">Status:</CelText>
+      <CelText type="H6" color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
+    {!noSeparator && <Separator />}
   </View>
 )
 
-export const CanceledTransactionLinkSection = ({ transactionLink }) => (
-  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-  <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        Transaction link:
-      </Text>
-    <Text
-      style={[TransactionDetailsStyle.info, {
-        textAlign: "left",
-        fontFamily: "inconsolata-regular",
-        marginBottom: 5
-      }]}
-    >
-      {transactionLink}
-    </Text>
-  </View>
-)
+export const AddressSection = ({ transaction, text, address }) => (
 
-export const ContactSection = ({ text, contact }) => (
-  <View style={[TransactionDetailsStyle.infoDetail, { marginBottom: 20 }]}>
-    <View style={[TransactionDetailsStyle.row, { flexDirection: 'column' }]}>
-      <Text style={[TransactionDetailsStyle.text, { marginBottom: 10 }]}>
-        {text}:
-      </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Image
-          source={{ uri: contact.profile_picture || 'https://api.staging.celsius.network/profile-images/avatar/avatar-cat.jpg' }}
-          style={{ width: 40, height: 40, borderRadius: 20, marginRight: 20 }}
-        />
-
-        <Text style={TransactionDetailsStyle.info}>
-          {contact.first_name} {contact.last_name}
-        </Text>
-      </View>
-    </View>
-    <Separator />
-  </View>
-)
-
-export const HippoSection = ({ transaction, currencyRatesShort }) => {
-  const amountUsd = transaction.amount_usd ? transaction.amount_usd : transaction.amount * currencyRatesShort[transaction.coin];
-  const currentInterestAmount = transaction.amount * currencyRatesShort[transaction.coin];
-  const interestChangePercentage = (currentInterestAmount / amountUsd - 1) * 100;
-  const interestChangePositive = interestChangePercentage > 0;
-  const interestChangeStyle = {
-    color: COLORS.yellow,
-  };
-
-  if (interestChangePositive) {
-    interestChangeStyle.color = COLORS.green;
-  }
-  return (
-    <View style={TransactionDetailsStyle.hippoInfoWrapper}>
-      <HippoBubble
-        bubbleContent={textStyle =>
-          <View>
-            <View style={[TransactionDetailsStyle.interestValueTextWrapper, { marginBottom: 10 }]}>
-              <Text style={textStyle}>Initial interest value</Text>
-              <Text style={[textStyle, globalStyles.boldText]}>{formatter.usd(amountUsd)}</Text>
-            </View>
-            <View style={TransactionDetailsStyle.interestValueTextWrapper}>
-              <Text style={textStyle}>Today's value</Text>
-              <Text style={[textStyle, globalStyles.boldText]}>{formatter.usd(currentInterestAmount)}</Text>
-            </View>
-          </View>
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 20 0'}>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText>{text}</CelText>
+        {!!transaction.transaction_id &&
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'flex-start' }}
+            onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
+            <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {getBlockExplorerLink(transaction).text}</CelText>
+            <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE} style={{ marginLeft: 5 }} />
+          </TouchableOpacity>
         }
-        sideContent={textStyle =>
-          <View>
-            <View style={{ display: 'flex', flexDirection: 'row' }}>
-              {interestChangePositive && <Triangle direction="up" color={COLORS.green} />}
-              {(!interestChangePositive && !!interestChangePercentage) && <Triangle direction="down" color={COLORS.yellow} />}
-              <Text style={[textStyle, globalStyles.boldText, interestChangeStyle]}>{Math.abs(interestChangePercentage).toFixed(2)}%</Text>
-              <Text style={textStyle}> change</Text>
-            </View>
-            <Text style={textStyle}>in value since the time of depositing CEL to your wallet.</Text>
-          </View>
-        } />
+      </View>
+      <CelText weight='500' type="H4">{address.split('?')[0]}</CelText>
+    </Card>
+    <Card margin={'10 0 20 0'}>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}/>
+      {transaction.id === 'xrp' ?
+        <CelText weight='500' type="H4">Destination Tag: {address.split('=')[1]}</CelText>
+        : <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
+      }
+    </Card>
+
+  </View>
+)
+
+export const TransactionSection = ({ transaction, text, actions }) => (
+
+  (transaction && transaction.transaction_id) ? (
+    <View style={{ paddingHorizontal: 20 }}>
+      <Card margin={'20 0 20 0'}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+          <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+        </View>
+        <CelText weight='500' style={{ paddingBottom: 10 }} type="H4">{transaction.transaction_id}</CelText>
+        <CopyButton text="Copy ID" color={STYLES.COLORS.CELSIUS_BLUE} copyText={transaction.transaction_id} onCopy={() => { actions.showMessage("success", "Transaction ID copied to clipboard!") }} />
+      </Card>
     </View>
-  )
-}
+  ) : null
+)
 
-function getStatusText(transaction) {
-  return {
-    DEPOSIT_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>In Progress</Text>,
-    DEPOSIT_CONFIRMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
-    WITHDRAWAL_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>In Progress</Text>,
-    WITHDRAWAL_CONFIRMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Withdrawn</Text>,
-    INTEREST: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Received</Text>,
-    COLLATERAL: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>Locked</Text>,
-    BONUS_TOKEN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>ICO Bonus Received</Text>,
-    REFERRED_AWARD: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>Referral award</Text>,
-    TRANSFER_PENDING: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Not claimed</Text>,
-    TRANSFER_CLAIMED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Verifying user</Text>,
-    TRANSFER_SENT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds sent</Text>,
-    TRANSFER_RECEIVED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Funds received</Text>,
-    TRANSFER_RETURNED: <Text style={[TransactionDetailsStyle.info]}>• Returned</Text>,
-    CANCELED: <Text style={[TransactionDetailsStyle.info, { color: COLORS.yellow }]}>• Canceled</Text>,
+export const SentTo = ({ transaction, text }) => (
+  (transaction.transfer_data.claimer) ? (
+    <View style={{ paddingHorizontal: 20 }}>
+      <Card margin={'20 0 20 0'}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+          <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+        </View>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          {!transaction.transfer_data || !transaction.transfer_data.claimer || !transaction.transfer_data.claimer.profile_picture ?
+            <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+              style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+            :
+            <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
+              style={{
+                width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3, ...STYLES.SHADOW_STYLES,
+              }} />}
+          {transaction.transfer_data && transaction.transfer_data.claimer && (
+            <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+              <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+              <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+                {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
+              </CelText>
+            </View>
+          )}
+          <View style={{ paddingTop: 10 }}>
+            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
+          </View>
+        </View>
+      </Card>
+    </View>
+  ) : null
+)
 
-    IN: <Text style={[TransactionDetailsStyle.info, { color: COLORS.green }]}>• Received</Text>,
-    OUT: <Text style={[TransactionDetailsStyle.info, { color: COLORS.red }]}>• Sent</Text>,
-  }[transaction.type];
-}
+export const SentFrom = ({ transaction, text }) => (
+  (transaction) ? (
+    <View style={{ paddingHorizontal: 20 }}>
+      <Card margin={'20 0 20 0'}>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+          <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+        </View>
+        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          {!transaction.transfer_data || !transaction.transfer_data.sender || !transaction.transfer_data.sender.profile_picture ?
+            <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+              style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+            :
+            <Image source={{ uri: transaction.transfer_data.sender.profile_picture }}
+              style={{
+                width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3, ...STYLES.SHADOW_STYLES,
+              }} />}
+          {transaction.transfer_data && transaction.transfer_data.sender && (
+            <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+              <CelText weight='600' type='H4'>{transaction.transfer_data.sender.first_name} {transaction.transfer_data.sender.last_name}</CelText>
+              <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+                {transaction.transfer_data.sender.email ? transaction.transfer_data.sender.email : " "}
+              </CelText>
+            </View>
+          )}
+          <View style={{ paddingTop: 10 }}>
+            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
+          </View>
+        </View>
+      </Card>
+    </View>
+  ) : null
+)
+
+export const ReferrerHODL = ({ transaction, text, date }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 20 0'}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+      </View>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        {!transaction.transfer_data.claimer.profile_picture ?
+          <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+          :
+          <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
+        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+          <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+          <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+            {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
+          </CelText>
+        </View>
+      </View>
+      <CelText style={{ marginTop: 20 }} type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.transfer_data.claimer.first_name} keeps initial deposit until
+          <CelText type="H5" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>, your referral reward will unlock.
+        </CelText>
+    </Card>
+  </View>
+)
+
+export const Referrer = ({ transaction, text }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 20 0'}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+      </View>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        {!transaction.transfer_data.claimer.profile_picture ?
+          <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+          :
+          <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
+        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+          <CelText weight='600' type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+          <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+            {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
+          </CelText>
+        </View>
+      </View>
+    </Card>
+  </View>
+)
+
+export const Referred = ({ transaction, text }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 20 0'}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+      </View>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        {!transaction.transfer_data.sender.profile_picture ?
+          <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+          :
+          <Image source={{ uri: transaction.transfer_data.sender.profile_picture }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
+        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+          <CelText weight='600' type='H4'>{transaction.transfer_data.sender.first_name} {transaction.transfer_data.sender.last_name}</CelText>
+          <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+            {transaction.transfer_data.sender.email ? transaction.transfer_data.sender.email : null}
+          </CelText>
+        </View>
+      </View>
+    </Card>
+  </View>
+)
+
+export const NoteSection = ({ text }) => (
+  text ? (
+    <View style={{ width: '100%', paddingHorizontal: 20, paddingVertical: 20 }}>
+      <CelText>Note:</CelText>
+      <CelText italic>{text}</CelText>
+    </View>
+  ) : null
+)
+
+export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
+    <Card>
+      <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
+      <CelText type="H3" weight="600" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
+    </Card>
+    <Card>
+      <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
+        <CelText type="H4" weight="500" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
+        <CelText type="H4" weight="300" style={{ marginBottom: 10 }} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
+        <CelButton basic onPress={() => navigateTo('Settings')}>Change settings</CelButton>
+      </View>
+    </Card>
+  </View>
+)
+
+export const LoanInfoSection = ({ navigateTo }) => (
+  <Card>
+    <ContactSupport
+      copy="Your loan application was rejected, please apply for a new loan or contact our support at app@celsius.network for more details."
+    />
+
+    <CelButton margin="16 0 10 0" onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
+  </Card>
+)
+
+export const HodlInfoSection = ({ date, amount, coin }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20 }}>
+    <Card>
+      <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Keep your initial deposit of {formatter.crypto(amount, coin.toUpperCase())} until
+          <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>to unlock your HODL reward.
+        </CelText>
+    </Card>
+  </View>
+)
 
 function getBlockExplorerLink(transaction) {
   return {
@@ -249,11 +294,6 @@ function getBlockExplorerLink(transaction) {
     xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' },
     cel: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
     omg: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
+    xlm: { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain' }
   }[transaction.coin];
-}
-
-function getInfoSectionText(transaction) {
-  return {
-    TRANSFER_PENDING: 'This transaction is connected to the link you\'ve shared to a friend. If nobody accepts this transaction within 7 days the money will get back to you.',
-  }[transaction.type];
 }

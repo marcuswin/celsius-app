@@ -1,65 +1,54 @@
-import React, {Component} from 'react';
-import { ImageBackground, StatusBar } from "react-native";
-import {connect} from 'react-redux';
-import {Container, Content, View} from 'native-base';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import { Constants } from 'expo';
+import { View, Image } from 'react-native';
+// import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import * as appActions from '../../../redux/actions';
 import testUtil from "../../../utils/test-util";
 
 import WelcomeStyle from "./Welcome.styles";
-import CelButton from "../../atoms/CelButton/CelButton";
-import * as appActions from '../../../redux/actions';
-import WelcomeCarousel from "../../molecules/WelcomeCarousel/WelcomeCarousel";
-import { analyticsEvents } from '../../../utils/analytics-util';
-import ReferralReceivedModal from "../../organisms/ReferralReceivedModal/ReferralReceivedModal";
-import Message from "../../atoms/Message/Message";
+import CelText from '../../atoms/CelText/CelText';
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
+import CelButton from '../../atoms/CelButton/CelButton';
+// import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
+// import STYLES from '../../../constants/STYLES';
 
+const { revisionId } = Constants.manifest;
 
 @connect(
-  state => ({
-    nav: state.nav,
-    user: state.users.user,
+  () => ({
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class WelcomeScreen extends Component {
+class Welcome extends Component {
+  static propTypes = {};
+  static defaultProps = {}
+
+  static navigationOptions = () => ({
+    headerSameColor: false,
+    transparent: true
+  })
+
   render() {
-    const {actions} = this.props;
-
+    const style = WelcomeStyle();
+    const { actions } = this.props
     return (
-      <Container
-        ref={testUtil.generateTestHook(this, `Welcome.screen`)}
-        style={{ backgroundColor: 'black' }}
-      >
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
-        />
-        <Content bounces={false} style={WelcomeStyle.content}>
-          <ImageBackground source={require('../../../../assets/images/Onboarding_background3x.png')} style={[WelcomeStyle.view]}>
-            <Message/>
+      <RegularLayout fabType="hide">
+        <View style={style.wrapper}>
+          <Image
+            source={require('../../../../assets/images/Onboarding-Welcome3x.png')} style={{ height: 140, resizeMode: 'contain' }}
+          />
+          <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celsius Network</CelText>
+          <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow and pay on the blockchain. Let’s bring the next 100M people into crypto together.</CelText>
+          <CelButton style={style.button} onPress={() => actions.navigateTo('RegisterInitial')}>Join Celsius</CelButton>
+          <CelButton basic onPress={() => actions.navigateTo('Login')}>Login</CelButton>
 
-            <WelcomeCarousel />
-
-            <View style={WelcomeStyle.buttonWrapper}>
-              <CelButton
-                // TODO(ns): see when to redirect to login instead of sign up
-                ref={testUtil.generateTestHook(this, 'Welcome.skipButton')}
-              onPress={() => {
-                actions.navigateTo('SignupOne');
-                analyticsEvents.signupButton()
-              }}
-                transparent
-                size="medium"
-              >
-               Skip
-              </CelButton>
-            </View>
-          </ImageBackground>
-        </Content>
-        <ReferralReceivedModal />
-      </Container>
+          <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: {revisionId}</CelText>
+        </View>
+      </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(WelcomeScreen);
+export default testUtil.hookComponent(Welcome);

@@ -1,40 +1,38 @@
-import ACTIONS from '../../config/constants/ACTIONS';
-import * as navActions from '../nav/navActions';
-import { MODALS } from "../../config/constants/common";
-import { screens } from '../../config/Navigator';
+import ACTIONS from '../../constants/ACTIONS';
+import { MODALS } from "../../constants/UI";
 
-// TODO(fj): maybe split into 3 action/reducers: ui/camera/forms(scrolling) ?
 
 export {
+  setAppTheme,
+  openFabMenu,
+  closeFabMenu,
   showMessage,
   clearMessage,
-  setInternetConnectivity,
-  setHeaderHeight,
-  takeCameraPhoto,
-  flipCamera,
-  activateCamera,
-  retakePhoto,
-  // submitForm,
-  initForm,
-  clearForm,
-  setFormErrors,
-  updateFormField,
-  refreshBottomNavigation,
-  updatePortfolioFormData,
+  openInitialModal,
+  openModal,
+  closeModal,
+  toggleKeypad,
+  setKeypadInput,
+
+  // TODO(fj): scrolling - try to remove
   setKeyboardHeight,
   setInputLayout,
   clearInputLayouts,
   scrollTo,
   setScrollElementLayout,
   setScrollPosition,
-  openInitialModal,
-  openModal,
-  closeModal,
-  fireUserAction,
+  setFabType
 }
 
 let msgTimeout;
 
+
+/**
+ * Shows a flash message
+ * @param {string} msgType - one of warning|info|success|error
+ * @param {string} text - text to show
+ * @param {boolean} disableClear - should the message stay forever
+ */
 function showMessage(msgType, text, disableClear) {
   return dispatch => {
     clearTimeout(msgTimeout);
@@ -54,97 +52,82 @@ function showMessage(msgType, text, disableClear) {
   }
 }
 
-function setInternetConnectivity(connected) {
-  return {
-    type: ACTIONS.SET_INTERNET_CONNECTIVITY,
-    internetConnected: connected,
+
+// Custom celsius keypad actions
+/**
+ * Sets the keypad input ref
+ * @param {Object} input - input ref
+ * @param {Object} field - active field for keypad input
+ */
+let _keypadInputRef = null;
+let _activeField = null;
+function setKeypadInput(input, field) {
+  return (dispatch, getState) => {
+    const { isKeypadOpen } = getState().ui;
+
+    if (input === false && field === _activeField) {
+      // close keypad
+      if (isKeypadOpen) dispatch({
+        type: ACTIONS.TOGGLE_KEYPAD,
+        isKeypadOpen: false
+      });
+
+      _keypadInputRef = null
+      _activeField = null
+    }
+
+    if (input && field !== _activeField) {
+      _keypadInputRef = input
+      _activeField = field
+    }
   }
 }
 
+
+/**
+ * Toggles the native device keypad
+ *
+ * @param {boolean} shouldOpen - if keypad should be turned on or off
+ */
+function toggleKeypad(shouldOpen) {
+  return (dispatch) => {
+    if (_keypadInputRef) {
+      const isFocused = _keypadInputRef.isFocused()
+
+      if (isFocused) {
+        // already opened
+        if (shouldOpen !== true) _keypadInputRef.blur()
+      } else {
+        // closed
+        const timeout = setTimeout(() => {
+          if (_keypadInputRef && shouldOpen !== false) _keypadInputRef.focus()
+          clearTimeout(timeout)
+        }, 5)
+      }
+
+      dispatch({
+        type: ACTIONS.TOGGLE_KEYPAD,
+        isKeypadOpen: !isFocused,
+      });
+    }
+  }
+}
+
+
+/**
+ * Clears flash message
+ * @returns {Object} - Action
+ */
 function clearMessage() {
   return {
     type: ACTIONS.CLEAR_MESSAGE,
   }
 }
 
-function setHeaderHeight(height, isAnimatedHeader = false) {
-  return {
-    type: ACTIONS.SET_HEADER_HEIGHT,
-    header: height,
-    isAnimatedHeader,
-  }
-}
 
-function takeCameraPhoto(photo) {
-  return {
-    type: ACTIONS.TAKE_CAMERA_PHOTO,
-    photo,
-  }
-}
-
-function retakePhoto() {
-  return {
-    type: ACTIONS.RETAKE_PHOTO,
-  }
-}
-
-function flipCamera() {
-  return {
-    type: ACTIONS.FLIP_CAMERA,
-  }
-}
-
-function activateCamera(cameraProps) {
-  return dispatch => {
-    dispatch({
-      type: ACTIONS.ACTIVATE_CAMERA,
-      ...cameraProps,
-    });
-    dispatch(navActions.navigateTo('Camera', { onSave: cameraProps.onSave }));
-  }
-}
-
-function updateFormField(field, value) {
-  return {
-    type: ACTIONS.UPDATE_FORM_FIELD,
-    field,
-    value,
-  }
-}
-
-function initForm(formData) {
-  return {
-    type: ACTIONS.INIT_FORM,
-    formData,
-  }
-}
-
-function clearForm() {
-  return {
-    type: ACTIONS.CLEAR_FORM,
-  }
-}
-
-function setFormErrors(formErrors) {
-  return dispatch => {
-    const timeout = setTimeout(() => {
-      dispatch({ type: ACTIONS.CLEAR_FORM_ERRORS })
-      clearTimeout(timeout)
-    }, 5000)
-    dispatch({
-      type: ACTIONS.SET_FORM_ERRORS,
-      formErrors,
-    })
-  }
-}
-
-function updatePortfolioFormData(data) {
-  return {
-    type: ACTIONS.UPDATE_PORTFOLIO_FORM_DATA,
-    data,
-  };
-}
-
+/**
+ * @deprecated
+ */
 function setKeyboardHeight(keyboardHeight) {
   return {
     type: ACTIONS.SET_KEYBOARD_HEIGHT,
@@ -152,6 +135,9 @@ function setKeyboardHeight(keyboardHeight) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function setInputLayout(field, layout) {
   return {
     type: ACTIONS.SET_INPUT_LAYOUT,
@@ -160,20 +146,27 @@ function setInputLayout(field, layout) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function clearInputLayouts() {
   return {
     type: ACTIONS.CLEAR_INPUT_LAYOUTS,
   };
 }
 
+/**
+ * @deprecated
+ */
 function scrollTo(scrollOptions = {}) {
   const { field, accordion } = scrollOptions;
 
   return (dispatch, getState) => {
 
-    const { screenHeight, bottomNavigation } = getState().ui.dimensions;
-    const activeScreen = getState().nav.routes[getState().nav.index].routeName
-    const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
+    const { screenHeight } = getState().ui.dimensions;
+    // const activeScreen = getState().nav.routes[getState().nav.index].routeName
+    // const scrollBottomOffset = screens[activeScreen].bottomNavigation ? 40 : bottomNavigation.height + 10;
+    const scrollBottomOffset = 40
     const { keyboardHeight, scrollTo: scrollToY } = getState().ui;
 
     if (!field && !accordion) {
@@ -214,6 +207,9 @@ function scrollTo(scrollOptions = {}) {
   }
 }
 
+/**
+ * @deprecated
+ */
 function setScrollElementLayout(element, layout) {
   return {
     type: ACTIONS.SET_SCROLL_ELEMENT_LAYOUT,
@@ -222,6 +218,9 @@ function setScrollElementLayout(element, layout) {
   };
 }
 
+/**
+ * @deprecated
+ */
 function setScrollPosition(scrollPosition) {
   return {
     type: ACTIONS.SET_SCROLL_POSITION,
@@ -229,33 +228,41 @@ function setScrollPosition(scrollPosition) {
   };
 }
 
+/**
+ * Open initial modal on app opening
+ * @todo: refactor for v3
+ */
 function openInitialModal() {
   return (dispatch, getState) => {
     const openedModal = getState().ui.openedModal;
-    const appSettings = getState().users.appSettings;
-    const user = getState().users.user;
+    const appSettings = getState().user.appSettings;
+    const user = getState().user.profile;
     const branchHashes = getState().transfers.branchHashes;
-    // const kyc = getState().users.user.kyc.realStatus;
+    const kyc = getState().user.profile.kyc.realStatus;
 
     if (branchHashes && branchHashes.length) {
       return dispatch(openModal(MODALS.TRANSFER_RECEIVED))
     }
 
-    // TODO(ns): uncomment when Blackout is activated
-
-    // if (user && user.kyc.status === "passed") {
-    //   if (user.state === "New York" || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
-    //   if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States" ) && !user.ssn))) {
-    //     return dispatch(openModal(MODALS.NYC_BLACKOUT));
-    //   }
-    // }
+    if (user && user.kyc.status === "passed") {
+      if (user.blocked_at || kyc === "ico_passed") return dispatch(openModal(MODALS.NYC_BLACKOUT));
+      if ((!user.street && !user.zip && !user.city) || (((user.country === "United States" || user.citizenship === "United States") && !user.ssn))) {
+        return dispatch(openModal(MODALS.NYC_BLACKOUT));
+      }
+    }
 
     if (user && appSettings.showTodayRatesModal && !openedModal) {
       return dispatch(openModal(MODALS.TODAY_RATES_MODAL))
     }
-  };
+  }
 }
 
+
+/**
+ * Opens a modal
+ * @param {string} modalName - one of the modals from MODALS in UI.js
+ * @returns {Object} - Action
+ */
 function openModal(modalName) {
   return {
     type: ACTIONS.OPEN_MODAL,
@@ -263,23 +270,58 @@ function openModal(modalName) {
   };
 }
 
+/**
+ * Closes the opened modal
+ * @returns {Object} - Action
+ */
 function closeModal() {
   return {
     type: ACTIONS.CLOSE_MODAL,
   };
 }
 
-function refreshBottomNavigation() {
+
+/**
+ * Sets the theme of the app
+ * @param {string} theme - one of THEMES
+ * @returns {Object} - Action
+ */
+function setAppTheme(theme) {
   return {
-    type: ACTIONS.REFRESH_BOTTOM_NAVIGATION,
+    type: ACTIONS.SET_APP_THEME,
+    theme,
   };
 }
 
-function fireUserAction(name) {
 
+/**
+ * Opens App Menu
+ * @returns {Object} - Action
+ */
+function openFabMenu() {
   return {
-    type: ACTIONS.FIRE_USER_ACTION,
-    name,
+    type: ACTIONS.OPEN_FAB_MENU
   };
 }
 
+/**
+ * Closes App Menu
+ * @returns {Object} - Action
+ */
+function closeFabMenu() {
+  return {
+    type: ACTIONS.CLOSE_FAB_MENU
+  };
+}
+
+/**
+ * Sets FAB menu type
+ * @returns {Object} - Action
+ */
+function setFabType(fabType) {
+  return (dispatch, getState) => {
+    if (fabType !== getState().ui.fabType) {
+      dispatch({ type: ACTIONS.SET_FAB_TYPE, fabType })
+    }
+  }
+}
