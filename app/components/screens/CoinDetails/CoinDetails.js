@@ -157,11 +157,11 @@ class CoinDetails extends Component {
           <Card margin="10 0 10 0">
             <View>
               <View style={style.interestCardWrapper}>
-                <View>
+                { coinDetails.short !== 'CEL' ? <View>
                   <CelText type="H6" weight='300'>Total interest earned</CelText>
                   <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                   <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                </View>
+                </View> : null }
                 {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                   <View style={style.interestRateWrapper}>
                     <CelText type="H6" weight='300'>Current rate</CelText>
