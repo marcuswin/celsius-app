@@ -451,17 +451,27 @@ function loginSocialSuccess(network, token) {
  * @param {string} user - registered user on Celsius
  */
 function registerSocialSuccess(network, token, user) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
-    
+
+    dispatch(startApiCall(API.SOCIAL_REGISTER));
+
     dispatch({
       type: ACTIONS[`REGISTER_USER_${ network.toUpperCase() }_SUCCESS`],
       user,
     });
-
+   
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers());
-    await dispatch(initAppData());
-    dispatch(navigateTo('RegisterSetPin'))
+    
+    await dispatch(initAppData(token));
+    const { profile } = getState().user;
+    if(!profile.has_pin){
+      dispatch(navigateTo('RegisterSetPin'))
+    } else {
+      dispatch(navigateTo('WalletFab'))
+    }
+    
+    dispatch({ type: ACTIONS.SOCIAL_REGISTER_SUCCESS });
   }
 }

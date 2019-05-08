@@ -58,7 +58,7 @@ class BalanceHistory extends Component {
           <View style={style.container}>
             <Card styles={{ alignSelf: 'center' }}>
               <CelText weight='300' type="H6">Total wallet balance</CelText>
-              <CelText weight='600' type="H3">{formatter.usd(walletSummary.total_amount_usd)}</CelText>
+              <CelText weight='600' type="H3">{walletSummary && formatter.usd(walletSummary.total_amount_usd)}</CelText>
             </Card>
           </View>
 

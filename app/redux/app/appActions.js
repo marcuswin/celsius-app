@@ -158,14 +158,14 @@ function setInternetConnection(connection) {
 /**
  * Initialize all data needed for the App
  */
-function initAppData() {
+function initAppData(initToken = null) {
   return async (dispatch, getState) => {
 
     await dispatch(actions.getInitialCelsiusData());
 
     // get user token
-    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-
+    const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+    
     // fetch user
     if (token) await dispatch(actions.getProfileInfo());
 

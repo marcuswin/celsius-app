@@ -38,7 +38,8 @@ class CelPayEnterAmount extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
-      title: params && params.title ? params.title : 'Enter Amount',
+      right: "profile",
+      title: params && params.title ? params.title : 'CelPay',
     }
   };
 
@@ -55,7 +56,7 @@ class CelPayEnterAmount extends Component {
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
     const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
-    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'Enter Amount'
+    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'CelPay'
 
     navigation.setParams({
       title: screenTitle,
