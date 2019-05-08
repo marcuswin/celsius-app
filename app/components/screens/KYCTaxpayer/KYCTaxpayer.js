@@ -80,10 +80,10 @@ class KYCTaxpayer extends Component {
     let updateTaxInfo;
     const errors = {};
     if (this.isFromUS()) {
-      if ( (!formData.ssn1 || formData.ssn1.length < 3) || (!formData.ssn2 || formData.ssn2.length < 2) || (!formData.ssn3 || formData.ssn3.length < 4)) {
+      if ((!formData.ssn1 || formData.ssn1.length < 3) || (!formData.ssn2 || formData.ssn2.length < 2) || (!formData.ssn3 || formData.ssn3.length < 4)) {
         errors.ssn = "Please enter valid SSN."
         actions.setFormErrors(errors);
-        return 
+        return
       }
       updateTaxInfo = {
         ssn: formData.ssn1 + formData.ssn2 + formData.ssn3
@@ -117,7 +117,7 @@ class KYCTaxpayer extends Component {
     return (
       <RegularLayout>
 
-        <CelText weight={"700"} type={"H1"} align='center'>Taxpayer ID</CelText>
+        <CelText weight={"700"} type={"H1"} align='center'>{this.isFromUS() ? 'Social Security Number' : 'Taxpayer ID'}</CelText>
 
         <CelText align={"center"} margin={"10 0 0 0"} type={"H4"} weight={"300"}>US residents must provide their SSN to earn interest through Celsius.
         This is an optional step and can be entered later.</CelText>
@@ -209,7 +209,7 @@ class KYCTaxpayer extends Component {
         </CelButton> :
 
           <CelButton
-          onPress={() => actions.navigateTo('KYCVerifyID')}
+            onPress={() => actions.navigateTo('KYCVerifyID')}
             disabled={updatingTaxInfo}
             basic
             margin="20 0 20 0"
