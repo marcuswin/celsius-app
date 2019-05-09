@@ -220,7 +220,7 @@ class TermsOfUse extends Component {
           {!appSettings.accepted_terms_of_use &&
           <React.Fragment>
             <CelButton
-              margin={"20 0 20 0"}
+              margin={"20 0 10 0"}
               onPress={() => {
                 actions.setUserAppSettings({ accepted_terms_of_use: true });
                 actions.navigateTo(nextScreen);
@@ -229,7 +229,7 @@ class TermsOfUse extends Component {
               Accept and Continue
             </CelButton>
             <CelButton
-              margin={"20 0 40 0"}
+              margin={"20 0 60 0"}
               onPress={() => Linking.openURL("mailto:app@celsius.network")}
               basic
             >

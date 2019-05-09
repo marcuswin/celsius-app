@@ -28,6 +28,11 @@ class RegisterEnterPhone extends Component {
 
   updateCellphoneNumber = async (phone) => {
     const {actions, formData, user} = this.props;
+
+    if (!phone || !formData["cellphone.text"]) {
+      return actions.showMessage('error', 'You must enter a valid phone to continue.')
+    }
+
     const response = await actions.updateProfileInfo({
       cellphone: `${phone.countryCallingCodes[0]}${formData["cellphone.text"]}`
     });

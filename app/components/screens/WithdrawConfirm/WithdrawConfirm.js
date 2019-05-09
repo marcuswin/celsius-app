@@ -40,8 +40,8 @@ class WithdrawConfirm extends Component {
 
   renderInfoBox = () => {
     const { walletSummary, formData, user, loyaltyInfo } = this.props;
-    const coinData = walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
-    const newBalance = coinData.amount - formData.amountCrypto;
+    const coinData = formData.coin && walletSummary.coins.filter(c => c.short === formData.coin.toUpperCase())[0];
+    const newBalance = coinData && coinData.amount - formData.amountCrypto;
 
     if (user.celsius_member && formData.coin === "CEL" && newBalance < 1) return (
       <InfoBox
@@ -89,18 +89,18 @@ class WithdrawConfirm extends Component {
     } = this.props;
     const styles = WithdrawConfirmStyle();
 
-    const coinData = walletSummary.coins.find(
+    const coinData = formData.coin && walletSummary.coins.find(
       c => c.short === formData.coin.toUpperCase()
     );
-    const newBalanceCrypto = coinData.amount - formData.amountCrypto;
-    const newBalanceUsd = coinData.amount_usd - formData.amountUsd;
+    const newBalanceCrypto = coinData && coinData.amount - formData.amountCrypto;
+    const newBalanceUsd = coinData && coinData.amount_usd - formData.amountUsd;
 
     const isLoading = apiUtil.areCallsInProgress(
       [API.WITHDRAW_CRYPTO],
       callsInProgress
     );
 
-    const address = addressUtil.joinAddressTag(
+    const address = formData.coin && addressUtil.joinAddressTag(
       formData.coin.toLowerCase(),
       formData.withdrawAddress,
       formData.coinTag
@@ -162,7 +162,9 @@ class WithdrawConfirm extends Component {
           >
             Send email verification
           </CelButton>
-          <CelText margin= '30 0 0 0' color='gray' style={{ paddingVertical: 10, paddingHorizontal: 10, borderRadius: 8, backgroundColor: STYLES.COLORS.MEDIUM_GRAY1}}> Follow instructions in email to complete this withdrawal.</CelText>
+          <Card color={STYLES.COLORS.MEDIUM_GRAY1}>
+            <CelText margin= '0 0 0 0' color='gray' style={{ paddingVertical: 10, paddingHorizontal: 10, borderRadius: 8}}> Follow instructions in email to complete this withdrawal.</CelText>
+          </Card>
         </View>
       </RegularLayout>
     );

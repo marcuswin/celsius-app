@@ -41,7 +41,8 @@ class CelInput extends Component {
     margin: PropTypes.string,
     basic: PropTypes.bool,
     helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
-    large: PropTypes.bool
+    large: PropTypes.bool,
+    debounce: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -54,7 +55,8 @@ class CelInput extends Component {
     value: "",
     margin: '0 0 20 0',
     basic: false,
-    large: true
+    large: true,
+    debounce: false
   }
 
   constructor(props) {

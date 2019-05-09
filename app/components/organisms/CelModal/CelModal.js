@@ -30,12 +30,14 @@ class CelModal extends Component {
     primaryText: PropTypes.string,
     secondaryText: PropTypes.string,
     marginTop: PropTypes.number,
-    height: PropTypes.number
+    height: PropTypes.number,
+    noScroll: PropTypes.bool
   };
   static defaultProps = {
     shouldRenderCloseButton: true,
     picture: null,
     header: false,
+    noScroll: false
     // marginTop: heightPercentageToDP("15%"),
     // height: heightPercentageToDP("65%")
   };
@@ -62,7 +64,7 @@ class CelModal extends Component {
   };
 
   render() {
-    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture } = this.props;
+    const { openedModal, name, actions, shouldRenderCloseButton, children, header, primaryText, secondaryText, picture, noScroll } = this.props;
     const style = CelModalStyle();
 
     // const tintColor = this.getTintColor();
@@ -94,13 +96,19 @@ class CelModal extends Component {
               </View> : null
             }
 
-            <ScrollView
-              style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : heightPercentageToDP("8%") }]}
-              showsVerticalScrollIndicator
-              contentContainerStyle={{ flexGrow: 1 }}
-            >
-              {children}
-            </ScrollView>
+            {noScroll ? (
+              <View style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : heightPercentageToDP("8%") }]}>
+                {children}
+              </View>
+            ):(
+              <ScrollView
+                style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP("15.3%") : heightPercentageToDP("8%") }]}
+                showsVerticalScrollIndicator
+                contentContainerStyle={{ flexGrow: 1 }}
+              >
+                {children}
+              </ScrollView>
+            )}
           </View>
         </View>
       </Modal>
