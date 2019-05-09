@@ -66,7 +66,7 @@ class CircleButton extends Component {
         </TouchableOpacity>
         <View>
           {text &&
-            <CelText align="center" style={textStyle}>{text}</CelText>
+            <CelText align="center" type={"H7"} style={textStyle}>{text}</CelText>
           }
         </View>
       </View>
