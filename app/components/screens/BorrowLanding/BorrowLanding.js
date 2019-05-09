@@ -153,6 +153,9 @@ class BorrowLanding extends Component {
 
     const minLtv = Math.max(...ltv.map(x => x.percent))
 
+    // console.log(walletCoins[indexOfLargestAmount]);
+    // console.log(largestAmount);
+
 
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
@@ -164,7 +167,10 @@ class BorrowLanding extends Component {
         <StaticScreen
         emptyState={{
           image: require("../../../../assets/images/diane-sad3x.png"),
-          heading: `To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }`,
+          heading: largestAmount != 0 ?`To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
+
+
+          // `To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }`,
           paragraphs: [`The current loan minimum is ${ formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.`],
           onPress: () => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding"),
           button: 'Deposit Coins'
