@@ -156,8 +156,6 @@ class BorrowLanding extends Component {
     // console.log(walletCoins[indexOfLargestAmount]);
     // console.log(largestAmount);
 
-
-
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />;
@@ -167,7 +165,7 @@ class BorrowLanding extends Component {
         <StaticScreen
         emptyState={{
           image: require("../../../../assets/images/diane-sad3x.png"),
-          heading: largestAmount != 0 ?`To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
+          heading: largestAmount != 0 ?`To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in assets`,
 
 
           // `To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }`,
