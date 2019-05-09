@@ -84,8 +84,8 @@ class CelHeading extends Component {
         <CelButton basic
           onPress={() => { this.props.actions.navigateTo('Settings'); }}
           iconRight="Settings"
-          iconRightHeight='35'
-          iconRightWidth='35'
+          iconRightHeight='32'
+          iconRightWidth='32'
           iconRightColor='#3D4853'
           opacity={0.9}
         />,

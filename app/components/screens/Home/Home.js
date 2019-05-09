@@ -50,7 +50,7 @@ class Home extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { user, appSettings } = this.props;
+    const { user } = this.props;
 
     if (
       prevProps.appInitialized === false &&
@@ -62,12 +62,8 @@ class Home extends Component {
           user.kyc.status === KYC_STATUSES.passed &&
           user.has_pin
         ) {
-          if(appSettings && !appSettings.accepted_terms_of_use) {
-            return prevProps.actions.navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "WalletLanding" })
-          }
             return prevProps.actions.navigateTo('VerifyProfile', {
-              activeScreen: 'WalletLanding'
-            })
+              activeScreen: 'WalletLanding' })
         }
         if (!user.has_pin) {
           return prevProps.actions.navigateTo('RegisterSetPin')
