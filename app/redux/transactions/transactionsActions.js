@@ -2,6 +2,7 @@ import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
 import { showMessage } from "../ui/uiActions";
+import { clearForm } from "../forms/formsActions";
 import transactions from "../../services/transactions-service";
 import walletService from "../../services/wallet-service";
 import { navigateTo } from "../nav/navActions";
@@ -91,6 +92,7 @@ function withdrawCrypto() {
       dispatch(getWalletSummary());
       dispatch(navigateTo('TransactionDetails', { id: res.data.transaction.id }))
       dispatch(showMessage('success', 'An email verification has been sent.'))
+      dispatch(clearForm())
 
       analytics.withdrawCompleted(res.data.transaction)
     } catch (err) {
