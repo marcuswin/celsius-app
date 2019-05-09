@@ -41,20 +41,20 @@ class WithdrawConfirmAddress extends Component {
 
     const { formData, walletSummary, withdrawalAddresses } = props;
     const coin = formData.coin;
-    const coinData = walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
+    const coinData = coin && walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
 
     this.state = {
       coin,
       balanceCrypto: coinData.amount,
       balanceUsd: coinData.amount_usd,
-      address: withdrawalAddresses[coin.toUpperCase()]
+      address: coin && withdrawalAddresses[coin.toUpperCase()]
     };
   }
 
   confirmAddress = () => {
     const { actions, withdrawalAddresses, formData } = this.props;
 
-    actions.updateFormField("withdrawAddress", withdrawalAddresses[formData.coin.toUpperCase()].address);
+    actions.updateFormField("withdrawAddress", formData.coin && withdrawalAddresses[formData.coin.toUpperCase()] && withdrawalAddresses[formData.coin.toUpperCase()].address);
     actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawConfirm") });
   };
 
@@ -64,10 +64,10 @@ class WithdrawConfirmAddress extends Component {
     let tagText;
     let placeHolderText;
 
-    if (formData.coin.toLowerCase() === "xrp") {
+    if (formData.coin && formData.coin.toLowerCase() === "xrp") {
       tagText = "What is XRP Destination tag";
       placeHolderText = "Destination Tag";
-    } else if (formData.coin.toLowerCase() === "xlm") {
+    } else if (formData.coin && formData.coin.toLowerCase() === "xlm") {
       tagText = "What is XLM Memo Id";
       placeHolderText = "Memo Id";
     }
