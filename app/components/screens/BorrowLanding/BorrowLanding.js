@@ -28,6 +28,7 @@ import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
     allLoans: state.loans.allLoans,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     ltv: state.loans.ltvs,
+    loan: state.user.compliance.loan,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting
@@ -127,18 +128,31 @@ class BorrowLanding extends Component {
     const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary, ltv } = this.props;
     const style = BorrowLandingStyle();
 
+
+
+
     /* Calculating difference between largest coin amount and
     minimum amount needed for loan based on current LTV.
+
     */
-    const walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
-    const arrayOfAmountUsd = walletCoins.map(x => x.amount_usd)
-    const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd))
+    if (!walletSummary) {
+      return null
+    }
+    let walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
+    walletCoins = walletCoins
+                        .filter(allowedCoin => loanCompliance.coins.includes(allowedCoin.short))
+    const arrayOfAmountUsd = walletCoins
+                        .map(amount => amount.amount_usd)
+    const indexOfLargestAmount = arrayOfAmountUsd
+                        .indexOf(Math.max(...arrayOfAmountUsd))
     const largestAmountUsd = walletCoins[indexOfLargestAmount].amount_usd
     const largestAmount = walletCoins[indexOfLargestAmount].amount
-    const largestAmountCoin = walletCoins[indexOfLargestAmount].short
-    const coinUsdRatio = largestAmountUsd / largestAmount
+    const largestAmountCoin = walletCoins[indexOfLargestAmount].short || 1
+    const coinUsdRatio = largestAmountUsd  / largestAmount
     const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
+
     const minLtv = Math.max(...ltv.map(x => x.percent))
+
 
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
@@ -150,7 +164,7 @@ class BorrowLanding extends Component {
         <StaticScreen
         emptyState={{
           image: require("../../../../assets/images/diane-sad3x.png"),
-          heading: `To apply for a loan you just need ${ formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) }more ${ largestAmountCoin }`,
+          heading: `To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }`,
           paragraphs: [`The current loan minimum is ${ formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.`],
           onPress: () => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding"),
           button: 'Deposit Coins'
