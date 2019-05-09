@@ -166,7 +166,7 @@ class CelHeading extends Component {
           {this.getLeftContent(scene.options)}
           {formData.activeSearch && (
             <View style={[{ width: '100%', justifyContent: 'center', alignSelf: 'center', marginLeft: 12 }]}>
-              <CelInput autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
+              <CelInput debounce autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
             </View>
           )}
         </View>
