@@ -60,27 +60,13 @@ class WalletLanding extends Component {
   constructor(props) {
     super(props);
 
-    const { walletSummary, navigation } = props;
-    const coinWithAmount = [];
-    const coinWithoutAmount = [];
-
-    if (walletSummary) {
-      walletSummary.coins.forEach((coin) => {
-        const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
-        if (coin.amount_usd > 0) {
-          coinWithAmount.push(coin)
-        } else if (withoutAmountNoPrior) {
-          coinWithoutAmount.push(coin)
-        }
-      });
-    }
+    const { navigation } = props;
 
     navigation.setParams({
       title: `Welcome ${props.user.first_name}!`
     })
+
     this.state = {
-      coinWithAmount,
-      coinWithoutAmount,
       activeView: props.appSettings.default_wallet_view
     };
   }
@@ -88,25 +74,11 @@ class WalletLanding extends Component {
   componentDidMount = async () => {
     const { actions, currenciesRates, currenciesGraphs, user } = this.props;
 
-    const coinWithAmount = [];
-    const coinWithoutAmount = [];
-
     await actions.getWalletSummary();
     if (!currenciesRates) actions.getCurrencyRates();
     if (!currenciesGraphs) actions.getCurrencyGraphs();
     if (!user.celsius_member) actions.getCelsiusMemberStatus();
-    const { walletSummary } = this.props;
 
-    walletSummary.coins.forEach((coin) => {
-      const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
-      if (coin.amount_usd > 0) {
-        coinWithAmount.push(coin)
-      } else if (withoutAmountNoPrior) {
-        coinWithoutAmount.push(coin)
-      }
-    });
-
-    this.setState({ coinWithAmount, coinWithoutAmount });
     this.setWalletFetchingInterval()
   };
 
@@ -141,8 +113,17 @@ class WalletLanding extends Component {
   }
 
   renderCoinWithAmount = () => {
-    const { currenciesRates, currenciesGraphs, actions } = this.props;
-    const { coinWithAmount, activeView } = this.state;
+    const { walletSummary, currenciesRates, currenciesGraphs, actions } = this.props;
+    const { activeView } = this.state;
+
+    const coinWithAmount = [];
+    if (walletSummary) {
+      walletSummary.coins.forEach((coin) => {
+        if (coin.amount_usd > 0) {
+          coinWithAmount.push(coin)
+        }
+      });
+    }
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
@@ -176,8 +157,19 @@ class WalletLanding extends Component {
   }
 
   renderCoinWithoutAmount = () => {
-    const { currenciesRates, currenciesGraphs, actions, kycStatus } = this.props;
-    const { coinWithoutAmount, activeView } = this.state;
+    const { walletSummary, currenciesRates, currenciesGraphs, actions, kycStatus } = this.props;
+    const { activeView } = this.state;
+
+    const coinWithoutAmount = [];
+
+    if (walletSummary) {
+      walletSummary.coins.forEach((coin) => {
+        const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
+        if (coin.amount_usd === 0 && withoutAmountNoPrior) {
+          coinWithoutAmount.push(coin)
+        }
+      });
+    }
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
