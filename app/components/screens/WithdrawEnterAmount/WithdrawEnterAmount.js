@@ -48,11 +48,15 @@ class WithdrawEnterAmount extends Component {
 
   constructor (props) {
     super(props)
-    const { navigation, currencies, withdrawCompliance } = this.props
+    const { navigation, currencies, withdrawCompliance, walletSummary } = this.props
     const coin = navigation.getParam('coin') || 'BTC'
 
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
+      .filter(c => {
+        const balanceUsd = walletSummary.coins.filter(wCoin => wCoin.short === c.short.toUpperCase())[0].amount_usd;
+        return balanceUsd > 0
+      })
       .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
 
     this.state = {
