@@ -131,13 +131,13 @@ class CommunityDashboard extends Component {
               <View style={style.innerStyle}>
                 <Icon
                   name={button}
-                  height={20}
-                  width={20}
+                  height={18}
+                  width={18}
                   stroke={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
                   fill={"white"}
                   strokeWidth={0.5}
                 />
-                <CelText type={"H6"} weight={"500"} align={"center"}
+                <CelText type={"H7"} weight={"500"} align={"center"}
                          color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
                   {button.toUpperCase()}
                 </CelText>
