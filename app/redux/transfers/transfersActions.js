@@ -135,7 +135,7 @@ function cancelTransfer(transferHash) {
       dispatch(cancelTransferSuccess(res.data));
       dispatch(showMessage('success', "Transaction canceled"));
       dispatch(getAllTransactions())
-      dispatch(navigateBack());
+      dispatch(navigateTo('WalletLanding'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_TRANSFER, err));
