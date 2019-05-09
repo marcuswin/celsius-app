@@ -281,7 +281,7 @@ class Deposit extends Component {
 
         {isFetchingAddress && this.renderLoader()}
 
-        {formData.selectedCoin === "CEL" ?
+        {false && formData.selectedCoin === "CEL" ?
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             <IconButton
               margin="20 0 0 0"
