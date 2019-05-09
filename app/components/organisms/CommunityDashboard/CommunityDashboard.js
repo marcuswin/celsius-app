@@ -89,7 +89,7 @@ class CommunityDashboard extends Component {
     }
     if (name === "CELPAY" && button === "Transactions") {
       explanationText = "Number of CelPay transactions";
-      number = communityStats.celpay_transactions_num;
+      number = formatter.round(communityStats.celpay_transactions_num, {noPrecision: true});
     }
     if (name === "CELPAY" && button === "Total") {
       explanationText = "Sent via CelPay in total";
