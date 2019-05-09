@@ -166,7 +166,7 @@ function createBranchTransfer(amount, amountUsd, coin, verificationCode) {
         coin: coin.toUpperCase(),
       }, verification);
 
-      const transfer = res.data;
+      const transfer = res.data.transfer;
       dispatch(createTransferSuccess(transfer));
 
       const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
