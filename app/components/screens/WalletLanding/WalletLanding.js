@@ -23,7 +23,6 @@ import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/Tod
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
 import { KYC_STATUSES } from "../../../constants/DATA";
 
-
 @connect(
   state => {
     const branchTransfer = state.branch.transferHash && state.transfers.transfers[state.branch.transferHash]
@@ -47,6 +46,7 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 class WalletLanding extends Component {
   static propTypes = {};
   static defaultProps = {}
+  static walletFetchingInterval
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
@@ -107,13 +107,31 @@ class WalletLanding extends Component {
     });
 
     this.setState({ coinWithAmount, coinWithoutAmount });
+    this.setWalletFetchingInterval()
   };
 
   componentDidUpdate(prevProps) {
-    const {actions, isFocused} = this.props;
+    const {isFocused} = this.props;
+
     if (prevProps.isFocused !== isFocused && isFocused === true) {
-      actions.getWalletSummary()
+      this.setWalletFetchingInterval()
     }
+
+    if (isFocused === false && this.walletFetchingInterval) {
+      clearInterval(this.walletFetchingInterval)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.walletFetchingInterval)
+  }
+
+  setWalletFetchingInterval = () => {
+    const { actions } = this.props
+
+    this.walletFetchingInterval = setInterval(() => {
+      actions.getWalletSummary()
+    }, 5000)
   }
 
   getIconFillColor = (cond) => cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY;
