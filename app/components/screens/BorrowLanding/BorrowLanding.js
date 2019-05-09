@@ -153,11 +153,6 @@ class BorrowLanding extends Component {
 
     const minLtv = Math.max(...ltv.map(x => x.percent))
 
-    // console.log(walletCoins[indexOfLargestAmount]);
-    // console.log(largestAmount);
-
-
-
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />;
