@@ -212,6 +212,7 @@ function sendVerificationSMS(phone) {
     try {
       await meService.sendVerificationSMS(phone);
       dispatch(sendVerificationSMSSuccess());
+      dispatch(showMessage('success', 'Check you inbox, your verification SMS has been sent!'));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SEND_VERIFICATION_SMS, err));
