@@ -1,19 +1,21 @@
 import React, { Component } from "react";
-import { View, ScrollView, Linking } from "react-native";
+import { View, Linking } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { withNavigationFocus } from "react-navigation";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
 import TermsOfUseStyle from "./TermsOfUse.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
-import STYLES from "../../../constants/STYLES";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
-    appSettings: state.user.appSettings
+    appSettings: state.user.appSettings,
+    fabType: state.ui.fabType
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -262,12 +264,21 @@ class TermsOfUse extends Component {
 
     };
   }
-
+  
   componentDidMount() {
     const { actions } = this.props
     actions.setFabType('hide')
   }
 
+  componentDidUpdate () {
+    const { isFocused, actions, fabType } = this.props
+    if(fabType !== 'hide') {
+      if (isFocused === true) {
+        actions.setFabType('hide')
+      }
+    }
+  }
+  
   renderScreen(section, index) {
     const style = TermsOfUseStyle();
     return (
@@ -282,17 +293,11 @@ class TermsOfUse extends Component {
   render() {
     const { terms } = this.state;
     const { actions, appSettings, navigation } = this.props;
-    // const style = TermsOfUseStyle();
 
     const nextScreen = navigation.getParam("nextScreen");
 
     return (
-      <View>
-        <ScrollView
-          mainHeader={{ backButton: false, onCancel: appActions.navigateBack }}
-          animatedHeading={{ text: "Terms of Use" }}
-          background={STYLES.COLORS.GRAY}
-        >
+      <RegularLayout fabType='hide'>
           {terms.map(this.renderScreen)}
           {!appSettings.accepted_terms_of_use &&
           <React.Fragment>
@@ -314,10 +319,9 @@ class TermsOfUse extends Component {
             </CelButton>
           </React.Fragment>
           }
-        </ScrollView>
-      </View>
+      </RegularLayout>
     );
   }
 }
 
-export default testUtil.hookComponent(TermsOfUse);
+export default testUtil.hookComponent(withNavigationFocus(TermsOfUse));
