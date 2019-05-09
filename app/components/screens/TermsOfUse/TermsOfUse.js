@@ -263,6 +263,11 @@ class TermsOfUse extends Component {
     };
   }
 
+  componentDidMount() {
+    const { actions } = this.props
+    actions.setFabType('hide')
+  }
+
   renderScreen(section, index) {
     const style = TermsOfUseStyle();
     return (

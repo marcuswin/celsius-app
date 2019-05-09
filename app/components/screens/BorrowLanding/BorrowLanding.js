@@ -167,7 +167,7 @@ class BorrowLanding extends Component {
         <StaticScreen
         emptyState={{
           image: require("../../../../assets/images/diane-sad3x.png"),
-          heading: largestAmount != 0 ?`To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
+          heading: Number(largestAmount) !== 0 ?`To apply for a loan you just need ${ Number(largestAmount) !== 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ Number(largestAmount) !== 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
 
 
           // `To apply for a loan you just need ${ largestAmount != 0 ? formatter.crypto((minimumAmountInCoin - largestAmount) / minLtv, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ largestAmount != 0 ? largestAmountCoin : 'USD' }`,

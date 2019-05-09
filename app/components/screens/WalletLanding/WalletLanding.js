@@ -73,7 +73,6 @@ class WalletLanding extends Component {
 
   componentDidMount = async () => {
     const {actions, appSettings } = this.props;
-
     if (appSettings && !appSettings.accepted_terms_of_use) {
       return actions.navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "WalletLanding"});
     }

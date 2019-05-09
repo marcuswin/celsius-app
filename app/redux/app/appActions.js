@@ -45,7 +45,6 @@ function initCelsiusApp() {
       await appUtil.pollBackendStatus();
 
       await dispatch(initAppData());
-      await dispatch(actions.initUserAppSettings());
 
       await dispatch(branchUtil.initBranch());
 
