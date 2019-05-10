@@ -31,7 +31,7 @@ class RegisterInitial extends Component {
   static navigationOptions = () => (
     {
       right: 'login',
-      customCenterComponent: <ProgressBar steps={3} currentStep={1}/>
+      customCenterComponent: <ProgressBar steps={3} currentStep={1} />
     }
   )
 
@@ -40,11 +40,24 @@ class RegisterInitial extends Component {
 
     const errors = {}
     const isUsingSocial = formData.googleId || formData.facebookId || formData.twitterId;
+    let errorFocus = false
 
-    if (!formData.firstName) errors.firstName = 'First name is required!'
-    if (!formData.lastName) errors.lastName = 'Last name is required!'
-    if (!formData.email) errors.email = 'Email is required!'
-    if (!isUsingSocial && !formData.password) errors.password = 'Password is required!'
+    if (!formData.firstName) {
+    errors.firstName = 'First name is required!';
+      if (!errorFocus) this.firstNameInput.focus(); errorFocus = true
+    }
+    if (!formData.lastName) {
+    errors.lastName = 'Last name is required!';
+      if (!errorFocus) this.last.focus(); errorFocus = true
+    }
+    if (!formData.email) {
+    errors.email = 'Email is required!';
+      if (!errorFocus) this.email.focus(); errorFocus = true
+    }
+    if (!isUsingSocial && !formData.password) {
+    errors.password = 'Password is required!';
+      if (!errorFocus) this.pass.focus(); errorFocus = true
+    }
 
     if (Object.keys(errors).length) {
       actions.setFormErrors(errors);
@@ -81,10 +94,9 @@ class RegisterInitial extends Component {
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" align="center" type="H1">Join Celsius</CelText>
-
         <SocialLogin type="register" actions={actions} />
 
-        <Separator allCaps text="Create your account" margin="20 0 20 0"/>
+        <Separator allCaps text="Create your account" margin="20 0 20 0" />
 
         <CelInput
           disabled={registerLoading}
@@ -96,7 +108,8 @@ class RegisterInitial extends Component {
           placeholder="First name"
           returnKeyType={"next"}
           blurOnSubmiting={false}
-          onSubmitEditing={() => {this.last.focus()}}
+          onSubmitEditing={() => { this.last.focus() }}
+          refs={(input) => { this.firstNameInput = input }}
         />
         <CelInput
           disabled={registerLoading}
@@ -108,8 +121,8 @@ class RegisterInitial extends Component {
           placeholder="Last name"
           returnKeyType={"next"}
           blurOnSubmiting={false}
-          onSubmitEditing={() => {this.email.focus()}}
-          refs={(input) => {this.last = input}}
+          onSubmitEditing={() => { this.email.focus() }}
+          refs={(input) => { this.last = input }}
         />
 
         <CelInput
@@ -122,11 +135,11 @@ class RegisterInitial extends Component {
           keyboardType={KEYBOARD_TYPE.EMAIL}
           returnKeyType={!isUsingSocial ? "next" : "done"}
           blurOnSubmiting={false}
-          onSubmitEditing={() => { if(!isUsingSocial)this.pass.focus()}}
-          refs={(input) => {this.email = input}}
+          onSubmitEditing={() => { if (!isUsingSocial) this.pass.focus() }}
+          refs={(input) => { this.email = input }}
         />
 
-        { !isUsingSocial && (
+        {!isUsingSocial && (
           <CelInput
             disabled={registerLoading}
             type="password"
@@ -134,9 +147,9 @@ class RegisterInitial extends Component {
             placeholder="Password"
             value={formData.password}
             error={formErrors.password}
-            refs={(input) => {this.pass = input}}
+            refs={(input) => { this.pass = input }}
           />
-        ) }
+        )}
 
         <CelButton
           margin="10 0 10 0"
@@ -157,11 +170,11 @@ class RegisterInitial extends Component {
 
         <View>
           <CelText color="rgba(61,72,83,0.5)" type="H4" margin="30 20 0 20" align="center">By creating an account you agree to our
-              <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE} onPress={()=> actions.navigateTo('TermsOfUse')}> Terms of Use</CelText>
+              <CelText type="H4" color={STYLES.COLORS.CELSIUS_BLUE} onPress={() => actions.navigateTo('TermsOfUse')}> Terms of Use</CelText>
           </CelText>
         </View>
 
-        <RegisterPromoCodeModal type={"register"}/>
+        <RegisterPromoCodeModal type={"register"} />
       </AuthLayout>
     );
   }
