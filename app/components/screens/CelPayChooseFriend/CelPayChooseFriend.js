@@ -145,8 +145,8 @@ class CelPayChooseFriend extends Component {
     if (permission) {
       try {
         const { data } = await Contacts.getContactsAsync();
-        await this.getContacts();
         await this.setContacts(data);
+        await this.getContacts();
       } catch (err) {
         logger.log(err)
       }
