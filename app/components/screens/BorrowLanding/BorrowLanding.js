@@ -128,35 +128,31 @@ class BorrowLanding extends Component {
     const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary, ltv } = this.props;
     const style = BorrowLandingStyle();
 
-
-
-
-    /* Calculating difference between largest coin amount and
-    minimum amount needed for loan based on current LTV.
-
-    */
-    if (!walletSummary) {
-      return null
-    }
-    let walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
-    walletCoins = walletCoins
-                        .filter(allowedCoin => loanCompliance.coins.includes(allowedCoin.short))
-    const arrayOfAmountUsd = walletCoins
-                        .map(amount => amount.amount_usd)
-    const indexOfLargestAmount = arrayOfAmountUsd
-                        .indexOf(Math.max(...arrayOfAmountUsd))
-    const largestAmountUsd = walletCoins[indexOfLargestAmount].amount_usd
-    const largestAmount = walletCoins[indexOfLargestAmount].amount
-    const largestAmountCoin = walletCoins[indexOfLargestAmount].short || 1
-    const coinUsdRatio = largestAmountUsd  / largestAmount
-    const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
-
-    const minLtv = Math.max(...ltv.map(x => x.percent))
-
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
       emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_BORROW }} />;
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_BORROW }} />;
     if (!loanCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
+
+    /* Calculating difference between largest coin amount and
+    minimum amount needed for loan based on current LTV.
+    */
+   if (!walletSummary) {
+    return null
+  }
+  let walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
+  walletCoins = walletCoins
+                      .filter(allowedCoin => loanCompliance.coins.includes(allowedCoin.short))
+  const arrayOfAmountUsd = walletCoins
+                      .map(amount => amount.amount_usd)
+  const indexOfLargestAmount = arrayOfAmountUsd
+                      .indexOf(Math.max(...arrayOfAmountUsd))
+  const largestAmountUsd = walletCoins[indexOfLargestAmount].amount_usd
+  const largestAmount = walletCoins[indexOfLargestAmount].amount
+  const largestAmountCoin = walletCoins[indexOfLargestAmount].short || 1
+  const coinUsdRatio = largestAmountUsd  / largestAmount
+  const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
+  const minLtv = Math.max(...ltv.map(x => x.percent))
+
     if (maxAmount < minimumLoanAmount) {
       return (
         <StaticScreen
