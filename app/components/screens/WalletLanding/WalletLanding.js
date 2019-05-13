@@ -57,6 +57,7 @@ class WalletLanding extends Component {
     }
   };
 
+
   constructor(props) {
     super(props);
 
@@ -83,10 +84,13 @@ class WalletLanding extends Component {
       coinWithoutAmount,
       activeView: props.appSettings.default_wallet_view
     };
+
+    // NOTE (fj): quickfix for CN-2763
+    this.shouldInitializeMembership = true
   }
 
   componentDidMount = async () => {
-    const { actions, currenciesRates, currenciesGraphs, user } = this.props;
+    const { actions, currenciesRates, currenciesGraphs } = this.props;
 
     const coinWithAmount = [];
     const coinWithoutAmount = [];
@@ -94,7 +98,14 @@ class WalletLanding extends Component {
     await actions.getWalletSummary();
     if (!currenciesRates) actions.getCurrencyRates();
     if (!currenciesGraphs) actions.getCurrencyGraphs();
-    if (!user.celsius_member) actions.getCelsiusMemberStatus();
+
+    // NOTE (fj): quickfix for CN-2763
+    // if (user.celsius_member) {
+    if (this.shouldInitializeMembership) {
+      actions.getCelsiusMemberStatus();
+      this.shouldInitializeMembership = false;
+    }
+
     const { walletSummary } = this.props;
 
     walletSummary.coins.forEach((coin) => {
