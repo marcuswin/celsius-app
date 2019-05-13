@@ -10,7 +10,6 @@ import Icon from "../../atoms/Icon/Icon";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
 import Separator from "../../atoms/Separator/Separator";
-import ApiKeyRevokeModal from "../../organisms/ApiKeyRevokeModal/ApiKeyRevokeModal";
 import { MODALS } from "../../../constants/UI";
 
 @connect(
@@ -35,12 +34,9 @@ class CelApiDropdown extends Component {
   }
 
   openDropdown = () => {
+    const { onOpen, apiKey } = this.props;
     this.setState({ isExpanded: !this.state.isExpanded });
-  };
-
-  revoke = (id) => {
-    const { actions } = this.props;
-    actions.revokeAPIKey(id);
+    onOpen(apiKey)
   };
 
   render() {
@@ -101,12 +97,11 @@ class CelApiDropdown extends Component {
               </View>
             }
 
-            <TouchableOpacity apiKey={apiKey} onPress={() => actions.openModal(MODALS.API_KEY_REVOKE_MODAL)}>
+            <TouchableOpacity onPress={() => actions.openModal(MODALS.API_KEY_REVOKE_MODAL)}>
               <CelText type={"H6"} weight={"400"} style={[{ color: "red" }]}>Revoke</CelText>
             </TouchableOpacity>
           </View>
         }
-        <ApiKeyRevokeModal apiKey={apiKey} state={isExpanded}/>
       </View>
     );
   }
