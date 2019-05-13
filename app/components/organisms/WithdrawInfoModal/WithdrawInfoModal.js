@@ -48,21 +48,27 @@ class WithdrawInfoModal extends Component {
     };
   }
 
+  closeModalHandler = () => {
+    const { closeModal } = this.props
+    closeModal()
+    this.setState({ currentStep: 1 })
+  }
+
 
   continue = () => {
     const { currentStep } = this.state
-    const { closeModal, toggleKeypad, type } = this.props
+    const { toggleKeypad, type } = this.props
 
     if (type) {
       if (currentStep === 4) {
         if (toggleKeypad) toggleKeypad();
-        closeModal();
+        this.closeModalHandler();
       } else {
         this.setState({ currentStep: currentStep + 1 })
       }
     } else if (currentStep === 3) {
       if (toggleKeypad) toggleKeypad();
-      closeModal();
+      this.closeModalHandler();
     } else {
       this.setState({ currentStep: currentStep + 1 })
     }
@@ -98,7 +104,7 @@ class WithdrawInfoModal extends Component {
 
   renderStep() {
     const { steps, currentStep } = this.state;
-    const { closeModal, type } = this.props
+    const { type } = this.props
     const styles = WithdrawInfoModalStyle();
     const ButtonStyle = this.buttonColor;
 
@@ -111,7 +117,7 @@ class WithdrawInfoModal extends Component {
           <CelText type='H4' style={styles.description}>{type ? steps[currentStep - 1].description : three[currentStep - 1].description}</CelText>
           <View style={styles.button}>
             <ButtonStyle />
-            <TouchableOpacity style={{ marginTop: 10 }} onPress={() => closeModal()}>
+            <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
               <CelText> Skip </CelText>
             </TouchableOpacity>
           </View>
@@ -125,25 +131,22 @@ class WithdrawInfoModal extends Component {
     const { steps, currentStep } = this.state;
     const { type } = this.props;
     let numberOfSteps
-    
+
     if (type) {
       numberOfSteps = 4
     } else {
       numberOfSteps = 3
     }
 
-    if (!currentStep) {
-      this.setState({ currentStep: 1 })
-    }
-
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
         picture={steps[currentStep - 1].image}
-        >
+        onClose={this.closeModalHandler}
+      >
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>
-          <DotsBar length={numberOfSteps} currentStep={currentStep}/>
+            <DotsBar length={numberOfSteps} currentStep={currentStep} />
           </View>
           <View>
             {this.renderStep()}
