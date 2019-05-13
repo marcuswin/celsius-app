@@ -54,7 +54,7 @@ class RegisterVerifyPhone extends Component {
       <AuthLayout>
         <CelText margin="0 0 14 0" type="H1" align="center">Verify your phone number</CelText>
         <CelText margin="0 0 30 0" type="H4" align="center">We have sent you an SMS with a code.</CelText>
-        <CelInput type="text" field="sixCode" placeholder="Enter six digit code" value={formData.sixCode}/>
+        <CelInput type="text" field="sixCode" placeholder="Enter four digit code" value={formData.sixCode}/>
         <CelButton margin={"0 0 30"} onPress={() => this.verify(formData.sixCode)}>Verify</CelButton>
         <CelButton margin="30 0 40 0" onPress={() => { actions.sendVerificationSMS(user.cellphone) }} basic>Resend code</CelButton>
       </AuthLayout>
