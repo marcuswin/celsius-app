@@ -45,7 +45,7 @@ class CelPayEnterAmount extends Component {
 
   constructor(props) {
     super(props);
-    const { currencies, celpayCompliance, formData, navigation, walletSummary } = this.props;
+    const { currencies, celpayCompliance, formData, walletSummary } = this.props;
 
     const coinSelectItems = currencies
       .filter(c => celpayCompliance.coins.includes(c.short))
@@ -55,13 +55,7 @@ class CelPayEnterAmount extends Component {
       })
       .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
-    const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
-    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'CelPay'
-
-    navigation.setParams({
-      title: screenTitle,
-      activePeriod: ""
-    })
+    this.setNavigationParams()
 
     this.state = {
       coinSelectItems,
@@ -76,6 +70,14 @@ class CelPayEnterAmount extends Component {
   componentDidMount() {
     const { actions } = this.props;
     actions.getLoyaltyInfo();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { formData } = this.props;
+
+    if (prevProps.formData.friend !== formData.friend) {
+      this.setNavigationParams()
+    }
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
@@ -94,6 +96,17 @@ class CelPayEnterAmount extends Component {
     }
     this.handleAmountChange(amount, label)
     actions.toggleKeypad(false)
+  }
+
+  setNavigationParams() {
+    const { formData, navigation } = this.props
+    const names = (formData.friend && formData.friend.name) ? formData.friend.name.split(' ') : undefined;
+    const screenTitle = names ? `Send to ${names[0] ? names[0] : ''} ${(!!names[1] && !!names[1][0]) ? names[1][0] : ''}` : 'CelPay'
+
+    navigation.setParams({
+      title: screenTitle,
+      activePeriod: ""
+    })
   }
 
   // TODO: move to formatter? check WithdrawEnterAmount

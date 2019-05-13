@@ -171,6 +171,8 @@ class CelPayChooseFriend extends Component {
 
   sendLink = async () => {
     const { actions } = this.props;
+
+    actions.updateFormField('friend', undefined)
     actions.navigateTo('CelPayEnterAmount');
   };
 
