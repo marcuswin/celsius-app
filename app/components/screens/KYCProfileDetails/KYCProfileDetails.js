@@ -43,8 +43,6 @@ class KYCProfileDetails extends Component {
     }
   }
 
-
-
   async componentDidMount() {
     const { actions } = this.props
 
@@ -52,6 +50,14 @@ class KYCProfileDetails extends Component {
     this.setState({ isLoading: false })
 
     this.initForm(this.props.user)
+  }
+
+  componentDidUpdate() {
+    const errors = Object.keys(this.props.formErrors)
+    if (errors.length > 0) {
+      if (errors.includes('first_name')) this.firstName.focus();
+      else if (errors.includes('last_name')) this.last.focus();
+    }
   }
 
   initForm = user => {
@@ -134,14 +140,6 @@ class KYCProfileDetails extends Component {
     }
 
     this.setState({ updatingProfileInProgress: false })
-  }
-
-  componentDidUpdate() {
-    const errors = Object.keys(this.props.formErrors)
-    if (errors.length > 0) {
-      if (errors.includes('first_name')) this.firstName.focus();
-      else if (errors.includes('last_name')) this.last.focus();
-    }
   }
 
   render() {
