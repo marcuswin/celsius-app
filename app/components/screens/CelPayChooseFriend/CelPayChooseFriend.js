@@ -34,11 +34,11 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
     </CelText>
 
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <CelButton margin="0 0 16 0" onPress={onContactImport}>
+        <CelButton margin="0 0 10 0" onPress={onContactImport}>
           Import contacts
       </CelButton>
 
-        <CelButton margin={"14 0 0 0"} italic basic onPress={onSkip}>
+        <CelButton margin={"10 0 0 0"} italic basic onPress={onSkip}>
           Skip this step
       </CelButton>
       </View>
@@ -145,8 +145,8 @@ class CelPayChooseFriend extends Component {
     if (permission) {
       try {
         const { data } = await Contacts.getContactsAsync();
-        await this.getContacts();
         await this.setContacts(data);
+        await this.getContacts();
       } catch (err) {
         logger.log(err)
       }
@@ -171,6 +171,8 @@ class CelPayChooseFriend extends Component {
 
   sendLink = async () => {
     const { actions } = this.props;
+
+    actions.updateFormField('friend', undefined)
     actions.navigateTo('CelPayEnterAmount');
   };
 

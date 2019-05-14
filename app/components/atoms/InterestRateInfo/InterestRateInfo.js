@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import InterestRateInfoStyle from './InterestRateInfo.styles'
 import CelText from '../CelText/CelText'
-import formatter from '../../../utils/formatter';
+// import formatter from '../../../utils/formatter';
 // import { GLOBAL_STYLE_DEFINITIONS as globalStyles } from "../../../config/constants/style";
 
 @connect(state => ({
@@ -19,7 +19,7 @@ class InterestRateInfo extends Component {
       rate,
       walletCurrencies,
       compact,
-      loyaltyInfo
+      // loyaltyInfo
     } = this.props
 
     if (!currency || !walletCurrencies) {
@@ -55,21 +55,21 @@ class InterestRateInfo extends Component {
           </View>
           <View style={{ justifyContent: 'space-around' }}>
             <View style={styles.regularRateWrapper}>
-              <CelText type={'H7'} style={styles.regularRateText}>
+              {/* <CelText type={'H7'} style={styles.regularRateText}>
                 Regular
-              </CelText>
+              </CelText> */}
               <CelText type={'H5'} style={styles.regRateText}>
                 {rate}%
               </CelText>
             </View>
-            <View style={styles.celRateWrapper}>
+            {/* <View style={styles.celRateWrapper}>
               <CelText type={'H7'} style={styles.celsiusRateText}>
                 Bonus
               </CelText>
               <CelText type={'H5'} style={styles.celRateText}>
                 {formatter.round((1 + (loyaltyInfo && loyaltyInfo.earn_interest_bonus)) * rate)}%
               </CelText>
-            </View>
+            </View> */}
           </View>
         </View>
         {currencyInfo.short.toUpperCase() === 'USD' && (

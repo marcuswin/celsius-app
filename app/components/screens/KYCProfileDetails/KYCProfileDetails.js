@@ -34,7 +34,7 @@ class KYCProfileDetails extends Component {
     headerSameColor: true
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -43,15 +43,21 @@ class KYCProfileDetails extends Component {
     }
   }
 
-
-
-  async componentDidMount () {
+  async componentDidMount() {
     const { actions } = this.props
 
     await actions.getProfileInfo()
     this.setState({ isLoading: false })
 
     this.initForm(this.props.user)
+  }
+
+  componentDidUpdate() {
+    const errors = Object.keys(this.props.formErrors)
+    if (errors.length > 0) {
+      if (errors.includes('first_name')) this.firstName.focus();
+      else if (errors.includes('last_name')) this.last.focus();
+    }
   }
 
   initForm = user => {
@@ -136,7 +142,7 @@ class KYCProfileDetails extends Component {
     this.setState({ updatingProfileInProgress: false })
   }
 
-  render () {
+  render() {
     const { formData, formErrors, actions } = this.props
     const { isLoading, updatingProfileInProgress } = this.state
     // const style = KYCProfileDetailsStyle();
@@ -159,6 +165,7 @@ class KYCProfileDetails extends Component {
           onSubmitEditing={() => {
             this.middle.focus()
           }}
+          refs={(input) => { this.firstName = input }}
         />
         <CelInput
           type='text'

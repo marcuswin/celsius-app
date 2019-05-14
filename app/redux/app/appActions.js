@@ -45,7 +45,6 @@ function initCelsiusApp() {
       await appUtil.pollBackendStatus();
 
       await dispatch(initAppData());
-      await dispatch(actions.initUserAppSettings());
 
       await dispatch(branchUtil.initBranch());
 
@@ -158,14 +157,14 @@ function setInternetConnection(connection) {
 /**
  * Initialize all data needed for the App
  */
-function initAppData() {
+function initAppData(initToken = null) {
   return async (dispatch, getState) => {
 
     await dispatch(actions.getInitialCelsiusData());
 
     // get user token
-    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-
+    const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+    
     // fetch user
     if (token) await dispatch(actions.getProfileInfo());
 
@@ -185,6 +184,11 @@ function initAppData() {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
+        // get general data for te app
+        await dispatch(actions.getCurrencyRates());
+        await dispatch(actions.getCurrencyGraphs());
+        await dispatch(actions.getCommunityStatistics())
+        
         // get wallet details for verified users
         if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
           await dispatch(actions.getWalletSummary());
@@ -196,9 +200,5 @@ function initAppData() {
       await dispatch(actions.logoutUser());
     }
 
-    // get general data for te app
-    await dispatch(actions.getCurrencyRates());
-    await dispatch(actions.getCurrencyGraphs());
-    await dispatch(actions.getCommunityStatistics())
   };
 }

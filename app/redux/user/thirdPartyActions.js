@@ -65,10 +65,11 @@ function authTwitter(type, twitterUser) {
         email: twitterUser.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        twitter_screen_name: twitterUser.screen_name,
         twitterId: twitterUser.id_str,
-        accessToken: twitterUser.twitter_oauth_token,
-        secretToken: twitterUser.twitter_oauth_secret,
-        profilePicture: twitterUser.profile_picture,
+        accessToken: user.twitter_oauth_token,
+        secretToken: user.twitter_oauth_secret,
+        profilePicture: twitterUser.profile_image_url,
       }))
     }
   }
@@ -92,6 +93,7 @@ function registerUserTwitter() {
         profile_picture: formData.profilePicture,
         access_token: formData.accessToken,
         secret_token: formData.secretToken,
+        twitter_screen_name: formData.twitter_screen_name,
         referral_link_id: referralLinkId || undefined,
       }
 
@@ -319,6 +321,8 @@ function authGoogle(authReason) {
           clientId: GOOGLE_CLIENT_ID
         });
         await GoogleSignIn.askForPlayServicesAsync();
+        const isSignedIn = await GoogleSignIn.isSignedInAsync()
+        if (isSignedIn) await GoogleSignIn.signOutAsync();
         result = await GoogleSignIn.signInAsync();
       };
 
@@ -449,17 +453,27 @@ function loginSocialSuccess(network, token) {
  * @param {string} user - registered user on Celsius
  */
 function registerSocialSuccess(network, token, user) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
+
+    dispatch(startApiCall(API.SOCIAL_REGISTER));
 
     dispatch({
       type: ACTIONS[`REGISTER_USER_${ network.toUpperCase() }_SUCCESS`],
       user,
     });
-
+   
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers());
-    await dispatch(initAppData());
-    dispatch(navigateTo('RegisterSetPin'))
+    
+    await dispatch(initAppData(token));
+    const { profile } = getState().user;
+    if(!profile.has_pin){
+      dispatch(navigateTo('RegisterSetPin'))
+    } else {
+      dispatch(navigateTo('WalletFab'))
+    }
+    
+    dispatch({ type: ACTIONS.SOCIAL_REGISTER_SUCCESS });
   }
 }

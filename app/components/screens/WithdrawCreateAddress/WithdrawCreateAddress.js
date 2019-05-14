@@ -67,10 +67,10 @@ class WithdrawCreateAddress extends Component {
     let tagText;
     let placeHolderText;
 
-    if (formData.coin.toLowerCase() === "xrp") {
+    if (formData.coin && formData.coin.toLowerCase() === "xrp") {
       tagText = "What is XRP Destination tag";
       placeHolderText = "Destination Tag";
-    } else if (formData.coin.toLowerCase() === "xlm") {
+    } else if (formData.coin && formData.coin.toLowerCase() === "xlm") {
       tagText = "What is XLM Memo Id";
       placeHolderText = "Memo Id";
     }

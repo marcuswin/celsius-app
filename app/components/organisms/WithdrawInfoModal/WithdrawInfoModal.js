@@ -37,7 +37,7 @@ class WithdrawInfoModal extends Component {
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
           title: "Don’t forget to check your withdrawal address",
-          description: "Take a closer look at the address you wish to send your funds to. If you transferred money from an exchange, the address may not be correct. If you need to change your withdrawal address, please contact us at app@celsius.network, or chat with a member of our team.",
+          description: "Celsius uses a smart-contract based wallet for ETH and ERC20 coins, some wallets and exchanges (e.g. Bitfinex) do not support transactions from a smart-contract source. We recommend a one time test withdrawal with a small sum. Contact app@celsius.network if you are unsure.",
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
@@ -48,20 +48,27 @@ class WithdrawInfoModal extends Component {
     };
   }
 
+  closeModalHandler = () => {
+    const { closeModal } = this.props
+    closeModal()
+    this.setState({ currentStep: 1 })
+  }
+
+
   continue = () => {
     const { currentStep } = this.state
-    const { closeModal, toggleKeypad, type } = this.props
+    const { toggleKeypad, type } = this.props
 
     if (type) {
       if (currentStep === 4) {
         if (toggleKeypad) toggleKeypad();
-        closeModal();
+        this.closeModalHandler();
       } else {
         this.setState({ currentStep: currentStep + 1 })
       }
     } else if (currentStep === 3) {
       if (toggleKeypad) toggleKeypad();
-      closeModal();
+      this.closeModalHandler();
     } else {
       this.setState({ currentStep: currentStep + 1 })
     }
@@ -97,7 +104,7 @@ class WithdrawInfoModal extends Component {
 
   renderStep() {
     const { steps, currentStep } = this.state;
-    const { closeModal, type } = this.props
+    const { type } = this.props
     const styles = WithdrawInfoModalStyle();
     const ButtonStyle = this.buttonColor;
 
@@ -110,7 +117,7 @@ class WithdrawInfoModal extends Component {
           <CelText type='H4' style={styles.description}>{type ? steps[currentStep - 1].description : three[currentStep - 1].description}</CelText>
           <View style={styles.button}>
             <ButtonStyle />
-            <TouchableOpacity style={{ marginTop: 10 }} onPress={() => closeModal()}>
+            <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
               <CelText> Skip </CelText>
             </TouchableOpacity>
           </View>
@@ -135,16 +142,16 @@ class WithdrawInfoModal extends Component {
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
         picture={steps[currentStep - 1].image}
+        onClose={this.closeModalHandler}
       >
         <View style={styles.wrapper}>
           <View style={styles.progressBar}>
-          <DotsBar length={numberOfSteps} currentStep={currentStep}/>
+            <DotsBar length={numberOfSteps} currentStep={currentStep} />
           </View>
           <View>
             {this.renderStep()}
           </View>
         </View>
-
       </CelModal>
     );
   }

@@ -13,7 +13,8 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
   state => ({
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -47,15 +48,15 @@ class RegisterVerifyPhone extends Component {
   };
 
   render() {
-    const { actions, formData } = this.props;
+    const { actions, formData, user } = this.props;
 
     return (
       <AuthLayout>
         <CelText margin="0 0 14 0" type="H1" align="center">Verify your phone number</CelText>
         <CelText margin="0 0 30 0" type="H4" align="center">We have sent you an SMS with a code.</CelText>
-        <CelInput type="text" field="sixCode" placeholder="Enter six digit code" value={formData.sixCode}/>
+        <CelInput type="text" field="sixCode" placeholder="Enter four digit code" value={formData.sixCode}/>
         <CelButton margin={"0 0 30"} onPress={() => this.verify(formData.sixCode)}>Verify</CelButton>
-        <CelButton margin="30 0 40 0" onPress={() => { actions.navigateTo('RegisterSetPin') }} basic>Resend code</CelButton>
+        <CelButton margin="30 0 40 0" onPress={() => { actions.sendVerificationSMS(user.cellphone) }} basic>Resend code</CelButton>
       </AuthLayout>
     );
   }

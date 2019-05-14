@@ -97,6 +97,7 @@ class RegisterPromoCodeModal extends Component {
 
     return (
       <CelModal
+        noScroll
         picture={confirmed ? require("../../../../assets/images/victory-bear3x.png") : require("../../../../assets/images/money-bear3x.png")}
         name={MODALS.REGISTER_PROMO_CODE_MODAL}
         style={style.container}

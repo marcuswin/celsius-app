@@ -22,7 +22,9 @@ import {
   SentFrom,
   ReferrerHODL,
   Referrer,
-  Referred
+  Referred,
+  ReferrerPending,
+  ReferredPending
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -91,6 +93,8 @@ class TransactionDetails extends Component {
         return <BasicSection key={sectionType} label="Date deposited" value={moment(transaction.time).format("D MMM YYYY")} />;
       case 'time':
         return <BasicSection key={sectionType} label="Time" value={moment.utc(transaction.time).format("h:mm A (z)")} />;
+      case 'ref:pending':
+      return <BasicSection key={sectionType} label="" value={"Your award is yet to be confirmed. You will be able to see it in your wallet, soon."} />;
       case 'status':
         return <StatusSection key={sectionType} transactionProps={transactionProps} />;
       case 'status:noSeparator':
@@ -135,7 +139,7 @@ class TransactionDetails extends Component {
       case 'loan:totalInterest':
         return <BasicSection key={sectionType} label="Total Interest Payment" value={formatter.usd(transaction.loan_data.total_interest_payment)} noSeparator />;
       case 'hodl:info':
-        return <HodlInfoSection margin="16 0 10 0" key={sectionType} date="April 29th" amount="20" coin="ETH" />;
+        return <HodlInfoSection margin="16 0 10 0" key={sectionType} date={moment.utc(transaction.time).format("h:mm A (z)")} amount="20" coin="ETH" />;
       case 'type':
         return <BasicSection key={sectionType} label="Type" value="CelPay" />
       case 'transactionId':
@@ -145,11 +149,15 @@ class TransactionDetails extends Component {
       case 'sentFrom':
         return <SentFrom key={sectionType} transaction={transaction} text="From:" actions={actions} />;
       case 'referrerHODL':
-        return <ReferrerHODL key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+        return <ReferrerHODL key={sectionType} lockedValue={moment(transaction.time).format("D MMM YYYY")} transaction={transaction} text="Friend referred:" actions={actions} />;
       case 'referrer':
         return <Referrer key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
       case 'referred':
         return <Referred key={sectionType} transaction={transaction} text="From:" actions={actions} />;
+      case 'referrer:pending':
+        return <ReferrerPending key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
+      case 'referred:pending':
+        return <ReferredPending key={sectionType} transaction={transaction} text="From:" actions={actions} />;
       default:
         return null;
     }

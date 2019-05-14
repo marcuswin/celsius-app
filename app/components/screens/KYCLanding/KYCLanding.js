@@ -89,9 +89,9 @@ class KYCLanding extends Component {
 
     if (kycStatus === 'collecting') {
       status = {
-        title: 'Here you will be able to add, send and receive coins',
+        title: 'Add, Send, Receive Coins',
         explanation:
-          'In order to do that, please verify your ID. Verification usually takes less than 24h.',
+          'Please verify your identity to add to your wallet balance.',
         image: require('../../../../assets/images/illustrations-v3/Dog/profile-dog.png'),
       }
     }
@@ -147,7 +147,9 @@ class KYCLanding extends Component {
                 {e}
               </CelText>
             ))}
+            <View style={{ marginHorizontal: '6%'}}>
             {this.renderProgressSteps(kycStatus)}
+            </View>
           </View>
         </View>
       </View>
@@ -170,7 +172,7 @@ class KYCLanding extends Component {
     }
     return (
       <CelText
-        margin={'0 0 20 0'}
+        margin={'0 0 0 0'}
         align={'center'}
         type={'H3'}
         weight={'500'}
@@ -192,7 +194,7 @@ class KYCLanding extends Component {
         disabled={!(step === 'Verify Identity' && kycStatus === 'collecting' || kycStatus === 'rejected')}
         weight={'500'}
         type={'H4'}
-        margin='0 0 0 70'
+        margin='0 0 0 50'
       >
         {step}
       </CelButton>

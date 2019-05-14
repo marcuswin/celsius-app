@@ -54,7 +54,8 @@ const FONTSIZE = {
   H4: 18,
   H5: 16,
   H6: 14,
-  H7: 12
+  H7: 12,
+  H8: 10,
 }
 
 export default {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Clipboard } from 'react-native'
+import { View, TouchableOpacity, Clipboard, BackHandler } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -45,11 +45,19 @@ class VerifyProfile extends Component {
     }
   }
 
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
   componentDidMount = () => {
     const { navigation, actions } = this.props
     const activeScreen = navigation.getParam('activeScreen')
     actions.getPreviousPinScreen(activeScreen)
     if (activeScreen) this.props.navigation.setParams({ hideBack: true })
+  };
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
   onCheckSuccess = () => {
@@ -84,6 +92,8 @@ class VerifyProfile extends Component {
       this.setState({ forgotPin: true })
     }
   }
+
+  handleBackButtonClick = () => true;
 
   handlePINChange = newValue => {
     const { actions } = this.props
