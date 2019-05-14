@@ -76,9 +76,16 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance } = this.props;
+    const { actions, interestRates, celpayCompliance, walletSummary } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
+
+    if (!walletSummary) {
+      return null
+    }
+    const indexOfCel = walletSummary.coins.findIndex(i => i.short === 'CEL')
+    const celUsdRatio = walletSummary.coins[indexOfCel].amount / walletSummary.coins[indexOfCel].amount_usd
+    const interestInCel = coinDetails.interest_earned_usd * celUsdRatio
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
@@ -155,12 +162,13 @@ class CoinDetails extends Component {
                   <CelText type="H6" weight='300'>Total interest earned</CelText>
                   <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                   <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                  <CelText type="H6" weight='300'>{formatter.crypto(interestInCel, walletSummary.coins[indexOfCel].short)}</CelText>
                 </View> : null }
                 {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                   <View style={style.interestRateWrapper}>
                     <CelText type="H6" weight='300'>Current rate</CelText>
                     <View>
-                      <Badge margin='0 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                      <Badge margin='0 0 25 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
                         <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
                       </Badge>
                     </View>
