@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import QrScannerStyle from "./QrScanner.styles";
+import QrScannerStyle from "./QRScanner.styles";
 import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
 
