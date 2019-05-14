@@ -69,20 +69,28 @@ class WalletLanding extends Component {
     this.state = {
       activeView: props.appSettings.default_wallet_view
     };
+
+    // NOTE (fj): quickfix for CN-2763
+    this.shouldInitializeMembership = true
   }
 
   componentDidMount = async () => {
-    const {actions, appSettings } = this.props;
+    const { actions, appSettings, currenciesRates, currenciesGraphs } = this.props;
+
     if (appSettings && !appSettings.accepted_terms_of_use) {
       return actions.navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "WalletLanding"});
     }
 
-    const { currenciesRates, currenciesGraphs, user } = this.props;
-
     await actions.getWalletSummary();
     if (!currenciesRates) actions.getCurrencyRates();
     if (!currenciesGraphs) actions.getCurrencyGraphs();
-    if (!user.celsius_member) actions.getCelsiusMemberStatus();
+
+    // NOTE (fj): quickfix for CN-2763
+    // if (user.celsius_member) {
+    if (this.shouldInitializeMembership) {
+      actions.getCelsiusMemberStatus();
+      this.shouldInitializeMembership = false;
+    }
 
     this.setWalletFetchingInterval()
   };

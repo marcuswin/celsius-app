@@ -2,6 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
 import { Constants } from 'expo'
+import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
 import logger from './logger-util'
 
@@ -31,6 +32,18 @@ function initInterceptors () {
   axios.interceptors.request.use(
     async req => {
       const newRequest = { ...req }
+
+      if (!req.url.includes('branch.io')) {
+        newRequest.headers = {
+          ...newRequest.headers,
+          installationId: Constants.installationId,
+          os: Platform.OS,
+          buildVersion: Constants.revisionId,
+          deviceYearClass: Constants.deviceYearClass,
+          deviceModel: Platform.OS === 'ios' ? Constants.platform.ios.model : null,
+          osVersion: Platform.OS === 'ios' ? Constants.platform.ios.systemVersion : null,
+        }
+      }
 
       if (
         (req.url.includes('profile/profile_picture') && !req.data.profile_picture_url) ||
@@ -129,7 +142,8 @@ function initInterceptors () {
         }
         await store.dispatch(await actions.showMessage("error", err.msg));
       }
-      if (error.response.status === 429) {
+
+      if (error && error.response && error.response.status === 429) {
           store.dispatch(actions.navigateTo("LockedAccount"));
       }
 
