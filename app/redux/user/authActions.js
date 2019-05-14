@@ -43,7 +43,7 @@ function loginUser() {
   return async (dispatch, getState) => {
 
     try {
-      const { formData } = getState().forms
+      const { formData } = getState().forms;
 
       dispatch(startApiCall(API.LOGIN_USER));
       const res = await usersService.login({
@@ -56,7 +56,6 @@ function loginUser() {
 
       await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
-
       const user = res.data.user
 
       dispatch({
@@ -64,8 +63,8 @@ function loginUser() {
         callName: API.LOGIN_USER,
         tokens: res.data.auth0,
         user,
-      })
-        dispatch(navigateTo('WalletFab'));
+      });
+       dispatch(navigateTo('WalletFab'));
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -105,7 +104,6 @@ function registerUser() {
         type: ACTIONS.REGISTER_USER_SUCCESS,
         user: res.data.user,
       });
-
       dispatch(navigateTo('RegisterSetPin'))
     } catch (err) {
       if (err.type === 'Validation error') {

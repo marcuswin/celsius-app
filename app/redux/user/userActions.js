@@ -5,11 +5,7 @@ import API from '../../constants/API'
 import { apiError, startApiCall } from '../api/apiActions'
 import { showMessage, toggleKeypad, openModal } from '../ui/uiActions'
 import usersService from '../../services/users-service'
-import {
-  deleteSecureStoreKey,
-  getSecureStoreKey,
-  setSecureStoreKey
-} from '../../utils/expo-storage'
+import { deleteSecureStoreKey } from '../../utils/expo-storage'
 import TwoFactorService from '../../services/two-factor-service'
 import logger from '../../utils/logger-util'
 import meService from '../../services/me-service'
@@ -23,8 +19,6 @@ const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra
 
 export {
   getProfileInfo,
-  initUserAppSettings,
-  updateUserAppSettings,
   updateProfilePicture,
   getTwoFactorSecret,
   enableTwoFactor,
@@ -185,40 +179,6 @@ function disableTwoFactor () {
     } catch (error) {
       dispatch(apiError(API.DISABLE_TWO_FACTOR))
       dispatch(showMessage('error', error.msg))
-    }
-  }
-}
-
-/**
- * Initializes app settings saved in Secure Storage
- */
-function initUserAppSettings () {
-  return async dispatch => {
-    const appSettings = await getSecureStoreKey('APP_SETTINGS')
-    if (appSettings) dispatch(updateUserAppSettings(JSON.parse(appSettings)))
-  }
-}
-
-/**
- * Updates APP_SETTINGS in secure storage
- * @param {Object} appSettings - settings to update
- */
-function updateUserAppSettings (appSettings) {
-  return async (dispatch, getState) => {
-    try {
-      const newAppSettings = {
-        ...getState().user.appSettings,
-        ...appSettings
-      }
-
-      await setSecureStoreKey('APP_SETTINGS', JSON.stringify(newAppSettings))
-
-      dispatch({
-        type: ACTIONS.UPDATE_USER_APP_SETTINGS,
-        appSettings: newAppSettings
-      })
-    } catch (err) {
-      logger.err(err)
     }
   }
 }

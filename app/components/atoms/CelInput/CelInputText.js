@@ -41,6 +41,7 @@ class CelInput extends Component {
         secureTextEntry: PropTypes.bool,
         multiline: PropTypes.bool,
         numberOfLines: PropTypes.number,
+        debounce: PropTypes.bool
     };
 
     static defaultProps = {
@@ -53,7 +54,8 @@ class CelInput extends Component {
         value: "",
         secureTextEntry: false,
         multiline: false,
-        numberOfLines: 1
+        numberOfLines: 1,
+        debounce: false
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -85,8 +87,13 @@ class CelInput extends Component {
 
     onChangeText = (text) => {
         this.setState({ textValue: text })
-        clearTimeout(this.changeTimer)
-        this.changeTimer = setTimeout(() => this.handleChangeText(text), 750)
+        const { debounce } = this.props
+        if(debounce) {
+            clearTimeout(this.changeTimer)
+            this.changeTimer = setTimeout(() => this.handleChangeText(text), 750)
+        } else {
+            this.handleChangeText(text)
+        }
     }
 
     onInputFocus = () => {

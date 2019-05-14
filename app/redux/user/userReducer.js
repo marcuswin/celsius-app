@@ -277,7 +277,7 @@ export default (state = initialState, action) => {
         ...state,
         profile: {
           ...state.profile,
-          celsius_member: action.isNewMember || state.profile.celisus_member,
+          celsius_member: action.isNewMember || state.profile.celsius_member,
         }
       }
 

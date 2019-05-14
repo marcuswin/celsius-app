@@ -145,7 +145,7 @@ class Profile extends Component {
 
         <Separator />
 
-        {shouldShowAchievements && (
+        {false && shouldShowAchievements && (
           <View>
             <IconButton
               onPress={() => actions.navigateTo("LoyaltyProgram")}

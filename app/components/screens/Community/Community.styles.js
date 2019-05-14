@@ -7,15 +7,15 @@ const base = {
   },
   text: { marginTop: heightPercentageToDP("1.25%") },
   secondText: { marginTop: heightPercentageToDP("0.5%") },
-  amountsView: { flexDirection: "row", justifyContent: "space-around" },
-  amountsCard: { marginTop: heightPercentageToDP("0.8%") },
+  amountsView: { justifyContent: "space-around" },
+  amountsCard: { marginTop: heightPercentageToDP("2%") },
   image: { alignItems: "center" },
   communityImage: {
     position: "absolute",
-    left: 10,
+    left: 16,
     bottom: -10,
     resizeMode: "cover",
-    height: widthPercentageToDP("30%"),
+    height: widthPercentageToDP("35%"),
     width: widthPercentageToDP("30%"),
     overflow: "visible"
   },
@@ -25,8 +25,17 @@ const base = {
     margin: 12
   },
   coinImage: {
-    width: 44,
-    height: 44
+    width: 38,
+    height: 38
+  },
+  bulldogImage: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    resizeMode: "cover",
+    width: widthPercentageToDP("22%"),
+    height: widthPercentageToDP("20.4%"),
+    overflow: "hidden"
   }
 };
 

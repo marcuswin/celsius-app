@@ -20,7 +20,7 @@ function createAPIKey(permissions) {
     try {
       dispatch(startApiCall(API.CREATE_API_KEY))
       const apiKeyRes = await apiKeyService.create(permissions);
-      
+
       dispatch({
         type: ACTIONS.CREATE_API_KEY_SUCCESS,
         apiKey: apiKeyRes.data.api_key,
@@ -42,12 +42,16 @@ function revokeAPIKey(keyId) {
     try {
       dispatch(startApiCall(API.DELETE_API_KEY))
 
-      await apiKeyService.remove(keyId)
-
+      const apiKeysRes = await apiKeyService.remove(keyId)
       dispatch({
-        type: ACTIONS.DELETE_API_KEY_SUCCESS,
-        keyId,
+        type: ACTIONS.GET_API_KEYS_SUCCESS,
+        apiKeys: apiKeysRes.data.msg,
       })
+
+      // dispatch({
+      //   type: ACTIONS.DELETE_API_KEY_SUCCESS,
+      //   keyId,
+      // })
       getAllAPIKeys();
     } catch (err) {
       dispatch(showMessage('error', err.msg));

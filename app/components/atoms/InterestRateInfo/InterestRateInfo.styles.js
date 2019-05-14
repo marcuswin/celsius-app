@@ -61,7 +61,6 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: widthPercentageToDP("32%"),
     height: heightPercentageToDP("5%")
   },
   usdInfoWrapper: {

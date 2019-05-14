@@ -11,7 +11,7 @@ const base = {
         flex: 1,
         alignItems: 'center',
         alignContent: 'center',
-        paddingVertical: '30%',
+        paddingTop: '20%'
 
     },
     title: {

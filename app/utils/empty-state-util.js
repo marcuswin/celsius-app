@@ -37,11 +37,12 @@ function getDefaultEmptyState(purpose, actions) {
         button: "Go Home",
         onPress: () => actions.navigateTo("Home")
       };
-    case EMPTY_STATES.NON_VERIFIED_WITHDRAW:
+    case EMPTY_STATES.NON_VERIFIED_WITHDRAW: 
       return {
         image: require("../../assets/images/diane-sad3x.png"),
-        heading: "Sorry!",
-        paragraphs: ["In order to deposit funds, you need to first go through KYC process. It will take no more than 24 hours."],
+        title: status => status,
+        heading: "Withdraw",
+        paragraphs: ["Withdraw pain (and fee!) free with Celsius Network. Complete your KYC verification to take full advantage."],
         button: "Verify profile",
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
@@ -67,8 +68,8 @@ function getDefaultEmptyState(purpose, actions) {
     case EMPTY_STATES.ZERO_INTEREST:
       return {
         image: require("../../assets/images/money-bear3x.png"),
-        heading: "Keep HODLing",
-        paragraphs: ["We're paying interest in kind every Monday! It means you will earn interest in BTC for your BTC deposits. ETH for ETH, etc. You can earn up to 7% a year on your coins."],
+        heading: "Your Turn To Earn", 
+        paragraphs: ["Earn up to 7.5% on your wallet balance. Complete KYC verification to start earning!"],
         button: "Check this week's rates",
         onPress: () => actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
       };
@@ -88,11 +89,11 @@ function getDefaultEmptyState(purpose, actions) {
         button: "Verify profile",
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
-    case EMPTY_STATES.NON_VERIFIED_BORROW:
+    case EMPTY_STATES.NON_VERIFIED_BORROW: 
       return {
         title: status => status,
-        heading: "Borrow Dollars for Crypto",
-        paragraphs: ["Start using your coins as collateral and get a dollar loan at just 4.95% APR. All you have to do is become a Celsius member by verifying your profile."],
+        heading: "In-Your-Best-Interest Rates",
+        paragraphs: ["Borrow cash at the lowest interest rates on the market. Complete KYC Verification today!"],
         button: "Verify profile",
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };

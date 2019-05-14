@@ -13,6 +13,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CelApiDropdown from "../../molecules/CelApiDropdown/CelApiDropdown";
+import ApiKeyRevokeModal from '../../organisms/ApiKeyRevokeModal/ApiKeyRevokeModal';
 
 @connect(
   state => ({
@@ -32,23 +33,22 @@ class ApiAuthorization extends Component {
     title: "API Authorization",
   });
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      openedApiDropdown: {}
+    }
+  }
+
   componentDidMount() {
     const { actions } = this.props;
     actions.getAllAPIKeys()
   }
 
-  componentDidUpdate(prevProps ) {
-    const { actions } = this.props;
-
-    if (prevProps.apiKeys.length <= this.props.apiKeys.length) {
-      return actions.getAllAPIKeys()
-    }
-  }
-
-
   render() {
     // const style = ApiAuthorizationStyle();
     const { apiKeys, actions } = this.props;
+    const { openedApiDropdown } = this.state
 
     return (
       <RegularLayout>
@@ -65,11 +65,14 @@ class ApiAuthorization extends Component {
 
         {!!apiKeys &&
           apiKeys.map(apiKey => (
-            <CelApiDropdown apiKey={apiKey} key={apiKey.id}>
-              {apiKey.lastFourCharacters}
-            </CelApiDropdown>
-          ))
+              <CelApiDropdown apiKey={apiKey} key={apiKey.id} onOpen={() => { this.setState({ openedApiDropdown: apiKey }) }}>
+                {apiKey.lastFourCharacters}
+              </CelApiDropdown>
+            )
+          )
         }
+
+        <ApiKeyRevokeModal apiKey={openedApiDropdown} />
       </RegularLayout>
     );
   }

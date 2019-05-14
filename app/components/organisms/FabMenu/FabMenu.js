@@ -184,6 +184,26 @@ class FabMenu extends Component {
     }
   }
 
+  iconSize = (label) => {
+    switch (label) {
+      case "Community":
+        return 35
+      case "Wallet":
+        return 30
+      case "Withdraw":
+        return 30
+      case "Profile":
+        return 30
+      default:
+        return 33
+    }
+  };
+
+  renderMenuItem = (item) => {
+    const { theme, actions } = this.props;
+    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={this.iconSize(item.label)} />;
+  }
+
   renderMenuRow = (menuRow) => {
     const style = FabMenuStyle();
 
@@ -192,11 +212,6 @@ class FabMenu extends Component {
         {menuRow.map(this.renderMenuItem)}
       </View>
     );
-  }
-
-  renderMenuItem = (item) => {
-    const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={33} />;
   }
 
   renderFabMenu = () => {

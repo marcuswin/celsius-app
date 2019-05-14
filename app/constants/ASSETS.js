@@ -83,6 +83,7 @@ const CACHE_IMAGES = [
   require("../../assets/images/PartnerLogos/mvp_workshop.png"),
   require('../../assets/images/icons/icon-send-small.png'),
   require('../../assets/images/icons/plus-icn-small.png'),
+  require('../../assets/images/icons/withdraw-small.png'),
   require('../../assets/images/community/dogIllustration.png'),
   require('../../assets/images/community/frenchie.png'),
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png`,

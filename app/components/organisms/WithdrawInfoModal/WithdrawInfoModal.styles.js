@@ -7,7 +7,7 @@ const base = {
     },
     wrapper: {
         alignItems: 'center',
-        paddingTop: 10,
+        paddingTop: 40,
     },
     button: {
         alignItems: 'center',

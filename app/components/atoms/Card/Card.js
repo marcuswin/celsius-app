@@ -62,14 +62,15 @@ class Card extends React.Component {
       marginStyles,
       opacityStyles,
       style[size],
-      styles
+      styles,
+      { backgroundColor: color }
     ]
 
     const card = (
       <Fragment>
         {close && (
           <TouchableOpacity
-            style={{ position: 'absolute', right: 10, top: 0, backgroundColor: color }}
+            style={{ position: 'absolute', right: 10, top: 0 }}
             onPress={this.closeCard}
           >
             <Icon

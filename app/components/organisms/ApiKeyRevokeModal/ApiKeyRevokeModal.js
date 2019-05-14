@@ -35,6 +35,12 @@ class ApiKeyRevokeModal extends Component {
 
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.apiKey.id !== this.props.apiKey.id
+  }
+  
+  
+
   render() {
     const { actions, apiKey } = this.props;
     // const style = ApiKeyRevokeModalStyle();

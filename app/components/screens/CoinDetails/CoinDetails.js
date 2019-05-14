@@ -25,7 +25,6 @@ const { COLORS } = STYLES;
     currencies: state.currencies.rates,
     walletSummary: state.wallet.summary,
     currencyRatesShort: state.currencies.currencyRatesShort,
-    currencyGraphs: state.currencies.graphs,
     interestRates: state.generalData.interestRates,
     celpayCompliance: state.user.compliance.celpay,
     coinAmount: state.graph.coinLastValue,
@@ -44,16 +43,11 @@ class CoinDetails extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation, currencyGraphs } = props;
+    const { navigation } = props;
     const coin = navigation.getParam("coin");
     const currency = props.currencies.filter(c => c.short === coin.toUpperCase())[0];
 
-    const dateArray = currencyGraphs[coin.toUpperCase()] ? currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[0]) : [];
-    const priceArray = currencyGraphs[coin.toUpperCase()] ? currencyGraphs[coin.toUpperCase()]["1y"].map(data => data[1]) : [];
-
     this.state = {
-      dateArray,
-      priceArray,
       currency
     };
   }
@@ -82,7 +76,7 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, coinAmount } = this.props;
+    const { actions, interestRates, celpayCompliance } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
 
@@ -97,7 +91,7 @@ class CoinDetails extends Component {
                 <Image source={{ uri: currency.image_url }} style={style.coinImage} />
                 <View style={{ marginLeft: 16 }}>
                   <CelText weight='300' type="H6">{currency.displayName}</CelText>
-                  <CelText weight='600' type="H2" margin={'3 0 3 0'}>{formatter.usd(coinAmount)}</CelText>
+                  <CelText weight='600' type="H2" margin={'3 0 3 0'}>{formatter.usd(coinDetails.amount_usd)}</CelText>
                   <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
@@ -154,37 +148,40 @@ class CoinDetails extends Component {
         />
 
         <View style={style.container}>
-          <Card margin="10 0 10 0">
-            <View>
-              <View style={style.interestCardWrapper}>
+          { coinDetails.short !== 'CEL' ?
+            <Card margin="10 0 10 0">
+              <View>
                 <View>
-                  <CelText type="H6" weight='300'>Total interest earned</CelText>
-                  <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                  <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                </View>
-                {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
-                  <View style={style.interestRateWrapper}>
-                    <CelText type="H6" weight='300'>Current rate</CelText>
-                    <View>
-                      <Badge margin='0 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                        <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
-                      </Badge>
-                    </View>
+                  <View style={style.interestCardWrapper}>
+                    <CelText type="H6" weight='300'>Total interest earned</CelText>
+                    <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                    <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                   </View>
-                )}
+                  {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
+                    <View style={style.interestRateWrapper}>
+                      <CelText type="H6" weight='300'>Current rate</CelText>
+                      <View>
+                        <Badge margin='0 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                          <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                        </Badge>
+                      </View>
+                    </View>
+                  )}
+                </View>
+                <GraphContainer
+                  periods={["MONTH", "YEAR"]}
+                  showCursor
+                  showPeriods
+                  interest
+                  backgroundColor={"#FFFFFF"}
+                  width={widthPercentageToDP("78%")}
+                  type={"coin-interest"}
+                  coin={currency.short}
+                />
               </View>
-              <GraphContainer
-                periods={["MONTH", "YEAR"]}
-                showCursor
-                showPeriods
-                interest
-                backgroundColor={"#FFFFFF"}
-                width={widthPercentageToDP("78%")}
-                type={"coin-interest"}
-                coin={currency.short}
-              />
-            </View>
-          </Card>
+            </Card>
+          : null }
+
         </View>
         <View style={style.container}>
           <TransactionsHistory

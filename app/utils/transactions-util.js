@@ -32,7 +32,13 @@ function mapTransaction(transaction) {
  * @returns {function}
  */
 function getTransactionType(transaction) {
-  if (["canceled", "removed", "rejected", "rejeceted"].includes(transaction.state)) return TRANSACTION_TYPES.CANCELED;
+  if (["canceled", "removed", "rejected", "rejeceted"].includes(transaction.state)){
+    if (transaction.nature === "withdrawal") {
+      return TRANSACTION_TYPES.WITHDRAWAL_CANCELED;
+    }
+    return TRANSACTION_TYPES.CANCELED;
+  }
+
 
   if (transaction.nature === "deposit" && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
   if (transaction.nature === "deposit" && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
@@ -44,8 +50,10 @@ function getTransactionType(transaction) {
 
   if (transaction.nature === "referred_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRED_HODL;
   if (transaction.nature === "referred_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRED;
-  if (transaction.nature === "referrer_award" && transaction.amount === "locked") return TRANSACTION_TYPES.REFERRER_HODL;
+  if (transaction.nature === "referred_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRED_PENDING;
+  if (transaction.nature === "referrer_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRER_HODL;
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
+  if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_ONHOLD;
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_RETURNED;
@@ -105,7 +113,7 @@ function filterTransactionsByType(transactions, type) {
     case 'received':
       return transactions.filter(t => [TRANSACTION_TYPES.DEPOSIT_CONFIRMED, TRANSACTION_TYPES.DEPOSIT_PENDING].includes(t.type))
     case 'withdraw':
-      return transactions.filter(t => [TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED, TRANSACTION_TYPES.WITHDRAWAL_PENDING].includes(t.type))
+      return transactions.filter(t => [TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED, TRANSACTION_TYPES.WITHDRAWAL_PENDING, TRANSACTION_TYPES.WITHDRAWAL_CANCELED].includes(t.type))
     default:
       return transactions
   }
@@ -167,6 +175,13 @@ function getTransactionsProps(transaction) {
         color: STYLES.COLORS.ORANGE,
         iconName: 'TransactionSent',
         statusText: 'Pending'
+      }
+      case TRANSACTION_TYPES.WITHDRAWAL_CANCELED:
+      return { // Withdrawn canceled
+        title: (coin) => `${coin} Withdrawal`,
+        color: STYLES.COLORS.RED,
+        iconName: 'TransactionCanceled',
+        statusText: 'Canceled'
       }
     case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED:
       return {
@@ -262,6 +277,13 @@ function getTransactionsProps(transaction) {
         iconName: 'TransactionReceived',
         statusText: 'Referral reward'
       }
+      case TRANSACTION_TYPES.REFERRED_PENDING:
+      return {
+        title: () => `Referral Award`,
+        color: STYLES.COLORS.ORANGE,
+        iconName: 'TransactionReceived',
+        statusText: 'Pending'
+      }
     case TRANSACTION_TYPES.REFERRER_HODL:
       return { // prvi locked
         title: () => `Referral Award`,
@@ -276,7 +298,14 @@ function getTransactionsProps(transaction) {
         iconName: 'TransactionReceived',
         statusText: 'Referral reward'
       }
-
+      case TRANSACTION_TYPES.REFERRER_PENDING:
+      return {
+        title: () => `Referral Award`,
+        color: STYLES.COLORS.ORANGE,
+        iconName: 'TransactionReceived',
+        statusText: 'Pending'
+      }
+      
     case TRANSACTION_TYPES.CANCELED:
       return { // Gledam kao returned
         title: () => `Canceled Transaction`,
@@ -317,6 +346,7 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
+    case TRANSACTION_TYPES.WITHDRAWAL_CANCELED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
 
     case TRANSACTION_TYPES.INTEREST: return ['info', 'date', 'time', 'status:noSeparator', 'interest', 'button:deposit', 'button:back']
@@ -332,9 +362,15 @@ function getTransactionSections(transaction) {
     case TRANSACTION_TYPES.CELPAY_ONHOLD: return ['info', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
 
     case TRANSACTION_TYPES.REFERRED_HODL: return ['info', 'hodl:info', 'date:deposited', 'time', 'status:noSeparator']
+
     case TRANSACTION_TYPES.REFERRED: return ['info', 'referred', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRED_PENDING: return ['info', 'referred:pending', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // unconfirmed
+
     case TRANSACTION_TYPES.REFERRER_HODL: return ['info', 'referrerHODL', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back']  // add friend referred info with hodl:info
+
     case TRANSACTION_TYPES.REFERRER: return ['info', 'referrer', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
+    case TRANSACTION_TYPES.REFERRER_PENDING: return ['info', 'referrer:pending', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // unconfirmed
+    
 
     case TRANSACTION_TYPES.CANCELED: return ['info', 'date', 'time', 'status'] // this is random!,
 

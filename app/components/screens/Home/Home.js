@@ -18,7 +18,8 @@ const apiCalls = []
   state => ({
     appInitialized: state.app.appInitialized,
     user: state.user.profile,
-    callsInProgress: state.api.callsInProgress
+    callsInProgress: state.api.callsInProgress,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -49,7 +50,8 @@ class Home extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { user } = this.props
+    const { user } = this.props;
+
     if (
       prevProps.appInitialized === false &&
       this.props.appInitialized === true
@@ -60,9 +62,8 @@ class Home extends Component {
           user.kyc.status === KYC_STATUSES.passed &&
           user.has_pin
         ) {
-          return prevProps.actions.navigateTo('VerifyProfile', {
-            activeScreen: 'WalletLanding'
-          })
+            return prevProps.actions.navigateTo('VerifyProfile', {
+              activeScreen: 'WalletLanding' })
         }
         if (!user.has_pin) {
           return prevProps.actions.navigateTo('RegisterSetPin')

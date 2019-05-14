@@ -23,7 +23,6 @@ import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/Tod
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal';
 import { KYC_STATUSES } from "../../../constants/DATA";
 
-
 @connect(
   state => {
     const branchTransfer = state.branch.transferHash && state.transfers.transfers[state.branch.transferHash]
@@ -47,6 +46,7 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 class WalletLanding extends Component {
   static propTypes = {};
   static defaultProps = {}
+  static walletFetchingInterval
 
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
@@ -60,60 +60,63 @@ class WalletLanding extends Component {
   constructor(props) {
     super(props);
 
-    const { walletSummary, navigation } = props;
-    const coinWithAmount = [];
-    const coinWithoutAmount = [];
-
-    if (walletSummary) {
-      walletSummary.coins.forEach((coin) => {
-        const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
-        if (coin.amount_usd > 0) {
-          coinWithAmount.push(coin)
-        } else if (withoutAmountNoPrior) {
-          coinWithoutAmount.push(coin)
-        }
-      });
-    }
+    const { navigation } = props;
 
     navigation.setParams({
       title: `Welcome ${props.user.first_name}!`
     })
+
     this.state = {
-      coinWithAmount,
-      coinWithoutAmount,
       activeView: props.appSettings.default_wallet_view
     };
+
+    // NOTE (fj): quickfix for CN-2763
+    this.shouldInitializeMembership = true
   }
 
   componentDidMount = async () => {
-    const { actions, currenciesRates, currenciesGraphs, user } = this.props;
+    const { actions, appSettings, currenciesRates, currenciesGraphs } = this.props;
 
-    const coinWithAmount = [];
-    const coinWithoutAmount = [];
+    if (appSettings && !appSettings.accepted_terms_of_use) {
+      return actions.navigateTo("TermsOfUse", {purpose: "accept", nextScreen: "WalletLanding"});
+    }
 
     await actions.getWalletSummary();
     if (!currenciesRates) actions.getCurrencyRates();
     if (!currenciesGraphs) actions.getCurrencyGraphs();
-    if (!user.celsius_member) actions.getCelsiusMemberStatus();
-    const { walletSummary } = this.props;
 
-    walletSummary.coins.forEach((coin) => {
-      const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
-      if (coin.amount_usd > 0) {
-        coinWithAmount.push(coin)
-      } else if (withoutAmountNoPrior) {
-        coinWithoutAmount.push(coin)
-      }
-    });
+    // NOTE (fj): quickfix for CN-2763
+    // if (user.celsius_member) {
+    if (this.shouldInitializeMembership) {
+      actions.getCelsiusMemberStatus();
+      this.shouldInitializeMembership = false;
+    }
 
-    this.setState({ coinWithAmount, coinWithoutAmount });
+    this.setWalletFetchingInterval()
   };
 
   componentDidUpdate(prevProps) {
-    const {actions, isFocused} = this.props;
+    const {isFocused} = this.props;
+
     if (prevProps.isFocused !== isFocused && isFocused === true) {
-      actions.getWalletSummary()
+      this.setWalletFetchingInterval()
     }
+
+    if (isFocused === false && this.walletFetchingInterval) {
+      clearInterval(this.walletFetchingInterval)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.walletFetchingInterval)
+  }
+
+  setWalletFetchingInterval = () => {
+    const { actions } = this.props
+
+    this.walletFetchingInterval = setInterval(() => {
+      actions.getWalletSummary()
+    }, 5000)
   }
 
   getIconFillColor = (cond) => cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY;
@@ -123,8 +126,17 @@ class WalletLanding extends Component {
   }
 
   renderCoinWithAmount = () => {
-    const { currenciesRates, currenciesGraphs, actions } = this.props;
-    const { coinWithAmount, activeView } = this.state;
+    const { walletSummary, currenciesRates, currenciesGraphs, actions } = this.props;
+    const { activeView } = this.state;
+
+    const coinWithAmount = [];
+    if (walletSummary) {
+      walletSummary.coins.forEach((coin) => {
+        if (coin.amount_usd > 0) {
+          coinWithAmount.push(coin)
+        }
+      });
+    }
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
@@ -158,8 +170,19 @@ class WalletLanding extends Component {
   }
 
   renderCoinWithoutAmount = () => {
-    const { currenciesRates, currenciesGraphs, actions, kycStatus } = this.props;
-    const { coinWithoutAmount, activeView } = this.state;
+    const { walletSummary, currenciesRates, currenciesGraphs, actions, kycStatus } = this.props;
+    const { activeView } = this.state;
+
+    const coinWithoutAmount = [];
+
+    if (walletSummary) {
+      walletSummary.coins.forEach((coin) => {
+        const withoutAmountNoPrior = coin.amount_usd === 0 && cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
+        if (coin.amount_usd === 0 && withoutAmountNoPrior) {
+          coinWithoutAmount.push(coin)
+        }
+      });
+    }
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 

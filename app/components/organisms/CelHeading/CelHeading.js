@@ -84,8 +84,8 @@ class CelHeading extends Component {
         <CelButton basic
           onPress={() => { this.props.actions.navigateTo('Settings'); }}
           iconRight="Settings"
-          iconRightHeight='35'
-          iconRightWidth='35'
+          iconRightHeight='32'
+          iconRightWidth='32'
           iconRightColor='#3D4853'
           opacity={0.9}
         />,
@@ -166,7 +166,7 @@ class CelHeading extends Component {
           {this.getLeftContent(scene.options)}
           {formData.activeSearch && (
             <View style={[{ width: '100%', justifyContent: 'center', alignSelf: 'center', marginLeft: 12 }]}>
-              <CelInput autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
+              <CelInput debounce autoFocus={formData.activeSearch} basic margin="0 0 0 0" field="search" placeholder="Dialing code, country…" type='text' value={this.props.formData.search} />
             </View>
           )}
         </View>

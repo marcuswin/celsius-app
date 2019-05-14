@@ -36,7 +36,7 @@ class ApiAuthorizationPermissions extends Component {
   constructor(props) {
     super(props);
 
-    const {actions} = this.props;
+    const { actions } = this.props;
 
     actions.updateFormFields({
       readWalletBalance: false,
@@ -46,8 +46,8 @@ class ApiAuthorizationPermissions extends Component {
     })
   }
 
-  generateApiKey = () => {
-    const {formData, actions} = this.props;
+  generateApiKey = async () => {
+    const { formData, actions } = this.props;
 
     const permissions = {
       read_balance: formData.readWalletBalance,
@@ -56,13 +56,14 @@ class ApiAuthorizationPermissions extends Component {
       withdraw: formData.readWithdrawals
     };
 
-    actions.createAPIKey(permissions);
+    await actions.createAPIKey(permissions);
+    actions.getAllAPIKeys()
   };
 
   render() {
-    const {actions, formData} = this.props;
+    const { actions, formData } = this.props;
     // const style = ApiAuthorizationPermissionsStyle();
-    
+
     return (
       <RegularLayout>
         <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"}>Generate your API key by selecting permissions from the list below: </CelText>
@@ -73,13 +74,13 @@ class ApiAuthorizationPermissions extends Component {
         <SwitchButton field={"readWithdrawals"} updateFormField={actions.updateFormField} value={formData.readWithdrawals}>Read withdrawals</SwitchButton>
 
         <CelButton
-          onPress={() => this.generateApiKey()}
+          onPress={this.generateApiKey}
           margin={"30 0 10 0"}
           disabled={!formData.readWithdrawals && !formData.readDeposits && !formData.readTransactions && !formData.readWalletBalance}
         >
           Generate API key
         </CelButton>
-        <ApiKeySuccessModal/>
+        <ApiKeySuccessModal />
       </RegularLayout>
     );
   }

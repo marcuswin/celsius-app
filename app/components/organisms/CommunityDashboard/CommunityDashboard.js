@@ -89,7 +89,7 @@ class CommunityDashboard extends Component {
     }
     if (name === "CELPAY" && button === "Transactions") {
       explanationText = "Number of CelPay transactions";
-      number = communityStats.celpay_transactions_num;
+      number = formatter.round(communityStats.celpay_transactions_num, {noPrecision: true});
     }
     if (name === "CELPAY" && button === "Total") {
       explanationText = "Sent via CelPay in total";
@@ -131,13 +131,13 @@ class CommunityDashboard extends Component {
               <View style={style.innerStyle}>
                 <Icon
                   name={button}
-                  height={20}
-                  width={20}
+                  height={18}
+                  width={18}
                   stroke={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
                   fill={"white"}
                   strokeWidth={0.5}
                 />
-                <CelText type={"H6"} weight={"500"} align={"center"}
+                <CelText type={"H7"} weight={"500"} align={"center"}
                          color={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}>
                   {button.toUpperCase()}
                 </CelText>
