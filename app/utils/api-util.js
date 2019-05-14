@@ -2,6 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
 import { Constants } from 'expo'
+import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
 import logger from './logger-util'
 
@@ -31,6 +32,18 @@ function initInterceptors () {
   axios.interceptors.request.use(
     async req => {
       const newRequest = { ...req }
+
+      if (!req.url.includes('branch.io')) {
+        newRequest.headers = {
+          ...newRequest.headers,
+          installationId: Constants.installationId,
+          os: Platform.OS,
+          buildVersion: Constants.revisionId,
+          deviceModel: Constants.platform.ios.model,
+          osVersion: Constants.platform.ios.systemVersion,
+          deviceYearClass: Constants.deviceYearClass,
+        }
+      }
 
       if (
         (req.url.includes('profile/profile_picture') && !req.data.profile_picture_url) ||
