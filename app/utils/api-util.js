@@ -39,9 +39,9 @@ function initInterceptors () {
           installationId: Constants.installationId,
           os: Platform.OS,
           buildVersion: Constants.revisionId,
-          deviceModel: Constants.platform.ios.model,
-          osVersion: Constants.platform.ios.systemVersion,
           deviceYearClass: Constants.deviceYearClass,
+          deviceModel: Platform.OS === 'ios' ? Constants.platform.ios.model : null,
+          osVersion: Platform.OS === 'ios' ? Constants.platform.ios.systemVersion : null,
         }
       }
 
@@ -142,7 +142,8 @@ function initInterceptors () {
         }
         await store.dispatch(await actions.showMessage("error", err.msg));
       }
-      if (error.response.status === 429) {
+
+      if (error && error.response && error.response.status === 429) {
           store.dispatch(actions.navigateTo("LockedAccount"));
       }
 
