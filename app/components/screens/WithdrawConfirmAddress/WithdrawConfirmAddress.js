@@ -83,7 +83,7 @@ class WithdrawConfirmAddress extends Component {
 
         <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"}>{formatter.crypto(formData.amountCrypto)}</CelText>
+          <CelText type={"H1"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 

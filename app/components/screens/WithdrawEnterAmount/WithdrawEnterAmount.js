@@ -119,9 +119,10 @@ class WithdrawEnterAmount extends Component {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
-    const balanceUsd = walletSummary.coins.find(
-      c => c.short === formData.coin.toUpperCase()
-    ).amount_usd
+    const {
+      amount_usd: balanceUsd,
+      amount: balanceCrypto
+    } = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase())
 
     let amountCrypto
     let amountUsd
@@ -142,7 +143,10 @@ class WithdrawEnterAmount extends Component {
       amountUsd = amountCrypto * coinRate
     }
 
-    if (amountUsd > balanceUsd) {
+    if (
+      (formData.isUsd && amountUsd > balanceUsd) ||
+      (!formData.isUsd && amountCrypto > balanceCrypto)
+    ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
     if (amountUsd > 20000) {
@@ -248,7 +252,7 @@ class WithdrawEnterAmount extends Component {
             />
 
             <CelButton
-              margin='20 0 0 0'
+              margin='40 0 0 0'
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
               iconRight='IconArrowRight'

@@ -148,8 +148,13 @@ class CelPayEnterAmount extends Component {
     this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
 
   handleAmountChange = (newValue, predefined = '') => {
-    const { formData, currencyRatesShort, actions } = this.props
+    const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+
+    const {
+      amount_usd: balanceUsd,
+      amount: balanceCrypto
+    } = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase())
 
     let amountCrypto
     let amountUsd
@@ -169,6 +174,18 @@ class CelPayEnterAmount extends Component {
       }
       amountUsd = amountCrypto * coinRate
     }
+
+    if (
+      (formData.isUsd && amountUsd > balanceUsd) ||
+      (!formData.isUsd && amountCrypto > balanceCrypto)
+    ) {
+      return actions.showMessage('warning', 'Insufficient funds!')
+    }
+    if (amountUsd > 20000) {
+      return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
+    }
+
+    this.setState({ activePeriod: predefined })
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
@@ -284,7 +301,6 @@ class CelPayEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
-                amountColor={this.getAmountColor()}
               />
             </View>
 
@@ -295,11 +311,8 @@ class CelPayEnterAmount extends Component {
             />
 
             <CelButton
-              margin='70 0 0 0'
-              disabled={
-                !this.isAmountValid() ||
-                !(formData.amountUsd && Number(formData.amountUsd) > 0)
-              }
+              margin='40 0 0 0'
+              disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
             >
               {this.getButtonCopy()}
