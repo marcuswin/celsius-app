@@ -20,16 +20,20 @@ export {
  * @todo: add more data
  */
 function getInitialCelsiusData() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_INITIAL_CELSIUS_DATA));
+
+    const email = getState().user.profile.email;
+    const allowed = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     try {
       const res = await generalDataService.getCelsiusInitialData();
+      const minimumLoanAmount = allowed ? 5 : res.data.minimum_usd_amount
       dispatch({
         type: ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS,
         interestRates: res.data.interest_rates,
         ltvs: res.data.borrow_ltvs,
-        minimumLoanAmount: res.data.minimum_usd_amount
+        minimumLoanAmount
       });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
