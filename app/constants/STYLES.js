@@ -43,7 +43,6 @@ const SHADOW_STYLES = {
   shadowOffset: { width: 0, height: 3 },
   shadowOpacity: 0.03,
   shadowRadius: 3,
-  elevation: 3
 }
 
 const FONTSIZE = {
