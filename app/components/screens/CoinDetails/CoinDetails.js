@@ -87,8 +87,6 @@ class CoinDetails extends Component {
     const celUsdRatio = walletSummary.coins[indexOfCel].amount / walletSummary.coins[indexOfCel].amount_usd
     const interestInCel = coinDetails.interest_earned_usd * celUsdRatio
 
-    console.log(Number(walletSummary.coins[indexOfCel].amount) !== 0);
-
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     return (
