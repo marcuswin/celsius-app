@@ -76,7 +76,7 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, walletSummary } = this.props;
+    const { actions, interestRates, celpayCompliance, walletSummary, currencyRatesShort } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
 
@@ -84,7 +84,7 @@ class CoinDetails extends Component {
       return null
     }
     const indexOfCel = walletSummary.coins.findIndex(i => i.short === 'CEL')
-    const celUsdRatio = walletSummary.coins[indexOfCel].amount / walletSummary.coins[indexOfCel].amount_usd
+    const celUsdRatio = currencyRatesShort.cel
     const interestInCel = coinDetails.interest_earned_usd * celUsdRatio
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
