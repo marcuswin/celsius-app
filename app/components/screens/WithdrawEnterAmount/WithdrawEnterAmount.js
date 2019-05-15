@@ -46,7 +46,7 @@ class WithdrawEnterAmount extends Component {
     }
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { navigation, currencies, withdrawCompliance, walletSummary } = this.props
     const coin = navigation.getParam('coin') || 'BTC'
@@ -90,7 +90,7 @@ class WithdrawEnterAmount extends Component {
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  getNumberOfDecimals (value) {
+  getNumberOfDecimals(value) {
     const splitValue = value.split('.')
     const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0
     return numberOfDecimals
@@ -100,7 +100,7 @@ class WithdrawEnterAmount extends Component {
   getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   // TODO: move to formatter? check CelPayEnterAmount
-  setCurrencyDecimals (value, currency) {
+  setCurrencyDecimals(value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value
     // remove last digit
     const numberOfDecimals = this.getNumberOfDecimals(value)
@@ -110,7 +110,7 @@ class WithdrawEnterAmount extends Component {
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  hasEnoughDecimals (value = '', currency) {
+  hasEnoughDecimals(value = '', currency) {
     const numberOfDecimals = this.getNumberOfDecimals(value)
     const allowedDecimals = this.getAllowedDecimals(currency)
 
@@ -176,7 +176,7 @@ class WithdrawEnterAmount extends Component {
     }
   }
 
-  render () {
+  render() {
     const { coinSelectItems, activePeriod } = this.state
     const { formData, actions, walletSummary, navigation, kycStatus } = this.props
     const style = WithdrawEnterAmountStyle()
@@ -194,11 +194,15 @@ class WithdrawEnterAmount extends Component {
       <RegularLayout padding='20 0 0 0' >
         <View style={style.container}>
           <View style={style.wrapper}>
-            <Card padding='10 10 10 10' margin='0 0 45 0'>
-              <CelText align='center' type='H7'>
-                Balance: {formatter.crypto(coinData.amount, formData.coin)} |{' '}
-                {formatter.usd(coinData.amount_usd)}
+            <Card padding='10 10 10 10' margin='0 0 20 0' >
+              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                <CelText align='left' type='H7' >
+                  Balance:
               </CelText>
+                <CelText align='right' type='H7'>
+                  {formatter.crypto(coinData.amount, formData.coin)} {' '} | {' '} {formatter.usd(coinData.amount_usd)}
+                </CelText>
+              </View>
             </Card>
 
             <View>

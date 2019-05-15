@@ -21,7 +21,7 @@ const CoinSwitch = (props) => {
       { props.onAmountPress ? (
         <View>
           <TouchableOpacity onPress={props.onAmountPress}>
-            <CelText align="center" type="H1" margin="10 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
+            <CelText align="center" type="H1" margin="5 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
           </TouchableOpacity>
           <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
         </View>

@@ -87,6 +87,8 @@ class CoinDetails extends Component {
     const celUsdRatio = walletSummary.coins[indexOfCel].amount / walletSummary.coins[indexOfCel].amount_usd
     const interestInCel = coinDetails.interest_earned_usd * celUsdRatio
 
+    console.log(Number(walletSummary.coins[indexOfCel].amount) !== 0);
+
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     return (
@@ -155,38 +157,41 @@ class CoinDetails extends Component {
         />
 
         <View style={style.container}>
-          <Card margin="10 0 10 0">
-            <View>
-              <View style={style.interestCardWrapper}>
-                { coinDetails.short !== 'CEL' ? <View>
-                  <CelText type="H6" weight='300'>Total interest earned</CelText>
-                  <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                  <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                  <CelText type="H6" weight='300'>{formatter.crypto(interestInCel, walletSummary.coins[indexOfCel].short)}</CelText>
-                </View> : null }
-                {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
-                  <View style={style.interestRateWrapper}>
-                    <CelText type="H6" weight='300'>Current rate</CelText>
-                    <View>
-                      <Badge margin='0 0 25 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                        <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
-                      </Badge>
-                    </View>
+          { coinDetails.short !== 'CEL' ?
+            <Card margin="10 0 10 0">
+              <View>
+                <View style={style.interestWrapper}>
+                  <View style={style.interestCardWrapper}>
+                    <CelText type="H6" weight='300'>Total interest earned</CelText>
+                    <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                    <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                    { Number(walletSummary.coins[indexOfCel].amount) !== 0 ? <CelText type="H6" weight='300'>{formatter.crypto(interestInCel, walletSummary.coins[indexOfCel].short)}</CelText> : null }
                   </View>
-                )}
+                  {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
+                    <View style={style.interestRateWrapper}>
+                      <CelText type="H6" weight='300'>Current rate</CelText>
+                      <View>
+                        <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                          <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                        </Badge>
+                      </View>
+                    </View>
+                  )}
+                </View>
+                <GraphContainer
+                  periods={["MONTH", "YEAR"]}
+                  showCursor
+                  showPeriods
+                  interest
+                  backgroundColor={"#FFFFFF"}
+                  width={widthPercentageToDP("78%")}
+                  type={"coin-interest"}
+                  coin={currency.short}
+                />
               </View>
-              <GraphContainer
-                periods={["MONTH", "YEAR"]}
-                showCursor
-                showPeriods
-                interest
-                backgroundColor={"#FFFFFF"}
-                width={widthPercentageToDP("78%")}
-                type={"coin-interest"}
-                coin={currency.short}
-              />
-            </View>
-          </Card>
+            </Card>
+          : null }
+
         </View>
         <View style={style.container}>
           <TransactionsHistory

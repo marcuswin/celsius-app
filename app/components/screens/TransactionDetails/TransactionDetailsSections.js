@@ -62,29 +62,27 @@ export const AddressSection = ({ transaction, text, address }) => (
     <Card margin={'20 0 20 0'}>
       <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
         <CelText>{text}</CelText>
-        {!!transaction.transaction_id &&
+        {!!transaction.transaction_id && (
           <TouchableOpacity
             style={{ flexDirection: 'row', alignItems: 'flex-start' }}
             onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
             <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {getBlockExplorerLink(transaction).text}</CelText>
             <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE} style={{ marginLeft: 5 }} />
           </TouchableOpacity>
-        }
+        )}
       </View>
       <CelText weight='500' type="H4">{address.split('?')[0]}</CelText>
     </Card>
-    { transaction.coin === 'xrp' &&
-    <Card margin={'10 0 20 0'}>
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}/>
+    {transaction.coin === 'xrp' && (
+      <Card margin={'10 0 20 0'}>
         <CelText weight='500' type="H4">Destination Tag: {address.split('=')[1]}</CelText>
-    </Card> 
-    }
-    { transaction.coin === 'xlm' &&
-    <Card margin={'10 0 20 0'}>
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}/>
-          <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
-    </Card>
-    } 
+      </Card>
+    )}
+    {transaction.coin === 'xlm' && (
+      <Card margin={'10 0 20 0'}>
+        <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
+      </Card>
+    )}
   </View>
 )
 
@@ -272,30 +270,30 @@ export const ReferrerPending = ({ transaction, text }) => (
 )
 
 export const ReferredPending = ({ transaction, text }) => (
-   <View style={{ paddingHorizontal: 20 }}>
-   <Card margin={'20 0 0 0'}>
-     <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
-       <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
-     </View>
-     <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-       {!transaction.referral_data.referrer.profile_picture ?
-         <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
-           style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
-         :
-         <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
-           style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
-       <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
-         <CelText weight='600' type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
-         <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
-           {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
-         </CelText>
-       </View>
-     </View>
-   </Card>
-   <Card>
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card margin={'20 0 0 0'}>
+      <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+        <CelText style={{ color: STYLES.COLORS.MEDIUM_GRAY }}>{text}</CelText>
+      </View>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+        {!transaction.referral_data.referrer.profile_picture ?
+          <Image source={require('../../../../assets/images/empty-profile/empty-profile.png')}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />
+          :
+          <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: '#ffffff', borderWidth: 3 }} />}
+        <View style={{ flex: 1, flexDirection: 'column', alignContent: 'center', paddingLeft: 10 }}>
+          <CelText weight='600' type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+          <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
+            {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
+          </CelText>
+        </View>
+      </View>
+    </Card>
+    <Card>
       <CelText type="H5" color={STYLES.COLORS.MEDIUM_GRAY}>Your award is yet to be confirmed. You will be able to see it in your wallet, soon.</CelText>
     </Card>
- </View>
+  </View>
 )
 
 export const NoteSection = ({ text }) => (

@@ -6,17 +6,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import QrScannerStyle from "./QrScanner.styles";
+import QRScannerStyle from "./QRScanner.styles";
 import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
 
-const style = QrScannerStyle();
+const style = QRScannerStyle();
 
 @connect(
   () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class QrScannerScreen extends Component {
+class QRScannerScreen extends Component {
   static propTypes = {
     formField: PropTypes.string,
     onScan: PropTypes.func
@@ -126,4 +126,4 @@ class QrScannerScreen extends Component {
   }
 }
 
-export default testUtil.hookComponent(QrScannerScreen);
+export default testUtil.hookComponent(QRScannerScreen);

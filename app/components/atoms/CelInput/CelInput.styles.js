@@ -9,6 +9,7 @@ const base = {
     },
     fullScreen: {
         width: '100%',
+        // borderWidth: 20
     },
     trans: {
         backgroundColor: 'transparent'
@@ -17,6 +18,7 @@ const base = {
         ...StyleSheet.flatten(getPadding("12 16 15 16")),
         height: 50,
         borderRadius: 8,
+        // borderWidth: 20,
         backgroundColor: STYLES.COLORS.WHITE,
         ...Platform.select({
             android: {
@@ -44,6 +46,14 @@ const base = {
         borderWidth: 1,
         borderColor: STYLES.COLORS.DARK_GRAY_OPACITY,
         shadowOpacity: 0
+    },
+    borderView: {
+        // borderWidth: 1,
+        borderColor: '#E9E9E9',
+        borderTopWidth: 0.5,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderBottomWidth: 2,
     }
 }
 
