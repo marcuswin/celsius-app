@@ -13,8 +13,6 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import { BANK_ACCOUNT_TYPE } from '../../../constants/DATA'
-import { showMessage } from '../../../redux/ui/uiActions'
-import store from '../../../redux/store';
 
 @connect(
   state => ({
@@ -29,8 +27,6 @@ class BorrowBankAccount extends Component {
 
   static navigationOptions = () => ({
     title: "Link bank account",
-    right: "info",
-    onInfo: () => store.dispatch(showMessage('warning', 'Not implemented yet!'))
   });
 
   constructor(props) {
