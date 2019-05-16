@@ -47,7 +47,7 @@ class RegisterEnterPhone extends Component {
     return (
       <AuthLayout>
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
-        <CelInput type="phone" field="cellphone" placeholder="Phone number" value={formData.cellphone}/>
+        <CelInput type="phone" keyboardType={"phone-pad"} field="cellphone" placeholder="Phone number" value={formData.cellphone}/>
 
         <CelButton margin="10 0 40 0" onPress={() => {
           this.updateCellphoneNumber(formData.cellphone)
