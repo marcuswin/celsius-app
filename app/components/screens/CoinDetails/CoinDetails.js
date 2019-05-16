@@ -76,7 +76,7 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, walletSummary } = this.props;
+    const { actions, interestRates, celpayCompliance } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
 

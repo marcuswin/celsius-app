@@ -93,7 +93,7 @@ class Community extends Component {
 
         <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]}/>
 
-        {communityStats.no_of_users_referred > 0 ?
+        {communityStats && communityStats.no_of_users_referred > 0 ?
           <CommunityDashboard name={"REFERRED"}>
             <Card padding={"0 0 0 0"}>
               <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
