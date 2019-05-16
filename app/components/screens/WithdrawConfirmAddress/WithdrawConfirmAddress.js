@@ -110,9 +110,9 @@ class WithdrawConfirmAddress extends Component {
           backgroundColor={STYLES.COLORS.ORANGE}
           titleText={"Your withdrawal address"}
           left
-          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nIf you need to change your withdrawal address please enable Two-Factor Authentication or contact our support. `}
+          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nIf you need to change your withdrawal address please contact our support.`}
         />
-                
+
                 {hasTag ? (
           <CelInput
             placeholder={placeHolderText}

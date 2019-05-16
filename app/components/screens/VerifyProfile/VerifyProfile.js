@@ -156,12 +156,6 @@ class VerifyProfile extends Component {
         <TouchableOpacity onPress={actions.toggleKeypad}>
           <HiddenField value={value} length={6} error={verificationError} />
         </TouchableOpacity>
-        <View>
-          {(forgotPin) &&
-            <ContactSupport
-              copy="Forgot your code? Contact out support at app@celsius.network."
-            />}
-        </View>
         {loading ? (
           <View
             style={{
@@ -173,8 +167,14 @@ class VerifyProfile extends Component {
             <Spinner />
           </View>
         ) : (
-            <CelButton onPress={this.handlePaste}>Paste</CelButton>
+            <CelButton style={{ marginTop: 10 }} onPress={this.handlePaste}>Paste</CelButton>
           )}
+        <View>
+          {(forgotPin) &&
+            <ContactSupport
+              copy="Forgot your code? Contact out support at app@celsius.network."
+            />}
+        </View>
       </View>
     )
   }
