@@ -19,7 +19,7 @@ import STYLES from "../../../constants/STYLES";
   state => ({
     communityStats: state.community.stats
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Community extends Component {
 
@@ -45,10 +45,12 @@ class Community extends Component {
 
         <Card padding={"0 0 0 0"}>
           <View style={style.imageView}>
-            <Image source={require("../../../../assets/images/community/dogIllustration.png")} style={style.communityImage} />
+            <Image source={require("../../../../assets/images/community/dogIllustration.png")}
+                   style={style.communityImage}/>
             <View>
               <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
-              <CelText weight={"600"} align={"left"} type={"H1"}>{formatter.round(communityStats.users_num, { noPrecision: true })}</CelText>
+              <CelText weight={"600"} align={"left"}
+                       type={"H1"}>{formatter.round(communityStats.users_num, { noPrecision: true })}</CelText>
               <CelText weight={"300"} align={"left"} type={"H6"}>members</CelText>
             </View>
           </View>
@@ -56,57 +58,60 @@ class Community extends Component {
 
         <CommunityDashboard name={"DEPOSITS"}>
           <View style={style.image}>
-            <Image source={{ uri: image[0].currency.image_url }} style={style.coinImage} />
+            <Image source={{ uri: image[0].currency.image_url }} style={style.coinImage}/>
           </View>
           <CelText margin={"10 0 0 0"} weight={"300"} align={"center"} type={"H6"}>Most deposited coin</CelText>
           <CelText weight={"600"} align={"center"} type={"H1"}
-            style={style.text}>{`${formatter.crypto(highestDeposit.total, "", { noPrecision: true })} ${highestDeposit.coin}`}</CelText>
-          <CelText weight={"300"} align={"center"} type={"H5"} style={style.secondText}>{formatter.usd(highestDeposit.total_usd)}</CelText>
+                   style={style.text}>{`${formatter.crypto(highestDeposit.total, "", { noPrecision: true })} ${highestDeposit.coin}`}</CelText>
+          <CelText weight={"300"} align={"center"} type={"H5"}
+                   style={style.secondText}>{formatter.usd(highestDeposit.total_usd)}</CelText>
 
           <Card margin={"20 0 0 0"}>
             <View style={style.amountsView}>
               <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Total coins deposited</CelText>
-                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.total_deposits_usd)}</CelText>
+                <CelText weight={"600"} align={"center"}
+                         type={"H3"}>{formatter.usd(communityStats.total_deposits_usd)}</CelText>
               </View>
-              <Separator margin={"10 0 10 0"} />
+              <Separator margin={"10 0 10 0"}/>
               <View>
                 <CelText weight={"300"} align={"center"} type={"H6"}>Avg. deposit over time</CelText>
-                <CelText weight={"600"} align={"center"} type={"H3"}>{formatter.usd(communityStats.average_deposit_usd)}</CelText>
+                <CelText weight={"600"} align={"center"}
+                         type={"H3"}>{formatter.usd(communityStats.average_deposit_usd)}</CelText>
               </View>
             </View>
           </Card>
 
           <CelText weight={"600"} align={"center"} type={"H1"}
-            style={style.text}>{formatter.round(communityStats.total_depositors_num, { noPrecision: true })}</CelText>
+                   style={style.text}>{formatter.round(communityStats.total_depositors_num, { noPrecision: true })}</CelText>
           <CelText weight={"300"} align={"center"} type={"H6"} style={style.secondText}>Members are depositing</CelText>
         </CommunityDashboard>
 
         {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 
-        <CommunityDashboard name={"CELPAY"} info buttonTypes={["Sent", "Transactions", "Total"]} />
+        <CommunityDashboard name={"CELPAY"} info buttonTypes={["Sent", "Transactions", "Total"]}/>
 
-        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]} />
+        <CommunityDashboard name={"INTEREST"} info buttonTypes={["Earned", "Average"]}/>
 
-        {/* <CommunityDashboard name={"REFERRED"}>*/}
-        {/* <Card padding={"0 0 0 0"}>*/}
-        {/* <View style={{ flexDirection: "row", justifyContent: "space-between" }}>*/}
-        {/* <View style={{margin: 12}}>*/}
-        {/* <CelText type={"H6"} weight={"300"} align={"left"}>You and your 23 refferals earned</CelText>*/}
-        {/* <CelText align={"left"} type={"H1"} weight={"600"}>1,345 CEL</CelText>*/}
-        {/* </View>*/}
-        {/* <Image style={style.bulldogImage} source={require("../../../../assets/images/community/frenchie.png")}/>*/}
-        {/* </View>*/}
-        {/* </Card>*/}
-        {/* </CommunityDashboard>*/}
+        <CommunityDashboard name={"REFERRED"}>
+          <Card padding={"0 0 0 0"}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+              <View style={{ margin: 12 }}>
+                <CelText type={"H6"} weight={"300"} align={"left"}>{`You and your ${communityStats.no_of_users_referred} referrals earned`}</CelText>
+                <CelText align={"left"} type={"H1"} weight={"600"}>{`${communityStats.referrers_reward_amount_usd} CEL`}</CelText>
+              </View>
+              <Image style={style.bulldogImage} source={require("../../../../assets/images/community/frenchie.png")}/>
+            </View>
+          </Card>
+        </CommunityDashboard>
 
         {/* <CommunityDashboard name={"PRODUCT UPDATES"}/> */}
 
         {/* <CommunityDashboard name={"MEET US IN PERSON AT"}/> */}
         <Separator margin='20 0 20 0'/>
         <CelText align='center' type='H7' color={STYLES.COLORS.DARK_GRAY6}>
-          The numbers are showing a dollar value of coins at the time of transaction realization.
-      </CelText>
+          The numbers are showing a dollar value of coins at this moment.
+        </CelText>
 
       </RegularLayout>
     );
