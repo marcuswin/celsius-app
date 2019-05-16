@@ -55,7 +55,7 @@ class WithdrawCreateAddress extends Component {
   handleScanClick = () => {
     const { actions } = this.props;
 
-    actions.navigateTo("QrScanner", {
+    actions.navigateTo("QRScanner", {
       onScan: this.handleScan
     });
   };

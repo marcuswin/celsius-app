@@ -181,8 +181,8 @@ class CelPayEnterAmount extends Component {
     ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (amountUsd > 20000) {
-      return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
+    if (amountUsd > 1000) {
+      return actions.showMessage('warning', 'Daily CelPay limit is $1,000!')
     }
 
     this.setState({ activePeriod: predefined })

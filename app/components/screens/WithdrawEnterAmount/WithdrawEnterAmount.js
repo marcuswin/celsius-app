@@ -44,7 +44,7 @@ class WithdrawEnterAmount extends Component {
     }
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const {
       navigation,
@@ -98,7 +98,7 @@ class WithdrawEnterAmount extends Component {
   getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   // TODO: move to formatter? check CelPayEnterAmount
-  setCurrencyDecimals (value, currency) {
+  setCurrencyDecimals(value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value
     // remove last digit
     const numberOfDecimals = formatter.getNumberOfDecimals(value)
@@ -186,7 +186,7 @@ class WithdrawEnterAmount extends Component {
     }
   }
 
-  render () {
+  render() {
     const { coinSelectItems, activePeriod } = this.state
     const {
       formData,

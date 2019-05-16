@@ -4,7 +4,7 @@ import WithdrawEnterAmount from '../../components/screens/WithdrawEnterAmount/Wi
 import WithdrawConfirmAddress from '../../components/screens/WithdrawConfirmAddress/WithdrawConfirmAddress'
 import WithdrawConfirm from '../../components/screens/WithdrawConfirm/WithdrawConfirm'
 import WithdrawCreateAddress from '../../components/screens/WithdrawCreateAddress/WithdrawCreateAddress'
-import QrScanner from '../../components/screens/QRScanner/QRScanner'
+import QRScanner from '../../components/screens/QRScanner/QRScanner'
 import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 
@@ -15,7 +15,7 @@ export const withdrawFlow = {
     WithdrawConfirmAddress,
     WithdrawConfirm,
     TransactionDetails,
-    QrScanner,
+    QRScanner,
     VerifyProfile
   },
   props: {
