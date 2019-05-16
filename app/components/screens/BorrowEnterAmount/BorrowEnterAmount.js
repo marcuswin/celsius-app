@@ -18,8 +18,6 @@ import STYLES from "../../../constants/STYLES";
 import BorrowConfirmModal from "../../organisms/BorrowConfirmModal/BorrowConfirmModal";
 import PredefinedAmounts from "../../organisms/PredefinedAmounts/PredefinedAmounts";
 import { getPadding } from "../../../utils/styles-util";
-import { showMessage } from "../../../redux/ui/uiActions";
-import store from "../../../redux/store";
 import Card from "../../atoms/Card/Card";
 
 
@@ -39,10 +37,6 @@ class BorrowEnterAmount extends Component {
 
   static navigationOptions = () => ({
     title: "Enter the loan amount",
-    right: "info",
-    onInfo: () => {
-      store.dispatch(showMessage("warning", "Not implemented yet!"));
-    }
   });
 
   constructor(props) {

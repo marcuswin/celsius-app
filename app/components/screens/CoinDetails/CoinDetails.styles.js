@@ -36,15 +36,20 @@ const base = {
   },
   interestCardWrapper: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     paddingVertical: widthPercentageToDP("3%"),
     paddingHorizontal: widthPercentageToDP("3%"),
 
   },
+  interestWrapper: {
+    flex: 1,
+    flexDirection: 'row'
+  },
   interestRateWrapper: {
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignContent: 'center',
+    paddingTop: 12
 
   },
   buttonItself: {

@@ -159,9 +159,6 @@ function setInternetConnection(connection) {
  */
 function initAppData(initToken = null) {
   return async (dispatch, getState) => {
-
-    await dispatch(actions.getInitialCelsiusData());
-
     // get user token
     const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     
@@ -180,15 +177,12 @@ function initAppData(initToken = null) {
       const { profile } = getState().user;
       if (profile) {
         await dispatch(actions.getUserAppSettings())
+        await dispatch(actions.getCommunityStatistics())
+
         if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
-        // get general data for te app
-        await dispatch(actions.getCurrencyRates());
-        await dispatch(actions.getCurrencyGraphs());
-        await dispatch(actions.getCommunityStatistics())
-        
         // get wallet details for verified users
         if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
           await dispatch(actions.getWalletSummary());
@@ -200,5 +194,9 @@ function initAppData(initToken = null) {
       await dispatch(actions.logoutUser());
     }
 
+    // get general data for te app
+    await dispatch(actions.getCurrencyRates());
+    await dispatch(actions.getCurrencyGraphs());
+    await dispatch(actions.getInitialCelsiusData());
   };
 }

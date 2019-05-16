@@ -55,7 +55,7 @@ class WithdrawCreateAddress extends Component {
   handleScanClick = () => {
     const { actions } = this.props;
 
-    actions.navigateTo("QrScanner", {
+    actions.navigateTo("QRScanner", {
       onScan: this.handleScan
     });
   };
@@ -84,7 +84,7 @@ class WithdrawCreateAddress extends Component {
 
         <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"} weight={"semi-bold"}>{formatter.crypto(formData.amountCrypto)}</CelText>
+          <CelText type={"H1"} weight={"semi-bold"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 
