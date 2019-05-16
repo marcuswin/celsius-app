@@ -77,17 +77,10 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, currencies, walletSummary, currencyRatesShort } = this.props;
+    const { actions, interestRates, celpayCompliance, currencies } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
     const coinPrice = currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0];
-
-    if (!walletSummary) {
-      return null
-    }
-    const indexOfCel = walletSummary.coins.findIndex(i => i.short === 'CEL')
-    const celUsdRatio = currencyRatesShort.cel
-    const interestInCel = coinDetails.interest_earned_usd * celUsdRatio
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
@@ -171,7 +164,6 @@ class CoinDetails extends Component {
                     <CelText type="H6" weight='300'>Total interest earned</CelText>
                     <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                     <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                    { Number(walletSummary.coins[indexOfCel].amount) !== 0 ? <CelText type="H6" weight='300'>{formatter.crypto(interestInCel, walletSummary.coins[indexOfCel].short)}</CelText> : null }
                   </View>
                   {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                     <View style={style.interestRateWrapper}>

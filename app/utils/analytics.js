@@ -1,8 +1,11 @@
 import { Constants, Segment } from "expo";
 import { Platform } from "react-native";
+import j from "jsrsasign";
 import store from "../redux/store";
+import { getSecureStoreKey } from "./expo-storage";
 
-const { revisionId, version } = Constants.manifest;
+const { revisionId, version, extra } = Constants.manifest;
+const { SECURITY_STORAGE_AUTH_KEY } = extra;
 
 const appInfo = {
   revisionId,
@@ -28,12 +31,22 @@ const analytics = {
  * Identifies the user on Segment -> Mixpanel, Branch
  */
 async function identifyUser() {
-  const user = store.getState().user.profile
-  if (!user || !user.id) return
+  try {
+    const user = store.getState().user.profile
+    if (!user || !user.id) return
 
-  Segment.identifyWithTraits(user.id, {
-    email: user.email
-  })
+    const token = await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+    const tokenHash = new j.KJUR.crypto.MessageDigest({alg: "sha1"});
+    tokenHash.updateString(token)
+    const tokenHex = tokenHash.digest()
+
+    Segment.identifyWithTraits(user.id, {
+      email: user.email,
+      tokenHex,
+    })
+  } catch(err) {
+    // console.log({ err })
+  }
 }
 
 /**
@@ -167,7 +180,7 @@ async function loanApplied(loanData) {
  */
 async function sessionStarted() {
   await identifyUser()
-  await Segment.trackWithProperties('Session ended', appInfo)
+  await Segment.trackWithProperties('Session started', appInfo)
 }
 
 
@@ -175,7 +188,7 @@ async function sessionStarted() {
  * Fires an event when a user ends the session - logout|app state to background
  */
 async function sessionEnded() {
-  await Segment.trackWithProperties('Session started', appInfo)
+  await Segment.trackWithProperties('Session ended', appInfo)
   await logoutUser()
 }
 
