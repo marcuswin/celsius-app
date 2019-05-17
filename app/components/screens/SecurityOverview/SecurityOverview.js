@@ -20,7 +20,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
-    is2FAEnabled: state.user.profile.two_factor_enabled,
+    securityOverview: state.user.securityOverview,
     overview: {
       is_2fa_set: true,
       user_actions_log: [
@@ -93,6 +93,11 @@ class SecurityOverview extends Component {
     right: "profile"
   });
 
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.getSecurityOverview();
+  }
+
 
   // getIcon = () => {
   //   const overview = this.props
@@ -114,11 +119,11 @@ class SecurityOverview extends Component {
 
     if (is2FAEnabled) {
       return <CelText type='H2' weight="600" color={STYLES.COLORS.GREEN}> ACTIVE </CelText>
-    } 
+    }
       return <CelText type='H2' weight="600" color={STYLES.COLORS.RED}> INACTIVE </CelText>
   }
 
-  renderUserActionsLog = () => { // Add text (no actions yet..) if doesn't exists 
+  renderUserActionsLog = () => { // Add text (no actions yet..) if doesn't exists
     const { overview } = this.props
     const style = SecurityOverviewStyle();
     const usr = overview.user_actions_log.map(a => a.action)
@@ -220,12 +225,9 @@ class SecurityOverview extends Component {
     return userActions
   }
 
-
-
   render() {
-    // const { is2FAEnabled, overview } = this.props;
+    // const {securityOverview} = this.props;
     const style = SecurityOverviewStyle();
-    // console.log(overview)
 
     return (
       <RegularLayout>
@@ -280,4 +282,3 @@ class SecurityOverview extends Component {
 }
 
 export default testUtil.hookComponent(SecurityOverview);
-// 
