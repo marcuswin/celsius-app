@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import { View } from 'react-native';
+import { View, TouchableOpacity, Platform, Switch } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Platform, Switch, View } from 'react-native'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -87,6 +86,14 @@ class SecuritySettings extends Component {
         { !user.registered_with_social && (
           <IconButton margin="0 0 30 0" onPress={() => actions.navigateTo('ChangePassword')}>Change password</IconButton>
         )}
+
+        <TouchableOpacity onPress={() => actions.navigateTo('SecurityOverview')}> 
+        <View>
+        <CelText type='H2' align='center' weight='bold' margin='30 0 30 0'> 
+        Security screen overview
+         </CelText>
+         </View>
+        </TouchableOpacity>
 
         <CelButton onPress={this.logoutUser}>Log out from all devices</CelButton>
 
