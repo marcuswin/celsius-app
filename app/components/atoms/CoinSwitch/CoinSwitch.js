@@ -1,39 +1,70 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View, TouchableOpacity } from 'react-native';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { View, TouchableOpacity } from 'react-native'
 
-import testUtil from "../../../utils/test-util";
+import testUtil from '../../../utils/test-util'
 
-import CoinSwitchStyle from "./CoinSwitch.styles";
-import CelText from "../CelText/CelText";
-import formatter from "../../../utils/formatter";
-import Icon from "../Icon/Icon";
-import STYLES from "../../../constants/STYLES";
+import CoinSwitchStyle from './CoinSwitch.styles'
+import CelText from '../CelText/CelText'
+import formatter from '../../../utils/formatter'
+import Icon from '../Icon/Icon'
+import STYLES from '../../../constants/STYLES'
 
-const CoinSwitch = (props) => {
+const CoinSwitch = props => {
   const style = CoinSwitchStyle()
-  const { isUsd, amountUsd, amountCrypto, updateFormField, coin, amountColor } = props;
+  const {
+    isUsd,
+    amountUsd,
+    amountCrypto,
+    updateFormField,
+    coin,
+    amountColor
+  } = props
 
-  const upperValue = isUsd ? formatter.usd(amountUsd) : formatter.crypto(amountCrypto);
-  const lowerValue = !isUsd ? formatter.usd(amountUsd) : formatter.crypto(amountCrypto, coin);
+  const upperValue = isUsd
+    ? formatter.usd(amountUsd)
+    : `${formatter.getEllipsisAmount(amountCrypto, -5)}`
+  const lowerValue = !isUsd
+    ? formatter.usd(amountUsd)
+    : `${formatter.getEllipsisAmount(amountCrypto, -5)} ${coin}`
   return (
     <View style={style.container}>
-      { props.onAmountPress ? (
+      {props.onAmountPress ? (
         <View>
           <TouchableOpacity onPress={props.onAmountPress}>
-            <CelText align="center" type="H1" margin="10 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
+            <CelText
+              align='center'
+              type='H1'
+              margin='10 0 10 0'
+              weight='regular'
+              color={amountColor}
+            >
+              {upperValue}
+            </CelText>
           </TouchableOpacity>
-          <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
+          <CelText align='center' type='H2' color={STYLES.COLORS.MEDIUM_GRAY}>
+            {lowerValue}
+          </CelText>
         </View>
       ) : (
         <View>
-          <CelText align="center" type="H1" margin="10 0 10 0" weight="regular" color={amountColor}>{ upperValue }</CelText>
-          <CelText align="center" type="H2" color={STYLES.COLORS.MEDIUM_GRAY}>{ lowerValue }</CelText>
+          <CelText
+            align='center'
+            type='H1'
+            margin='10 0 10 0'
+            weight='regular'
+            color={amountColor}
+          >
+            {upperValue}
+          </CelText>
+          <CelText align='center' type='H2' color={STYLES.COLORS.MEDIUM_GRAY}>
+            {lowerValue}
+          </CelText>
         </View>
       )}
       <View style={style.switchButton}>
         <TouchableOpacity onPress={() => updateFormField('isUsd', !isUsd)}>
-          <Icon name="Switch" width="30" height="30" />
+          <Icon name='Switch' width='30' height='30' />
         </TouchableOpacity>
       </View>
     </View>
@@ -47,7 +78,7 @@ CoinSwitch.propTypes = {
   updateFormField: PropTypes.func.isRequired,
   onAmountPress: PropTypes.func,
   coin: PropTypes.string,
-  amountColor: PropTypes.string,
+  amountColor: PropTypes.string
 }
 
-export default testUtil.hookComponent(CoinSwitch);
+export default testUtil.hookComponent(CoinSwitch)

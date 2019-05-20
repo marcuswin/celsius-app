@@ -47,7 +47,7 @@ class VerticalSlider extends Component {
               maximumValue={items.length - 1}
               step={1}
               value={values.indexOf(value)}
-              onValueChange={this.handleChangeSlideValue}
+              onValueChange={(step) => this.handleChangeSlideValue(values[step])}
             />
           </View>
         </View>

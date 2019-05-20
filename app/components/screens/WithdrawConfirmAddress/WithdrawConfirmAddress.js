@@ -83,7 +83,7 @@ class WithdrawConfirmAddress extends Component {
 
         <View style={style.coinAmountContainer}>
           <CelText type={"H2"}>{formData.coin}</CelText>
-          <CelText type={"H1"}>{formatter.crypto(formData.amountCrypto)}</CelText>
+          <CelText type={"H1"}>{formatter.getEllipsisAmount(formData.amountCrypto, -5)}</CelText>
           <CelText color={"gray"} type={"H3"}>{formatter.usd(formData.amountUsd)}</CelText>
         </View>
 
@@ -110,9 +110,9 @@ class WithdrawConfirmAddress extends Component {
           backgroundColor={STYLES.COLORS.ORANGE}
           titleText={"Your withdrawal address"}
           left
-          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nIf you need to change your withdrawal address please enable Two-Factor Authentication or contact our support. `}
+          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nIf you need to change your withdrawal address please contact our support.`}
         />
-                
+
                 {hasTag ? (
           <CelInput
             placeholder={placeHolderText}

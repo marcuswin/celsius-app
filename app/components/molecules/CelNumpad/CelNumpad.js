@@ -1,49 +1,57 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { Constants } from 'expo';
-import { View, TouchableOpacity, TextInput } from 'react-native';
-import { withNavigationFocus } from 'react-navigation';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { Constants } from 'expo'
+import { View, TouchableOpacity, TextInput } from 'react-native'
+import { withNavigationFocus } from 'react-navigation'
 
-import testUtil from "../../../utils/test-util";
-import CelNumpadStyle from "./CelNumpad.styles";
-import CelText from "../../atoms/CelText/CelText";
-import { KEYBOARD_TYPE, KEYPAD_PURPOSES, PHONES_WITH_CUSTOM_KEYPAD } from "../../../constants/UI";
+import testUtil from '../../../utils/test-util'
+import CelNumpadStyle from './CelNumpad.styles'
+import CelText from '../../atoms/CelText/CelText'
+import {
+  KEYBOARD_TYPE,
+  KEYPAD_PURPOSES,
+  PHONES_WITH_CUSTOM_KEYPAD
+} from '../../../constants/UI'
+import Icon from '../../atoms/Icon/Icon'
+import STYLES from '../../../constants/STYLES'
 
 const BUTTONS = {
   [KEYPAD_PURPOSES.WITHDRAW]: [
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
-    ['.', '0', '<'],
+    ['.', '0', '<']
   ],
   [KEYPAD_PURPOSES.CELPAY]: [
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
-    ['.', '0', '<'],
+    ['.', '0', '<']
   ],
   [KEYPAD_PURPOSES.VERIFICATION]: [
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
-    ['', '0', '<'],
+    ['', '0', '<']
   ],
   [KEYPAD_PURPOSES.AMOUNT]: [
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
-    ['.', '0', '<'],
-  ],
+    ['.', '0', '<']
+  ]
 }
 
-const deviceModel = Constants.platform.ios ? Constants.platform.ios.model : Constants.platform.android.model;
+const deviceModel = Constants.platform.ios
+  ? Constants.platform.ios.model
+  : Constants.platform.android.model
 const shouldShowCustomKeypad = PHONES_WITH_CUSTOM_KEYPAD.includes(deviceModel)
 
 const KEYBOARDS = {
   [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.VERIFICATION]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.CELPAY]: KEYBOARD_TYPE.NUMERIC,
-  [KEYPAD_PURPOSES.AMOUNT]: KEYBOARD_TYPE.NUMERIC,
+  [KEYPAD_PURPOSES.AMOUNT]: KEYBOARD_TYPE.NUMERIC
 }
 
 class CelNumpad extends Component {
@@ -55,8 +63,7 @@ class CelNumpad extends Component {
     updateFormField: PropTypes.func.isRequired,
     setKeypadInput: PropTypes.func.isRequired,
     toggleKeypad: PropTypes.func.isRequired,
-    purpose: PropTypes.string.isRequired,
-
+    purpose: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -64,17 +71,16 @@ class CelNumpad extends Component {
     value: ''
   }
 
-  componentDidMount() {
-    const { autofocus, toggleKeypad, setKeypadInput, field } = this.props;
+  componentDidMount () {
+    const { autofocus, toggleKeypad, setKeypadInput, field } = this.props
     if (this.inputRef) {
       setKeypadInput(this.inputRef, field)
-      if (autofocus) toggleKeypad();
+      if (autofocus) toggleKeypad()
     }
   }
 
-
-  componentDidUpdate(prevProps) {
-    const { isFocused, setKeypadInput, field } = this.props;
+  componentDidUpdate (prevProps) {
+    const { isFocused, setKeypadInput, field } = this.props
 
     if (prevProps.isFocused === true && isFocused === false) {
       setKeypadInput(false, field)
@@ -84,15 +90,15 @@ class CelNumpad extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     const { setKeypadInput, field } = this.props
     setKeypadInput(false, field)
   }
 
-  changeInputText = (text) => {
-    const { value, onPress, updateFormField, field } = this.props;
+  changeInputText = text => {
+    const { value, onPress, updateFormField, field } = this.props
 
-    let newValue;
+    let newValue
     if (text.includes('.') && text.includes(',')) {
       newValue = value
     } else {
@@ -106,14 +112,13 @@ class CelNumpad extends Component {
     }
   }
 
-  pressButton(button) {
-    const { updateFormField, onPress, field, value } = this.props;
+  pressButton (button) {
+    const { updateFormField, onPress, field, value } = this.props
 
-    let newValue = value;
+    let newValue = value
 
     if (button === '<') {
-      newValue = value.toString().slice(0, -1);
-
+      newValue = value.toString().slice(0, -1)
     } else if (button === '.') {
       if (!value) {
         newValue = '.'
@@ -122,7 +127,6 @@ class CelNumpad extends Component {
       } else {
         newValue = value
       }
-
     } else if (!isNaN(button)) {
       // Number pressed
       if (value) {
@@ -139,26 +143,35 @@ class CelNumpad extends Component {
     }
   }
 
-  render() {
+  render () {
     const { purpose, value, isFocused } = this.props
     const style = CelNumpadStyle()
     const buttons = BUTTONS[purpose]
 
-    if (!isFocused) return null;
+    if (!isFocused) return null
 
     if (shouldShowCustomKeypad) {
       return (
         <View style={style.container}>
           <View style={style.buttonsWrapper}>
-            { buttons.map(btns => (
+            {buttons.map(btns => (
               <View key={btns[0]} style={style.buttonsRow}>
-                { btns.map(btn => (
+                {btns.map(btn => (
                   <TouchableOpacity
                     key={btn}
                     style={style.button}
                     onPress={() => this.pressButton(btn)}
                   >
-                    <CelText type="H0">{ btn }</CelText>
+                    {btn === '<' ? (
+                      <Icon
+                        name='Backspace'
+                        fill={STYLES.COLORS.DARK_GRAY}
+                        width='32'
+                        style={{ marginTop: 10 }}
+                      />
+                    ) : (
+                      <CelText type='H0'>{btn}</CelText>
+                    )}
                   </TouchableOpacity>
                 ))}
               </View>
@@ -174,10 +187,12 @@ class CelNumpad extends Component {
         value={value || ''}
         onChangeText={this.changeInputText}
         keyboardType={KEYBOARDS[purpose]}
-        ref={(input) => { this.inputRef = input }}
+        ref={input => {
+          this.inputRef = input
+        }}
       />
-    );
+    )
   }
 }
 
-export default testUtil.hookComponent(withNavigationFocus(CelNumpad));
+export default testUtil.hookComponent(withNavigationFocus(CelNumpad))

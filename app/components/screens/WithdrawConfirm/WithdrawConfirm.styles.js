@@ -1,19 +1,15 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from '../../../utils/styles-util'
 
 const base = {
   container: {
     flex: 1
   },
   address: {
-    flexDirection: "column",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    paddingVertical: 15,
-  },
-  bottom: {
-    marginTop: 10,
-    marginBottom: 36,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    paddingVertical: 15
   },
   amountWrapper: {
     paddingVertical: 20,
@@ -28,16 +24,13 @@ const base = {
 }
 
 const themed = {
-  light: {
-  },
+  light: {},
 
-  dark: {
-  },
+  dark: {},
 
-  celsius: {
-  }
+  celsius: {}
 }
 
-const WithdrawConfirmStyle = () => getThemedStyle(base, themed);
+const WithdrawConfirmStyle = () => getThemedStyle(base, themed)
 
 export default WithdrawConfirmStyle

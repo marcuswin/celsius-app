@@ -33,12 +33,12 @@ class RegisterPromoCodeModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmed: false
+      confirmed: false,
     };
   }
 
   componentDidMount() {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.updateFormFields({ promoCode: null });
   }
 
@@ -105,22 +105,33 @@ class RegisterPromoCodeModal extends Component {
         {!confirmed ?
           <View>
             <CelText margin={"40 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Enter a promo code</CelText>
+            <CelText margin={"0 0 10 0"} align={"left"} type={"H6"} weight={"300"}>Receive an award with the right promo code:</CelText>
+              <CelInput type="text" field="promoCode" placeholder="Promo code"
+                value={formData.promoCode} error={formErrors.promoCode} border
+              />
 
-            <CelInput margin="0 0 20 0" type="text" field="promoCode" placeholder="Promo code"
-                      value={formData.promoCode} error={formErrors.promoCode}/>
-
-            <CelButton
-              onPress={() => this.confirm()}
-            >
-              Confirm
+            {(formData.promoCode !== null || formData.promoCode === '') ?
+              <CelButton
+                onPress={() => this.confirm()}
+              >
+                Confirm
             </CelButton>
+              :
+              <CelButton
+                onPress={() => this.confirm()}
+                disabled
+
+              >
+                Confirm
+            </CelButton>
+            }
           </View> : null
         }
 
         {confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{ congratsText }</CelText>
+            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{congratsText}</CelText>
             <CelButton
               onPress={() => {
                 actions.closeModal();
