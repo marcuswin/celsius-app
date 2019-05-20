@@ -15,6 +15,7 @@ import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
+import Loader from "../../atoms/Loader/Loader";
 
 
 @connect(
@@ -56,9 +57,8 @@ class SecurityOverview extends Component {
   };
 
   renderStatus = () => {
-    const { is2FAEnabled } = this.props;
-
-    if (is2FAEnabled) {
+    const { securityOverview } = this.props;
+    if (securityOverview.is_2fa_set) {
       return <CelText type='H2' weight="600" color={STYLES.COLORS.GREEN}> ACTIVE </CelText>
     }
     return <CelText type='H2' weight="600" color={STYLES.COLORS.RED}> INACTIVE </CelText>
@@ -69,8 +69,7 @@ class SecurityOverview extends Component {
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
 
-
-    const userActions = securityOverview ? securityOverview.user_actions_log.map((item) => {
+    const userActions = securityOverview && securityOverview.user_actions_log ? securityOverview.user_actions_log.map((item) => {
       const actions = this.getIcon(item)
       return (
         <View style={style.userActionsLogWrapper} >
@@ -98,7 +97,7 @@ class SecurityOverview extends Component {
   renderAccountActionsLog = () => { // country flag
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
-    const userActions = securityOverview ? securityOverview.account_activity_log.map((item) => (
+    const userActions = securityOverview && securityOverview.account_activity_log ? securityOverview.account_activity_log.map((item) => (
       <View style={style.accountActionsLogWrapper}>
         <View style={style.accountActionsLog1}>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
@@ -124,10 +123,8 @@ class SecurityOverview extends Component {
   renderDeviceLogedIn = () => { // Logic for current device loged in
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
-    // console.log(moment)
 
-
-    const userActions = securityOverview ? securityOverview.devices_logged_in.map((item) => (
+    const userActions = securityOverview && securityOverview.devices_logged_in ? securityOverview.devices_logged_in.map((item) => (
       <View style={style.renderDeviceWrapper}>
         <View style={style.renderDevice}>
           <Icon name="Mobile" viewBox="0 0 29 29" fill="#737A82" />
@@ -149,10 +146,10 @@ class SecurityOverview extends Component {
   }
 
   render() {
-    const { actions } = this.props;
+    const { actions, securityOverview } = this.props;
     const style = SecurityOverviewStyle();
-    // console.log(this.getIcon().color, 'this . get con')
 
+    if(!securityOverview) return <Loader />
     return (
       <RegularLayout>
         <View style={{ flex: 1 }}>
