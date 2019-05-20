@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 // import { Image } from "react-native-expo-image-cache";
-import { countries } from "country-data";
+import {lookup } from "country-data";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -21,65 +21,6 @@ import Icon from "../../atoms/Icon/Icon";
 @connect(
   state => ({
     securityOverview: state.user.securityOverview,
-    overview: {
-      is_2fa_set: true,
-      user_actions_log: [
-        {
-          action: "CelPayConfirm",
-          date: "12-12-2019"
-        },
-        {
-          action: "ChangeEmail",
-          date: "21-4-2019"
-        },
-        // {
-        //   action: "Loan Apply",
-        //   date: "21-4-2019"
-        // },
-        // {
-        //   action: "Change Password",
-        //   date: "11-5-2019"
-        // },
-        // {
-        //   action: "Loan Apply",
-        //   date: "28-2-2019"
-        // }
-      ],
-      account_activity_log: [
-        {
-          ip: "89.216.22.92",
-          platform: "ios",
-          country: "Serbia",
-          date: "15-5-2019"
-        },
-        {
-          ip: "89.216.22.92",
-          platform: "android",
-          country: "Albania",
-          date: "10-5-2019"
-        }
-      ],
-      devices_logged_in: [
-        {
-          model: "iPhone X",
-          country: "Serbia",
-          city: "Belgrade",
-          date: "",
-        },
-        {
-          model: "iPhone SE",
-          country: "Serbia",
-          city: "Belgrade",
-          date: "10-4-2019",
-        },
-        {
-          model: "GUMBOCA PHONE",
-          country: "Serbia",
-          city: "Arilje City",
-          date: "juce",
-        },
-      ]
-    }
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -102,29 +43,18 @@ class SecurityOverview extends Component {
     actions.getSecurityOverview();
   }
 
-  getIcon = () => {
-    const { securityOverview } = this.props
-    const usr = securityOverview.user_actions_log.map(a => a.action)
-    // let dddn = ...securityOverview.user_actions_log
-    // let icon;
-    // console.log(...usr.map(a))
-
-    if( usr.indexOf("set-pin") !== -1 ) return { name: 'Mail', color: 'green', action: 'Set Pin'}
-    // console.log("1")
-    if( usr.indexOf("confirm-celpay") !== -1 ) return { name: 'Mail', color:'blue', action: 'CelPay Confirmed' };
-    // console.log("2")
-    if (usr.indexOf("loan-apply") !== -1) return { name: 'Lock', color: 'green', action: 'Loan apply'  }
-    // console.log("3")
-    if (usr.indexOf("change-pass") !== -1) return { name: 'Key', color: 'blue', action: 'Password changed'  }
-    if (usr.indexOf("deactivation-2fa") !== -1) return { name: 'Shield', color: 'red', action: '2FA Deactivated'  }
-    if (usr.indexOf("activation-2fa") !== -1) return { name: 'Shield', color: 'green', action: '2FA Activated'  }
-    if (usr.indexOf("claim-celpay") !== -1) return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed'  }
-    // if (usr.indexOf("set-pin") !== -1) return { name: 'Lock', color: 'green', action: 'CelPay Confirmed'  }
-    if (usr.indexOf("withdraw-info") !== -1) return { name: 'CaretUp', color: 'red', action: 'Withdraw'  }
-    if (usr.indexOf("deposit-success") !== -1) return { name: 'CaretDown', color: 'green', action: 'Deposit'  }
-    if (usr.indexOf("confirm-withdrawal-request") !== -1) return { name: 'CaretUp', color: 'red', action: 'Withrdaw confirm request'  }
-
-  }
+  getIcon = (item) => {
+    if( item.action === "set-pin" ) return { name: 'Mail', color: 'green', action: 'Set Pin'}
+    if( item.action === "confirm-celpay" ) return { name: 'Mail', color:'blue', action: 'CelPay Confirmed' };
+    if (item.action === "loan-apply") return { name: 'Lock', color: 'green', action: 'Loan apply'  }
+    if (item.action === "change-pass") return { name: 'Key', color: 'blue', action: 'Password changed'  }
+    if (item.action === "deactivation-2fa") return { name: 'Shield', color: 'red', action: '2FA Deactivated'  }
+    if (item.action === "activation-2fa") return { name: 'Shield', color: 'green', action: '2FA Activated'  }
+    if (item.action === "claim-celpay") return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed'  }
+    if (item.action === "withdraw-info") return { name: 'CaretUp', color: 'red', action: 'Withdraw'  }
+    if (item.action === "deposit-success") return { name: 'CaretDown', color: 'green', action: 'Deposit'  }
+    if (item.action === "confirm-withdrawal-request") return { name: 'CaretUp', color: 'red', action: 'Withrdaw confirm request'  }
+  };
 
   renderStatus = () => {
     const { is2FAEnabled } = this.props;
@@ -141,55 +71,55 @@ class SecurityOverview extends Component {
     const style = SecurityOverviewStyle();
 
 
-    const userActions = securityOverview ? securityOverview.user_actions_log.map((item) => (
-      <View style={style.userActionsLogWrapper}>
-        <View style={style.userActionsLog}>
-            <Icon name={this.getIcon().name} viewBox="0 0 29 29" fill={this.getIcon().color} />
-            <CelText style={{ flex: 1, justifyContent: 'flex-start', paddingLeft: 5 }} type='H5' weight='600'>{this.getIcon().action} </CelText>
+    const userActions = securityOverview ? securityOverview.user_actions_log.map((item) => {
+      const actions = this.getIcon(item)
+      return (
+        <View style={style.userActionsLogWrapper}>
+          <View style={style.userActionsLog}>
+            <Icon name={actions.name} viewBox="0 0 29 29" fill={actions.color} />
+            <CelText style={{ flex: 1, justifyContent: 'flex-start', paddingLeft: 5 }} type='H5' weight='600'>{actions.action} </CelText>
             <CelText type='H6' weight='300'>{item.created_at.split('T')[0]} </CelText>
+          </View>
+          <View style={{ marginTop: 15 }}>
+            {securityOverview.user_actions_log[securityOverview.user_actions_log.length - 1] !== item ?
+              <Separator /> : null
+            }
+          </View>
         </View>
-        <View style={{ marginTop: 15 }}>
-          {securityOverview.user_actions_log[securityOverview.user_actions_log.length - 1] !== item ?
-            <Separator /> : null
-          }
-        </View>
-      </View>
-    )) : null
+      )
+  }) : null
     return userActions
   }
 
-  // renderImage = (iso = 'Serbia') => {
-  //   return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" />
-  // }
+  renderImage = (iso = "") => {
+          const short = lookup.countries({ name: iso })[0].alpha2;
+    return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${short.toLowerCase()}.png` }} resizeMode="cover" style={{ borderRadius: 15, width: 30, height: 30}}/>
+  }
 
   renderAccountActionsLog = () => { // country flag
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
-    // const country = overview.account_activity_log.map(a => a.country)
-    // console.log(country)
-    const country = this.props.value ? this.props.value : countries.US;
-
 
     const userActions = securityOverview ? securityOverview.account_activity_log.map((item) => (
-      <View style={style.accountActionsLogWrapper}>
-        <View style={style.accountActionsLog1}>
-          <View style={style.accountActionsLog2}>
-            {/* <View style={{ flex: 1, flexDirection: 'row' }}> */}
-              {this.renderImage(country.name)}
-            {/* </View> */}
-            <CelText type='H5' weight='600'>{item.ip} </CelText>
-            <CelText type='H6' weight='300'>{item.country} </CelText>
+        <View style={style.accountActionsLogWrapper}>
+          <View style={style.accountActionsLog1}>
+            <View style={style.accountActionsLog2}>
+              {/* <View style={{ flex: 1, flexDirection: 'row' }}> */}
+              {this.renderImage(item.country)}
+              {/* </View> */}
+              <CelText type='H5' weight='600'>{item.ip} </CelText>
+              <CelText type='H6' weight='300'>{item.country} </CelText>
+            </View>
+            <View style={style.accountActionsLog3}>
+              <CelText type='H6' weight='300'>{item.platform} </CelText>
+              <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
+            </View>
           </View>
-          <View style={style.accountActionsLog3}>
-            <CelText type='H6' weight='300'>{item.platform} </CelText>
-            <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
-          </View>
+          {securityOverview.account_activity_log[securityOverview.account_activity_log.length - 1] !== item ?
+            <Separator margin='15 0 10 0' /> : null
+          }
         </View>
-        {securityOverview.account_activity_log[securityOverview.account_activity_log.length - 1] !== item ?
-          <Separator margin='15 0 10 0' /> : null
-        }
-      </View>
-    )) : null
+      )) : null
     return userActions
   }
 
