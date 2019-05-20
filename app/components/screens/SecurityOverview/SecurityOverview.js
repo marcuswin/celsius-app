@@ -43,7 +43,7 @@ class SecurityOverview extends Component {
   }
 
   getIcon = (item) => {
-    if (item.action === "set-pin") return { name: 'Mail', color: 'green', action: 'Set Pin' }
+    if (item.action === "set-pin") return { name: 'Lock', color: 'green', action: 'Set Pin' }
     if (item.action === "confirm-celpay") return { name: 'Mail', color: 'blue', action: 'CelPay Confirmed' };
     if (item.action === "loan-apply") return { name: 'Lock', color: 'green', action: 'Loan apply' }
     if (item.action === "change-pass") return { name: 'Key', color: 'blue', action: 'Password changed' }
