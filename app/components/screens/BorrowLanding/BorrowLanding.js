@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { TouchableOpacity, View } from "react-native";
@@ -205,15 +205,7 @@ class BorrowLanding extends Component {
       )
     } return (
       <RegularLayout>
-        {maxAmount < minimumLoanAmount / minLtv
-          ?
-          <Fragment>
-            <CelText type='H3' margin={"0 0 20 0"} color={STYLES.COLORS.RED}>Insufficient funds!</CelText>
-            <CelButton onPress={() => actions.navigateTo("Deposit")}>Deposit more coins</CelButton>
-          </Fragment>
-          :
           <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
-        }
       </RegularLayout>
     )
   }

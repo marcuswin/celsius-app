@@ -17,6 +17,7 @@ import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import Icon from "../../atoms/Icon/Icon";
 
 const { COLORS } = STYLES;
 
@@ -27,18 +28,18 @@ const { COLORS } = STYLES;
     currencyRatesShort: state.currencies.currencyRatesShort,
     interestRates: state.generalData.interestRates,
     celpayCompliance: state.user.compliance.celpay,
-    coinAmount: state.graph.coinLastValue,
+    coinAmount: state.graph.coinLastValue
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CoinDetails extends Component {
 
   static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state
+    const { params } = navigation.state;
     return {
-      title: params && params.title && params.coin ? `${params.title}  (${params.coin})` : 'Coin Details',
-      right: 'profile'
-    }
+      title: params && params.title && params.coin ? `${params.title}  (${params.coin})` : "Coin Details",
+      right: "profile"
+    };
   };
 
   constructor(props) {
@@ -63,73 +64,80 @@ class CoinDetails extends Component {
 
   navigateToAllTransactions = () => {
     const { actions } = this.props;
-    actions.navigateTo('AllTransactions');
-  }
+    actions.navigateTo("AllTransactions");
+  };
 
   goToCelPay = () => {
     const { currency } = this.state;
     const { actions } = this.props;
 
-    actions.updateFormField('coin', currency.short)
-    actions.navigateTo('CelPayChooseFriend')
-  }
+    actions.updateFormField("coin", currency.short);
+    actions.navigateTo("CelPayChooseFriend");
+  };
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance } = this.props;
+    const { actions, interestRates, celpayCompliance, currencies } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
+    const coinPrice = currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0];
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     return (
-      <RegularLayout padding={'20 0 100 0'}>
+      <RegularLayout padding={"20 0 100 0"}>
         <View style={style.container}>
-          <Card padding={'0 0 0 0'}>
+          <Card padding={"0 0 0 0"}>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
-                <Image source={{ uri: currency.image_url }} style={style.coinImage} />
+                <Image source={{ uri: currency.image_url }} style={style.coinImage}/>
                 <View style={{ marginLeft: 16 }}>
                   <CelText weight='300' type="H6">{currency.displayName}</CelText>
-                  <CelText weight='600' type="H2" margin={'3 0 3 0'}>{formatter.usd(coinDetails.amount_usd)}</CelText>
+                  <CelText weight='600' type="H2" margin={"3 0 3 0"}>{formatter.usd(coinDetails.amount_usd)}</CelText>
                   <CelText weight='300' type="H6">{formatter.crypto(coinDetails.amount, coinDetails.short)}</CelText>
                 </View>
               </View>
-              <Separator />
+              <Separator/>
               <View style={style.buttonWrapper}>
-                <TouchableOpacity style={{ marginLeft: widthPercentageToDP('3.3%'), marginRight: widthPercentageToDP('3.3%') }} onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })} >
+                <TouchableOpacity
+                  style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
+                  onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
-                          source={require('../../../../assets/images/icons/plus-icn-small.png')}
-                          />
+                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
+                           source={require("../../../../assets/images/icons/plus-icn-small.png")}
+                    />
                     <CelText>
                       Deposit
                     </CelText>
                   </View>
                 </TouchableOpacity>
-                <Separator vertical height={ '35%' } top={ 20 } />
+                <Separator vertical height={"35%"} top={20}/>
                 {isCoinEligibleForCelPay && (
-                <TouchableOpacity onPress={this.goToCelPay} style={{ marginLeft: widthPercentageToDP('6.9%'), marginRight: widthPercentageToDP('6.9%') }}>
+                  <TouchableOpacity onPress={this.goToCelPay} style={{
+                    marginLeft: widthPercentageToDP("6.9%"),
+                    marginRight: widthPercentageToDP("6.9%")
+                  }}>
 
                     <View style={style.buttonItself}>
-                      <Image style={{ alignSelf: 'center', width: 30, height: 25, marginBottom: 5, marginTop: 6  }}
-                            source={require('../../../../assets/images/icons/icon-send-small.png')} />
+                      <Image style={{ alignSelf: "center", width: 30, height: 25, marginBottom: 5, marginTop: 6 }}
+                             source={require("../../../../assets/images/icons/icon-send-small.png")}/>
                       <CelText>
                         CelPay
                       </CelText>
                     </View>
 
-                </TouchableOpacity>
+                  </TouchableOpacity>
                 )}
 
                 {isCoinEligibleForCelPay && (
-                  <Separator vertical height={ '35%' } top={ 20 }  />
+                  <Separator vertical height={"35%"} top={20}/>
                 )}
 
-                <TouchableOpacity style={style.buttons} onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
+                <TouchableOpacity style={style.buttons}
+                                  onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: 'center', width: 25, height: 25, marginBottom: 5, marginTop: 6  }}
-                          source={require('../../../../assets/images/icons/withdraw-small.png')} />
+                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
+                           source={require("../../../../assets/images/icons/withdraw-small.png")}/>
                     <CelText>
                       Withdraw
                     </CelText>
@@ -143,15 +151,15 @@ class CoinDetails extends Component {
         <GraphContainer
           showCursor
           showPeriods
-          type={'coin-balance'}
+          type={"coin-balance"}
           coin={currency.short}
         />
 
         <View style={style.container}>
-          { coinDetails.short !== 'CEL' ?
+          {coinDetails.short !== "CEL" ?
             <Card margin="10 0 10 0">
               <View>
-                <View>
+                <View style={style.interestWrapper}>
                   <View style={style.interestCardWrapper}>
                     <CelText type="H6" weight='300'>Total interest earned</CelText>
                     <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
@@ -161,7 +169,7 @@ class CoinDetails extends Component {
                     <View style={style.interestRateWrapper}>
                       <CelText type="H6" weight='300'>Current rate</CelText>
                       <View>
-                        <Badge margin='0 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                        <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
                           <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
                         </Badge>
                       </View>
@@ -180,9 +188,34 @@ class CoinDetails extends Component {
                 />
               </View>
             </Card>
-          : null }
+            : null}
 
         </View>
+
+        <View style={style.container}>
+          <Card>
+            <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+              <View>
+                <CelText type={"H2"} weight={"600"} align={"center"}>{formatter.usd(coinPrice.price)}</CelText>
+                <CelText type={"H6"} weight={"300"} align={"center"} margin={"10 0 0 0"}>{`1 ${coinDetails.short} price`}</CelText>
+              </View>
+              <Separator vertical/>
+              <View>
+                <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: "space-around"}}>
+                  <Icon
+                    name={coinPrice.percent_change_24h < 0 ? `ArrowDown` : `ArrowUp`}
+                    height={"10"}
+                    width={"10"}
+                  />
+                  <CelText type={"H2"} weight={"600"}
+                           align={"center"}>{formatter.round(coinPrice.percent_change_24h, { precision: 2 })}%</CelText>
+                </View>
+                <CelText type={"H6"} weight={"300"} align={"center"} margin={"10 0 0 0"}>Last 24h change</CelText>
+              </View>
+            </View>
+          </Card>
+        </View>
+
         <View style={style.container}>
           <TransactionsHistory
             hasFilter={false}
@@ -201,7 +234,7 @@ class CoinDetails extends Component {
         <View>
           <CelButton onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
             Withdraw
-            </CelButton>
+          </CelButton>
         </View>
       </RegularLayout>
     );

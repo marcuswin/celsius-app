@@ -43,6 +43,7 @@ class CelInput extends Component {
     helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     large: PropTypes.bool,
     debounce: PropTypes.bool,
+    border: PropTypes.bool
   };
 
   static defaultProps = {
@@ -56,7 +57,8 @@ class CelInput extends Component {
     margin: '0 0 20 0',
     basic: false,
     large: true,
-    debounce: false
+    debounce: false,
+    border: false
   }
 
   constructor(props) {
@@ -90,12 +92,13 @@ class CelInput extends Component {
 
   getInputStyle = () => {
     if (this.props.basic) return [];
-    const { disabled } = this.props;
+    const { disabled, border } = this.props;
     const cmpStyle = CelInputStyle()
     const { active } = this.state;
     const style = [cmpStyle.inputWrapper];
     if (active) style.push(cmpStyle.activeInput)
     if (disabled) style.push(cmpStyle.disabledInput)
+    if (border) style.push(cmpStyle.borderView)
 
     return style;
   }

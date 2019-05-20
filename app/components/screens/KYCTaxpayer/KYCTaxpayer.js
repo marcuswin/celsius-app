@@ -16,6 +16,8 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { MODALS } from "../../../constants/UI";
 import SsnModal from "../../organisms/SsnModal/SsnModal";
 
+let focused = 0;
+
 @connect(
   state => ({
     user: state.user.profile,
@@ -49,6 +51,12 @@ class KYCTaxpayer extends Component {
     this.setState({ isLoading: false });
     this.initForm(user);
   }
+
+  componentDidUpdate() {
+    const {formData} = this.props;
+    if (formData.ssn2 && formData.ssn2.length === 2 && focused < 2) {this.ssn3.focus();focused = 2}
+    if (formData.ssn1 && formData.ssn1.length === 3 && focused < 1) {this.ssn2.focus();focused = 1}
+  };
 
   initForm = (user) => {
     const { actions } = this.props;
@@ -112,7 +120,6 @@ class KYCTaxpayer extends Component {
     const { updatingTaxInfo, isLoading } = this.state;
     const style = KYCTaxpayerStyle();
 
-
     if (isLoading) return <LoadingScreen />;
     return (
       <RegularLayout>
@@ -135,9 +142,9 @@ class KYCTaxpayer extends Component {
                 placeholder="XXX"
                 value={formData.ssn1}
                 error={formErrors.ssn1}
+                refs={(input) => { this.ssn1 = input }}
                 onSubmitEditing={() => { this.ssn2.focus() }}
                 returnKeyType={"next"}
-
               />
               <CelText style={{ flex: 0.1 }}>
                 {'-'}
