@@ -25,7 +25,7 @@ class ChangePin extends Component {
   static defaultProps = {};
 
   static navigationOptions = () => ({
-    title: "Change PIN",
+    headerSameColor: true
   });
 
   constructor(props) {

@@ -19,7 +19,7 @@ const LoadingState = ({
         <Image source={image} style={style.image} />
       </View>
 
-      <CelText margin="20 0 15 0" align="center" type="H3" bold>{heading}</CelText>
+      <CelText margin="20 0 15 0" align="center" type="H3">{heading}</CelText>
 
       <View style={{ alignSelf: "center" }}>
         <Spinner size={80} />

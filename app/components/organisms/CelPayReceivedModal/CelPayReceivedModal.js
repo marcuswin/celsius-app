@@ -21,7 +21,7 @@ const CelPayReceivedModal = ({
       name={MODALS.CELPAY_RECEIVED_MODAL}
       picture={require('../../../../assets/images/frenchy.png')}
     >
-      <CelText type="H2" align="center" weight="600" margin="5 0 15 0">Congrats!</CelText>
+      <CelText type="H2" align="center" weight='bold' margin="5 0 15 0">Congrats!</CelText>
 
       <CelText align="center">
         Your friend { transfer.from.name } just sent you

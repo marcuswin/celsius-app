@@ -130,7 +130,7 @@ class WithdrawConfirm extends Component {
               >
                 You are about to withdraw
               </CelText>
-              <CelText align='center' type='H1' bold>
+              <CelText align='center' type='H1'>
                 {formatter.usd(formData.amountUsd)}
               </CelText>
               <CelText
@@ -148,7 +148,7 @@ class WithdrawConfirm extends Component {
               <CelText type='H6' color='color: rgba(61,72,83,0.7)'>
                 New wallet balance:
               </CelText>
-              <CelText style={styles.lineHeight} type='H6' bold>
+              <CelText style={styles.lineHeight} type='H6' weight='bold'>
                 {formatter.crypto(newBalanceCrypto, formData.coin)} |{' '}
                 {formatter.usd(newBalanceUsd)}
               </CelText>

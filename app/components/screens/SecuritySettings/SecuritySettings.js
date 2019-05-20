@@ -97,7 +97,7 @@ class SecuritySettings extends Component {
             <CelButton margin="30 0 20 0" onPress={this.removeTwoFactor}>
               Remove
               </CelButton>
-            <CelButton  margin="0 0 20 0" onPress={() => actions.closeModal()} basic>
+            <CelButton  margin="0 0 20 0" onPress={actions.closeModal} basic>
               Cancel
               </CelButton>
           </View>
