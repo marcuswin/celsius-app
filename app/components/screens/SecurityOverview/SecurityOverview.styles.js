@@ -63,11 +63,22 @@ const base = {
         justifyContent: 'space-between',
         alignContent: 'center',
         alignItems: 'flex-start',
+        alignSelf: 'center',
+
+    },
+    accountActionsLog1: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        alignItems: 'flex-start',
+        // alignSelf: 'center',
+
     },
     accountActionsLog2: {
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'flex-start'
+        // alignItems: 'flex-start'
     },
     accountActionsLog3: {
         flexDirection: 'column',
@@ -81,7 +92,7 @@ const base = {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         alignContent: 'center',
         alignSelf: 'center',
 

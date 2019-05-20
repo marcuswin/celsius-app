@@ -34,6 +34,11 @@ class SecuritySettings extends Component {
     title: "Security"
   });
 
+  componentDidMount() {
+    const { actions } = this.props;
+    actions.getSecurityOverview();
+  }
+
   logoutUser = async () => {
     const { actions } = this.props;
     await actions.logoutFromAllDevices();

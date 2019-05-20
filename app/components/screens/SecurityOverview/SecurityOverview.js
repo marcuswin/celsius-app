@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { View, Image } from 'react-native';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 // import { Image } from "react-native-expo-image-cache";
-
+import { countries } from "country-data";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -25,25 +25,25 @@ import Icon from "../../atoms/Icon/Icon";
       is_2fa_set: true,
       user_actions_log: [
         {
-          action: "CelPay Confirm",
+          action: "CelPayConfirm",
           date: "12-12-2019"
         },
         {
-          action: "Change Email",
+          action: "ChangeEmail",
           date: "21-4-2019"
         },
-        {
-          action: "Loan Apply",
-          date: "21-4-2019"
-        },
-        {
-          action: "Change Password",
-          date: "11-5-2019"
-        },
-        {
-          action: "Loan Apply",
-          date: "28-2-2019"
-        }
+        // {
+        //   action: "Loan Apply",
+        //   date: "21-4-2019"
+        // },
+        // {
+        //   action: "Change Password",
+        //   date: "11-5-2019"
+        // },
+        // {
+        //   action: "Loan Apply",
+        //   date: "28-2-2019"
+        // }
       ],
       account_activity_log: [
         {
@@ -85,8 +85,12 @@ import Icon from "../../atoms/Icon/Icon";
 )
 
 class SecurityOverview extends Component {
-  static propTypes = {};
-  static defaultProps = {};
+  static propTypes = {
+    iconName: PropTypes.string,
+  };
+  static defaultProps = {
+    iconName: ''
+  };
 
   static navigationOptions = () => ({
     title: "Security info",
@@ -98,21 +102,29 @@ class SecurityOverview extends Component {
     actions.getSecurityOverview();
   }
 
+  getIcon = () => {
+    const { securityOverview } = this.props
+    const usr = securityOverview.user_actions_log.map(a => a.action)
+    // let dddn = ...securityOverview.user_actions_log
+    // let icon;
+    // console.log(...usr.map(a))
 
-  // getIcon = () => {
-  //   const overview = this.props
-  //   const usr = overview.user_actions_log.map(a => a.action)
-  //   switch (usr) {
-  //     case 'CelPay Confirm':
-  //       return {
-  //         iconName: 'TransactionReceived',
-  //       }
-  //     case 'Change Email':
-  //       return {
-  //         iconName: 'TransactionReceived',
-  //       }
-  //   }
-  // }
+    if( usr.indexOf("set-pin") !== -1 ) return { name: 'Mail', color: 'green', action: 'Set Pin'}
+    // console.log("1")
+    if( usr.indexOf("confirm-celpay") !== -1 ) return { name: 'Mail', color:'blue', action: 'CelPay Confirmed' };
+    // console.log("2")
+    if (usr.indexOf("loan-apply") !== -1) return { name: 'Lock', color: 'green', action: 'Loan apply'  }
+    // console.log("3")
+    if (usr.indexOf("change-pass") !== -1) return { name: 'Key', color: 'blue', action: 'Password changed'  }
+    if (usr.indexOf("deactivation-2fa") !== -1) return { name: 'Shield', color: 'red', action: '2FA Deactivated'  }
+    if (usr.indexOf("activation-2fa") !== -1) return { name: 'Shield', color: 'green', action: '2FA Activated'  }
+    if (usr.indexOf("claim-celpay") !== -1) return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed'  }
+    // if (usr.indexOf("set-pin") !== -1) return { name: 'Lock', color: 'green', action: 'CelPay Confirmed'  }
+    if (usr.indexOf("withdraw-info") !== -1) return { name: 'CaretUp', color: 'red', action: 'Withdraw'  }
+    if (usr.indexOf("deposit-success") !== -1) return { name: 'CaretDown', color: 'green', action: 'Deposit'  }
+    if (usr.indexOf("confirm-withdrawal-request") !== -1) return { name: 'CaretUp', color: 'red', action: 'Withrdaw confirm request'  }
+
+  }
 
   renderStatus = () => {
     const { is2FAEnabled } = this.props;
@@ -120,91 +132,74 @@ class SecurityOverview extends Component {
     if (is2FAEnabled) {
       return <CelText type='H2' weight="600" color={STYLES.COLORS.GREEN}> ACTIVE </CelText>
     }
-      return <CelText type='H2' weight="600" color={STYLES.COLORS.RED}> INACTIVE </CelText>
+    return <CelText type='H2' weight="600" color={STYLES.COLORS.RED}> INACTIVE </CelText>
   }
 
+
   renderUserActionsLog = () => { // Add text (no actions yet..) if doesn't exists
-    const { overview } = this.props
+    const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
-    const usr = overview.user_actions_log.map(a => a.action)
-    // const sct = usr[Object.keys(usr)]
-    let iconName
-    // console.log(usr)
 
-    switch (overview.user_actions_log) {
-      case usr === 'CelPay Confirm':
-        return {
-          iconName: 'UpArrow',
-        }
-      case 'Change Email':
-        return {
-          iconName: 'DownArrow'
-        }
-    }
 
-    // const { iconName } = this.getIcon()
-    // let what = overview.account_activity_log.action
-    // const usr = overview.user_actions_log.map(a => a.action)
-    // console.log(usr)
-    // what[Object.keys(what)[0]]
-
-    const userActions = overview.user_actions_log.map((item) => (
+    const userActions = securityOverview ? securityOverview.user_actions_log.map((item) => (
       <View style={style.userActionsLogWrapper}>
         <View style={style.userActionsLog}>
-          <Icon name={iconName} height={160} width={160} fill="black" />
-          <CelText style={{ flex: 1, justifyContent: 'flex-start', paddingLeft: 10 }} type='H5' weight='600'>{item.action} </CelText>
-          <CelText type='H6' weight='300'>{item.date} </CelText>
+            <Icon name={this.getIcon().name} viewBox="0 0 29 29" fill={this.getIcon().color} />
+            <CelText style={{ flex: 1, justifyContent: 'flex-start', paddingLeft: 5 }} type='H5' weight='600'>{this.getIcon().action} </CelText>
+            <CelText type='H6' weight='300'>{item.created_at.split('T')[0]} </CelText>
         </View>
         <View style={{ marginTop: 15 }}>
-          {overview.user_actions_log[overview.user_actions_log.length - 1] !== item ?
+          {securityOverview.user_actions_log[securityOverview.user_actions_log.length - 1] !== item ?
             <Separator /> : null
           }
         </View>
       </View>
-     ) )
-    // { console.log(iconName, ' -->> iconName') }
+    )) : null
     return userActions
   }
 
-  // renderImage = (iso = "") => {
+  // renderImage = (iso = 'Serbia') => {
   //   return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }} resizeMode="cover" />
   // }
 
   renderAccountActionsLog = () => { // country flag
-    const { overview } = this.props
+    const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
     // const country = overview.account_activity_log.map(a => a.country)
     // console.log(country)
+    const country = this.props.value ? this.props.value : countries.US;
 
-    const userActions = overview.account_activity_log.map((item) => (
+
+    const userActions = securityOverview ? securityOverview.account_activity_log.map((item) => (
       <View style={style.accountActionsLogWrapper}>
-        <View style={style.accountActionsLog}>
+        <View style={style.accountActionsLog1}>
           <View style={style.accountActionsLog2}>
-            <View>
-              {this.renderImage('Serbia')}
-            </View>
+            {/* <View style={{ flex: 1, flexDirection: 'row' }}> */}
+              {this.renderImage(country.name)}
+            {/* </View> */}
             <CelText type='H5' weight='600'>{item.ip} </CelText>
             <CelText type='H6' weight='300'>{item.country} </CelText>
           </View>
           <View style={style.accountActionsLog3}>
             <CelText type='H6' weight='300'>{item.platform} </CelText>
-            <CelText type='H6' weight='300'>{item.date} </CelText>
+            <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
           </View>
         </View>
-        {/* <Separator margin='15 0 10 0' /> */}
-        {overview.account_activity_log[overview.account_activity_log.length - 1] !== item ?
+        {securityOverview.account_activity_log[securityOverview.account_activity_log.length - 1] !== item ?
           <Separator margin='15 0 10 0' /> : null
         }
       </View>
-    ))
+    )) : null
     return userActions
   }
 
   renderDeviceLogedIn = () => { // Logic for current device loged in
-    const { overview } = this.props
+    const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
+    // console.log(moment)
 
-    const userActions = overview.devices_logged_in.map((item) => (
+
+    const userActions = securityOverview ? securityOverview.devices_logged_in.map((item) => (
       <View style={style.renderDeviceWrapper}>
         <View style={style.renderDevice}>
           <Icon name="Mobile" viewBox="0 0 29 29" fill="#737A82" style={{ marginTop: 7 }} />
@@ -214,20 +209,21 @@ class SecurityOverview extends Component {
           </View>
           <View style={style.renderDeviceCity}>
             <CelText type='H6' weight='300'>{item.city} </CelText>
-            <CelText type='H6' weight='300'>{item.date} </CelText>
+            <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
           </View>
         </View>
-        {overview.devices_logged_in[overview.devices_logged_in.length - 1] !== item ?
+        {securityOverview.devices_logged_in[securityOverview.devices_logged_in.length - 1] !== item ?
           <Separator margin='15 0 10 0' /> : null
         }
       </View>
-    ))
+    )) : null
     return userActions
   }
 
   render() {
     // const {securityOverview} = this.props;
     const style = SecurityOverviewStyle();
+    // console.log(this.getIcon().color, 'this . get con')
 
     return (
       <RegularLayout>
@@ -282,3 +278,4 @@ class SecurityOverview extends Component {
 }
 
 export default testUtil.hookComponent(SecurityOverview);
+// 
