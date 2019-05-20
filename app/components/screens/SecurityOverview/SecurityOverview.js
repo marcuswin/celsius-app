@@ -3,7 +3,6 @@ import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-// import { Image } from "react-native-expo-image-cache";
 import { lookup } from "country-data";
 import moment from "moment";
 
@@ -16,7 +15,6 @@ import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import Icon from "../../atoms/Icon/Icon";
-// import { widthPercentageToDP } from "../../../utils/styles-util";
 
 
 @connect(
@@ -151,7 +149,7 @@ class SecurityOverview extends Component {
   }
 
   render() {
-    // const {securityOverview} = this.props;
+    const { actions } = this.props;
     const style = SecurityOverviewStyle();
     // console.log(this.getIcon().color, 'this . get con')
 
@@ -199,7 +197,7 @@ class SecurityOverview extends Component {
 
           <Separator margin='20 0 20 0' />
 
-          <CelText margin='0 0 20 0' align='center'>To make any changes on your account’s safety go to your Security Settings </CelText>
+          <View ><CelText align='center'>To make any changes on your account’s safety go to your<CelText color={STYLES.COLORS.CELSIUS_BLUE} onPress={() => actions.navigateTo('SecuritySettings')}> Security Settings</CelText></CelText></View>
 
         </View>
       </RegularLayout>
@@ -208,4 +206,4 @@ class SecurityOverview extends Component {
 }
 
 export default testUtil.hookComponent(SecurityOverview);
-// 
+

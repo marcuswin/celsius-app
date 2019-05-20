@@ -94,7 +94,7 @@ class SecuritySettings extends Component {
 
         <TouchableOpacity onPress={() => actions.navigateTo('SecurityOverview')}> 
         <View>
-        <CelText type='H2' align='center' weight='bold' margin='30 0 30 0'> 
+        <CelText type='H4' align='center' weight='400' margin='0 0 30 0' color={STYLES.COLORS.CELSIUS_BLUE}> 
         Security screen overview
          </CelText>
          </View>
