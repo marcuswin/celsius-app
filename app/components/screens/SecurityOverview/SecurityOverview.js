@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 // import { Image } from "react-native-expo-image-cache";
-import {lookup } from "country-data";
+import { lookup } from "country-data";
+import moment from "moment";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -44,16 +45,16 @@ class SecurityOverview extends Component {
   }
 
   getIcon = (item) => {
-    if( item.action === "set-pin" ) return { name: 'Mail', color: 'green', action: 'Set Pin'}
-    if( item.action === "confirm-celpay" ) return { name: 'Mail', color:'blue', action: 'CelPay Confirmed' };
-    if (item.action === "loan-apply") return { name: 'Lock', color: 'green', action: 'Loan apply'  }
-    if (item.action === "change-pass") return { name: 'Key', color: 'blue', action: 'Password changed'  }
-    if (item.action === "deactivation-2fa") return { name: 'Shield', color: 'red', action: '2FA Deactivated'  }
-    if (item.action === "activation-2fa") return { name: 'Shield', color: 'green', action: '2FA Activated'  }
-    if (item.action === "claim-celpay") return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed'  }
-    if (item.action === "withdraw-info") return { name: 'CaretUp', color: 'red', action: 'Withdraw'  }
-    if (item.action === "deposit-success") return { name: 'CaretDown', color: 'green', action: 'Deposit'  }
-    if (item.action === "confirm-withdrawal-request") return { name: 'CaretUp', color: 'red', action: 'Withrdaw confirm request'  }
+    if (item.action === "set-pin") return { name: 'Mail', color: 'green', action: 'Set Pin' }
+    if (item.action === "confirm-celpay") return { name: 'Mail', color: 'blue', action: 'CelPay Confirmed' };
+    if (item.action === "loan-apply") return { name: 'Lock', color: 'green', action: 'Loan apply' }
+    if (item.action === "change-pass") return { name: 'Key', color: 'blue', action: 'Password changed' }
+    if (item.action === "deactivation-2fa") return { name: 'Shield', color: 'red', action: '2FA Deactivated' }
+    if (item.action === "activation-2fa") return { name: 'Shield', color: 'green', action: '2FA Activated' }
+    if (item.action === "claim-celpay") return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed' }
+    if (item.action === "withdraw-info") return { name: 'CaretUp', color: 'red', action: 'Withdraw' }
+    if (item.action === "deposit-success") return { name: 'CaretDown', color: 'green', action: 'Deposit' }
+    if (item.action === "confirm-withdrawal-request") return { name: 'CaretUp', color: 'red', action: 'Withrdaw confirm request' }
   };
 
   renderStatus = () => {
@@ -74,52 +75,51 @@ class SecurityOverview extends Component {
     const userActions = securityOverview ? securityOverview.user_actions_log.map((item) => {
       const actions = this.getIcon(item)
       return (
-        <View style={style.userActionsLogWrapper}>
+        <View style={style.userActionsLogWrapper} >
           <View style={style.userActionsLog}>
             <Icon name={actions.name} viewBox="0 0 29 29" fill={actions.color} />
-            <CelText style={{ flex: 1, justifyContent: 'flex-start', paddingLeft: 5 }} type='H5' weight='600'>{actions.action} </CelText>
-            <CelText type='H6' weight='300'>{item.created_at.split('T')[0]} </CelText>
+            <CelText style={{ flex: 1, justifyContent: 'flex-start' }} type='H5' weight='600'>{actions.action} </CelText>
+            <CelText type='H6' weight='300'>{moment(item.created_at).format('MMMM d, GGGG')} </CelText>
           </View>
-          <View style={{ marginTop: 15 }}>
+          <View style={{ marginBottom: 0 }}>
             {securityOverview.user_actions_log[securityOverview.user_actions_log.length - 1] !== item ?
               <Separator /> : null
             }
           </View>
         </View>
       )
-  }) : null
+    }) : null
     return userActions
   }
 
   renderImage = (iso = "") => {
-          const short = lookup.countries({ name: iso })[0].alpha2;
-    return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${short.toLowerCase()}.png` }} resizeMode="cover" style={{ borderRadius: 15, width: 30, height: 30}}/>
+    const short = iso ? lookup.countries({ name: iso })[0].alpha2 : "";
+    return <Image source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${short.toLowerCase()}.png` }} resizeMode="cover" style={{ borderRadius: 15, width: 30, height: 30 }} />
   }
 
   renderAccountActionsLog = () => { // country flag
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle();
-
     const userActions = securityOverview ? securityOverview.account_activity_log.map((item) => (
-        <View style={style.accountActionsLogWrapper}>
-          <View style={style.accountActionsLog1}>
+      <View style={style.accountActionsLogWrapper}>
+        <View style={style.accountActionsLog1}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+            {this.renderImage(item.country)}
             <View style={style.accountActionsLog2}>
-              {/* <View style={{ flex: 1, flexDirection: 'row' }}> */}
-              {this.renderImage(item.country)}
-              {/* </View> */}
               <CelText type='H5' weight='600'>{item.ip} </CelText>
               <CelText type='H6' weight='300'>{item.country} </CelText>
             </View>
-            <View style={style.accountActionsLog3}>
-              <CelText type='H6' weight='300'>{item.platform} </CelText>
-              <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
-            </View>
           </View>
-          {securityOverview.account_activity_log[securityOverview.account_activity_log.length - 1] !== item ?
-            <Separator margin='15 0 10 0' /> : null
-          }
+          <View style={style.accountActionsLog3}>
+            <CelText type='H6' weight='300'>{item.platform} </CelText>
+            <CelText type='H6' weight='300'>{moment(item.date).format('MMMM d, GGGG')}</CelText>
+          </View>
         </View>
-      )) : null
+        {securityOverview.account_activity_log[securityOverview.account_activity_log.length - 1] !== item ?
+          <Separator margin='15 0 10 0' /> : null
+        }
+      </View>
+    )) : null
     return userActions
   }
 
@@ -132,14 +132,14 @@ class SecurityOverview extends Component {
     const userActions = securityOverview ? securityOverview.devices_logged_in.map((item) => (
       <View style={style.renderDeviceWrapper}>
         <View style={style.renderDevice}>
-          <Icon name="Mobile" viewBox="0 0 29 29" fill="#737A82" style={{ marginTop: 7 }} />
+          <Icon name="Mobile" viewBox="0 0 29 29" fill="#737A82" />
           <View style={{ flex: 1, flexDirection: 'column' }}>
             <CelText type='H5' weight='600'>{item.model} </CelText>
             <CelText type='H6' weight='300'>{item.country} </CelText>
           </View>
           <View style={style.renderDeviceCity}>
             <CelText type='H6' weight='300'>{item.city} </CelText>
-            <CelText type='H6' weight='300'>{item.date.split('T')[0]} </CelText>
+            <CelText type='H6' weight='300'>{moment(item.date).format('MMMM d, GGGG')}</CelText>
           </View>
         </View>
         {securityOverview.devices_logged_in[securityOverview.devices_logged_in.length - 1] !== item ?
@@ -189,11 +189,11 @@ class SecurityOverview extends Component {
 
           {this.renderUserActionsLog()}
 
-          <Separator margin='10 0 10 0' text="Account activity LOG" />
+          <Separator margin='10 0 20 0' text="Account activity LOG" />
 
           {this.renderAccountActionsLog()}
 
-          <Separator margin='10 0 10 0' text="DEVICES Loged in" />
+          <Separator margin='10 0 20 0' text="DEVICES Loged in" />
 
           {this.renderDeviceLogedIn()}
 

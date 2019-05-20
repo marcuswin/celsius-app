@@ -45,24 +45,26 @@ const base = {
         alignItems: 'flex-end',
     },
     userActionsLogWrapper: {
-        marginTop: 15,
+        marginTop: 10,
     },
     userActionsLog: {
         flex: 1,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignContent: 'center',
         alignItems: 'flex-start',
     },
     accountActionsLogWrapper: {
-        marginTop: 10,
+        marginTop: 5,
+        alignItems: 'center',
     },
     accountActionsLog: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignContent: 'center',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         alignSelf: 'center',
 
     },
@@ -70,15 +72,16 @@ const base = {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignContent: 'center',
+        alignContent: 'flex-start',
         alignItems: 'flex-start',
         // alignSelf: 'center',
 
     },
     accountActionsLog2: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        // alignItems: 'flex-start'
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        paddingLeft: 10
     },
     accountActionsLog3: {
         flexDirection: 'column',
