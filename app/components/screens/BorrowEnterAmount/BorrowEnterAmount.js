@@ -90,7 +90,7 @@ class BorrowEnterAmount extends Component {
     if (newValue < minimumLoanAmount) {
       actions.showMessage(
         'warning',
-        `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed..`
+        `$${minimumLoanAmount} is currently the minimum loan amount. Please adjust your loan amount to proceed.`
       )
     }
 
