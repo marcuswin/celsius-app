@@ -448,35 +448,38 @@ export default {
   ),
   ArrowUpViewBox: "0 0 6 4",
   ArrowUp: (
-  <G id="CEL-utility-token-+-Gamification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <G id="Wallet---Empty---Passed-KYC" transform="translate(-129.000000, -577.000000)" fill="#4FB895">
-      <G id="coins" transform="translate(20.000000, 240.000000)">
-        <G transform="translate(0.000000, 38.000000)" id="Wallet-Card/Empty/Positive">
-          <G transform="translate(0.000000, 282.000000)">
-            <G id="rate" transform="translate(109.000000, 8.000000)">
-              <Path d="M0.039785643,9 C0.00189489918,9 -0.0120299492,9.02306599 0.0116517657,9.05626775 L2.95263657,12.7373061 C2.98105463,12.7657242 3.01922955,12.7660084 3.04291127,12.732854 L5.98834823,9.05626775 C6.01202995,9.02311335 5.9981051,9 5.96021436,9 L0.039785643,9 Z" id="icon-arrow-copy-2" transform="translate(3.000000, 10.879098) scale(1, -1) translate(-3.000000, -10.879098)"/>
+    <G id="CEL-utility-token-+-Gamification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <G id="Wallet---Empty---Passed-KYC" transform="translate(-129.000000, -577.000000)" fill="#4FB895">
+        <G id="coins" transform="translate(20.000000, 240.000000)">
+          <G transform="translate(0.000000, 38.000000)" id="Wallet-Card/Empty/Positive">
+            <G transform="translate(0.000000, 282.000000)">
+              <G id="rate" transform="translate(109.000000, 8.000000)">
+                <Path d="M0.039785643,9 C0.00189489918,9 -0.0120299492,9.02306599 0.0116517657,9.05626775 L2.95263657,12.7373061 C2.98105463,12.7657242 3.01922955,12.7660084 3.04291127,12.732854 L5.98834823,9.05626775 C6.01202995,9.02311335 5.9981051,9 5.96021436,9 L0.039785643,9 Z" id="icon-arrow-copy-2" transform="translate(3.000000, 10.879098) scale(1, -1) translate(-3.000000, -10.879098)"/>
+              </G>
             </G>
           </G>
         </G>
       </G>
     </G>
-  </G>
   ),
   ArrowDownViewBox: "0 0 6 4",
   ArrowDown: (
-  <G id="CEL-utility-token-+-Gamification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <G id="Wallet---Empty---Passed-KYC" transform="translate(-126.000000, -436.000000)" fill="#EF461A">
-      <G id="coins" transform="translate(20.000000, 240.000000)">
-        <G transform="translate(0.000000, 38.000000)" id="Wallet-Card/Empty/Negative">
-          <G transform="translate(0.000000, 141.000000)">
-            <G id="rate" transform="translate(106.000000, 8.000000)">
-              <Path d="M0.039785643,9 C0.00189489918,9 -0.0120299492,9.02306599 0.0116517657,9.05626775 L2.95263657,12.7373061 C2.98105463,12.7657242 3.01922955,12.7660084 3.04291127,12.732854 L5.98834823,9.05626775 C6.01202995,9.02311335 5.9981051,9 5.96021436,9 L0.039785643,9 Z" id="icon-arrow-copy-2" transform="translate(3.000000, 10.879098) scale(-1, 1) translate(-3.000000, -10.879098)"/>
+    <G id="CEL-utility-token-+-Gamification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <G id="Wallet---Empty---Passed-KYC" transform="translate(-126.000000, -436.000000)" fill="#EF461A">
+        <G id="coins" transform="translate(20.000000, 240.000000)">
+          <G transform="translate(0.000000, 38.000000)" id="Wallet-Card/Empty/Negative">
+            <G transform="translate(0.000000, 141.000000)">
+              <G id="rate" transform="translate(106.000000, 8.000000)">
+                <Path d="M0.039785643,9 C0.00189489918,9 -0.0120299492,9.02306599 0.0116517657,9.05626775 L2.95263657,12.7373061 C2.98105463,12.7657242 3.01922955,12.7660084 3.04291127,12.732854 L5.98834823,9.05626775 C6.01202995,9.02311335 5.9981051,9 5.96021436,9 L0.039785643,9 Z" id="icon-arrow-copy-2" transform="translate(3.000000, 10.879098) scale(-1, 1) translate(-3.000000, -10.879098)"/>
+              </G>
             </G>
           </G>
         </G>
       </G>
     </G>
-  </G>
-
+  ),
+  BackspaceViewBox: "0 0 29.14 24.08",
+  Backspace: (
+    <Path d="M3.73,13.13l8.68,8.71.38.37a1.09,1.09,0,0,1,0,1.55,1.08,1.08,0,0,1-1.54,0L.32,12.82a1.09,1.09,0,0,1,0-1.55L11.25.32a1.08,1.08,0,0,1,1.54,0,1.09,1.09,0,0,1,0,1.55l-9,9.07H28.05A1.09,1.09,0,0,1,29.14,12a1.09,1.09,0,0,1-1.09,1.09Z"/>
   )
-};
+}
