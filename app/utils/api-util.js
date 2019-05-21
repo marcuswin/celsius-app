@@ -143,6 +143,10 @@ function initInterceptors () {
         await store.dispatch(await actions.showMessage("error", err.msg));
       }
 
+      if (error && error.response && error.response.status === 426) {
+        store.dispatch(actions.navigateTo("VerifyProfile", { show: error.response.data.show }));
+    }
+
       if (error && error.response && error.response.status === 429) {
           store.dispatch(actions.navigateTo("LockedAccount"));
       }
