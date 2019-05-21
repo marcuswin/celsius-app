@@ -54,7 +54,7 @@ class RegisterSetPin extends Component {
     }
   }
 
-  handlePinFinish = (newValue) => {
+  handlePinFinish = async (newValue) => {
     const { pinCreated } = this.state;
     const { actions, formData, navigation } = this.props;
 
@@ -62,12 +62,16 @@ class RegisterSetPin extends Component {
       this.setState({ pinCreated: true })
       navigation.setParams({ customCenterComponent: <ProgressBar steps={3} currentStep={3}/> })
     } else if (formData.pin === newValue) {
-      actions.setPin()
       this.setState({ loading: true })
+      const isSet = await actions.setPin()
+      if(!isSet) {
+        this.setState({ pinCreated: false })
+      }
     } else {
       actions.showMessage('error', 'Both PIN numbers should be the same.')
       actions.updateFormField('pinConfirm','')
     }
+    this.setState({ loading: false })
   }
 
   handleBack = () => {
@@ -86,7 +90,7 @@ class RegisterSetPin extends Component {
   render() {
     const { loading, pinCreated } = this.state;
     const { actions, formData } = this.props;
-
+    
     const field = !pinCreated ? 'pin' : 'pinConfirm';
     const headingText = !pinCreated ? 'Create a PIN' : 'Repeat PIN';
     const subheadingText = !pinCreated
