@@ -31,7 +31,7 @@ class VerifyProfile extends Component {
     const { params } = navigation.state
     return {
       headerSameColor: true,
-      hideBack: (params && (params.show || params.hideBack)) || false
+      hideBack: !!(params && (params.show || params.hideBack)) || false
     }
   }
 
