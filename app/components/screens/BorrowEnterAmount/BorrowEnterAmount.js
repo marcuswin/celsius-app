@@ -26,7 +26,8 @@ import { getPadding } from '../../../utils/styles-util'
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
     walletTotal: state.wallet.total,
-    minimumLoanAmount: state.generalData.minimumLoanAmount
+    minimumLoanAmount: state.generalData.minimumLoanAmount,
+    keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -72,14 +73,9 @@ class BorrowEnterAmount extends Component {
   }
 
   getAmountColor = () => {
-    const { formData, minimumLoanAmount } = this.props
+    const { keypadOpen } = this.props
 
-    if (
-      formData.loanAmount < minimumLoanAmount ||
-      formData.loanAmount > formData.maxAmount
-    ) {
-      return STYLES.COLORS.ORANGE
-    }
+    if (keypadOpen) return STYLES.COLORS.CELSIUS_BLUE
 
     return STYLES.COLORS.DARK_GRAY
   }
