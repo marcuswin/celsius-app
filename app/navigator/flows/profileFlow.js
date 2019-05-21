@@ -6,6 +6,7 @@ import Appearance from "../../components/screens/Appearance/Appearance";
 import ApiAuthorizationPermissions from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
 import WalletSettings from "../../components/screens/WalletSettings/WalletSettings";
 import SecuritySettings from "../../components/screens/SecuritySettings/SecuritySettings";
+import SecurityOverview from "../../components/screens/SecurityOverview/SecurityOverview";
 import NotificationsSettings from "../../components/screens/NotificationsSettings/NotificationsSettings";
 import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile";
 import ChangePassword from "../../components/screens/ChangePassword/ChangePassword";
@@ -29,6 +30,7 @@ export const profileFlow = {
     TermsOfUse,
     NotificationsSettings,
     SecuritySettings,
+    SecurityOverview,
     WalletSettings,
     ApiAuthorization,
     ApiAuthorizationPermissions,
@@ -45,6 +47,7 @@ export const profileFlow = {
     CellphoneEnter,
     CellphoneVerify,
     SelectCountry
+    
   },
   props: {
     initialRouteName: 'Profile',

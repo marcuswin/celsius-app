@@ -38,6 +38,6 @@ const themed = {
   }
 }
 
-const QrScannerStyle = () => getThemedStyle(base, themed);
+const QRScannerStyle = () => getThemedStyle(base, themed);
 
-export default QrScannerStyle
+export default QRScannerStyle

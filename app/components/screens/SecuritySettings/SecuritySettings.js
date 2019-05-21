@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-// import { View } from 'react-native';
+import { View, Platform, Switch } from 'react-native'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Platform, Switch, View } from 'react-native'
 
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
@@ -77,7 +76,9 @@ class SecuritySettings extends Component {
       actions.openModal(MODALS.REMOVE_AUTHAPP_MODAL)
     } else {
       actions.navigateTo('VerifyProfile', {
-        onSuccess: () => { actions.navigateTo('TwoFactorSettings') } 
+        onSuccess: () => {
+          actions.navigateTo('TwoFactorSettings')
+        }
       })
     }
   }
@@ -120,6 +121,14 @@ class SecuritySettings extends Component {
           </IconButton>
         )}
 
+        <CelButton
+          margin='0 0 30 0'
+          basic
+          onPress={() => actions.navigateTo('SecurityOverview')}
+        >
+          Security screen overview
+        </CelButton>
+
         <CelButton onPress={this.logoutUser}>
           Log out from all devices
         </CelButton>
@@ -141,11 +150,7 @@ class SecuritySettings extends Component {
             <CelButton margin='30 0 20 0' onPress={this.removeTwoFactor}>
               Remove
             </CelButton>
-            <CelButton
-              margin='0 0 20 0'
-              onPress={actions.closeModal}
-              basic
-            >
+            <CelButton margin='0 0 20 0' onPress={actions.closeModal} basic>
               Cancel
             </CelButton>
           </View>
