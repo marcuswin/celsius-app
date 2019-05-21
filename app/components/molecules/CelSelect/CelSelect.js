@@ -54,7 +54,7 @@ class CelSelect extends Component {
     const value = nextProps.value;
     const type = nextProps.type;
     const items = prevState.items;
-
+    
     if (value && items && type) {
       const item = type === 'country' ? lookup.countries({ name: value.name })[0] : items.filter(i => i.value === value)[0];
       return {

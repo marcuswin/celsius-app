@@ -18,7 +18,7 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class RegisterVerifyPhone extends Component {
+class CellphoneVerify extends Component {
 
   static propTypes = {
     // text: PropTypes.string
@@ -62,4 +62,4 @@ class RegisterVerifyPhone extends Component {
   }
 }
 
-export default testUtil.hookComponent(RegisterVerifyPhone);
+export default testUtil.hookComponent(CellphoneVerify);

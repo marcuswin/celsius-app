@@ -163,7 +163,7 @@ class Profile extends Component {
         {!user.cellphone_verified &&
           <CelButton
             margin={"20 0 20 0"}
-            onPress={() => actions.navigateTo("RegisterEnterPhone")}
+            onPress={() => actions.navigateTo("CellphoneEnter")}
           >
             Enter Phone Number
           </CelButton>

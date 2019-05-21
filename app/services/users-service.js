@@ -36,7 +36,8 @@ const usersService = {
   getCelsiusMemberStatus,
   getLoyaltyInfo,
   getUserAppSettings,
-  setUserAppSettings
+  setUserAppSettings,
+  getUserSecurityOverview
 }
 
 /**
@@ -428,12 +429,24 @@ function getCelsiusMemberStatus () {
   return axios.post(`${apiUrl}/user/membership`)
 }
 
+/**
+ * Get user app setings
+ * @returns {Promise}
+ */
 function getUserAppSettings () {
   return axios.get(`${apiUrl}/user_app_settings`)
 }
 
 function setUserAppSettings (data) {
   return axios.put(`${apiUrl}/user_app_settings`, data)
+}
+
+/**
+ * Get user security overview
+ * @returns {Promise}
+ */
+function getUserSecurityOverview() {
+  return axios.get(`${apiUrl}/user/security_overview`)
 }
 
 export default usersService

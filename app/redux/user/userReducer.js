@@ -52,7 +52,8 @@ const initialState = {
   },
   bankAccountInfo: null,
   screen: undefined,
-  loyaltyInfo: null
+  loyaltyInfo: null,
+  securityOverview: {}
 };
 
 export default (state = initialState, action) => {
@@ -287,6 +288,14 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           two_factor_enabled: false,
+        }
+      }
+
+    case ACTIONS.GET_USER_SECURITY_OVERVIEW_SUCCESS:
+      return {
+        ...state,
+        securityOverview: {
+          ...action.overview,
         }
       }
 

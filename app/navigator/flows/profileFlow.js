@@ -6,6 +6,7 @@ import Appearance from "../../components/screens/Appearance/Appearance";
 import ApiAuthorizationPermissions from "../../components/screens/ApiAuthorizationPermissions/ApiAuthorizationPermissions";
 import WalletSettings from "../../components/screens/WalletSettings/WalletSettings";
 import SecuritySettings from "../../components/screens/SecuritySettings/SecuritySettings";
+import SecurityOverview from "../../components/screens/SecurityOverview/SecurityOverview";
 import NotificationsSettings from "../../components/screens/NotificationsSettings/NotificationsSettings";
 import VerifyProfile from "../../components/screens/VerifyProfile/VerifyProfile";
 import ChangePassword from "../../components/screens/ChangePassword/ChangePassword";
@@ -18,8 +19,8 @@ import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera"
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
 import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
-import RegisterEnterPhone from "../../components/screens/RegisterEnterPhone/RegisterEnterPhone";
-import RegisterVerifyPhone from "../../components/screens/RegisterVerifyPhone/RegisterVerifyPhone";
+import CellphoneEnter from "../../components/screens/CellphoneEnter/CellphoneEnter";
+import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneVerify";
 import SelectCountry from "../../components/screens/SelectCountry/SelectCountry";
 
 export const profileFlow = {
@@ -29,6 +30,7 @@ export const profileFlow = {
     TermsOfUse,
     NotificationsSettings,
     SecuritySettings,
+    SecurityOverview,
     WalletSettings,
     ApiAuthorization,
     ApiAuthorizationPermissions,
@@ -42,9 +44,10 @@ export const profileFlow = {
     CameraScreen,
     ConfirmCamera,
     LoyaltyProgram,
-    RegisterEnterPhone,
-    RegisterVerifyPhone,
+    CellphoneEnter,
+    CellphoneVerify,
     SelectCountry
+    
   },
   props: {
     initialRouteName: 'Profile',

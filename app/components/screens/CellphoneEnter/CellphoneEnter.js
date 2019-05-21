@@ -18,7 +18,7 @@ import CelButton from '../../atoms/CelButton/CelButton';
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
-class RegisterEnterPhone extends Component {
+class CellphoneEnter extends Component {
 
   static navigationOptions = () => (
     {
@@ -38,7 +38,7 @@ class RegisterEnterPhone extends Component {
     });
     if (response.success) {
       actions.sendVerificationSMS(user.cellphone);
-      actions.navigateTo('RegisterVerifyPhone');
+      actions.navigateTo('CellphoneVerify');
     }
   };
 
@@ -57,4 +57,4 @@ class RegisterEnterPhone extends Component {
   }
 }
 
-export default testUtil.hookComponent(RegisterEnterPhone);
+export default testUtil.hookComponent(CellphoneEnter);
