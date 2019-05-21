@@ -64,7 +64,7 @@ function loginUser() {
         tokens: res.data.auth0,
         user,
       });
-       dispatch(navigateTo('WalletFab'));
+      dispatch(navigateTo('WalletFab'));
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -182,7 +182,7 @@ function sendResetLink() {
       await usersService.sendResetLink(formData.email);
       dispatch(showMessage('info', 'Email sent!'));
       dispatch(navigateTo('Login'));
-      dispatch({type: ACTIONS.SEND_RESET_LINK_SUCCESS});
+      dispatch({ type: ACTIONS.SEND_RESET_LINK_SUCCESS });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SEND_RESET_LINK, err));
@@ -298,7 +298,6 @@ function setPin() {
     try {
       const { formData } = getState().forms
       const user = getState().user.profile
-
       dispatch(startApiCall(API.SET_PIN));
       await meService.setPin({
         pin: formData.pin,
@@ -309,9 +308,12 @@ function setPin() {
       dispatch(navigateTo('WalletFab'));
 
       analytics.registrationCompleted(user)
+      return true
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.SET_PIN, err));
+      dispatch({ type: ACTIONS.CLEAR_FORM });
+      return false
     }
   }
 }
