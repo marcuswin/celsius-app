@@ -18,8 +18,8 @@ import ConfirmCamera from "../../components/screens/ConfirmCamera/ConfirmCamera"
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig';
 import TwoFaAuthAppConfirmationCode from '../../components/screens/TwoFaAuthAppConfirmationCode/TwoFaAuthAppConfirmationCode'
 import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgram";
-import RegisterEnterPhone from "../../components/screens/RegisterEnterPhone/RegisterEnterPhone";
-import RegisterVerifyPhone from "../../components/screens/RegisterVerifyPhone/RegisterVerifyPhone";
+import CellphoneEnter from "../../components/screens/CellphoneEnter/CellphoneEnter";
+import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneVerify";
 import SelectCountry from "../../components/screens/SelectCountry/SelectCountry";
 
 export const profileFlow = {
@@ -42,8 +42,8 @@ export const profileFlow = {
     CameraScreen,
     ConfirmCamera,
     LoyaltyProgram,
-    RegisterEnterPhone,
-    RegisterVerifyPhone,
+    CellphoneEnter,
+    CellphoneVerify,
     SelectCountry
   },
   props: {
