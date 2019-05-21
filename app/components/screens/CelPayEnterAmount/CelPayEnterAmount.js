@@ -28,7 +28,8 @@ import formatter from '../../../utils/formatter'
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     loyaltyInfo: state.user.loyaltyInfo,
-    isCelsiusMember: state.user.profile.celsius_member
+    isCelsiusMember: state.user.profile.celsius_member,
+    keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -263,7 +264,7 @@ class CelPayEnterAmount extends Component {
 
   render () {
     const { coinSelectItems, activePeriod } = this.state
-    const { formData, actions, walletSummary, loyaltyInfo } = this.props
+    const { formData, actions, walletSummary, loyaltyInfo, keypadOpen } = this.props
     const style = CelPayEnterAmountStyle()
     if (!formData.coin) return null
 
@@ -301,6 +302,7 @@ class CelPayEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
+                amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
               />
             </View>
 

@@ -20,6 +20,7 @@ import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 import StaticScreen from '../StaticScreen/StaticScreen'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -31,7 +32,8 @@ import BalanceView from '../../atoms/BalanceView/BalanceView'
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting
+      : KYC_STATUSES.collecting,
+    keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -67,7 +69,7 @@ class WithdrawEnterAmount extends Component {
     this.state = {
       coinSelectItems,
       activePeriod: ''
-    }
+    };
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
@@ -193,7 +195,8 @@ class WithdrawEnterAmount extends Component {
       actions,
       walletSummary,
       navigation,
-      kycStatus
+      kycStatus,
+      keypadOpen
     } = this.props
     const style = WithdrawEnterAmountStyle()
     if (!formData.coin) return null
@@ -242,6 +245,7 @@ class WithdrawEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
+                amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
               />
             </View>
 
