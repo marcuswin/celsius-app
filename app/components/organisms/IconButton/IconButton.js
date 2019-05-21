@@ -59,12 +59,11 @@ class IconButton extends Component {
     }
   }
 
-  render() {
-    const { primary, secondary } = this.state;
-    const { children, icon, margin, padding, onPress, hideIconRight, right } = this.props;
-    const style = IconButtonStyle()
-    return (
-      <TouchableOpacity style={[style.container, { ...getMargins(margin), ...getPadding(padding) }, { backgroundColor: primary }]} onPress={onPress}>
+  renderIconButtonContent = () => {
+    const { secondary } = this.state;
+    const { children, icon, hideIconRight, right } = this.props;
+    return ( 
+      <>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           {!!icon && <Icon fill={secondary} name={icon} width="25" />}
           <CelText type="H4" style={{ marginLeft: icon ? 15 : 0 }} color={secondary}>{children}</CelText>
@@ -79,8 +78,29 @@ class IconButton extends Component {
           )}
           {!hideIconRight && <Icon name='IconChevronRight' height='12' width='7.7' fill={secondary} />}
         </View>
+    </>
+    )
+  }
+
+  render() {
+    const { primary } = this.state
+    const { margin, padding, onPress } = this.props
+    const style = IconButtonStyle()
+    const containerStyle = [style.container, { ...getMargins(margin), ...getPadding(padding) }, { backgroundColor: primary }]
+    const IconButtonContent = this.renderIconButtonContent
+
+    if(onPress) return (
+      <TouchableOpacity style={containerStyle} onPress={onPress}>
+        <IconButtonContent />
       </TouchableOpacity>
     );
+
+    return (
+      <View style={containerStyle}>
+        <IconButtonContent />
+      </View>
+    );
+    
   }
 }
 
