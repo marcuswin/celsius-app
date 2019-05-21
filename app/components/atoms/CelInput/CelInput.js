@@ -118,7 +118,7 @@ class CelInput extends Component {
         return (
           <View style={[inputStyle, { flexDirection: 'row', alignItems: 'center' }]}>
             <CelSelect style={{width: 'auto'}} {...this.props} />
-            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={typeof value === 'string' ? value : ''} />
+            <CelInputText style={{ flex: 1 }} {...this.props} field={`${this.props.field}.text`} value={typeof value === 'string' ? value : ''} keyboardType={'phone-pad'}/>
           </View>
         )
       case 'text-area':
