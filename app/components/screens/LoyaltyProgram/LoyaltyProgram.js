@@ -20,6 +20,7 @@ import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   state => ({
+    currencies: state.currencies.rates,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
     walletSummary: state.wallet.summary,
@@ -46,12 +47,23 @@ class LoyaltyProgram extends Component {
     const { loyaltyInfo, appSettings, actions, walletSummary } = this.props;
     const style = LoyaltyProgramStyle();
     let color;
+    // let percent;
     if (!loyaltyInfo || !appSettings) return <LoadingScreen/>;
     const hasTier = loyaltyInfo.tier.title !== "NONE";
     const celAmount = walletSummary.coins.filter(coin => coin.short === "CEL")[0];
+    // const celPrice = currencies.filter(c => c.short === "CEL").map(m => m.market_quotes_usd)[0];
     if (loyaltyInfo.tier_level === 1) color = STYLES.COLORS.GRAY;
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
+
+    // if (loyaltyInfo.tier_level === 1) {percent = 0.05}
+    // if (loyaltyInfo.tier_level === 2) {percent = 0.1}
+    //
+    // const celToDepositInUsd = (walletSummary.total_amount_usd - celAmount.amount_usd) * percent - celAmount.amount_usd;
+    // const celToDeposit = celToDepositInUsd / celPrice.price;
+
+
+    // const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     // Todo(ns) make text below(and calculation) PieProgressBar visible and useful
 
@@ -81,14 +93,14 @@ class LoyaltyProgram extends Component {
                   </CelText>
                 </View>
               </View>
-              {/* <View style={{*/}
-                {/* backgroundColor: color,*/}
-                {/* height: heightPercentageToDP("7%"),*/}
-                {/* justifyContent: "center"*/}
-              {/* }}>*/}
-                {/* <CelText align={"center"} type={"H6"} weight={"300"} margin={"0 0 20 0"}*/}
-                         {/* color={"transparent"}>{`To achieve the next level deposit ${loyaltyInfo.max_for_tier - Number(loyaltyInfo.cel_amount)} CEL ($300)`}</CelText>*/}
-              {/* </View>*/}
+               {/* <View style={{*/}
+                 {/* backgroundColor: color,*/}
+                 {/* justifyContent: "center",*/}
+                 {/* paddingHorizontal: 20*/}
+               {/* }}>*/}
+                 {/* <CelText align={"center"} type={"H6"} weight={"300"} margin={"0 0 20 0"}*/}
+                          {/* color={"white"}>{`To achieve the next level deposit ${formatter.crypto(celToDeposit, "", {precision: 2})} CEL (${formatter.usd(celToDepositInUsd)})`}</CelText>*/}
+               {/* </View>*/}
             </View>
           )}
           <View style={style.contentWrapper}>

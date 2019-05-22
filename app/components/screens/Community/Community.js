@@ -37,6 +37,10 @@ class Community extends Component {
     const { communityStats } = this.props;
     const style = CommunityStyle();
 
+    if (!communityStats) {
+      return null
+    }
+
     const highestDeposit = communityStats.highest_deposit;
     const image = communityStats.interest_rates.filter(obj => obj.coin === highestDeposit.coin);
 
