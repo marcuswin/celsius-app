@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { Image, View, Keyboard, TouchableOpacity, Clipboard } from 'react-native'
+import { View, Keyboard, TouchableOpacity, Clipboard } from 'react-native'
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
@@ -82,12 +82,8 @@ class TwoFaAuthAppConfirmationCode extends Component {
           Verify Auth App
         </CelButton>
 
-        <CelModal name={MODALS.VERIFY_AUTHAPP_MODAL} shouldRenderCloseButton={false} >
-          <View style={{ alignItems: "center" }}>
-            <Image resizeMode={"contain"}
-                   source={require("../../../../assets/images/authSuccess3x.png")}
-                   style={{height: 140, width: 140}}
-            />
+        <CelModal name={MODALS.VERIFY_AUTHAPP_MODAL} shouldRenderCloseButton={false} picture={require('../../../../assets/images/Onboarding-Welcome3x.png')}>
+          <View style={{ alignItems: "center", paddingTop: 40 }}>
             <CelText type='H2' align='center' weight='bold'>You have successfully turned Two-Factor Verification on</CelText>
             <CelText type='H5' align='center' weight='extra-light' margin={'20 0 0 0'}>You will now be asked for a verification code, every time you want to login or make a transaction.</CelText>
           </View>

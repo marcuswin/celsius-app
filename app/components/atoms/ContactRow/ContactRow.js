@@ -58,7 +58,7 @@ class ContactRow extends Component {
             <Image source={networkImage} resizeMode="cover" style={styles.networkImage} />
           </View>
           <View style={styles.info}>
-            <CelText bold type='H3'>
+            <CelText type='H3'>
               {contact.name}
             </CelText>
             <CelText color={STYLES.COLORS.CELSIUS_BLUE} type="H6">

@@ -10,7 +10,7 @@ const InfoModal = (props) => {
   const { name, heading, paragraphs, onYes, yesCopy, onNo, noCopy } = props
   return (
     <CelModal name={name}>
-      <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"}>{heading}</CelText>
+      <CelText margin="20 0 15 0" align="center" type="H2" weight='bold'>{heading}</CelText>
 
       {paragraphs && paragraphs.map(paragraph => (
         <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"} key={paragraph}>{paragraph}</CelText>
