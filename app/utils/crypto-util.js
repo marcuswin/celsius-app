@@ -13,7 +13,7 @@ import { ELIGIBLE_COINS } from '../constants/DATA';
  * @returns {boolean}
  */
 function isERC20(currency) {
-  return ['eth', 'cel', 'omg', 'zrx'].indexOf(currency.toLowerCase()) !== -1;
+  return ['eth', 'dai', 'xrp', 'xlm', 'pax', 'cel', 'omg', 'zrx'].indexOf(currency.toLowerCase()) !== -1;
 }
 
 /**
