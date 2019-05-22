@@ -53,8 +53,6 @@ class LoyaltyProgram extends Component {
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
 
-    // const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
-
     // Todo(ns) make text below(and calculation) PieProgressBar visible and useful
 
     return (
