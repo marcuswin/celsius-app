@@ -79,7 +79,7 @@ class EmptyState extends Component {
 
         <CelText margin="10 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''}</CelText>
 
-        <CelText margin="20 0 15 0" align="center" type="H1" weight={"700"} bold>{heading}</CelText>
+        <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>{heading}</CelText>
 
         {paragraphs && paragraphs.map(paragraph => (
           <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"} key={paragraph}>{paragraph}</CelText>

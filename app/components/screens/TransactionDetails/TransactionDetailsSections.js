@@ -19,7 +19,7 @@ export const InfoSection = ({ transaction, transactionProps }) => (
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText margin='0 0 16 0' type="H1" bold align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
+    <CelText margin='0 0 16 0' type="H1" align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
     <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3" align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 )
@@ -309,11 +309,11 @@ export const InterestSection = ({ interestEarned, navigateTo }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
-      <CelText type="H3" weight="600" bold align="center">{formatter.usd(interestEarned)}</CelText>
+      <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
     <Card>
       <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
-        <CelText type="H4" weight="500" bold style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
+        <CelText type="H4" weight="500" style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
         <CelText type="H4" weight="300" style={{ marginBottom: 10 }} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
         <CelButton basic onPress={() => navigateTo('Settings')}>Change settings</CelButton>
       </View>
@@ -335,7 +335,7 @@ export const HodlInfoSection = ({ date, amount, coin }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY}>Keep your initial deposit of {formatter.crypto(amount, coin.toUpperCase())} until
-          <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY} bold>{` ${date} `}</CelText>to unlock your HODL reward.
+          <CelText type="H4" color={STYLES.COLORS.MEDIUM_GRAY} weight='bold'>{` ${date} `}</CelText>to unlock your HODL reward.
         </CelText>
     </Card>
   </View>

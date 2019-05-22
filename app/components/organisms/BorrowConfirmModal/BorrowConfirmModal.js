@@ -23,7 +23,7 @@ const BorrowConfirmModal = ({
 
       <Separator margin="22 0 22 0"/>
       <CelText align="center">You are about to borrow</CelText>
-      <CelText align="center" type="H1" weight="600">{ formatter.usd(formData.loanAmount, { precission: 0 }) }</CelText>
+      <CelText align="center" type="H2" weight="bold">{ formatter.usd(formData.loanAmount, { precission: 0 }) }</CelText>
 
       <Separator margin="30 0 16 0"/>
       <CelText type="H6" weight="300">Collateral</CelText>

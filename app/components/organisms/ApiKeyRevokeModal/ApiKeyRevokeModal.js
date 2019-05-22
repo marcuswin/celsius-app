@@ -50,7 +50,7 @@ class ApiKeyRevokeModal extends Component {
         name={MODALS.API_KEY_REVOKE_MODAL}
       >
         <View>
-          <CelText margin={"0 0 10 0"} align={"center"} weight={"600"} type={"H2"}>Are you sure you want to revoke your API key?</CelText>
+          <CelText margin={"0 0 10 0"} align={"center"} weight='bold' type={"H2"}>Are you sure you want to revoke your API key?</CelText>
           <CelButton
             margin={"20 0 20 0"}
             onPress={() => {

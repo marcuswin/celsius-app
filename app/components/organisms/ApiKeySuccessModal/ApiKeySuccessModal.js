@@ -41,14 +41,14 @@ class ApiKeySuccessModal extends Component {
       <CelModal
         name={MODALS.GENERATE_API_KEY_MODAL}
       >
-        <CelText margin={"10 0 10 0"} align={"center"} weight={"600"} type={"H2"}>Your API key was successfully generated</CelText>
+        <CelText margin={"10 0 10 0"} align={"center"} weight='bold' type={"H2"}>Your API key was successfully generated</CelText>
         <CelText weight={"300"} type={"H4"}>
           Please note that the key won’t be fully readable after you close this modal.
           We suggest you copy the key, and store it somewhere safe.
         </CelText>
 
         <View style={style.copyShareWrapper}>
-          <CelText align={"center"} weigth={"400"} type={"H4"}>{apiKey}</CelText>
+          <CelText align={"center"} weight={"400"} type={"H4"}>{apiKey}</CelText>
           <Separator margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
             <CopyButton copyText={apiKey} onCopy={() => actions.showMessage("success", "API key copied to clipboard!")} />

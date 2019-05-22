@@ -149,7 +149,7 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return
 
-    const { actions, mask, navigation, cameraType } = this.props
+    const { actions, navigation, cameraType } = this.props
     try {
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions()
@@ -160,24 +160,7 @@ class CameraScreen extends Component {
         onSave: navigation.getParam('onSave')
       })
       const photo = await this.camera.takePictureAsync()
-      const { size } = this.state
-
-      const imageManipulations = [
-        {
-          resize: {
-            width: size.width,
-            height: size.height
-          }
-        },
-        {
-          crop: {
-            originX: (size.width - STYLES.imageSizes[mask].width) / 2,
-            originY: (size.height - STYLES.imageSizes[mask].height) / 2,
-            width: STYLES.imageSizes[mask].width,
-            height: STYLES.imageSizes[mask].height
-          }
-        }
-      ]
+      const imageManipulations = []
 
       if (cameraType === 'front') {
         imageManipulations.push({

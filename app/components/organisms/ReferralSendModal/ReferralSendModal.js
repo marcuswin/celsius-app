@@ -73,7 +73,7 @@ class ReferralSendModal extends Component {
 
         <View style={style.copyShareWrapper}>
           <View styles={{ backgroundColor: 'red', paddingTop: 10 }}>
-            <CelText align={"center"} weigth={"400"} type={"H4"} >{slug}</CelText>
+            <CelText align={"center"} weight={"400"} type={"H4"} >{slug}</CelText>
           </View>
           <Separator style={{ backgroundColor: 'red' }} margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>

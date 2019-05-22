@@ -195,7 +195,7 @@ class CelPayChooseFriend extends Component {
         :
         <View style={{ flex: 1, width: '100%' }}>
           <TouchableOpacity onPress={this.sendLink} style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <CelText color={STYLES.COLORS.CELSIUS_BLUE} bold type='H4' align='left' margin={'20 0 20 0'}>
+            <CelText color={STYLES.COLORS.CELSIUS_BLUE} type='H4' align='left' margin={'20 0 20 0'}>
               Send as a link
               </CelText>
             <Icon name='IconChevronRight' height={10} width={20} fill={STYLES.COLORS.MEDIUM_GRAY} />

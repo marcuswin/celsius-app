@@ -92,7 +92,7 @@ class CelModal extends Component {
             }
             {header ?
               <View style={style.modalHeadingWrapper}>
-                <CelText type={"H1"} style={style.mainHeadingText}>{primaryText}</CelText>
+                <CelText type={"H2"} weight='bold' style={style.mainHeadingText}>{primaryText}</CelText>
                 <CelText type={"H3"} weight={"400"} style={style.secondaryHeadingText}>{secondaryText}</CelText>
               </View> : null
             }
