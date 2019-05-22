@@ -37,7 +37,8 @@ class SecuritySettings extends Component {
       return {
         is2FAEnabled: nextProps.is2FAEnabled
       }
-    }
+    } 
+    return null
   }
 
   constructor (props) {
