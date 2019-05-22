@@ -10,7 +10,6 @@ import STYLES from "../../../constants/STYLES";
 
 const ContactSupport = ({
   content,
-  fontSize,
   align,
   copy = 'If you need any help, contact our support at app@celsius.network'
 }) => {
@@ -18,7 +17,7 @@ const ContactSupport = ({
   const copyParts = copy.split('app@celsius.network')
   return (
     <View style={[style.container, {justifyContent: content}]}>
-      <CelText type={fontSize} align={align}>
+      <CelText align={align}>
         {copyParts[0]}
         <SupportLink />
         {copyParts[1]}
@@ -27,9 +26,8 @@ const ContactSupport = ({
   )
 }
 
-const SupportLink = (fontSize) => (
+const SupportLink = () => (
   <CelText
-    type={fontSize}
     color={STYLES.COLORS.CELSIUS_BLUE}
     onPress={() => Linking.openURL("mailto:app@celsius.network")}>
     {'app@celsius.network'}
