@@ -43,7 +43,7 @@ class LoyaltyProgram extends Component {
   }
 
   render() {
-    const { loyaltyInfo, appSettings, actions, walletSummary, email } = this.props;
+    const { loyaltyInfo, appSettings, actions, walletSummary } = this.props;
     const style = LoyaltyProgramStyle();
     let color;
     if (!loyaltyInfo || !appSettings) return <LoadingScreen/>;
@@ -53,7 +53,7 @@ class LoyaltyProgram extends Component {
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
 
-    const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
+    // const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
 
     // Todo(ns) make text below(and calculation) PieProgressBar visible and useful
 
@@ -80,7 +80,7 @@ class LoyaltyProgram extends Component {
                   </CelText>
                 </View>
                 <View style={style.arcChart}>
-                  <PieProgressBar color={color} level={loyaltyInfo.tier_level} tier={loyaltyInfo.tier.title}
+                  <PieProgressBar color={color} level={"PLATINUM"} tier={loyaltyInfo.tier.title}
                   />
                 </View>
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -170,13 +170,13 @@ class LoyaltyProgram extends Component {
               </CelText>
             </View>
 
-            { notDisabled &&
             <CelInterestCard
               tier={loyaltyInfo.tier.title}
               interestBonus={loyaltyInfo.earn_interest_bonus}
               interestInCel={appSettings.interest_in_cel}
               setUserAppSettings={actions.setUserAppSettings}
-            />}
+            />
+
             <CelButton
               margin={"30 0 10 0"}
               onPress={() => actions.navigateTo("Deposit", { coin: "CEL" })}

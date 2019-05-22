@@ -47,7 +47,6 @@ export const profileFlow = {
     CellphoneEnter,
     CellphoneVerify,
     SelectCountry
-    
   },
   props: {
     initialRouteName: 'Profile',
