@@ -97,9 +97,9 @@ function percentage (number) {
 }
 
 /**
- * Formats percentage from number - 0.0695 * 100 = 6.950000000000001
+ * Formats percentage from number - 0.0695 => 6.95%
  *
- * @param {number} number
+ * @param {number|string} - number to format
  * @returns {number}
  */
 function percentageDisplay (number) {
