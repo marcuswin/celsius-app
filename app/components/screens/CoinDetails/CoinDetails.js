@@ -178,7 +178,7 @@ class CoinDetails extends Component {
                       <CelText type="H6" weight='300'>Current rate</CelText>
                       <View>
                         <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                          <CelText align='justify' type="H5" color="white">{interestRate}%</CelText>
+                          <CelText align='justify' type="H5" color="white">{interestRate}</CelText>
                         </Badge>
                       </View>
                     </View>
