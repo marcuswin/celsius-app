@@ -42,20 +42,21 @@ class SecurityOverview extends Component {
   }
 
   getIcon = item => {
+
     if (item.action === 'set-pin') {
       return { name: 'Lock', color: 'green', action: 'Set Pin' }
     }
     if (item.action === 'confirm-celpay') {
-      return { name: 'Mail', color: 'blue', action: 'CelPay Confirmed' }
+      return { name: 'Mail', color: `${STYLES.COLORS.CELSIUS_BLUE}`, action: 'CelPay Confirmed' }
     }
     if (item.action === 'loan-apply') {
       return { name: 'Lock', color: 'green', action: 'Loan apply' }
     }
     if (item.action === 'change-pass') {
-      return { name: 'Key', color: 'blue', action: 'Password changed' }
+      return { name: 'Key', color: `${STYLES.COLORS.CELSIUS_BLUE}`, action: 'Password changed' }
     }
     if (item.action === 'deactivation-2fa') {
-      return { name: 'Shield', color: 'red', action: '2FA Deactivated' }
+      return { name: 'Shield', color: `${STYLES.COLORS.RED}`, action: '2FA Deactivated' }
     }
     if (item.action === 'activation-2fa') {
       return { name: 'Shield', color: 'green', action: '2FA Activated' }
@@ -64,17 +65,13 @@ class SecurityOverview extends Component {
       return { name: 'CaretDown', color: 'green', action: 'CelPay Claimed' }
     }
     if (item.action === 'withdraw-info') {
-      return { name: 'CaretUp', color: 'red', action: 'Withdraw' }
+      return { name: 'CaretUp', color: `${STYLES.COLORS.RED}`, action: 'Withdraw' }
     }
     if (item.action === 'deposit-success') {
       return { name: 'CaretDown', color: 'green', action: 'Deposit' }
     }
     if (item.action === 'confirm-withdrawal-request') {
-      return {
-        name: 'CaretUp',
-        color: 'red',
-        action: 'Withrdaw confirm request'
-      }
+      return { name: 'CaretUp', color: `${STYLES.COLORS.RED}`, action: 'Withrdaw confirm request'}
     }
   }
 
