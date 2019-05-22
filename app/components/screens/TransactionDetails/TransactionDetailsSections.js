@@ -305,11 +305,11 @@ export const NoteSection = ({ text }) => (
   ) : null
 )
 
-export const InterestSection = ({ interestEarned, coin, navigateTo }) => (
+export const InterestSection = ({ interestEarned, navigateTo }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
-      <CelText type="H3" weight="600" bold align="center">{formatter.crypto(interestEarned, coin, { precision: 5 })}</CelText>
+      <CelText type="H3" weight="600" bold align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
     <Card>
       <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
