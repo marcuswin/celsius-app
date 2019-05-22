@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import cryptoUtil from "../../../utils/crypto-util";
 import testUtil from "../../../utils/test-util";
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
@@ -123,13 +124,21 @@ class WithdrawCreateAddress extends Component {
             </View>
           </React.Fragment>
         }
-
+        {cryptoUtil.isERC20(formData.coin.toLowerCase()) ? 
+        <InfoBox
+          color={"white"}
+          backgroundColor={STYLES.COLORS.ORANGE}
+          titleText={"Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."}
+          left
+        />
+        : 
         <InfoBox
           color={"white"}
           backgroundColor={STYLES.COLORS.ORANGE}
           titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at app@celsius.network."}
           left
         />
+        }
         <View style={style.button}>
           <CelButton
             disabled={!formData.withdrawAddress}
