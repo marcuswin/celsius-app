@@ -85,9 +85,12 @@ class CoinDetails extends Component {
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
-    const interestRate = appSettings.interest_in_cel
-      ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
-      : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
+    let interestRate = 0
+    if (coinDetails.short !== "CEL") {
+      interestRate = appSettings.interest_in_cel
+        ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
+        : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
+    }
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
