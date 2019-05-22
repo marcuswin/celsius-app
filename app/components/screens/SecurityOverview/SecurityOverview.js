@@ -109,7 +109,7 @@ class SecurityOverview extends Component {
         {securityOverview.user_actions_log.map(item => {
           const actions = this.getIcon(item)
           return (
-            <View style={style.userActionsLogWrapper}>
+            <View key={item.created_at} style={style.userActionsLogWrapper}>
               <View style={style.userActionsLog}>
                 <Icon
                   name={actions.name}
@@ -165,7 +165,7 @@ class SecurityOverview extends Component {
       <>
         <Separator margin='10 0 20 0' text='Account activity LOG' />
         {securityOverview.account_activity_log.map(item => (
-          <View style={style.accountActionsLogWrapper}>
+          <View key={item.date} style={style.accountActionsLogWrapper}>
             <View style={style.accountActionsLog1}>
               <View
                 style={{
@@ -208,14 +208,13 @@ class SecurityOverview extends Component {
     // Logic for current device loged in
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle()
-
     return securityOverview &&
       securityOverview.devices_logged_in &&
       securityOverview.devices_logged_in.length > 0 ? (
       <>
         <Separator margin='10 0 20 0' text='DEVICES Loged in' />
         {securityOverview.devices_logged_in.map(item => (
-          <View style={style.renderDeviceWrapper}>
+          <View key={item.date} style={style.renderDeviceWrapper}>
             <View style={style.renderDevice}>
               <Icon name='Mobile' viewBox='0 0 29 29' fill='#737A82' />
               <View style={{ flex: 1, flexDirection: 'column' }}>
