@@ -28,7 +28,8 @@ const { COLORS } = STYLES;
     currencyRatesShort: state.currencies.currencyRatesShort,
     interestRates: state.generalData.interestRates,
     celpayCompliance: state.user.compliance.celpay,
-    coinAmount: state.graph.coinLastValue
+    coinAmount: state.graph.coinLastValue,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -77,12 +78,16 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, currencies } = this.props;
+    const { actions, interestRates, celpayCompliance, currencies, appSettings } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
     const coinPrice = currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0];
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
+
+    const interestRate = appSettings.interest_in_cel
+      ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
+      : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -164,13 +169,16 @@ class CoinDetails extends Component {
                     <CelText type="H6" weight='300'>Total interest earned</CelText>
                     <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
                     <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                    { coinDetails.interest_earned_cel ? (
+                        <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
+                    ) : null }
                   </View>
                   {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                     <View style={style.interestRateWrapper}>
                       <CelText type="H6" weight='300'>Current rate</CelText>
                       <View>
                         <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                          <CelText align='justify' type="H5" color="white">{(interestRates[coinDetails.short].rate * 100).toFixed(2)}%</CelText>
+                          <CelText align='justify' type="H5" color="white">{interestRate}</CelText>
                         </Badge>
                       </View>
                     </View>

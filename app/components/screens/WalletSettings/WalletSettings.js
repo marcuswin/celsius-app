@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Platform, Switch, View } from 'react-native'
+import { Platform, Switch } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
-// import WalletSettingsStyle from "./WalletSettings.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import Separator from '../../atoms/Separator/Separator'
 import IconButton from '../../organisms/IconButton/IconButton'
@@ -15,8 +13,6 @@ import STYLES from '../../../constants/STYLES'
 import apiUtil from '../../../utils/api-util'
 import API from '../../../constants/API'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
-import Card from '../../atoms/Card/Card'
-import CelText from '../../atoms/CelText/CelText'
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 
 @connect(
@@ -73,17 +69,11 @@ class WalletSettings extends Component {
   }
 
   rightSwitch = () => {
-    // const { appSettings, callsInProgress } = this.props
     const { interestInCel } = this.state
     const isIos = Platform.OS === 'ios'
     const falseColor = isIos ? 'transparent' : STYLES.COLORS.DARK_GRAY3
-    // const loading = apiUtil.areCallsInProgress(
-    //   [API.SET_APP_SETTINGS],
-    //   callsInProgress
-    // )
+
     return (
-      //   <Spinner size={30} />
-      // ) : (
       <Switch
         value={interestInCel}
         onValueChange={this.changeInterestEarn}
@@ -101,7 +91,7 @@ class WalletSettings extends Component {
   }
 
   render () {
-    const { callsInProgress, email } = this.props
+    const { callsInProgress } = this.props
     const { defaultView } = this.state
 
     const loading = apiUtil.areCallsInProgress(
@@ -109,9 +99,6 @@ class WalletSettings extends Component {
       callsInProgress
     )
     if (loading) return <LoadingScreen />
-    const disabled =
-      !!email.includes('@celsius.network') ||
-      !!email.includes('@mvpworkshop.co')
 
     const filterOptions = [
       { label: 'Grid view', value: WALLET_LANDING_VIEW_TYPES.GRID },
@@ -139,23 +126,13 @@ class WalletSettings extends Component {
         </RNPickerSelect>
         <Separator text='INTEREST' />
 
-        {disabled ? (
-          <IconButton
-            margin={'20 0 20 0'}
-            right={<Switcher />}
-            hideIconRight
-          >
-            Earn interest in CEL
-          </IconButton>
-        ) : (
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Card size={'half'}>
-              <CelText align={'center'} weight={'500'} type={'H5'}>
-                COMING SOON!
-              </CelText>
-            </Card>
-          </View>
-        )}
+        <IconButton
+          margin={'20 0 20 0'}
+          right={<Switcher />}
+          hideIconRight
+        >
+          Earn interest in CEL
+        </IconButton>
       </RegularLayout>
     )
   }

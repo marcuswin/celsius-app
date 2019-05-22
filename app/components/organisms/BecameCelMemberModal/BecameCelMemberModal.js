@@ -25,7 +25,7 @@ class BecameCelMemberModal extends Component {
   }
 
   render() {
-    // const { actions } = this.props;
+    const { actions } = this.props;
     return (
       <CelModal
         name={MODALS.BECAME_CEL_MEMBER_MODAL}
@@ -40,9 +40,9 @@ class BecameCelMemberModal extends Component {
         <CelButton onPress={this.closeAndGoToDeposit} margin='30 0 20 0'>
           Deposit coins
         </CelButton>
-        {/* <CelButton size="small" basic onPress={() => actions.navigateTo('LoyaltyProgram')}> */}
-          {/* Learn about the CEL Loyalty Program */}
-        {/* </CelButton> */}
+        <CelButton size="small" basic onPress={() => actions.navigateTo('LoyaltyProgram')}>
+          Learn about the CEL Loyalty Program
+        </CelButton>
       </CelModal>
     )
   }

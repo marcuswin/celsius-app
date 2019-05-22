@@ -12,7 +12,7 @@ import Card from "../../atoms/Card/Card";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import { widthPercentageToDP } from "../../../utils/styles-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
@@ -31,7 +31,7 @@ class LoyaltyProgram extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = () => ( {
+  static navigationOptions = () => ({
     title: "Loyalty Program",
     right: "profile"
   });
@@ -43,7 +43,7 @@ class LoyaltyProgram extends Component {
   }
 
   render() {
-    const { loyaltyInfo, appSettings, actions, walletSummary, email } = this.props;
+    const { loyaltyInfo, appSettings, actions, walletSummary } = this.props;
     const style = LoyaltyProgramStyle();
     let color;
     if (!loyaltyInfo || !appSettings) return <LoadingScreen/>;
@@ -53,8 +53,6 @@ class LoyaltyProgram extends Component {
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
 
-    const notDisabled = !!email.includes("@celsius.network") || !!email.includes("@mvpworkshop.co");
-
     // Todo(ns) make text below(and calculation) PieProgressBar visible and useful
 
     return (
@@ -62,17 +60,9 @@ class LoyaltyProgram extends Component {
         <View>
           {hasTier && (
             <View>
-              <View
-                style={{ alignItems: "center", justifyContent: "center", backgroundColor: color}}>
-                <Card size={"half"} opacity={0.8} styles={{backgroundColor: color, shadowOpacity: 0.2,
-                  shadowOffset: { width: 0, height: 3 },
-                  shadowRadius: 5}}>
-                  <CelText align={"center"} weight={"500"} type={"H6"} color={"white"}>COMING SOON!</CelText>
-                </Card>
-              </View>
-              <View style={[style.progressView, {backgroundColor: color}]}>
+              <View style={[style.progressView, { backgroundColor: color }]}>
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
-                  <CelText color={"white"} type={"H3"} weight={"700"}>
+                  <CelText color={"white"} type={"H4"} weight={"700"}>
                     {formatter.usd(celAmount.amount_usd)}
                   </CelText>
                   <CelText color={"white"} type={"H5"} weight={"300"}>
@@ -80,31 +70,30 @@ class LoyaltyProgram extends Component {
                   </CelText>
                 </View>
                 <View style={style.arcChart}>
-                  <PieProgressBar color={color} level={loyaltyInfo.tier_level} tier={loyaltyInfo.tier.title}
-                  />
+                  <PieProgressBar color={color} level={loyaltyInfo.tier_level} tier={loyaltyInfo.tier.title}/>
                 </View>
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
-                  <CelText color={"white"} type={"H3"} weight={"700"}>
-                    {formatter.usd(walletSummary.total_amount_usd - celAmount.amount_usd, {precision: 0})}
+                  <CelText color={"white"} type={"H4"} weight={"700"}>
+                    {formatter.usd(walletSummary.total_amount_usd - celAmount.amount_usd, { precision: 0 })}
                   </CelText>
                   <CelText color={"white"} type={"H5"} weight={"300"}>
                     Other coins
                   </CelText>
                 </View>
               </View>
-              <View style={{
-                backgroundColor: color,
-                height: heightPercentageToDP("7%"),
-                justifyContent: "center"
-              }}>
-                <CelText align={"center"} type={"H6"} weight={"300"} margin={"0 0 20 0"}
-                         color={"transparent"}>{`To achieve the next level deposit ${loyaltyInfo.max_for_tier - Number(loyaltyInfo.cel_amount)} CEL ($300)`}</CelText>
-              </View>
+              {/* <View style={{*/}
+                {/* backgroundColor: color,*/}
+                {/* height: heightPercentageToDP("7%"),*/}
+                {/* justifyContent: "center"*/}
+              {/* }}>*/}
+                {/* <CelText align={"center"} type={"H6"} weight={"300"} margin={"0 0 20 0"}*/}
+                         {/* color={"transparent"}>{`To achieve the next level deposit ${loyaltyInfo.max_for_tier - Number(loyaltyInfo.cel_amount)} CEL ($300)`}</CelText>*/}
+              {/* </View>*/}
             </View>
           )}
           <View style={style.contentWrapper}>
             <View style={{ flexDirection: "row" }}>
-              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>Your CEL
+              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>CEL
                 balance is</CelText>
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Image style={{ width: widthPercentageToDP("23.3%"), height: widthPercentageToDP("23.3%") }}
@@ -114,7 +103,7 @@ class LoyaltyProgram extends Component {
                   top: widthPercentageToDP("23.3%") / 3.5
                 }}>{`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}</CelText>
               </View>
-              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>of your
+              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>of
                 wallet balance</CelText>
             </View>
             {hasTier && (
@@ -137,7 +126,7 @@ class LoyaltyProgram extends Component {
               </Card>
             )}
 
-            <View style={{ alignItems: "center"}}>
+            <View style={{ alignItems: "center" }}>
 
               <Image style={style.starIcon}
                      source={require("../../../../assets/images/loyaltyIcons/star-icon3x.png")}/>
@@ -170,13 +159,13 @@ class LoyaltyProgram extends Component {
               </CelText>
             </View>
 
-            { notDisabled &&
             <CelInterestCard
               tier={loyaltyInfo.tier.title}
               interestBonus={loyaltyInfo.earn_interest_bonus}
               interestInCel={appSettings.interest_in_cel}
               setUserAppSettings={actions.setUserAppSettings}
-            />}
+            />
+
             <CelButton
               margin={"30 0 10 0"}
               onPress={() => actions.navigateTo("Deposit", { coin: "CEL" })}
