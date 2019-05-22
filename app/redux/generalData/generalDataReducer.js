@@ -22,6 +22,7 @@ function initialState() {
 export default function generalDataReducer(state = initialState(), action) {
   const currencyRates = {};
   const currencyRatesShort = {};
+  let interestRates
 
   switch (action.type) {
     case ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS:
@@ -53,6 +54,18 @@ export default function generalDataReducer(state = initialState(), action) {
         ...state,
         interestRates: action.interestRates,
         minimumLoanAmount: action.minimumLoanAmount
+      };
+
+    case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
+      interestRates = { ...state.interestRates }
+
+      Object.keys(state.interestRates).forEach(coinShort => {
+        interestRates[coinShort].cel_rate = (1 + action.loyaltyInfo.earn_interest_bonus) * state.interestRates[coinShort].rate
+      })
+
+      return {
+        ...state,
+        interestRates,
       };
 
     case ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS:

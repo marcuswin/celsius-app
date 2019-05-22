@@ -11,7 +11,8 @@ export default {
   deepmerge,
   getNumberOfDecimals,
   capitalize,
-  percentage
+  percentage,
+  percentageDisplay
 }
 
 /**
@@ -93,6 +94,17 @@ function capitalize (str) {
  */
 function percentage (number) {
   return Math.round(number * 10000) / 100
+}
+
+/**
+ * Formats percentage from number - 0.0695 * 100 = 6.950000000000001
+ *
+ * @param {number} number
+ * @returns {number}
+ */
+function percentageDisplay (number) {
+  const percentageNum = Math.round(number * 10000) / 100
+  return `${percentageNum.toFixed(2)}%`
 }
 
 /**
