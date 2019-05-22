@@ -13,7 +13,7 @@ import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storag
 import usersService from '../../services/users-service';
 import apiUtil from '../../utils/api-util';
 import logger from '../../utils/logger-util';
-import { setFormErrors } from '../forms/formsActions';
+import { setFormErrors, updateFormField } from '../forms/formsActions';
 import meService from '../../services/me-service';
 import analytics from "../../utils/analytics";
 import branchUtil from "../../utils/branch-util"
@@ -341,9 +341,13 @@ function changePin() {
       dispatch({ type: ACTIONS.CLEAR_FORM });
       dispatch(showMessage('success', 'Successfully changed PIN number'));
       dispatch(navigateTo('SecuritySettings'));
+      return true
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CHANGE_PIN, err));
+      dispatch(updateFormField('newPinConfirm', ''))
+      dispatch(updateFormField('newPin', ''))
+      return false
     }
   }
 }

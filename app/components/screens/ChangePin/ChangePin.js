@@ -51,19 +51,24 @@ class ChangePin extends Component {
     }
   }
 
-  handlePinFinish = (newValue) => {
+  handlePinFinish = async(newValue) => {
     const { pinCreated } = this.state;
     const { actions, formData } = this.props;
 
     if (!pinCreated) {
       this.setState({ pinCreated: true })
     } else if (formData.newPin === newValue) {
-      actions.changePin()
+      // actions.changePin()
       this.setState({ loading: true })
+      const isSet = await actions.changePin()
+    if(!isSet) {
+      this.setState({pinCreated: false})
+    }
     } else {
       actions.showMessage('error', 'Both PIN numbers should be the same.')
       actions.updateFormField('newPinConfirm','')
     }
+    this.setState({ loading: false })
   }
 
   handleBack = () => {
