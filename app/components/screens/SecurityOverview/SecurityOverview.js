@@ -158,6 +158,7 @@ class SecurityOverview extends Component {
     // country flag
     const { securityOverview } = this.props
     const style = SecurityOverviewStyle()
+
     return securityOverview &&
       securityOverview.account_activity_log &&
       securityOverview.account_activity_log.length > 0 ? (
@@ -185,7 +186,7 @@ class SecurityOverview extends Component {
               </View>
               <View style={style.accountActionsLog3}>
                 <CelText type='H6' weight='300'>
-                  {item.platform}{' '}
+                  {(item.platform === 'ios' ? 'iOS' : 'Andorid')}{' '}
                 </CelText>
                 <CelText type='H6' weight='300'>
                   {moment(item.date).format('MMMM d, GGGG')}
