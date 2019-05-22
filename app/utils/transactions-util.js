@@ -90,7 +90,7 @@ function filterTransactions(transactions, filter = undefined) {
   transactionArray = orderTransactionsByDate(transactionArray);
 
   if (filter) {
-    if (filter.coin) transactionArray = transactionArray.filter(t => t.coin.toLowerCase() === filter.coin.toLowerCase());
+    if (filter.coin) transactionArray = transactionArray.filter(t => t.coin.toLowerCase() === filter.coin.toLowerCase() || (t.interest_coin && t.interest_coin.toLowerCase() === filter.coin.toLowerCase()));
     if (filter.type) transactionArray = filterTransactionsByType(transactionArray, filter.type);
     if (filter.limit) transactionArray = transactionArray.slice(0, filter.limit);
   }
@@ -230,7 +230,7 @@ function getTransactionsProps(transaction) {
     case TRANSACTION_TYPES.CELPAY_SENT:
       return {
         title: (coin) => `${coin} Sent`,
-        color: STYLES.COLORS.RED,
+        color: STYLES.COLORS.CELSIUS_BLUE,
         iconName: 'TransactionSent',
         statusText: 'Sent'
       }

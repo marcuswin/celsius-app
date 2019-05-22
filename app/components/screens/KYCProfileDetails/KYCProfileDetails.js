@@ -150,7 +150,7 @@ class KYCProfileDetails extends Component {
 
     return (
       <RegularLayout>
-        <CelText type='H1' weight='bold' margin={'0 0 30 0'} align='center'>
+        <CelText type='H2' weight='bold' margin={'0 0 30 0'} align='center'>
           Profile details
         </CelText>
 

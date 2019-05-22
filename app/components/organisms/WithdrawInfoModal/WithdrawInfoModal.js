@@ -113,7 +113,7 @@ class WithdrawInfoModal extends Component {
     return (
       <View>
         <ScrollView>
-          <CelText type='H2' bold style={styles.title}> {type ? steps[currentStep - 1].title : three[currentStep - 1].title}</CelText>
+          <CelText type='H2' weight='bold' style={styles.title}> {type ? steps[currentStep - 1].title : three[currentStep - 1].title}</CelText>
           <CelText type='H4' style={styles.description}>{type ? steps[currentStep - 1].description : three[currentStep - 1].description}</CelText>
           <View style={styles.button}>
             <ButtonStyle />

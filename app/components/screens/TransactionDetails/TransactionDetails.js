@@ -37,6 +37,7 @@ import { KYC_STATUSES } from '../../../constants/DATA';
 @connect(
   state => ({
     coins: state.wallet.summary.coins,
+    totalInterestEarned: state.wallet.summary.total_interest_earned,
     callsInProgress: state.api.callsInProgress,
     transaction: state.transactions.transactionDetails,
     user: state.user.profile
@@ -79,9 +80,8 @@ class TransactionDetails extends Component {
 
 
   renderSection = (sectionType) => {
-    const { actions, coins, transaction, user } = this.props;
+    const { actions, transaction, user, totalInterestEarned } = this.props;
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    const interestEarned = coins.find((coin) => coin.short === transaction.coin.toUpperCase()).interest_earned;
     const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
 
     switch (sectionType) {
@@ -120,7 +120,7 @@ class TransactionDetails extends Component {
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
-        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={interestEarned} coin={transaction.coin.toUpperCase()} />;
+        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={totalInterestEarned} />;
       case 'loan:rejected':
         return <LoanInfoSection key={sectionType} navigateTo={actions.navigateTo} />;
       // TODO(sb): Value need to be changed

@@ -211,7 +211,7 @@ class KYCVerifyID extends Component {
     return (
       <RegularLayout>
         <View style={{ width: '100%', alignItems: 'center' }}>
-          <CelText type='H1' weight='700'>
+          <CelText type='H2' weight='700'>
             Verify your ID
           </CelText>
           <CelText type='H4' weight='300' margin='10 0 20 0'>

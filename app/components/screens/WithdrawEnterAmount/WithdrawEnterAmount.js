@@ -6,22 +6,21 @@ import { bindActionCreators } from 'redux'
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
 import WithdrawEnterAmountStyle from './WithdrawEnterAmount.styles'
-import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
-import Card from '../../atoms/Card/Card'
 import formatter from '../../../utils/formatter'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
-import { EMPTY_STATES, KEYPAD_PURPOSES, MODALS } from "../../../constants/UI";
+import { EMPTY_STATES, KEYPAD_PURPOSES, MODALS } from '../../../constants/UI'
 import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
 import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import WithdrawInfoModal from '../../organisms/WithdrawInfoModal/WithdrawInfoModal'
-import { KYC_STATUSES, PREDIFINED_AMOUNTS } from "../../../constants/DATA";
+import { KYC_STATUSES, PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
-import StaticScreen from "../StaticScreen/StaticScreen";
-
+import StaticScreen from '../StaticScreen/StaticScreen'
+import BalanceView from '../../atoms/BalanceView/BalanceView'
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -34,6 +33,7 @@ import StaticScreen from "../StaticScreen/StaticScreen";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
+    keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -48,13 +48,20 @@ class WithdrawEnterAmount extends Component {
 
   constructor(props) {
     super(props)
-    const { navigation, currencies, withdrawCompliance, walletSummary } = this.props
+    const {
+      navigation,
+      currencies,
+      withdrawCompliance,
+      walletSummary
+    } = this.props
     const coin = navigation.getParam('coin') || 'BTC'
 
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
       .filter(c => {
-        const balanceUsd = walletSummary.coins.filter(wCoin => wCoin.short === c.short.toUpperCase())[0].amount_usd;
+        const balanceUsd = walletSummary.coins.filter(
+          wCoin => wCoin.short === c.short.toUpperCase()
+        )[0].amount_usd
         return balanceUsd > 0
       })
       .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
@@ -62,7 +69,7 @@ class WithdrawEnterAmount extends Component {
     this.state = {
       coinSelectItems,
       activePeriod: ''
-    }
+    };
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
@@ -90,28 +97,21 @@ class WithdrawEnterAmount extends Component {
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  getNumberOfDecimals(value) {
-    const splitValue = value.split('.')
-    const numberOfDecimals = splitValue[1] ? splitValue[1].length : 0
-    return numberOfDecimals
-  }
-
-  // TODO: move to formatter? check CelPayEnterAmount
   getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   // TODO: move to formatter? check CelPayEnterAmount
   setCurrencyDecimals(value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value
     // remove last digit
-    const numberOfDecimals = this.getNumberOfDecimals(value)
+    const numberOfDecimals = formatter.getNumberOfDecimals(value)
     const allowedDecimals = this.getAllowedDecimals(currency)
 
     return value.slice(0, allowedDecimals - numberOfDecimals)
   }
 
   // TODO: move to formatter? check CelPayEnterAmount
-  hasEnoughDecimals(value = '', currency) {
-    const numberOfDecimals = this.getNumberOfDecimals(value)
+  hasEnoughDecimals (value = '', currency) {
+    const numberOfDecimals = formatter.getNumberOfDecimals(value)
     const allowedDecimals = this.getAllowedDecimals(currency)
 
     return numberOfDecimals > allowedDecimals
@@ -121,22 +121,34 @@ class WithdrawEnterAmount extends Component {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
-    const balanceUsd = walletSummary.coins.find(
-      c => c.short === formData.coin.toUpperCase()
-    ).amount_usd
+    const {
+      amount_usd: balanceUsd,
+      amount: balanceCrypto
+    } = walletSummary.coins.find(c => c.short === formData.coin.toUpperCase())
 
     let amountCrypto
     let amountUsd
 
     if (formData.isUsd) {
-      amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+      if (predefined.length === 0) {
+        amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+      } else {
+        amountUsd = newValue
+      }
       amountCrypto = amountUsd / coinRate
     } else {
-      amountCrypto = this.setCurrencyDecimals(newValue)
+      if (predefined.length === 0) {
+        amountCrypto = this.setCurrencyDecimals(newValue)
+      } else {
+        amountCrypto = newValue
+      }
       amountUsd = amountCrypto * coinRate
     }
 
-    if (amountUsd > balanceUsd) {
+    if (
+      (formData.isUsd && amountUsd > balanceUsd) ||
+      (!formData.isUsd && amountCrypto > balanceCrypto)
+    ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
     if (amountUsd > 20000) {
@@ -178,7 +190,14 @@ class WithdrawEnterAmount extends Component {
 
   render() {
     const { coinSelectItems, activePeriod } = this.state
-    const { formData, actions, walletSummary, navigation, kycStatus } = this.props
+    const {
+      formData,
+      actions,
+      walletSummary,
+      navigation,
+      kycStatus,
+      keypadOpen
+    } = this.props
     const style = WithdrawEnterAmountStyle()
     if (!formData.coin) return null
 
@@ -188,22 +207,24 @@ class WithdrawEnterAmount extends Component {
 
     const coin = navigation.getParam('coin')
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+    if (kycStatus !== KYC_STATUSES.passed) {
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
+        />
+      )
+    }
 
     return (
-      <RegularLayout padding='20 0 0 0' >
+      <RegularLayout padding='20 0 0 0'>
         <View style={style.container}>
           <View style={style.wrapper}>
-            <Card padding='10 10 10 10' margin='0 0 20 0' >
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-                <CelText align='left' type='H7' >
-                  Balance:
-              </CelText>
-                <CelText align='right' type='H7'>
-                  {formatter.crypto(coinData.amount, formData.coin)} {' '} | {' '} {formatter.usd(coinData.amount_usd)}
-                </CelText>
-              </View>
-            </Card>
+            <BalanceView
+              opacity={0.65}
+              coin={formData.coin}
+              crypto={coinData.amount}
+              usd={coinData.amount_usd}
+            />
 
             <View>
               <View style={style.selectWrapper}>
@@ -224,6 +245,7 @@ class WithdrawEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
+                amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
               />
             </View>
 
@@ -234,7 +256,7 @@ class WithdrawEnterAmount extends Component {
             />
 
             <CelButton
-              margin='20 0 0 0'
+              margin='40 0 0 0'
               disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
               onPress={this.handleNextStep}
               iconRight='IconArrowRight'
@@ -248,7 +270,9 @@ class WithdrawEnterAmount extends Component {
 
         <CelNumpad
           field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
-          value={formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''}
+          value={
+            formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''
+          }
           updateFormField={actions.updateFormField}
           setKeypadInput={actions.setKeypadInput}
           toggleKeypad={actions.toggleKeypad}

@@ -101,7 +101,7 @@ class PieProgressBar extends Component {
         </Surface>
         <View style={[style.innerCircle, { backgroundColor: color }]}/>
         <View style={style.contentCircle}>
-          <CelText color={"white"} type={"H3"} weight={"700"}>
+          <CelText color={"white"} type={"H4"} weight={"700"}>
             {tier}
           </CelText>
           <CelText color={"white"} type={"H5"} weight={"300"}>

@@ -185,9 +185,9 @@ class Deposit extends Component {
     }
 
     return (
-      <Card styles={{ backgroundColor: STYLES.COLORS.CELSIUS_BLUE }}>
+      <Card color={STYLES.COLORS.CELSIUS_BLUE}>
         <CelText style={style.infoBubble} alignItems='center' color='#FFFFFF'>
-          If your wallet doesn't support <CelText bold color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText bold color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
+          If your wallet doesn't support <CelText weight='bold' color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText weight='bold' color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
         </CelText>
 
         <CelButton
@@ -281,7 +281,7 @@ class Deposit extends Component {
 
         {isFetchingAddress && this.renderLoader()}
 
-        {false && formData.selectedCoin === "CEL" ?
+        {formData.selectedCoin === "CEL" ?
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             <IconButton
               margin="20 0 0 0"
@@ -294,7 +294,7 @@ class Deposit extends Component {
           : null}
 
         <CelModal name={MODALS.DESTINATION_TAG_MODAL}>
-          <CelText align='center' type='H1' margin='0 0 32 0'>Destination Tag for XRP</CelText>
+          <CelText align='center' type='H2' weight='bold' margin='0 0 32 0'>Destination Tag for XRP</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Ripple (XRP) transactions require destination tags as an additional information.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>The Destination Tag is used to determine what account a given transaction should be assigned and credited to.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Quoting the tag along with the Ripple wallet address ensures that your transaction is uniquely identified and processed successfully.</CelText>
@@ -305,7 +305,7 @@ class Deposit extends Component {
         </CelModal>
 
         <CelModal name={MODALS.MEMO_ID_MODAL}>
-          <CelText align='center' type='H1' margin='0 0 32 0'>Stellar (XLM) Memo ID</CelText>
+          <CelText align='center' type='H2' margin='0 0 32 0' weight='bold'>Stellar (XLM) Memo ID</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Memo ID is used to determine what account a given transaction should be assigned and credited to.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Quoting the Memo ID with the Stellar wallet address ensures that your transaction is uniquely identified and processed successfully.</CelText>
           <CelText align='center' type='H4' margin='0 0 24 0'>Exchanges require Memo ID, so please make sure to provide it, or you risk losing your money.</CelText>

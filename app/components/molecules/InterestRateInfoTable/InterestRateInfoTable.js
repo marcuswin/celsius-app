@@ -10,8 +10,7 @@ import InterestRateInfo from "../../atoms/InterestRateInfo/InterestRateInfo";
 
 @connect(
   state => ({
-    interestRates: state.interest.rates,
-    interestRatesDisplay: state.interest.ratesDisplay,
+    interestRates: state.generalData.interestRates,
     loyaltyInfo: state.user.loyaltyInfo
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -26,7 +25,7 @@ class InterestRateInfoTable extends Component {
   }
 
   renderInterestTable() {
-    const { interestRates, interestRatesDisplay, pressed, loyaltyInfo } = this.props;
+    const { interestRates, pressed, loyaltyInfo } = this.props;
     const interestArray = [];
     const ratesPriority = ["ETH", "BTC", "USD"];
 
@@ -34,7 +33,7 @@ class InterestRateInfoTable extends Component {
     Object.keys(interestRates).forEach((currency) => {
       const obj = {};
       obj.currency = currency;
-      obj.rate = interestRatesDisplay[currency];
+      obj.rate = interestRates[currency];
 
       interestArray.push(obj);
     });

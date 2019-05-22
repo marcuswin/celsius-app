@@ -29,7 +29,7 @@ class LockedAccountMode extends Component {
         <CelText
           margin='20 0 15 0'
           align='center'
-          type='H1'
+          type='H2'
           weight={'700'}
           bold
         >

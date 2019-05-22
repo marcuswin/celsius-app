@@ -178,6 +178,7 @@ function initAppData(initToken = null) {
       if (profile) {
         await dispatch(actions.getUserAppSettings())
         await dispatch(actions.getCommunityStatistics())
+        await dispatch(actions.getLoyaltyInfo())
 
         if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
