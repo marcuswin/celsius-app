@@ -51,7 +51,8 @@ const KEYBOARDS = {
   [KEYPAD_PURPOSES.WITHDRAW]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.VERIFICATION]: KEYBOARD_TYPE.NUMERIC,
   [KEYPAD_PURPOSES.CELPAY]: KEYBOARD_TYPE.NUMERIC,
-  [KEYPAD_PURPOSES.AMOUNT]: KEYBOARD_TYPE.NUMERIC
+  [KEYPAD_PURPOSES.AMOUNT]: KEYBOARD_TYPE.NUMERIC,
+  [KEYPAD_PURPOSES.INTEREST_CALCULATOR]: KEYBOARD_TYPE.NUMERIC
 }
 
 class CelNumpad extends Component {
@@ -150,7 +151,7 @@ class CelNumpad extends Component {
 
     if (!isFocused) return null
 
-    if (shouldShowCustomKeypad) {
+    if (shouldShowCustomKeypad && purpose !== KEYPAD_PURPOSES.INTEREST_CALCULATOR) {
       return (
         <View style={style.container}>
           <View style={style.buttonsWrapper}>

@@ -29,7 +29,6 @@ class InterestRateInfoTable extends Component {
     const interestArray = [];
     const ratesPriority = ["ETH", "BTC", "USD"];
 
-
     Object.keys(interestRates).forEach((currency) => {
       const obj = {};
       obj.currency = currency;

@@ -15,9 +15,11 @@ class Card extends React.Component {
     opacity: PropTypes.number,
     padding: PropTypes.string,
     color: PropTypes.string,
+    styles: PropTypes.instanceOf(Object),
     onPress: PropTypes.func,
     size: PropTypes.oneOf(['full', 'half', 'third']),
-    close: PropTypes.bool
+    close: PropTypes.bool,
+    noBorder: PropTypes.bool
   }
   static defaultProps = {
     margin: '8 0 8 0',
@@ -27,7 +29,8 @@ class Card extends React.Component {
     styles: {},
     onPress: null,
     close: false,
-    color: "white"
+    color: 'white',
+    noBorder: false
   }
 
   constructor (props) {
@@ -49,21 +52,24 @@ class Card extends React.Component {
       styles,
       onPress,
       close,
-      color
+      color,
+      noBorder
     } = this.props
     const { open } = this.state
     const style = CardStyle()
     const paddingStyles = getPadding(padding)
     const marginStyles = getMargins(margin)
     const opacityStyles = { opacity }
+    const borderStyle = noBorder ? {} : style.cardBorder
     const cardStyles = [
       style.card,
       paddingStyles,
       marginStyles,
       opacityStyles,
       style[size],
+      { backgroundColor: color },
       styles,
-      { backgroundColor: color }
+      borderStyle
     ]
 
     const card = (
