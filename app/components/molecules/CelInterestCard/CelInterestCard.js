@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Platform, Switch, View } from "react-native";
 
 import testUtil from "../../../utils/test-util";
+import formatter from "../../../utils/formatter";
 import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import STYLES from "../../../constants/STYLES";
@@ -40,7 +41,7 @@ class CelInterestCard extends Component {
       <Card margin={"30 0 0 0"}>
         <CelText type={"H4"} weight={"500"}>Want to earn better interest?</CelText>
         <CelText color='gray' type={"H4"} weight={"300"} margin={"15 0 15 0"}>
-          Switch to earning interest in CEL, and earn { interestBonus }% better rates.
+          Switch to earning interest in CEL, and earn { formatter.percentageDisplay(interestBonus) } better rates.
         </CelText>
         <View style={{ alignItems: 'flex-start'}}>
            { loading ? (
