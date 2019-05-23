@@ -151,7 +151,7 @@ class Profile extends Component {
               onPress={() => actions.navigateTo("LoyaltyProgram")}
               icon="Accomplishments"
             >
-              Achievements
+              Loyalty program
             </IconButton>
             <Separator />
           </View>
