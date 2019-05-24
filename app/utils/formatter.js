@@ -153,10 +153,12 @@ function getNumberOfDecimals (value) {
 
 // Ellipsis Amount (1.656,-2) => 1.65...
 function getEllipsisAmount (value, exp) {
-  const realValue = value ? parseFloat(value).toString() : 0
-  const decimals = getNumberOfDecimals(realValue)
+  const realValue =
+    value === '.' || value === '0.' ? '0.' : (value || 0).toString()
+    const floatValue = parseFloat(realValue).toString()
+  const decimals = getNumberOfDecimals(floatValue)
   if (decimals && decimals > Math.abs(exp)) {
-    return `${floor10(realValue, exp)}...`
+    return `${floor10(floatValue, exp)}...`
   }
   return realValue
 }

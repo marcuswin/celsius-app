@@ -144,7 +144,8 @@ class WithdrawEnterAmount extends Component {
       }
       amountUsd = amountCrypto * coinRate
     }
-
+    
+    if (amountCrypto[0] === '.') amountCrypto = 0 + amountCrypto
     if (
       (formData.isUsd && amountUsd > balanceUsd) ||
       (!formData.isUsd && amountCrypto > balanceCrypto)
