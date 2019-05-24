@@ -82,9 +82,9 @@ function loadCelsiusAssets() {
     dispatch({ type: ACTIONS.START_LOADING_ASSETS });
 
     const imageAssets = appUtil.cacheImages(ASSETS.CACHE_IMAGES);
-    const fontAssets = appUtil.cacheFonts(ASSETS.FONTS);
+    await appUtil.cacheFonts(ASSETS.FONTS);
 
-    await Promise.all([...imageAssets, ...fontAssets]);
+    await Promise.all([...imageAssets]);
 
     dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
   };

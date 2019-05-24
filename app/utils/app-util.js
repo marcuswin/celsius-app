@@ -94,6 +94,9 @@ function cacheImages(images) {
  * @returns {Array} - array of promises
  */
 // Fonts are preloaded using Expo.Font.loadAsync(font).
-function cacheFonts(fonts) {
-  return fonts.map(font => Font.loadAsync(font));
+async function cacheFonts(fonts) {
+  for (let i = 0; i < fonts.length; i++) {
+    await Font.loadAsync(fonts[i])
+  }
+  // return fonts.map(font => Font.loadAsync(font));
 }

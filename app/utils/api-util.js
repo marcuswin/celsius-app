@@ -41,13 +41,18 @@ function initInterceptors () {
           os: Platform.OS,
           buildVersion: Constants.revisionId,
           deviceYearClass: Constants.deviceYearClass,
-          deviceModel: Platform.OS === 'ios' ? Constants.platform.ios.model : null,
-          osVersion: Platform.OS === 'ios' ? Constants.platform.ios.systemVersion : null,
+          deviceModel:
+            Platform.OS === 'ios' ? Constants.platform.ios.model : null,
+          osVersion:
+            Platform.OS === 'ios' ? Constants.platform.ios.systemVersion : null
         }
       }
 
+      // TODO(sb): set showVerifyScreen to false on logout
+
       if (
-        (req.url.includes('profile/profile_picture') && !req.data.profile_picture_url) ||
+        (req.url.includes('profile/profile_picture') &&
+          !req.data.profile_picture_url) ||
         req.url.includes('user/profile/documents')
       ) {
         newRequest.headers = {
@@ -133,24 +138,37 @@ function initInterceptors () {
 
       if (err.status === 401 && err.slug === 'SESSION_EXPIRED') {
         store.dispatch(actions.expireSession())
-        await store.dispatch(await actions.logoutUser());
-      }
-      
-      if(err.status === 403 && err.slug === "USER_SUSPENDED") {
-        const { profile } = store.getState().user;
-        if(profile && profile.id) {
-          await store.dispatch(await actions.logoutUser());
-        }
-        await store.dispatch(await actions.showMessage("error", err.msg));
+        await store.dispatch(await actions.logoutUser())
       }
 
-      if (!showVerifyScreen && error && error.response && error.response.status === 426) {
-        store.dispatch(actions.navigateTo("VerifyProfile", { show: error.response.data.show, activeScreen: 'WalletLanding' }));
-        showVerifyScreen = true
-    }
+      if (err.status === 403 && err.slug === 'USER_SUSPENDED') {
+        const { profile } = store.getState().user
+        if (profile && profile.id) {
+          await store.dispatch(await actions.logoutUser())
+        }
+        await store.dispatch(await actions.showMessage('error', err.msg))
+      }
+
+      if (error && error.response && error.response.status === 426) {
+        const { activeScreen } = store.getState().nav
+        if (
+          !showVerifyScreen &&
+          activeScreen &&
+          !['Login', 'RegisterInitial'].includes(activeScreen)
+        ) {
+          store.dispatch(
+            actions.navigateTo('VerifyProfile', {
+              show: error.response.data.show,
+              activeScreen: 'WalletLanding'
+            })
+          )
+          showVerifyScreen = true
+        }
+        return Promise.resolve()
+      }
 
       if (error && error.response && error.response.status === 429) {
-          store.dispatch(actions.navigateTo("LockedAccount"));
+        store.dispatch(actions.navigateTo('LockedAccount'))
       }
 
       /* eslint-disable no-underscore-dangle */

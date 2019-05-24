@@ -66,7 +66,7 @@ class VerifyProfile extends Component {
     )
   }
 
-  onCheckSuccess = () => {
+  onCheckSuccess = async () => {
     const { navigation, actions, previousScreen } = this.props
     const onSuccess = navigation.getParam('onSuccess')
     const activeScreen = navigation.getParam('activeScreen')
@@ -75,11 +75,13 @@ class VerifyProfile extends Component {
         actions.navigateTo(previousScreen)
         return
       }
+
+      if (navigation.getParam('show', null)) {
+        await actions.getProfileInfo()
+        actions.initCelsiusApp()
+      }
       actions.navigateTo(activeScreen)
       return
-    }
-    if (this.getVerifyType(navigation.getParam('show', null))) {
-      actions.initCelsiusApp()
     }
     onSuccess()
 
