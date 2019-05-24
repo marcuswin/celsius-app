@@ -18,6 +18,7 @@ const {
   PUBLIC_KEY
 } = Constants.manifest.extra
 let token
+let showVerifyScreen = false
 
 export default {
   initInterceptors,
@@ -143,8 +144,9 @@ function initInterceptors () {
         await store.dispatch(await actions.showMessage("error", err.msg));
       }
 
-      if (error && error.response && error.response.status === 426) {
+      if (!showVerifyScreen && error && error.response && error.response.status === 426) {
         store.dispatch(actions.navigateTo("VerifyProfile", { show: error.response.data.show, activeScreen: 'WalletLanding' }));
+        showVerifyScreen = true
     }
 
       if (error && error.response && error.response.status === 429) {

@@ -78,6 +78,9 @@ class VerifyProfile extends Component {
       actions.navigateTo(activeScreen)
       return
     }
+    if (this.getVerifyType(navigation.getParam('show', null))) {
+      actions.initCelsiusApp()
+    }
     onSuccess()
 
     this.setState({ loading: false })
