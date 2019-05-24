@@ -144,7 +144,7 @@ function initInterceptors () {
       }
 
       if (error && error.response && error.response.status === 426) {
-        store.dispatch(actions.navigateTo("VerifyProfile", { show: error.response.data.show }));
+        store.dispatch(actions.navigateTo("VerifyProfile", { show: error.response.data.show, activeScreen: 'WalletLanding' }));
     }
 
       if (error && error.response && error.response.status === 429) {
