@@ -8,7 +8,8 @@ function initialState() {
     // App states: active|inactive|background
     appState: "active",
     internetConnected: true,
-    assetsLoaded: false
+    assetsLoaded: false,
+    showVerifyScreen: false
   };
 }
 
@@ -59,6 +60,11 @@ export default function appReducer(state = initialState(), action) {
       return {
         ...state,
         internetConnected: action.internetConnected
+      };
+    case ACTIONS.SHOW_VERIFY_SCREEN:
+      return {
+        ...state,
+        showVerifyScreen: action.showVerifyScreen
       };
 
     default:

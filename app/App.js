@@ -64,7 +64,7 @@ export default class App extends Component {
       <ErrorBoundary>
         {!isReady ? (
           <AppLoading
-            startAsync={async () => await this.initApp()}
+            startAsync={this.initApp}
             onFinish={() => this.setState({ isReady: true })}
             onError={error => captureException(error)}
           />
