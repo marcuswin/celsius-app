@@ -71,7 +71,7 @@ class CelNumpad extends Component {
     value: ''
   }
 
-  componentDidMount () {
+  componentDidMount = () => {
     const { autofocus, toggleKeypad, setKeypadInput, field } = this.props
     if (this.inputRef) {
       setKeypadInput(this.inputRef, field)
@@ -90,7 +90,7 @@ class CelNumpad extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount = () => {
     const { setKeypadInput, field } = this.props
     setKeypadInput(false, field)
   }
