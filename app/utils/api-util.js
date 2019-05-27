@@ -47,8 +47,6 @@ function initInterceptors () {
         }
       }
 
-      // TODO(sb): set showVerifyScreen to false on logout
-
       if (
         (req.url.includes('profile/profile_picture') &&
           !req.data.profile_picture_url) ||

@@ -82,10 +82,8 @@ function loadCelsiusAssets() {
   return async dispatch => {
     dispatch({ type: ACTIONS.START_LOADING_ASSETS });
 
-    const imageAssets = appUtil.cacheImages(ASSETS.CACHE_IMAGES);
     await appUtil.cacheFonts(ASSETS.FONTS);
-
-    await Promise.all([...imageAssets]);
+    await appUtil.cacheImages(ASSETS.CACHE_IMAGES);
 
     dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
   };
@@ -202,6 +200,9 @@ function initAppData(initToken = null) {
   };
 }
 
+/**
+ * Handle show verify screen on status code 426
+ */
 function showVerifyScreen(defaultVerifyState = true) {
   return async (dispatch, getState) => {
     if (getState().app.showVerifyScreen) return;
