@@ -60,7 +60,7 @@ export default function generalDataReducer(state = initialState(), action) {
       interestRates = { ...state.interestRates }
 
       Object.keys(state.interestRates).forEach(coinShort => {
-        interestRates[coinShort].cel_rate = (1 + action.loyaltyInfo.earn_interest_bonus) * state.interestRates[coinShort].rate
+        interestRates[coinShort].cel_rate = ((1 + Number(action.loyaltyInfo.earn_interest_bonus)) * state.interestRates[coinShort].rate).toString()
       })
 
       return {
