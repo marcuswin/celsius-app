@@ -66,6 +66,8 @@ class RegisterSetPin extends Component {
       const isSet = await actions.setPin()
       if(!isSet) {
         this.setState({ pinCreated: false })
+      } else {
+        return actions.navigateTo('WalletFab')
       }
     } else {
       actions.showMessage('error', 'Both PIN numbers should be the same.')

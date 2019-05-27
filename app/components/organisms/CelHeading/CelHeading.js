@@ -119,7 +119,7 @@ class CelHeading extends Component {
   getStatusBarTextColor = (theme) => {
     const { message } = this.props
 
-    if (message) return 'light-content';
+    if (message && message.text) return 'light-content';
 
     switch (theme) {
       case THEMES.LIGHT:

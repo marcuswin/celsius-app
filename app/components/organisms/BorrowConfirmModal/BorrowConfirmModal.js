@@ -51,7 +51,7 @@ const BorrowConfirmModal = ({
 
       <Separator margin="16 0 22 0"/>
       <CelText type="H4" align="center">By applying for a loan you agree to our</CelText>
-      <CelText type="H4" align="center">Terms of Service</CelText>
+      <CelText type="H4" align="center">Terms of Use</CelText>
 
       <CelButton onPress={() => onConfirm(formData)} margin="22 0 0 0">Initiate loan</CelButton>
     </View>

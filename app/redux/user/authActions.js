@@ -6,7 +6,7 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
-import { initAppData } from "../app/appActions";
+import { showVerifyScreen } from "../app/appActions";
 import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
@@ -54,7 +54,6 @@ function loginUser() {
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
 
-      await dispatch(initAppData());
       dispatch(claimAllBranchTransfers());
       const user = res.data.user
 
@@ -96,7 +95,6 @@ function registerUser() {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
-      await dispatch(initAppData());
 
       analytics.sessionStarted()
       dispatch(claimAllBranchTransfers());
@@ -241,6 +239,7 @@ function logoutUser() {
         type: ACTIONS.LOGOUT_USER,
       });
       await dispatch(navigateTo('Auth'));
+      dispatch(showVerifyScreen(false))
 
       analytics.sessionEnded()
     } catch (err) {
@@ -305,7 +304,6 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(navigateTo('WalletFab'));
 
       analytics.registrationCompleted(user)
       return true
