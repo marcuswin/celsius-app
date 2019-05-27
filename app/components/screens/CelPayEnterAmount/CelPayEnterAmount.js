@@ -163,7 +163,7 @@ class CelPayEnterAmount extends Component {
         amountUsd = this.setCurrencyDecimals(newValue, 'USD')
         amountCrypto = amountUsd / coinRate
       } else {
-        amountUsd = formatter.round(newValue)
+        amountUsd = predefined === 'ALL' ? balanceUsd : formatter.round(newValue)
         amountCrypto =
           predefined === 'ALL' ? balanceCrypto : amountUsd / coinRate
       }
@@ -171,9 +171,9 @@ class CelPayEnterAmount extends Component {
       if (predefined.length === 0) {
         amountCrypto = this.setCurrencyDecimals(newValue)
       } else {
-        amountCrypto = newValue
+        amountCrypto = predefined === 'ALL' ? balanceCrypto : newValue
       }
-      amountUsd = amountCrypto * coinRate
+      amountUsd = predefined === 'ALL' ? balanceUsd : amountCrypto * coinRate
     }
 
     if (!amountCrypto) amountCrypto = 0
@@ -181,7 +181,7 @@ class CelPayEnterAmount extends Component {
     if (amountCrypto[0] === '0' && amountCrypto[1] !== '.') {
       amountCrypto = amountCrypto || '0'
     }
-
+ 
     if (
       (formData.isUsd && amountUsd > balanceUsd) ||
       (!formData.isUsd && amountCrypto > balanceCrypto)
@@ -193,10 +193,6 @@ class CelPayEnterAmount extends Component {
     }
 
     this.setState({ activePeriod: predefined })
-    // console.log({
-    //   amountCrypto: amountCrypto.toString(),
-    //   amountUsd: amountUsd.toString()
-    // })
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
