@@ -103,7 +103,7 @@ class Profile extends Component {
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
     const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
-    const isUSCitizen = user.citizenship === 'United States';
+    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States';
 
     return (
       <RegularLayout>
