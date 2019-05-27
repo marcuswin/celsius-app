@@ -450,12 +450,13 @@ function registerSocialSuccess (network, token, user) {
       user
     })
 
+    await dispatch(initAppData(token))
+
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers())
-
+    
     const { profile } = getState().user
     if (!profile.has_pin) {
-      await dispatch(initAppData(token))
       dispatch(navigateTo('RegisterSetPin'))
     } else {
       dispatch(navigateTo('WalletFab'))

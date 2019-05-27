@@ -63,6 +63,7 @@ function loginUser() {
         tokens: res.data.auth0,
         user,
       });
+      await dispatch(initAppData())
       dispatch(navigateTo('WalletFab'));
 
     } catch (err) {
