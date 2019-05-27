@@ -8,6 +8,7 @@ import { showMessage } from '../ui/uiActions'
 import { updateFormFields } from '../forms/formsActions'
 import { setSecureStoreKey } from '../../utils/expo-storage'
 import usersService from '../../services/users-service'
+import { initAppData } from '../app/appActions'
 import { claimAllBranchTransfers } from '../transfers/transfersActions'
 import analytics from '../../utils/analytics'
 import branchUtil from '../../utils/branch-util'
@@ -454,6 +455,7 @@ function registerSocialSuccess (network, token, user) {
 
     const { profile } = getState().user
     if (!profile.has_pin) {
+      await dispatch(initAppData(token))
       dispatch(navigateTo('RegisterSetPin'))
     } else {
       dispatch(navigateTo('WalletFab'))

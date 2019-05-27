@@ -6,7 +6,7 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
-import { showVerifyScreen } from "../app/appActions";
+import { initAppData, showVerifyScreen } from "../app/appActions";
 import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
@@ -95,6 +95,7 @@ function registerUser() {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+      await dispatch(initAppData());
 
       analytics.sessionStarted()
       dispatch(claimAllBranchTransfers());
