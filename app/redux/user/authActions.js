@@ -6,7 +6,7 @@ import API from '../../constants/API';
 import { startApiCall, apiError } from '../api/apiActions';
 import { navigateTo } from '../nav/navActions';
 import { showMessage, toggleKeypad } from "../ui/uiActions";
-import { initAppData } from "../app/appActions";
+import { initAppData, showVerifyScreen } from "../app/appActions";
 import { registerUserFacebook, registerUserGoogle, registerUserTwitter } from "./thirdPartyActions";
 import { claimAllBranchTransfers } from '../transfers/transfersActions';
 import { deleteSecureStoreKey, setSecureStoreKey } from "../../utils/expo-storage";
@@ -241,6 +241,7 @@ function logoutUser() {
         type: ACTIONS.LOGOUT_USER,
       });
       await dispatch(navigateTo('Auth'));
+      dispatch(showVerifyScreen(false))
 
       analytics.sessionEnded()
     } catch (err) {
