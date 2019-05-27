@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -9,14 +9,17 @@ import EmptyStateStyle from "./EmptyState.styles";
 import STYLES from "../../../constants/STYLES";
 import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
-import { THEMES, EMPTY_STATES } from "../../../constants/UI";
+import { THEMES, EMPTY_STATES, MODALS } from "../../../constants/UI";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
+import KycRejectedModal from "../../organisms/KycRejectedModal/KycRejectedModal";
 import ContactSupport from "../ContactSupport/ContactSupport";
 import emptyStateUtil from '../../../utils/empty-state-util'
 import { KYC_STATUSES } from "../../../constants/DATA";
+import Icon from "../Icon/Icon";
 
 @connect(
   state => ({
+    kycReasons: state.user.profile.kyc.rejectionReasons,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
@@ -54,12 +57,13 @@ class EmptyState extends Component {
       ...this.props
     };
     const { image, heading, paragraphs, onPress, button, support, title } = emptyStateProps;
-    const { kycStatus } = this.props
+    const { kycStatus, actions } = this.props
+    // console.log(kycReasons, '111111111')
     const style = EmptyStateStyle();
     let kyc = 'Collecting'
     let kycColor = STYLES.COLORS.CELSIUS_BLUE
     if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
-      kyc = 'Rejected'
+      kyc = 'Identity verification failed '
       kycColor = STYLES.COLORS.RED
     }
     if (kycStatus === 'pending' ||
@@ -76,8 +80,10 @@ class EmptyState extends Component {
           <Image source={image || require("../../../../assets/images/diane-sad.png")}
             style={{ width: 140, height: 140, resizeMode: "contain" }} />
         </View>
-
-        <CelText margin="10 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''}</CelText>
+        <TouchableOpacity onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)} style={{ flex: 1, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }} >
+          <CelText margin="0 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''} </CelText>
+          <Icon name='IconChevronRight' width={15} height={15} fill={STYLES.COLORS.RED} paddingTop={10} />
+        </TouchableOpacity>
 
         <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>{heading}</CelText>
 
@@ -93,6 +99,7 @@ class EmptyState extends Component {
           <ContactSupport />
         ) : null}
         <TodayInterestRatesModal />
+        <KycRejectedModal />
       </View>
 
 
