@@ -306,7 +306,6 @@ function setPin() {
       });
       dispatch({ type: ACTIONS.SET_PIN_SUCCESS });
       dispatch({ type: ACTIONS.CLEAR_FORM });
-      dispatch(navigateTo('WalletFab'));
 
       analytics.registrationCompleted(user)
       return true
