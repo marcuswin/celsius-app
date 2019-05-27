@@ -18,7 +18,6 @@ const {
   PUBLIC_KEY
 } = Constants.manifest.extra
 let token
-let showVerifyScreen = false
 
 export default {
   initInterceptors,
@@ -151,6 +150,7 @@ function initInterceptors () {
 
       if (error && error.response && error.response.status === 426) {
         const { activeScreen } = store.getState().nav
+        const { showVerifyScreen } = store.getState().app
         if (
           !showVerifyScreen &&
           activeScreen &&
@@ -162,7 +162,7 @@ function initInterceptors () {
               activeScreen: 'WalletLanding'
             })
           )
-          showVerifyScreen = true
+          store.dispatch(actions.showVerifyScreen())
         }
         return Promise.resolve()
       }

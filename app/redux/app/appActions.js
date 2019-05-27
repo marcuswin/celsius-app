@@ -25,7 +25,8 @@ export {
   loadCelsiusAssets,
   handleAppStateChange,
   setInternetConnection,
-  initAppData
+  initAppData,
+  showVerifyScreen
 };
 
 /**
@@ -199,4 +200,11 @@ function initAppData(initToken = null) {
     await dispatch(actions.getCurrencyGraphs());
     await dispatch(actions.getInitialCelsiusData());
   };
+}
+
+function showVerifyScreen(defaultVerifyState = true) {
+  return async (dispatch, getState) => {
+    if (getState().app.showVerifyScreen) return;
+    dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
+  }
 }
