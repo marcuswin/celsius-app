@@ -53,6 +53,7 @@ function loginUser() {
 
       // add token to expo storage
       await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, res.data.auth0.id_token);
+      await dispatch(initAppData());
 
       dispatch(claimAllBranchTransfers());
       const user = res.data.user
