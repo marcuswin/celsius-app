@@ -11,11 +11,11 @@ import CelText from "../CelText/CelText";
 import CelButton from "../CelButton/CelButton";
 import { THEMES, EMPTY_STATES, MODALS } from "../../../constants/UI";
 import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/TodayInterestRatesModal";
-import KycRejectedModal from "../../organisms/KycRejectedModal/KycRejectedModal";
 import ContactSupport from "../ContactSupport/ContactSupport";
 import emptyStateUtil from '../../../utils/empty-state-util'
 import { KYC_STATUSES } from "../../../constants/DATA";
 import Icon from "../Icon/Icon";
+import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
   state => ({
@@ -46,24 +46,31 @@ class EmptyState extends Component {
     this.state = emptyStateUtil(props.purpose, props.actions);
   }
 
-  // timer = () => {
-  //   this.setState({timer: null, counter: 0})
-  // }
+  renderErrors = () => {
+    const { kycReasons } = this.props
+    const err = kycReasons.map((reason, e) => (
 
+      <CelText key={e} margin={"0 0 20 0"}>
+        {reason}
+      </CelText>
 
-  render() {
+    ))
+    return err
+
+  }
+
+  renderKYCReject = () => {
     const emptyStateProps = {
       ...this.state,
       ...this.props
     };
-    const { image, heading, paragraphs, onPress, button, support, title } = emptyStateProps;
-    const { kycStatus, actions } = this.props
-    // console.log(kycReasons, '111111111')
-    const style = EmptyStateStyle();
-    let kyc = 'Collecting'
-    let kycColor = STYLES.COLORS.CELSIUS_BLUE
+    const { title } = emptyStateProps;
+    const { kycStatus, actions } = this.props;
+    let kycColor = STYLES.COLORS.CELSIUS_BLUE;
+    let kyc = 'Collecting';
+
     if (kycStatus === 'rejected' || kycStatus === 'rejeceted') {
-      kyc = 'Identity verification failed '
+      kyc = 'Identity verification failed    '
       kycColor = STYLES.COLORS.RED
     }
     if (kycStatus === 'pending' ||
@@ -73,6 +80,25 @@ class EmptyState extends Component {
       kycColor = STYLES.COLORS.ORANGE
     }
 
+    return (
+      (kycStatus === 'rejected' || kycStatus === 'rejeceted') ? 
+      < TouchableOpacity onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)} style={{ flex: 1, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }} >
+        <CelText margin="0 0 2 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''} </CelText>
+        <Icon name='IconChevronRight' width={15} height={15} fill={STYLES.COLORS.RED} marginTop={20} />
+      </TouchableOpacity > : null
+    )
+  }
+
+  render() {
+    const emptyStateProps = {
+      ...this.state,
+      ...this.props
+    };
+    const { image, heading, paragraphs, onPress, button, support } = emptyStateProps;
+    const { kycStatus, actions } = this.props
+    const style = EmptyStateStyle();
+    const RenderKYCReject = this.renderKYCReject
+
 
     return (
       <View style={style.container}>
@@ -80,11 +106,9 @@ class EmptyState extends Component {
           <Image source={image || require("../../../../assets/images/diane-sad.png")}
             style={{ width: 140, height: 140, resizeMode: "contain" }} />
         </View>
-        <TouchableOpacity onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)} style={{ flex: 1, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }} >
-          <CelText margin="0 0 0 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''} </CelText>
-          <Icon name='IconChevronRight' width={15} height={15} fill={STYLES.COLORS.RED} paddingTop={10} />
-        </TouchableOpacity>
 
+        <RenderKYCReject />
+        
         <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>{heading}</CelText>
 
         {paragraphs && paragraphs.map(paragraph => (
@@ -99,7 +123,16 @@ class EmptyState extends Component {
           <ContactSupport />
         ) : null}
         <TodayInterestRatesModal />
-        <KycRejectedModal />
+        <InfoModal
+          name={MODALS.KYC_REJECTED_MODAL}
+          heading='Identity verification failed'
+          paragraphs={this.renderErrors()}
+          yesCopy='Continue'
+          onYes={this.navigateToNextStep}
+          noCopy='Verify identity again'
+          onNo={actions.closeModal}
+        />
+
       </View>
 
 
