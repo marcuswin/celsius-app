@@ -186,7 +186,6 @@ class TransactionDetails extends Component {
           paragraphs={["A member of our team will be in touch with you to sign you on a contract, confirm your banking details and send you your money!"]}
           onYes={() => {
             actions.closeModal(MODALS.BORROW_CONFIRM);
-            actions.showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.')
           }}
           yesCopy={"Done"}
         />
