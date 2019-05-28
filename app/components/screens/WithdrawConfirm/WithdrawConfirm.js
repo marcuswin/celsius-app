@@ -24,7 +24,8 @@ import InfoBox from '../../atoms/InfoBox/InfoBox'
     walletSummary: state.wallet.summary,
     formData: state.forms.formData,
     user: state.user.profile,
-    loyaltyInfo: state.user.loyaltyInfo
+    loyaltyInfo: state.user.loyaltyInfo,
+    withdrawalSettings: state.generalData.withdrawalSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -94,7 +95,8 @@ class WithdrawConfirm extends Component {
   }
 
   render () {
-    const { walletSummary, actions, formData, callsInProgress } = this.props
+    const { walletSummary, actions, formData, callsInProgress, withdrawalSettings } = this.props
+
     const styles = WithdrawConfirmStyle()
 
     const coinData =
@@ -117,6 +119,11 @@ class WithdrawConfirm extends Component {
       )
 
     const InfoBoxCmp = this.renderInfoBox
+
+    let disclaimerText = 'Follow instructions in email to complete this withdrawal.'
+    if (formData.amountUsd > Number(withdrawalSettings.maximum_withdrawal_amount)) {
+      disclaimerText += ' Please note that withdrawals might be delayed for twenty-four (24) hours due to our security protocols.'
+    }
 
     return (
       <RegularLayout>
@@ -172,9 +179,7 @@ class WithdrawConfirm extends Component {
             Send email verification
           </CelButton>
           <Card color={STYLES.COLORS.MEDIUM_GRAY1} margin='20 0 0 0'>
-            <CelText margin='0 0 0 0' color='gray'>
-              Follow instructions in email to complete this withdrawal.
-            </CelText>
+            <CelText margin='0 0 0 0' color='gray'>{ disclaimerText }</CelText>
           </Card>
         </Card>
       </RegularLayout>
