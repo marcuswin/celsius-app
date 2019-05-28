@@ -68,8 +68,8 @@ class VerifyProfile extends Component {
 
   onCheckSuccess = async () => {
     const { navigation, actions, previousScreen } = this.props
-    const onSuccess = navigation.getParam('onSuccess')
-    const activeScreen = navigation.getParam('activeScreen')
+    const onSuccess = navigation.getParam('onSuccess');
+    const activeScreen = navigation.getParam('activeScreen');
     if (activeScreen) {
       if (activeScreen === 'VerifyProfile') {
         actions.navigateTo(previousScreen)
