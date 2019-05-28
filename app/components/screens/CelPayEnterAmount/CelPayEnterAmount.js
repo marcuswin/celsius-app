@@ -148,9 +148,10 @@ class CelPayEnterAmount extends Component {
     this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
 
   getUsdValue = amountUsd =>
-    formatter.getNumberOfDecimals(amountUsd.toString()) > 2
-      ? formatter.round(amountUsd.toString())
-      : amountUsd.toString()
+    formatter.removeDecimalZeros(formatter.round(amountUsd.toString()))
+  // formatter.getNumberOfDecimals(amountUsd.toString()) > 2
+  //   ? formatter.round(amountUsd.toString())
+  //   : amountUsd.toString()
 
   handleAmountChange = (newValue, predefined = '') => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props

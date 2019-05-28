@@ -12,7 +12,8 @@ export default {
   getNumberOfDecimals,
   capitalize,
   percentage,
-  percentageDisplay
+  percentageDisplay,
+  removeDecimalZeros
 }
 
 /**
@@ -86,9 +87,19 @@ function capitalize (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-// function removeDecimalZeros(amount) {
-//   const numberOfDecimals = getNumberOfDecimals(amount)
-// }
+function removeDecimalZeros (amount) {
+  // const numberOfDecimals = getNumberOfDecimals(amount)
+  const splitedValue = amount.split('.')
+  let decimals = ''
+  let deleteDecimals = true
+  if (splitedValue) {
+    decimals = decimals[1]
+    for (let i = 0; i < decimals.length; i++) {
+      if (decimals[i] !== '0') deleteDecimals = false
+    }
+  }
+  return deleteDecimals ? splitedValue[0] : amount
+}
 
 /**
  * Formats percentage from number - 0.0695 * 100 = 6.950000000000001
@@ -159,7 +170,7 @@ function getNumberOfDecimals (value) {
 function getEllipsisAmount (value, exp) {
   const realValue =
     value === '.' || value === '0.' ? '0.' : (value || 0).toString()
-    const floatValue = parseFloat(realValue).toString()
+  const floatValue = parseFloat(realValue).toString()
   const decimals = getNumberOfDecimals(floatValue)
   if (decimals && decimals > Math.abs(exp)) {
     return `${floor10(floatValue, exp)}...`
