@@ -137,7 +137,8 @@ class KYCTaxpayer extends Component {
                 large={false}
                 style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
                 maxLenght={3}
-                keyboardType={"number-pad"}
+                keyboardType={'phone-pad'}
+                type={'number'}
                 margin="0 10 0 10" field="ssn1"
                 placeholder="XXX"
                 value={formData.ssn1}
@@ -153,7 +154,8 @@ class KYCTaxpayer extends Component {
                 large={false}
                 maxLenght={2}
                 style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
-                keyboardType={"number-pad"}
+                // keyboardType={'phone-pad'}
+                type={'number'}
                 margin="0 10 0 10"
                 field="ssn2"
                 placeholder="XX"
@@ -170,7 +172,8 @@ class KYCTaxpayer extends Component {
                 large={false}
                 maxLenght={4}
                 style={{ flex: 1, flexGrow: 1, justifyContent: 'center' }}
-                keyboardType={"number-pad"}
+                keyboardType={'phone-pad'}
+                type={'number'}
                 margin="0 10 0 10"
                 field="ssn3"
                 placeholder="XXXX"

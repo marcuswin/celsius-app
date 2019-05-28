@@ -25,7 +25,8 @@ export {
   loadCelsiusAssets,
   handleAppStateChange,
   setInternetConnection,
-  initAppData
+  initAppData,
+  showVerifyScreen
 };
 
 /**
@@ -81,10 +82,8 @@ function loadCelsiusAssets() {
   return async dispatch => {
     dispatch({ type: ACTIONS.START_LOADING_ASSETS });
 
-    const imageAssets = appUtil.cacheImages(ASSETS.CACHE_IMAGES);
-    const fontAssets = appUtil.cacheFonts(ASSETS.FONTS);
-
-    await Promise.all([...imageAssets, ...fontAssets]);
+    await appUtil.cacheFonts(ASSETS.FONTS);
+    await appUtil.cacheImages(ASSETS.CACHE_IMAGES);
 
     dispatch({ type: ACTIONS.FINISH_LOADING_ASSETS });
   };
@@ -159,6 +158,11 @@ function setInternetConnection(connection) {
  */
 function initAppData(initToken = null) {
   return async (dispatch, getState) => {
+    // get general data for te app
+    await dispatch(actions.getCurrencyRates());
+    await dispatch(actions.getCurrencyGraphs());
+    await dispatch(actions.getInitialCelsiusData());
+
     // get user token
     const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     
@@ -194,10 +198,15 @@ function initAppData(initToken = null) {
       // logout if expired session or no token
       await dispatch(actions.logoutUser());
     }
-
-    // get general data for te app
-    await dispatch(actions.getCurrencyRates());
-    await dispatch(actions.getCurrencyGraphs());
-    await dispatch(actions.getInitialCelsiusData());
   };
+}
+
+/**
+ * Handle show verify screen on status code 426
+ */
+function showVerifyScreen(defaultVerifyState = true) {
+  return async (dispatch, getState) => {
+    if (getState().app.showVerifyScreen) return;
+    dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
+  }
 }

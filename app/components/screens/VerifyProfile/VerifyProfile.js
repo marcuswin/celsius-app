@@ -13,7 +13,7 @@ import { KEYPAD_PURPOSES } from '../../../constants/UI'
 import HiddenField from '../../atoms/HiddenField/HiddenField'
 import Spinner from '../../atoms/Spinner/Spinner'
 import CelButton from '../../atoms/CelButton/CelButton'
-import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
+import ContactSupport from '../../atoms/ContactSupport/ContactSupport'
 
 @connect(
   state => ({
@@ -31,11 +31,11 @@ class VerifyProfile extends Component {
     const { params } = navigation.state
     return {
       headerSameColor: true,
-      hideBack: (params && params.hideBack) || false
+      hideBack: !!(params && (params.show || params.hideBack)) || false
     }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       value: '',
@@ -45,8 +45,11 @@ class VerifyProfile extends Component {
     }
   }
 
-  componentWillMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  componentWillMount () {
+    BackHandler.addEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick
+    )
   }
 
   componentDidMount = () => {
@@ -54,13 +57,16 @@ class VerifyProfile extends Component {
     const activeScreen = navigation.getParam('activeScreen')
     actions.getPreviousPinScreen(activeScreen)
     if (activeScreen) this.props.navigation.setParams({ hideBack: true })
-  };
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
-  onCheckSuccess = () => {
+  componentWillUnmount () {
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.handleBackButtonClick
+    )
+  }
+
+  onCheckSuccess = async () => {
     const { navigation, actions, previousScreen } = this.props
     const onSuccess = navigation.getParam('onSuccess')
     const activeScreen = navigation.getParam('activeScreen')
@@ -68,6 +74,10 @@ class VerifyProfile extends Component {
       if (activeScreen === 'VerifyProfile') {
         actions.navigateTo(previousScreen)
         return
+      }
+
+      if (navigation.getParam('show', null)) {
+        await actions.initAppData()
       }
       actions.navigateTo(activeScreen)
       return
@@ -79,7 +89,7 @@ class VerifyProfile extends Component {
 
   onCheckError = () => {
     this.setState({ loading: false, value: '', verificationError: true })
-    this.setForgotPin();
+    this.setForgotPin()
     const timeout = setTimeout(() => {
       this.setState({ verificationError: false })
       clearTimeout(timeout)
@@ -87,13 +97,15 @@ class VerifyProfile extends Component {
   }
 
   setForgotPin = () => {
-    const { verificationError } = this.state;
+    const { verificationError } = this.state
     if (verificationError) {
       this.setState({ forgotPin: true })
     }
   }
 
-  handleBackButtonClick = () => true;
+  getVerifyType = showType => showType && showType === '2fa'
+
+  handleBackButtonClick = () => true
 
   handlePINChange = newValue => {
     const { actions } = this.props
@@ -139,7 +151,7 @@ class VerifyProfile extends Component {
     this.setState({ loading: false })
   }
 
-  render2FA() {
+  render2FA () {
     const { loading, value, verificationError, forgotPin } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
@@ -167,19 +179,20 @@ class VerifyProfile extends Component {
             <Spinner />
           </View>
         ) : (
-            <CelButton style={{ marginTop: 10 }} onPress={this.handlePaste}>Paste</CelButton>
-          )}
+          <CelButton style={{ marginTop: 10 }} onPress={this.handlePaste}>
+            Paste
+          </CelButton>
+        )}
         <View>
-          {(forgotPin) &&
-            <ContactSupport
-              copy="Forgot your code? Contact out support at app@celsius.network."
-            />}
+          {forgotPin && (
+            <ContactSupport copy='Forgot your code? Contact out support at app@celsius.network.' />
+          )}
         </View>
       </View>
     )
   }
 
-  renderPIN() {
+  renderPIN () {
     const { loading, value, verificationError, forgotPin } = this.state
     const { actions } = this.props
     const style = VerifyProfileStyle()
@@ -197,10 +210,9 @@ class VerifyProfile extends Component {
           <HiddenField value={value} error={verificationError} />
         </TouchableOpacity>
         <View>
-          {(forgotPin) &&
-            <ContactSupport
-              copy="Forgot PIN? Contact our support at app@celsius.network."
-            />}
+          {forgotPin && (
+            <ContactSupport copy='Forgot PIN? Contact our support at app@celsius.network.' />
+          )}
         </View>
 
         {loading && (
@@ -218,20 +230,19 @@ class VerifyProfile extends Component {
     )
   }
 
-  render() {
+  render () {
     const { value } = this.state
-    const { is2FAEnabled, actions } = this.props
-
-    const field = is2FAEnabled ? 'code' : 'pin'
-    const onPressFunc = is2FAEnabled
-      ? this.handle2FAChange
-      : this.handlePINChange
+    const { is2FAEnabled, actions, navigation } = this.props
+    const showType =
+      this.getVerifyType(navigation.getParam('show', null)) || is2FAEnabled
+    const field = showType ? 'code' : 'pin'
+    const onPressFunc = showType ? this.handle2FAChange : this.handlePINChange
     const style = VerifyProfileStyle()
 
     return (
       <RegularLayout padding='0 0 0 0' fabType={'hide'}>
         <View style={style.container}>
-          {is2FAEnabled ? this.render2FA() : this.renderPIN()}
+          {showType ? this.render2FA() : this.renderPIN()}
           <CelNumpad
             field={field}
             value={value}
