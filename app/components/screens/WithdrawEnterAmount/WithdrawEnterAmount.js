@@ -20,7 +20,8 @@ import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 import StaticScreen from '../StaticScreen/StaticScreen'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
-import STYLES from "../../../constants/STYLES";
+import STYLES from '../../../constants/STYLES'
+import cryptoUtil from '../../../utils/crypto-util'
 
 @connect(
   state => ({
@@ -46,7 +47,7 @@ class WithdrawEnterAmount extends Component {
     }
   })
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     const {
       navigation,
@@ -54,7 +55,6 @@ class WithdrawEnterAmount extends Component {
       withdrawCompliance,
       walletSummary
     } = this.props
-    const coin = navigation.getParam('coin') || 'BTC'
 
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
@@ -69,7 +69,9 @@ class WithdrawEnterAmount extends Component {
     this.state = {
       coinSelectItems,
       activePeriod: ''
-    };
+    }
+
+    const coin = navigation.getParam('coin', coinSelectItems[0].value)
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
@@ -100,7 +102,7 @@ class WithdrawEnterAmount extends Component {
   getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   // TODO: move to formatter? check CelPayEnterAmount
-  setCurrencyDecimals(value, currency) {
+  setCurrencyDecimals (value, currency) {
     if (!this.hasEnoughDecimals(value, currency)) return value
     // remove last digit
     const numberOfDecimals = formatter.getNumberOfDecimals(value)
@@ -109,6 +111,11 @@ class WithdrawEnterAmount extends Component {
     return value.slice(0, allowedDecimals - numberOfDecimals)
   }
 
+  getUsdValue = amountUsd =>
+    formatter.getNumberOfDecimals(amountUsd.toString()) > 2
+      ? formatter.round(amountUsd.toString())
+      : amountUsd.toString()
+
   // TODO: move to formatter? check CelPayEnterAmount
   hasEnoughDecimals (value = '', currency) {
     const numberOfDecimals = formatter.getNumberOfDecimals(value)
@@ -116,7 +123,6 @@ class WithdrawEnterAmount extends Component {
 
     return numberOfDecimals > allowedDecimals
   }
-
   handleAmountChange = (newValue, predefined = '') => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
@@ -132,27 +138,35 @@ class WithdrawEnterAmount extends Component {
     if (formData.isUsd) {
       if (predefined.length === 0) {
         amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+        amountCrypto = amountUsd / coinRate
       } else {
-        amountUsd = newValue
+        amountUsd =
+          predefined === 'ALL' ? balanceUsd : this.getUsdValue(newValue)
+        amountCrypto =
+          predefined === 'ALL' ? balanceCrypto : amountUsd / coinRate
       }
-      amountCrypto = amountUsd / coinRate
     } else {
       if (predefined.length === 0) {
         amountCrypto = this.setCurrencyDecimals(newValue)
       } else {
-        amountCrypto = newValue
+        amountCrypto = predefined === 'ALL' ? balanceCrypto : newValue
       }
-      amountUsd = amountCrypto * coinRate
+      amountUsd = predefined === 'ALL' ? balanceUsd : amountCrypto * coinRate
     }
-    
-    if (amountCrypto[0] === '.') amountCrypto = 0 + amountCrypto
+
+    if (!amountCrypto) amountCrypto = 0
+    if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
+    if (amountCrypto[0] === '0' && amountCrypto[1] !== '.') {
+      amountCrypto = amountCrypto || '0'
+    }
+
     if (
-      (formData.isUsd && amountUsd > balanceUsd) ||
-      (!formData.isUsd && amountCrypto > balanceCrypto)
+      (formData.isUsd && cryptoUtil.isGreaterThan(amountUsd, balanceUsd)) ||
+      (!formData.isUsd && cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto))
     ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (amountUsd > 20000) {
+    if (cryptoUtil.isGreaterThan(amountUsd, 20000)) {
       return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
     }
 
@@ -160,7 +174,7 @@ class WithdrawEnterAmount extends Component {
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: amountUsd.toString()
+      amountUsd: this.getUsdValue(amountUsd)
     })
   }
 
@@ -189,7 +203,7 @@ class WithdrawEnterAmount extends Component {
     }
   }
 
-  render() {
+  render () {
     const { coinSelectItems, activePeriod } = this.state
     const {
       formData,
@@ -246,7 +260,11 @@ class WithdrawEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
-                amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
+                amountColor={
+                  keypadOpen
+                    ? STYLES.COLORS.CELSIUS_BLUE
+                    : STYLES.COLORS.DARK_GRAY
+                }
               />
             </View>
 

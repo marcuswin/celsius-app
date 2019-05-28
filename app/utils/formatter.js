@@ -86,6 +86,10 @@ function capitalize (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+// function removeDecimalZeros(amount) {
+//   const numberOfDecimals = getNumberOfDecimals(amount)
+// }
+
 /**
  * Formats percentage from number - 0.0695 * 100 = 6.950000000000001
  *

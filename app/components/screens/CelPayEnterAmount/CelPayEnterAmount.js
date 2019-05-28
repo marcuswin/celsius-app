@@ -18,6 +18,7 @@ import InfoModal from '../../molecules/InfoModal/InfoModal'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import formatter from '../../../utils/formatter'
+import cryptoUtil from '../../../utils/crypto-util'
 
 @connect(
   state => ({
@@ -66,7 +67,7 @@ class CelPayEnterAmount extends Component {
     }
 
     if (!formData.coin) {
-      props.actions.updateFormField('coin', 'BTC')
+      props.actions.updateFormField('coin', coinSelectItems[0].value)
     }
   }
 
@@ -146,6 +147,11 @@ class CelPayEnterAmount extends Component {
   getAmountColor = () =>
     this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
 
+  getUsdValue = amountUsd =>
+    formatter.getNumberOfDecimals(amountUsd.toString()) > 2
+      ? formatter.round(amountUsd.toString())
+      : amountUsd.toString()
+
   handleAmountChange = (newValue, predefined = '') => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
@@ -163,7 +169,8 @@ class CelPayEnterAmount extends Component {
         amountUsd = this.setCurrencyDecimals(newValue, 'USD')
         amountCrypto = amountUsd / coinRate
       } else {
-        amountUsd = predefined === 'ALL' ? balanceUsd : formatter.round(newValue)
+        amountUsd =
+          predefined === 'ALL' ? balanceUsd : this.getUsdValue(newValue)
         amountCrypto =
           predefined === 'ALL' ? balanceCrypto : amountUsd / coinRate
       }
@@ -181,14 +188,14 @@ class CelPayEnterAmount extends Component {
     if (amountCrypto[0] === '0' && amountCrypto[1] !== '.') {
       amountCrypto = amountCrypto || '0'
     }
- 
+
     if (
-      (formData.isUsd && amountUsd > balanceUsd) ||
-      (!formData.isUsd && amountCrypto > balanceCrypto)
+      (formData.isUsd && cryptoUtil.isGreaterThan(amountUsd, balanceUsd)) ||
+      (!formData.isUsd && cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto))
     ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (amountUsd > 1000) {
+    if (cryptoUtil.isGreaterThan(amountUsd, 1000)) {
       return actions.showMessage('warning', 'Daily CelPay limit is $1,000!')
     }
 
@@ -196,7 +203,7 @@ class CelPayEnterAmount extends Component {
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: amountUsd.toString()
+      amountUsd: this.getUsdValue(amountUsd)
     })
   }
 
