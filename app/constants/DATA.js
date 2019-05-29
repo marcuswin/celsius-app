@@ -154,7 +154,7 @@ const RANDOM_MESSAGES = [
   },
   {
     title: "Join the CEL-ebration!",
-    text: "Get the most out of your Celsius app by earning in CEL! Earning interest in the CEL token gets you up to 35% more interest."
+    text: "Get the most out of your Celsius app by earning in CEL! Earning interest in the CEL token gets you up to 25% more interest."
   },
   {
     title: "Security is our Top Priority",
