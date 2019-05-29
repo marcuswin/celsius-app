@@ -89,16 +89,16 @@ function capitalize (str) {
 
 function removeDecimalZeros (amount) {
   // const numberOfDecimals = getNumberOfDecimals(amount)
-  const splitedValue = amount.split('.')
+  const splitedValue = amount.toString().split('.')
   let decimals = ''
   let deleteDecimals = true
-  if (splitedValue) {
-    decimals = decimals[1]
+  if (splitedValue.length === 2) {
+    decimals = splitedValue[1]
     for (let i = 0; i < decimals.length; i++) {
       if (decimals[i] !== '0') deleteDecimals = false
     }
   }
-  return deleteDecimals ? splitedValue[0] : amount
+  return deleteDecimals ? splitedValue[0] : amount.toString()
 }
 
 /**
