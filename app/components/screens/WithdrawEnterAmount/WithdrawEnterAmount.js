@@ -33,7 +33,8 @@ import STYLES from "../../../constants/STYLES";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    keypadOpen: state.ui.isKeypadOpen
+    keypadOpen: state.ui.isKeypadOpen,
+    withdrawalSettings: state.generalData.withdrawalSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -48,6 +49,7 @@ class WithdrawEnterAmount extends Component {
 
   constructor(props) {
     super(props)
+
     const {
       navigation,
       currencies,
@@ -151,9 +153,6 @@ class WithdrawEnterAmount extends Component {
     ) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (amountUsd > 20000) {
-      return actions.showMessage('warning', 'Daily withdraw limit is $20,000!')
-    }
 
     this.setState({ activePeriod: predefined })
 
@@ -196,7 +195,8 @@ class WithdrawEnterAmount extends Component {
       walletSummary,
       navigation,
       kycStatus,
-      keypadOpen
+      keypadOpen,
+      withdrawalSettings
     } = this.props
     const style = WithdrawEnterAmountStyle()
     if (!formData.coin) return null
@@ -284,6 +284,7 @@ class WithdrawEnterAmount extends Component {
           type={coin === 'CEL'}
           closeModal={actions.closeModal}
           toggleKeypad={actions.toggleKeypad}
+          withdrawalSettings={withdrawalSettings}
         />
       </RegularLayout>
     )
