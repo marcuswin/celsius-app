@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
@@ -14,7 +14,6 @@ import TodayInterestRatesModal from "../../organisms/TodayInterestRatesModal/Tod
 import ContactSupport from "../ContactSupport/ContactSupport";
 import emptyStateUtil from '../../../utils/empty-state-util'
 import { KYC_STATUSES } from "../../../constants/DATA";
-import Icon from "../Icon/Icon";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
@@ -50,13 +49,12 @@ class EmptyState extends Component {
     const { kycReasons } = this.props
     const err = kycReasons.map((reason, e) => (
 
-      <CelText key={e} margin={"0 0 20 0"}>
+      <CelText key={e.length} margin={"0 0 20 0"}>
         {reason}
       </CelText>
 
     ))
     return err
-
   }
 
   renderKYCReject = () => {
@@ -82,10 +80,12 @@ class EmptyState extends Component {
 
     return (
       (kycStatus === 'rejected' || kycStatus === 'rejeceted') ? 
-      < TouchableOpacity onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)} style={{ flex: 1, flexDirection: 'row', alignContent: 'center', alignItems: 'center' }} >
-        <CelText margin="0 0 2 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''} </CelText>
-        <Icon name='IconChevronRight' width={15} height={15} fill={STYLES.COLORS.RED} marginTop={20} />
-      </TouchableOpacity > : null
+      < CelButton onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)} basic textColor={STYLES.COLORS.RED} iconRight={'IconChevronRight'} iconRightHeight={'12'} iconRightWidth={'12'} iconRightColor={STYLES.COLORS.RED}>
+        {title && title(kyc) || ''}
+      </CelButton > 
+      :   
+      <CelText margin="0 0 2 0" align="center" type="H3" weight={"500"} color={kycColor} bold>{title && title(kyc) || ''} </CelText>
+
     )
   }
 
@@ -95,7 +95,7 @@ class EmptyState extends Component {
       ...this.props
     };
     const { image, heading, paragraphs, onPress, button, support } = emptyStateProps;
-    const { kycStatus, actions } = this.props
+    const { kycStatus, kycReasons, actions } = this.props
     const style = EmptyStateStyle();
     const RenderKYCReject = this.renderKYCReject
 
@@ -112,7 +112,7 @@ class EmptyState extends Component {
         <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>{heading}</CelText>
 
         {paragraphs && paragraphs.map(paragraph => (
-          <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"} key={paragraph}>{paragraph}</CelText>
+          <CelText margin="5 0 15 0" align="center" type="H4" weight={"300"} key={paragraph.length}>{paragraph}</CelText>
         ))}
 
         {button && onPress ? (
@@ -123,15 +123,14 @@ class EmptyState extends Component {
           <ContactSupport />
         ) : null}
         <TodayInterestRatesModal />
-        <InfoModal
+         { kycReasons ?
+          <InfoModal
           name={MODALS.KYC_REJECTED_MODAL}
           heading='Identity verification failed'
           paragraphs={this.renderErrors()}
-          yesCopy='Continue'
-          onYes={this.navigateToNextStep}
           noCopy='Verify identity again'
           onNo={actions.closeModal}
-        />
+        /> : null }
 
       </View>
 
