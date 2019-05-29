@@ -33,6 +33,8 @@ import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
 import { KYC_STATUSES } from '../../../constants/DATA';
+import { MODALS } from "../../../constants/UI";
+import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
   state => ({
@@ -164,7 +166,7 @@ class TransactionDetails extends Component {
   }
 
   render() {
-    const { transaction, callsInProgress } = this.props;
+    const { transaction, callsInProgress, actions } = this.props;
     const loadingTransactionDetails = apiUtil.areCallsInProgress([API.GET_TRANSACTION_DETAILS], callsInProgress);
 
     if (loadingTransactionDetails || !transaction) return (
@@ -178,6 +180,15 @@ class TransactionDetails extends Component {
     return (
       <RegularLayout padding="0 0 0 0">
         {sections.map(this.renderSection)}
+        <InfoModal
+          name={MODALS.BORROW_CONFIRM}
+          heading={"Thank you for initiating your loan with Celsius"}
+          paragraphs={["A member of our team will be in touch with you to sign you on a contract, confirm your banking details and send you your money!"]}
+          onYes={() => {
+            actions.closeModal(MODALS.BORROW_CONFIRM);
+          }}
+          yesCopy={"Done"}
+        />
       </RegularLayout>
     );
   }

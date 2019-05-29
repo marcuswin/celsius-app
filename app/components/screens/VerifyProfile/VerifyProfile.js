@@ -70,8 +70,8 @@ class VerifyProfile extends Component {
     this.setState({ loading: true })
 
     const { navigation, actions, previousScreen } = this.props
-    const onSuccess = navigation.getParam('onSuccess')
-    const activeScreen = navigation.getParam('activeScreen')
+    const onSuccess = navigation.getParam('onSuccess');
+    const activeScreen = navigation.getParam('activeScreen');
     if (activeScreen) {
       if (activeScreen === 'VerifyProfile') {
         this.setState({ loading: false })
