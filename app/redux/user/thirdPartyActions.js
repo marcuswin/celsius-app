@@ -418,15 +418,17 @@ function loginGoogle (googleUser) {
  * @param {string} token - auth token from social network
  */
 function loginSocialSuccess(network, token) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
 
     const userRes = await usersService.getPersonalInfo();
     const user = userRes.data;
-
-    await dispatch(initAppData());
-
-    dispatch(navigateTo('WalletFab'))
+    
+    const { showVerifyScreen } = getState().app
+    if(!showVerifyScreen) {
+      await dispatch(initAppData());
+      dispatch(navigateTo('WalletFab'))
+    }
 
     dispatch({
       type: ACTIONS[`LOGIN_USER_${ network.toUpperCase() }_SUCCESS`],

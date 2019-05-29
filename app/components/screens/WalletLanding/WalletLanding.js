@@ -65,7 +65,7 @@ class WalletLanding extends Component {
     const { navigation } = props
 
     navigation.setParams({
-      title: `Welcome ${props.user.first_name}!`
+      title: `Welcome ${props.user.first_name || ''}!`
     })
 
     this.state = {
