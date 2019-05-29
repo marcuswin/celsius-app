@@ -23,8 +23,10 @@ export default {
  * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
  * @returns {string}
  */
-function usd (amount, options = {}) {
-  return currency.format(amount, { code: 'USD', ...options })
+// function usd (amount, options = {}) {
+function usd (amount) {
+  // return currency.format(amount, { code: 'USD', ...options })
+  return `${floor10(amount)}`
 }
 
 /**
@@ -155,7 +157,7 @@ function ordinalSuffixOf (number) {
  */
 
 // Decimal floor
-function floor10 (value, exp) {
+function floor10 (value, exp = -2) {
   const realExp = Math.pow(10, -exp)
   return Math.floor(value * realExp) / realExp
 }

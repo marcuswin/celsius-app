@@ -63,7 +63,8 @@ class CelPayEnterAmount extends Component {
     this.setNavigationParams()
 
     this.state = {
-      coinSelectItems
+      coinSelectItems,
+      activePeriod: { label: '', value: '' }
     }
 
     if (!formData.coin) {
@@ -118,7 +119,7 @@ class CelPayEnterAmount extends Component {
 
     navigation.setParams({
       title: screenTitle,
-      activePeriod: ''
+      activePeriod: { label: '', value: '' }
     })
   }
 
@@ -156,9 +157,9 @@ class CelPayEnterAmount extends Component {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
 
-    const splitedValue = newValue.toString().split['.']
+    const splitedValue = newValue.toString().split('.')
 
-    if (splitedValue && splitedValue.length > 1) return
+    if (splitedValue && splitedValue.length > 2) return
 
     const {
       amount_usd: balanceUsd,
@@ -243,7 +244,7 @@ class CelPayEnterAmount extends Component {
       amountCrypto: undefined
     })
 
-    this.setState({ activePeriod: '' })
+    this.setState({ activePeriod: { label: '', value: '' } })
   }
 
   handleNextStep = () => {
