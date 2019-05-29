@@ -23,6 +23,7 @@ class InfoBox extends Component {
     theme: PropTypes.oneOf(Object.values(THEMES)),
     size: PropTypes.oneOf(['full', 'half']),
     titleText: PropTypes.string,
+    boldText: PropTypes.string,
     infoText: PropTypes.string,
     right: PropTypes.bool,
     left: PropTypes.bool,
@@ -60,6 +61,7 @@ class InfoBox extends Component {
       triangle,
       children,
       titleText,
+      boldText,
       color,
       explanationText,
       backgroundColor,
@@ -103,7 +105,7 @@ class InfoBox extends Component {
               </View>
             )}
             <CelText type={'H4'} style={{ color }}>
-              {titleText}
+              {titleText} 
             </CelText>
             <View>{children}</View>
             {right && (
@@ -178,8 +180,8 @@ class InfoBox extends Component {
         ]}
       >
         {!!titleText && (
-          <CelText type={'H4'} style={{ color }}>
-            {titleText}
+          <CelText type={'H4'} weight={'400'} style={{ color }}>
+            {titleText} <CelText type={'H4'} weight={'600'} color='white'>{boldText}</CelText>
           </CelText>
         )}
         <View>{children}</View>
