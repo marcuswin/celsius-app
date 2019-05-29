@@ -21,7 +21,7 @@ const base = {
   infoBubble: {
     alignContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: '5%',
+    paddingHorizontal: '2%',
     paddingVertical: '2%',
   },
   qrCode: {

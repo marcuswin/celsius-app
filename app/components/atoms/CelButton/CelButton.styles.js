@@ -46,7 +46,7 @@ const base = {
         fontSize: getScaledFont(18)
     },
     smallTitle: {
-        fontSize: getScaledFont(14)
+        fontSize: getScaledFont(16)
     },
     ghostButton: {
         backgroundColor: 'transparent',

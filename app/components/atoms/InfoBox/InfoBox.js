@@ -90,7 +90,8 @@ class InfoBox extends Component {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-around',
-              alignItems: 'center'
+              alignItems: 'center',
+              paddingHorizontal: 12,
             }}
           >
             {left && (
@@ -104,7 +105,7 @@ class InfoBox extends Component {
                 />
               </View>
             )}
-            <CelText type={'H4'} style={{ color }}>
+            <CelText type={'H4'} style={{ color, paddingRight: 20 }}>
               {titleText} 
             </CelText>
             <View>{children}</View>
@@ -127,7 +128,7 @@ class InfoBox extends Component {
                     height: 0,
                     backgroundColor: 'transparent',
                     borderStyle: 'solid',
-                    marginTop: heightPercentageToDP('1%'),
+                    marginTop: heightPercentageToDP('0.5%'),
                     borderLeftWidth: widthPercentageToDP('1.5%'),
                     borderRightWidth: widthPercentageToDP('1.5%'),
                     borderBottomWidth: widthPercentageToDP('1.5%'),
@@ -151,14 +152,14 @@ class InfoBox extends Component {
               }}
             >
               <CelText
-                type={'H6'}
+                type={'H5'}
                 style={{
                   color,
                   width: '90%',
                   paddingBottom: heightPercentageToDP('2%')
                 }}
               >
-                {explanationText}
+                {explanationText}<CelText type={'H5'} weight={'600'} color='white'>{boldText}</CelText>
               </CelText>
             </View>
           )}
@@ -180,8 +181,8 @@ class InfoBox extends Component {
         ]}
       >
         {!!titleText && (
-          <CelText type={'H4'} weight={'400'} style={{ color }}>
-            {titleText} <CelText type={'H4'} weight={'600'} color='white'>{boldText}</CelText>
+          <CelText type={'H5'} weight={'400'} style={{ color }}>
+            {titleText}<CelText type={'H5'} weight={'600'} color='white'>{boldText}</CelText>
           </CelText>
         )}
         <View>{children}</View>

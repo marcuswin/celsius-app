@@ -287,7 +287,7 @@ class SecurityOverview extends Component {
                 style={style.emailImage}
               />
               <View style={style.emailText}>
-                <CelText type='H7'>Email conformation</CelText>
+                <CelText type='H7'>Email confirmation</CelText>
                 <CelText type='H2' weight='600' color={STYLES.COLORS.GREEN}>
                   ACTIVE
                 </CelText>

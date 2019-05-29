@@ -186,14 +186,15 @@ class Deposit extends Component {
 
     return (
       <Card color={STYLES.COLORS.CELSIUS_BLUE}>
-        <CelText style={style.infoBubble} alignItems='center' color='#FFFFFF'>
-          If your wallet doesn't support <CelText weight='bold' color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText weight='bold' color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
+        <CelText style={style.infoBubble} weight='300' alignItems='center' color='#FFFFFF'>
+          If your wallet doesn't support <CelText weight='600' color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText weight='600' color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
         </CelText>
 
         <CelButton
+          size={'medium'}
           white
           onPress={() => { this.setState({ useAlternateAddress: !this.state.useAlternateAddress }) }}
-          style={{ borderWidth: 0.5, borderColor: '#FFFFFF', marginTop: 10, marginBottom: 10 }}
+          style={{  borderWidth: 0.5, borderColor: '#FFFFFF', marginTop: 10, marginBottom: 10 }}
         >
           {buttonText}
         </CelButton>
