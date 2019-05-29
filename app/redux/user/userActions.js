@@ -134,7 +134,8 @@ function getTwoFactorSecret(pin) {
 
       return secret;
     } catch (error) {
-      dispatch(showMessage("error", error.msg));
+      dispatch(showMessage('error', error.msg))
+      return false
     }
   };
 }
@@ -146,18 +147,8 @@ function getTwoFactorSecret(pin) {
 function enableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.enableTwoFactor(code);
-
-      if (!success) {
-        dispatch(showMessage("error", "lalal"));
-      }
-
-      const personalInfoRes = await usersService.getPersonalInfo();
-      const personalInfo = personalInfoRes.data.profile || personalInfoRes.data;
-
-      await dispatch(getUserPersonalInfoSuccess(personalInfo));
-
-      return success;
+      const success = await TwoFactorService.enableTwoFactor(code)
+      return success
     } catch (error) {
       dispatch(showMessage("error", error.msg));
     }
