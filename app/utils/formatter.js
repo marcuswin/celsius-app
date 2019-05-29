@@ -10,6 +10,9 @@ export default {
   getEllipsisAmount,
   deepmerge,
   getNumberOfDecimals,
+  hasEnoughDecimals,
+  getAllowedDecimals,
+  setCurrencyDecimals,
   capitalize,
   percentage,
   percentageDisplay,
@@ -23,10 +26,8 @@ export default {
  * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
  * @returns {string}
  */
-// function usd (amount, options = {}) {
-function usd (amount) {
-  // return currency.format(amount, { code: 'USD', ...options })
-  return `${floor10(amount)}`
+function usd (amount, options = {}) {
+  return currency.format(floor10(amount), { code: 'USD', ...options })
 }
 
 /**
@@ -80,6 +81,40 @@ function round (amount, options = {}) {
 }
 
 /**
+ * Get allowed decimals for currency
+ *
+ * @param {string} curr - 'USD' or everything else
+ * @returns {number}
+ */
+function getAllowedDecimals (curr) {
+  return curr === 'USD' ? 2 : 5
+}
+
+/**
+ * Get if the value has > decimal as allowed
+ *
+ * @param {string} value
+ * @param {string} curr - 'USD' or everything else
+ * @returns {boolean}
+ */
+function hasEnoughDecimals (value = '', curr) {
+  return getNumberOfDecimals(value) > getAllowedDecimals(curr)
+}
+
+/**
+ * Formats number for 'USD' -> 1.21, for other -> 1.65453
+ *
+ * @param {string} value
+ * @param {string} curr - 'USD' or everything else
+ * @returns {number}
+ */
+function setCurrencyDecimals (value, curr) {
+  if (!hasEnoughDecimals(value, curr)) return value
+
+  return floor10(value, -this.getAllowedDecimals(curr))
+}
+
+/**
  * Capitalizes string
  *
  * @param {string} str
@@ -89,6 +124,12 @@ function capitalize (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+/**
+ * Removes decimal zeros if needed - 1.50000 -> 1.5
+ *
+ * @param {number|string} amount
+ * @returns {string}
+ */
 function removeDecimalZeros (amount) {
   // const numberOfDecimals = getNumberOfDecimals(amount)
   const splitedValue = amount.toString().split('.')
@@ -162,7 +203,7 @@ function floor10 (value, exp = -2) {
   return Math.floor(value * realExp) / realExp
 }
 
-// get numbers of decimals
+// Get numbers of decimals
 function getNumberOfDecimals (value) {
   const splitValue = value && value.split('.')
   return value && (splitValue[1] ? splitValue[1].length : 0)

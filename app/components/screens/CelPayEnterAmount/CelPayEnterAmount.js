@@ -123,9 +123,6 @@ class CelPayEnterAmount extends Component {
     })
   }
 
-  // TODO: move to formatter? check WithdrawEnterAmount
-  getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
-
   getButtonCopy = () => {
     const { formData } = this.props
 
@@ -135,23 +132,8 @@ class CelPayEnterAmount extends Component {
     return 'Enter amount above'
   }
 
-  // TODO: move to formatter? check WithdrawEnterAmount
-  setCurrencyDecimals (value, currency) {
-    if (!this.hasEnoughDecimals(value, currency)) return value
-    // remove last digit
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return value.slice(0, allowedDecimals - numberOfDecimals)
-  }
-
-  getAmountColor = () =>
-    this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
-
-  getUsdValue = amountUsd => formatter.floor10(amountUsd, -2) || ''
-  // formatter.getNumberOfDecimals(amountUsd.toString()) > 2
-  //   ? formatter.round(amountUsd.toString())
-  //   : amountUsd.toString()
+  getUsdValue = amountUsd =>
+    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || '')
 
   handleAmountChange = (newValue, predefined = { label: '' }) => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
@@ -171,25 +153,25 @@ class CelPayEnterAmount extends Component {
 
     if (formData.isUsd) {
       if (predefined.label.length === 0) {
-        amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+        amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
         amountCrypto = amountUsd / coinRate
       } else {
         amountUsd = predefined.label === 'ALL' ? balanceUsd : newValue
-        amountUsd = formatter.removeDecimalZeros(this.getUsdValue(amountUsd))
+        amountUsd = this.getUsdValue(amountUsd)
         amountCrypto =
           predefined.label === 'ALL' ? balanceCrypto : amountUsd / coinRate
         amountCrypto = formatter.removeDecimalZeros(amountCrypto)
       }
     } else if (predefined.label.length === 0) {
-      amountCrypto = this.setCurrencyDecimals(newValue)
+      amountCrypto = formatter.setCurrencyDecimals(newValue)
       amountUsd = amountCrypto * coinRate
-      amountUsd = formatter.removeDecimalZeros(this.getUsdValue(amountUsd))
+      amountUsd = this.getUsdValue(amountUsd)
       if (amountUsd === '0') amountUsd = ''
     } else {
       amountCrypto = predefined.label === 'ALL' ? balanceCrypto : newValue
       amountCrypto = formatter.removeDecimalZeros(amountCrypto)
       amountUsd = predefined.label === 'ALL' ? balanceUsd : predefined.value
-      amountUsd = formatter.removeDecimalZeros(this.getUsdValue(amountUsd))
+      amountUsd = this.getUsdValue(amountUsd)
     }
 
     if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
@@ -213,26 +195,6 @@ class CelPayEnterAmount extends Component {
       amountCrypto: amountCrypto.toString(),
       amountUsd
     })
-  }
-
-  isAmountValid = () => {
-    const { formData, walletSummary } = this.props
-    const balanceUsd = walletSummary.coins.filter(
-      c => c.short === formData.coin.toUpperCase()
-    )[0].amount_usd
-    const { amountUsd } = formData
-
-    if (amountUsd > balanceUsd) return false
-    if (amountUsd > 2000) return false
-    return true
-  }
-
-  // TODO: move to formatter? check WithdrawEnterAmount
-  hasEnoughDecimals (value = '', currency) {
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return numberOfDecimals > allowedDecimals
   }
 
   handleCoinChange = (field, value) => {
