@@ -30,12 +30,16 @@ const CoinSwitch = props => {
 
   return (
     <View style={style.container}>
-      <Icon
-        name={`Icon${coin}`}
-        width='40'
-        height='40'
-        fill={STYLES.COLORS.MEDIUM_GRAY}
-      />
+      {!isUsd ? (
+        <Icon
+          name={`Icon${coin}`}
+          width='40'
+          height='40'
+          fill={STYLES.COLORS.MEDIUM_GRAY3}
+        />
+      ) : (
+        <View style={{ width: 40 }} />
+      )}
       {props.onAmountPress ? (
         <View>
           <TouchableOpacity onPress={props.onAmountPress}>
