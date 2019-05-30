@@ -12,7 +12,7 @@ class PredefinedAmounts extends Component {
   static propTypes = {
     data: PropTypes.instanceOf(Object),
     onSelect: PropTypes.func,
-    activePeriod: PropTypes.string
+    activePeriod: PropTypes.instanceOf(Object),
   };
   static defaultProps = {
   }
@@ -22,14 +22,14 @@ class PredefinedAmounts extends Component {
     const { data, onSelect, activePeriod } = this.props;
     const style = PredefinedAmountsStyle()
     return (
-      <View style={{ flexDirection: "row", justifyContent: 'space-evenly', marginTop: 50 }}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-evenly', marginTop: 30 }}>
         {data.map(({ label, value }) =>
           <TouchableOpacity
             key={label}
-            style={[style.periodButton, activePeriod === value ? style.selectedAmount : null]}
+            style={[style.periodButton, activePeriod.value === value ? style.selectedAmount : null]}
             onPress={() => onSelect({ label, value })}
           >
-            <CelText style={activePeriod === label ? style.selectedAmountText : null}>{label}</CelText>
+            <CelText style={activePeriod.label === label ? style.selectedAmountText : null}>{label}</CelText>
           </TouchableOpacity>
         )}
       </View >
