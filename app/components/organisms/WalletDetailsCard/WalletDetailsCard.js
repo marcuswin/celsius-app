@@ -31,7 +31,12 @@ class WalletDetailsCard extends PureComponent {
     navigateTo: PropTypes.func.isRequired
   };
 
-  navigateToBalanceHistory = () => this.props.navigateTo('BalanceHistory');
+  navigateToBalanceHistory = () =>{
+    const {kycStatus, actions} = this.props;
+    if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('BalanceHistory')
+    actions.navigateTo("KYCLanding");
+  };
+  
   navigateToDeposit = () => {
     const {kycStatus, actions} = this.props;
     if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('Deposit', { coin: "CEL" })
