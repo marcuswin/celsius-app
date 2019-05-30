@@ -29,8 +29,14 @@ const base = {
   half: {
     width: widthPercentageToDP('50%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
   },
+  halfExtra: {
+    width: widthPercentageToDP('45%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
+  },
   third: {
     width: widthPercentageToDP('26.93%')
+  },
+  thirdExtra: {
+    width: widthPercentageToDP('22.93%')
   }
 }
 

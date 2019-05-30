@@ -18,6 +18,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Card from "../../atoms/Card/Card";
 import Icon from "../../atoms/Icon/Icon";
+import LoanCalculator from '../../organisms/LoanCalculator/LoanCalculator'
 import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
 
 @connect(
@@ -125,7 +126,7 @@ class BorrowLanding extends Component {
 
   render() {
     const { maxAmount, isLoading } = this.state;
-    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, walletSummary, ltv } = this.props;
+    const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount,  ltv } = this.props;
     const style = BorrowLandingStyle();
 
     if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen
@@ -136,34 +137,20 @@ class BorrowLanding extends Component {
     /* Calculating difference between largest coin amount and
     minimum amount needed for loan based on current LTV.
     */
-   if (!walletSummary) {
-    return null
-  }
-  let walletCoins = walletSummary && walletSummary.coins ? walletSummary.coins : []
-  walletCoins = walletCoins
-                      .filter(allowedCoin => loanCompliance.coins.includes(allowedCoin.short))
-  const arrayOfAmountUsd = walletCoins
-                      .map(amount => amount.amount_usd)
-  const indexOfLargestAmount = arrayOfAmountUsd
-                      .indexOf(Math.max(...arrayOfAmountUsd))
-  const largestAmountUsd = walletCoins[indexOfLargestAmount].amount_usd
-  const largestAmount = walletCoins[indexOfLargestAmount].amount
-  const largestAmountCoin = walletCoins[indexOfLargestAmount].short || 1
-  const coinUsdRatio = largestAmountUsd  / largestAmount
-  const minimumAmountInCoin = minimumLoanAmount / coinUsdRatio
-  const minLtv = Math.max(...ltv.map(x => x.percent))
 
-    if (maxAmount < minimumLoanAmount / minLtv) {
+  const minLtv = Math.max(...ltv.map(x => x.percent)) || 50
+
+   if (maxAmount < minimumLoanAmount / minLtv) {
       return (
-        <StaticScreen
-        emptyState={{
-          image: require("../../../../assets/images/diane-sad3x.png"),
-          heading: Number(largestAmount) !== 0 ?`To apply for a loan you just need ${ Number(largestAmount) !== 0 ? formatter.crypto((minimumAmountInCoin / minLtv) - largestAmount, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ Number(largestAmount) !== 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
+        <LoanCalculator
+        // emptyState={{
+        //   image: require("../../../../assets/images/diane-sad3x.png"),
+        //   heading: Number(largestAmount) !== 0 ?`To apply for a loan you just need ${ Number(largestAmount) !== 0 ? formatter.crypto((minimumAmountInCoin / minLtv) - largestAmount, largestAmountCoin, {symbol:''}) : minimumLoanAmount} more ${ Number(largestAmount) !== 0 ? largestAmountCoin : 'USD' }` : `To apply for a loan you just need $10.000 in BTC`,
 
-          paragraphs: [`The current loan minimum is ${ formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.`],
-          onPress: () => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding"),
-          button: 'Deposit Coins'
-        }}
+        //   paragraphs: [`The current loan minimum is ${ formatter.usd(minimumLoanAmount) }. We are working hard on enabling smaller loans. Until we make it happen, you may want to deposit more coins and enable this service immediately.`],
+        //   onPress: () => kycStatus === KYC_STATUSES.passed ? actions.navigateTo('Deposit') : actions.navigateTo("KYCLanding"),
+        //   button: 'Deposit Coins'
+        // }}
       />
       )
     }
