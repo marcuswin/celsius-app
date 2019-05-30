@@ -10,9 +10,13 @@ export default {
   getEllipsisAmount,
   deepmerge,
   getNumberOfDecimals,
+  hasEnoughDecimals,
+  getAllowedDecimals,
+  setCurrencyDecimals,
   capitalize,
   percentage,
-  percentageDisplay
+  percentageDisplay,
+  removeDecimalZeros
 }
 
 /**
@@ -23,7 +27,7 @@ export default {
  * @returns {string}
  */
 function usd (amount, options = {}) {
-  return currency.format(amount, { code: 'USD', ...options })
+  return currency.format(floor10(amount), { code: 'USD', ...options })
 }
 
 /**
@@ -77,6 +81,40 @@ function round (amount, options = {}) {
 }
 
 /**
+ * Get allowed decimals for currency
+ *
+ * @param {string} curr - 'USD' or everything else
+ * @returns {number}
+ */
+function getAllowedDecimals (curr) {
+  return curr === 'USD' ? 2 : 5
+}
+
+/**
+ * Get if the value has > decimal as allowed
+ *
+ * @param {string} value
+ * @param {string} curr - 'USD' or everything else
+ * @returns {boolean}
+ */
+function hasEnoughDecimals (value = '', curr) {
+  return getNumberOfDecimals(value) > getAllowedDecimals(curr)
+}
+
+/**
+ * Formats number for 'USD' -> 1.21, for other -> 1.65453
+ *
+ * @param {string} value
+ * @param {string} curr - 'USD' or everything else
+ * @returns {number}
+ */
+function setCurrencyDecimals (value, curr) {
+  if (!hasEnoughDecimals(value, curr)) return value
+
+  return floor10(value, -this.getAllowedDecimals(curr)).toString()
+}
+
+/**
  * Capitalizes string
  *
  * @param {string} str
@@ -84,6 +122,26 @@ function round (amount, options = {}) {
  */
 function capitalize (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * Removes decimal zeros if needed - 1.50000 -> 1.5
+ *
+ * @param {number|string} amount
+ * @returns {string}
+ */
+function removeDecimalZeros (amount) {
+  // const numberOfDecimals = getNumberOfDecimals(amount)
+  const splitedValue = amount.toString().split('.')
+  let decimals = ''
+  let deleteDecimals = true
+  if (splitedValue.length === 2) {
+    decimals = splitedValue[1]
+    for (let i = 0; i < decimals.length; i++) {
+      if (decimals[i] !== '0') deleteDecimals = false
+    }
+  }
+  return deleteDecimals ? splitedValue[0] : amount.toString()
 }
 
 /**
@@ -138,25 +196,37 @@ function ordinalSuffixOf (number) {
  * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
  * @returns {Number} The adjusted value.
  */
-
-// Decimal floor
-function floor10 (value, exp) {
+function floor10 (value, exp = -2) {
   const realExp = Math.pow(10, -exp)
   return Math.floor(value * realExp) / realExp
 }
 
-// get numbers of decimals
+/**
+ * Get numbers of decimals
+ *
+ * @param {Number}  value The number.
+ * @returns {Number} Decimal number of input value
+ */
 function getNumberOfDecimals (value) {
-  const splitValue = value && value.split('.')
-  return value && (splitValue[1] ? splitValue[1].length : 0)
+  const stringValue = value.toString()
+  const splitValue = stringValue && stringValue.split('.')
+  return stringValue && (splitValue[1] ? splitValue[1].length : 0)
 }
 
-// Ellipsis Amount (1.656,-2) => 1.65...
+/**
+ * Ellipsis Amount (1.656,-2) => 1.65...
+ *
+ * @param {Number|String}  value The number.
+ * @param {Integer} exp   The exponent
+ * @returns {String}
+ */
 function getEllipsisAmount (value, exp) {
-  const realValue = value ? parseFloat(value).toString() : 0
-  const decimals = getNumberOfDecimals(realValue)
+  const realValue =
+    value === '.' || value === '0.' ? '0.' : (value || 0).toString()
+  const floatValue = parseFloat(realValue).toString()
+  const decimals = getNumberOfDecimals(floatValue)
   if (decimals && decimals > Math.abs(exp)) {
-    return `${floor10(realValue, exp)}...`
+    return `${floor10(floatValue, exp)}...`
   }
   return realValue
 }

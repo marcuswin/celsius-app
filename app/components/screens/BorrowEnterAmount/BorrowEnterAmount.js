@@ -15,7 +15,6 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import { KEYPAD_PURPOSES } from '../../../constants/UI'
 import formatter from '../../../utils/formatter'
 import STYLES from '../../../constants/STYLES'
-import BorrowConfirmModal from '../../organisms/BorrowConfirmModal/BorrowConfirmModal'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { getPadding } from '../../../utils/styles-util'
 // import Card from '../../atoms/Card/Card'
@@ -285,10 +284,6 @@ class BorrowEnterAmount extends Component {
             purpose={KEYPAD_PURPOSES.AMOUNT}
           />
         </View>
-        <BorrowConfirmModal
-          formData={formData}
-          onConfirm={() => actions.applyForALoan()}
-        />
       </RegularLayout>
     )
   }

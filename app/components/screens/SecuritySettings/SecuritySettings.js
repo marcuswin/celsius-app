@@ -14,11 +14,14 @@ import CelModal from '../../organisms/CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
 import STYLES from '../../../constants/STYLES'
+import { KYC_STATUSES } from '../../../constants/DATA'
 
 @connect(
   state => ({
     is2FAEnabled: state.user.profile.two_factor_enabled,
-    user: state.user.profile
+    user: state.user.profile,
+    kycStatus: state.user.profile.kyc,
+    formData: state.forms.formData
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -37,7 +40,7 @@ class SecuritySettings extends Component {
       return {
         is2FAEnabled: nextProps.is2FAEnabled
       }
-    } 
+    }
     return null
   }
 
@@ -47,6 +50,11 @@ class SecuritySettings extends Component {
     this.state = {
       is2FAEnabled: false
     }
+  }
+
+  componentDidMount () {
+    const { actions } = this.props
+    actions.getProfileInfo()
   }
 
   logoutUser = async () => {
@@ -77,8 +85,14 @@ class SecuritySettings extends Component {
       actions.openModal(MODALS.REMOVE_AUTHAPP_MODAL)
     } else {
       actions.navigateTo('VerifyProfile', {
-        onSuccess: () => {
-          actions.navigateTo('TwoFactorSettings')
+        onSuccess: async () => {
+          const { formData } = this.props
+          const secret = await actions.getTwoFactorSecret(formData.pin)
+          if (secret) {
+            actions.navigateTo('TwoFactorSettings', { secret })
+          } else {
+            actions.navigateBack()
+          }
         }
       })
     }
@@ -91,7 +105,7 @@ class SecuritySettings extends Component {
   }
 
   render () {
-    const { actions, is2FAEnabled, user } = this.props
+    const { actions, is2FAEnabled, user, kycStatus } = this.props
     const Switcher = this.rightSwitch
 
     return (
@@ -122,13 +136,15 @@ class SecuritySettings extends Component {
           </IconButton>
         )}
 
-        <CelButton
-          margin='0 0 30 0'
-          basic
-          onPress={() => actions.navigateTo('SecurityOverview')}
-        >
-          Security screen overview
-        </CelButton>
+        {kycStatus && kycStatus.status === KYC_STATUSES.passed ? (
+          <CelButton
+            margin='0 0 30 0'
+            basic
+            onPress={() => actions.navigateTo('SecurityOverview')}
+          >
+            Security screen overview
+          </CelButton>
+        ) : null}
 
         <CelButton onPress={this.logoutUser}>
           Log out from all devices

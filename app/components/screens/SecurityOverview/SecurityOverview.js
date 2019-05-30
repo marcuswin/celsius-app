@@ -99,12 +99,13 @@ class SecurityOverview extends Component {
     const style = SecurityOverviewStyle()
 
     return securityOverview &&
-      securityOverview.user_actions_log &&
-      securityOverview.user_actions_log.length > 0 ? (
+      securityOverview.user_activity_log &&
+      securityOverview.user_activity_log.length > 0 ? (
       <>
         <Separator margin='0 0 10 0' text='User actions log' />
-        {securityOverview.user_actions_log.map(item => {
+        {securityOverview.user_activity_log.map(item => {
           const actions = this.getIcon(item)
+
           return (
             <View key={item.created_at} style={style.userActionsLogWrapper}>
               <View style={style.userActionsLog}>
@@ -125,11 +126,11 @@ class SecurityOverview extends Component {
                 </CelText>
               </View>
               <View style={{ marginBottom: 0 }}>
-                {securityOverview.user_actions_log[
-                  securityOverview.user_actions_log.length - 1
+                {securityOverview.user_activity_log[
+                  securityOverview.user_activity_log.length - 1
                 ] !== item ? (
                   <Separator />
-                  ) : null}
+                  ) : null }
               </View>
             </View>
           )

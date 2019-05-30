@@ -8,6 +8,7 @@ import BorrowLoanTerm from '../../components/screens/BorrowLoanTerm/BorrowLoanTe
 import BorrowLanding from '../../components/screens/BorrowLanding/BorrowLanding'
 import BorrowEnterAmount from '../../components/screens/BorrowEnterAmount/BorrowEnterAmount'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
+import ConfirmYourLoan from '../../components/screens/ConfirmYourLoan/ConfirmYourLoan'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
 
@@ -18,6 +19,7 @@ export const borrowFlow = {
     BorrowLoanOption,
     BorrowLoanTerm,
     BorrowBankAccount,
+    ConfirmYourLoan,
     VerifyProfile,
     BorrowLanding,
     TransactionDetails,

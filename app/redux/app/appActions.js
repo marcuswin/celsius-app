@@ -158,6 +158,11 @@ function setInternetConnection(connection) {
  */
 function initAppData(initToken = null) {
   return async (dispatch, getState) => {
+    // get general data for te app
+    await dispatch(actions.getCurrencyRates());
+    await dispatch(actions.getCurrencyGraphs());
+    await dispatch(actions.getInitialCelsiusData());
+
     // get user token
     const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
     
@@ -193,11 +198,6 @@ function initAppData(initToken = null) {
       // logout if expired session or no token
       await dispatch(actions.logoutUser());
     }
-
-    // get general data for te app
-    await dispatch(actions.getCurrencyRates());
-    await dispatch(actions.getCurrencyGraphs());
-    await dispatch(actions.getInitialCelsiusData());
   };
 }
 
@@ -205,8 +205,8 @@ function initAppData(initToken = null) {
  * Handle show verify screen on status code 426
  */
 function showVerifyScreen(defaultVerifyState = true) {
-  return async (dispatch, getState) => {
-    if (getState().app.showVerifyScreen) return;
+  return async (dispatch) => {
+    // if (getState().app.showVerifyScreen === defaultVerifyState) return;
     dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
   }
 }

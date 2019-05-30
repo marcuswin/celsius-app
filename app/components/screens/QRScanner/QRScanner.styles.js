@@ -19,7 +19,7 @@ const base = {
   },
   imageWrapper: { flexDirection: "row" },
   safeArea: { flex: 1, flexDirection: "row", marginBottom: 20 },
-  permission: { alignSelf: "flex-end", flex: 1, paddingVertical: 20, paddingHorizontal: 20 },
+  permission: { flex: 1, flexWrap: 'wrap', paddingHorizontal: 20 },
   view: {
     width: 250,
     alignSelf: "center",
