@@ -23,7 +23,7 @@ const CoinSwitch = props => {
   } = props
 
   const upperValue = isUsd
-    ? `$ ${amountUsd || '0.00'} USD`
+    ? `$ ${amountUsd || '0.00'}`
     : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)}`
   const lowerValue = !isUsd
     ? `$ ${amountUsd || '0.00'} USD`
