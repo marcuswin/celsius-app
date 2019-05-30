@@ -22,7 +22,7 @@ class PredefinedAmounts extends Component {
     const { data, onSelect, activePeriod } = this.props;
     const style = PredefinedAmountsStyle()
     return (
-      <View style={{ flexDirection: "row", justifyContent: 'space-evenly', marginTop: 50 }}>
+      <View style={{ flexDirection: "row", justifyContent: 'space-evenly', marginTop: 30 }}>
         {data.map(({ label, value }) =>
           <TouchableOpacity
             key={label}

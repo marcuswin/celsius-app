@@ -21,8 +21,9 @@ const BalanceView = props => {
       }}
     >
       <CelText align='right' type='H7'>
-      Balance: {`${formatter.getEllipsisAmount(
-          crypto,
+        Balance:{' '}
+        {`${formatter.getEllipsisAmount(
+          formatter.removeDecimalZeros(crypto),
           -8
         )} ${coin}  |  $ ${formatter.floor10(usd, -2)} USD`}
       </CelText>

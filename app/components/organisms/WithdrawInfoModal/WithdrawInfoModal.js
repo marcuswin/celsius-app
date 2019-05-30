@@ -34,7 +34,7 @@ class WithdrawInfoModal extends Component {
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),
-          title: `Immediate withdrawals under ${ formatter.usd(withdrawalSettings.maximum_withdrawal_amount) }`,
+          title: `Immediate withdrawals under ${ withdrawalSettings && formatter.usd(withdrawalSettings.maximum_withdrawal_amount) }`,
           description: "Celsius enables you to withdraw coins at any time. However, when exceeding this limit, withdrawals might be delayed for twenty-four (24) hours due to our security protocols.",
         },
         {

@@ -35,7 +35,7 @@ import cryptoUtil from '../../../utils/crypto-util'
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
     keypadOpen: state.ui.isKeypadOpen,
-    withdrawalSettings: state.generalData.withdrawalSettings,
+    withdrawalSettings: state.generalData.withdrawalSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -70,7 +70,7 @@ class WithdrawEnterAmount extends Component {
 
     this.state = {
       coinSelectItems,
-      activePeriod: ''
+      activePeriod: { label: '', value: '' }
     }
 
     const coin = navigation.getParam('coin', coinSelectItems[0].value)
@@ -96,38 +96,20 @@ class WithdrawEnterAmount extends Component {
     } else {
       amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
     }
-    this.handleAmountChange(amount, label)
+    this.handleAmountChange(amount, { label, value })
     actions.toggleKeypad(false)
   }
 
-  // TODO: move to formatter? check CelPayEnterAmount
-  getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
-
-  // TODO: move to formatter? check CelPayEnterAmount
-  setCurrencyDecimals (value, currency) {
-    if (!this.hasEnoughDecimals(value, currency)) return value
-    // remove last digit
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return value.slice(0, allowedDecimals - numberOfDecimals)
-  }
-
   getUsdValue = amountUsd =>
-    formatter.getNumberOfDecimals(amountUsd.toString()) > 2
-      ? formatter.round(amountUsd.toString())
-      : amountUsd.toString()
+    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || '')
 
-  // TODO: move to formatter? check CelPayEnterAmount
-  hasEnoughDecimals (value = '', currency) {
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return numberOfDecimals > allowedDecimals
-  }
-  handleAmountChange = (newValue, predefined = '') => {
+  handleAmountChange = (newValue, predefined = { label: '' }) => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+
+    const splitedValue = newValue.toString().split('.')
+
+    if (splitedValue && splitedValue.length > 2) return
 
     const {
       amount_usd: balanceUsd,
@@ -138,34 +120,37 @@ class WithdrawEnterAmount extends Component {
     let amountUsd
 
     if (formData.isUsd) {
-      if (predefined.length === 0) {
-        amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+      if (predefined.label.length === 0) {
+        amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
         amountCrypto = amountUsd / coinRate
       } else {
-        amountUsd =
-          predefined === 'ALL' ? balanceUsd : this.getUsdValue(newValue)
+        amountUsd = predefined.label === 'ALL' ? balanceUsd : newValue
+        amountUsd = this.getUsdValue(amountUsd)
         amountCrypto =
-          predefined === 'ALL' ? balanceCrypto : amountUsd / coinRate
+          predefined.label === 'ALL' ? balanceCrypto : amountUsd / coinRate
+        amountCrypto = formatter.removeDecimalZeros(amountCrypto)
       }
+    } else if (predefined.label.length === 0) {
+      amountCrypto = formatter.setCurrencyDecimals(newValue)
+      amountUsd = amountCrypto * coinRate
+      amountUsd = this.getUsdValue(amountUsd)
+      if (amountUsd === '0') amountUsd = ''
     } else {
-      if (predefined.length === 0) {
-        amountCrypto = this.setCurrencyDecimals(newValue)
-      } else {
-        amountCrypto = predefined === 'ALL' ? balanceCrypto : newValue
-      }
-      amountUsd = predefined === 'ALL' ? balanceUsd : amountCrypto * coinRate
+      amountCrypto = predefined.label === 'ALL' ? balanceCrypto : newValue
+      amountCrypto = formatter.removeDecimalZeros(amountCrypto)
+      amountUsd = predefined.label === 'ALL' ? balanceUsd : predefined.value
+      amountUsd = this.getUsdValue(amountUsd)
     }
 
-    if (!amountCrypto) amountCrypto = 0
+    if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
+
+    if (!amountCrypto) amountCrypto = ''
     if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
     if (amountCrypto[0] === '0' && amountCrypto[1] !== '.') {
-      amountCrypto = amountCrypto || '0'
+      amountCrypto = amountCrypto || ''
     }
 
-    if (
-      (formData.isUsd && cryptoUtil.isGreaterThan(amountUsd, balanceUsd)) ||
-      (!formData.isUsd && cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto))
-    ) {
+    if (cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto)) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
 
@@ -173,7 +158,7 @@ class WithdrawEnterAmount extends Component {
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: this.getUsdValue(amountUsd)
+      amountUsd
     })
   }
 

@@ -9,6 +9,7 @@ import CelText from '../CelText/CelText'
 import formatter from '../../../utils/formatter'
 import Icon from '../Icon/Icon'
 import STYLES from '../../../constants/STYLES'
+import { getScaledFont } from '../../../utils/styles-util'
 
 const CoinSwitch = props => {
   const style = CoinSwitchStyle()
@@ -22,11 +23,11 @@ const CoinSwitch = props => {
   } = props
 
   const upperValue = isUsd
-    ? `$${amountUsd || '0.00'}`
-    : `${formatter.getEllipsisAmount(amountCrypto, -5)}`
+    ? `$ ${amountUsd || '0.00'} USD`
+    : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)}`
   const lowerValue = !isUsd
-    ? `$${amountUsd || '0.00'}`
-    : `${formatter.getEllipsisAmount(amountCrypto, -5)} ${coin}`
+    ? `$ ${amountUsd || '0.00'} USD`
+    : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)} ${coin}`
 
   return (
     <View style={style.container}>
@@ -43,34 +44,77 @@ const CoinSwitch = props => {
       {props.onAmountPress ? (
         <View>
           <TouchableOpacity onPress={props.onAmountPress}>
+            <View
+              style={{
+                height: getScaledFont(STYLES.FONTSIZE.H1),
+                justifyContent: 'center',
+                marginVertical: 10
+              }}
+            >
+              <CelText
+                align='center'
+                type='H1'
+                weight='regular'
+                size={STYLES.FONTSIZE.H1 - upperValue.length}
+                color={amountColor}
+              >
+                {upperValue}
+              </CelText>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              height: getScaledFont(STYLES.FONTSIZE.H2),
+              justifyContent: 'center'
+            }}
+          >
+            <CelText
+              align='center'
+              type='H2'
+              color={STYLES.COLORS.MEDIUM_GRAY}
+              size={STYLES.FONTSIZE.H2 - lowerValue.length / 2}
+            >
+              {lowerValue}
+            </CelText>
+          </View>
+        </View>
+      ) : (
+        <View>
+          <View
+            style={{
+              height: getScaledFont(STYLES.FONTSIZE.H1),
+              justifyContent: 'center',
+              marginVertical: 10
+            }}
+          >
             <CelText
               align='center'
               type='H1'
+              style={{ height: getScaledFont(STYLES.FONTSIZE.H1) }}
+              size={STYLES.FONTSIZE.H1 - upperValue.length}
               margin='10 0 10 0'
               weight='regular'
               color={amountColor}
             >
               {upperValue}
             </CelText>
-          </TouchableOpacity>
-          <CelText align='center' type='H2' color={STYLES.COLORS.MEDIUM_GRAY}>
-            {lowerValue}
-          </CelText>
-        </View>
-      ) : (
-        <View>
-          <CelText
-            align='center'
-            type='H1'
-            margin='10 0 10 0'
-            weight='regular'
-            color={amountColor}
+          </View>
+          <View
+            style={{
+              height: getScaledFont(STYLES.FONTSIZE.H2),
+              justifyContent: 'center'
+            }}
           >
-            {upperValue}
-          </CelText>
-          <CelText align='center' type='H2' color={STYLES.COLORS.MEDIUM_GRAY}>
-            {lowerValue}
-          </CelText>
+            <CelText
+              align='center'
+              type='H2'
+              color={STYLES.COLORS.MEDIUM_GRAY}
+              style={{ height: getScaledFont(STYLES.FONTSIZE.H2) }}
+              size={STYLES.FONTSIZE.H2 - lowerValue.length / 2}
+            >
+              {lowerValue}
+            </CelText>
+          </View>
         </View>
       )}
       <View style={style.switchButton}>

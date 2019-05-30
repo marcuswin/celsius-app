@@ -11,7 +11,7 @@ const base = {
     width
   },
   wrapper: {
-    paddingHorizontal: 20
+    paddingHorizontal: 10
   },
   selectWrapper: {
     flexDirection: 'row',
@@ -32,12 +32,14 @@ const base = {
         ...STYLES.SHADOW_STYLES
       }
     }),
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    marginBottom: 5
   },
   amounts: {
     flexDirection: 'column',
     alignContent: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20
   }
 }
 

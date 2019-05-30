@@ -273,7 +273,6 @@ class CelPayEnterAmount extends Component {
               crypto={coinData.amount}
               usd={coinData.amount_usd}
             />
-
             <View style={style.amounts}>
               <View style={style.selectWrapper}>
                 <SimpleSelect

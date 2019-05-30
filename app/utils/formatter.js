@@ -111,7 +111,7 @@ function hasEnoughDecimals (value = '', curr) {
 function setCurrencyDecimals (value, curr) {
   if (!hasEnoughDecimals(value, curr)) return value
 
-  return floor10(value, -this.getAllowedDecimals(curr))
+  return floor10(value, -this.getAllowedDecimals(curr)).toString()
 }
 
 /**
@@ -205,8 +205,9 @@ function floor10 (value, exp = -2) {
 
 // Get numbers of decimals
 function getNumberOfDecimals (value) {
-  const splitValue = value && value.split('.')
-  return value && (splitValue[1] ? splitValue[1].length : 0)
+  const stringValue = value.toString()
+  const splitValue = stringValue && stringValue.split('.')
+  return stringValue && (splitValue[1] ? splitValue[1].length : 0)
 }
 
 // Ellipsis Amount (1.656,-2) => 1.65...
