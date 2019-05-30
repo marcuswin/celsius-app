@@ -22,6 +22,7 @@ const CoinSwitch = props => {
     amountColor
   } = props
 
+  // `$ ${amountUsd || '0.00'}` format a number to $ 21.32 or set default value as 0.00
   const upperValue = isUsd
     ? `$ ${amountUsd || '0.00'}`
     : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)}`

@@ -196,21 +196,30 @@ function ordinalSuffixOf (number) {
  * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
  * @returns {Number} The adjusted value.
  */
-
-// Decimal floor
 function floor10 (value, exp = -2) {
   const realExp = Math.pow(10, -exp)
   return Math.floor(value * realExp) / realExp
 }
 
-// Get numbers of decimals
+/**
+ * Get numbers of decimals
+ *
+ * @param {Number}  value The number.
+ * @returns {Number} Decimal number of input value
+ */
 function getNumberOfDecimals (value) {
   const stringValue = value.toString()
   const splitValue = stringValue && stringValue.split('.')
   return stringValue && (splitValue[1] ? splitValue[1].length : 0)
 }
 
-// Ellipsis Amount (1.656,-2) => 1.65...
+/**
+ * Ellipsis Amount (1.656,-2) => 1.65...
+ *
+ * @param {Number|String}  value The number.
+ * @param {Integer} exp   The exponent
+ * @returns {String}
+ */
 function getEllipsisAmount (value, exp) {
   const realValue =
     value === '.' || value === '0.' ? '0.' : (value || 0).toString()

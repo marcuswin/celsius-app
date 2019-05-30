@@ -120,6 +120,7 @@ class WithdrawEnterAmount extends Component {
     let amountUsd
 
     if (formData.isUsd) {
+      // if no predefined label is forwarded and the value is in usd
       if (predefined.label.length === 0) {
         amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
         amountCrypto = amountUsd / coinRate
@@ -130,6 +131,7 @@ class WithdrawEnterAmount extends Component {
           predefined.label === 'ALL' ? balanceCrypto : amountUsd / coinRate
         amountCrypto = formatter.removeDecimalZeros(amountCrypto)
       }
+      // if no predefined label is forwarded and the value is no in usd (crypto)
     } else if (predefined.label.length === 0) {
       amountCrypto = formatter.setCurrencyDecimals(newValue)
       amountUsd = amountCrypto * coinRate
@@ -142,12 +144,24 @@ class WithdrawEnterAmount extends Component {
       amountUsd = this.getUsdValue(amountUsd)
     }
 
+    // Change value '.' to '0.'
     if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
+    if (amountUsd.length > 1 && amountUsd[0] === '0' && amountUsd[1] !== '.') {
+      amountUsd = amountUsd[1]
+    }
 
+    // if crypto amount is undefined, set it to empty string
     if (!amountCrypto) amountCrypto = ''
+    // Change value '.' to '0.'
     if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
-    if (amountCrypto[0] === '0' && amountCrypto[1] !== '.') {
-      amountCrypto = amountCrypto || ''
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
+    if (
+      amountCrypto.length > 1 &&
+      amountCrypto[0] === '0' &&
+      amountCrypto[1] !== '.'
+    ) {
+      amountCrypto = amountCrypto[1]
     }
 
     if (cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto)) {
