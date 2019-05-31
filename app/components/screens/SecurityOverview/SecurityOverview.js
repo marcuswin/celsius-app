@@ -122,7 +122,7 @@ class SecurityOverview extends Component {
                   {actions.action}{' '}
                 </CelText>
                 <CelText type='H6' weight='300'>
-                  {moment(item.created_at).format('MMMM d, GGGG')}{' '}
+                  {moment(item.created_at).format('MMMM D, GGGG')}{' '}
                 </CelText>
               </View>
               <View style={{ marginBottom: 0 }}>
@@ -184,10 +184,10 @@ class SecurityOverview extends Component {
               </View>
               <View style={style.accountActionsLog3}>
                 <CelText type='H6' weight='300'>
-                  {(item.platform === 'ios' ? 'iOS' : 'Andorid')}{' '}
+                  {(item.platform === 'ios' ? 'iOS' : 'Android')}{' '}
                 </CelText>
                 <CelText type='H6' weight='300'>
-                  {moment(item.date).format('MMMM d, GGGG')}
+                  {moment(item.date).format('MMMM D, GGGG')}
                 </CelText>
               </View>
             </View>
@@ -228,7 +228,7 @@ class SecurityOverview extends Component {
                   {item.city}{' '}
                 </CelText>
                 <CelText type='H6' weight='300'>
-                  {moment(item.date).format('MMMM d, GGGG')}
+                  {moment(item.date).format('MMMM D, GGGG')}
                 </CelText>
               </View>
             </View>
@@ -278,7 +278,7 @@ class SecurityOverview extends Component {
             the risk of an unwanted access to your account, even if your login
             information is compromised.{' '}
           </CelText>
-          <Separator text='Email conformation' />
+          <Separator text='Email confirmation' />
 
           <Card margin='40 0 40 0'>
             <View style={style.email}>
@@ -287,7 +287,7 @@ class SecurityOverview extends Component {
                 style={style.emailImage}
               />
               <View style={style.emailText}>
-                <CelText type='H7'>Email conformation</CelText>
+                <CelText type='H7'>Email confirmation</CelText>
                 <CelText type='H2' weight='600' color={STYLES.COLORS.GREEN}>
                   ACTIVE
                 </CelText>
