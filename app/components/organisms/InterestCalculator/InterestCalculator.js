@@ -50,8 +50,7 @@ class InterestCalculatorModal extends Component {
       activePeriod: '',
       earnInterestIn: false
     }
-
-    props.actions.initForm({ coin: defaultCoin })
+    props.actions.updateFormField('coin', defaultCoin)
   }
 
   async componentDidMount () {
@@ -59,45 +58,53 @@ class InterestCalculatorModal extends Component {
     await actions.getInterestRates()
   }
 
-  getAllowedDecimals = currency => (currency === 'USD' ? 0 : 5)
-
-  // TODO: move to formatter? check WithdrawEnterAmount
-  setCurrencyDecimals (value, currency) {
-    if (!this.hasEnoughDecimals(value, currency)) return value
-    // remove last digit
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return value.slice(0, allowedDecimals - numberOfDecimals)
-  }
-
-  // TODO: move to formatter? check WithdrawEnterAmount
-  hasEnoughDecimals (value = '', currency) {
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return numberOfDecimals > allowedDecimals
-  }
+  getUsdValue = amountUsd =>
+    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || '')
 
   handleAmountChange = newValue => {
     const { formData, currencyRatesShort, actions } = this.props
-    const selectedCoin = formData.coin || 'BTC'
-    const coinRate = currencyRatesShort[selectedCoin.toLowerCase()]
+    const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+
+    const splitedValue = newValue.toString().split('.')
+
+    if (splitedValue && splitedValue.length > 2) return
 
     let amountCrypto
     let amountUsd
 
     if (formData.isUsd) {
-      amountUsd = this.setCurrencyDecimals(newValue, 'USD')
-      amountCrypto = amountUsd / coinRate || 0
+      amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
+      amountCrypto = amountUsd / coinRate
     } else {
-      amountCrypto = this.setCurrencyDecimals(newValue) || 0
+      amountCrypto = formatter.setCurrencyDecimals(newValue)
       amountUsd = amountCrypto * coinRate
+      amountUsd = this.getUsdValue(amountUsd)
+      if (amountUsd === '0') amountUsd = ''
+    }
+
+    // Change value '.' to '0.'
+    if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
+    if (amountUsd.length > 1 && amountUsd[0] === '0' && amountUsd[1] !== '.') {
+      amountUsd = amountUsd[1]
+    }
+
+    // if crypto amount is undefined, set it to empty string
+    if (!amountCrypto) amountCrypto = ''
+    // Change value '.' to '0.'
+    if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
+    if (
+      amountCrypto.length > 1 &&
+      amountCrypto[0] === '0' &&
+      amountCrypto[1] !== '.'
+    ) {
+      amountCrypto = amountCrypto[1]
     }
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: amountUsd.toString()
+      amountUsd
     })
   }
 
@@ -119,7 +126,7 @@ class InterestCalculatorModal extends Component {
 
     const selectedCoin = formData.coin || 'BTC'
     const interestRateForCoin =
-      interestRates && formData.coin
+      interestRates && formData.coin && interestRates[formData.coin]
         ? interestRates[formData.coin]
         : { rate: 0, cel_rate: 0 }
     const weeklyInterest =
@@ -277,9 +284,11 @@ class InterestCalculatorModal extends Component {
         </View>
 
         {showCard ? (
-          <Card>
-            <InterestOptions />
-          </Card>
+          <View style={{ marginHorizontal: 20 }}>
+            <Card>
+              <InterestOptions />
+            </Card>
+          </View>
         ) : (
           <InterestOptions />
         )}

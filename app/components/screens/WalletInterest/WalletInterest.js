@@ -16,11 +16,12 @@ import WalletInterestStyle from './WalletInterest.styles'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import { EMPTY_STATES, MODALS } from '../../../constants/UI'
 import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
-import StaticScreen from '../StaticScreen/StaticScreen'
 import CelInterestCard from '../../molecules/CelInterestCard/CelInterestCard'
 import LoadingScreen from '../BalanceHistory/BalanceHistory'
 import Separator from '../../atoms/Separator/Separator'
 import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
+import InterestCalculatorScreen from '../InterestCalculatorScreen/InterestCalculatorScreen'
+import { KYC_STATUSES } from '../../../constants/DATA'
 
 @connect(
   state => ({
@@ -51,14 +52,16 @@ class WalletInterest extends Component {
         title: 'Interest earned',
         left: 'back',
         right: 'profile'
-      }
+      },
+      loading: true
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     const { actions } = this.props
-    actions.getLoyaltyInfo()
-    actions.getUserAppSettings()
+    await actions.getLoyaltyInfo()
+    await actions.getUserAppSettings()
+    this.setState({ loading: false })
   }
 
   openInterestModal = () => {
@@ -71,25 +74,38 @@ class WalletInterest extends Component {
     actions.navigateTo('AllTransactions')
   }
 
-  render() {
-    const { walletSummary, user, appSettings, loyaltyInfo, actions, interestCompliance } = this.props;
-    const style = WalletInterestStyle();
+  render () {
+    const {
+      walletSummary,
+      user,
+      appSettings,
+      loyaltyInfo,
+      actions,
+      interestCompliance
+    } = this.props
+    const { loading } = this.state
+    const style = WalletInterestStyle()
 
-    if (!appSettings || !loyaltyInfo) return <LoadingScreen />
+    const isUSCitizen =
+      user.citizenship === 'United States' || user.country === 'United States'
+
+    if (loading || !appSettings || !loyaltyInfo) return <LoadingScreen />
     if (!interestCompliance) {
-      return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.COMPLIANCE} />
+    }
+    if (isUSCitizen && !user.ssn) {
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.NO_SSN_INTEREST} />
     }
     if (!user.celsius_member) {
       return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_INTEREST }}
-        />
+        <InterestCalculatorScreen purpose={EMPTY_STATES.NON_MEMBER_INTEREST} />
       )
     }
     if (walletSummary.total_interest_earned <= 0) {
-      return (
-        <StaticScreen emptyState={{ purpose: EMPTY_STATES.ZERO_INTEREST }} />
-      )
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.ZERO_INTEREST} />
+    }
+    if (user.kyc.status !== KYC_STATUSES.passed) {
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.NO_KYC_VERIFIED} />
     }
 
     return (
@@ -113,7 +129,7 @@ class WalletInterest extends Component {
                 onPress={() => {
                   actions.openModal(MODALS.INTEREST_CALCULATOR_MODAL)
                 }}
-                style={{marginTop:10}}
+                style={{ marginTop: 10 }}
               >
                 <Image
                   style={{
@@ -138,7 +154,10 @@ class WalletInterest extends Component {
           type={'total-interest'}
         />
 
-        <View marign="10 10 10 10" style={{paddingVertical: 20, paddingHorizontal: 20,}}>
+        <View
+          marign='10 10 10 10'
+          style={{ paddingVertical: 20, paddingHorizontal: 20 }}
+        >
           <CelInterestCard
             tier={loyaltyInfo.tier.title}
             interestBonus={loyaltyInfo.earn_interest_bonus}

@@ -33,15 +33,13 @@ class InterestCalculatorScreen extends Component {
     switch (purpose) {
       case EMPTY_STATES.COMPLIANCE:
         return {
-          heading:
-            'Calculate a total interest you may earn.',
+          heading: 'Calculate a total interest you may earn.',
           text:
             'We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region.'
         }
       case EMPTY_STATES.NON_MEMBER_INTEREST:
         return {
-          heading:
-            'Calculate a total interest you may earn.',
+          heading: 'Calculate a total interest you may earn.',
           text:
             'Start earning 25% a year on your coin. All you have to do is become a Celsius member by adding some CEL to your wallet',
           button: (
@@ -57,7 +55,7 @@ class InterestCalculatorScreen extends Component {
       case EMPTY_STATES.NO_SSN_INTEREST:
         return {
           heading:
-            'Calculate a total interest you may earn before you fill your SSN data',
+            'Calculate a total interest you may earn before you fill your SSN data.',
           text:
             'Fill in your SSN  to start earning up to 25% interest a year on your coins. SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and highly secured.',
           button: (
@@ -71,8 +69,7 @@ class InterestCalculatorScreen extends Component {
         }
       case EMPTY_STATES.ZERO_INTEREST:
         return {
-          heading:
-            'Calculate a total interest you may earn.',
+          heading: 'Calculate a total interest you may earn.',
           text:
             'Start earning up to 25% interest a year on your coins by depositing.',
           button: (
@@ -114,25 +111,31 @@ class InterestCalculatorScreen extends Component {
     const style = InterestCalculatorScreenStyle()
     const content = this.getScreenContent(purpose)
     return (
-      <RegularLayout>
-        <View style={style.wrapper}>
-          <CelText type='H2' align='center' weight='bold'>
-            Interest calculator
-          </CelText>
+      <RegularLayout padding='20 0 100 0'>
+        <View style={{ paddingHorizontal: 20 }}>
+          <View style={style.wrapper}>
+            <CelText type='H2' align='center' weight='bold'>
+              Interest calculator
+            </CelText>
 
-          <CelText align='center' margin='0 0 20 0'>
-            {content.heading}
-          </CelText>
+            <CelText align='center' margin='0 0 20 0'>
+              {content.heading}
+            </CelText>
 
-          <Separator />
+            <Separator />
+            <CelText align='center' margin='20 0 0 0'>
+              How much do you plan to deposit?
+            </CelText>
+          </View>
+        </View>
+        <InterestCalculator showCard />
 
-          <InterestCalculator showCard />
-
-          {/* <CelButton basic margin='20 0 20 0' onPress={() => {}}>
+        {/* <CelButton basic margin='20 0 20 0' onPress={() => {}}>
             Lear how to earn interest
           </CelButton>
           <Separator /> */}
 
+        <View style={{ paddingHorizontal: 20 }}>
           <CelText margin='10 0 10 0' type='H2' align='center' weight='bold'>
             Start earning interest
           </CelText>

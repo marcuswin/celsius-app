@@ -84,8 +84,7 @@ const CoinSwitch = props => {
           <View
             style={{
               height: getScaledFont(STYLES.FONTSIZE.H1),
-              justifyContent: 'center',
-              marginVertical: 10
+              justifyContent: 'center'
             }}
           >
             <CelText
