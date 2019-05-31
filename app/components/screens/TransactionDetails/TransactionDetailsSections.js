@@ -56,35 +56,41 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
   </View>
 )
 
-export const AddressSection = ({ transaction, text, address }) => (
+export const AddressSection = ({ transaction, text, address }) => {
 
-  <View style={{ paddingHorizontal: 20 }}>
-    <Card margin={'20 0 20 0'}>
-      <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
-        <CelText>{text}</CelText>
-        {!!transaction.transaction_id && (
-          <TouchableOpacity
-            style={{ flexDirection: 'row', alignItems: 'flex-start' }}
-            onPress={() => Linking.openURL(getBlockExplorerLink(transaction).link)}>
-            <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {getBlockExplorerLink(transaction).text}</CelText>
-            <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE} style={{ marginLeft: 5 }} />
-          </TouchableOpacity>
+  const link = getBlockExplorerLink(transaction);
+
+  return (
+     link ?
+      <View style={{ paddingHorizontal: 20 }}>
+        <Card margin={'20 0 20 0'}>
+          <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
+            <CelText>{text}</CelText>
+            {!!transaction.transaction_id && (
+              <TouchableOpacity
+                style={{ flexDirection: 'row', alignItems: 'flex-start' }}
+                onPress={() => Linking.openURL(link.text)}>
+                <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {link.text}</CelText>
+                <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE}
+                      style={{ marginLeft: 5 }}/>
+              </TouchableOpacity>
+            )}
+          </View>
+          <CelText weight='500' type="H4">{address.split('?')[0]}</CelText>
+        </Card>
+        {transaction.coin === 'xrp' && (
+          <Card margin={'10 0 20 0'}>
+            <CelText weight='500' type="H4">Destination Tag: {address.split('=')[1]}</CelText>
+          </Card>
         )}
-      </View>
-      <CelText weight='500' type="H4">{address.split('?')[0]}</CelText>
-    </Card>
-    {transaction.coin === 'xrp' && (
-      <Card margin={'10 0 20 0'}>
-        <CelText weight='500' type="H4">Destination Tag: {address.split('=')[1]}</CelText>
-      </Card>
-    )}
-    {transaction.coin === 'xlm' && (
-      <Card margin={'10 0 20 0'}>
-        <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
-      </Card>
-    )}
-  </View>
-)
+        {transaction.coin === 'xlm' && (
+          <Card margin={'10 0 20 0'}>
+            <CelText weight='500' type="H4">Memo ID: {address.split('=')[1]}</CelText>
+          </Card>
+        )}
+      </View> : null
+  )
+}
 
 export const TransactionSection = ({ transaction, text, actions }) => (
 
@@ -342,14 +348,23 @@ export const HodlInfoSection = ({ date, amount, coin }) => (
 )
 
 function getBlockExplorerLink(transaction) {
-  return {
-    eth: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
-    btc: { link: `https://blockchain.info/btc/tx/${transaction.transaction_id}`, text: 'blockchain' },
-    bch: { link: `https://blockdozer.com/tx/${transaction.transaction_id}`, text: 'blockdozer' },
-    ltc: { link: `https://chainz.cryptoid.info/ltc/tx.dws?${transaction.transaction_id}`, text: 'chainz' },
-    xrp: { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' },
-    cel: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
-    omg: { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' },
-    xlm: { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain' }
-  }[transaction.coin];
+
+  switch (transaction.coin) {
+    case 'eth': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'dai': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'pax': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'zrx': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'tusd': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'gusd': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'usdc': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'btc': return { link: `https://blockchain.info/btc/tx/${transaction.transaction_id}`, text: 'blockchain' };
+    case 'bch': return { link: `https://blockdozer.com/tx/${transaction.transaction_id}`, text: 'blockdozer' };
+    case 'ltc': return { link: `https://chainz.cryptoid.info/ltc/tx.dws?${transaction.transaction_id}`, text: 'chainz' };
+    case 'xrp': return { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' };
+    case 'cel': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'omg': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
+    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain'};
+    default :
+      return null
+  }
 }
