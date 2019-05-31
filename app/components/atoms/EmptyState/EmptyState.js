@@ -71,7 +71,7 @@ class EmptyState extends Component {
       kycColor = STYLES.COLORS.ORANGE;
     }
 
-    return kycStatus === KYC_STATUSES || kycStatus === KYC_STATUSES.rejeceted ? (
+    return kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.rejeceted ? (
       <CelButton
         onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
         basic
@@ -112,6 +112,7 @@ class EmptyState extends Component {
     const { kycStatus, kycReasons, actions } = this.props;
     const style = EmptyStateStyle();
     const KYCStatus = this.renderKYCStatus;
+    const Errors = this.renderErrors;
 
     return (
       <View style={style.container}>
@@ -144,7 +145,7 @@ class EmptyState extends Component {
         {button && onPress ? (
           <CelButton
             margin="10 0 10 0"
-            disabled={["pending", "sending", "sent"].indexOf(kycStatus) !== -1}
+            disabled={[KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].indexOf(kycStatus) !== -1}
             onPress={onPress}
           >
             {button}
@@ -161,7 +162,7 @@ class EmptyState extends Component {
             yesCopy="Verify identity again"
             onYes={actions.closeModal}
           >
-            <>{this.renderErrors()}</>
+            <><Errors /></>
           </InfoModal>
         ) : null}
       </View>

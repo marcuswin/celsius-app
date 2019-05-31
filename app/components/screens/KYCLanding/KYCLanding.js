@@ -184,7 +184,7 @@ class KYCLanding extends Component {
               <CelButton
                 style={{ alignSelf: "center" }}
                 onPress={() => actions.navigateTo("KYCProfileDetails")}
-                disabled={!(kycStatus === "collecting" || kycStatus === "rejected")}
+                disabled={!(kycStatus === KYC_STATUSES.collecting || kycStatus === KYC_STATUSES.rejected)}
                 weight={"500"}
                 type={"H4"}
               >
@@ -206,7 +206,7 @@ class KYCLanding extends Component {
  
   render() {
     const { kycStatus, kycReasons, actions } = this.props;
-    // const Errors = this.renderErrors()
+    const Errors = this.renderErrors
     if (kycStatus === KYC_STATUSES.passed) return null;
     return (
       <RegularLayout theme={THEMES.LIGHT}>
@@ -220,7 +220,7 @@ class KYCLanding extends Component {
             yesCopy="Verify identity again"
             onYes={actions.closeModal}
           >
-            {this.renderErrors()}
+            <><Errors /></>
           </InfoModal>
         ) : null}
       </RegularLayout>
