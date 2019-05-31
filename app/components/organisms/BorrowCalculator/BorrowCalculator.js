@@ -148,20 +148,23 @@ class BorrowCalculator extends Component {
 
   calculateLoanParams = () => {
     const { formData, currencies, walletSummary, ltv, purpose } = this.props
+    const loanParams = {}
 
-    this.annualInterest = Number(formData.amount) / (formData.termOfLoan / 12) * formData.ltv.interest
-    this.monthlyInterest = this.annualInterest / 12
-    this.totalInterest = this.monthlyInterest * formData.termOfLoan
+    loanParams.annualInterest = Number(formData.amount) / (formData.termOfLoan / 12) * formData.ltv.interest
+    loanParams.monthlyInterest = loanParams.annualInterest / 12
+    loanParams.totalInterest = loanParams.monthlyInterest * formData.termOfLoan
 
-    this.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
-    this.bestLtv =  Math.max(...ltv.map(x => x.percent))
+    loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
+    loanParams.bestLtv =  Math.max(...ltv.map(x => x.percent))
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
-      this.arrayOfAmountUsd = walletSummary.coins.map(c => c.amount_usd)
-      this.biggestAmountCryptoUsd = Math.max(...this.arrayOfAmountUsd)
-      this.indexOfLargestAmount = this.arrayOfAmountUsd.indexOf(this.biggestAmountCryptoUsd)
-      this.coinWithLargestAmount = walletSummary.coins[this.indexOfLargestAmount].short
+      loanParams.arrayOfAmountUsd = walletSummary.coins.map(c => c.amount_usd)
+      loanParams.biggestAmountCryptoUsd = Math.max(...loanParams.arrayOfAmountUsd)
+      loanParams.indexOfLargestAmount = loanParams.arrayOfAmountUsd.indexOf(loanParams.biggestAmountCryptoUsd)
+      loanParams.coinWithLargestAmount = walletSummary.coins[loanParams.indexOfLargestAmount].short
     }
+
+    this.setState({ loanParams })
   }
 
   changeAmount = (field, value) => {
@@ -178,6 +181,7 @@ class BorrowCalculator extends Component {
     const style = LoanCalculatorStyle()
     const {
       coinSelectItems,
+      loanParams
     } = this.state
 
     const {
@@ -188,7 +192,7 @@ class BorrowCalculator extends Component {
 
     if (!formData.ltv) return null;
     const purposeProps = this.getPurposeSpecificProps()
-    const numberOfDigits = Math.max(formatter.usd(this.monthlyInterest).length, formatter.usd(this.totalInterest).length)
+    const numberOfDigits = Math.max(formatter.usd(loanParams.monthlyInterest).length, formatter.usd(loanParams.totalInterest).length)
     const textType = numberOfDigits > 8 ? "H3" : "H2"
 
     return (
@@ -280,7 +284,7 @@ class BorrowCalculator extends Component {
                 color={STYLES.COLORS.MEDIUM_GRAY}
                 type={textType}
               >
-                {formatter.usd(this.monthlyInterest)}
+                {formatter.usd(loanParams.monthlyInterest)}
               </CelText>
               <CelText
                 align={'center'}
@@ -300,7 +304,7 @@ class BorrowCalculator extends Component {
                 weight='bold'
                 color={STYLES.COLORS.MEDIUM_GRAY}
                 type={textType}>
-                {formatter.usd(this.totalInterest)}
+                {formatter.usd(loanParams.totalInterest)}
               </CelText>
               <CelText
                 align={'center'}
@@ -347,7 +351,7 @@ class BorrowCalculator extends Component {
             weight='bold'
             color={STYLES.COLORS.MEDIUM_GRAY}
             type={'H2'}>
-            {formatter.crypto(this.collateralNeeded, formData.coin)}
+            {formatter.crypto(loanParams.collateralNeeded, formData.coin)}
           </CelText>
           <CelText
             align={'center'}
