@@ -35,6 +35,9 @@ function getInitialCelsiusData() {
         interestRates: res.data.interest_rates,
         ltvs: res.data.borrow_ltvs,
         minimumLoanAmount,
+        celUtilityTiers: res.data.cel_utility_tiers,
+        withdrawalSettings: res.data.withdrawal_settings,
+
       });
     } catch (err) {
       dispatch(showMessage('error', err.msg));

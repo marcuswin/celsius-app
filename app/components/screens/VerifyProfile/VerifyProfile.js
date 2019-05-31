@@ -67,17 +67,22 @@ class VerifyProfile extends Component {
   }
 
   onCheckSuccess = async () => {
+    this.setState({ loading: true })
+
     const { navigation, actions, previousScreen } = this.props
-    const onSuccess = navigation.getParam('onSuccess')
-    const activeScreen = navigation.getParam('activeScreen')
+    const onSuccess = navigation.getParam('onSuccess');
+    const activeScreen = navigation.getParam('activeScreen');
     if (activeScreen) {
       if (activeScreen === 'VerifyProfile') {
+        this.setState({ loading: false })
         actions.navigateTo(previousScreen)
         return
       }
 
       if (navigation.getParam('show', null)) {
+        await actions.showVerifyScreen(false)
         await actions.initAppData()
+        this.setState({ loading: false })
       }
       actions.navigateTo(activeScreen)
       return
@@ -103,7 +108,7 @@ class VerifyProfile extends Component {
     }
   }
 
-  getVerifyType = showType => showType && showType === '2fa'
+  getVerifyType = showType => showType && showType === '2FA'
 
   handleBackButtonClick = () => true
 

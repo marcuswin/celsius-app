@@ -9,6 +9,8 @@ function initialState() {
     backendStatus: undefined,
     interestRates: undefined,
     minimumLoanAmount: undefined,
+    celUtilityTiers: undefined,
+    withdrawalSettings: undefined,
 
     // TODO: remove
     supportedCurrencies: undefined,
@@ -53,7 +55,9 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         interestRates: action.interestRates,
-        minimumLoanAmount: action.minimumLoanAmount
+        minimumLoanAmount: action.minimumLoanAmount,
+        celUtilityTiers: action.celUtilityTiers,
+        withdrawalSettings: action.withdrawalSettings,
       };
 
     case ACTIONS.GET_LOYALTY_INFO_SUCCESS:

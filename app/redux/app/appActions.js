@@ -205,8 +205,8 @@ function initAppData(initToken = null) {
  * Handle show verify screen on status code 426
  */
 function showVerifyScreen(defaultVerifyState = true) {
-  return async (dispatch, getState) => {
-    if (getState().app.showVerifyScreen) return;
+  return async (dispatch) => {
+    // if (getState().app.showVerifyScreen === defaultVerifyState) return;
     dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
   }
 }
