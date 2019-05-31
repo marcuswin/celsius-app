@@ -45,13 +45,13 @@ class EmptyState extends Component {
   }
 
   renderErrors = () =>
-    this.props.kycReasons.map((reason, e) => (
-      <CelText key={e} margin={"0 0 10 0"}>
+    this.props.kycReasons.map((reason, index) => (
+      <CelText key={index} margin={"0 0 10 0"}>
         {reason}
       </CelText>
     ));
 
-  renderKYCReject = () => {
+  renderKYCStatus = () => {
     const emptyStateProps = {
       ...this.state,
       ...this.props
@@ -61,20 +61,17 @@ class EmptyState extends Component {
     let kycColor = STYLES.COLORS.CELSIUS_BLUE;
     let kyc = "";
 
-    if (kycStatus === "rejected" || kycStatus === "rejeceted") {
-      kyc = "Identity verification failed    ";
+    if (kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.rejeceted) {
+      kyc = "Identity verification failed";
       kycColor = STYLES.COLORS.RED;
     }
-    if (
-      kycStatus === "pending" ||
-      kycStatus === "sending" ||
-      kycStatus === "sent"
-    ) {
+    if ([KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].includes(kycStatus)) {
+
       kyc = "In progress";
       kycColor = STYLES.COLORS.ORANGE;
     }
 
-    return kycStatus === "rejected" || kycStatus === "rejeceted" ? (
+    return kycStatus === KYC_STATUSES || kycStatus === KYC_STATUSES.rejeceted ? (
       <CelButton
         onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
         basic
@@ -93,7 +90,6 @@ class EmptyState extends Component {
         type="H3"
         weight={"500"}
         color={kycColor}
-        bold
       >
         {(title && title(kyc)) || ""}
       </CelText>
@@ -115,7 +111,7 @@ class EmptyState extends Component {
     } = emptyStateProps;
     const { kycStatus, kycReasons, actions } = this.props;
     const style = EmptyStateStyle();
-    const RenderKYCReject = this.renderKYCReject;
+    const KYCStatus = this.renderKYCStatus;
 
     return (
       <View style={style.container}>
@@ -126,7 +122,7 @@ class EmptyState extends Component {
           />
         </View>
 
-        <RenderKYCReject />
+        <KYCStatus />
 
         <CelText margin="20 0 15 0" align="center" type="H2" weight={"bold"}>
           {heading}

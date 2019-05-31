@@ -16,8 +16,6 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
 
-const progressSteps = ["Verify Identity"];
-
 @connect(
   state => ({
     profile: state.user.profile,
@@ -53,12 +51,7 @@ class KYCLanding extends Component {
     actions.getWalletSummary();
   }
 
-  renderErrors = () =>
-    this.props.kycReasons.map((reason, e) => (
-      <CelText key={e} margin={"0 0 0 0"}>
-        {reason}
-      </CelText>
-    ));
+
 
   // rendering methods
   renderCard = () => {
@@ -92,11 +85,13 @@ class KYCLanding extends Component {
   };
 
   renderKycStatus = kycStatus => {
-    const { kycErrors } = this.props;
+    const { kycErrors, actions } = this.props;
     const style = KYCLandingStyle();
     let status;
+    let kycColor = STYLES.COLORS.CELSIUS_BLUE;
+    let kyc = "";
 
-    if (kycStatus === "collecting") {
+    if (kycStatus === KYC_STATUSES.collecting) {
       status = {
         title: "Add, Send, Receive Coins",
         explanation:
@@ -105,11 +100,7 @@ class KYCLanding extends Component {
       };
     }
 
-    if (
-      kycStatus === "pending" ||
-      kycStatus === "sending" ||
-      kycStatus === "sent"
-    ) {
+    if ([KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].includes(kycStatus)) {
       status = {
         text: "In progress",
         title: "Your identity verification is in progress",
@@ -117,20 +108,23 @@ class KYCLanding extends Component {
           "It typically takes just a few minutes to verify your identity. Please contact support if you do not receive verification within the next 24 hours.",
         image: require("../../../../assets/images/emptyStates/KYC-Pending.png")
       };
+      kyc = "In progress";
+      kycColor = STYLES.COLORS.ORANGE;
     }
 
-    if (kycStatus === "rejected") {
+    if (kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.rejeceted) {
       status = {
         explanation:
           "Please go through the verification process again or contact our support for help.",
         image: require("../../../../assets/images/emptyStates/KYC-Failed.png")
       };
+      kyc = "Identity verification failed";
+      kycColor = STYLES.COLORS.RED;
     }
 
     return (
       <View>
         <Image source={status.image} style={style.image} />
-
         <View
           style={{
             flex: 1,
@@ -139,7 +133,29 @@ class KYCLanding extends Component {
             marginBottom: 10
           }}
         >
-          {this.renderStatus()}
+          {kycStatus === "rejected" || kycStatus === "rejeceted" ? (
+            <CelButton
+              onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
+              basic
+              textColor={STYLES.COLORS.RED}
+              iconRight={"IconChevronRight"}
+              iconRightHeight={"12"}
+              iconRightWidth={"12"}
+              iconRightColor={STYLES.COLORS.RED}
+            >
+              {kyc || ""}
+            </CelButton>
+          ) : (
+              <CelText
+                margin="0 0 2 0"
+                align="center"
+                type="H3"
+                weight={"500"}
+                color={kycColor}
+              >
+                {kyc || ""}
+              </CelText>
+            )}
         </View>
         <CelText
           margin={"0 0 10 0"}
@@ -158,13 +174,22 @@ class KYCLanding extends Component {
           <Image style={style.progressImage} source={status.imageState} />
           <View style={style.stepsWrapper}>
             {kycErrors &&
-              kycErrors.map(e => (
-                <CelText align={"center"} type={"H4"} weight={"300"} key={e}>
-                  {e}
+              kycErrors.map(err => (
+                <CelText align={"center"} type={"H4"} weight={"300"}>
+                  {err}
                 </CelText>
               ))}
-            <View style={{ marginLeft: "23%", justifyContet:'center' }}>
-              {this.renderProgressSteps(kycStatus)}
+            <View style={{ marginLeft: "23%", justifyContet: "center" }}>
+
+              <CelButton
+                style={{ alignSelf: "center" }}
+                onPress={() => actions.navigateTo("KYCProfileDetails")}
+                disabled={!(kycStatus === "collecting" || kycStatus === "rejected")}
+                weight={"500"}
+                type={"H4"}
+              >
+                Verify identity
+              </CelButton>
             </View>
           </View>
         </View>
@@ -172,73 +197,16 @@ class KYCLanding extends Component {
     );
   };
 
-  renderStatus = () => {
-    const { kycStatus, actions } = this.props;
-    let kycColor = STYLES.COLORS.CELSIUS_BLUE;
-    let kyc = "";
-
-    if (kycStatus === "rejected" || kycStatus === "rejeceted") {
-      kyc = "Identity verification failed    ";
-      kycColor = STYLES.COLORS.RED;
-    }
-    if (
-      kycStatus === "pending" ||
-      kycStatus === "sending" ||
-      kycStatus === "sent"
-    ) {
-      kyc = "In progress";
-      kycColor = STYLES.COLORS.ORANGE;
-    }
-
-    return kycStatus === "rejected" || kycStatus === "rejeceted" ? (
-      <CelButton
-        onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
-        basic
-        textColor={STYLES.COLORS.RED}
-        iconRight={"IconChevronRight"}
-        iconRightHeight={"12"}
-        iconRightWidth={"12"}
-        iconRightColor={STYLES.COLORS.RED}
-      >
-        {kyc || ""}
-      </CelButton>
-    ) : (
-      <CelText
-        margin="0 0 2 0"
-        align="center"
-        type="H3"
-        weight={"500"}
-        color={kycColor}
-        bold
-      >
-        {kyc || ""}
-      </CelText>
-    );
-  };
-
-  renderProgressSteps = kycStatus => {
-    const { actions } = this.props;
-
-    return progressSteps.map(step => (
-      <CelButton
-        style={{ alignSelf: "center" }}
-        key={step}
-        onPress={() => actions.navigateTo("KYCProfileDetails")}
-        disabled={
-          !(
-            (step === "Verify Identity" && kycStatus === "collecting") ||
-            kycStatus === "rejected"
-          )
-        }
-        weight={"500"}
-        type={"H4"}
-      >
-        {step}
-      </CelButton>
-    ));
-  };
+  renderErrors = () =>
+  this.props.kycReasons.map((reason, index) => (
+    <CelText key={index} margin={"0 0 10 0"}>
+      {reason}
+    </CelText>
+  ));
+ 
   render() {
     const { kycStatus, kycReasons, actions } = this.props;
+    // const Errors = this.renderErrors()
     if (kycStatus === KYC_STATUSES.passed) return null;
     return (
       <RegularLayout theme={THEMES.LIGHT}>
@@ -252,7 +220,7 @@ class KYCLanding extends Component {
             yesCopy="Verify identity again"
             onYes={actions.closeModal}
           >
-            <>{this.renderErrors()}</>
+            {this.renderErrors()}
           </InfoModal>
         ) : null}
       </RegularLayout>
