@@ -73,7 +73,13 @@ class WithdrawEnterAmount extends Component {
       activePeriod: { label: '', value: '' }
     }
 
-    const coin = navigation.getParam('coin', coinSelectItems[0].value)
+    const coin = navigation.getParam(
+      'coin',
+      (coinSelectItems &&
+        coinSelectItems.length > 0 &&
+        coinSelectItems[0].value) ||
+        ''
+    )
 
     props.actions.getCoinWithdrawalAddress(coin)
     props.actions.initForm({ coin })
