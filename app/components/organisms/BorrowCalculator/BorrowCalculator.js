@@ -63,6 +63,7 @@ class BorrowCalculator extends Component {
 
     this.state = {
       coinSelectItems,
+      loanParams: {}
     }
 
     this.sliderItems = [
