@@ -1,10 +1,11 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { showMessage, closeModal } from "../ui/uiActions";
+import { openModal, showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
 import analytics from "../../utils/analytics";
+import { MODALS } from "../../constants/UI";
 
 export {
   applyForALoan,
@@ -31,18 +32,18 @@ function applyForALoan() {
         bank_info_id: formData.bankInfo ? formData.bankInfo.id : null,
       }
 
-      const verification = {
-        pin: formData.pin,
-        twoFactorCode: formData.code,
-      }
+      dispatch(navigateTo("VerifyProfile", {onSuccess: async () =>  {
+          const verification = {
+            pin: getState().forms.formData.pin,
+            twoFactorCode: getState().forms.formData.code,
+          };
+          const res = await loansService.apply(loanApplication, verification);
+          dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS, loan: res.data.loan });
+          analytics.loanApplied(res.data.loan)
+          dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
+          dispatch(openModal(MODALS.BORROW_CONFIRM))
+      }}));
 
-      const res = await loansService.apply(loanApplication, verification);
-      dispatch({ type: ACTIONS.APPLY_FOR_LOAN_SUCCESS, loan: res.data.loan });
-      dispatch(closeModal());
-      dispatch(showMessage('success', 'You have successfully applied for a loan! Somebody from Celsius will contact you.'));
-      dispatch(navigateTo('TransactionDetails', { id: res.data.transaction_id }));
-
-      analytics.loanApplied(res.data.loan)
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.APPLY_FOR_LOAN, err));

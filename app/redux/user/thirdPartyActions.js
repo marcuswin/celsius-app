@@ -417,15 +417,22 @@ function loginGoogle (googleUser) {
  * @param {string} network - one of twitter|facebook|google
  * @param {string} token - auth token from social network
  */
-function loginSocialSuccess (network, token) {
-  return async dispatch => {
-    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token)
+function loginSocialSuccess(network, token) {
+  return async (dispatch, getState) => {
+    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
 
-    dispatch(navigateTo('WalletFab'))
+    const userRes = await usersService.getPersonalInfo();
+    const user = userRes.data;
+    
+    const { showVerifyScreen } = getState().app
+    if(!showVerifyScreen) {
+      await dispatch(initAppData());
+      dispatch(navigateTo('WalletFab'))
+    }
 
     dispatch({
-      type: ACTIONS[`LOGIN_USER_${network.toUpperCase()}_SUCCESS`],
-      user: {}
+      type: ACTIONS[`LOGIN_USER_${ network.toUpperCase() }_SUCCESS`],
+      user,
     })
 
     // dispatch(claimAllBranchTransfers());
@@ -452,7 +459,7 @@ function registerSocialSuccess (network, token, user) {
 
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers())
-
+    
     await dispatch(initAppData(token))
     const { profile } = getState().user
     if (!profile.has_pin) {

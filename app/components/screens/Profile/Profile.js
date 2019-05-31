@@ -102,7 +102,7 @@ class Profile extends Component {
     const { profilePicture, user, actions, formData, formErrors } = this.props;
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
-    const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed;
+    const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
     const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States';
 
     return (
@@ -187,9 +187,13 @@ class Profile extends Component {
               </View>
             }
 
-            <CelInput margin="0 0 20 0" disabled={!!user.ssn} type={user.ssn ? "text" : "password"} field="ssn"
+            <CelInput margin="0 0 20 0"
+              disabled={!!user.ssn}
+              type={user.ssn ? "text" : "password"}
+              field="ssn"
               placeholder="Social Security Number"
-              value={ssn} error={formErrors.ssn} />
+              value={ssn} error={formErrors.ssn}
+              keyboardType={'phone-pad'}/>
 
             {!user.ssn &&
               <CelButton

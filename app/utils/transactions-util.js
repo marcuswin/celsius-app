@@ -39,11 +39,14 @@ function getTransactionType(transaction) {
     return TRANSACTION_TYPES.CANCELED;
   }
 
-
   if (transaction.nature === "deposit" && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
   if (transaction.nature === "deposit" && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
-  if (transaction.nature === "withdrawal" && !transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_PENDING;
-  if (transaction.nature === "withdrawal" && transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED;
+  if (transaction.nature === "withdrawal") {
+    if (transaction.verified === false) return TRANSACTION_TYPES.WITHDRAWAL_PENDING_VERIFICATION
+    if (transaction.verified && transaction.state === "pending_manual_approval") return TRANSACTION_TYPES.WITHDRAWAL_PENDING_REVIEW
+    if (!transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_PENDING
+    if (transaction.is_confirmed) return TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED
+  }
   if (transaction.nature === "interest") return TRANSACTION_TYPES.INTEREST;
   if (transaction.nature === "collateral") return TRANSACTION_TYPES.COLLATERAL;
   if (transaction.nature === "bonus_token") return TRANSACTION_TYPES.BONUS_TOKEN;
@@ -189,6 +192,20 @@ function getTransactionsProps(transaction) {
         color: STYLES.COLORS.RED,
         iconName: 'TransactionSent',
         statusText: 'Withdrawn'
+      }
+    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_VERIFICATION:
+      return {
+        title: (coin) => `${coin} Withdrawal`,
+        color: STYLES.COLORS.ORANGE,
+        iconName: 'TransactionSent',
+        statusText: 'Pending verification'
+      }
+    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_REVIEW:
+      return {
+        title: (coin) => `${coin} Withdrawal`,
+        color: STYLES.COLORS.ORANGE,
+        iconName: 'TransactionSent',
+        statusText: 'Pending review'
       }
 
     case TRANSACTION_TYPES.INTEREST:
@@ -345,6 +362,8 @@ function getTransactionSections(transaction) {
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
+    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_VERIFICATION: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
+    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_REVIEW: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_CANCELED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']

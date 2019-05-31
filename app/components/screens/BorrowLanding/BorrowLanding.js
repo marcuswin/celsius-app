@@ -37,38 +37,42 @@ import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowLanding extends Component {
-
   static navigationOptions = () => ({
-    title: "Borrows",
-    right: "profile"
-  });
+    title: 'Borrows',
+    right: 'profile'
+  })
 
   constructor(props) {
     super(props);
     const { walletSummary, loanCompliance, ltv } = this.props;
 
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
+    const eligibleCoins = walletSummary.coins.filter(coinData =>
+      loanCompliance.coins.includes(coinData.short)
+    )
 
     this.state = {
       eligibleCoins,
-      maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0),
+      maxAmount: eligibleCoins.reduce(
+        (max, element) => (element.amount_usd > max ? element.amount_usd : max),
+        0
+      ),
       isLoading: true
     }
 
     this.bestLtv =  Math.max(...ltv.map(x => x.percent))
   }
 
-  async componentDidMount() {
-    const { actions, loanCompliance, minimumLoanAmount } = this.props;
+  async componentDidMount () {
+    const { actions, loanCompliance, minimumLoanAmount } = this.props
 
     if (loanCompliance.allowed) {
-      await actions.getAllLoans();
+      await actions.getAllLoans()
     }
 
     const { allLoans, user, kycStatus } = this.props;
     const { maxAmount } = this.state;
 
-    this.setState({ isLoading: false });
+    this.setState({ isLoading: false })
     // If user has enough money for loan, and doesn't have any previous loans
     // and has passed kyc and is celsius member
     // redirect to BorrowEnterAmount screen
@@ -76,44 +80,44 @@ class BorrowLanding extends Component {
       maxAmount > minimumLoanAmount / this.bestLtv && (!allLoans || !allLoans.length) &&
       kycStatus === KYC_STATUSES.passed && user.celsius_member
     ) {
-      actions.navigateTo("BorrowEnterAmount");
+      actions.navigateTo('BorrowEnterAmount')
     }
   }
 
-  getLoanStatusDetails = (status) => {
+  getLoanStatusDetails = status => {
     switch (status) {
       case LOAN_STATUS.ACTIVE:
       case LOAN_STATUS.APPROVED:
         return {
           color: STYLES.COLORS.CELSIUS_BLUE,
-          displayText: "Loan active"
-        };
+          displayText: 'Loan active'
+        }
 
       case LOAN_STATUS.PENDING:
         return {
           color: STYLES.COLORS.ORANGE,
-          displayText: "Loan pending"
-        };
+          displayText: 'Loan pending'
+        }
 
       case LOAN_STATUS.COMPLETED:
         return {
           color: STYLES.COLORS.GREEN,
-          displayText: "Loan payout"
-        };
+          displayText: 'Loan payout'
+        }
 
       case LOAN_STATUS.REJECTED:
         return {
           color: STYLES.COLORS.RED,
-          displayText: "Loan rejected"
-        };
+          displayText: 'Loan rejected'
+        }
 
       default:
         return {
           color: STYLES.COLORS.CELSIUS_BLUE,
-          displayText: "Loan active"
-        };
+          displayText: 'Loan active'
+        }
     }
-  };
+  }
 
   applyForAnother = () => {
     const { maxAmount } = this.state;
@@ -122,9 +126,9 @@ class BorrowLanding extends Component {
     if (maxAmount < minimumLoanAmount / this.bestLtv) {
       actions.showMessage("warning", "Insufficient funds!");
     } else {
-      actions.navigateTo("BorrowEnterAmount");
+      actions.navigateTo('BorrowEnterAmount')
     }
-  };
+  }
 
    render() {
     const { maxAmount, isLoading } = this.state;
@@ -182,14 +186,13 @@ class BorrowLanding extends Component {
           </View>
         </RegularLayout>
       )
-    } return (
+    }
+    return (
       <RegularLayout>
-          <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
+        <StaticScreen emptyState={{ purpose: EMPTY_STATES.NO_LOANS }} />
       </RegularLayout>
     )
   }
 }
 
-
-
-export default testUtil.hookComponent(BorrowLanding);
+export default testUtil.hookComponent(BorrowLanding)

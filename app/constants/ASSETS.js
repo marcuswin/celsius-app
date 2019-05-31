@@ -101,7 +101,8 @@ const CACHE_IMAGES = [
   require('../../assets/images/deer-sad.png'),
   require('../../assets/images/security/securityDog/security-dog-illustration.png'),
   require('../../assets/images/security/securityDiane/security-diane-illustration.png'),
-  require('../../assets/images/calculator.png')
+  require('../../assets/images/calculator.png'),
+  require('../../assets/images/security-dog.png')
 ];
 
 export default {

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, ScrollView, TouchableOpacity } from "react-native";
 
 import testUtil from "../../../utils/test-util";
+import formatter from "../../../utils/formatter";
 import CelText from '../../atoms/CelText/CelText';
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
@@ -15,11 +16,13 @@ class WithdrawInfoModal extends Component {
     closeModal: PropTypes.func.isRequired,
     toggleKeypad: PropTypes.func,
     type: PropTypes.bool,
+    withdrawalSettings: PropTypes.instanceOf(Object),
   };
   static defaultProps = {}
 
   constructor(props) {
     super(props);
+    const { withdrawalSettings } = props
 
     this.state = {
       currentStep: 1,
@@ -31,8 +34,8 @@ class WithdrawInfoModal extends Component {
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),
-          title: "Immediate withdrawals under $20,000",
-          description: "Celsius enables you to withdraw coins at any time. However, for your security when exceeding this limit withdrawals are delayed for up to twenty-four hours.",
+          title: `Immediate withdrawals under ${ withdrawalSettings && formatter.usd(withdrawalSettings.maximum_withdrawal_amount) }`,
+          description: "Celsius enables you to withdraw coins at any time. However, when exceeding this limit, withdrawals might be delayed for twenty-four (24) hours due to our security protocols.",
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),

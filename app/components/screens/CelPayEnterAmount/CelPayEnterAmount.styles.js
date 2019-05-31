@@ -1,8 +1,9 @@
 // import STYLES from '../../../constants/STYLES';
-import { Dimensions } from "react-native";
-import { getThemedStyle } from "../../../utils/styles-util";
+import { Dimensions, Platform } from 'react-native'
+import { getThemedStyle } from '../../../utils/styles-util'
+import STYLES from '../../../constants/STYLES'
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window')
 
 const base = {
   container: {
@@ -10,19 +11,37 @@ const base = {
     width
   },
   wrapper: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10
   },
   selectWrapper: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignSelf: 'center',
+    width: 'auto',
+    alignItems: 'center',
+    backgroundColor: STYLES.COLORS.WHITE,
+    borderRadius: 8,
+    ...Platform.select({
+      android: {
+        borderColor: '#E9E9E9',
+        borderTopWidth: 0.2,
+        borderLeftWidth: 0.2,
+        borderRightWidth: 0.5,
+        borderBottomWidth: 2
+      },
+      ios: {
+        ...STYLES.SHADOW_STYLES
+      }
+    }),
+    paddingHorizontal: 10,
+    marginBottom: 5
   },
   amounts: {
     flexDirection: 'column',
     alignContent: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20
   }
-};
+}
 
 const themed = {
   light: {},
@@ -30,8 +49,8 @@ const themed = {
   dark: {},
 
   celsius: {}
-};
+}
 
-const CelPayEnterAmountStyle = () => getThemedStyle(base, themed);
+const CelPayEnterAmountStyle = () => getThemedStyle(base, themed)
 
-export default CelPayEnterAmountStyle;
+export default CelPayEnterAmountStyle

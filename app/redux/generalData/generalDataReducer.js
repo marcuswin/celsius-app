@@ -9,6 +9,8 @@ function initialState() {
     backendStatus: undefined,
     interestRates: undefined,
     minimumLoanAmount: undefined,
+    celUtilityTiers: undefined,
+    withdrawalSettings: undefined,
 
     // TODO: remove
     supportedCurrencies: undefined,
@@ -53,14 +55,16 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         interestRates: action.interestRates,
-        minimumLoanAmount: action.minimumLoanAmount
+        minimumLoanAmount: action.minimumLoanAmount,
+        celUtilityTiers: action.celUtilityTiers,
+        withdrawalSettings: action.withdrawalSettings,
       };
 
     case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
       interestRates = { ...state.interestRates }
 
       Object.keys(state.interestRates).forEach(coinShort => {
-        interestRates[coinShort].cel_rate = (1 + action.loyaltyInfo.earn_interest_bonus) * state.interestRates[coinShort].rate
+        interestRates[coinShort].cel_rate = ((1 + Number(action.loyaltyInfo.earn_interest_bonus)) * state.interestRates[coinShort].rate).toString()
       })
 
       return {

@@ -147,13 +147,8 @@ function initInterceptors () {
       }
 
       if (error && error.response && error.response.status === 426) {
-        const { activeScreen } = store.getState().nav
         const { showVerifyScreen } = store.getState().app
-        if (
-          !showVerifyScreen &&
-          activeScreen &&
-          !['Login', 'RegisterInitial'].includes(activeScreen)
-        ) {
+        if (!showVerifyScreen) {
           store.dispatch(
             actions.navigateTo('VerifyProfile', {
               show: error.response.data.show,

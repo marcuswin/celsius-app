@@ -82,15 +82,15 @@ class TwoFaAuthAppConfirmationCode extends Component {
           Verify Auth App
         </CelButton>
 
-        <CelModal name={MODALS.VERIFY_AUTHAPP_MODAL} shouldRenderCloseButton={false} picture={require('../../../../assets/images/Onboarding-Welcome3x.png')}>
+        <CelModal name={MODALS.VERIFY_AUTHAPP_MODAL} shouldRenderCloseButton={false} picture={require('../../../../assets/images/security-dog.png')}>
           <View style={{ alignItems: "center", paddingTop: 40 }}>
-            <CelText type='H2' align='center' weight='bold'>You have successfully turned Two-Factor Verification on</CelText>
-            <CelText type='H5' align='center' weight='extra-light' margin={'20 0 0 0'}>You will now be asked for a verification code, every time you want to login or make a transaction.</CelText>
+            <CelText type='H2' align='center' weight='bold'>Check your Email!</CelText>
+            <CelText type='H5' align='center' weight='extra-light' margin={'20 0 0 0'}>To complete your Two-Factor verification request follow the email instructions.</CelText>
           </View>
 
           <View style={style.buttonBottom}>
             <CelButton onPress={this.done}>
-              Done
+              Go to wallet
             </CelButton>
           </View>
         </CelModal>

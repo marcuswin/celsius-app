@@ -97,7 +97,9 @@ class WithdrawCreateAddress extends Component {
           field="withdrawAddress"
           placeholder={"Withdrawal address"}
           value={formData.withdrawAddress}
+          type='text-area'
           multiline
+          numberOfLines={formData.withdrawAddress ? 3 : 1}
           returnKeyType={hasTag ? "next" : "done"}
           blurOnSubmiting={!hasTag}
           onSubmitEditing={() => {if(hasTag)this.tag.focus()}}
@@ -135,7 +137,8 @@ class WithdrawCreateAddress extends Component {
         <InfoBox
           color={"white"}
           backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at app@celsius.network."}
+          titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at "}
+          boldText={"app@celsius.network."}
           left
         />
         }

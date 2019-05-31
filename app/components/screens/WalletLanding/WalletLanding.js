@@ -65,7 +65,7 @@ class WalletLanding extends Component {
     const { navigation } = props
 
     navigation.setParams({
-      title: `Welcome ${props.user.first_name}!`
+      title: `Welcome ${props.user.first_name || ''}!`
     })
 
     this.state = {
@@ -106,19 +106,27 @@ class WalletLanding extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { isFocused, navigation } = this.props
+    const { isFocused, appSettings } = this.props
 
     if (prevProps.isFocused !== isFocused && isFocused === true) {
       this.setWalletFetchingInterval()
     }
+
     if (
-      (prevProps.user && prevProps.user.first_name) !==
-      (this.props.user && this.props.user.first_name)
+      prevProps.appSettings.default_wallet_view !==
+      appSettings.default_wallet_view
     ) {
-      navigation.setParams({
-        title: `Welcome ${this.props.user.first_name}!`
-      })
+      this.toggleView(appSettings.default_wallet_view)
     }
+
+    // if (
+    //   (prevProps.user && prevProps.user.first_name) !==
+    //   (this.props.user && this.props.user.first_name)
+    // ) {
+    //   navigation.setParams({
+    //     title: `Welcome ${this.props.user.first_name}!`
+    //   })
+    // }
 
     if (isFocused === false && this.walletFetchingInterval) {
       clearInterval(this.walletFetchingInterval)
@@ -332,7 +340,9 @@ class WalletLanding extends Component {
     } = this.props
     // const style = WalletLandingStyle();
 
-    if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) { return <LoadingScreen /> }
+    if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) {
+      return <LoadingScreen />
+    }
 
     const CoinsCard = this.renderCoinsCard
     return (
@@ -371,7 +381,7 @@ class WalletLanding extends Component {
               >
                 <Icon
                   fill={this.getIconFillColor(
-                    activeView === WALLET_LANDING_VIEW_TYPES.LIST
+                    activeView !== WALLET_LANDING_VIEW_TYPES.GRID
                   )}
                   name='ListView'
                   width='18'
