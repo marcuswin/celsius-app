@@ -30,7 +30,7 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class InterestCalculatorModal extends Component {
+class InterestCalculator extends Component {
   static propTypes = {
     defaultCoin: PropTypes.string,
     showCard: PropTypes.bool
@@ -51,11 +51,6 @@ class InterestCalculatorModal extends Component {
       earnInterestIn: false
     }
     props.actions.updateFormField('coin', defaultCoin)
-  }
-
-  async componentDidMount () {
-    const { actions } = this.props
-    await actions.getInterestRates()
   }
 
   getUsdValue = amountUsd =>
@@ -307,4 +302,4 @@ class InterestCalculatorModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(InterestCalculatorModal)
+export default testUtil.hookComponent(InterestCalculator)

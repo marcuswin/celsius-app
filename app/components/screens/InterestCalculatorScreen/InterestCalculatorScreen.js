@@ -45,7 +45,7 @@ class InterestCalculatorScreen extends Component {
           button: (
             <CelButton
               margin='20 0 0 0'
-              onPress={() => actions.navigateTo('Deposit')}
+              onPress={() => actions.navigateTo('Deposit', { coin: "CEL" })}
             >
               Deposit
             </CelButton>

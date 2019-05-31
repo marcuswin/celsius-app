@@ -11,12 +11,14 @@ import CelText from '../../atoms/CelText/CelText'
 import InterestCalculator from '../InterestCalculator/InterestCalculator'
 
 @connect(
-  () => ({}),
+  state => ({
+    formData: state.forms.formData
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class InterestCalculatorModal extends Component {
   render () {
-    const { actions } = this.props
+    const { actions, formData } = this.props
     return (
       <CelModal name={MODALS.INTEREST_CALCULATOR_MODAL} padding='0 0 0 0'>
         <CelText weight='bold' type='H2' align={'center'}>
@@ -30,8 +32,9 @@ class InterestCalculatorModal extends Component {
 
         <CelButton
           onPress={() => {
-            actions.navigateTo('Deposit')
+            actions.navigateTo('Deposit', { coin: formData.coin })
             actions.closeModal()
+            actions.clearForm()
           }}
           margin='15 0 15 0'
         >

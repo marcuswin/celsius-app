@@ -19,8 +19,6 @@ class InterestRateInfoTable extends Component {
 
   async componentDidMount() {
     const { actions } = this.props;
-
-    await actions.getInterestRates();
     await actions.getLoyaltyInfo();
   }
 
