@@ -92,7 +92,7 @@ class BorrowCalculator extends Component {
   }
 
   getPurposeSpecificProps = () => {
-    const { purpose, actions, minimumLoanAmount } = this.props;
+    const { purpose, actions, minimumLoanAmount, formData, currencies } = this.props;
 
     const defaultProps = {
       subtitle: 'You are not allowed to apply for a loan, but you can try our loan calculator.',
@@ -117,7 +117,7 @@ class BorrowCalculator extends Component {
         return {
           ...defaultProps,
           subtitle: 'Calculate your loan interest',
-          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(minimumLoanAmount - this.biggestAmountCryptoUsd, this.coinWithLargestAmount) } to deposit`,
+          bottomHeading: `To apply for a loan you need only ${ formatter.crypto((Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent, this.coinWithLargestAmount) } to deposit`,
           bottomParagraph: 'Deposit more coins to start your first loan application',
           buttonCopy: 'Deposit coins',
           onPress: () => actions.navigateTo("Deposit", { coin: this.coinWithLargestAmount }),
