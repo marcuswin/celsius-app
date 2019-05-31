@@ -86,6 +86,10 @@ class CelInput extends Component {
     }
 
     onChangeText = (text) => {
+        const { type } = this.props
+
+        if (type === "number" && isNaN(text)) return
+
         this.setState({ textValue: text })
         const { debounce } = this.props
         if(debounce) {
@@ -134,7 +138,7 @@ class CelInput extends Component {
                 onSubmitEditing={onSubmitEditing}
                 style={[cmpStyle.input, style]}
                 onChangeText={this.onChangeText}
-                value={textValue}
+                value={textValue.toString()}
                 autoFocus={autoFocus}
                 editable={editable}
                 autoCapitalize={autoCapitalize}
