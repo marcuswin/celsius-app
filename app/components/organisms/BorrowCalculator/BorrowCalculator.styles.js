@@ -6,13 +6,11 @@ const base = {
     flex: 1
   },
   cardStyle: {
-    flex: 1,
     borderWidth: 1,
     backgroundColor: STYLES.COLORS.WHITE,
     borderColor: STYLES.COLORS.DARK_GRAY3
   },
   selectedCardStyle: {
-    flex: 1,
     borderWidth: 1,
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
     borderColor: STYLES.COLORS.CELSIUS_BLUE,
@@ -25,9 +23,10 @@ const base = {
     color: STYLES.COLORS.WHITE
   },
   ltvWrapper: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
   }
 };
 

@@ -137,7 +137,7 @@ class CelInput extends Component {
           <View style={[inputStyle, helperButtonContainerStyle]}>
             <CelInputText {...this.props} style={helperButtonInputStyle}/>
             {helperButton && helperButton()}
-            { rightText && <CelText style={{ position: 'absolute', right: 0, top: 10 }}>{ rightText }</CelText> }
+            { rightText && <CelText style={CelInputStyle().rightText}>{ rightText }</CelText> }
           </View>
         )
       }
