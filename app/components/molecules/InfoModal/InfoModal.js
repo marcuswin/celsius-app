@@ -52,7 +52,7 @@ const InfoModal = props => {
         </CelButton>
       ) : null}
 
-      {support ? <ContactSupport align="left" marginLeft={20} /> : null}
+      {support ? <ContactSupport align="left"/> : null}
     </CelModal>
   );
 };
