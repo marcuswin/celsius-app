@@ -138,7 +138,7 @@ class CelInput extends Component {
                 onSubmitEditing={onSubmitEditing}
                 style={[cmpStyle.input, style]}
                 onChangeText={this.onChangeText}
-                value={textValue.toString()}
+                value={textValue ? textValue.toString() : ''}
                 autoFocus={autoFocus}
                 editable={editable}
                 autoCapitalize={autoCapitalize}
