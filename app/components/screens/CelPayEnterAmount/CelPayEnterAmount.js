@@ -68,7 +68,13 @@ class CelPayEnterAmount extends Component {
     }
 
     if (!formData.coin) {
-      props.actions.updateFormField('coin', coinSelectItems[0].value)
+      props.actions.updateFormField(
+        'coin',
+        (coinSelectItems &&
+          coinSelectItems.length > 0 &&
+          coinSelectItems[0].value) ||
+          ''
+      )
     }
   }
 

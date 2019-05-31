@@ -34,7 +34,7 @@ const SimpleSelect = props => {
       }
     }
   }
-
+  
   return (
     <RNPickerSelect
       placeholder={{ label: placeholder } || {}}

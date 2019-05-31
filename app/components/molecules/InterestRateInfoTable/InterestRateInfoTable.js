@@ -19,8 +19,6 @@ class InterestRateInfoTable extends Component {
 
   async componentDidMount() {
     const { actions } = this.props;
-
-    await actions.getInterestRates();
     await actions.getLoyaltyInfo();
   }
 
@@ -28,7 +26,6 @@ class InterestRateInfoTable extends Component {
     const { interestRates, pressed, loyaltyInfo } = this.props;
     const interestArray = [];
     const ratesPriority = ["ETH", "BTC", "USD"];
-
 
     Object.keys(interestRates).forEach((currency) => {
       const obj = {};

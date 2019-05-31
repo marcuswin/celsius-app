@@ -42,15 +42,10 @@ class WalletDetailsCard extends PureComponent {
     if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('Deposit', { coin: "CEL" })
     actions.navigateTo("KYCLanding");
   };
-  navigateToWalletInterest = () =>{
-    const {kycStatus, actions} = this.props;
-    if (kycStatus === KYC_STATUSES.passed ) return actions.navigateTo('WalletInterest')
-    actions.navigateTo("KYCLanding");
-  };
   openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 
   render() {
-    const { walletSummary } = this.props;
+    const { walletSummary, actions } = this.props;
     const walletDetailsCardStyle = WalletDetailsCardStyle();
 
     return (
@@ -70,7 +65,7 @@ class WalletDetailsCard extends PureComponent {
           <Separator vertical/>
 
           <View>
-            <TouchableOpacity onPress={this.navigateToWalletInterest}>
+            <TouchableOpacity onPress={() => actions.navigateTo('WalletInterest')}>
               <CelText weight='300' type="H6">Total Interest earned</CelText>
               <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
             </TouchableOpacity>

@@ -54,6 +54,12 @@ const base = {
         borderLeftWidth: 0.5,
         borderRightWidth: 0.5,
         borderBottomWidth: 2,
+    },
+    rightText: {
+      position: 'absolute',
+      right: 10,
+      top: 14,
+      height: 23,
     }
 }
 

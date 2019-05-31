@@ -84,8 +84,7 @@ const CoinSwitch = props => {
           <View
             style={{
               height: getScaledFont(STYLES.FONTSIZE.H1),
-              justifyContent: 'center',
-              marginVertical: 10
+              justifyContent: 'center'
             }}
           >
             <CelText
@@ -134,6 +133,7 @@ const CoinSwitch = props => {
 
 CoinSwitch.propTypes = {
   isUsd: PropTypes.bool,
+  noUsdDecimals: PropTypes.bool,
   amountUsd: PropTypes.string,
   amountCrypto: PropTypes.string,
   updateFormField: PropTypes.func.isRequired,

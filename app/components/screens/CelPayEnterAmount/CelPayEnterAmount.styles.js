@@ -11,7 +11,7 @@ const base = {
     width
   },
   wrapper: {
-    paddingHorizontal: 10
+    paddingHorizontal: 20
   },
   selectWrapper: {
     flexDirection: 'row',

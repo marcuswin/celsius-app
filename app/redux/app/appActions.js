@@ -183,6 +183,7 @@ function initAppData(initToken = null) {
         await dispatch(actions.getUserAppSettings())
         await dispatch(actions.getCommunityStatistics())
         await dispatch(actions.getLoyaltyInfo())
+        await dispatch(actions.getComplianceInfo());
 
         if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
@@ -191,7 +192,6 @@ function initAppData(initToken = null) {
         // get wallet details for verified users
         if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
           await dispatch(actions.getWalletSummary());
-          await dispatch(actions.getComplianceInfo());
         }
       }
     } else if (token) {

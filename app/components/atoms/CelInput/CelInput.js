@@ -43,7 +43,8 @@ class CelInput extends Component {
     helperButton: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     large: PropTypes.bool,
     debounce: PropTypes.bool,
-    border: PropTypes.bool
+    border: PropTypes.bool,
+    rightText: PropTypes.string,
   };
 
   static defaultProps = {
@@ -58,7 +59,8 @@ class CelInput extends Component {
     basic: false,
     large: true,
     debounce: false,
-    border: false
+    border: false,
+    rightText: null,
   }
 
   constructor(props) {
@@ -104,7 +106,7 @@ class CelInput extends Component {
   }
 
   renderInputByType = () => {
-    const { type, value, helperButton } = this.props;
+    const { type, value, helperButton, rightText } = this.props;
     const inputStyle = this.getInputStyle();
 
     switch (type) {
@@ -135,6 +137,7 @@ class CelInput extends Component {
           <View style={[inputStyle, helperButtonContainerStyle]}>
             <CelInputText {...this.props} style={helperButtonInputStyle}/>
             {helperButton && helperButton()}
+            { rightText && <CelText style={CelInputStyle().rightText}>{ rightText }</CelText> }
           </View>
         )
       }
