@@ -133,7 +133,7 @@ class KYCLanding extends Component {
             marginBottom: 10
           }}
         >
-          {kycStatus === "rejected" || kycStatus === "rejeceted" ? (
+          {kycStatus === KYC_STATUSES.rejected || kycStatus === KYC_STATUSES.rejeceted ? (
             <CelButton
               onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
               basic
