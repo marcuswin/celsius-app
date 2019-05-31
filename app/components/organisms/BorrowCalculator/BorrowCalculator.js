@@ -92,7 +92,7 @@ class BorrowCalculator extends Component {
   }
 
   getPurposeSpecificProps = () => {
-    const { purpose, actions, minimumLoanAmount, formData, currencies } = this.props;
+    const { purpose, actions, formData, currencies } = this.props;
 
     const defaultProps = {
       subtitle: 'You are not allowed to apply for a loan, but you can try our loan calculator.',
