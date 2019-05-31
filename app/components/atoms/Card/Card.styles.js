@@ -36,7 +36,8 @@ const base = {
     width: widthPercentageToDP('26.93%')
   },
   thirdExtra: {
-    width: widthPercentageToDP('22.93%')
+    width: widthPercentageToDP('22.93%'),
+    minWidth: widthPercentageToDP('22.93%')
   }
 }
 

@@ -49,7 +49,9 @@ class BorrowCalculator extends Component {
       loanCompliance,
       formData,
       ltv,
+      minimumLoanAmount,
     } = props
+
 
     const coinSelectItems = currencies
       .filter(c => loanCompliance.coins.includes(c.short))
@@ -75,23 +77,21 @@ class BorrowCalculator extends Component {
     props.actions.initForm({
       coin: "BTC",
       termOfLoan: 6,
-      amount: 10000,
+      amount: minimumLoanAmount,
       ltv: ltv[0],
     })
-
-    // this.calculateLoanParams()
   }
 
   componentDidUpdate(prevProps) {
     const { formData } = this.props;
 
     if (!_.isEqual(formData, prevProps.formData)) {
-      // this.calculateLoanParams()
+      this.calculateLoanParams()
     }
   }
 
   getPurposeSpecificProps = () => {
-    const { purpose, actions } = this.props;
+    const { purpose, actions, minimumLoanAmount } = this.props;
 
     const defaultProps = {
       subtitle: 'You are not allowed to apply for a loan, but you can try our loan calculator.',
@@ -102,24 +102,24 @@ class BorrowCalculator extends Component {
     }
 
     switch (purpose) {
-      case EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS:
-        return {
-          ...defaultProps,
-          subtitle: 'Calculate your loan interest',
-          bottomHeading: 'To apply for a loan you need only XXX ETH to deposit',
-          bottomParagraph: 'Deposit more coins to start your first loan application',
-          buttonCopy: 'Deposit coins',
-          onPress: '',
-        }
-
       case EMPTY_STATES.NON_VERIFIED_BORROW:
         return {
           ...defaultProps,
           subtitle: 'Calculate your interest before you verify your ID',
           bottomHeading: 'Borrow dollars for your crypto',
-          bottomParagraph: 'Verify your identity yo start using your coins as collateral and get dollar loan at just XXX APR',
+          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${ formatter.percentageDisplay(this.bestLtv) } APR`,
           buttonCopy: 'Verify identity',
           onPress: () => actions.navigateTo("KYCProfileDetails"),
+        }
+
+      case EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS:
+        return {
+          ...defaultProps,
+          subtitle: 'Calculate your loan interest',
+          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(minimumLoanAmount - this.biggestAmountCryptoUsd, this.coinWithLargestAmount) } to deposit`,
+          bottomParagraph: 'Deposit more coins to start your first loan application',
+          buttonCopy: 'Deposit coins',
+          onPress: () => actions.navigateTo("Deposit", { coin: this.coinWithLargestAmount }),
         }
 
       case EMPTY_STATES.NON_MEMBER_CELPAY:
@@ -128,16 +128,15 @@ class BorrowCalculator extends Component {
           subtitle: 'Calculate your loan interest',
           bottomHeading: 'Borrow dollars for your crypto',
           bottomParagraph: 'Calculate your loan interest before you deposit coins',
-          buttonCopy: 'Deposit coins',
-          // onPress: '',
+          buttonCopy: 'Deposit CEL',
         }
 
       case EMPTY_STATES.COMPLIANCE:
         return {
           ...defaultProps,
           subtitle: 'You are not allowed to apply for a loan because of local laws and regulations',
-          // bottomHeading: '',
-          // bottomParagraph: '',
+          bottomHeading: null,
+          bottomParagraph: null,
           buttonCopy: 'Go to Wallet',
           onPress: 'WalletLanding',
         }
@@ -155,16 +154,24 @@ class BorrowCalculator extends Component {
     this.totalInterest = this.monthlyInterest * formData.termOfLoan
 
     this.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
+    this.bestLtv =  Math.max(...ltv.map(x => x.percent))
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
-      this.bestLtv =  Math.max(ltv.map(x => x.percent))
-
-      this.biggestAmountCryptoUsd = Math.max(walletSummary.coins.map(a => a.amount_usd))
       this.arrayOfAmountUsd = walletSummary.coins.map(c => c.amount_usd)
-      this.indexOfLargestAmount = this.arrayOfAmountUsd.indexOf(
-        Math.max(this.arrayOfAmountUsd)
-      )
+      this.biggestAmountCryptoUsd = Math.max(...this.arrayOfAmountUsd)
+      this.indexOfLargestAmount = this.arrayOfAmountUsd.indexOf(this.biggestAmountCryptoUsd)
+      this.coinWithLargestAmount = walletSummary.coins[this.indexOfLargestAmount].short
     }
+  }
+
+  changeAmount = (field, value) => {
+    const { actions, minimumLoanAmount } = this.props
+
+    if (Number(value) < minimumLoanAmount) {
+      actions.showMessage('warning', `Minimum amount for a loan is ${ formatter.usd(minimumLoanAmount) }`)
+    }
+
+    actions.updateFormField(field, value)
   }
 
   render() {
@@ -179,11 +186,10 @@ class BorrowCalculator extends Component {
       ltv
      } = this.props
 
+    if (!formData.ltv) return null;
     const purposeProps = this.getPurposeSpecificProps()
-
-    if (!formData.ltv) return null
-
-    // console.log({ formData })
+    const numberOfDigits = Math.max(formatter.usd(this.monthlyInterest).length, formatter.usd(this.totalInterest).length)
+    const textType = numberOfDigits > 8 ? "H3" : "H2"
 
     return (
       <RegularLayout style={style.container}>
@@ -214,6 +220,7 @@ class BorrowCalculator extends Component {
           placeholder={'10.000'}
           keyboardType={'numeric'}
           value={formData.amount}
+          onChange={this.changeAmount}
         />
         <Card>
           <CelText
@@ -223,7 +230,7 @@ class BorrowCalculator extends Component {
             weight={'300'}>
             Choose your annual percentage rate
           </CelText>
-          <View style={LoanCalculatorStyle.ltvWrapper}>
+          <View style={style.ltvWrapper}>
             {ltv.map(c =>
               (
                 <Card
@@ -231,7 +238,7 @@ class BorrowCalculator extends Component {
                   margin='20 5 20 5'
                   noBorder
                   key={c.interest}
-                  styles={ formData.ltv.interest === c.interest ? this.selectedCardStyle : this.cardStyle }
+                  styles={ formData.ltv.interest === c.interest ? style.selectedCardStyle : style.cardStyle }
                   onPress={() => {
                     actions.updateFormField('ltv', c)
                   }}
@@ -240,7 +247,7 @@ class BorrowCalculator extends Component {
                     align={'center'}
                     weight='bold'
                     color={STYLES.COLORS.MEDIUM_GRAY}
-                    style={ formData.ltv.interest === c.interest ? this.selectedTextStyle : this.percentageTextStyle }>
+                    style={ formData.ltv.interest === c.interest ? style.selectedTextStyle : style.percentageTextStyle }>
                     {formatter.percentageDisplay(c.interest)}
                   </CelText>
                 </Card>
@@ -271,7 +278,7 @@ class BorrowCalculator extends Component {
                 align={'center'}
                 weight='bold'
                 color={STYLES.COLORS.MEDIUM_GRAY}
-                type={'H2'}
+                type={textType}
               >
                 {formatter.usd(this.monthlyInterest)}
               </CelText>
@@ -292,7 +299,7 @@ class BorrowCalculator extends Component {
                 align={'center'}
                 weight='bold'
                 color={STYLES.COLORS.MEDIUM_GRAY}
-                type={'H2'}>
+                type={textType}>
                 {formatter.usd(this.totalInterest)}
               </CelText>
               <CelText
@@ -359,22 +366,27 @@ class BorrowCalculator extends Component {
         </CelText>
         <Separator />
           <View>
-            <CelText
-              weight="bold"
-              type="H2"
-              align="center"
-              margin={'20 0 20 0'}
-            >
-              { purposeProps.bottomHeading }
-            </CelText>
-            <CelText
-              align={'center'}
-              type={'H4'}
-              margin={'4 0 20 0'}
-              weight={'300'}
-            >
-              { purposeProps.bottomParagraph }
-            </CelText>
+            { !!purposeProps.bottomHeading && (
+              <CelText
+                weight="bold"
+                type="H2"
+                align="center"
+                margin={'20 0 20 0'}
+              >
+                { purposeProps.bottomHeading }
+              </CelText>
+            )}
+            { !!purposeProps.bottomParagraph && (
+              <CelText
+                align={'center'}
+                type={'H4'}
+                margin={'4 0 20 0'}
+                weight={'300'}
+              >
+                { purposeProps.bottomParagraph }
+              </CelText>
+            )}
+
             <CelButton
               onPress={purposeProps.onPress}
               margin='20 0 20 0'
