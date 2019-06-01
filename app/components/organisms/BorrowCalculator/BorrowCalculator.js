@@ -135,6 +135,7 @@ class BorrowCalculator extends Component {
           bottomHeading: 'Borrow dollars for your crypto',
           bottomParagraph: 'Calculate your loan interest before you deposit coins',
           buttonCopy: 'Deposit CEL',
+          onPress: () => actions.navigateTo("Deposit", { coin: 'CEL' }),
         }
 
       case EMPTY_STATES.COMPLIANCE:
