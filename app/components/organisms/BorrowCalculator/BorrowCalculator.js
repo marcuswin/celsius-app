@@ -83,6 +83,10 @@ class BorrowCalculator extends Component {
     })
   }
 
+  // componentDidMount() {
+  //   this.calculateLoanParams()
+  // }
+
   componentDidUpdate(prevProps) {
     const { formData } = this.props;
 
@@ -92,7 +96,8 @@ class BorrowCalculator extends Component {
   }
 
   getPurposeSpecificProps = () => {
-    const { purpose, actions, formData, currencies } = this.props;
+    const { purpose, actions } = this.props
+    const { loanParams } = this.state
 
     const defaultProps = {
       subtitle: 'You are not allowed to apply for a loan, but you can try our loan calculator.',
@@ -108,7 +113,7 @@ class BorrowCalculator extends Component {
           ...defaultProps,
           subtitle: 'Calculate your interest before you verify your ID',
           bottomHeading: 'Borrow dollars for your crypto',
-          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${ formatter.percentageDisplay(this.bestLtv) } APR`,
+          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${ formatter.percentageDisplay(loanParams.bestLtv) } APR`,
           buttonCopy: 'Verify identity',
           onPress: () => actions.navigateTo("KYCProfileDetails"),
         }
@@ -117,10 +122,10 @@ class BorrowCalculator extends Component {
         return {
           ...defaultProps,
           subtitle: 'Calculate your loan interest',
-          bottomHeading: `To apply for a loan you need only ${ formatter.crypto((Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent, this.coinWithLargestAmount) } to deposit`,
+          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto, loanParams.largestShortCrypto) } to deposit`,
           bottomParagraph: 'Deposit more coins to start your first loan application',
           buttonCopy: 'Deposit coins',
-          onPress: () => actions.navigateTo("Deposit", { coin: this.coinWithLargestAmount }),
+          onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
         }
 
       case EMPTY_STATES.NON_MEMBER_CELPAY:
@@ -148,9 +153,10 @@ class BorrowCalculator extends Component {
   }
 
   calculateLoanParams = () => {
-    const { formData, currencies, walletSummary, ltv, purpose } = this.props
+    const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount } = this.props
     const loanParams = {}
 
+    if (!formData.ltv) return null
     loanParams.annualInterest = Number(formData.amount) / (formData.termOfLoan / 12) * formData.ltv.interest
     loanParams.monthlyInterest = loanParams.annualInterest / 12
     loanParams.totalInterest = loanParams.monthlyInterest * formData.termOfLoan
@@ -160,9 +166,10 @@ class BorrowCalculator extends Component {
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
       loanParams.arrayOfAmountUsd = walletSummary.coins.map(c => c.amount_usd)
-      loanParams.biggestAmountCryptoUsd = Math.max(...loanParams.arrayOfAmountUsd)
-      loanParams.indexOfLargestAmount = loanParams.arrayOfAmountUsd.indexOf(loanParams.biggestAmountCryptoUsd)
-      loanParams.coinWithLargestAmount = walletSummary.coins[loanParams.indexOfLargestAmount].short
+      loanParams.indexOfLargestAmount = loanParams.arrayOfAmountUsd.indexOf(Math.max(...loanParams.arrayOfAmountUsd))
+      loanParams.largestAmountCrypto = walletSummary.coins[loanParams.indexOfLargestAmount].amount
+      loanParams.largestShortCrypto = walletSummary.coins[loanParams.indexOfLargestAmount].short
+      loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === walletSummary.coins[loanParams.indexOfLargestAmount].short)).market_quotes_usd.price
     }
 
     this.setState({ loanParams })
