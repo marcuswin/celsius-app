@@ -154,7 +154,7 @@ class BorrowCalculator extends Component {
   }
 
   calculateLoanParams = () => {
-    const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount } = this.props
+    const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount, loanCompliance } = this.props
     const loanParams = {}
 
     if (!formData.ltv) return null
@@ -166,11 +166,13 @@ class BorrowCalculator extends Component {
     loanParams.bestLtv =  Math.max(...ltv.map(x => x.percent))
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
-      loanParams.arrayOfAmountUsd = walletSummary.coins.map(c => c.amount_usd)
-      loanParams.indexOfLargestAmount = loanParams.arrayOfAmountUsd.indexOf(Math.max(...loanParams.arrayOfAmountUsd))
-      loanParams.largestAmountCrypto = walletSummary.coins[loanParams.indexOfLargestAmount].amount
-      loanParams.largestShortCrypto = walletSummary.coins[loanParams.indexOfLargestAmount].short
-      loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === walletSummary.coins[loanParams.indexOfLargestAmount].short)).market_quotes_usd.price
+      const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
+      const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd)
+      const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd))
+
+      loanParams.largestAmountCrypto = eligibleCoins[indexOfLargestAmount].amount
+      loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short
+      loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price
     }
 
     this.setState({ loanParams })
