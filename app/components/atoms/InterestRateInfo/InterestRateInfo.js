@@ -7,7 +7,7 @@ import CelText from '../CelText/CelText'
 import formatter from '../../../utils/formatter';
 
 @connect(state => ({
-  walletCurrencies: state.interest.ratesInfo
+  walletCurrencies: state.currencies.rates
 }))
 class InterestRateInfo extends Component {
   capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
@@ -20,6 +20,7 @@ class InterestRateInfo extends Component {
       compact,
     } = this.props
 
+
     if (!currency || !walletCurrencies) {
       return null
     }
@@ -28,7 +29,8 @@ class InterestRateInfo extends Component {
 
     const additionalWrapperStyle = compact ? styles.mainWrapperCompact : {}
 
-    const currencyInfo = walletCurrencies[currency.toUpperCase()]
+    const currencyIndex = walletCurrencies.map(c => c.short).indexOf(currency)
+    const currencyInfo = walletCurrencies[currencyIndex]
     const currencyName = currencyInfo.name
     const name = currencyInfo.short === 'DAI' ? 'MakerDAO' : currencyName
 
