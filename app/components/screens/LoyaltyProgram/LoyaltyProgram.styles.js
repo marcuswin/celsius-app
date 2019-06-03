@@ -1,4 +1,4 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
@@ -65,6 +65,28 @@ const base = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  tierWrapper: {
+    flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',
+
+  },
+  tierSilver: {
+    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7 , borderTopLeftRadius: 3,
+  },
+  tierGold: {
+    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.ORANGE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7
+  },
+  tierPlatinum: {
+    backgroundColor: STYLES.COLORS.CELSIUS_BLUE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopRightRadius: 3,
+  },
+  tierData: {
+    paddingVertical: 10
+  },
+  tierDataLast: {
+    paddingVertical: 10,
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3
+
   }
 };
 
