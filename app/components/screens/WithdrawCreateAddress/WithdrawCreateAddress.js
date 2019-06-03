@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Permissions } from 'expo'
 
 import cryptoUtil from "../../../utils/crypto-util";
 import testUtil from "../../../utils/test-util";
@@ -46,16 +47,26 @@ class WithdrawCreateAddress extends Component {
     };
   }
 
+  getCameraPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA)
+
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA)
+    }
+  }
+
   handleScan = (code) => {
     const { actions } = this.props;
     const address = addressUtil.splitAddressTag(code)
     actions.updateFormField("withdrawAddress", address.newAddress);
     actions.updateFormField("coinTag", address.newTag);
   };
+  
 
-  handleScanClick = () => {
+  handleScanClick = async () => {
     const { actions } = this.props;
 
+    await this.getCameraPermissions()
     actions.navigateTo("QRScanner", {
       onScan: this.handleScan
     });
