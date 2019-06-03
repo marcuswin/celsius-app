@@ -1,4 +1,4 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
@@ -41,7 +41,7 @@ const base = {
     marginBottom: heightPercentageToDP("0.8%"),
   },
   title: {
-    marginBottom: heightPercentageToDP("0.4%")
+    marginBottom: heightPercentageToDP("0.4%"),
   },
   explanation: {
     marginBottom: heightPercentageToDP("1.73%")
@@ -65,6 +65,43 @@ const base = {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+  tableWrapper: {
+    flexDirection: 'column', marginTop: 10
+  },
+  tierWrapper: {
+    flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',
+
+  },
+  minPercetage: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  bonus: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  loan: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  separator: {
+    alignItems: 'center', backgroundColor: STYLES.COLORS.DARK_GRAY3, paddingVertical: 5
+  },
+  tierSilver: {
+    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopLeftRadius: 3,
+  },
+  tierGold: {
+    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.ORANGE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7
+  },
+  tierPlatinum: {
+    backgroundColor: STYLES.COLORS.CELSIUS_BLUE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopRightRadius: 3,
+  },
+  tierData: {
+    paddingVertical: 10
+  },
+  tierDataLast: {
+    paddingVertical: 10,
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3
+
   }
 };
 
