@@ -128,14 +128,13 @@ class BorrowCalculator extends Component {
           onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
         }
 
-      case EMPTY_STATES.NON_MEMBER_CELPAY:
+      case EMPTY_STATES.NON_MEMBER_BORROW:
         return {
           ...defaultProps,
           subtitle: 'Calculate your loan interest',
           bottomHeading: 'Borrow dollars for your crypto',
           bottomParagraph: 'Calculate your loan interest before you deposit coins',
           buttonCopy: 'Deposit CEL',
-          onPress: () => actions.navigateTo("Deposit", { coin: 'CEL' }),
         }
 
       case EMPTY_STATES.COMPLIANCE:
