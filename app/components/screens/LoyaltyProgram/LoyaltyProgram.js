@@ -149,7 +149,7 @@ class LoyaltyProgram extends Component {
                 Your loyalty level is determined by the ratio of CEL to other coins in your wallet. If 10% or more of
                 your wallet balance is in CEL, you're a Platinum member! </CelText>
 
-              <View style={{ flexDirection: 'column', marginTop: 10 }}>
+              <View style={style.tableWrapper}>
 
                 <View style={style.tierWrapper}>
                   <View style={style.tierSilver}>
@@ -163,7 +163,7 @@ class LoyaltyProgram extends Component {
                   </View>
                 </View>
 
-                <View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly' }}>
+                <View style={style.minPercetage}>
                   <View style={style.tierData}>
                     <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}>{`< ${formatter.percentage(celUtilityTiers.SILVER.maximum_cel_percentage)}%`}</CelText>
                   </View>
@@ -177,11 +177,11 @@ class LoyaltyProgram extends Component {
                   </View>
                 </View>
 
-                <View style={{ alignItems: 'center', backgroundColor: STYLES.COLORS.DARK_GRAY3, paddingVertical: 5 }}>
+                <View style={style.separator}>
                   <CelText type='H7' weight='500' color='white'> Bonus interest: </CelText>
                 </View>
 
-                <View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly' }}>
+                <View style={style.bonus}>
                   <View style={style.tierData}>
                     <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.SILVER.interest_bonus)}%`} </CelText>
                   </View>
@@ -195,12 +195,12 @@ class LoyaltyProgram extends Component {
                   </View>
                 </View>
 
-                <View style={{ alignItems: 'center', backgroundColor: STYLES.COLORS.DARK_GRAY3, paddingVertical: 5 }}>
+                <View style={style.separator}>
                   <CelText type='H7' weight='500' color='white'> Loan interest discount: </CelText>
                 </View>
 
 
-                <View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly' }}>
+                <View style={style.loan}>
                   <View style={style.tierData}>
                     <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.SILVER.loan_interest_bonus)}%`} </CelText>
                   </View>

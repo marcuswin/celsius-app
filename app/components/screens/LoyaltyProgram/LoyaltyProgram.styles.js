@@ -66,12 +66,27 @@ const base = {
     alignItems: "center",
     justifyContent: "space-between"
   },
+  tableWrapper: {
+    flexDirection: 'column', marginTop: 10
+  },
   tierWrapper: {
     flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',
 
   },
+  minPercetage: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  bonus: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  loan: {
+    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  },
+  separator: {
+    alignItems: 'center', backgroundColor: STYLES.COLORS.DARK_GRAY3, paddingVertical: 5
+  },
   tierSilver: {
-    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7 , borderTopLeftRadius: 3,
+    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopLeftRadius: 3,
   },
   tierGold: {
     borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.ORANGE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7
