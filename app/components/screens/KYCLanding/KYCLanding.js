@@ -19,7 +19,7 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
 @connect(
   state => ({
     profile: state.user.profile,
-    kycReasons: state.user.profile.kyc.rejectionReasons,
+    kycReasons: state.user.profile.kyc?state.user.profile.kyc.rejectionReasons:[],
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
@@ -212,7 +212,7 @@ class KYCLanding extends Component {
       <RegularLayout theme={THEMES.LIGHT}>
         {this.renderCard()}
         {this.renderKycStatus(kycStatus)}
-        {kycReasons ? (
+        {kycReasons.length > 0 ? (
           <InfoModal
             name={MODALS.KYC_REJECTED_MODAL}
             heading="Identity verification failed"
