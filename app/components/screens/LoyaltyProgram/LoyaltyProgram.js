@@ -144,7 +144,7 @@ class LoyaltyProgram extends Component {
 
               <Image style={style.starIcon}
                 source={require("../../../../assets/images/loyaltyIcons/star-icon3x.png")} />
-              <CelText style={style.title} type={"H3"} weight={"600"}>How do we calculate loyalty level?</CelText>
+              <CelText style={style.title} type={"H3"} align={"center"} weight={"600"}>How do we calculate loyalty level?</CelText>
               <CelText style={style.explanation} align={"center"} type={"H4"} weight={"300"}>
                 Your loyalty level is determined by the ratio of CEL to other coins in your wallet. If 10% or more of
                 your wallet balance is in CEL, you're a Platinum member! </CelText>

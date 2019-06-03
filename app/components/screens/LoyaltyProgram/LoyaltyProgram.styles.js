@@ -41,7 +41,7 @@ const base = {
     marginBottom: heightPercentageToDP("0.8%"),
   },
   title: {
-    marginBottom: heightPercentageToDP("0.4%")
+    marginBottom: heightPercentageToDP("0.4%"),
   },
   explanation: {
     marginBottom: heightPercentageToDP("1.73%")
