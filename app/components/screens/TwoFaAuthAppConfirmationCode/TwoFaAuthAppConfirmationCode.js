@@ -47,7 +47,7 @@ class TwoFaAuthAppConfirmationCode extends Component {
     const { actions} = this.props;
 
     await actions.closeModal()
-    actions.navigateTo('SecuritySettings')
+    actions.navigateTo('WalletLanding')
   }
 
   pasteCodeHelperButton = () => (
