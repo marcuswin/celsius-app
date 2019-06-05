@@ -313,12 +313,14 @@ export const InterestSection = ({ interestEarned, interestBonus, tier, interestI
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
-    <CelInterestCard
-      tier={tier}
-      interestBonus={interestBonus}
-      interestInCel={interestInCel}
-      setUserAppSettings={setUserAppSettings}
-    />
+    {!interestInCel ?
+      <CelInterestCard
+        tier={tier}
+        interestBonus={interestBonus}
+        interestInCel={interestInCel}
+        setUserAppSettings={setUserAppSettings}
+      />
+      : null}
   </View>
 )
 
