@@ -12,7 +12,10 @@ class PredefinedAmounts extends Component {
   static propTypes = {
     data: PropTypes.instanceOf(Object),
     onSelect: PropTypes.func,
-    activePeriod: PropTypes.instanceOf(Object),
+    activePeriod: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
+      PropTypes.string,
+    ]),
   };
   static defaultProps = {
   }

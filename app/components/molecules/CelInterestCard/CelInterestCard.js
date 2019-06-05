@@ -8,6 +8,7 @@ import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
 import STYLES from '../../../constants/STYLES'
 import Spinner from '../../atoms/Spinner/Spinner'
+import { deleteSecureStoreKey } from '../../../utils/expo-storage';
 
 class CelInterestCard extends Component {
   static propTypes = {
@@ -28,6 +29,7 @@ class CelInterestCard extends Component {
   handleValueChange = async value => {
     const { setUserAppSettings } = this.props
     this.setState({ loading: true })
+    if(!value) await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
     await setUserAppSettings({ interest_in_cel: value })
     this.setState({ loading: false })
   }

@@ -135,12 +135,13 @@ class BorrowLanding extends Component {
     if (!user.celsius_member) return <BorrowCalculator purpose={EMPTY_STATES.NON_MEMBER_BORROW}/>;
     if (!loanCompliance.allowed) return <BorrowCalculator purpose={EMPTY_STATES.COMPLIANCE}/>;
 
+    if (isLoading) return <LoadingScreen/>;
+    if (!allLoans.length) return <BorrowCalculator purpose={EMPTY_STATES.NO_LOANS}/>;
+
     const minLtv = Math.max(...ltv.map(x => x.percent));
 
     if (maxAmount < minimumLoanAmount / minLtv) return <BorrowCalculator
       purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
-    if (isLoading) return <LoadingScreen/>;
-    if (!allLoans.length) return <BorrowCalculator purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
 
     return (
       <RegularLayout>

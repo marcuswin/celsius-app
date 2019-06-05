@@ -18,10 +18,12 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Icon from '../../atoms/Icon/Icon'
 import STYLES from '../../../constants/STYLES'
 import CelPayReceivedModal from '../../organisms/CelPayReceivedModal/CelPayReceivedModal'
-import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
+import { WALLET_LANDING_VIEW_TYPES, MODALS } from '../../../constants/UI'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal'
 import { KYC_STATUSES } from '../../../constants/DATA'
+import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
+import { getSecureStoreKey } from '../../../utils/expo-storage';
 
 let counter = 0;
 
@@ -83,7 +85,8 @@ class WalletLanding extends Component {
       actions,
       appSettings,
       currenciesRates,
-      currenciesGraphs
+      currenciesGraphs,
+      user
     } = this.props
 
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
@@ -104,6 +107,10 @@ class WalletLanding extends Component {
     if (this.shouldInitializeMembership) {
       actions.getCelsiusMemberStatus()
       this.shouldInitializeMembership = false
+    }
+    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON') {
+      actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
     this.setWalletFetchingInterval()
@@ -357,7 +364,6 @@ class WalletLanding extends Component {
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) {
       return <LoadingScreen />
     }
-
     const CoinsCard = this.renderCoinsCard
     return (
       <RegularLayout>
@@ -415,6 +421,7 @@ class WalletLanding extends Component {
 
         <TodayInterestRatesModal />
         <BecameCelMemberModal />
+        <EarnInterestCelModal />
       </RegularLayout>
     )
   }

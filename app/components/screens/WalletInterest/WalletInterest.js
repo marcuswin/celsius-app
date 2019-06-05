@@ -44,7 +44,7 @@ class WalletInterest extends Component {
     right: 'profile'
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -57,7 +57,7 @@ class WalletInterest extends Component {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     const { actions } = this.props
     await actions.getLoyaltyInfo()
     await actions.getUserAppSettings()
@@ -74,7 +74,7 @@ class WalletInterest extends Component {
     actions.navigateTo('AllTransactions')
   }
 
-  render () {
+  render() {
     const {
       walletSummary,
       user,
@@ -158,12 +158,14 @@ class WalletInterest extends Component {
           marign='10 10 10 10'
           style={{ paddingVertical: 20, paddingHorizontal: 20 }}
         >
-          <CelInterestCard
-            tier={loyaltyInfo.tier.title}
-            interestBonus={loyaltyInfo.earn_interest_bonus}
-            interestInCel={appSettings.interest_in_cel}
-            setUserAppSettings={actions.setUserAppSettings}
-          />
+          {!appSettings.interest_in_cel ?
+            <CelInterestCard
+              tier={loyaltyInfo.tier.title}
+              interestBonus={loyaltyInfo.earn_interest_bonus}
+              interestInCel={appSettings.interest_in_cel}
+              setUserAppSettings={actions.setUserAppSettings}
+            />
+            : null}
         </View>
 
         <View style={style.container}>

@@ -144,7 +144,17 @@ class BorrowCalculator extends Component {
           bottomHeading: null,
           bottomParagraph: null,
           buttonCopy: 'Go to Wallet',
-          onPress: 'WalletLanding',
+          onPress: () => actions.navigateTo('WalletLanding'),
+        }
+
+      case EMPTY_STATES.NO_LOANS:
+        return {
+          ...defaultProps,
+          subtitle: 'Calculate your loan interest',
+          bottomHeading: null,
+          bottomParagraph: null,
+          buttonCopy: 'Create a loan',
+          onPress: () => actions.navigateTo('BorrowEnterAmount'),
         }
 
       default:

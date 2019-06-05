@@ -240,6 +240,7 @@ class LoyaltyProgram extends Component {
                 activity as well as market fluctuations, so be sure to check your status every week!
               </CelText>
             </View>
+            {!appSettings.interest_in_cel ?
 
             <CelInterestCard
               tier={loyaltyInfo.tier.title}
@@ -247,7 +248,7 @@ class LoyaltyProgram extends Component {
               interestInCel={appSettings.interest_in_cel}
               setUserAppSettings={actions.setUserAppSettings}
             />
-
+              : null }
             <CelButton
               margin={"30 0 10 0"}
               onPress={() => actions.navigateTo("Deposit", { coin: "CEL" })}
