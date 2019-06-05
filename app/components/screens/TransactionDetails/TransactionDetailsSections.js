@@ -10,6 +10,7 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
+import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
 
 
 export const InfoSection = ({ transaction, transactionProps }) => (
@@ -305,19 +306,21 @@ export const NoteSection = ({ text }) => (
   ) : null
 )
 
-export const InterestSection = ({ interestEarned, navigateTo }) => (
+export const InterestSection = ({ interestEarned, interestBonus, tier, interestInCel, setUserAppSettings }) => (
+
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" color={STYLES.COLORS.MEDIUM_GRAY} style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
-    <Card>
-      <View style={{ alignItems: 'flex-start', marginVertical: 10, marginHorizontal: 10 }}>
-        <CelText type="H4" weight="500" style={{ marginBottom: 5 }}>Want to earn better interest rates?</CelText>
-        <CelText type="H4" weight="300" style={{ marginBottom: 10 }} color={STYLES.COLORS.MEDIUM_GRAY}>Earn interest in CEL! Simply go to your settings and change the way you receive interest.</CelText>
-        <CelButton basic onPress={() => navigateTo('Settings')}>Change settings</CelButton>
-      </View>
-    </Card>
+    {!interestInCel ?
+      <CelInterestCard
+        tier={tier}
+        interestBonus={interestBonus}
+        interestInCel={interestInCel}
+        setUserAppSettings={setUserAppSettings}
+      />
+      : null}
   </View>
 )
 

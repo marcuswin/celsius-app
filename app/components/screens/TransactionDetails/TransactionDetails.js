@@ -42,7 +42,10 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
     totalInterestEarned: state.wallet.summary.total_interest_earned,
     callsInProgress: state.api.callsInProgress,
     transaction: state.transactions.transactionDetails,
-    user: state.user.profile
+    user: state.user.profile,
+    appSettings: state.user.appSettings,
+    loyaltyInfo: state.user.loyaltyInfo,
+
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -65,6 +68,7 @@ class TransactionDetails extends Component {
     }
   }
 
+
   componentDidMount = () => {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
@@ -82,7 +86,7 @@ class TransactionDetails extends Component {
 
 
   renderSection = (sectionType) => {
-    const { actions, transaction, user, totalInterestEarned } = this.props;
+    const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo } = this.props;
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
     const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
 
@@ -122,7 +126,7 @@ class TransactionDetails extends Component {
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
-        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={totalInterestEarned} />;
+        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={totalInterestEarned} interestInCel={appSettings.interest_in_cel} setUserAppSettings={actions.setUserAppSettings} tier={loyaltyInfo.tier.title} interestBonus={loyaltyInfo.earn_interest_bonus}/>;
       case 'loan:rejected':
         return <LoanInfoSection key={sectionType} navigateTo={actions.navigateTo} />;
       // TODO(sb): Value need to be changed
