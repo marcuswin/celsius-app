@@ -13,28 +13,18 @@ import CelModal from "../CelModal/CelModal";
 
 @connect(
   state => ({
-    referralLink: state.branch.registeredLink,
-    appSettings: state.user.appSettings,
-    celMemberStatus: state.user
-
+    appSettings: state.user.appSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 
 class EarnInterestCelModal extends Component {
-  static propTypes = {
-  };
-  static defaultProps = {};
 
   changeInterestEarn = () => {
-    const { actions, appSettings } = this.props
-    if (!appSettings) return null;
-
-    const changesInterestEarn = !appSettings.interest_in_cel
+    const { actions } = this.props
     actions.setUserAppSettings({
-      interest_in_cel: changesInterestEarn
+      interest_in_cel: true
     })
-    this.setState({ interestInCel: changesInterestEarn })
   }
 
   render() {

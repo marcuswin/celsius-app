@@ -421,11 +421,7 @@ class WalletLanding extends Component {
 
         <TodayInterestRatesModal />
         <BecameCelMemberModal />
-        <EarnInterestCelModal
-        // navigateTo={actions.navigateTo}
-        // closeModal={actions.closeModal}
-        // appSettings={appSettings}
-        />
+        <EarnInterestCelModal />
       </RegularLayout>
     )
   }

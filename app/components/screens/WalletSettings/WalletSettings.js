@@ -14,6 +14,7 @@ import apiUtil from '../../../utils/api-util'
 import API from '../../../constants/API'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
+import { deleteSecureStoreKey } from '../../../utils/expo-storage';
 
 @connect(
   state => ({
@@ -59,9 +60,10 @@ class WalletSettings extends Component {
     return 'List'
   }
 
-  changeInterestEarn = () => {
+  changeInterestEarn = async () => {
     const { actions, appSettings } = this.props
     const changesInterestEarn = !appSettings.interest_in_cel
+    if(!changesInterestEarn) await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
     actions.setUserAppSettings({
       interest_in_cel: changesInterestEarn
     })

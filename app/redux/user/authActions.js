@@ -240,6 +240,7 @@ function logoutUser () {
   return async dispatch => {
     try {
       await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY)
+      await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
       if (Constants.appOwnership === 'standalone') Branch.logout()
       dispatch({
         type: ACTIONS.LOGOUT_USER
