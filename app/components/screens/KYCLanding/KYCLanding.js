@@ -212,7 +212,7 @@ class KYCLanding extends Component {
       <RegularLayout theme={THEMES.LIGHT}>
         {this.renderCard()}
         {this.renderKycStatus(kycStatus)}
-        {kycReasons.length > 0 ? (
+        {kycReasons && kycReasons.length > 0 ? (
           <InfoModal
             name={MODALS.KYC_REJECTED_MODAL}
             heading="Identity verification failed"

@@ -154,7 +154,7 @@ class EmptyState extends Component {
 
         {support ? <ContactSupport /> : null}
         <TodayInterestRatesModal />
-        {kycReasons.length > 0 ? (
+        {kycReasons && kycReasons.length > 0 ? (
           <InfoModal
             name={MODALS.KYC_REJECTED_MODAL}
             heading="Identity verification failed"
