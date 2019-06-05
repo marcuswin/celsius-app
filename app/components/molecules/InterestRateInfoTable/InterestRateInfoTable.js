@@ -19,8 +19,6 @@ class InterestRateInfoTable extends Component {
 
   async componentDidMount() {
     const { actions } = this.props;
-
-    await actions.getInterestRates();
     await actions.getLoyaltyInfo();
   }
 
@@ -88,6 +86,7 @@ class InterestRateInfoTable extends Component {
     const additionalStyle = style || {};
 
     // const styles = InterestRateInfoTableStyle();
+
 
     return (
       <View style={[[additionalStyle]]}>

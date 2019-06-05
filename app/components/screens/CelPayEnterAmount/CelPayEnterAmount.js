@@ -18,6 +18,7 @@ import InfoModal from '../../molecules/InfoModal/InfoModal'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import formatter from '../../../utils/formatter'
+import cryptoUtil from '../../../utils/crypto-util'
 
 @connect(
   state => ({
@@ -62,11 +63,18 @@ class CelPayEnterAmount extends Component {
     this.setNavigationParams()
 
     this.state = {
-      coinSelectItems
+      coinSelectItems,
+      activePeriod: { label: '', value: '' }
     }
 
     if (!formData.coin) {
-      props.actions.updateFormField('coin', 'BTC')
+      props.actions.updateFormField(
+        'coin',
+        (coinSelectItems &&
+          coinSelectItems.length > 0 &&
+          coinSelectItems[0].value) ||
+          ''
+      )
     }
   }
 
@@ -87,8 +95,6 @@ class CelPayEnterAmount extends Component {
     const { formData, walletSummary, currencyRatesShort, actions } = this.props
     let amount
 
-    this.setState({ activePeriod: label })
-
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
     const walletSummaryObj = walletSummary.coins.find(
       c => c.short === formData.coin.toUpperCase()
@@ -101,7 +107,7 @@ class CelPayEnterAmount extends Component {
     } else {
       amount = formData.isUsd ? value : (Number(value) / coinRate).toString()
     }
-    this.handleAmountChange(amount, label)
+    this.handleAmountChange(amount, { label, value })
     actions.toggleKeypad(false)
   }
 
@@ -119,38 +125,29 @@ class CelPayEnterAmount extends Component {
 
     navigation.setParams({
       title: screenTitle,
-      activePeriod: ''
+      activePeriod: { label: '', value: '' }
     })
   }
-
-  // TODO: move to formatter? check WithdrawEnterAmount
-  getAllowedDecimals = currency => (currency === 'USD' ? 2 : 5)
 
   getButtonCopy = () => {
     const { formData } = this.props
 
-    if (formData.amountUsd && formData.amountUsd > 0) {
+    if (formData.amountCrypto && formData.amountCrypto > 0) {
       return formData.friend ? 'Add a note' : 'Send'
     }
     return 'Enter amount above'
   }
 
-  // TODO: move to formatter? check WithdrawEnterAmount
-  setCurrencyDecimals (value, currency) {
-    if (!this.hasEnoughDecimals(value, currency)) return value
-    // remove last digit
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
+  getUsdValue = amountUsd =>
+    formatter.removeDecimalZeros(formatter.floor10(amountUsd, -2) || '')
 
-    return value.slice(0, allowedDecimals - numberOfDecimals)
-  }
-
-  getAmountColor = () =>
-    this.isAmountValid() ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.ORANGE
-
-  handleAmountChange = (newValue, predefined = '') => {
+  handleAmountChange = (newValue, predefined = { label: '' }) => {
     const { formData, currencyRatesShort, actions, walletSummary } = this.props
     const coinRate = currencyRatesShort[formData.coin.toLowerCase()]
+
+    const splitedValue = newValue.toString().split('.')
+
+    if (splitedValue && splitedValue.length > 2) return
 
     const {
       amount_usd: balanceUsd,
@@ -161,28 +158,54 @@ class CelPayEnterAmount extends Component {
     let amountUsd
 
     if (formData.isUsd) {
-      if (predefined.length === 0) {
-        amountUsd = this.setCurrencyDecimals(newValue, 'USD')
+      // if no predefined label is forwarded and the value is in usd
+      if (predefined.label.length === 0) {
+        amountUsd = formatter.setCurrencyDecimals(newValue, 'USD')
+        amountCrypto = amountUsd / coinRate
       } else {
-        amountUsd = newValue
+        amountUsd = predefined.label === 'ALL' ? balanceUsd : newValue
+        amountUsd = this.getUsdValue(amountUsd)
+        amountCrypto =
+          predefined.label === 'ALL' ? balanceCrypto : amountUsd / coinRate
+        amountCrypto = formatter.removeDecimalZeros(amountCrypto)
       }
-      amountCrypto = amountUsd / coinRate
-    } else {
-      if (predefined.length === 0) {
-        amountCrypto = this.setCurrencyDecimals(newValue)
-      } else {
-        amountCrypto = newValue
-      }
+      // if no predefined label is forwarded and the value is no in usd (crypto)
+    } else if (predefined.label.length === 0) {
+      amountCrypto = formatter.setCurrencyDecimals(newValue)
       amountUsd = amountCrypto * coinRate
+      amountUsd = this.getUsdValue(amountUsd)
+      if (amountUsd === '0') amountUsd = ''
+    } else {
+      amountCrypto = predefined.label === 'ALL' ? balanceCrypto : newValue
+      amountCrypto = formatter.removeDecimalZeros(amountCrypto)
+      amountUsd = predefined.label === 'ALL' ? balanceUsd : predefined.value
+      amountUsd = this.getUsdValue(amountUsd)
     }
 
+    // Change value '.' to '0.'
+    if (amountUsd[0] === '.') amountUsd = `0${amountUsd}`
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
+    if (amountUsd.length > 1 && amountUsd[0] === '0' && amountUsd[1] !== '.') {
+      amountUsd = amountUsd[1]
+    }
+
+    // if crypto amount is undefined, set it to empty string
+    if (!amountCrypto) amountCrypto = ''
+    // Change value '.' to '0.'
+    if (amountCrypto[0] === '.') amountCrypto = `0${amountCrypto}`
+    // if the crypto amount is eg. 01 the value will be 1, 00 -> 0
     if (
-      (formData.isUsd && amountUsd > balanceUsd) ||
-      (!formData.isUsd && amountCrypto > balanceCrypto)
+      amountCrypto.length > 1 &&
+      amountCrypto[0] === '0' &&
+      amountCrypto[1] !== '.'
     ) {
+      amountCrypto = amountCrypto[1]
+    }
+
+    if (cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto)) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (amountUsd > 1000) {
+    if (cryptoUtil.isGreaterThan(amountUsd, 1000)) {
       return actions.showMessage('warning', 'Daily CelPay limit is $1,000!')
     }
 
@@ -190,28 +213,8 @@ class CelPayEnterAmount extends Component {
 
     actions.updateFormFields({
       amountCrypto: amountCrypto.toString(),
-      amountUsd: amountUsd.toString()
+      amountUsd
     })
-  }
-
-  isAmountValid = () => {
-    const { formData, walletSummary } = this.props
-    const balanceUsd = walletSummary.coins.filter(
-      c => c.short === formData.coin.toUpperCase()
-    )[0].amount_usd
-    const { amountUsd } = formData
-
-    if (amountUsd > balanceUsd) return false
-    if (amountUsd > 2000) return false
-    return true
-  }
-
-  // TODO: move to formatter? check WithdrawEnterAmount
-  hasEnoughDecimals (value = '', currency) {
-    const numberOfDecimals = formatter.getNumberOfDecimals(value)
-    const allowedDecimals = this.getAllowedDecimals(currency)
-
-    return numberOfDecimals > allowedDecimals
   }
 
   handleCoinChange = (field, value) => {
@@ -222,6 +225,8 @@ class CelPayEnterAmount extends Component {
       amountUsd: undefined,
       amountCrypto: undefined
     })
+
+    this.setState({ activePeriod: { label: '', value: '' } })
   }
 
   handleNextStep = () => {
@@ -264,7 +269,13 @@ class CelPayEnterAmount extends Component {
 
   render () {
     const { coinSelectItems, activePeriod } = this.state
-    const { formData, actions, walletSummary, loyaltyInfo, keypadOpen } = this.props
+    const {
+      formData,
+      actions,
+      walletSummary,
+      loyaltyInfo,
+      keypadOpen
+    } = this.props
     const style = CelPayEnterAmountStyle()
     if (!formData.coin) return null
 
@@ -282,7 +293,6 @@ class CelPayEnterAmount extends Component {
               crypto={coinData.amount}
               usd={coinData.amount_usd}
             />
-
             <View style={style.amounts}>
               <View style={style.selectWrapper}>
                 <SimpleSelect
@@ -302,7 +312,11 @@ class CelPayEnterAmount extends Component {
                 amountCrypto={formData.amountCrypto}
                 isUsd={formData.isUsd}
                 coin={formData.coin}
-                amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
+                amountColor={
+                  keypadOpen
+                    ? STYLES.COLORS.CELSIUS_BLUE
+                    : STYLES.COLORS.DARK_GRAY
+                }
               />
             </View>
 
@@ -314,7 +328,9 @@ class CelPayEnterAmount extends Component {
 
             <CelButton
               margin='40 0 0 0'
-              disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
+              disabled={
+                !(formData.amountCrypto && Number(formData.amountCrypto) > 0)
+              }
               onPress={this.handleNextStep}
             >
               {this.getButtonCopy()}

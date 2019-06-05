@@ -75,8 +75,8 @@ class TwoFactorSettings extends Component {
             <QRCode
               value={this.getQRCode(secret)}
               size={141}
-              bgColor='black'
-              fgColor='white'
+              bgColor='#FFF'
+              fgColor='#000'
             />
           </View>
           <CelText align='center' style={style.secretText} onPress={() => Linking.openURL(this.getQRCode(secret))}>{secret}</CelText>

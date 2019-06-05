@@ -24,7 +24,8 @@ const KYC_STATUSES = {
   sent: 'sent',
   passed: 'passed',
   rejected: 'rejected',
-  ico_passed: 'ico_passed'
+  ico_passed: 'ico_passed',
+  rejeceted: 'rejeceted'
 };
 
 const BRANCH_LINKS = {

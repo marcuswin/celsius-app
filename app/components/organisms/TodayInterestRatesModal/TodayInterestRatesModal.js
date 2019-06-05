@@ -41,6 +41,7 @@ class TodayInterestRatesModal extends Component {
     const {pressed} = this.state;
     const style = TodayInterestRatesModalStyle();
 
+
     return (
       <CelModal name={MODALS.TODAY_INTEREST_RATES_MODAL}
                 header

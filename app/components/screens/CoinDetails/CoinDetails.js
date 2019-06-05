@@ -81,7 +81,7 @@ class CoinDetails extends Component {
     const { actions, interestRates, celpayCompliance, currencies, appSettings } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
-    const coinPrice = currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0];
+    const coinPrice = currencies ? currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0] : {}
 
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 

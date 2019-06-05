@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, BackHandler } from "react-native";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import _ from 'lodash'
@@ -22,6 +22,8 @@ import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal'
 import { KYC_STATUSES } from '../../../constants/DATA'
+
+let counter = 0;
 
 @connect(
   state => {
@@ -84,6 +86,8 @@ class WalletLanding extends Component {
       currenciesGraphs
     } = this.props
 
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+
     if (appSettings && appSettings.accepted_terms_of_use === false) {
       return actions.navigateTo('TermsOfUse', {
         purpose: 'accept',
@@ -134,6 +138,8 @@ class WalletLanding extends Component {
   }
 
   componentWillUnmount () {
+    counter = 0;
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     clearInterval(this.walletFetchingInterval)
   }
 
@@ -147,6 +153,14 @@ class WalletLanding extends Component {
 
   getIconFillColor = cond =>
     cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY
+
+  handleBackButton = () => {
+    const {actions} = this.props;
+    counter++;
+    if (counter === 1) actions.showMessage("info", "Clicking the hardware back button twice will exit the app.")
+    if (counter === 2) BackHandler.exitApp();
+    return true
+  };
 
   toggleView = viewType => {
     this.setState({ activeView: viewType })

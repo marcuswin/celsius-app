@@ -64,7 +64,7 @@ class FabMenu extends Component {
   };
 
   getMenuItems(menu) {
-    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user} = this.props;
+    const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user,kycStatus} = this.props;
     const main = [
       [
         { label: 'Wallet', screen: 'WalletLanding' },
@@ -77,7 +77,7 @@ class FabMenu extends Component {
       ]
     ];
     if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
-    if (withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if ((kycStatus && kycStatus === KYC_STATUSES.passed) && withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
     if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
     if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
     if (user) main[1].push({label: "Profile", screen: "Profile"});
