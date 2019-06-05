@@ -18,7 +18,7 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
   state => ({
-    kycReasons: state.user.profile.kyc?state.user.profile.kyc.rejectionReasons:[],
+    kycReasons: state.user.profile.kyc ? state.user.profile.kyc.rejectionReasons : [],
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting
@@ -84,16 +84,16 @@ class EmptyState extends Component {
         {(title && title(kyc)) || ""}
       </CelButton>
     ) : (
-      <CelText
-        margin="0 0 0 0"
-        align="center"
-        type="H3"
-        weight={"500"}
-        color={kycColor}
-      >
-        {(title && title(kyc)) || ""}
-      </CelText>
-    );
+        <CelText
+          margin="0 0 0 0"
+          align="center"
+          type="H3"
+          weight={"500"}
+          color={kycColor}
+        >
+          {(title && title(kyc)) || ""}
+        </CelText>
+      );
   };
 
   render() {
@@ -154,17 +154,19 @@ class EmptyState extends Component {
 
         {support ? <ContactSupport /> : null}
         <TodayInterestRatesModal />
-        {kycReasons.length > 0 ? (
-          <InfoModal
-            name={MODALS.KYC_REJECTED_MODAL}
-            heading="Identity verification failed"
-            support
-            yesCopy="Verify identity again"
-            onYes={actions.closeModal}
-          >
+        <InfoModal
+          name={MODALS.KYC_REJECTED_MODAL}
+          heading="Identity verification failed"
+          support
+          yesCopy="Verify identity again"
+          onYes={actions.closeModal}
+        >
+          {kycReasons.length > 0 ? (
             <><Errors /></>
-          </InfoModal>
-        ) : null}
+          ) : 
+          <CelText>Please go through the verification process again or contact our support for help.</CelText>
+          }
+        </InfoModal>
       </View>
     );
   }
