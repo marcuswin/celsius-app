@@ -133,7 +133,7 @@ class TransactionsHistory extends Component {
       <View style={[style.container, margins]}>
         <View style={style.filterContainer}>
           <View>
-            <CelText weight='medium' type='H6'>
+            <CelText weight='medium' type='H6' margin='15 0 0 0'>
               Transaction history
             </CelText>
           </View>
@@ -143,9 +143,9 @@ class TransactionsHistory extends Component {
               items={filterOptions}
               onValueChange={this.handleFilterChange}
               value={filter || null}
-              style={{ height: 16, width: 16 }}
+              style={{ height: 32, width: 32  }}
             >
-              <View style={{ height: 16, width: 16 }}>
+              <View style={{ height: 50, width: 50, paddingTop: 20, marginBottom: 20, alignItems: "flex-end", borderWidth: 1, borderColor: "red" }}>
                 <Icon
                   name='Filter'
                   width='16'

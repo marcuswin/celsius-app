@@ -13,6 +13,15 @@ const base = {
     backgroundColor: "white",
     width: widthPercentageToDP("90%"),
     borderRadius: 8,
+    zIndex: 3
+  },
+  outsideCloseModal: {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    zIndex: 0
   },
   closeBtn: {
     position: "absolute",
@@ -41,7 +50,7 @@ const base = {
     top: 0,
     width: widthPercentageToDP("90%"),
     height: heightPercentageToDP("15.5%"),
-    paddingTop: 10,
+    paddingTop: 5,
     backgroundColor: STYLES.COLORS.LIGHT_GRAY,
     alignItems: "center",
     borderTopLeftRadius: 8,

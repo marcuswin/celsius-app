@@ -40,7 +40,8 @@ class CelModal extends Component {
     height: PropTypes.number,
     noScroll: PropTypes.bool,
     onClose: PropTypes.func,
-    padding: PropTypes.string
+    padding: PropTypes.string,
+    onBackdropPress: PropTypes.func
   }
   static defaultProps = {
     shouldRenderCloseButton: true,
@@ -89,7 +90,7 @@ class CelModal extends Component {
       picture,
       noScroll,
       onClose,
-      padding
+      padding,
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
@@ -106,14 +107,12 @@ class CelModal extends Component {
         onRequestClose={() => actions.closeModal()}
         visible={openedModal === name}
       >
-        <BlurView
-          tint={'dark'}
-          intensity={100}
-          style={StyleSheet.absoluteFill}
-        />
+
         <Message />
 
-        <View style={[style.wrapper, size]}>
+        <View
+          style={[style.wrapper, size]}
+        >
           <View style={[style.modal]}>
             {this.renderImage()}
             {shouldRenderCloseButton ? (
@@ -124,13 +123,17 @@ class CelModal extends Component {
                   if (onClose) onClose()
                 }}
               >
-                <Icon
-                  name='Close'
-                  height='15'
-                  width='15'
-                  viewBox='0 0 1000 1000'
-                  fill={'#3D4853'}
-                />
+                <View style={{ height: 50, width: 50, paddingTop: 16 }}>
+                  <Icon
+                    name='Close'
+                    height='15'
+                    width='15'
+                    viewBox='0 0 1000 1000'
+                    fill={'#3D4853'}
+                    marginTop={ 20 }
+                  />
+                </View>
+
               </TouchableOpacity>
             ) : null}
             {header ? (
@@ -179,6 +182,18 @@ class CelModal extends Component {
               </ScrollView>
             )}
           </View>
+          <BlurView
+          tint={'dark'}
+          intensity={100}
+          style={StyleSheet.absoluteFill}
+        >
+        <TouchableOpacity
+          style={ style.outsideCloseModal }
+          onPress={() => {
+            actions.closeModal()
+            if (onClose) onClose()
+          }}
+        /></BlurView>
         </View>
       </Modal>
     )

@@ -35,7 +35,7 @@ const base = {
 
     },
     input: {
-        height: 23,
+        height: 25,
         fontSize,
         fontFamily: 'barlow-light',
     },

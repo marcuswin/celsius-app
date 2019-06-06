@@ -38,7 +38,7 @@ class Message extends Component {
   state = {
     opacity: new Animated.Value(0.3)
   };
-  
+
   // componentWillReceiveProps(nextProps) {
   //   const { message } = this.props;
   //   const { opacity } = this.state;
@@ -90,7 +90,9 @@ class Message extends Component {
           </CelText>
         </View>
         <TouchableOpacity onPress={() => actions.clearMessage()} style={style.closeButton}>
+        <View style={style.closeButtonView}>
           <Icon name="Close" height="20" width="20" viewBox="0 0 1000 1000" fill="#FFFFFF" />
+        </View>
         </TouchableOpacity>
       </Animated.View>
     );

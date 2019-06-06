@@ -54,6 +54,11 @@ const base = {
     alignItems: "center",
     justifyContent: "flex-end",
     opacity: 0.5
+  },
+  closeButtonView: {
+    width: 50,
+    height: 50,
+    paddingTop: 12
   }
 };
 
