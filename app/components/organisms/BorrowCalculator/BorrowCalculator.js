@@ -122,7 +122,7 @@ class BorrowCalculator extends Component {
         return {
           ...defaultProps,
           subtitle: 'Calculate your loan interest',
-          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto, loanParams.largestShortCrypto) } to deposit`,
+          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(loanParams.missingCollateral, loanParams.largestShortCrypto) } to deposit`,
           bottomParagraph: 'Deposit more coins to start your first loan application',
           buttonCopy: 'Deposit coins',
           onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
@@ -178,6 +178,7 @@ class BorrowCalculator extends Component {
     loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
     loanParams.bestLtv =  Math.max(...ltv.map(x => x.percent))
 
+
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
       const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
       const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd)
@@ -186,6 +187,7 @@ class BorrowCalculator extends Component {
       loanParams.largestAmountCrypto = eligibleCoins[indexOfLargestAmount].amount
       loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short
       loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price
+      loanParams.missingCollateral = (loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto) / loanParams.bestLtv
     }
 
 
