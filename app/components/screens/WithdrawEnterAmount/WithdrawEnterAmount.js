@@ -80,10 +80,11 @@ class WithdrawEnterAmount extends Component {
         coinSelectItems[0].value) ||
         ''
     )
-
-    props.actions.getCoinWithdrawalAddress(coin)
-    props.actions.initForm({ coin })
-    props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
+    if (coin) {
+      props.actions.getCoinWithdrawalAddress(coin)
+      props.actions.initForm({ coin })
+      props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
+    }
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
@@ -219,14 +220,6 @@ class WithdrawEnterAmount extends Component {
       withdrawalSettings
     } = this.props
     const style = WithdrawEnterAmountStyle()
-    if (!formData.coin) return null
-
-    const coinData = walletSummary.coins.find(
-      c => c.short === formData.coin.toUpperCase()
-    )
-
-    const coin = navigation.getParam('coin')
-
     if (kycStatus !== KYC_STATUSES.passed) {
       return (
         <StaticScreen
@@ -234,7 +227,20 @@ class WithdrawEnterAmount extends Component {
         />
       )
     }
+    if (!cryptoUtil.isGreaterThan(walletSummary.total_amount_usd, 0)) {
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }}
+        />
+      )
+    }
+    if (!formData.coin) return null
 
+    const coinData = walletSummary.coins.find(
+      c => c.short === formData.coin.toUpperCase()
+    )
+
+    const coin = navigation.getParam('coin')
     return (
       <RegularLayout padding='20 0 0 0'>
         <View style={style.container}>

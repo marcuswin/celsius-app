@@ -263,6 +263,7 @@ export function verifySMSSuccess() {
 /**
  * Verifies if KYC documents are valid and send the SMS
  */
+let timeout;
 function verifyKYCDocs() {
   return async (dispatch, getState) => {
     const { formData } = getState().forms;
@@ -270,6 +271,10 @@ function verifyKYCDocs() {
     let res;
 
     try {
+      timeout = setTimeout (() => {
+        dispatch(showMessage('info', "Please be patient, this may take a bit longer."));
+        clearTimeout(timeout);
+      }, 5000);
       callName = API.CREATE_KYC_DOCUMENTS;
       dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
       res = await meService.createKYCDocuments({
@@ -285,10 +290,12 @@ function verifyKYCDocs() {
       dispatch(startKYCSuccess());
 
       dispatch(NavActions.navigateTo('WalletFab'));
+      clearTimeout(timeout);
       dispatch(showMessage('success', 'KYC verification proccess has started!'));
 
       analytics.kycStarted()
     } catch (err) {
+      clearTimeout(timeout);
       logger.err({ err });
       if (err.type === 'Validation error') {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));
