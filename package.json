@@ -28,7 +28,7 @@
     "port": 5678
   },
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.19.0",
     "bignumber.js": "^7.2.1",
     "cavy": "^0.6.1",
     "country-data": "0.0.31",

@@ -19,6 +19,7 @@ const initialState = {
     showTodayRatesModal: true,
     showBchExplanationInfoBox: true,
     declineAccess: false,
+    theme: 'light'
   },
   compliance: {
     app: {

@@ -3,7 +3,6 @@ import { MODALS } from "../../constants/UI";
 
 
 export {
-  setAppTheme,
   openFabMenu,
   closeFabMenu,
   showMessage,
@@ -279,20 +278,6 @@ function closeModal() {
     type: ACTIONS.CLOSE_MODAL,
   };
 }
-
-
-/**
- * Sets the theme of the app
- * @param {string} theme - one of THEMES
- * @returns {Object} - Action
- */
-function setAppTheme(theme) {
-  return {
-    type: ACTIONS.SET_APP_THEME,
-    theme,
-  };
-}
-
 
 /**
  * Opens App Menu

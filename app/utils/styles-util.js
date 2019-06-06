@@ -71,7 +71,7 @@ function getPadding(padding) {
  * @param {string} theme - current active theme
  * @returns {Object} themed styles
  */
-function getThemedStyle(base, themed, theme = store.getState().ui.theme) {
+function getThemedStyle(base, themed, theme = store.getState().user.appSettings.theme) {
   return StyleSheet.create(formatter.deepmerge(base, themed[theme]));
   // return StyleSheet.flatten([StyleSheet.create(base), StyleSheet.create(themed[theme])])
   // return StyleSheet.create(_.merge({ ...base }, { ...themed[theme] }));

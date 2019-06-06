@@ -16,7 +16,7 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 @connect(
   state => ({
     fabMenuOpen: state.ui.fabMenuOpen,
-    theme: state.ui.theme,
+    theme: state.user.appSettings.theme,
     appInitialized: state.app.appInitialized,
     fabType: state.ui.fabType,
     kycStatus: state.user.profile.kyc

@@ -17,7 +17,7 @@ import CelInput from '../../atoms/CelInput/CelInput';
   state => ({
     profilePicture: state.user.profile.profile_picture,
     message: state.ui.message,
-    theme: state.ui.theme
+    theme: state.user.appSettings.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )

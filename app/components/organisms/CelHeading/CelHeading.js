@@ -19,7 +19,7 @@ import STYLES from "../../../constants/STYLES";
     profilePicture: state.user.profile.profile_picture,
     message: state.ui.message,
     formData: state.forms.formData,
-    theme: state.ui.theme
+    theme: state.user.appSettings.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
