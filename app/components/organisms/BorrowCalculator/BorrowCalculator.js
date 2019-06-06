@@ -167,9 +167,13 @@ class BorrowCalculator extends Component {
     const loanParams = {}
 
     if (!formData.ltv) return null
-    loanParams.annualInterest = Number(formData.amount) / (formData.termOfLoan / 12) * formData.ltv.interest
-    loanParams.monthlyInterest = loanParams.annualInterest / 12
-    loanParams.totalInterest = loanParams.monthlyInterest * formData.termOfLoan
+
+    loanParams.annualInterestPct = formData.ltv.interest
+    loanParams.totalInterestPct = loanParams.annualInterestPct * (formData.termOfLoan / 12)
+    loanParams.monthlyInterestPct = loanParams.totalInterestPct / formData.termOfLoan
+
+    loanParams.totalInterest = formatter.usd(Number(loanParams.totalInterestPct * formData.amount))
+    loanParams.monthlyInterest = formatter.usd(Number(loanParams.totalInterestPct * formData.amount / formData.termOfLoan))
 
     loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
     loanParams.bestLtv =  Math.max(...ltv.map(x => x.percent))
@@ -183,6 +187,7 @@ class BorrowCalculator extends Component {
       loanParams.largestShortCrypto = eligibleCoins[indexOfLargestAmount].short
       loanParams.minimumLoanAmountCrypto = minimumLoanAmount / (currencies.find(c => c.short === eligibleCoins[indexOfLargestAmount].short)).market_quotes_usd.price
     }
+
 
     this.setState({ loanParams })
   }
@@ -304,7 +309,7 @@ class BorrowCalculator extends Component {
                 color={STYLES.COLORS.MEDIUM_GRAY}
                 type={textType}
               >
-                {formatter.usd(loanParams.monthlyInterest)}
+                {loanParams.monthlyInterest}
               </CelText>
               <CelText
                 align={'center'}
@@ -324,7 +329,7 @@ class BorrowCalculator extends Component {
                 weight='bold'
                 color={STYLES.COLORS.MEDIUM_GRAY}
                 type={textType}>
-                {formatter.usd(loanParams.totalInterest)}
+                {loanParams.totalInterest}
               </CelText>
               <CelText
                 align={'center'}
