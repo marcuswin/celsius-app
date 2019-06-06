@@ -16,7 +16,6 @@ const base = {
         textAlign: "left"
     },
     button: {
-        marginBottom: heightPercentageToDP("7%"),
         marginTop: heightPercentageToDP("3.26%")
     }
 }

@@ -20,6 +20,8 @@ import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 import StaticScreen from '../StaticScreen/StaticScreen'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
+import EmptyState from "../../atoms/EmptyState/EmptyState";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import STYLES from '../../../constants/STYLES'
 import cryptoUtil from '../../../utils/crypto-util'
 
@@ -58,6 +60,14 @@ class WithdrawEnterAmount extends Component {
       walletSummary
     } = this.props
 
+    const coin = navigation.getParam(
+      'coin',
+      (coinSelectItems &&
+        coinSelectItems.length > 0 &&
+        coinSelectItems[0].value) ||
+      ''
+    )
+
     const coinSelectItems = currencies
       .filter(c => withdrawCompliance.coins.includes(c.short))
       .filter(c => {
@@ -73,17 +83,10 @@ class WithdrawEnterAmount extends Component {
       activePeriod: { label: '', value: '' }
     }
 
-    const coin = navigation.getParam(
-      'coin',
-      (coinSelectItems &&
-        coinSelectItems.length > 0 &&
-        coinSelectItems[0].value) ||
-        ''
-    )
     if (coin) {
-      props.actions.getCoinWithdrawalAddress(coin)
       props.actions.initForm({ coin })
       props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
+      props.actions.getAllCoinWithdrawalAddresses();
     }
   }
 
@@ -184,22 +187,18 @@ class WithdrawEnterAmount extends Component {
   }
 
   handleCoinChange = (field, value) => {
-    const { actions, withdrawalAddresses } = this.props
+    const { actions } = this.props
 
     actions.updateFormFields({
       [field]: value,
       amountUsd: undefined,
       amountCrypto: undefined
     })
-
-    if (!withdrawalAddresses[value.toUpperCase()]) {
-      actions.getCoinWithdrawalAddress(value)
-    }
   }
 
   handleNextStep = () => {
     const { actions, formData, withdrawalAddresses } = this.props
-    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address
+    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
@@ -217,7 +216,8 @@ class WithdrawEnterAmount extends Component {
       navigation,
       kycStatus,
       keypadOpen,
-      withdrawalSettings
+      withdrawalSettings,
+      withdrawalAddresses,
     } = this.props
     const style = WithdrawEnterAmountStyle()
     if (kycStatus !== KYC_STATUSES.passed) {
@@ -241,6 +241,12 @@ class WithdrawEnterAmount extends Component {
     )
 
     const coin = navigation.getParam('coin')
+
+    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+    if (!withdrawalAddresses) return <LoadingScreen />
+
+    const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
+
     return (
       <RegularLayout padding='20 0 0 0'>
         <View style={style.container}>
@@ -264,37 +270,48 @@ class WithdrawEnterAmount extends Component {
                 />
               </View>
 
-              <CoinSwitch
-                updateFormField={actions.updateFormField}
-                onAmountPress={actions.toggleKeypad}
-                amountUsd={formData.amountUsd}
-                amountCrypto={formData.amountCrypto}
-                isUsd={formData.isUsd}
-                coin={formData.coin}
-                amountColor={
-                  keypadOpen
-                    ? STYLES.COLORS.CELSIUS_BLUE
-                    : STYLES.COLORS.DARK_GRAY
-                }
-              />
+              { !isAddressLocked && (
+                <CoinSwitch
+                  updateFormField={actions.updateFormField}
+                  onAmountPress={actions.toggleKeypad}
+                  amountUsd={formData.amountUsd}
+                  amountCrypto={formData.amountCrypto}
+                  isUsd={formData.isUsd}
+                  coin={formData.coin}
+                  amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
+                />
+              )}
             </View>
 
-            <PredefinedAmounts
-              data={PREDIFINED_AMOUNTS}
-              onSelect={this.onPressPredefinedAmount}
-              activePeriod={activePeriod}
-            />
+            { !isAddressLocked ? (
+              <View>
+                <PredefinedAmounts
+                  data={PREDIFINED_AMOUNTS}
+                  onSelect={this.onPressPredefinedAmount}
+                  activePeriod={activePeriod}
+                />
 
-            <CelButton
-              margin='40 0 0 0'
-              disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
-              onPress={this.handleNextStep}
-              iconRight='IconArrowRight'
-            >
-              {formData.amountUsd && Number(formData.amountUsd) > 0
-                ? 'Check wallet address'
-                : 'Enter amount above'}
-            </CelButton>
+                <CelButton
+                  margin='40 0 0 0'
+                  disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
+                  onPress={this.handleNextStep}
+                  iconRight='IconArrowRight'
+                >
+                  {formData.amountUsd && Number(formData.amountUsd) > 0
+                    ? 'Check wallet address'
+                    : 'Enter amount above'}
+                </CelButton>
+              </View>
+            ) : (
+              <EmptyState
+                heading="Address locked"
+                paragraphs={[
+                  `You have recently changed your ${ formData.coin } withdrawal address.`,
+                  `Due to out security protocols, your address will be active in the next 24 hours.`,
+                ]}
+              />
+            )}
+
           </View>
         </View>
 

@@ -13,6 +13,7 @@ import {
   getPadding
 } from '../../../utils/styles-util'
 import CelText from '../CelText/CelText'
+import STYLES from '../../../constants/STYLES';
 
 class InfoBox extends Component {
   static propTypes = {
@@ -90,7 +91,8 @@ class InfoBox extends Component {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-around',
-              alignItems: 'center'
+              alignItems: 'center',
+              paddingHorizontal: 12
             }}
           >
             {left && (
@@ -104,8 +106,8 @@ class InfoBox extends Component {
                 />
               </View>
             )}
-            <CelText type={'H4'} style={{ color }}>
-              {titleText} 
+            <CelText type={'H4'} style={{ color, paddingRight: 20 }}>
+              {titleText}
             </CelText>
             <View>{children}</View>
             {right && (
@@ -127,7 +129,7 @@ class InfoBox extends Component {
                     height: 0,
                     backgroundColor: 'transparent',
                     borderStyle: 'solid',
-                    marginTop: heightPercentageToDP('1%'),
+                    marginTop: heightPercentageToDP('0.5%'),
                     borderLeftWidth: widthPercentageToDP('1.5%'),
                     borderRightWidth: widthPercentageToDP('1.5%'),
                     borderBottomWidth: widthPercentageToDP('1.5%'),
@@ -151,14 +153,14 @@ class InfoBox extends Component {
               }}
             >
               <CelText
-                type={'H6'}
+                type={'H5'}
                 style={{
                   color,
                   width: '90%',
                   paddingBottom: heightPercentageToDP('2%')
                 }}
               >
-                {explanationText}
+                {explanationText} <CelText type={'H5'} weight={'700'} color={STYLES.COLORS.WHITE}>{boldText}</CelText>
               </CelText>
             </View>
           )}

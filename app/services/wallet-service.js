@@ -10,6 +10,7 @@ const walletService = {
   getCoinTransactions,
   getCoinGraphData,
   withdrawCrypto,
+  getAllCoinWithdrawalAddresses
 };
 
 
@@ -56,7 +57,7 @@ function getCoinAddress(coin) {
  * @return {Promise}
  */
 function getCoinOriginatingAddress(coin) {
-  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/originating_address`);
+  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address`);
 }
 
 /**
@@ -65,11 +66,15 @@ function getCoinOriginatingAddress(coin) {
  *
  * @param {string} address - scanned or entered wallet address
  * @param {string} coin - eg. eth|ETH
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
  * @return {Promise}
  */
-function setCoinWithdrawalAddress(coin, address) {
-  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/originating_address`, {
+function setCoinWithdrawalAddress(coin, address, verification) {
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address`, {
     address,
+    ...verification
   });
 }
 
@@ -114,3 +119,11 @@ function withdrawCrypto(coin, amount, verification) {
 }
 
 export default walletService;
+
+/**
+ *  Get all coin withdrawal adresses
+ * @return {Promise}
+ */
+function getAllCoinWithdrawalAddresses () {
+  return axios.get(`${apiUrl}/wallet/withdrawal_addresses`);
+}

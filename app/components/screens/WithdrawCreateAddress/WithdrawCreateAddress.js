@@ -61,7 +61,7 @@ class WithdrawCreateAddress extends Component {
     actions.updateFormField("withdrawAddress", address.newAddress);
     actions.updateFormField("coinTag", address.newTag);
   };
-  
+
 
   handleScanClick = async () => {
     const { actions } = this.props;
@@ -72,9 +72,17 @@ class WithdrawCreateAddress extends Component {
     });
   };
 
+  handeConfirmWithdrawal = () => {
+    const { actions } = this.props
+
+    actions.navigateTo("VerifyProfile", {
+      onSuccess: actions.setCoinWithdrawalAddress
+    })
+  }
+
   render() {
     const { coin, balanceCrypto, balanceUsd } = this.state;
-    const { formData, actions } = this.props;
+    const { formData } = this.props;
     const style = WithdrawalAddressConfirmationStyle();
     let tagText;
     let placeHolderText;
@@ -156,7 +164,7 @@ class WithdrawCreateAddress extends Component {
         <View style={style.button}>
           <CelButton
             disabled={!formData.withdrawAddress}
-            onPress={actions.setCoinWithdrawalAddress}
+            onPress={this.handeConfirmWithdrawal}
           >
             Confirm withdrawal
           </CelButton>

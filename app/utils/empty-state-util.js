@@ -134,6 +134,14 @@ function getDefaultEmptyState(purpose, actions) {
         button: "Apply for a loan",
         onPress: () => actions.navigateTo("BorrowEnterAmount")
       };
+    case EMPTY_STATES.NO_WITHDRAWAL_ADDRESSES:
+      return {
+        image: require("../../assets/images/diane-sad3x.png"),
+        heading: "You have no withdrawal addresses set yet!",
+        paragraphs: [],
+        button: "Back to settings",
+        onPress: () => actions.navigateTo("WalletSettings")
+      };
     default:
       return {};
   }

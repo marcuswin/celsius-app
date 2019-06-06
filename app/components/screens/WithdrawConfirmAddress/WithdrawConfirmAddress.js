@@ -15,6 +15,8 @@ import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
 import CelInput from "../../atoms/CelInput/CelInput";
 import addressUtil from "../../../utils/address-util";
+import { MODALS } from "../../../constants/UI";
+import InfoModal from "../../molecules/InfoModal/InfoModal";
 
 @connect(
   state => ({
@@ -34,7 +36,7 @@ class WithdrawConfirmAddress extends Component {
   static navigationOptions = () => ({
     title: "Withdrawal address",
     right: "profile",
-  })
+  });
 
   constructor(props) {
     super(props);
@@ -42,6 +44,7 @@ class WithdrawConfirmAddress extends Component {
     const { formData, walletSummary, withdrawalAddresses } = props;
     const coin = formData.coin;
     const coinData = coin && walletSummary.coins.filter(c => c.short === coin.toUpperCase())[0];
+
 
     this.state = {
       coin,
@@ -58,9 +61,15 @@ class WithdrawConfirmAddress extends Component {
     actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawConfirm") });
   };
 
+  navigate = () => {
+    const {actions} = this.props;
+    actions.closeModal();
+    actions.navigateTo("WithdrawAddressOverview")
+  }
+
   render() {
     const { coin, balanceCrypto, balanceUsd, address } = this.state;
-    const { formData } = this.props;
+    const { formData, actions } = this.props;
     let tagText;
     let placeHolderText;
 
@@ -110,7 +119,8 @@ class WithdrawConfirmAddress extends Component {
           backgroundColor={STYLES.COLORS.ORANGE}
           titleText={"Your withdrawal address"}
           left
-          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nIf you need to change your withdrawal address please contact our support.`}
+          explanationText={`Confirm this is the address you wish to send your funds to. If you transferred money from an exchange, this may not be the correct address. \n\nYou can change your withdrawal address from your`}
+          boldText={' wallet settings.'}
         />
 
                 {hasTag ? (
@@ -146,6 +156,21 @@ class WithdrawConfirmAddress extends Component {
             Confirm withdrawal
           </CelButton>
         </View>
+
+        <CelButton
+          margin={"30 0 20 0"}
+          onPress={() => actions.openModal(MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL)}
+          basic
+        >
+          Change withdrawal address
+        </CelButton>
+        <InfoModal
+          name={MODALS.CHANGE_WITHDRAWAL_ADDRESS_MODAL}
+          yesCopy={"Change address"}
+          onYes={() => this.navigate()}
+          heading={"Changing withdrawal address"}
+          paragraphs={["Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."]}
+        />
       </RegularLayout>
     );
   }

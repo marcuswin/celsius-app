@@ -2,6 +2,7 @@ import ACTIONS from '../../constants/ACTIONS';
 import API from "../../constants/API";
 import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
+import {clearForm} from "../forms/formsActions";
 import walletService from '../../services/wallet-service';
 import { updateMixpanelBalances } from '../../services/mixpanel';
 import { navigateTo } from "../nav/navActions";
@@ -10,12 +11,12 @@ import addressUtil from "../../utils/address-util"
 export {
   // new v3
   getWalletSummary,
+  getAllCoinWithdrawalAddresses,
+  setCoinWithdrawalAddress,
 
   // keep, maybe refactor
   getCoinAddress,
   getCoinWithdrawalAddress,
-  setCoinWithdrawalAddress,
-  setCoinWithdrawalAddressAndWithdrawCrypto,
 
   // remove
   getWalletDetails,
@@ -128,7 +129,7 @@ function getCoinWithdrawalAddress(coin) {
       dispatch(getCoinOriginatingAddressSuccess({
         [coin]: {
           address: res.data.address,
-          manually_set: res.data.manually_set,
+          locked: res.data.locked,
         },
       }));
     } catch(err) {
@@ -140,8 +141,10 @@ function getCoinWithdrawalAddress(coin) {
 
 /**
  * Sets withdrawal address for user for coin
+ *
+ * @param {string} flow - one of withdrawal|change-address
  */
-function setCoinWithdrawalAddress() {
+function setCoinWithdrawalAddress(flow = "withdrawal") {
   return async (dispatch, getState) => {
     try {
       const { formData } = getState().forms;
@@ -149,18 +152,23 @@ function setCoinWithdrawalAddress() {
 
       const address = addressUtil.joinAddressTag(coin, withdrawAddress, coinTag)
 
-      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
-      const response = await walletService.setCoinWithdrawalAddress(coin, address);
-      dispatch(setCoinWithdrawalAddressSuccess(coin, {
-          address: response.data.address,
-          manually_set: response.data.manually_set,
-      }));
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code,
+      }
 
-      dispatch(navigateTo('VerifyProfile', {
-        onSuccess: () => {
-          dispatch(navigateTo('WithdrawConfirm'))
-        }
-      }))
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS));
+      const response = await walletService.setCoinWithdrawalAddress(coin, address, verification);
+
+      dispatch(setCoinWithdrawalAddressSuccess(coin, response.data));
+
+      const nextScreen = flow === "change-address" ? "WithdrawAddressOverview" : "WithdrawConfirm"
+      dispatch(navigateTo(nextScreen))
+
+      if (flow === "change-address") {
+        dispatch(showMessage('success', `Open your email to confirm the change of your ${ formData.coin } withdrawal address. Note that withdrawals for ${ formData.coin } will be locked for the next 24h due to our security protocols.`))
+        dispatch(clearForm())
+      }
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS, error));
@@ -169,33 +177,27 @@ function setCoinWithdrawalAddress() {
 }
 
 /**
- * @deprecated
+ *  Gets all withdrawal addresses previously set by user
  */
-function setCoinWithdrawalAddressAndWithdrawCrypto(coin, address, amount, verification) {
-  let currentApiCall;
 
-  return async dispatch => {
+function getAllCoinWithdrawalAddresses() {
+  return async (dispatch) => {
     try {
-      currentApiCall = API.SET_COIN_WITHDRAWAL_ADDRESS;
-      dispatch(startApiCall(currentApiCall));
+      dispatch(startApiCall(API.GET_ALL_COIN_WITHDRAWAL_ADDRESSES));
+      const response = await walletService.getAllCoinWithdrawalAddresses()
+      dispatch(getAllCoinWithdrawalAddressesSuccess(response.data))
 
-      const response = await walletService.setCoinWithdrawalAddress(coin, address);
-
-      dispatch(setCoinWithdrawalAddressSuccess(coin, {
-        address: response.data.address,
-        manually_set: response.data.manually_set,
-      }));
-
-      currentApiCall = API.WITHDRAW_CRYPTO;
-      dispatch(startApiCall(currentApiCall));
-
-      await walletService.withdrawCrypto(coin, amount, verification);
-      // dispatch(withdrawCryptoSuccess(res.data.transaction));
-      dispatch(getWalletDetails());
     } catch (error) {
-      dispatch(showMessage('error', error.msg));
-      dispatch(apiError(currentApiCall, error));
+      dispatch(showMessage(`error`, error.msg));
+      dispatch(apiError(API.GET_ALL_COIN_WITHDRAWAL_ADDRESSES, error))
     }
+  }
+}
+
+function getAllCoinWithdrawalAddressesSuccess(allWalletAddresses) {
+  return {
+    type: ACTIONS.GET_ALL_COIN_WITHDRAWAL_ADDRESSES_SUCCESS,
+    allWalletAddresses
   }
 }
 

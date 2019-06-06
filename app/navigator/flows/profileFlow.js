@@ -22,6 +22,9 @@ import LoyaltyProgram from "../../components/screens/LoyaltyProgram/LoyaltyProgr
 import CellphoneEnter from "../../components/screens/CellphoneEnter/CellphoneEnter";
 import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneVerify";
 import SelectCountry from "../../components/screens/SelectCountry/SelectCountry";
+import WithdrawNewAddressSetup from "../../components/screens/WithdrawNewAddressSetup/WithdrawNewAddressSetup";
+import WithdrawAddressOverview from "../../components/screens/WithdrawAddressOverview/WithdrawAddressOverview";
+
 
 export const profileFlow = {
   screens: {
@@ -46,7 +49,9 @@ export const profileFlow = {
     LoyaltyProgram,
     CellphoneEnter,
     CellphoneVerify,
-    SelectCountry
+    SelectCountry,
+    WithdrawNewAddressSetup,
+    WithdrawAddressOverview
   },
   props: {
     initialRouteName: 'Profile',

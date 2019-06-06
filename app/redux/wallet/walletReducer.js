@@ -45,6 +45,14 @@ export default function walletReducer(state = initialState(), action) {
           ...action.address,
         }
       };
+    case ACTIONS.GET_ALL_COIN_WITHDRAWAL_ADDRESSES_SUCCESS:
+      return {
+        ...state,
+        withdrawalAddresses: {
+          ...state.withdrawalAddresses,
+          ...action.allWalletAddresses,
+        }
+      };
 
     case ACTIONS.GET_COIN_BALANCE_SUCCESS:
       return {
