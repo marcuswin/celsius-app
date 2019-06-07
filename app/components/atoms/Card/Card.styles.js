@@ -6,13 +6,11 @@ import { getThemedStyle, widthPercentageToDP } from '../../../utils/styles-util'
 const base = {
   card: {
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
     borderRadius: 8
   },
   cardBorder: {
     ...Platform.select({
       android: {
-        borderColor: '#E9E9E9',
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
         borderRightWidth: 0.5,
@@ -42,9 +40,31 @@ const base = {
 }
 
 const themed = {
-  light: {},
+  light: {
+    cardBackground: {
+      backgroundColor: STYLES.COLORS.WHITE,
+    },
+  cardBorder: {
+    ...Platform.select({
+      android: {
+        borderColor: '#E9E9E9'
+      }
+    })
+  }
+  },
 
-  dark: {},
+  dark: {
+    cardBackground: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+    },
+    cardBorder: {
+      ...Platform.select({
+        android: {
+          borderColor: STYLES.COLORS.BLACK_OPACITY2
+        }
+      })
+    }
+  },
 
   celsius: {}
 }

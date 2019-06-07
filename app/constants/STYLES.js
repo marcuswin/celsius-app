@@ -3,6 +3,7 @@ const COLORS = {
   WHITE: '#fff',
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
+  BLACK_OPACITY2: 'rgba(0,0,0,0.2)',
   CELSIUS: '#3F51AB', // prov: change name!
   DARK_HEADER: '#1F2E3D',
   DARK_BACKGROUND: '#151E27',

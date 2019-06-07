@@ -10,6 +10,8 @@ import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
+import store from "../../../redux/store";
+import { THEMES } from "../../../constants/UI";
 
 
 
@@ -45,9 +47,11 @@ class Graph extends React.Component {
     super(props);
 
     const { interest, rate, showCursor } = props;
+    const areaColors = this.getGraphBackgroundColor()
+
     let color = { line: "#4156A6", area: "#d9e0f9" };
     if (!interest) {
-      color = rate >= 0 ? { line: "#4FB895", area: "#E5F5EF" } : { line: "#EF461A", area: "#FDE4DD" };
+      color = rate >= 0 ? { line: "#4FB895", area: areaColors.green} : { line: "#EF461A", area: areaColors.red };
     }
 
     this.state = {
@@ -80,6 +84,30 @@ class Graph extends React.Component {
     }
     return nextState.loading !== this.state.loading;
   };
+
+  getGraphBackgroundColor = () => {
+    const theme = store.getState().user.appSettings.theme
+
+    switch (theme) {
+      case THEMES.DARK:
+        return {
+          green: 'rgb(37, 69, 75)',
+          red: 'rgb(66, 52, 57)'
+      }
+      case THEMES.LIGHT:
+      return {
+        green: '#E5F5EF',
+        red: '#FDE4DD'
+     }
+
+      default:
+        return {
+          green: '#E5F5EF',
+          red: '#FDE4DD'
+      }
+    }
+
+  }
 
   calculateLine() {
     const { width, height, verticalPadding, priceArray, dateArray, showCursor } = this.props;
