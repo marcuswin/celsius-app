@@ -12,7 +12,7 @@ import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles
 import GraphStyle from "./Graph.styles";
 import store from "../../../redux/store";
 import { THEMES } from "../../../constants/UI";
-
+import STYLES from '../../../constants/STYLES'
 
 
 const { Path, Defs, LinearGradient, Stop } = Svg;
@@ -49,9 +49,12 @@ class Graph extends React.Component {
     const { interest, rate, showCursor } = props;
     const areaColors = this.getGraphBackgroundColor()
 
+    // console.log({areaColors});
+
+
     let color = { line: "#4156A6", area: "#d9e0f9" };
     if (!interest) {
-      color = rate >= 0 ? { line: "#4FB895", area: areaColors.green} : { line: "#EF461A", area: areaColors.red };
+      color = rate >= 0 ? { line: "#4FB895", area: areaColors.green, back: areaColors.back} : { line: "#EF461A", area: areaColors.red, back: areaColors.back};
     }
 
     this.state = {
@@ -92,18 +95,21 @@ class Graph extends React.Component {
       case THEMES.DARK:
         return {
           green: 'rgb(37, 69, 75)',
-          red: 'rgb(66, 52, 57)'
+          red: 'rgb(66, 52, 57)',
+          back: STYLES.COLORS.DARK_BACKGROUND
       }
       case THEMES.LIGHT:
-      return {
-        green: '#E5F5EF',
-        red: '#FDE4DD'
-     }
+        return {
+          green: '#E5F5EF',
+          red: '#FDE4DD',
+          back: STYLES.COLORS.WHITE
+      }
 
       default:
         return {
           green: '#E5F5EF',
-          red: '#FDE4DD'
+          red: '#FDE4DD',
+          back: STYLES.COLORS.WHITE
       }
     }
 
@@ -178,8 +184,9 @@ class Graph extends React.Component {
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor, backgroundColor, type } = this.props;
+    const { width, height, showCursor, type } = this.props;
     const { color, loading } = this.state;
+
 
     const strokeWidth = type === "coin-interest" ? 3 : 2;
 
@@ -195,13 +202,13 @@ class Graph extends React.Component {
             {(type === "total-balance" || type === "coin-balance") ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"50%"} />
-                <Stop stopColor={backgroundColor} offset={"80%"} />
+                <Stop stopColor={color.back} offset={"80%"} />
               </LinearGradient> : null
             }
             {type === "total-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"50%"} />
-                <Stop stopColor={backgroundColor} offset={"80%"} />
+                <Stop stopColor={color.back} offset={"80%"} />
               </LinearGradient> : null
             }
             {!showCursor ?
