@@ -93,7 +93,8 @@ const themed = {
 
   dark: {
     headingBackground: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      borderColor: 'transparent'
     },
     sameBackground: {
       backgroundColor: STYLES.COLORS.DARK_BACKGROUND
