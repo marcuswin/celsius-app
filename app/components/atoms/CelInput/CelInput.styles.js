@@ -65,7 +65,7 @@ const base = {
 
 const themed = {
     light: {
-        container: {
+        inputWrapper: {
             backgroundColor: STYLES.COLORS.WHITE
         },
         input: {
@@ -77,7 +77,7 @@ const themed = {
     },
 
     dark: {
-        container: {
+        inputWrapper: {
             backgroundColor: STYLES.COLORS.DARK_HEADER
         },
         input: {
@@ -89,7 +89,7 @@ const themed = {
     },
 
     celsius: {
-        container: {
+        inputWrapper: {
             backgroundColor: STYLES.COLORS.WHITE
         },
         input: {
