@@ -145,7 +145,15 @@ class TransactionsHistory extends Component {
               value={filter || null}
               style={{ height: 32, width: 32  }}
             >
-              <View style={{ height: 50, width: 50, paddingTop: 20, marginBottom: 20, alignItems: "flex-end", borderWidth: 1, borderColor: "red" }}>
+              <View
+                style={{
+                  height: 50,
+                  width: 50,
+                  paddingTop: 20,
+                  marginBottom: 20,
+                  alignItems: "flex-end",
+                  }}
+                >
                 <Icon
                   name='Filter'
                   width='16'
