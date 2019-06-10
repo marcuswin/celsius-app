@@ -49,12 +49,18 @@ class Graph extends React.Component {
     const { interest, rate, showCursor } = props;
     const areaColors = this.getGraphBackgroundColor()
 
-    // console.log({areaColors});
-
 
     let color = { line: "#4156A6", area: "#d9e0f9" };
     if (!interest) {
-      color = rate >= 0 ? { line: "#4FB895", area: areaColors.green, back: areaColors.back} : { line: "#EF461A", area: areaColors.red, back: areaColors.back};
+      color = rate >= 0 ? {
+        line: "#4FB895",
+        area: areaColors.green,
+        back: areaColors.back
+      } : {
+        line: "#EF461A",
+        area: areaColors.red,
+        back: areaColors.back
+      };
     }
 
     this.state = {
@@ -190,8 +196,11 @@ class Graph extends React.Component {
 
     const strokeWidth = type === "coin-interest" ? 3 : 2;
 
+    if (loading) {
+      return null
+    }
+
     return (
-      !loading ?
         <Svg width={width} height={height}>
           <Defs>
             { type === "coin-interest" ?
@@ -199,18 +208,21 @@ class Graph extends React.Component {
                 <Stop stopColor={"white"} offset={"100%"} />
               </LinearGradient> : null
             }
+
             {(type === "total-balance" || type === "coin-balance") ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"50%"} />
                 <Stop stopColor={color.back} offset={"80%"} />
               </LinearGradient> : null
             }
+
+
             {type === "total-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={color.area} offset={"50%"} />
-                <Stop stopColor={color.back} offset={"80%"} />
+                <Stop stopColor={color.area} offset={"100%"} />
               </LinearGradient> : null
             }
+
             {!showCursor ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"100%"} />
@@ -220,7 +232,6 @@ class Graph extends React.Component {
           <Path d={this.line} stroke={color.line} strokeWidth={strokeWidth} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
         </Svg>
-        : null
     );
   };
 
