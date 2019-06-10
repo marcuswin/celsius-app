@@ -42,20 +42,20 @@ const base = {
 const themed = {
   light: {
     cardBackground: {
-      backgroundColor: STYLES.COLORS.WHITE,
+      backgroundColor: STYLES.COLORS.WHITE
     },
-  cardBorder: {
-    ...Platform.select({
-      android: {
-        borderColor: '#E9E9E9'
-      }
-    })
-  }
+    cardBorder: {
+      ...Platform.select({
+        android: {
+          borderColor: "#E9E9E9"
+        }
+      })
+    }
   },
 
   dark: {
     cardBackground: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      backgroundColor: STYLES.COLORS.DARK_HEADER
     },
     cardBorder: {
       ...Platform.select({
