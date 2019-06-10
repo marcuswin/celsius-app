@@ -60,13 +60,15 @@ class Card extends React.Component {
     const marginStyles = getMargins(margin)
     const opacityStyles = { opacity }
     const borderStyle = noBorder ? {} : style.cardBorder
+    const background = color ? {backgroundColor: color} : style.cardBackground
+
     const cardStyles = [
       style.card,
       paddingStyles,
       marginStyles,
       opacityStyles,
       style[size],
-      {... color ? {backgroundColor: color} : style.cardBackground },
+      background,
       styles,
       borderStyle
     ]
