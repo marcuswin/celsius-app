@@ -141,7 +141,7 @@ class GraphContainer extends Component {
       const sum = prices.reduce((accumulator, currentValue) => Number(accumulator) + Number(currentValue))
       if(Number(sum) === 0) return null
     }
-    
+
     if(!currenciesRates) return null
     if (type === "coin-balance") {
       rate = currenciesRates.find((c) => c.short === coin).price_change_usd[timeline];
@@ -157,7 +157,12 @@ class GraphContainer extends Component {
       {interest && <Separator margin={"20 0 10 0"} />}
         {showPeriods &&
           <View style={style.period}>
-            <PeriodGraphView type={type} width={width} periods={periods} onChange={this.renderTimeline}/>
+            <PeriodGraphView
+              type={type}
+              width={width}
+              periods={periods}
+              onChange={this.renderTimeline}
+            />
           </View>
         }
         {isLoading ? (
@@ -165,8 +170,16 @@ class GraphContainer extends Component {
             <Spinner/>
           </View>
         ) : (
-          <Graph type={type} width={width} dateArray={dates} priceArray={prices} interest={interest} showCursor={showCursor}
-                 rate={rate} timeline={timeline}/>
+          <Graph
+            type={type}
+            width={width}
+            dateArray={dates}
+            priceArray={prices}
+            interest={interest}
+            showCursor={showCursor}
+            rate={rate}
+            timeline={timeline}
+          />
         )}
         <View>
           {showXTicks && !isLoading && <XTicks width={width} time={dates} timeline={timeline}/>}

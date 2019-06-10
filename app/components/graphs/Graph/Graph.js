@@ -10,7 +10,9 @@ import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
-
+import store from "../../../redux/store";
+import { THEMES } from "../../../constants/UI";
+import STYLES from '../../../constants/STYLES'
 
 
 const { Path, Defs, LinearGradient, Stop } = Svg;
@@ -45,9 +47,20 @@ class Graph extends React.Component {
     super(props);
 
     const { interest, rate, showCursor } = props;
+    const areaColors = this.getGraphBackgroundColor()
+
+
     let color = { line: "#4156A6", area: "#d9e0f9" };
     if (!interest) {
-      color = rate >= 0 ? { line: "#4FB895", area: "#E5F5EF" } : { line: "#EF461A", area: "#FDE4DD" };
+      color = rate >= 0 ? {
+        line: "#4FB895",
+        area: areaColors.green,
+        back: areaColors.back
+      } : {
+        line: "#EF461A",
+        area: areaColors.red,
+        back: areaColors.back
+      };
     }
 
     this.state = {
@@ -80,6 +93,33 @@ class Graph extends React.Component {
     }
     return nextState.loading !== this.state.loading;
   };
+
+  getGraphBackgroundColor = () => {
+    const theme = store.getState().user.appSettings.theme
+
+    switch (theme) {
+      case THEMES.DARK:
+        return {
+          green: 'rgb(37, 69, 75)',
+          red: 'rgb(66, 52, 57)',
+          back: STYLES.COLORS.DARK_BACKGROUND
+      }
+      case THEMES.LIGHT:
+        return {
+          green: '#E5F5EF',
+          red: '#FDE4DD',
+          back: STYLES.COLORS.WHITE
+      }
+
+      default:
+        return {
+          green: '#E5F5EF',
+          red: '#FDE4DD',
+          back: STYLES.COLORS.WHITE
+      }
+    }
+
+  }
 
   calculateLine() {
     const { width, height, verticalPadding, priceArray, dateArray, showCursor } = this.props;
@@ -150,13 +190,17 @@ class Graph extends React.Component {
   };
 
   renderGraphSvg = () => {
-    const { width, height, showCursor, backgroundColor, type } = this.props;
+    const { width, height, showCursor, type } = this.props;
     const { color, loading } = this.state;
+
 
     const strokeWidth = type === "coin-interest" ? 3 : 2;
 
+    if (loading) {
+      return null
+    }
+
     return (
-      !loading ?
         <Svg width={width} height={height}>
           <Defs>
             { type === "coin-interest" ?
@@ -164,18 +208,21 @@ class Graph extends React.Component {
                 <Stop stopColor={"white"} offset={"100%"} />
               </LinearGradient> : null
             }
+
             {(type === "total-balance" || type === "coin-balance") ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"50%"} />
-                <Stop stopColor={backgroundColor} offset={"80%"} />
+                <Stop stopColor={color.back} offset={"80%"} />
               </LinearGradient> : null
             }
+
+
             {type === "total-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={color.area} offset={"50%"} />
-                <Stop stopColor={backgroundColor} offset={"80%"} />
+                <Stop stopColor={color.area} offset={"100%"} />
               </LinearGradient> : null
             }
+
             {!showCursor ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
                 <Stop stopColor={color.area} offset={"100%"} />
@@ -185,7 +232,6 @@ class Graph extends React.Component {
           <Path d={this.line} stroke={color.line} strokeWidth={strokeWidth} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
         </Svg>
-        : null
     );
   };
 

@@ -17,7 +17,7 @@ import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/Tod
 import { EMPTY_STATES, MODALS } from '../../../constants/UI'
 import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
 import CelInterestCard from '../../molecules/CelInterestCard/CelInterestCard'
-import LoadingScreen from '../BalanceHistory/BalanceHistory'
+import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
 import Separator from '../../atoms/Separator/Separator'
 import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
 import InterestCalculatorScreen from '../InterestCalculatorScreen/InterestCalculatorScreen'
@@ -155,7 +155,6 @@ class WalletInterest extends Component {
         />
 
         <View
-          marign='10 10 10 10'
           style={{ paddingVertical: 20, paddingHorizontal: 20 }}
         >
           {!appSettings.interest_in_cel ?

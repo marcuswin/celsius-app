@@ -4,7 +4,6 @@ import { View, TouchableOpacity } from 'react-native'
 
 import testUtil from '../../../utils/test-util'
 import { getPadding, getMargins } from '../../../utils/styles-util'
-
 import CardStyle from './Card.styles'
 import Icon from '../Icon/Icon'
 import STYLES from '../../../constants/STYLES'
@@ -29,7 +28,7 @@ class Card extends React.Component {
     styles: {},
     onPress: null,
     close: false,
-    color: 'white',
+    color: '',
     noBorder: false
   }
 
@@ -67,7 +66,7 @@ class Card extends React.Component {
       marginStyles,
       opacityStyles,
       style[size],
-      { backgroundColor: color },
+      {... color ? {backgroundColor: color} : style.cardBackground },
       styles,
       borderStyle
     ]
