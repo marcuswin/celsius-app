@@ -1,25 +1,18 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from '../../../utils/styles-util'
 
 const base = {
-    container: {
-      flex: 1,
-      flexDirection: 'row',
-      height: 50
-    }
+  container: {}
 }
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
+  celsius: {}
 }
 
-const HorizontalSliderStyle = () => getThemedStyle(base, themed);
+const HorizontalSliderStyle = () => getThemedStyle(base, themed)
 
 export default HorizontalSliderStyle

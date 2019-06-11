@@ -136,7 +136,6 @@ class BorrowLanding extends Component {
     if (!loanCompliance.allowed) return <BorrowCalculator purpose={EMPTY_STATES.COMPLIANCE}/>;
 
     if (isLoading) return <LoadingScreen/>;
-    if (!allLoans.length) return <BorrowCalculator purpose={EMPTY_STATES.NO_LOANS}/>;
 
     const minLtv = Math.max(...ltv.map(x => x.percent));
 
