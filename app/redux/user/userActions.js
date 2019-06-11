@@ -354,6 +354,9 @@ function getLinkedBankAccount() {
  * @param {string} bankAccountInfo.bank_routing_number
  * @param {string} bankAccountInfo.account_type
  * @param {string} bankAccountInfo.bank_account_number
+ * @param {string} bankAccountInfo.swift
+ * @param {string} bankAccountInfo.iban
+ * @param {string} bankAccountInfo.location
  */
 function linkBankAccount(bankAccountInfo) {
   return async dispatch => {

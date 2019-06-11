@@ -50,7 +50,8 @@ class BorrowBankAccount extends Component {
       account_type: formData.selectedAccountType,
       bank_account_number: formData.bank_account_number,
       swift: formData.swift,
-      iban: formData.iban
+      iban: formData.iban,
+      location: formData.bank_location.name
     }
 
     if (isAmerican) {
