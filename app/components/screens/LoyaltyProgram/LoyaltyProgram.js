@@ -17,6 +17,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
+import { THEMES } from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -112,7 +113,7 @@ class LoyaltyProgram extends Component {
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Image style={{ width: widthPercentageToDP("23.3%"), height: widthPercentageToDP("23.3%") }}
                   source={require("../../../../assets/images/loyaltyIcons/star-bg3x.png")} />
-                <CelText type={"H3"} weight={"700"} style={{
+                <CelText theme={THEMES.LIGHT} type={"H3"} weight={"700"} style={{
                   position: "absolute",
                   top: widthPercentageToDP("23.3%") / 3.5
                 }}>{`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}</CelText>

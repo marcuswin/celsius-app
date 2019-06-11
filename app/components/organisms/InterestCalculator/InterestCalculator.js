@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
-import { KEYPAD_PURPOSES } from '../../../constants/UI'
+import { KEYPAD_PURPOSES, THEMES } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
 import Card from '../../atoms/Card/Card'
 import formatter from '../../../utils/formatter'
@@ -15,7 +15,6 @@ import STYLES from '../../../constants/STYLES'
 import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
 import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import InterestCalculatorStyle from './InterestCalculator.styles'
-import { getPadding } from '../../../utils/styles-util'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
 
 @connect(
@@ -195,17 +194,17 @@ class InterestCalculator extends Component {
             color={STYLES.COLORS.LIGHT_GRAY}
             margin='20 10 20 20'
           >
-            <CelText align={'center'}>
+            <CelText theme={THEMES.LIGHT} align={'center'}>
               {formatter.usd(
                 weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
               )}
             </CelText>
-            <CelText align={'center'} weight='bold'>
+            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
               {formatter.crypto(weeklyInterest, selectedCoin, {
                 precision: 2
               })}
             </CelText>
-            <CelText type='H6' align={'center'}>
+            <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest per week
             </CelText>
           </Card>
@@ -214,17 +213,17 @@ class InterestCalculator extends Component {
             color={STYLES.COLORS.LIGHT_GRAY}
             margin='20 20 20 10'
           >
-            <CelText align={'center'}>
+            <CelText theme={THEMES.LIGHT} align={'center'}>
               {formatter.usd(
                 yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
               )}
             </CelText>
-            <CelText align={'center'} weight='bold'>
+            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
               {formatter.crypto(yearlyInterest, selectedCoin, {
                 precision: 2
               })}
             </CelText>
-            <CelText type='H6' align={'center'}>
+            <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest for 1 year
             </CelText>
           </Card>
@@ -245,13 +244,7 @@ class InterestCalculator extends Component {
     return (
       <View>
         <View
-          style={[
-            style.amounts,
-            {
-              backgroundColor: STYLES.COLORS.LIGHT_GRAY
-            },
-            { ...getPadding('20 20 20 20') }
-          ]}
+          style={style.amounts}
         >
           <View style={style.selectWrapper}>
             <SimpleSelect

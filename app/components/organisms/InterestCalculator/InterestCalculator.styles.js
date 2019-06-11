@@ -1,5 +1,6 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util'
+import { StyleSheet } from 'react-native'
+import { getThemedStyle, getPadding } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES'
 
 const base = {
@@ -15,15 +16,30 @@ const base = {
   selectedCard: {
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
     borderColor: STYLES.COLORS.CELSIUS_BLUE
+  },
+  amounts: {
+    ...StyleSheet.flatten(getPadding('20 20 20 20'))
   }
 }
 
 const themed = {
-  light: {},
+  light: {
+    amounts: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY
+    }
+  },
 
-  dark: {},
+  dark: {
+    amounts: {
+      backgroundColor: STYLES.COLORS.DARK_BACKGROUND
+    }
+  },
 
-  celsius: {}
+  celsius: {
+    amounts: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY
+    }
+  }
 }
 
 const InterestCalculatorModalStyle = () => getThemedStyle(base, themed)

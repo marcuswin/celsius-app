@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import QRCode from 'react-qr-code';
+import React, { Component } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import QRCode from 'react-qr-code'
 
-import cryptoUtil from "../../../utils/crypto-util";
-import testUtil from "../../../utils/test-util";
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import * as appActions from '../../../redux/actions';
-import { getDepositEligibleCoins } from '../../../redux/custom-selectors';
-import CopyButton from '../../atoms/CopyButton/CopyButton';
-import ShareButton from '../../atoms/ShareButton/ShareButton';
-import CelButton from '../../atoms/CelButton/CelButton';
-import CelText from '../../atoms/CelText/CelText';
-import Separator from '../../atoms/Separator/Separator';
-import STYLES from '../../../constants/STYLES';
-import DepositStyle from './Deposit.styles';
-import Card from '../../atoms/Card/Card';
-import Icon from '../../atoms/Icon/Icon';
-import { EMPTY_STATES, MODALS } from "../../../constants/UI";
-import CelModal from '../../organisms/CelModal/CelModal';
-import Spinner from '../../atoms/Spinner/Spinner';
-import CoinPicker from '../../molecules/CoinPicker/CoinPicker';
-import { KYC_STATUSES } from "../../../constants/DATA";
-import StaticScreen from "../StaticScreen/StaticScreen";
-import IconButton from '../../organisms/IconButton/IconButton';
+import cryptoUtil from '../../../utils/crypto-util'
+import testUtil from '../../../utils/test-util'
+import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
+import * as appActions from '../../../redux/actions'
+import { getDepositEligibleCoins } from '../../../redux/custom-selectors'
+import CopyButton from '../../atoms/CopyButton/CopyButton'
+import ShareButton from '../../atoms/ShareButton/ShareButton'
+import CelButton from '../../atoms/CelButton/CelButton'
+import CelText from '../../atoms/CelText/CelText'
+import Separator from '../../atoms/Separator/Separator'
+import STYLES from '../../../constants/STYLES'
+import DepositStyle from './Deposit.styles'
+import Card from '../../atoms/Card/Card'
+import Icon from '../../atoms/Icon/Icon'
+import { EMPTY_STATES, MODALS } from '../../../constants/UI'
+import Spinner from '../../atoms/Spinner/Spinner'
+import CoinPicker from '../../molecules/CoinPicker/CoinPicker'
+import { KYC_STATUSES } from '../../../constants/DATA'
+import StaticScreen from '../StaticScreen/StaticScreen'
+import IconButton from '../../organisms/IconButton/IconButton'
+import DestinationTagModal from '../../organisms/DestinationTagModal/DestinationTagModal'
+import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
 
 @connect(
   state => ({
@@ -34,33 +35,32 @@ import IconButton from '../../organisms/IconButton/IconButton';
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    depositCompliance: state.user.compliance.deposit,
+    depositCompliance: state.user.compliance.deposit
   }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
+  dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class Deposit extends Component {
-
   static navigationOptions = () => ({
-    title: "Deposit coins",
-    right: "profile"
-  });
+    title: 'Deposit coins',
+    right: 'profile'
+  })
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       isFetchingAddress: false,
       useAlternateAddress: false
-    };
+    }
   }
 
-  getAddress = (currency) => {
-    const { walletAddresses } = this.props;
+  getAddress = currency => {
+    const { walletAddresses } = this.props
 
-    let address = '';
-    let alternateAddress = '';
-    let destinationTag = '';
-    let memoId = '';
-    let fullAddress = '';
+    let address = ''
+    let alternateAddress = ''
+    let destinationTag = ''
+    let memoId = ''
+    let fullAddress = ''
 
     if (!currency) {
       return {
@@ -74,11 +74,11 @@ class Deposit extends Component {
     // If currency is ERC20 get ETH address because it's the same for all ERC20, else
     // find the address in wallet for specific currency
     if (cryptoUtil.isERC20(currency)) {
-      fullAddress = walletAddresses.ETHAddress;
-      alternateAddress = walletAddresses.ETHAlternateAddress;
+      fullAddress = walletAddresses.ETHAddress
+      alternateAddress = walletAddresses.ETHAlternateAddress
     } else {
-      fullAddress = walletAddresses[`${currency}Address`];
-      alternateAddress = walletAddresses[`${currency}AlternateAddress`];
+      fullAddress = walletAddresses[`${currency}Address`]
+      alternateAddress = walletAddresses[`${currency}AlternateAddress`]
     }
 
     // Because getAddress is called in render method, it might happen that currency is defined and
@@ -93,16 +93,16 @@ class Deposit extends Component {
     }
 
     // If address has dt(destinationTag) or memoId, split it and return it separately
-    if (fullAddress.includes("?dt=")) {
-      const splitAddress = fullAddress.split("?dt=");
-      address = splitAddress[0];
+    if (fullAddress.includes('?dt=')) {
+      const splitAddress = fullAddress.split('?dt=')
+      address = splitAddress[0]
       destinationTag = splitAddress[1]
-    } else if (fullAddress.includes("?memoId=")) {
-      const splitAddress = fullAddress.split("?memoId=");
-      address = splitAddress[0];
-      memoId = splitAddress[1];
+    } else if (fullAddress.includes('?memoId=')) {
+      const splitAddress = fullAddress.split('?memoId=')
+      address = splitAddress[0]
+      memoId = splitAddress[1]
     } else {
-      address = fullAddress;
+      address = fullAddress
     }
 
     return {
@@ -111,15 +111,15 @@ class Deposit extends Component {
       destinationTag,
       memoId
     }
-  };
+  }
 
   getDefaultSelectedCoin = () => {
-    const { formData, navigation } = this.props;
-    const currencyFromNav = navigation.getParam("coin");
+    const { formData, navigation } = this.props
+    const currencyFromNav = navigation.getParam('coin')
 
     // If nothing comes through navigation and nothing stored in the redux state,
     // use ETH as default selected coin
-    let defaultSelectedCoin = 'ETH';
+    let defaultSelectedCoin = 'ETH'
 
     if (currencyFromNav) {
       defaultSelectedCoin = currencyFromNav
@@ -127,32 +127,35 @@ class Deposit extends Component {
       defaultSelectedCoin = formData.selectedCoin
     }
 
-    return defaultSelectedCoin;
-  };
+    return defaultSelectedCoin
+  }
 
   handleCoinSelect = async (field, item) => {
-    const { actions } = this.props;
-    await actions.updateFormField(field, item);
-    await this.fetchAddress(item);
-  };
+    const { actions } = this.props
+    await actions.updateFormField(field, item)
+    await this.fetchAddress(item)
+  }
 
-  fetchAddress = async (currency) => {
-    const { actions, walletAddresses } = this.props;
-    this.setState({ isFetchingAddress: true });
+  fetchAddress = async currency => {
+    const { actions, walletAddresses } = this.props
+    this.setState({ isFetchingAddress: true })
     // Every ERC20 has the same address, so we use ETH address
     // Also check if it's already fetched and stored in redux state to avoid additional http requests
     if (cryptoUtil.isERC20(currency) && !walletAddresses.ETHAddress) {
-      await actions.getCoinAddress('ETH');
-    } else if (!cryptoUtil.isERC20(currency) && !walletAddresses[`${currency}Address`]) {
+      await actions.getCoinAddress('ETH')
+    } else if (
+      !cryptoUtil.isERC20(currency) &&
+      !walletAddresses[`${currency}Address`]
+    ) {
       // If it's not ERC20 and not already fetched and stored in redux state, get the address
-      await actions.getCoinAddress(currency);
+      await actions.getCoinAddress(currency)
     }
 
     this.setState({ isFetchingAddress: false, useAlternateAddress: false })
-  };
+  }
 
   openModal = (destinationTag, memoId) => {
-    const { actions } = this.props;
+    const { actions } = this.props
 
     if (destinationTag) {
       actions.openModal(MODALS.DESTINATION_TAG_MODAL)
@@ -161,64 +164,108 @@ class Deposit extends Component {
     if (memoId) {
       actions.openModal(MODALS.MEMO_ID_MODAL)
     }
-  };
+  }
 
   renderSwitchAddressBlock = (alternativeAddress, currency) => {
-    const { useAlternateAddress } = this.state;
-    const style = DepositStyle();
-    let alternateText1 = '';
-    let alternateText2 = '';
-    let buttonText = '';
+    const { useAlternateAddress } = this.state
+    const style = DepositStyle()
+    let alternateText1 = ''
+    let alternateText2 = ''
+    let buttonText = ''
 
     // Switching wording, depending on currency and if using alternative address
     if (currency === 'LTC') {
-      alternateText1 = `${useAlternateAddress ? "3" : "M"}`;
-      alternateText2 = `${useAlternateAddress ? "M" : "3"}`;
+      alternateText1 = `${useAlternateAddress ? '3' : 'M'}`
+      alternateText2 = `${useAlternateAddress ? 'M' : '3'}`
 
-      buttonText = `Use ${useAlternateAddress ? "M" : "3"}-format address`;
-
+      buttonText = `Use ${useAlternateAddress ? 'M' : '3'}-format address`
     } else if (currency === 'BCH') {
-      alternateText1 = `${useAlternateAddress ? "Cash Address" : "Bitcoin"}`;
-      alternateText2 = `${useAlternateAddress ? "Bitcoin" : "Cash Address"}`;
+      alternateText1 = `${useAlternateAddress ? 'Cash Address' : 'Bitcoin'}`
+      alternateText2 = `${useAlternateAddress ? 'Bitcoin' : 'Cash Address'}`
 
-      buttonText = `Use ${useAlternateAddress ? "Bitcoin" : "Cash Address"}-format`;
+      buttonText = `Use ${
+        useAlternateAddress ? 'Bitcoin' : 'Cash Address'
+      }-format`
     }
 
     return (
       <Card color={STYLES.COLORS.CELSIUS_BLUE}>
-        <CelText style={style.infoBubble}weight='300' alignItems='center' color='#FFFFFF'>
-          If your wallet doesn't support <CelText weight='600' color='#FFFFFF'>{alternateText1}-format</CelText> addresses you can use a <CelText weight='bold' color='#FFFFFF'>{alternateText2}-format</CelText> {currency} address.
+        <CelText
+          style={style.infoBubble}
+          weight='300'
+          alignItems='center'
+          color='#FFFFFF'
+        >
+          {' '}
+          If your wallet doesn't support
+          <CelText weight='600' color='#FFFFFF'>
+            {alternateText1}-format
+          </CelText>{' '}
+          addresses you can use a
+          <CelText weight='bold' color='#FFFFFF'>
+            {alternateText2}-format
+          </CelText>{' '}
+          {currency} address.
         </CelText>
 
         <CelButton
           size={'medium'}
           white
-          onPress={() => { this.setState({ useAlternateAddress: !this.state.useAlternateAddress }) }}
-          style={{ borderWidth: 0.5, borderColor: '#FFFFFF', marginTop: 10, marginBottom: 10 }}
+          onPress={() => {
+            this.setState({
+              useAlternateAddress: !this.state.useAlternateAddress
+            })
+          }}
+          style={{
+            borderWidth: 0.5,
+            borderColor: '#FFFFFF',
+            marginTop: 10,
+            marginBottom: 10
+          }}
         >
           {buttonText}
         </CelButton>
       </Card>
     )
-  };
+  }
 
   renderLoader = () => (
-    <View style={{ marginTop: 50, justifyContent: 'center', alignItems: 'center' }}>
+    <View
+      style={{ marginTop: 50, justifyContent: 'center', alignItems: 'center' }}
+    >
       <Spinner />
     </View>
-  );
+  )
 
-  render() {
-    const { actions, formData, eligibleCoins, kycStatus, depositCompliance } = this.props;
-    const { address, alternateAddress, destinationTag, memoId } = this.getAddress(formData.selectedCoin);
-    const { useAlternateAddress, isFetchingAddress } = this.state;
-    const styles = DepositStyle();
+  render () {
+    const {
+      actions,
+      formData,
+      eligibleCoins,
+      kycStatus,
+      depositCompliance
+    } = this.props
+    const {
+      address,
+      alternateAddress,
+      destinationTag,
+      memoId
+    } = this.getAddress(formData.selectedCoin)
+    const { useAlternateAddress, isFetchingAddress } = this.state
+    const styles = DepositStyle()
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }} />
-    if (!depositCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
+    if (kycStatus !== KYC_STATUSES.passed) {
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }}
+        />
+      )
+    }
+    if (!depositCompliance.allowed) {
+      return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
+    }
     return (
       <RegularLayout padding={'20 0 100 0'}>
-
         <CoinPicker
           coinList={eligibleCoins}
           updateFormField={actions.updateFormField}
@@ -228,16 +275,38 @@ class Deposit extends Component {
           defaultSelected={this.getDefaultSelectedCoin()}
         />
 
-        {address && !isFetchingAddress ?
+        {address && !isFetchingAddress ? (
           <View style={styles.container}>
-            {destinationTag || memoId ?
+            {destinationTag || memoId ? (
               <Card>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <CelText style={{ opacity: 0.7 }}>{destinationTag ? 'Destination Tag:' : 'Memo Id'}</CelText>
-                  <View style={{ paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
-                    <CelText>{destinationTag || memoId}</CelText>
-                    <TouchableOpacity onPress={() => this.openModal(destinationTag, memoId)}>
-                      <Icon name="Info" height="19" width="19" fill="#ffffff" stroke="rgba(61,72,83,0.3)" style={{ marginLeft: 10, marginTop: 2 }} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <CelText style={{ opacity: 0.7 }}>
+                    {destinationTag ? 'Destination Tag:' : 'Memo Id'}
+                  </CelText>
+                  <View
+                    style={{
+                      paddingBottom: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <CelText weight={'500'}>{destinationTag || memoId}</CelText>
+                    <TouchableOpacity
+                      onPress={() => this.openModal(destinationTag, memoId)}
+                    >
+                      <Icon
+                        name='Info'
+                        height='19'
+                        width='19'
+                        fill='#ffffff'
+                        stroke='rgba(61,72,83,0.3)'
+                        style={{ marginLeft: 10, marginTop: 2 }}
+                      />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -245,79 +314,92 @@ class Deposit extends Component {
                 <View style={styles.copyShareWrapper}>
                   <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton copyText={destinationTag || memoId} onCopy={() => actions.showMessage("success", "Destination tag copied to clipboard!")} />
+                    <CopyButton
+                      copyText={destinationTag || memoId}
+                      onCopy={() =>
+                        actions.showMessage(
+                          'success',
+                          'Destination tag copied to clipboard!'
+                        )
+                      }
+                    />
                     <Separator vertical />
                     <ShareButton shareText={destinationTag || memoId} />
                   </View>
                 </View>
               </Card>
-              : null}
+            ) : null}
 
             <Card>
               <View style={styles.qrCode}>
-                <QRCode
-                  value={useAlternateAddress ? alternateAddress : address}
-                  size={100}
-                  bgColor='#FFF'
-                  fgColor='#000'
-                />
-                <CelText type='H4' align={'center'} style={{ marginTop: 10, marginBottom: 10 }}>{useAlternateAddress ? alternateAddress : address}</CelText>
+                <View style={styles.qrCodeWrapper}>
+                  <QRCode
+                    value={useAlternateAddress ? alternateAddress : address}
+                    size={100}
+                    bgColor='#FFF'
+                    fgColor='#000'
+                  />
+                </View>
+                <CelText
+                  type='H4'
+                  align={'center'}
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
+                  {useAlternateAddress ? alternateAddress : address}
+                </CelText>
 
                 <View style={styles.copyShareWrapper}>
                   <Separator />
                   <View style={styles.copyShareButtonsWrapper}>
-                    <CopyButton onCopy={() => actions.showMessage("success", "Address copied to clipboard!")} copyText={useAlternateAddress ? alternateAddress : address} />
+                    <CopyButton
+                      onCopy={() =>
+                        actions.showMessage(
+                          'success',
+                          'Address copied to clipboard!'
+                        )
+                      }
+                      copyText={
+                        useAlternateAddress ? alternateAddress : address
+                      }
+                    />
                     <Separator vertical />
-                    <ShareButton shareText={useAlternateAddress ? alternateAddress : address} />
+                    <ShareButton
+                      shareText={
+                        useAlternateAddress ? alternateAddress : address
+                      }
+                    />
                   </View>
                 </View>
               </View>
             </Card>
 
-            {alternateAddress && this.renderSwitchAddressBlock(alternateAddress, formData.selectedCoin)}
-
-
+            {alternateAddress &&
+              this.renderSwitchAddressBlock(
+                alternateAddress,
+                formData.selectedCoin
+              )}
           </View>
-          : null}
+        ) : null}
 
         {isFetchingAddress && this.renderLoader()}
 
-        {formData.selectedCoin === "CEL" ?
+        {formData.selectedCoin === 'CEL' ? (
           <View style={{ marginLeft: 20, marginRight: 20 }}>
             <IconButton
-              margin="20 0 0 0"
-              padding="15 18 15 18"
+              margin='20 0 0 0'
+              padding='15 18 15 18'
               onPress={() => actions.navigateTo('LoyaltyProgram')}
             >
-              <CelText align='left' type='H4' weight='300'>Learn about the CEL Loyalty Program </CelText>
+              Learn about the CEL Loyalty Program
             </IconButton>
           </View>
-          : null}
+        ) : null}
 
-        <CelModal name={MODALS.DESTINATION_TAG_MODAL}>
-          <CelText align='center' type='H2' weight='bold' margin='0 0 32 0'>Destination Tag for XRP</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>Ripple (XRP) transactions require destination tags as an additional information.</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>The Destination Tag is used to determine what account a given transaction should be assigned and credited to.</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>Quoting the tag along with the Ripple wallet address ensures that your transaction is uniquely identified and processed successfully.</CelText>
-
-          <CelButton onPress={() => actions.closeModal()}>
-            Got it
-          </CelButton>
-        </CelModal>
-
-        <CelModal name={MODALS.MEMO_ID_MODAL}>
-          <CelText align='center' type='H2' margin='0 0 32 0' weight='bold'>Stellar (XLM) Memo ID</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>Memo ID is used to determine what account a given transaction should be assigned and credited to.</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>Quoting the Memo ID with the Stellar wallet address ensures that your transaction is uniquely identified and processed successfully.</CelText>
-          <CelText align='center' type='H4' margin='0 0 24 0'>Exchanges require Memo ID, so please make sure to provide it, or you risk losing your money.</CelText>
-
-          <CelButton onPress={() => actions.closeModal()}>
-            Got it
-          </CelButton>
-        </CelModal>
+        <DestinationTagModal closeModal={actions.closeModal} />
+        <MemoIdModal closeModal={actions.closeModal} />
       </RegularLayout>
-    );
+    )
   }
 }
 
-export default testUtil.hookComponent(Deposit);
+export default testUtil.hookComponent(Deposit)

@@ -1,5 +1,5 @@
-// import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
 const base = {
   container: {
@@ -24,18 +24,31 @@ const base = {
     paddingHorizontal: '2%',
     paddingVertical: '2%',
   },
+  qrCodeWrapper: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 4
+  },
   qrCode: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   }
 };
 
 const themed = {
   light: {
+    promotion: {
+      marginLeft: 20,
+      marginRight: 20,
+      backgroundColor: STYLES.COLORS.WHITE
+    }
   },
 
   dark: {
+    promotion: {
+      marginLeft: 20,
+      marginRight: 20,
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    }
   },
 
   celsius: {

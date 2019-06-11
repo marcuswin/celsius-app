@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { View } from 'react-native'
 import { bindActionCreators } from "redux";
 import { Constants } from "expo";
 
@@ -19,7 +20,8 @@ const { revisionId } = Constants.manifest;
   (state) => ({
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting
+      : KYC_STATUSES.collecting,
+    theme: state.user.appSettings.theme
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -42,20 +44,28 @@ class Settings extends Component {
     actions.getUserAppSettings()
   }
 
-  render() {
+  renderContent = () => {
     const { actions, kycStatus } = this.props;
-
     const hasPassedKYC = kycStatus === KYC_STATUSES.passed
 
     return (
-      <RegularLayout>
-        {/* <IconButton onPress={() => actions.navigateTo("NotificationsSettings")} icon="Notifications">Notifications</IconButton> */}
+      <View>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
         { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
         { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
         {isCompanyMember() && <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>}
         <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
         <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
+      </View>
+    )
+  }
+
+  render() {
+    const Content = this.renderContent
+
+    return (
+      <RegularLayout>
+        <Content />
       </RegularLayout>
     );
   }

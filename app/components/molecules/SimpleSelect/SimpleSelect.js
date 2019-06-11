@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { StyleSheet } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 
 import testUtil from '../../../utils/test-util'
@@ -7,10 +8,11 @@ import testUtil from '../../../utils/test-util'
 import SimpleSelectStyle from './SimpleSelect.styles'
 import Icon from '../../atoms/Icon/Icon'
 import STYLES from '../../../constants/STYLES'
+import formatter from '../../../utils/formatter';
 
 const SimpleSelect = props => {
   const style = SimpleSelectStyle()
-  let additionalStyle
+  let additionalStyle = {}
 
   const {
     displayValue,
@@ -34,6 +36,7 @@ const SimpleSelect = props => {
       }
     }
   }
+  const simpleStyle = StyleSheet.create(formatter.deepmerge(style, additionalStyle))
   
   return (
     <RNPickerSelect
@@ -43,13 +46,13 @@ const SimpleSelect = props => {
           return onChange ? onChange(field, item) : updateFormField(field, item)
         }
       }}
-      style={{ ...style, ...additionalStyle }}
+      style={simpleStyle}
       useNativeAndroidPickerStyle={false}
       value={displayValue}
       Icon={() => (
         <Icon
           name={iconName || 'CaretDown'}
-          width={iconWidth || 8}
+          width={iconWidth || 12}
           fill={fillColor || STYLES.COLORS.DARK_GRAY}
         />
       )}

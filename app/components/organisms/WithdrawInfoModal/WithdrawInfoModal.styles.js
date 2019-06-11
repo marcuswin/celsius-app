@@ -46,7 +46,6 @@ const base = {
         backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: STYLES.COLORS.CELSIUS_BLUE
-
     }
 };
 

@@ -1,6 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle, heightPercentageToDP } from "../../../utils/styles-util";
-import STYLES from "../../../constants/STYLES";
 
 const base = {
   container: {
@@ -9,8 +8,7 @@ const base = {
   explanation: {
     marginTop: heightPercentageToDP('3%'),
     marginBottom: heightPercentageToDP('3%'),
-    paddingHorizontal: '10%',
-    color: STYLES.COLORS.MEDIUM_GRAY
+    paddingHorizontal: '10%'
   }
 };
 

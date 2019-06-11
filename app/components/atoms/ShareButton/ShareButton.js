@@ -13,7 +13,7 @@ const ShareButton = (props) => {
 
   return (
     <TouchableOpacity style={style.container} onPress={() => Share.share({ message: shareText, title, name })}>
-      <CelText>{name}</CelText>
+      <CelText style={style.text}>{name}</CelText>
     </TouchableOpacity>
   )
 }

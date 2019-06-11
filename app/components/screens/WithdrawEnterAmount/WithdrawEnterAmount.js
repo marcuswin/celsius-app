@@ -87,9 +87,9 @@ class WithdrawEnterAmount extends Component {
       activePeriod: { label: '', value: '' }
     }
 
+    props.actions.initForm({ coin })
+    props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
     if (coin) {
-      props.actions.initForm({ coin })
-      props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
       props.actions.getAllCoinWithdrawalAddresses()
     }
   }
@@ -235,7 +235,6 @@ class WithdrawEnterAmount extends Component {
       formData,
       actions,
       walletSummary,
-      navigation,
       kycStatus,
       keypadOpen,
       withdrawalSettings,
@@ -257,26 +256,16 @@ class WithdrawEnterAmount extends Component {
         />
       )
     }
-    if (!formData.coin) return null
+    const coin = formData.coin || ''
 
     const coinData = walletSummary.coins.find(
-      c => c.short === formData.coin.toUpperCase()
-    )
+      c => c.short === coin.toUpperCase()
+    ) || { amount: '', amount_usd: '' }
 
-    const coin = navigation.getParam('coin')
-
-    if (kycStatus !== KYC_STATUSES.passed) {
-      return (
-        <StaticScreen
-          emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
-        />
-      )
-    }
+    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
     if (!withdrawalAddresses) return <LoadingScreen />
 
-    const isAddressLocked =
-      withdrawalAddresses[formData.coin] &&
-      withdrawalAddresses[formData.coin].locked
+    const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
 
     return (
       <RegularLayout padding='20 0 0 0'>
@@ -284,7 +273,7 @@ class WithdrawEnterAmount extends Component {
           <View style={style.wrapper}>
             <BalanceView
               opacity={0.65}
-              coin={formData.coin}
+              coin={coin}
               crypto={coinData.amount}
               usd={coinData.amount_usd}
             />
@@ -294,7 +283,7 @@ class WithdrawEnterAmount extends Component {
                 <SimpleSelect
                   items={coinSelectItems}
                   field='coin'
-                  displayValue={formData.coin}
+                  displayValue={coin}
                   updateFormField={actions.updateFormField}
                   onChange={this.handleCoinChange}
                   placeholder='Choose a coin'
@@ -308,7 +297,7 @@ class WithdrawEnterAmount extends Component {
                   amountUsd={formData.amountUsd}
                   amountCrypto={formData.amountCrypto}
                   isUsd={formData.isUsd}
-                  coin={formData.coin}
+                  coin={coin}
                   amountColor={
                     keypadOpen
                       ? STYLES.COLORS.CELSIUS_BLUE
@@ -343,9 +332,7 @@ class WithdrawEnterAmount extends Component {
               <EmptyState
                 heading='Address locked'
                 paragraphs={[
-                  `You have recently changed your ${
-                    formData.coin
-                  } withdrawal address.`,
+                  `You have recently changed your ${coin} withdrawal address.`,
                   `Due to out security protocols, your address will be active in the next 24 hours.`
                 ]}
               />

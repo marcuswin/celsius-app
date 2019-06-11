@@ -17,8 +17,12 @@ import * as appActions from '../../../redux/actions'
 import CelModalStyle from './CelModal.styles'
 import Icon from '../../atoms/Icon/Icon'
 
-import { MODALS } from '../../../constants/UI'
-import { heightPercentageToDP, getPadding } from '../../../utils/styles-util'
+import { MODALS, THEMES } from '../../../constants/UI'
+import {
+  heightPercentageToDP,
+  getPadding,
+  AddThemeToComponents
+} from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import Message from '../../molecules/Message/Message'
 
@@ -68,11 +72,7 @@ class CelModal extends Component {
     if (!picture) return null
     return (
       <View style={style.imageWrapper}>
-        <Image
-          source={picture}
-          style={[style.modalImage]}
-          resizeMode='contain'
-        />
+        <Image source={picture} style={style.modalImage} resizeMode='contain' />
       </View>
     )
   }
@@ -90,7 +90,7 @@ class CelModal extends Component {
       picture,
       noScroll,
       onClose,
-      padding,
+      padding
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
@@ -100,6 +100,12 @@ class CelModal extends Component {
       ? { paddingVertical: heightPercentageToDP('18%') }
       : { paddingVertical: heightPercentageToDP('5%') }
 
+    const childrenWithProps = AddThemeToComponents(
+      children,
+      ['CelText', 'CelInput'],
+      THEMES.LIGHT
+    )
+
     return (
       <Modal
         animationType='fade'
@@ -107,13 +113,10 @@ class CelModal extends Component {
         onRequestClose={() => actions.closeModal()}
         visible={openedModal === name}
       >
-
         <Message />
 
-        <View
-          style={[style.wrapper, size]}
-        >
-          <View style={[style.modal]}>
+        <View style={[style.wrapper, size]}>
+          <View style={style.modal}>
             {this.renderImage()}
             {shouldRenderCloseButton ? (
               <TouchableOpacity
@@ -130,22 +133,17 @@ class CelModal extends Component {
                     width='15'
                     viewBox='0 0 1000 1000'
                     fill={'#3D4853'}
-                    marginTop={ 20 }
+                    marginTop={20}
                   />
                 </View>
-
               </TouchableOpacity>
             ) : null}
             {header ? (
               <View style={style.modalHeadingWrapper}>
-                <CelText type={'H1'} style={style.mainHeadingText}>
+                <CelText theme={THEMES.LIGHT} type={'H1'}>
                   {primaryText}
                 </CelText>
-                <CelText
-                  type={'H3'}
-                  weight={'400'}
-                  style={style.secondaryHeadingText}
-                >
+                <CelText theme={THEMES.LIGHT} type={'H3'} weight={'400'}>
                   {secondaryText}
                 </CelText>
               </View>
@@ -162,7 +160,7 @@ class CelModal extends Component {
                   paddingStyle
                 ]}
               >
-                {children}
+                {childrenWithProps}
               </View>
             ) : (
               <ScrollView
@@ -178,22 +176,23 @@ class CelModal extends Component {
                 showsVerticalScrollIndicator
                 contentContainerStyle={{ flexGrow: 1 }}
               >
-                {children}
+                {childrenWithProps}
               </ScrollView>
             )}
           </View>
           <BlurView
-          tint={'dark'}
-          intensity={100}
-          style={StyleSheet.absoluteFill}
-        >
-        <TouchableOpacity
-          style={ style.outsideCloseModal }
-          onPress={() => {
-            actions.closeModal()
-            if (onClose) onClose()
-          }}
-        /></BlurView>
+            tint={'dark'}
+            intensity={100}
+            style={StyleSheet.absoluteFill}
+          >
+            <TouchableOpacity
+              style={style.outsideCloseModal}
+              onPress={() => {
+                actions.closeModal()
+                if (onClose) onClose()
+              }}
+            />
+          </BlurView>
         </View>
       </Modal>
     )

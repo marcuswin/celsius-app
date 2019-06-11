@@ -27,6 +27,6 @@ const themed = {
     }
 }
 
-const CelTextStyle = () => getThemedStyle(base, themed);
+const CelTextStyle = theme => theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed)
 
 export default CelTextStyle

@@ -18,7 +18,6 @@ const base = {
     alignSelf: 'center',
     width: 'auto',
     alignItems: 'center',
-    backgroundColor: STYLES.COLORS.WHITE,
     borderRadius: 8,
     ...Platform.select({
       android: {
@@ -44,11 +43,23 @@ const base = {
 }
 
 const themed = {
-  light: {},
+  light: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE
+    }
+  },
 
-  dark: {},
+  dark: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    }
+  },
 
-  celsius: {}
+  celsius: {
+    selectWrapper: {
+      backgroundColor: STYLES.COLORS.WHITE
+    }
+  }
 }
 
 const CelPayEnterAmountStyle = () => getThemedStyle(base, themed)

@@ -56,13 +56,6 @@ const base = {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     zIndex: 5
-  },
-  mainHeadingText: {
-    fontFamily: "barlow-extra-bold",
-    color: STYLES.COLORS.MEDIUM_GRAY
-  },
-  secondaryHeadingText: {
-    color: STYLES.COLORS.MEDIUM_GRAY
   }
 };
 

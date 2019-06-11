@@ -7,6 +7,7 @@ import { getMargins, getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES'
 import ASSETS from '../../../constants/ASSETS'
 import CelTextStyle from './CelText.styles'
+import { THEMES } from '../../../constants/UI';
 
 class CelText extends Component {
   static propTypes = {
@@ -41,7 +42,8 @@ class CelText extends Component {
     align: PropTypes.oneOf(['auto', 'left', 'right', 'center', 'justify']),
     allCaps: PropTypes.bool,
     onPress: PropTypes.func,
-    size: PropTypes.number
+    size: PropTypes.number,
+    theme: PropTypes.oneOf(Object.values(THEMES)),
   }
   static defaultProps = {
     font: 'barlow',
@@ -72,8 +74,8 @@ class CelText extends Component {
   }
 
   getFontStyle = () => {
-    const { type, margin, color, align, size } = this.props
-    const cmpStyle = CelTextStyle()
+    const { type, margin, color, align, size, theme } = this.props
+    const cmpStyle = theme ? CelTextStyle(theme) : CelTextStyle() 
     const fontSize = size
       ? { fontSize: getScaledFont(size), lineHeight: getScaledFont(size) }
       : { fontSize: this.getFontSize(type) }

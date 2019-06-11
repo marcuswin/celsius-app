@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Platform, Switch } from 'react-native'
+import { Platform, Switch } from 'react-native'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -10,11 +10,10 @@ import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import IconButton from '../../organisms/IconButton/IconButton'
 import CelButton from '../../atoms/CelButton/CelButton'
-import CelModal from '../../organisms/CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
-import CelText from '../../atoms/CelText/CelText'
 import STYLES from '../../../constants/STYLES'
 import { KYC_STATUSES } from '../../../constants/DATA'
+import RemoveAuthAppModal from '../../organisms/RemoveAuthAppModal/RemoveAuthAppModal'
 
 @connect(
   state => ({
@@ -150,28 +149,10 @@ class SecuritySettings extends Component {
           Log out from all devices
         </CelButton>
 
-        <CelModal name={MODALS.REMOVE_AUTHAPP_MODAL}>
-          <CelText type='H2' align='center' weight='bold' margin='30 0 0 0'>
-            Remove Auth App
-          </CelText>
-          <CelText
-            type='H4'
-            align='center'
-            weight='extra-light'
-            margin='16 0 0 0'
-          >
-            If you remove authentication application you will lose a second step
-            of verification. Are you sure you want to proceed?
-          </CelText>
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <CelButton margin='30 0 20 0' onPress={this.removeTwoFactor}>
-              Remove
-            </CelButton>
-            <CelButton margin='0 0 20 0' onPress={actions.closeModal} basic>
-              Cancel
-            </CelButton>
-          </View>
-        </CelModal>
+        <RemoveAuthAppModal
+          removeTwoFactor={this.removeTwoFactor}
+          closeModal={actions.closeModal}
+        />
       </RegularLayout>
     )
   }

@@ -1,6 +1,6 @@
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util'
-import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES'
 
 const base = {
   inputAndroidContainer: {
@@ -17,13 +17,11 @@ const base = {
   },
   inputAndroid: {
     fontSize: 26,
-    fontFamily: 'barlow-regular',
-    color: STYLES.COLORS.DARK_GRAY
+    fontFamily: 'barlow-regular'
   },
   inputIOS: {
     fontSize: 26,
-    fontFamily: 'barlow-regular',
-    color: STYLES.COLORS.DARK_GRAY
+    fontFamily: 'barlow-regular'
   },
   iconContainer: {
     position: 'relative',
@@ -32,11 +30,32 @@ const base = {
 }
 
 const themed = {
-  light: {},
+  light: {
+    inputAndroid: {
+      color: STYLES.COLORS.DARK_GRAY
+    },
+    inputIOS: {
+      color: STYLES.COLORS.DARK_GRAY
+    }
+  },
 
-  dark: {},
+  dark: {
+    inputAndroid: {
+      color: STYLES.COLORS.WHITE
+    },
+    inputIOS: {
+      color: STYLES.COLORS.WHITE
+    }
+  },
 
-  celsius: {}
+  celsius: {
+    inputAndroid: {
+      color: STYLES.COLORS.DARK_GRAY
+    },
+    inputIOS: {
+      color: STYLES.COLORS.DARK_GRAY
+    }
+  }
 }
 
 const SimpleSelectStyle = () => getThemedStyle(base, themed)

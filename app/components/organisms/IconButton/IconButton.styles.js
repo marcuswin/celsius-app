@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform } from 'react-native'
 import STYLES from '../../../constants/STYLES'
 import { getThemedStyle } from '../../../utils/styles-util'
 
@@ -16,10 +16,10 @@ const base = {
         borderTopWidth: 0.2,
         borderLeftWidth: 0.2,
         borderRightWidth: 0.5,
-        borderBottomWidth: 2,
+        borderBottomWidth: 2
       },
       ios: {
-        ...STYLES.SHADOW_STYLES,
+        ...STYLES.SHADOW_STYLES
       }
     })
   }
@@ -29,12 +29,29 @@ const themed = {
   light: {
     container: {
       backgroundColor: STYLES.COLORS.WHITE
+    },
+    textColor: {
+      color:  STYLES.COLORS.DARK_GRAY6
     }
   },
 
-  dark: {},
+  dark: {
+    container: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    },
+    textColor: {
+      color:  STYLES.COLORS.WHITE_OPACITY5
+    }
+  },
 
-  celsius: {}
+  celsius: {
+    container: {
+      backgroundColor: STYLES.COLORS.WHITE
+    },
+    textColor: {
+      color:  STYLES.COLORS.DARK_GRAY6
+    }
+  }
 }
 
 const IconButtonStyle = () => getThemedStyle(base, themed)

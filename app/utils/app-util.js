@@ -1,4 +1,5 @@
 import { Asset, Constants, Font, Segment } from 'expo'
+import React from 'react'
 import { Image, NetInfo } from 'react-native'
 import twitter from 'react-native-simple-twitter'
 
@@ -26,7 +27,8 @@ export default {
   initInternetConnectivityListener,
   pollBackendStatus,
   cacheImages,
-  cacheFonts
+  cacheFonts,
+  recursiveMap
 }
 
 /**
@@ -110,4 +112,29 @@ async function cacheFonts (fonts) {
   for (let i = 0; i < fonts.length; i++) {
     await Font.loadAsync(fonts[i])
   }
+}
+
+/**
+ * Change all nested react elemnets through fn()
+ *
+ * @param {Array} children - array of react children elements
+ * @param {Function} fn - function that will change all nested elements
+ * @returns {Array} - array of react childrens changed through fn()
+ */
+function recursiveMap (children, fn) {
+  return React.Children.map(children, child => {
+    if (!React.isValidElement(child)) {
+      return child
+    }
+
+    let newChild = child
+
+    if (child.props.children) {
+      newChild = React.cloneElement(child, {
+        children: recursiveMap(child.props.children, fn)
+      })
+    }
+
+    return fn(newChild)
+  })
 }

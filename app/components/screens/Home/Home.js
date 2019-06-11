@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { View, Image, ScrollView, SafeAreaView } from 'react-native'
+import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
 import * as appActions from '../../../redux/actions'
 import { KYC_STATUSES, RANDOM_MESSAGES } from '../../../constants/DATA'
 import Loader from '../../atoms/Loader/Loader'
@@ -11,6 +11,7 @@ import {
   getPadding
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
+import { THEMES } from '../../../constants/UI';
 
 const apiCalls = []
 
@@ -81,6 +82,7 @@ class Home extends Component {
     return (
       <ScrollView contentContainerStyle={[{ flexGrow: 1 }, paddings]}>
         <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
+          <StatusBar barStyle='dark-content' />
           <View
             style={{
               marginTop: heightPercentageToDP('15%'),
@@ -97,6 +99,7 @@ class Home extends Component {
               }}
             />
             <CelText
+              theme={THEMES.LIGHT}
               align={'center'}
               margin={'20 0 10 0'}
               weight={'600'}
@@ -105,6 +108,7 @@ class Home extends Component {
               {randomMsg.title}
             </CelText>
             <CelText
+              theme={THEMES.LIGHT}
               align={'center'}
               margin={'0 0 20 0'}
               type={'H4'}

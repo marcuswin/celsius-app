@@ -17,7 +17,7 @@ const CopyButton = (props) => {
 
   return (
     <TouchableOpacity style={style.container} onPress={() => { Clipboard.setString(copyText); onCopy() }}>
-      <CelText color={color}>{text}</CelText>
+      <CelText style={style.text} color={color}>{text}</CelText>
     </TouchableOpacity>
   )
 }

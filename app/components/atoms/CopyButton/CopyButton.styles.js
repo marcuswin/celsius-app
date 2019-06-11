@@ -1,4 +1,4 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
@@ -10,9 +10,15 @@ const base = {
 
 const themed = {
     light: {
+      text: {
+        color: STYLES.COLORS.MEDIUM_GRAY
+      }
     },
 
     dark: {
+      text: {
+        color: STYLES.COLORS.CELSIUS_BLUE
+      }
     },
 
     celsius: {
