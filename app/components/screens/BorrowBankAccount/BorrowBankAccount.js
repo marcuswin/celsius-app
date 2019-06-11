@@ -59,6 +59,7 @@ class BorrowBankAccount extends Component {
       delete bankAccountInfo.iban
     } else {
       delete bankAccountInfo.bank_account_number
+      delete bankAccountInfo.bank_routing_number
     }
 
     this.setState({ isLoading: true })
