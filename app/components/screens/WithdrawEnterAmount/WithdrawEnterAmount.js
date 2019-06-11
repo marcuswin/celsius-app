@@ -20,10 +20,12 @@ import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 import StaticScreen from '../StaticScreen/StaticScreen'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
-import EmptyState from "../../atoms/EmptyState/EmptyState";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import EmptyState from '../../atoms/EmptyState/EmptyState'
+import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import STYLES from '../../../constants/STYLES'
 import cryptoUtil from '../../../utils/crypto-util'
+import InfoModal from '../../molecules/InfoModal/InfoModal'
+import celUtilityUtil from '../../../utils/cel-utility-util'
 
 @connect(
   state => ({
@@ -37,7 +39,9 @@ import cryptoUtil from '../../../utils/crypto-util'
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
     keypadOpen: state.ui.isKeypadOpen,
-    withdrawalSettings: state.generalData.withdrawalSettings
+    withdrawalSettings: state.generalData.withdrawalSettings,
+    isCelsiusMember: state.user.profile.celsius_member,
+    loyaltyInfo: state.user.loyaltyInfo
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -65,7 +69,7 @@ class WithdrawEnterAmount extends Component {
       (coinSelectItems &&
         coinSelectItems.length > 0 &&
         coinSelectItems[0].value) ||
-      ''
+        ''
     )
 
     const coinSelectItems = currencies
@@ -86,7 +90,7 @@ class WithdrawEnterAmount extends Component {
     if (coin) {
       props.actions.initForm({ coin })
       props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
-      props.actions.getAllCoinWithdrawalAddresses();
+      props.actions.getAllCoinWithdrawalAddresses()
     }
   }
 
@@ -197,7 +201,25 @@ class WithdrawEnterAmount extends Component {
   }
 
   handleNextStep = () => {
-    const { actions, formData, withdrawalAddresses } = this.props
+    const { actions, formData, walletSummary } = this.props
+
+    const coinData = walletSummary.coins.find(
+      c => c.short === formData.coin.toUpperCase()
+    )
+    const newBalance = Number(coinData.amount) - Number(formData.amountCrypto)
+
+    if (celUtilityUtil.isLosingMembership(formData.coin, newBalance)) {
+      return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
+    }
+    if (celUtilityUtil.isLosingTier(formData.coin, newBalance)) {
+      return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
+    }
+
+    this.navigateToNextStep()
+  }
+
+  navigateToNextStep = () => {
+    const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
     if (coinAddress) {
@@ -218,6 +240,7 @@ class WithdrawEnterAmount extends Component {
       keypadOpen,
       withdrawalSettings,
       withdrawalAddresses,
+      loyaltyInfo
     } = this.props
     const style = WithdrawEnterAmountStyle()
     if (kycStatus !== KYC_STATUSES.passed) {
@@ -242,10 +265,18 @@ class WithdrawEnterAmount extends Component {
 
     const coin = navigation.getParam('coin')
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+    if (kycStatus !== KYC_STATUSES.passed) {
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
+        />
+      )
+    }
     if (!withdrawalAddresses) return <LoadingScreen />
 
-    const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
+    const isAddressLocked =
+      withdrawalAddresses[formData.coin] &&
+      withdrawalAddresses[formData.coin].locked
 
     return (
       <RegularLayout padding='20 0 0 0'>
@@ -270,7 +301,7 @@ class WithdrawEnterAmount extends Component {
                 />
               </View>
 
-              { !isAddressLocked && (
+              {!isAddressLocked && (
                 <CoinSwitch
                   updateFormField={actions.updateFormField}
                   onAmountPress={actions.toggleKeypad}
@@ -278,12 +309,16 @@ class WithdrawEnterAmount extends Component {
                   amountCrypto={formData.amountCrypto}
                   isUsd={formData.isUsd}
                   coin={formData.coin}
-                  amountColor={keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY}
+                  amountColor={
+                    keypadOpen
+                      ? STYLES.COLORS.CELSIUS_BLUE
+                      : STYLES.COLORS.DARK_GRAY
+                  }
                 />
               )}
             </View>
 
-            { !isAddressLocked ? (
+            {!isAddressLocked ? (
               <View>
                 <PredefinedAmounts
                   data={PREDIFINED_AMOUNTS}
@@ -293,7 +328,9 @@ class WithdrawEnterAmount extends Component {
 
                 <CelButton
                   margin='40 0 0 0'
-                  disabled={!(formData.amountUsd && Number(formData.amountUsd) > 0)}
+                  disabled={
+                    !(formData.amountUsd && Number(formData.amountUsd) > 0)
+                  }
                   onPress={this.handleNextStep}
                   iconRight='IconArrowRight'
                 >
@@ -304,14 +341,15 @@ class WithdrawEnterAmount extends Component {
               </View>
             ) : (
               <EmptyState
-                heading="Address locked"
+                heading='Address locked'
                 paragraphs={[
-                  `You have recently changed your ${ formData.coin } withdrawal address.`,
-                  `Due to out security protocols, your address will be active in the next 24 hours.`,
+                  `You have recently changed your ${
+                    formData.coin
+                  } withdrawal address.`,
+                  `Due to out security protocols, your address will be active in the next 24 hours.`
                 ]}
               />
             )}
-
           </View>
         </View>
 
@@ -327,6 +365,35 @@ class WithdrawEnterAmount extends Component {
           purpose={KEYPAD_PURPOSES.WITHDRAW}
           autofocus={false}
         />
+        <InfoModal
+          name={MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL}
+          heading='Watch out'
+          paragraphs={[
+            'You are about to Withdraw your last CEL token. Without CEL tokens you will lose your Celsius membership.',
+            'Celsius members can earn interest on their coin, apply for a loan and utilize Withdraw.'
+          ]}
+          yesCopy='Continue'
+          onYes={this.navigateToNextStep}
+          noCopy='Go back'
+          onNo={actions.closeModal}
+        />
+
+        {loyaltyInfo && (
+          <InfoModal
+            name={MODALS.CELPAY_LOSE_TIER_WARNING_MODAL}
+            heading='Watch out'
+            paragraphs={[
+              `You are about to lose you ${
+                loyaltyInfo.tier
+              } Celsius Loyalty Level.`,
+              'Withdrawing CEL tokens affects your HODL ratio and Loyalty level.'
+            ]}
+            yesCopy='Continue'
+            onYes={this.navigateToNextStep}
+            noCopy='Go back'
+            onNo={actions.closeModal}
+          />
+        )}
         <WithdrawInfoModal
           type={coin === 'CEL'}
           closeModal={actions.closeModal}

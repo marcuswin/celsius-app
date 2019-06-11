@@ -19,6 +19,7 @@ import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmoun
 import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import formatter from '../../../utils/formatter'
 import cryptoUtil from '../../../utils/crypto-util'
+import celUtilityUtil from '../../../utils/cel-utility-util'
 
 @connect(
   state => ({
@@ -230,23 +231,19 @@ class CelPayEnterAmount extends Component {
   }
 
   handleNextStep = () => {
-    const {
-      actions,
-      formData,
-      walletSummary,
-      loyaltyInfo,
-      isCelsiusMember
-    } = this.props
+    const { actions, formData, walletSummary } = this.props
 
     const coinData = walletSummary.coins.filter(
       c => c.short === formData.coin.toUpperCase()
     )[0]
-    const newBalance = coinData.amount - formData.amountCrypto
 
-    if (isCelsiusMember && formData.coin === 'CEL' && newBalance < 1) {
+    // TODO: move newBalance calc to util
+    const newBalance = Number(coinData.amount) - Number(formData.amountCrypto)
+
+    if (celUtilityUtil.isLosingMembership(formData.coin, newBalance)) {
       return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
     }
-    if (formData.coin === 'CEL' && newBalance < loyaltyInfo.min_for_tier) {
+    if (celUtilityUtil.isLosingTier(formData.coin, newBalance)) {
       return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
     }
 
