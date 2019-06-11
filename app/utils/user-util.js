@@ -20,6 +20,6 @@ export function shouldRenderInitialIdVerification (userData) {
  */
 export function isCompanyMember () {
   const { profile } = store.getState().user
-  if (!profile) return false
+  if (!profile && !profile.email) return false
   return profile.email.includes('@mvpworkshop.co') || profile.email.includes('@celsius.network')
 }
