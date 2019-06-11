@@ -105,7 +105,7 @@ class WalletInterest extends Component {
       return <InterestCalculatorScreen purpose={EMPTY_STATES.ZERO_INTEREST} />
     }
     if (user.kyc.status !== KYC_STATUSES.passed) {
-      return <InterestCalculatorScreen purpose={EMPTY_STATES.NO_KYC_VERIFIED} />
+      return <InterestCalculatorScreen purpose={EMPTY_STATES.NON_VERIFIED_INTEREST} />
     }
 
     return (

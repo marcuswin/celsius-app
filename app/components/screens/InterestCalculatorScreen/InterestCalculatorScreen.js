@@ -81,7 +81,7 @@ class InterestCalculatorScreen extends Component {
             </CelButton>
           )
         }
-      case EMPTY_STATES.NO_KYC_VERIFIED:
+      case EMPTY_STATES.NON_VERIFIED_INTEREST:
         return {
           heading:
             'Calculate a total interest you may earn before you verify your ID.',

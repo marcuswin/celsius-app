@@ -6,103 +6,98 @@ import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 import testUtil from '../../../utils/test-util'
 import EmptyStateStyle from './EmptyState.styles'
-import STYLES from '../../../constants/STYLES'
 import CelText from '../CelText/CelText'
 import CelButton from '../CelButton/CelButton'
-import { THEMES, EMPTY_STATES, MODALS } from '../../../constants/UI'
-import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
+import { EMPTY_STATES, MODALS } from "../../../constants/UI";
 import ContactSupport from '../ContactSupport/ContactSupport'
 import emptyStateUtil from '../../../utils/empty-state-util'
-import { KYC_STATUSES } from '../../../constants/DATA'
-import InfoModal from '../../molecules/InfoModal/InfoModal'
+import STYLES from "../../../constants/STYLES";
+import InfoModal from "../../molecules/InfoModal/InfoModal";
+
 
 @connect(
-  state => ({
-    kycReasons: state.user.profile.kyc
-      ? state.user.profile.kyc.rejectionReasons
-      : [],
-    kycStatus: state.user.profile.kyc
-      ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting
+  (state) => ({
+    user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class EmptyState extends Component {
   static propTypes = {
     purpose: PropTypes.oneOf(Object.keys(EMPTY_STATES)),
-    theme: PropTypes.oneOf(Object.values(THEMES)),
-    heading: PropTypes.string,
     image: PropTypes.string,
+    aboveHeadingSection: PropTypes.element,
+    heading: PropTypes.string,
     paragraphs: PropTypes.instanceOf(Array),
     button: PropTypes.string,
     onPress: PropTypes.func,
-    support: PropTypes.bool
+    support: PropTypes.bool,
+    modal: PropTypes.element,
   }
   static defaultProps = {}
 
   constructor (props) {
     super(props)
-
-    this.state = emptyStateUtil(props.purpose, props.actions)
+    this.state = emptyStateUtil.getProps(props.purpose, props)
   }
 
-  renderErrors = () =>
-    this.props.kycReasons.map((reason, index) => (
-      <CelText key={index} margin={'0 0 10 0'}>
-        {reason}
-      </CelText>
-    ))
-
-  renderKYCStatus = () => {
+  renderAboveHeadingSection() {
+    const { actions } = this.props
     const emptyStateProps = {
       ...this.state,
       ...this.props
     }
-    const { title } = emptyStateProps
-    const { kycStatus, actions } = this.props
-    let kycColor = STYLES.COLORS.CELSIUS_BLUE
-    let kyc = ''
+    const {
+      aboveHeadingSection,
+    } = emptyStateProps
 
-    if (
-      kycStatus === KYC_STATUSES.rejected ||
-      kycStatus === KYC_STATUSES.rejeceted
-    ) {
-      kyc = 'Identity verification failed'
-      kycColor = STYLES.COLORS.RED
+    switch (aboveHeadingSection) {
+      case "kyc-rejected":
+        return (
+          <CelButton
+            onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
+            basic
+            textColor={STYLES.COLORS.RED}
+            iconRight={'IconChevronRight'}
+            iconRightHeight={'13'}
+            iconRightWidth={'12'}
+            iconRightColor={STYLES.COLORS.RED}
+          >
+            Identity verification failed
+          </CelButton>
+        )
+      case "kyc-pending":
+        return (
+          <CelText
+            margin='0 0 0 0'
+            align='center'
+            type='H3'
+            weight={'500'}
+            color={STYLES.COLORS.ORANGE}
+          >
+            In progress
+          </CelText>
+        )
+      default:
+        return null
     }
-    if (
-      [KYC_STATUSES.pending, KYC_STATUSES.sending, KYC_STATUSES.sent].includes(
-        kycStatus
-      )
-    ) {
-      kyc = 'In progress'
-      kycColor = STYLES.COLORS.ORANGE
-    }
+  }
 
-    return kycStatus === KYC_STATUSES.rejected ||
-      kycStatus === KYC_STATUSES.rejeceted ? (
-        <CelButton
-          onPress={() => actions.openModal(MODALS.KYC_REJECTED_MODAL)}
-          basic
-          textColor={STYLES.COLORS.RED}
-          iconRight={'IconChevronRight'}
-          iconRightHeight={'13'}
-          iconRightWidth={'12'}
-          iconRightColor={STYLES.COLORS.RED}
-        >
-          {(title && title(kyc)) || ''}
-        </CelButton>
-      ) : (
-        <CelText
-          margin='0 0 0 0'
-          align='center'
-          type='H3'
-          weight={'500'}
-          color={kycColor}
-        >
-          {(title && title(kyc)) || ''}
-        </CelText>
-      )
+  renderModal() {
+    const emptyStateProps = {
+      ...this.state,
+      ...this.props
+    }
+    const {
+      modal,
+      modalProps,
+    } = emptyStateProps
+
+    switch (modal) {
+      case MODALS.KYC_REJECTED_MODAL:
+        return <InfoModal  { ...modalProps } />
+      default:
+        return null
+    }
   }
 
   render () {
@@ -116,12 +111,9 @@ class EmptyState extends Component {
       paragraphs,
       onPress,
       button,
-      support
+      support,
     } = emptyStateProps
-    const { kycStatus, kycReasons, actions } = this.props
     const style = EmptyStateStyle()
-    const KYCStatus = this.renderKYCStatus
-    const Errors = this.renderErrors
 
     return (
       <View style={style.container}>
@@ -132,7 +124,7 @@ class EmptyState extends Component {
           />
         </View>
 
-        <KYCStatus />
+        { this.renderAboveHeadingSection() }
 
         <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
           {heading}
@@ -154,13 +146,6 @@ class EmptyState extends Component {
         {button && onPress ? (
           <CelButton
             margin='10 0 10 0'
-            disabled={
-              [
-                KYC_STATUSES.pending,
-                KYC_STATUSES.sending,
-                KYC_STATUSES.sent
-              ].indexOf(kycStatus) !== -1
-            }
             onPress={onPress}
           >
             {button}
@@ -168,33 +153,10 @@ class EmptyState extends Component {
         ) : null}
 
         {support ? <ContactSupport /> : null}
-        <TodayInterestRatesModal />
-        {(kycStatus === KYC_STATUSES.rejected ||
-          kycStatus === KYC_STATUSES.rejeceted) && (
-          <InfoModal
-            name={MODALS.KYC_REJECTED_MODAL}
-            heading='Identity verification failed'
-            support
-            yesCopy='Verify identity again'
-            onYes={actions.closeModal}
-          >
-            {kycReasons.length > 0 ? (
-              <>
-                <Errors />
-              </>
-            ) : (
-              <CelText>
-                Please go through the verification process again or contact our
-                support for help.
-              </CelText>
-            )}
-          </InfoModal>
-        )}
+        { this.renderModal() }
       </View>
     )
   }
 }
-
-EmptyState.propTypes = {}
 
 export default testUtil.hookComponent(EmptyState)
