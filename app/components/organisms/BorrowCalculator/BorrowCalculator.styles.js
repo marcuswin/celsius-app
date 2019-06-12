@@ -3,7 +3,7 @@ import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   container: {
-    flex: 1
+    flex: 1,
   },
   cardStyle: {
     borderWidth: 1,
@@ -27,13 +27,26 @@ const base = {
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
+  annualPercentage: {
+    flex: 1, 
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+  },
 };
 
 const themed = {
-  light: {},
-
-  dark: {},
+  light: {
+    cardStyle: {
+      backgroundColor: STYLES.COLORS.WHITE
+    }
+  },
+  dark: {
+    cardStyle: {
+      backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
+    },
+   
+  },
 
   celsius: {}
 };

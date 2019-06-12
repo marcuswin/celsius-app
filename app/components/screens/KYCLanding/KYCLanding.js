@@ -19,6 +19,7 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
 @connect(
   state => ({
     profile: state.user.profile,
+    theme: state.user.appSettings.theme,
     kycReasons: state.user.profile.kyc?state.user.profile.kyc.rejectionReasons:[],
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
@@ -209,7 +210,7 @@ class KYCLanding extends Component {
     const Errors = this.renderErrors
     if (kycStatus === KYC_STATUSES.passed) return null;
     return (
-      <RegularLayout theme={THEMES.LIGHT}>
+      <RegularLayout theme={THEMES.DARK ? THEMES.DARK : THEMES.LIGHT}>
         {this.renderCard()}
         {this.renderKycStatus(kycStatus)}
         {kycReasons && kycReasons.length > 0 ? (

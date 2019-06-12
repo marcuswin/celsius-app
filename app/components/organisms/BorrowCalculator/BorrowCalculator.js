@@ -20,26 +20,28 @@ import SimpleSelect from "../../molecules/SimpleSelect/SimpleSelect"
 import CelButton from "../../atoms/CelButton/CelButton"
 import Icon from "../../atoms/Icon/Icon"
 import { KYC_STATUSES } from "../../../constants/DATA";
-import { EMPTY_STATES } from "../../../constants/UI";
+import { EMPTY_STATES, THEMES } from "../../../constants/UI";
 
 
 @connect(
   state => ({
     ltv: state.loans.ltvs,
+    theme: state.user.appSettings.theme,
     formData: state.forms.formData,
     currencies: state.currencies.rates,
     loanCompliance: state.user.compliance.loan,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     walletSummary: state.wallet.summary,
     kycStatus: state.user.profile.kyc
-    ? state.user.profile.kyc.status
-    : KYC_STATUSES.collecting
+      ? state.user.profile.kyc.status
+      : KYC_STATUSES.collecting
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class BorrowCalculator extends Component {
   static propTypes = {
     purpose: PropTypes.string,
+
   }
   constructor(props) {
     super(props)
@@ -113,7 +115,7 @@ class BorrowCalculator extends Component {
           ...defaultProps,
           subtitle: 'Calculate your interest before you verify your ID',
           bottomHeading: 'Borrow dollars for your crypto',
-          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${ formatter.percentageDisplay(loanParams.bestLtv) } APR`,
+          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${formatter.percentageDisplay(loanParams.bestLtv)} APR`,
           buttonCopy: 'Verify identity',
           onPress: () => actions.navigateTo("KYCProfileDetails"),
         }
@@ -176,7 +178,7 @@ class BorrowCalculator extends Component {
     loanParams.monthlyInterest = formatter.usd(Number(loanParams.totalInterestPct * formData.amount / formData.termOfLoan))
 
     loanParams.collateralNeeded = (Number(formData.amount) / (currencies.find(c => c.short === formData.coin).market_quotes_usd.price)) / formData.ltv.percent
-    loanParams.bestLtv =  Math.max(...ltv.map(x => x.percent))
+    loanParams.bestLtv = Math.max(...ltv.map(x => x.percent))
 
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
@@ -198,7 +200,7 @@ class BorrowCalculator extends Component {
     const { actions, minimumLoanAmount } = this.props
 
     if (Number(value) < minimumLoanAmount) {
-      actions.showMessage('warning', `Minimum amount for a loan is ${ formatter.usd(minimumLoanAmount) }`)
+      actions.showMessage('warning', `Minimum amount for a loan is ${formatter.usd(minimumLoanAmount)}`)
     }
 
     actions.updateFormField(field, value)
@@ -212,15 +214,17 @@ class BorrowCalculator extends Component {
     } = this.state
 
     const {
+      theme,
       actions,
       formData,
       ltv
-     } = this.props
-
+    } = this.props
+    
     if (!formData.ltv) return null;
     const purposeProps = this.getPurposeSpecificProps()
     const numberOfDigits = Math.max(formatter.usd(loanParams.monthlyInterest).length, formatter.usd(loanParams.totalInterest).length)
     const textType = numberOfDigits > 8 ? "H3" : "H2"
+    const cardColor = theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_BACKGROUND;
 
     return (
       <RegularLayout style={style.container}>
@@ -235,7 +239,7 @@ class BorrowCalculator extends Component {
           type={'H4'}
           margin={'4 0 20 0'}
           weight={'300'}>
-          { purposeProps.subtitle }
+          {purposeProps.subtitle}
         </CelText>
         <Separator />
         <CelText
@@ -269,7 +273,7 @@ class BorrowCalculator extends Component {
                   margin='20 5 20 5'
                   noBorder
                   key={c.interest}
-                  styles={ formData.ltv.interest === c.interest ? style.selectedCardStyle : style.cardStyle }
+                  styles={formData.ltv.interest === c.interest ? style.selectedCardStyle : style.cardStyle}
                   onPress={() => {
                     actions.updateFormField('ltv', c)
                   }}
@@ -278,7 +282,7 @@ class BorrowCalculator extends Component {
                     align={'center'}
                     weight='bold'
                     color={STYLES.COLORS.MEDIUM_GRAY}
-                    style={ formData.ltv.interest === c.interest ? style.selectedTextStyle : style.percentageTextStyle }>
+                    style={formData.ltv.interest === c.interest ? style.selectedTextStyle : style.percentageTextStyle}>
                     {formatter.percentageDisplay(c.interest)}
                   </CelText>
                 </Card>
@@ -298,12 +302,12 @@ class BorrowCalculator extends Component {
             value={formData.termOfLoan}
             updateFormField={actions.updateFormField}
           />
-          <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between'  }}>
+          <View style={style.annualPercentage}>
             <Card
               size={'halfExtra'}
               margin='20 10 20 5'
               padding='20 5 20 5'
-              color={STYLES.COLORS.LIGHT_GRAY}
+              color={cardColor}
             >
               <CelText
                 align={'center'}
@@ -325,7 +329,8 @@ class BorrowCalculator extends Component {
               size={'halfExtra'}
               margin='20 5 20 5'
               padding='20 5 20 5'
-              color={STYLES.COLORS.LIGHT_GRAY}>
+              color={cardColor}
+              >
               <CelText
                 align={'center'}
                 weight='bold'
@@ -370,9 +375,10 @@ class BorrowCalculator extends Component {
         </View>
         <Card
           size={'full'}
-          margin='20 5 20 5'
-          padding='20 5 20 5'
-          color={STYLES.COLORS.WHITE}>
+          margin='20 0 20 0'
+          padding='20 0 20 0'
+          color={theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER}
+          >
           <CelText
             align={'center'}
             weight='bold'
@@ -396,35 +402,35 @@ class BorrowCalculator extends Component {
           The collateral needed is calculated based your annual percentage rate
         </CelText>
         <Separator />
-          <View>
-            { !!purposeProps.bottomHeading && (
-              <CelText
-                weight="bold"
-                type="H2"
-                align="center"
-                margin={'20 0 20 0'}
-              >
-                { purposeProps.bottomHeading }
-              </CelText>
-            )}
-            { !!purposeProps.bottomParagraph && (
-              <CelText
-                align={'center'}
-                type={'H4'}
-                margin={'4 0 20 0'}
-                weight={'300'}
-              >
-                { purposeProps.bottomParagraph }
-              </CelText>
-            )}
-
-            <CelButton
-              onPress={purposeProps.onPress}
-              margin='20 0 20 0'
+        <View>
+          {!!purposeProps.bottomHeading && (
+            <CelText
+              weight="bold"
+              type="H2"
+              align="center"
+              margin={'20 0 20 0'}
             >
-              { purposeProps.buttonCopy }
-            </CelButton>
-          </View>
+              {purposeProps.bottomHeading}
+            </CelText>
+          )}
+          {!!purposeProps.bottomParagraph && (
+            <CelText
+              align={'center'}
+              type={'H4'}
+              margin={'4 0 20 0'}
+              weight={'300'}
+            >
+              {purposeProps.bottomParagraph}
+            </CelText>
+          )}
+
+          <CelButton
+            onPress={purposeProps.onPress}
+            margin='20 0 20 0'
+          >
+            {purposeProps.buttonCopy}
+          </CelButton>
+        </View>
       </RegularLayout>
     );
   }

@@ -39,12 +39,21 @@ const base = {
 
 const themed = {
     light: {
+        activeItem: {
+            backgroundColor: STYLES.COLORS.WHITE
+        }
     },
 
     dark: {
+        activeItem: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        }
     },
 
     celsius: {
+        activeItem: {
+            backgroundColor: STYLES.COLORS.WHITE
+        }
     }
 }
 
