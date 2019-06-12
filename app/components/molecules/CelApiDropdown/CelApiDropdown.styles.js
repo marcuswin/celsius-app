@@ -1,11 +1,10 @@
-// import STYLES from '../../../constants/STYLES';
+import STYLES from "../../../constants/STYLES";
 import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
-// import STYLES from "../../../constants/STYLES";
 
 const base = {
-    container: {
-        flex: 1
-    },
+  container: {
+    flex: 1
+  },
   dropDown: { marginBottom: 20, width: widthPercentageToDP("90%") },
   normalButton: {
     flexDirection: "row",
@@ -63,14 +62,35 @@ const base = {
 }
 
 const themed = {
-    light: {
+  light: {
+    expand: {
+      backgroundColor: STYLES.COLORS.WHITE
     },
-
-    dark: {
+    normalButton: {
+      backgroundColor: STYLES.COLORS.WHITE
     },
+  },
 
-    celsius: {
-    }
+  dark: {
+    expand: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    },
+    normalButton: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    },
+    separator: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER 
+    },
+  },
+
+  celsius: {
+    expand: {
+      backgroundColor: STYLES.COLORS.WHITE
+    },
+    normalButton: {
+      backgroundColor: STYLES.COLORS.WHITE
+    },
+  }
 }
 
 const CelApiDropdownStyle = () => getThemedStyle(base, themed);
