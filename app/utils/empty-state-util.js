@@ -122,7 +122,7 @@ function getNonVerifiedProps(componentProps) {
   if (!user.kyc) return {}
 
   const kycRejectionReasons = user.kyc.rejectionReasons
-  if (!kycRejectionReasons.length) {
+  if (kycRejectionReasons && !kycRejectionReasons.length) {
     kycRejectionReasons.push("Please go through the verification process again or contact our support for help.")
   }
 

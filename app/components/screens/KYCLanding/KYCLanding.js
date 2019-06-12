@@ -9,7 +9,7 @@ import * as appActions from "../../../redux/actions";
 import KYCLandingStyle from "./KYCLanding.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import { THEMES, MODALS } from "../../../constants/UI";
+import { MODALS } from "../../../constants/UI";
 import STYLES from "../../../constants/STYLES";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import Card from "../../atoms/Card/Card";
@@ -210,7 +210,7 @@ class KYCLanding extends Component {
     const Errors = this.renderErrors
     if (kycStatus === KYC_STATUSES.passed) return null;
     return (
-      <RegularLayout theme={THEMES.DARK ? THEMES.DARK : THEMES.LIGHT}>
+      <RegularLayout>
         {this.renderCard()}
         {this.renderKycStatus(kycStatus)}
         {kycReasons && kycReasons.length > 0 ? (

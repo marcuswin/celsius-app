@@ -164,6 +164,15 @@ class BorrowCalculator extends Component {
     }
   }
 
+  getThemeColors = () => {
+    const { theme } = this.props;
+
+    return {
+      loanCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_BACKGROUND,
+      amountCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER,
+    }
+  }
+
   calculateLoanParams = () => {
     const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount, loanCompliance } = this.props
     const loanParams = {}
@@ -214,7 +223,6 @@ class BorrowCalculator extends Component {
     } = this.state
 
     const {
-      theme,
       actions,
       formData,
       ltv
@@ -224,7 +232,7 @@ class BorrowCalculator extends Component {
     const purposeProps = this.getPurposeSpecificProps()
     const numberOfDigits = Math.max(formatter.usd(loanParams.monthlyInterest).length, formatter.usd(loanParams.totalInterest).length)
     const textType = numberOfDigits > 8 ? "H3" : "H2"
-    const cardColor = theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_BACKGROUND;
+    const themeColors = this.getThemeColors();
 
     return (
       <RegularLayout style={style.container}>
@@ -307,7 +315,7 @@ class BorrowCalculator extends Component {
               size={'halfExtra'}
               margin='20 10 20 5'
               padding='20 5 20 5'
-              color={cardColor}
+              color={themeColors.loanCard}
             >
               <CelText
                 align={'center'}
@@ -329,7 +337,7 @@ class BorrowCalculator extends Component {
               size={'halfExtra'}
               margin='20 5 20 5'
               padding='20 5 20 5'
-              color={cardColor}
+              color={themeColors.loanCard}
               >
               <CelText
                 align={'center'}
@@ -360,7 +368,7 @@ class BorrowCalculator extends Component {
             name={`Icon${formData.coin}`}
             width='40'
             height='40'
-            color={STYLES.COLORS.WHITE}
+            color={STYLES.COLORS.ORANGE}
           />
           <View style={style.selectWrapper}>
             <SimpleSelect
@@ -377,7 +385,7 @@ class BorrowCalculator extends Component {
           size={'full'}
           margin='20 0 20 0'
           padding='20 0 20 0'
-          color={theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER}
+          color={themeColors.amountCard}
           >
           <CelText
             align={'center'}
