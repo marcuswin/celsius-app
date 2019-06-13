@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, Image, SafeAreaView } from "react-native";
-import { BarCodeScanner, Permissions } from "expo";
+import * as Permissions from 'expo-permissions';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 

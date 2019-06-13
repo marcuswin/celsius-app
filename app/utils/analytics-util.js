@@ -1,6 +1,8 @@
 // TODO(fj): Rewrite from scratch
 
-import { Segment, Constants } from "expo";
+import Constants from 'expo-constants';
+
+import * as Segment from 'expo-analytics-segment';
 import { mixpanelEvents, initMixpanelUser, logoutMixpanelUser } from "../services/mixpanel";
 import branchService from "../services/branch-service";
 import store from '../redux/store';

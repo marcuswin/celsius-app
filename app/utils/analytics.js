@@ -1,4 +1,5 @@
-import { Constants, Segment } from "expo";
+import * as Segment from 'expo-analytics-segment';
+import Constants from 'expo-constants';
 import { Platform } from "react-native";
 import j from "jsrsasign";
 import store from "../redux/store";

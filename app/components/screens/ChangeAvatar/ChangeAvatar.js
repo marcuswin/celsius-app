@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { Constants, Permissions } from 'expo';
+import * as Permissions from 'expo-permissions';
+import Constants from 'expo-constants';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";

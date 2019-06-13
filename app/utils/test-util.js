@@ -1,5 +1,5 @@
 import { hook } from 'cavy';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 const { ENV } = Constants.manifest.extra;
 

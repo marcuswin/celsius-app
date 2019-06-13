@@ -1,6 +1,6 @@
 {
   "presets": [
     "module:babel-preset-expo",
-    "module:react-native-dotenv"
+    "module:react-native-dotenv",
   ]
 }

@@ -1,7 +1,7 @@
 import store from "../app/redux/store";
 import * as actions from "../app/redux/actions";
 import axios from "axios";
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 
 const { API_URL } = Constants.manifest.extra;
 const { dispatch, getState } = store;

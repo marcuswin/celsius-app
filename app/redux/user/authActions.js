@@ -1,4 +1,4 @@
-import { Constants } from 'expo'
+import Constants from 'expo-constants';
 import Branch from 'react-native-branch'
 
 import ACTIONS from '../../constants/ACTIONS'

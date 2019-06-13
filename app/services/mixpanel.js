@@ -1,7 +1,7 @@
 // TODO(fj): make this go through Segment?
 
 import uuid from 'uuid'
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import moment from 'moment';
 import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
 import { setSecureStoreKey, getSecureStoreKey } from '../utils/expo-storage';

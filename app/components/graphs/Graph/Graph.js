@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Animated, TextInput } from "react-native";
-import { Svg } from "expo";
+import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 import moment from "moment";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
@@ -15,7 +15,7 @@ import { THEMES } from "../../../constants/UI";
 import STYLES from '../../../constants/STYLES'
 
 
-const { Path, Defs, LinearGradient, Stop } = Svg;
+// const { Path, Defs, LinearGradient, Stop } = Svg;
 const d3 = { shape };
 
 class Graph extends React.Component {

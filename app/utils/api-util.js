@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
-import { Constants } from 'expo'
+import Constants from 'expo-constants';
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
 import logger from './logger-util'

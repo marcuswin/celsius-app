@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 import Branch, { BranchEvent } from "react-native-branch";
 
 import { BRANCH_LINKS } from "../constants/DATA";

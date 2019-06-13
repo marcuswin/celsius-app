@@ -1,4 +1,8 @@
-import { Constants, Facebook, GoogleSignIn, Google } from 'expo'
+import { Google } from 'expo';
+
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
+import Constants from 'expo-constants';
 
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'

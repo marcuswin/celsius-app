@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";

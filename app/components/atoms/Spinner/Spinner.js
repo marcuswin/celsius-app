@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Animated } from 'react-native';
-import { Svg } from 'expo';
+import Svg, { Circle } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
@@ -79,7 +79,7 @@ class Spinner extends Component {
     return (
       <Animated.View style={style}>
         <Svg width={size} height={size} viewBox="0 0 100 100">
-          <Svg.Circle cx="50" cy="50" r="40" stroke={strokeColor} strokeWidth="5" strokeLinecap="round" strokeDasharray="62.83185307179586" fill="transparent" />
+          <Circle cx="50" cy="50" r="40" stroke={strokeColor} strokeWidth="5" strokeLinecap="round" strokeDasharray="62.83185307179586" fill="transparent" />
         </Svg>
       </Animated.View>
     );

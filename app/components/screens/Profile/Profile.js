@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-import { Constants } from "expo";
+import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 

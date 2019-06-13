@@ -1,5 +1,5 @@
 import axios from 'axios/index'
-import { Constants } from 'expo'
+import Constants from 'expo-constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
 

@@ -1,9 +1,10 @@
 import { Tester, TestHookStore } from 'cavy';
 import React, { Component } from 'react';
 import * as Expo from 'expo';
+import Constants from 'expo-constants';
 import App from './app/App';
 
-const { ENV } = Expo.Constants.manifest.extra;
+const { ENV } = Constants.manifest.extra;
 
 
 function wrapTestApp() {
