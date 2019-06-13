@@ -12,7 +12,6 @@ import CelText from "../../atoms/CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
 import CommunityStyle from "./Community.styles";
-import STYLES from "../../../constants/STYLES";
 
 
 @connect(
@@ -116,7 +115,7 @@ class Community extends Component {
 
         {/* <CommunityDashboard name={"MEET US IN PERSON AT"}/> */}
         <Separator margin='20 0 20 0'/>
-        <CelText align='center' type='H7' color={STYLES.COLORS.DARK_GRAY6}>
+        <CelText align='center' type='H7'>
           The numbers are showing a dollar value of coins at this moment.
         </CelText>
 

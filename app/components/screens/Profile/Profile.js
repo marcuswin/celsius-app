@@ -207,8 +207,9 @@ class Profile extends Component {
             }
           </View>
         )}
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App
-          version: {revisionId}</CelText>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7">
+          Celsius App version: {revisionId}
+        </CelText>
 
         <ReferralSendModal />
         <RegisterPromoCodeModal type={"celsius"} />

@@ -40,7 +40,7 @@ const themed = {
       backgroundColor: STYLES.COLORS.DARK_HEADER
     },
     textColor: {
-      color:  STYLES.COLORS.WHITE_OPACITY5
+      color:  STYLES.COLORS.WHITE
     }
   },
 

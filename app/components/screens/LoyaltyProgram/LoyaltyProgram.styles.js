@@ -178,7 +178,7 @@ const themed = {
       borderColor: '#000'
     },
     tierWrapper: {
-      borderBottomColor: '#000'
+      borderBottomColor: '#000',
     }
   },
 

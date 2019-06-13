@@ -37,7 +37,7 @@ class CoinCard extends Component {
   coinCardFull = (coin) => (
     <Fragment >
       <CelText style={CoinCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText color='#737A82' weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
 

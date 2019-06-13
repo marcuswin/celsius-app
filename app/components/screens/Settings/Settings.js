@@ -55,7 +55,7 @@ class Settings extends Component {
         { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
         {isCompanyMember() && <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>}
         <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: { revisionId }</CelText>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7">Celsius App version: { revisionId }</CelText>
       </View>
     )
   }
