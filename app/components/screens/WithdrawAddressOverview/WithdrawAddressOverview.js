@@ -83,11 +83,10 @@ class WithdrawAddressOverview extends Component {
     return (
       <RegularLayout>
         <View>
-          <CelText> Change withdrawal address for each coin in your wallet.</CelText>
           <Card color={STYLES.COLORS.CELSIUS_BLUE}>
             <Icon name={'Info'} width="30" height="30" fill={STYLES.COLORS.WHITE}/>
             <CelText type={"H5"} weight={"300"} color={STYLES.COLORS.WHITE}>
-              Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours.
+              For your security, changing a withdrawal address will place a lock on withdrawals of the coin for 24 hours.
             </CelText>
           </Card>
           <RenderSelectedCoin />
