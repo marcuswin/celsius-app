@@ -85,7 +85,7 @@ class Graph extends React.Component {
   getColor = () => {
     const { interest, rate } = this.props;
     const areaColors = this.getGraphBackgroundColor()
-    const theme = store.getState().user.appSettings.theme
+    const theme = getTheme()
 
     let color = { line: STYLES.COLORS.CELSIUS_BLUE, area: theme === THEMES.DARK ? STYLES.COLORS.DARK_BACKGROUND : STYLES.COLORS.LIGHT_GRAY , back: STYLES.COLORS.CELSIUS_BLUE};
     if (!interest) {
@@ -201,7 +201,7 @@ class Graph extends React.Component {
     const { width, height, showCursor, type } = this.props;
     const { loading } = this.state;
     const color = this.getColor()
-    const theme = store.getState().user.appSettings.theme
+    const theme = getTheme()
 
     const strokeWidth = type === "coin-interest" ? 3 : 2;
 
