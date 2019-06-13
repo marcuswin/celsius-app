@@ -32,7 +32,10 @@ const themed = {
     },
     textColor: {
       color:  STYLES.COLORS.DARK_GRAY6
-    }
+    },
+    iconColor: {
+      color: STYLES.COLORS.DARK_GRAY6,
+    },
   },
 
   dark: {
@@ -41,7 +44,10 @@ const themed = {
     },
     textColor: {
       color:  STYLES.COLORS.WHITE
-    }
+    },
+    iconColor: {
+      color: STYLES.COLORS.WHITE_OPACITY5,
+    },
   },
 
   celsius: {
@@ -50,7 +56,10 @@ const themed = {
     },
     textColor: {
       color:  STYLES.COLORS.DARK_GRAY6
-    }
+    },
+    iconColor: {
+      color: STYLES.COLORS.DARK_GRAY6,
+    },
   }
 }
 
