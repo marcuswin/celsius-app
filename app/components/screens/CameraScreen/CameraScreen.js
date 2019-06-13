@@ -18,7 +18,7 @@ import Icon from '../../atoms/Icon/Icon'
 import STYLES from '../../../constants/STYLES'
 import API from '../../../constants/API'
 import CelText from '../../atoms/CelText/CelText'
-import loggerUtil from '../../../utils/logger-util';
+import loggerUtil from '../../../utils/logger-util'
 
 const { height, width } = Dimensions.get('window')
 
@@ -40,7 +40,10 @@ class CameraScreen extends Component {
     cameraHeading: PropTypes.string,
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
-    photo: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Object)]),
+    photo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.instanceOf(Object)
+    ]),
     mask: PropTypes.oneOf(['circle', 'document']),
     onSave: PropTypes.func
   }
@@ -149,7 +152,7 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return
 
-    const { actions, navigation, cameraType } = this.props
+    const { actions, mask, navigation, cameraType } = this.props
     try {
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions()
@@ -160,7 +163,35 @@ class CameraScreen extends Component {
         onSave: navigation.getParam('onSave')
       })
       const photo = await this.camera.takePictureAsync()
-      const imageManipulations = []
+      const { size } = this.state
+      let cropWidth
+
+      if (photo.width / photo.height > size.width / size.height) {
+        const coef = photo.width * (size.height / photo.height)
+        const overScan = ((coef - size.width) * 0.5) / coef
+        cropWidth = photo.width - 2 * size.width * overScan
+        cropWidth = (cropWidth * STYLES.imageSizes[mask].width) / size.width
+      } else {
+        cropWidth = (STYLES.imageSizes[mask].width / size.width) * photo.width
+      }
+
+      const cropHeight =
+        (cropWidth / STYLES.imageSizes[mask].width) *
+        STYLES.imageSizes[mask].height
+
+      const imageManipulations = [
+        {
+          resize: { ...photo }
+        },
+        {
+          crop: {
+            originX: (photo.width - cropWidth) / 2,
+            originY: (photo.height - cropHeight) / 2,
+            width: cropWidth,
+            height: cropHeight
+          }
+        }
+      ]
 
       if (cameraType === 'front') {
         imageManipulations.push({

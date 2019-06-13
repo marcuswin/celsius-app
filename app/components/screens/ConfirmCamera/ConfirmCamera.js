@@ -58,7 +58,7 @@ class ConfirmCamera extends Component {
             <View style={{ flex: 1 }} />
             {photo && !loading ?
               <Image
-                resizeMode="cover"
+                resizeMode="contain"
                 source={photo}
                 style={{
                   width: STYLES.imageSizes[mask].width,
