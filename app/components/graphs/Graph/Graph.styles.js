@@ -80,10 +80,10 @@ const themed = {
         backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
       },
       labelBoxBackgroundColor: {
-        backgroundColor: STYLES.COLORS.DARK_LABEL
+        backgroundColor: STYLES.COLORS.DARK_LABEL,
       },
       triangleBackgroundColor: {
-        borderBottomColor: STYLES.COLORS.DARK_LABEL
+        borderBottomColor: STYLES.COLORS.DARK_LABEL,
       }
     },
 

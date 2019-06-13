@@ -16,7 +16,6 @@ import WalletLandingStyle from './WalletLanding.styles'
 import CoinListCard from '../../molecules/CoinListCard/CoinListCard'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Icon from '../../atoms/Icon/Icon'
-import STYLES from '../../../constants/STYLES'
 import CelPayReceivedModal from '../../organisms/CelPayReceivedModal/CelPayReceivedModal'
 import { WALLET_LANDING_VIEW_TYPES, MODALS } from '../../../constants/UI'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
@@ -157,9 +156,6 @@ class WalletLanding extends Component {
       actions.getWalletSummary()
     }, 5000)
   }
-
-  getIconFillColor = cond =>
-    cond ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.DARK_GRAY_OPACITY
 
   handleBackButton = () => {
     const {actions} = this.props;
@@ -388,9 +384,8 @@ class WalletLanding extends Component {
                 onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}
               >
                 <Icon
-                  fill={this.getIconFillColor(
-                    activeView === WALLET_LANDING_VIEW_TYPES.GRID
-                  )}
+                  style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.GRID ? 1 : 0.5 }}
+                  fill="primary"
                   name='GridView'
                   width='18'
                 />
@@ -400,9 +395,8 @@ class WalletLanding extends Component {
                 onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}
               >
                 <Icon
-                  fill={this.getIconFillColor(
-                    activeView !== WALLET_LANDING_VIEW_TYPES.GRID
-                  )}
+                  style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.LIST ? 1 : 0.5 }}
+                  fill="primary"
                   name='ListView'
                   width='18'
                 />

@@ -45,12 +45,12 @@ class BorrowLoanTerm extends Component {
     const { actions, formData } = this.props;
 
     const sliderItems = [
-      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>6 months</CelText> },
-      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>12 months</CelText> },
-      { value: 18, label: <CelText weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>18 months</CelText> },
-      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>24 months</CelText> },
-      { value: 30, label: <CelText weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>30 months</CelText> },
-      { value: 36, label: <CelText weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>36 months</CelText> },
+      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 months</CelText> },
+      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 months</CelText> },
+      { value: 18, label: <CelText weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 months</CelText> },
+      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 months</CelText> },
+      { value: 30, label: <CelText weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 months</CelText> },
+      { value: 36, label: <CelText weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 months</CelText> },
     ]
 
     return (

@@ -111,9 +111,12 @@ class CoinDetails extends Component {
                   style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
                   onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
-                           source={require("../../../../assets/images/icons/plus-icn-small.png")}
+                    <Icon
+                      fill="primary"
+                      name="Deposit"
+                      width="25"
                     />
+
                     <CelText>
                       Deposit
                     </CelText>
@@ -127,8 +130,12 @@ class CoinDetails extends Component {
                   }}>
 
                     <View style={style.buttonItself}>
-                      <Image style={{ alignSelf: "center", width: 30, height: 25, marginBottom: 5, marginTop: 6 }}
-                             source={require("../../../../assets/images/icons/icon-send-small.png")}/>
+                      <Icon
+                        fill="primary"
+                        name="CelPay"
+                        width="25"
+                      />
+
                       <CelText>
                         CelPay
                       </CelText>
@@ -144,8 +151,11 @@ class CoinDetails extends Component {
                 <TouchableOpacity style={style.buttons}
                                   onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
-                           source={require("../../../../assets/images/icons/withdraw-small.png")}/>
+                    <Icon
+                      fill="primary"
+                      name="Withdraw"
+                      width="25"
+                    />
                     <CelText>
                       Withdraw
                     </CelText>

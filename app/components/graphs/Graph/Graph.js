@@ -87,7 +87,12 @@ class Graph extends React.Component {
     const areaColors = this.getGraphBackgroundColor()
     const theme = getTheme()
 
-    let color = { line: STYLES.COLORS.CELSIUS_BLUE, area: theme === THEMES.DARK ? STYLES.COLORS.DARK_BACKGROUND : STYLES.COLORS.LIGHT_GRAY , back: STYLES.COLORS.CELSIUS_BLUE};
+    let color = {
+      line: STYLES.COLORS.CELSIUS_BLUE,
+      area: theme === THEMES.DARK ? STYLES.COLORS.DARK_BACKGROUND : STYLES.COLORS.LIGHT_GRAY ,
+      back: STYLES.COLORS.CELSIUS_BLUE
+    };
+
     if (!interest) {
       color = rate >= 0 ? {
         line: "#4FB895",
