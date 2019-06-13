@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
-// import ApiAuthorizationPermissionsStyle from "./ApiAuthorizationPermissions.styles";
+import ApiAuthorizationPermissionsStyle from "./ApiAuthorizationPermissions.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from "../../../constants/STYLES";
@@ -62,16 +62,16 @@ class ApiAuthorizationPermissions extends Component {
 
   render() {
     const { actions, formData } = this.props;
-    // const style = ApiAuthorizationPermissionsStyle();
+    const style = ApiAuthorizationPermissionsStyle();
 
     return (
       <RegularLayout>
         <CelText color={STYLES.COLORS.MEDIUM_GRAY} type={"H4"} weight={"400"}>Generate your API key by selecting permissions from the list below: </CelText>
 
-        <SwitchButton field={"readWalletBalance"} updateFormField={actions.updateFormField} value={formData.readWalletBalance}>Read wallet balance</SwitchButton>
-        <SwitchButton field={"readTransactions"} updateFormField={actions.updateFormField} value={formData.readTransactions}>Read transactions</SwitchButton>
-        <SwitchButton field={"readDeposits"} updateFormField={actions.updateFormField} value={formData.readDeposits}>Read deposits</SwitchButton>
-        <SwitchButton field={"readWithdrawals"} updateFormField={actions.updateFormField} value={formData.readWithdrawals}>Read withdrawals</SwitchButton>
+        <SwitchButton style={style.switchStyle} field={"readWalletBalance"} updateFormField={actions.updateFormField} value={formData.readWalletBalance}>Read wallet balance</SwitchButton>
+        <SwitchButton style={style.switchStyle} field={"readTransactions"} updateFormField={actions.updateFormField} value={formData.readTransactions}>Read transactions</SwitchButton>
+        <SwitchButton style={style.switchStyle} field={"readDeposits"} updateFormField={actions.updateFormField} value={formData.readDeposits}>Read deposits</SwitchButton>
+        <SwitchButton style={style.switchStyle} field={"readWithdrawals"} updateFormField={actions.updateFormField} value={formData.readWithdrawals}>Read withdrawals</SwitchButton>
 
         <CelButton
           onPress={this.generateApiKey}
