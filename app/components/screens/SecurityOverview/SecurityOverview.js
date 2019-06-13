@@ -274,9 +274,7 @@ class SecurityOverview extends Component {
             </View>
           </Card>
           <CelText margin='0 0 20 0'>
-            Two-Factor Verification is an extra layer of security that prevents
-            the risk of an unwanted access to your account, even if your login
-            information is compromised.{' '}
+            Two-Factor Verification is an extra layer of security that prevents the risk of unwanted access to your account, even if your login information is compromised.{' '}
           </CelText>
           <Separator text='Email confirmation' />
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -17,7 +17,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
-import { THEMES } from "../../../constants/UI";
+import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
 @connect(
   state => ({
@@ -30,7 +30,11 @@ import { THEMES } from "../../../constants/UI";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
+
 class LoyaltyProgram extends Component {
+
+
+
   static propTypes = {};
   static defaultProps = {};
 
@@ -46,14 +50,22 @@ class LoyaltyProgram extends Component {
   }
 
   render() {
-    const { loyaltyInfo, appSettings, actions, walletSummary, celUtilityTiers } = this.props;
+    const {
+      loyaltyInfo,
+      appSettings,
+      actions,
+      walletSummary,
+      celUtilityTiers
+    } = this.props;
     const style = LoyaltyProgramStyle();
     let color;
     // let percent;
     if (!loyaltyInfo || !appSettings) return <LoadingScreen />;
+
     const hasTier = loyaltyInfo.tier.title !== "NONE";
     const celAmount = walletSummary.coins.filter(coin => coin.short === "CEL")[0];
     // const celPrice = currencies.filter(c => c.short === "CEL").map(m => m.market_quotes_usd)[0];
+
     if (loyaltyInfo.tier_level === 1) color = STYLES.COLORS.GRAY;
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
@@ -75,17 +87,34 @@ class LoyaltyProgram extends Component {
         <View>
           {hasTier && (
             <View>
-              <View style={[style.progressView, { backgroundColor: color }]}>
+              <View
+                style={
+                  [style.progressView,
+                  { backgroundColor: color }
+                ]}
+              >
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
-                  <CelText color={"white"} type={"H4"} weight={"700"}>
-                    {formatter.usd(celAmount.amount_usd)}
+                  <CelText
+                    color={"white"}
+                    type={"H4"}
+                    weight={"700"}
+                  >
+                    { formatter.usd(celAmount.amount_usd) }
                   </CelText>
-                  <CelText color={"white"} type={"H5"} weight={"300"}>
+                  <CelText
+                    color={"white"}
+                    type={"H5"}
+                    weight={"300"}
+                  >
                     CEL coins
                   </CelText>
                 </View>
                 <View style={style.arcChart}>
-                  <PieProgressBar color={color} level={loyaltyInfo.tier_level} tier={loyaltyInfo.tier.title} />
+                  <PieProgressBar
+                    color={color}
+                    level={loyaltyInfo.tier_level}
+                    tier={loyaltyInfo.tier.title}
+                  />
                 </View>
                 <View style={{ alignItems: "center", justifyContent: "center" }}>
                   <CelText color={"white"} type={"H4"} weight={"700"}>
@@ -106,153 +135,313 @@ class LoyaltyProgram extends Component {
               {/* </View>*/}
             </View>
           )}
-          <View style={style.contentWrapper}>
+          <View style={ style.contentWrapper }>
             <View style={{ flexDirection: "row" }}>
-              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>CEL
-                balance is</CelText>
-              <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <Image style={{ width: widthPercentageToDP("23.3%"), height: widthPercentageToDP("23.3%") }}
-                  source={require("../../../../assets/images/loyaltyIcons/star-bg3x.png")} />
-                <CelText theme={THEMES.LIGHT} type={"H3"} weight={"700"} style={{
-                  position: "absolute",
-                  top: widthPercentageToDP("23.3%") / 3.5
-                }}>{`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}</CelText>
+              <CelText
+                type={"H6"}
+                weight={"300"}
+                style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>
+                CEL balance is
+              </CelText>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+              <ThemedImage
+                style={[
+                  style.starIcon,
+                  { marginTop: 2 }
+                ]}
+                lightSource={ require('../../../../assets/images/loyaltyIcons/star-bg3x.png') }
+                darkSource={ require('../../../../assets/images/loyaltyIcons/star-dark-bg3x.png') }
+              />
+                <CelText
+                  type={"H3"}
+                  weight={"700"}
+                  style={{
+                    position: "absolute",
+                    top: widthPercentageToDP("23.3%") / 3.5
+                  }}
+                >
+                  {`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}
+                </CelText>
               </View>
-              <CelText type={"H6"} weight={"300"} style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>of
-                wallet balance</CelText>
+              <CelText
+                type={"H6"}
+                weight={"300"}
+                style={{
+                  marginTop: widthPercentageToDP("23.3") / 3
+                }}
+              >
+              of wallet balance
+              </CelText>
             </View>
             {hasTier && (
-              <Card style={style.bonusCard}>
-                <View style={style.interestCard}>
+              <Card style={ style.bonusCard }>
+                <View style={ style.interestCard }>
                   <View>
-                    <CelText margin={"0 0 10 0"} align={"center"} type={"H2"}
-                      weight={"700"}>{`${loyaltyInfo.tier.loanInterestBonus * 100}%`}</CelText>
-                    <CelText align={"center"} type={"H5"} weight={"300"}>Bonus for earning</CelText>
-                    <CelText margin={"0 0 10 0"} align={"center"} type={"H5"} weight={"300"}>interest in CEL</CelText>
+                    <CelText
+                      margin={"0 0 10 0"}
+                      align={"center"}
+                      type={"H2"}
+                      weight={"700"}
+                    >
+                      { `${loyaltyInfo.tier.loanInterestBonus * 100}%` }
+                    </CelText>
+                    <CelText
+                      align={"center"}
+                      type={"H5"}
+                      weight={"300"}
+                    >
+                      Bonus for earning
+                    </CelText>
+                    <CelText
+                      margin={"0 0 10 0"}
+                      align={"center"}
+                      type={"H5"}
+                      weight={"300"}
+                    >
+                      interest in CEL
+                    </CelText>
                   </View>
                   <Separator vertical />
                   <View>
-                    <CelText margin={"0 0 10 0"} align={"center"} type={"H2"}
-                      weight={"700"}>{`${loyaltyInfo.tier.interestBonus * 100}%`}</CelText>
-                    <CelText align={"center"} type={"H5"} weight={"300"}>Discount for paying</CelText>
-                    <CelText margin={"0 0 10 0"} align={"center"} type={"H5"} weight={"300"}>interest in CEL</CelText>
+                    <CelText
+                      margin={"0 0 10 0"}
+                      align={"center"}
+                      type={"H2"}
+                      weight={"700"}
+                    >
+                      { `${loyaltyInfo.tier.interestBonus * 100}%` }
+                    </CelText>
+                    <CelText
+                      align={"center"}
+                      type={"H5"}
+                      weight={"300"}
+                    >
+                      Discount for paying
+                    </CelText>
+                    <CelText
+                      margin={"0 0 10 0"}
+                      align={"center"}
+                      type={"H5"}
+                      weight={"300"}
+                    >
+                      interest in CEL
+                    </CelText>
                   </View>
                 </View>
               </Card>
             )}
 
             <View style={{ alignItems: "center" }}>
+              <View style={ style.circle }>
+              <ThemedImage
+                style={[
+                  style.starIcon,
+                  { marginTop: 6 }
+                ]}
+                lightSource={ require('../../../../assets/images/loyaltyIcons/star-icon3x.png') }
+                darkSource={ require('../../../../assets/images/loyaltyIcons/star-dark-icon3x.png') }
+              />
+              </View>
+              <CelText
+                style={ style.title }
+                type={"H3"}
+                align={"center"}
+                weight={"600"}
+              >
+                How do we calculate loyalty level?
+              </CelText>
+              <CelText
+                style={ style.explanation }
+                align={"center"}
+                type={"H4"}
+                weight={"300"}
+              >
+                Your loyalty level is determined by the ratio of CEL to other coins in your wallet. If 10% or more of your wallet balance is in CEL, you're a Platinum member!
+              </CelText>
+              <View style={ style.tableWrapper }>
 
-              <Image style={style.starIcon}
-                source={require("../../../../assets/images/loyaltyIcons/star-icon3x.png")} />
-              <CelText style={style.title} type={"H3"} align={"center"} weight={"600"}>How do we calculate loyalty level?</CelText>
-              <CelText style={style.explanation} align={"center"} type={"H4"} weight={"300"}>
-                Your loyalty level is determined by the ratio of CEL to other coins in your wallet. If 10% or more of
-                your wallet balance is in CEL, you're a Platinum member! </CelText>
-
-              <View style={style.tableWrapper}>
-
-                <View style={style.tierWrapper}>
-                  <View style={style.tierSilver}>
+                <View style={ style.tierWrapper }>
+                  <View style={ style.tierSilver }>
                     <CelText type='H6' color='white' weight='600'> SILVER </CelText>
                   </View>
-                  <View style={style.tierGold}>
+                  <View style={ style.tierGold }>
                     <CelText type='H6' color='white' weight='600'> GOLD </CelText>
                   </View>
-                  <View style={style.tierPlatinum}>
+                  <View style={ style.tierPlatinum }>
                     <CelText type='H6' color='white' weight='600'> PLATINUM </CelText>
                   </View>
                 </View>
 
-                <View style={style.minPercetage}>
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}>{`< ${formatter.percentage(celUtilityTiers.SILVER.maximum_cel_percentage)}%`}</CelText>
+                <View style={ style.minPercentage }>
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      {`< ${formatter.percentage(celUtilityTiers.SILVER.maximum_cel_percentage)}%`}
+                    </CelText>
                   </View>
                   <Separator vertical height={"60%"} margin='7 0 0 5' />
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}>{`< ${formatter.percentage(celUtilityTiers.GOLD.maximum_cel_percentage)}%`}</CelText>
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      {`< ${formatter.percentage(celUtilityTiers.GOLD.maximum_cel_percentage)}%` }
+                    </CelText>
                   </View>
                   <Separator vertical height={"60%"} margin='7 0 0 2' />
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}>{`> ${formatter.percentage(celUtilityTiers.PLATINUM.minimum_cel_percentage)}%`}</CelText>
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `> ${formatter.percentage(celUtilityTiers.PLATINUM.minimum_cel_percentage)}%` }
+                    </CelText>
                   </View>
                 </View>
 
-                <View style={style.separator}>
-                  <CelText type='H7' weight='500' color='white'> Bonus interest: </CelText>
+                <View style={ style.separator }>
+                  <CelText
+                    type='H7'
+                    weight='500'
+                  >
+                    Bonus interest:
+                  </CelText>
                 </View>
 
-                <View style={style.bonus}>
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.SILVER.interest_bonus)}%`} </CelText>
+                <View style={ style.bonus }>
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.SILVER.interest_bonus)}%` }
+                    </CelText>
+                  </View>
+                  <Separator vertical height={"60%"} margin='7 0 0 0' />
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.GOLD.interest_bonus)}%` }
+                    </CelText>
+                  </View>
+                  <Separator vertical height={"60%"} margin='7 0 0 7' />
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.PLATINUM.interest_bonus)}%` }
+                    </CelText>
+                  </View>
+                </View>
+
+                <View style={ style.separator }>
+                  <CelText type='H7' weight='500'> Loan interest discount: </CelText>
+                </View>
+
+
+                <View style={ style.loan }>
+                  <View style={ style.tierData }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.SILVER.loan_interest_bonus)}%` }
+                    </CelText>
                   </View>
                   <Separator vertical height={"60%"} margin='7 0 0 0' />
                   <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.GOLD.interest_bonus)}%`}</CelText>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.GOLD.loan_interest_bonus)}%` }
+                    </CelText>
                   </View>
                   <Separator vertical height={"60%"} margin='7 0 0 7' />
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.PLATINUM.interest_bonus)}%`} </CelText>
-                  </View>
-                </View>
-
-                <View style={style.separator}>
-                  <CelText type='H7' weight='500' color='white'> Loan interest discount: </CelText>
-                </View>
-
-
-                <View style={style.loan}>
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.SILVER.loan_interest_bonus)}%`} </CelText>
-                  </View>
-                  <Separator vertical height={"60%"} margin='7 0 0 0' />
-                  <View style={style.tierData}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.GOLD.loan_interest_bonus)}%`} </CelText>
-                  </View>
-                  <Separator vertical height={"60%"} margin='7 0 0 7' />
-                  <View style={style.tierDataLast}>
-                    <CelText type='H7' weight='500' color={STYLES.COLORS.DARK_GRAY6}> {`${formatter.percentage(celUtilityTiers.PLATINUM.loan_interest_bonus)}%`} </CelText>
+                  <View style={ style.tierDataLast }>
+                    <CelText
+                      type='H7'
+                      weight='500'
+                    >
+                      { `${formatter.percentage(celUtilityTiers.PLATINUM.loan_interest_bonus)}%` }
+                    </CelText>
                   </View>
                 </View>
               </View>
-
-
-
-              <CelText align="center" type="H4" weight="300" margin={"20 0 10 0"}>
-                Each loyalty level will bring you better interest rates - <CelText align="center" type="H4"
-                  weight="700">so keep
-                HODLing!</CelText>
+              <CelText
+                align="center"
+                type="H4"
+                weight="300"
+                margin={"20 0 10 0"}
+              >
+                Each loyalty level will bring you better interest rates -
+                <CelText align="center" type="H4" weight="700">so keep HODLing!</CelText>
               </CelText>
 
-              <View style={style.circle}>
-                <Image style={style.image} source={require("../../../../assets/images/loyaltyIcons/withdrawx.png")} />
+              <View style={ style.circle }>
+              <ThemedImage
+                style={[
+                  style.starIcon,
+                  { marginTop: 6 }
+                ]}
+                lightSource={ require('../../../../assets/images/loyaltyIcons/withdraw-icon3x.png') }
+                darkSource={ require('../../../../assets/images/loyaltyIcons/withdraw-icon-dark3x.png') }
+              />
               </View>
-              <CelText style={style.title} type={"H3"} weight={"600"}>Withdrawing CEL</CelText>
-              <CelText style={style.explanation} align={"center"} type={"H4"} weight={"300"}>
+              <CelText style={ style.title } type={"H3"} weight={"600"}>Withdrawing CEL</CelText>
+              <CelText
+                style={ style.explanation }
+                align={"center"}
+                type={"H4"}
+                weight={"300"}
+              >
                 Withdrawal will affect your loyalty level, so make sure to HODL to keep the numbers going!
               </CelText>
 
-              <View style={style.circle}>
-                <Image style={style.image} source={require("../../../../assets/images/loyaltyIcons/level-upx.png")} />
+              <View style={ style.circle }>
+              <ThemedImage
+                style={[
+                  style.starIcon,
+                  { marginTop: 6 }
+                ]}
+                lightSource={ require('../../../../assets/images/loyaltyIcons/reward-icon3x.png') }
+                darkSource={ require('../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png') }
+              />
               </View>
-              <CelText style={style.title} type={"H3"} weight={"600"}>Always Updating</CelText>
-              <CelText style={style.explanation} align={"center"} type={"H4"} weight={"300"}>
+              <CelText style={ style.title } type={"H3"} weight={"600"}>Always Updating</CelText>
+              <CelText
+                style={ style.explanation }
+                align={"center"}
+                type={"H4"}
+                weight={"300"}
+              >
                 Your loyalty level is dynamic and will change with changing wallet balances. This includes new wallet
                 activity as well as market fluctuations, so be sure to check your status every week!
               </CelText>
             </View>
-            {!appSettings.interest_in_cel ?
-
-            <CelInterestCard
-              tier={loyaltyInfo.tier.title}
-              interestBonus={loyaltyInfo.earn_interest_bonus}
-              interestInCel={appSettings.interest_in_cel}
-              setUserAppSettings={actions.setUserAppSettings}
-            />
-              : null }
+            { !appSettings.interest_in_cel ? (
+              <CelInterestCard
+                tier={loyaltyInfo.tier.title}
+                interestBonus={loyaltyInfo.earn_interest_bonus}
+                interestInCel={appSettings.interest_in_cel}
+                setUserAppSettings={actions.setUserAppSettings}
+              />) : null
+            }
             <CelButton
               margin={"30 0 10 0"}
-              onPress={() => actions.navigateTo("Deposit", { coin: "CEL" })}
+              onPress={
+                () => actions.navigateTo("Deposit", { coin: "CEL" })
+              }
             >
               Deposit CEL
             </CelButton>

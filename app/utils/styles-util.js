@@ -23,8 +23,10 @@ export {
   heightPercentageToDP,
   getFont,
   getFontSize,
+  getTheme,
   AddThemeToComponents
-}
+};
+
 
 /**
  * Formats margins from CSS style declaration
@@ -89,6 +91,14 @@ function getThemedStyle (
   // return _.mergeWith({ ...base }, { ...themed[theme] });
   // return formatter.deepmerge(base, themed[theme])
 }
+
+/**
+ * Return current theme
+ */
+function getTheme() {
+  return store.getState().user.appSettings.theme
+}
+
 
 /**
  * Disables native font scaling from device accessibility settings

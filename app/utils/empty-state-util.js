@@ -20,7 +20,7 @@ function getProps(purpose, componentProps) {
 
   switch (purpose) {
     // Not KYC Verified Empty States
-    case EMPTY_STATES.NON_VERIFIED_WITHDRAW: 
+    case EMPTY_STATES.NON_VERIFIED_WITHDRAW:
       return {
         ...props,
         image: require("../../assets/images/diane-sad3x.png"),

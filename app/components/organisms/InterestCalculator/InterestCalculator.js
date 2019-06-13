@@ -150,7 +150,7 @@ class InterestCalculator extends Component {
     return (
       <>
         <CelText align={'center'} margin='20 0 16 0'>
-          Choose the way of earning interest
+          Choose how you want to earn interest.
         </CelText>
 
         <View style={{ flexDirection: 'row' }}>
@@ -224,7 +224,7 @@ class InterestCalculator extends Component {
               })}
             </CelText>
             <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
-              Interest for 1 year
+              Interest per year
             </CelText>
           </Card>
         </View>

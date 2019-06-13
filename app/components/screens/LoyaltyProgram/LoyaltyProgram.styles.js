@@ -24,9 +24,9 @@ const base = {
   },
   starIcon: {
     resizeMode: "contain",
-    width: widthPercentageToDP("18.3%"),
-    height: widthPercentageToDP("18.3%"),
-    marginTop: heightPercentageToDP("3%"),
+    width: widthPercentageToDP("23.3%"),
+    height: widthPercentageToDP("23.3%"),
+    marginTop: heightPercentageToDP("2%"),
     marginBottom: heightPercentageToDP("0.5%"),
   },
   circle: {
@@ -38,6 +38,7 @@ const base = {
     alignItems: "center",
     marginTop: heightPercentageToDP("3%"),
     // marginTop: heightPercentageToDP("1,53%"),
+    marginRight: widthPercentageToDP("3%"),
     marginBottom: heightPercentageToDP("0.8%"),
   },
   title: {
@@ -70,29 +71,57 @@ const base = {
     flexDirection: 'column', marginTop: 10
   },
   tierWrapper: {
-    flexDirection: 'row', width: '100%', justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
 
   },
-  minPercetage: {
-    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+  minPercentage: {
+    flexDirection: 'row',
+    backgroundColor: 'red',
+    justifyContent: 'space-evenly',
   },
   bonus: {
-    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'space-evenly'
   },
   loan: {
-    flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-evenly'
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    justifyContent: 'space-evenly'
   },
   separator: {
-    alignItems: 'center', backgroundColor: STYLES.COLORS.DARK_GRAY3, paddingVertical: 5
+    alignItems: 'center',
+    backgroundColor: STYLES.COLORS.DARK_GRAY3,
+    paddingVertical: 5
   },
   tierSilver: {
-    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopLeftRadius: 3,
+    borderRightColor: 'white',
+    borderRightWidth: 3,
+    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
+    flex: 0.3,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingVertical: 7,
+    borderTopLeftRadius: 3,
   },
   tierGold: {
-    borderRightColor: 'white', borderRightWidth: 3, backgroundColor: STYLES.COLORS.ORANGE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7
+    borderRightColor: 'white',
+    borderRightWidth: 3,
+    backgroundColor: STYLES.COLORS.ORANGE,
+    flex: 0.3,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingVertical: 7
   },
   tierPlatinum: {
-    backgroundColor: STYLES.COLORS.CELSIUS_BLUE, flex: 0.3, flexGrow: 1, alignItems: 'center', paddingVertical: 7, borderTopRightRadius: 3,
+    backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
+    flex: 0.3,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingVertical: 7,
+    borderTopRightRadius: 3,
   },
   tierData: {
     paddingVertical: 10
@@ -101,14 +130,56 @@ const base = {
     paddingVertical: 10,
     borderBottomLeftRadius: 3,
     borderBottomRightRadius: 3
-
   }
 };
 
 const themed = {
-  light: {},
+  light: {
+    minPercentage: {
+      backgroundColor: STYLES.COLORS.WHITE
+    },
+    bonus: {
+      backgroundColor: STYLES.COLORS.WHITE
+    },
+    loan: {
+      backgroundColor: STYLES.COLORS.WHITE,
+    },
+    separator: {
+      backgroundColor: STYLES.COLORS.MEDIUM_GRAY3
+    },
+    tierSilver: {
+      backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
+    }
+  },
 
-  dark: {},
+  dark: {
+    minPercentage: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    },
+    bonus: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER
+    },
+    loan: {
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+    },
+    separator: {
+      backgroundColor: 'rgb(95,105,122)'
+    },
+    tierSilver: {
+      borderColor: '#000',
+      borderRightWidth: 2,
+    },
+    tierGold: {
+      borderColor: '#000',
+      borderRightWidth: 2,
+    },
+    tierPlatinum: {
+      borderColor: '#000'
+    },
+    tierWrapper: {
+      borderBottomColor: '#000'
+    }
+  },
 
   celsius: {}
 };

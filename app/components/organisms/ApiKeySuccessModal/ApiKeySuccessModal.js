@@ -44,7 +44,7 @@ class ApiKeySuccessModal extends Component {
         <CelText margin={"10 0 10 0"} align={"center"} weight='bold' type={"H2"}>Your API key was successfully generated</CelText>
         <CelText weight={"300"} type={"H4"}>
           Please note that the key won’t be fully readable after you close this modal.
-          We suggest you copy the key, and store it somewhere safe.
+          We suggest you copy the key and store it somewhere safe.
         </CelText>
 
         <View style={style.copyShareWrapper}>

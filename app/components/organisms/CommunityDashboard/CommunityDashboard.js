@@ -58,7 +58,7 @@ class CommunityDashboard extends Component {
     if (name === "INTEREST") {
       this.setState({
         primaryNumber: formatter.usd(communityStats.total_interests_usd),
-        explanation: "Total community earn"
+        explanation: "Total interest earn"
       })
     }
   }

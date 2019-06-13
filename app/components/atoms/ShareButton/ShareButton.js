@@ -23,7 +23,7 @@ ShareButton.propTypes = {
   title: PropTypes.string,
 };
 
-ShareButton.defaultProps ={
+ShareButton.defaultProps = {
   title: ''
 };
 

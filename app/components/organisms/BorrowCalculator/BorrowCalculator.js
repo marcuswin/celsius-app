@@ -114,8 +114,8 @@ class BorrowCalculator extends Component {
         return {
           ...defaultProps,
           subtitle: 'Calculate your interest before you verify your ID',
-          bottomHeading: 'Borrow dollars for your crypto',
-          bottomParagraph: `Verify your identity to start using your coins as collateral and get dollar loan at just ${formatter.percentageDisplay(loanParams.bestLtv)} APR`,
+          bottomHeading: 'Borrow dollars for Crypto',
+          bottomParagraph: `Verify your identity to start using your coins as collateral and get a dollar loan starting at just ${formatter.percentageDisplay(loanParams.bestLtv)} APR`,
           buttonCopy: 'Verify identity',
           onPress: () => actions.navigateTo("KYCProfileDetails"),
         }
@@ -227,7 +227,7 @@ class BorrowCalculator extends Component {
       formData,
       ltv
     } = this.props
-    
+
     if (!formData.ltv) return null;
     const purposeProps = this.getPurposeSpecificProps()
     const numberOfDigits = Math.max(formatter.usd(loanParams.monthlyInterest).length, formatter.usd(loanParams.totalInterest).length)

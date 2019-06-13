@@ -11,10 +11,6 @@ const base = {
         alignSelf: "flex-start",
         marginBottom: 10
     },
-    tagText: {
-        color: STYLES.COLORS.blue,
-        textAlign: "left"
-    },
     button: {
         marginTop: heightPercentageToDP("3.26%")
     }
@@ -22,9 +18,16 @@ const base = {
 
 const themed = {
     light: {
+        tagText: {
+          color: STYLES.COLORS.DARK_GRAY,
+          textAlign: "left"
+      },
     },
-
     dark: {
+        tagText: {
+          color: STYLES.COLORS.WHITE_OPACITY5,
+          textAlign: "left"
+      },
     },
 
     celsius: {

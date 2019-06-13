@@ -41,7 +41,7 @@ class InterestCalculatorScreen extends Component {
         return {
           heading: 'Calculate a total interest you may earn.',
           text:
-            'Start earning 25% a year on your coin. All you have to do is become a Celsius member by adding some CEL to your wallet',
+            'Start earning unmatched interest on your coins by depositing.',
           button: (
             <CelButton
               margin='20 0 0 0'
@@ -57,7 +57,7 @@ class InterestCalculatorScreen extends Component {
           heading:
             'Calculate a total interest you may earn before you fill your SSN data.',
           text:
-            'Fill in your SSN  to start earning up to 25% interest a year on your coins. SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and highly secured.',
+            'Fill in your SSN to start earning unmatched interest on your coins. SSN and residency are needed to issue 1099 for the interest paid. Private information is encrypted and highly secured.',
           button: (
             <CelButton
               margin='20 0 0 0'
@@ -84,9 +84,9 @@ class InterestCalculatorScreen extends Component {
       case EMPTY_STATES.NON_VERIFIED_INTEREST:
         return {
           heading:
-            'Calculate a total interest you may earn before you verify your ID.',
+            'Calculate the total interest you could earn before you verify your ID.',
           text:
-            'Start earning up to 25% interest a year on your coins verifying you ID.',
+            'Start earning unmatched interest on your coins by verifying your ID.',
           button: (
             <CelButton
               margin='20 0 0 0'
@@ -100,7 +100,7 @@ class InterestCalculatorScreen extends Component {
       default:
         return {
           heading:
-            'Calculate a total interest you may earn before you verify your ID.',
+            'Calculate the total interest you could earn before you verify your ID.',
           text: ''
         }
     }
