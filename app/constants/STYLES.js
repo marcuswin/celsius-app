@@ -3,10 +3,13 @@ const COLORS = {
   WHITE: '#fff',
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
+  WHITE_OPACITY2: 'rgba(255,255,255,0.2)',
   BLACK_OPACITY2: 'rgba(0,0,0,0.2)',
   CELSIUS: '#3F51AB', // prov: change name!
   DARK_HEADER: '#1F2E3D',
   DARK_BACKGROUND: '#151E27',
+  DARK_LABEL: "#293D51",
+  DARK_OVERLAY: "rgba(21, 30, 39, 0.9)",
 
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',

@@ -19,6 +19,7 @@ import STYLES from '../../../constants/STYLES'
 import API from '../../../constants/API'
 import CelText from '../../atoms/CelText/CelText'
 import loggerUtil from '../../../utils/logger-util'
+import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
 
 const { height, width } = Dimensions.get('window')
 
@@ -126,11 +127,16 @@ class CameraScreen extends Component {
   getMaskImage = mask => {
     switch (mask) {
       case 'document':
-        return require('../../../../assets/images/mask/card-mask-transparent.png')
+        return {
+          lightSource: require('../../../../assets/images/mask/card-mask-transparent.png'),
+          darkSource: require('../../../../assets/images/mask/dark-card-mask-transparent.png'),
+        }
       case 'circle':
-        return require('../../../../assets/images/mask/circle-mask.png')
       default:
-        return null
+        return {
+          lightSource: require('../../../../assets/images/mask/circle-mask.png'),
+          darkSource: require('../../../../assets/images/mask/dark-circle-mask.png'),
+        }
     }
   }
 
@@ -214,7 +220,7 @@ class CameraScreen extends Component {
   renderMask = () => {
     const { mask, cameraHeading } = this.props
     const imageSource = this.getMaskImage(mask)
-
+    const style = CameraScreenStyle()
     return (
       <View
         style={{
@@ -224,7 +230,7 @@ class CameraScreen extends Component {
           width: '100%'
         }}
       >
-        <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
+        <View style={[style.mask, style.maskOverlayColor]}>
           <SafeAreaView
             style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}
           >
@@ -239,18 +245,18 @@ class CameraScreen extends Component {
           </SafeAreaView>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }} />
-          <Image
-            source={imageSource}
+          <View style={[style.mask, style.maskOverlayColor]} />
+          <ThemedImage
+            { ...imageSource }
             style={{
               width: STYLES.imageSizes[mask].width,
               height: STYLES.imageSizes[mask].height,
               alignSelf: 'center'
             }}
           />
-          <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }} />
+          <View style={[style.mask, style.maskOverlayColor]}/>
         </View>
-        <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
+        <View style={[style.mask, style.maskOverlayColor]}>
           <View
             style={{
               width: STYLES.imageSizes[mask].width,
@@ -282,13 +288,7 @@ class CameraScreen extends Component {
         <Mask />
         <SafeAreaView style={style.bottomView}>
           <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: 16
-            }}
+            style={style.actionBar}
           >
             <TouchableOpacity style={{ flex: 1 }} onPress={this.pickImage}>
               {cameraRollLastPhoto && (

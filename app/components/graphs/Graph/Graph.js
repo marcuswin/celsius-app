@@ -8,9 +8,8 @@ import * as shape from "d3-shape";
 import { scaleLinear, scalePoint, scaleTime } from "d3-scale";
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
-import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import { getTheme, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
-import store from "../../../redux/store";
 import { THEMES } from "../../../constants/UI";
 import STYLES from '../../../constants/STYLES'
 
@@ -95,7 +94,7 @@ class Graph extends React.Component {
   };
 
   getGraphBackgroundColor = () => {
-    const theme = store.getState().user.appSettings.theme
+    const theme = getTheme()
 
     switch (theme) {
       case THEMES.DARK:

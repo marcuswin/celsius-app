@@ -153,7 +153,7 @@ class KYCVerifyID extends Component {
     }
     return (
       <>
-        <CelText color={STYLES.COLORS.GRAY} type='H4' weight='300'>
+        <CelText color={STYLES.COLORS.DARK_GRAY} type='H4' weight='300'>
           {textInactive}
         </CelText>
         <Icon name='KycCamera' height='24' fill={STYLES.COLORS.GRAY} />

@@ -26,19 +26,17 @@ function getThemeImage (props) {
 }
 
 const ThemedImage = props => (
-
-
   <Image
     style={ props.style }
     source={ getThemeImage(props) }
   />
-
 )
 
 ThemedImage.propTypes = {
   lightSource: PropTypes.number,
   darkSource: PropTypes.number,
-  celSource: PropTypes.number
+  celSource: PropTypes.number,
+  style: PropTypes.instanceOf(Object),
 }
 
 
