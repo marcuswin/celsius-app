@@ -68,17 +68,18 @@ const base = {
     justifyContent: "space-between"
   },
   tableWrapper: {
-    flexDirection: 'column', marginTop: 10
+    flexDirection: 'column',
+    marginTop: 10,
+    borderRadius: 3,
+    overflow: 'hidden'
   },
   tierWrapper: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly',
-
   },
   minPercentage: {
     flexDirection: 'row',
-    backgroundColor: 'red',
     justifyContent: 'space-evenly',
   },
   bonus: {
