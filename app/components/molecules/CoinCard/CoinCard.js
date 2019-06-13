@@ -12,6 +12,7 @@ import Graph from "../../graphs/Graph/Graph";
 import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP } from '../../../utils/styles-util';
 import CoinCardStyle from './CoinCard.styles';
+import { THEMES } from "../../../constants/UI";
 
 class CoinCard extends Component {
   static propTypes = {
@@ -19,7 +20,8 @@ class CoinCard extends Component {
     displayName: PropTypes.string.isRequired,
     currencyRates: PropTypes.instanceOf(Object).isRequired,
     onCardPress: PropTypes.func,
-    graphData: PropTypes.instanceOf(Object)
+    graphData: PropTypes.instanceOf(Object),
+    theme: PropTypes.oneOf(Object.values(THEMES))
   };
 
   coinCardEmpty = () => (
@@ -55,7 +57,7 @@ class CoinCard extends Component {
   // }
 
   render = () => {
-    const { coin, displayName, currencyRates, onCardPress, graphData } = this.props;
+    const { coin, theme, displayName, currencyRates, onCardPress, graphData } = this.props;
     const amount = coin.amount_usd > 0;
     const style = CoinCardStyle();
     let dateArray;
@@ -85,6 +87,7 @@ class CoinCard extends Component {
             rate={coinPriceChange}
             height={heightPercentageToDP("10%")}
             style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
+                 theme={theme}
           />
           : <View style={{ marginBottom: '40%' }} />}
       </Card>

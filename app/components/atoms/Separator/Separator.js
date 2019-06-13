@@ -101,8 +101,8 @@ class Separator extends Component {
               borderColor: separatorColor,
               borderWidth: size / 2,
               borderStyle: dashed ? 'dashed' : 'solid',
-              opacity
-            }
+              opacity,
+            },
           ]}
         />
         <View style={[style.center, {opacity: textOpacity}]}>
@@ -123,7 +123,7 @@ class Separator extends Component {
               borderWidth: size / 2,
               borderStyle: dashed ? 'dashed' : 'solid',
               opacity
-            }
+            },
           ]}
         />
       </View>
