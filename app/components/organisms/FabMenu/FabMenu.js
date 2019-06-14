@@ -36,7 +36,7 @@ class FabMenu extends Component {
     this.state = {
       menuItems: [],
     };
-    
+
     this.springValue = new Animated.Value(1)
     this.pulseValue = new Animated.Value(1)
     this.opacityValue = new Animated.Value(1)
@@ -88,30 +88,16 @@ class FabMenu extends Component {
     }[menu];
   }
 
-  // componentWillReceiveProps() {
-  //   const nextScreen = "home"
-  //   const currScreen = "home"
-  //   if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
-  //     const menuType = nextScreen === 'support' ? 'support' : 'menuType'
-  //     this.setState({
-  //       type: menuType,
-  //       menuItems: getMenuItems(menuType)
-  //     });
-  //   }
-  // }
-
   getTintColor = () => {
     const { theme } = this.props;
 
     switch (theme) {
-      case THEMES.LIGHT:
-        return 'light';
       case THEMES.DARK:
-        return 'dark';
       case THEMES.CELSIUS:
-        return 'dark';
+        return THEMES.DARK;
+      case THEMES.LIGHT:
       default:
-        return 'light'
+        return THEMES.LIGHT;
     }
   }
 
