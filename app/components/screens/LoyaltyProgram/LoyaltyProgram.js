@@ -131,7 +131,7 @@ class LoyaltyProgram extends Component {
               {/* paddingHorizontal: 20*/}
               {/* }}>*/}
               {/* <CelText align={"center"} type={"H6"} weight={"300"} margin={"0 0 20 0"}*/}
-              {/* color={"white"}>{`To achieve the next level deposit ${formatter.crypto(celToDeposit, "", {precision: 2})} CEL (${formatter.usd(celToDepositInUsd)})`}</CelText>*/}
+              {/* color={"white"}>{`To achieve the next level, deposit ${formatter.crypto(celToDeposit, "", {precision: 2})} CEL (${formatter.usd(celToDepositInUsd)})`}</CelText>*/}
               {/* </View>*/}
             </View>
           )}
@@ -261,7 +261,7 @@ class LoyaltyProgram extends Component {
                 type={"H4"}
                 weight={"300"}
               >
-                Your loyalty level is determined by the ratio of CEL to other coins in your wallet. If 10% or more of your wallet balance is in CEL, you're a Platinum member!
+                Your loyalty level is determined by the ratio of CEL to other coins in your wallet.
               </CelText>
               <View style={ style.tableWrapper }>
 
@@ -405,7 +405,7 @@ class LoyaltyProgram extends Component {
                 type={"H4"}
                 weight={"300"}
               >
-                Withdrawal will affect your loyalty level, so make sure to HODL to keep the numbers going!
+                Withdrawing funds will affect your loyalty level, so make sure to HODL to keep the numbers going!
               </CelText>
 
               <View style={ style.circle }>

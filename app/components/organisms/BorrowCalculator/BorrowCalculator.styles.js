@@ -7,8 +7,6 @@ const base = {
   },
   cardStyle: {
     borderWidth: 1,
-    backgroundColor: STYLES.COLORS.WHITE,
-    borderColor: STYLES.COLORS.DARK_GRAY3
   },
   selectedCardStyle: {
     borderWidth: 1,
@@ -29,8 +27,8 @@ const base = {
     justifyContent: "center",
   },
   annualPercentage: {
-    flex: 1, 
-    flexDirection: 'row', 
+    flex: 1,
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
 };
@@ -38,14 +36,27 @@ const base = {
 const themed = {
   light: {
     cardStyle: {
-      backgroundColor: STYLES.COLORS.WHITE
+      backgroundColor: STYLES.COLORS.WHITE,
+      borderColor: STYLES.COLORS.DARK_GRAY3
+    },
+    percentageTextStyle: {
+      color: STYLES.COLORS.DARK_GRAY
+    },
+    interestCardText: {
+      color: STYLES.COLORS.MEDIUM_GRAY
     }
   },
   dark: {
     cardStyle: {
-      backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      borderColor: STYLES.COLORS.LIGHT_GRAY
     },
-   
+    percentageTextStyle: {
+      color: STYLES.COLORS.MEDIUM_GRAY
+    },
+    interestCardText: {
+      color: STYLES.COLORS.WHITE
+    }
   },
 
   celsius: {}
