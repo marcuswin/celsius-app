@@ -33,7 +33,7 @@ android {
     minSdkVersion safeExtGet("minSdkVersion", 21)
     targetSdkVersion safeExtGet("targetSdkVersion", 28)
     versionCode 38
-    versionName '3.0.0'
+    versionName '3.1'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }
@@ -103,8 +103,6 @@ apply from: 'expo.gradle'
 apply from: "../../node_modules/react-native-unimodules/gradle.groovy"
 
 dependencies {
-    implementation project(':react-native-svg')
-    implementation project(':react-native-branch')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
   implementation 'com.android.support:multidex:1.0.1'
@@ -189,24 +187,8 @@ dependencies {
   api 'com.facebook.react:react-native:33.0.0'
   
 
-  // WHEN_DETACHING_REMOVE_FROM_HERE
-  
-  addMavenUnimodulesDependencies([
-      modulesPaths : [
-        '../enabled-modules'
-      ],
-      configuration: 'api',
-      target       : 'react-native',
-      exclude      : [
-        'unimodules-face-detector-interface',
-        'expo-face-detector',
-        'expo-payments-stripe'
-      ]
-  ])
-  
-  // WHEN_DETACHING_REMOVE_TO_HERE
 
-  /* UNCOMMENT WHEN DETACHING
+  
   addUnimodulesDependencies([
       modulesPaths : [
         '../../node_modules'
@@ -225,7 +207,7 @@ dependencies {
         // from auto-generated BasePackageList.java
       ]
   ])
-  END UNCOMMENT WHEN DETACHING */
+  
 }
 
 // This has to be down here for some reason
