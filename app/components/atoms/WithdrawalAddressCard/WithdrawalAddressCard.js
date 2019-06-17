@@ -7,16 +7,17 @@ import testUtil from "../../../utils/test-util";
 import WithdrawalAddressCardStyle from "./WithdrawalAddressCard.styles";
 import Card from '../Card/Card';
 import CelText from '../CelText/CelText';
-import Icon from '../Icon/Icon';
 import CelButton from '../CelButton/CelButton';
+import CoinIcon from "../CoinIcon/CoinIcon";
 
-const WithdrawalAddressCard = ({ coinShort, icon, onPress, withdrawalAddress }) => {
+const WithdrawalAddressCard = ({ coinShort, imageUrl, onPress, withdrawalAddress }) => {
   const style = WithdrawalAddressCardStyle()
   const opacity = withdrawalAddress.locked ? 0.5 : 1;
+
   return (
       <Card>
         <View style={[style.bodyWrapper, {opacity}]}>
-          <Icon height="35" width="35" name={icon} />
+          <CoinIcon customStyles={style.size} coinShort={coinShort} url={imageUrl}/>
           <View style={style.cardBody}>
             <CelText weight='600' >{coinShort}</CelText>
             <CelText margin='5 0 0 0' type='H6' weight='300'>{withdrawalAddress.address}</CelText>
@@ -32,10 +33,11 @@ const WithdrawalAddressCard = ({ coinShort, icon, onPress, withdrawalAddress }) 
 }
 
 WithdrawalAddressCard.propTypes = {
-  icon: PropTypes.string,
+  imageUrl: PropTypes.string,
   coinShort: PropTypes.string,
   onPress: PropTypes.func.isRequired,
   withdrawalAddress: PropTypes.instanceOf(Object),
+  theme: PropTypes.string
 }
 
 export default testUtil.hookComponent(WithdrawalAddressCard);

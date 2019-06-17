@@ -8,8 +8,8 @@ import * as appActions from "../../../redux/actions";
 import CelText from '../../atoms/CelText/CelText';
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 import CelInput from '../../atoms/CelInput/CelInput';
-import AuthLayout from '../../layouts/AuthLayout/AuthLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
   state => ({
@@ -45,14 +45,14 @@ class CellphoneEnter extends Component {
   render() {
     const {formData} = this.props;
     return (
-      <AuthLayout>
+      <RegularLayout>
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
         <CelInput type="phone" field="cellphone" placeholder="Phone number" value={formData.cellphone}/>
 
         <CelButton margin="10 0 40 0" onPress={() => {
           this.updateCellphoneNumber(formData.cellphone)
         }} iconRight="IconArrowRight">Verify phone number</CelButton>
-      </AuthLayout>
+      </RegularLayout>
     );
   }
 }
