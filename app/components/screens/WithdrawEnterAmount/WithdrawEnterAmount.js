@@ -87,7 +87,7 @@ class WithdrawEnterAmount extends Component {
       activePeriod: { label: '', value: '' }
     }
 
-    props.actions.initForm({ coin })
+    props.actions.initForm({ coin: coin || coinSelectItems[0].value })
     props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
     if (coin) {
       props.actions.getAllCoinWithdrawalAddresses()

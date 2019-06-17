@@ -197,11 +197,11 @@ class Deposit extends Component {
           color='#FFFFFF'
         >
           {' '}
-          If your wallet doesn't support
-          <CelText weight='600' color='#FFFFFF'>
+          If your wallet doesn't support{' '}
+          <CelText weight='bold' color='#FFFFFF'>
             {alternateText1}-format
           </CelText>{' '}
-          addresses you can use a
+          addresses you can use a{' '}
           <CelText weight='bold' color='#FFFFFF'>
             {alternateText2}-format
           </CelText>{' '}

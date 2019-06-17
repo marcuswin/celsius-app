@@ -145,7 +145,7 @@ class WithdrawCreateAddress extends Component {
             </View>
           </React.Fragment>
         }
-        {cryptoUtil.isERC20(formData.coin.toLowerCase()) ? 
+        {formData.coin && cryptoUtil.isERC20(formData.coin.toLowerCase()) ?
         <InfoBox
           color={"white"}
           backgroundColor={STYLES.COLORS.ORANGE}
