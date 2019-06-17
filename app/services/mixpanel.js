@@ -1,15 +1,16 @@
 // TODO(fj): make this go through Segment?
 
 import uuid from 'uuid'
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 import moment from 'moment';
-import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
+// import ExpoMixpanelAnalytics from 'expo-mixpanel-analytics';
 import { setSecureStoreKey, getSecureStoreKey } from '../utils/expo-storage';
 import usersService from './users-service';
 
-const { MIXPANEL_TOKEN } = Constants.manifest.extra;
+// const { MIXPANEL_TOKEN } = Constants.extra;
 
-export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
+// export const mixpanelAnalytics = new ExpoMixpanelAnalytics(MIXPANEL_TOKEN);
+const mixpanelAnalytics = {}
 
 let userEmail;
 

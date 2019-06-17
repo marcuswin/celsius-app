@@ -1,6 +1,6 @@
-import Constants from 'expo-constants';
+import Constants from '../../constants';
 
-const { API_URL } = Constants.manifest.extra;
+const { API_URL } = Constants.extra;
 
 const FONTS = [
   { 'barlow-thin': require('../../assets/fonts/Barlow/Barlow-Thin.ttf') },

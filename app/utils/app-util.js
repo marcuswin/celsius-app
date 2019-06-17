@@ -1,6 +1,6 @@
 import * as Segment from 'expo-analytics-segment';
 import * as Font from 'expo-font';
-import Constants from 'expo-constants';
+import Constants from '../../constants';
 import { Asset } from 'expo-asset';
 import React from 'react'
 import { Image, NetInfo } from 'react-native'
@@ -22,7 +22,7 @@ const {
   TWITTER_SECRET_KEY,
   SEGMENT_ANDROID_KEY,
   SEGMENT_IOS_KEY
-} = Constants.manifest.extra
+} = Constants.extra
 
 export default {
   initializeThirdPartyServices,

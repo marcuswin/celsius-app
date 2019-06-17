@@ -42,6 +42,7 @@ const BUTTONS = {
   ]
 }
 
+// Todo(sb): Model is undefined
 const deviceModel = Constants.platform.ios
   ? Constants.platform.ios.model
   : Constants.platform.android.model

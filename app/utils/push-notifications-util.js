@@ -1,4 +1,4 @@
-import { Notifications } from 'expo';
+// import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import usersService from '../services/users-service.js';
 
@@ -35,9 +35,9 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
 
-  // Get the token that uniquely identifies this device
-  const token = await Notifications.getExpoPushTokenAsync();
+  // // Get the token that uniquely identifies this device
+  // const token = await Notifications.getExpoPushTokenAsync();
 
-  await usersService.addExpoPushToken(token);
+  // await usersService.addExpoPushToken(token);
   pushNotificationsRegistered = true;
 }

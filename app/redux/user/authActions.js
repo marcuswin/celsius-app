@@ -1,4 +1,4 @@
-import Constants from 'expo-constants';
+import Constants from '../../../constants';
 import Branch from 'react-native-branch'
 
 import ACTIONS from '../../constants/ACTIONS'
@@ -25,7 +25,7 @@ import meService from '../../services/me-service'
 import analytics from '../../utils/analytics'
 import branchUtil from '../../utils/branch-util'
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
 
 export {
   createAccount,

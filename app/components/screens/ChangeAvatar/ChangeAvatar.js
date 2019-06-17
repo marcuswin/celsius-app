@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import Constants from 'expo-constants';
+import Constants from '../../../../constants';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -17,7 +17,7 @@ import Spinner from '../../atoms/Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 import ChangeAvatarStyle from './ChangeAvatar.styles';
 
-const { API_URL } = Constants.manifest.extra;
+const { API_URL } = Constants.extra;
 
 const images = [
   { url: `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png` },

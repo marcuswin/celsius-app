@@ -1,7 +1,7 @@
 import { hook } from 'cavy';
-import Constants from 'expo-constants';
+import Constants from '../../constants';
 
-const { ENV } = Constants.manifest.extra;
+const { ENV } = Constants.extra;
 
 export default {
 	hookComponent,

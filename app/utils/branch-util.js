@@ -1,4 +1,3 @@
-import Constants from 'expo-constants';
 import Branch, { BranchEvent } from "react-native-branch";
 
 import { BRANCH_LINKS } from "../constants/DATA";
@@ -150,7 +149,6 @@ async function createTransactionDetailsBUO(transaction) {
  * @returns {Object} BUO
  */
 async function createBUO(canonicalIdentifier, properties) {
-  if (Constants.appOwnership !== 'standalone') return;
   const { email } = store.getState().user.profile;
 
   try {

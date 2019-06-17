@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native'
 import { bindActionCreators } from "redux";
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
@@ -14,7 +14,9 @@ import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
 import { isCompanyMember } from '../../../utils/user-util';
 
-const { revisionId } = Constants.manifest;
+// Todo(sb): OTA updates
+// const { revisionId } = Constants.manifest;
+const revisionId = ''
 
 @connect(
   (state) => ({

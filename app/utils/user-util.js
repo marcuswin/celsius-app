@@ -1,5 +1,3 @@
-import Constants from 'expo-constants';
-
 import store from '../redux/store'
 
 /**
@@ -7,10 +5,6 @@ import store from '../redux/store'
  * @returns {boolean}
  */
 export function shouldRenderInitialIdVerification (userData) {
-  if (Constants.appOwnership === 'expo' && !Constants.isDevice) {
-    return false
-  }
-
   return !userData.enteredInitialPin
 }
 

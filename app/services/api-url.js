@@ -1,7 +1,7 @@
 // TODO(fj): load api url from Manifest in every service
 
-import Constants from 'expo-constants';
+import Constants from '../../constants';
 
-const {API_URL} = Constants.manifest.extra;
+const {API_URL} = Constants.extra;
 
 export default API_URL;

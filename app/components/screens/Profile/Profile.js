@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
@@ -22,7 +22,9 @@ import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 import { getFontSize } from '../../../utils/styles-util';
 
-const { revisionId } = Constants.manifest;
+// Todo(sb): OTA updates
+// const { revisionId } = Constants.manifest;
+const revisionId = ''
 
 @connect(
   state => ({
