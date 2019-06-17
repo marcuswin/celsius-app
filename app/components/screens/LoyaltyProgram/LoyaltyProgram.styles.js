@@ -97,31 +97,21 @@ const base = {
     backgroundColor: STYLES.COLORS.DARK_GRAY3,
     paddingVertical: 5
   },
-  tierSilver: {
-    borderRightColor: 'white',
-    borderRightWidth: 3,
-    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
+  tierCommon: {
     flex: 0.3,
     flexGrow: 1,
-    alignItems: 'center',
     paddingVertical: 7,
+    alignItems: 'center',
+  },
+  tierSilver: {
+    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
     borderTopLeftRadius: 3,
   },
   tierGold: {
-    borderRightColor: 'white',
-    borderRightWidth: 3,
     backgroundColor: STYLES.COLORS.ORANGE,
-    flex: 0.3,
-    flexGrow: 1,
-    alignItems: 'center',
-    paddingVertical: 7
   },
   tierPlatinum: {
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
-    flex: 0.3,
-    flexGrow: 1,
-    alignItems: 'center',
-    paddingVertical: 7,
     borderTopRightRadius: 3,
   },
   tierData: {
