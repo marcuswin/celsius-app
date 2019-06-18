@@ -33,7 +33,16 @@ class Icon extends Component {
     if (['primary'].includes(fill)) fillColor = iconColors[fill][theme]
 
     const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
-    return <View style={{overflow: 'hidden'}}><SvgIcon viewBox={viewBox} name={name} {...this.props} svgs={Svgs} fill={fillColor} style={[{ alignSelf: 'center', justifyContent: 'center' }, style]} /></View>;
+    return ( 
+      <View style={{overflow: 'hidden'}}>
+        <SvgIcon 
+          viewBox={viewBox}
+          name={name} {...this.props}
+          svgs={Svgs} fill={fillColor}
+          style={[{ alignSelf: 'center', justifyContent: 'center' }, style]}
+        />
+      </View>
+      )
   }
 }
 

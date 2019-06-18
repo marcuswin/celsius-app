@@ -81,6 +81,7 @@ class FabMenu extends Component {
     if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
     if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
     if (user) main[1].push({label: "Profile", screen: "Profile"});
+    if (kycStatus && kycStatus === KYC_STATUSES.passed) main[2].splice(1, 0, { name: 'MyCel', label: 'My CEL', screen: 'BorrowLanding' })
 
     return {
       main,
@@ -180,6 +181,8 @@ class FabMenu extends Component {
         return 30
       case "Profile":
         return 30
+      case "MyCel":
+        return 30
       default:
         return 33
     }
@@ -187,12 +190,21 @@ class FabMenu extends Component {
 
   renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={this.iconSize(item.label)} />;
+    return (
+      <CircleButton 
+        key={item.label} 
+        theme={theme} 
+        onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} 
+        type="menu"
+        text={item.label} 
+        icon={item.name ? item.name : item.label} 
+        iconSize={this.iconSize(item.name ? item.name : item.label)}   
+      />
+    )
   }
 
   renderMenuRow = (menuRow) => {
     const style = FabMenuStyle();
-
     return (
       <View key={menuRow[0].label} style={style.menuItemsContainer}>
         {menuRow.map(this.renderMenuItem)}
