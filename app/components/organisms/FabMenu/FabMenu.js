@@ -67,21 +67,22 @@ class FabMenu extends Component {
     const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user,kycStatus} = this.props;
     const main = [
       [
-        { label: 'Wallet', screen: 'WalletLanding' },
+        { iconName: 'Wallet',label: 'Wallet', screen: 'WalletLanding' },
       ],
       [],
       [
-        { label: 'Settings', screen: 'Settings' },
-        { label: 'Community', screen: 'Community' },
-        // { label: 'Support', screen: 'Support' }
+        { iconName:'Settings', label: 'Settings', screen: 'Settings' },
+        { iconName: 'Community', label: 'Community', screen: 'Community' },
+        // { iconName: 'Support', label: 'Support', screen: 'Support' }
       ]
     ];
-    if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
-    if ((kycStatus && kycStatus === KYC_STATUSES.passed) && withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
-    if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
-    if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
-    if (user) main[1].push({label: "Profile", screen: "Profile"});
-    if (kycStatus && kycStatus === KYC_STATUSES.passed) main[2].splice(1, 0, { name: 'MyCel', label: 'My CEL', screen: 'BorrowLanding' })
+    if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit' });
+    if ((kycStatus && kycStatus === KYC_STATUSES.passed) && withdrawCompliance.allowed) main[0].push({iconName: 'Withdraw', label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if (celpayCompliance.allowed) main[1].push({iconName:'CelPay', label: 'CelPay', screen: 'CelPayChooseFriend' });
+    if (loanCompliance.allowed) main[1].push({iconName: 'Borrow', label: 'Borrow', screen: 'BorrowLanding' });
+    if (user) main[1].push({iconName: 'Profile', label: 'Profile', screen: 'Profile'});
+    // TODO change borrow landing to new screen
+    if (kycStatus && kycStatus === KYC_STATUSES.passed) main[2].splice(1, 0, { iconName: 'MyCel', label: 'My CEL', screen: 'MyCel' })
 
     return {
       main,
@@ -197,8 +198,8 @@ class FabMenu extends Component {
         onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} 
         type="menu"
         text={item.label} 
-        icon={item.name ? item.name : item.label} 
-        iconSize={this.iconSize(item.name ? item.name : item.label)}   
+        icon={item.iconName} 
+        iconSize={this.iconSize(item.iconName)}   
       />
     )
   }
