@@ -1,6 +1,6 @@
-import { Constants } from 'expo';
+import Constants from '../../constants';
 
-const { API_URL } = Constants.manifest.extra;
+const { API_URL } = Constants.extra;
 
 const FONTS = [
   { 'barlow-thin': require('../../assets/fonts/Barlow/Barlow-Thin.ttf') },
@@ -59,11 +59,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/frenchy.png'),
   require('../../assets/images/mask/card-mask-transparent.png'),
   require('../../assets/images/mask/circle-mask.png'),
-  require('../../assets/images/mask/dark-circle-mask.png'),
   require('../../assets/images/mask/square-mask-01.png'),
-  require('../../assets/images/mask/qr-markers3x.png'),
-  require("../../assets/images/mask/dark-qrcode-mask3x.png"),
-  require("../../assets/images/mask/dark-card-mask-transparent.png"),
   require('../../assets/images/authSuccess3x.png'),
   require('../../assets/images/illustrations-v3/Dog/profile-dog.png'),
   require('../../assets/images/emptyStates/KYC-Failed.png'),

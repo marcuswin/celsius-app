@@ -1,4 +1,8 @@
-import { Constants, Facebook, GoogleSignIn, Google } from 'expo'
+// import { Google } from 'expo';
+
+import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Facebook from 'expo-facebook';
+import Constants from '../../../constants';
 
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'
@@ -21,7 +25,7 @@ const {
   GOOGLE_ANDROID_CLIENT_ID,
   GOOGLE_IOS_CLIENT_ID,
   GOOGLE_CLIENT_ID
-} = Constants.manifest.extra
+} = Constants.extra
 
 export {
   authTwitter,
@@ -302,17 +306,6 @@ function authGoogle (authReason) {
 
     try {
       let result
-      if (Constants.appOwnership !== 'standalone') {
-        // for Expo Client
-        result = await Google.logInAsync({
-          behavior: 'web',
-          webClientId: GOOGLE_WEB_CLIENT_ID,
-          androidClientId: GOOGLE_ANDROID_CLIENT_ID,
-          iosClientId: GOOGLE_IOS_CLIENT_ID,
-          scopes: ['profile', 'email']
-        })
-      } else {
-        // for standalone apps
         await GoogleSignIn.initAsync({
           clientId: GOOGLE_CLIENT_ID
         })
@@ -320,7 +313,6 @@ function authGoogle (authReason) {
         const isSignedIn = await GoogleSignIn.isSignedInAsync()
         if (isSignedIn) await GoogleSignIn.signOutAsync()
         result = await GoogleSignIn.signInAsync()
-      }
 
       if (result.type === 'success') {
         // NOTE: different response for Expo and for standalone app

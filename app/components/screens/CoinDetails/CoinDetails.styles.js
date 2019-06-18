@@ -54,8 +54,8 @@ const base = {
   },
   buttonItself: {
     flex: 1,
-    paddingTop: 5,
-    paddingBottom: 5
+    paddingTop: 10,
+    paddingBottom: 10
   }
 };
 

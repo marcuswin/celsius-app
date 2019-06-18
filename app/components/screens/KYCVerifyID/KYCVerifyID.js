@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { Permissions } from 'expo'
+import * as Permissions from 'expo-permissions';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -17,7 +17,6 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
 import API from '../../../constants/API'
 import apiUtil from '../../../utils/api-util';
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 @connect(
   state => ({
@@ -39,7 +38,7 @@ class KYCVerifyID extends Component {
     title: 'Verify ID',
     customCenterComponent: <ProgressBar steps={4} currentStep={4} />,
     headerSameColor: true
-  });
+  })
 
   componentDidMount () {
     const { actions } = this.props
@@ -154,7 +153,7 @@ class KYCVerifyID extends Component {
     }
     return (
       <>
-        <CelText color={STYLES.COLORS.DARK_GRAY} type='H4' weight='300'>
+        <CelText color={STYLES.COLORS.GRAY} type='H4' weight='300'>
           {textInactive}
         </CelText>
         <Icon name='KycCamera' height='24' fill={STYLES.COLORS.GRAY} />
@@ -197,7 +196,7 @@ class KYCVerifyID extends Component {
   render () {
     const { kycDocTypes, user, formData, callsInProgress, actions } = this.props
 
-    if (!kycDocTypes) return <LoadingScreen />
+    if (!kycDocTypes) return null
 
     const isLoading = apiUtil.areCallsInProgress(
       [API.CREATE_KYC_DOCUMENTS],

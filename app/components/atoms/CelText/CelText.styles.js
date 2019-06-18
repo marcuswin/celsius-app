@@ -1,31 +1,32 @@
-import STYLES from "../../../constants/STYLES";
-import { getThemedStyle } from "../../../utils/styles-util";
+import STYLES from '../../../constants/STYLES';
+import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
-  text: {
-    fontFamily: "barlow-regular"
-  }
-};
+    text: {
+        fontFamily: 'barlow-regular',
+    }
+}
 
 const themed = {
-  light: {
-    textColor: {
-      color: STYLES.COLORS.DARK_GRAY // medium_gray je bilo 30.01.
-    }
-  },
-  dark: {
-    textColor: { color: STYLES.COLORS.WHITE_OPACITY5 },
-    H1: { color: STYLES.COLORS.WHITE },
-    H2: { color: STYLES.COLORS.WHITE },
-    H3: { color: STYLES.COLORS.WHITE },
-  },
-  celsius: {
-    textColor: {
-      color: STYLES.COLORS.DARK_GRAY
-    }
-  }
-};
+    light: {
+        textColor: {
+            color: STYLES.COLORS.DARK_GRAY // medium_gray je bilo 30.01.
+        }
+    },
 
-const CelTextStyle = theme => theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed);
+    dark: {
+        textColor: {
+            color: STYLES.COLORS.WHITE_OPACITY5
+        }
+    },
 
-export default CelTextStyle;
+    celsius: {
+        textColor: {
+            color: STYLES.COLORS.DARK_GRAY
+        }
+    }
+}
+
+const CelTextStyle = theme => theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed)
+
+export default CelTextStyle

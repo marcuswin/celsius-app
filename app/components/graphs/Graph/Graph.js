@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Animated, TextInput } from "react-native";
-import { Svg } from "expo";
+import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 import moment from "moment";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
@@ -8,12 +8,14 @@ import * as shape from "d3-shape";
 import { scaleLinear, scalePoint, scaleTime } from "d3-scale";
 import testUtil from "../../../utils/test-util";
 import formatter from "../../../utils/formatter";
-import { getTheme, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
+import store from "../../../redux/store";
 import { THEMES } from "../../../constants/UI";
 import STYLES from '../../../constants/STYLES'
 
-const { Path, Defs, LinearGradient, Stop } = Svg;
+
+// const { Path, Defs, LinearGradient, Stop } = Svg;
 const d3 = { shape };
 
 class Graph extends React.Component {
@@ -29,8 +31,7 @@ class Graph extends React.Component {
     showCursor: PropTypes.bool,
     rate: PropTypes.oneOfType([PropTypes.string,PropTypes.number]),
     interest: PropTypes.bool,
-    backgroundColor: PropTypes.string,
-    theme: PropTypes.oneOf(Object.values(THEMES)),
+    backgroundColor: PropTypes.string
   };
 
   static defaultProps = {
@@ -45,11 +46,27 @@ class Graph extends React.Component {
   constructor(props) {
     super(props);
 
-    const {showCursor} = props;
+    const { interest, rate, showCursor } = props;
+    const areaColors = this.getGraphBackgroundColor()
+
+
+    let color = { line: "#4156A6", area: "#d9e0f9" };
+    if (!interest) {
+      color = rate >= 0 ? {
+        line: "#4FB895",
+        area: areaColors.green,
+        back: areaColors.back
+      } : {
+        line: "#EF461A",
+        area: areaColors.red,
+        back: areaColors.back
+      };
+    }
 
     this.state = {
       loading: true,
       x: new Animated.Value(0),
+      color
     };
 
     this.cursor = showCursor ? {
@@ -74,65 +91,35 @@ class Graph extends React.Component {
       this.calculateLine();
       return true;
     }
-
-    if (nextProps.theme !== this.props.theme) {
-      return true
-    }
-
     return nextState.loading !== this.state.loading;
   };
 
-  getColor = () => {
-    const { interest, rate } = this.props;
-    const areaColors = this.getGraphBackgroundColor()
-    const theme = getTheme()
-
-    let color = {
-      line: STYLES.COLORS.CELSIUS_BLUE,
-      area: theme === THEMES.DARK ? STYLES.COLORS.DARK_BACKGROUND : STYLES.COLORS.LIGHT_GRAY ,
-      back: STYLES.COLORS.CELSIUS_BLUE
-    };
-
-    if (!interest) {
-      color = rate >= 0 ? {
-        line: "#4FB895",
-        area: areaColors.green,
-        back: areaColors.back
-      } : {
-        line: "#EF461A",
-        area: areaColors.red,
-        back: areaColors.back
-      };
-    }
-
-    return color
-  }
-
   getGraphBackgroundColor = () => {
-    const theme = getTheme()
+    const theme = store.getState().user.appSettings.theme
 
     switch (theme) {
       case THEMES.DARK:
         return {
-          green: '#25454b',
-          red: '#423439',
+          green: 'rgb(37, 69, 75)',
+          red: 'rgb(66, 52, 57)',
           back: STYLES.COLORS.DARK_BACKGROUND
       }
       case THEMES.LIGHT:
         return {
           green: '#E5F5EF',
           red: '#FDE4DD',
-          back: STYLES.COLORS.LIGHT_GRAY
+          back: STYLES.COLORS.WHITE
       }
 
       default:
         return {
           green: '#E5F5EF',
           red: '#FDE4DD',
-          back: STYLES.COLORS.LIGHT_GRAY
+          back: STYLES.COLORS.WHITE
       }
     }
-  };
+
+  }
 
   calculateLine() {
     const { width, height, verticalPadding, priceArray, dateArray, showCursor } = this.props;
@@ -204,9 +191,8 @@ class Graph extends React.Component {
 
   renderGraphSvg = () => {
     const { width, height, showCursor, type } = this.props;
-    const { loading } = this.state;
-    const color = this.getColor()
-    const theme = getTheme()
+    const { color, loading } = this.state;
+
 
     const strokeWidth = type === "coin-interest" ? 3 : 2;
 
@@ -219,7 +205,7 @@ class Graph extends React.Component {
           <Defs>
             { type === "coin-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={theme === THEMES.DARK ? STYLES.COLORS.DARK_HEADER : "white"} offset={"100%"} />
+                <Stop stopColor={"white"} offset={"100%"} />
               </LinearGradient> : null
             }
 
@@ -230,10 +216,10 @@ class Graph extends React.Component {
               </LinearGradient> : null
             }
 
+
             {type === "total-interest" ?
               <LinearGradient x1={"50%"} y1={"0%"} x2={"50%"} y2={"100%"} id={"gradient"}>
-                <Stop stopColor={ theme === THEMES.DARK ? "#404d81" : "#d9e0f9"} offset={"50%"} />
-                <Stop stopColor={ theme === THEMES.DARK ? STYLES.COLORS.DARK_BACKGROUND : STYLES.COLORS.LIGHT_GRAY} offset={"80%"} />
+                <Stop stopColor={color.area} offset={"100%"} />
               </LinearGradient> : null
             }
 
@@ -242,7 +228,6 @@ class Graph extends React.Component {
                 <Stop stopColor={color.area} offset={"100%"} />
               </LinearGradient> : null
             }
-
           </Defs>
           <Path d={this.line} stroke={color.line} strokeWidth={strokeWidth} fill="transparent" />
           <Path d={`${this.line} L ${width} ${height} L 0 ${height}`} fill="url(#gradient)" />
@@ -251,7 +236,7 @@ class Graph extends React.Component {
   };
 
   renderPointer = () => {
-    const color = this.getColor();
+    const { color } = this.state;
     const { showCursor } = this.props;
     const style = GraphStyle();
 
@@ -259,17 +244,17 @@ class Graph extends React.Component {
       showCursor ?
         <View style={{ position: 'absolute' }}>
           <View ref={this.cursor.pointer}>
-            <View style={[style.cursor, style.cursorBackgroundColor, { borderColor: color.line }]}>
+            <View style={[style.cursor, { borderColor: color.line }]}>
               <View style={[style.circle, { backgroundColor: color.line }]} />
             </View>
           </View>
 
           <View ref={this.cursor.label} style={[style.pointer]}>
-            <View style={[style.label, style.labelBoxBackgroundColor]}>
+            <View style={[style.label]}>
               <TextInput ref={this.cursor.labelText} style={style.labelText} editable={false} />
               <TextInput ref={this.cursor.dateText} style={style.labelText} editable={false} />
             </View>
-            <View style={[style.triangle, style.triangleBackgroundColor]} />
+            <View style={[style.triangle]} />
           </View>
         </View>
         : null

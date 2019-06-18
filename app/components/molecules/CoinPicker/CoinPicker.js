@@ -7,6 +7,7 @@ import testUtil from "../../../utils/test-util";
 import SimpleSelect from '../SimpleSelect/SimpleSelect';
 import CelText from '../../atoms/CelText/CelText';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
+import STYLES from '../../../constants/STYLES';
 
 class CoinPicker extends Component {
 
@@ -39,7 +40,7 @@ class CoinPicker extends Component {
 
     return (
       <View>
-        <CelText align='center' weight="regular" type="H4">Choose coin to deposit</CelText>
+        <CelText align='center' weight="regular" color={STYLES.COLORS.MEDIUM_GRAY} type="H4">Choose coin to deposit</CelText>
 
         <CircleButton
           iconSize={30}

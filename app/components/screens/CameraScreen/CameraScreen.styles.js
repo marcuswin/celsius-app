@@ -20,7 +20,6 @@ const base = {
       }
     })
   },
-  mask: { flex: 1 },
   bottomView: {
     position: 'absolute',
     bottom: 0,
@@ -35,43 +34,15 @@ const base = {
     right: -widthOffset
       }
     })
-  },
-  actionBar: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16
   }
 }
 
 const themed = {
-  light: {
-    maskOverlayColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    },
-    actionBar: {
-      backgroundColor: "white"
-    },
-  },
+  light: {},
 
-  dark: {
-    maskOverlayColor: {
-      backgroundColor: STYLES.COLORS.DARK_OVERLAY,
-    },
-    actionBar: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
-    },
-  },
+  dark: {},
 
-  celsius: {
-    maskOverlayColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    },
-    actionBar: {
-      backgroundColor: "white"
-    },
-  }
+  celsius: {}
 }
 
 const CameraScreenStyle = () => getThemedStyle(base, themed)

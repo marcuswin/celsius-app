@@ -1,8 +1,8 @@
-import { Constants } from 'expo';
+import Constants from '../../constants';
 import axios from 'axios';
 import apiUrl from './api-url';
 
-const { BRANCH_KEY } = Constants.manifest.extra
+const { BRANCH_KEY } = Constants.extra
 
 const branchService = {
   create,

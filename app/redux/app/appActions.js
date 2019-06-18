@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import Constants from '../../../constants';
 import { Platform } from "react-native";
 import store from "../../redux/store";
 
@@ -17,7 +17,7 @@ import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
 
 export {
   initCelsiusApp,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Permissions, Contacts } from 'expo';
+import * as Contacts from 'expo-contacts';
+import * as Permissions from 'expo-permissions';
 import { Image, TouchableOpacity, View, ScrollView } from 'react-native';
 
 import * as appActions from '../../../redux/actions';

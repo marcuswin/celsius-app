@@ -12,7 +12,6 @@ import Graph from "../../graphs/Graph/Graph";
 import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP } from '../../../utils/styles-util';
 import CoinCardStyle from './CoinCard.styles';
-import { THEMES } from "../../../constants/UI";
 
 class CoinCard extends Component {
   static propTypes = {
@@ -20,8 +19,7 @@ class CoinCard extends Component {
     displayName: PropTypes.string.isRequired,
     currencyRates: PropTypes.instanceOf(Object).isRequired,
     onCardPress: PropTypes.func,
-    graphData: PropTypes.instanceOf(Object),
-    theme: PropTypes.oneOf(Object.values(THEMES))
+    graphData: PropTypes.instanceOf(Object)
   };
 
   coinCardEmpty = () => (
@@ -39,7 +37,7 @@ class CoinCard extends Component {
   coinCardFull = (coin) => (
     <Fragment >
       <CelText style={CoinCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      <CelText color='#737A82' weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
 
@@ -57,7 +55,7 @@ class CoinCard extends Component {
   // }
 
   render = () => {
-    const { coin, theme, displayName, currencyRates, onCardPress, graphData } = this.props;
+    const { coin, displayName, currencyRates, onCardPress, graphData } = this.props;
     const amount = coin.amount_usd > 0;
     const style = CoinCardStyle();
     let dateArray;
@@ -87,7 +85,6 @@ class CoinCard extends Component {
             rate={coinPriceChange}
             height={heightPercentageToDP("10%")}
             style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
-                 theme={theme}
           />
           : <View style={{ marginBottom: '40%' }} />}
       </Card>

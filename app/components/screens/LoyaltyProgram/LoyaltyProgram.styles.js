@@ -68,18 +68,17 @@ const base = {
     justifyContent: "space-between"
   },
   tableWrapper: {
-    flexDirection: 'column',
-    marginTop: 10,
-    borderRadius: 3,
-    overflow: 'hidden'
+    flexDirection: 'column', marginTop: 10
   },
   tierWrapper: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly',
+
   },
   minPercentage: {
     flexDirection: 'row',
+    backgroundColor: 'red',
     justifyContent: 'space-evenly',
   },
   bonus: {
@@ -97,21 +96,31 @@ const base = {
     backgroundColor: STYLES.COLORS.DARK_GRAY3,
     paddingVertical: 5
   },
-  tierCommon: {
+  tierSilver: {
+    borderRightColor: 'white',
+    borderRightWidth: 3,
+    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
     flex: 0.3,
     flexGrow: 1,
-    paddingVertical: 7,
     alignItems: 'center',
-  },
-  tierSilver: {
-    backgroundColor: STYLES.COLORS.MEDIUM_GRAY,
+    paddingVertical: 7,
     borderTopLeftRadius: 3,
   },
   tierGold: {
+    borderRightColor: 'white',
+    borderRightWidth: 3,
     backgroundColor: STYLES.COLORS.ORANGE,
+    flex: 0.3,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingVertical: 7
   },
   tierPlatinum: {
     backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
+    flex: 0.3,
+    flexGrow: 1,
+    alignItems: 'center',
+    paddingVertical: 7,
     borderTopRightRadius: 3,
   },
   tierData: {
@@ -168,7 +177,7 @@ const themed = {
       borderColor: '#000'
     },
     tierWrapper: {
-      borderBottomColor: '#000',
+      borderBottomColor: '#000'
     }
   },
 

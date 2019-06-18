@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-import { Constants } from "expo";
+// import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
@@ -22,7 +22,9 @@ import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 import { getFontSize } from '../../../utils/styles-util';
 
-const { revisionId } = Constants.manifest;
+// Todo(sb): OTA updates
+// const { revisionId } = Constants.manifest;
+const revisionId = ''
 
 @connect(
   state => ({
@@ -207,9 +209,8 @@ class Profile extends Component {
             }
           </View>
         )}
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7">
-          Celsius App version: {revisionId}
-        </CelText>
+        <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App
+          version: {revisionId}</CelText>
 
         <ReferralSendModal />
         <RegisterPromoCodeModal type={"celsius"} />

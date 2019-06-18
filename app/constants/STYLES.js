@@ -3,13 +3,10 @@ const COLORS = {
   WHITE: '#fff',
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
-  WHITE_OPACITY2: 'rgba(255,255,255,0.2)',
   BLACK_OPACITY2: 'rgba(0,0,0,0.2)',
   CELSIUS: '#3F51AB', // prov: change name!
   DARK_HEADER: '#1F2E3D',
   DARK_BACKGROUND: '#151E27',
-  DARK_LABEL: "#293D51",
-  DARK_OVERLAY: "rgba(21, 30, 39, 0.9)",
 
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',
@@ -49,24 +46,6 @@ const SHADOW_STYLES = {
   shadowRadius: 3,
 }
 
-const ANDROID_SHADOW_STYLES = {
-  shadowOffset: { width: 0, height: 3 },
-  borderColor: '#E9E9E9',
-  borderRadius: 30,
-  borderTopWidth: 0.2,
-  borderLeftWidth: 0.2,
-  borderRightWidth: 0.5,
-  borderBottomWidth: 4,
-}
-
-const ANDROID_BORDER_STYLES = {
-  borderColor: COLORS.DARK_BACKGROUND,
-  borderTopWidth: 0.2,
-  borderLeftWidth: 0.2,
-  borderRightWidth: 0.5,
-  borderBottomWidth: 2
-}
-
 const FONTSIZE = {
   H0: 44,
   H1: 40,
@@ -83,9 +62,7 @@ export default {
   COLORS,
   FONTSIZE,
   imageSizes,
-  SHADOW_STYLES,
-  ANDROID_SHADOW_STYLES,
-  ANDROID_BORDER_STYLES,
+  SHADOW_STYLES
 }
 
 // export {

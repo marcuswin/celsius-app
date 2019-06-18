@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Permissions } from 'expo'
+import * as Permissions from 'expo-permissions';
 
 import cryptoUtil from "../../../utils/crypto-util";
 import testUtil from "../../../utils/test-util";
@@ -145,7 +145,7 @@ class WithdrawCreateAddress extends Component {
             </View>
           </React.Fragment>
         }
-        {formData.coin && cryptoUtil.isERC20(formData.coin.toLowerCase()) ?
+        {cryptoUtil.isERC20(formData.coin.toLowerCase()) ? 
         <InfoBox
           color={"white"}
           backgroundColor={STYLES.COLORS.ORANGE}

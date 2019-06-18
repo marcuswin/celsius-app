@@ -9,7 +9,10 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo'
+import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
 
 import testUtil from '../../../utils/test-util'
 import * as appActions from '../../../redux/actions'
@@ -18,8 +21,7 @@ import Icon from '../../atoms/Icon/Icon'
 import STYLES from '../../../constants/STYLES'
 import API from '../../../constants/API'
 import CelText from '../../atoms/CelText/CelText'
-import loggerUtil from '../../../utils/logger-util'
-import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
+import loggerUtil from '../../../utils/logger-util';
 
 const { height, width } = Dimensions.get('window')
 
@@ -41,10 +43,7 @@ class CameraScreen extends Component {
     cameraHeading: PropTypes.string,
     cameraCopy: PropTypes.string,
     cameraType: PropTypes.oneOf(['front', 'back']),
-    photo: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.instanceOf(Object)
-    ]),
+    photo: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Object)]),
     mask: PropTypes.oneOf(['circle', 'document']),
     onSave: PropTypes.func
   }
@@ -127,16 +126,11 @@ class CameraScreen extends Component {
   getMaskImage = mask => {
     switch (mask) {
       case 'document':
-        return {
-          lightSource: require('../../../../assets/images/mask/card-mask-transparent.png'),
-          darkSource: require('../../../../assets/images/mask/dark-card-mask-transparent.png'),
-        }
+        return require('../../../../assets/images/mask/card-mask-transparent.png')
       case 'circle':
+        return require('../../../../assets/images/mask/circle-mask.png')
       default:
-        return {
-          lightSource: require('../../../../assets/images/mask/circle-mask.png'),
-          darkSource: require('../../../../assets/images/mask/dark-circle-mask.png'),
-        }
+        return null
     }
   }
 
@@ -158,7 +152,7 @@ class CameraScreen extends Component {
   takePhoto = async () => {
     if (!this.camera) return
 
-    const { actions, mask, navigation, cameraType } = this.props
+    const { actions, navigation, cameraType } = this.props
     try {
       if (!this.state.hasCameraPermission) {
         return await this.getCameraPermissions()
@@ -169,35 +163,7 @@ class CameraScreen extends Component {
         onSave: navigation.getParam('onSave')
       })
       const photo = await this.camera.takePictureAsync()
-      const { size } = this.state
-      let cropWidth
-
-      if (photo.width / photo.height > size.width / size.height) {
-        const coef = photo.width * (size.height / photo.height)
-        const overScan = ((coef - size.width) * 0.5) / coef
-        cropWidth = photo.width - 2 * size.width * overScan
-        cropWidth = (cropWidth * STYLES.imageSizes[mask].width) / size.width
-      } else {
-        cropWidth = (STYLES.imageSizes[mask].width / size.width) * photo.width
-      }
-
-      const cropHeight =
-        (cropWidth / STYLES.imageSizes[mask].width) *
-        STYLES.imageSizes[mask].height
-
-      const imageManipulations = [
-        {
-          resize: { ...photo }
-        },
-        {
-          crop: {
-            originX: (photo.width - cropWidth) / 2,
-            originY: (photo.height - cropHeight) / 2,
-            width: cropWidth,
-            height: cropHeight
-          }
-        }
-      ]
+      const imageManipulations = []
 
       if (cameraType === 'front') {
         imageManipulations.push({
@@ -220,7 +186,7 @@ class CameraScreen extends Component {
   renderMask = () => {
     const { mask, cameraHeading } = this.props
     const imageSource = this.getMaskImage(mask)
-    const style = CameraScreenStyle()
+
     return (
       <View
         style={{
@@ -230,7 +196,7 @@ class CameraScreen extends Component {
           width: '100%'
         }}
       >
-        <View style={[style.mask, style.maskOverlayColor]}>
+        <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
           <SafeAreaView
             style={{ flex: 1, flexDirection: 'row', marginBottom: 20 }}
           >
@@ -245,18 +211,18 @@ class CameraScreen extends Component {
           </SafeAreaView>
         </View>
         <View style={{ flexDirection: 'row' }}>
-          <View style={[style.mask, style.maskOverlayColor]} />
-          <ThemedImage
-            { ...imageSource }
+          <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }} />
+          <Image
+            source={imageSource}
             style={{
               width: STYLES.imageSizes[mask].width,
               height: STYLES.imageSizes[mask].height,
               alignSelf: 'center'
             }}
           />
-          <View style={[style.mask, style.maskOverlayColor]}/>
+          <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }} />
         </View>
-        <View style={[style.mask, style.maskOverlayColor]}>
+        <View style={{ backgroundColor: 'rgba(241,239,238,0.6)', flex: 1 }}>
           <View
             style={{
               width: STYLES.imageSizes[mask].width,
@@ -288,7 +254,13 @@ class CameraScreen extends Component {
         <Mask />
         <SafeAreaView style={style.bottomView}>
           <View
-            style={style.actionBar}
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 16
+            }}
           >
             <TouchableOpacity style={{ flex: 1 }} onPress={this.pickImage}>
               {cameraRollLastPhoto && (

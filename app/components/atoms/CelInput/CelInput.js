@@ -6,7 +6,7 @@ import testUtil from '../../../utils/test-util'
 import CelInputStyle from './CelInput.styles'
 import CelInputPassword from './CelInputPassword'
 import CelInputText from './CelInputText'
-import { getMargins } from "../../../utils/styles-util";
+import { getMargins } from '../../../utils/styles-util'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelTextArea from '../CelTextArea/CelTextArea'
 import CelText from '../CelText/CelText'

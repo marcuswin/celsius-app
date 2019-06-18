@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -15,10 +15,9 @@ import CoinDetailsStyle from "./CoinDetails.styles";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import Badge from "../../atoms/Badge/Badge";
-import { getTheme, widthPercentageToDP } from "../../../utils/styles-util";
+import { widthPercentageToDP } from "../../../utils/styles-util";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 import Icon from "../../atoms/Icon/Icon";
-import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
 
 const { COLORS } = STYLES;
 
@@ -83,7 +82,7 @@ class CoinDetails extends Component {
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
     const coinPrice = currencies ? currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0] : {}
-    const theme = getTheme();
+
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     let interestRate = 0
@@ -99,7 +98,7 @@ class CoinDetails extends Component {
           <Card padding={"0 0 0 0"}>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
-                <CoinIcon customStyles={style.coinImage} theme={theme} url={currency.image_url} coinShort={currency.short} />
+                <Image source={{ uri: currency.image_url }} style={style.coinImage}/>
                 <View style={{ marginLeft: 16 }}>
                   <CelText weight='300' type="H6">{currency.displayName}</CelText>
                   <CelText weight='600' type="H2" margin={"3 0 3 0"}>{formatter.usd(coinDetails.amount_usd)}</CelText>
@@ -112,12 +111,9 @@ class CoinDetails extends Component {
                   style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
                   onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Icon
-                      fill="primary"
-                      name="Deposit"
-                      width="25"
+                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
+                           source={require("../../../../assets/images/icons/plus-icn-small.png")}
                     />
-
                     <CelText>
                       Deposit
                     </CelText>
@@ -131,12 +127,8 @@ class CoinDetails extends Component {
                   }}>
 
                     <View style={style.buttonItself}>
-                      <Icon
-                        fill="primary"
-                        name="CelPay"
-                        width="25"
-                      />
-
+                      <Image style={{ alignSelf: "center", width: 30, height: 25, marginBottom: 5, marginTop: 6 }}
+                             source={require("../../../../assets/images/icons/icon-send-small.png")}/>
                       <CelText>
                         CelPay
                       </CelText>
@@ -152,11 +144,8 @@ class CoinDetails extends Component {
                 <TouchableOpacity style={style.buttons}
                                   onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Icon
-                      fill="primary"
-                      name="Withdraw"
-                      width="25"
-                    />
+                    <Image style={{ alignSelf: "center", width: 25, height: 25, marginBottom: 5, marginTop: 6 }}
+                           source={require("../../../../assets/images/icons/withdraw-small.png")}/>
                     <CelText>
                       Withdraw
                     </CelText>

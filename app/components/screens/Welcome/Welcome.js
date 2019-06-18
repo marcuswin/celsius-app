@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Constants } from 'expo';
+// import Constants from 'expo-constants';
 import { View, Image } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +14,9 @@ import CelButton from '../../atoms/CelButton/CelButton';
 // import ReferralReceivedModal from '../../organisms/ReferralReceivedModal/ReferralReceivedModal';
 // import STYLES from '../../../constants/STYLES';
 
-const { revisionId } = Constants.manifest;
+// Todo(sb): OTA updates
+// const { revisionId } = Constants.manifest;
+const revisionId = ''
 
 @connect(
   () => ({

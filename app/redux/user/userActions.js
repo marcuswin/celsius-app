@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import Constants from '../../../constants';
 
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
@@ -15,7 +15,7 @@ import { MODALS } from "../../constants/UI";
 import apiUtil from "../../utils/api-util";
 import { getWalletSummary } from "../wallet/walletActions";
 
-const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
 
 export {
   getProfileInfo,

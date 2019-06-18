@@ -8,7 +8,6 @@ import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import PeriodGraphViewStyle from "./PeriodGraphView.styles";
 import CelText from "../../atoms/CelText/CelText";
-import STYLES from "../../../constants/STYLES";
 
 
 @connect(
@@ -90,12 +89,8 @@ class PeriodGraphView extends Component {
         {periods.map((period) => (
           <TouchableOpacity key={period} style={{ alignItems: "center" }}
                             onPress={() => this.activatePeriod(period)}>
-            <CelText
-              key={period}
-              type='H6'
-              weight={activePeriod === period ? "medium" : "regular"}
-              color={activePeriod === period ? STYLES.COLORS.CELSIUS_BLUE : null}
-            >
+            <CelText key={period} type='H6' weight='500'
+                     style={{ color: activePeriod === period ? "rgba(65,86,166,1)" : "rgba(59,71,85,0.5)" }}>
               {period}
             </CelText>
             {activePeriod === period &&

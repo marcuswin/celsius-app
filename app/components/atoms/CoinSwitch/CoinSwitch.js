@@ -9,8 +9,7 @@ import CelText from '../CelText/CelText'
 import formatter from '../../../utils/formatter'
 import Icon from '../Icon/Icon'
 import STYLES from '../../../constants/STYLES'
-import { getScaledFont, getTheme } from "../../../utils/styles-util";
-import { THEMES } from "../../../constants/UI";
+import { getScaledFont } from '../../../utils/styles-util'
 
 const CoinSwitch = props => {
   const style = CoinSwitchStyle()
@@ -20,7 +19,7 @@ const CoinSwitch = props => {
     amountCrypto,
     updateFormField,
     coin,
-    amountColor,
+    amountColor
   } = props
 
   // `$ ${amountUsd || '0.00'}` format a number to $ 21.32 or set default value as 0.00
@@ -31,8 +30,6 @@ const CoinSwitch = props => {
     ? `$ ${amountUsd || '0.00'} USD`
     : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)} ${coin}`
 
-  const theme = getTheme();
-
   return (
     <View style={style.container}>
       {!isUsd ? (
@@ -40,7 +37,7 @@ const CoinSwitch = props => {
           name={`Icon${coin}`}
           width='40'
           height='40'
-          fill={theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3}
+          fill={STYLES.COLORS.MEDIUM_GRAY3}
         />
       ) : (
         <View style={{ width: 40 }} />
@@ -142,8 +139,7 @@ CoinSwitch.propTypes = {
   updateFormField: PropTypes.func.isRequired,
   onAmountPress: PropTypes.func,
   coin: PropTypes.string,
-  amountColor: PropTypes.string,
-  theme: PropTypes.string
+  amountColor: PropTypes.string
 }
 
 export default testUtil.hookComponent(CoinSwitch)

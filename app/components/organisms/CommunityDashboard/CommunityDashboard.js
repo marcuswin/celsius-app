@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -63,8 +63,6 @@ class CommunityDashboard extends Component {
     }
   }
 
-  getSeparatorColor = style => StyleSheet.flatten(style.separatorColor).color // get color from raw json depending on style theme
-
   // event hanlders
   // rendering methods
   handlePress = (button) => {
@@ -117,14 +115,15 @@ class CommunityDashboard extends Component {
     });
   };
 
+
   render() {
     const { name, buttonTypes, info, children } = this.props;
     const { activeButton, primaryNumber, explanation } = this.state;
     const style = CommunityDashboardStyle();
-    const color = this.getSeparatorColor(style);
+
     return (
       <View style={style.container}>
-        <Separator margin={"30 0 20 0"} color={color} textOpacity={0.7} text={name}/>
+        <Separator margin={"30 0 20 0"} color={"black"} textOpacity={0.7} text={name}/>
         {(buttonTypes && buttonTypes.length > 0) &&
         <View style={style.buttonWrapper}>
           {buttonTypes.map((button) => (

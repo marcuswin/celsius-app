@@ -1,9 +1,9 @@
 import axios from 'axios/index'
-import { Constants } from 'expo'
+import Constants from '../../constants';
 import store from '../redux/store'
 import API_URL from '../services/api-url'
 
-const { ENV } = Constants.manifest.extra
+const { ENV } = Constants.extra
 
 export default {
   logme,
@@ -53,7 +53,9 @@ function logme (payload) {
 }
 
 function err (e, isFatal = false) {
-  const { revisionId } = Constants.manifest
+  // Todo(sb): OTA updates
+  // const { revisionId } = Constants.manifest
+  const revisionId = ''
 
   const state = store.getState()
 

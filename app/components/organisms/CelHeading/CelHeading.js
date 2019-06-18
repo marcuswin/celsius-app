@@ -13,7 +13,6 @@ import { THEMES } from '../../../constants/UI';
 import CelInput from '../../atoms/CelInput/CelInput';
 import CelText from '../../atoms/CelText/CelText'
 import STYLES from "../../../constants/STYLES";
-import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
@@ -82,13 +81,14 @@ class CelHeading extends Component {
       "signup": <CelButton basic onPress={() => { this.props.actions.navigateTo('RegisterInitial') }}>Sign up</CelButton>,
       "login": <CelButton basic onPress={() => { this.props.actions.navigateTo('Login') }}>Log in</CelButton>,
       "settings":
-        <TouchableOpacity onPress={() => { this.props.actions.navigateTo('Settings'); }}>
-          <Icon
-            fill="primary"
-            name="Settings"
-            width="32"
-          />
-        </TouchableOpacity>,
+        <CelButton basic
+          onPress={() => { this.props.actions.navigateTo('Settings'); }}
+          iconRight="Settings"
+          iconRightHeight='32'
+          iconRightWidth='32'
+          iconRightColor='#3D4853'
+          opacity={0.9}
+        />,
       "info": onInfo && <CelButton basic onPress={onInfo}>Info</CelButton>,
       "search": <CelButton basic onPress={() => { actions.updateFormField('activeSearch', true) }} iconRight="Search" />,
       "profile":

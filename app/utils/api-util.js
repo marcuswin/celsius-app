@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
-import { Constants } from 'expo'
+import Constants from '../../constants';
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
 import logger from './logger-util'
@@ -16,7 +16,7 @@ const {
   CLIENT_VERSION,
   ENV,
   PUBLIC_KEY
-} = Constants.manifest.extra
+} = Constants.extra
 let token
 
 export default {
@@ -40,10 +40,10 @@ function initInterceptors () {
           os: Platform.OS,
           buildVersion: Constants.revisionId,
           deviceYearClass: Constants.deviceYearClass,
-          deviceModel:
-            Platform.OS === 'ios' ? Constants.platform.ios.model : null,
-          osVersion:
-            Platform.OS === 'ios' ? Constants.platform.ios.systemVersion : null
+          deviceModel: 'Iphone X',
+            // Platform.OS === 'ios' ? Constants.platform.ios.model : null,
+          osVersion: '2.0'
+            // Platfor.OS === 'ios' ? Constants.platform.ios.systemVersion : null
         }
       }
 

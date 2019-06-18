@@ -73,35 +73,22 @@ class CelText extends Component {
     return fontFamily
   }
 
-  getTextColor = () => {
-    const { color, theme, type } = this.props
-    const cmpStyle = CelTextStyle(theme)
-
-    if (color) return { color }
-
-    return {
-      ...cmpStyle.textColor,
-      ...cmpStyle[type]
-    }
-
-  }
-
   getFontStyle = () => {
-    const { type, margin, align, size, theme } = this.props
-    const cmpStyle = CelTextStyle(theme)
+    const { type, margin, color, align, size, theme } = this.props
+    const cmpStyle = theme ? CelTextStyle(theme) : CelTextStyle() 
     const fontSize = size
       ? { fontSize: getScaledFont(size), lineHeight: getScaledFont(size) }
       : { fontSize: this.getFontSize(type) }
     const fontFamily = { fontFamily: this.getFontFamily() }
-    const colorStyle = this.getTextColor()
+    const colorStyle = color ? { color } : cmpStyle.textColor // test this!
     const marginStyle = getMargins(margin)
     const alignStyle = { textAlign: align }
 
     return [
       cmpStyle.text,
-      colorStyle,
       fontSize,
       fontFamily,
+      colorStyle,
       marginStyle,
       alignStyle
     ]

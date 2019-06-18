@@ -1,5 +1,4 @@
 import { getThemedStyle } from "../../../utils/styles-util";
-import STYLES from "../../../constants/STYLES";
 
 
 const base = {
@@ -12,7 +11,7 @@ const base = {
     width: "100%",
     height: "100%"
   },
-  mask: { flex: 1 },
+  mask: { backgroundColor: "rgba(241,239,238,0.6)", flex: 1 },
   image: {
     width: 250,
     height: 250,
@@ -30,30 +29,12 @@ const base = {
 
 const themed = {
   light: {
-    maskOverlayColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    },
-    safeAreaBackgroundColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    }
   },
 
   dark: {
-    maskOverlayColor: {
-      backgroundColor: STYLES.COLORS.DARK_OVERLAY,
-    },
-    safeAreaBackgroundColor: {
-      backgroundColor: STYLES.COLORS.DARK_OVERLAY,
-    }
   },
 
   celsius: {
-    maskOverlayColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    },
-    safeAreaBackgroundColor: {
-      backgroundColor: "rgba(241,239,238,0.6)",
-    }
   }
 }
 

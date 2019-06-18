@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, SafeAreaView } from "react-native";
-import { BarCodeScanner, Permissions } from "expo";
+import { View, Image, SafeAreaView } from "react-native";
+import * as Permissions from 'expo-permissions';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -9,7 +10,8 @@ import * as appActions from "../../../redux/actions";
 import QRScannerStyle from "./QRScanner.styles";
 import testUtil from "../../../utils/test-util";
 import CelText from "../../atoms/CelText/CelText";
-import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
+
+const style = QRScannerStyle();
 
 @connect(
   () => ({}),
@@ -73,7 +75,6 @@ class QRScannerScreen extends Component {
 
   renderScanner = () => {
     const { hasCameraPermission } = this.state;
-    const style = QRScannerStyle();
 
     return (
       <View style={style.container}>
@@ -83,19 +84,18 @@ class QRScannerScreen extends Component {
           <View
             style={style.barcodeWrapper}
           >
-            <View style={[style.mask, style.maskOverlayColor]}/>
+            <View style={style.mask}/>
             <View style={style.imageWrapper}>
-              <View style={[style.mask, style.maskOverlayColor]}/>
-              <ThemedImage
-                lightSource={require("../../../../assets/images/mask/square-mask-01.png")}
-                darkSource={require("../../../../assets/images/mask/dark-qrcode-mask3x.png")}
+              <View style={style.mask}/>
+              <Image
+                source={require("../../../../assets/images/mask/square-mask-01.png")}
                 style={style.image}
               />
-              <View style={[style.mask, style.maskOverlayColor]}/>
+              <View style={style.mask}/>
             </View>
-            <View style={[style.mask, style.maskOverlayColor]}>
+            <View style={style.mask}>
               <SafeAreaView
-                style={[style.safeArea]}
+                style={style.safeArea}
               >
                 <CelText
                   weight='300'
@@ -109,7 +109,7 @@ class QRScannerScreen extends Component {
                 </CelText>
               </SafeAreaView>
             </View>
-            <View style={[style.mask, style.maskOverlayColor]}>
+            <View style={{ backgroundColor: "rgba(241,239,238,0.6)", flex: 1 }}>
               <View
                 style={style.view}
               />

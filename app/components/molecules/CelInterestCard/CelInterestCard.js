@@ -46,7 +46,7 @@ class CelInterestCard extends Component {
         <CelText type={'H4'} weight={'500'}>
           Want to earn better interest?
         </CelText>
-        <CelText type={'H4'} weight={'300'} margin={'15 0 15 0'}>
+        <CelText color='gray' type={'H4'} weight={'300'} margin={'15 0 15 0'}>
           Switch to earning interest in CEL, and earn{' '}
           {formatter.percentageDisplay(interestBonus)} better rates.
         </CelText>

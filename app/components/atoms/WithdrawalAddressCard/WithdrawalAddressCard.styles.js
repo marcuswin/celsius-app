@@ -14,8 +14,7 @@ const base = {
        paddingLeft: 10,
        alignContent: 'flex-start',
        alignItems: 'flex-start',
-   },
-  size : {height: 35, width: 35}
+   }
 }
 
 const themed = {

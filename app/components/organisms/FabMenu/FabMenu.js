@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-// import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
-// import { BlurView, VibrancyView } from 'react-native-blur';
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import * as appActions from "../../../redux/actions";
 import testUtil from "../../../utils/test-util";
 import FabMenuStyle from "./FabMenu.styles";
@@ -36,7 +34,7 @@ class FabMenu extends Component {
     this.state = {
       menuItems: [],
     };
-
+    
     this.springValue = new Animated.Value(1)
     this.pulseValue = new Animated.Value(1)
     this.opacityValue = new Animated.Value(1)
@@ -88,16 +86,30 @@ class FabMenu extends Component {
     }[menu];
   }
 
+  // componentWillReceiveProps() {
+  //   const nextScreen = "home"
+  //   const currScreen = "home"
+  //   if (nextScreen !== currScreen && (nextScreen === 'support' || currScreen === 'support')) {
+  //     const menuType = nextScreen === 'support' ? 'support' : 'menuType'
+  //     this.setState({
+  //       type: menuType,
+  //       menuItems: getMenuItems(menuType)
+  //     });
+  //   }
+  // }
+
   getTintColor = () => {
     const { theme } = this.props;
 
     switch (theme) {
-      case THEMES.DARK:
-      case THEMES.CELSIUS:
-        return THEMES.DARK;
       case THEMES.LIGHT:
+        return 'light';
+      case THEMES.DARK:
+        return 'dark';
+      case THEMES.CELSIUS:
+        return 'dark';
       default:
-        return THEMES.LIGHT;
+        return 'light'
     }
   }
 

@@ -15,8 +15,8 @@ class SwitchButton extends Component {
     value: PropTypes.bool,
     margin: PropTypes.string,
     onPress: PropTypes.func,
-    field: PropTypes.string,
-    updateFormField: PropTypes.func,
+    field: PropTypes.string.required,
+    updateFormField: PropTypes.func.required,
   };
   static defaultProps = {
     margin: '20 0 0 0',

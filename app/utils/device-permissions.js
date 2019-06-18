@@ -1,4 +1,4 @@
-import { Permissions } from 'expo';
+import * as Permissions from 'expo-permissions';
 import { Linking, Platform } from 'react-native';
 
 export {

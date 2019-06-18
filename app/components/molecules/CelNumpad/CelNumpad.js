@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Constants } from 'expo'
+import Constants from 'expo-constants';
 import { View, TouchableOpacity, TextInput } from 'react-native'
 import { withNavigationFocus } from 'react-navigation'
 
@@ -42,6 +42,7 @@ const BUTTONS = {
   ]
 }
 
+// Todo(sb): Model is undefined
 const deviceModel = Constants.platform.ios
   ? Constants.platform.ios.model
   : Constants.platform.android.model

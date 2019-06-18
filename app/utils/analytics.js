@@ -1,11 +1,15 @@
-import { Constants, Segment } from "expo";
+import * as Segment from 'expo-analytics-segment';
+import Constants from '../../constants';
 import { Platform } from "react-native";
 import j from "jsrsasign";
 import store from "../redux/store";
 import { getSecureStoreKey } from "./expo-storage";
 
-const { revisionId, version, extra } = Constants.manifest;
-const { SECURITY_STORAGE_AUTH_KEY } = extra;
+// Todo(sb): OTA updates
+// const { revisionId, version, extra } = Constants.manifest;
+const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
+const revisionId = ''
+const version = '3.0'
 
 const appInfo = {
   revisionId,

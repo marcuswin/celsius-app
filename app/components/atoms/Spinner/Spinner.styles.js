@@ -12,7 +12,6 @@ const themed = {
     },
 
     dark: {
-
     },
 
     celsius: {
