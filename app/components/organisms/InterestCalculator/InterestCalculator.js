@@ -149,7 +149,7 @@ class InterestCalculator extends Component {
     }
     return (
       <>
-        <CelText align={'center'} margin='20 0 16 0'>
+        <CelText style={style.calculatorInfo} align={'center'} margin='20 0 16 0'>
           Choose how you want to earn interest.
         </CelText>
 

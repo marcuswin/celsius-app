@@ -95,6 +95,7 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
+      dispatch(showMessage("success", "SSN successfully submitted!"))
 
       return {
         success: true
