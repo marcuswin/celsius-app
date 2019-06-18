@@ -12,13 +12,12 @@ const themed = {
     },
 
     dark: {
-
     },
 
     celsius: {
     }
 }
 
-const SpinnerStyle = () => getThemedStyle(base, themed);
+const CoinIconStyle = () => getThemedStyle(base, themed);
 
-export default SpinnerStyle
+export default CoinIconStyle

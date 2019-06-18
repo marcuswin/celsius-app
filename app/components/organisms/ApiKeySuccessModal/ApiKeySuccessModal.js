@@ -37,6 +37,10 @@ class ApiKeySuccessModal extends Component {
     const {actions, apiKey} = this.props;
     const style = ApiKeySuccessModalStyle();
 
+    if (!apiKey ) {
+      return null
+    }
+
     return (
       <CelModal
         name={MODALS.GENERATE_API_KEY_MODAL}
@@ -51,9 +55,14 @@ class ApiKeySuccessModal extends Component {
           <CelText align={"center"} weight={"400"} type={"H4"}>{apiKey}</CelText>
           <Separator margin={"20 0 0 0"} />
           <View style={style.copyShareButtonsWrapper}>
-            <CopyButton copyText={apiKey} onCopy={() => actions.showMessage("success", "API key copied to clipboard!")} />
+          <CopyButton
+            copyText={ apiKey }
+            onCopy={
+              () => actions.showMessage("success", "API key copied to clipboard!")
+            }
+            />
             <Separator vertical />
-            <ShareButton shareText={apiKey}/>
+            <ShareButton shareText={apiKey} />
           </View>
         </View>
 

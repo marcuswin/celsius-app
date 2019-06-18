@@ -37,7 +37,8 @@ class Appearance extends Component {
     const {
       walletSummary,
       currenciesRates,
-      currenciesGraphs
+      currenciesGraphs,
+      theme
     } = this.props;
 
     const btcCoin = walletSummary.coins.find(c => c.short === "BTC")
@@ -52,6 +53,7 @@ class Appearance extends Component {
           displayName={btcRates.displayName}
           currencyRates={btcRates}
           graphData={btcGraph}
+          theme={theme}
         />
       </View>
     );

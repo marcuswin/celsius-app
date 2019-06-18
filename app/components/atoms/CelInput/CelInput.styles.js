@@ -22,11 +22,8 @@ const base = {
         backgroundColor: STYLES.COLORS.WHITE,
         ...Platform.select({
             android: {
-                borderColor: '#E9E9E9',
-                borderTopWidth: 0.2,
-                borderLeftWidth: 0.2,
-                borderRightWidth: 0.5,
-                borderBottomWidth: 2,
+                ...STYLES.ANDROID_BORDER_STYLES,
+                borderColor: 'transparent',
             },
             ios: {
                 ...STYLES.SHADOW_STYLES,
@@ -35,7 +32,7 @@ const base = {
 
     },
     input: {
-        height: 25,
+        height: 28,
         fontSize,
         fontFamily: 'barlow-light',
     },
