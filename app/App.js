@@ -18,7 +18,7 @@ import appUtil from './utils/app-util'
 import AppNavigation from './navigator/Navigator'
 import FabMenu from './components/organisms/FabMenu/FabMenu'
 import Message from './components/molecules/Message/Message'
-import captureException from './utils/errorhandling-util'
+// import captureException from './utils/errorhandling-util'
 import ErrorBoundary from './ErrorBoundary'
 
 appUtil.initializeThirdPartyServices()
@@ -36,14 +36,6 @@ function getActiveRouteName (navigationState) {
 }
 
 export default class App extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      isReady: false
-    }
-  }
-
   async componentDidMount () {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       store.dispatch(actions.navigateBack())
@@ -71,8 +63,6 @@ export default class App extends Component {
   initApp = async () => await store.dispatch(await actions.loadCelsiusAssets())
 
   render () {
-    const { isReady } = this.state
-
     return (
       <ErrorBoundary>
         <CelsiusApplication />

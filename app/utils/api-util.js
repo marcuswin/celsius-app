@@ -1,13 +1,12 @@
 import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
-import Constants from '../../constants';
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
+
+import Constants from '../../constants'
 import logger from './logger-util'
-
 import { getSecureStoreKey } from '../utils/expo-storage'
-
 import store from '../redux/store'
 import * as actions from '../redux/actions'
 
@@ -41,9 +40,9 @@ function initInterceptors () {
           buildVersion: Constants.revisionId,
           deviceYearClass: Constants.deviceYearClass,
           deviceModel: 'Iphone X',
-            // Platform.OS === 'ios' ? Constants.platform.ios.model : null,
+          // Platform.OS === 'ios' ? Constants.platform.ios.model : null,
           osVersion: '2.0'
-            // Platfor.OS === 'ios' ? Constants.platform.ios.systemVersion : null
+          // Platfor.OS === 'ios' ? Constants.platform.ios.systemVersion : null
         }
       }
 

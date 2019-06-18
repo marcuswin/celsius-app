@@ -1,8 +1,8 @@
 // import { Google } from 'expo';
 
-import * as GoogleSignIn from 'expo-google-sign-in';
-import * as Facebook from 'expo-facebook';
-import Constants from '../../../constants';
+import * as GoogleSignIn from 'expo-google-sign-in'
+import * as Facebook from 'expo-facebook'
+import Constants from '../../../constants'
 
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'
@@ -21,9 +21,6 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   FACEBOOK_APP_ID,
   FACEBOOK_URL,
-  GOOGLE_WEB_CLIENT_ID,
-  GOOGLE_ANDROID_CLIENT_ID,
-  GOOGLE_IOS_CLIENT_ID,
   GOOGLE_CLIENT_ID
 } = Constants.extra
 
@@ -305,14 +302,13 @@ function authGoogle (authReason) {
     if (!['login', 'register'].includes(authReason)) return
 
     try {
-      let result
-        await GoogleSignIn.initAsync({
-          clientId: GOOGLE_CLIENT_ID
-        })
-        await GoogleSignIn.askForPlayServicesAsync()
-        const isSignedIn = await GoogleSignIn.isSignedInAsync()
-        if (isSignedIn) await GoogleSignIn.signOutAsync()
-        result = await GoogleSignIn.signInAsync()
+      await GoogleSignIn.initAsync({
+        clientId: GOOGLE_CLIENT_ID
+      })
+      await GoogleSignIn.askForPlayServicesAsync()
+      const isSignedIn = await GoogleSignIn.isSignedInAsync()
+      if (isSignedIn) await GoogleSignIn.signOutAsync()
+      const result = await GoogleSignIn.signInAsync()
 
       if (result.type === 'success') {
         // NOTE: different response for Expo and for standalone app
@@ -409,22 +405,22 @@ function loginGoogle (googleUser) {
  * @param {string} network - one of twitter|facebook|google
  * @param {string} token - auth token from social network
  */
-function loginSocialSuccess(network, token) {
+function loginSocialSuccess (network, token) {
   return async (dispatch, getState) => {
-    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token);
+    await setSecureStoreKey(SECURITY_STORAGE_AUTH_KEY, token)
 
-    const userRes = await usersService.getPersonalInfo();
-    const user = userRes.data;
-    
+    const userRes = await usersService.getPersonalInfo()
+    const user = userRes.data
+
     const { showVerifyScreen } = getState().app
-    if(!showVerifyScreen) {
-      await dispatch(initAppData());
+    if (!showVerifyScreen) {
+      await dispatch(initAppData())
       dispatch(navigateTo('WalletFab'))
     }
 
     dispatch({
-      type: ACTIONS[`LOGIN_USER_${ network.toUpperCase() }_SUCCESS`],
-      user,
+      type: ACTIONS[`LOGIN_USER_${network.toUpperCase()}_SUCCESS`],
+      user
     })
 
     // dispatch(claimAllBranchTransfers());
@@ -451,7 +447,7 @@ function registerSocialSuccess (network, token, user) {
 
     analytics.sessionStarted()
     dispatch(claimAllBranchTransfers())
-    
+
     await dispatch(initAppData(token))
     const { profile } = getState().user
     if (!profile.has_pin) {

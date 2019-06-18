@@ -1,6 +1,7 @@
-import Constants from '../../constants';
-import axios from 'axios';
-import apiUrl from './api-url';
+import axios from 'axios'
+
+import apiUrl from './api-url'
+import Constants from '../../constants'
 
 const { BRANCH_KEY } = Constants.extra
 
@@ -12,8 +13,7 @@ const branchService = {
   getByUrl,
   submitProfileCode,
   submitRegistrationCode
-};
-
+}
 
 /**
  * Creates a branch link in db
@@ -22,8 +22,8 @@ const branchService = {
  *
  * @returns {Promise}
  */
-function create(branchLink) {
-  return axios.post(`${apiUrl}/branch`, branchLink);
+function create (branchLink) {
+  return axios.post(`${apiUrl}/branch`, branchLink)
 }
 
 /**
@@ -33,8 +33,8 @@ function create(branchLink) {
  *
  * @returns {Promise}
  */
-function get(id) {
-  return axios.get(`${apiUrl}/branch/${id}`);
+function get (id) {
+  return axios.get(`${apiUrl}/branch/${id}`)
 }
 
 /**
@@ -43,27 +43,27 @@ function get(id) {
  *
  * @returns {Promise}
  */
-function getIndividualLink() {
-  return axios.get(`${apiUrl}/branch/individual`);
+function getIndividualLink () {
+  return axios.get(`${apiUrl}/branch/individual`)
 }
 
 /**
  * Creates an analytics event on Branch
  * @returns {Promise}
  */
-function createEvent(event) {
+function createEvent (event) {
   return axios.post(`https://api2.branch.io/v1/event`, {
     ...event,
-    branch_key: BRANCH_KEY,
-  });
+    branch_key: BRANCH_KEY
+  })
 }
 
 /**
  * Get an analytics event on Branch by URL
  * @returns {Promise}
  */
-function getByUrl(url) {
-  return axios.get(`${apiUrl}/branch?url=${url}`);
+function getByUrl (url) {
+  return axios.get(`${apiUrl}/branch?url=${url}`)
 }
 
 /**
@@ -72,8 +72,8 @@ function getByUrl(url) {
  * @returns {Promise}
  */
 
-function submitProfileCode(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode });
+function submitProfileCode (promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/profile`, { slug: promoCode })
 }
 
 /**
@@ -82,9 +82,10 @@ function submitProfileCode(promoCode) {
  * @returns {Promise}
  */
 
-function submitRegistrationCode(promoCode) {
-  return axios.post(`${apiUrl}/branch/check_code/registration`, { slug: promoCode });
+function submitRegistrationCode (promoCode) {
+  return axios.post(`${apiUrl}/branch/check_code/registration`, {
+    slug: promoCode
+  })
 }
 
-
-export default branchService;
+export default branchService

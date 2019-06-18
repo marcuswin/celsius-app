@@ -1,7 +1,7 @@
 import React from "react";
-import * as Svg from 'react-native-svg';
+import {G, Path, Polygon} from 'react-native-svg';
 
-const {G, Path, Polygon} = Svg;
+// const {G, Path, Polygon} = Svg;
 
 export default {
   IconETHViewBox: "0 0 30.7 49.99",
