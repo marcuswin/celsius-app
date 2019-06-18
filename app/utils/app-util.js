@@ -1,11 +1,11 @@
-import * as Segment from 'expo-analytics-segment';
-import * as Font from 'expo-font';
-import Constants from '../../constants';
-import { Asset } from 'expo-asset';
+import * as Segment from 'expo-analytics-segment'
+import * as Font from 'expo-font'
+import { Asset } from 'expo-asset'
 import React from 'react'
 import { Image, NetInfo } from 'react-native'
 import twitter from 'react-native-simple-twitter'
 
+import Constants from '../../constants'
 import {
   deleteSecureStoreKey,
   getSecureStoreKey,

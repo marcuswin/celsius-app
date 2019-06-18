@@ -1,5 +1,6 @@
-import Constants from '../../constants';
 import axios from 'axios';
+
+import Constants from '../../constants';
 import apiUrl from './api-url';
 
 const { BRANCH_KEY } = Constants.extra

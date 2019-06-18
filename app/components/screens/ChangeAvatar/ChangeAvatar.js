@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import Constants from '../../../../constants';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+
+import Constants from '../../../../constants';
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
-
 import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';

@@ -1,7 +1,7 @@
-import Constants from '../../../constants';
 import { Platform } from "react-native";
-import store from "../../redux/store";
 
+import Constants from '../../../constants';
+import store from "../../redux/store";
 import * as actions from "../actions";
 import {
   getSecureStoreKey,

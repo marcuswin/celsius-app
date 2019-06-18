@@ -1,6 +1,6 @@
-import Constants from '../../../constants';
 import Branch from 'react-native-branch'
 
+import Constants from '../../../constants';
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'
 import { startApiCall, apiError } from '../api/apiActions'
