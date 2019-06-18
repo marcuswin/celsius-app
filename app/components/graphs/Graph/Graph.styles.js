@@ -1,4 +1,5 @@
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import STYLES from "../../../constants/STYLES";
 
 const cursorRadius = heightPercentageToDP("1.06%");
 
@@ -8,7 +9,6 @@ const base = {
     height: cursorRadius * 2,
     borderRadius: cursorRadius,
     borderWidth: 1.5,
-    backgroundColor: "white",
   },
   circle: {
     width: cursorRadius,
@@ -26,12 +26,12 @@ const base = {
     alignItems: "center"
   },
   label: {
-    backgroundColor: "rgba(61,72,83,1)",
     borderRadius: 8,
     width: widthPercentageToDP("21.33%"),
     height: heightPercentageToDP("6.2%"),
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(61,72,83,1)",
   },
   labelText: {
     fontFamily: "barlow-regular",
@@ -64,12 +64,39 @@ const base = {
 
 const themed = {
     light: {
+      cursorBackgroundColor: {
+        backgroundColor: "white",
+      },
+      labelBoxBackgroundColor: {
+        backgroundColor: STYLES.COLORS.DARK_GRAY,
+      },
+      triangleBackgroundColor: {
+        borderBottomColor: STYLES.COLORS.DARK_GRAY,
+      }
     },
 
     dark: {
+      cursorBackgroundColor: {
+        backgroundColor: STYLES.COLORS.DARK_BACKGROUND,
+      },
+      labelBoxBackgroundColor: {
+        backgroundColor: STYLES.COLORS.DARK_LABEL,
+      },
+      triangleBackgroundColor: {
+        borderBottomColor: STYLES.COLORS.DARK_LABEL,
+      }
     },
 
     celsius: {
+      cursorBackgroundColor: {
+        backgroundColor: "white",
+      },
+      labelBoxBackgroundColor: {
+        backgroundColor: STYLES.COLORS.DARK_GRAY,
+      },
+      triangleBackgroundColor: {
+        borderBottomColor: STYLES.COLORS.DARK_GRAY,
+      }
     }
 }
 

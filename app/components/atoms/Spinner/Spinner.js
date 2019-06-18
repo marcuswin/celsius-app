@@ -4,52 +4,52 @@ import Svg, { Circle } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 import testUtil from "../../../utils/test-util";
-import { THEMES } from '../../../constants/UI';
-import STYLES from '../../../constants/STYLES';
+import { THEMES } from "../../../constants/UI";
+import STYLES from "../../../constants/STYLES";
+import { getTheme } from "../../../utils/styles-util";
 
 class Spinner extends Component {
-
   static propTypes = {
-    theme: PropTypes.oneOf(Object.values(THEMES)),
     size: PropTypes.number
   };
   static defaultProps = {
-    theme: THEMES.LIGHT,
     size: 50
-  }
+  };
 
   constructor(props) {
     super(props);
+    const theme = getTheme();
+
     this.state = {
-      spinValue: new Animated.Value(0)
+      spinValue: new Animated.Value(0),
+      strokeColor: this.getColor(theme),
+      opacity: theme === THEMES.DARK ? 0.7 : 0.3,
     };
     this.animation = null;
   }
 
   componentDidMount = () => {
     this.animate();
-  }
+  };
 
   componentWillUnmount = () => {
     this.animation.stop();
-  }
+  };
 
   getColor = (theme) => {
     switch (theme) {
-      case THEMES.LIGHT:
-        return STYLES.COLORS.DARK_GRAY;
       case THEMES.DARK:
         return STYLES.COLORS.WHITE;
+      case THEMES.LIGHT:
       case THEMES.CELSIUS:
-        return STYLES.COLORS.DARK_GRAY;
       default:
         return STYLES.COLORS.DARK_GRAY;
     }
-  }
+  };
 
   repeat = () => {
-    this.setState({ spinValue: new Animated.Value(0) }, this.animate)
-  }
+    this.setState({ spinValue: new Animated.Value(0) }, this.animate);
+  };
 
   animate = () => {
     const { spinValue } = this.state;
@@ -60,21 +60,20 @@ class Spinner extends Component {
         duration: 1500,
         useNativeDriver: true
       }
-    )
-    this.animation.start(this.repeat)
-  }
+    );
+    this.animation.start(this.repeat);
+  };
 
   render() {
-    const { theme, size } = this.props
-    const { spinValue } = this.state;
+    const { size } = this.props;
+    const { strokeColor, opacity, spinValue } = this.state;
 
     // Second interpolate beginning and end values (in this case 0 and 1)
     const spin = spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
-    })
-    const strokeColor = this.getColor(theme);
-    const opacity = theme === THEMES.DARK ? 0.5 : 0.3;
+      outputRange: ["0deg", "360deg"]
+    });
+
     const style = [{ transform: [{ rotate: spin }], width: size, height: size, opacity }];
     return (
       <Animated.View style={style}>

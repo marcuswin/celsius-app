@@ -106,7 +106,7 @@ class RegisterSetPin extends Component {
         <View style={style.container}>
           <View style={style.wrapper}>
             <CelText weight="bold" type="H1" align="center" margin="0 20 0 20">{ headingText }</CelText>
-            <CelText color="rgba(61,72,83,0.7)" align="center" margin="10 0 30 0">{ subheadingText }</CelText>
+            <CelText align="center" margin="10 0 30 0">{ subheadingText }</CelText>
 
             <TouchableOpacity onPress={actions.toggleKeypad}>
               <HiddenField value={formData[field]} />

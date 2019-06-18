@@ -69,10 +69,10 @@ class BorrowCalculator extends Component {
     }
 
     this.sliderItems = [
-      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>6M</CelText> },
-      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>1Y</CelText> },
-      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>2Y</CelText> },
-      { value: 48, label: <CelText weight="bold" color={formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : 'black'}>4Y</CelText> }
+      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null }>6M</CelText> },
+      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null }>1Y</CelText> },
+      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null }>2Y</CelText> },
+      { value: 48, label: <CelText weight="bold" color={formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : null }>4Y</CelText> }
     ]
 
     this.style = LoanCalculatorStyle()
@@ -85,9 +85,6 @@ class BorrowCalculator extends Component {
     })
   }
 
-  // componentDidMount() {
-  //   this.calculateLoanParams()
-  // }
 
   componentDidUpdate(prevProps) {
     const { formData } = this.props;
@@ -320,7 +317,7 @@ class BorrowCalculator extends Component {
               <CelText
                 align={'center'}
                 weight='bold'
-                color={STYLES.COLORS.MEDIUM_GRAY}
+                style={style.interestCardText}
                 type={textType}
               >
                 {loanParams.monthlyInterest}
@@ -342,7 +339,7 @@ class BorrowCalculator extends Component {
               <CelText
                 align={'center'}
                 weight='bold'
-                color={STYLES.COLORS.MEDIUM_GRAY}
+                style={style.interestCardText}
                 type={textType}>
                 {loanParams.totalInterest}
               </CelText>
@@ -390,7 +387,7 @@ class BorrowCalculator extends Component {
           <CelText
             align={'center'}
             weight='bold'
-            color={STYLES.COLORS.MEDIUM_GRAY}
+            style={style.interestCardText}
             type={'H2'}>
             {formatter.crypto(loanParams.collateralNeeded, formData.coin)}
           </CelText>

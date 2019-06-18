@@ -33,23 +33,26 @@ class IconButton extends Component {
     if (color === 'blue') {
       return {
         primary: STYLES.COLORS.CELSIUS_BLUE,
-        secondary: STYLES.COLORS.WHITE
+        secondary: STYLES.COLORS.WHITE,
+        third: STYLES.COLORS.WHITE,
       }
     }
 
     return {
       primary: StyleSheet.flatten(style.container).backgroundColor,
       secondary: StyleSheet.flatten(style.textColor).color,
+      third: StyleSheet.flatten(style.iconColor).color,
+
     }
   }
 
   renderIconButtonContent = () => {
-    const { secondary } = this.getColors()
+    const { secondary, third } = this.getColors()
     const { children, icon, hideIconRight, right } = this.props
     return (
       <>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {!!icon && <Icon fill={secondary} name={icon} width='25' />}
+          {!!icon && <Icon fill={third} name={icon} width='25' />}
           <CelText
             type='H4'
             style={{ marginLeft: icon ? 15 : 0 }}
@@ -75,7 +78,7 @@ class IconButton extends Component {
               name='IconChevronRight'
               height='12'
               width='7.7'
-              fill={secondary}
+              fill={third}
             />
           )}
         </View>

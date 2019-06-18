@@ -133,7 +133,6 @@ class WithdrawConfirm extends Component {
               <CelText
                 align='center'
                 type='H5'
-                color='color: rgba(61,72,83,0.7)'
               >
                 You are about to withdraw
               </CelText>
@@ -142,17 +141,14 @@ class WithdrawConfirm extends Component {
               </CelText>
               <CelText
                 align='center'
-                color={STYLES.COLORS.DARK_GRAY_OPACITY}
                 type='H2'
               >
-                {formatter.crypto(formData.amountCrypto, formData.coin, {
-                  precision: 8
-                })}
+                {formatter.crypto(formData.amountCrypto, formData.coin, { precision: 8 })}
               </CelText>
             </View>
             <Separator />
             <View style={styles.address}>
-              <CelText type='H6' color='color: rgba(61,72,83,0.7)'>
+              <CelText type='H6'>
                 New wallet balance:
               </CelText>
               <CelText style={styles.lineHeight} type='H6' weight='bold'>
@@ -162,7 +158,7 @@ class WithdrawConfirm extends Component {
             </View>
             <Separator />
             <View style={styles.address}>
-              <CelText type='H6' color='color: rgba(61,72,83,0.7)'>
+              <CelText type='H6'>
                 Withdrawal address:
               </CelText>
               <CelText style={styles.lineHeight} type='H6'>
@@ -178,7 +174,7 @@ class WithdrawConfirm extends Component {
           >
             Send email verification
           </CelButton>
-          <Card color={STYLES.COLORS.MEDIUM_GRAY1} margin='20 0 0 0'>
+          <Card margin='20 0 0 0'>
             <CelText margin='0 0 0 0' color='gray'>{ disclaimerText }</CelText>
           </Card>
         </Card>

@@ -124,7 +124,7 @@ class WalletInterest extends Component {
                   Todays rates
                 </CelText>
               </View>
-              <Separator />
+              <Separator  margin="10 0 0 0" />
               <TouchableOpacity
                 onPress={() => {
                   actions.openModal(MODALS.INTEREST_CALCULATOR_MODAL)

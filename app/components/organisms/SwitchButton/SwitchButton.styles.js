@@ -16,12 +16,15 @@ const base = {
 
 const themed = {
     light: {
-        container: {
-            backgroundColor: STYLES.COLORS.WHITE
-        }
+      container: {
+          backgroundColor: STYLES.COLORS.WHITE
+      }
     },
 
     dark: {
+      container: {
+        backgroundColor: STYLES.COLORS.DARK_HEADER
+    }
     },
 
     celsius: {

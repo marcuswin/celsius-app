@@ -24,14 +24,23 @@ const base = {
   },
   background: {
     opacity: 0.95,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   }
 }
 
 const themed = {
-  light: {},
+  light: {
+    background: {
+      opacity: 0.95,
+      backgroundColor: 'white',
+    }
+  },
 
-  dark: {},
+  dark: {
+    background: {
+      backgroundColor: 'rgba(21, 30, 39, 0.98)',
+    }
+  },
 
   celsius: {}
 }
