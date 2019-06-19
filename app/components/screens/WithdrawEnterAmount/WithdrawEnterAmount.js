@@ -24,8 +24,9 @@ import EmptyState from '../../atoms/EmptyState/EmptyState'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import STYLES from '../../../constants/STYLES'
 import cryptoUtil from '../../../utils/crypto-util'
-import InfoModal from '../../molecules/InfoModal/InfoModal'
 import celUtilityUtil from '../../../utils/cel-utility-util'
+import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
+import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
 
 @connect(
   state => ({
@@ -209,10 +210,10 @@ class WithdrawEnterAmount extends Component {
     const newBalance = Number(coinData.amount) - Number(formData.amountCrypto)
 
     if (celUtilityUtil.isLosingMembership(formData.coin, newBalance)) {
-      return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
+      return actions.openModal(MODALS.LOSE_MEMBERSHIP_MODAL)
     }
     if (celUtilityUtil.isLosingTier(formData.coin, newBalance)) {
-      return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
+      return actions.openModal(MODALS.LOSE_TIER_MODAL)
     }
 
     this.navigateToNextStep()
@@ -352,33 +353,15 @@ class WithdrawEnterAmount extends Component {
           purpose={KEYPAD_PURPOSES.WITHDRAW}
           autofocus={false}
         />
-        <InfoModal
-          name={MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL}
-          heading='Watch out'
-          paragraphs={[
-            'You are about to Withdraw your last CEL token. Without CEL tokens you will lose your Celsius membership.',
-            'Celsius members can earn interest on their coin, apply for a loan and utilize Withdraw.'
-          ]}
-          yesCopy='Continue'
-          onYes={this.navigateToNextStep}
-          noCopy='Go back'
-          onNo={actions.closeModal}
+        <LoseMembershipModal
+          navigateToNextStep={this.navigateToNextStep}
+          closeModal={actions.closeModal}
         />
-
         {loyaltyInfo && (
-          <InfoModal
-            name={MODALS.CELPAY_LOSE_TIER_WARNING_MODAL}
-            heading='Watch out'
-            paragraphs={[
-              `You are about to lose you ${
-                loyaltyInfo.tier
-              } Celsius Loyalty Level.`,
-              'Withdrawing CEL tokens affects your HODL ratio and Loyalty level.'
-            ]}
-            yesCopy='Continue'
-            onYes={this.navigateToNextStep}
-            noCopy='Go back'
-            onNo={actions.closeModal}
+          <LoseTierModal
+            navigateToNextStep={this.navigateToNextStep}
+            tierTitle={loyaltyInfo.tier.title}
+            closeModal={actions.closeModal}
           />
         )}
         <WithdrawInfoModal
