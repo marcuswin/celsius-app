@@ -15,6 +15,7 @@ import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelButton from '../../atoms/CelButton/CelButton'
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
+
 @connect(
   state => ({
     formData: state.forms.formData,
@@ -90,11 +91,9 @@ class KYCAddressInfo extends Component {
     const response = await actions.updateProfileAddressInfo(updatedAddressInfo)
 
     if (response.success) {
-      actions.navigateTo('KYCTaxpayer')
-    }
-
-    this.setState({ updatingAddressInfoInProgress: false })
-  }
+        this.setState({ updatingAddressInfoInProgress: false })
+      }
+  };
 
   render() {
     const { formData, formErrors, actions } = this.props

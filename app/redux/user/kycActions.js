@@ -60,12 +60,29 @@ function updateProfileInfo(profileInfo) {
  * @param {Object} profileAddressInfo
  */
 function updateProfileAddressInfo(profileAddressInfo) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.UPDATE_USER_ADDRESS_INFO));
+    const { formData } = getState().forms;
 
     try {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
+
+      const compliance = await usersService.getComplianceInfo();
+      dispatch( {
+        type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
+        callName: API.GET_COMPLIANCE_INFO_INFO,
+        complianceInfo: compliance.data.allowed_actions
+      });
+
+      const forbiddenState = formData.country.name === "United States" ? formData.state : formData.country.name;
+      const {kyc} = getState().user.compliance.app;
+
+      if (!kyc) {
+        dispatch(showMessage("error", `Yikes, due to local laws and regulations, we are not allowed to support operations in ${forbiddenState}.`))
+      } else {
+        dispatch(NavActions.navigateTo('KYCTaxpayer'));
+      }
 
       return {
         success: true
