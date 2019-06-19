@@ -1,5 +1,5 @@
-import * as GoogleSignIn from 'expo-google-sign-in'
-import * as Facebook from 'expo-facebook'
+// import * as GoogleSignIn from 'expo-google-sign-in'
+// import * as Facebook from 'expo-facebook'
 
 import Constants from '../../../constants'
 import ACTIONS from '../../constants/ACTIONS'
@@ -17,9 +17,9 @@ import branchUtil from '../../utils/branch-util'
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
-  FACEBOOK_APP_ID,
-  FACEBOOK_URL,
-  GOOGLE_CLIENT_ID
+  // FACEBOOK_APP_ID,
+  // FACEBOOK_URL,
+  // GOOGLE_CLIENT_ID
 } = Constants.extra
 
 export {
@@ -194,34 +194,34 @@ function authFacebook (authReason) {
     if (!['login', 'register'].includes(authReason)) return
 
     try {
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-        FACEBOOK_APP_ID.toString(),
-        {
-          permissions: ['public_profile', 'email'],
-          behavior: 'system'
-        }
-      )
+      // const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+      //   FACEBOOK_APP_ID.toString(),
+      //   {
+      //     permissions: ['public_profile', 'email'],
+      //     behavior: 'system'
+      //   }
+      // )
 
-      if (type === 'success') {
-        const response = await fetch(`${FACEBOOK_URL}${token}`)
+      // if (type === 'success') {
+      //   const response = await fetch(`${FACEBOOK_URL}${token}`)
 
-        const user = await response.json()
-        user.accessToken = token
+      //   const user = await response.json()
+      //   user.accessToken = token
 
-        if (authReason === 'login') {
-          dispatch(loginFacebook(user))
-        } else {
-          dispatch(
-            updateFormFields({
-              email: user.email,
-              firstName: user.first_name,
-              lastName: user.last_name,
-              facebookId: user.id,
-              accessToken: user.accessToken
-            })
-          )
-        }
-      }
+      //   if (authReason === 'login') {
+      //     dispatch(loginFacebook(user))
+      //   } else {
+      //     dispatch(
+      //       updateFormFields({
+      //         email: user.email,
+      //         firstName: user.first_name,
+      //         lastName: user.last_name,
+      //         facebookId: user.id,
+      //         accessToken: user.accessToken
+      //       })
+      //     )
+      //   }
+      // }
     } catch (e) {
       dispatch(showMessage('error', e.message))
     }
@@ -296,36 +296,36 @@ function loginFacebook (facebookUser) {
  * @param {string} authReason - one of login|register
  */
 function authGoogle (authReason) {
-  return async dispatch => {
+  return async () => {
     if (!['login', 'register'].includes(authReason)) return
 
     try {
-      await GoogleSignIn.initAsync({
-        clientId: GOOGLE_CLIENT_ID
-      })
-      await GoogleSignIn.askForPlayServicesAsync()
-      const isSignedIn = await GoogleSignIn.isSignedInAsync()
-      if (isSignedIn) await GoogleSignIn.signOutAsync()
-      const result = await GoogleSignIn.signInAsync()
+      // await GoogleSignIn.initAsync({
+      //   clientId: GOOGLE_CLIENT_ID
+      // })
+      // await GoogleSignIn.askForPlayServicesAsync()
+      // const isSignedIn = await GoogleSignIn.isSignedInAsync()
+      // if (isSignedIn) await GoogleSignIn.signOutAsync()
+      // const result = await GoogleSignIn.signInAsync()
 
-      if (result.type === 'success') {
-        // NOTE: different response for Expo and for standalone app
-        const user = result.user
-        user.email = user.email
-        user.firstName = user.givenName || user.firstName
-        user.lastName = user.familyName || user.lastName
-        user.googleId = user.id || user.uid
-        user.profilePicture = user.photoURL
-        user.accessToken = result.access_token || user.auth.accessToken
+      // if (result.type === 'success') {
+      //   // NOTE: different response for Expo and for standalone app
+      //   const user = result.user
+      //   user.email = user.email
+      //   user.firstName = user.givenName || user.firstName
+      //   user.lastName = user.familyName || user.lastName
+      //   user.googleId = user.id || user.uid
+      //   user.profilePicture = user.photoURL
+      //   user.accessToken = result.access_token || user.auth.accessToken
 
-        if (authReason === 'login') {
-          dispatch(loginGoogle(user))
-        } else {
-          dispatch(updateFormFields(user))
-        }
-      } else {
-        return { cancelled: true }
-      }
+      //   if (authReason === 'login') {
+      //     dispatch(loginGoogle(user))
+      //   } else {
+      //     dispatch(updateFormFields(user))
+      //   }
+      // } else {
+      //   return { cancelled: true }
+      // }
     } catch (e) {
       return { error: true }
     }
