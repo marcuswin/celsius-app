@@ -7,7 +7,6 @@ import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
 import { getMargins } from '../../../utils/styles-util';
 import CelText from '../CelText/CelText';
-import { THEMES } from '../../../constants/UI';
 import Spinner from '../Spinner/Spinner';
 import STYLES from '../../../constants/STYLES';
 import analytics from "../../../utils/analytics";
@@ -100,10 +99,17 @@ class CelButton extends Component {
   renderLoader = () => {
     const style = CelButtonStyle();
     const buttonStyle = this.getButtonStyle(style);
+    const titleStyle = this.getTitleStyle(style);
+
+    // extracting color from styles array
+    let spinnerColor = "white"
+    titleStyle.forEach(ts => {
+      if (ts.color) spinnerColor = ts.color
+    })
 
     return (
       <View style={buttonStyle}>
-        <Spinner theme={THEMES.DARK} size={30} />
+        <Spinner color={spinnerColor} opacity={1} size={30} />
       </View>
     )
   }

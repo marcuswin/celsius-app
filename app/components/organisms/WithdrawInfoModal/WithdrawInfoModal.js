@@ -30,7 +30,7 @@ class WithdrawInfoModal extends Component {
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearHODL3x.png'),
           title: "Are you sure you want to withdraw CEL?",
-          description: "Your earning and borrowing interest rates are determined by the amount of CEL you HODL vs. the amount you've ever had in-app. Each withdrawal will affect your rates. View our loyalty program.",
+          description: "A withdrawal could affect your membership interest rates. Rates are determined by your loyalty level: the amount of CEL you HODL vs. the amount of other assets you hold. Please view our loyalty program.",
         },
         {
           image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),

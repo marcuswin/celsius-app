@@ -32,6 +32,9 @@ const themed = {
   dark: {
     amounts: {
       backgroundColor: STYLES.COLORS.DARK_BACKGROUND
+    },
+    calculatorInfo: {
+      color: STYLES.COLORS.DARK_GRAY
     }
   },
 

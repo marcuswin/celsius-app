@@ -35,14 +35,13 @@ export const BasicSection = ({ label, value, noSeparator = false }) => (
   </View>
 )
 
-export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
-  <View style={{ width: '100%', paddingHorizontal: 20, backgroundColor: STYLES.COLORS.DARK_GRAY_OPACITY, paddingVertical: 20 }}>
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10 }}>
-      <CelText type="H6">Locked Collateral:</CelText>
-      <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
+export const CollateralSection = ({ coinAmount, coin }) => (
+  <View style={{ backgroundColor: STYLES.COLORS.DARK_HEADER, paddingVertical: 20, paddingHorizontal: 10, borderRadius: 5, marginHorizontal: 15 }}>
+    <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
+      <CelText type="H6">Locked Collateral: </CelText>
     </View>
-    <View style={{ maring: '0 0 20 0', alignItems: 'flex-end' }}>
-      <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
+    <View style={{ maring: '0 0 20 0', alignItems: 'flex-start' }}>
+      <CelText color={STYLES.COLORS.WHITE} type="H5">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
     </View>
   </View>
 )
@@ -62,7 +61,7 @@ export const AddressSection = ({ transaction, text, address }) => {
   const link = getBlockExplorerLink(transaction);
 
   return (
-     link ?
+    link ?
       <View style={{ paddingHorizontal: 20 }}>
         <Card margin={'20 0 20 0'}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
@@ -73,7 +72,7 @@ export const AddressSection = ({ transaction, text, address }) => {
                 onPress={() => Linking.openURL(link.text)}>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {link.text}</CelText>
                 <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE}
-                      style={{ marginLeft: 5 }}/>
+                  style={{ marginLeft: 5 }} />
               </TouchableOpacity>
             )}
           </View>
@@ -366,8 +365,8 @@ function getBlockExplorerLink(transaction) {
     case 'xrp': return { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' };
     case 'cel': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
     case 'omg': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain'};
-    default :
+    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain' };
+    default:
       return null
   }
 }

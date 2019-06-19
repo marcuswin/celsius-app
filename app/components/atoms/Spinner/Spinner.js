@@ -10,7 +10,9 @@ import { getTheme } from "../../../utils/styles-util";
 
 class Spinner extends Component {
   static propTypes = {
-    size: PropTypes.number
+    size: PropTypes.number,
+    color: PropTypes.string,
+    opacity: PropTypes.number,
   };
   static defaultProps = {
     size: 50
@@ -23,7 +25,7 @@ class Spinner extends Component {
     this.state = {
       spinValue: new Animated.Value(0),
       strokeColor: this.getColor(theme),
-      opacity: theme === THEMES.DARK ? 0.7 : 0.3,
+      opacity: this.getOpacity(theme),
     };
     this.animation = null;
   }
@@ -36,7 +38,17 @@ class Spinner extends Component {
     this.animation.stop();
   };
 
+  getOpacity = (theme) => {
+    const { opacity } = this.props
+    if (!isNaN(opacity)) return opacity
+
+    return theme === THEMES.DARK ? 0.7 : 0.3
+  }
+
   getColor = (theme) => {
+    const { color } = this.props
+    if (color) return color;
+
     switch (theme) {
       case THEMES.DARK:
         return STYLES.COLORS.WHITE;
