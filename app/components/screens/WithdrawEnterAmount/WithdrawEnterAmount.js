@@ -199,14 +199,14 @@ class WithdrawEnterAmount extends Component {
 
   handleNextStep = () => {
     const { actions, formData, withdrawalAddresses } = this.props
-    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()].address
+    const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()] && withdrawalAddresses[formData.coin.toUpperCase()].address
 
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
-  }
+  };
 
   render () {
     const { coinSelectItems, activePeriod } = this.state
