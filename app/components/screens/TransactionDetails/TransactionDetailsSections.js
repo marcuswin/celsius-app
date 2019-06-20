@@ -36,13 +36,11 @@ export const BasicSection = ({ label, value, noSeparator = false }) => (
 )
 
 export const CollateralSection = ({ coinAmount, coin }) => (
-  <View style={{ backgroundColor: STYLES.COLORS.DARK_HEADER, paddingVertical: 20, paddingHorizontal: 10, borderRadius: 5, marginHorizontal: 15 }}>
-    <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-      <CelText type="H6">Locked Collateral: </CelText>
-    </View>
-    <View style={{ maring: '0 0 20 0', alignItems: 'flex-start' }}>
-      <CelText color={STYLES.COLORS.WHITE} type="H5">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
-    </View>
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card padding="20 10 20 10">
+      <CelText type="H6" margin="0 0 10 0">Locked Collateral: </CelText>
+      <CelText type="H5" weight="bold">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
+    </Card>
   </View>
 )
 
