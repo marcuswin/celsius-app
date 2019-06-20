@@ -3,7 +3,7 @@ import SvgIcon from 'react-native-svg-icon';
 import PropTypes from 'prop-types';
 import { View } from 'react-native'
 
-import testUtil from "../../../utils/test-util";
+
 import Svgs from '../../../constants/SVGS';
 import { getTheme } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
@@ -37,4 +37,4 @@ class Icon extends Component {
   }
 }
 
-export default testUtil.hookComponent(Icon);
+export default Icon;

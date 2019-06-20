@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Slider, TouchableOpacity, View } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 
 import HorizontalSliderStyle from './HorizontalSlider.styles'
 import STYLES from '../../../constants/STYLES'
@@ -70,4 +70,4 @@ class HorizontalSlider extends Component {
   }
 }
 
-export default testUtil.hookComponent(HorizontalSlider)
+export default HorizontalSlider

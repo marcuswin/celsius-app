@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Switch, Platform } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import SwitchButtonStyle from "./SwitchButton.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -41,4 +41,4 @@ class SwitchButton extends Component {
   }
 }
 
-export default testUtil.hookComponent(SwitchButton);
+export default SwitchButton

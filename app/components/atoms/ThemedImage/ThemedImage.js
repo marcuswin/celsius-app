@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import PropTypes from 'prop-types'
 
-import testUtil from "../../../utils/test-util";
+
 import { getTheme } from '../../../utils/styles-util'
 // import ThemedImageStyle from "./ThemedImage.styles";
 import { THEMES } from '../../../constants/UI'
@@ -40,4 +40,4 @@ ThemedImage.propTypes = {
 }
 
 
-export default testUtil.hookComponent(ThemedImage);
+export default ThemedImage

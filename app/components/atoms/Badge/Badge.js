@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import BadgeStyle from "./Badge.styles";
 import STYLES from "../../../constants/STYLES";
@@ -36,4 +36,4 @@ Badge.propTypes = {
   padding: PropTypes.string,
 }
 
-export default testUtil.hookComponent(Badge);
+export default Badge

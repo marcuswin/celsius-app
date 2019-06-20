@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import SimpleSelect from '../SimpleSelect/SimpleSelect';
 import CelText from '../../atoms/CelText/CelText';
@@ -61,4 +61,4 @@ class CoinPicker extends Component {
   }
 }
 
-export default testUtil.hookComponent(CoinPicker);
+export default CoinPicker

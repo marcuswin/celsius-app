@@ -5,7 +5,7 @@ import { View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as appActions from '../../../redux/actions';
-import testUtil from "../../../utils/test-util";
+
 
 import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -51,4 +51,4 @@ class Welcome extends Component {
   }
 }
 
-export default testUtil.hookComponent(Welcome);
+export default Welcome

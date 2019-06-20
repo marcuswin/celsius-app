@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { StyleSheet } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 
-import testUtil from '../../../utils/test-util'
+
 
 import SimpleSelectStyle from './SimpleSelect.styles'
 import Icon from '../../atoms/Icon/Icon'
@@ -75,4 +75,4 @@ SimpleSelect.propTypes = {
   style: PropTypes.instanceOf(Object)
 }
 
-export default testUtil.hookComponent(SimpleSelect)
+export default SimpleSelect

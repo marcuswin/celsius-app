@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import _ from "lodash";
 
-import testUtil from "../../../utils/test-util"
 import * as appActions from "../../../redux/actions"
 import LoanCalculatorStyle from "./BorrowCalculator.styles"
 import CelText from '../../atoms/CelText/CelText'
@@ -441,4 +440,4 @@ class BorrowCalculator extends Component {
   }
 }
 
-export default testUtil.hookComponent(BorrowCalculator);
+export default BorrowCalculator

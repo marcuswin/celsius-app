@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Image, View } from "react-native";
 
-import testUtil from "../../../utils/test-util";
+
 
 import LoadingStateStyle from "./LoadingState.styles";
 import CelText from "../CelText/CelText";
@@ -33,4 +33,4 @@ LoadingState.propTypes = {
   image: PropTypes.string,
 };
 
-export default testUtil.hookComponent(LoadingState);
+export default LoadingState

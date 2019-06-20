@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import RegisterStyle from "./Register.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -180,4 +180,4 @@ class RegisterInitial extends Component {
   }
 }
 
-export default testUtil.hookComponent(RegisterInitial);
+export default RegisterInitial

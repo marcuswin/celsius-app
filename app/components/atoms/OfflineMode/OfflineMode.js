@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image } from 'react-native'
-import testUtil from '../../../utils/test-util'
+
 import OfflineModeStyle from './OfflineMode.styles'
 import CelText from '../CelText/CelText'
 
@@ -38,4 +38,4 @@ class OfflineMode extends Component {
 
 OfflineMode.propTypes = {}
 
-export default testUtil.hookComponent(OfflineMode)
+export default OfflineMode

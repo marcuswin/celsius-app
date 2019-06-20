@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { View, ScrollView, TouchableOpacity } from "react-native";
 
-import testUtil from "../../../utils/test-util";
+
 import formatter from "../../../utils/formatter";
 import CelText from '../../atoms/CelText/CelText';
 import CelModal from "../CelModal/CelModal";
@@ -160,4 +160,4 @@ class WithdrawInfoModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawInfoModal);
+export default WithdrawInfoModal

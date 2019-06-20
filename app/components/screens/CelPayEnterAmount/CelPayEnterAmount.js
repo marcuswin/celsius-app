@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import CelPayEnterAmountStyle from './CelPayEnterAmount.styles'
 import CelButton from '../../atoms/CelButton/CelButton'
@@ -363,4 +363,4 @@ class CelPayEnterAmount extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelPayEnterAmount)
+export default CelPayEnterAmount

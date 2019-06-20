@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { View } from 'react-native'
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import BorrowLoanTermStyle from "./BorrowLoanTerm.styles";
 import formatter from "../../../utils/formatter";
@@ -74,4 +74,4 @@ class BorrowLoanTerm extends Component {
   }
 }
 
-export default testUtil.hookComponent(BorrowLoanTerm);
+export default BorrowLoanTerm

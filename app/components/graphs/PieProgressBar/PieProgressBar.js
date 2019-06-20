@@ -3,7 +3,7 @@ import { View, ART } from "react-native";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
 
-import testUtil from "../../../utils/test-util";
+
 import PieProgressBarStyle from "./PieProgressBar.styles";
 import { heightPercentageToDP } from "../../../utils/styles-util";
 import CelText from "../../atoms/CelText/CelText";
@@ -113,4 +113,4 @@ class PieProgressBar extends Component {
   }
 }
 
-export default testUtil.hookComponent(PieProgressBar);
+export default PieProgressBar

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 import { getMargins, getScaledFont } from '../../../utils/styles-util'
 import STYLES from '../../../constants/STYLES'
 import ASSETS from '../../../constants/ASSETS'
@@ -118,4 +118,4 @@ class CelText extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelText)
+export default CelText

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 
@@ -60,4 +60,4 @@ class CoinSlider extends Component {
   }
 }
 
-export default testUtil.hookComponent(CoinSlider);
+export default CoinSlider

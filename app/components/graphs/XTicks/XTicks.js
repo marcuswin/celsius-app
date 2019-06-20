@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import moment from "moment";
-import testUtil from "../../../utils/test-util";
+
 
 import XTicksStyle from "./XTicks.styles";
 
@@ -155,4 +155,4 @@ class XTicks extends Component {
   }
 }
 
-export default testUtil.hookComponent(XTicks);
+export default XTicks

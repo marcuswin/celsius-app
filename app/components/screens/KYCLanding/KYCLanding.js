@@ -4,7 +4,7 @@ import { Image, View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import KYCLandingStyle from "./KYCLanding.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -229,4 +229,4 @@ class KYCLanding extends Component {
   }
 }
 
-export default testUtil.hookComponent(KYCLanding);
+export default KYCLanding

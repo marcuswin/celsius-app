@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import PredefinedAmountsStyle from "./PredefinedAmounts.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -40,4 +40,4 @@ class PredefinedAmounts extends Component {
   }
 }
 
-export default testUtil.hookComponent(PredefinedAmounts);
+export default PredefinedAmounts

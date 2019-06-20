@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Linking, View } from "react-native";
 
-import testUtil from "../../../utils/test-util";
+
 
 import ContactSupportStyle from "./ContactSupport.styles";
 import CelText from "../CelText/CelText";
@@ -47,4 +47,4 @@ ContactSupport.defaultProps = {
 
 }
 
-export default testUtil.hookComponent(ContactSupport);
+export default ContactSupport

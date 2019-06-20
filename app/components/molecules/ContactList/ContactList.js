@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ScrollView, View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import ContactListStyle from "./ContactList.styles";
 import ContactRow from '../../atoms/ContactRow/ContactRow';
@@ -83,4 +83,4 @@ class ContactList extends Component {
   }
 }
 
-export default testUtil.hookComponent(ContactList);
+export default ContactList

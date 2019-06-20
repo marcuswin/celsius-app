@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import { KEYPAD_PURPOSES, THEMES } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
@@ -295,4 +295,4 @@ class InterestCalculator extends Component {
   }
 }
 
-export default testUtil.hookComponent(InterestCalculator)
+export default InterestCalculator

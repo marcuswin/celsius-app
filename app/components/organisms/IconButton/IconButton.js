@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 
 import IconButtonStyle from './IconButton.styles'
 import Icon from '../../atoms/Icon/Icon'
@@ -113,4 +113,4 @@ class IconButton extends Component {
   }
 }
 
-export default testUtil.hookComponent(IconButton)
+export default IconButton

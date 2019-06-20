@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import formatter from "../../../utils/formatter";
@@ -95,4 +95,4 @@ class CoinCard extends Component {
   }
 }
 
-export default testUtil.hookComponent(CoinCard);
+export default CoinCard

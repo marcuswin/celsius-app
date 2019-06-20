@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 
 import CommunityDashboardStyle from "./CommunityDashboard.styles";
 import formatter from "../../../utils/formatter";
@@ -163,4 +163,4 @@ class CommunityDashboard extends Component {
   }
 }
 
-export default testUtil.hookComponent(CommunityDashboard);
+export default CommunityDashboard

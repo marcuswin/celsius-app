@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import FabStyle from "./Fab.styles";
 import CircleButton from '../../atoms/CircleButton/CircleButton';
@@ -43,4 +43,4 @@ class Fab extends Component {
   }
 }
 
-export default testUtil.hookComponent(Fab);
+export default Fab

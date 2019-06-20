@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Permissions } from 'expo'
 
 import cryptoUtil from "../../../utils/crypto-util";
-import testUtil from "../../../utils/test-util";
+
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
 import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
@@ -175,4 +175,4 @@ class WithdrawCreateAddress extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawCreateAddress);
+export default WithdrawCreateAddress

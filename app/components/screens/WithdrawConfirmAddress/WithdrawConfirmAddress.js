@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import WithdrawalAddressStyle from "./WithdrawConfirmAddress.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
@@ -176,4 +176,4 @@ class WithdrawConfirmAddress extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawConfirmAddress);
+export default WithdrawConfirmAddress

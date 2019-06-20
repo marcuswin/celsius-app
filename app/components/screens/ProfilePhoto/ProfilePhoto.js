@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import ProfilePhotoStyle from "./ProfilePhoto.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -38,4 +38,4 @@ class ProfilePhoto extends Component {
   }
 }
 
-export default testUtil.hookComponent(ProfilePhoto);
+export default ProfilePhoto

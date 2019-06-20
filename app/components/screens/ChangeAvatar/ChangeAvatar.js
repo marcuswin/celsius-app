@@ -7,7 +7,7 @@ import { bindActionCreators } from "redux";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
@@ -185,4 +185,4 @@ class ChangeAvatar extends Component {
   }
 }
 
-export default testUtil.hookComponent(ChangeAvatar);
+export default ChangeAvatar

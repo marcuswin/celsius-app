@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import testUtil from "../../../utils/test-util";
+
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
 
@@ -26,4 +26,4 @@ class Support extends Component {
   }
 }
 
-export default testUtil.hookComponent(Support);
+export default Support

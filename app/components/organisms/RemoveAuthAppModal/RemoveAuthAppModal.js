@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 import { MODALS } from '../../../constants/UI'
 import CelButton from '../../atoms/CelButton/CelButton'
 import CelText from '../../atoms/CelText/CelText'
@@ -30,4 +30,4 @@ const RemoveAuthAppModal = props => {
   )
 }
 
-export default testUtil.hookComponent(RemoveAuthAppModal)
+export default RemoveAuthAppModal

@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Clipboard, BackHandler } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import VerifyProfileStyle from './VerifyProfile.styles'
 import CelText from '../../atoms/CelText/CelText'
@@ -263,4 +263,4 @@ class VerifyProfile extends Component {
   }
 }
 
-export default testUtil.hookComponent(VerifyProfile)
+export default VerifyProfile

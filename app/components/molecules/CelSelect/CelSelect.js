@@ -7,7 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { lookup, countries } from "country-data";
 
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 import CelSelectStyle from "./CelSelect.styles";
 import { getMargins } from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
@@ -209,4 +209,4 @@ class CelSelect extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelSelect);
+export default CelSelect

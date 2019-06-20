@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Platform, Switch, View } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 import formatter from '../../../utils/formatter'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
@@ -68,4 +68,4 @@ class CelInterestCard extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelInterestCard)
+export default CelInterestCard

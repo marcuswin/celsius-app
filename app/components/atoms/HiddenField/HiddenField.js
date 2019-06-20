@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from "react-native";
 
-import testUtil from "../../../utils/test-util";
+
 
 import HiddenFieldStyle from "./HiddenField.styles";
 
@@ -46,4 +46,4 @@ HiddenField.propTypes = {
   error: PropTypes.bool,
 }
 
-export default testUtil.hookComponent(HiddenField);
+export default HiddenField

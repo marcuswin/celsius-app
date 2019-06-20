@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Clipboard, TouchableOpacity } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import CelText from '../CelText/CelText';
 import CopyButtonStyle from './CopyButton.styles';
@@ -34,4 +34,4 @@ CopyButton.defaultProps = {
   text: 'Copy',
 };
 
-export default testUtil.hookComponent(CopyButton);
+export default CopyButton

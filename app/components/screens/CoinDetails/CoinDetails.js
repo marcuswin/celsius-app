@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
@@ -263,4 +263,4 @@ class CoinDetails extends Component {
   }
 }
 
-export default testUtil.hookComponent(CoinDetails);
+export default CoinDetails

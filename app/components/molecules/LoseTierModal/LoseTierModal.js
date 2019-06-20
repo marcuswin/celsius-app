@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import testUtil from "../../../utils/test-util";
+
 
 import { MODALS } from "../../../constants/UI";
 import InfoModal from "../InfoModal/InfoModal";
@@ -31,4 +31,4 @@ LoseTierModal.propTypes = {
   closeModal: PropTypes.func.isRequired
 };
 
-export default testUtil.hookComponent(LoseTierModal);
+export default LoseTierModal

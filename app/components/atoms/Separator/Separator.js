@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 
 import SeparatorStyle from './Separator.styles'
 import CelText from '../CelText/CelText'
@@ -148,4 +148,4 @@ class Separator extends Component {
   }
 }
 
-export default testUtil.hookComponent(Separator)
+export default Separator

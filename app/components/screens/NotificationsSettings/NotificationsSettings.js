@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import NotificationsSettingsStyle from "./NotificationsSettings.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -39,4 +39,4 @@ class NotificationsSettings extends Component {
   }
 }
 
-export default testUtil.hookComponent(NotificationsSettings);
+export default NotificationsSettings

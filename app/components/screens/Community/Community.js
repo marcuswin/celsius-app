@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CommunityDashboard from "../../organisms/CommunityDashboard/CommunityDashboard";
 import Card from "../../atoms/Card/Card";
@@ -124,4 +124,4 @@ class Community extends Component {
   }
 }
 
-export default testUtil.hookComponent(Community);
+export default Community

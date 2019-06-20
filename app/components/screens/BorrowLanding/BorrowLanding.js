@@ -5,7 +5,7 @@ import { TouchableOpacity, View } from "react-native";
 import moment from "moment";
 
 import formatter from "../../../utils/formatter";
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import BorrowLandingStyle from "./BorrowLanding.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -181,4 +181,4 @@ class BorrowLanding extends Component {
   }
 }
 
-export default testUtil.hookComponent(BorrowLanding)
+export default BorrowLanding

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 import CelButtonStyle from "./CelButton.styles";
 import Icon from '../Icon/Icon';
 import { getMargins } from '../../../utils/styles-util';
@@ -142,4 +142,4 @@ class CelButton extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelButton);
+export default CelButton;

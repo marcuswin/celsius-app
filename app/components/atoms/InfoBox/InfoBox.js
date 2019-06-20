@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { View, TouchableOpacity } from 'react-native'
 
 import Icon from '../Icon/Icon'
-import testUtil from '../../../utils/test-util'
+
 import { THEMES } from '../../../constants/UI'
 // import InfoBoxStyle from "./InfoBox.styles";
 
@@ -192,4 +192,4 @@ class InfoBox extends Component {
   }
 }
 
-export default testUtil.hookComponent(InfoBox)
+export default InfoBox

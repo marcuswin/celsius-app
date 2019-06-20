@@ -3,7 +3,7 @@ import { Animated } from "react-native";
 import { Svg } from "expo";
 import PropTypes from "prop-types";
 
-import testUtil from "../../../utils/test-util";
+
 import { THEMES } from "../../../constants/UI";
 import STYLES from "../../../constants/STYLES";
 import { getTheme } from "../../../utils/styles-util";
@@ -98,4 +98,4 @@ class Spinner extends Component {
   }
 }
 
-export default testUtil.hookComponent(Spinner);
+export default Spinner

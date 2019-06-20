@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import DotsBarStyle from "./DotsBar.styles";
 
@@ -46,4 +46,4 @@ class DotsBar extends Component {
     );
   }
 }
-export default testUtil.hookComponent(DotsBar);
+export default DotsBar

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import testUtil from "../../../utils/test-util";
+
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 
@@ -19,4 +19,4 @@ class Borrow extends Component {
   }
 }
 
-export default testUtil.hookComponent(Borrow);
+export default Borrow

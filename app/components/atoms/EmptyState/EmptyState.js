@@ -4,7 +4,7 @@ import { View, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
-import testUtil from '../../../utils/test-util'
+
 import EmptyStateStyle from './EmptyState.styles'
 import CelText from '../CelText/CelText'
 import CelButton from '../CelButton/CelButton'
@@ -159,4 +159,4 @@ class EmptyState extends Component {
   }
 }
 
-export default testUtil.hookComponent(EmptyState)
+export default EmptyState

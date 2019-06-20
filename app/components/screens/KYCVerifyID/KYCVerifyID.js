@@ -5,7 +5,7 @@ import { Permissions } from 'expo'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'
@@ -333,4 +333,4 @@ function mapDocs (docs) {
   return kycDocs
 }
 
-export default testUtil.hookComponent(KYCVerifyID)
+export default KYCVerifyID

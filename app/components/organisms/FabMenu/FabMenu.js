@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux";
 // import { BlurView, VibrancyView } from 'react-native-blur';
 import { BlurView } from 'expo';
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 import FabMenuStyle from "./FabMenu.styles";
 import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
@@ -255,4 +255,4 @@ class FabMenu extends Component {
   }
 }
 
-export default testUtil.hookComponent(FabMenu);
+export default FabMenu

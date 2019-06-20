@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Constants } from "expo";
 
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import STYLES from '../../../constants/STYLES';
 import IconButton from '../../organisms/IconButton/IconButton';
@@ -71,4 +71,4 @@ class Settings extends Component {
   }
 }
 
-export default testUtil.hookComponent(Settings);
+export default Settings;

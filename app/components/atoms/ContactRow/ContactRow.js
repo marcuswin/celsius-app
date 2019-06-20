@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 
 import ContactRowStyle from "./ContactRow.styles";
 import CelText from '../CelText/CelText';
@@ -72,4 +72,4 @@ class ContactRow extends Component {
   }
 }
 
-export default testUtil.hookComponent(ContactRow);
+export default ContactRow

@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import LoyaltyProgramStyle from "./LoyaltyProgram.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -449,4 +449,4 @@ class LoyaltyProgram extends Component {
   }
 }
 
-export default testUtil.hookComponent(LoyaltyProgram);
+export default LoyaltyProgram
