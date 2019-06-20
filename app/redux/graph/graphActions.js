@@ -6,11 +6,11 @@ import graphService from "../../services/graph-service"
 
 
 export {
-  getTotalWalletBalanceData,
-  getCoinWalletBalanceData,
-  getInterestGraphData,
-  getCoinInterestGraphData,
-  activeTimeline
+  getTotalWalletBalanceData, // TODO add JSDoc
+  getCoinWalletBalanceData, // TODO add JSDoc
+  getInterestGraphData, // TODO add JSDoc
+  getCoinInterestGraphData, // TODO add JSDoc
+  activeTimeline, // TODO add JSDoc
 }
 
 function activeTimeline(time, period) {

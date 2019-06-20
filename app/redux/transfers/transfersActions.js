@@ -1,26 +1,20 @@
-import { Share } from "react-native";
-
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
 import transferService from '../../services/transfer-service';
 import { navigateTo, navigateBack } from "../nav/navActions";
 import { showMessage, openModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
-import { BRANCH_LINKS, TRANSFER_STATUSES } from "../../constants/DATA";
+import { TRANSFER_STATUSES } from "../../constants/DATA";
 import { getWalletSummary } from "../wallet/walletActions";
 import { getAllTransactions } from "../transactions/transactionsActions";
-import { createCelPayBUO } from "../../utils/branch-util";
 import { MODALS } from '../../constants/UI'
 
 export {
   getAllTransfers,
-  getTransfer,
   claimTransfer,
   cancelTransfer,
-  createTransfer,
-  createBranchTransfer,
   registerTransferLink,
-  claimAllBranchTransfers
+  claimAllBranchTransfers,
 }
 
 
@@ -44,8 +38,9 @@ function getAllTransfers(transferStatus) {
 }
 
 
+
 /**
- * @todo: move to getAllTransfers
+ * @TODO add JSDoc
  */
 function getAllTransfersSuccess(transfers) {
   return {
@@ -57,27 +52,7 @@ function getAllTransfersSuccess(transfers) {
 
 
 /**
- * Gets single transfer by hash
- * @param {string} transferHash
- */
-function getTransfer(transferHash) {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_TRANSFER));
-
-    try {
-      const res = await transferService.get(transferHash);
-      const transfer = res.data;
-      dispatch(getTransferSuccess(transfer));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_TRANSFER, err));
-    }
-  }
-}
-
-
-/**
- * @todo: move to getTransfer
+ * @TODO write JSDoc
  */
 function getTransferSuccess(transfer) {
   return {
@@ -110,8 +85,9 @@ function claimTransfer(transferHash) {
 }
 
 
+
 /**
- * @todo: move to claimTransfer
+ * @TODO add JSDoc
  */
 function claimTransferSuccess(transfer) {
   return {
@@ -144,88 +120,15 @@ function cancelTransfer(transferHash) {
 }
 
 
+
 /**
- * @todo: move to cancelTransfer
+ * @TODO add JSDoc
  */
 function cancelTransferSuccess(transfer) {
   return {
     type: ACTIONS.CANCEL_TRANSFER_SUCCESS,
     callName: API.CANCEL_TRANSFER,
     transfer: mapTransfer(transfer),
-  }
-}
-
-
-/**
- * Creates a transfer
- * @param {number|string} amount - 0.123456789|"0.123456789"
- * @param {string} coin - ETH|eth
- */
-function createTransfer(amount, coin) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_TRANSFER));
-
-    try {
-      const res = await transferService.create({
-        amount: Number(amount).toFixed(5),
-        coin: coin.toUpperCase()
-      });
-      dispatch(createTransferSuccess(res.data));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_TRANSFER, err));
-    }
-  }
-}
-
-
-/**
- * @todo: move to createTransfer
- */
-function createTransferSuccess(transfer) {
-  return {
-    type: ACTIONS.CREATE_TRANSFER_SUCCESS,
-    callName: API.CREATE_TRANSFER,
-    transfer,
-  }
-}
-
-
-/**
- * Creates a transfer and a branch link and shares
- * @deprecated: moved to celPayLink
- */
-function createBranchTransfer(amount, amountUsd, coin, verification) {
-  return async (dispatch, getState ) => {
-    let apiCall = API.CREATE_TRANSFER;
-    dispatch(startApiCall(apiCall));
-    const res = await transferService.create({
-      amount: Number(amount).toFixed(5),
-      coin: coin.toUpperCase(),
-    }, verification);
-
-    const transfer = res.data;
-    dispatch(createTransferSuccess(transfer));
-
-    const currencyAmount = getState().generalData.currencyRatesShort[transfer.coin.toLowerCase()];
-    const usdAmount = currencyAmount * amount;
-
-    const { profile } = getState().user;
-
-    apiCall = API.CREATE_BRANCH_LINK;
-    dispatch(startApiCall(apiCall));
-    const branchLink = await createCelPayBUO(transfer)
-    dispatch({
-      type: ACTIONS.CREATE_BRANCH_LINK_SUCCESS,
-      callName: API.CREATE_BRANCH_LINK,
-      branchLink: {
-        ...branchLink,
-        linkType: BRANCH_LINKS.TRANSFER
-      }
-    });
-
-    Share.share({ message: `${profile.first_name} has sent you $${usdAmount.toFixed(2)} in ${transfer.coin}! Click here to claim it in the Celsius Wallet. ${branchLink.url}` });
-    dispatch(navigateTo('Home'));
   }
 }
 
@@ -288,9 +191,8 @@ function claimAllBranchTransfers() {
 /**
  * Maps all transfer props
  * @param {Object} transfer
- * @todo: move to reducer
+ * @TODO move to reducer
  */
-
 function mapTransfer(transfer) {
   if (!transfer) return;
 

@@ -4,10 +4,15 @@ import usersService from '../../services/users-service';
 import { showMessage } from "../ui/uiActions";
 import ACTIONS from '../../constants/ACTIONS'
 
+
 export {
-  getLoyaltyInfo
+  getLoyaltyInfo // TODO move to user/data actions/reducer
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getLoyaltyInfo() {
   return async(dispatch) => {
     try {
@@ -22,6 +27,10 @@ function getLoyaltyInfo() {
   }
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getLoyaltyInfoSuccess(loyaltyInfo) {
   return {
     type: ACTIONS.GET_LOYALTY_INFO_SUCCESS,

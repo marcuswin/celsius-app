@@ -26,18 +26,15 @@ const {
 export {
   authTwitter,
   registerUserTwitter,
-  loginTwitter,
   twitterClose,
   twitterOpen,
   twitterGetAccessToken,
-  twitterSuccess,
   authFacebook,
   registerUserFacebook,
-  loginFacebook,
   authGoogle,
   registerUserGoogle,
-  loginGoogle
 }
+
 
 /**
  * Handles response after twitter login
@@ -173,17 +170,6 @@ function twitterGetAccessToken (tokens) {
   }
 }
 
-/**
- * Successfully logged into Twitter
- * @param {Object} user
- * @returns {Object} - Action
- */
-function twitterSuccess (user) {
-  return {
-    type: ACTIONS.TWITTER_SUCCESS,
-    twitter_user: user
-  }
-}
 
 /**
  * Authorizes user on Facebook

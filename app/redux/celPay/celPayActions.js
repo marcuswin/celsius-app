@@ -11,8 +11,15 @@ import { navigateTo } from '../nav/navActions'
 import analytics from '../../utils/analytics'
 import celUtilityUtil from '../../utils/cel-utility-util'
 
-export { celPayFriend, celPayShareLink }
+export {
+  celPayFriend,
+  celPayShareLink,
+}
 
+
+/**
+ * TODO add JSDoc
+ */
 function celPayFriend () {
   return async (dispatch, getState) => {
     try {
@@ -65,6 +72,10 @@ function celPayFriend () {
   }
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function celPayShareLink () {
   return async (dispatch, getState) => {
     try {

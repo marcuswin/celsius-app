@@ -20,13 +20,15 @@ import analytics from "../../utils/analytics";
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
-  initCelsiusApp,
-  resetCelsiusApp,
-  loadCelsiusAssets,
+  initCelsiusApp, // TODO add more JSDoc description
+  loadCelsiusAssets, // TODO add more JSDoc description
+  initAppData, // TODO add more JSDoc description
+  resetCelsiusApp, // TODO add more JSDoc description
+
   handleAppStateChange,
   setInternetConnection,
-  initAppData,
-  showVerifyScreen
+
+  showVerifyScreen, // TODO move to security actions
 };
 
 /**

@@ -94,8 +94,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  let layout;
-
   switch (action.type) {
     case ACTIONS.SHOW_MESSAGE:
       return {
@@ -112,64 +110,10 @@ export default (state = initialState, action) => {
         message: undefined,
       };
 
-    case ACTIONS.SET_HEADER_HEIGHT:
-      return {
-        ...state,
-        dimensions: {
-          ...state.dimensions,
-          header: action.header,
-        }
-      };
-
-    case ACTIONS.SET_KEYBOARD_HEIGHT:
-      return {
-        ...state,
-        keyboardHeight: action.keyboardHeight
-      }
-
     case ACTIONS.TOGGLE_KEYPAD:
       return {
         ...state,
         isKeypadOpen: action.isKeypadOpen,
-      }
-
-    case ACTIONS.SET_INPUT_LAYOUT:
-      return {
-        ...state,
-        formInputLayouts: {
-          ...state.formInputLayouts,
-          [action.field]: action.layout,
-        }
-      }
-
-    case ACTIONS.CLEAR_INPUT_LAYOUTS:
-      return {
-        ...state,
-        formInputLayouts: {},
-      }
-
-    case ACTIONS.SCROLL_TO:
-      return {
-        ...state,
-        scrollTo: action.scrollTo,
-        scrollPosition: action.scrollTo || state.scrollPosition,
-      }
-
-    case ACTIONS.SET_SCROLL_POSITION:
-      return {
-        ...state,
-        scrollPosition: action.scrollPosition,
-      }
-
-    case ACTIONS.SET_SCROLL_ELEMENT_LAYOUT:
-      layout = action.layout;
-      layout.y += state.scrollPosition;
-      return {
-        ...state,
-        scrollLayouts: {
-          ...state.scrollLayouts,
-          [action.element]: layout,
-        }
       }
 
     case ACTIONS.OPEN_MODAL:
@@ -188,20 +132,7 @@ export default (state = initialState, action) => {
         ...state,
         maintenanceMode: action.backendStatus.maintenance || false,
       };
-    case ACTIONS.FIRE_USER_ACTION:
-      return {
-        ...state,
-        hasBottomNavigation: true,
-        userActions: {
-          ...state.userActions,
-          [action.name]: true,
-        },
-      }
-    case ACTIONS.SET_APP_THEME:
-      return {
-        ...state,
-        theme: action.theme
-      }
+
     case ACTIONS.OPEN_FAB_MENU:
       return {
         ...state,
@@ -223,8 +154,6 @@ export default (state = initialState, action) => {
 
     case ACTIONS.NAVIGATE_BACK:
     case ACTIONS.NAVIGATE:
-    case ACTIONS.NAVIGATION_RESET:
-    case ACTIONS.REFRESH_BOTTOM_NAVIGATION:
     case ACTIONS.GET_USER_PERSONAL_INFO_SUCCESS:
       return {
         ...state,

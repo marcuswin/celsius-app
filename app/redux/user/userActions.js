@@ -18,24 +18,30 @@ import { getWalletSummary } from "../wallet/walletActions";
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
 export {
+  // User & Profile Actions
   getProfileInfo,
   updateProfilePicture,
+  getComplianceInfo,
+  getCelsiusMemberStatus,
+  getUserAppSettings,
+  setUserAppSettings,
+
+  // TODO move to contacts
+  connectPhoneContacts,
+  getConnectedContacts,
+
+  // TODO move to KYC actions
+  getLinkedBankAccount,
+  linkBankAccount,
+  profileTaxpayerInfo, // TODO rename
+
+  // Security Actions
   getTwoFactorSecret,
   enableTwoFactor,
   disableTwoFactor,
-  getIcoUsersProfileInfo,
-  getComplianceInfo,
   checkPIN,
   checkTwoFactor,
-  connectPhoneContacts,
-  getConnectedContacts,
-  getLinkedBankAccount,
-  linkBankAccount,
-  profileTaxpayerInfo,
   getPreviousPinScreen,
-  getCelsiusMemberStatus,
-  getUserAppSettings,
-  setUserAppSettings
 };
 
 /**
@@ -76,6 +82,10 @@ function profileTaxpayerInfo() {
   };
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function profileTaxpayerInfoSuccess(taxPayerInfo) {
   return {
     type: ACTIONS.GET_USER_TAXPAYER_INFO_SUCCESS,
@@ -84,8 +94,9 @@ function profileTaxpayerInfoSuccess(taxPayerInfo) {
   };
 }
 
+
 /**
- * @todo: move to getProfileInfo
+ * TODO add JSDoc
  */
 export function getUserPersonalInfoSuccess(personalInfo) {
   return {
@@ -94,6 +105,7 @@ export function getUserPersonalInfoSuccess(personalInfo) {
     personalInfo
   };
 }
+
 
 /**
  * Updates users profile picture
@@ -112,8 +124,9 @@ function updateProfilePicture(image) {
   };
 }
 
+
 /**
- * @todo: move to updateProfilePicture
+ * TODO add JSDoc
  */
 function updateProfilePictureSuccess(image) {
   return {
@@ -122,6 +135,7 @@ function updateProfilePictureSuccess(image) {
     image
   };
 }
+
 
 /**
  * gets two factor secret for user
@@ -140,6 +154,7 @@ function getTwoFactorSecret(pin) {
   };
 }
 
+
 /**
  * Enables two factor authentication for user
  * @param {string} code - eg. 111111
@@ -154,6 +169,7 @@ function enableTwoFactor(code) {
     }
   };
 }
+
 
 /**
  * Disables two factor for user, pin is fallback
@@ -174,34 +190,6 @@ function disableTwoFactor() {
   };
 }
 
-/**
- * Gets ICO data for user
- */
-function getIcoUsersProfileInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_ICO_USERS_INFO));
-
-    try {
-      const res = await usersService.getIcoPersonalInfo();
-      const personalInfo = res.data;
-      dispatch(getIcoUsersProfileInfoSuccess(personalInfo));
-    } catch (err) {
-      dispatch(showMessage("error", err.msg));
-      dispatch(apiError(API.GET_ICO_USERS_INFO, err));
-    }
-  };
-}
-
-/**
- * @todo: move to getIcoUsersProfileInfo
- */
-function getIcoUsersProfileInfoSuccess(personalInfo) {
-  return {
-    type: ACTIONS.GET_ICO_USERS_INFO_SUCCESS,
-    personalInfo,
-    callName: API.GET_ICO_USERS_INFO
-  };
-}
 
 /**
  * Gets all relevant compliance settings for user
@@ -224,8 +212,9 @@ function getComplianceInfo() {
   };
 }
 
+
 /**
- * @todo: move to getComplianceInfo
+ * TODO add JSDoc
  */
 function getComplianceInfoSuccess(complianceInfo) {
   return {
@@ -234,6 +223,7 @@ function getComplianceInfoSuccess(complianceInfo) {
     complianceInfo
   };
 }
+
 
 /**
  * Checks user pin code
@@ -261,6 +251,10 @@ function checkPIN(onSuccess, onError) {
   };
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function checkTwoFactor(onSuccess, onError) {
   return async (dispatch, getState) => {
     try {
@@ -315,8 +309,9 @@ function getConnectedContacts() {
   };
 }
 
+
 /**
- * @todo: move to getConnectedContacts
+ * TODO add JSDoc
  */
 function getConnectedContactsSuccess(contacts) {
   return {
@@ -327,7 +322,6 @@ function getConnectedContactsSuccess(contacts) {
 }
 
 /**
- *
  * Get linked bank account info
  */
 function getLinkedBankAccount() {
@@ -377,6 +371,10 @@ function linkBankAccount(bankAccountInfo) {
   };
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getPreviousPinScreen(activeScreen) {
   return async dispatch => {
     dispatch(startApiCall(API.GET_PREVIOUS_SCREEN));

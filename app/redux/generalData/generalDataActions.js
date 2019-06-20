@@ -6,18 +6,14 @@ import API from "../../constants/API";
 import ACTIONS from '../../constants/ACTIONS';
 
 export {
-  getKYCDocTypes,
   getBackendStatus,
   getInitialCelsiusData,
 
-  // remove
-  getSupportedCurrencies,
-  getBlacklistedCountries,
+  getKYCDocTypes, // TODO Move to KYC actions
 }
 
 /**
  * Gets all general app data (interest rates, borrow ltvs, ...)
- * @todo: add more data
  */
 function getInitialCelsiusData() {
   return async (dispatch, getState) => {
@@ -37,42 +33,11 @@ function getInitialCelsiusData() {
         minimumLoanAmount,
         celUtilityTiers: res.data.cel_utility_tiers,
         withdrawalSettings: res.data.withdrawal_settings,
-
       });
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_INITIAL_CELSIUS_DATA, err));
     }
-  }
-}
-
-/**
- * Gets all supported currencies and their graph data
- * @deprecated
- */
-function getSupportedCurrencies() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_SUPPORTED_CURRENCIES));
-
-    try {
-      const res = await generalDataService.getSupportedCurrencies();
-      const supportedCurrencies = res.data.data;
-      dispatch(getSupportedCurrenciesSuccess(supportedCurrencies));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_SUPPORTED_CURRENCIES, err));
-    }
-  }
-}
-
-/**
- * @deprecated
- */
-function getSupportedCurrenciesSuccess(supportedCurrencies) {
-  return {
-    type: ACTIONS.GET_SUPPORTED_CURRENCIES_SUCCESS,
-    supportedCurrencies,
-    callName: API.GET_SUPPORTED_CURRENCIES,
   }
 }
 
@@ -96,7 +61,7 @@ function getKYCDocTypes() {
 
 
 /**
- * @todo: move to getKYCDocTypes
+ * TODO add JSDoc
  */
 function getKYCDocTypesSuccess(kycDocTypes) {
   return {
@@ -126,50 +91,12 @@ function getBackendStatus() {
 
 
 /**
- * @todo: move to getBackendStatus
+ * TODO add JSDoc
  */
 function getBackendStatusSuccess(backendStatus) {
   return {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
     callName: API.GET_BACKEND_STATUS,
     backendStatus,
-  }
-}
-
-/**
- * @deprecated
- */
-function getBlacklistedCountries() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_BLACKLISTED_COUNTRIES));
-
-    try {
-      const res = await generalDataService.getBlacklisted();
-      const blacklistedCountries = res.data;
-
-      const blacklistedCountryLocation = blacklistedCountries.location.filter(c => c.country !== "United States" ).map(value => value.country);
-      const blacklistedCountryResidency = blacklistedCountries.residency.filter(c => c.country !== "United States" ).map(value => value.country);
-      const blacklistedStatesLocation = blacklistedCountries.location.filter(c => c.country === "United States").map(value => value.state);
-      const blacklistedStatesResidency = blacklistedCountries.residency.filter(c => c.country === "United States").map(value => value.state);
-
-      dispatch(getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_BLACKLISTED_COUNTRIES, err));
-    }
-  }
-}
-
-/**
- * @deprecated
- */
-function getBlacklistedCountriesSuccess(blacklistedCountryLocation,blacklistedCountryResidency, blacklistedStatesLocation, blacklistedStatesResidency) {
-  return {
-    type: ACTIONS.GET_BLACKLISTED_COUNTRIES_SUCCESS,
-    callName: API.GET_BLACKLISTED_COUNTRIES,
-    blacklistedCountryLocation,
-    blacklistedCountryResidency,
-    blacklistedStatesLocation,
-    blacklistedStatesResidency
   }
 }

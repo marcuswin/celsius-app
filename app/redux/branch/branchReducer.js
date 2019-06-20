@@ -1,5 +1,4 @@
 import ACTIONS from '../../constants/ACTIONS'
-import { BRANCH_LINKS } from '../../constants/DATA'
 
 const initialState = {
   registeredLink: null,
@@ -24,22 +23,6 @@ export default function branchReducer (state = initialState, action) {
           ...state.registeredLink,
           ...action.branchLink
         }
-      }
-    case ACTIONS.CREATE_BRANCH_LINK_SUCCESS:
-      return {
-        ...state
-      }
-
-    case ACTIONS.SAVE_BRANCH_LINK_SUCCESS:
-      return {
-        ...state,
-        referralLinkId:
-          [
-            BRANCH_LINKS.COMPANY_REFERRAL,
-            BRANCH_LINKS.INDIVIDUAL_REFERRAL
-          ].indexOf(action.branchLink.link_type) !== -1
-            ? action.branchLink.id
-            : state.referralLinkId
       }
 
     case ACTIONS.CHECK_PROFILE_PROMO_CODE_SUCCESS:

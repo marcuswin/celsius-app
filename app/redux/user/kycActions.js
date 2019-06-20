@@ -12,16 +12,16 @@ import { KYC_STATUSES } from "../../constants/DATA";
 import analytics from "../../utils/analytics";
 
 export {
+  getKYCStatus,
+
   updateProfileInfo,
   updateProfileAddressInfo,
   updateTaxpayerInfo,
   getKYCDocuments,
-  createKYCDocuments,
-  sendVerificationSMS,
-  verifySMS,
   verifyKYCDocs,
-  finishKYCVerification,
-  getKYCStatus
+
+  sendVerificationSMS, // TODO move to user/profile actions
+  verifySMS, // TODO move to user/profile actions
 }
 
 /**
@@ -133,8 +133,9 @@ function updateTaxpayerInfo(profileTaxpayerInfo) {
   }
 }
 
+
 /**
- * @todo: move to updateProfileInfo
+ * @TODO add JSDoc
  */
 export function updateProfileInfoSuccess(personalInfo) {
   return {
@@ -144,8 +145,9 @@ export function updateProfileInfoSuccess(personalInfo) {
   }
 }
 
+
 /**
- * @todo: move to updateProfileAddressInfo
+ * @TODO add JSDoc
  */
 function updateProfileAddressInfoSuccess(addressInfo) {
   return {
@@ -155,8 +157,9 @@ function updateProfileAddressInfoSuccess(addressInfo) {
   }
 }
 
+
 /**
- * @todo: move to updateProfileTaxpayerInfo
+ * @TODO add JSDoc
  */
 function updateProfileTaxpayerInfoSuccess(taxpayerInfo) {
   return {
@@ -183,8 +186,9 @@ function getKYCDocuments(documents) {
   }
 }
 
+
 /**
- * @todo: move to getKYCDocuments
+ * @TODO add JSDoc
  */
 function getKYCDocumentsSuccess(documents) {
   return {
@@ -194,25 +198,9 @@ function getKYCDocumentsSuccess(documents) {
   }
 }
 
-/**
- * Creates new KYC documents for user
- * @param {Object} documents
- */
-function createKYCDocuments(documents) {
-  return async dispatch => {
-    dispatch(startApiCall(API.CREATE_KYC_DOCUMENTS));
-    try {
-      await meService.createKYCDocuments(documents);
-      dispatch(createKYCDocumentsSuccess());
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.CREATE_KYC_DOCUMENTS, err));
-    }
-  }
-}
 
 /**
- * @todo: move to createKYCDocuments
+ * @TODO add JSDoc
  */
 function createKYCDocumentsSuccess() {
   return {
@@ -238,8 +226,9 @@ function sendVerificationSMS(phone) {
   }
 }
 
+
 /**
- * @todo: move to sendVerificationSMS
+ * @TODO add JSDoc
  */
 function sendVerificationSMSSuccess() {
   return {
@@ -268,8 +257,9 @@ function verifySMS(verificationCode) {
   }
 }
 
+
 /**
- * @todo: move to verifySMS
+ * @TODO add JSDoc
  */
 export function verifySMSSuccess() {
   return {
@@ -278,8 +268,9 @@ export function verifySMSSuccess() {
   }
 }
 
+
 /**
- * Verifies if KYC documents are valid and send the SMS
+ * @TODO add JSDoc
  */
 let timeout;
 function verifyKYCDocs() {
@@ -325,47 +316,10 @@ function verifyKYCDocs() {
   }
 }
 
+
 /**
- * Starts the KYC verification process on Onfido
+ * @TODO add JSDoc
  */
-function finishKYCVerification() {
-  return async (dispatch, getState) => {
-    const { formData } = getState().forms;
-    let callName;
-
-    try {
-      callName = API.VERIFY_SMS;
-      dispatch(startApiCall(API.VERIFY_SMS));
-      await meService.verifySMS(formData.verificationCode);
-      dispatch(verifySMSSuccess());
-
-      callName = API.START_KYC;
-      dispatch(startApiCall(API.START_KYC));
-      await meService.startKYC();
-      dispatch(startKYCSuccess());
-
-      dispatch(NavActions.navigateTo('NoKyc', true));
-      dispatch(showMessage('success', 'KYC verification proccess has started!'));
-    } catch (err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(callName, err));
-    }
-  }
-}
-
-// function startKYC() {
-//   return async dispatch => {
-//     dispatch(startApiCall(API.START_KYC));
-//     try {
-//       await meService.startKYC();
-//       dispatch(startKYCSuccess());
-//     } catch (err) {
-//       dispatch(showMessage('error', err.msg));
-//       dispatch(apiError(API.START_KYC, err));
-//     }
-//   }
-// }
-
 function startKYCSuccess() {
   return {
     type: ACTIONS.START_KYC_SUCCESS,
@@ -375,6 +329,10 @@ function startKYCSuccess() {
   }
 }
 
+
+/**
+ * @TODO add JSDoc
+ */
 function getKYCStatus() {
   return async dispatch => {
     dispatch(startApiCall(API.GET_KYC_STATUS));
@@ -388,8 +346,9 @@ function getKYCStatus() {
   }
 }
 
+
 /**
- * @todo: move to getKYCStatus
+ * @TODO add JSDoc
  */
 function getKYCStatusSuccess(status) {
   return {
