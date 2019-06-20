@@ -21,10 +21,11 @@ import { MODALS, THEMES } from '../../../constants/UI'
 import {
   heightPercentageToDP,
   getPadding,
-  AddThemeToComponents
+  addThemeToComponents
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import Message from '../../molecules/Message/Message'
+import CelInput from "../../atoms/CelInput/CelInput";
 
 @connect(
   state => ({
@@ -100,9 +101,9 @@ class CelModal extends Component {
       ? { paddingVertical: heightPercentageToDP('18%') }
       : { paddingVertical: heightPercentageToDP('5%') }
 
-    const childrenWithProps = AddThemeToComponents(
+    const childrenWithProps = addThemeToComponents(
       children,
-      ['CelText', 'CelInput'],
+      [CelText.displayName, CelInput.displayName],
       THEMES.LIGHT
     )
 
