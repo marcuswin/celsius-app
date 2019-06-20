@@ -114,7 +114,7 @@ class WalletSettings extends Component {
         {/* <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton> */}
         <RNPickerSelect
           placeholder={{
-            label: 'Chooise default view',
+            label: 'Choose default view',
             color: 'rgba(0,0,0,0.5)'
           }}
           items={filterOptions}
