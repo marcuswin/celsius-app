@@ -1,19 +1,14 @@
-// TODO(fj): split into wallet and transactions
-
 import ACTIONS from '../../constants/ACTIONS';
 
+
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 function initialState() {
   return {
     summary: undefined,
     addresses: {},
     withdrawalAddresses: {},
-    transactions: {},
-    activeTransactionId: undefined,
-    walletBalance: null,
-    total: null,
-    interest: {},
-    currencies: null,
-    coinOrder: [],
   };
 }
 

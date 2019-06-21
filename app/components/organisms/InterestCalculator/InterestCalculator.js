@@ -23,7 +23,6 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
     formData: state.forms.formData,
     currencies: state.currencies.rates,
     interestCompliance: state.user.compliance.interest,
-    interestRatesDisplay: state.interest.ratesDisplay,
     currencyRatesShort: state.currencies.currencyRatesShort,
     keypadOpen: state.ui.isKeypadOpen
   }),

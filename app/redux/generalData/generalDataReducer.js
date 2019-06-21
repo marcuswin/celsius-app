@@ -1,23 +1,17 @@
-// TODO(fj) add currency rates to initial state
-// TODO(fj) split graphs ?
-
 import ACTIONS from '../../constants/ACTIONS';
 
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 function initialState() {
   return {
-    kycDocTypes: undefined,
-    backendStatus: undefined,
     interestRates: undefined,
     minimumLoanAmount: undefined,
     celUtilityTiers: undefined,
     withdrawalSettings: undefined,
 
-    // TODO: remove
-    supportedCurrencies: undefined,
-    blacklistedCountryLocation: [],
-    blacklistedCountryResidency: [],
-    blacklistedStatesLocation: [],
-    blacklistedStatesResidency: []
+    kycDocTypes: undefined, // TODO move to kycReducer
+    backendStatus: undefined, // TODO move to appReducer ?
   };
 }
 
