@@ -12,7 +12,7 @@ import { THEMES } from '../../../constants/UI';
 class CelText extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['H0', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7']),
-    font: PropTypes.oneOf(['barlow']),
+    font: PropTypes.oneOf(['Barlow']),
     weight: PropTypes.oneOf([
       '100',
       '200',
@@ -46,7 +46,7 @@ class CelText extends Component {
     theme: PropTypes.oneOf(Object.values(THEMES)),
   }
   static defaultProps = {
-    font: 'barlow',
+    font: 'Barlow',
     type: 'H5',
     margin: '0 0 0 0',
     style: {},

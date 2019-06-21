@@ -34,7 +34,7 @@ const base = {
     input: {
         height: 28,
         fontSize,
-        fontFamily: 'barlow-light',
+        fontFamily: 'Barlow-Light',
     },
     disabledInput: {
         opacity: 0.6

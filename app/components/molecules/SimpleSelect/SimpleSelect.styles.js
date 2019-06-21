@@ -17,11 +17,11 @@ const base = {
   },
   inputAndroid: {
     fontSize: 26,
-    fontFamily: 'barlow-regular'
+    fontFamily: 'Barlow-Regular'
   },
   inputIOS: {
     fontSize: 26,
-    fontFamily: 'barlow-regular'
+    fontFamily: 'Barlow-Regular'
   },
   iconContainer: {
     position: 'relative',

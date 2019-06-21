@@ -71,19 +71,19 @@ const base = {
   },
   regularRateText: {
     color: STYLES.COLORS.MEDIUM_GRAY,
-    fontFamily: "barlow-regular",
+    fontFamily: "Barlow-Regular",
   },
   celRateText: {
     color: "#fff",
-    fontFamily: "barlow-semi-bold",
+    fontFamily: "Barlow-SemiBold",
   },
   regRateText: {
     color: STYLES.COLORS.MEDIUM_GRAY,
-    fontFamily: "barlow-semi-bold",
+    fontFamily: "Barlow-SemiBold",
   },
   celsiusRateText: {
     color: "#fff",
-    fontFamily: "barlow-regular",
+    fontFamily: "Barlow-Regular",
   }
 };
 
