@@ -18,6 +18,6 @@ const themed = {
     }
 }
 
-const CelInterestCardStyle = () => getThemedStyle(base, themed);
+const InterestCardStyle = () => getThemedStyle(base, themed);
 
-export default CelInterestCardStyle
+export default InterestCardStyle

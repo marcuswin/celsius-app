@@ -19,6 +19,7 @@ import { getTheme, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 import Icon from "../../atoms/Icon/Icon";
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
+import InterestCard from "../../molecules/InterestCard/InterestCard";
 
 const { COLORS } = STYLES;
 
@@ -85,6 +86,8 @@ class CoinDetails extends Component {
     const coinPrice = currencies ? currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0] : {}
     const theme = getTheme();
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
+
+    const interestInCoins = appSettings.interest_in_cel_per_coin;
 
     let interestRate = 0
     if (coinDetails.short !== "CEL") {
@@ -209,9 +212,14 @@ class CoinDetails extends Component {
                   coin={currency.short}
                 />
               </View>
+              <Separator margin={"20 0 10 0"}/>
+              <InterestCard
+                coin={coinDetails.short}
+                interestInCoins={interestInCoins}
+                setUserAppSettings={actions.setUserAppSettings}
+              />
             </Card>
             : null}
-
         </View>
 
         <View style={style.container}>

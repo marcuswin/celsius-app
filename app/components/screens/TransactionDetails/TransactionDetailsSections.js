@@ -10,8 +10,6 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
-
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -309,21 +307,13 @@ export const NoteSection = ({ text }) => (
   ) : null
 )
 
-export const InterestSection = ({ interestEarned, interestBonus, tier, interestInCel, setUserAppSettings }) => (
+export const InterestSection = ({ interestEarned }) => (
 
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
-    {!interestInCel ?
-      <CelInterestCard
-        tier={tier}
-        interestBonus={interestBonus}
-        interestInCel={interestInCel}
-        setUserAppSettings={setUserAppSettings}
-      />
-      : null}
   </View>
 )
 

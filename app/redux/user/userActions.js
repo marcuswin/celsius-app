@@ -450,14 +450,23 @@ function setUserAppSettings(data) {
   return async dispatch => {
     try {
       dispatch(startApiCall(API.SET_APP_SETTINGS));
-      const userAppData = await usersService.setUserAppSettings(data);
+
+      const newData = { ...data }
+      if (newData.interest_in_cel_per_coin) {
+        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin)
+      }
+
+      const userAppData = await usersService.setUserAppSettings(newData);
+
       dispatch({
         type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
         userAppData: userAppData.data
       });
 
-      if (data.interest_in_cel) {
-        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest go to your settings."));
+      if (newData.interest_in_cel_per_coin) {
+        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
+      } else {
+        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
       }
     } catch (e) {
       dispatch(apiError(API.SET_APP_SETTINGS, e));

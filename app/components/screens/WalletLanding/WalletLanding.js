@@ -107,8 +107,9 @@ class WalletLanding extends Component {
       actions.getCelsiusMemberStatus()
       this.shouldInitializeMembership = false
     }
-    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON') {
+    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
+    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States'
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 

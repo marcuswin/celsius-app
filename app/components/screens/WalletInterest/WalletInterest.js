@@ -16,7 +16,6 @@ import WalletInterestStyle from './WalletInterest.styles'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import { EMPTY_STATES, MODALS } from '../../../constants/UI'
 import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
-import CelInterestCard from '../../molecules/CelInterestCard/CelInterestCard'
 import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
 import Separator from '../../atoms/Separator/Separator'
 import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
@@ -152,19 +151,6 @@ class WalletInterest extends Component {
           interest
           type={'total-interest'}
         />
-
-        <View
-          style={{ paddingVertical: 20, paddingHorizontal: 20 }}
-        >
-          {!appSettings.interest_in_cel ?
-            <CelInterestCard
-              tier={loyaltyInfo.tier.title}
-              interestBonus={loyaltyInfo.earn_interest_bonus}
-              interestInCel={appSettings.interest_in_cel}
-              setUserAppSettings={actions.setUserAppSettings}
-            />
-            : null}
-        </View>
 
         <View style={style.container}>
           <TransactionsHistory
