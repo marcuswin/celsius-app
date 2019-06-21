@@ -20,7 +20,7 @@ const {
 let token
 
 export default {
-  initInterceptors,
+  initInterceptors, // TODO split into multiple methods
   areCallsInProgress,
   parseValidationErrors
 }

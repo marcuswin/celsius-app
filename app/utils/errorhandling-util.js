@@ -1,5 +1,6 @@
 import loggerUtil from "./logger-util";
 
+// TODO add JSDoc
  /* eslint-disable */
 const defaultErrorHandler = ErrorUtils.getGlobalHandler()
 const myErrorHandler = (e, isFatal) => {

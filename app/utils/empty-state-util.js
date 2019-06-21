@@ -2,7 +2,7 @@ import { EMPTY_STATES, MODALS } from "../constants/UI";
 import { KYC_STATUSES } from "../constants/DATA";
 
 export default {
-  getProps,
+  getProps, // TODO add JSDoc
 };
 
 function getProps(purpose, componentProps) {

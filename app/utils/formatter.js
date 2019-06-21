@@ -2,21 +2,19 @@ import currency from 'currency-formatter'
 
 export default {
   usd,
-  cel,
   crypto,
-  ordinalSuffixOf,
-  round,
+  round, // TODO check to replace with crypto and remove
   floor10,
   getEllipsisAmount,
-  deepmerge,
-  getNumberOfDecimals,
-  hasEnoughDecimals,
+  deepmerge, // TODO since this is only for styles, mybe move to styles util?
+  getNumberOfDecimals, // TODO check and remove
+  hasEnoughDecimals, // TODO check and remove
   getAllowedDecimals,
   setCurrencyDecimals,
+  removeDecimalZeros,
   capitalize,
-  percentage,
-  percentageDisplay,
-  removeDecimalZeros
+  percentage, // TODO check if we need both or a flag will do
+  percentageDisplay, // TODO check if we need both or a flag will do
 }
 
 /**
@@ -30,25 +28,11 @@ function usd (amount, options = {}) {
   return currency.format(floor10(amount), { code: 'USD', ...options })
 }
 
-/**
- * Formats number to 1.12345 CEL
- * @deprecated
- *
- * @param {number|string} amount
- * @returns {string}
- */
-function cel (amount) {
-  return currency.format(amount, {
-    precision: 0,
-    thousand: ',',
-    symbol: 'CEL',
-    format: '%v %s'
-  })
-}
 
 /**
  * Formats number to 1.12345 ETH
- * @todo: should set default precision for each coin
+ * TODO should set default precision for each coin
+ * TODO remove noPrecision tag
  *
  * @param {number|string} amount
  * @param {string} cryptocurrency - eg. ETH|XRP
@@ -165,28 +149,6 @@ function percentageDisplay (number) {
   return `${percentageNum.toFixed(2)}%`
 }
 
-/**
- * Formats number to ordinal number - 1 -> 1st
- * @deprecated
- *
- * @param {number} number
- * @returns {string}
- */
-function ordinalSuffixOf (number) {
-  const j = number % 10
-  const k = number % 100
-
-  if (j === 1 && k !== 11) {
-    return `${number}st`
-  }
-  if (j === 2 && k !== 12) {
-    return `${number}nd`
-  }
-  if (j === 3 && k !== 13) {
-    return `${number}rd`
-  }
-  return `${number}th`
-}
 
 /**
  * Decimal adjustment of a number.

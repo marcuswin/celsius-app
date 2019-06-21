@@ -6,11 +6,11 @@ import API_URL from '../services/api-url'
 const { ENV } = Constants.manifest.extra
 
 export default {
-  logme,
+  logme, // TODO check better way to log stuff from app
   log,
-  warn,
-  info,
-  err
+  warn, // TODO remove
+  info, // TODO remove
+  err // TODO add JSDoc
 }
 
 /**

@@ -29,7 +29,7 @@ function mapTransaction(transaction) {
  * Gets transaction type
  *
  * @param {Object} transaction
- * @returns {function}
+ * @returns {string} one of TRANSACTION_TYPES
  */
 function getTransactionType(transaction) {
   if (["canceled", "removed", "rejected", "rejeceted"].includes(transaction.state)){

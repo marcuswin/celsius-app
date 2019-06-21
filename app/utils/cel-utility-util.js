@@ -4,7 +4,7 @@ import * as actions from '../redux/actions'
 export default {
   isLosingMembership,
   isLosingTier,
-  refetchMembershipIfChanged
+  refetchMembershipIfChanged, // TODO maybe move to an action?
 }
 
 /**
