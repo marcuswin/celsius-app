@@ -2,9 +2,9 @@ import axios from 'axios';
 import apiUrl from './api-url';
 
 const generalDataService = {
-  getSupportedCurrencies,
+  getSupportedCurrencies, // TODO remove
   getBackendStatus,
-  getBlacklisted,
+  getBlacklisted, // TODO remove
   getCelsiusInitialData
 };
 

@@ -4,9 +4,10 @@ import apiUrl from './api-url';
 
 const { BRANCH_KEY } = Constants.manifest.extra
 
+// TODO rename to campaigns-service
 const branchService = {
-  create,
-  get,
+  create, // TODO remove
+  get, // TODO remove
   createEvent,
   getIndividualLink,
   getByUrl,

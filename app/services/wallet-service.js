@@ -2,15 +2,15 @@ import axios from 'axios';
 import apiUrl from './api-url';
 
 const walletService = {
-  getWalletDetails,
+  getWalletDetails, // TODO remove
   getWalletSummary,
   getCoinAddress,
-  getCoinOriginatingAddress,
+  getCoinOriginatingAddress, // TODO remove
   setCoinWithdrawalAddress,
-  getCoinTransactions,
-  getCoinGraphData,
+  getCoinTransactions, // TODO remove
+  getCoinGraphData, // TODO remove
   withdrawCrypto,
-  getAllCoinWithdrawalAddresses
+  getAllCoinWithdrawalAddresses,
 };
 
 

@@ -6,28 +6,27 @@ import apiUrl from './api-url'
 const usersService = {
   // TODO: auth service
   register,
-  login,
   registerTwitter,
   registerFacebook,
   registerGoogle,
+  login,
   googleLogin,
   facebookLogin,
   twitterLogin,
   resetPassword,
-  invalidateSession,
-
-  // TODO: profile service
-  update,
   sendResetLink,
-  getPersonalInfo,
-  getProfileAddressInfo,
-  updateProfileInfo,
-  getProfileTaxpayerInfo,
+
+  // TODO move to user-security-service
+  invalidateSession,
+  getUserSecurityOverview,
+
+  // TODO move to user-kyc-service
+  getProfileAddressInfo, // TODO check if we need this?
   updateProfileAddressInfo,
+  getProfileTaxpayerInfo,
   updateProfileTaxpayerInfo,
-  setProfileImage,
-  addExpoPushToken,
-  getIcoPersonalInfo,
+
+  // TODO move to user-data-service
   getComplianceInfo,
   connectPhoneContacts,
   getConnectedContacts,
@@ -37,7 +36,14 @@ const usersService = {
   getLoyaltyInfo,
   getUserAppSettings,
   setUserAppSettings,
-  getUserSecurityOverview
+
+  // TODO: keep in user service
+  update, // TODO remove
+  getPersonalInfo,
+  updateProfileInfo,
+  setProfileImage,
+  addExpoPushToken,
+  getIcoPersonalInfo, // TODO remove
 }
 
 /**

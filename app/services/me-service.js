@@ -2,12 +2,17 @@ import axios from 'axios'
 import apiUrl from './api-url'
 
 const meService = {
+  // TODO move to user/user profile service
   sendVerificationSMS,
   verifySMS,
+
+  // TODO move to user-kyc-service
   startKYC,
   createKYCDocuments,
   getKYCDocuments,
   getKYCStatus,
+
+  // TODO move to user-security-service
   setPin,
   checkPin,
   changePin,
