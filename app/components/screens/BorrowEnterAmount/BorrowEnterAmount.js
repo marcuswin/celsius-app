@@ -24,7 +24,6 @@ import { getPadding } from '../../../utils/styles-util'
     loanCompliance: state.user.compliance.loan,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
-    walletTotal: state.wallet.total,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     keypadOpen: state.ui.isKeypadOpen
   }),

@@ -1,10 +1,13 @@
 import ACTIONS from '../../constants/ACTIONS';
 
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 const initialState = {
     cameraRollPhotos: [],
     hasMore: true,
-    totalPhotos: 0,
-    lastPhotoCursor: undefined,
+    totalPhotos: 0, // unused
+    lastPhotoCursor: undefined, // unused
     cameraField: undefined,
     cameraHeading: undefined,
     cameraCopy: undefined,

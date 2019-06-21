@@ -1,5 +1,8 @@
 import ACTIONS from "../../constants/ACTIONS";
 
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 function initialState() {
   return {
     appInitialized: false,
@@ -9,7 +12,7 @@ function initialState() {
     appState: "active",
     internetConnected: true,
     assetsLoaded: false,
-    showVerifyScreen: false
+    showVerifyScreen: false // TODO move to security
   };
 }
 

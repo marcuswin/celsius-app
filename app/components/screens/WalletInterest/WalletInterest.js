@@ -29,7 +29,6 @@ import { KYC_STATUSES } from '../../../constants/DATA'
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    chartData: state.interest.chartData,
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,

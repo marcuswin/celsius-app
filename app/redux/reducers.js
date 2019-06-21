@@ -5,7 +5,6 @@ import ui from './ui/uiReducer';
 import user from './user/userReducer';
 import generalData from './generalData/generalDataReducer';
 import wallet from './wallet/walletReducer';
-import interest from './interest/interestReducer';
 import branch from './branch/branchReducer';
 import transfers from './transfers/transfersReducer';
 import loans from './loans/loansReducer';
@@ -27,7 +26,6 @@ const appReducers = combineReducers({
   ui,
   generalData,
   wallet,
-  interest,
   branch,
   transfers,
   loans,

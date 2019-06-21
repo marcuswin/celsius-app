@@ -1,60 +1,42 @@
-// TODO(fj): check if we need appSettings anymore? *needed for permission decline check (blackout!)
-// TODO(fj): map user with additional props
-
 import ACTIONS from "../../constants/ACTIONS";
 
+
+/**
+ * TODO move to compliance
+ */
+const defaultCompliance = { allowed: true, coins: [] }
+const initialCompliance = {
+  app: { ...defaultCompliance },
+  deposit: { ...defaultCompliance },
+  withdraw: { ...defaultCompliance },
+  celpay: { ...defaultCompliance },
+  loan: { ...defaultCompliance },
+  interest: { ...defaultCompliance }
+}
+
+
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 const initialState = {
-  userLocation: undefined,
-  // profile: undefined,
   profile: {
     profile_picture: null
   },
   expiredSession: false,
-  kycStatus: undefined,
-  kycDocuments: undefined,
   appSettings: {
-    showWalletDetailsInfoBox: true,
-    showWalletLandingInfoBox: true,
-    showSecureTransactionsScreen: true,
-    showTodayRatesModal: true,
-    showBchExplanationInfoBox: true,
-    declineAccess: false,
     theme: 'light'
   },
-  compliance: {
-    app: {
-      allowed: true,
-      coins: []
-    },
-    deposit: {
-      allowed: true,
-      coins: []
-    },
-    withdraw: {
-      allowed: true,
-      coins: []
-    },
-    celpay: {
-      allowed: true,
-      coins: []
-    },
-    loan: {
-      allowed: true,
-      coins: []
-    },
-    interest: {
-      allowed: true,
-      coins: []
-    }
-  },
-  contacts: {
+
+  bankAccountInfo: null, // TODO move to profile
+  screen: undefined, // TODO move to ui or navReducer. check what does it do
+  loyaltyInfo: null, // TODO move to profile
+  securityOverview: {}, // TODO move to security
+  kycDocuments: undefined, // TODO move to kycReducer
+  compliance: initialCompliance, // TODO move to comlplianceReducer
+  contacts: { // TODO move to profileReducer
     friendsWithApp: [],
     friendsWithoutApp: []
   },
-  bankAccountInfo: null,
-  screen: undefined,
-  loyaltyInfo: null,
-  securityOverview: {}
 };
 
 export default (state = initialState, action) => {
