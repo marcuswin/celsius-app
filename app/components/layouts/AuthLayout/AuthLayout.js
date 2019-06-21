@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import testUtil from '../../../utils/test-util'
+
 import RegularLayout from '../RegularLayout/RegularLayout'
 import { THEMES } from '../../../constants/UI'
 
@@ -22,4 +22,4 @@ class AuthLayout extends Component {
   }
 }
 
-export default testUtil.hookComponent(AuthLayout)
+export default AuthLayout

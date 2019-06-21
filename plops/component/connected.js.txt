@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
 import * as appActions from "../../../redux/actions";
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -38,4 +37,4 @@ class {{pascalCase name}} extends Component {
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default {{pascalCase name}}

@@ -13,6 +13,7 @@ import {
 
 const { State: TextInputState } = TextInput
 
+// TODO move to components folder
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback
     style={styles.container}

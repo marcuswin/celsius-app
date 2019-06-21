@@ -1,8 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
-
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
 const {{pascalCase name}} = (props) => {
@@ -14,4 +12,4 @@ const {{pascalCase name}} = (props) => {
   )
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default {{pascalCase name}}

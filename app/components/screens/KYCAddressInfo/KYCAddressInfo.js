@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { View } from 'react-native'
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import KYCAddressInfoStyle from "./KYCAddressInfo.styles";
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
@@ -14,6 +14,7 @@ import CelInput from '../../atoms/CelInput/CelInput'
 import CelSelect from '../../molecules/CelSelect/CelSelect'
 import CelButton from '../../atoms/CelButton/CelButton'
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+
 
 @connect(
   state => ({
@@ -90,11 +91,9 @@ class KYCAddressInfo extends Component {
     const response = await actions.updateProfileAddressInfo(updatedAddressInfo)
 
     if (response.success) {
-      actions.navigateTo('KYCTaxpayer')
-    }
-
-    this.setState({ updatingAddressInfoInProgress: false })
-  }
+        this.setState({ updatingAddressInfoInProgress: false })
+      }
+  };
 
   render() {
     const { formData, formErrors, actions } = this.props
@@ -131,4 +130,4 @@ class KYCAddressInfo extends Component {
   }
 }
 
-export default testUtil.hookComponent(KYCAddressInfo);
+export default KYCAddressInfo

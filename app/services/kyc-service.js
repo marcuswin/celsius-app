@@ -8,7 +8,6 @@ const kycService = {
 
 /**
  * Gets documents that Onfido supports for all countries
- * @todo: move to getCelsiusInitialData
  *
  * @returns {Promise}
  */

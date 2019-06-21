@@ -1,7 +1,6 @@
 import branchService from '../../services/branch-service'
 import API from '../../constants/API'
 import { apiError, startApiCall } from '../api/apiActions'
-import { createIndividualLinkBUO } from '../../utils/branch-util'
 import { BRANCH_LINKS } from '../../constants/DATA'
 import { MODALS } from '../../constants/UI'
 import ACTIONS from "../../constants/ACTIONS";
@@ -10,39 +9,12 @@ import * as actions from "../../redux/actions";
 
 
 export {
-  registerBranchLink,
-  saveBranchLink,
-  getBranchIndividualLink,
-  createBranchIndividualLink,
-  submitProfileCode,
-  registrationPromoCode
+  registerBranchLink, // TODO add JSDoc
+  getBranchIndividualLink, // TODO add JSDoc
+  submitProfileCode, // TODO add JSDoc
+  registrationPromoCode, // TODO add JSDoc
 };
 
-function saveBranchLink (rawLink) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.SAVE_BRANCH_LINK))
-      const branchLink = await branchService.create(rawLink)
-
-      dispatch({
-        type: ACTIONS.SAVE_BRANCH_LINK_SUCCESS,
-        branchLink: branchLink.data
-      })
-    } catch (err) {
-      dispatch(apiError(API.SAVE_BRANCH_LINK, err))
-    }
-  }
-}
-
-function createBranchIndividualLink () {
-  return async dispatch => {
-    const branchLink = await createIndividualLinkBUO()
-    dispatch({
-      type: ACTIONS.SET_INDIVIDUAL_REFERRAL_LINK,
-      link: branchLink.url
-    })
-  }
-}
 
 function getBranchIndividualLink () {
   return async dispatch => {

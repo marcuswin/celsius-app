@@ -1,5 +1,8 @@
 import ACTIONS from "../../constants/ACTIONS";
 
+/**
+ * TODO make it a function add JSDoc & desc for return
+ */
 function initialState() {
   return {
     appInitialized: false,
@@ -9,7 +12,7 @@ function initialState() {
     appState: "active",
     internetConnected: true,
     assetsLoaded: false,
-    showVerifyScreen: false
+    showVerifyScreen: false // TODO move to security
   };
 }
 
@@ -24,10 +27,10 @@ export default function appReducer(state = initialState(), action) {
       };
 
     case ACTIONS.REGISTER_USER_SUCCESS:
+    case ACTIONS.LOGIN_USER_SUCCESS:
     case ACTIONS.REGISTER_USER_FACEBOOK_SUCCESS:
     case ACTIONS.REGISTER_USER_GOOGLE_SUCCESS:
     case ACTIONS.REGISTER_USER_TWITTER_SUCCESS:
-    case ACTIONS.LOGIN_USER_SUCCESS:
     case ACTIONS.LOGIN_USER_GOOGLE_SUCCESS:
     case ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS:
     case ACTIONS.LOGIN_USER_TWITTER_SUCCESS:

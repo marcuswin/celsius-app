@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import CelPayEnterAmountStyle from './CelPayEnterAmount.styles'
 import CelButton from '../../atoms/CelButton/CelButton'
@@ -14,12 +14,13 @@ import CoinSwitch from '../../atoms/CoinSwitch/CoinSwitch'
 import SimpleSelect from '../../molecules/SimpleSelect/SimpleSelect'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
 import STYLES from '../../../constants/STYLES'
-import InfoModal from '../../molecules/InfoModal/InfoModal'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import formatter from '../../../utils/formatter'
 import cryptoUtil from '../../../utils/crypto-util'
 import celUtilityUtil from '../../../utils/cel-utility-util'
+import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
+import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
 
 @connect(
   state => ({
@@ -241,10 +242,10 @@ class CelPayEnterAmount extends Component {
     const newBalance = Number(coinData.amount) - Number(formData.amountCrypto)
 
     if (celUtilityUtil.isLosingMembership(formData.coin, newBalance)) {
-      return actions.openModal(MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL)
+      return actions.openModal(MODALS.LOSE_MEMBERSHIP_MODAL)
     }
     if (celUtilityUtil.isLosingTier(formData.coin, newBalance)) {
-      return actions.openModal(MODALS.CELPAY_LOSE_TIER_WARNING_MODAL)
+      return actions.openModal(MODALS.LOSE_TIER_MODAL)
     }
 
     this.navigateToNextStep()
@@ -345,38 +346,21 @@ class CelPayEnterAmount extends Component {
           purpose={KEYPAD_PURPOSES.CELPAY}
         />
 
-        <InfoModal
-          name={MODALS.CELPAY_LOSE_MEMBERSHIP_WARNING_MODAL}
-          heading='Watch out'
-          paragraphs={[
-            'You are about to CelPay your last CEL token. Without CEL tokens you will lose your Celsius membership.',
-            'Celsius members can earn interest on their coin, apply for a loan and utilize CelPay.'
-          ]}
-          yesCopy='Continue'
-          onYes={this.navigateToNextStep}
-          noCopy='Go back'
-          onNo={actions.closeModal}
+        <LoseMembershipModal
+          navigateToNextStep={this.navigateToNextStep}
+          closeModal={actions.closeModal}
         />
-
         {loyaltyInfo && (
-          <InfoModal
-            name={MODALS.CELPAY_LOSE_TIER_WARNING_MODAL}
-            heading='Watch out'
-            paragraphs={[
-              `You are about to lose you ${
-                loyaltyInfo.tier
-              } Celsius Loyalty Level.`,
-              'Withdrawing CEL tokens affects your HODL ratio and Loyalty level.'
-            ]}
-            yesCopy='Continue'
-            onYes={this.navigateToNextStep}
-            noCopy='Go back'
-            onNo={actions.closeModal}
+          <LoseTierModal
+            navigateToNextStep={this.navigateToNextStep}
+            tierTitle={loyaltyInfo.tier.title}
+            closeModal={actions.closeModal}
           />
         )}
+
       </RegularLayout>
     )
   }
 }
 
-export default testUtil.hookComponent(CelPayEnterAmount)
+export default CelPayEnterAmount

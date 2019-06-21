@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 
-import testUtil from '../../../utils/test-util'
+
 // import BecameCelMemberModalStyle from "./BecameCelMemberModal.styles";
 import CelModal from '../CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
@@ -54,4 +54,4 @@ class BecameCelMemberModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(BecameCelMemberModal)
+export default BecameCelMemberModal

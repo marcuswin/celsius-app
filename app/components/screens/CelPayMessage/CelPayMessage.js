@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import formatter from "../../../utils/formatter";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import CelPayMessageStyle from "./CelPayMessage.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -77,4 +77,4 @@ class CelPayMessage extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelPayMessage);
+export default CelPayMessage

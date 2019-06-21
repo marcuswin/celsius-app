@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as appActions from '../../../redux/actions'
-import testUtil from '../../../utils/test-util'
+
 import RegularLayoutStyle from './RegularLayout.styles'
 // import KeyboardShift from '../../../utils/keyboard-shift-util';
 import { getPadding } from '../../../utils/styles-util'
@@ -70,4 +70,4 @@ class RegularLayout extends Component {
   }
 }
 
-export default testUtil.hookComponent(withNavigationFocus(RegularLayout))
+export default withNavigationFocus(RegularLayout)

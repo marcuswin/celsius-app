@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import formatter from '../../../utils/formatter'
 import * as appActions from '../../../redux/actions'
 import CelText from '../../atoms/CelText/CelText'
@@ -16,7 +16,6 @@ import WalletInterestStyle from './WalletInterest.styles'
 import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import { EMPTY_STATES, MODALS } from '../../../constants/UI'
 import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
-import CelInterestCard from '../../molecules/CelInterestCard/CelInterestCard'
 import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
 import Separator from '../../atoms/Separator/Separator'
 import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
@@ -29,7 +28,6 @@ import { KYC_STATUSES } from '../../../constants/DATA'
     transactions: state.transactions.transactionList,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencyGraphs: state.currencies.graphs,
-    chartData: state.interest.chartData,
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
@@ -154,19 +152,6 @@ class WalletInterest extends Component {
           type={'total-interest'}
         />
 
-        <View
-          style={{ paddingVertical: 20, paddingHorizontal: 20 }}
-        >
-          {!appSettings.interest_in_cel ?
-            <CelInterestCard
-              tier={loyaltyInfo.tier.title}
-              interestBonus={loyaltyInfo.earn_interest_bonus}
-              interestInCel={appSettings.interest_in_cel}
-              setUserAppSettings={actions.setUserAppSettings}
-            />
-            : null}
-        </View>
-
         <View style={style.container}>
           <TransactionsHistory
             hasFilter={false}
@@ -188,4 +173,4 @@ class WalletInterest extends Component {
   }
 }
 
-export default testUtil.hookComponent(WalletInterest)
+export default WalletInterest

@@ -16,15 +16,18 @@ const { width, height } = Dimensions.get('window')
 export {
   getMargins,
   getPadding,
-  getScaledFont,
-  getThemedStyle,
+
+  widthPercentageToDP, // TODO check if we can use these more
+  heightPercentageToDP, // TODO check if we can use these more
+
+  getScaledFont, // TODO check if we need three font methods
+  getFont, // TODO check if we need three font methods
+  getFontSize, // TODO check if we need three font methods
   disableAccessibilityFontScaling,
-  widthPercentageToDP,
-  heightPercentageToDP,
-  getFont,
-  getFontSize,
+
   getTheme,
-  AddThemeToComponents
+  AddThemeToComponents,
+  getThemedStyle,
 };
 
 

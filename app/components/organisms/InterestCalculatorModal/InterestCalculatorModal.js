@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import CelModal from '../CelModal/CelModal'
 import { MODALS } from '../../../constants/UI'
@@ -45,4 +45,4 @@ class InterestCalculatorModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(InterestCalculatorModal)
+export default InterestCalculatorModal

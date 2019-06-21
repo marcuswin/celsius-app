@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import WithdrawalNewAddressSetupStyle from "./WithdrawNewAddressSetup.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -97,4 +97,4 @@ class WithdrawNewAddressSetup extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawNewAddressSetup);
+export default WithdrawNewAddressSetup

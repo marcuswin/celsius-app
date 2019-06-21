@@ -25,18 +25,15 @@ const {
 export {
   authTwitter,
   registerUserTwitter,
-  loginTwitter,
   twitterClose,
   twitterOpen,
   twitterGetAccessToken,
-  twitterSuccess,
   authFacebook,
   registerUserFacebook,
-  loginFacebook,
   authGoogle,
   registerUserGoogle,
-  loginGoogle
 }
+
 
 /**
  * Handles response after twitter login
@@ -172,17 +169,6 @@ function twitterGetAccessToken (tokens) {
   }
 }
 
-/**
- * Successfully logged into Twitter
- * @param {Object} user
- * @returns {Object} - Action
- */
-function twitterSuccess (user) {
-  return {
-    type: ACTIONS.TWITTER_SUCCESS,
-    twitter_user: user
-  }
-}
 
 /**
  * Authorizes user on Facebook
@@ -267,28 +253,28 @@ function registerUserFacebook () {
  * @param {string} facebookUser.id - facebook id
  * @param {string} facebookUser.accessToken - facebook access token
  */
-function loginFacebook (facebookUser) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.LOGIN_USER_FACEBOOK))
+// function loginFacebook (facebookUser) {
+//   return async dispatch => {
+//     try {
+//       dispatch(startApiCall(API.LOGIN_USER_FACEBOOK))
 
-      const user = {
-        email: facebookUser.email,
-        first_name: facebookUser.first_name,
-        last_name: facebookUser.last_name,
-        facebook_id: facebookUser.id,
-        access_token: facebookUser.accessToken
-      }
+//       const user = {
+//         email: facebookUser.email,
+//         first_name: facebookUser.first_name,
+//         last_name: facebookUser.last_name,
+//         facebook_id: facebookUser.id,
+//         access_token: facebookUser.accessToken
+//       }
 
-      const res = await usersService.facebookLogin(user)
+//       const res = await usersService.facebookLogin(user)
 
-      await dispatch(loginSocialSuccess('facebook', res.data.id_token))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
-    }
-  }
-}
+//       await dispatch(loginSocialSuccess('facebook', res.data.id_token))
+//     } catch (err) {
+//       dispatch(showMessage('error', err.msg))
+//       dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
+//     }
+//   }
+// }
 
 /**
  * Authorizes user on Facebook
@@ -374,28 +360,28 @@ function registerUserGoogle () {
  * @param {string} googleUser.photoURL
  * @param {string} googleUser.access_token
  */
-function loginGoogle (googleUser) {
-  return async dispatch => {
-    dispatch(startApiCall(API.LOGIN_USER_GOOGLE))
-    try {
-      const user = {
-        email: googleUser.email,
-        first_name: googleUser.firstName,
-        last_name: googleUser.lastName,
-        google_id: googleUser.googleId,
-        profile_picture: googleUser.profilePicture,
-        access_token: googleUser.accessToken
-      }
+// function loginGoogle (googleUser) {
+//   return async dispatch => {
+//     dispatch(startApiCall(API.LOGIN_USER_GOOGLE))
+//     try {
+//       const user = {
+//         email: googleUser.email,
+//         first_name: googleUser.firstName,
+//         last_name: googleUser.lastName,
+//         google_id: googleUser.googleId,
+//         profile_picture: googleUser.profilePicture,
+//         access_token: googleUser.accessToken
+//       }
 
-      const res = await usersService.googleLogin(user)
+//       const res = await usersService.googleLogin(user)
 
-      await dispatch(loginSocialSuccess('google', res.data.id_token))
-    } catch (err) {
-      dispatch(showMessage('error', err.msg))
-      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
-    }
-  }
-}
+//       await dispatch(loginSocialSuccess('google', res.data.id_token))
+//     } catch (err) {
+//       dispatch(showMessage('error', err.msg))
+//       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+//     }
+//   }
+// }
 
 /**
  * Successfully log the user in from any social network

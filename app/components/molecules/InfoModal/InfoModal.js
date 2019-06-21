@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import testUtil from "../../../utils/test-util";
+
 import CelModal from "../../organisms/CelModal/CelModal";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -68,4 +68,4 @@ InfoModal.propTypes = {
   onNo: PropTypes.func
 };
 
-export default testUtil.hookComponent(InfoModal);
+export default InfoModal

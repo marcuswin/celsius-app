@@ -4,7 +4,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import Card from '../../atoms/Card/Card';
 import CelText from '../../atoms/CelText/CelText';
 import Separator from '../../atoms/Separator/Separator';
@@ -82,4 +82,4 @@ class WalletDetailsCard extends PureComponent {
   }
 }
 
-export default testUtil.hookComponent(WalletDetailsCard);
+export default WalletDetailsCard

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 
-import testUtil from '../../../utils/test-util'
+
 import formatter from "../../../utils/formatter";
 // import ReferralReceivedModalStyle from "./ReferralReceivedModal.styles";
 import CelModal from '../CelModal/CelModal'
@@ -77,4 +77,4 @@ class ReferralReceivedModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(ReferralReceivedModal)
+export default ReferralReceivedModal

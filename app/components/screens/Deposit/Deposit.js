@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import QRCode from 'react-qr-code'
 
 import cryptoUtil from '../../../utils/crypto-util'
-import testUtil from '../../../utils/test-util'
+
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import * as appActions from '../../../redux/actions'
 import { getDepositEligibleCoins } from '../../../redux/custom-selectors'
@@ -402,4 +402,4 @@ class Deposit extends Component {
   }
 }
 
-export default testUtil.hookComponent(Deposit)
+export default Deposit

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 import CircleButtonStyle from "./CircleButton.styles";
 import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
@@ -74,4 +74,4 @@ class CircleButton extends Component {
   }
 }
 
-export default testUtil.hookComponent(CircleButton);
+export default CircleButton

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Share, TouchableOpacity } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import CelText from '../CelText/CelText';
 import ShareButtonStyle from './ShareButton.styles';
@@ -28,4 +28,4 @@ ShareButton.defaultProps = {
 };
 
 
-export default testUtil.hookComponent(ShareButton);
+export default ShareButton

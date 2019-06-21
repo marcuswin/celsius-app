@@ -4,7 +4,7 @@ import * as actions from '../redux/actions'
 export default {
   isLosingMembership,
   isLosingTier,
-  refetchMembershipIfChanged
+  refetchMembershipIfChanged, // TODO maybe move to an action?
 }
 
 /**
@@ -15,20 +15,26 @@ export default {
  * @returns {boolean}
  */
 function isLosingMembership (coin, newBalance) {
+  if (coin !== "CEL") return false;
+
   const { celsius_member: isCelsiusMember } = store.getState().user.profile
-  return isCelsiusMember && coin === 'CEL' && Number(newBalance) < 1
+  return isCelsiusMember && Number(newBalance) < 1
 }
 
 /**
  * get if the user will lose cel his current tier
  *
  * @param {String} coin
- * @param {String} newBalance
+ * @param {String} newBalance - new coin balance after transaction
  * @returns {boolean}
  */
 function isLosingTier (coin, newBalance) {
+  if (coin !== "CEL") return false;
+
   const { min_for_tier: minForTier } = store.getState().user.loyaltyInfo
-  return coin === 'CEL' && Number(newBalance) < Number(minForTier)
+  const celRatio = calculateCelRatio(newBalance)
+
+  return celRatio < minForTier;
 }
 
 /**
@@ -46,3 +52,21 @@ async function refetchMembershipIfChanged (coin) {
     }
   }
 }
+
+/**
+ * Gets CEL ratio
+ *
+ * @param {Number} newCelBalance - celsius balance after a transaction
+ * @returns {Boolean}
+ */
+function calculateCelRatio (newCelBalance) {
+  const walletSummary = store.getState().wallet.summary
+
+  const celBalance = newCelBalance || walletSummary.coins.find(c => c.short === 'CEL').amount_usd
+  const otherCoinsBalance = walletSummary.total_amount_usd - celBalance
+  const celRatio = otherCoinsBalance ? celBalance/otherCoinsBalance : 1
+
+  return celRatio
+}
+
+

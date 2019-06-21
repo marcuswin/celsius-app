@@ -5,7 +5,7 @@ export {
     clearForm,
     setFormErrors,
     updateFormField,
-    updateFormFields
+    updateFormFields,
 }
 
 

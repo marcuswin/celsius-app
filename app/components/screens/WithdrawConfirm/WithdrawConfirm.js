@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import WithdrawConfirmStyle from './WithdrawConfirm.styles'
 import CelText from '../../atoms/CelText/CelText'
@@ -183,4 +183,4 @@ class WithdrawConfirm extends Component {
   }
 }
 
-export default testUtil.hookComponent(WithdrawConfirm)
+export default WithdrawConfirm

@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { View, TouchableOpacity, TextInput } from 'react-native'
 import { withNavigationFocus } from 'react-navigation'
 
-import testUtil from '../../../utils/test-util'
+
 import CelNumpadStyle from './CelNumpad.styles'
 import CelText from '../../atoms/CelText/CelText'
 import {
@@ -197,4 +197,4 @@ class CelNumpad extends Component {
   }
 }
 
-export default testUtil.hookComponent(withNavigationFocus(CelNumpad))
+export default withNavigationFocus(CelNumpad)

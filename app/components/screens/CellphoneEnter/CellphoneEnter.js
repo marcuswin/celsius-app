@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import EnterPhoneStyle from "./EnterPhone.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -57,4 +57,4 @@ class CellphoneEnter extends Component {
   }
 }
 
-export default testUtil.hookComponent(CellphoneEnter);
+export default CellphoneEnter

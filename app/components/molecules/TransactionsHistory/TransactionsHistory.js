@@ -6,7 +6,7 @@ import RNPickerSelect from 'react-native-picker-select'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 
 import TransactionsHistoryStyle from './TransactionsHistory.styles'
 import TransactionRow from '../../atoms/TransactionRow/TransactionRow'
@@ -184,4 +184,4 @@ class TransactionsHistory extends Component {
   }
 }
 
-export default testUtil.hookComponent(TransactionsHistory)
+export default TransactionsHistory

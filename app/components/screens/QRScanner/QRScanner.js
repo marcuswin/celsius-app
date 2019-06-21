@@ -8,7 +8,7 @@ import { bindActionCreators } from "redux";
 
 import * as appActions from "../../../redux/actions";
 import QRScannerStyle from "./QRScanner.styles";
-import testUtil from "../../../utils/test-util";
+
 import CelText from "../../atoms/CelText/CelText";
 import ThemedImage from "../../atoms/ThemedImage/ThemedImage";
 
@@ -128,4 +128,4 @@ class QRScannerScreen extends Component {
   }
 }
 
-export default testUtil.hookComponent(QRScannerScreen);
+export default QRScannerScreen

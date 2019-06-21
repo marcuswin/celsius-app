@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { Platform, Switch } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import Separator from '../../atoms/Separator/Separator'
@@ -114,7 +114,7 @@ class WalletSettings extends Component {
         {/* <IconButton right={<CelText>USD</CelText>}>Default currency</IconButton> */}
         <RNPickerSelect
           placeholder={{
-            label: 'Chooise default view',
+            label: 'Choose default view',
             color: 'rgba(0,0,0,0.5)'
           }}
           items={filterOptions}
@@ -148,4 +148,4 @@ class WalletSettings extends Component {
   }
 }
 
-export default testUtil.hookComponent(WalletSettings)
+export default WalletSettings

@@ -18,6 +18,7 @@ const appInfo = {
   os: Platform.OS
 }
 
+// TODO probably destroy
 const analytics = {
   identifyUser,
   logoutUser,
@@ -217,5 +218,4 @@ async function buttonPressed (buttonText) {
   })
 }
 
-// TODO(fj): handle test environment
 export default analytics

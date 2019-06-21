@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 import { TWLoginButton } from "react-native-simple-twitter";
 
-import testUtil from "../../../utils/test-util";
+
 
 import SocialLoginStyle from "./SocialLogin.styles";
 import Icon from "../../atoms/Icon/Icon";
@@ -69,4 +69,4 @@ class SocialLogin extends Component {
   }
 }
 
-export default testUtil.hookComponent(SocialLogin);
+export default SocialLogin

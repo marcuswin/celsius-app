@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 // import BalanceViewStyle from "./BalanceView.styles";
 import CelText from '../../atoms/CelText/CelText'
 import formatter from '../../../utils/formatter'
@@ -36,4 +36,4 @@ BalanceView.propTypes = {
   crypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-export default testUtil.hookComponent(BalanceView)
+export default BalanceView

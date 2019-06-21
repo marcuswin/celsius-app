@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Animated } from 'react-native'
 import STYLES from '../../../constants/STYLES'
-import testUtil from '../../../utils/test-util'
+
 
 class ProgressBar extends Component {
   static defaultProps = {
@@ -77,4 +77,4 @@ class ProgressBar extends Component {
   }
 }
 
-export default testUtil.hookComponent(ProgressBar)
+export default ProgressBar

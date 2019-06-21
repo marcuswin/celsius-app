@@ -2,23 +2,9 @@ import axios from 'axios';
 import apiUrl from './api-url';
 
 const generalDataService = {
-  getSupportedCurrencies,
   getBackendStatus,
-  getBlacklisted,
   getCelsiusInitialData
 };
-
-
-/**
- * Gets all supported currency rates from db
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#0c4f5f63-d1b5-418e-9097-5bb2afcac31e
- * @deprecated
- *
- * @returns {Promise}
- */
-function getSupportedCurrencies() {
-  return axios.get(`${apiUrl}/currencies`);
-}
 
 
 /**
@@ -42,16 +28,5 @@ function getCelsiusInitialData() {
   return axios.get(`${apiUrl}/initial_data`);
 }
 
-
-/**
- * Gets all blacklisted countries
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#926f2d55-8965-4716-abda-367771c3babe
- * @deprecated
- *
- * @returns {Promise}
- */
-function getBlacklisted() {
-  return axios.get(`${apiUrl}/countries/blacklist`)
-}
 
 export default generalDataService;

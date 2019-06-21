@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { lookup } from 'country-data'
 import moment from 'moment'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import SecurityOverviewStyle from './SecurityOverview.styles'
 import CelText from '../../atoms/CelText/CelText'
@@ -323,4 +323,4 @@ class SecurityOverview extends Component {
   }
 }
 
-export default testUtil.hookComponent(SecurityOverview)
+export default SecurityOverview

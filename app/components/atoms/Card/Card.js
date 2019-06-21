@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 import { getPadding, getMargins } from '../../../utils/styles-util'
 import CardStyle from './Card.styles'
 import Icon from '../Icon/Icon'
@@ -103,4 +103,4 @@ class Card extends React.Component {
   }
 }
 
-export default testUtil.hookComponent(Card)
+export default Card

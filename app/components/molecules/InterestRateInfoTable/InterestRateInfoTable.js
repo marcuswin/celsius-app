@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import testUtil from "../../../utils/test-util";
+
 
 import * as appActions from "../../../redux/actions";
 // import InterestRateInfoTableStyle from "./InterestRateInfoTable.styles";
@@ -96,6 +96,6 @@ class InterestRateInfoTable extends Component {
   }
 }
 
-export default testUtil.hookComponent(InterestRateInfoTable);
+export default InterestRateInfoTable
 
 

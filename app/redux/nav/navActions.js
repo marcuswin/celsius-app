@@ -8,36 +8,18 @@ export {
   navigateTo,
   navigateBack,
   setTopLevelNavigator,
-  getActiveScreen,
-  getNavigator,
   setActiveScreen,
-  resetToFlow
+  resetToFlow,
 };
 
+
+/**
+ * TODO add JSDoc
+ */
 function setActiveScreen(screenName) {
   return dispatch => {
       dispatch({type: ACTIONS.SET_ACTIVE_SCREEN, payload: {screenName}})
   }
-}
-
-
-/**
- * Gets current active screen
- * @returns {string} - active screen name
- */
-function getActiveScreen() {
-  if (!_navigator._navState) return false;
-  const index = _navigator._navState.index;
-  const index1 = _navigator._navState.routes[index].index;
-  return _navigator._navState.routes[index].routes[index1].routeName;
-}
-
-/**
- * Gets current active screen
- * @returns {Object} - navigator
- */
-function getNavigator() {
-  return _navigator;
 }
 
 

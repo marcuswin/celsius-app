@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import CelTextAreaStyle from "./CelTextArea.styles";
 import Separator from '../Separator/Separator';
@@ -30,4 +30,4 @@ const CelTextArea = (props) => {
   )
 }
 
-export default testUtil.hookComponent(CelTextArea);
+export default CelTextArea

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import TransactionRowStyle from "./TransactionRow.styles";
 import Icon from '../Icon/Icon';
@@ -72,4 +72,4 @@ class TransactionRow extends Component {
   }
 }
 
-export default testUtil.hookComponent(TransactionRow);
+export default TransactionRow

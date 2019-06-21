@@ -6,7 +6,7 @@ import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
 import * as appActions from "../../../redux/actions";
-import testUtil from "../../../utils/test-util";
+
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CelInput from "../../atoms/CelInput/CelInput";
@@ -220,4 +220,4 @@ class Profile extends Component {
   }
 }
 
-export default testUtil.hookComponent(Profile);
+export default Profile;

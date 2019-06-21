@@ -14,7 +14,7 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import CameraScreenStyle from './CameraScreen.styles'
 import Icon from '../../atoms/Icon/Icon'
@@ -305,7 +305,6 @@ class CameraScreen extends Component {
 
             <TouchableOpacity
               style={{ flex: 1 }}
-              ref={testUtil.generateTestHook(this, 'CameraScreen.takePhoto')}
               onPress={this.takePhoto}
             >
               <Icon
@@ -335,4 +334,4 @@ class CameraScreen extends Component {
   }
 }
 
-export default testUtil.hookComponent(CameraScreen)
+export default CameraScreen

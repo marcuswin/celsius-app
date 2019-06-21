@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import PeriodGraphViewStyle from "./PeriodGraphView.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -108,4 +108,4 @@ class PeriodGraphView extends Component {
   }
 }
 
-export default testUtil.hookComponent(PeriodGraphView);
+export default PeriodGraphView

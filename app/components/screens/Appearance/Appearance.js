@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import AppearanceStyle from "./Appearance.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
@@ -77,12 +77,10 @@ class Appearance extends Component {
             <CircleButton
               icon={theme === THEMES.LIGHT ? "Checked" : false}
               iconSize={15}
-              fillColor={"red"}
-              theme={theme}
               type='theme'
               style={[
-                { backgroundColor: "#fff" },
-                theme === THEMES.LIGHT ? {} : { borderColor: "transparent" }
+                { backgroundColor: STYLES.COLORS.WHITE },
+                style.themeBtn
               ]}
               onPress={() => {
                 actions.setUserAppSettings({ theme: THEMES.LIGHT });
@@ -91,11 +89,10 @@ class Appearance extends Component {
             <CircleButton
               icon={theme === THEMES.DARK ? "Checked" : false}
               iconSize={15}
-              theme={theme}
               type='theme'
               style={[
                 { backgroundColor: STYLES.COLORS.DARK_HEADER },
-                theme === THEMES.DARK ? {} : { borderColor: "transparent" }
+                style.themeBtn
               ]}
               onPress={() => {
                 actions.setUserAppSettings({ theme: THEMES.DARK });
@@ -108,4 +105,4 @@ class Appearance extends Component {
   }
 }
 
-export default testUtil.hookComponent(Appearance);
+export default Appearance

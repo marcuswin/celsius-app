@@ -7,7 +7,7 @@ import * as appActions from '../../../redux/actions'
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 
-import testUtil from '../../../utils/test-util'
+
 
 // import ReferralReceivedModalStyle from "./ReferralReceivedModal.styles";
 import CelModal from '../CelModal/CelModal'
@@ -91,4 +91,4 @@ class ReferralSendModal extends Component {
     );
   }
 }
-export default testUtil.hookComponent(ReferralSendModal)
+export default ReferralSendModal

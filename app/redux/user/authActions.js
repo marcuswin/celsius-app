@@ -29,17 +29,16 @@ const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra
 
 export {
   createAccount,
-  loginUser,
   registerUser,
-  registerUserSuccess,
-  updateUser,
-  sendResetLink,
-  resetPassword,
+  loginUser,
   logoutUser,
-  logoutFromAllDevices,
   expireSession,
-  setPin,
-  changePin
+  sendResetLink,
+
+  setPin, // TODO move to security
+  changePin, // TODO move to security
+  resetPassword, // TODO move to security
+  logoutFromAllDevices, // TODO move to security
 }
 
 /**
@@ -130,50 +129,6 @@ function registerUser () {
   }
 }
 
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */
-function registerUserSuccess (data) {
-  return {
-    type: ACTIONS.REGISTER_USER_SUCCESS,
-    callName: API.REGISTER_USER,
-    user: data.user
-  }
-} // TODO(fj) should replace update user endpoint w patch /me
-
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */ function updateUser (user) {
-  return async dispatch => {
-    dispatch(startApiCall(API.UPDATE_USER))
-    try {
-      const res = await usersService.update(user)
-
-      dispatch(updateUserSuccess(res.data))
-    } catch (err) {
-      if (err.type === 'Validation error') {
-        dispatch(setFormErrors(apiUtil.parseValidationErrors(err)))
-      } else {
-        dispatch(showMessage('error', err.msg))
-      }
-      dispatch(apiError(API.UPDATE_USER, err))
-    }
-  }
-}
-
-/**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
- */
-function updateUserSuccess (data) {
-  return {
-    type: ACTIONS.UPDATE_USER_SUCCESS,
-    callName: API.UPDATE_USER,
-    user: data.user
-  }
-}
 
 /**
  * Sends an email with the reset password link
@@ -195,8 +150,9 @@ function sendResetLink () {
 }
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Resets password for user
+ * @param {string} currentPassword
+ * @param {string} newPassword
  */
 function resetPassword (currentPassword, newPassword) {
   return async dispatch => {
@@ -222,8 +178,7 @@ function resetPassword (currentPassword, newPassword) {
 }
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * @TODO write JSDoc
  */
 function resetPasswordSuccess () {
   return {
@@ -233,8 +188,7 @@ function resetPasswordSuccess () {
 }
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Logs the user out of the app
  */
 function logoutUser () {
   return async dispatch => {
@@ -278,8 +232,7 @@ function logoutFromAllDevices () {
 }
 
 /**
- * Gets all transfers by status
- * @param {string} transferStatus - @todo: check all statuses
+ * Expires the session for the user
  */
 function expireSession () {
   return async dispatch => {

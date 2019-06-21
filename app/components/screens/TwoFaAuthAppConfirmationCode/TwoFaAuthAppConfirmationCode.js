@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { View, Keyboard, TouchableOpacity, Clipboard } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import CelText from '../../atoms/CelText/CelText'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
@@ -104,4 +104,4 @@ class TwoFaAuthAppConfirmationCode extends Component {
   }
 }
 
-export default testUtil.hookComponent(TwoFaAuthAppConfirmationCode)
+export default TwoFaAuthAppConfirmationCode

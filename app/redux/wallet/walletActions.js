@@ -4,24 +4,14 @@ import {apiError, startApiCall} from "../api/apiActions";
 import {showMessage} from "../ui/uiActions";
 import {clearForm} from "../forms/formsActions";
 import walletService from '../../services/wallet-service';
-import { updateMixpanelBalances } from '../../services/mixpanel';
 import { navigateTo } from "../nav/navActions";
 import addressUtil from "../../utils/address-util"
 
 export {
-  // new v3
   getWalletSummary,
   getAllCoinWithdrawalAddresses,
   setCoinWithdrawalAddress,
-
-  // keep, maybe refactor
   getCoinAddress,
-  getCoinWithdrawalAddress,
-
-  // remove
-  getWalletDetails,
-  getCoinTransactions,
-  storePin, // check use, and move somewhere else...
 }
 
 
@@ -43,41 +33,6 @@ function getWalletSummary() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_WALLET_SUMMARY, err));
     }
-  }
-}
-
-
-/**
- * @deprecated: replaced with getWalletSummary
- */
-function getWalletDetails() {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_WALLET_DETAILS));
-
-      const res = await walletService.getWalletDetails()
-      dispatch(getWalletDetailsSuccess(res.data));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_WALLET_DETAILS, err));
-    }
-  }
-}
-
-
-/**
- * @deprecated
- */
-function getWalletDetailsSuccess(wallet) {
-  const mixpanelBalances = {};
-  wallet.data.forEach(c => {
-    mixpanelBalances[`Balance ${c.currency.short}`] = c.amount;
-  });
-  updateMixpanelBalances(mixpanelBalances);
-  return {
-    type: ACTIONS.GET_WALLET_DETAILS_SUCCESS,
-    callName: API.GET_WALLET_DETAILS,
-    wallet,
   }
 }
 
@@ -105,7 +60,7 @@ function getCoinAddress(coin) {
 
 
 /**
- * @todo: move to getCoinAddress
+ * TODO add JSDoc
  */
 function getCoinAddressSuccess(address) {
   return {
@@ -115,29 +70,6 @@ function getCoinAddressSuccess(address) {
   }
 }
 
-
-/**
- * Gets users withdrawal address for coin
- * @param {string} coin - @todo: check if BTC or btc
- */
-function getCoinWithdrawalAddress(coin) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_COIN_ORIGINATING_ADDRESS));
-
-      const res = await walletService.getCoinOriginatingAddress(coin)
-      dispatch(getCoinOriginatingAddressSuccess({
-        [coin]: {
-          address: res.data.address,
-          locked: res.data.locked,
-        },
-      }));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_COIN_ORIGINATING_ADDRESS, err));
-    }
-  }
-}
 
 /**
  * Sets withdrawal address for user for coin
@@ -179,7 +111,6 @@ function setCoinWithdrawalAddress(flow = "withdrawal") {
 /**
  *  Gets all withdrawal addresses previously set by user
  */
-
 function getAllCoinWithdrawalAddresses() {
   return async (dispatch) => {
     try {
@@ -194,6 +125,10 @@ function getAllCoinWithdrawalAddresses() {
   }
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getAllCoinWithdrawalAddressesSuccess(allWalletAddresses) {
   return {
     type: ACTIONS.GET_ALL_COIN_WITHDRAWAL_ADDRESSES_SUCCESS,
@@ -201,8 +136,9 @@ function getAllCoinWithdrawalAddressesSuccess(allWalletAddresses) {
   }
 }
 
+
 /**
- * @todo: move to setCoinWithdrawalAddress
+ * TODO add JSDoc
  */
 function setCoinWithdrawalAddressSuccess(coin, address) {
   return {
@@ -211,56 +147,5 @@ function setCoinWithdrawalAddressSuccess(coin, address) {
     address: {
       [coin]: address
     },
-  }
-}
-
-
-/**
- * Checks user pin code
- * @param {Function} onSuccess - what to do if pin is correct
- */
-function getCoinOriginatingAddressSuccess(address) {
-  return {
-    type: ACTIONS.GET_COIN_ORIGINATING_ADDRESS_SUCCESS,
-    callName: API.GET_COIN_ORIGINATING_ADDRESS,
-    address,
-  }
-}
-
-
-/**
- * @deprecated
- */
-function storePin(pin) {
-  return dispatch => dispatch({type: ACTIONS.STORE_PIN, pin});
-}
-
-
-/**
- * @deprecated: getTransactions has a filter instead
- */
-function getCoinTransactions(coin) {
-  return async dispatch => {
-    try {
-      dispatch(startApiCall(API.GET_COIN_TRANSACTIONS));
-
-      const res = await walletService.getCoinTransactions(coin);
-      dispatch(getCoinTransactionsSuccess(res.data.transactions));
-    } catch(err) {
-      dispatch(showMessage('error', err.msg));
-      dispatch(apiError(API.GET_COIN_TRANSACTIONS, err));
-    }
-  }
-}
-
-
-/**
- * @deprecated
- */
-function getCoinTransactionsSuccess(transactions) {
-  return {
-    type: ACTIONS.GET_COIN_TRANSACTIONS_SUCCESS,
-    callName: API.GET_COIN_TRANSACTIONS,
-    transactions,
   }
 }

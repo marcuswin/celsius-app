@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import ProgressBarStyle from "./ProgressBar.styles";
-import testUtil from "../../../utils/test-util";
+
 
 class ProgressBar extends Component {
 
@@ -50,4 +50,4 @@ class ProgressBar extends Component {
   }
 }
 
-export default testUtil.hookComponent(ProgressBar);
+export default ProgressBar

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import testUtil from "../../../utils/test-util";
+
 
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
@@ -45,4 +45,4 @@ class SsnModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(SsnModal);
+export default SsnModal

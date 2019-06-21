@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 // import WalletStyle from "./Wallet.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -37,4 +37,4 @@ class Wallet extends Component {
   }
 }
 
-export default testUtil.hookComponent(Wallet);
+export default Wallet

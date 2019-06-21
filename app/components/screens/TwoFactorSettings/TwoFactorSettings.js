@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import QRCode from 'react-qr-code';
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -97,4 +97,4 @@ class TwoFactorSettings extends Component {
   }
 }
 
-export default testUtil.hookComponent(TwoFactorSettings);
+export default TwoFactorSettings

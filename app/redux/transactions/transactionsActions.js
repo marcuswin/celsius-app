@@ -9,7 +9,11 @@ import { navigateTo } from '../nav/navActions'
 import analytics from '../../utils/analytics'
 import celUtilityUtil from '../../utils/cel-utility-util'
 
-export { getAllTransactions, getTransactionDetails, withdrawCrypto }
+export {
+  getAllTransactions,
+  getTransactionDetails,
+  withdrawCrypto,
+}
 
 /**
  * Gets transactions
@@ -54,9 +58,9 @@ function getTransactionDetails (id = '') {
   }
 }
 
+
 /**
- * Gets single transaction by id
- * @todo: move to getTransactionDetails
+ * TODO add JSDoc
  */
 function getTransactionDetailsSuccess (transaction) {
   return {

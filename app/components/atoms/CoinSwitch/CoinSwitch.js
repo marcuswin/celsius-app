@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, TouchableOpacity } from 'react-native'
 
-import testUtil from '../../../utils/test-util'
+
 
 import CoinSwitchStyle from './CoinSwitch.styles'
 import CelText from '../CelText/CelText'
@@ -146,4 +146,4 @@ CoinSwitch.propTypes = {
   theme: PropTypes.string
 }
 
-export default testUtil.hookComponent(CoinSwitch)
+export default CoinSwitch

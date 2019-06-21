@@ -11,7 +11,7 @@ export {
   takeCameraPhoto,
   flipCamera,
   activateCamera,
-  retakePhoto
+  retakePhoto,
 };
 
 /**
@@ -44,7 +44,7 @@ function getCameraRollPhotos() {
 
 
 /**
- * @todo: move to getCameraRollPhotos
+ * TODO add JSDoc
  */
 function getCameraRollPhotosSuccess(photos) {
   return {

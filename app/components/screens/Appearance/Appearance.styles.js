@@ -4,6 +4,12 @@ import { getThemedStyle } from '../../../utils/styles-util';
 const base = {
     container: {
         flex: 1
+    },
+    themeBtn: {
+      borderTopWidth: 0,
+      borderLeftWidth: 0,
+      borderRightWidth: 0,
+      borderBottomWidth: 0,
     }
 }
 

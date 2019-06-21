@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
+
 
 import WithdrawalAddressCardStyle from "./WithdrawalAddressCard.styles";
 import Card from '../Card/Card';
@@ -40,4 +40,4 @@ WithdrawalAddressCard.propTypes = {
   theme: PropTypes.string
 }
 
-export default testUtil.hookComponent(WithdrawalAddressCard);
+export default WithdrawalAddressCard

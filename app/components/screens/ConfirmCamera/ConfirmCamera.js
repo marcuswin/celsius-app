@@ -4,7 +4,7 @@ import { View, SafeAreaView, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -86,7 +86,6 @@ class ConfirmCamera extends Component {
           <View style={{ flex: 1 }}>
             <View style={{ width: STYLES.imageSizes[mask].width, alignSelf: 'center', marginTop: 20 }}>
               <CelButton
-                ref={testUtil.generateTestHook(this, 'CameraScreen.retakePhoto')}
                 onPress={() => { actions.navigateBack(); actions.retakePhoto(); }}
                 white
                 inverse
@@ -95,7 +94,6 @@ class ConfirmCamera extends Component {
                 Retake Photo
   </CelButton>
               <CelButton
-                ref={testUtil.generateTestHook(this, 'CameraScreen.usePhoto')}
                 onPress={this.savePhoto}
                 white
                 margin="20 0 20 0"
@@ -110,4 +108,4 @@ class ConfirmCamera extends Component {
   }
 }
 
-export default testUtil.hookComponent(ConfirmCamera);
+export default ConfirmCamera

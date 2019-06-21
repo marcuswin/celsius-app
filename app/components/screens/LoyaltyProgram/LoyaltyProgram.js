@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import LoyaltyProgramStyle from "./LoyaltyProgram.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -11,7 +11,6 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Card from "../../atoms/Card/Card";
 import PieProgressBar from "../../graphs/PieProgressBar/PieProgressBar";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
@@ -48,6 +47,8 @@ class LoyaltyProgram extends Component {
     actions.getLoyaltyInfo();
     actions.getUserAppSettings();
   }
+
+
 
   // TODO: refactor with a map or something, move to organism
   renderLoyaltyTable = () => {
@@ -426,14 +427,6 @@ class LoyaltyProgram extends Component {
                 activity as well as market fluctuations, so be sure to check your status every week!
               </CelText>
             </View>
-            { !appSettings.interest_in_cel ? (
-              <CelInterestCard
-                tier={loyaltyInfo.tier.title}
-                interestBonus={loyaltyInfo.earn_interest_bonus}
-                interestInCel={appSettings.interest_in_cel}
-                setUserAppSettings={actions.setUserAppSettings}
-              />) : null
-            }
             <CelButton
               margin={"30 0 10 0"}
               onPress={
@@ -449,4 +442,4 @@ class LoyaltyProgram extends Component {
   }
 }
 
-export default testUtil.hookComponent(LoyaltyProgram);
+export default LoyaltyProgram

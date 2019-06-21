@@ -5,7 +5,7 @@ import { countries } from "country-data";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import SelectCountryStyles from "./SelectCountry.styles";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -174,4 +174,4 @@ class SelectCountry extends Component {
   }
 }
 
-export default testUtil.hookComponent(SelectCountry);
+export default SelectCountry

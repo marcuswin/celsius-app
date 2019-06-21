@@ -1,6 +1,6 @@
 import React from 'react'
 
-import testUtil from '../../../utils/test-util'
+
 import { MODALS } from '../../../constants/UI'
 import CelButton from '../../atoms/CelButton/CelButton'
 import CelText from '../../atoms/CelText/CelText'
@@ -31,4 +31,4 @@ const DestinationTagModal = props => {
   )
 }
 
-export default testUtil.hookComponent(DestinationTagModal)
+export default DestinationTagModal

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image, View } from "react-native";
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 import { THEMES } from "../../../constants/UI";
 import Icon from "../Icon/Icon";
 import { getTheme } from "../../../utils/styles-util";
@@ -37,4 +37,4 @@ class CoinIcon extends Component {
   }
 }
 
-export default testUtil.hookComponent(CoinIcon);
+export default CoinIcon

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import CelHeadingStyle from "./CelHeading.styles";
 import { getPadding } from '../../../utils/styles-util';
@@ -145,4 +145,4 @@ class CelHeading extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelHeading);
+export default CelHeading

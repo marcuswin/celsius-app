@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 import STYLES from '../../../constants/STYLES';
 import Icon from '../Icon/Icon';
 import CelInputText from './CelInputText';
@@ -74,4 +74,4 @@ class CelInputPassword extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelInputPassword);
+export default CelInputPassword

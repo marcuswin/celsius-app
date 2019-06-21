@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as appActions from '../../../redux/actions'
 
-import testUtil from "../../../utils/test-util";
+
 import { setSecureStoreKey } from '../../../utils/expo-storage'
 import { MODALS } from '../../../constants/UI'
 import CelButton from "../../atoms/CelButton/CelButton";
@@ -55,4 +55,4 @@ class EarnInterestCelModal extends Component {
   }
 }
 
-export default testUtil.hookComponent(EarnInterestCelModal);
+export default EarnInterestCelModal

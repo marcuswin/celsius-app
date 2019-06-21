@@ -31,10 +31,11 @@ const base = {
   infoWrapper: {
   },
   currencyName: {
-    marginBottom: 2
+    marginBottom: 2,
+    color: STYLES.COLORS.DARK_GRAY
   },
   currencyShort: {
-    color: STYLES.DARK_GRAY,
+    color: STYLES.COLORS.DARK_GRAY
   },
   imageInfoWrapper: {
     flexDirection: "row",
@@ -89,9 +90,7 @@ const base = {
 
 const themed = {
   light: {},
-
   dark: {},
-
   celsius: {}
 };
 

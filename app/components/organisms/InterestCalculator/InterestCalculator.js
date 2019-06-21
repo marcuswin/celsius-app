@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import { KEYPAD_PURPOSES, THEMES } from '../../../constants/UI'
 import CelText from '../../atoms/CelText/CelText'
@@ -23,7 +23,6 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
     formData: state.forms.formData,
     currencies: state.currencies.rates,
     interestCompliance: state.user.compliance.interest,
-    interestRatesDisplay: state.interest.ratesDisplay,
     currencyRatesShort: state.currencies.currencyRatesShort,
     keypadOpen: state.ui.isKeypadOpen
   }),
@@ -149,7 +148,7 @@ class InterestCalculator extends Component {
     }
     return (
       <>
-        <CelText align={'center'} margin='20 0 16 0'>
+        <CelText style={style.calculatorInfo} align={'center'} margin='20 0 16 0'>
           Choose how you want to earn interest.
         </CelText>
 
@@ -295,4 +294,4 @@ class InterestCalculator extends Component {
   }
 }
 
-export default testUtil.hookComponent(InterestCalculator)
+export default InterestCalculator

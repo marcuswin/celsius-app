@@ -1,5 +1,3 @@
-// TODO(fj): remove clear storage. it doesn't work :)
-
 import * as SecureStore from 'expo-secure-store';
 import loggerUtil from './logger-util';
 
@@ -7,7 +5,6 @@ export {
   setSecureStoreKey,
   getSecureStoreKey,
   deleteSecureStoreKey,
-  clearSecureStorage,
 };
 
 /**
@@ -60,19 +57,3 @@ async function deleteSecureStoreKey(key) {
     return null;
   }
 }
-
-/**
- * @name clear
- * @description Delete the value associated with the provided key.
- *
- * @return A promise that will reject if the value couldn’t be deleted.
- * */
-async function clearSecureStorage() {
-  try {
-    return await SecureStore.clear();
-  } catch (error) {
-    loggerUtil.err(error);
-    return null;
-  }
-}
-

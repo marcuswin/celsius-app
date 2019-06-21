@@ -7,7 +7,7 @@ import { View } from 'react-native'
 import moment from 'moment'
 import _ from 'lodash'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 // import KYCProfileDetailsStyle from "./KYCProfileDetails.styles";
 import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
@@ -269,4 +269,4 @@ class KYCProfileDetails extends Component {
   }
 }
 
-export default testUtil.hookComponent(KYCProfileDetails)
+export default KYCProfileDetails

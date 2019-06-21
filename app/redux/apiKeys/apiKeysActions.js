@@ -7,7 +7,7 @@ import { MODALS } from '../../constants/UI';
 
 export {
   createAPIKey,
-  revokeAPIKey,
+  revokeAPIKey, // TODO refactor to use DELETE_SUCCESS
   getAllAPIKeys,
 }
 

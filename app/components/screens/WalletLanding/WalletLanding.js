@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import _ from 'lodash'
 import { withNavigationFocus } from 'react-navigation'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelText from '../../atoms/CelText/CelText'
@@ -107,8 +107,9 @@ class WalletLanding extends Component {
       actions.getCelsiusMemberStatus()
       this.shouldInitializeMembership = false
     }
-    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON') {
+    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
+    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States'
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
@@ -421,4 +422,4 @@ class WalletLanding extends Component {
   }
 }
 
-export default testUtil.hookComponent(withNavigationFocus(WalletLanding))
+export default withNavigationFocus(WalletLanding)

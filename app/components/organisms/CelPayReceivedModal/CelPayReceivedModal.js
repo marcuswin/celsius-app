@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import testUtil from "../../../utils/test-util";
+
 
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from '../../../constants/UI'
@@ -43,4 +43,4 @@ CelPayReceivedModal.propTypes = {
 }
 
 
-export default testUtil.hookComponent(CelPayReceivedModal);
+export default CelPayReceivedModal

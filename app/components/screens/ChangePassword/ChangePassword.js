@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelInput from '../../atoms/CelInput/CelInput';
@@ -50,4 +50,4 @@ class ChangePassword extends Component {
   }
 }
 
-export default testUtil.hookComponent(ChangePassword);
+export default ChangePassword

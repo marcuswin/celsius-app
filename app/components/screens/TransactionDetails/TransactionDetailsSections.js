@@ -10,8 +10,6 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import CelInterestCard from "../../molecules/CelInterestCard/CelInterestCard";
-
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -35,15 +33,12 @@ export const BasicSection = ({ label, value, noSeparator = false }) => (
   </View>
 )
 
-export const CollateralSection = ({ dollarAmount, coinAmount, coin }) => (
-  <View style={{ width: '100%', paddingHorizontal: 20, backgroundColor: STYLES.COLORS.DARK_GRAY_OPACITY, paddingVertical: 20 }}>
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10 }}>
-      <CelText type="H6">Locked Collateral:</CelText>
-      <CelText type="H6">{`${formatter.usd(dollarAmount)} (at the time of initiation)`}</CelText>
-    </View>
-    <View style={{ maring: '0 0 20 0', alignItems: 'flex-end' }}>
-      <CelText type="H6">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
-    </View>
+export const CollateralSection = ({ coinAmount, coin }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card padding="20 10 20 10">
+      <CelText type="H6" margin="0 0 10 0">Locked Collateral: </CelText>
+      <CelText type="H5" weight="bold">{formatter.crypto(coinAmount, coin.toUpperCase())}</CelText>
+    </Card>
   </View>
 )
 
@@ -62,7 +57,7 @@ export const AddressSection = ({ transaction, text, address }) => {
   const link = getBlockExplorerLink(transaction);
 
   return (
-     link ?
+    link ?
       <View style={{ paddingHorizontal: 20 }}>
         <Card margin={'20 0 20 0'}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
@@ -73,7 +68,7 @@ export const AddressSection = ({ transaction, text, address }) => {
                 onPress={() => Linking.openURL(link.text)}>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {link.text}</CelText>
                 <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE}
-                      style={{ marginLeft: 5 }}/>
+                  style={{ marginLeft: 5 }} />
               </TouchableOpacity>
             )}
           </View>
@@ -312,21 +307,13 @@ export const NoteSection = ({ text }) => (
   ) : null
 )
 
-export const InterestSection = ({ interestEarned, interestBonus, tier, interestInCel, setUserAppSettings }) => (
+export const InterestSection = ({ interestEarned }) => (
 
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
     <Card>
       <CelText type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
-    {!interestInCel ?
-      <CelInterestCard
-        tier={tier}
-        interestBonus={interestBonus}
-        interestInCel={interestInCel}
-        setUserAppSettings={setUserAppSettings}
-      />
-      : null}
   </View>
 )
 
@@ -366,8 +353,8 @@ function getBlockExplorerLink(transaction) {
     case 'xrp': return { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' };
     case 'cel': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
     case 'omg': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain'};
-    default :
+    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain' };
+    default:
       return null
   }
 }

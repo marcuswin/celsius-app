@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 
-import testUtil from '../../../utils/test-util'
+
 import CelInputStyle from './CelInput.styles'
 import CelInputPassword from './CelInputPassword'
 import CelInputText from './CelInputText'
@@ -202,4 +202,4 @@ class CelInput extends Component {
   }
 }
 
-export default testUtil.hookComponent(CelInput)
+export default CelInput

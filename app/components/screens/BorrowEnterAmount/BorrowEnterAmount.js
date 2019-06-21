@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Slider } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import testUtil from '../../../utils/test-util'
+
 import * as appActions from '../../../redux/actions'
 import BorrowEnterAmountStyle from './BorrowEnterAmount.styles'
 import CelText from '../../atoms/CelText/CelText'
@@ -24,7 +24,6 @@ import { getPadding } from '../../../utils/styles-util'
     loanCompliance: state.user.compliance.loan,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
-    walletTotal: state.wallet.total,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     keypadOpen: state.ui.isKeypadOpen
   }),
@@ -289,4 +288,4 @@ class BorrowEnterAmount extends Component {
   }
 }
 
-export default testUtil.hookComponent(BorrowEnterAmount)
+export default BorrowEnterAmount

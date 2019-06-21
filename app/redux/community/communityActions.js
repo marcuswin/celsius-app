@@ -8,6 +8,10 @@ export {
   getCommunityStatistics
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getCommunityStatistics() {
     return async dispatch => {
       try {
@@ -22,6 +26,9 @@ function getCommunityStatistics() {
 }
 
 
+/**
+ * TODO add JSDoc
+ */
 function getCommunityStatisticsSuccess(stats) {
   return {
     type: ACTIONS.GET_COMMUNITY_STATISTICS_SUCCESS,

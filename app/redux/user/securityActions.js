@@ -8,6 +8,10 @@ export {
   getSecurityOverview
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getSecurityOverview() {
   return async (dispatch) => {
     try {
@@ -22,6 +26,10 @@ function getSecurityOverview() {
   }
 }
 
+
+/**
+ * TODO add JSDoc
+ */
 function getSecurityOverviewSuccess(overview) {
   return {
     type: ACTIONS.GET_USER_SECURITY_OVERVIEW_SUCCESS,

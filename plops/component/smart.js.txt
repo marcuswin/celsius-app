@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
-import testUtil from "../../../utils/test-util";
-
 import {{pascalCase name}}Style from "./{{pascalCase name}}.styles";
 
 class {{pascalCase name}} extends Component {
@@ -37,4 +35,4 @@ class {{pascalCase name}} extends Component {
   }
 }
 
-export default testUtil.hookComponent({{pascalCase name}});
+export default {{pascalCase name}}

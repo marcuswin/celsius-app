@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import moment from 'moment';
 
-import testUtil from "../../../utils/test-util";
+
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import transactionsUtil from '../../../utils/transactions-util';
@@ -197,4 +197,4 @@ class TransactionDetails extends Component {
   }
 }
 
-export default testUtil.hookComponent(TransactionDetails);
+export default TransactionDetails

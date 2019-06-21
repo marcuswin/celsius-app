@@ -9,7 +9,7 @@ import { MODALS } from "../../constants/UI";
 
 export {
   applyForALoan,
-  getAllLoans
+  getAllLoans,
 }
 
 /**

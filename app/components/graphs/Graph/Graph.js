@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
 import { scaleLinear, scalePoint, scaleTime } from "d3-scale";
-import testUtil from "../../../utils/test-util";
+
 import formatter from "../../../utils/formatter";
 import { getTheme, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";
@@ -317,4 +317,4 @@ class Graph extends React.Component {
   }
 }
 
-export default testUtil.hookComponent(Graph);
+export default Graph
