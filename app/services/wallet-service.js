@@ -2,28 +2,12 @@ import axios from 'axios';
 import apiUrl from './api-url';
 
 const walletService = {
-  getWalletDetails, // TODO remove
   getWalletSummary,
   getCoinAddress,
-  getCoinOriginatingAddress, // TODO remove
   setCoinWithdrawalAddress,
-  getCoinTransactions, // TODO remove
-  getCoinGraphData, // TODO remove
-  withdrawCrypto,
   getAllCoinWithdrawalAddresses,
+  withdrawCrypto, // TODO move to transactions-service
 };
-
-
-/**
- * Gets details for users wallet
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#e40ee949-4cf6-4ecb-9fc7-3c202a539612
- * @deprecated: use getWalletSummary
- *
- * @return {Promise}
- */
-function getWalletDetails() {
-  return axios.get(`${apiUrl}/wallet`);
-}
 
 
 /**
@@ -50,17 +34,6 @@ function getCoinAddress(coin) {
 
 
 /**
- * Gets originating/withdrawal address for coin for user
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#ee2461cf-cd62-4597-b822-8213d77acaee
- *
- * @param {string} coin - eg. eth|ETH
- * @return {Promise}
- */
-function getCoinOriginatingAddress(coin) {
-  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address`);
-}
-
-/**
  * Sets originating/withdrawal address for coin for user
  * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#f7098f6c-8c42-4d84-96ca-22da8eeaa6eb
  *
@@ -76,30 +49,6 @@ function setCoinWithdrawalAddress(coin, address, verification) {
     address,
     ...verification
   });
-}
-
-
-/**
- * Get all transactions for a coin
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#a3d51752-fbb7-4857-8dd9-b21790b154e4
- * @deprecated: user transactionsService.getAll(query)
- *
- * @param {string} coin - eg. eth|ETH
- * @return {Promise}
- */
-function getCoinTransactions(coin) {
-  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/transactions`);
-}
-
-
-/**
- * Gets coin graph data
- * @deprecated
- *
- * @return {Promise}
- */
-function getCoinGraphData(coin, time = '7d') {
-  return axios.get(`${apiUrl}/wallet/${coin.toLowerCase()}/graph/${time}`);
 }
 
 

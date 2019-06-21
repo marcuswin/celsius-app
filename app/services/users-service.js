@@ -21,7 +21,6 @@ const usersService = {
   getUserSecurityOverview,
 
   // TODO move to user-kyc-service
-  getProfileAddressInfo, // TODO check if we need this?
   updateProfileAddressInfo,
   getProfileTaxpayerInfo,
   updateProfileTaxpayerInfo,
@@ -38,12 +37,10 @@ const usersService = {
   setUserAppSettings,
 
   // TODO: keep in user service
-  update, // TODO remove
   getPersonalInfo,
   updateProfileInfo,
   setProfileImage,
   addExpoPushToken,
-  getIcoPersonalInfo, // TODO remove
 }
 
 /**
@@ -116,22 +113,6 @@ function registerGoogle (googleUser) {
   return axios.post(`${apiUrl}/users/google`, googleUser)
 }
 
-/**
- * Updates user info
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#e5b7ebf2-acb7-4b26-ae2a-dc396782309f
- * @todo check reusability and add params
- *
- * @param {Object} user
- * @param {string} user.firstName
- * @param {string} user.lastName
- * @return {Promise}
- */
-function update ({ firstName, lastName }) {
-  return axios.put(`${apiUrl}/users/update`, {
-    first_name: firstName,
-    last_name: lastName
-  })
-}
 
 /**
  * Logs a user into Celsius with email/password
@@ -236,15 +217,6 @@ function getPersonalInfo () {
   return axios.get(`${apiUrl}/me`)
 }
 
-/**
- * Gets address info for user
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#0f7664af-a74f-42bd-a86c-c773b2288f87
- *
- * @return {Promise}
- */
-function getProfileAddressInfo () {
-  return axios.get(`${apiUrl}/me/address`)
-}
 
 /**
  * Gets taxpayer info for user
@@ -339,15 +311,6 @@ async function addExpoPushToken (token) {
   })
 }
 
-/**
- * Gets ICO info for user
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#7de4e2e1-9867-4f8b-bb8a-f8847e22e4cc
- *
- * @return {Promise}
- */
-function getIcoPersonalInfo () {
-  return axios.get(`${apiUrl}/me/kyc/ico_data`)
-}
 
 /**
  * Gets compliance info for user
