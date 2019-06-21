@@ -1,6 +1,7 @@
 import axios from "axios";
 import apiUrl from "./api-url";
 
+// TODO move to user-security-service
 const TwoFactorService = {
   beginTwoFactorActivation,
   enableTwoFactor,
