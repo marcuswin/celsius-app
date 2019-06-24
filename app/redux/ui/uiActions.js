@@ -14,6 +14,7 @@ export {
 
   toggleKeypad,
   setKeypadInput,
+  setActiveTab,
 }
 
 let msgTimeout;
@@ -169,4 +170,13 @@ function setFabType(fabType) {
       dispatch({ type: ACTIONS.SET_FAB_TYPE, fabType })
     }
   }
+}
+ /**
+   * Sets active tab in CelTabs
+   * @params {string} activeTab - name of the tab to open
+   * @returns {Object} - Action
+   */
+function setActiveTab (activeTab) {
+  return {type: ACTIONS.ACTIVE_TAB, activeTab}
+
 }

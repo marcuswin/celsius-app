@@ -10,6 +10,7 @@ const initialState = {
 
   message: undefined,
   openedModal: undefined,
+  activeTab: undefined,
 
   isKeypadOpen: false,
 
@@ -78,6 +79,13 @@ export default (state = initialState, action) => {
         }
       }
       return state;
+
+    case ACTIONS.ACTIVE_TAB:
+      return {
+        ...state,
+        activeTab: action.activeTab
+      }
+
     default:
       return state;
 

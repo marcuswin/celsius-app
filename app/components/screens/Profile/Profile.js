@@ -17,7 +17,6 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
-import { KYC_STATUSES } from "../../../constants/DATA";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 import { getFontSize } from '../../../utils/styles-util';
@@ -102,7 +101,6 @@ class Profile extends Component {
     const { profilePicture, user, actions, formData, formErrors } = this.props;
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
-    const shouldShowAchievements = user.kyc && user.kyc.status === KYC_STATUSES.passed
     const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States';
 
     return (
@@ -144,18 +142,6 @@ class Profile extends Component {
         </IconButton>
 
         <Separator />
-
-        {shouldShowAchievements && (
-          <View>
-            <IconButton
-              onPress={() => actions.navigateTo("LoyaltyProgram")}
-              icon="Accomplishments"
-            >
-              Loyalty program
-            </IconButton>
-            <Separator />
-          </View>
-        )}
 
         <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
         <CelInput type="text" field='cellphone' disabled placeholder='Phone number' error={formErrors.cellphone} value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"} />

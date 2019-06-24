@@ -36,7 +36,7 @@ export const screens = {
   CelPayFab: celPayNavigator,
   ProfileFab: profileNavigator,
   SupportFab: supportNavigator,
-  CommunityFab: communityNavigator
+  CommunityFab: communityNavigator,
 };
 
 const navigatorProps = {
