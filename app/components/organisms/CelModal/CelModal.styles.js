@@ -56,6 +56,23 @@ const base = {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     zIndex: 5
+  },
+  imageWrapperCircle: {
+    width: widthPercentageToDP("28.8%"),
+    height: widthPercentageToDP("28.8%"),
+    borderRadius: widthPercentageToDP("28.8%")/2,
+    backgroundColor: "white",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+    top: -heightPercentageToDP("8%"),
+    left: widthPercentageToDP("31.5%"),
+    ...STYLES.SHADOW_STYLES
+  },
+  modalImageCircle: {
+    width: widthPercentageToDP("16%"),
+    height: widthPercentageToDP("16%")
   }
 };
 

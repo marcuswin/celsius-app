@@ -45,13 +45,15 @@ class CelModal extends Component {
     noScroll: PropTypes.bool,
     onClose: PropTypes.func,
     padding: PropTypes.string,
-    onBackdropPress: PropTypes.func
+    onBackdropPress: PropTypes.func,
+    pictureCircle: PropTypes.bool
   }
   static defaultProps = {
     shouldRenderCloseButton: true,
     picture: null,
     header: false,
-    noScroll: false
+    noScroll: false,
+    pictureCircle: false
     // marginTop: heightPercentageToDP("15%"),
     // height: heightPercentageToDP("65%"),
   }
@@ -66,10 +68,14 @@ class CelModal extends Component {
   }
 
   renderImage = () => {
-    const { picture } = this.props
+    const { picture, pictureCircle } = this.props
     const style = CelModalStyle()
 
-    if (!picture) return null
+    if (!picture) return null;
+    if (pictureCircle) return <View style={style.imageWrapperCircle}>
+      <Image source={picture} style={style.modalImageCircle} resizeMode='contain' />
+    </View>;
+
     return (
       <View style={style.imageWrapper}>
         <Image source={picture} style={style.modalImage} resizeMode='contain' />

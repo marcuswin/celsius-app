@@ -26,6 +26,7 @@ import StaticScreen from '../StaticScreen/StaticScreen'
 import IconButton from '../../organisms/IconButton/IconButton'
 import DestinationTagModal from '../../organisms/DestinationTagModal/DestinationTagModal'
 import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
+import DepositInfoModal from "../../organisms/DepositInfoModal/DepositInfoModal";
 
 @connect(
   state => ({
@@ -51,6 +52,11 @@ class Deposit extends Component {
       isFetchingAddress: false,
       useAlternateAddress: false
     }
+  }
+
+  componentDidMount() {
+    const {actions} = this.props;
+      actions.openModal(MODALS.DEPOSIT_INFO_MODAL)
   }
 
   getAddress = currency => {
@@ -126,7 +132,6 @@ class Deposit extends Component {
     } else if (formData.selectedCoin) {
       defaultSelectedCoin = formData.selectedCoin
     }
-
     return defaultSelectedCoin
   }
 
@@ -164,7 +169,7 @@ class Deposit extends Component {
     if (memoId) {
       actions.openModal(MODALS.MEMO_ID_MODAL)
     }
-  }
+  };
 
   renderSwitchAddressBlock = (alternativeAddress, currency) => {
     const { useAlternateAddress } = this.state
@@ -243,7 +248,8 @@ class Deposit extends Component {
       formData,
       eligibleCoins,
       kycStatus,
-      depositCompliance
+      depositCompliance,
+      navigation
     } = this.props
     const {
       address,
@@ -251,8 +257,9 @@ class Deposit extends Component {
       destinationTag,
       memoId
     } = this.getAddress(formData.selectedCoin)
+    const coin = navigation.getParam('coin')
     const { useAlternateAddress, isFetchingAddress } = this.state
-    const styles = DepositStyle()
+    const styles = DepositStyle();
 
     if (kycStatus !== KYC_STATUSES.passed) {
       return (
@@ -397,6 +404,7 @@ class Deposit extends Component {
 
         <DestinationTagModal closeModal={actions.closeModal} />
         <MemoIdModal closeModal={actions.closeModal} />
+        <DepositInfoModal type={coin} closeModal={actions.closeModal}/>
       </RegularLayout>
     )
   }
