@@ -1,4 +1,4 @@
-package com.clearcelsius;
+package network.celsius.wallet;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

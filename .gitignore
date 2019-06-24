@@ -64,3 +64,4 @@ build_android.sh
 celsius.jks
 shell.apk
 constants.js
+google-services.json

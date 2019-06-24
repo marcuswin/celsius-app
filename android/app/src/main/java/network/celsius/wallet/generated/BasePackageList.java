@@ -1,4 +1,4 @@
-package com.clearcelsius.generated;
+package network.celsius.wallet.generated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +14,7 @@ public class BasePackageList {
         new expo.modules.contacts.ContactsPackage(),
         new expo.modules.filesystem.FileSystemPackage(),
         new expo.modules.font.FontLoaderPackage(),
+        new expo.modules.google.signin.GoogleSignInPackage(),
         new expo.modules.imagemanipulator.ImageManipulatorPackage(),
         new expo.modules.imagepicker.ImagePickerPackage(),
         new expo.modules.permissions.PermissionsPackage(),

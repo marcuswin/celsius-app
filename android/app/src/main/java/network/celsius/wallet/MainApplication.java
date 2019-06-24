@@ -1,4 +1,4 @@
-package com.clearcelsius;
+package network.celsius.wallet;
 
 import android.app.Application;
 
@@ -12,7 +12,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.clearcelsius.generated.BasePackageList;
+import network.celsius.wallet.generated.BasePackageList;
 
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
