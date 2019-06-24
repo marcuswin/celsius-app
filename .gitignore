@@ -55,4 +55,12 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
+# Environment files
+.env
+app.json
+config.json
+/config
+build_android.sh
+celsius.jks
+shell.apk
 constants.js

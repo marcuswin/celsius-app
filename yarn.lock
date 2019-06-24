@@ -2281,15 +2281,6 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cavy@^0.6.1:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/cavy/-/cavy-0.6.2.tgz#3a6c882b005fd1ddf5f1be0ed4e423af50c911b2"
-  integrity sha512-xkoI+tgUDw6PdEt7gLg3PJQEdU5edYHOhbtTeCPYuTeqQgYOYbUTpgBeecIb3Pejf/4FwAFO0BpDAoCt6USwvw==
-  dependencies:
-    create-react-class "^15.6.0"
-    hoist-non-react-statics "^2.5.0"
-    prop-types "^15.5.10"
-
 chalk@^1.0.0, chalk@^1.1.1, chalk@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-1.1.3.tgz#a8115c55e4a702fe4d150abd3872822a7e09fc98"
@@ -2611,7 +2602,7 @@ country-data@0.0.31:
     currency-symbol-map "~2"
     underscore ">1.4.4"
 
-create-react-class@^15.6.0, create-react-class@^15.6.3:
+create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -3778,6 +3769,13 @@ expo-font@^5.0.1:
   integrity sha512-fa/z31lLi1ut6IGTf9/Kvw9KAlwSGQaBkuunuqjrW2ephqiXlHTeOOsaqKMirtmiqgsKOJysdlYUH1Aw03Y2bg==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-google-sign-in@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/expo-google-sign-in/-/expo-google-sign-in-5.0.1.tgz#1285afd2cb605129c310ef89b555ba8a3a5f61c2"
+  integrity sha512-VwKIiG+S7uswF27RN9+WBO4dGQhmBPeqYnlBjuw3Zf8pS+tZcE5VROb1PBzyhgn4WEvGEql+40axm8fIMlensw==
+  dependencies:
+    invariant "^2.2.4"
 
 expo-image-manipulator@^5.0.1:
   version "5.0.1"

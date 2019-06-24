@@ -1,4 +1,4 @@
-// import * as GoogleSignIn from 'expo-google-sign-in'
+import * as GoogleSignIn from 'expo-google-sign-in'
 // import * as Facebook from 'expo-facebook'
 
 import Constants from '../../../constants'
@@ -19,7 +19,7 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   // FACEBOOK_APP_ID,
   // FACEBOOK_URL,
-  // GOOGLE_CLIENT_ID
+  GOOGLE_CLIENT_ID
 } = Constants.extra
 
 export {
@@ -282,36 +282,36 @@ function registerUserFacebook () {
  * @param {string} authReason - one of login|register
  */
 function authGoogle (authReason) {
-  return async () => {
+  return async dispatch => {
     if (!['login', 'register'].includes(authReason)) return
 
     try {
-      // await GoogleSignIn.initAsync({
-      //   clientId: GOOGLE_CLIENT_ID
-      // })
-      // await GoogleSignIn.askForPlayServicesAsync()
-      // const isSignedIn = await GoogleSignIn.isSignedInAsync()
-      // if (isSignedIn) await GoogleSignIn.signOutAsync()
-      // const result = await GoogleSignIn.signInAsync()
+      await GoogleSignIn.initAsync({
+        clientId: GOOGLE_CLIENT_ID
+      })
+      await GoogleSignIn.askForPlayServicesAsync()
+      const isSignedIn = await GoogleSignIn.isSignedInAsync()
+      if (isSignedIn) await GoogleSignIn.signOutAsync()
+      const result = await GoogleSignIn.signInAsync()
 
-      // if (result.type === 'success') {
-      //   // NOTE: different response for Expo and for standalone app
-      //   const user = result.user
-      //   user.email = user.email
-      //   user.firstName = user.givenName || user.firstName
-      //   user.lastName = user.familyName || user.lastName
-      //   user.googleId = user.id || user.uid
-      //   user.profilePicture = user.photoURL
-      //   user.accessToken = result.access_token || user.auth.accessToken
+      if (result.type === 'success') {
+        // NOTE: different response for Expo and for standalone app
+        const user = result.user
+        user.email = user.email
+        user.firstName = user.givenName || user.firstName
+        user.lastName = user.familyName || user.lastName
+        user.googleId = user.id || user.uid
+        user.profilePicture = user.photoURL
+        user.accessToken = result.access_token || user.auth.accessToken
 
-      //   if (authReason === 'login') {
-      //     dispatch(loginGoogle(user))
-      //   } else {
-      //     dispatch(updateFormFields(user))
-      //   }
-      // } else {
-      //   return { cancelled: true }
-      // }
+        if (authReason === 'login') {
+          dispatch(loginGoogle(user))
+        } else {
+          dispatch(updateFormFields(user))
+        }
+      } else {
+        return { cancelled: true }
+      }
     } catch (e) {
       return { error: true }
     }
@@ -360,28 +360,28 @@ function registerUserGoogle () {
  * @param {string} googleUser.photoURL
  * @param {string} googleUser.access_token
  */
-// function loginGoogle (googleUser) {
-//   return async dispatch => {
-//     dispatch(startApiCall(API.LOGIN_USER_GOOGLE))
-//     try {
-//       const user = {
-//         email: googleUser.email,
-//         first_name: googleUser.firstName,
-//         last_name: googleUser.lastName,
-//         google_id: googleUser.googleId,
-//         profile_picture: googleUser.profilePicture,
-//         access_token: googleUser.accessToken
-//       }
+function loginGoogle (googleUser) {
+  return async dispatch => {
+    dispatch(startApiCall(API.LOGIN_USER_GOOGLE))
+    try {
+      const user = {
+        email: googleUser.email,
+        first_name: googleUser.firstName,
+        last_name: googleUser.lastName,
+        google_id: googleUser.googleId,
+        profile_picture: googleUser.profilePicture,
+        access_token: googleUser.accessToken
+      }
 
-//       const res = await usersService.googleLogin(user)
+      const res = await usersService.googleLogin(user)
 
-//       await dispatch(loginSocialSuccess('google', res.data.id_token))
-//     } catch (err) {
-//       dispatch(showMessage('error', err.msg))
-//       dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
-//     }
-//   }
-// }
+      await dispatch(loginSocialSuccess('google', res.data.id_token))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg))
+      dispatch(apiError(API.REGISTER_USER_GOOGLE, err))
+    }
+  }
+}
 
 /**
  * Successfully log the user in from any social network
