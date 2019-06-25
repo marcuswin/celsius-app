@@ -1,4 +1,4 @@
-package network.celsius.wallet;
+package com.celsius;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -21,7 +21,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "ClearCelsius";
+        return "celsius";
     }
 
     @Override

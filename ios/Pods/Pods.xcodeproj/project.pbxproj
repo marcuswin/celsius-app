@@ -218,7 +218,6 @@
 		1D10EB21F69F8577B65211F8424A4AF1 /* JSIExecutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD74BABF5F17BAE41E817C3F8D5F4574 /* JSIExecutor.cpp */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1"; }; };
 		1D18B9E24B9FFBAA013DC92C5E11D026 /* EXFileSystemAssetLibraryHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0788DA6D6E475D95375EF40D4456355F /* EXFileSystemAssetLibraryHandler.m */; };
 		1D390C849E1B2EF0B3B357E618A5C788 /* RCTStatusBarManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AE77F3CD5F8873FB9ED6C56C65272C2B /* RCTStatusBarManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		1D78275BC1F6343625B70BAF05810370 /* Pods-ClearCelsiusTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 437EB63ACA4704EDE59DCC0CD87E282A /* Pods-ClearCelsiusTests-dummy.m */; };
 		1DC5984575A83D32F1B7A9F5FCE9DCD7 /* RCTAnimationDriver.h in Headers */ = {isa = PBXBuildFile; fileRef = AA468B9E35A233891B23A8D10E143953 /* RCTAnimationDriver.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1E2F6B28C82DF809C9D57E07F7AFD8A6 /* RCTSpringAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = B9BF5A6DA6C79EC8B570A029C38D1334 /* RCTSpringAnimation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1EA7A0129457FC4BC9613DA596E70AF8 /* RCTSafeAreaShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1741038ACE4AF10BDB97E01954BFD72D /* RCTSafeAreaShadowView.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1"; }; };
@@ -256,6 +255,7 @@
 		2EA6B3D772EEF719C9197FA35DD24ADA /* RCTBaseTextInputViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC42C70DED9D7AECF19C9CBE10CB2AE4 /* RCTBaseTextInputViewManager.m */; };
 		30E8CC30703E5004D0E2940BBE772975 /* RCTMaskedViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 547E87E4FAB0DEE7CF429111A224B338 /* RCTMaskedViewManager.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1"; }; };
 		31B70ECA9B659E4B711E82D3AA79EB33 /* RCTEventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ACF4542643509A958DEAA1854648B6C /* RCTEventDispatcher.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3263950ADD9DBF87E8A9E02DBE0E65C2 /* Pods-celsius-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B883C888450802F0BE98F472AFB9BB /* Pods-celsius-dummy.m */; };
 		32AFE1866A951F03544A65B8FAC1D539 /* JSIndexedRAMBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = F9FA664BE5A042D25A198457D532F822 /* JSIndexedRAMBundle.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		32DC29FE2B46B48A1B8A15FF20A7F7BD /* DoubleConversion-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BBDA08A78B3BD5ABA083B2D1B1E8DA /* DoubleConversion-dummy.m */; };
 		334FD83F947E195B6B62B98DFEAD03EC /* EXFileSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EBEA672F989F37E462E1642D16A791E /* EXFileSystem.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -428,6 +428,7 @@
 		681A0B04BC7819D8BA84F3335726B3DF /* RCTTextShadowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F09BC4203139ED08E85A9D57265710 /* RCTTextShadowView.m */; };
 		6869AEC22553224F88E090673DFA20B6 /* json_pointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A132BA5182FEF813B713673D37D56D80 /* json_pointer.cpp */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1"; }; };
 		68ECD3F1061082D68BA15C335D149888 /* RCTModuleData.mm in Sources */ = {isa = PBXBuildFile; fileRef = D78009E0B595551A9BF9BF3CA0DA24F4 /* RCTModuleData.mm */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1"; }; };
+		692A2BFC3E205A67D9BA581287868101 /* Pods-celsiusTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D541518344FAB49158154426B5BAF526 /* Pods-celsiusTests-dummy.m */; };
 		6A86C562002A137251A6922B854128C6 /* UMModuleRegistryAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BC0749E04B78BA40393582AF314951F /* UMModuleRegistryAdapter.m */; };
 		6B3BCD49B750A16FCAC817FC93DE0DFF /* RCTModalHostViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 63F80269A34C4C28EE488BD26B2552D2 /* RCTModalHostViewController.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6B654CBB576A21FAD47F3570CCDBCD1D /* EXBarCodeScannerViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B722646CCC554349130FEC412E319330 /* EXBarCodeScannerViewManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -750,7 +751,6 @@
 		C9446D3B606B610BCE02CE3DE3EBDEA4 /* MessageQueueThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BF4A575B4EB1E0E6B14F9EC667DA3A /* MessageQueueThread.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C96012710C29452C29A1B4582B3C7EBA /* EXAppLoaderProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 06C8345BC7F5C276E06CC4137810CB22 /* EXAppLoaderProvider.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C962211B2647436782288BDFD73F037E /* RCTStyleAnimatedNode.m in Sources */ = {isa = PBXBuildFile; fileRef = EA8DB221DD121BDC8DAC288FCAFEFD6B /* RCTStyleAnimatedNode.m */; };
-		C976DF8086BC5A9421E9A33B031A6B97 /* Pods-ClearCelsius-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = BC87573797263B2D2201DB5FD53D8631 /* Pods-ClearCelsius-dummy.m */; };
 		C9B700F54D263B97CC78CCD21B28AE7E /* RCTView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA4F8F3B7F49A6E28D478706E6AB22FA /* RCTView.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C9C8F29D60FFA09E62C616A6FFBBC57E /* RCTAnimationType.h in Headers */ = {isa = PBXBuildFile; fileRef = AF4BE684445ED68F987112A960761376 /* RCTAnimationType.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C9D504AB9042E24E9BB4833611748D3D /* EXCameraManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCD27298A63C7221B59AAE6EE70D32B /* EXCameraManager.m */; };
@@ -920,6 +920,20 @@
 			remoteGlobalIDString = ED2506AE7DE35D654F61254441EA7155;
 			remoteInfo = "boost-for-react-native";
 		};
+		042BDDA7BFECDE014C438E1E97B5371B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A915EE9D35CA5636731F8763E774951;
+			remoteInfo = UMCameraInterface;
+		};
+		04811281D45C4CED392063176670F5B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 897EF6A99176326E24F51E2F2103828C;
+			remoteInfo = UMReactNativeAdapter;
+		};
 		0518C73F1F0A81118A806A43EFF04DD6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -941,13 +955,6 @@
 			remoteGlobalIDString = D0EFEFB685D97280256C559792236873;
 			remoteInfo = glog;
 		};
-		0EEB98E0910F1EB4D939CC0D13B3F8CE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D0B273D56D6C8A0C770E79BE693CE2EE;
-			remoteInfo = yoga;
-		};
 		1019988146DE37D94C95EDA46D4688C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -955,33 +962,19 @@
 			remoteGlobalIDString = CAD3534FC55B0333104E5117C0A9A324;
 			remoteInfo = GoogleSignIn;
 		};
-		117CA9D2142A6067DE8ED35F6186CF09 /* PBXContainerItemProxy */ = {
+		13F33EE69B570995F91F22B565F52DE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9668C19AA6D8EA320F83875FA286855A;
-			remoteInfo = UMConstantsInterface;
+			remoteGlobalIDString = D47C581D39D227080F83B16A22A56664;
+			remoteInfo = GoogleToolboxForMac;
 		};
-		159A8D9226B18BFCB1CB1B199BD117A7 /* PBXContainerItemProxy */ = {
+		13FEE8362F01BE1BEF4E3D7A3336CE3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B5B49D8285B91590F03FEE0676EE0B32;
-			remoteInfo = "Pods-ClearCelsius";
-		};
-		161F3C29C1B3626BD6714DDB77A9F056 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F7845084F0CF03F54107EEF7411760AD;
-			remoteInfo = UMPermissionsInterface;
-		};
-		193CE9A42CFB126C9F60BD590C07AF0F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A4F685BE3CAC127BDCE4E0DBBD88D191;
-			remoteInfo = Folly;
+			remoteGlobalIDString = 2AB2EF542954AB1C999E03BFEF8DE806;
+			remoteInfo = DoubleConversion;
 		};
 		1B4984180AEF509E9FA163E746C5326D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1004,19 +997,19 @@
 			remoteGlobalIDString = 014495932E402CA67C37681988047CA2;
 			remoteInfo = UMFontInterface;
 		};
-		21ACD12CBB42750C2865943033686E97 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 49821C2B9E764AEDF2B35DFE9AA7022F;
-			remoteInfo = UMBarCodeScannerInterface;
-		};
 		24C19D5D282B3624DB7FF4B822984634 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
+		};
+		282E72EB210A73D5DB217BFDD4F1173C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0EFEFB685D97280256C559792236873;
+			remoteInfo = glog;
 		};
 		2A10F3C3E5ADFA4EA3FD0FBEA1C9E571 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1025,12 +1018,26 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
-		2E1609C7BDE66A6DFA8CD44B2C2074C0 /* PBXContainerItemProxy */ = {
+		2B1498E20BFAF2D1976D81FF0E6D1C29 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 20140544B89B60083D9626CBDB171E89;
-			remoteInfo = EXBarCodeScanner;
+			remoteGlobalIDString = 2644525CCE081E967809A8163D893A93;
+			remoteInfo = UMFileSystemInterface;
+		};
+		2BD4BCF2674E8457C284D5373CB56C8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2038C6F97563AAD6162C284B3EDD5B3B;
+			remoteInfo = UMSensorsInterface;
+		};
+		2DAA51302177295D2BD0DAEBB8AC7313 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95CA6A181945920B8C0C17D296091DB9;
+			remoteInfo = EXBlur;
 		};
 		2E225ADEDECE8B17DD2FC06627BE9339 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1046,12 +1053,12 @@
 			remoteGlobalIDString = A4F685BE3CAC127BDCE4E0DBBD88D191;
 			remoteInfo = Folly;
 		};
-		39B6FA4668C59304C3084FFFC5F0B934 /* PBXContainerItemProxy */ = {
+		39E3CA6C6FF790EB1797033CFD0D58C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 90B94D4DBCFD756F121D9368AF50E90B;
-			remoteInfo = EXFont;
+			remoteGlobalIDString = 9668C19AA6D8EA320F83875FA286855A;
+			remoteInfo = UMConstantsInterface;
 		};
 		3B4FD82855BC62D864D7A9667A68424A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1060,12 +1067,12 @@
 			remoteGlobalIDString = 014495932E402CA67C37681988047CA2;
 			remoteInfo = UMFontInterface;
 		};
-		3F4F713651CFF7E7358F8C804A026E06 /* PBXContainerItemProxy */ = {
+		41D98FC8745F9B31B2240427CB873969 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 868B90C74770285449C60DBA82181479;
-			remoteInfo = EXFileSystem;
+			remoteGlobalIDString = 05B0AD9DD91DE00FD0AAF8FE2E504CAD;
+			remoteInfo = EXSecureStore;
 		};
 		4511E4F5F4FAFD71E294E0F4DCBF06DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1073,34 +1080,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
-		};
-		465533BAB2B45A9169D9E3FC572C72C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2644525CCE081E967809A8163D893A93;
-			remoteInfo = UMFileSystemInterface;
-		};
-		467762BFC4BABA45C8E681F7DBB56030 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1BEE828C124E6416179B904A9F66D794;
-			remoteInfo = React;
-		};
-		47F8E03570DC8F1FF6FFB93B715A7B68 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A72FB88825FDC7D301C9DD1F8F96824;
-			remoteInfo = EXPermissions;
-		};
-		48837F4E9F70D18BA5AA1F3052FDFDE5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FD6B573F554405C8DA7F96BE5E989F48;
-			remoteInfo = EXImageManipulator;
 		};
 		4B9B72203A9FE8A181AB6D56E10A40F9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1116,7 +1095,28 @@
 			remoteGlobalIDString = 2644525CCE081E967809A8163D893A93;
 			remoteInfo = UMFileSystemInterface;
 		};
-		4EB8C12E7B024DBD91A28604687A6923 /* PBXContainerItemProxy */ = {
+		4EBAEDF09B7C5F413014045295AF8477 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A39935560B403231EC02D0D3A38DC3C;
+			remoteInfo = EXCamera;
+		};
+		4F56BCFA046AE4AF5A33445C787BB8D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E45BE92320653FB98EA36DED62D92746;
+			remoteInfo = "Pods-celsius";
+		};
+		51B054DD7D4CC02D85BA739DEFC8948F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEE828C124E6416179B904A9F66D794;
+			remoteInfo = React;
+		};
+		522BC55B9599EB8DD12382BE030CBDC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -1130,20 +1130,6 @@
 			remoteGlobalIDString = 8F50A15C556FFEAD343B69C7EA54092F;
 			remoteInfo = Analytics;
 		};
-		5262B820016C147D18306E0F30558759 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 50188AAB5FAECCA9583327DBA2B0AF2B;
-			remoteInfo = UMTaskManagerInterface;
-		};
-		52A9FFB2A1FFA244B36042B155B97D3B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CAD3534FC55B0333104E5117C0A9A324;
-			remoteInfo = GoogleSignIn;
-		};
 		53FD36226B2B5438FB90876375078139 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -1151,26 +1137,26 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
-		54AE10E8FDC235698F2A3F0F51E1C70D /* PBXContainerItemProxy */ = {
+		5A64C9DB3F8E1843CE190020E87643A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 97C4DE84FA3CC4EC06AA6D8C249949B7;
-			remoteInfo = UMImageLoaderInterface;
+			remoteGlobalIDString = 25F3B503F78A1B49B25FFE020EA14660;
+			remoteInfo = EXSegment;
 		};
-		55AD6B6A3871A6DF46197C6B3FDD291F /* PBXContainerItemProxy */ = {
+		5A7BF61DD3D9F1CEA796214F3BFD76F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2AD4F40E67E1874A0816F6B34289EB41;
-			remoteInfo = UMFaceDetectorInterface;
+			remoteGlobalIDString = 8F50A15C556FFEAD343B69C7EA54092F;
+			remoteInfo = Analytics;
 		};
-		5E4E73960318102DF69402DEC701C79F /* PBXContainerItemProxy */ = {
+		5B9C28542F6E6EB57CA5EE01E03025E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 05B0AD9DD91DE00FD0AAF8FE2E504CAD;
-			remoteInfo = EXSecureStore;
+			remoteGlobalIDString = 9656985AC27BB943A21997CAF48B5CD0;
+			remoteInfo = EXGoogleSignIn;
 		};
 		61E62222D0F98A16B9A2662B507E504E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1179,19 +1165,33 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
-		69E44C1200CFF2698DD795C0957846E7 /* PBXContainerItemProxy */ = {
+		6301176EA33005EFD5252C8C4D527F41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 25F3B503F78A1B49B25FFE020EA14660;
-			remoteInfo = EXSegment;
+			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
+			remoteInfo = UMCore;
 		};
-		6B4FDE126860B70A101D048416A13A9A /* PBXContainerItemProxy */ = {
+		6330B1A248D50A376C6057A22007D82A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9A7E4CFA3D0A965685884E61CE7D0D1D;
-			remoteInfo = EXImagePicker;
+			remoteGlobalIDString = 49821C2B9E764AEDF2B35DFE9AA7022F;
+			remoteInfo = UMBarCodeScannerInterface;
+		};
+		69A409B42A1BECABDB397BA2C58E2B4A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD6B573F554405C8DA7F96BE5E989F48;
+			remoteInfo = EXImageManipulator;
+		};
+		6F885A1357F1D1E74FCC80CC69E421BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0B273D56D6C8A0C770E79BE693CE2EE;
+			remoteInfo = yoga;
 		};
 		70F37C141BA487162A565A5A71134D97 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1221,61 +1221,12 @@
 			remoteGlobalIDString = 9668C19AA6D8EA320F83875FA286855A;
 			remoteInfo = UMConstantsInterface;
 		};
-		770E74221D9AEAAF6C24C13C53E79532 /* PBXContainerItemProxy */ = {
+		7E01AB055D02D08DE13124398C5569A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
-			remoteInfo = GTMSessionFetcher;
-		};
-		7CA98952CCF15B9C653E862373ECDE82 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 897EF6A99176326E24F51E2F2103828C;
-			remoteInfo = UMReactNativeAdapter;
-		};
-		7DD3B7679CAB60CA073D1385B84B1B8D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6C1893932A69822CBE3502F2E0BCFB6D;
-			remoteInfo = EXConstants;
-		};
-		80818D51352FEB10B75844F20D87CE66 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D47C581D39D227080F83B16A22A56664;
-			remoteInfo = GoogleToolboxForMac;
-		};
-		835A24D174479C2F9B772DB069BE95B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EC577C5CB1DC59A7464ECEF266A75B42;
-			remoteInfo = "react-native-netinfo";
-		};
-		86F1208BCC19626A250A4964CB6E5EC8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A915EE9D35CA5636731F8763E774951;
-			remoteInfo = UMCameraInterface;
-		};
-		8901A2A9D837915C5E0B98C837FB0C8F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2038C6F97563AAD6162C284B3EDD5B3B;
-			remoteInfo = UMSensorsInterface;
-		};
-		8ABDCE186DD6BA9B7900199D2E0B0C2B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 014495932E402CA67C37681988047CA2;
-			remoteInfo = UMFontInterface;
+			remoteGlobalIDString = A4F685BE3CAC127BDCE4E0DBBD88D191;
+			remoteInfo = Folly;
 		};
 		8AFDC5A6B798BA22965BCFC2E47AE56D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1283,13 +1234,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = F7845084F0CF03F54107EEF7411760AD;
 			remoteInfo = UMPermissionsInterface;
-		};
-		956C573BFE69E4749E060C89EB146800 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2B8C13513C1F6D610976B0C8F4402EC1;
-			remoteInfo = EXAppLoaderProvider;
 		};
 		9581AC803D74C77A3938E29757143769 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1312,6 +1256,20 @@
 			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
 			remoteInfo = GTMSessionFetcher;
 		};
+		9B40F7EB2AE50A84A03C25FBCE85F6CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2B8C13513C1F6D610976B0C8F4402EC1;
+			remoteInfo = EXAppLoaderProvider;
+		};
+		9C4B3EC8543750150AE7A2A59EEBB615 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20140544B89B60083D9626CBDB171E89;
+			remoteInfo = EXBarCodeScanner;
+		};
 		9E9FEB310ACFF3FD4D2E28FBB439D884 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -1325,6 +1283,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
+		};
+		A3ED4CBB0C9C4A47A7108A30DE018A77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4507DDDD8FEBB4B947A8702A0571AFE4;
+			remoteInfo = EXContacts;
 		};
 		A5BC6070450BA0469568C38D9DE4757C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1340,13 +1305,6 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
-		ACAB1C70E65EF0AD04BD4FEB639382FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4507DDDD8FEBB4B947A8702A0571AFE4;
-			remoteInfo = EXContacts;
-		};
 		AE2BE81C554736E457776C2DF6D230F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -1354,19 +1312,26 @@
 			remoteGlobalIDString = 97C4DE84FA3CC4EC06AA6D8C249949B7;
 			remoteInfo = UMImageLoaderInterface;
 		};
-		B3FD55DCA022BBC521BDD4C9880034A5 /* PBXContainerItemProxy */ = {
+		B0109ACBFB716F7B6AE9E30E36C8FE59 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2AB2EF542954AB1C999E03BFEF8DE806;
-			remoteInfo = DoubleConversion;
+			remoteGlobalIDString = 50188AAB5FAECCA9583327DBA2B0AF2B;
+			remoteInfo = UMTaskManagerInterface;
 		};
-		B64DE09274089EF808BDA362358EF6DE /* PBXContainerItemProxy */ = {
+		B015235ADCB1069A5239EF9A652CA26D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D0EFEFB685D97280256C559792236873;
-			remoteInfo = glog;
+			remoteGlobalIDString = 90B94D4DBCFD756F121D9368AF50E90B;
+			remoteInfo = EXFont;
+		};
+		B7F8E580F093D99C0E2D85D9AB18B509 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CAD3534FC55B0333104E5117C0A9A324;
+			remoteInfo = GoogleSignIn;
 		};
 		B80C15072DA1DF543012324FDD64973B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1396,26 +1361,19 @@
 			remoteGlobalIDString = 2644525CCE081E967809A8163D893A93;
 			remoteInfo = UMFileSystemInterface;
 		};
-		CD2AAEEE2C96820ED08A3C6B752F7EDF /* PBXContainerItemProxy */ = {
+		C64C8DC320DEA18A916C0D4E77E0F7EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8F50A15C556FFEAD343B69C7EA54092F;
-			remoteInfo = Analytics;
+			remoteGlobalIDString = 0A72FB88825FDC7D301C9DD1F8F96824;
+			remoteInfo = EXPermissions;
 		};
-		D21C04EEB05AF530ADF5FAC82FED655E /* PBXContainerItemProxy */ = {
+		C8A464D2AE1D8CBB9EAC3F0C935B4977 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3A39935560B403231EC02D0D3A38DC3C;
-			remoteInfo = EXCamera;
-		};
-		D2BE663F59EDA791637059BC811E60C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
-			remoteInfo = UMCore;
+			remoteGlobalIDString = 97C4DE84FA3CC4EC06AA6D8C249949B7;
+			remoteInfo = UMImageLoaderInterface;
 		};
 		D43E9D7C71249771A39BDA89FBE45610 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1424,6 +1382,13 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
+		D73E6253D9AE81BA4DEA27079CB64DF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A7E4CFA3D0A965685884E61CE7D0D1D;
+			remoteInfo = EXImagePicker;
+		};
 		D82C7ED6EF076FD4020DE2D49ACFCD9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -1431,12 +1396,12 @@
 			remoteGlobalIDString = DBCB1B4965863DDD3B9DED9A0918A526;
 			remoteInfo = UMCore;
 		};
-		DC204D43E7D3055FFF67F880019074F7 /* PBXContainerItemProxy */ = {
+		DF8577A2C13D557F646489549615E3FA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9656985AC27BB943A21997CAF48B5CD0;
-			remoteInfo = EXGoogleSignIn;
+			remoteGlobalIDString = 868B90C74770285449C60DBA82181479;
+			remoteInfo = EXFileSystem;
 		};
 		DF9DCDCB8B15E186F7D2F171A8B951CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1452,12 +1417,33 @@
 			remoteGlobalIDString = 49821C2B9E764AEDF2B35DFE9AA7022F;
 			remoteInfo = UMBarCodeScannerInterface;
 		};
+		E2B96DCA37B2101888DCA41B436762F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2AD4F40E67E1874A0816F6B34289EB41;
+			remoteInfo = UMFaceDetectorInterface;
+		};
+		E3990164AB52CBA53CEADB7F48228123 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 014495932E402CA67C37681988047CA2;
+			remoteInfo = UMFontInterface;
+		};
 		E9200849E7E58887CBA2AC1E685C11DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2644525CCE081E967809A8163D893A93;
 			remoteInfo = UMFileSystemInterface;
+		};
+		ED8EDED9DC66A5AB325E3D8401C38779 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D676E21115185671D7258A56944ABE98;
+			remoteInfo = GTMSessionFetcher;
 		};
 		EE682D51E34E371EF3EB16A0472AF7E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1466,19 +1452,19 @@
 			remoteGlobalIDString = D47C581D39D227080F83B16A22A56664;
 			remoteInfo = GoogleToolboxForMac;
 		};
-		EED172070AF9A8939D2120AE93CF99C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 95CA6A181945920B8C0C17D296091DB9;
-			remoteInfo = EXBlur;
-		};
 		F3F87A6787EC789A8E12DB8661076151 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2AB2EF542954AB1C999E03BFEF8DE806;
 			remoteInfo = DoubleConversion;
+		};
+		F549936B207257016C65B4E9C6493E5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC577C5CB1DC59A7464ECEF266A75B42;
+			remoteInfo = "react-native-netinfo";
 		};
 		F662F4BF29269B2F6BCD127C2C341C8D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1487,12 +1473,26 @@
 			remoteGlobalIDString = 1BEE828C124E6416179B904A9F66D794;
 			remoteInfo = React;
 		};
+		F98959AC3EBF2D0CA7A5811B273319C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6C1893932A69822CBE3502F2E0BCFB6D;
+			remoteInfo = EXConstants;
+		};
 		FB10AC28EFE601BC47A93BB0FE23C2A0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 2AB2EF542954AB1C999E03BFEF8DE806;
 			remoteInfo = DoubleConversion;
+		};
+		FE316F4C505489EBACA61C6FAE8445BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7845084F0CF03F54107EEF7411760AD;
+			remoteInfo = UMPermissionsInterface;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1576,7 +1576,6 @@
 		13BCCA9DB1F8857407DA5C9B68BA72E5 /* RCTInputAccessoryViewManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTInputAccessoryViewManager.m; sourceTree = "<group>"; };
 		13D01C5541F6020A145DA40CFDE4B66A /* RCTSurfaceSizeMeasureMode.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = RCTSurfaceSizeMeasureMode.mm; sourceTree = "<group>"; };
 		142135AA5537A2944EB7BBEA6FA1DDF9 /* GTMMethodCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMMethodCheck.h; path = DebugUtils/GTMMethodCheck.h; sourceTree = "<group>"; };
-		14C0C1D2FD647EA9655CF3BAE8BCD868 /* Pods-ClearCelsiusTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ClearCelsiusTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		156216549FFE5FFB0D62742C74206F05 /* SEGAnalyticsUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGAnalyticsUtils.h; path = Analytics/Classes/Internal/SEGAnalyticsUtils.h; sourceTree = "<group>"; };
 		159C1F01B8A338DF01BE6972F8522159 /* RCTSurfaceHostingProxyRootView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSurfaceHostingProxyRootView.h; sourceTree = "<group>"; };
 		15C11A7D9AA2AD7CBD36ACE4BC4AAA19 /* instrumentation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = instrumentation.h; path = yoga/instrumentation.h; sourceTree = "<group>"; };
@@ -1628,6 +1627,7 @@
 		229D32CD84B75E80DF421AE2BAD5A8BE /* RCTUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTUtils.m; sourceTree = "<group>"; };
 		22E88B7A7ED2B34C64E3D6FEA1D7DCBB /* RCTDataRequestHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTDataRequestHandler.m; path = Libraries/Network/RCTDataRequestHandler.m; sourceTree = "<group>"; };
 		2374ECF14E29EB7C5D48E29F38112B9A /* RCTEventEmitter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTEventEmitter.h; sourceTree = "<group>"; };
+		237E8D34BD0E1BD0802D3EF695949EA6 /* Pods-celsius.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-celsius.debug.xcconfig"; sourceTree = "<group>"; };
 		23C3E1FCDC1D04A5850A458574E645E2 /* UMSensorsInterface.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = UMSensorsInterface.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2410AF6F9EFECBCE338A8AA4755C0216 /* SEGAES256Crypto.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGAES256Crypto.m; path = Analytics/Classes/Crypto/SEGAES256Crypto.m; sourceTree = "<group>"; };
 		246D217835CADFC2E35E6953496BD839 /* RCTImageShadowView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTImageShadowView.m; path = Libraries/Image/RCTImageShadowView.m; sourceTree = "<group>"; };
@@ -1660,6 +1660,7 @@
 		2E4458AC07AF5493F85B19424891CE79 /* RCTNetworkTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTNetworkTask.m; path = Libraries/Network/RCTNetworkTask.m; sourceTree = "<group>"; };
 		2EAF8C4C7B64B0F9FF769873BC108F8E /* EXImageManipulator.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = EXImageManipulator.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		2EBAE64A28E946859050359D8F3475D7 /* RCTDeviceInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTDeviceInfo.h; sourceTree = "<group>"; };
+		2ECDE1FECFA8FEC41409B51F647B4266 /* Pods-celsius-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-celsius-acknowledgements.markdown"; sourceTree = "<group>"; };
 		2F22E860299594D1596ADD6A32F3A873 /* RCTPropsAnimatedNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTPropsAnimatedNode.h; sourceTree = "<group>"; };
 		2FAEFE949DCA7C4D35483DEB238C3597 /* UIViewController+SEGScreen.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+SEGScreen.m"; path = "Analytics/Classes/Internal/UIViewController+SEGScreen.m"; sourceTree = "<group>"; };
 		2FE1238D5A785BA9C5EDB95D809DF948 /* libEXSecureStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libEXSecureStore.a; path = libEXSecureStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1668,7 +1669,6 @@
 		31153231FFB6B415CD556EAF7E69C082 /* UMFontInterface.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = UMFontInterface.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		31901E9271BBC0364E854A7B24567CEC /* vlog_is_on.cc */ = {isa = PBXFileReference; includeInIndex = 1; name = vlog_is_on.cc; path = src/vlog_is_on.cc; sourceTree = "<group>"; };
 		31D8C1347F793715B1E2E9F84F864B30 /* UIViewController+SEGScreen.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SEGScreen.h"; path = "Analytics/Classes/Internal/UIViewController+SEGScreen.h"; sourceTree = "<group>"; };
-		320E42FC6A182BDDA4531AFD54FB5053 /* libPods-ClearCelsius.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-ClearCelsius.a"; path = "libPods-ClearCelsius.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3236630B88C238863D00012343C9BFF8 /* diy-fp.cc */ = {isa = PBXFileReference; includeInIndex = 1; name = "diy-fp.cc"; path = "double-conversion/diy-fp.cc"; sourceTree = "<group>"; };
 		337C7B00C3A005CBBE325A0C8DBDC6EB /* boost-for-react-native.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "boost-for-react-native.xcconfig"; sourceTree = "<group>"; };
 		33B1DC5486A07CCA06394846CC8DF5AD /* SEGIntegrationsManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGIntegrationsManager.h; path = Analytics/Classes/Integrations/SEGIntegrationsManager.h; sourceTree = "<group>"; };
@@ -1721,7 +1721,6 @@
 		3BC0749E04B78BA40393582AF314951F /* UMModuleRegistryAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMModuleRegistryAdapter.m; sourceTree = "<group>"; };
 		3BCC66692D218F6D960E037657337EA3 /* RCTScrollContentShadowView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTScrollContentShadowView.h; sourceTree = "<group>"; };
 		3BD6F7BABDED04540DE84D27A4921085 /* EXReactNativeUserNotificationCenterProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXReactNativeUserNotificationCenterProxy.h; path = EXPermissions/EXReactNativeUserNotificationCenterProxy.h; sourceTree = "<group>"; };
-		3BF87EC748254712973F2A395EBCE23C /* Pods-ClearCelsiusTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ClearCelsiusTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3C5470E1FCFA047EBEBE2A2DD07ABECC /* RCTBridge+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RCTBridge+Private.h"; sourceTree = "<group>"; };
 		3CA7A9404CCDD6BA22C97F8348CE3209 /* libglog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libglog.a; path = libglog.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CC973D5FAE87346338BA07B90E76B1A /* RCTLayoutAnimationGroup.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTLayoutAnimationGroup.m; sourceTree = "<group>"; };
@@ -1745,6 +1744,7 @@
 		407BE3E767713B51533BDD46BA025540 /* GTMSessionUploadFetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionUploadFetcher.m; path = Source/GTMSessionUploadFetcher.m; sourceTree = "<group>"; };
 		414F3F91A635355B082C0F5B88D15173 /* SEGGroupPayload.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGGroupPayload.h; path = Analytics/Classes/Integrations/SEGGroupPayload.h; sourceTree = "<group>"; };
 		4181BBD8F1B6690A81F6686015540687 /* GTMSessionFetcher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMSessionFetcher-prefix.pch"; sourceTree = "<group>"; };
+		41B242F590EE14CD83793C28C144F129 /* libPods-celsius.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-celsius.a"; path = "libPods-celsius.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C9EDFE95D56E9B46F924831BCD1BCE /* RCTSafeAreaViewLocalData.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTSafeAreaViewLocalData.m; sourceTree = "<group>"; };
 		41DF03957C09E9750003722CE1866B3B /* RCTTextView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTTextView.m; sourceTree = "<group>"; };
 		42B0089A340C24E4AE905D76763D38AF /* RCTSafeAreaView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSafeAreaView.h; sourceTree = "<group>"; };
@@ -1753,7 +1753,6 @@
 		4330DEFAA200F644AA7784729452F0C6 /* EXLocationRequester.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXLocationRequester.m; path = EXPermissions/EXLocationRequester.m; sourceTree = "<group>"; };
 		435E4A1FF925310E0FBC676E6621CF28 /* RCTInterpolationAnimatedNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTInterpolationAnimatedNode.h; sourceTree = "<group>"; };
 		4365A00D27BE37E2EEB6F4D91012580F /* EXImageManipulatorModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXImageManipulatorModule.h; path = EXImageManipulator/EXImageManipulatorModule.h; sourceTree = "<group>"; };
-		437EB63ACA4704EDE59DCC0CD87E282A /* Pods-ClearCelsiusTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ClearCelsiusTests-dummy.m"; sourceTree = "<group>"; };
 		43BBC9406208DF9701DA617C1132113E /* RCTImageUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTImageUtils.m; path = Libraries/Image/RCTImageUtils.m; sourceTree = "<group>"; };
 		44DE18AF9E7A376085ED2756C0711E9D /* RCTInspector.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = RCTInspector.mm; sourceTree = "<group>"; };
 		4512747DDE25E3409830474AEA4B3182 /* UMImageLoaderInterface.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UMImageLoaderInterface.xcconfig; sourceTree = "<group>"; };
@@ -1798,7 +1797,6 @@
 		4F3B8852F2ADC31EB382BFB72E81178B /* libEXBlur.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libEXBlur.a; path = libEXBlur.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9CC0DDC7BA0C966DD8868C8DF36DD0 /* RCTSurfaceView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSurfaceView.h; sourceTree = "<group>"; };
 		4FFC7B01F58CAC136B298EED2F60018B /* EXImagePicker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "EXImagePicker-prefix.pch"; sourceTree = "<group>"; };
-		502A60096BFAB3661E9F54E3DC901516 /* libPods-ClearCelsiusTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-ClearCelsiusTests.a"; path = "libPods-ClearCelsiusTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E7E44BDB55DF3B76A2AAEE188AB03 /* UMLogManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMLogManager.m; sourceTree = "<group>"; };
 		506B1A94B256D4BA598C9451DB0B9AA1 /* EXFileSystemLocalFileHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXFileSystemLocalFileHandler.h; path = EXFileSystem/EXFileSystemLocalFileHandler.h; sourceTree = "<group>"; };
 		51015EE4346BDDD7B114A8EAFDB40A20 /* EXGoogleSignIn+Serialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "EXGoogleSignIn+Serialization.h"; path = "EXGoogleSignIn/EXGoogleSignIn+Serialization.h"; sourceTree = "<group>"; };
@@ -1812,6 +1810,7 @@
 		52571E2E8F6FBF4EBDDC976D23F7C93D /* EXContacts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EXContacts-dummy.m"; sourceTree = "<group>"; };
 		52B6D70A6A62B5A8AA531B8D897EB730 /* NSData+SEGGZIP.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSData+SEGGZIP.m"; path = "Analytics/Classes/Internal/NSData+SEGGZIP.m"; sourceTree = "<group>"; };
 		52C3FE19EC7F0A36951AC31EFAC4388C /* RCTPointerEvents.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTPointerEvents.h; sourceTree = "<group>"; };
+		532CD9F1894AB3F0BF9585EE4EC5AA7D /* Pods-celsiusTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-celsiusTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		538C61EA910C565D823F748FA24B6852 /* RCTInputAccessoryViewContent.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTInputAccessoryViewContent.h; sourceTree = "<group>"; };
 		53AEB91F48970AE9FCDF89A2E5BF5676 /* UMGyroscopeInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UMGyroscopeInterface.h; path = UMSensorsInterface/UMGyroscopeInterface.h; sourceTree = "<group>"; };
 		53B0C42E64576758A3F67CDD24CE3DF5 /* RCTDevSettings.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTDevSettings.h; sourceTree = "<group>"; };
@@ -1872,7 +1871,6 @@
 		637ED7FEE294825413523A11762E7815 /* UMKernelService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMKernelService.h; sourceTree = "<group>"; };
 		63876CDA4F56376FE0AAF4E6596DC366 /* EXDownloadDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXDownloadDelegate.h; path = EXFileSystem/EXDownloadDelegate.h; sourceTree = "<group>"; };
 		63F80269A34C4C28EE488BD26B2552D2 /* RCTModalHostViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTModalHostViewController.h; sourceTree = "<group>"; };
-		649A3E25FA149EA9BF297E78C52612D1 /* Pods-ClearCelsius-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ClearCelsius-acknowledgements.markdown"; sourceTree = "<group>"; };
 		64CA1DF80E796115034E9671882A3FB3 /* RCTNetworkTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RCTNetworkTask.h; path = Libraries/Network/RCTNetworkTask.h; sourceTree = "<group>"; };
 		657F1DBA3887B3B1900F25FDEE980C1C /* RCTSwitch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSwitch.h; sourceTree = "<group>"; };
 		659C7BBC71158253C63C298265922D4A /* UMReactFontManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactFontManager.h; sourceTree = "<group>"; };
@@ -2002,7 +2000,6 @@
 		8430724D49ADD27C680A2A46BC62B3C1 /* RCTDevSettings.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = RCTDevSettings.mm; sourceTree = "<group>"; };
 		8434AE5C36B9017C53AEDCDD714E8240 /* SEGAliasPayload.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGAliasPayload.m; path = Analytics/Classes/Integrations/SEGAliasPayload.m; sourceTree = "<group>"; };
 		844286C0C10FC0C01E5236520C78C598 /* UMFilePermissionModuleInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UMFilePermissionModuleInterface.h; path = UMFileSystemInterface/UMFilePermissionModuleInterface.h; sourceTree = "<group>"; };
-		857BE4C3D9596F25C80D8EDC5720CE0C /* Pods-ClearCelsius.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ClearCelsius.release.xcconfig"; sourceTree = "<group>"; };
 		859CC05A651C85D660A376D2509D766F /* RCTBorderDrawing.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTBorderDrawing.h; sourceTree = "<group>"; };
 		85A6F9EB8D1CACE1BDBCAF0307196EC6 /* RCTImageEditingManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RCTImageEditingManager.h; path = Libraries/Image/RCTImageEditingManager.h; sourceTree = "<group>"; };
 		86584875ED9824FD21C8E962184E1831 /* EXConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXConstants.m; path = EXConstants/EXConstants.m; sourceTree = "<group>"; };
@@ -2031,7 +2028,6 @@
 		8E813ECF76C3B14EA2317F4FEA819EB6 /* RCTPackagerClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTPackagerClient.m; sourceTree = "<group>"; };
 		8EB2C69CD6CEA6350CEA36B989217B86 /* YGConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YGConfig.h; path = yoga/YGConfig.h; sourceTree = "<group>"; };
 		8EB9FD588AE88522C12E8D88D7D24620 /* RCTBaseTextShadowView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTBaseTextShadowView.h; sourceTree = "<group>"; };
-		8ED32AE2B19A90BA0603BA880BA06A41 /* Pods-ClearCelsius.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ClearCelsius.debug.xcconfig"; sourceTree = "<group>"; };
 		8F3F5DB992286739D0FE66100586057E /* RCTNullability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTNullability.h; sourceTree = "<group>"; };
 		8F4606663A32EC34FAF4518024F4A47A /* EXGoogleSignInAppDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXGoogleSignInAppDelegate.h; path = EXGoogleSignIn/EXGoogleSignInAppDelegate.h; sourceTree = "<group>"; };
 		8F7A0F285ED6993E35B7EF796EC73216 /* RCTBorderStyle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTBorderStyle.h; sourceTree = "<group>"; };
@@ -2060,7 +2056,6 @@
 		964ABD740121DDDDFB592217CA754836 /* RCTSlider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSlider.h; sourceTree = "<group>"; };
 		9653989527191BC9E4698F4ED4039E86 /* SEGHTTPClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGHTTPClient.m; path = Analytics/Classes/Internal/SEGHTTPClient.m; sourceTree = "<group>"; };
 		96804F2AD53432CF942232884E38B72B /* RCTRootViewInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTRootViewInternal.h; sourceTree = "<group>"; };
-		968B6EA013A2BB656E609E7360FA16A0 /* Pods-ClearCelsiusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ClearCelsiusTests.release.xcconfig"; sourceTree = "<group>"; };
 		96FACAC1070F37957E9CEA656E69006B /* EXFontLoaderProcessor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXFontLoaderProcessor.m; path = EXFont/EXFontLoaderProcessor.m; sourceTree = "<group>"; };
 		9707C6D12BB16D886E4FF0CEA3C4E619 /* RCTConvert+Transform.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+Transform.m"; sourceTree = "<group>"; };
 		9770F19772A44B87A771180E6E359CA7 /* RCTUIManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTUIManager.h; sourceTree = "<group>"; };
@@ -2077,7 +2072,6 @@
 		9AAF43FC5F3ECF7979748413E54F23BD /* RCTObjcExecutor.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = RCTObjcExecutor.mm; sourceTree = "<group>"; };
 		9AF4A85D5481803CE312CDDB0FE1D270 /* EXGoogleSignIn-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EXGoogleSignIn-dummy.m"; sourceTree = "<group>"; };
 		9C1A5758035A9FDD004926E4DDA938BA /* RCTViewManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTViewManager.m; sourceTree = "<group>"; };
-		9C1C9B27B4C8B11EA7007B3805310E3F /* Pods-ClearCelsius-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-ClearCelsius-acknowledgements.plist"; sourceTree = "<group>"; };
 		9CF3F24E0C0EED778588E4202C6010B9 /* EXBarCodeScanner.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXBarCodeScanner.h; path = EXBarCodeScanner/EXBarCodeScanner.h; sourceTree = "<group>"; };
 		9D46825619D85F7D6F72752E0C005062 /* RCTI18nUtil.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTI18nUtil.m; sourceTree = "<group>"; };
 		9D87EBB52C40451E2DBA39CDC7E21BB1 /* JSCExecutorFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JSCExecutorFactory.h; sourceTree = "<group>"; };
@@ -2113,7 +2107,6 @@
 		A48EBDD193C2F461CF6141A09D986321 /* RCTHTTPRequestHandler.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = RCTHTTPRequestHandler.mm; path = Libraries/Network/RCTHTTPRequestHandler.mm; sourceTree = "<group>"; };
 		A49934CAB438FAE0BE4B959C1943C4A4 /* JSDeltaBundleClient.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = JSDeltaBundleClient.cpp; path = ReactCommon/cxxreact/JSDeltaBundleClient.cpp; sourceTree = "<group>"; };
 		A4CBB3A231684776DCA99100ABA861F1 /* RCTCxxConvert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTCxxConvert.h; sourceTree = "<group>"; };
-		A55506F9DB28321A6182BD7CF37F0C54 /* Pods-ClearCelsius-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ClearCelsius-resources.sh"; sourceTree = "<group>"; };
 		A64EC85B240FA0603921FE1D7853C147 /* YGEnums.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = YGEnums.cpp; path = yoga/YGEnums.cpp; sourceTree = "<group>"; };
 		A6B9F126CFDAEA27A743C59EA14FD070 /* RCTSinglelineTextInputViewManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTSinglelineTextInputViewManager.m; sourceTree = "<group>"; };
 		A6BC598BF080ED3504693870BB2E674F /* RCTTrackingAnimatedNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTTrackingAnimatedNode.h; sourceTree = "<group>"; };
@@ -2125,6 +2118,7 @@
 		AA2FA36FD9148E74388DBFB04B50C498 /* cached-powers.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "cached-powers.h"; path = "double-conversion/cached-powers.h"; sourceTree = "<group>"; };
 		AA3D0230B192A57597B4EDE40F837DAF /* RCTInspectorDevServerHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTInspectorDevServerHelper.h; sourceTree = "<group>"; };
 		AA468B9E35A233891B23A8D10E143953 /* RCTAnimationDriver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTAnimationDriver.h; sourceTree = "<group>"; };
+		AB4FA41F01C1BF8552E5007455D999CA /* Pods-celsiusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-celsiusTests.release.xcconfig"; sourceTree = "<group>"; };
 		ABC6CEB84771A6357CE6F382E77B60A5 /* RCTExceptionsManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTExceptionsManager.h; sourceTree = "<group>"; };
 		ABCAF50AAC77406F8D7E7726154E489D /* EXFileSystemLocalFileHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXFileSystemLocalFileHandler.m; path = EXFileSystem/EXFileSystemLocalFileHandler.m; sourceTree = "<group>"; };
 		AC0D4389D0BDCC2C1A24CF9BBA7A2167 /* Folly.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Folly.xcconfig; sourceTree = "<group>"; };
@@ -2159,9 +2153,11 @@
 		B3469F80A194003718347315F2D22D66 /* RCTRedBox.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTRedBox.h; sourceTree = "<group>"; };
 		B39869CA2BEA779401C086FCED76E6A8 /* RCTReconnectingWebSocket.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTReconnectingWebSocket.m; path = Libraries/WebSocket/RCTReconnectingWebSocket.m; sourceTree = "<group>"; };
 		B3B60405F796C1928CCD0D4597C2EDCA /* EXContacts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = EXContacts.m; path = EXContacts/EXContacts.m; sourceTree = "<group>"; };
+		B3BE7CDE8C680D459A0B67B8AC30C375 /* Pods-celsius-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-celsius-acknowledgements.plist"; sourceTree = "<group>"; };
 		B3E05514635FE0B307B4A9C7C85226D8 /* UMReactNativeAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeAdapter.h; sourceTree = "<group>"; };
 		B4D0A36108864C71E106690FBAD575C6 /* RCTSpringAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTSpringAnimation.m; sourceTree = "<group>"; };
 		B4D45D257FD84128F3EF9AF141B8341A /* RCTConvert+CoreLocation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+CoreLocation.m"; sourceTree = "<group>"; };
+		B4EA264CF8605242D7D2B988D13C82A7 /* Pods-celsius.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-celsius.release.xcconfig"; sourceTree = "<group>"; };
 		B4ED837C19F1D4D585CC9D6AA290B3C8 /* SEGIntegration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGIntegration.h; path = Analytics/Classes/Integrations/SEGIntegration.h; sourceTree = "<group>"; };
 		B4EDD22C08C86DD53FB722F28920D991 /* RCTFileRequestHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RCTFileRequestHandler.m; path = Libraries/Network/RCTFileRequestHandler.m; sourceTree = "<group>"; };
 		B4F3F6455B063C619576B90D5234837F /* SEGReachability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGReachability.h; path = Analytics/Vendor/SEGReachability.h; sourceTree = "<group>"; };
@@ -2196,9 +2192,9 @@
 		BB650E396A02FC768F342508F2512CC9 /* RCTConvert+Transform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RCTConvert+Transform.h"; sourceTree = "<group>"; };
 		BBC7BF572A8612536092B8FCE118CB91 /* UMBarCodeScannerProviderInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UMBarCodeScannerProviderInterface.h; path = UMBarCodeScannerInterface/UMBarCodeScannerProviderInterface.h; sourceTree = "<group>"; };
 		BC201D642C1827E790FBD6129503EAEC /* SEGScreenPayload.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGScreenPayload.m; path = Analytics/Classes/Integrations/SEGScreenPayload.m; sourceTree = "<group>"; };
+		BC225BAB5BB9FD59351AA34D4F35C21F /* Pods-celsiusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-celsiusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BC3F9BE81555368597EF908392A25EF4 /* RCTModalHostView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTModalHostView.h; sourceTree = "<group>"; };
 		BC6A17C8BFABBEC7588835035CC140EC /* RCTTextAttributes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RCTTextAttributes.h; path = Libraries/Text/RCTTextAttributes.h; sourceTree = "<group>"; };
-		BC87573797263B2D2201DB5FD53D8631 /* Pods-ClearCelsius-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ClearCelsius-dummy.m"; sourceTree = "<group>"; };
 		BCA1CCF25FCE8C2208E31A1108D8898C /* RCTAsyncLocalStorage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTAsyncLocalStorage.m; sourceTree = "<group>"; };
 		BD116AFC80FF5BA22D21CCFFA9AC6A27 /* RCTRootShadowView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTRootShadowView.m; sourceTree = "<group>"; };
 		BD3A6F671A84987B1C308C9B53E19797 /* EXAppLoaderProvider-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "EXAppLoaderProvider-dummy.m"; sourceTree = "<group>"; };
@@ -2288,6 +2284,7 @@
 		D4DA4BB56D5767E384942CE73FE42063 /* double-conversion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "double-conversion.h"; path = "double-conversion/double-conversion.h"; sourceTree = "<group>"; };
 		D520B73A497F7007B429ED937D0B8E3D /* EXAuthTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXAuthTask.h; path = EXGoogleSignIn/EXAuthTask.h; sourceTree = "<group>"; };
 		D5263FDFB9AAD655E7ADD160FDBA5D08 /* UMViewManagerAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMViewManagerAdapter.h; sourceTree = "<group>"; };
+		D541518344FAB49158154426B5BAF526 /* Pods-celsiusTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-celsiusTests-dummy.m"; sourceTree = "<group>"; };
 		D5474A78DBFF72C870D51F7E0AB565D0 /* EXRemoteNotificationRequester.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXRemoteNotificationRequester.h; path = EXPermissions/EXRemoteNotificationRequester.h; sourceTree = "<group>"; };
 		D55190F07DA85B95C8219F000503F214 /* ModuleRegistry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ModuleRegistry.h; path = ReactCommon/cxxreact/ModuleRegistry.h; sourceTree = "<group>"; };
 		D5667E4AB6FEFE455C15A3278A9AE516 /* RecoverableError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RecoverableError.h; path = ReactCommon/cxxreact/RecoverableError.h; sourceTree = "<group>"; };
@@ -2297,6 +2294,7 @@
 		D6873B2B55938EF95B4FE2E4AAAB7F2F /* ColdClass.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = ColdClass.cpp; path = folly/lang/ColdClass.cpp; sourceTree = "<group>"; };
 		D69FDC9D81DDC68636020B068C282ABE /* UIView+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIView+Private.h"; sourceTree = "<group>"; };
 		D6AC0AEE7BAA1C6AF896179FD0C9C9B4 /* RCTVersion.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTVersion.m; sourceTree = "<group>"; };
+		D721232FFF7A93C0A1FE13CA526D7539 /* Pods-celsiusTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-celsiusTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		D78009E0B595551A9BF9BF3CA0DA24F4 /* RCTModuleData.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = RCTModuleData.mm; sourceTree = "<group>"; };
 		D7D3CDB791F1F6258455E667D7542FF9 /* RCTModalManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTModalManager.h; sourceTree = "<group>"; };
 		D8757F889148E8FC8CF9E9B4AD778730 /* EXContacts+Serialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "EXContacts+Serialization.h"; path = "EXContacts/EXContacts+Serialization.h"; sourceTree = "<group>"; };
@@ -2392,16 +2390,19 @@
 		EED25E6709428C4FE04E5789B35646B0 /* instrumentation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = instrumentation.h; path = ReactCommon/jsi/instrumentation.h; sourceTree = "<group>"; };
 		EEF8B363A6105C59F0C3295E85D76E38 /* EXFontScalersManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = EXFontScalersManager.m; sourceTree = "<group>"; };
 		EF0D8EDC0C4D9925DF4645B4C7A4F797 /* SEGSegmentIntegration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SEGSegmentIntegration.m; path = Analytics/Classes/Internal/SEGSegmentIntegration.m; sourceTree = "<group>"; };
+		EF7D90499807867FFA872903ACB913D8 /* Pods-celsius-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-celsius-resources.sh"; sourceTree = "<group>"; };
 		EF91CF948808D8538A34752F9E2F5C18 /* NativeToJsBridge.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NativeToJsBridge.h; path = ReactCommon/cxxreact/NativeToJsBridge.h; sourceTree = "<group>"; };
 		EF97E2AEF5366694DA088242AF7455B3 /* RCTComponentData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTComponentData.h; sourceTree = "<group>"; };
 		EFBF9E291469DDE3025469794862CDFD /* RCTI18nUtil.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTI18nUtil.h; sourceTree = "<group>"; };
 		EFC95BD72E7F96CC93E0054C4E162500 /* RCTDeviceInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTDeviceInfo.m; sourceTree = "<group>"; };
+		EFE89B9034DD924D94AE11E501550282 /* libPods-celsiusTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-celsiusTests.a"; path = "libPods-celsiusTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F06D1EEF700BDDC4B8713FC56AA9DE87 /* UMExportedModule.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UMExportedModule.m; path = UMCore/UMExportedModule.m; sourceTree = "<group>"; };
 		F0AC7B06DE5905746F87C9FFE756CC1A /* EXBarCodeScannerModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = EXBarCodeScannerModule.h; path = EXBarCodeScanner/EXBarCodeScannerModule.h; sourceTree = "<group>"; };
 		F0CBBD9C674536B64884DB5427F351AB /* RCTSurfaceSizeMeasureMode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSurfaceSizeMeasureMode.h; sourceTree = "<group>"; };
 		F10A6681838EA42B76EB6DEE89E99755 /* RCTScrollContentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTScrollContentView.m; sourceTree = "<group>"; };
 		F1530755ACAA8456E9017379252217BE /* UMViewManagerAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMViewManagerAdapter.m; sourceTree = "<group>"; };
 		F17171346E9D12E6FA199DAEADA5BCA6 /* RCTKeyboardObserver.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTKeyboardObserver.m; sourceTree = "<group>"; };
+		F1B883C888450802F0BE98F472AFB9BB /* Pods-celsius-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-celsius-dummy.m"; sourceTree = "<group>"; };
 		F2558744CA4BC6FEE8CE75890AF0BD2C /* SEGSerializableValue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SEGSerializableValue.h; path = Analytics/Classes/SEGSerializableValue.h; sourceTree = "<group>"; };
 		F2810DA82B7CB2CF10AACD1CC4FA7A3E /* EXCameraUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = EXCameraUtils.h; sourceTree = "<group>"; };
 		F29FC433DB03096619A62BE24E6382CF /* RCTSlider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTSlider.m; sourceTree = "<group>"; };
@@ -2419,7 +2420,6 @@
 		F6BA89EF9628DC3C295EEAE794868558 /* RCTSegmentedControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTSegmentedControl.h; sourceTree = "<group>"; };
 		F6C49BD14B55DFE5443C748C18640D00 /* RCTPlatform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTPlatform.h; sourceTree = "<group>"; };
 		F74466AE07490CB6E0847D73AA437768 /* RCTRedBoxExtraDataViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTRedBoxExtraDataViewController.h; sourceTree = "<group>"; };
-		F7463C89B4880D178573980102094009 /* Pods-ClearCelsiusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-ClearCelsiusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F78259F65F30D4DDBF7CC476D7F85F82 /* RCTBackedTextInputDelegateAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RCTBackedTextInputDelegateAdapter.h; sourceTree = "<group>"; };
 		F78A6C5222F29CA2FE5D5195605A6668 /* RCTScrollViewManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTScrollViewManager.m; sourceTree = "<group>"; };
 		F7B4758E78F538D9039206A5967E9A67 /* EXBarCodeScanner.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = EXBarCodeScanner.xcconfig; sourceTree = "<group>"; };
@@ -2450,6 +2450,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		06F223DDFCB3E2B6382BB78D5748AC91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1DF3DF72458CDDFD53DE281914DCF931 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2555,13 +2562,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9C8656765595313145ACF4CCDD04B3C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CABECC5FC326B5261A46976223B235DF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2584,6 +2584,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CEED69BFDF6A885185DB264BF3D59019 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB29453C9A84411CF15306639689E781 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2626,13 +2633,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F43FD9703EBC91A4A927E2CCDD24668F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F9C05185762A88CF62B859C87A449CF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3330,6 +3330,19 @@
 			path = "../Target Support Files/GTMSessionFetcher";
 			sourceTree = "<group>";
 		};
+		4B96DB71147E6BD4D5CFBAB4C137DE56 /* Pods-celsiusTests */ = {
+			isa = PBXGroup;
+			children = (
+				D721232FFF7A93C0A1FE13CA526D7539 /* Pods-celsiusTests-acknowledgements.markdown */,
+				532CD9F1894AB3F0BF9585EE4EC5AA7D /* Pods-celsiusTests-acknowledgements.plist */,
+				D541518344FAB49158154426B5BAF526 /* Pods-celsiusTests-dummy.m */,
+				BC225BAB5BB9FD59351AA34D4F35C21F /* Pods-celsiusTests.debug.xcconfig */,
+				AB4FA41F01C1BF8552E5007455D999CA /* Pods-celsiusTests.release.xcconfig */,
+			);
+			name = "Pods-celsiusTests";
+			path = "Target Support Files/Pods-celsiusTests";
+			sourceTree = "<group>";
+		};
 		4C384409936A2E044E7E94EA291B4FFE /* Pod */ = {
 			isa = PBXGroup;
 			children = (
@@ -3795,15 +3808,6 @@
 			name = jsiexecutor;
 			sourceTree = "<group>";
 		};
-		7971B9EF054C107A75B448B25041FB14 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				BAE6DEFD4DCB71F780DA45098848A9B0 /* Pods-ClearCelsius */,
-				D92AC56FE0934986F59B4CED9645299E /* Pods-ClearCelsiusTests */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
 		7D3452735C6917F627C1DAE17499D733 /* UMModuleRegistryAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -4077,6 +4081,20 @@
 			name = DevSupport;
 			sourceTree = "<group>";
 		};
+		A01CFCEE7CDAEB147E496E6A4EFF22EC /* Pods-celsius */ = {
+			isa = PBXGroup;
+			children = (
+				2ECDE1FECFA8FEC41409B51F647B4266 /* Pods-celsius-acknowledgements.markdown */,
+				B3BE7CDE8C680D459A0B67B8AC30C375 /* Pods-celsius-acknowledgements.plist */,
+				F1B883C888450802F0BE98F472AFB9BB /* Pods-celsius-dummy.m */,
+				EF7D90499807867FFA872903ACB913D8 /* Pods-celsius-resources.sh */,
+				237E8D34BD0E1BD0802D3EF695949EA6 /* Pods-celsius.debug.xcconfig */,
+				B4EA264CF8605242D7D2B988D13C82A7 /* Pods-celsius.release.xcconfig */,
+			);
+			name = "Pods-celsius";
+			path = "Target Support Files/Pods-celsius";
+			sourceTree = "<group>";
+		};
 		A0E4F9BA0D7DFD0F4C9963C7D543DF13 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
@@ -4150,40 +4168,6 @@
 				4EAC212A54EB1B4A9442AA4BC1A4C31E /* RCTResizeMode.m */,
 			);
 			name = RCTImage;
-			sourceTree = "<group>";
-		};
-		A3FEF9684B7AFAE3E8F16B9ABF477DFA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2CE4B6165F426953A26419DF02AF0D93 /* libAnalytics.a */,
-				6FFB7B2992BB53405E6B771A5BA1E97D /* libDoubleConversion.a */,
-				A225ED83E33DC48D25B9FF35BA50CCD0 /* libEXAppLoaderProvider.a */,
-				981DE5816F289093469CC450A22DC1F7 /* libEXBarCodeScanner.a */,
-				4F3B8852F2ADC31EB382BFB72E81178B /* libEXBlur.a */,
-				3616ADC35D520F64895EB19FCD3E1682 /* libEXCamera.a */,
-				220361FF3B2778F8F38C2C4DCC5B49FD /* libEXConstants.a */,
-				BAEE05DD3D25A62C53B0B5402780CA82 /* libEXContacts.a */,
-				ED1E3FC0DC90F4A787472917BFB6B235 /* libEXFileSystem.a */,
-				B9A8343068CE43CDCE59118C59FBBAF3 /* libEXFont.a */,
-				A13F13BFE351F751A064AD168BF0260E /* libEXGoogleSignIn.a */,
-				1FFB534971916741FA5961F0615FAC42 /* libEXImageManipulator.a */,
-				48C548AE685198B631BA20B90C7B9238 /* libEXImagePicker.a */,
-				72E494917AC5EC2582197F07061A28B0 /* libEXPermissions.a */,
-				2FE1238D5A785BA9C5EDB95D809DF948 /* libEXSecureStore.a */,
-				5FE95C31613AE7D315D99EFA194118EC /* libEXSegment.a */,
-				06489499588BFA8FD5E63DD6375CD533 /* libFolly.a */,
-				3CA7A9404CCDD6BA22C97F8348CE3209 /* libglog.a */,
-				251C6319AD50CB50F18D50CBF727F8B2 /* libGoogleToolboxForMac.a */,
-				C1998E0D8085221AD87F89B614C10E52 /* libGTMSessionFetcher.a */,
-				320E42FC6A182BDDA4531AFD54FB5053 /* libPods-ClearCelsius.a */,
-				502A60096BFAB3661E9F54E3DC901516 /* libPods-ClearCelsiusTests.a */,
-				0E7C341FA544E64E23E052A68E4A0A5E /* libReact.a */,
-				83A8CC3246A95431ACEA83C7C742228B /* libreact-native-netinfo.a */,
-				AF72FD600DE7E2D330BA50F877993E05 /* libUMCore.a */,
-				3B640835BAA914DD267B5E780D8CFEC7 /* libUMReactNativeAdapter.a */,
-				1FA65622A09E4E5504F80B3610AB78F1 /* libyoga.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A82ABA73A8D3B22DCFEC34962B96E99C /* UMCameraInterface */ = {
@@ -4263,6 +4247,40 @@
 			);
 			name = "Support Files";
 			path = "../../../ios/Pods/Target Support Files/EXImageManipulator";
+			sourceTree = "<group>";
+		};
+		AF2DB015F5692061A3703A4B7D1FD4B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2CE4B6165F426953A26419DF02AF0D93 /* libAnalytics.a */,
+				6FFB7B2992BB53405E6B771A5BA1E97D /* libDoubleConversion.a */,
+				A225ED83E33DC48D25B9FF35BA50CCD0 /* libEXAppLoaderProvider.a */,
+				981DE5816F289093469CC450A22DC1F7 /* libEXBarCodeScanner.a */,
+				4F3B8852F2ADC31EB382BFB72E81178B /* libEXBlur.a */,
+				3616ADC35D520F64895EB19FCD3E1682 /* libEXCamera.a */,
+				220361FF3B2778F8F38C2C4DCC5B49FD /* libEXConstants.a */,
+				BAEE05DD3D25A62C53B0B5402780CA82 /* libEXContacts.a */,
+				ED1E3FC0DC90F4A787472917BFB6B235 /* libEXFileSystem.a */,
+				B9A8343068CE43CDCE59118C59FBBAF3 /* libEXFont.a */,
+				A13F13BFE351F751A064AD168BF0260E /* libEXGoogleSignIn.a */,
+				1FFB534971916741FA5961F0615FAC42 /* libEXImageManipulator.a */,
+				48C548AE685198B631BA20B90C7B9238 /* libEXImagePicker.a */,
+				72E494917AC5EC2582197F07061A28B0 /* libEXPermissions.a */,
+				2FE1238D5A785BA9C5EDB95D809DF948 /* libEXSecureStore.a */,
+				5FE95C31613AE7D315D99EFA194118EC /* libEXSegment.a */,
+				06489499588BFA8FD5E63DD6375CD533 /* libFolly.a */,
+				3CA7A9404CCDD6BA22C97F8348CE3209 /* libglog.a */,
+				251C6319AD50CB50F18D50CBF727F8B2 /* libGoogleToolboxForMac.a */,
+				C1998E0D8085221AD87F89B614C10E52 /* libGTMSessionFetcher.a */,
+				41B242F590EE14CD83793C28C144F129 /* libPods-celsius.a */,
+				EFE89B9034DD924D94AE11E501550282 /* libPods-celsiusTests.a */,
+				0E7C341FA544E64E23E052A68E4A0A5E /* libReact.a */,
+				83A8CC3246A95431ACEA83C7C742228B /* libreact-native-netinfo.a */,
+				AF72FD600DE7E2D330BA50F877993E05 /* libUMCore.a */,
+				3B640835BAA914DD267B5E780D8CFEC7 /* libUMReactNativeAdapter.a */,
+				1FA65622A09E4E5504F80B3610AB78F1 /* libyoga.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		B00BA747C56AD219614B5C579234F320 /* RCTText */ = {
@@ -4400,20 +4418,6 @@
 			path = React/Modules;
 			sourceTree = "<group>";
 		};
-		BAE6DEFD4DCB71F780DA45098848A9B0 /* Pods-ClearCelsius */ = {
-			isa = PBXGroup;
-			children = (
-				649A3E25FA149EA9BF297E78C52612D1 /* Pods-ClearCelsius-acknowledgements.markdown */,
-				9C1C9B27B4C8B11EA7007B3805310E3F /* Pods-ClearCelsius-acknowledgements.plist */,
-				BC87573797263B2D2201DB5FD53D8631 /* Pods-ClearCelsius-dummy.m */,
-				A55506F9DB28321A6182BD7CF37F0C54 /* Pods-ClearCelsius-resources.sh */,
-				8ED32AE2B19A90BA0603BA880BA06A41 /* Pods-ClearCelsius.debug.xcconfig */,
-				857BE4C3D9596F25C80D8EDC5720CE0C /* Pods-ClearCelsius.release.xcconfig */,
-			);
-			name = "Pods-ClearCelsius";
-			path = "Target Support Files/Pods-ClearCelsius";
-			sourceTree = "<group>";
-		};
 		BBCD00802DB5EA534507D5BBD005A6C8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -4435,6 +4439,15 @@
 			);
 			name = UMFileSystemInterface;
 			path = "../../node_modules/unimodules-file-system-interface/ios";
+			sourceTree = "<group>";
+		};
+		BEC2B93AF9A340889784A81E32CEBC7D /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A01CFCEE7CDAEB147E496E6A4EFF22EC /* Pods-celsius */,
+				4B96DB71147E6BD4D5CFBAB4C137DE56 /* Pods-celsiusTests */,
+			);
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		BF70A078265EED35B2B892F989D85C0C /* Pod */ = {
@@ -4643,8 +4656,8 @@
 				66F7DCDE22BAA251C38B4DD281341911 /* Development Pods */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
 				0E6A3F0DA60FABD154D9E097B93FD8C7 /* Pods */,
-				A3FEF9684B7AFAE3E8F16B9ABF477DFA /* Products */,
-				7971B9EF054C107A75B448B25041FB14 /* Targets Support Files */,
+				AF2DB015F5692061A3703A4B7D1FD4B2 /* Products */,
+				BEC2B93AF9A340889784A81E32CEBC7D /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4796,19 +4809,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D92AC56FE0934986F59B4CED9645299E /* Pods-ClearCelsiusTests */ = {
-			isa = PBXGroup;
-			children = (
-				3BF87EC748254712973F2A395EBCE23C /* Pods-ClearCelsiusTests-acknowledgements.markdown */,
-				14C0C1D2FD647EA9655CF3BAE8BCD868 /* Pods-ClearCelsiusTests-acknowledgements.plist */,
-				437EB63ACA4704EDE59DCC0CD87E282A /* Pods-ClearCelsiusTests-dummy.m */,
-				F7463C89B4880D178573980102094009 /* Pods-ClearCelsiusTests.debug.xcconfig */,
-				968B6EA013A2BB656E609E7360FA16A0 /* Pods-ClearCelsiusTests.release.xcconfig */,
-			);
-			name = "Pods-ClearCelsiusTests";
-			path = "Target Support Files/Pods-ClearCelsiusTests";
 			sourceTree = "<group>";
 		};
 		D9F0D983F4F2BABF0EDCB68574BCCC73 /* jsi */ = {
@@ -5074,13 +5074,6 @@
 				3728CB53E4723B332E0C5D8CD2409CDE /* ieee.h in Headers */,
 				107BF2E806089DC6DD5715D1FCADC1FF /* strtod.h in Headers */,
 				C7DCA36BC01C33478E6BC8801AA6F929 /* utils.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		146EC0963BA811FEDA1B17C729B52D52 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5597,6 +5590,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C5D7966B07735E5FFDEF266C29362D53 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2C337C6ED48CC7DACEED56EE83FE608 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -5610,7 +5610,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FA363F9469C59CCAEA459938DDBEFA34 /* Headers */ = {
+		F741452F2E41B189D99CA4C317A79E4C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5792,24 +5792,6 @@
 			name = EXCamera;
 			productName = EXCamera;
 			productReference = 3616ADC35D520F64895EB19FCD3E1682 /* libEXCamera.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		444644D2EB7D6EB1C0B39EE35439DD04 /* Pods-ClearCelsiusTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B23EFFE70A4971E374D665E5699CAAA0 /* Build configuration list for PBXNativeTarget "Pods-ClearCelsiusTests" */;
-			buildPhases = (
-				FA363F9469C59CCAEA459938DDBEFA34 /* Headers */,
-				CE7AA1CDD935578D2E9B986E0D907756 /* Sources */,
-				C9C8656765595313145ACF4CCDD04B3C /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3717058A0FF7E67F69E43B1E65FCE648 /* PBXTargetDependency */,
-			);
-			name = "Pods-ClearCelsiusTests";
-			productName = "Pods-ClearCelsiusTests";
-			productReference = 502A60096BFAB3661E9F54E3DC901516 /* libPods-ClearCelsiusTests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		4507DDDD8FEBB4B947A8702A0571AFE4 /* EXContacts */ = {
@@ -6002,60 +5984,6 @@
 			productReference = 06489499588BFA8FD5E63DD6375CD533 /* libFolly.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		B5B49D8285B91590F03FEE0676EE0B32 /* Pods-ClearCelsius */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 523A210F0DA54A62C74B27FC0E5A90B5 /* Build configuration list for PBXNativeTarget "Pods-ClearCelsius" */;
-			buildPhases = (
-				146EC0963BA811FEDA1B17C729B52D52 /* Headers */,
-				F43EB380362C00B5D832A0A3B61E9C9E /* Sources */,
-				F9C05185762A88CF62B859C87A449CF9 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F0128CD14C5FFFCF98980A81876D16F5 /* PBXTargetDependency */,
-				01656A78C34E354EE23DCE71F25F70B0 /* PBXTargetDependency */,
-				88C1308B74080FD9BA25AB68E152C755 /* PBXTargetDependency */,
-				603E0CCB8FB05FCCD2466EB95BDE13CB /* PBXTargetDependency */,
-				FB7EED9B09236C22963CA2F0D7D39F13 /* PBXTargetDependency */,
-				94AB49E20E0A267C40937AF592056AC0 /* PBXTargetDependency */,
-				910C5361FBAA04E181DAF2D0D5DA5D04 /* PBXTargetDependency */,
-				E8303CDCBA1D6FF21CD9D4272EC9A439 /* PBXTargetDependency */,
-				0C371F6542F76C7F407C339C7E2F388C /* PBXTargetDependency */,
-				0800E855332F60B393B1FA0C35ADE093 /* PBXTargetDependency */,
-				15B25643822773C9849266FB8E7175B7 /* PBXTargetDependency */,
-				AD32378930B3F1391B51A4CFE8246ECF /* PBXTargetDependency */,
-				96517E9D0B636C2EC4A02AC42C83943F /* PBXTargetDependency */,
-				85DC553DB7F9F7877ACD827AE570A44F /* PBXTargetDependency */,
-				BDA356DD306B514B92BE3B61D4172991 /* PBXTargetDependency */,
-				D56F082CB6EF1B65AEB04224040AEBCF /* PBXTargetDependency */,
-				64FE64A3612549CB4EDB7DD0C096DD38 /* PBXTargetDependency */,
-				40DE4957CE37E5AD4563D6E514466227 /* PBXTargetDependency */,
-				4C35BCD18A49FCEE8FFBEBAE74C88108 /* PBXTargetDependency */,
-				F5BE1B605AA3CA17B9D49A7FC03CE3CE /* PBXTargetDependency */,
-				B30A9BF5A53EDB99BF9BFCE9EFD9B249 /* PBXTargetDependency */,
-				E4D0DFEAB5066877BDF125B0257D3CC8 /* PBXTargetDependency */,
-				9CBA931A509F069FAC5B0E569BD1DF9B /* PBXTargetDependency */,
-				AD88222E8C16780840A739987119D09A /* PBXTargetDependency */,
-				AA05314151BCA1A27A447C35E9BFFE25 /* PBXTargetDependency */,
-				497A7978EC60AB6C2860470D9524545C /* PBXTargetDependency */,
-				C6286A464F5900399A83286D15043431 /* PBXTargetDependency */,
-				957395F598A8DFFA5EA49941FBA31902 /* PBXTargetDependency */,
-				D9DB832E19E29B14E7D9C55695500315 /* PBXTargetDependency */,
-				3A7049CED25A015CDFE1CD7E91B2B682 /* PBXTargetDependency */,
-				FBF99D0515C06AE1097902BDF08954C0 /* PBXTargetDependency */,
-				2A08C66AA87055E2A964727FC53B76BE /* PBXTargetDependency */,
-				48D3C13B4D0C05D397CEC390E2BF5C0B /* PBXTargetDependency */,
-				ADA3D7AE4A5AA646D018E5D47F448652 /* PBXTargetDependency */,
-				8258E6D7D6EB09133A1E99BEC72A636E /* PBXTargetDependency */,
-				208C886368AF95E4C73B3437F7FF9026 /* PBXTargetDependency */,
-				D6424C093CAC8E4DCB4F430E9EB5F67B /* PBXTargetDependency */,
-			);
-			name = "Pods-ClearCelsius";
-			productName = "Pods-ClearCelsius";
-			productReference = 320E42FC6A182BDDA4531AFD54FB5053 /* libPods-ClearCelsius.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		D0B273D56D6C8A0C770E79BE693CE2EE /* yoga */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9B39B1D7C7C0B04B36E07983CB46F075 /* Build configuration list for PBXNativeTarget "yoga" */;
@@ -6141,6 +6069,78 @@
 			productReference = AF72FD600DE7E2D330BA50F877993E05 /* libUMCore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		DD7729EF469EE4796BA65C097F3B4606 /* Pods-celsiusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 040ACE7FC03BD5868E71B199BA8AF14B /* Build configuration list for PBXNativeTarget "Pods-celsiusTests" */;
+			buildPhases = (
+				C5D7966B07735E5FFDEF266C29362D53 /* Headers */,
+				C80B17EE8A401285588196DB48619D6D /* Sources */,
+				06F223DDFCB3E2B6382BB78D5748AC91 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5FBD9EAC1311C50994BBCB9F6112DA35 /* PBXTargetDependency */,
+			);
+			name = "Pods-celsiusTests";
+			productName = "Pods-celsiusTests";
+			productReference = EFE89B9034DD924D94AE11E501550282 /* libPods-celsiusTests.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		E45BE92320653FB98EA36DED62D92746 /* Pods-celsius */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E0B548B92E95C3EC100949EBF087F8E /* Build configuration list for PBXNativeTarget "Pods-celsius" */;
+			buildPhases = (
+				F741452F2E41B189D99CA4C317A79E4C /* Headers */,
+				08E4DF34BEC6439755978179393B9FCD /* Sources */,
+				DB29453C9A84411CF15306639689E781 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B49570677FB0E87A0E18C10D818D8CCA /* PBXTargetDependency */,
+				9375BD13485F12A583F80311EAE24C1B /* PBXTargetDependency */,
+				9F7FFF666297F4EB90D1B562A982A04D /* PBXTargetDependency */,
+				42788407388E78FFFFB3F708A3B0C5A5 /* PBXTargetDependency */,
+				0B93EAF77619EC3D8B88CCFCF3502ADE /* PBXTargetDependency */,
+				F0D545F03233DC33FC00754056C4097E /* PBXTargetDependency */,
+				5C87F8095ABA813248F2DFAD512031A1 /* PBXTargetDependency */,
+				0AAA295AD4C9D2F71080D5A01F743373 /* PBXTargetDependency */,
+				C07CE7A17437C60BCE5757C9F56591C0 /* PBXTargetDependency */,
+				B5D00BD1AB1EC4214458F4075AF9693A /* PBXTargetDependency */,
+				FAD83B22FB21C0412F76446178A5B4FE /* PBXTargetDependency */,
+				5C830D2C509BF0A655E402863288B866 /* PBXTargetDependency */,
+				0E3977EA1AE0C1451DC6437D8153DE81 /* PBXTargetDependency */,
+				F8D0325F4E4FA1E173CC81E46CA38313 /* PBXTargetDependency */,
+				3710862C014669B550707D8E627E6E22 /* PBXTargetDependency */,
+				7D6FED52E9E452B0408D6FA8A8827C94 /* PBXTargetDependency */,
+				66586F1DAD136DB979FB645174D91EBE /* PBXTargetDependency */,
+				C3BC75162821A767B0A5F3D48F0A28D9 /* PBXTargetDependency */,
+				4C95B5C3237B48F1A5ED21EB9E8CDF9D /* PBXTargetDependency */,
+				AF90C0C3048A30367940F95DF011BBBC /* PBXTargetDependency */,
+				5038745DB3E6ECE9E9E8469728EFF3D1 /* PBXTargetDependency */,
+				1AEA31CD9158B563A448939B725FB1F5 /* PBXTargetDependency */,
+				641A60A29F06D9F32D12CF45DA4BF052 /* PBXTargetDependency */,
+				937C099DF9AE845F2C7A8D8ACB01421E /* PBXTargetDependency */,
+				E57F2ED50980BFE04E39FE4749371844 /* PBXTargetDependency */,
+				918E0ED02D8F77BF2512AF7DA9DD23BB /* PBXTargetDependency */,
+				CE4528803ABF7B8665DF0431A59E9AD2 /* PBXTargetDependency */,
+				83E34E072133B1C058CDA890375B23D9 /* PBXTargetDependency */,
+				2A7D51B7AEF5EAA5FC8D1554DEFB7A4E /* PBXTargetDependency */,
+				16232BCD98F8D6C4171A6DECF843073F /* PBXTargetDependency */,
+				4FAD7F371C09294DF91BDB3300B32ABF /* PBXTargetDependency */,
+				D6964AE2606D8DAAC07FC1B503FEE9A0 /* PBXTargetDependency */,
+				89775E3AD78085613A48F7A68D5FC098 /* PBXTargetDependency */,
+				28D3E217282A5D17245DD56050BA6603 /* PBXTargetDependency */,
+				131C53944D3136A52098CE95BA899C5D /* PBXTargetDependency */,
+				C756C8C05D7EFB9876BE1298FFF0BD53 /* PBXTargetDependency */,
+				FCECAFD8ECCCB72BFD4EC34EC87DC2DB /* PBXTargetDependency */,
+			);
+			name = "Pods-celsius";
+			productName = "Pods-celsius";
+			productReference = 41B242F590EE14CD83793C28C144F129 /* libPods-celsius.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		EC577C5CB1DC59A7464ECEF266A75B42 /* react-native-netinfo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAABE47E5F8E13D6F1A9032BC9874B1D /* Build configuration list for PBXNativeTarget "react-native-netinfo" */;
@@ -6196,7 +6196,7 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = A3FEF9684B7AFAE3E8F16B9ABF477DFA /* Products */;
+			productRefGroup = AF2DB015F5692061A3703A4B7D1FD4B2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -6222,8 +6222,8 @@
 				CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */,
 				D47C581D39D227080F83B16A22A56664 /* GoogleToolboxForMac */,
 				D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */,
-				B5B49D8285B91590F03FEE0676EE0B32 /* Pods-ClearCelsius */,
-				444644D2EB7D6EB1C0B39EE35439DD04 /* Pods-ClearCelsiusTests */,
+				E45BE92320653FB98EA36DED62D92746 /* Pods-celsius */,
+				DD7729EF469EE4796BA65C097F3B4606 /* Pods-celsiusTests */,
 				1BEE828C124E6416179B904A9F66D794 /* React */,
 				EC577C5CB1DC59A7464ECEF266A75B42 /* react-native-netinfo */,
 				49821C2B9E764AEDF2B35DFE9AA7022F /* UMBarCodeScannerInterface */,
@@ -6280,6 +6280,14 @@
 				FB77FCF245E24F2FD88E9EF82A99856E /* GoogleToolboxForMac-dummy.m in Sources */,
 				220CEAEDF790244DA9558EBCCFE5768B /* GTMNSDictionary+URLArguments.m in Sources */,
 				5975C1C15C4CBBB1C4B23B34B7F689B2 /* GTMNSString+URLArguments.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08E4DF34BEC6439755978179393B9FCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3263950ADD9DBF87E8A9E02DBE0E65C2 /* Pods-celsius-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6729,11 +6737,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CE7AA1CDD935578D2E9B986E0D907756 /* Sources */ = {
+		C80B17EE8A401285588196DB48619D6D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D78275BC1F6343625B70BAF05810370 /* Pods-ClearCelsiusTests-dummy.m in Sources */,
+				692A2BFC3E205A67D9BA581287868101 /* Pods-celsiusTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6808,46 +6816,50 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F43EB380362C00B5D832A0A3B61E9C9E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C976DF8086BC5A9421E9A33B031A6B97 /* Pods-ClearCelsius-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		01656A78C34E354EE23DCE71F25F70B0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DoubleConversion;
-			target = 2AB2EF542954AB1C999E03BFEF8DE806 /* DoubleConversion */;
-			targetProxy = B3FD55DCA022BBC521BDD4C9880034A5 /* PBXContainerItemProxy */;
-		};
-		0800E855332F60B393B1FA0C35ADE093 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXFont;
-			target = 90B94D4DBCFD756F121D9368AF50E90B /* EXFont */;
-			targetProxy = 39B6FA4668C59304C3084FFFC5F0B934 /* PBXContainerItemProxy */;
-		};
 		083F220112C1C5E785C72BE602DB0B77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "boost-for-react-native";
 			target = ED2506AE7DE35D654F61254441EA7155 /* boost-for-react-native */;
 			targetProxy = 02FBC647030E44EE1DAB9A5378681003 /* PBXContainerItemProxy */;
 		};
-		0C371F6542F76C7F407C339C7E2F388C /* PBXTargetDependency */ = {
+		0AAA295AD4C9D2F71080D5A01F743373 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXFileSystem;
-			target = 868B90C74770285449C60DBA82181479 /* EXFileSystem */;
-			targetProxy = 3F4F713651CFF7E7358F8C804A026E06 /* PBXContainerItemProxy */;
+			name = EXContacts;
+			target = 4507DDDD8FEBB4B947A8702A0571AFE4 /* EXContacts */;
+			targetProxy = A3ED4CBB0C9C4A47A7108A30DE018A77 /* PBXContainerItemProxy */;
 		};
-		15B25643822773C9849266FB8E7175B7 /* PBXTargetDependency */ = {
+		0B93EAF77619EC3D8B88CCFCF3502ADE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXGoogleSignIn;
-			target = 9656985AC27BB943A21997CAF48B5CD0 /* EXGoogleSignIn */;
-			targetProxy = DC204D43E7D3055FFF67F880019074F7 /* PBXContainerItemProxy */;
+			name = EXBlur;
+			target = 95CA6A181945920B8C0C17D296091DB9 /* EXBlur */;
+			targetProxy = 2DAA51302177295D2BD0DAEBB8AC7313 /* PBXContainerItemProxy */;
+		};
+		0E3977EA1AE0C1451DC6437D8153DE81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EXImagePicker;
+			target = 9A7E4CFA3D0A965685884E61CE7D0D1D /* EXImagePicker */;
+			targetProxy = D73E6253D9AE81BA4DEA27079CB64DF8 /* PBXContainerItemProxy */;
+		};
+		131C53944D3136A52098CE95BA899C5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = glog;
+			target = D0EFEFB685D97280256C559792236873 /* glog */;
+			targetProxy = 282E72EB210A73D5DB217BFDD4F1173C /* PBXContainerItemProxy */;
+		};
+		16232BCD98F8D6C4171A6DECF843073F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMPermissionsInterface;
+			target = F7845084F0CF03F54107EEF7411760AD /* UMPermissionsInterface */;
+			targetProxy = FE316F4C505489EBACA61C6FAE8445BF /* PBXContainerItemProxy */;
+		};
+		1AEA31CD9158B563A448939B725FB1F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMBarCodeScannerInterface;
+			target = 49821C2B9E764AEDF2B35DFE9AA7022F /* UMBarCodeScannerInterface */;
+			targetProxy = 6330B1A248D50A376C6057A22007D82A /* PBXContainerItemProxy */;
 		};
 		1C7BC65EE5D0AE985F3F9D390F082C25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6861,17 +6873,17 @@
 			target = ED2506AE7DE35D654F61254441EA7155 /* boost-for-react-native */;
 			targetProxy = 4B9B72203A9FE8A181AB6D56E10A40F9 /* PBXContainerItemProxy */;
 		};
-		208C886368AF95E4C73B3437F7FF9026 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "react-native-netinfo";
-			target = EC577C5CB1DC59A7464ECEF266A75B42 /* react-native-netinfo */;
-			targetProxy = 835A24D174479C2F9B772DB069BE95B4 /* PBXContainerItemProxy */;
-		};
 		2223BFF105C83DFCFE34189E8FA1E0F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMBarCodeScannerInterface;
 			target = 49821C2B9E764AEDF2B35DFE9AA7022F /* UMBarCodeScannerInterface */;
 			targetProxy = E0CC4FBE25C0E44D3B58C786140CAD13 /* PBXContainerItemProxy */;
+		};
+		28D3E217282A5D17245DD56050BA6603 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "boost-for-react-native";
+			target = ED2506AE7DE35D654F61254441EA7155 /* boost-for-react-native */;
+			targetProxy = 522BC55B9599EB8DD12382BE030CBDC3 /* PBXContainerItemProxy */;
 		};
 		293C4223F6BEFDA96CB588811D349782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6879,11 +6891,11 @@
 			target = 97C4DE84FA3CC4EC06AA6D8C249949B7 /* UMImageLoaderInterface */;
 			targetProxy = AE2BE81C554736E457776C2DF6D230F4 /* PBXContainerItemProxy */;
 		};
-		2A08C66AA87055E2A964727FC53B76BE /* PBXTargetDependency */ = {
+		2A7D51B7AEF5EAA5FC8D1554DEFB7A4E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMSensorsInterface;
-			target = 2038C6F97563AAD6162C284B3EDD5B3B /* UMSensorsInterface */;
-			targetProxy = 8901A2A9D837915C5E0B98C837FB0C8F /* PBXContainerItemProxy */;
+			name = UMImageLoaderInterface;
+			target = 97C4DE84FA3CC4EC06AA6D8C249949B7 /* UMImageLoaderInterface */;
+			targetProxy = C8A464D2AE1D8CBB9EAC3F0C935B4977 /* PBXContainerItemProxy */;
 		};
 		2FA54EC112515E4A3EF63E83EBC8D733 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6903,17 +6915,11 @@
 			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
 			targetProxy = E9200849E7E58887CBA2AC1E685C11DC /* PBXContainerItemProxy */;
 		};
-		3717058A0FF7E67F69E43B1E65FCE648 /* PBXTargetDependency */ = {
+		3710862C014669B550707D8E627E6E22 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Pods-ClearCelsius";
-			target = B5B49D8285B91590F03FEE0676EE0B32 /* Pods-ClearCelsius */;
-			targetProxy = 159A8D9226B18BFCB1CB1B199BD117A7 /* PBXContainerItemProxy */;
-		};
-		3A7049CED25A015CDFE1CD7E91B2B682 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UMPermissionsInterface;
-			target = F7845084F0CF03F54107EEF7411760AD /* UMPermissionsInterface */;
-			targetProxy = 161F3C29C1B3626BD6714DDB77A9F056 /* PBXContainerItemProxy */;
+			name = EXSecureStore;
+			target = 05B0AD9DD91DE00FD0AAF8FE2E504CAD /* EXSecureStore */;
+			targetProxy = 41D98FC8745F9B31B2240427CB873969 /* PBXContainerItemProxy */;
 		};
 		3D2B71353D661339359F0CE6DC3D11BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6933,23 +6939,11 @@
 			target = 014495932E402CA67C37681988047CA2 /* UMFontInterface */;
 			targetProxy = 206565756DDC08DBA356AA0CC0E6EB96 /* PBXContainerItemProxy */;
 		};
-		40DE4957CE37E5AD4563D6E514466227 /* PBXTargetDependency */ = {
+		42788407388E78FFFFB3F708A3B0C5A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = GTMSessionFetcher;
-			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
-			targetProxy = 770E74221D9AEAAF6C24C13C53E79532 /* PBXContainerItemProxy */;
-		};
-		48D3C13B4D0C05D397CEC390E2BF5C0B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UMTaskManagerInterface;
-			target = 50188AAB5FAECCA9583327DBA2B0AF2B /* UMTaskManagerInterface */;
-			targetProxy = 5262B820016C147D18306E0F30558759 /* PBXContainerItemProxy */;
-		};
-		497A7978EC60AB6C2860470D9524545C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UMFaceDetectorInterface;
-			target = 2AD4F40E67E1874A0816F6B34289EB41 /* UMFaceDetectorInterface */;
-			targetProxy = 55AD6B6A3871A6DF46197C6B3FDD291F /* PBXContainerItemProxy */;
+			name = EXBarCodeScanner;
+			target = 20140544B89B60083D9626CBDB171E89 /* EXBarCodeScanner */;
+			targetProxy = 9C4B3EC8543750150AE7A2A59EEBB615 /* PBXContainerItemProxy */;
 		};
 		4AF1BD616836FD9C8A33C784B6C4526F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6957,11 +6951,23 @@
 			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
 			targetProxy = C5A3AA88455303022E3ACF4C2C37EF5C /* PBXContainerItemProxy */;
 		};
-		4C35BCD18A49FCEE8FFBEBAE74C88108 /* PBXTargetDependency */ = {
+		4C95B5C3237B48F1A5ED21EB9E8CDF9D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = GoogleSignIn;
 			target = CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */;
-			targetProxy = 52A9FFB2A1FFA244B36042B155B97D3B /* PBXContainerItemProxy */;
+			targetProxy = B7F8E580F093D99C0E2D85D9AB18B509 /* PBXContainerItemProxy */;
+		};
+		4FAD7F371C09294DF91BDB3300B32ABF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMReactNativeAdapter;
+			target = 897EF6A99176326E24F51E2F2103828C /* UMReactNativeAdapter */;
+			targetProxy = 04811281D45C4CED392063176670F5B4 /* PBXContainerItemProxy */;
+		};
+		5038745DB3E6ECE9E9E8469728EFF3D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
+			targetProxy = 51B054DD7D4CC02D85BA739DEFC8948F /* PBXContainerItemProxy */;
 		};
 		536EF579F8B07BF8830C37EFC47D1AA6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6981,11 +6987,29 @@
 			target = D47C581D39D227080F83B16A22A56664 /* GoogleToolboxForMac */;
 			targetProxy = EE682D51E34E371EF3EB16A0472AF7E4 /* PBXContainerItemProxy */;
 		};
-		603E0CCB8FB05FCCD2466EB95BDE13CB /* PBXTargetDependency */ = {
+		5C830D2C509BF0A655E402863288B866 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXBarCodeScanner;
-			target = 20140544B89B60083D9626CBDB171E89 /* EXBarCodeScanner */;
-			targetProxy = 2E1609C7BDE66A6DFA8CD44B2C2074C0 /* PBXContainerItemProxy */;
+			name = EXImageManipulator;
+			target = FD6B573F554405C8DA7F96BE5E989F48 /* EXImageManipulator */;
+			targetProxy = 69A409B42A1BECABDB397BA2C58E2B4A /* PBXContainerItemProxy */;
+		};
+		5C87F8095ABA813248F2DFAD512031A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EXConstants;
+			target = 6C1893932A69822CBE3502F2E0BCFB6D /* EXConstants */;
+			targetProxy = F98959AC3EBF2D0CA7A5811B273319C4 /* PBXContainerItemProxy */;
+		};
+		5FBD9EAC1311C50994BBCB9F6112DA35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-celsius";
+			target = E45BE92320653FB98EA36DED62D92746 /* Pods-celsius */;
+			targetProxy = 4F56BCFA046AE4AF5A33445C787BB8D1 /* PBXContainerItemProxy */;
+		};
+		641A60A29F06D9F32D12CF45DA4BF052 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMCameraInterface;
+			target = 0A915EE9D35CA5636731F8763E774951 /* UMCameraInterface */;
+			targetProxy = 042BDDA7BFECDE014C438E1E97B5371B /* PBXContainerItemProxy */;
 		};
 		647F531ACE8FBA1A5014D5753B002B9D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -6993,11 +7017,11 @@
 			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
 			targetProxy = 97A519DECE3C9B3732FFBC1435E68935 /* PBXContainerItemProxy */;
 		};
-		64FE64A3612549CB4EDB7DD0C096DD38 /* PBXTargetDependency */ = {
+		66586F1DAD136DB979FB645174D91EBE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Folly;
 			target = A4F685BE3CAC127BDCE4E0DBBD88D191 /* Folly */;
-			targetProxy = 193CE9A42CFB126C9F60BD590C07AF0F /* PBXContainerItemProxy */;
+			targetProxy = 7E01AB055D02D08DE13124398C5569A7 /* PBXContainerItemProxy */;
 		};
 		6A04115353D3C40909BFE5ADAA3D6803 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7011,23 +7035,29 @@
 			target = CAD3534FC55B0333104E5117C0A9A324 /* GoogleSignIn */;
 			targetProxy = 1019988146DE37D94C95EDA46D4688C7 /* PBXContainerItemProxy */;
 		};
+		7D6FED52E9E452B0408D6FA8A8827C94 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EXSegment;
+			target = 25F3B503F78A1B49B25FFE020EA14660 /* EXSegment */;
+			targetProxy = 5A64C9DB3F8E1843CE190020E87643A8 /* PBXContainerItemProxy */;
+		};
 		7E6F0A3B7DF943CFF22C07C61B978991 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = React;
 			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
 			targetProxy = F662F4BF29269B2F6BCD127C2C341C8D /* PBXContainerItemProxy */;
 		};
-		8258E6D7D6EB09133A1E99BEC72A636E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = glog;
-			target = D0EFEFB685D97280256C559792236873 /* glog */;
-			targetProxy = B64DE09274089EF808BDA362358EF6DE /* PBXContainerItemProxy */;
-		};
 		82E5E3E70C8159948285B0EBA722000A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMCore;
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = 715339B80DD0A3162D7C5FB8A15C803A /* PBXContainerItemProxy */;
+		};
+		83E34E072133B1C058CDA890375B23D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMFontInterface;
+			target = 014495932E402CA67C37681988047CA2 /* UMFontInterface */;
+			targetProxy = E3990164AB52CBA53CEADB7F48228123 /* PBXContainerItemProxy */;
 		};
 		844E8285E8D11531B798EC07EA88C7E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7041,17 +7071,11 @@
 			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
 			targetProxy = C3E5407382B513E22F987FBACBA82CF7 /* PBXContainerItemProxy */;
 		};
-		85DC553DB7F9F7877ACD827AE570A44F /* PBXTargetDependency */ = {
+		89775E3AD78085613A48F7A68D5FC098 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXPermissions;
-			target = 0A72FB88825FDC7D301C9DD1F8F96824 /* EXPermissions */;
-			targetProxy = 47F8E03570DC8F1FF6FFB93B715A7B68 /* PBXContainerItemProxy */;
-		};
-		88C1308B74080FD9BA25AB68E152C755 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXAppLoaderProvider;
-			target = 2B8C13513C1F6D610976B0C8F4402EC1 /* EXAppLoaderProvider */;
-			targetProxy = 956C573BFE69E4749E060C89EB146800 /* PBXContainerItemProxy */;
+			name = UMTaskManagerInterface;
+			target = 50188AAB5FAECCA9583327DBA2B0AF2B /* UMTaskManagerInterface */;
+			targetProxy = B0109ACBFB716F7B6AE9E30E36C8FE59 /* PBXContainerItemProxy */;
 		};
 		8ACCBBC67763933882B4B8CE6BA1716C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7065,11 +7089,11 @@
 			target = 2AB2EF542954AB1C999E03BFEF8DE806 /* DoubleConversion */;
 			targetProxy = FB10AC28EFE601BC47A93BB0FE23C2A0 /* PBXContainerItemProxy */;
 		};
-		910C5361FBAA04E181DAF2D0D5DA5D04 /* PBXTargetDependency */ = {
+		918E0ED02D8F77BF2512AF7DA9DD23BB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXConstants;
-			target = 6C1893932A69822CBE3502F2E0BCFB6D /* EXConstants */;
-			targetProxy = 7DD3B7679CAB60CA073D1385B84B1B8D /* PBXContainerItemProxy */;
+			name = UMFaceDetectorInterface;
+			target = 2AD4F40E67E1874A0816F6B34289EB41 /* UMFaceDetectorInterface */;
+			targetProxy = E2B96DCA37B2101888DCA41B436762F9 /* PBXContainerItemProxy */;
 		};
 		92C01C434EC84095FBD2537847284DE3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7083,17 +7107,17 @@
 			target = D0B273D56D6C8A0C770E79BE693CE2EE /* yoga */;
 			targetProxy = B80C15072DA1DF543012324FDD64973B /* PBXContainerItemProxy */;
 		};
-		94AB49E20E0A267C40937AF592056AC0 /* PBXTargetDependency */ = {
+		9375BD13485F12A583F80311EAE24C1B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXCamera;
-			target = 3A39935560B403231EC02D0D3A38DC3C /* EXCamera */;
-			targetProxy = D21C04EEB05AF530ADF5FAC82FED655E /* PBXContainerItemProxy */;
+			name = DoubleConversion;
+			target = 2AB2EF542954AB1C999E03BFEF8DE806 /* DoubleConversion */;
+			targetProxy = 13FEE8362F01BE1BEF4E3D7A3336CE3D /* PBXContainerItemProxy */;
 		};
-		957395F598A8DFFA5EA49941FBA31902 /* PBXTargetDependency */ = {
+		937C099DF9AE845F2C7A8D8ACB01421E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMFontInterface;
-			target = 014495932E402CA67C37681988047CA2 /* UMFontInterface */;
-			targetProxy = 8ABDCE186DD6BA9B7900199D2E0B0C2B /* PBXContainerItemProxy */;
+			name = UMConstantsInterface;
+			target = 9668C19AA6D8EA320F83875FA286855A /* UMConstantsInterface */;
+			targetProxy = 39E3CA6C6FF790EB1797033CFD0D58C5 /* PBXContainerItemProxy */;
 		};
 		96444306A75FF5093465D8C9317FFE91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7101,23 +7125,17 @@
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = 53FD36226B2B5438FB90876375078139 /* PBXContainerItemProxy */;
 		};
-		96517E9D0B636C2EC4A02AC42C83943F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXImagePicker;
-			target = 9A7E4CFA3D0A965685884E61CE7D0D1D /* EXImagePicker */;
-			targetProxy = 6B4FDE126860B70A101D048416A13A9A /* PBXContainerItemProxy */;
-		};
 		9932DA0C20E8835F9BCC352085C5D53C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMFileSystemInterface;
 			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
 			targetProxy = A5BC6070450BA0469568C38D9DE4757C /* PBXContainerItemProxy */;
 		};
-		9CBA931A509F069FAC5B0E569BD1DF9B /* PBXTargetDependency */ = {
+		9F7FFF666297F4EB90D1B562A982A04D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMCameraInterface;
-			target = 0A915EE9D35CA5636731F8763E774951 /* UMCameraInterface */;
-			targetProxy = 86F1208BCC19626A250A4964CB6E5EC8 /* PBXContainerItemProxy */;
+			name = EXAppLoaderProvider;
+			target = 2B8C13513C1F6D610976B0C8F4402EC1 /* EXAppLoaderProvider */;
+			targetProxy = 9B40F7EB2AE50A84A03C25FBCE85F6CE /* PBXContainerItemProxy */;
 		};
 		A2E4D7A97323B2A3557E38E30397C698 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7131,35 +7149,11 @@
 			target = A4F685BE3CAC127BDCE4E0DBBD88D191 /* Folly */;
 			targetProxy = 327FEF844215542C99C10F97D9A63481 /* PBXContainerItemProxy */;
 		};
-		AA05314151BCA1A27A447C35E9BFFE25 /* PBXTargetDependency */ = {
+		AF90C0C3048A30367940F95DF011BBBC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMCore;
-			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
-			targetProxy = D2BE663F59EDA791637059BC811E60C1 /* PBXContainerItemProxy */;
-		};
-		AD32378930B3F1391B51A4CFE8246ECF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXImageManipulator;
-			target = FD6B573F554405C8DA7F96BE5E989F48 /* EXImageManipulator */;
-			targetProxy = 48837F4E9F70D18BA5AA1F3052FDFDE5 /* PBXContainerItemProxy */;
-		};
-		AD88222E8C16780840A739987119D09A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UMConstantsInterface;
-			target = 9668C19AA6D8EA320F83875FA286855A /* UMConstantsInterface */;
-			targetProxy = 117CA9D2142A6067DE8ED35F6186CF09 /* PBXContainerItemProxy */;
-		};
-		ADA3D7AE4A5AA646D018E5D47F448652 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "boost-for-react-native";
-			target = ED2506AE7DE35D654F61254441EA7155 /* boost-for-react-native */;
-			targetProxy = 4EB8C12E7B024DBD91A28604687A6923 /* PBXContainerItemProxy */;
-		};
-		B30A9BF5A53EDB99BF9BFCE9EFD9B249 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = React;
-			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
-			targetProxy = 467762BFC4BABA45C8E681F7DBB56030 /* PBXContainerItemProxy */;
+			name = GoogleToolboxForMac;
+			target = D47C581D39D227080F83B16A22A56664 /* GoogleToolboxForMac */;
+			targetProxy = 13F33EE69B570995F91F22B565F52DE7 /* PBXContainerItemProxy */;
 		};
 		B34957D186F7FE398461BF8F555B9AA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7173,6 +7167,18 @@
 			target = 2AD4F40E67E1874A0816F6B34289EB41 /* UMFaceDetectorInterface */;
 			targetProxy = 0518C73F1F0A81118A806A43EFF04DD6 /* PBXContainerItemProxy */;
 		};
+		B49570677FB0E87A0E18C10D818D8CCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Analytics;
+			target = 8F50A15C556FFEAD343B69C7EA54092F /* Analytics */;
+			targetProxy = 5A7BF61DD3D9F1CEA796214F3BFD76F1 /* PBXContainerItemProxy */;
+		};
+		B5D00BD1AB1EC4214458F4075AF9693A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EXFont;
+			target = 90B94D4DBCFD756F121D9368AF50E90B /* EXFont */;
+			targetProxy = B015235ADCB1069A5239EF9A652CA26D /* PBXContainerItemProxy */;
+		};
 		B66AF70B9B2AD9BB7A604F17DEA24F84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMCore;
@@ -7185,11 +7191,17 @@
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = 2A10F3C3E5ADFA4EA3FD0FBEA1C9E571 /* PBXContainerItemProxy */;
 		};
-		BDA356DD306B514B92BE3B61D4172991 /* PBXTargetDependency */ = {
+		C07CE7A17437C60BCE5757C9F56591C0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXSecureStore;
-			target = 05B0AD9DD91DE00FD0AAF8FE2E504CAD /* EXSecureStore */;
-			targetProxy = 5E4E73960318102DF69402DEC701C79F /* PBXContainerItemProxy */;
+			name = EXFileSystem;
+			target = 868B90C74770285449C60DBA82181479 /* EXFileSystem */;
+			targetProxy = DF8577A2C13D557F646489549615E3FA /* PBXContainerItemProxy */;
+		};
+		C3BC75162821A767B0A5F3D48F0A28D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GTMSessionFetcher;
+			target = D676E21115185671D7258A56944ABE98 /* GTMSessionFetcher */;
+			targetProxy = ED8EDED9DC66A5AB325E3D8401C38779 /* PBXContainerItemProxy */;
 		};
 		C5312462B398BC82D9482512A923DC19 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7197,11 +7209,11 @@
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = D82C7ED6EF076FD4020DE2D49ACFCD9F /* PBXContainerItemProxy */;
 		};
-		C6286A464F5900399A83286D15043431 /* PBXTargetDependency */ = {
+		C756C8C05D7EFB9876BE1298FFF0BD53 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMFileSystemInterface;
-			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
-			targetProxy = 465533BAB2B45A9169D9E3FC572C72C5 /* PBXContainerItemProxy */;
+			name = "react-native-netinfo";
+			target = EC577C5CB1DC59A7464ECEF266A75B42 /* react-native-netinfo */;
+			targetProxy = F549936B207257016C65B4E9C6493E5C /* PBXContainerItemProxy */;
 		};
 		CAA9F607EAF60E582C086443495373DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7215,23 +7227,17 @@
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = 4511E4F5F4FAFD71E294E0F4DCBF06DC /* PBXContainerItemProxy */;
 		};
+		CE4528803ABF7B8665DF0431A59E9AD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMFileSystemInterface;
+			target = 2644525CCE081E967809A8163D893A93 /* UMFileSystemInterface */;
+			targetProxy = 2B1498E20BFAF2D1976D81FF0E6D1C29 /* PBXContainerItemProxy */;
+		};
 		D3AACC57F1FA809B1C91701B68545FE2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMImageLoaderInterface;
 			target = 97C4DE84FA3CC4EC06AA6D8C249949B7 /* UMImageLoaderInterface */;
 			targetProxy = DF9DCDCB8B15E186F7D2F171A8B951CB /* PBXContainerItemProxy */;
-		};
-		D56F082CB6EF1B65AEB04224040AEBCF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXSegment;
-			target = 25F3B503F78A1B49B25FFE020EA14660 /* EXSegment */;
-			targetProxy = 69E44C1200CFF2698DD795C0957846E7 /* PBXContainerItemProxy */;
-		};
-		D6424C093CAC8E4DCB4F430E9EB5F67B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = yoga;
-			target = D0B273D56D6C8A0C770E79BE693CE2EE /* yoga */;
-			targetProxy = 0EEB98E0910F1EB4D939CC0D13B3F8CE /* PBXContainerItemProxy */;
 		};
 		D670B0D2FDBF96C0AC0855AAF6DE576B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7239,29 +7245,23 @@
 			target = 2AB2EF542954AB1C999E03BFEF8DE806 /* DoubleConversion */;
 			targetProxy = F3F87A6787EC789A8E12DB8661076151 /* PBXContainerItemProxy */;
 		};
+		D6964AE2606D8DAAC07FC1B503FEE9A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UMSensorsInterface;
+			target = 2038C6F97563AAD6162C284B3EDD5B3B /* UMSensorsInterface */;
+			targetProxy = 2BD4BCF2674E8457C284D5373CB56C8A /* PBXContainerItemProxy */;
+		};
 		D7144FFD51AF4B0069B86371A931AB3A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMPermissionsInterface;
 			target = F7845084F0CF03F54107EEF7411760AD /* UMPermissionsInterface */;
 			targetProxy = 71FC5AFF16A330DECFDA1C4955D0206A /* PBXContainerItemProxy */;
 		};
-		D9DB832E19E29B14E7D9C55695500315 /* PBXTargetDependency */ = {
+		E57F2ED50980BFE04E39FE4749371844 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMImageLoaderInterface;
-			target = 97C4DE84FA3CC4EC06AA6D8C249949B7 /* UMImageLoaderInterface */;
-			targetProxy = 54AE10E8FDC235698F2A3F0F51E1C70D /* PBXContainerItemProxy */;
-		};
-		E4D0DFEAB5066877BDF125B0257D3CC8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UMBarCodeScannerInterface;
-			target = 49821C2B9E764AEDF2B35DFE9AA7022F /* UMBarCodeScannerInterface */;
-			targetProxy = 21ACD12CBB42750C2865943033686E97 /* PBXContainerItemProxy */;
-		};
-		E8303CDCBA1D6FF21CD9D4272EC9A439 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = EXContacts;
-			target = 4507DDDD8FEBB4B947A8702A0571AFE4 /* EXContacts */;
-			targetProxy = ACAB1C70E65EF0AD04BD4FEB639382FE /* PBXContainerItemProxy */;
+			name = UMCore;
+			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
+			targetProxy = 6301176EA33005EFD5252C8C4D527F41 /* PBXContainerItemProxy */;
 		};
 		E8D3892EEE159E1AECAF5E75472434B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7275,23 +7275,23 @@
 			target = 014495932E402CA67C37681988047CA2 /* UMFontInterface */;
 			targetProxy = 3B4FD82855BC62D864D7A9667A68424A /* PBXContainerItemProxy */;
 		};
-		F0128CD14C5FFFCF98980A81876D16F5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Analytics;
-			target = 8F50A15C556FFEAD343B69C7EA54092F /* Analytics */;
-			targetProxy = CD2AAEEE2C96820ED08A3C6B752F7EDF /* PBXContainerItemProxy */;
-		};
 		F0693EC0E39E7E2AC6AFFA223A201997 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMConstantsInterface;
 			target = 9668C19AA6D8EA320F83875FA286855A /* UMConstantsInterface */;
 			targetProxy = 7548B44FFC2E29F91CC8F21F06DF1994 /* PBXContainerItemProxy */;
 		};
-		F5BE1B605AA3CA17B9D49A7FC03CE3CE /* PBXTargetDependency */ = {
+		F0D545F03233DC33FC00754056C4097E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = GoogleToolboxForMac;
-			target = D47C581D39D227080F83B16A22A56664 /* GoogleToolboxForMac */;
-			targetProxy = 80818D51352FEB10B75844F20D87CE66 /* PBXContainerItemProxy */;
+			name = EXCamera;
+			target = 3A39935560B403231EC02D0D3A38DC3C /* EXCamera */;
+			targetProxy = 4EBAEDF09B7C5F413014045295AF8477 /* PBXContainerItemProxy */;
+		};
+		F8D0325F4E4FA1E173CC81E46CA38313 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = EXPermissions;
+			target = 0A72FB88825FDC7D301C9DD1F8F96824 /* EXPermissions */;
+			targetProxy = C64C8DC320DEA18A916C0D4E77E0F7EC /* PBXContainerItemProxy */;
 		};
 		F993A047879548295BE7392696830054 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7299,11 +7299,11 @@
 			target = D0EFEFB685D97280256C559792236873 /* glog */;
 			targetProxy = 2E225ADEDECE8B17DD2FC06627BE9339 /* PBXContainerItemProxy */;
 		};
-		FB7EED9B09236C22963CA2F0D7D39F13 /* PBXTargetDependency */ = {
+		FAD83B22FB21C0412F76446178A5B4FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = EXBlur;
-			target = 95CA6A181945920B8C0C17D296091DB9 /* EXBlur */;
-			targetProxy = EED172070AF9A8939D2120AE93CF99C1 /* PBXContainerItemProxy */;
+			name = EXGoogleSignIn;
+			target = 9656985AC27BB943A21997CAF48B5CD0 /* EXGoogleSignIn */;
+			targetProxy = 5B9C28542F6E6EB57CA5EE01E03025E7 /* PBXContainerItemProxy */;
 		};
 		FBF22B08572B8004330FD47E0D07AC6F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7311,11 +7311,11 @@
 			target = DBCB1B4965863DDD3B9DED9A0918A526 /* UMCore */;
 			targetProxy = BE0D9CA338918985910CFAB12661D90F /* PBXContainerItemProxy */;
 		};
-		FBF99D0515C06AE1097902BDF08954C0 /* PBXTargetDependency */ = {
+		FCECAFD8ECCCB72BFD4EC34EC87DC2DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = UMReactNativeAdapter;
-			target = 897EF6A99176326E24F51E2F2103828C /* UMReactNativeAdapter */;
-			targetProxy = 7CA98952CCF15B9C653E862373ECDE82 /* PBXContainerItemProxy */;
+			name = yoga;
+			target = D0B273D56D6C8A0C770E79BE693CE2EE /* yoga */;
+			targetProxy = 6F885A1357F1D1E74FCC80CC69E421BB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -7707,6 +7707,28 @@
 			};
 			name = Release;
 		};
+		3CE1A3043D22286E10B5D7434821A35C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC225BAB5BB9FD59351AA34D4F35C21F /* Pods-celsiusTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		3D81CCAB7EC79F6EEB00A809A5CAAE77 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AAE62E4FE4056A6457819C3341A5CDC /* UMCore.xcconfig */;
@@ -7831,6 +7853,28 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
+		};
+		50D11C78267AC5A5566225A1BBFB63D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 237E8D34BD0E1BD0802D3EF695949EA6 /* Pods-celsius.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		54A7CED2C95CCF16F4B7FAD6831B05AE /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -8092,29 +8136,6 @@
 			};
 			name = Debug;
 		};
-		8591DEFC82964A62405E69E7DDD6BB48 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 968B6EA013A2BB656E609E7360FA16A0 /* Pods-ClearCelsiusTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		8ACB4CBEAF1C4EADACAC308098658D2E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3455D134EB395DDAD43844B8F03257BC /* EXImageManipulator.xcconfig */;
@@ -8138,29 +8159,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
-		};
-		8B04B269DB2A3CB040E798B08F763C6D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 857BE4C3D9596F25C80D8EDC5720CE0C /* Pods-ClearCelsius.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
 		};
 		8D2503ADA0CD5B8003F93339087421B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -8391,6 +8389,29 @@
 			};
 			name = Debug;
 		};
+		A9A7511F4C9CB62976BD099635B7335D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB4FA41F01C1BF8552E5007455D999CA /* Pods-celsiusTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		AA3C608C1EFBFF6195298DABF3846DE1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6B398796B347940CD8C61C9C0FA1D3A8 /* UMSensorsInterface.xcconfig */;
@@ -8401,50 +8422,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		AEC40CC630179200282A09E108B16986 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7463C89B4880D178573980102094009 /* Pods-ClearCelsiusTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		AF0BB5C335CD59A3924F18A6A71991B9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8ED32AE2B19A90BA0603BA880BA06A41 /* Pods-ClearCelsius.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -8887,6 +8864,29 @@
 			};
 			name = Release;
 		};
+		DC7B7B2A209F9EF4B66BED496CA9CC1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4EA264CF8605242D7D2B988D13C82A7 /* Pods-celsius.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		DE2B0EDCA2A94E7C373A9F285D8464C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 72FF2F15B00C64DD6AD16A81B6BB0B48 /* UMFileSystemInterface.xcconfig */;
@@ -9097,6 +9097,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		040ACE7FC03BD5868E71B199BA8AF14B /* Build configuration list for PBXNativeTarget "Pods-celsiusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CE1A3043D22286E10B5D7434821A35C /* Debug */,
+				A9A7511F4C9CB62976BD099635B7335D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0AF8D5BFB736A26D96BA8ED32D3DF85F /* Build configuration list for PBXNativeTarget "EXConstants" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -9147,6 +9156,15 @@
 			buildConfigurations = (
 				98953AE5797B5D4ED3B68786C0DE73D1 /* Debug */,
 				F01F1EF99614BE7D87EB6B49AF4A6462 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E0B548B92E95C3EC100949EBF087F8E /* Build configuration list for PBXNativeTarget "Pods-celsius" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D11C78267AC5A5566225A1BBFB63D3 /* Debug */,
+				DC7B7B2A209F9EF4B66BED496CA9CC1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -9210,15 +9228,6 @@
 			buildConfigurations = (
 				BE7408EF42537F97F9A72974308C355A /* Debug */,
 				A885AD0367972ED2911C1ABD3B3CF532 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		523A210F0DA54A62C74B27FC0E5A90B5 /* Build configuration list for PBXNativeTarget "Pods-ClearCelsius" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AF0BB5C335CD59A3924F18A6A71991B9 /* Debug */,
-				8B04B269DB2A3CB040E798B08F763C6D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -9336,15 +9345,6 @@
 			buildConfigurations = (
 				F47BE48868FF0C26EB5DC2402D9B900F /* Debug */,
 				29A6F13ADCDBB7FA80CD00406369A5F0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B23EFFE70A4971E374D665E5699CAAA0 /* Build configuration list for PBXNativeTarget "Pods-ClearCelsiusTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AEC40CC630179200282A09E108B16986 /* Debug */,
-				8591DEFC82964A62405E69E7DDD6BB48 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

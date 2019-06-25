@@ -103,7 +103,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "network.celsius.wallet"
+        applicationId "com.celsius"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

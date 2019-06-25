@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "ClearCelsius-tvOS.app"
-               BlueprintName = "ClearCelsius-tvOS"
-               ReferencedContainer = "container:ClearCelsius.xcodeproj">
+               BuildableName = "celsius-tvOS.app"
+               BlueprintName = "celsius-tvOS"
+               ReferencedContainer = "container:celsius.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "ClearCelsius-tvOSTests.xctest"
-               BlueprintName = "ClearCelsius-tvOSTests"
-               ReferencedContainer = "container:ClearCelsius.xcodeproj">
+               BuildableName = "celsius-tvOSTests.xctest"
+               BlueprintName = "celsius-tvOSTests"
+               ReferencedContainer = "container:celsius.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "ClearCelsius-tvOSTests.xctest"
-               BlueprintName = "ClearCelsius-tvOSTests"
-               ReferencedContainer = "container:ClearCelsius.xcodeproj">
+               BuildableName = "celsius-tvOSTests.xctest"
+               BlueprintName = "celsius-tvOSTests"
+               ReferencedContainer = "container:celsius.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "ClearCelsius-tvOS.app"
-            BlueprintName = "ClearCelsius-tvOS"
-            ReferencedContainer = "container:ClearCelsius.xcodeproj">
+            BuildableName = "celsius-tvOS.app"
+            BlueprintName = "celsius-tvOS"
+            ReferencedContainer = "container:celsius.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "ClearCelsius-tvOS.app"
-            BlueprintName = "ClearCelsius-tvOS"
-            ReferencedContainer = "container:ClearCelsius.xcodeproj">
+            BuildableName = "celsius-tvOS.app"
+            BlueprintName = "celsius-tvOS"
+            ReferencedContainer = "container:celsius.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "ClearCelsius-tvOS.app"
-            BlueprintName = "ClearCelsius-tvOS"
-            ReferencedContainer = "container:ClearCelsius.xcodeproj">
+            BuildableName = "celsius-tvOS.app"
+            BlueprintName = "celsius-tvOS"
+            ReferencedContainer = "container:celsius.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
