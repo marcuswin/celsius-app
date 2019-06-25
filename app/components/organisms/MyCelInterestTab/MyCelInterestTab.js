@@ -8,6 +8,7 @@ import MyCelInterestTabStyle from "./MyCelInterestTab.styles";
 import CelText from "../../atoms/CelText/CelText";
 // import STYLES from "../../../constants/STYLES";
 import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
+import PerCoinCellInterestCard from '../../molecules/PerCoinCelInterestCard/PerCoinCelInterestCard'
 
 @connect(
   state => ({
@@ -92,6 +93,7 @@ class MyCelInterestTab extends Component {
               </CelText>
           </View>
         </View>
+        <PerCoinCellInterestCard />
       </View>
     );
   }

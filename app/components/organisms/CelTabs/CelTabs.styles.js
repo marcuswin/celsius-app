@@ -2,19 +2,24 @@
 import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
+  container: {
+    flex: 1
+  },
   tabs: {
+    flex: 0.2,
     flexDirection: "row",
-    height: heightPercentageToDP("5%"),
     justifyContent: "space-around",
     paddingHorizontal: widthPercentageToDP("5.33%"),
     marginTop: heightPercentageToDP("2.02%"),
   },
   activeTabContent : {
-    height: heightPercentageToDP("65%"),
+    flex: 0.7,
     flexDirection: 'column',
   },
-  active: {
+  underlineActive: {
+    flex: 0.1,
     marginTop: 5,
+    marginBottom: 10,
     width: widthPercentageToDP("3.5%"),
     borderTopColor: "rgba(65,86,166,1)",
     borderTopWidth: 1

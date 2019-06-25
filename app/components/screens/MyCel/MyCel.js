@@ -54,8 +54,8 @@ class MyCel extends Component {
 
     return (
       <RegularLayout padding={"0 0 100 0"}>
-          <MyCellHeader />
-         <CelTabs tabs={tabs}/>
+        <MyCellHeader />
+        <CelTabs tabs={tabs}/>
       </RegularLayout>
     );
   }

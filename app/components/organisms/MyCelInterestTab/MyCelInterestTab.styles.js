@@ -7,6 +7,7 @@ const base = {
     flex: 1
   },
   contentWrapper: {
+      flex: 1,
       marginHorizontal: 20,
       marginTop: heightPercentageToDP("1.5%"),
       alignItems: "center",

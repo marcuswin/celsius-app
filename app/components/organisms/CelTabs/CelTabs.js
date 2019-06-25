@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { TouchableOpacity, View } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-
 import * as appActions from "../../../redux/actions";
 import CelTabsStyle from "./CelTabs.styles";
 import CelText from "../../atoms/CelText/CelText";
@@ -52,7 +51,7 @@ class CelTabs extends Component {
     const { tabs, width, activeTab } = this.props;
     const style = CelTabsStyle();
     return (
-      <View>
+      <View style={style.container}>
         <View style={[style.tabs, { width, marginBottom: 10 }]}>
           {tabs.map((tab) => (
             <View>
@@ -70,7 +69,7 @@ class CelTabs extends Component {
                   {tab.label}
                 </CelText>
                 {activeTab === tab.label &&
-                <View style={style.active}/>
+                <View style={style.underlineActive}/>
                 }
               </TouchableOpacity>
             </View>
