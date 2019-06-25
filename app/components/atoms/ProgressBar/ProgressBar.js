@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import ProgressBarStyle from "./ProgressBar.styles";
 
-
+// TODO check Loader.js
 class ProgressBar extends Component {
 
   static propTypes = {

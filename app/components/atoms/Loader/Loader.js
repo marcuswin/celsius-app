@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { View, Animated } from 'react-native'
 import STYLES from '../../../constants/STYLES'
 
-
-class ProgressBar extends Component {
+class Loader extends Component {
   static defaultProps = {
     height: 10,
     width: '50%',
@@ -77,4 +76,4 @@ class ProgressBar extends Component {
   }
 }
 
-export default ProgressBar
+export default Loader

@@ -15,6 +15,8 @@ import Separator from "../../atoms/Separator/Separator";
 import Card from "../../atoms/Card/Card";
 import STYLES from "../../../constants/STYLES";
 
+
+// TODO rename to BorrowLoanConfirm
 @connect(
   state => ({
     formData: state.forms.formData,

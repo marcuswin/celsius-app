@@ -12,6 +12,7 @@ import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
 import { BRANCH_LINKS } from '../../../constants/DATA'
 
+// TODO check usage & remove
 @connect(
   state => ({
     referralLink: state.branch.registeredLink

@@ -9,6 +9,7 @@ import CelButton from '../../atoms/CelButton/CelButton'
 import LockedAccountModeStyle from './LockedAccount.styles'
 import * as appActions from "../../../redux/actions";
 
+// TODO should probably be a static screen
 @connect(
   () => ({}),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

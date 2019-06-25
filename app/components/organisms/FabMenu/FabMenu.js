@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-// import BlurOverlay, { closeOverlay, openOverlay } from 'react-native-blur-overlay';
-// import { BlurView, VibrancyView } from 'react-native-blur';
 import { BlurView } from 'expo';
 import * as appActions from "../../../redux/actions";
 
@@ -148,14 +146,10 @@ class FabMenu extends Component {
   }
 
   fabAction = () => {
-    const { actions, fabType } = this.props;
+    const { fabType } = this.props;
     switch (fabType) {
       case 'main':
         this.toggleMenu();
-        break;
-
-      case 'support':
-        actions.navigateTo('SupportFab');
         break;
 
       default:

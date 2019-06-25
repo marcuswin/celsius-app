@@ -6,10 +6,9 @@ const base = {
         flex: 1
     },
     coinImage: {
-        width: 40,
-        height: 40,
-        alignSelf: 'center',
-        marginRight: 12
+      width: 40,
+      height: 40,
+      marginRight: 12
     }
 }
 
@@ -18,6 +17,7 @@ const themed = {
     },
 
     dark: {
+
     },
 
     celsius: {
