@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import CoinListCardStyle from "./CoinListCard.styles";
 import CelText from '../../atoms/CelText/CelText';
 import Icon from '../../atoms/Icon/Icon';
-import STYLES from '../../../constants/STYLES';
+import STYLES from "../../../constants/STYLES";
 import formatter from '../../../utils/formatter';
 import Card from '../../atoms/Card/Card';
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
@@ -61,7 +61,9 @@ class CoinListCard extends Component {
     return (
       <Card onPress={onCardPress}>
         <View style={{ flexDirection: "row" }}>
-           <CoinIcon customStyles={[style.coinImage]} url={currencyRates.image_url} coinShort={coin.short} />
+          <View style={{ alignSelf: 'center' }}>
+            <CoinIcon customStyles={ style.coinImage } url={currencyRates.image_url} coinShort={coin.short} />
+          </View>
           <View>
             <CelText weight='300' type="H6">{displayName}</CelText>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 
 import { THEMES } from "../../../constants/UI";
+import STYLES from '../../../constants/STYLES'
 import Icon from "../Icon/Icon";
 import { getTheme } from "../../../utils/styles-util";
 
@@ -31,7 +32,7 @@ class CoinIcon extends Component {
       <View>
         { theme !== THEMES.DARK ?
         <Image source={{ uri: url }} style={customStyles}/> :
-        <Icon name={`Icon${coinShort}`} fill={"white"} style={customStyles}/> }
+        <Icon name={`Icon${coinShort}`} fill={ STYLES.COLORS.WHITE } style={[customStyles, { opacity: 0.5 }]}/> }
       </View>
     );
   }
