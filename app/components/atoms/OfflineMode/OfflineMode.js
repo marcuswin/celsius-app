@@ -4,6 +4,7 @@ import { View, Image } from 'react-native'
 import OfflineModeStyle from './OfflineMode.styles'
 import CelText from '../CelText/CelText'
 
+// TODO replace with static screen
 class OfflineMode extends Component {
   render () {
     const style = OfflineModeStyle()
