@@ -15,6 +15,7 @@ import API from '../../../constants/API'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import { deleteSecureStoreKey } from '../../../utils/expo-storage';
+import PerCoinCelInterestCard from "../../molecules/PerCoinCelInterestCard/PerCoinCelInterestCard";
 
 @connect(
   state => ({
@@ -142,6 +143,8 @@ class WalletSettings extends Component {
         >
           Earn interest in CEL
         </IconButton>
+
+        <PerCoinCelInterestCard />
        
       </RegularLayout>
     )
