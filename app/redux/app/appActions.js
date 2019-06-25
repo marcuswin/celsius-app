@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import { Constants, Location, Permissions } from "expo";
 import { Platform } from "react-native";
 import store from "../../redux/store";
 
@@ -16,6 +16,7 @@ import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
+import { requestForPermission } from "../../utils/device-permissions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -27,6 +28,7 @@ export {
 
   handleAppStateChange,
   setInternetConnection,
+  getGeolocation,
 
   showVerifyScreen, // TODO move to security actions
 };
@@ -43,6 +45,7 @@ function initCelsiusApp() {
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
+      dispatch(getGeolocation());
 
       await appUtil.initInternetConnectivityListener();
       await appUtil.pollBackendStatus();
@@ -118,6 +121,7 @@ function handleAppStateChange(nextAppState) {
         }
 
         analytics.sessionStarted();
+        dispatch(getGeolocation());
       }
 
       if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
@@ -210,5 +214,26 @@ function showVerifyScreen(defaultVerifyState = true) {
   return async (dispatch) => {
     // if (getState().app.showVerifyScreen === defaultVerifyState) return;
     dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
+  }
+}
+
+
+/**
+ * Gets geolocation for device
+ */
+function getGeolocation() {
+  return async (dispatch) => {
+    const permission = await requestForPermission(Permissions.LOCATION, { goToSettings: false });
+
+    if (!permission) return
+
+    const location = await Location.getCurrentPositionAsync({});
+    if (location && location.coords) {
+      dispatch({
+        type: ACTIONS.SET_GEOLOCATION,
+        geoLat: location.coords.latitude,
+        geoLong: location.coords.longitude,
+      })
+    }
   }
 }

@@ -32,6 +32,15 @@ function initInterceptors () {
   axios.interceptors.request.use(
     async req => {
       const newRequest = { ...req }
+      const geolocation = store.getState().app.geolocation
+
+      if (geolocation) {
+        newRequest.headers = {
+          ...newRequest.headers,
+          "geo-lat": geolocation.geoLat,
+          "geo-long": geolocation.geoLong,
+        }
+      }
 
       if (!req.url.includes('branch.io')) {
         newRequest.headers = {
