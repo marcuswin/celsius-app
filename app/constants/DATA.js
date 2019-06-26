@@ -1,3 +1,7 @@
+import { Constants } from "expo";
+
+const { ENV } = Constants.manifest.extra
+
 const FORBIDEN_COUNTRIES = ['Cuba', 'North Korea', 'Iran', 'Sudan', 'Syria', 'Lebanon', 'Japan', 'New York'];
 
 const COINS = [
@@ -26,6 +30,33 @@ const KYC_STATUSES = {
   rejected: 'rejected',
   ico_passed: 'ico_passed',
   rejeceted: 'rejeceted'
+};
+
+const BLOCKEXPLORERS = {
+  STAGING: {
+    ltc: 'https://chain.so/tx/LTCTEST/',
+    zec: 'https://chain.so/tx/ZECTEST/',
+    btc: 'https://chain.so/tx/BTCTEST/',
+    dash: 'https://chain.so/tx/DASHTEST/',
+    bch: 'https://explorer.bitcoin.com/tbch/tx/',
+    // xrp: 'https://xrpcharts.ripple.com/#/transactions/',
+    xlm: 'https://testnet.steexp.com/tx/',
+    btg: 'https://testnet.btgexplorer.com/tx/',
+    eth: 'https://rinkeby.etherscan.io/tx/',
+    erc20: 'https://rinkeby.etherscan.io/tx/',
+  },
+  PRODUCTION: {
+    btc: 'https://blockchain.info/btc/tx/',
+    bch: 'https://bchsvexplorer.com/tx/',
+    ltc: 'https://chainz.cryptoid.info/ltc/tx.dws?',
+    xrp: 'https://xrpcharts.ripple.com/#/transactions/',
+    xlm: 'https://steexp.com/tx/',
+    dash: 'https://chainz.cryptoid.info/dash/tx.dws?',
+    zec: 'https://chain.so/tx/ZEC/`, ',
+    btg: 'https://btgexplorer.com/tx/',
+    eth: 'https://etherscan.io/tx/',
+    erc20: 'https://etherscan.io/tx/',
+  },
 };
 
 const BRANCH_LINKS = {
@@ -277,7 +308,8 @@ export default {
   CONTACT_NETWORK,
   PREDIFINED_AMOUNTS,
   BANK_ACCOUNT_TYPE,
-  LOAN_STATUS
+  LOAN_STATUS,
+  BLOCKEXPLORERS: BLOCKEXPLORERS[ENV] || BLOCKEXPLORERS.STAGING,
 }
 
 export {
@@ -299,5 +331,5 @@ export {
   PREDIFINED_AMOUNTS,
   BANK_ACCOUNT_TYPE,
   LOAN_STATUS,
-  RANDOM_MESSAGES
+  RANDOM_MESSAGES,
 }
