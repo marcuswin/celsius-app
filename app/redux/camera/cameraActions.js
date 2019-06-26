@@ -26,7 +26,8 @@ function getCameraRollPhotos() {
     const config = {
       after: camera.lastPhotoCursor,
       first: 30,
-      assetType: "Photos"
+      assetType: "Photos",
+      groupTypes: 'All'
     };
 
     dispatch(startApiCall(API.GET_CAMERA_ROLL));

@@ -16,6 +16,7 @@ target 'celsius' do
     'RCTWebSocket',
     'RCTAnimation',
     'RCTImage',
+    'RCTCameraRoll'
   ]
 
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'

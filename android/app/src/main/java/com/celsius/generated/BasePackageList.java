@@ -1,4 +1,4 @@
-package network.celsius.wallet.generated;
+package com.celsius.generated;
 
 import java.util.Arrays;
 import java.util.List;

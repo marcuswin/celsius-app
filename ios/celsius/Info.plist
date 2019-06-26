@@ -49,6 +49,16 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We'd like to use your location data in order to determine what country you're from - is that ok?</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We'd like to use your location data in order to determine what country you're from - is that ok?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We'd like to use your camera in order to proceed with taking a picture - is that ok?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We'd like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We'd like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
+	<key>NSMicrophoneUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
