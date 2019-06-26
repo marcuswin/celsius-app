@@ -3,6 +3,8 @@ import qs from 'qs'
 import r from 'jsrsasign'
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
+import DeviceInfo from 'react-native-device-info';
+
 import logger from './logger-util'
 import Constants from '../../constants'
 import { getSecureStoreKey } from '../utils/expo-storage'
@@ -16,6 +18,8 @@ const {
   PUBLIC_KEY
 } = Constants.extra
 let token
+let deviceModel
+let osVersion
 
 export default {
   initInterceptors, // TODO split into multiple methods
@@ -30,7 +34,10 @@ function initInterceptors () {
   axios.interceptors.request.use(
     async req => {
       const newRequest = { ...req }
-
+      if(!deviceModel || !osVersion) {
+        deviceModel = DeviceInfo.getModel()
+        osVersion = DeviceInfo.getSystemVersion()
+      }
       if (!req.url.includes('branch.io')) {
         newRequest.headers = {
           ...newRequest.headers,
@@ -38,10 +45,8 @@ function initInterceptors () {
           os: Platform.OS,
           buildVersion: Constants.revisionId,
           deviceYearClass: Constants.deviceYearClass,
-          deviceModel: 'Iphone X',
-          // Platform.OS === 'ios' ? Constants.platform.ios.model : null,
-          osVersion: '2.0'
-          // Platfor.OS === 'ios' ? Constants.platform.ios.systemVersion : null
+          deviceModel,
+          osVersion
         }
       }
 
