@@ -334,7 +334,7 @@ class WithdrawEnterAmount extends Component {
                 heading='Address locked'
                 paragraphs={[
                   `You have recently changed your ${coin} withdrawal address.`,
-                  `Due to out security protocols, your address will be active in the next 24 hours.`
+                  `Due to our security protocols, your address will be active in the next 24 hours.`
                 ]}
               />
             )}

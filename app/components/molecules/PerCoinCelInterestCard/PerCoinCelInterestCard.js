@@ -12,6 +12,7 @@ import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import Icon from "../../atoms/Icon/Icon";
+import STYLES from '../../../constants/STYLES';
 
 @connect(
   state => ({
@@ -99,7 +100,6 @@ class PerCoinCelInterestCard extends Component {
   render() {
     const { formData, actions } = this.props
     const { coinList, isExpanded, coinNames, isLoading } = this.state
-
     return (
       <Card>
         <CelCheckbox
@@ -108,31 +108,33 @@ class PerCoinCelInterestCard extends Component {
           onChange={this.toggleAll}
           value={formData.interestInCel}
           rightText="Earn interest in CEL"
+          rightTextStyle={{ color: 'red' }}
         />
 
-        <Separator margin="15 0 15 0"/>
+        <Separator margin="0 0 15 0" />
 
         <TouchableOpacity
-          onPress={() => this.setState({ isExpanded: !isExpanded})}
-          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
+          onPress={() => this.setState({ isExpanded: !isExpanded })}
+          style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 10 }}
         >
-          <CelText>Choose each coin separately</CelText>
+          <CelText color={STYLES.COLORS.MEDIUM_GRAY}>Choose each coin separately</CelText>
           <Icon
-            name={ isExpanded ? "UpArrow" : "DownArrow" }
+            name={isExpanded ? "UpArrow" : "DownArrow"}
             height='9'
+            fill={STYLES.COLORS.MEDIUM_GRAY}
             width='15'
           />
-        </TouchableOpacity>
 
-        { isExpanded && (
-          <View>
-            { coinList.map(c => (
+        </TouchableOpacity>
+        {isExpanded && (
+          <View style={{ marginTop: 25 }}>
+            {coinList.map(c => (
               <CelCheckbox
                 key={c}
                 field={c}
                 updateFormField={actions.updateFormField}
                 value={formData[c]}
-                rightText={`${ coinNames[c] } - ${c}`}
+                rightText={`${coinNames[c]} - ${c}`}
               />
             ))}
 
