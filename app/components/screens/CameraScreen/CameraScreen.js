@@ -293,7 +293,7 @@ class CameraScreen extends Component {
           <View
             style={style.actionBar}
           >
-            <TouchableOpacity style={{ flex: 1, height: 50, width: 50, backgroundColor: 'red' }} onPress={this.pickImage}>
+            <TouchableOpacity style={{ flex: 1 }} onPress={this.pickImage}>
               {cameraRollLastPhoto && (
                 <Image
                   source={{ uri: cameraRollLastPhoto.node.image.uri }}
