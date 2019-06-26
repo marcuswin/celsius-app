@@ -204,14 +204,14 @@ class CameraScreen extends Component {
 
       if (cameraType === 'front') {
         imageManipulations.push({
-          flip: { horizontal: cameraType === 'front' }
+          flip: 'horizontal'
         })
       }
 
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         photo.uri,
         imageManipulations,
-        { compress: 0.95, format: 'jpg' }
+        { compress: 0.95, format: 'jpeg' }
       )
 
       actions.takeCameraPhoto(resizedPhoto)

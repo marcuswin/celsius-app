@@ -57,24 +57,31 @@ class ConfirmCamera extends Component {
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 1 }} />
             {photo && !loading ?
+            <View style={{
+              width: STYLES.imageSizes[mask].width,
+              height: STYLES.imageSizes[mask].height, borderWidth: 5,
+              borderColor: STYLES.COLORS.WHITE,
+              borderRadius: mask === 'circle' ? STYLES.imageSizes[mask].width / 2 : 0,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
               <Image
                 resizeMode="contain"
                 source={photo}
                 style={{
-                  width: STYLES.imageSizes[mask].width,
-                  height: STYLES.imageSizes[mask].height, borderWidth: 5,
-                  borderColor: STYLES.COLORS.WHITE,
+                  width: STYLES.imageSizes[mask].width - 5,
+                  height: STYLES.imageSizes[mask].height - 5,
+                  overflow: 'hidden',
                   borderRadius: mask === 'circle' ? STYLES.imageSizes[mask].width / 2 : 0,
-                  backgroundColor: '#F1EFEE'
                 }}
               />
+            </View>
               : (
                 <View style={{
                   width: STYLES.imageSizes[mask].width,
                   height: STYLES.imageSizes[mask].height, borderWidth: 5,
                   borderColor: STYLES.COLORS.WHITE,
                   borderRadius: mask === 'circle' ? STYLES.imageSizes[mask].width / 2 : 0,
-                  backgroundColor: '#F1EFEE',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
