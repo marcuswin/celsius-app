@@ -47,6 +47,11 @@ class WithdrawAddressOverview extends Component {
     actions.navigateTo("WithdrawNewAddressSetup");
   };
 
+  handleLabelPress = (coin) => {
+    const { actions } = this.props;
+    actions.navigateTo("WithdrawAddressLabel", {coin});
+  }
+
   renderCoinDetails = (key) => {
     const { currencies } = this.props;
     const coin = currencies.find(c => c.short === key);
@@ -65,6 +70,7 @@ class WithdrawAddressOverview extends Component {
             coinShort={key}
             withdrawalAddress={withdrawalAddresses[key]}
             onPress={() => this.handlePress(key)}
+            onPressAddressLabel={() => this.handleLabelPress(key)}
           />
         ) : null;
       })
