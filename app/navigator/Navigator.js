@@ -12,7 +12,7 @@ import { profileNavigator } from './flows/profileFlow';
 import { authNavigator } from './flows/authFlow'
 import { kycNavigator } from './flows/kycFlow'
 import { depositNavigator } from './flows/depositFlow'
-
+import Maintenance from "../components/screens/Maintenance/Maintenance";
 
 export const communityNavigator = createStackNavigator({Community}, {
   defaultNavigationOptions,
@@ -21,6 +21,7 @@ export const communityNavigator = createStackNavigator({Community}, {
 
 export const screens = {
   Home,
+  Maintenance,
   Auth: authNavigator,
   KYC: kycNavigator,
   WalletFab: walletNavigator,
