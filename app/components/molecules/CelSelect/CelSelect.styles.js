@@ -56,7 +56,12 @@ const themed = {
 
     dark: {
         container: {
-            backgroundColor: STYLES.COLORS.DARK_HEADER
+            backgroundColor: STYLES.COLORS.DARK_HEADER,
+            ...Platform.select({
+              android: {
+                  borderColor: 'transparent',
+              },
+          })
         },
         iconColor: {
             color: STYLES.COLORS.WHITE_OPACITY3

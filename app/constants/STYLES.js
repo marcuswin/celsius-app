@@ -4,6 +4,7 @@ const COLORS = {
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
   WHITE_OPACITY2: 'rgba(255,255,255,0.2)',
+  WHITE_OPACITY1: 'rgba(255,255,255,0.1)',
   BLACK_OPACITY2: 'rgba(0,0,0,0.2)',
   CELSIUS: '#3F51AB', // prov: change name!
   DARK_HEADER: '#1F2E3D',
@@ -17,6 +18,7 @@ const COLORS = {
   MEDIUM_GRAY1: 'rgba(115,122,130,0.1)',
   MEDIUM_GRAY3: 'rgba(115,122,130,0.3)',
   GRAY: '#BBBFC2',
+  SEMI_GRAY: '#344352',
   DARK_GRAY: '#3D4853',
   DARK_GRAY3: 'rgba(61, 72, 83, 0.3)',
   DARK_GRAY6: 'rgba(61, 72, 83, 0.6)',

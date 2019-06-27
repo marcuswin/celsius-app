@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import * as appActions from '../../../redux/actions'
 import CelModal from '../CelModal/CelModal'
-import { MODALS } from '../../../constants/UI'
+import { MODALS, THEMES } from '../../../constants/UI'
 import CelButton from '../../atoms/CelButton/CelButton'
 import CelText from '../../atoms/CelText/CelText'
 import InterestCalculator from '../InterestCalculator/InterestCalculator'
@@ -28,7 +28,7 @@ class InterestCalculatorModal extends Component {
           How much do you plan to deposit?
         </CelText>
 
-        <InterestCalculator />
+        <InterestCalculator theme={THEMES.LIGHT} />
 
         <CelButton
           onPress={() => {

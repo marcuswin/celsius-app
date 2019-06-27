@@ -42,6 +42,6 @@ const themed = {
   }
 }
 
-const CoinSwitchStyle = () => getThemedStyle(base, themed)
+const CoinSwitchStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
 
 export default CoinSwitchStyle

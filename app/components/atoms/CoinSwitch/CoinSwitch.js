@@ -13,7 +13,6 @@ import { getScaledFont, getTheme } from "../../../utils/styles-util";
 import { THEMES } from "../../../constants/UI";
 
 const CoinSwitch = props => {
-  const style = CoinSwitchStyle()
   const {
     isUsd,
     amountUsd,
@@ -21,6 +20,7 @@ const CoinSwitch = props => {
     updateFormField,
     coin,
     amountColor,
+    theme: inheritTheme
   } = props
 
   // `$ ${amountUsd || '0.00'}` format a number to $ 21.32 or set default value as 0.00
@@ -31,7 +31,8 @@ const CoinSwitch = props => {
     ? `$ ${amountUsd || '0.00'} USD`
     : `${formatter.getEllipsisAmount(amountCrypto || '0.00', -5)} ${coin}`
 
-  const theme = getTheme();
+  const theme = inheritTheme || getTheme();
+  const style = CoinSwitchStyle(theme)
 
   return (
     <View style={style.container}>
@@ -40,7 +41,7 @@ const CoinSwitch = props => {
           name={`Icon${coin}`}
           width='40'
           height='40'
-          fill={theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3}
+          fill={ theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3 }
         />
       ) : (
         <View style={{ width: 40 }} />
