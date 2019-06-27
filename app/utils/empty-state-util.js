@@ -33,7 +33,7 @@ function getProps(purpose, componentProps) {
         ...props,
         image: require('../../assets/images/maintenance/hippo-maintenance.png'),
         heading: "Sorry!",
-        paragraphs: ["We apologize for any inconvenience, but due to local laws and regulations, we are unable to work with users from your region."]
+        paragraphs: ["Our servers are currently down. Thank you for your patience."],
       };
     case EMPTY_STATES.NON_VERIFIED_CELPAY:
       return {

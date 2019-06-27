@@ -199,11 +199,8 @@ function getComplianceInfo() {
     dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
     try {
       const complianceInfoRes = await usersService.getComplianceInfo();
-      // console.log("compliance", complianceInfoRes.data.allowed_actions.app.allowed)
       await dispatch(getComplianceInfoSuccess(complianceInfoRes.data.allowed_actions));
-      // check where does err msg for Washington state come from when allowed === false
-      // vidi sa stevom zasto se na taj nacin blokira user...
-      if (complianceInfoRes.data.allowed_actions.app.allowed) dispatch(navigateTo("Maintenance"))
+      if (!complianceInfoRes.data.allowed_actions.app.allowed) dispatch(navigateTo("Maintenance"))
     } catch (err) {
       if (err.status === 422) {
         deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);

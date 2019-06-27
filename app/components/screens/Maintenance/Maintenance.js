@@ -28,16 +28,20 @@ class Maintenance extends Component {
 
   componentDidUpdate(prevProps) {
     const {actions} = this.props;
-    // console.log("this.props.appCompliance.allowed", this.props.appCompliance.allowed)
     if ((prevProps.backendStatus.maintenance && !this.props.backendStatus.maintenance) || (!prevProps.appCompliance.allowed && this.props.appCompliance.allowed) ) {
       actions.navigateTo("WalletLanding");
     }
   }
 
   render() {
+    const {navigation, backendStatus} = this.props;
+    const maintenance = navigation.getParam("maintenance");
+
+      const title = maintenance && backendStatus.title ? 'TRT' : "Sorry!";
+      const explanation = maintenance && backendStatus.explanation ? ["JEBALA MARA BUMBARA"] : ["Our servers are currently down. Thank you for your patience."];
 
     return (
-      <StaticScreen type={"hide"} emptyState={{ purpose: EMPTY_STATES.MAINTENANCE }}/>
+      <StaticScreen type={"hide"} emptyState={{ purpose: maintenance ? EMPTY_STATES.MAINTENANCE : EMPTY_STATES.COMPLIANCE, heading: title, paragraphs: explanation}}/>
     );
   }
 }
