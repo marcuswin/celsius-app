@@ -13,9 +13,6 @@ const initialState = {
   activeTab: undefined,
 
   isKeypadOpen: false,
-
-  // TODO: make it work :)
-  maintenanceMode: false,
 };
 
 export default (state = initialState, action) => {
@@ -52,12 +49,6 @@ export default (state = initialState, action) => {
         ...state,
         openedModal: undefined,
       }
-
-    case ACTIONS.GET_BACKEND_STATUS_SUCCESS:
-      return {
-        ...state,
-        maintenanceMode: action.backendStatus.maintenance || false,
-      };
 
     case ACTIONS.OPEN_FAB_MENU:
       return {
