@@ -1,6 +1,0 @@
-framework module EXSecureStore {
-  umbrella header "EXSecureStore-umbrella.h"
-
-  export *
-  module * { export * }
-}
