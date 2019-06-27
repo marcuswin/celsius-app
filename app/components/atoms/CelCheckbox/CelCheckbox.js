@@ -13,7 +13,7 @@ const CelCheckbox = (props) => {
       style={{ flexDirection: 'row', marginBottom: 20 }}
       onPress={() => onPress(props.field, !props.value)}
     >
-      <CheckBox
+     <CheckBox
         checkBoxColor={STYLES.COLORS.MEDIUM_GRAY}
         checkedCheckBoxColor={STYLES.COLORS.GREEN}
         style={{ paddingRight: 10, borderColor: 'red' }}
@@ -28,11 +28,10 @@ const CelCheckbox = (props) => {
 
 CelCheckbox.propTypes = {
   field: PropTypes.string.isRequired,
-  updateFormField: PropTypes.func.isRequired,
+  updateFormField: PropTypes.func,
   onChange: PropTypes.func,
   value: PropTypes.bool,
-  rightText: PropTypes.string,
-  textColor: PropTypes.string,
+  rightText: PropTypes.string
 }
 
 export default CelCheckbox

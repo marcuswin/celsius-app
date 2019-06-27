@@ -6,6 +6,7 @@ import { Permissions } from 'expo'
 
 import cryptoUtil from "../../../utils/crypto-util";
 
+import { MODALS } from "../../../constants/UI";
 import addressUtil from "../../../utils/address-util";
 import * as appActions from "../../../redux/actions";
 import WithdrawalAddressConfirmationStyle from "./WithdrawCreateAddress.styles";
@@ -17,6 +18,7 @@ import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
 import CelInput from "../../atoms/CelInput/CelInput";
+import WithdrawWarningModal from "../../organisms/WithdrawWarningModal/WithdrawWarningModal";
 
 
 @connect(
@@ -73,12 +75,25 @@ class WithdrawCreateAddress extends Component {
   };
 
   handeConfirmWithdrawal = () => {
+    const { actions, formData } = this.props
+
+
+    if (!formData.coinTag && ['XRP', 'XLM'].includes(formData.coin)) {
+      actions.openModal(MODALS.WITHDRAW_WARNING_MODAL)
+    } else {
+      actions.navigateTo("VerifyProfile", {
+        onSuccess: actions.setCoinWithdrawalAddress
+      })
+    }
+  }
+
+  handleConfirmWithdrawalFromModal = () => {
     const { actions } = this.props
 
-    actions.navigateTo("VerifyProfile", {
-      onSuccess: actions.setCoinWithdrawalAddress
-    })
+    actions.navigateTo("VerifyProfile")
+    actions.closeModal()
   }
+
 
   render() {
     const { coin, balanceCrypto, balanceUsd } = this.state;
@@ -86,6 +101,7 @@ class WithdrawCreateAddress extends Component {
     const style = WithdrawalAddressConfirmationStyle();
     let tagText;
     let placeHolderText;
+
 
     if (formData.coin && formData.coin.toLowerCase() === "xrp") {
       tagText = "What is XRP Destination tag";
@@ -121,7 +137,7 @@ class WithdrawCreateAddress extends Component {
           numberOfLines={formData.withdrawAddress ? 3 : 1}
           returnKeyType={hasTag ? "next" : "done"}
           blurOnSubmiting={!hasTag}
-          onSubmitEditing={() => {if(hasTag)this.tag.focus()}}
+          onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
         />
 
         <View style={style.containerWithMargin}>
@@ -137,29 +153,28 @@ class WithdrawCreateAddress extends Component {
               value={formData.coinTag}
               field={`coinTag`}
               margin={"10 0 10 0"}
-              refs={(input) => {this.tag = input}}
+              refs={(input) => { this.tag = input }}
             />
-
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
               <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
             </View>
           </React.Fragment>
         }
         {formData.coin && cryptoUtil.isERC20(formData.coin.toLowerCase()) ?
-        <InfoBox
-          color={"white"}
-          backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."}
-          left
-        />
-        : 
-        <InfoBox
-          color={"white"}
-          backgroundColor={STYLES.COLORS.ORANGE}
-          titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at "}
-          boldText={"app@celsius.network."}
-          left
-        />
+          <InfoBox
+            color={"white"}
+            backgroundColor={STYLES.COLORS.ORANGE}
+            titleText={"Note: we use a smart-contract to send ERC20 tokens, some wallets do not support such transactions."}
+            left
+          />
+          :
+          <InfoBox
+            color={"white"}
+            backgroundColor={STYLES.COLORS.ORANGE}
+            titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at "}
+            boldText={"app@celsius.network."}
+            left
+          />
         }
         <View style={style.button}>
           <CelButton
@@ -170,6 +185,8 @@ class WithdrawCreateAddress extends Component {
           </CelButton>
         </View>
 
+
+          <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} /> 
       </RegularLayout>
     );
   }
