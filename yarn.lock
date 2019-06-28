@@ -7713,6 +7713,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-appsflyer@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-1.4.2.tgz#2261028d03bb351a066e1443a64af802aeb0edaf"
+  integrity sha512-DBhmP7XbHM0ztK2xcrMeCJ4wYhsrP7gU1GuD0H9XogSqGfRPn2picS0Go4vyjIvpcvao4wJc2rlIdpBkSc/wEg==
+
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
