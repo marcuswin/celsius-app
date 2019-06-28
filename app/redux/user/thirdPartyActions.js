@@ -1,5 +1,5 @@
 import * as GoogleSignIn from 'expo-google-sign-in'
-// import * as Facebook from 'expo-facebook'
+import * as Facebook from 'expo-facebook'
 
 import Constants from '../../../constants'
 import ACTIONS from '../../constants/ACTIONS'
@@ -17,8 +17,8 @@ import branchUtil from '../../utils/branch-util'
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
-  // FACEBOOK_APP_ID,
-  // FACEBOOK_URL,
+  FACEBOOK_APP_ID,
+  FACEBOOK_URL,
   GOOGLE_CLIENT_ID
 } = Constants.extra
 
@@ -180,34 +180,34 @@ function authFacebook (authReason) {
     if (!['login', 'register'].includes(authReason)) return
 
     try {
-      // const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-      //   FACEBOOK_APP_ID.toString(),
-      //   {
-      //     permissions: ['public_profile', 'email'],
-      //     behavior: 'system'
-      //   }
-      // )
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+        FACEBOOK_APP_ID.toString(),
+        {
+          permissions: ['public_profile', 'email'],
+          behavior: 'system'
+        }
+      )
 
-      // if (type === 'success') {
-      //   const response = await fetch(`${FACEBOOK_URL}${token}`)
+      if (type === 'success') {
+        const response = await fetch(`${FACEBOOK_URL}${token}`)
 
-      //   const user = await response.json()
-      //   user.accessToken = token
+        const user = await response.json()
+        user.accessToken = token
 
-      //   if (authReason === 'login') {
-      //     dispatch(loginFacebook(user))
-      //   } else {
-      //     dispatch(
-      //       updateFormFields({
-      //         email: user.email,
-      //         firstName: user.first_name,
-      //         lastName: user.last_name,
-      //         facebookId: user.id,
-      //         accessToken: user.accessToken
-      //       })
-      //     )
-      //   }
-      // }
+        if (authReason === 'login') {
+          dispatch(loginFacebook(user))
+        } else {
+          dispatch(
+            updateFormFields({
+              email: user.email,
+              firstName: user.first_name,
+              lastName: user.last_name,
+              facebookId: user.id,
+              accessToken: user.accessToken
+            })
+          )
+        }
+      }
     } catch (e) {
       dispatch(showMessage('error', e.message))
     }
@@ -253,28 +253,28 @@ function registerUserFacebook () {
  * @param {string} facebookUser.id - facebook id
  * @param {string} facebookUser.accessToken - facebook access token
  */
-// function loginFacebook (facebookUser) {
-//   return async dispatch => {
-//     try {
-//       dispatch(startApiCall(API.LOGIN_USER_FACEBOOK))
+function loginFacebook (facebookUser) {
+  return async dispatch => {
+    try {
+      dispatch(startApiCall(API.LOGIN_USER_FACEBOOK))
 
-//       const user = {
-//         email: facebookUser.email,
-//         first_name: facebookUser.first_name,
-//         last_name: facebookUser.last_name,
-//         facebook_id: facebookUser.id,
-//         access_token: facebookUser.accessToken
-//       }
+      const user = {
+        email: facebookUser.email,
+        first_name: facebookUser.first_name,
+        last_name: facebookUser.last_name,
+        facebook_id: facebookUser.id,
+        access_token: facebookUser.accessToken
+      }
 
-//       const res = await usersService.facebookLogin(user)
+      const res = await usersService.facebookLogin(user)
 
-//       await dispatch(loginSocialSuccess('facebook', res.data.id_token))
-//     } catch (err) {
-//       dispatch(showMessage('error', err.msg))
-//       dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
-//     }
-//   }
-// }
+      await dispatch(loginSocialSuccess('facebook', res.data.id_token))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg))
+      dispatch(apiError(API.LOGIN_USER_FACEBOOK, err))
+    }
+  }
+}
 
 /**
  * Authorizes user on Facebook
