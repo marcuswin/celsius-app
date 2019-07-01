@@ -37,8 +37,8 @@ class Maintenance extends Component {
     const {navigation, backendStatus} = this.props;
     const maintenance = navigation.getParam("maintenance");
 
-      const title = maintenance && backendStatus.title ? 'Hello' : "Be back soon!";
-      const explanation = maintenance && backendStatus.explanation ? ["Be back soon"] : ["Celsius is currently down for maintenance. We expect to be back in a couple of hours. Thanks for your patience."];
+      const title = maintenance && backendStatus.title ? backendStatus.title : "Be back soon!";
+      const explanation = maintenance && backendStatus.explanation ? [backendStatus.explanation] : ["Celsius is currently down for maintenance. We expect to be back in a couple of hours. Thanks for your patience."];
 
     return (
       <StaticScreen type={"hide"} emptyState={{ purpose: maintenance ? EMPTY_STATES.MAINTENANCE : EMPTY_STATES.COMPLIANCE, heading: title, paragraphs: explanation}}/>

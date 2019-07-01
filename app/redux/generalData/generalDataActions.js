@@ -83,7 +83,7 @@ function getBackendStatus() {
       const res = await generalDataService.getBackendStatus();
       const backendStatus = res.data;
       await dispatch(getBackendStatusSuccess(backendStatus));
-      if (backendStatus.maintenance) dispatch(navigateTo("Maintenance", {maintenance: "maintenance"}));
+      if (backendStatus.maintenance) dispatch(navigateTo("Maintenance", {maintenance: true}));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_BACKEND_STATUS, err));
