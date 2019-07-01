@@ -21,7 +21,7 @@ import { getPadding } from '../../../utils/styles-util'
 
 @connect(
   state => ({
-    loanCompliance: state.user.compliance.loan,
+    loanCompliance: state.compliance.loan,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
     minimumLoanAmount: state.generalData.minimumLoanAmount,

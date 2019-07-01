@@ -21,7 +21,6 @@ export {
   // User & Profile Actions
   getProfileInfo,
   updateProfilePicture,
-  getComplianceInfo,
   getCelsiusMemberStatus,
   getUserAppSettings,
   setUserAppSettings,
@@ -190,39 +189,6 @@ function disableTwoFactor() {
   };
 }
 
-
-/**
- * Gets all relevant compliance settings for user
- */
-function getComplianceInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
-
-    try {
-      const complianceInfoRes = await usersService.getComplianceInfo();
-
-      dispatch(getComplianceInfoSuccess(complianceInfoRes.data.allowed_actions));
-    } catch (err) {
-      if (err.status === 422) {
-        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      }
-      dispatch(showMessage("error", err.msg));
-      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
-    }
-  };
-}
-
-
-/**
- * TODO add JSDoc
- */
-function getComplianceInfoSuccess(complianceInfo) {
-  return {
-    type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
-    callName: API.GET_COMPLIANCE_INFO_INFO,
-    complianceInfo
-  };
-}
 
 
 /**

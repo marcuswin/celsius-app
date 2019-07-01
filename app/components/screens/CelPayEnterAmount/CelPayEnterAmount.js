@@ -25,7 +25,7 @@ import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembers
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    celpayCompliance: state.user.compliance.celpay,
+    celpayCompliance: state.compliance.celpay,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
