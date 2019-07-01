@@ -28,6 +28,13 @@ function getProps(purpose, componentProps) {
         paragraphs: ["Withdraw pain (and fee!) free with Celsius Network. Complete your KYC verification to take full advantage."],
         onPress: () => actions.navigateTo("KYCProfileDetails")
       };
+    case EMPTY_STATES.MAINTENANCE:
+      return {
+        ...props,
+        image: require('../../assets/images/maintenance/hippo-maintenance.png'),
+        heading: "Sorry!",
+        paragraphs: ["Our servers are currently down. Thank you for your patience."],
+      };
     case EMPTY_STATES.NON_VERIFIED_CELPAY:
       return {
         ...props,

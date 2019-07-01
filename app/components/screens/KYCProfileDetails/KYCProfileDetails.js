@@ -23,7 +23,6 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
     user: state.user.profile,
-    blacklistedCountryResidency: state.generalData.blacklistedCountryResidency
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -84,7 +83,7 @@ class KYCProfileDetails extends Component {
   }
 
   validateForm = formData => {
-    const { actions, blacklistedCountryResidency } = this.props
+    const { actions } = this.props
     const formErrors = {}
 
     const date = moment(
@@ -106,7 +105,6 @@ class KYCProfileDetails extends Component {
         'You must be at least 18 years old to use Celsius application.'
     }
     if (!formData.citizenship.name) { formErrors.citizenship = 'Citizenship is required!' }
-    if (blacklistedCountryResidency.indexOf(formData.citizenship) !== -1) { formErrors.citizenship = "We can't work with people from this region!" }
     if (!formData.gender) formErrors.gender = 'Gender is required!'
 
     if (!_.isEmpty(formErrors)) {

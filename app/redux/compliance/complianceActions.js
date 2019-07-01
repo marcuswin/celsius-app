@@ -5,6 +5,7 @@ import API from "../../constants/API";
 import { deleteSecureStoreKey } from "../../utils/expo-storage";
 import { showMessage } from "../ui/uiActions";
 import complianceService from "../../services/compliance-service";
+import { navigateTo } from "../nav/navActions";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -22,8 +23,8 @@ function getComplianceInfo() {
 
     try {
       const complianceInfoRes = await complianceService.getComplianceInfo();
-
       dispatch(getComplianceInfoSuccess(complianceInfoRes.data.allowed_actions));
+      if (!complianceInfoRes.data.allowed_actions.app.allowed) dispatch(navigateTo("Maintenance"))
     } catch (err) {
       if (err.status === 422) {
         deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
