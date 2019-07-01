@@ -14,7 +14,7 @@ import StaticScreen from "../StaticScreen/StaticScreen";
 @connect(
   state => ({
     backendStatus: state.generalData.backendStatus,
-    appCompliance: state.user.compliance.app,
+    appCompliance: state.compliance.app,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

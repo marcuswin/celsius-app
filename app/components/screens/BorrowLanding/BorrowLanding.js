@@ -23,12 +23,12 @@ import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
 @connect(
   state => ({
     user: state.user.profile,
-    loanCompliance: state.user.compliance.loan,
+    loanCompliance: state.compliance.loan,
     walletSummary: state.wallet.summary,
     allLoans: state.loans.allLoans,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     ltv: state.loans.ltvs,
-    loan: state.user.compliance.loan,
+    loan: state.compliance.loan,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting

@@ -31,7 +31,7 @@ import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
 @connect(
   state => ({
     walletSummary: state.wallet.summary,
-    withdrawCompliance: state.user.compliance.withdraw,
+    withdrawCompliance: state.compliance.withdraw,
     currencyRatesShort: state.currencies.currencyRatesShort,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
