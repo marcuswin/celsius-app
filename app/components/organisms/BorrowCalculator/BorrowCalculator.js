@@ -27,7 +27,7 @@ import { EMPTY_STATES, THEMES } from "../../../constants/UI";
     theme: state.user.appSettings.theme,
     formData: state.forms.formData,
     currencies: state.currencies.rates,
-    loanCompliance: state.user.compliance.loan,
+    loanCompliance: state.compliance.loan,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
     walletSummary: state.wallet.summary,
     kycStatus: state.user.profile.kyc

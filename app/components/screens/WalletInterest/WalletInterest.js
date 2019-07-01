@@ -31,7 +31,7 @@ import { KYC_STATUSES } from '../../../constants/DATA'
     user: state.user.profile,
     loyaltyInfo: state.user.loyaltyInfo,
     appSettings: state.user.appSettings,
-    interestCompliance: state.user.compliance.interest,
+    interestCompliance: state.compliance.interest,
     email: state.user.profile.email
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

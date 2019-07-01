@@ -36,7 +36,7 @@ import DepositInfoModal from "../../organisms/DepositInfoModal/DepositInfoModal"
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    depositCompliance: state.user.compliance.deposit
+    depositCompliance: state.compliance.deposit
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )

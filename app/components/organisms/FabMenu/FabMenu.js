@@ -20,10 +20,10 @@ import { KYC_STATUSES } from "../../../constants/DATA";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    celpayCompliance: state.user.compliance.celpay,
-    depositCompliance: state.user.compliance.deposit,
-    loanCompliance: state.user.compliance.loan,
-    withdrawCompliance: state.user.compliance.withdraw,
+    celpayCompliance: state.compliance.celpay,
+    depositCompliance: state.compliance.deposit,
+    loanCompliance: state.compliance.loan,
+    withdrawCompliance: state.compliance.withdraw,
     user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),

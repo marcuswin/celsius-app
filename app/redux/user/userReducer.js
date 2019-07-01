@@ -2,20 +2,6 @@ import ACTIONS from "../../constants/ACTIONS";
 
 
 /**
- * TODO move to compliance
- */
-const defaultCompliance = { allowed: true, coins: [] }
-const initialCompliance = {
-  app: { ...defaultCompliance },
-  deposit: { ...defaultCompliance },
-  withdraw: { ...defaultCompliance },
-  celpay: { ...defaultCompliance },
-  loan: { ...defaultCompliance },
-  interest: { ...defaultCompliance }
-}
-
-
-/**
  * TODO make it a function add JSDoc & desc for return
  */
 const initialState = {
@@ -32,7 +18,6 @@ const initialState = {
   loyaltyInfo: null, // TODO move to profile
   securityOverview: {}, // TODO move to security
   kycDocuments: undefined, // TODO move to kycReducer
-  compliance: initialCompliance, // TODO move to comlplianceReducer
   contacts: { // TODO move to profileReducer
     friendsWithApp: [],
     friendsWithoutApp: []
@@ -144,14 +129,6 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           individual_referral_link: action.link
-        }
-      }
-
-    case ACTIONS.GET_COMPLIANCE_INFO_SUCCESS:
-      return {
-        ...state,
-        compliance: {
-          ...action.complianceInfo
         }
       }
 

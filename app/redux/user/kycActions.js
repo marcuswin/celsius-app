@@ -10,6 +10,7 @@ import logger from '../../utils/logger-util';
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
 import analytics from "../../utils/analytics";
+import complianceService from "../../services/compliance-service";
 
 export {
   getKYCStatus,
@@ -68,10 +69,10 @@ function updateProfileAddressInfo(profileAddressInfo) {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
 
-      const compliance = await usersService.getComplianceInfo();
+      const compliance = await complianceService.getComplianceInfo();
       dispatch( {
         type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
-        callName: API.GET_COMPLIANCE_INFO_INFO,
+        callName: API.GET_COMPLIANCE_INFO,
         complianceInfo: compliance.data.allowed_actions
       });
 

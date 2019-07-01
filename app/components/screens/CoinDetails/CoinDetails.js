@@ -29,7 +29,7 @@ const { COLORS } = STYLES;
     walletSummary: state.wallet.summary,
     currencyRatesShort: state.currencies.currencyRatesShort,
     interestRates: state.generalData.interestRates,
-    celpayCompliance: state.user.compliance.celpay,
+    celpayCompliance: state.compliance.celpay,
     coinAmount: state.graph.coinLastValue,
     appSettings: state.user.appSettings,
   }),
