@@ -152,14 +152,14 @@ class BorrowLanding extends Component {
               const loanStatusDetails = this.getLoanStatusDetails(loan.status);
               return (
                 <Card key={loan.id}>
-                  <CelText type='H6' weight='500' margin={"0 0 0 0"}>Your loans</CelText>
+                  <CelText type='H6' weight='500' margin={"0 0 7 0"}>Your loans</CelText>
                   <TouchableOpacity style={{ alignItems: "center", flexDirection: "row", flex: 1 }}
                                     onPress={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}>
                     <View style={[style.iconWrapper, { backgroundColor: loanStatusDetails.color }]}>
                       <Icon name='TransactionLoan' height={25} width={25} fill={"#FFFFFF"}/>
                     </View>
                     <View style={style.info}>
-                      <View>
+                      <View style={{paddingRight: 0,}}>
                         <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
                         <CelText type='H6'
                                  weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 2 })} LOCKED</CelText>

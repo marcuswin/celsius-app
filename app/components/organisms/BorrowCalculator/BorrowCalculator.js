@@ -4,7 +4,6 @@ import PropTypes from "prop-types"
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux"
 import _ from "lodash";
-
 import * as appActions from "../../../redux/actions"
 import LoanCalculatorStyle from "./BorrowCalculator.styles"
 import CelText from '../../atoms/CelText/CelText'
@@ -48,7 +47,6 @@ class BorrowCalculator extends Component {
     const {
       currencies,
       loanCompliance,
-      formData,
       ltv,
       minimumLoanAmount,
     } = props
@@ -61,6 +59,7 @@ class BorrowCalculator extends Component {
         value: c.short
       }))
 
+      // this.calculateLoanParams()
 
     this.state = {
       coinSelectItems,
@@ -68,13 +67,11 @@ class BorrowCalculator extends Component {
     }
 
     this.sliderItems = [
-      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null }>6M</CelText> },
-      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null }>1Y</CelText> },
-      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null }>2Y</CelText> },
-      { value: 48, label: <CelText weight="bold" color={formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : null }>4Y</CelText> }
+      { value: 6, label: <CelText>6M</CelText> },
+      { value: 12, label: <CelText>1Y</CelText> },
+      { value: 24, label: <CelText>2Y</CelText> },
+      { value: 48, label: <CelText>4Y</CelText> }
     ]
-
-    this.style = LoanCalculatorStyle()
 
     props.actions.initForm({
       coin: "BTC",
@@ -82,6 +79,8 @@ class BorrowCalculator extends Component {
       amount: minimumLoanAmount,
       ltv: ltv[0],
     })
+
+    this.style = LoanCalculatorStyle()
   }
 
 
@@ -90,8 +89,15 @@ class BorrowCalculator extends Component {
 
     if (!_.isEqual(formData, prevProps.formData)) {
       this.calculateLoanParams()
+      this.sliderItems = [
+        { value: 6, label: <CelText weight={ formData.termOfLoan === 6 ? 'bold' : '300' } color={ formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null }>6M</CelText> },
+        { value: 12, label: <CelText weight={ formData.termOfLoan === 12 ? 'bold' : '300' } color={ formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null }>1Y</CelText> },
+        { value: 24, label: <CelText weight={ formData.termOfLoan === 24 ? 'bold' : '300' } color={ formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null }>2Y</CelText> },
+        { value: 48, label: <CelText weight={ formData.termOfLoan === 48 ? 'bold' : '300' } color={ formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : null }>4Y</CelText> }
+      ]
     }
   }
+
 
   getPurposeSpecificProps = () => {
     const { purpose, actions } = this.props
@@ -164,14 +170,20 @@ class BorrowCalculator extends Component {
     const { theme } = this.props;
 
     return {
-      loanCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_BACKGROUND,
-      amountCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER,
+      loanCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.SEMI_GRAY,
+      amountCard: theme !== THEMES.DARK ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_HEADER,
+      iconColor: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER
     }
+  }
+
+  handleSliderItems = () => {
+
   }
 
   calculateLoanParams = () => {
     const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount, loanCompliance } = this.props
     const loanParams = {}
+
 
     if (!formData.ltv) return null
 
@@ -197,8 +209,7 @@ class BorrowCalculator extends Component {
       loanParams.missingCollateral = (loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto) / loanParams.bestLtv
     }
 
-
-    this.setState({ loanParams })
+      this.setState({ loanParams })
   }
 
   changeAmount = (field, value) => {
@@ -228,7 +239,7 @@ class BorrowCalculator extends Component {
     const purposeProps = this.getPurposeSpecificProps()
     const numberOfDigits = Math.max(formatter.usd(loanParams.monthlyInterest).length, formatter.usd(loanParams.totalInterest).length)
     const textType = numberOfDigits > 8 ? "H3" : "H2"
-    const themeColors = this.getThemeColors();
+    const themeColors = this.getThemeColors()
 
     return (
       <RegularLayout style={style.container}>
@@ -256,7 +267,7 @@ class BorrowCalculator extends Component {
           rightText="USD"
           field={'amount'}
           type={'number'}
-          placeholder={'10.000'}
+          // placeholder={'10.000'}
           keyboardType={'numeric'}
           value={formData.amount}
           onChange={this.changeAmount}
@@ -312,6 +323,7 @@ class BorrowCalculator extends Component {
               margin='20 10 20 5'
               padding='20 5 20 5'
               color={themeColors.loanCard}
+              style={ style.interestCard }
             >
               <CelText
                 align={'center'}
@@ -364,7 +376,8 @@ class BorrowCalculator extends Component {
             name={`Icon${formData.coin}`}
             width='40'
             height='40'
-            color={STYLES.COLORS.ORANGE}
+            color={ STYLES.COLORS.ORANGE }
+            fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
             <SimpleSelect
@@ -395,7 +408,7 @@ class BorrowCalculator extends Component {
             weight='300'
             color={STYLES.COLORS.MEDIUM_GRAY}
             type={'H6'}>
-            Collateral needed
+            Collateral neededCollateral needed
           </CelText>
         </Card>
         <CelText

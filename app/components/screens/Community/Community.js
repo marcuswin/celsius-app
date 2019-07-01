@@ -12,6 +12,7 @@ import CelText from "../../atoms/CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
 import CommunityStyle from "./Community.styles";
+import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
 
 @connect(
@@ -48,8 +49,10 @@ class Community extends Component {
 
         <Card padding={"0 0 0 0"}>
           <View style={style.imageView}>
-            <Image source={require("../../../../assets/images/community/dogIllustration.png")}
-                   style={style.communityImage}/>
+            <ThemedImage
+              lightSource={require("../../../../assets/images/community/dogIllustration.png")}
+              darkSource={require("../../../../assets/images/community/dogIllustration-dark.png")}
+              style={style.communityImage}/>
             <View>
               <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
               <CelText weight={"600"} align={"left"}
@@ -106,7 +109,11 @@ class Community extends Component {
                   <CelText align={"left"} type={"H1"}
                            weight={"600"}>{`${communityStats.referrers_reward_amount_usd} USD`}</CelText>
                 </View>
-                <Image style={style.bulldogImage} source={require("../../../../assets/images/community/frenchie.png")}/>
+                <ThemedImage
+                  style={style.bulldogImage}
+                  lightSource={require("../../../../assets/images/community/frenchie.png")}
+                  darkSource={require("../../../../assets/images/community/frenchie-dark.png")}
+                />
               </View>
             </Card>
           </CommunityDashboard> : null}

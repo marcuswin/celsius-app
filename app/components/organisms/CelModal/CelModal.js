@@ -36,7 +36,10 @@ class CelModal extends Component {
   static propTypes = {
     name: PropTypes.oneOf(Object.keys(MODALS)).isRequired,
     shouldRenderCloseButton: PropTypes.bool,
-    picture: PropTypes.number,
+    picture: PropTypes.oneOfType([
+      PropTypes.instanceOf(Object),
+      PropTypes.number
+    ]),
     header: PropTypes.bool,
     primaryText: PropTypes.string,
     secondaryText: PropTypes.string,

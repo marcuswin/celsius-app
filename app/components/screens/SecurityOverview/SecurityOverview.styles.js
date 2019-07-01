@@ -15,7 +15,7 @@ const base = {
         height: 130,
         resizeMode: "contain",
         position: "absolute",
-        bottom: -heightPercentageToDP("7%"),
+        bottom: -heightPercentageToDP("6%"),
         left: -widthPercentageToDP("5%")
     },
     twoFactorText: {
@@ -35,7 +35,7 @@ const base = {
         height: 130,
         resizeMode: "contain",
         position: "absolute",
-        bottom: -heightPercentageToDP("7%"),
+        bottom: -heightPercentageToDP("6%"),
         left: -widthPercentageToDP("5%")
     },
     emailText: {

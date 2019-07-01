@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import { withNavigationFocus } from "react-navigation";
 
 import formatter from "../../../utils/formatter";
 import * as appActions from "../../../redux/actions";
@@ -36,7 +36,7 @@ const { COLORS } = STYLES;
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class CoinDetails extends Component {
-
+  static currencyFetchingInterval;
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     return {
@@ -55,6 +55,34 @@ class CoinDetails extends Component {
       currency
     };
   }
+
+  componentDidMount() {
+    this.setCurrencyFetchingInterval()
+  }
+
+  componentDidUpdate(prevProps) {
+    const {isFocused} = this.props;
+
+    if (prevProps.isFocused !== isFocused && isFocused === true) {
+      this.setCurrencyFetchingInterval()
+    }
+
+    if (isFocused === false && this.currencyFetchingInterval) {
+      clearInterval(this.currencyFetchingInterval)
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.currencyFetchingInterval)
+  }
+
+  setCurrencyFetchingInterval = () => {
+      const {actions} = this.props;
+
+      this.currencyFetchingInterval = setInterval(() => {
+        actions.getCurrencyRates()
+      }, 30000)
+  };
 
   getCoinDetails() {
     const { navigation, walletSummary } = this.props;
@@ -271,4 +299,4 @@ class CoinDetails extends Component {
   }
 }
 
-export default CoinDetails
+export default withNavigationFocus(CoinDetails)

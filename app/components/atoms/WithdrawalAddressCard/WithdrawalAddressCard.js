@@ -17,7 +17,9 @@ const WithdrawalAddressCard = ({ coinShort, imageUrl, onPress, withdrawalAddress
   return (
       <Card>
         <View style={[style.bodyWrapper, {opacity}]}>
-          <CoinIcon customStyles={style.size} coinShort={coinShort} url={imageUrl}/>
+          <View style={{ alignSelf: 'center' }}>
+            <CoinIcon customStyles={style.size} coinShort={coinShort} url={imageUrl}/>
+          </View>
           <View style={style.cardBody}>
             <CelText weight='600' >{coinShort}</CelText>
             <CelText margin='5 0 0 0' type='H6' weight='300'>{withdrawalAddress.address}</CelText>

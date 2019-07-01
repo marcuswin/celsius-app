@@ -50,7 +50,6 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
-
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
@@ -67,7 +66,6 @@ class TransactionDetails extends Component {
     }
   }
 
-
   componentDidMount = () => {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
@@ -82,7 +80,6 @@ class TransactionDetails extends Component {
       })
     }
   }
-
 
   renderSection = (sectionType) => {
     const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo } = this.props;

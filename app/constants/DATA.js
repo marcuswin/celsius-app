@@ -1,3 +1,7 @@
+import { Constants } from "expo";
+
+const { ENV } = Constants.manifest.extra
+
 const FORBIDEN_COUNTRIES = ['Cuba', 'North Korea', 'Iran', 'Sudan', 'Syria', 'Lebanon', 'Japan', 'New York'];
 
 const COINS = [
@@ -26,6 +30,33 @@ const KYC_STATUSES = {
   rejected: 'rejected',
   ico_passed: 'ico_passed',
   rejeceted: 'rejeceted'
+};
+
+const BLOCKEXPLORERS = {
+  STAGING: {
+    ltc: 'https://chain.so/tx/LTCTEST/',
+    zec: 'https://chain.so/tx/ZECTEST/',
+    btc: 'https://chain.so/tx/BTCTEST/',
+    dash: 'https://chain.so/tx/DASHTEST/',
+    bch: 'https://explorer.bitcoin.com/tbch/tx/',
+    // xrp: 'https://xrpcharts.ripple.com/#/transactions/',
+    xlm: 'https://testnet.steexp.com/tx/',
+    btg: 'https://testnet.btgexplorer.com/tx/',
+    eth: 'https://rinkeby.etherscan.io/tx/',
+    erc20: 'https://rinkeby.etherscan.io/tx/',
+  },
+  PRODUCTION: {
+    btc: 'https://blockchain.info/btc/tx/',
+    bch: 'https://bchsvexplorer.com/tx/',
+    ltc: 'https://chainz.cryptoid.info/ltc/tx.dws?',
+    xrp: 'https://xrpcharts.ripple.com/#/transactions/',
+    xlm: 'https://steexp.com/tx/',
+    dash: 'https://chainz.cryptoid.info/dash/tx.dws?',
+    zec: 'https://chain.so/tx/ZEC/`, ',
+    btg: 'https://btgexplorer.com/tx/',
+    eth: 'https://etherscan.io/tx/',
+    erc20: 'https://etherscan.io/tx/',
+  },
 };
 
 const BRANCH_LINKS = {
@@ -73,6 +104,105 @@ const TRANSACTION_TYPES = {
 
   IN: 'IN',
   OUT: 'OUT',
+};
+
+
+/*
+ * Future TRANSACTION_TYPES
+ * Check doc: https://docs.google.com/document/d/1Xb0sm3NsUJK-LsNa5Y0D3KlN8L6DFrSb3xeCXuVDa_0/edit
+ */
+// eslint-disable-next-line no-unused-vars
+const STATE_MACHINE = {
+  // DEPOSIT
+  // Deposit pending on the blockchain
+  DEPOSIT_PENDING: 'DEPOSIT_PENDING',
+  // Deposit confirmed on the blockchain
+  DEPOSIT_CONFIRMED: 'DEPOSIT_CONFIRMED',
+
+  // WITHDRAWAL
+  // Withdrawal pending email verification by the user
+  WITHDRAWAL_PENDING_VERIFICATION: 'WITHDRAWAL_PENDING_VERIFICATION',
+  // Large withdrawal pending Celsius approval from BO
+  WITHDRAWAL_PENDING_REVIEW: 'WITHDRAWAL_PENDING_REVIEW',
+  // Withdrawal verified by the user, approved by Celsius & pending on the blockchain
+  WITHDRAWAL_PENDING: 'WITHDRAWAL_PENDING',
+  // Withdrawal confirmed on the blockchain
+  WITHDRAWAL_CONFIRMED: 'WITHDRAWAL_CONFIRMED',
+  // Withdrawal canceled by the user, Celsius or on the blockchain
+  // NOTE: maybe 3 separate states
+  WITHDRAWAL_CANCELED: 'WITHDRAWAL_CANCELED',
+
+  // INTEREST
+  // Interest pending because of no SNN or something
+  INTEREST_PENDING: 'INTEREST_PENDING', // NOTE: new type
+  // Interest confirmed
+  INTEREST_CONFIRMED: 'INTEREST_CONFIRMED', // NOTE: renamed from INTEREST
+
+  // LOANS
+  // Loan pending Celsius approval from BO
+  LOAN_PENDING: 'LOAN_PENDING', // NOTE: new type
+  // Loan approved, collateral locked
+  LOAN_APPROVED: 'LOAN_APPROVED', // NOTE: renamed from COLLATERAL
+  // Loan paid back, collateral unlocked
+  LOAN_FINISHED: 'LOAN_FINISHED', // NOTE: new type
+  // Loan rejected by Celsius from BO
+  // NOTE: any other way to cancel a loan, for app in the future?
+  LOAN_REJECTED: 'LOAN_REJECTED', // NOTE: new type
+
+  // CELPAY
+  // NOTE: check who sees which transaction sender|receiver
+  // Large CelPay waiting email verification by the user
+  CELPAY_PENDING_VERIFICATION: 'CELPAY_PENDING_VERIFICATION', // NOTE: new type
+  // CelPay link created and waiting to be claimed
+  CELPAY_PENDING: 'CELPAY_PENDING',
+  // CelPay link is claimed
+  CELPAY_CLAIMED: 'CELPAY_CLAIMED',
+  // CelPay has cleared, visible only by the CelPay sender
+  CELPAY_SENT: 'CELPAY_SENT',
+  // CelPay has cleared, visible only by the CelPay receiver
+  CELPAY_RECEIVED: 'CELPAY_RECEIVED',
+  // CelPay link has been claimed, waiting for claimer to finish KYC
+  CELPAY_ONHOLD: 'CELPAY_ONHOLD',
+  // CelPay link has been claimed, but the user didn't pass KYC in time
+  CELPAY_EXPIRED: 'CELPAY_EXPIRED',
+  // CelPay link has been canceled by the user
+  CELPAY_RETURNED: 'CELPAY_RETURNED',
+
+  // REFERRALS
+  // Referred user award for the initial $1K deposit
+  REFERRED_INITIAL: 'REFERRED_INITIAL', // NOTE: renamed from REFERRED
+  // Referred user HODL award waiting for 3 months to expire
+  REFERRED_HODL_PENDING: 'REFERRED_HODL_PENDING', // NOTE: new type
+  // Referred user HODL award after 3 months
+  REFERRED_HODL: 'REFERRED_HODL',
+  // Referred user HODL award failed during the 3 months
+  REFERRED_HODL_REJECTED: 'REFERRED_HODL_REJECTED', // NOTE: new type
+  // Referrer user award for the initial $1K deposit
+  REFERRER_INITIAL: 'REFERRER_INITIAL', // NOTE: renamed from REFERRER
+  // Referrer user HODL award waiting for 3 months to expire
+  REFERRER_HODL_PENDING: 'REFERRER_HODL_PENDING', // NOTE: new type
+  // Referrer user HODL award after 3 months
+  REFERRER_HODL: 'REFERRER_HODL',
+  // Referred user HODL award failed during the 3 months
+  REFERRER_HODL_REJECTED: 'REFERRER_HODL_REJECTED', // NOTE: new type
+
+  // BONUS TOKENS
+  // Bonus tokens awarded for some reason
+  BONUS_TOKEN_CONFIRMED: 'BONUS_TOKEN_CONFIRMED', // NOTE: renamed from BONUS_TOKEN
+  // Bonus tokens are locked and waithing for something
+  BONUS_TOKEN_LOCKED: 'BONUS_TOKEN_LOCKED',
+  // Bonus tokens canceled
+  BONUS_TOKEN_CANCELED: 'BONUS_TOKEN_CANCELED',
+
+  // OTHER/FALLBACKS
+  // Fallback incoming transaction
+  IN: 'IN',
+  // Fallback outgoing transaction
+  OUT: 'OUT',
+  // Fallback cancelled/rejected/failed/removed transaction
+  CANCELED: "CANCELED",
+  // Amount locked for some reason
+  LOCKED: "LOCKED",
 };
 
 const GENDER = [
@@ -277,7 +407,8 @@ export default {
   CONTACT_NETWORK,
   PREDIFINED_AMOUNTS,
   BANK_ACCOUNT_TYPE,
-  LOAN_STATUS
+  LOAN_STATUS,
+  BLOCKEXPLORERS: BLOCKEXPLORERS[ENV] || BLOCKEXPLORERS.STAGING,
 }
 
 export {
@@ -299,5 +430,5 @@ export {
   PREDIFINED_AMOUNTS,
   BANK_ACCOUNT_TYPE,
   LOAN_STATUS,
-  RANDOM_MESSAGES
+  RANDOM_MESSAGES,
 }

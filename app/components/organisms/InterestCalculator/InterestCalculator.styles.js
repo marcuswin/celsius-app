@@ -45,6 +45,6 @@ const themed = {
   }
 }
 
-const InterestCalculatorModalStyle = () => getThemedStyle(base, themed)
+const InterestCalculatorModalStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
 
 export default InterestCalculatorModalStyle
