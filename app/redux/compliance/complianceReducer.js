@@ -21,9 +21,7 @@ export default function complianceReducer(state = initialState, action) {
       case ACTIONS.GET_COMPLIANCE_INFO_SUCCESS:
         return {
           ...state,
-          complianceInfo: {
-            ...action.complianceInfo
-          }
+          ...action.complianceInfo,
         }
 
     default:

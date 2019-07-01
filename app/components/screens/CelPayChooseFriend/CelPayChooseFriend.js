@@ -54,7 +54,7 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    celpayCompliance: state.user.compliance.celpay,
+    celpayCompliance: state.compliance.celpay,
     walletSummary: state.wallet.summary
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
