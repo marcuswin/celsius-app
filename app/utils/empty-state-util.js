@@ -32,8 +32,8 @@ function getProps(purpose, componentProps) {
       return {
         ...props,
         image: require('../../assets/images/maintenance/hippo-maintenance.png'),
-        heading: "Sorry!",
-        paragraphs: ["Our servers are currently down. Thank you for your patience."],
+        heading: "Be back soon!",
+        paragraphs: ["Celsius is currently down for maintenance. We expect to be back in a couple of hours. Thanks for your patience."],
       };
     case EMPTY_STATES.NON_VERIFIED_CELPAY:
       return {
