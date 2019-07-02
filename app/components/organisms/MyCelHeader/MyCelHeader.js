@@ -34,6 +34,8 @@ class MyCelHeader extends Component {
     if (loyaltyInfo.tier_level === 1) color = STYLES.COLORS.GRAY;
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
+    
+    if(loyaltyInfo.tier_level === 0)  return null
 
     return (
       <View>
@@ -93,7 +95,7 @@ class MyCelHeader extends Component {
                 type={"H5"}
                 weight={"700"}
               >
-                { formatter.cel(loyaltyInfo.next_level_cel)}
+                { formatter.crypto(loyaltyInfo.next_level_cel, "CEL")}
               </CelText>
               <CelText
                 color={"white"}
@@ -107,7 +109,7 @@ class MyCelHeader extends Component {
           
         </View>
       </View>
-    )
+    ) 
   }
 }
 
