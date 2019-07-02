@@ -316,7 +316,7 @@ function authGoogle (authReason) {
         user.lastName = user.familyName || user.lastName
         user.googleId = user.id || user.uid
         user.profilePicture = user.photoURL
-        user.accessToken = result.access_token || user.auth.accessToken
+        user.accessToken = result.access_token || result.accessToken || user.auth.accessToken
 
         if (authReason === 'login') {
           dispatch(loginGoogle(user))
