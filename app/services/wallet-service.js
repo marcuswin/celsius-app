@@ -5,6 +5,7 @@ const walletService = {
   getWalletSummary,
   getCoinAddress,
   setCoinWithdrawalAddress,
+  setCoinWithdrawalAddressLabel,
   getAllCoinWithdrawalAddresses,
   withdrawCrypto, // TODO move to transactions-service
 };
@@ -51,6 +52,19 @@ function setCoinWithdrawalAddress(coin, address, verification) {
   });
 }
 
+/**
+ * Sets originating/withdrawal address label for coin for user
+ *
+ * @param {string} label - choosen or entered wallet address label
+ * @param {string} coin - eg. eth|ETH
+ 
+ * @return {Promise}
+ */
+function setCoinWithdrawalAddressLabel(coin, label) {
+  return axios.post(`${apiUrl}/wallet/${coin.toLowerCase()}/withdrawal_address/label`, {
+    label,
+  });
+}
 
 /**
  * Withdraws crypto for user

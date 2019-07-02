@@ -36,13 +36,9 @@ class WithdrawNewAddressSetup extends Component {
     this.state = {};
   }
 
-  // ToDo(ns) formData.coin
   setNewAddress = () => {
     const { actions } = this.props;
-
-    actions.navigateTo("VerifyProfile", {
-      onSuccess: () => actions.setCoinWithdrawalAddress("change-address")
-    })
+    actions.setCoinWithdrawalAddress("change-address")
   };
 
   handleScan = (code) => {
@@ -87,7 +83,6 @@ class WithdrawNewAddressSetup extends Component {
         <CelButton
           margin={"20 0 20 0"}
           onPress={() => this.setNewAddress()}
-          // ToDo(ns) setCoinWithdrawalAddress(); send parameter address, show message success(coin suspended for 24h), confirmation mail
         >
           Confirm
         </CelButton>

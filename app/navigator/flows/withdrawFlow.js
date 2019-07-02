@@ -9,6 +9,7 @@ import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import WithdrawNewAddressSetup from "../../components/screens/WithdrawNewAddressSetup/WithdrawNewAddressSetup";
 import WithdrawAddressOverview from "../../components/screens/WithdrawAddressOverview/WithdrawAddressOverview";
+import WithdrawAddressLabel from "../../components/screens/WithdrawAddressLabel/WithdrawAddressLabel";
 
 export const withdrawFlow = {
   screens: {
@@ -20,7 +21,8 @@ export const withdrawFlow = {
     QRScanner,
     VerifyProfile,
     WithdrawNewAddressSetup,
-    WithdrawAddressOverview
+    WithdrawAddressOverview,
+    WithdrawAddressLabel
   },
   props: {
     initialRouteName: 'WithdrawEnterAmount',
