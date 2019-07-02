@@ -90,9 +90,7 @@ class WithdrawEnterAmount extends Component {
 
     props.actions.initForm({ coin: coin || coinSelectItems[0].value })
     props.actions.openModal(MODALS.WITHDRAW_INFO_MODAL)
-    if (coin) {
-      props.actions.getAllCoinWithdrawalAddresses()
-    }
+    props.actions.getAllCoinWithdrawalAddresses()
   }
 
   onPressPredefinedAmount = ({ label, value }) => {
