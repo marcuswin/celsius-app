@@ -9,7 +9,7 @@ import formatter from "../../../utils/formatter"
 
 import CelText from '../../atoms/CelText/CelText'
 import CelsiusMembershipTableStyle from './CelsiusMembershipTable.styles'
-import { AddThemeToComponents } from '../../../utils/styles-util';
+import { addThemeToComponents } from '../../../utils/styles-util';
 import { THEMES } from '../../../constants/UI';
 
 @connect(
@@ -144,9 +144,9 @@ class CelsiusMembershipTable extends Component {
     </View>
     )
     
-    const childrenWithProps = AddThemeToComponents(
+    const childrenWithProps = addThemeToComponents(
       Table,
-      [CelText.displayName],
+      [CelText],
       THEMES.LIGHT
     )
 
