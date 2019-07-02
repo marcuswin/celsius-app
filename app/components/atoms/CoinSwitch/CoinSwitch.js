@@ -42,6 +42,7 @@ const CoinSwitch = props => {
           width='40'
           height='40'
           fill={ theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3 }
+          style={{ marginBottom: 28 }}
         />
       ) : (
         <View style={{ width: 40 }} />

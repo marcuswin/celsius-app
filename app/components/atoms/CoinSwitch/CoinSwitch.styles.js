@@ -15,7 +15,7 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    marginTop: 10,
+    marginBottom: 28,
     height: 40,
     width: 40,
     borderRadius: 20
