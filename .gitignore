@@ -19,3 +19,10 @@ shell.apk
 
 package-lock.json
 .vscode/launch.json
+
+# ejected app
+constants.js
+/android
+/android-no-expo
+/ios
+/ios-no-expo
