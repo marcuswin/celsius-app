@@ -8,11 +8,13 @@ import walletService from '../../services/wallet-service'
 import { navigateTo } from '../nav/navActions'
 import analytics from '../../utils/analytics'
 import celUtilityUtil from '../../utils/cel-utility-util'
+import { getWalletSummary } from "../wallet/walletActions";
 
 export {
   getAllTransactions,
   getTransactionDetails,
   withdrawCrypto,
+  cancelWithdrawal,
 }
 
 /**
@@ -58,6 +60,31 @@ function getTransactionDetails (id = '') {
   }
 }
 
+/**
+ * TODO add JSDoc
+ */
+function cancelWithdrawal(withdrawalId){
+  return async (dispatch) => {
+    dispatch(startApiCall(API.CANCEL_WITHDRAWAL_TRANSACTION))
+
+    try {
+      const response = await transactions.cancelWithdrawalService(withdrawalId)
+        dispatch({
+          type: ACTIONS.CANCEL_WITHDRAWAL_TRANSACTION_SUCCESS,
+          callName: API.CANCEL_WITHDRAWAL_TRANSACTION,
+          transaction: response.data.transaction
+        })
+
+      dispatch(showMessage('success', 'Withdrawal canceled'))
+      dispatch(getWalletSummary())
+    } catch (error) {
+      dispatch(showMessage(`error`, error.msg));
+      dispatch(apiError(API.CANCEL_WITHDRAWAL_TRANSACTION, error))
+    }
+  }
+}
+
+
 
 /**
  * TODO add JSDoc
@@ -95,6 +122,7 @@ function withdrawCrypto () {
       dispatch(
         navigateTo('TransactionDetails', { id: res.data.transaction.id })
       )
+
       dispatch(showMessage('success', 'An email verification has been sent.'))
       dispatch(clearForm())
 

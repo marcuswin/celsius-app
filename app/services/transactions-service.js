@@ -3,7 +3,8 @@ import apiUrl from './api-url';
 
 const transactionsService = {
   getAll,
-  getTransaction
+  getTransaction,
+  cancelWithdrawalService,
 };
 
 
@@ -31,6 +32,14 @@ function getAll(query) {
  */
 function getTransaction(transactionId) {
   return axios.get(`${apiUrl}/wallet/transactions/${transactionId}`);
+
+}
+
+/**
+ * TODO add JSDoc
+ */
+function cancelWithdrawalService(withdrawalId) {
+  return axios.post(`${apiUrl}/wallet/withdrawal/cancel/${withdrawalId}`)
 }
 
 export default transactionsService;
