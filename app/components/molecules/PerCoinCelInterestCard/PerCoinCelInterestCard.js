@@ -13,6 +13,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import Icon from "../../atoms/Icon/Icon";
 import STYLES from '../../../constants/STYLES';
+import { isUSCitizen } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -98,6 +99,8 @@ class PerCoinCelInterestCard extends Component {
   }
 
   render() {
+    if (isUSCitizen()) return null
+
     const { formData, actions } = this.props
     const { coinList, isExpanded, coinNames, isLoading } = this.state
     return (

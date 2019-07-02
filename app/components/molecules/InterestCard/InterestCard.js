@@ -11,6 +11,7 @@ import * as appActions from "../../../redux/actions";
 import { getTheme } from "../../../utils/styles-util";
 import { THEMES } from "../../../constants/UI";
 import Spinner from "../../atoms/Spinner/Spinner";
+import { isUSCitizen } from "../../../utils/user-util";
 
 @connect(
   () => ({}),
@@ -53,6 +54,8 @@ class InterestCard extends Component {
     const { loading } = this.state
 
     if (tier === 'NONE') return null
+    if (isUSCitizen()) return null
+
     const falseColor = Platform.OS === 'ios' ? 'transparent' : STYLES.COLORS.DARK_GRAY3
     const theme = getTheme()
     return (
@@ -72,7 +75,7 @@ class InterestCard extends Component {
           )}
         </View>
         <Card color={ theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_GRAY}>
-          <CelText weight={"300"} type={"H7"}>To earn interest in CEL on all your deposited coins, visit <CelText onPress={() => actions.navigateTo("LoyaltyProgram")} weight={"300"} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>My CEL</CelText> page.</CelText>
+          <CelText weight={"300"} type={"H7"}>To earn interest in CEL on all your deposited coins, visit <CelText onPress={() => actions.navigateTo("MyCel")} weight={"300"} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>My CEL</CelText> page.</CelText>
         </Card>
       </View>
     )

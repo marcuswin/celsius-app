@@ -90,7 +90,9 @@ class WithdrawCreateAddress extends Component {
   handleConfirmWithdrawalFromModal = () => {
     const { actions } = this.props
 
-    actions.navigateTo("VerifyProfile")
+    actions.navigateTo("VerifyProfile", {
+      onSuccess: actions.setCoinWithdrawalAddress
+    })
     actions.closeModal()
   }
 
