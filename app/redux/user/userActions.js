@@ -1,4 +1,5 @@
 import { Constants } from "expo";
+import _ from "lodash";
 
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
@@ -40,7 +41,7 @@ export {
   disableTwoFactor,
   checkPIN,
   checkTwoFactor,
-  getPreviousPinScreen,
+  getPreviousPinScreen
 };
 
 /**
@@ -147,8 +148,8 @@ function getTwoFactorSecret(pin) {
 
       return secret;
     } catch (error) {
-      dispatch(showMessage('error', error.msg))
-      return false
+      dispatch(showMessage("error", error.msg));
+      return false;
     }
   };
 }
@@ -161,8 +162,8 @@ function getTwoFactorSecret(pin) {
 function enableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.enableTwoFactor(code)
-      return success
+      const success = await TwoFactorService.enableTwoFactor(code);
+      return success;
     } catch (error) {
       dispatch(showMessage("error", error.msg));
     }
@@ -188,7 +189,6 @@ function disableTwoFactor() {
     }
   };
 }
-
 
 
 /**
@@ -413,26 +413,54 @@ function getUserAppSettings() {
  * @param {boolean} data.interest_in_cel
  */
 function setUserAppSettings(data) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(startApiCall(API.SET_APP_SETTINGS));
+      const appSettings = getState().user.appSettings;
 
-      const newData = { ...data }
+      const newData = { ...data };
       if (newData.interest_in_cel_per_coin) {
-        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin)
+        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin);
       }
 
       const userAppData = await usersService.setUserAppSettings(newData);
+      const newSettings = userAppData.data;
 
       dispatch({
         type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
-        userAppData: userAppData.data
+        userAppData: newSettings
       });
 
-      if (newData.interest_in_cel_per_coin) {
-        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
-      } else {
-        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
+      const newDataKeys = Object.keys(newData);
+
+      if (newDataKeys.includes("interest_in_cel") || newDataKeys.includes("interest_in_cel_per_coin")) {
+        if (newSettings.interest_in_cel !== appSettings.interest_in_cel) {
+          if (newSettings.interest_in_cel) return dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL on all deposited coins with higher rates. To change how you earn interest visit My CEL page."));
+          if (!newSettings.interest_in_cel) return dispatch(showMessage("success", "Starting next Monday, you will receive interest income in-kind on all deposited coins."));
+        }
+
+        if (!_.isEqual(newSettings.interest_in_cel_per_coin, appSettings.interest_in_cel_per_coin)) {
+          const coins = Object.keys(newSettings.interest_in_cel_per_coin);
+
+          const changedCoins = [];
+          const coinsInCel = [];
+
+          coins.forEach(c => {
+            if (newSettings.interest_in_cel_per_coin[c]) {
+              coinsInCel.push(c);
+            }
+
+            if (newSettings.interest_in_cel_per_coin[c] !== appSettings.interest_in_cel_per_coin[c]) {
+              changedCoins.push(c);
+            }
+          });
+
+          if (coinsInCel.length) {
+            return dispatch(showMessage("success", `Congrats! Starting next Monday you will earn interest in CEL on ${ coinsInCel.join(', ') } with higher rates.`));
+          }
+          
+          return dispatch(showMessage("success", `Congrats! Starting next Monday you will earn interest income in kind.`));
+        }
       }
     } catch (e) {
       dispatch(apiError(API.SET_APP_SETTINGS, e));
