@@ -77,8 +77,7 @@ function updateProfileAddressInfo(profileAddressInfo) {
       });
 
       const forbiddenState = formData.country.name === "United States" ? formData.state : formData.country.name;
-      const {kyc} = getState().user.compliance.app;
-
+      const {kyc} = getState().compliance.app;
       if (!kyc) {
         dispatch(showMessage("error", `Yikes, due to local laws and regulations, we are not allowed to support operations in ${forbiddenState}.`))
       } else {
