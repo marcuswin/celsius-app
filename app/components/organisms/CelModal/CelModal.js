@@ -24,6 +24,7 @@ import {
   AddThemeToComponents
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
+import CelInput from '../../atoms/CelInput/CelInput'
 import Message from '../../molecules/Message/Message'
 
 @connect(
@@ -111,7 +112,7 @@ class CelModal extends Component {
 
     const childrenWithProps = AddThemeToComponents(
       children,
-      ['CelText', 'CelInput'],
+      [CelText.displayName, CelInput.displayName],
       THEMES.LIGHT
     )
 

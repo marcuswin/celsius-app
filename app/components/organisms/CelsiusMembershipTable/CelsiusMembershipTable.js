@@ -146,7 +146,7 @@ class CelsiusMembershipTable extends Component {
     
     const childrenWithProps = AddThemeToComponents(
       Table,
-      ['CelText'],
+      [CelText.displayName],
       THEMES.LIGHT
     )
 
