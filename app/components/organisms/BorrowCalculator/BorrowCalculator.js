@@ -59,7 +59,7 @@ class BorrowCalculator extends Component {
         value: c.short
       }))
 
-      // this.calculateLoanParams()
+    // this.calculateLoanParams()
 
     this.state = {
       coinSelectItems,
@@ -90,10 +90,10 @@ class BorrowCalculator extends Component {
     if (!_.isEqual(formData, prevProps.formData)) {
       this.calculateLoanParams()
       this.sliderItems = [
-        { value: 6, label: <CelText weight={ formData.termOfLoan === 6 ? 'bold' : '300' } color={ formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null }>6M</CelText> },
-        { value: 12, label: <CelText weight={ formData.termOfLoan === 12 ? 'bold' : '300' } color={ formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null }>1Y</CelText> },
-        { value: 24, label: <CelText weight={ formData.termOfLoan === 24 ? 'bold' : '300' } color={ formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null }>2Y</CelText> },
-        { value: 48, label: <CelText weight={ formData.termOfLoan === 48 ? 'bold' : '300' } color={ formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : null }>4Y</CelText> }
+        { value: 6, label: <CelText weight={formData.termOfLoan === 6 ? 'bold' : '300'} color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6M</CelText> },
+        { value: 12, label: <CelText weight={formData.termOfLoan === 12 ? 'bold' : '300'} color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>1Y</CelText> },
+        { value: 24, label: <CelText weight={formData.termOfLoan === 24 ? 'bold' : '300'} color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>2Y</CelText> },
+        { value: 48, label: <CelText weight={formData.termOfLoan === 48 ? 'bold' : '300'} color={formData.termOfLoan === 48 ? STYLES.COLORS.CELSIUS_BLUE : null}>4Y</CelText> }
       ]
     }
   }
@@ -125,8 +125,8 @@ class BorrowCalculator extends Component {
       case EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS:
         return {
           ...defaultProps,
-          subtitle: 'Calculate your loan interest',
-          bottomHeading: `To apply for a loan you need only ${ formatter.crypto(loanParams.missingCollateral, loanParams.largestShortCrypto) } to deposit`,
+          subtitle: '',
+          bottomHeading: `To apply for a loan, you need to deposit an additional ${formatter.crypto(loanParams.missingCollateral, loanParams.largestShortCrypto)}`,
           bottomParagraph: 'Deposit more coins to start your first loan application',
           buttonCopy: 'Deposit coins',
           onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
@@ -135,7 +135,7 @@ class BorrowCalculator extends Component {
       case EMPTY_STATES.NON_MEMBER_BORROW:
         return {
           ...defaultProps,
-          subtitle: 'Calculate your loan interest',
+          subtitle: '',
           bottomHeading: 'Borrow dollars for your crypto',
           bottomParagraph: 'Calculate your loan interest before you deposit coins',
           buttonCopy: 'Deposit CEL',
@@ -154,7 +154,7 @@ class BorrowCalculator extends Component {
       case EMPTY_STATES.NO_LOANS:
         return {
           ...defaultProps,
-          subtitle: 'Calculate your loan interest',
+          subtitle: '',
           bottomHeading: null,
           bottomParagraph: null,
           buttonCopy: 'Create a loan',
@@ -209,7 +209,7 @@ class BorrowCalculator extends Component {
       loanParams.missingCollateral = (loanParams.minimumLoanAmountCrypto - loanParams.largestAmountCrypto) / loanParams.bestLtv
     }
 
-      this.setState({ loanParams })
+    this.setState({ loanParams })
   }
 
   changeAmount = (field, value) => {
@@ -261,13 +261,13 @@ class BorrowCalculator extends Component {
           type={'H4'}
           margin={'20 auto 20 auto'}
           weight={'300'}>
-          Enter loan amount in dollars
+          How much would you like to borrow?
         </CelText>
         <CelInput
           rightText="USD"
           field={'amount'}
           type={'number'}
-          // placeholder={'10.000'}
+          placeholder={'$3,000'}
           keyboardType={'numeric'}
           value={formData.amount}
           onChange={this.changeAmount}
@@ -278,7 +278,7 @@ class BorrowCalculator extends Component {
             type={'H4'}
             margin={'4 0 20 0'}
             weight={'300'}>
-            Choose your annual percentage rate
+            Choose your annual interest rate.
           </CelText>
           <View style={style.ltvWrapper}>
             {ltv.map(c =>
@@ -323,7 +323,7 @@ class BorrowCalculator extends Component {
               margin='20 10 20 5'
               padding='20 5 20 5'
               color={themeColors.loanCard}
-              style={ style.interestCard }
+              style={style.interestCard}
             >
               <CelText
                 align={'center'}
@@ -346,7 +346,7 @@ class BorrowCalculator extends Component {
               margin='20 5 20 5'
               padding='20 5 20 5'
               color={themeColors.loanCard}
-              >
+            >
               <CelText
                 align={'center'}
                 weight='bold'
@@ -376,7 +376,7 @@ class BorrowCalculator extends Component {
             name={`Icon${formData.coin}`}
             width='40'
             height='40'
-            color={ STYLES.COLORS.ORANGE }
+            color={STYLES.COLORS.ORANGE}
             fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
@@ -395,7 +395,7 @@ class BorrowCalculator extends Component {
           margin='20 0 20 0'
           padding='20 0 20 0'
           color={themeColors.amountCard}
-          >
+        >
           <CelText
             align={'center'}
             weight='bold'
@@ -416,7 +416,7 @@ class BorrowCalculator extends Component {
           type={'H4'}
           margin={'4 0 20 0'}
           weight={'300'}>
-          The collateral needed is calculated based your annual percentage rate
+          The amount of collateral needed is based on your annual interest rate.
         </CelText>
         <Separator />
         <View>

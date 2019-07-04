@@ -38,7 +38,7 @@ import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
 class BorrowLanding extends Component {
 
   static navigationOptions = () => ({
-    title: "Borrows",
+    title: "Borrow",
     right: "profile"
   });
 
