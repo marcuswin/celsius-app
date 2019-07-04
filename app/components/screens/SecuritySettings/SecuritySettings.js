@@ -14,6 +14,7 @@ import { MODALS } from '../../../constants/UI'
 import STYLES from '../../../constants/STYLES'
 import { KYC_STATUSES } from '../../../constants/DATA'
 import RemoveAuthAppModal from '../../organisms/RemoveAuthAppModal/RemoveAuthAppModal'
+import { getTheme } from '../../../utils/styles-util'
 
 @connect(
   state => ({
@@ -65,12 +66,13 @@ class SecuritySettings extends Component {
     const { is2FAEnabled } = this.state
     const isIos = Platform.OS === 'ios'
     const falseColor = isIos ? 'transparent' : STYLES.COLORS.DARK_GRAY3
+    const theme = getTheme()
     return (
       <Switch
         onValueChange={this.handleSwitchChange}
         value={is2FAEnabled}
-        thumbColor={STYLES.COLORS.WHITE}
-        ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
+        thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
+        ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
         trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
       />
     )

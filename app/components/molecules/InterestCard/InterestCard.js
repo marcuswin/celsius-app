@@ -66,8 +66,8 @@ class InterestCard extends Component {
             <Spinner size={30} />
           ) : (
             <Switch
-              thumbColor={STYLES.COLORS.WHITE}
-              ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
+              thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
+              ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
               trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
               value={interestInCoins[coin]}
               onValueChange={this.handleValueChange}

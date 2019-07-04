@@ -19,10 +19,14 @@ const iconColors = {
 class Icon extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    fill: PropTypes.string
+    fill: PropTypes.string,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   };
   static defaultProps = {
-    fill: '#000'
+    fill: '#000',
+    width: 40,
+    height: 40
   }
 
   render() {
@@ -33,9 +37,9 @@ class Icon extends Component {
     if (['primary'].includes(fill)) fillColor = iconColors[fill][theme]
 
     const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
-    return ( 
+    return (
       <View style={{overflow: 'hidden'}}>
-        <SvgIcon 
+        <SvgIcon
           viewBox={viewBox}
           name={name} {...this.props}
           svgs={Svgs} fill={fillColor}
