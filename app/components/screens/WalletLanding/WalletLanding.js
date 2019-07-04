@@ -23,6 +23,7 @@ import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCel
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
+import { isUSCitizen } from "../../../utils/user-util";
 
 let counter = 0;
 
@@ -108,8 +109,7 @@ class WalletLanding extends Component {
       this.shouldInitializeMembership = false
     }
     const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
-    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States'
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen) {
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 

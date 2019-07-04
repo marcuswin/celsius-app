@@ -45,11 +45,22 @@ class EarnInterestCelModal extends Component {
           actions.closeModal()
 
         }}
-          margin="15 0 10 0">Activate interest in CEL</CelButton>
+          margin="15 0 15 0">Activate interest in CEL</CelButton>
         <CelButton basic onPress={async () => {
           actions.closeModal()
-          await setSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL', 'ON');
         }}>Not now</CelButton>
+
+        <CelButton
+          onPress={ async () => {
+            actions.closeModal()
+            await setSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL', 'ON')
+            }
+          }
+          basic
+          margin={"15 0 0 0"}
+        >
+          Do not show this again
+        </CelButton>
       </CelModal>
     )
   }
