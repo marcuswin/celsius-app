@@ -221,12 +221,17 @@ class WithdrawEnterAmount extends Component {
     const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
+
+
+
     if (coinAddress) {
       actions.navigateTo('WithdrawConfirmAddress')
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
   }
+
+
 
   render () {
     const { coinSelectItems, activePeriod } = this.state
@@ -240,6 +245,7 @@ class WithdrawEnterAmount extends Component {
       withdrawalAddresses,
       loyaltyInfo
     } = this.props
+
     const style = WithdrawEnterAmountStyle()
     if (kycStatus !== KYC_STATUSES.passed) {
       return (
@@ -265,6 +271,7 @@ class WithdrawEnterAmount extends Component {
     if (!withdrawalAddresses) return <LoadingScreen />
 
     const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
+
 
     return (
       <RegularLayout padding='20 0 0 0'>
@@ -332,7 +339,7 @@ class WithdrawEnterAmount extends Component {
                 heading='Address locked'
                 paragraphs={[
                   `You have recently changed your ${coin} withdrawal address.`,
-                  `Due to our security protocols, your address will be active in the next 24 hours.`
+                  `Due to our security protocols, your address will be active in ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0] } hours and ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1] } minutes.`
                 ]}
               />
             )}
