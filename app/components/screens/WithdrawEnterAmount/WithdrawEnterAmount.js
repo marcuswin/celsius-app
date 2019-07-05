@@ -339,18 +339,21 @@ class WithdrawEnterAmount extends Component {
           </View>
         </View>
 
-        <CelNumpad
-          field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
-          value={
-            formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''
-          }
-          updateFormField={actions.updateFormField}
-          setKeypadInput={actions.setKeypadInput}
-          toggleKeypad={actions.toggleKeypad}
-          onPress={this.handleAmountChange}
-          purpose={KEYPAD_PURPOSES.WITHDRAW}
-          autofocus={false}
-        />
+        { !isAddressLocked ? (
+          <CelNumpad
+            field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
+            value={
+              formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''
+            }
+            updateFormField={actions.updateFormField}
+            setKeypadInput={actions.setKeypadInput}
+            toggleKeypad={actions.toggleKeypad}
+            onPress={this.handleAmountChange}
+            purpose={KEYPAD_PURPOSES.WITHDRAW}
+            autofocus={false}
+          />
+          ) : null
+        }
         <LoseMembershipModal
           navigateToNextStep={this.navigateToNextStep}
           closeModal={actions.closeModal}
