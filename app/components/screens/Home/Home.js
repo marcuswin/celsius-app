@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
+import SplashScreen from 'react-native-splash-screen'
 import * as appActions from '../../../redux/actions'
 import { KYC_STATUSES, RANDOM_MESSAGES } from '../../../constants/DATA'
 import Loader from '../../atoms/Loader/Loader'
@@ -52,6 +53,7 @@ class Home extends Component {
 
   componentDidUpdate (prevProps) {
     const { user } = this.props;
+    SplashScreen.hide()
 
     if (
       prevProps.appInitialized === false &&

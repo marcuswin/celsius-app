@@ -10,6 +10,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { AppState, BackHandler, StyleSheet } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
+import codePush from 'react-native-code-push'
 import * as Font from 'expo-font'
 
 import store from './redux/store'
@@ -34,7 +35,7 @@ function getActiveRouteName (navigationState) {
   }
   return route.routeName
 }
-
+@codePush
 export default class App extends Component {
   async componentDidMount () {
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
