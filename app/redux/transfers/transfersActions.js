@@ -8,6 +8,7 @@ import { TRANSFER_STATUSES } from "../../constants/DATA";
 import { getWalletSummary } from "../wallet/walletActions";
 import { getAllTransactions } from "../transactions/transactionsActions";
 import { MODALS } from '../../constants/UI'
+import formatter from '../../utils/formatter'
 
 export {
   getAllTransfers,
@@ -74,7 +75,7 @@ function claimTransfer(transferHash) {
     try {
       const res = await transferService.claim(transferHash);
       dispatch(claimTransferSuccess(res.data));
-      dispatch(showMessage('success', "Transaction claimed"));
+      dispatch(showMessage('success', `CelPay claimed successfully!`));
       dispatch(getAllTransactions())
       dispatch(navigateBack());
     } catch (err) {
@@ -166,8 +167,12 @@ function registerTransferLink(deepLink) {
       res = await transferService.claim(transfer.hash);
       dispatch(claimTransferSuccess(res.data));
 
+      if (res.data.expired_at) {
+        dispatch(showMessage('success', `Your CelPay of ${ formatter.crypto(res.data.amount, res.data.coin) } was canceled successfully!`));
+      } else {
+        dispatch(openModal(MODALS.CELPAY_RECEIVED_MODAL));
+      }
       dispatch(getWalletSummary());
-      dispatch(openModal(MODALS.CELPAY_RECEIVED_MODAL));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(callName, err));
