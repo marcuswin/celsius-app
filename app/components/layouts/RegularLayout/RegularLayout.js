@@ -8,10 +8,9 @@ import { bindActionCreators } from "redux";
 import * as appActions from '../../../redux/actions'
 
 import RegularLayoutStyle from './RegularLayout.styles'
-// import KeyboardShift from '../../../utils/keyboard-shift-util';
 import { getPadding } from '../../../utils/styles-util'
 import { FAB_TYPE } from '../../../constants/UI'
-import KeyboardShift from '../../../utils/keyboard-shift-util'
+import KeyboardShift from '../../atoms/KeyboardShift/KeyboardShift'
 import OfflineMode from '../../atoms/OfflineMode/OfflineMode';
 
 @connect(

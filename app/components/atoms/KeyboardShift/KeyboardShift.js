@@ -4,16 +4,17 @@ import {
   Animated,
   Dimensions,
   Keyboard,
-  StyleSheet,
-  TextInput,
+    TextInput,
   UIManager,
   TouchableWithoutFeedback,
   Platform
 } from 'react-native'
 
-const { State: TextInputState } = TextInput
+import KeyboardShiftStyles from './KeyboardShiftStyles'
 
-// TODO move to components folder
+const { State: TextInputState } = TextInput
+const styles = KeyboardShiftStyles()
+
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback
     style={styles.container}
@@ -25,7 +26,8 @@ const DismissKeyboard = ({ children }) => (
   </TouchableWithoutFeedback>
 )
 
-export default class KeyboardShift extends Component {
+class KeyboardShift extends Component {
+
   static propTypes = {
     children: PropTypes.element.isRequired
   }
@@ -97,6 +99,7 @@ export default class KeyboardShift extends Component {
   render () {
     const { children } = this.props
     const { shift } = this.state
+
     return (
       <Animated.View
         style={[styles.container, { transform: [{ translateY: shift }] }]}
@@ -107,8 +110,4 @@ export default class KeyboardShift extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%'
-  }
-})
+export default KeyboardShift
