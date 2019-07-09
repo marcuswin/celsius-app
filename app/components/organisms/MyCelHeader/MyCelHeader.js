@@ -26,7 +26,7 @@ class MyCelHeader extends Component {
     padding: PropTypes.string,
   }
 
-  render () {
+  render() {
     const { loyaltyInfo, walletSummary } = this.props;
     const style = MyCellHeaderStyle();
     const celAmount = walletSummary.coins.filter(coin => coin.short === "CEL")[0];
@@ -34,25 +34,25 @@ class MyCelHeader extends Component {
     if (loyaltyInfo.tier_level === 1) color = STYLES.COLORS.GRAY;
     if (loyaltyInfo.tier_level === 2) color = STYLES.COLORS.ORANGE;
     if (loyaltyInfo.tier_level === 3) color = STYLES.COLORS.CELSIUS_BLUE;
-    
-    if(loyaltyInfo.tier_level === 0)  return null
+
+    if (loyaltyInfo.tier_level === 0) return null
 
     return (
       <View>
         <View
           style={
             [style.mainContainer,
-              { backgroundColor: color }
+            { backgroundColor: color }
             ]}
         >
           <View style={style.topContainer}>
-            <View>
+            <View style={style.celContainer}>
               <CelText
                 color={"white"}
                 type={"H4"}
                 weight={"700"}
               >
-                { formatter.usd(celAmount.amount_usd) }
+                {formatter.usd(celAmount.amount_usd)}
               </CelText>
               <CelText
                 color={"white"}
@@ -81,35 +81,34 @@ class MyCelHeader extends Component {
             </View>
           </View>
 
-          { loyaltyInfo.tier_level !== 3 &&
+          {loyaltyInfo.tier_level !== 3 &&
             <View style={style.bottomContainer}>
-              <CelText
-                color={"white"}
-                type={"H5"}
-                weight={"300"}
-              >
-                { 'To achieve next level, deposit '}
+              <View style={{ flexDirection: 'column' }}>
+                <CelText
+                  color={"white"}
+                  type={"H5"}
+                  weight={"300"}
+                >
+                  To achieve next level, deposit
               </CelText>
-              <CelText
-                color={"white"}
-                type={"H5"}
-                weight={"700"}
-              >
-                { formatter.crypto(loyaltyInfo.next_level_cel, "CEL")}
-              </CelText>
-              <CelText
-                color={"white"}
-                type={"H5"}
-                weight={"700"}
-              >
-                {` (${formatter.usd(loyaltyInfo.next_level_usd)})`}
-              </CelText>
+              </View>
+              <View sytle={{ flexDirection: 'row' }}>
+                <CelText
+                  color={"white"}
+                  type={"H5"}
+                  weight={"700"}
+                  align={'center'}
+                >
+                  {formatter.crypto(loyaltyInfo.next_level_cel, "CEL")}
+                  {` (${formatter.usd(loyaltyInfo.next_level_usd)})`}
+                </CelText>
+              </View>
             </View>
           }
-          
+
         </View>
       </View>
-    ) 
+    )
   }
 }
 

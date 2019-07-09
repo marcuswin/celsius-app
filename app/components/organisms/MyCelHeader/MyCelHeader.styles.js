@@ -6,11 +6,12 @@ const base = {
     flex: 1
   },
   mainContainer: {
-    height: heightPercentageToDP("27.5%"),
+    height: heightPercentageToDP("33%"),
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
-    paddingHorizontal: 40
+    paddingHorizontal: 40,
+    paddingVertical: 10
   },
   arcChart: {
     marginHorizontal: widthPercentageToDP("8%")
@@ -18,15 +19,20 @@ const base = {
   topContainer: {
     flexDirection: 'row',
     alignItems: "center",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
+  },
+  celContainer: {
+    paddingRight: 5,
   },
   otherCoinsContainer: {
-    alignItems: "center",
-    justifyContent: "center"
+    paddingVertical: 10,
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
   },
   bottomContainer: {
-    marginVertical: 10,
-    flexDirection: 'row'
+    marginTop: 5,
+    flexDirection: 'column',
+   
   }
 };
 
