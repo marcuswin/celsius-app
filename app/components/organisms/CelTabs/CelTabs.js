@@ -20,7 +20,7 @@ class CelTabs extends Component {
   static propTypes = {
     tabs: PropTypes.instanceOf(Array)
   };
-  
+
   constructor(props) {
     super(props);
     const { activeTab, tabs, actions} = props
@@ -34,12 +34,12 @@ class CelTabs extends Component {
     actions.setActiveTab(activeTab)
   }
 
-  
+
   renderActiveTabComponent(style) {
     const {tabs, activeTab} = this.props
     let showTabComponent = tabs.find(tab => tab.label === activeTab)
     if (!showTabComponent) showTabComponent = tabs[0]
-    
+
     return (
       <View style={style.activeTabContent}>
         {showTabComponent.component}
@@ -50,18 +50,19 @@ class CelTabs extends Component {
   render() {
     const { tabs, width, activeTab } = this.props;
     const style = CelTabsStyle();
+
     return (
       <View style={style.container}>
         <View style={[style.tabs, { width, marginBottom: 10 }]}>
           {tabs.map((tab) => (
-            <View>
-              <TouchableOpacity 
-                key={tab}
+            <View
+              key={tab.label}
+            >
+              <TouchableOpacity
                 style={{ alignItems: "center" }}
                 onPress={() => this.setActiveTab(tab.label)}
               >
                 <CelText
-                  key={tab}
                   type='H6'
                   weight={activeTab === tab.label ? "medium" : "regular"}
                   color={activeTab === tab.label ? STYLES.COLORS.CELSIUS_BLUE : null}
@@ -69,7 +70,8 @@ class CelTabs extends Component {
                   {tab.label}
                 </CelText>
                 {activeTab === tab.label &&
-                <View style={style.underlineActive}/>
+                <View
+                  style={style.underlineActive}/>
                 }
               </TouchableOpacity>
             </View>

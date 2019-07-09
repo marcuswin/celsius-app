@@ -28,7 +28,8 @@ const base = {
     marginVertical: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingBottom: 5
   }
 };
 
