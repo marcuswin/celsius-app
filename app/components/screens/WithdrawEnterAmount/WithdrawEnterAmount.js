@@ -217,7 +217,7 @@ class WithdrawEnterAmount extends Component {
     this.navigateToNextStep()
   }
 
-  navigateToNextStep = () => {
+  navigateToNextStep = (modal) => {
     const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
@@ -229,6 +229,7 @@ class WithdrawEnterAmount extends Component {
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
+    if (modal) actions.closeModal()
   }
 
 
@@ -366,7 +367,7 @@ class WithdrawEnterAmount extends Component {
           autofocus={false}
         />
         <LoseMembershipModal
-          navigateToNextStep={this.navigateToNextStep}
+          navigateToNextStep={() => this.navigateToNextStep(true)}
           closeModal={actions.closeModal}
         />
         {loyaltyInfo && (
