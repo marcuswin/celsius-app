@@ -44,8 +44,8 @@ function isCelsiusMember () {
  * @returns {boolean}
  */
 function hasPassedKYC () {
-  const {status} = store.getState().user.profile.kyc
-  return status === KYC_STATUSES.passed || status === KYC_STATUSES.ico_passed
+  const status = store.getState().user.profile.kyc ? store.getState().user.profile.kyc.status : null
+  if (status) return status === KYC_STATUSES.passed || status === KYC_STATUSES.ico_passed
 }
 
 function isMalisaPusonja() {
