@@ -34,20 +34,20 @@ function copyFileFromCelsiusCreds(pathToFile) {
 
   switch (CONFIG) {
     case ALL_CONFIGS.STAGING:
-      src = path.resolve(__dirname, `${directoryPath}/staging${DIRECTORY_PATH || '/celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/staging/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
       break;
     case ALL_CONFIGS.TEST:
-      src = path.resolve(__dirname, `${directoryPath}/test${DIRECTORY_PATH || '/celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/test/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
       break;
     case ALL_CONFIGS.PREPROD:
-      src = path.resolve(__dirname, `${directoryPath}/pre-prod${DIRECTORY_PATH || '/celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/pre-prod/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
       break;
     case ALL_CONFIGS.PRODUCTION:
-      src = path.resolve(__dirname, `${directoryPath}/production${DIRECTORY_PATH || '/celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/production/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
       break;
     case ALL_CONFIGS.DEV:
     default:
-      src = path.resolve(__dirname, `${directoryPath}/dev${DIRECTORY_PATH || '/celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/dev/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
   }
 
   if (!fs.existsSync(src)) {
