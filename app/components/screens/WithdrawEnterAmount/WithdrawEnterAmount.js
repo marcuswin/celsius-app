@@ -27,6 +27,7 @@ import cryptoUtil from '../../../utils/crypto-util'
 import celUtilityUtil from '../../../utils/cel-utility-util'
 import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
 import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -41,7 +42,6 @@ import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
       : KYC_STATUSES.collecting,
     keypadOpen: state.ui.isKeypadOpen,
     withdrawalSettings: state.generalData.withdrawalSettings,
-    isCelsiusMember: state.user.profile.celsius_member,
     loyaltyInfo: state.user.loyaltyInfo
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -239,7 +239,6 @@ class WithdrawEnterAmount extends Component {
       formData,
       actions,
       walletSummary,
-      kycStatus,
       keypadOpen,
       withdrawalSettings,
       withdrawalAddresses,
@@ -247,7 +246,7 @@ class WithdrawEnterAmount extends Component {
     } = this.props
 
     const style = WithdrawEnterAmountStyle()
-    if (kycStatus !== KYC_STATUSES.passed) {
+    if (!hasPassedKYC()) {
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
@@ -267,7 +266,7 @@ class WithdrawEnterAmount extends Component {
       c => c.short === coin.toUpperCase()
     ) || { amount: '', amount_usd: '' }
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+    if (!hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
     if (!withdrawalAddresses) return <LoadingScreen />
 
     const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked

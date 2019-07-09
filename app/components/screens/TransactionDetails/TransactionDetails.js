@@ -32,9 +32,9 @@ import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
-import { KYC_STATUSES } from '../../../constants/DATA';
 import { MODALS } from "../../../constants/UI";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -84,7 +84,7 @@ class TransactionDetails extends Component {
   renderSection = (sectionType) => {
     const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo, navigation } = this.props;
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
+    const kycPassed = user.kyc && (hasPassedKYC())
     const transactionId = navigation.getParam('id')
 
 
