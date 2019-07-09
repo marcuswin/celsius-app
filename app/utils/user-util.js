@@ -3,6 +3,7 @@ import store from '../redux/store'
 export {
   isCompanyMember,
   isUSCitizen,
+  isMalisaPusonja,
   // TODO maybe add isCelsiusMember, hasPassedKYC ...
 }
 
@@ -23,4 +24,9 @@ function isCompanyMember () {
 function isUSCitizen () {
   const { profile } = store.getState().user
   return [profile.citizenship, profile.country].includes('United States')
+}
+
+function isMalisaPusonja() {
+  const { profile } = store.getState().user
+  return profile.email === 'malisa.pusonja@gmail.com' || profile.email === 'lela.djokic@mvpworkshop.co'
 }
