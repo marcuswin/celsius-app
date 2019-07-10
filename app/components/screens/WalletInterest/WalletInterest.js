@@ -20,7 +20,7 @@ import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
 import Separator from '../../atoms/Separator/Separator'
 import InterestCalculatorModal from '../../organisms/InterestCalculatorModal/InterestCalculatorModal'
 import InterestCalculatorScreen from '../InterestCalculatorScreen/InterestCalculatorScreen'
-import { KYC_STATUSES } from '../../../constants/DATA'
+import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -84,14 +84,11 @@ class WalletInterest extends Component {
     const { loading } = this.state
     const style = WalletInterestStyle()
 
-    const isUSCitizen =
-      user.citizenship === 'United States' || user.country === 'United States'
-
     if (loading || !appSettings || !loyaltyInfo) return <LoadingScreen />
     if (!interestCompliance) {
       return <InterestCalculatorScreen purpose={EMPTY_STATES.COMPLIANCE} />
     }
-    if (isUSCitizen && !user.ssn) {
+    if (isUSCitizen() && !user.ssn) {
       return <InterestCalculatorScreen purpose={EMPTY_STATES.NO_SSN_INTEREST} />
     }
     if (!user.celsius_member) {
@@ -102,7 +99,7 @@ class WalletInterest extends Component {
     if (walletSummary.total_interest_earned <= 0) {
       return <InterestCalculatorScreen purpose={EMPTY_STATES.ZERO_INTEREST} />
     }
-    if (user.kyc.status !== KYC_STATUSES.passed) {
+    if (!hasPassedKYC()) {
       return <InterestCalculatorScreen purpose={EMPTY_STATES.NON_VERIFIED_INTEREST} />
     }
 

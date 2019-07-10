@@ -27,6 +27,7 @@ import cryptoUtil from '../../../utils/crypto-util'
 import celUtilityUtil from '../../../utils/cel-utility-util'
 import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
 import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -41,7 +42,6 @@ import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
       : KYC_STATUSES.collecting,
     keypadOpen: state.ui.isKeypadOpen,
     withdrawalSettings: state.generalData.withdrawalSettings,
-    isCelsiusMember: state.user.profile.celsius_member,
     loyaltyInfo: state.user.loyaltyInfo
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -217,7 +217,7 @@ class WithdrawEnterAmount extends Component {
     this.navigateToNextStep()
   }
 
-  navigateToNextStep = () => {
+  navigateToNextStep = (modal) => {
     const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
@@ -229,6 +229,7 @@ class WithdrawEnterAmount extends Component {
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
+    if (modal) actions.closeModal()
   }
 
 
@@ -239,7 +240,6 @@ class WithdrawEnterAmount extends Component {
       formData,
       actions,
       walletSummary,
-      kycStatus,
       keypadOpen,
       withdrawalSettings,
       withdrawalAddresses,
@@ -247,7 +247,7 @@ class WithdrawEnterAmount extends Component {
     } = this.props
 
     const style = WithdrawEnterAmountStyle()
-    if (kycStatus !== KYC_STATUSES.passed) {
+    if (!hasPassedKYC()) {
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }}
@@ -267,11 +267,19 @@ class WithdrawEnterAmount extends Component {
       c => c.short === coin.toUpperCase()
     ) || { amount: '', amount_usd: '' }
 
-    if (kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
+    if (!hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_WITHDRAW }} />
     if (!withdrawalAddresses) return <LoadingScreen />
 
     const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
 
+
+    let hours
+    let minutes
+
+    if (withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].will_unlock_in) {
+      hours = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0]
+      minutes = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1]
+    }
 
     return (
       <RegularLayout padding='20 0 0 0'>
@@ -339,7 +347,7 @@ class WithdrawEnterAmount extends Component {
                 heading='Address locked'
                 paragraphs={[
                   `You have recently changed your ${coin} withdrawal address.`,
-                  `Due to our security protocols, your address will be active in ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0] } hours and ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1] } minutes.`
+                  `Due to our security protocols, your address will be active in ${ hours } hours and ${ minutes } minutes.`
                 ]}
               />
             )}
@@ -359,7 +367,7 @@ class WithdrawEnterAmount extends Component {
           autofocus={false}
         />
         <LoseMembershipModal
-          navigateToNextStep={this.navigateToNextStep}
+          navigateToNextStep={() => this.navigateToNextStep(true)}
           closeModal={actions.closeModal}
         />
         {loyaltyInfo && (

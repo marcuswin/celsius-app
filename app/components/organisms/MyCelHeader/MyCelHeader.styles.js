@@ -26,7 +26,10 @@ const base = {
   },
   bottomContainer: {
     marginVertical: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    paddingBottom: 5
   }
 };
 

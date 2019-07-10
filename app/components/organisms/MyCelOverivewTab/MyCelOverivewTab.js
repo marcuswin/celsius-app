@@ -24,72 +24,48 @@ class MyCelOverivewTab extends Component {
   render() {
     const {
       actions,
-       width,
-       loyaltyInfo 
-      } = this.props;
+      width,
+      loyaltyInfo
+    } = this.props;
     const style = MyCelOverivewTabStyle();
 
     return (
       <View style={style.container}>
         <View style={[width, style.contentWrapper]}>
-          <View style={{ alignSelf: 'center', flexDirection: "row" }}>
+          <View style={{ alignSelf: 'center', flexDirection: "row", paddingBottom: 20, }}>
             <CelText
-              type={"H6"}
-              weight={"300"}
-              style={{ marginTop: widthPercentageToDP("23.3") / 3 }}>
-              CEL balance is
+              type={"H5"}
+              weight={"500"}
+              style={{ marginTop: widthPercentageToDP("23.3") / 3 }}
+              // color={color}
+            >
+              Your CEL Ratio is
             </CelText>
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-            <ThemedImage
-              style={[
-                style.starIcon,
-                { marginTop: 2 }
-              ]}
-              lightSource={ require('../../../../assets/images/loyaltyIcons/star-bg3x.png') }
-              darkSource={ require('../../../../assets/images/loyaltyIcons/star-dark-bg3x.png') }
-            />
-              <CelText
-                type={"H3"}
-                weight={"700"}
-                style={{
-                  position: "absolute",
-                  top: widthPercentageToDP("23.3%") / 3.5
-                }}
-              >
-                {`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}
-              </CelText>
-            </View>
-
             <CelText
-              type={"H6"}
-              weight={"300"}
+              type={"H3"}
+              weight={"700"}
               style={{
-                marginTop: widthPercentageToDP("23.3") / 3
+                left: 5,
+                top: widthPercentageToDP("23.3%") / 3.5
               }}
             >
-            of wallet balance
+              {`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}
             </CelText>
           </View>
-
           <View style={style.wrapper}>
-            <View style={ style.circle }>
+            <View style={style.circle}>
               <ThemedImage
                 style={[
                   style.starIcon,
                   { marginTop: 6 }
                 ]}
-                lightSource={ require('../../../../assets/images/loyaltyIcons/reward-icon3x.png') }
-                darkSource={ require('../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png') }
+                lightSource={require('../../../../assets/images/loyaltyIcons/reward-icon3x.png')}
+                darkSource={require('../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png')}
               />
             </View>
-            <View style={{marginTop: 40}}>
-              <CelText 
-                style={ style.title }
+            <View style={{ marginTop: 40 }}>
+              <CelText
+                style={style.title}
                 type={"H3"}
                 weight={"600"}
                 align={"center"}
@@ -97,7 +73,7 @@ class MyCelOverivewTab extends Component {
                 Always Updating
               </CelText>
               <CelText
-                style={ style.explanation }
+                style={style.explanation}
                 align={"center"}
                 type={"H4"}
                 weight={"300"}
@@ -107,10 +83,10 @@ class MyCelOverivewTab extends Component {
               </CelText>
             </View>
           </View>
-          
-          <TouchableOpacity onPress={()=>actions.openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL)}>
+
+          <TouchableOpacity onPress={() => actions.openModal(MODALS.MY_CEL_LOYALTY_CALCULATOR_MODAL)}>
             <CelText
-              style={ style.loyalityQuestion }
+              style={style.loyalityQuestion}
               type={"H4"}
               align={"center"}
               weight={"400"}

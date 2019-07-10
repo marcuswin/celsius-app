@@ -27,6 +27,7 @@ import IconButton from '../../organisms/IconButton/IconButton'
 import DestinationTagModal from '../../organisms/DestinationTagModal/DestinationTagModal'
 import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
 import DepositInfoModal from "../../organisms/DepositInfoModal/DepositInfoModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -247,7 +248,6 @@ class Deposit extends Component {
       actions,
       formData,
       eligibleCoins,
-      kycStatus,
       depositCompliance,
       navigation
     } = this.props
@@ -272,7 +272,7 @@ class Deposit extends Component {
         infoColor= STYLES.COLORS.WHITE
     }
 
-    if (kycStatus !== KYC_STATUSES.passed) {
+    if (!hasPassedKYC()) {
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }}

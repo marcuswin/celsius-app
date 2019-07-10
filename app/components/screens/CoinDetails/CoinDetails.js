@@ -118,7 +118,7 @@ class CoinDetails extends Component {
     const interestInCoins = appSettings.interest_in_cel_per_coin;
 
     let interestRate = 0
-    if (coinDetails.short !== "CEL") {
+    if (coinDetails.short !== "CEL" && interestRates[coinDetails.short]) {
       interestRate = appSettings.interest_in_cel
         ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
         : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)

@@ -18,6 +18,7 @@ import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmoun
 import { PREDIFINED_AMOUNTS } from '../../../constants/DATA'
 import formatter from '../../../utils/formatter'
 import cryptoUtil from '../../../utils/crypto-util'
+import { isMalisaPusonja } from '../../../utils/user-util'
 import celUtilityUtil from '../../../utils/cel-utility-util'
 import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
 import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
@@ -31,7 +32,6 @@ import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembers
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     loyaltyInfo: state.user.loyaltyInfo,
-    isCelsiusMember: state.user.profile.celsius_member,
     keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -207,7 +207,7 @@ class CelPayEnterAmount extends Component {
     if (cryptoUtil.isGreaterThan(amountCrypto, balanceCrypto)) {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
-    if (cryptoUtil.isGreaterThan(amountUsd, 1000)) {
+    if (!isMalisaPusonja() && cryptoUtil.isGreaterThan(amountUsd, 1000)) {
       return actions.showMessage('warning', 'Daily CelPay limit is $1,000!')
     }
 

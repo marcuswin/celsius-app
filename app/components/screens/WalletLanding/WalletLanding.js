@@ -23,7 +23,7 @@ import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCel
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
-import { isUSCitizen } from "../../../utils/user-util";
+import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 
 let counter = 0;
 
@@ -243,7 +243,6 @@ class WalletLanding extends Component {
       currenciesRates,
       currenciesGraphs,
       actions,
-      kycStatus
     } = this.props
     const { activeView } = this.state
 
@@ -280,7 +279,7 @@ class WalletLanding extends Component {
               displayName={currency.displayName}
               currencyRates={currency}
               onCardPress={() =>
-                kycStatus === KYC_STATUSES.passed
+                hasPassedKYC()
                   ? actions.navigateTo('Deposit', { coin: coin.short })
                   : actions.navigateTo('KYCLanding')
               }
@@ -297,7 +296,7 @@ class WalletLanding extends Component {
             displayName={currency.displayName}
             currencyRates={currency}
             onCardPress={() =>
-              kycStatus === KYC_STATUSES.passed
+              hasPassedKYC()
                 ? actions.navigateTo('Deposit', { coin: coin.short })
                 : actions.navigateTo('KYCLanding')
             }
@@ -308,7 +307,7 @@ class WalletLanding extends Component {
   }
 
   renderAddMoreCoins = () => {
-    const { actions, kycStatus } = this.props
+    const { actions } = this.props
     const { activeView } = this.state
     const style = WalletLandingStyle()
 
@@ -319,7 +318,7 @@ class WalletLanding extends Component {
       <TouchableOpacity
         style={gridStyle}
         onPress={() =>
-          kycStatus === KYC_STATUSES.passed
+          hasPassedKYC()
             ? actions.navigateTo('Deposit')
             : actions.navigateTo('KYCLanding')
         }

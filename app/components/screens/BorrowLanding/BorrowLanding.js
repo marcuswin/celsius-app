@@ -19,6 +19,7 @@ import Card from "../../atoms/Card/Card";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowCalculator from "../../organisms/BorrowCalculator/BorrowCalculator";
 import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -64,7 +65,7 @@ class BorrowLanding extends Component {
       await actions.getAllLoans();
     }
 
-    const { allLoans, user, kycStatus } = this.props;
+    const { allLoans, user } = this.props;
     const { maxAmount } = this.state;
 
     this.setState({ isLoading: false });
@@ -73,7 +74,7 @@ class BorrowLanding extends Component {
     // redirect to BorrowEnterAmount screen
     if (
       maxAmount > minimumLoanAmount / this.bestLtv && (!allLoans || !allLoans.length) &&
-      kycStatus === KYC_STATUSES.passed && user.celsius_member
+      hasPassedKYC() && user.celsius_member
     ) {
       actions.navigateTo("BorrowEnterAmount");
     }
@@ -130,7 +131,7 @@ class BorrowLanding extends Component {
     const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, ltv } = this.props;
     const style = BorrowLandingStyle();
 
-    if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <BorrowCalculator
+    if (kycStatus && !hasPassedKYC()) return <BorrowCalculator
       purpose={EMPTY_STATES.NON_VERIFIED_BORROW}/>;
     if (!user.celsius_member) return <BorrowCalculator purpose={EMPTY_STATES.NON_MEMBER_BORROW}/>;
     if (!loanCompliance.allowed) return <BorrowCalculator purpose={EMPTY_STATES.COMPLIANCE}/>;

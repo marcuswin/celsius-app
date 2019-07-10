@@ -7,7 +7,7 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
+import { TRANSFER_STATUSES } from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import appUtil from "../../utils/app-util";
@@ -17,6 +17,7 @@ import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
 import { requestForPermission } from "../../utils/device-permissions";
+import { hasPassedKYC } from "../../utils/user-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -191,12 +192,12 @@ function initAppData(initToken = null) {
         await dispatch(actions.getLoyaltyInfo())
         await dispatch(actions.getComplianceInfo());
 
-        if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
+        if (!profile.kyc || (profile.kyc && !hasPassedKYC())) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
         // get wallet details for verified users
-        if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
+        if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary());
         }
       }

@@ -20,6 +20,7 @@ import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/Regis
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 
 import { getFontSize } from '../../../utils/styles-util';
+import { isUSCitizen } from "../../../utils/user-util";
 
 const { revisionId } = Constants.manifest;
 
@@ -101,7 +102,6 @@ class Profile extends Component {
     const { profilePicture, user, actions, formData, formErrors } = this.props;
     const { updatingTaxInfo } = this.state;
     const ssn = user.ssn ? user.ssn : formData.ssn;
-    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States';
 
     return (
       <RegularLayout>
@@ -160,7 +160,7 @@ class Profile extends Component {
           align='left'
           copy="To make changes on your profile, contact our support at app@celsius.network."
         />
-        {isUSCitizen && (
+        {isUSCitizen() && (
           <View>
             <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"} />
 

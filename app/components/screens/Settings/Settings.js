@@ -12,6 +12,7 @@ import IconButton from '../../organisms/IconButton/IconButton';
 import CelButton from '../../atoms/CelButton/CelButton';
 import CelText from '../../atoms/CelText/CelText';
 import { KYC_STATUSES } from "../../../constants/DATA";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 const { revisionId } = Constants.manifest;
 
@@ -44,14 +45,13 @@ class Settings extends Component {
   }
 
   renderContent = () => {
-    const { actions, kycStatus } = this.props;
-    const hasPassedKYC = kycStatus === KYC_STATUSES.passed
+    const { actions } = this.props;
 
     return (
       <View>
         <IconButton onPress={() => actions.navigateTo("SecuritySettings")} margin="0 0 20 0" icon="Security">Security</IconButton>
-        { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
-        { hasPassedKYC && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
+        { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("WalletSettings")} margin="0 0 20 0" icon="WalletSettings">Wallet</IconButton> }
+        { hasPassedKYC() && <IconButton onPress={() => actions.navigateTo("ApiAuthorization")} margin="0 0 20 0" icon="Api">API</IconButton> }
         <IconButton onPress={() => actions.navigateTo("Appearance")} margin="0 0 20 0" icon="Appearance">Appearance</IconButton>
         <CelButton basic onPress={() => {actions.navigateTo('TermsOfUse')}} textColor={STYLES.COLORS.CELSIUS_BLUE}>See Terms of Use</CelButton>
         <CelText margin="30 0 0 0" weight="light" align='center' type="H7">Celsius App version: { revisionId }</CelText>

@@ -112,7 +112,7 @@ class CelModal extends Component {
 
     const childrenWithProps = addThemeToComponents(
       children,
-      [CelText, CelInput],
+      [CelText.displayName, CelInput.displayName],
       THEMES.LIGHT
     )
 

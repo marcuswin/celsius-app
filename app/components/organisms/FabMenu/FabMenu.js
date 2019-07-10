@@ -10,6 +10,7 @@ import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
 import { KYC_STATUSES } from "../../../constants/DATA";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -75,12 +76,12 @@ class FabMenu extends Component {
       ]
     ];
     if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit' });
-    if ((kycStatus && kycStatus === KYC_STATUSES.passed) && withdrawCompliance.allowed) main[0].push({iconName: 'Withdraw', label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if ((kycStatus && hasPassedKYC()) && withdrawCompliance.allowed) main[0].push({iconName: 'Withdraw', label: 'Withdraw', screen: 'WithdrawEnterAmount' });
     if (celpayCompliance.allowed) main[1].push({iconName:'CelPay', label: 'CelPay', screen: 'CelPayChooseFriend' });
     if (loanCompliance.allowed) main[1].push({iconName: 'Borrow', label: 'Borrow', screen: 'BorrowLanding' });
     if (user) main[1].push({iconName: 'Profile', label: 'Profile', screen: 'Profile'});
     // TODO change borrow landing to new screen
-    if (kycStatus && kycStatus === KYC_STATUSES.passed) main[2].splice(1, 0, { iconName: 'MyCel', label: 'My CEL', screen: 'MyCel' })
+    if (kycStatus && hasPassedKYC()) main[2].splice(1, 0, { iconName: 'MyCel', label: 'My CEL', screen: 'MyCel' })
 
     return {
       main,
