@@ -46,7 +46,7 @@ class BorrowLanding extends Component {
     super(props);
     const { walletSummary, loanCompliance, ltv } = this.props;
 
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
+    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short));
 
     this.state = {
       eligibleCoins,
