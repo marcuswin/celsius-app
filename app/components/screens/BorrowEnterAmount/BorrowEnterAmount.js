@@ -23,10 +23,7 @@ import { isCompanyMember } from "../../../utils/user-util";
 
 @connect(
   state => ({
-    loanCompliance: {
-      ...state.compliance.loan,
-      loan_coins: ['TUSD', 'USDC', 'PAX', 'DAI'],
-    },
+    loanCompliance: state.compliance.loan,
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
@@ -48,7 +45,7 @@ class BorrowEnterAmount extends Component {
     super(props)
     const { loanCompliance, walletSummary, minimumLoanAmount, currencies } = props
     const eligibleCoins = walletSummary.coins.filter(coinData =>
-      loanCompliance.coins.includes(coinData.short)
+      loanCompliance.collateral_coins.includes(coinData.short)
     )
 
     const coinSelectItems = currencies
