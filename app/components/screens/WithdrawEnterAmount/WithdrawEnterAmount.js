@@ -217,7 +217,7 @@ class WithdrawEnterAmount extends Component {
     this.navigateToNextStep()
   }
 
-  navigateToNextStep = () => {
+  navigateToNextStep = (modal) => {
     const { withdrawalAddresses, formData, actions } = this.props
     const coinAddress = withdrawalAddresses[formData.coin.toUpperCase()]
 
@@ -229,6 +229,7 @@ class WithdrawEnterAmount extends Component {
     } else {
       actions.navigateTo('WithdrawCreateAddress')
     }
+    if (modal) actions.closeModal()
   }
 
 
@@ -271,6 +272,14 @@ class WithdrawEnterAmount extends Component {
 
     const isAddressLocked = withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].locked
 
+
+    let hours
+    let minutes
+
+    if (withdrawalAddresses[formData.coin] && withdrawalAddresses[formData.coin].will_unlock_in) {
+      hours = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0]
+      minutes = withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1]
+    }
 
     return (
       <RegularLayout padding='20 0 0 0'>
@@ -338,30 +347,27 @@ class WithdrawEnterAmount extends Component {
                 heading='Address locked'
                 paragraphs={[
                   `You have recently changed your ${coin} withdrawal address.`,
-                  `Due to our security protocols, your address will be active in ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[0] } hours and ${ withdrawalAddresses[formData.coin].will_unlock_in.split(':')[1] } minutes.`
+                  `Due to our security protocols, your address will be active in ${ hours } hours and ${ minutes } minutes.`
                 ]}
               />
             )}
           </View>
         </View>
 
-        { !isAddressLocked ? (
-          <CelNumpad
-            field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
-            value={
-              formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''
-            }
-            updateFormField={actions.updateFormField}
-            setKeypadInput={actions.setKeypadInput}
-            toggleKeypad={actions.toggleKeypad}
-            onPress={this.handleAmountChange}
-            purpose={KEYPAD_PURPOSES.WITHDRAW}
-            autofocus={false}
-          />
-          ) : null
-        }
+        <CelNumpad
+          field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
+          value={
+            formData.isUsd ? formData.amountUsd : formData.amountCrypto || ''
+          }
+          updateFormField={actions.updateFormField}
+          setKeypadInput={actions.setKeypadInput}
+          toggleKeypad={actions.toggleKeypad}
+          onPress={this.handleAmountChange}
+          purpose={KEYPAD_PURPOSES.WITHDRAW}
+          autofocus={false}
+        />
         <LoseMembershipModal
-          navigateToNextStep={this.navigateToNextStep}
+          navigateToNextStep={() => this.navigateToNextStep(true)}
           closeModal={actions.closeModal}
         />
         {loyaltyInfo && (
