@@ -19,7 +19,8 @@
     "set:env:test": "CONFIG=TEST node set-env",
     "set:env:preprod": "CONFIG=PREPROD node set-env",
     "set:env:production": "CONFIG=PRODUCTION node set-env",
-    "plop": "plop"
+    "plop": "plop",
+    "postinstall": "node set-facebook-pods"
   },
   "pre-commit": [
     "lint"
