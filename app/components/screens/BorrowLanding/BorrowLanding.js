@@ -2,22 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Animated, View } from "react-native";
-import moment from "moment";
-
 
 import * as appActions from "../../../redux/actions";
 // import BorrowLandingStyle from "./BorrowLanding.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import STYLES from "../../../constants/STYLES";
 import { hasPassedKYC } from "../../../utils/user-util";
 
 import { EMPTY_STATES } from "../../../constants/UI";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import BorrowCalculator from "../../organisms/BorrowCalculator/BorrowCalculator";
-import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
+import { KYC_STATUSES } from "../../../constants/DATA";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import LoanOverviewCard from "../../organisms/LoanOverviewCard/LoanOverviewCard";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { getLoanStatusDetails } from "../../../utils/loan-util";
 
 const cardWidth = widthPercentageToDP("70%");
 
@@ -80,41 +78,6 @@ class BorrowLanding extends Component {
       actions.navigateTo("BorrowEnterAmount");
     }
   }
-
-  getLoanStatusDetails = (status) => {
-    switch (status) {
-      case LOAN_STATUS.ACTIVE:
-      case LOAN_STATUS.APPROVED:
-        return {
-          color: STYLES.COLORS.CELSIUS_BLUE,
-          displayText: "Loan active"
-        };
-
-      case LOAN_STATUS.PENDING:
-        return {
-          color: STYLES.COLORS.ORANGE,
-          displayText: "Loan pending"
-        };
-
-      case LOAN_STATUS.COMPLETED:
-        return {
-          color: STYLES.COLORS.GREEN,
-          displayText: "Loan payout"
-        };
-
-      case LOAN_STATUS.REJECTED:
-        return {
-          color: STYLES.COLORS.RED,
-          displayText: "Loan rejected"
-        };
-
-      default:
-        return {
-          color: STYLES.COLORS.CELSIUS_BLUE,
-          displayText: "Loan active"
-        };
-    }
-  };
 
   applyForAnother = () => {
     const { maxAmount } = this.state;
@@ -180,7 +143,7 @@ class BorrowLanding extends Component {
             <View style={{ width: widthPercentageToDP("15%") }}/>
             {
               allLoans && allLoans.map((loan, index) => {
-                const loanStatusDetails = this.getLoanStatusDetails(loan.status);
+                const loanStatusDetails = getLoanStatusDetails(loan.status);
                 const opacity = xOffset.interpolate({
                   inputRange: [
                     (index - 1) * cardWidth,
@@ -197,13 +160,7 @@ class BorrowLanding extends Component {
                         ...loan,
                         ...loanStatusDetails,
                       }}
-                      loanStatusColor={loanStatusDetails.color}
-                      loanStatus={loanStatusDetails.displayText}
-                      loanInitiated={moment(loan.created_at).format("MMMM DD, YYYY")}
-                      loanAmount={loan.loan_amount}
-                      totalInterest={loan.total_interest}
-                      monthlyInterest={loan.monthly_payment}
-                      onPressDetails={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}
+                      onPressDetails={() => actions.navigateTo("LoanRequestDetails", { id: loan.transaction_id, loan })}
                     />
                   </Animated.View>
                 );

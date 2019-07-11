@@ -45,7 +45,6 @@ import { hasPassedKYC } from "../../../utils/user-util";
     user: state.user.profile,
     appSettings: state.user.appSettings,
     loyaltyInfo: state.user.loyaltyInfo,
-
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -70,7 +69,7 @@ class TransactionDetails extends Component {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
     actions.getTransactionDetails(transactionId);
-  }
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.transaction !== this.props.transaction) {
