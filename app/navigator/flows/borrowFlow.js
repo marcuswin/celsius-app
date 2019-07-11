@@ -6,6 +6,7 @@ import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 import Deposit from '../../components/screens/Deposit/Deposit'
 import BorrowLoanTerm from '../../components/screens/BorrowLoanTerm/BorrowLoanTerm'
 import BorrowLanding from '../../components/screens/BorrowLanding/BorrowLanding'
+import BorrowConfirm from '../../components/screens/BorrowConfirm/BorrowConfirm'
 import BorrowEnterAmount from '../../components/screens/BorrowEnterAmount/BorrowEnterAmount'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import ConfirmYourLoan from '../../components/screens/ConfirmYourLoan/ConfirmYourLoan'
@@ -22,6 +23,7 @@ export const borrowFlow = {
     ConfirmYourLoan,
     VerifyProfile,
     BorrowLanding,
+    BorrowConfirm,
     TransactionDetails,
     Deposit,
     ...profileFlow.screens,
