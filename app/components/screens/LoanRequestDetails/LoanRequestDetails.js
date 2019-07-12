@@ -54,14 +54,67 @@ class LoanRequestDetails extends Component {
     actions.getTransactionDetails(transactionId);
   }
 
+  renderSection = (sectionType) => {
+    const { transaction } = this.props;
+    const { loan, loanStatusDetails } = this.state;
+
+    switch(sectionType) {
+      case "completion:date":
+        return <BasicSection key={sectionType} label={"Loan Completion Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+      case "rejection:date":
+        return <BasicSection key={sectionType} label={"Loan Rejection Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+      case "cancellation:date":
+        return <BasicSection key={sectionType} label={"Loan Cancellation Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+      case "initiation:date":
+        return <BasicSection key={sectionType} label={"Loan Initiation Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+      case "unlocked:collateral":
+        return <CardSection key={sectionType}
+                            title={loanStatusDetails.collateral}
+                            coin={transaction.coin}
+                            coinAmount={transaction.loan_data.loan_collateral_crypto}/>;
+      case "estimated:collateral":
+        return <CardSection key={sectionType}
+                            title={loanStatusDetails.collateral}
+                            cardText={["Loan rejected", "Loan canceled"].includes(loanStatusDetails.displayText) ? null : "Exact collateral amount would be determined upon approval"}
+                            coin={transaction.coin}
+                            coinAmount={transaction.loan_data.loan_collateral_crypto}/>;
+      case "collateral":
+        return <CardSection key={sectionType}
+                            title={loanStatusDetails.collateral}
+                            coin={transaction.coin}
+                            coinAmount={transaction.loan_data.loan_collateral_crypto}/>;
+      case "term":
+        return <BasicSection key={sectionType} label={"Term Length"} value={`${loan.term_of_loan} months`}/>;
+      case "annualInterest":
+        return <BasicCardSection key={sectionType} label={"Annual Interest Rate"} coin={transaction.coin}
+                                 value={transaction.loan_data.annual_interest_rate}
+                                 monthly={transaction.loan_data.monthly_interest_payment}
+                                 total={transaction.loan_data.total_interest_payment}/>;
+      case "marginCall":
+        return <CardSection key={sectionType} title={"BTC Margin Call At:"} amount={30}
+                            cardText={"If BTC drops below $xxxx you will get a notification asking for additional collateral."}/>;
+      case "liquidation":
+        return  <CardSection key={sectionType} title={"Liquidation At:"} amount={50}
+                             cardText={"If BTC drops below $xxx we will sell some of your collateral to cover the margin."}/>;
+      case "firstInterest":
+        return  <BasicSection key={sectionType} label={"First Interest Payment Due"}/>;
+      case "nextInterest":
+        return  <BasicSection key={sectionType} label={"Next Interest Payment Due"}/>;
+      case "maturity":
+        return <BasicSection key={sectionType} label={"Maturity Date"} noSeparator/>
+      default:
+        break;
+    }
+  };
+
   render() {
     const { transaction, actions } = this.props;
     const { loan, loanStatusDetails } = this.state;
     const style = LoanRequestDetailsStyle();
 
-    // console.log("transaction", transaction, "loan", loan);
-
     if (!transaction) return <LoadingScreen/>;
+
+    const sections = loan.uiSections;
 
     return (
       <RegularLayout>
@@ -73,31 +126,9 @@ class LoanRequestDetails extends Component {
           </View>
           <CelText type={"H2"} weight={"600"} margin={"5 0 5 0"}>{`$ ${loan.loan_amount}`}</CelText>
         </View>
-        {loanStatusDetails.displayText === "Loan rejected" &&
-        <BasicSection label={"Loan Rejection Date"}
-                      value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>
-        }
-        <BasicSection label={"Loan Initiation Date"}
-                      value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>
-        <CardSection title={loanStatusDetails.collateral}
-                     cardText={loanStatusDetails.displayText === "Loan pending" ? "Exact collateral amount would be determined upon approval" : null}
-                     coin={transaction.coin}
-                     coinAmount={transaction.loan_data.loan_collateral_crypto}/>
-        <BasicSection label={"Term Length"} value={`${loan.term_of_loan} months`}/>
-        <BasicCardSection label={"Annual Interest Rate"} coin={transaction.coin}
-                          value={transaction.loan_data.annual_interest_rate}
-                          monthly={transaction.loan_data.monthly_interest_payment}
-                          total={transaction.loan_data.total_interest_payment}/>
-        {loanStatusDetails.displayText !== "Loan rejected" &&
-        <View>
-          <CardSection title={"BTC Margin Call At:"} amount={30}
-                       cardText={"If BTC drops below $xxxx you will get a notification asking for additional collateral."}/>
-          <CardSection title={"Liquidation At:"} amount={50}
-                       cardText={"If BTC drops below $xxx we will sell some of your collateral to cover the margin."}/>
-          <BasicSection label={"First Interest Payment Due"}/>
-          <BasicSection label={"Maturity Date"} noSeparator/>
-        </View>
-        }
+
+         {sections.map(this.renderSection)}
+
         <CelButton
           basic
           onPress={() => actions.navigateTo("WalletLanding")}

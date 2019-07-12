@@ -1,23 +1,25 @@
-import { LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
+import { LOAN_STATUS } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
 
 const loanUtil = {
   mapLoan,
-}
+};
 
 function mapLoan(loan) {
-  const newLoan = { ...loan }
-  newLoan.type = getLoanType(loan)
-  newLoan.uiProps = getLoanStatusDetails(loan)
+  const newLoan = { ...loan };
+  newLoan.type = getLoanType(loan);
+  newLoan.uiProps = getLoanStatusDetails(loan);
+  newLoan.uiSections = getLoanSections(loan);
 
   return newLoan
 }
 
-function getLoanType() {
-  // TODO
-  return LOAN_TYPES.LOAN_REJECTED;
-}
+// TODO check if needed in later iterations
+function getLoanType(loan) {
+  // TODO type is ie. USD_LOAN
+  return loan.type;
 
+}
 
 function getLoanStatusDetails(loan) {
   switch (loan.status) {
@@ -39,7 +41,7 @@ function getLoanStatusDetails(loan) {
     case LOAN_STATUS.COMPLETED:
       return {
         color: STYLES.COLORS.GREEN,
-        displayText: "Loan payout",
+        displayText: "Completed Loan",
         collateral: "Unlocked Collateral:"
       };
 
@@ -50,14 +52,34 @@ function getLoanStatusDetails(loan) {
         collateral: "Estimated Collateral:"
       };
 
-      // case canceled
+    case LOAN_STATUS.CANCELED:
+      return {
+        color: STYLES.COLORS.RED,
+        displayText: "Loan canceled",
+        collateral: "Estimated Collateral:"
+      };
 
     default:
-      return {
-        color: STYLES.COLORS.CELSIUS_BLUE,
-        displayText: "Loan active"
-      };
+      break;
   }
 };
+
+function getLoanSections(loan) {
+  switch(loan.status) {
+    case LOAN_STATUS.ACTIVE:
+    case LOAN_STATUS.APPROVED:
+      return ["initiation:date", "collateral", "term", "annualInterest", "marginCall", "liquidation", "nextInterest", "maturity"];
+    case LOAN_STATUS.PENDING:
+      return ["initiation:date", "estimated:collateral", "term", "annualInterest", "marginCall", "liquidation", "firstInterest", "maturity"];
+    case LOAN_STATUS.COMPLETED:
+      return ["completion:date", "initiation:date", "unlocked:collateral", "term", "annualInterest"];
+    case LOAN_STATUS.CANCELED:
+      return ["cancellation:date", "initiation:date", "estimated:collateral", "term", "annualInterest"];
+    case LOAN_STATUS.REJECTED:
+      return ["rejection:date", "initiation:date", "estimated:collateral", "term", "annualInterest"];
+    default:
+      break;
+  }
+}
 
 export default loanUtil
