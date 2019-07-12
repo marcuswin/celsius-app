@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
 
-
-
 import TransactionRowStyle from "./TransactionRow.styles";
 import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
 import formatter from '../../../utils/formatter';
 import Separator from '../Separator/Separator';
-import transactionsUtil from "../../../utils/transactions-util";
 
 class TransactionRow extends Component {
 
@@ -38,7 +35,7 @@ class TransactionRow extends Component {
     const { transaction, onPress, count, index } = this.props;
     if (!transaction) return null;
 
-    const { color, iconName, statusText } = transactionsUtil.getTransactionsProps(transaction);
+    const { color, iconName, statusText } = transaction.uiProps;
 
     const style = TransactionRowStyle()
     return (

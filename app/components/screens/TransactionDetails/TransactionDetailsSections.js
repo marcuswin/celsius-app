@@ -10,7 +10,7 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import DATA from "../../../constants/DATA";
+import DATA, { TRANSACTION_TYPES } from "../../../constants/DATA";
 
 const { BLOCKEXPLORERS } = DATA
 
@@ -328,6 +328,66 @@ export const LoanInfoSection = ({ navigateTo }) => (
     <CelButton margin="16 0 10 0" onPress={() => navigateTo('Borrow')}>Apply for another loan</CelButton>
   </Card>
 )
+
+export const Disclaimer = ({ transaction }) => {
+  let text = '';
+  if (transaction.type === TRANSACTION_TYPES.COLLATERAL_PENDING) text = 'Exact collateral amount would be determined upon loan approval.'
+  return (
+    <View style={{ paddingHorizontal: 20, marginVertical: 20 }}>
+      <Card>
+        <CelText type="H6" style={{ opacity: 0.7 }}>{ text }</CelText>
+      </Card>
+    </View>
+  )
+}
+
+export const MarginCall = ({ transaction }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+      <CelText>{ transaction.coin.toUpperCase() } margin call at:</CelText>
+      <CelText>{ formatter.usd(transaction.loan_data.margin) }</CelText>
+    </View>
+    <Card>
+      <CelText type="H6" style={{ opacity: 0.7 }}>If { transaction.coin.toUpperCase() } drops below { formatter.usd(transaction.loan_data.margin) } you will get a notification asking for additional collateral.</CelText>
+    </Card>
+    <Separator margin="20 0 20 0"/>
+  </View>
+)
+
+export const Liquidation = ({ transaction }) => (
+  <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+      <CelText>Liquidation at:</CelText>
+      <CelText>{ formatter.usd(transaction.loan_data.liquidation) }</CelText>
+    </View>
+    <Card>
+      <CelText type="H6" style={{ opacity: 0.7 }}>If { transaction.coin.toUpperCase() } drops below { formatter.usd(transaction.loan_data.liquidation) } we will sell some of your collateral to cover the margin.</CelText>
+    </Card>
+  </View>
+)
+
+export const HeadingCard = ({ heading, text }) => (
+  <View style={{ paddingHorizontal: 20 }}>
+    <Card>
+      <CelText type="H5" weight="500">{ heading }</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }}>{ text }</CelText>
+    </Card>
+  </View>
+)
+
+export const UnlockReason = ({ transaction }) => {
+  let heading;
+  if (transaction.loan_data.unlock_reason === 'rejected') heading = "Your loan request has been rejected"
+  if (transaction.loan_data.unlock_reason === 'finished') heading = "Your loan request has been paid out"
+  if (transaction.loan_data.unlock_reason === 'cancelled') heading = "Your loan request has been cancelled"
+  return (
+    <HeadingCard
+      heading={heading}
+      text="Your collateral is now released and ready to earn interest again."
+    />
+  )
+}
+
 
 export const HodlInfoSection = ({ date, amount, coin }) => (
   <View style={{ width: '100%', paddingHorizontal: 20 }}>
