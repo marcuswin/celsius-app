@@ -322,7 +322,7 @@ class Deposit extends Component {
                         height='19'
                         width='19'
                         fill= { infoColor }
-                        stroke='rgba(61,72,83, )'
+                        stroke='rgba(61,72,83, 1)'
                         style={{ marginLeft: 10, marginTop: 2 }}
                       />
                     </TouchableOpacity>
