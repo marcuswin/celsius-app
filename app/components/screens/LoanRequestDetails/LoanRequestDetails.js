@@ -10,7 +10,6 @@ import LoanRequestDetailsStyle from "./LoanRequestDetails.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
-import { getLoanStatusDetails } from "../../../utils/loan-util";
 import Icon from "../../atoms/Icon/Icon";
 import { BasicCardSection, BasicSection, CardSection } from "../TransactionDetails/TransactionDetailsSections";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
@@ -29,7 +28,7 @@ class LoanRequestDetails extends Component {
 
   static navigationOptions = ({ navigation }) => {
     const loan = navigation.getParam("loan");
-    const status = getLoanStatusDetails(loan.status);
+    const status = loan.uiProps;
     return {
       title: `${status.displayText} Details`,
       right: "profile"
@@ -41,7 +40,7 @@ class LoanRequestDetails extends Component {
 
     const { navigation } = props;
     const loan = navigation.getParam("loan");
-    const loanStatusDetails = getLoanStatusDetails(loan.status);
+    const loanStatusDetails = loan.uiProps;
 
     this.state = {
       loan,

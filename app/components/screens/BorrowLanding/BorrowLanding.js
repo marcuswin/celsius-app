@@ -15,7 +15,6 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 import { widthPercentageToDP } from "../../../utils/styles-util";
 import LoanOverviewCard from "../../organisms/LoanOverviewCard/LoanOverviewCard";
 import CelButton from "../../atoms/CelButton/CelButton";
-import { getLoanStatusDetails } from "../../../utils/loan-util";
 
 const cardWidth = widthPercentageToDP("70%");
 
@@ -143,7 +142,7 @@ class BorrowLanding extends Component {
             <View style={{ width: widthPercentageToDP("15%") }}/>
             {
               allLoans && allLoans.map((loan, index) => {
-                const loanStatusDetails = getLoanStatusDetails(loan.status);
+                const loanStatusDetails = loan.uiProps;
                 const opacity = xOffset.interpolate({
                   inputRange: [
                     (index - 1) * cardWidth,

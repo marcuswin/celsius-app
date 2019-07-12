@@ -1,13 +1,26 @@
-import { LOAN_STATUS } from "../constants/DATA";
+import { LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
 
-export {
-  getLoanStatusDetails
+const loanUtil = {
+  mapLoan,
+}
+
+function mapLoan(loan) {
+  const newLoan = { ...loan }
+  newLoan.type = getLoanType(loan)
+  newLoan.uiProps = getLoanStatusDetails(loan)
+
+  return newLoan
+}
+
+function getLoanType() {
+  // TODO
+  return LOAN_TYPES.LOAN_REJECTED;
 }
 
 
-function getLoanStatusDetails(status) {
-  switch (status) {
+function getLoanStatusDetails(loan) {
+  switch (loan.status) {
     case LOAN_STATUS.ACTIVE:
     case LOAN_STATUS.APPROVED:
       return {
@@ -46,3 +59,5 @@ function getLoanStatusDetails(status) {
       };
   }
 };
+
+export default loanUtil
