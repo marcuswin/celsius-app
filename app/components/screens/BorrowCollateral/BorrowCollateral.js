@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,10 +8,10 @@ import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 import BorrowCollateralStyle from "./BorrowCollateral.styles";
 import CelText from "../../atoms/CelText/CelText";
-import CelButton from "../../atoms/CelButton/CelButton";
+import Card from "../../atoms/Card/Card";
+import Icon from '../../atoms/Icon/Icon'
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
-
+import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(
@@ -36,32 +36,53 @@ class BorrowCollateral extends Component {
   }
 
   render() {
-    const { actions, coins, walletCoins } = this.props;
+    const { actions, coins, walletCoins, formData } = this.props;
     const style = BorrowCollateralStyle();
 
-    const availableCoins = walletCoins.filter(coin => coins.includes(coin.short));
+    const availableCoins = walletCoins
+      .filter(coin => coins.includes(coin.short))
+      .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
+
     return (
-      <RegularLayout>
-        <View style={{alignItems: 'center'}}>
-          <ProgressBar steps={6} currentStep={2}/>
-          <CelText margin={"30 0 30 0"} weight={"300"}>Choose a coin to use as a collateral:</CelText>
-        </View>
+      <View style={{flex: 1}}>
+        <HeadingProgressBar steps={6} currentStep={2}/>
+        <RegularLayout >
+          <View style={{alignItems: 'center'}}>
+            <CelText margin={"0 0 10 0"} weight={"300"} type={'H4'} align={'center'}>
+              Choose a coin to use as a collateral for a {formData.loanAmount} {formData.coin} loan:
+            </CelText>
+          </View>
 
-        <View style={style.wrapper}>
-          {availableCoins.map(coin => (
-            <CollateralCoinCard 
-              key={coin.short}
-              handleSelectCoin={this.handleSelectCoin}
-              coin={coin}/>
-          ))
-          }
-        </View>
+          <View style={style.wrapper}>
+            {availableCoins.map(coin => (
+              <CollateralCoinCard 
+                key={coin.short}
+                handleSelectCoin={this.handleSelectCoin}
+                coin={coin}/>
+            ))
+            }
+          </View>
 
-        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo("Deposit")}>
-          Deposit more funds
-        </CelButton>
+          <TouchableOpacity
+            style={style.addMoreCoinsList}
+            onPress={() => actions.navigateTo('Deposit')}
+          >
+            <Icon fill={'gray'} width='17' height='17' name='CirclePlus' />
+            <CelText type='H5' margin={'0 0 0 5'}>
+              Deposit coins
+            </CelText>
+          </TouchableOpacity>
 
-      </RegularLayout>
+          <Card close>
+            <CelText type='H5' weight={"500"} margin={'0 0 10 5'}>
+            Make sure you have enough coins
+            </CelText>
+            <CelText type='H5' margin={'0 0 0 5'}>
+            Add more coins to make sure you have enough in your wallet for your monthly loan payment.
+            </CelText>
+          </Card>
+        </RegularLayout>
+      </View>
     );
   }
 }

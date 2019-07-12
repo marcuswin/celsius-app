@@ -114,7 +114,7 @@ class CollateralCoinCard extends Component {
                 <TouchableOpacity
                   onPress={()=>actions.navigateTo('Deposit', { coin: coin.short })}
                 >
-                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
                     <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
                     <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
                       Deposit more
