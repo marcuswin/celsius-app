@@ -14,7 +14,19 @@ const base = {
   coinWrapper: {
     marginBottom: heightPercentageToDP("3.7%"),
     width: '30%'
-  }
+  },
+  addMoreCoinsList: {
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderRadius: 10,
+    width: '100%',
+    height: 80,
+    borderColor: 'gray',
+    marginVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 };
 
 const themed = {

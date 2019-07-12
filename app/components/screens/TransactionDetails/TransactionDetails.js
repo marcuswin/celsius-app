@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import * as appActions from "../../../redux/actions";
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import transactionsUtil from '../../../utils/transactions-util';
 import {
   BasicSection,
   StatusSection,
@@ -24,7 +23,12 @@ import {
   Referrer,
   Referred,
   ReferrerPending,
-  ReferredPending
+  ReferredPending,
+  Disclaimer,
+  MarginCall,
+  Liquidation,
+  UnlockReason,
+  HeadingCard,
 } from './TransactionDetailsSections';
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -35,6 +39,7 @@ import formatter from '../../../utils/formatter';
 import { MODALS } from "../../../constants/UI";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
 import { hasPassedKYC } from "../../../utils/user-util";
+import CollateralLoanCard from "../../molecules/CollateralLoanCard/CollateralLoanCard";
 
 @connect(
   state => ({
@@ -73,7 +78,7 @@ class TransactionDetails extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.transaction !== this.props.transaction) {
-      const transactionProps = transactionsUtil.getTransactionsProps(this.props.transaction)
+      const transactionProps = this.props.transaction.uiProps
       this.props.navigation.setParams({
         title: transactionProps.title(this.props.transaction.coin.toUpperCase())
       })
@@ -82,7 +87,7 @@ class TransactionDetails extends Component {
 
   renderSection = (sectionType) => {
     const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo, navigation } = this.props;
-    const transactionProps = transactionsUtil.getTransactionsProps(transaction);
+    const transactionProps = transaction.uiProps;
     const kycPassed = user.kyc && (hasPassedKYC())
     const transactionId = navigation.getParam('id')
 
@@ -164,6 +169,26 @@ class TransactionDetails extends Component {
         return <ReferrerPending key={sectionType} transaction={transaction} text="Friend referred:" actions={actions} />;
       case 'referred:pending':
         return <ReferredPending key={sectionType} transaction={transaction} text="From:" actions={actions} />;
+      case "collateral:loan:card":
+        return <CollateralLoanCard key={sectionType} transaction={transaction} navigateTo={actions.navigateTo} />;
+      case "disclaimer":
+        return <Disclaimer key={sectionType} transaction={transaction} />;
+      case "margin":
+        return <MarginCall key={sectionType} transaction={transaction} />;
+      case "liquidation":
+        return <Liquidation key={sectionType} transaction={transaction} />;
+      case "collateral:date:unlocked":
+        return <BasicSection key={sectionType} label="Date" value={moment(transaction.loan_data.unlocked_at).format("D MMM YYYY")} />;
+      case "collateral:time:unlocked":
+        return <BasicSection key={sectionType} label="Time" value={moment(transaction.loan_data.unlocked_at).format("h:mm A")} />;
+      case "collateral:unlock:reason":
+        return <UnlockReason key={sectionType} transaction={transaction} />;
+      case "collateral:date:liquidated":
+        return <BasicSection key={sectionType} label="Date" value={moment(transaction.loan_data.liquidated_at).format("D MMM YYYY")} />;
+      case "collateral:time:liquidated":
+        return <BasicSection key={sectionType} label="Time" value={moment(transaction.loan_data.liquidated_at).format("h:mm A")} />;
+      case "collateral:liquidation:reason":
+        return <HeadingCard key={sectionType} heading="Margin Call Liquidation" text="Your collateral will be liquidated due to the latest Margin Call outbreak." />;
       default:
         return null;
     }
@@ -179,7 +204,7 @@ class TransactionDetails extends Component {
       </RegularLayout>
     )
 
-    const sections = transactionsUtil.getTransactionSections(transaction);
+    const sections = transaction.uiSections;
 
     return (
       <RegularLayout padding="0 0 0 0">
