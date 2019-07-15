@@ -1,8 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-
-
 import { MODALS } from "../../../constants/UI";
 import InfoModal from "../InfoModal/InfoModal";
 
