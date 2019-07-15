@@ -7,18 +7,10 @@ const loanUtil = {
 
 function mapLoan(loan) {
   const newLoan = { ...loan };
-  newLoan.type = getLoanType(loan);
   newLoan.uiProps = getLoanStatusDetails(loan);
   newLoan.uiSections = getLoanSections(loan);
 
   return newLoan
-}
-
-// TODO check if needed in later iterations
-function getLoanType(loan) {
-  // TODO type is ie. USD_LOAN
-  return loan.type;
-
 }
 
 function getLoanStatusDetails(loan) {

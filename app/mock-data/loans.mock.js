@@ -18,7 +18,22 @@ export default {
     "total_interest": "0",
     "type": "USD_LOAN",
     "user_id": "46df705d-1598-4360-b5cc-8c4a04dde317",
-    "transaction_id": "2bcf2141-fc97-4da7-9935-d0d79ba32758"
+    "transaction_id": "2bcf2141-fc97-4da7-9935-d0d79ba32758",
+    "loan_data": {
+      "annual_interest_rate": "0.05",
+      "initiation_date": "July 2, 2019",
+      "cancellation_date": "July 2, 2019",
+      "initiation_time": "13:58",
+      "loan_amount": "5",
+      "loan_collateral_crypto": "0.001527293338685453",
+      "loan_collateral_usd": "15.151515151515151536",
+      "monthly_interest_payment": "0",
+      "repayment_deadline": "2021-07-02T13:58:08.595Z",
+      "total_interest_payment": "0",
+      "first_interest": "30",
+      "maturity": "August 2, 2019",
+
+    },
   },
   [LOAN_TYPES.LOAN_APPROVED]: {
     "id": LOAN_TYPES.LOAN_APPROVED,
@@ -37,8 +52,22 @@ export default {
     "total_interest": "2.493212054794520509",
     "type": "USD_LOAN",
     "user_id": "46df705d-1598-4360-b5cc-8c4a04dde317",
-    "transaction_id": "3986baa3-71d5-4389-bcaf-f396f780c45f"
-  },
+    "transaction_id": "3986baa3-71d5-4389-bcaf-f396f780c45f",
+    "loan_data": {
+      "annual_interest_rate": "0.05",
+      "initiation_date": "July 2, 2019",
+      "initiation_time": "13:58",
+      "loan_amount": "5",
+      "loan_collateral_crypto": "0.001527293338685453",
+      "loan_collateral_usd": "15.151515151515151536",
+      "monthly_interest_payment": "0",
+      "repayment_deadline": "2021-07-02T13:58:08.595Z",
+      "total_interest_payment": "0",
+      "next_interest": "30",
+      "maturity": "2019-06-10T15:45:14.686Z",
+    },
+
+},
   [LOAN_TYPES.LOAN_COMPLETED]: {
     "id": LOAN_TYPES.LOAN_COMPLETED,
     "amount_collateral_usd": "15.151515151515151536",
@@ -56,7 +85,20 @@ export default {
     "total_interest": "0",
     "type": "USD_LOAN",
     "user_id": "46df705d-1598-4360-b5cc-8c4a04dde317",
-    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449"
+    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449",
+    "loan_data": {
+      "annual_interest_rate": "0.05",
+      "initiation_date": "July 2, 2019",
+      "completion_date": "July 25, 2029",
+      "initiation_time": "13:58",
+      "loan_amount": "5",
+      "loan_collateral_crypto": "0.001527293338685453",
+      "loan_collateral_usd": "15.151515151515151536",
+      "monthly_interest_payment": "0",
+      "repayment_deadline": "2021-07-02T13:58:08.595Z",
+      "total_interest_payment": "0",
+      "maturity": "August 2, 2020",
+    },
   },
   [LOAN_TYPES.LOAN_REJECTED]: {
     "id": LOAN_TYPES.LOAN_REJECTED,
@@ -75,7 +117,19 @@ export default {
     "total_interest": "0",
     "type": "USD_LOAN",
     "user_id": "46df705d-1598-4360-b5cc-8c4a04dde317",
-    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449"
+    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449",
+    "loan_data": {
+      "annual_interest_rate": "0.05",
+      "rejection_date": "July 5, 2019",
+      "initiation_time": "13:58",
+      "loan_amount": "5",
+      "loan_collateral_crypto": "0.001527293338685453",
+      "loan_collateral_usd": "15.151515151515151536",
+      "monthly_interest_payment": "0",
+      "repayment_deadline": "2021-07-02T13:58:08.595Z",
+      "total_interest_payment": "0",
+      "maturity": "August 2, 2020",
+    },
   },
   [LOAN_TYPES.LOAN_CANCELED]: {
     "id": LOAN_TYPES.LOAN_CANCELED,
@@ -94,6 +148,19 @@ export default {
     "total_interest": "0",
     "type": "USD_LOAN",
     "user_id": "46df705d-1598-4360-b5cc-8c4a04dde317",
-    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449"
+    "transaction_id": "abbf4c15-88ad-44e1-bc5b-0de01f5f4449",
+    "loan_data": {
+      "annual_interest_rate": "0.05",
+      "initiation_date": "July 2, 2019",
+      "cancellation_date": "July 7, 2019",
+      "initiation_time": "13:58",
+      "loan_amount": "5",
+      "loan_collateral_crypto": "1.591527293338685453",
+      "loan_collateral_usd": "15.151515151515151536",
+      "monthly_interest_payment": "0",
+      "repayment_deadline": "2021-07-02T13:58:08.595Z",
+      "total_interest_payment": "0",
+      "maturity": "August 2, 2020",
+    },
   }
 };

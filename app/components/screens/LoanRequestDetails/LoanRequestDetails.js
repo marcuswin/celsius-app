@@ -14,6 +14,7 @@ import Icon from "../../atoms/Icon/Icon";
 import { BasicCardSection, BasicSection, CardSection } from "../TransactionDetails/TransactionDetailsSections";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelButton from "../../atoms/CelButton/CelButton";
+import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
@@ -60,11 +61,11 @@ class LoanRequestDetails extends Component {
 
     switch(sectionType) {
       case "completion:date":
-        return <BasicSection key={sectionType} label={"Loan Completion Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+        return <BasicSection key={sectionType} label={"Loan Completion Date"} value={moment(transaction.loan_data.completion_date).format("D MMM YYYY")}/>;
       case "rejection:date":
-        return <BasicSection key={sectionType} label={"Loan Rejection Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+        return <BasicSection key={sectionType} label={"Loan Rejection Date"} value={moment(transaction.loan_data.rejection_date).format("D MMM YYYY")}/>;
       case "cancellation:date":
-        return <BasicSection key={sectionType} label={"Loan Cancellation Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
+        return <BasicSection key={sectionType} label={"Loan Cancellation Date"} value={moment(transaction.loan_data.cancellation_date).format("D MMM YYYY")}/>;
       case "initiation:date":
         return <BasicSection key={sectionType} label={"Loan Initiation Date"} value={moment(transaction.loan_data.initiation_date).format("D MMM YYYY")}/>;
       case "unlocked:collateral":
@@ -92,16 +93,16 @@ class LoanRequestDetails extends Component {
                                  total={transaction.loan_data.total_interest_payment}/>;
       case "marginCall":
         return <CardSection key={sectionType} title={"BTC Margin Call At:"} amount={30}
-                            cardText={"If BTC drops below $xxxx you will get a notification asking for additional collateral."}/>;
+                            cardText={"If BTC drops below $xxxx you will get a notification asking for additional collateral."} />;
       case "liquidation":
         return  <CardSection key={sectionType} title={"Liquidation At:"} amount={50}
                              cardText={"If BTC drops below $xxx we will sell some of your collateral to cover the margin."}/>;
       case "firstInterest":
-        return  <BasicSection key={sectionType} label={"First Interest Payment Due"}/>;
+        return  <BasicSection key={sectionType} label={"First Interest Payment Due"} value={formatter.usd(transaction.loan_data.first_interest)}/>;
       case "nextInterest":
-        return  <BasicSection key={sectionType} label={"Next Interest Payment Due"}/>;
+        return  <BasicSection key={sectionType} label={"Next Interest Payment Due"} value={formatter.usd(transaction.loan_data.next_interest)}/>;
       case "maturity":
-        return <BasicSection key={sectionType} label={"Maturity Date"} noSeparator/>
+        return <BasicSection key={sectionType} label={"Maturity Date"} noSeparator value={moment(transaction.loan_data.maturity).format("D MMM YYYY")}/>;
       default:
         break;
     }
