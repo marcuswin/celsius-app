@@ -46,7 +46,9 @@ class BorrowCollateral extends Component {
     return (
       <View style={{flex: 1}}>
         <HeadingProgressBar steps={6} currentStep={2}/>
-        <RegularLayout >
+        <RegularLayout
+          fabType='hide'
+        >
           <View style={{alignItems: 'center'}}>
             <CelText margin={"0 0 10 0"} weight={"300"} type={'H4'} align={'center'}>
               Choose a coin to use as a collateral for a {formData.loanAmount} {formData.coin} loan:
