@@ -96,8 +96,8 @@ class WithdrawAddressOverview extends Component {
         <View>
           <Card color={STYLES.COLORS.CELSIUS_BLUE}>
             <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
-                <Icon name={"Info"} width="30" height="30" fill={STYLES.COLORS.WHITE}/>
+              <View style={{ flex: 1, paddingRight: 5 }}>
+                <Icon name={"Info"} width="25" height="25" fill={STYLES.COLORS.WHITE} />
               </View>
               <View style={{ flex: 6 }}>
                 <CelText type={"H5"} weight={"300"} color={STYLES.COLORS.WHITE}>
