@@ -68,6 +68,7 @@
 		B3B1857522BCF125002777AE /* Barlow-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */; };
 		B3B1857622BCF125002777AE /* Barlow-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856422BCF125002777AE /* Barlow-Italic.ttf */; };
 		B3B1857722BCF125002777AE /* Barlow-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3B1856522BCF125002777AE /* Barlow-ExtraLight.ttf */; };
+		B3B3F75722DC7E09003DFEDF /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */; };
 		D642C74F446041FDA5BAB6E7 /* libAppCenterReactNativeCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A15DE21279A4B22B3431936 /* libAppCenterReactNativeCrashes.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
@@ -341,6 +342,20 @@
 			remoteGlobalIDString = 323A12871E5F266B004975B8;
 			remoteInfo = "ART-tvOS";
 		};
+		B3B3F75022DC7DD5003DFEDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FDC64AF01BF1690D0044C1B4;
+			remoteInfo = RNMixpanel;
+		};
+		B3B3F75222DC7DD5003DFEDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5EAEEA411F0555B100C6FED8;
+			remoteInfo = "RNMixpanel-tvOS";
+		};
 		B3BE726322BA617900915202 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -500,6 +515,7 @@
 		B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-ThinItalic.ttf"; path = "celsius/fonts/Barlow-ThinItalic.ttf"; sourceTree = "<group>"; };
 		B3B1856422BCF125002777AE /* Barlow-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-Italic.ttf"; path = "celsius/fonts/Barlow-Italic.ttf"; sourceTree = "<group>"; };
 		B3B1856522BCF125002777AE /* Barlow-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Barlow-ExtraLight.ttf"; path = "celsius/fonts/Barlow-ExtraLight.ttf"; sourceTree = "<group>"; };
+		B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 		B7AFA7B6410027574EA212B9 /* Pods-celsiusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-celsiusTests.debug.xcconfig"; path = "Target Support Files/Pods-celsiusTests/Pods-celsiusTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D2557D82008048A786E3B96D /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -522,6 +538,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3B3F75722DC7E09003DFEDF /* libRNMixpanel.a in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -727,6 +744,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */,
 				B3948C9322C38113006DB930 /* RCTCameraRoll.xcodeproj */,
 				B3948CDA22C3969D006DB930 /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -838,6 +856,15 @@
 				B3B1856322BCF125002777AE /* Barlow-ThinItalic.ttf */,
 			);
 			name = fonts;
+			sourceTree = "<group>";
+		};
+		B3B3F71E22DC7DD5003DFEDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */,
+				B3B3F75322DC7DD5003DFEDF /* libRNMixpanel-tvOS.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		B3BE723522BA614D00915202 /* Recovered References */ = {
@@ -1023,7 +1050,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1126,6 +1153,10 @@
 				{
 					ProductGroup = B3BE723622BA614E00915202 /* Products */;
 					ProjectRef = 4C4E56AA016A4CA7ADE6752F /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = B3B3F71E22DC7DD5003DFEDF /* Products */;
+					ProjectRef = B3B3F71D22DC7DD5003DFEDF /* RNMixpanel.xcodeproj */;
 				},
 				{
 					ProductGroup = B3BE723822BA614E00915202 /* Products */;
@@ -1399,6 +1430,20 @@
 			remoteRef = B3948CE122C3969D006DB930 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		B3B3F75122DC7DD5003DFEDF /* libRNMixpanel.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMixpanel.a;
+			remoteRef = B3B3F75022DC7DD5003DFEDF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B3B3F75322DC7DD5003DFEDF /* libRNMixpanel-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNMixpanel-tvOS.a";
+			remoteRef = B3B3F75222DC7DD5003DFEDF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B3BE726422BA617900915202 /* libjsi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1605,11 +1650,45 @@
 				"${PODS_ROOT}/Target Support Files/Pods-celsius/Pods-celsius-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCheckmark.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCheckmark@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPCloseButton@3x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPDismissKeyboard.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPDismissKeyboard@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPLogo.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPLogo@2x.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/placeholder-image.png",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~ipad.xib",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~iphonelandscape.xib",
+				"${PODS_ROOT}/Mixpanel/Mixpanel/MPTakeoverNotificationViewController~iphoneportrait.xib",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowLeft.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowLeft@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowRight.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowRight@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPCheckmark.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPCheckmark@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPCloseButton.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPCloseButton@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPCloseButton@3x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPDismissKeyboard.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPDismissKeyboard@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPLogo.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPLogo@2x.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/placeholder-image.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPTakeoverNotificationViewController~ipad.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPTakeoverNotificationViewController~iphonelandscape.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPTakeoverNotificationViewController~iphoneportrait.nib",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

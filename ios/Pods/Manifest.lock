@@ -96,6 +96,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.2)
   - JWT (3.0.0-beta.11):
     - Base64 (~> 1.1.2)
+  - Mixpanel (3.4.7)
   - React (0.59.9):
     - React/Core (= 0.59.9)
   - react-native-appsflyer (1.4.2):
@@ -192,6 +193,7 @@ DEPENDENCIES:
   - EXSegment (from `../node_modules/expo-analytics-segment/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - Mixpanel
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - React/Core (from `../node_modules/react-native`)
@@ -233,6 +235,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - JWT
+    - Mixpanel
     - SSZipArchive
 
 EXTERNAL SOURCES:
@@ -369,6 +372,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   JWT: 05028b9624591bba9681bb57df2c5f95fa258bad
+  Mixpanel: 696e0a1c7f2685aa06bb23829b7a58ab7203d6c7
   React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
   react-native-appsflyer: c573e84c2ac1ff7f744ce09718eab23c367bd01d
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
@@ -388,6 +392,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 296793ab2a7e181fe5ebe2ba9b40ae208ab4b8fa
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: eeeea592d79afaf95e50290effa0a0201cd307eb
+PODFILE CHECKSUM: 7125140e348cb1f753fdf35f64dca2fd1feb57fb
 
 COCOAPODS: 1.7.4
