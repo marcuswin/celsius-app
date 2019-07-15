@@ -9,6 +9,7 @@ import BorrowLanding from '../../components/screens/BorrowLanding/BorrowLanding'
 import BorrowEnterAmount from '../../components/screens/BorrowEnterAmount/BorrowEnterAmount'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import ConfirmYourLoan from '../../components/screens/ConfirmYourLoan/ConfirmYourLoan'
+import LoanRequestDetails from "../../components/screens/LoanRequestDetails/LoanRequestDetails";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
 
@@ -24,6 +25,7 @@ export const borrowFlow = {
     BorrowLanding,
     TransactionDetails,
     Deposit,
+    LoanRequestDetails,
     ...profileFlow.screens,
   },
   props: {
