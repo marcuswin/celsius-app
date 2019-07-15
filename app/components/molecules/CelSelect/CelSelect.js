@@ -13,6 +13,7 @@ import { getMargins } from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
 import { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } from '../../../constants/DATA';
 import CelText from '../../atoms/CelText/CelText';
+import STYLES from '../../../constants/STYLES'
 
 @connect(
   () => ({}),
@@ -54,7 +55,7 @@ class CelSelect extends Component {
     const value = nextProps.value;
     const type = nextProps.type;
     const items = prevState.items;
-    
+
     if (value && items && type) {
       const item = type === 'country' ? lookup.countries({ name: value.name })[0] : items.filter(i => i.value === value)[0];
       return {
@@ -68,12 +69,20 @@ class CelSelect extends Component {
     super(props);
 
     const items = this.getItems(props);
+
+
     this.state = {
       visible: false,
       items,
       value: undefined,
     };
   }
+
+  componentDidMount() {
+
+    this.changeColorProp()
+  }
+
 
   getItems = ({ type, items }) => {
     switch (type) {
@@ -112,6 +121,21 @@ class CelSelect extends Component {
     const { value } = this.state;
     if (value) return StyleSheet.flatten(style.textColor).color; // get color from raw json depending on style theme
     return this.getIconColor(style);
+  }
+
+  changeColorProp = () => {
+    const { items } = this.state
+    const tempItems = []
+    let item
+    items.forEach(element => {
+      item = element
+      item.color = STYLES.COLORS.DARK_GRAY
+      tempItems.push(item)
+    })
+
+    this.setState({
+      items: tempItems
+    })
   }
 
   handlePickerSelect = (value) => {
@@ -180,7 +204,7 @@ class CelSelect extends Component {
     const { type, flex, disabled, onChange, error, style } = this.props;
     const { items, value } = this.state;
 
-    return (
+   return (
       <View style={[{ width: '100%' }, flex ? { flex } : {}, style]}>
         {type !== 'country' && type !== 'phone' ?
           <RNPickerSelect

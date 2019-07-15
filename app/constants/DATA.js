@@ -1,5 +1,6 @@
 import { Constants } from "expo";
 
+
 const { ENV } = Constants.manifest.extra
 
 const FORBIDEN_COUNTRIES = ['Cuba', 'North Korea', 'Iran', 'Sudan', 'Syria', 'Lebanon', 'Japan', 'New York'];
