@@ -173,8 +173,7 @@ class WithdrawCreateAddress extends Component {
           <InfoBox
             color={"white"}
             backgroundColor={STYLES.COLORS.ORANGE}
-            titleText={"Once you choose a wallet address to withdraw to, you will not be able to change it without contacting our support at "}
-            boldText={"app@celsius.network."}
+            titleText={"Changing your withdrawal address will make a withdrawal of your coin unavailable for 24 hours."}
             left
           />
         }
@@ -188,7 +187,7 @@ class WithdrawCreateAddress extends Component {
         </View>
 
 
-          <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} /> 
+        <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} />
       </RegularLayout>
     );
   }
