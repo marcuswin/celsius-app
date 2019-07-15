@@ -14,7 +14,6 @@ import Icon from "../../atoms/Icon/Icon";
 import { BasicCardSection, BasicSection, CardSection } from "../TransactionDetails/TransactionDetailsSections";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import CelButton from "../../atoms/CelButton/CelButton";
-import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
@@ -98,9 +97,9 @@ class LoanRequestDetails extends Component {
         return  <CardSection key={sectionType} title={"Liquidation At:"} amount={50}
                              cardText={"If BTC drops below $xxx we will sell some of your collateral to cover the margin."}/>;
       case "firstInterest":
-        return  <BasicSection key={sectionType} label={"First Interest Payment Due"} value={formatter.usd(transaction.loan_data.first_interest)}/>;
+        return  <BasicSection key={sectionType} label={"First Interest Payment Due"} value={moment(transaction.loan_data.first_interest).format("D MMM YYYY")}/>;
       case "nextInterest":
-        return  <BasicSection key={sectionType} label={"Next Interest Payment Due"} value={formatter.usd(transaction.loan_data.next_interest)}/>;
+        return  <BasicSection key={sectionType} label={"Next Interest Payment Due"} value={moment(transaction.loan_data.next_interest).format("D MMM YYYY")}/>;
       case "maturity":
         return <BasicSection key={sectionType} label={"Maturity Date"} noSeparator value={moment(transaction.loan_data.maturity).format("D MMM YYYY")}/>;
       default:

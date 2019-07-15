@@ -30,7 +30,7 @@ export default {
       "monthly_interest_payment": "0",
       "repayment_deadline": "2021-07-02T13:58:08.595Z",
       "total_interest_payment": "0",
-      "first_interest": "30",
+      "first_interest": "2019-06-10T15:45:14.686Z",
       "maturity": "August 2, 2019",
 
     },
@@ -63,7 +63,7 @@ export default {
       "monthly_interest_payment": "0",
       "repayment_deadline": "2021-07-02T13:58:08.595Z",
       "total_interest_payment": "0",
-      "next_interest": "30",
+      "next_interest": "2019-06-10T15:45:14.686Z",
       "maturity": "2019-06-10T15:45:14.686Z",
     },
 
