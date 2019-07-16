@@ -6,7 +6,7 @@ const base = {
     flex: 1
   },
   mainContainer: {
-    height: heightPercentageToDP("27.5%"),
+    height: heightPercentageToDP("33.5%"),
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
