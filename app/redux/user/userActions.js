@@ -182,7 +182,7 @@ function disableTwoFactor() {
       await TwoFactorService.disableTwoFactor(code);
       dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS });
       dispatch(navigateTo("SecuritySettings"));
-      dispatch(showMessage("success", "Two-Factor Verification removed"));
+      dispatch(showMessage("success", "In order to completely remove Two-Factor Verification check your email."));
     } catch (error) {
       dispatch(apiError(API.DISABLE_TWO_FACTOR));
       dispatch(showMessage("error", error.msg));

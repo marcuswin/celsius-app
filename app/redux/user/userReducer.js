@@ -182,15 +182,6 @@ export default (state = initialState, action) => {
         }
       }
 
-    case ACTIONS.DISABLE_TWO_FACTOR_SUCCESS:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          two_factor_enabled: false,
-        }
-      }
-
     case ACTIONS.GET_USER_SECURITY_OVERVIEW_SUCCESS:
       return {
         ...state,
