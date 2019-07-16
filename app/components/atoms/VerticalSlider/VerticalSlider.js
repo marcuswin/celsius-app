@@ -42,6 +42,7 @@ class VerticalSlider extends Component {
             <Slider
               minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}
               maximumTrackTintColor={STYLES.COLORS.DARK_GRAY_OPACITY}
+              thumbTintColor={STYLES.COLORS.CELSIUS_BLUE}
               style={{ width: height, height: 40 }}
               orientation="vertical"
               minimumValue={0}
