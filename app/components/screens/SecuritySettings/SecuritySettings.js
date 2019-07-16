@@ -112,7 +112,7 @@ class SecuritySettings extends Component {
     return (
       <RegularLayout>
         <IconButton margin={'20 0 20 0'} right={<Switcher />} hideIconRight>
-          Two-Factor Verification
+          Two-Factor Authentication
         </IconButton>
 
         {!is2FAEnabled && (
