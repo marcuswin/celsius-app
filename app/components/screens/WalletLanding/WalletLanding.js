@@ -23,6 +23,8 @@ import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCel
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
+import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
+import LoanApplicationSuccessModal from '../../organisms/LoanApplicationSuccessModal/LoanApplicationSuccessModal';
 
 let counter = 0;
 
@@ -108,12 +110,13 @@ class WalletLanding extends Component {
       this.shouldInitializeMembership = false
     }
     const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
-    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States'
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen) {
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
     this.setWalletFetchingInterval()
+    actions.openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL)
+
   }
 
   componentDidUpdate (prevProps) {
@@ -143,6 +146,7 @@ class WalletLanding extends Component {
       clearInterval(this.walletFetchingInterval)
     }
   }
+
 
   componentWillUnmount () {
     counter = 0;
@@ -243,7 +247,6 @@ class WalletLanding extends Component {
       currenciesRates,
       currenciesGraphs,
       actions,
-      kycStatus
     } = this.props
     const { activeView } = this.state
 
@@ -280,7 +283,7 @@ class WalletLanding extends Component {
               displayName={currency.displayName}
               currencyRates={currency}
               onCardPress={() =>
-                kycStatus === KYC_STATUSES.passed
+                hasPassedKYC()
                   ? actions.navigateTo('Deposit', { coin: coin.short })
                   : actions.navigateTo('KYCLanding')
               }
@@ -297,7 +300,7 @@ class WalletLanding extends Component {
             displayName={currency.displayName}
             currencyRates={currency}
             onCardPress={() =>
-              kycStatus === KYC_STATUSES.passed
+              hasPassedKYC()
                 ? actions.navigateTo('Deposit', { coin: coin.short })
                 : actions.navigateTo('KYCLanding')
             }
@@ -308,7 +311,7 @@ class WalletLanding extends Component {
   }
 
   renderAddMoreCoins = () => {
-    const { actions, kycStatus } = this.props
+    const { actions } = this.props
     const { activeView } = this.state
     const style = WalletLandingStyle()
 
@@ -319,7 +322,7 @@ class WalletLanding extends Component {
       <TouchableOpacity
         style={gridStyle}
         onPress={() =>
-          kycStatus === KYC_STATUSES.passed
+          hasPassedKYC()
             ? actions.navigateTo('Deposit')
             : actions.navigateTo('KYCLanding')
         }
@@ -417,6 +420,7 @@ class WalletLanding extends Component {
         <TodayInterestRatesModal />
         <BecameCelMemberModal />
         <EarnInterestCelModal />
+        <LoanApplicationSuccessModal actions={actions}/>
       </RegularLayout>
     )
   }

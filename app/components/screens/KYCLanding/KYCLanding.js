@@ -15,6 +15,7 @@ import { KYC_STATUSES } from "../../../constants/DATA";
 import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -208,7 +209,7 @@ class KYCLanding extends Component {
   render() {
     const { kycStatus, kycReasons, actions } = this.props;
     const Errors = this.renderErrors
-    if (kycStatus === KYC_STATUSES.passed) return null;
+    if (hasPassedKYC()) return null;
     return (
       <RegularLayout>
         {this.renderCard()}

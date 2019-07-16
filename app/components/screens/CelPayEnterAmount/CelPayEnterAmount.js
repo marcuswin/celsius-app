@@ -32,7 +32,6 @@ import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembers
     formData: state.forms.formData,
     withdrawalAddresses: state.wallet.withdrawalAddresses,
     loyaltyInfo: state.user.loyaltyInfo,
-    isCelsiusMember: state.user.profile.celsius_member,
     keypadOpen: state.ui.isKeypadOpen
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })

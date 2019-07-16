@@ -50,6 +50,7 @@ class PieProgressBar extends Component {
   render() {
     const { tier, level, color } = this.props;
     const style = PieProgressBarStyle();
+    // TODO when pie progress is introduced again uncomment //
     // const percentage = (amount - min) * 100 / (max - min);
     const sectionAngles = d3.pie().value(l => l.percent)(tierLevels);
     const path = d3.arc()

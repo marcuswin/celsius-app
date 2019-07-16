@@ -106,13 +106,11 @@ function updateProfileAddressInfo(profileAddressInfo) {
  * @param {Object} profileTaxpayerInfo
  */
 function updateTaxpayerInfo(profileTaxpayerInfo) {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
-
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
-      dispatch(showMessage("success", "SSN successfully submitted!"))
 
       return {
         success: true

@@ -12,9 +12,9 @@ import IconButton from '../../organisms/IconButton/IconButton'
 import CelButton from '../../atoms/CelButton/CelButton'
 import { MODALS } from '../../../constants/UI'
 import STYLES from '../../../constants/STYLES'
-import { KYC_STATUSES } from '../../../constants/DATA'
 import RemoveAuthAppModal from '../../organisms/RemoveAuthAppModal/RemoveAuthAppModal'
 import { getTheme } from '../../../utils/styles-util'
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -137,7 +137,7 @@ class SecuritySettings extends Component {
           </IconButton>
         )}
 
-        {kycStatus && kycStatus.status === KYC_STATUSES.passed ? (
+        {kycStatus && hasPassedKYC() ? (
           <CelButton
             margin='0 0 30 0'
             basic

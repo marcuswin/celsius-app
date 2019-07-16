@@ -1,6 +1,7 @@
 // refactored
 const COLORS = {
   WHITE: '#fff',
+  WHITE_OPACITY7: 'rgba(255,255,255,0.7)',
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
   WHITE_OPACITY2: 'rgba(255,255,255,0.2)',
