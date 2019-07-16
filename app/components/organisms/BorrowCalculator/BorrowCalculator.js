@@ -7,7 +7,6 @@ import _ from "lodash";
 import * as appActions from "../../../redux/actions"
 import BorrowCalculatorStyle from "./BorrowCalculator.styles"
 import CelText from '../../atoms/CelText/CelText'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import formatter from "../../../utils/formatter"
 import Separator from '../../atoms/Separator/Separator'
 import CelInput from '../../atoms/CelInput/CelInput'
@@ -133,6 +132,7 @@ class BorrowCalculator extends Component {
     const { theme } = this.props
 
     const style = BorrowCalculatorStyle(theme)
+
     const {
       coinSelectItems,
       loanParams,
@@ -152,7 +152,7 @@ class BorrowCalculator extends Component {
     const themeColors = this.getThemeColors()
 
     return (
-      <RegularLayout style={style.container}>
+      <View style={style.container}>
         <CelInput
           rightText="USD"
           field={'amount'}
@@ -309,7 +309,7 @@ class BorrowCalculator extends Component {
           weight={'300'}>
           The amount of collateral needed is based on your annual interest rate.
         </CelText>
-      </RegularLayout>
+      </View>
     );
   }
 }

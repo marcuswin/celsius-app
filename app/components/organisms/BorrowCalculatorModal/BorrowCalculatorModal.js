@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from "react-native"
 
 import CelModal from '../../organisms/CelModal/CelModal'
 import CelText from '../../atoms/CelText/CelText'
@@ -17,7 +18,9 @@ const BorrowCalculatorModal = (props) => (
         How much you like to borrow?
       </CelText>
 
-      <BorrowCalculator emitParams={props.emitParams} theme={THEMES.LIGHT} />
+      <View style={{ padding: 10 }}>
+        <BorrowCalculator emitParams={props.emitParams} theme={THEMES.LIGHT} />
+      </View>
 
     </CelModal>
   )

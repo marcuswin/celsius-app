@@ -107,6 +107,7 @@ class BorrowLanding extends Component {
     ]
   });
 
+  // TODO (fj) move to loans util
   emitParams = () => {
     const { formData, currencies, walletSummary, ltv, minimumLoanAmount, loanCompliance } = this.props
     const loanParams = {}
@@ -223,7 +224,7 @@ class BorrowLanding extends Component {
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: xOffset } } }],
               { useNativeDriver: true }
-            )}bo
+            )}
             showsHorizontalScrollIndicator={false}
             decelerationRate={0}
             snapToInterval={cardWidth + widthPercentageToDP("4%")}
