@@ -24,7 +24,6 @@ import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
 import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
-import LoanApplicationSuccessModal from '../../organisms/LoanApplicationSuccessModal/LoanApplicationSuccessModal';
 
 let counter = 0;
 
@@ -115,8 +114,6 @@ class WalletLanding extends Component {
     }
 
     this.setWalletFetchingInterval()
-    actions.openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL)
-
   }
 
   componentDidUpdate (prevProps) {
@@ -420,7 +417,6 @@ class WalletLanding extends Component {
         <TodayInterestRatesModal />
         <BecameCelMemberModal />
         <EarnInterestCelModal />
-        <LoanApplicationSuccessModal actions={actions}/>
       </RegularLayout>
     )
   }
