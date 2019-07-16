@@ -1,23 +1,25 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Slider } from 'react-native'
-// import PropTypes from 'prop-types';
+import { View, TouchableOpacity } from 'react-native'
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
 import * as appActions from '../../../redux/actions'
-import BorrowEnterAmountStyle from './BorrowEnterAmount.styles'
 import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
-import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
-import { KEYPAD_PURPOSES } from '../../../constants/UI'
+import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
+import { KEYPAD_PURPOSES, THEMES } from "../../../constants/UI";
 import formatter from '../../../utils/formatter'
 import STYLES from '../../../constants/STYLES'
 import PredefinedAmounts from '../../organisms/PredefinedAmounts/PredefinedAmounts'
 import { getPadding } from '../../../utils/styles-util'
-// import Card from '../../atoms/Card/Card'
+import CelSelect from "../../molecules/CelSelect/CelSelect";
+import Icon from "../../atoms/Icon/Icon";
+import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
+import { isCompanyMember } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -25,7 +27,9 @@ import { getPadding } from '../../../utils/styles-util'
     formData: state.forms.formData,
     walletSummary: state.wallet.summary,
     minimumLoanAmount: state.generalData.minimumLoanAmount,
-    keypadOpen: state.ui.isKeypadOpen
+    keypadOpen: state.ui.isKeypadOpen,
+    currencies: state.currencies.rates,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -39,14 +43,20 @@ class BorrowEnterAmount extends Component {
 
   constructor (props) {
     super(props)
-    const { loanCompliance, walletSummary, minimumLoanAmount } = props
+    const { loanCompliance, walletSummary, minimumLoanAmount, currencies } = props
     const eligibleCoins = walletSummary.coins.filter(coinData =>
-      loanCompliance.coins.includes(coinData.short)
+      loanCompliance.collateral_coins.includes(coinData.short)
     )
+
+    const coinSelectItems = currencies
+      .filter(c => loanCompliance.loan_coins.includes(c.short))
+      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
+
+    coinSelectItems.push({ label: `US Dollar ($)`, value: 'USD' })
 
     this.state = {
       activePeriod: '',
-      sliderValue: 12500
+      coinSelectItems,
     }
 
     const maxAmount =
@@ -57,7 +67,8 @@ class BorrowEnterAmount extends Component {
 
     props.actions.initForm({
       loanAmount: minimumLoanAmount.toString(),
-      maxAmount
+      maxAmount,
+      coin: 'USD'
     })
   }
 
@@ -135,15 +146,29 @@ class BorrowEnterAmount extends Component {
     )
   }
 
+  renderCoinIcon = () => {
+    const { appSettings, formData } = this.props
+    if (formData.coin === 'USD') return null
+    return (
+      <Icon
+        name={`Icon${formData.coin}`}
+        width='40'
+        height='40'
+        fill={ appSettings.theme !== THEMES.DARK ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.WHITE_OPACITY3 }
+      />
+    )
+  }
+
   render () {
-    const { activePeriod, sliderValue } = this.state
+    const { activePeriod, coinSelectItems } = this.state
     const {
       actions,
       formData,
-      maxAmount,
-      walletSummary,
       minimumLoanAmount
     } = this.props
+
+    const styles = BorrowEnterAmountStyle()
+
     const predifinedAmount = [
       { label: `$${minimumLoanAmount} min`, value: 'min' },
       {
@@ -152,67 +177,11 @@ class BorrowEnterAmount extends Component {
       }
     ]
 
-    const style = BorrowEnterAmountStyle()
-
-    if (maxAmount < minimumLoanAmount) {
-      return (
-        <RegularLayout fabType={'hide'}>
-          <View style={style.amountsWrapper}>
-            <View style={[style.value, { backgroundColor: 'white' }]}>
-              <CelText type={'H6'} weight={'400'}>
-                With coin value of:
-              </CelText>
-              <CelText type={'H2'} weight={'400'}>
-                {formatter.usd(sliderValue, { precision: 0 })}
-              </CelText>
-            </View>
-            <View style={[style.value, { backgroundColor: '#EEEEEE' }]}>
-              <CelText type={'H6'} weight={'400'}>
-                You can borrow:
-              </CelText>
-              <CelText type={'H2'} weight={'400'}>
-                {formatter.usd(sliderValue / 2, { precision: 0 })}
-              </CelText>
-            </View>
-          </View>
-
-          <View style={style.slider}>
-            <Slider
-              minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}
-              maximumTrackTintColor={STYLES.COLORS.DARK_GRAY_OPACITY}
-              minimumValue={10000}
-              maximumValue={20000}
-              step={500}
-              value={this.state.sliderValue}
-              onValueChange={value => this.setState({ sliderValue: value })}
-            />
-          </View>
-          <CelText
-            margin={'20 0 20 0'}
-            align={'center'}
-            type={'H3'}
-            weight={'600'}
-          >{`To apply for a loan you only need ${formatter.usd(
-              10000 - walletSummary.total_amount_usd
-            )} in crypto to deposit`}</CelText>
-          <CelText
-            margin={'10 0 20 0'}
-            align={'center'}
-            type={'H4'}
-            weight={'400'}
-          >
-            Deposit more coins to start your first loan application
-          </CelText>
-
-          <CelButton onPress={() => actions.navigateTo('Deposit')}>
-            Deposit more coins
-          </CelButton>
-        </RegularLayout>
-      )
-    }
+    const CoinIcon = this.renderCoinIcon
 
     return (
       <RegularLayout padding='0 0 0 0' fabType={'hide'}>
+        <HeadingProgressBar steps={6} currentStep={1} />
         <View
           style={[
             { flex: 1, width: '100%', height: '100%' },
@@ -220,39 +189,43 @@ class BorrowEnterAmount extends Component {
           ]}
         >
           <View style={{ paddingTop: 10, alignItems: 'center' }}>
-            <ProgressBar steps={6} currentStep={1} />
             <CelText align='center' type='H4' margin='30 0 60 0'>
               How much would you like to borrow?
             </CelText>
+
+            { isCompanyMember() && (
+              <CelSelect
+                margin="0 30 20 30"
+                items={coinSelectItems}
+                field='coin'
+                value={formData.coin}
+                updateFormField={actions.updateFormField}
+                placeholder='Choose a coin'
+              />
+            )}
 
             <View style={{ width: '100%' }}>
               <TouchableOpacity
                 onPress={actions.toggleKeypad}
                 style={{ width: '100%' }}
               >
+                <View style={styles.coinIconWrapper}>
+                  <CoinIcon />
+                </View>
                 <CelText
                   color={this.getAmountColor()}
                   type='H1'
                   weight='regular'
                   align='center'
                 >
-                  {'$ '}
                   {formatter.usd(formData.loanAmount, {
                     code: '',
                     precision: 0
                   })}
                 </CelText>
-                <View
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    height: '100%',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                >
+                <View style={styles.coinTextWrapper}>
                   <CelText color='gray' type='H3'>
-                    USD
+                    { formData.coin }
                   </CelText>
                 </View>
               </TouchableOpacity>
