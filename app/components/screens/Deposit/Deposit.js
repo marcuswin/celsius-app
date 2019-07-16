@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Linking, TouchableOpacity, View } from "react-native";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import QRCode from 'react-qr-code'
@@ -261,7 +261,8 @@ class Deposit extends Component {
     const { useAlternateAddress, isFetchingAddress } = this.state
     const styles = DepositStyle()
     const theme = getTheme()
-    let infoColor
+    let infoColor;
+    let link;
 
     switch (theme) {
       case THEMES.LIGHT:
@@ -282,6 +283,29 @@ class Deposit extends Component {
     if (!depositCompliance.allowed) {
       return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     }
+
+    // TODO: place into some util
+
+    switch (formData.selectedCoin) {
+      case "BCH":
+        link = "https://buy.bitcoin.com/bch/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-bch";
+        break;
+      case "BTC":
+        link = "https://buy.bitcoin.com/btc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-btc";
+        break;
+      case "ETH":
+        link = "https://buy.bitcoin.com/eth/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-eth";
+        break;
+      case "LTC":
+        link = "https://buy.bitcoin.com/ltc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-ltc";
+        break;
+      case "XRP":
+        link = "https://buy.bitcoin.com/xrp/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-xrp";
+        break;
+      default:
+        link = null
+    }
+
     return (
       <RegularLayout padding={'20 0 100 0'}>
         <CoinPicker
@@ -391,6 +415,10 @@ class Deposit extends Component {
                 </View>
               </View>
             </Card>
+
+            { ["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
+              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin}`}</CelText>
+            }
 
             {alternateAddress &&
               this.renderSwitchAddressBlock(
