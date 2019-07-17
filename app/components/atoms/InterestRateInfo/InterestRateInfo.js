@@ -75,6 +75,10 @@ class InterestRateInfo extends Component {
               <CelText weight={"500"} type={"H4"} style={styles.currencyShort}>
                 {currencyInfo.short}
               </CelText>
+              {["BCH", "BTC", "ETH", "XRP", "LTC"].includes(currencyInfo.short) &&
+              <CelText align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}
+                       onPress={() => Linking.openURL(link)}>{`Buy ${currencyInfo.short}`}</CelText>
+              }
             </View>
           </View>
           <View style={{ justifyContent: "space-around" }}>
@@ -96,10 +100,6 @@ class InterestRateInfo extends Component {
             </View>
           </View>
         </View>
-        {["BCH", "BTC", "ETH", "XRP", "LTC"].includes(currencyInfo.short) &&
-        <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}
-                 onPress={() => Linking.openURL(link)}>{`Buy ${currencyInfo.short}`}</CelText>
-        }
         {currencyInfo.short.toUpperCase() === "USD" && (
           <View style={styles.usdInfoWrapper}>
             <CelText>
