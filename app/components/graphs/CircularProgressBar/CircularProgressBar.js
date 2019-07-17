@@ -1,37 +1,26 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-// import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-import { Svg } from "expo";
+import React, { Component } from "react";
+import { View, ART } from "react-native";
+import PropTypes from "prop-types";
+import * as d3 from "d3";
 
-
-import * as appActions from "../../../redux/actions";
-import CircularProgressBarStyle from "./CircularProgressBar.styles";
+import CircularProgressBarStyles from "./CircularProgressBar.styles";
+import { heightPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
-import { widthPercentageToDP } from "../../../utils/styles-util";
-
-const {Circle} = Svg;
-const width = widthPercentageToDP("30%");
-const size = width;
-const strokeWidth = 10;
-const radius = (size - strokeWidth) / 2;
-// const circumference = radius * 2;
+import CelText from "../../atoms/CelText/CelText";
 
 
-@connect(
-  () => ({
+const { Surface, Group, Shape } = ART;
 
-  }),
-  dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
-)
 class CircularProgressBar extends Component {
 
   static propTypes = {
-    // text: PropTypes.string
+    amountPaid: PropTypes.number,
+    amountLoaned: PropTypes.number,
+    width: PropTypes.number,
   };
   static defaultProps = {
-  }
+    width: heightPercentageToDP("22.5%")
+  };
 
   constructor(props) {
     super(props);
@@ -39,23 +28,45 @@ class CircularProgressBar extends Component {
   }
 
   render() {
-    const style = CircularProgressBarStyle();
-    // const foo = 1
+    const style = CircularProgressBarStyles();
+    const {width, amountLoaned, amountPaid} = this.props;
+    const percentage = amountPaid * 100 / amountLoaned;
+    const section = d3.pie().value(l => l.percent)({});
+    const path = d3.arc()
+      .startAngle(0)
+      .endAngle(Math.PI * 2 * percentage / 100)
+      .outerRadius(width / 2.5) // must be less than 1/2 the chart's height/width
+      .innerRadius(width / 2.3); // the size of the inner 'donut' whitespace
+
     return (
-      <View style={style.container}>
-        <Svg height={size} width={size}>
-        <Circle
-          stroke={STYLES.COLORS.GREEN}
-          fill={"none"}
-          cx={size/2}
-          cy={size/2}
-          r={radius}
-          {...{strokeWidth}}
-        />
-        </Svg>
+      <View>
+        <Surface width={width} height={width}>
+          <Group x={width / 2} y={width / 2}>
+            {
+              section.map(sec => (
+                <Shape
+                  d={path(sec)}
+                  stroke={STYLES.COLORS.GREEN}
+                  fill={STYLES.COLORS.GREEN}
+                  strokeWidth={4}
+                  key={"trt"}
+                />
+              ))
+            }
+          </Group>
+        </Surface>
+        <View style={[style.innerCircle, { backgroundColor: STYLES.COLORS.GREEN_OPACITY }]}/>
+        <View style={[style.contentCircle, style.progressBackground]}>
+          <CelText color={STYLES.COLORS.GRAY} type={"H6"} weight={"300"}>
+            Amount paid
+          </CelText>
+          <CelText color={STYLES.COLORS.GREEN} type={"H3"} weight={"600"}>
+            {amountPaid}
+          </CelText>
+        </View>
       </View>
     );
   }
 }
 
-export default CircularProgressBar
+export default CircularProgressBar;

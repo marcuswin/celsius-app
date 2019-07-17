@@ -63,7 +63,9 @@ class LoanOverviewCard extends Component {
                   <CelText type={"H7"} weight={"300"}>{"-XX if payed in CEL"}</CelText>
                 </Card>
               </View>
-              <CircularProgressBar/>
+              <View style={style.progress}>
+                <CircularProgressBar amountLoaned={100} amountPaid={50}/>
+              </View>
             </View>
           </View>
           }

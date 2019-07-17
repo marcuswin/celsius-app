@@ -9,7 +9,8 @@ const base = {
   buttonContainer: { flexDirection: "row", padding: 12, justifyContent: "space-around" },
   interest: { flexDirection: "row", padding: 12 },
   status: { flexDirection: "row", alignItems: "center" },
-  info: { alignItems: "center", padding: 12 }
+  info: { alignItems: "center", padding: 12 },
+  progress: {position: "absolute", left: widthPercentageToDP("30%")}
 };
 
 const themed = {

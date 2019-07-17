@@ -206,17 +206,14 @@ class BorrowLanding extends Component {
   renderDefaultView () {
     const { xOffset } = this.state;
     const { actions, allLoans } = this.props;
-
+    
     return(
       <RegularLayout padding={"20 0 100 0"}>
-        <View
-          style={{
-            marginLeft: 20,
-            marginRight: 20
-          }}
-        >
+        <View>
 
-         { this.renderCard() }
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            { this.renderCard() }
+          </View>
 
           <Animated.ScrollView
             horizontal
