@@ -1,5 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
+import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
   container: {
@@ -10,7 +10,7 @@ const base = {
   interest: { flexDirection: "row", padding: 12 },
   status: { flexDirection: "row", alignItems: "center" },
   info: { alignItems: "center", padding: 12 },
-  progress: {position: "absolute", left: widthPercentageToDP("30%")}
+  progress: {position: "absolute", left: widthPercentageToDP("29%"), top: heightPercentageToDP("1.3%")}
 };
 
 const themed = {
