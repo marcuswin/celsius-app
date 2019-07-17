@@ -6,10 +6,10 @@
 // TODO(fj): create offline and no internet screens or a static screen with type?
 
 import React, { Component } from "react";
-import { AppLoading } from "expo";
 import { Provider } from "react-redux";
 import { AppState, BackHandler } from "react-native";
 
+import { AppLoading } from './utils/expo-util.js';
 import store from "./redux/store";
 import * as actions from "./redux/actions";
 import appUtil from "./utils/app-util";

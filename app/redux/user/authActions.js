@@ -1,5 +1,5 @@
-import { Constants } from 'expo'
 import Branch from 'react-native-branch'
+import { Constants } from '../../utils/expo-util.js'
 
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'

@@ -9,9 +9,8 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Camera, Permissions, ImageManipulator, ImagePicker } from 'expo'
 
-
+import { Camera, Permissions, ImageManipulator, ImagePicker } from '../../../utils/expo-util.js'
 import * as appActions from '../../../redux/actions'
 import CameraScreenStyle from './CameraScreen.styles'
 import Icon from '../../atoms/Icon/Icon'

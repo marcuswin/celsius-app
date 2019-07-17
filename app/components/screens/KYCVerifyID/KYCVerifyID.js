@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { Permissions } from 'expo'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 
+import { Permissions } from '../../../utils/expo-util.js'
 import * as appActions from '../../../redux/actions'
 import Card from '../../atoms/Card/Card'
 import CelText from '../../atoms/CelText/CelText'

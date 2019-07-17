@@ -1,6 +1,6 @@
-import { Constants } from "expo";
 import _ from "lodash";
 
+import { Constants } from '../../utils/expo-util.js';
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";

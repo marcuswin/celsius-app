@@ -1,11 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
 import r from 'jsrsasign'
-import { Constants } from 'expo'
 import { Platform } from 'react-native'
 import { Base64 } from 'js-base64'
-import logger from './logger-util'
 
+import { Constants } from './expo-util.js'
+import logger from './logger-util'
 import { getSecureStoreKey } from '../utils/expo-storage'
 
 import store from '../redux/store'

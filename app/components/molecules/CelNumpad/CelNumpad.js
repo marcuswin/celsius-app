@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Constants } from 'expo'
 import { View, TouchableOpacity, TextInput } from 'react-native'
 import { withNavigationFocus } from 'react-navigation'
 
 
+import { Constants } from '../../../utils/expo-util.js'
 import CelNumpadStyle from './CelNumpad.styles'
 import CelText from '../../atoms/CelText/CelText'
 import {

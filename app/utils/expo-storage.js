@@ -1,4 +1,4 @@
-import * as Expo from 'expo'
+import * as Expo from './expo-util.js'
 import loggerUtil from './logger-util';
 
 export {

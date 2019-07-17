@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import React, { Component } from "react";
-import { Constants } from "expo";
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
 
+import { Constants } from '../../../utils/expo-util.js';
 import * as appActions from "../../../redux/actions";
 
 import CelText from "../../atoms/CelText/CelText";

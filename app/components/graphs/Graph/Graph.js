@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Animated, TextInput } from "react-native";
-import { Svg } from "expo";
 import moment from "moment";
 import PropTypes from "prop-types";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
 import { scaleLinear, scalePoint, scaleTime } from "d3-scale";
 
+import { Svg } from '../../../utils/expo-util.js';
 import formatter from "../../../utils/formatter";
 import { getTheme, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import GraphStyle from "./Graph.styles";

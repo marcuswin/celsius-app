@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { BlurView } from 'expo'
+import { BlurView } from '../../../utils/expo-util.js'
 
 
 import * as appActions from '../../../redux/actions'

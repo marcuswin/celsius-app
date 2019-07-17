@@ -1,4 +1,4 @@
-import { Permissions, Notifications } from 'expo';
+import { Permissions, Notifications } from './expo-util.js';
 import usersService from '../services/users-service.js';
 
 export default {

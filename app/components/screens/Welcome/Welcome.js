@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Constants } from 'expo';
 import { View, Image } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
+import { Constants } from '../../../utils/expo-util.js';
 import * as appActions from '../../../redux/actions';
 
 

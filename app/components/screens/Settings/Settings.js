@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native'
 import { bindActionCreators } from "redux";
-import { Constants } from "expo";
+import { Constants } from '../../../utils/expo-util.js';
 
 import * as appActions from "../../../redux/actions";
 

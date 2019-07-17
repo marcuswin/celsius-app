@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, SafeAreaView } from "react-native";
-import { BarCodeScanner, Permissions } from "expo";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import { BarCodeScanner, Permissions } from '../../../utils/expo-util.js';
 import * as appActions from "../../../redux/actions";
 import QRScannerStyle from "./QRScanner.styles";
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Animated } from "react-native";
-import { Svg } from "expo";
 import PropTypes from "prop-types";
+import { Svg } from '../../../utils/expo-util.js';
 
 
 import { THEMES } from "../../../constants/UI";

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Permissions, Contacts } from 'expo';
 import { Image, TouchableOpacity, View, ScrollView } from 'react-native';
 
+import { Permissions, Contacts } from '../../../utils/expo-util.js';
 import * as appActions from '../../../redux/actions';
 
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";

@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import { Constants } from '../../utils/expo-util.js';
 import ACTIONS from '../../constants/ACTIONS';
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";

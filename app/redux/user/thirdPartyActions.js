@@ -1,4 +1,4 @@
-import { Constants, Facebook, GoogleSignIn, Google } from 'expo'
+import { Constants, Facebook, GoogleSignIn, Google } from '../../utils/expo-util.js'
 
 import ACTIONS from '../../constants/ACTIONS'
 import API from '../../constants/API'

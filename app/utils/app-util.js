@@ -1,7 +1,7 @@
-import { Asset, Constants, Font, Segment } from 'expo'
 import React from 'react'
 import { Image, NetInfo } from 'react-native'
 import twitter from 'react-native-simple-twitter'
+import { Asset, Constants, Font, Segment } from './expo-util.js'
 
 import {
   deleteSecureStoreKey,

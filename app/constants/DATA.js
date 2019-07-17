@@ -1,4 +1,4 @@
-import { Constants } from "expo";
+import { Constants } from '../utils/expo-util.js';
 
 
 const { ENV } = Constants.manifest.extra

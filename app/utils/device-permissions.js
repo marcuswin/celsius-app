@@ -1,5 +1,5 @@
-import { Permissions } from 'expo';
 import { Linking, Platform } from 'react-native';
+import { Permissions } from './expo-util.js';
 
 export {
   hasPermission,

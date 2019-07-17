@@ -1,5 +1,5 @@
 import React from "react";
-import { Svg } from "expo";
+import { Svg } from '../../utils/expo-util.js';
 
 const { G, Path, Rect } = Svg;
 

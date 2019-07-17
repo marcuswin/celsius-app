@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { View, StyleSheet, Platform, TouchableOpacity, Animated, Easing } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { BlurView } from 'expo';
+
+import { BlurView } from '../../../utils/expo-util.js';
 import * as appActions from "../../../redux/actions";
 
 import FabMenuStyle from "./FabMenu.styles";

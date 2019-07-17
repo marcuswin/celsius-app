@@ -1,8 +1,8 @@
-import { Constants, Segment } from "expo";
 import { Platform } from "react-native";
 import j from "jsrsasign";
 import store from "../redux/store";
 import { getSecureStoreKey } from "./expo-storage";
+import { Constants, Segment } from './expo-util.js';
 
 const { revisionId, version, extra } = Constants.manifest;
 const { SECURITY_STORAGE_AUTH_KEY } = extra;

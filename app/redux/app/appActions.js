@@ -1,5 +1,6 @@
-import { Constants, Location, Permissions } from "expo";
 import { Platform } from "react-native";
+
+import { Constants, Location, Permissions } from '../../utils/expo-util.js';
 import store from "../../redux/store";
 
 import * as actions from "../actions";

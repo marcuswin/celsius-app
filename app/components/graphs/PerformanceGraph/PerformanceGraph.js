@@ -2,11 +2,12 @@ import React from "react";
 import { View, SafeAreaView, Animated, TextInput } from "react-native";
 import PropTypes from "prop-types";
 
-import { Svg } from "expo";
 import moment from "moment";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
 import { scaleLinear, scaleTime } from "d3-scale";
+
+import { Svg } from '../../../utils/expo-util.js';
 import { heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 import PerformanceGraphStyle from "./PerformanceGraph.styles";
