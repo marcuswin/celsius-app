@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation'
 import BorrowLoanOption from '../../components/screens/BorrowLoanOption/BorrowLoanOption'
 import BorrowCollateral from '../../components/screens/BorrowCollateral/BorrowCollateral'
+import LoanPaymentList from '../../components/screens/LoanPaymentList/LoanPaymentList'
 import BorrowBankAccount from '../../components/screens/BorrowBankAccount/BorrowBankAccount'
 import VerifyProfile from '../../components/screens/VerifyProfile/VerifyProfile'
 import Deposit from '../../components/screens/Deposit/Deposit'
@@ -22,6 +23,7 @@ export const borrowFlow = {
     ConfirmYourLoan,
     VerifyProfile,
     BorrowLanding,
+    LoanPaymentList,
     TransactionDetails,
     Deposit,
     ...profileFlow.screens,
