@@ -10,6 +10,7 @@ import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
+import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 
 class LoanOverviewCard extends Component {
 
@@ -61,6 +62,9 @@ class LoanOverviewCard extends Component {
                 <Card color={"#737A82"} padding={"5 5 5 5"}>
                   <CelText type={"H7"} weight={"300"}>{"-XX if payed in CEL"}</CelText>
                 </Card>
+              </View>
+              <View style={style.progress}>
+                <CircularProgressBar amountLoaned={100} amountPaid={50}/>
               </View>
             </View>
           </View>
