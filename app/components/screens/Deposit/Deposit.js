@@ -417,7 +417,7 @@ class Deposit extends Component {
             </Card>
 
             { ["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
-              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin}`}</CelText>
+              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin} from Bitcoin.com`}</CelText>
             }
 
             {alternateAddress &&
