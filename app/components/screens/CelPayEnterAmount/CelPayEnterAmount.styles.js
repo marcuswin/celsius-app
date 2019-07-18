@@ -51,7 +51,12 @@ const themed = {
 
   dark: {
     selectWrapper: {
-      backgroundColor: STYLES.COLORS.DARK_HEADER
+      backgroundColor: STYLES.COLORS.DARK_HEADER,
+      ...Platform.select({
+        android: {
+          borderColor: 'transparent',
+        },
+      })
     }
   },
 
