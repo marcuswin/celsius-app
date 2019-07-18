@@ -18,14 +18,7 @@ function isGreaterThan(str1, str2) {
   return num1.gt(num2)
 }
 
-/**
- * WalletLanding page priority order for coins
- */
-const priorityCoins = ["CEL", "BTC", "ETH", "XRP", "LTC", "ZRX"];
-
-
 export default {
   isERC20, // TODO move to BE or something
-  priorityCoins, // TODO move somewhere?
   isGreaterThan, // TODO maybe move to formatter? add JSDoc
 }

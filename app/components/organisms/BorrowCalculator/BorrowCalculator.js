@@ -408,7 +408,7 @@ class BorrowCalculator extends Component {
             weight='300'
             color={STYLES.COLORS.MEDIUM_GRAY}
             type={'H6'}>
-            Collateral neededCollateral needed
+            Collateral needed
           </CelText>
         </Card>
         <CelText

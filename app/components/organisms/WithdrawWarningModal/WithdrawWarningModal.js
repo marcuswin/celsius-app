@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { MODALS } from "../../../constants/UI";
 
@@ -69,11 +69,9 @@ class WithdrawWarningModal extends Component {
             uncheckedCheckBoxColor={STYLES.COLORS.GRAY}
             checkedCheckBoxColor={STYLES.COLORS.GREEN}
             value={this.state.isChecked}
+            onChange={(field, value) => this.setState({ isChecked: value }) }
+            rightText={`My address does not have a ${tag}`}
           />
-          
-          <TouchableOpacity onPress={() => this.setState({ isChecked: !isChecked })}>
-            <CelText type='H4' weight='300' style={{ paddingLeft: 10, paddingBottom: 30 }}>My address does not have a {tag}</CelText>
-          </TouchableOpacity>
         </View>
         <View>
           <CelButton
