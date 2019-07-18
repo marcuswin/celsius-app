@@ -2,7 +2,8 @@ const KEYBOARD_TYPE = {
   DEFAULT: 'default',
   NUMERIC: 'numeric',
   EMAIL: 'email-address',
-  PHONE: 'phone-pad'
+  PHONE: 'phone-pad',
+  NUMBER_PAD: 'number-pad',
 }
 
 const AUTO_CAPITALIZE = {
@@ -106,7 +107,8 @@ const KEYPAD_PURPOSES = {
   CELPAY: 'CELPAY',
   VERIFICATION: 'VERIFICATION',
   AMOUNT: 'AMOUNT',
-  INTEREST_CALCULATOR: 'INTEREST_CALCULATOR'
+  INTEREST_CALCULATOR: 'INTEREST_CALCULATOR',
+  BORROW: 'BORROW'
 }
 
 const PHONES_WITH_CUSTOM_KEYPAD = [

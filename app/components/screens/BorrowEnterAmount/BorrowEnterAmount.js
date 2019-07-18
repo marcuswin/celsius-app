@@ -103,10 +103,6 @@ class BorrowEnterAmount extends Component {
       return actions.showMessage('warning', 'Insufficient funds!')
     }
 
-    // if (newValue > formData.maxAmount) {
-    //   actions.showMessage("warning", `${formatter.usd(newValue)} exceeds the maximum amount you can borrow based on your wallet deposits. Deposit more, or change the amount to proceed.`);
-    // }
-
     actions.updateFormField('loanAmount', newValue)
     this.setState({ activePeriod: predefined })
   }
@@ -114,7 +110,7 @@ class BorrowEnterAmount extends Component {
   renderButton () {
     const { formData, actions, minimumLoanAmount } = this.props
 
-    if (formData.loanAmount > formData.maxAmount) {
+    if (Number(formData.loanAmount) > Number(formData.maxAmount)) {
       return (
         <CelButton
           onPress={() => {
@@ -130,11 +126,8 @@ class BorrowEnterAmount extends Component {
 
     return (
       <CelButton
-        disabled={formData.loanAmount < minimumLoanAmount}
+        disabled={Number(formData.loanAmount) < Number(minimumLoanAmount)}
         onPress={() => {
-          actions.navigateTo('BorrowCollateral')
-          // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
-          actions.toggleKeypad()
           actions.navigateTo('BorrowCollateral')
           actions.toggleKeypad()
         }}
@@ -253,7 +246,7 @@ class BorrowEnterAmount extends Component {
             setKeypadInput={actions.setKeypadInput}
             toggleKeypad={actions.toggleKeypad}
             onPress={this.handleAmountChange}
-            purpose={KEYPAD_PURPOSES.AMOUNT}
+            purpose={KEYPAD_PURPOSES.BORROW}
           />
         </View>
       </RegularLayout>
