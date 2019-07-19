@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,11 +8,11 @@ import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 import BorrowCollateralStyle from "./BorrowCollateral.styles";
 import CelText from "../../atoms/CelText/CelText";
-import CelButton from "../../atoms/CelButton/CelButton";
+import Card from "../../atoms/Card/Card";
+import Icon from '../../atoms/Icon/Icon'
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import CircleButton from "../../atoms/CircleButton/CircleButton";
-import formatter from "../../../utils/formatter";
-import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
+import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
+import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(
   state => ({
@@ -23,7 +23,6 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowCollateral extends Component {
-
   static navigationOptions = () => ({
     title: "Collateral",
     right: "profile"
@@ -36,53 +35,56 @@ class BorrowCollateral extends Component {
     actions.navigateTo('BorrowLoanOption')
   }
 
-  renderButton = (coin) => {
-    const { formData } = this.props
-    const name = formatter.capitalize(coin.name);
-    const crypto = formatter.crypto(coin.amount, coin.short, {precision: 2});
-    const fiat = formatter.usd(coin.amount_usd);
-    const style = BorrowCollateralStyle();
-    const collateralAmount = formData.loanAmount * 2
-
-    const color = coin.amount_usd < collateralAmount ? "rgba(239,70,26,1)" : "rgba(60,71,84,0.7)";
-
-    return (
-      <View key={coin.name} style={style.coinWrapper}>
-        <CircleButton
-          onPress={() => this.handleSelectCoin(coin.short)}
-          type={"coin"}
-          icon={`Icon${coin.short}`}
-          disabled={coin.amount_usd < collateralAmount}
-        />
-        <CelText weight={"500"} align="center" style={{marginTop: 10}}>{name}</CelText>
-        <CelText weight={"300"} align="center" style={{color}}>{crypto}</CelText>
-        <CelText weight={"300"} align="center" style={{color}}>{fiat}</CelText>
-      </View>
-    );
-  };
-
   render() {
-    const { actions, coins, walletCoins } = this.props;
+    const { actions, coins, walletCoins, formData } = this.props;
     const style = BorrowCollateralStyle();
 
-    const availableCoins = walletCoins.filter(coin => coins.includes(coin.short));
+    const availableCoins = walletCoins
+      .filter(coin => coins.includes(coin.short))
+      .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
 
     return (
-      <RegularLayout>
-        <View style={{alignItems: 'center'}}>
-          <ProgressBar steps={6} currentStep={2}/>
-          <CelText margin={"30 0 30 0"} weight={"300"}>Choose a coin to use as a collateral:</CelText>
-        </View>
+      <View style={{flex: 1}}>
+        <HeadingProgressBar steps={6} currentStep={2}/>
+        <RegularLayout
+          fabType='hide'
+        >
+          <View style={{alignItems: 'center'}}>
+            <CelText margin={"0 0 10 0"} weight={"300"} type={'H4'} align={'center'}>
+              Choose a coin to use as a collateral for a {formData.loanAmount} {formData.coin} loan:
+            </CelText>
+          </View>
 
-        <View style={style.wrapper}>
-          {availableCoins.map(coin => this.renderButton(coin))}
-        </View>
+          <View style={style.wrapper}>
+            {availableCoins.map(coin => (
+              <CollateralCoinCard 
+                key={coin.short}
+                handleSelectCoin={this.handleSelectCoin}
+                coin={coin}/>
+            ))
+            }
+          </View>
 
-        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo("Deposit")}>
-          Deposit more funds
-        </CelButton>
+          <TouchableOpacity
+            style={style.addMoreCoinsList}
+            onPress={() => actions.navigateTo('Deposit')}
+          >
+            <Icon fill={'gray'} width='17' height='17' name='CirclePlus' />
+            <CelText type='H5' margin={'0 0 0 5'}>
+              Deposit coins
+            </CelText>
+          </TouchableOpacity>
 
-      </RegularLayout>
+          <Card close>
+            <CelText type='H5' weight={"500"} margin={'0 0 10 5'}>
+            Make sure you have enough coins
+            </CelText>
+            <CelText type='H5' margin={'0 0 0 5'}>
+            Add more coins to make sure you have enough in your wallet for your monthly loan payment.
+            </CelText>
+          </Card>
+        </RegularLayout>
+      </View>
     );
   }
 }

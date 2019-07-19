@@ -56,13 +56,15 @@ const themed = {
     },
     interestCardText: {
       color: STYLES.COLORS.WHITE
+    },
+    loanCard: {
+      backgroundColor: 'red'
     }
   },
 
   celsius: {}
 };
 
-const LoanCalculatorStyle = (theme) => ( theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
-
+const LoanCalculatorStyle = () => getThemedStyle(base, themed);
 
 export default LoanCalculatorStyle;

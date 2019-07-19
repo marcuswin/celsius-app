@@ -10,7 +10,7 @@ import CelText from '../../atoms/CelText/CelText'
 import CelButton from '../../atoms/CelButton/CelButton'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
-import ProgressBar from '../../atoms/ProgressBar/ProgressBar'
+import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
 import { KEYPAD_PURPOSES, THEMES } from "../../../constants/UI";
 import formatter from '../../../utils/formatter'
 import STYLES from '../../../constants/STYLES'
@@ -174,6 +174,7 @@ class BorrowEnterAmount extends Component {
 
     return (
       <RegularLayout padding='0 0 0 0' fabType={'hide'}>
+        <HeadingProgressBar steps={6} currentStep={1} />
         <View
           style={[
             { flex: 1, width: '100%', height: '100%' },
@@ -181,7 +182,6 @@ class BorrowEnterAmount extends Component {
           ]}
         >
           <View style={{ paddingTop: 10, alignItems: 'center' }}>
-            <ProgressBar steps={6} currentStep={1} />
             <CelText align='center' type='H4' margin='30 0 60 0'>
               How much would you like to borrow?
             </CelText>

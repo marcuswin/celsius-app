@@ -82,6 +82,7 @@ class TransactionsHistory extends Component {
     )
 
     const transactionsDisplay = transactionsArray.map(t => ({
+      ...t,
       id: t.id,
       amount: t.amount,
       amount_usd: t.amount_usd
