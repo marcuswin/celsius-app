@@ -1,25 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { TouchableOpacity, View } from "react-native";
+import { Animated, View } from "react-native";
 import moment from "moment";
 
-import formatter from "../../../utils/formatter";
 
 import * as appActions from "../../../redux/actions";
-import BorrowLandingStyle from "./BorrowLanding.styles";
-import CelText from "../../atoms/CelText/CelText";
+// import BorrowLandingStyle from "./BorrowLanding.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import STYLES from "../../../constants/STYLES";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 import { EMPTY_STATES } from "../../../constants/UI";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
-import CelButton from "../../atoms/CelButton/CelButton";
-import Card from "../../atoms/Card/Card";
-import Icon from "../../atoms/Icon/Icon";
 import BorrowCalculator from "../../organisms/BorrowCalculator/BorrowCalculator";
 import { KYC_STATUSES, LOAN_STATUS } from "../../../constants/DATA";
-import { hasPassedKYC } from "../../../utils/user-util";
+import { widthPercentageToDP } from "../../../utils/styles-util";
+import LoanOverviewCard from "../../organisms/LoanOverviewCard/LoanOverviewCard";
+import CelButton from "../../atoms/CelButton/CelButton";
+
+const cardWidth = widthPercentageToDP("70%");
 
 @connect(
   state => ({
@@ -47,12 +47,13 @@ class BorrowLanding extends Component {
     super(props);
     const { walletSummary, loanCompliance, ltv } = this.props;
 
-    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
+    const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short));
 
     this.state = {
       eligibleCoins,
       maxAmount: eligibleCoins.reduce((max, element) => element.amount_usd > max ? element.amount_usd : max, 0),
-      isLoading: true
+      isLoading: true,
+      xOffset: new Animated.Value(0)
     };
 
     this.bestLtv = Math.max(...ltv.map(x => x.percent));
@@ -126,10 +127,27 @@ class BorrowLanding extends Component {
     }
   };
 
+  transitionAnimation = (index) => ({
+    transform: [
+      { perspective: 800 },
+      {
+        scale: this.state.xOffset.interpolate({
+          inputRange: [
+            (index - 1) * cardWidth,
+            index * cardWidth,
+            (index + 1) * cardWidth
+          ],
+          outputRange: [0.9, 1, 0.9],
+          extrapolate: "clamp"
+        })
+      }
+    ]
+  });
+
   render() {
-    const { maxAmount, isLoading } = this.state;
+    const { maxAmount, isLoading, xOffset } = this.state;
     const { actions, user, kycStatus, loanCompliance, allLoans, minimumLoanAmount, ltv } = this.props;
-    const style = BorrowLandingStyle();
+    // const style = BorrowLandingStyle();
 
     if (kycStatus && !hasPassedKYC()) return <BorrowCalculator
       purpose={EMPTY_STATES.NON_VERIFIED_BORROW}/>;
@@ -144,42 +162,59 @@ class BorrowLanding extends Component {
       purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;
 
     return (
-      <RegularLayout>
+      <RegularLayout padding={"20 0 100 0"}>
         <View>
-          <CelButton margin='10 0 25 0' onPress={() => actions.navigateTo("BorrowEnterAmount")}>Apply for another
-            loan</CelButton>
-          {
-            allLoans && allLoans.map(loan => {
-              const loanStatusDetails = this.getLoanStatusDetails(loan.status);
-              return (
-                <Card key={loan.id}>
-                  <CelText type='H6' weight='500' margin={"0 0 7 0"}>Your loans</CelText>
-                  <TouchableOpacity style={{ alignItems: "center", flexDirection: "row", flex: 1 }}
-                                    onPress={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}>
-                    <View style={[style.iconWrapper, { backgroundColor: loanStatusDetails.color }]}>
-                      <Icon name='TransactionLoan' height={25} width={25} fill={"#FFFFFF"}/>
-                    </View>
-                    <View style={style.info}>
-                      <View style={{paddingRight: 0,}}>
-                        <CelText type='H3' weight='600'>${loan.loan_amount}</CelText>
-                        <CelText type='H6'
-                                 weight='300'>{formatter.crypto(loan.amount_collateral_crypto, loan.coin, { precision: 2 })} LOCKED</CelText>
-                      </View>
-                      <View>
-                        <CelText type='H6'
-                                 weight='300'>{moment(loan.created_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
-                        <CelText color={loanStatusDetails.color}>{loanStatusDetails.displayText}</CelText>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </Card>
-              );
-            })
-          }
+          <CelButton margin='10 0 25 0' onPress={() => actions.navigateTo("BorrowEnterAmount")}>Apply for another loan</CelButton>
+          <Animated.ScrollView
+            horizontal
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+              { useNativeDriver: true }
+            )}
+            showsHorizontalScrollIndicator={false}
+            decelerationRate={0}
+            snapToInterval={cardWidth + widthPercentageToDP("4%")}
+            snapToAlignment={"center"}
+          >
+            <View style={{ width: widthPercentageToDP("15%") }}/>
+            {
+              allLoans && allLoans.map((loan, index) => {
+                const loanStatusDetails = this.getLoanStatusDetails(loan.status);
+                const opacity = xOffset.interpolate({
+                  inputRange: [
+                    (index - 1) * cardWidth,
+                    index * cardWidth,
+                    (index + 1) * cardWidth
+                  ],
+                  outputRange: [0.3, 1, 0.15],
+                  extrapolate: "clamp"
+                });
+                return (
+                  <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
+                    <LoanOverviewCard
+                      loan={{
+                        ...loan,
+                        ...loanStatusDetails,
+                      }}
+                      loanStatusColor={loanStatusDetails.color}
+                      loanStatus={loanStatusDetails.displayText}
+                      loanInitiated={moment(loan.created_at).format("MMMM DD, YYYY")}
+                      loanAmount={loan.loan_amount}
+                      totalInterest={loan.total_interest}
+                      monthlyInterest={loan.monthly_payment}
+                      onPressDetails={() => actions.navigateTo("TransactionDetails", { id: loan.transaction_id })}
+                    />
+                  </Animated.View>
+                );
+              })
+            }
+            <View style={{ width: widthPercentageToDP("15%") }}/>
+          </Animated.ScrollView>
         </View>
       </RegularLayout>
     );
   }
 }
 
-export default BorrowLanding
+export default BorrowLanding;

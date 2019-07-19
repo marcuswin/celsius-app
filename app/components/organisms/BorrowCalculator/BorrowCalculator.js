@@ -53,7 +53,7 @@ class BorrowCalculator extends Component {
 
 
     const coinSelectItems = currencies
-      .filter(c => loanCompliance.coins.includes(c.short))
+      .filter(c => loanCompliance.collateral_coins.includes(c.short))
       .map(c => ({
         label: `${c.displayName} - ${c.short}`,
         value: c.short
@@ -199,7 +199,7 @@ class BorrowCalculator extends Component {
 
 
     if (purpose === EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS) {
-      const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.coins.includes(coinData.short));
+      const eligibleCoins = walletSummary.coins.filter(coinData => loanCompliance.collateral_coins.includes(coinData.short));
       const arrayOfAmountUsd = eligibleCoins.map(c => c.amount_usd)
       const indexOfLargestAmount = arrayOfAmountUsd.indexOf(Math.max(...arrayOfAmountUsd))
 
