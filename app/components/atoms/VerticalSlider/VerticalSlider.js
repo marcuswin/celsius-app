@@ -31,7 +31,8 @@ class VerticalSlider extends Component {
     const { items, value } = this.props;
     const style = VerticalSliderStyle();
 
-    const height = (items.length - 1) * 56
+    // Vertical slider height
+    const height = (items.length - 1) * 61
     const values = items.map(i => i.value);
 
     return (
@@ -41,6 +42,7 @@ class VerticalSlider extends Component {
             <Slider
               minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}
               maximumTrackTintColor={STYLES.COLORS.DARK_GRAY_OPACITY}
+              thumbTintColor={STYLES.COLORS.CELSIUS_BLUE}
               style={{ width: height, height: 40 }}
               orientation="vertical"
               minimumValue={0}
@@ -56,7 +58,7 @@ class VerticalSlider extends Component {
           {items.map((item, index) => (
             <TouchableOpacity
               key={`value-${index}`}
-              style={{ height: 50, justifyContent: 'center' }}
+              style={{ height: 55, justifyContent: 'center' }} // Distance between elements
               onPress={() => this.handleChangeSlideValue(item.value)}
             >
               { item.label }

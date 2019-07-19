@@ -18,7 +18,7 @@ import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
 
 @connect(
   (state) => ({
-    formData: state.forms.formData, 
+    formData: state.forms.formData,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -45,12 +45,12 @@ class BorrowLoanTerm extends Component {
     const { actions, formData } = this.props;
 
     const sliderItems = [
-      { value: 6, label: <CelText weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 months</CelText> },
-      { value: 12, label: <CelText weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 months</CelText> },
-      { value: 18, label: <CelText weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 months</CelText> },
-      { value: 24, label: <CelText weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 months</CelText> },
-      { value: 30, label: <CelText weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 months</CelText> },
-      { value: 36, label: <CelText weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 months</CelText> },
+      { value: 6, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 6 ? STYLES.COLORS.CELSIUS_BLUE : null}>6 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 6)) }  USD </CelText></>},
+      { value: 12, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 12 ? STYLES.COLORS.CELSIUS_BLUE : null}>12 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 12)) }  USD</CelText></>},
+      { value: 18, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 18 ? STYLES.COLORS.CELSIUS_BLUE : null}>18 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 18)) }  USD</CelText></>},
+      { value: 24, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 24 ? STYLES.COLORS.CELSIUS_BLUE : null}>24 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 24)) }  USD</CelText></>},
+      { value: 30, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 30 ? STYLES.COLORS.CELSIUS_BLUE : null}>30 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 30)) } USD</CelText></>},
+      { value: 36, label: <><CelText type='H6' weight="bold" color={formData.termOfLoan === 36 ? STYLES.COLORS.CELSIUS_BLUE : null}>36 MONTHS</CelText><CelText type='H6'>Total interest: {formatter.usd(Number(formData.monthlyPayment * 36)) }  USD</CelText></>},
     ]
 
     return (
@@ -59,13 +59,15 @@ class BorrowLoanTerm extends Component {
           <ProgressBar steps={6} currentStep={4} />
           <CelText margin={"30 0 30 0"} weight={"300"}>How long would you like to borrow {formatter.usd(formData.loanAmount)}?</CelText>
         </View>
-        <VerticalSlider
-          items={sliderItems}
-          field="termOfLoan"
-          value={formData.termOfLoan}
-          updateFormField={actions.updateFormField}
-        />
+        <View>
+          <VerticalSlider
+            items={sliderItems}
+            field="termOfLoan"
+            value={formData.termOfLoan}
+            updateFormField={actions.updateFormField}
+          />
 
+        </View>
         <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo('BorrowBankAccount')} iconRight="IconArrowRight">
           Bank account
         </CelButton>

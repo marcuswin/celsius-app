@@ -9,6 +9,8 @@ import { navigateTo } from '../nav/navActions'
 import analytics from '../../utils/analytics'
 import celUtilityUtil from '../../utils/cel-utility-util'
 import { getWalletSummary } from "../wallet/walletActions";
+import { TRANSACTION_TYPES } from "../../constants/DATA";
+import mockTransactions from "../../mock-data/transactions.mock"
 
 export {
   getAllTransactions,
@@ -49,7 +51,11 @@ function getAllTransactions (query = {}) {
 function getTransactionDetails (id = '') {
   return async dispatch => {
     try {
+
       dispatch(startApiCall(API.GET_TRANSACTION_DETAILS))
+
+      // NOTE(fj) when USE_MOCK_TRANSACTIONS is set to true
+      if (Object.keys(TRANSACTION_TYPES).includes(id)) return dispatch(getTransactionDetailsSuccess(mockTransactions[id]))
 
       const res = await transactions.getTransaction(id)
       dispatch(getTransactionDetailsSuccess(res.data.transaction))

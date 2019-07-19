@@ -5,20 +5,14 @@ const base = {
   container: {
     flex: 1
   },
-
-  iconWrapper: {
-    borderRadius: 40,
-    height: 40,
-    width: 40,
-    marginRight: 10,
-    justifyContent: 'center'
-  },
-
-  info: {
-    height: '100%',
+  buttonsWrapper: {
     flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row'
+    marginLeft: 12,
+    marginRight: 12
+  },
+  buttonIconText: {
+    flexDirection: 'row',
+    justifyContent: "space-around",
   }
 }
 
