@@ -322,7 +322,7 @@ function getTransactionsProps(transaction) {
         iconName: 'TransactionReceived',
         statusText: 'Pending'
       }
-      
+
     case TRANSACTION_TYPES.CANCELED:
       return { // Gledam kao returned
         title: () => `Canceled Transaction`,
@@ -357,22 +357,22 @@ function getTransactionsProps(transaction) {
  * @returns {Array}
  */
 function getTransactionSections(transaction) {
-  
+
   // return ['info', 'address:from', 'address:to', 'hodl:info', 'loan:rejected', 'date', 'date:deposited', 'time', 'status', 'loan:date', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'interest', 'button:back', 'button:deposit', 'button:celpay:another', 'button:celpay:friend', 'button:applyForLoan', 'button:refer', 'button:cancel', 'note']
   switch (transaction.type) {
     case TRANSACTION_TYPES.DEPOSIT_PENDING: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED: return ['info', 'address:from', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
-    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_VERIFICATION: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
+    case TRANSACTION_TYPES.WITHDRAWAL_PENDING_VERIFICATION: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:cancel:withdrawal', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING_REVIEW: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_PENDING: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
-    case TRANSACTION_TYPES.WITHDRAWAL_CANCELED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
+    case TRANSACTION_TYPES.WITHDRAWAL_CANCELED: return ['info', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.WITHDRAWAL_CONFIRMED: return ['info', 'address:to', 'date', 'time', 'status:noSeparator', 'transactionId', 'button:deposit', 'button:back']
 
     case TRANSACTION_TYPES.INTEREST: return ['info', 'date', 'time', 'status:noSeparator', 'interest', 'button:deposit', 'button:back']
     case TRANSACTION_TYPES.COLLATERAL: return ['info', 'loan:date', 'time', 'status', 'loan:amount', 'loan:collateral', 'loan:deadline', 'loan:annualInterestRate', 'loan:monthlyInterest', 'loan:totalInterest', 'button:applyForLoan', 'button:back']
     case TRANSACTION_TYPES.BONUS_TOKEN: return ['info', 'date', 'time', 'status'] // TODO
 
-    case TRANSACTION_TYPES.CELPAY_PENDING: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:cancel', 'button:back'] // add sent to
+    case TRANSACTION_TYPES.CELPAY_PENDING: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:cancel:celpay', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_CLAIMED: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_SENT: return ['info', 'sentTo', 'date', 'time', 'status', 'type', 'note', 'button:celpay:another', 'button:back'] // add sent to
     case TRANSACTION_TYPES.CELPAY_RECEIVED: return ['info', 'sentFrom', 'date', 'time', 'status', 'type', 'note', 'button:celpay:friend', 'button:back'] // add sent to
@@ -389,7 +389,7 @@ function getTransactionSections(transaction) {
 
     case TRANSACTION_TYPES.REFERRER: return ['info', 'referrer', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // add friend referred info
     case TRANSACTION_TYPES.REFERRER_PENDING: return ['info', 'referrer:pending', 'date', 'time', 'status:noSeparator', 'button:refer', 'button:back'] // unconfirmed
-    
+
 
     case TRANSACTION_TYPES.CANCELED: return ['info', 'date', 'time', 'status'] // this is random!,
 

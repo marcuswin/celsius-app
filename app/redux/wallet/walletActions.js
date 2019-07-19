@@ -11,6 +11,8 @@ export {
   getWalletSummary,
   getAllCoinWithdrawalAddresses,
   setCoinWithdrawalAddress,
+  setCoinWithdrawalAddressLabel,
+  setCoinWithdrawalAddressLabels,
   getCoinAddress,
 }
 
@@ -94,16 +96,37 @@ function setCoinWithdrawalAddress(flow = "withdrawal") {
 
       dispatch(setCoinWithdrawalAddressSuccess(coin, response.data));
 
-      const nextScreen = flow === "change-address" ? "WithdrawAddressOverview" : "WithdrawConfirm"
+      const nextScreen = flow === "change-address" ? "WithdrawAddressLabel" : "WithdrawConfirm"
       dispatch(navigateTo(nextScreen))
 
       if (flow === "change-address") {
         dispatch(showMessage('success', `Open your email to confirm the change of your ${ formData.coin } withdrawal address. Note that withdrawals for ${ formData.coin } will be locked for the next 24h due to our security protocols.`))
-        dispatch(clearForm())
       }
     } catch (error) {
       dispatch(showMessage('error', error.msg));
       dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS, error));
+    }
+  }
+}
+
+/**
+ *  Sets withdrawal addresse label
+ *  @param {string} coin - short coin name
+ *  @param {string} label - label name for Wallet Withdraw Address
+ */
+function setCoinWithdrawalAddressLabel(coin, label) {
+  return async (dispatch) => {
+    try {
+      dispatch(startApiCall(API.SET_COIN_WITHDRAWAL_ADDRESS_LABEL));
+
+      const response = await walletService.setCoinWithdrawalAddressLabel(coin, label);
+      dispatch(setCoinWithdrawalAddressLabelSuccess(coin, response.data));
+      dispatch(navigateTo("WithdrawAddressOverview"))
+      dispatch(clearForm())
+
+    } catch (error) {
+      dispatch(showMessage('error', error.msg));
+      dispatch(apiError(API.SET_COIN_WITHDRAWAL_ADDRESS_LABEL, error));
     }
   }
 }
@@ -136,7 +159,15 @@ function getAllCoinWithdrawalAddressesSuccess(allWalletAddresses) {
   }
 }
 
-
+/**
+ * TODO add JSDoc
+ */
+function setCoinWithdrawalAddressLabels(walletAddressLabels) {
+  return {
+    type: ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_LABELS,
+    walletAddressLabels
+  }
+}
 /**
  * TODO add JSDoc
  */
@@ -144,6 +175,16 @@ function setCoinWithdrawalAddressSuccess(coin, address) {
   return {
     type: ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_SUCCESS,
     callName: API.SET_COIN_WITHDRAWAL_ADDRESS,
+    address: {
+      [coin]: address
+    },
+  }
+}
+
+function setCoinWithdrawalAddressLabelSuccess(coin, address) {
+  return {
+    type: ACTIONS.SET_COIN_WITHDRAWAL_ADDRESS_LABEL_SUCCESS,
+    callName: API.SET_COIN_WITHDRAWAL_ADDRESS_LABEL,
     address: {
       [coin]: address
     },

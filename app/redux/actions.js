@@ -21,4 +21,5 @@ export * from './transactions/transactionsActions'
 export * from './celPay/celPayActions'
 export * from './graph/graphActions'
 export * from './community/communityActions'
+export * from './compliance/complianceActions'
 // NOTE(fj): plop reduxGen importing new Actions here

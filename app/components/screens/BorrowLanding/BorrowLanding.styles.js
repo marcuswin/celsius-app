@@ -10,7 +10,7 @@ const base = {
     borderRadius: 40,
     height: 40,
     width: 40,
-    marginRight: 15,
+    marginRight: 10,
     justifyContent: 'center'
   },
 

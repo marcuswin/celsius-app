@@ -23,6 +23,7 @@ import { EMPTY_STATES } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import logger from "../../../utils/logger-util";
 import cryptoUtil from '../../../utils/crypto-util';
+import { hasPassedKYC } from "../../../utils/user-util";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
@@ -55,7 +56,7 @@ const renderEmptyState = ({ onContactImport, onSkip }) => (
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    celpayCompliance: state.user.compliance.celpay,
+    celpayCompliance: state.compliance.celpay,
     walletSummary: state.wallet.summary
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -219,7 +220,7 @@ class CelPayChooseFriend extends Component {
     const { user, kycStatus, celpayCompliance, walletSummary } = this.props;
     const { isLoading } = this.state;
 
-    if (kycStatus && kycStatus !== KYC_STATUSES.passed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
+    if (kycStatus && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
     if (isLoading) return <LoadingScreen />

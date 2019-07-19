@@ -22,7 +22,7 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
     interestRates: state.generalData.interestRates,
     formData: state.forms.formData,
     currencies: state.currencies.rates,
-    interestCompliance: state.user.compliance.interest,
+    interestCompliance: state.compliance.interest,
     currencyRatesShort: state.currencies.currencyRatesShort,
     keypadOpen: state.ui.isKeypadOpen
   }),
@@ -31,7 +31,8 @@ import CelNumpad from '../../molecules/CelNumpad/CelNumpad'
 class InterestCalculator extends Component {
   static propTypes = {
     defaultCoin: PropTypes.string,
-    showCard: PropTypes.bool
+    showCard: PropTypes.bool,
+    theme: PropTypes.oneOf(Object.values(THEMES))
   }
   static defaultProps = { defaultCoin: 'BTC', showCard: false }
 
@@ -113,9 +114,9 @@ class InterestCalculator extends Component {
 
   renderInterestOptions = () => {
     const { earnInterestIn } = this.state
-    const { formData, interestRates, currencyRatesShort } = this.props
+    const { formData, interestRates, currencyRatesShort, theme } = this.props
 
-    const style = InterestCalculatorStyle()
+    const style = InterestCalculatorStyle(theme)
 
     const selectedCoin = formData.coin || 'BTC'
     const interestRateForCoin =
@@ -233,11 +234,11 @@ class InterestCalculator extends Component {
 
   render () {
     const { coinSelectItems } = this.state
-    const { actions, formData, keypadOpen, showCard } = this.props
+    const { actions, formData, keypadOpen, showCard, theme } = this.props
 
     const selectedCoin = formData.coin || 'BTC'
 
-    const style = InterestCalculatorStyle()
+    const style = InterestCalculatorStyle(theme)
     const InterestOptions = this.renderInterestOptions
 
     return (
@@ -247,6 +248,7 @@ class InterestCalculator extends Component {
         >
           <View style={style.selectWrapper}>
             <SimpleSelect
+              theme={theme}
               items={coinSelectItems}
               field='coin'
               displayValue={selectedCoin}
@@ -264,6 +266,7 @@ class InterestCalculator extends Component {
             isUsd={formData.isUsd}
             noUsdDecimals
             coin={selectedCoin}
+            theme={theme}
             amountColor={
               keypadOpen ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.DARK_GRAY
             }

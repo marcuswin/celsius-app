@@ -4,6 +4,7 @@ import kycService from "../../services/kyc-service";
 import { apiError, startApiCall } from "../api/apiActions";
 import API from "../../constants/API";
 import ACTIONS from '../../constants/ACTIONS';
+import { navigateTo } from "../nav/navActions";
 
 export {
   getBackendStatus,
@@ -81,7 +82,8 @@ function getBackendStatus() {
     try {
       const res = await generalDataService.getBackendStatus();
       const backendStatus = res.data;
-      dispatch(getBackendStatusSuccess(backendStatus));
+      await dispatch(getBackendStatusSuccess(backendStatus));
+      if (backendStatus.maintenance) dispatch(navigateTo("Maintenance", {maintenance: true}));
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_BACKEND_STATUS, err));

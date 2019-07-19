@@ -44,8 +44,17 @@ class WithdrawAddressOverview extends Component {
   handlePress = (coin) => {
     const { actions } = this.props;
     actions.updateFormFields({ coin });
-    actions.navigateTo("WithdrawNewAddressSetup");
+    actions.navigateTo("VerifyProfile", { onSuccess: () => actions.navigateTo("WithdrawNewAddressSetup") });
   };
+
+  handleLabelPress = (coin, addressLabel) => {
+    const { actions } = this.props;
+    actions.updateFormFields({
+      withdrawAddressLabel: addressLabel,
+      coin
+    })
+    actions.navigateTo("WithdrawAddressLabel");
+  }
 
   renderCoinDetails = (key) => {
     const { currencies } = this.props;
@@ -65,6 +74,7 @@ class WithdrawAddressOverview extends Component {
             coinShort={key}
             withdrawalAddress={withdrawalAddresses[key]}
             onPress={() => this.handlePress(key)}
+            onPressAddressLabel={() => this.handleLabelPress(key, withdrawalAddresses[key].label)}
           />
         ) : null;
       })
@@ -74,7 +84,7 @@ class WithdrawAddressOverview extends Component {
 
   render() {
     const { withdrawalAddresses, callsInProgress } = this.props;
-    const RenderSelectedCoin = this.renderSelectedCoin;
+    // const RenderSelectedCoin = this.renderSelectedCoin;
 
     const isLoading = apiUtil.areCallsInProgress([API.GET_ALL_COIN_WITHDRAWAL_ADDRESSES], callsInProgress);
     if (isLoading) return <LoadingScreen/>;
@@ -86,8 +96,8 @@ class WithdrawAddressOverview extends Component {
         <View>
           <Card color={STYLES.COLORS.CELSIUS_BLUE}>
             <View style={{ flexDirection: "row" }}>
-              <View style={{ flex: 1 }}>
-                <Icon name={"Info"} width="30" height="30" fill={STYLES.COLORS.WHITE}/>
+              <View style={{ flex: 1, paddingRight: 5 }}>
+                <Icon name={"Info"} width="25" height="25" fill={STYLES.COLORS.WHITE} />
               </View>
               <View style={{ flex: 6 }}>
                 <CelText type={"H5"} weight={"300"} color={STYLES.COLORS.WHITE}>
@@ -97,7 +107,7 @@ class WithdrawAddressOverview extends Component {
               </View>
             </View>
           </Card>
-          <RenderSelectedCoin/>
+          {this.renderSelectedCoin()}
         </View>
       </RegularLayout>
     );

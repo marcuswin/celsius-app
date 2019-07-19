@@ -15,7 +15,11 @@ const base = {
        alignContent: 'flex-start',
        alignItems: 'flex-start',
    },
-  size : {height: 35, width: 35}
+   cardHeader: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+   },
+    size: {height: 35, width: 35}
 }
 
 const themed = {

@@ -1,5 +1,7 @@
-import Constants from '../../../constants';
+import _ from "lodash";
+import moment from "moment";
 
+import Constants from '../../../constants';
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
 import { apiError, startApiCall } from "../api/apiActions";
@@ -21,7 +23,6 @@ export {
   // User & Profile Actions
   getProfileInfo,
   updateProfilePicture,
-  getComplianceInfo,
   getCelsiusMemberStatus,
   getUserAppSettings,
   setUserAppSettings,
@@ -41,7 +42,7 @@ export {
   disableTwoFactor,
   checkPIN,
   checkTwoFactor,
-  getPreviousPinScreen,
+  getPreviousPinScreen
 };
 
 /**
@@ -148,8 +149,8 @@ function getTwoFactorSecret(pin) {
 
       return secret;
     } catch (error) {
-      dispatch(showMessage('error', error.msg))
-      return false
+      dispatch(showMessage("error", error.msg));
+      return false;
     }
   };
 }
@@ -162,8 +163,8 @@ function getTwoFactorSecret(pin) {
 function enableTwoFactor(code) {
   return async dispatch => {
     try {
-      const success = await TwoFactorService.enableTwoFactor(code)
-      return success
+      const success = await TwoFactorService.enableTwoFactor(code);
+      return success;
     } catch (error) {
       dispatch(showMessage("error", error.msg));
     }
@@ -182,45 +183,11 @@ function disableTwoFactor() {
       await TwoFactorService.disableTwoFactor(code);
       dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS });
       dispatch(navigateTo("SecuritySettings"));
-      dispatch(showMessage("success", "Two-Factor Verification removed"));
+      dispatch(showMessage("success", "In order to completely remove Two-Factor Verification check your email."));
     } catch (error) {
       dispatch(apiError(API.DISABLE_TWO_FACTOR));
       dispatch(showMessage("error", error.msg));
     }
-  };
-}
-
-
-/**
- * Gets all relevant compliance settings for user
- */
-function getComplianceInfo() {
-  return async dispatch => {
-    dispatch(startApiCall(API.GET_USER_PERSONAL_INFO));
-
-    try {
-      const complianceInfoRes = await usersService.getComplianceInfo();
-
-      dispatch(getComplianceInfoSuccess(complianceInfoRes.data.allowed_actions));
-    } catch (err) {
-      if (err.status === 422) {
-        deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-      }
-      dispatch(showMessage("error", err.msg));
-      dispatch(apiError(API.GET_USER_PERSONAL_INFO, err));
-    }
-  };
-}
-
-
-/**
- * TODO add JSDoc
- */
-function getComplianceInfoSuccess(complianceInfo) {
-  return {
-    type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
-    callName: API.GET_COMPLIANCE_INFO_INFO,
-    complianceInfo
   };
 }
 
@@ -447,26 +414,73 @@ function getUserAppSettings() {
  * @param {boolean} data.interest_in_cel
  */
 function setUserAppSettings(data) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     try {
       dispatch(startApiCall(API.SET_APP_SETTINGS));
+      const appSettings = getState().user.appSettings;
 
-      const newData = { ...data }
+      const newData = { ...data };
       if (newData.interest_in_cel_per_coin) {
-        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin)
+        newData.interest_in_cel_per_coin = JSON.stringify(newData.interest_in_cel_per_coin);
       }
 
       const userAppData = await usersService.setUserAppSettings(newData);
+      const newSettings = userAppData.data;
 
       dispatch({
         type: ACTIONS.SET_APP_SETTINGS_SUCCESS,
-        userAppData: userAppData.data
+        userAppData: newSettings
       });
 
-      if (newData.interest_in_cel_per_coin) {
-        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
-      } else {
-        dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL with higher rates. To change how you earn interest visit My CEL page."));
+      const currentDate = moment.utc();
+
+      const newDataKeys = Object.keys(newData);
+
+      if (newDataKeys.includes("interest_in_cel") || newDataKeys.includes("interest_in_cel_per_coin")) {
+        if (newSettings.interest_in_cel !== appSettings.interest_in_cel) {
+
+          if (currentDate.day() <= 5 && currentDate.hour() < 17) {
+
+            if (newSettings.interest_in_cel) {
+              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in CEL on all deposited coins.`));
+            }
+            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in-kind on all deposited coins.`));
+          } else {
+            if (newSettings.interest_in_cel) {
+              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL for all deposited coins. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+            }
+            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `You have chosen to earn interest income in-kind for all deposited coins. Interest has already been calculated for this week, so you will receive interest in-kind beginning Monday, ${currentDate.day(15).format("DD MMMM")}.`));
+          }
+        }
+
+        if (!_.isEqual(newSettings.interest_in_cel_per_coin, appSettings.interest_in_cel_per_coin)) {
+          const coins = Object.keys(newSettings.interest_in_cel_per_coin);
+
+          const changedCoins = [];
+          const coinsInCel = [];
+
+          coins.forEach(c => {
+            if (newSettings.interest_in_cel_per_coin[c]) {
+              coinsInCel.push(c);
+            }
+
+            if (newSettings.interest_in_cel_per_coin[c] !== appSettings.interest_in_cel_per_coin[c]) {
+              changedCoins.push(c);
+            }
+          });
+
+          if (currentDate.day() <= 5 && currentDate.hour() < 17) {
+            if (coinsInCel.length) {
+              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ coinsInCel.join(', ') } in CEL.`));
+            }
+            return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ changedCoins.join(', ') } in ${ changedCoins.join(', ') }.`));
+          }
+
+          if (coinsInCel.length) {
+              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}`));
+            }
+            return dispatch(showMessage("success", `You have chosen to earn interest income in ${ changedCoins.join(', ') }. Interest has already been calculated for this week, so you will receive interest in ${ changedCoins.join(', ') } beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+        }
       }
     } catch (e) {
       dispatch(apiError(API.SET_APP_SETTINGS, e));

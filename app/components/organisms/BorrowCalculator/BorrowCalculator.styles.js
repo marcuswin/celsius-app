@@ -49,13 +49,16 @@ const themed = {
   dark: {
     cardStyle: {
       backgroundColor: STYLES.COLORS.DARK_HEADER,
-      borderColor: STYLES.COLORS.LIGHT_GRAY
+      borderColor: STYLES.COLORS. WHITE_OPACITY5
     },
     percentageTextStyle: {
       color: STYLES.COLORS.MEDIUM_GRAY
     },
     interestCardText: {
       color: STYLES.COLORS.WHITE
+    },
+    loanCard: {
+      backgroundColor: 'red'
     }
   },
 

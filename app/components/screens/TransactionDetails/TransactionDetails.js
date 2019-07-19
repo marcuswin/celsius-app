@@ -32,9 +32,9 @@ import apiUtil from '../../../utils/api-util';
 import API from '../../../constants/API';
 import LoadingState from '../../atoms/LoadingState/LoadingState';
 import formatter from '../../../utils/formatter';
-import { KYC_STATUSES } from '../../../constants/DATA';
 import { MODALS } from "../../../constants/UI";
 import InfoModal from "../../molecules/InfoModal/InfoModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -50,7 +50,6 @@ import InfoModal from "../../molecules/InfoModal/InfoModal";
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
 class TransactionDetails extends Component {
-
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state
     return {
@@ -67,7 +66,6 @@ class TransactionDetails extends Component {
     }
   }
 
-
   componentDidMount = () => {
     const { actions, navigation } = this.props;
     const transactionId = navigation.getParam('id');
@@ -83,11 +81,12 @@ class TransactionDetails extends Component {
     }
   }
 
-
   renderSection = (sectionType) => {
-    const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo } = this.props;
+    const { actions, transaction, user, totalInterestEarned, appSettings, loyaltyInfo, navigation } = this.props;
     const transactionProps = transactionsUtil.getTransactionsProps(transaction);
-    const kycPassed = user.kyc && (user.kyc.status === KYC_STATUSES.passed)
+    const kycPassed = user.kyc && (hasPassedKYC())
+    const transactionId = navigation.getParam('id')
+
 
     switch (sectionType) {
       case 'info':
@@ -112,11 +111,14 @@ class TransactionDetails extends Component {
         return kycPassed ? <CelButton margin="16 0 80 0" key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
+
       case 'button:celpay:another':
         return kycPassed ? <CelButton margin="30 0 0 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay another friend</CelButton> : null;
       case 'button:celpay:friend':
         return kycPassed ? <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay a friend</CelButton> : null;
-      case 'button:cancel':
+      case 'button:cancel:withdrawal':
+        return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={ () => actions.cancelWithdrawal(transactionId) } basic>Cancel withdrawal</CelButton>;
+      case 'button:cancel:celpay':
         return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>

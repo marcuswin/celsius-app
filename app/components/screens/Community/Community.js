@@ -12,11 +12,17 @@ import CelText from "../../atoms/CelText/CelText";
 import formatter from "../../../utils/formatter";
 import Separator from "../../atoms/Separator/Separator";
 import CommunityStyle from "./Community.styles";
+import PerformanceGraph from "../../graphs/PerformanceGraph/PerformanceGraph";
+import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
 
 @connect(
   state => ({
-    communityStats: state.community.stats
+    communityStats: state.community.stats,
+    currenciesGraphs: state.currencies.graphs,
+    celStats: state.community.stats.coin_comparison_graphs.CEL,
+    btcStats: state.community.stats.coin_comparison_graphs.BTC,
+    ethStats: state.community.stats.coin_comparison_graphs.ETH
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -33,13 +39,12 @@ class Community extends Component {
   });
 
   render() {
-    const { communityStats } = this.props;
+    const { communityStats, celStats, ethStats, btcStats } = this.props;
     const style = CommunityStyle();
 
     if (!communityStats) {
       return null
     }
-
     const highestDeposit = communityStats.highest_deposit;
     const image = communityStats.interest_rates.filter(obj => obj.coin === highestDeposit.coin);
 
@@ -48,8 +53,10 @@ class Community extends Component {
 
         <Card padding={"0 0 0 0"}>
           <View style={style.imageView}>
-            <Image source={require("../../../../assets/images/community/dogIllustration.png")}
-                   style={style.communityImage}/>
+            <ThemedImage
+              lightSource={require("../../../../assets/images/community/dogIllustration.png")}
+              darkSource={require("../../../../assets/images/community/dogIllustration-dark.png")}
+              style={style.communityImage}/>
             <View>
               <CelText weight={"300"} align={"left"} type={"H6"}>Celsius Network counts</CelText>
               <CelText weight={"600"} align={"left"}
@@ -59,7 +66,7 @@ class Community extends Component {
           </View>
         </Card>
 
-        <CommunityDashboard name={"DEPOSITS"}>
+        <CommunityDashboard name={"DEPOSITS"}/>
           <View style={style.image}>
             <Image source={{ uri: image[0].currency.image_url }} style={style.coinImage}/>
           </View>
@@ -88,7 +95,14 @@ class Community extends Component {
           <CelText weight={"600"} align={"center"} type={"H1"}
                    style={style.text}>{formatter.round(communityStats.total_depositors_num, { noPrecision: true })}</CelText>
           <CelText weight={"300"} align={"center"} type={"H6"} style={style.secondText}>Members are depositing</CelText>
-        </CommunityDashboard>
+
+        <CommunityDashboard name={"CEL VS BTC VS ETH"}/>
+
+        <PerformanceGraph
+          celStats={celStats}
+          ethStats={ethStats}
+          btcStats={btcStats}
+        />
 
         {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 
@@ -106,7 +120,11 @@ class Community extends Component {
                   <CelText align={"left"} type={"H1"}
                            weight={"600"}>{`${communityStats.referrers_reward_amount_usd} USD`}</CelText>
                 </View>
-                <Image style={style.bulldogImage} source={require("../../../../assets/images/community/frenchie.png")}/>
+                <ThemedImage
+                  style={style.bulldogImage}
+                  lightSource={require("../../../../assets/images/community/frenchie.png")}
+                  darkSource={require("../../../../assets/images/community/frenchie-dark.png")}
+                />
               </View>
             </Card>
           </CommunityDashboard> : null}

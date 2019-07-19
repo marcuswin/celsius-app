@@ -11,7 +11,6 @@ import STYLES from '../../../constants/STYLES'
 import formatter from '../../../utils/formatter';
 
 const SimpleSelect = props => {
-  const style = SimpleSelectStyle()
   let additionalStyle = {}
 
   const {
@@ -24,8 +23,11 @@ const SimpleSelect = props => {
     fillColor,
     iconWidth,
     placeholder,
-    style:selectStyle
+    style:selectStyle,
+    theme
   } = props
+
+  const style = SimpleSelectStyle(theme)
   if (selectStyle) {
     additionalStyle = {
       inputAndroid: {
@@ -37,7 +39,7 @@ const SimpleSelect = props => {
     }
   }
   const simpleStyle = StyleSheet.create(formatter.deepmerge(style, additionalStyle))
-  
+
   return (
     <RNPickerSelect
       placeholder={{ label: placeholder } || {}}

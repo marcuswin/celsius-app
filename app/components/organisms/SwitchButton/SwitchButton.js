@@ -6,7 +6,7 @@ import { TouchableOpacity, Switch, Platform } from 'react-native';
 
 import SwitchButtonStyle from "./SwitchButton.styles";
 import CelText from '../../atoms/CelText/CelText';
-import { getMargins } from '../../../utils/styles-util';
+import { getMargins, getTheme } from '../../../utils/styles-util';
 import STYLES from '../../../constants/STYLES';
 
 class SwitchButton extends Component {
@@ -32,10 +32,17 @@ class SwitchButton extends Component {
     const { children, margin, onPress, value } = this.props;
     const style = SwitchButtonStyle()
     const falseColor = Platform.OS === 'ios' ? "transparent" : STYLES.COLORS.DARK_GRAY3;
+    const theme = getTheme()
     return (
       <TouchableOpacity style={[style.container, { ...getMargins(margin) }]} onPress={onPress}>
         <CelText type="H4">{children}</CelText>
-        <Switch thumbColor={STYLES.COLORS.WHITE} ios_backgroundColor={STYLES.COLORS.DARK_GRAY3} trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }} value={value} onValueChange={this.changeValue} />
+        <Switch
+          thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND  }
+          ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
+          trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
+          value={value}
+          onValueChange={this.changeValue}
+        />
       </TouchableOpacity>
     );
   }

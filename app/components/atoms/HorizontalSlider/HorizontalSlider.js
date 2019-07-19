@@ -34,12 +34,13 @@ class HorizontalSlider extends Component {
     const { items, value } = this.props
     const values = items.map(i => i.value)
     const style = HorizontalSliderStyle()
-    
+
     return (
       <View style={style.container}>
         <Slider
           minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}
           maximumTrackTintColor={STYLES.COLORS.DARK_GRAY_OPACITY}
+          thumbTintColor={STYLES.COLORS.CELSIUS_BLUE}
           style={{ flex: 1 }}
           minimumValue={0}
           maximumValue={items.length - 1}
@@ -60,6 +61,14 @@ class HorizontalSlider extends Component {
             <TouchableOpacity
               key={`value-${index}`}
               onPress={() => this.handleChangeSlideValue(item.value)}
+              style={{
+                marginTop: -12,
+                height: 33,
+                width: 30,
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                zIndex: -1
+              }}
             >
               {item.label}
             </TouchableOpacity>

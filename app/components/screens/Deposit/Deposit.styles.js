@@ -22,7 +22,7 @@ const base = {
     alignContent: 'center',
     alignItems: 'center',
     paddingHorizontal: '2%',
-    paddingVertical: '2%',
+    paddingVertical: '2%'
   },
   qrCodeWrapper: {
     backgroundColor: '#fff',
@@ -40,7 +40,7 @@ const themed = {
       marginLeft: 20,
       marginRight: 20,
       backgroundColor: STYLES.COLORS.WHITE
-    }
+    },
   },
 
   dark: {
@@ -48,7 +48,10 @@ const themed = {
       marginLeft: 20,
       marginRight: 20,
       backgroundColor: STYLES.COLORS.DARK_HEADER
-    }
+    },
+    importantInfo: {
+      color: STYLES.COLORS.WHITE
+    },
   },
 
   celsius: {

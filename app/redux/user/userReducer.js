@@ -2,20 +2,6 @@ import ACTIONS from "../../constants/ACTIONS";
 
 
 /**
- * TODO move to compliance
- */
-const defaultCompliance = { allowed: true, coins: [] }
-const initialCompliance = {
-  app: { ...defaultCompliance },
-  deposit: { ...defaultCompliance },
-  withdraw: { ...defaultCompliance },
-  celpay: { ...defaultCompliance },
-  loan: { ...defaultCompliance },
-  interest: { ...defaultCompliance }
-}
-
-
-/**
  * TODO make it a function add JSDoc & desc for return
  */
 const initialState = {
@@ -32,7 +18,6 @@ const initialState = {
   loyaltyInfo: null, // TODO move to profile
   securityOverview: {}, // TODO move to security
   kycDocuments: undefined, // TODO move to kycReducer
-  compliance: initialCompliance, // TODO move to comlplianceReducer
   contacts: { // TODO move to profileReducer
     friendsWithApp: [],
     friendsWithoutApp: []
@@ -147,14 +132,6 @@ export default (state = initialState, action) => {
         }
       }
 
-    case ACTIONS.GET_COMPLIANCE_INFO_SUCCESS:
-      return {
-        ...state,
-        compliance: {
-          ...action.complianceInfo
-        }
-      }
-
     case ACTIONS.GET_CONNECTED_CONTACTS_SUCCESS:
       return {
         ...state,
@@ -202,15 +179,6 @@ export default (state = initialState, action) => {
         profile: {
           ...state.profile,
           celsius_member: action.isNewMember || state.profile.celsius_member,
-        }
-      }
-
-    case ACTIONS.DISABLE_TWO_FACTOR_SUCCESS:
-      return {
-        ...state,
-        profile: {
-          ...state.profile,
-          two_factor_enabled: false,
         }
       }
 

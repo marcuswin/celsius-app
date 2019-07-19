@@ -10,6 +10,7 @@ import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
 import { KYC_STATUSES } from "../../../constants/DATA";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -20,10 +21,10 @@ import { KYC_STATUSES } from "../../../constants/DATA";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    celpayCompliance: state.user.compliance.celpay,
-    depositCompliance: state.user.compliance.deposit,
-    loanCompliance: state.user.compliance.loan,
-    withdrawCompliance: state.user.compliance.withdraw,
+    celpayCompliance: state.compliance.celpay,
+    depositCompliance: state.compliance.deposit,
+    loanCompliance: state.compliance.loan,
+    withdrawCompliance: state.compliance.withdraw,
     user: state.user.profile,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
@@ -65,20 +66,22 @@ class FabMenu extends Component {
     const {depositCompliance, celpayCompliance, loanCompliance, withdrawCompliance, user,kycStatus} = this.props;
     const main = [
       [
-        { label: 'Wallet', screen: 'WalletLanding' },
+        { iconName: 'Wallet',label: 'Wallet', screen: 'WalletLanding' },
       ],
       [],
       [
-        { label: 'Settings', screen: 'Settings' },
-        { label: 'Community', screen: 'Community' },
-        // { label: 'Support', screen: 'Support' }
+        { iconName:'Settings', label: 'Settings', screen: 'Settings' },
+        { iconName: 'Community', label: 'Community', screen: 'Community' },
+        // { iconName: 'Support', label: 'Support', screen: 'Support' }
       ]
     ];
-    if (depositCompliance.allowed) main[0].push({ label: 'Deposit', screen: 'Deposit' });
-    if ((kycStatus && kycStatus === KYC_STATUSES.passed) && withdrawCompliance.allowed) main[0].push({ label: 'Withdraw', screen: 'WithdrawEnterAmount' });
-    if (celpayCompliance.allowed) main[1].push({ label: 'CelPay', screen: 'CelPayChooseFriend' });
-    if (loanCompliance.allowed) main[1].push({ label: 'Borrow', screen: 'BorrowLanding' });
-    if (user) main[1].push({label: "Profile", screen: "Profile"});
+    if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit' });
+    if ((kycStatus && hasPassedKYC()) && withdrawCompliance.allowed) main[0].push({iconName: 'Withdraw', label: 'Withdraw', screen: 'WithdrawEnterAmount' });
+    if (celpayCompliance.allowed) main[1].push({iconName:'CelPay', label: 'CelPay', screen: 'CelPayChooseFriend' });
+    if (loanCompliance.allowed) main[1].push({iconName: 'Borrow', label: 'Borrow', screen: 'BorrowLanding' });
+    if (user) main[1].push({iconName: 'Profile', label: 'Profile', screen: 'Profile'});
+    // TODO change borrow landing to new screen
+    if (kycStatus && hasPassedKYC()) main[2].splice(1, 0, { iconName: 'MyCel', label: 'My CEL', screen: 'MyCel' })
 
     return {
       main,
@@ -144,14 +147,10 @@ class FabMenu extends Component {
   }
 
   fabAction = () => {
-    const { actions, fabType } = this.props;
+    const { fabType } = this.props;
     switch (fabType) {
       case 'main':
         this.toggleMenu();
-        break;
-
-      case 'support':
-        actions.navigateTo('SupportFab');
         break;
 
       default:
@@ -178,6 +177,8 @@ class FabMenu extends Component {
         return 30
       case "Profile":
         return 30
+      case "MyCel":
+        return 30
       default:
         return 33
     }
@@ -185,12 +186,21 @@ class FabMenu extends Component {
 
   renderMenuItem = (item) => {
     const { theme, actions } = this.props;
-    return <CircleButton key={item.label} theme={theme} onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} type="menu" text={item.label} icon={item.label} iconSize={this.iconSize(item.label)} />;
+    return (
+      <CircleButton 
+        key={item.label} 
+        theme={theme} 
+        onPress={() => { actions.resetToFlow(item.screen); actions.closeFabMenu() }} 
+        type="menu"
+        text={item.label} 
+        icon={item.iconName} 
+        iconSize={this.iconSize(item.iconName)}   
+      />
+    )
   }
 
   renderMenuRow = (menuRow) => {
     const style = FabMenuStyle();
-
     return (
       <View key={menuRow[0].label} style={style.menuItemsContainer}>
         {menuRow.map(this.renderMenuItem)}

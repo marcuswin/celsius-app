@@ -26,7 +26,7 @@ export {
   disableAccessibilityFontScaling,
 
   getTheme,
-  AddThemeToComponents,
+  addThemeToComponents,
   getThemedStyle,
 };
 
@@ -196,11 +196,12 @@ function getFontSize () {
  * Add theme to all nested element for given component types
  *
  * @param {Array} children - array of react children elements
- * @param {Array} components - string list of react children elements
+ * @param {Array} components - string list of react children elements,
+ * need to use displayName, because string 'CelText' get minified in standalone app
  * @param {String} theme
  * @returns {number}
  */
-function AddThemeToComponents (children, components, theme) {
+function addThemeToComponents (children, components, theme) {
   return appUtil.recursiveMap(children, child =>
     components.includes(child.type.displayName)
       ? React.cloneElement(child, { theme })

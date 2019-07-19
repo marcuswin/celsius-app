@@ -10,7 +10,6 @@ import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelText from '../../atoms/CelText/CelText'
 import CoinCard from '../../molecules/CoinCard/CoinCard'
-import cryptoUtil from '../../../utils/crypto-util'
 import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCard'
 import WalletLandingStyle from './WalletLanding.styles'
 import CoinListCard from '../../molecules/CoinListCard/CoinListCard'
@@ -23,6 +22,7 @@ import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCel
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
+import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 
 let counter = 0;
 
@@ -43,7 +43,8 @@ let counter = 0;
       user: state.user.profile,
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
-        : KYC_STATUSES.collecting
+        : KYC_STATUSES.collecting,
+      depositCompliance: state.compliance.deposit,
     }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -108,8 +109,7 @@ class WalletLanding extends Component {
       this.shouldInitializeMembership = false
     }
     const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
-    const isUSCitizen = user.citizenship === 'United States' || user.country === 'United States'
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen) {
+    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
@@ -188,6 +188,8 @@ class WalletLanding extends Component {
       })
     }
 
+    coinWithAmount.sort((a, b) => a.amount_usd < b.amount_usd)
+
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
     return coinWithAmount.length
@@ -243,7 +245,7 @@ class WalletLanding extends Component {
       currenciesRates,
       currenciesGraphs,
       actions,
-      kycStatus
+      depositCompliance,
     } = this.props
     const { activeView } = this.state
 
@@ -253,7 +255,7 @@ class WalletLanding extends Component {
       walletSummary.coins.forEach(coin => {
         const withoutAmountNoPrior =
           coin.amount_usd === 0 &&
-          cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
+          depositCompliance.coins.indexOf(coin.short) !== -1
         if (coin.amount_usd === 0 && withoutAmountNoPrior) {
           coinWithoutAmount.push(coin)
         }
@@ -280,7 +282,7 @@ class WalletLanding extends Component {
               displayName={currency.displayName}
               currencyRates={currency}
               onCardPress={() =>
-                kycStatus === KYC_STATUSES.passed
+                hasPassedKYC()
                   ? actions.navigateTo('Deposit', { coin: coin.short })
                   : actions.navigateTo('KYCLanding')
               }
@@ -297,7 +299,7 @@ class WalletLanding extends Component {
             displayName={currency.displayName}
             currencyRates={currency}
             onCardPress={() =>
-              kycStatus === KYC_STATUSES.passed
+              hasPassedKYC()
                 ? actions.navigateTo('Deposit', { coin: coin.short })
                 : actions.navigateTo('KYCLanding')
             }
@@ -308,7 +310,7 @@ class WalletLanding extends Component {
   }
 
   renderAddMoreCoins = () => {
-    const { actions, kycStatus } = this.props
+    const { actions } = this.props
     const { activeView } = this.state
     const style = WalletLandingStyle()
 
@@ -319,7 +321,7 @@ class WalletLanding extends Component {
       <TouchableOpacity
         style={gridStyle}
         onPress={() =>
-          kycStatus === KYC_STATUSES.passed
+          hasPassedKYC()
             ? actions.navigateTo('Deposit')
             : actions.navigateTo('KYCLanding')
         }

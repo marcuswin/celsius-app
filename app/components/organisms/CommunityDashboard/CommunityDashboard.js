@@ -79,7 +79,7 @@ class CommunityDashboard extends Component {
     }
     if (name === "BORROW" && button === "Average") {
       number = 25000;
-      explanationText = "Highest $ loan takene";
+      explanationText = "Highest $ loan taken";
     }
     if (name === "BORROW" && button === "Total") {
       explanationText = "Highest $ loan taken";
@@ -121,10 +121,9 @@ class CommunityDashboard extends Component {
     const { name, buttonTypes, info, children } = this.props;
     const { activeButton, primaryNumber, explanation } = this.state;
     const style = CommunityDashboardStyle();
-    const color = this.getSeparatorColor(style);
     return (
       <View style={style.container}>
-        <Separator margin={"30 0 20 0"} color={color} textOpacity={0.7} text={name}/>
+        <Separator margin={"30 0 20 0"} text={name}/>
         {(buttonTypes && buttonTypes.length > 0) &&
         <View style={style.buttonWrapper}>
           {buttonTypes.map((button) => (

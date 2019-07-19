@@ -24,6 +24,7 @@ import CellphoneVerify from "../../components/screens/CellphoneVerify/CellphoneV
 import SelectCountry from "../../components/screens/SelectCountry/SelectCountry";
 import WithdrawNewAddressSetup from "../../components/screens/WithdrawNewAddressSetup/WithdrawNewAddressSetup";
 import WithdrawAddressOverview from "../../components/screens/WithdrawAddressOverview/WithdrawAddressOverview";
+import WithdrawAddressLabel from "../../components/screens/WithdrawAddressLabel/WithdrawAddressLabel";
 
 
 export const profileFlow = {
@@ -51,7 +52,8 @@ export const profileFlow = {
     CellphoneVerify,
     SelectCountry,
     WithdrawNewAddressSetup,
-    WithdrawAddressOverview
+    WithdrawAddressOverview,
+    WithdrawAddressLabel
   },
   props: {
     initialRouteName: 'Profile',

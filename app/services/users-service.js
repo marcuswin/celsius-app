@@ -26,7 +26,6 @@ const usersService = {
   updateProfileTaxpayerInfo,
 
   // TODO move to user-data-service
-  getComplianceInfo,
   connectPhoneContacts,
   getConnectedContacts,
   getLinkedBankAccount,
@@ -309,17 +308,6 @@ async function addExpoPushToken (token) {
   return axios.put(`${apiUrl}/users/expoPushToken`, {
     expo_push_token: token
   })
-}
-
-
-/**
- * Gets compliance info for user
- * @see https://documenter.getpostman.com/view/4207695/RW1aHzQg#7d62f0f6-ae30-4abf-b36a-792dc785a88a
- *
- * @return {Promise}
- */
-function getComplianceInfo () {
-  return axios.get(`${apiUrl}/me/compliance`)
 }
 
 /**

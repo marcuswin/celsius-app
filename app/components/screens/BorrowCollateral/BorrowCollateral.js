@@ -16,7 +16,7 @@ import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
 
 @connect(
   state => ({
-    coins: state.user.compliance.loan.coins,
+    coins: state.compliance.loan.coins,
     walletCoins: state.wallet.summary.coins,
     formData: state.forms.formData,
   }),

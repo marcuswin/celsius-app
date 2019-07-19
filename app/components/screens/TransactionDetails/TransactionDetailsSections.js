@@ -10,6 +10,9 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
+import DATA from "../../../constants/DATA";
+
+const { BLOCKEXPLORERS } = DATA
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -53,19 +56,18 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
 )
 
 export const AddressSection = ({ transaction, text, address }) => {
-
   const link = getBlockExplorerLink(transaction);
-
   return (
     link ?
       <View style={{ paddingHorizontal: 20 }}>
         <Card margin={'20 0 20 0'}>
           <View style={{ justifyContent: 'space-between', flexDirection: 'row', marginBottom: 10 }}>
             <CelText>{text}</CelText>
-            {!!transaction.transaction_id && (
+            {!!transaction.transaction_id && !!link.link && (
               <TouchableOpacity
                 style={{ flexDirection: 'row', alignItems: 'flex-start' }}
-                onPress={() => Linking.openURL(link.text)}>
+                onPress={() => Linking.openURL(link.link)}
+              >
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {link.text}</CelText>
                 <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE}
                   style={{ marginLeft: 5 }} />
@@ -338,22 +340,37 @@ export const HodlInfoSection = ({ date, amount, coin }) => (
 )
 
 function getBlockExplorerLink(transaction) {
-
+  const tId = transaction.transaction_id
   switch (transaction.coin) {
-    case 'eth': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'dai': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'pax': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'zrx': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'tusd': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'gusd': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'usdc': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'btc': return { link: `https://blockchain.info/btc/tx/${transaction.transaction_id}`, text: 'blockchain' };
-    case 'bch': return { link: `https://blockdozer.com/tx/${transaction.transaction_id}`, text: 'blockdozer' };
-    case 'ltc': return { link: `https://chainz.cryptoid.info/ltc/tx.dws?${transaction.transaction_id}`, text: 'chainz' };
-    case 'xrp': return { link: `https://xrpcharts.ripple.com/#/transactions/${transaction.transaction_id}`, text: 'xrpcharts' };
-    case 'cel': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'omg': return { link: `https://etherscan.io/tx/${transaction.transaction_id}`, text: 'etherscan' };
-    case 'xlm': return { link: `https://stellarchain.io/tx/${transaction.transaction_id}`, text: 'stellarchain' };
+    // BTC
+    case 'btc': return { link: BLOCKEXPLORERS.btc && `${ BLOCKEXPLORERS.btc }${ tId }`, text: 'blockchain' };
+    // BCH
+    case 'bch': return { link: BLOCKEXPLORERS.bch && `${ BLOCKEXPLORERS.bch }${ tId }`, text: 'blockdozer' };
+    // LTC
+    case 'ltc': return { link: BLOCKEXPLORERS.ltc && `${ BLOCKEXPLORERS.ltc }${ tId }`, text: 'chainz' };
+    // XRP
+    case 'xrp': return { link: BLOCKEXPLORERS.xrp && `${ BLOCKEXPLORERS.xrp }${ tId }`, text: 'xrpcharts' };
+    // XLM
+    case 'xlm': return { link: BLOCKEXPLORERS.xlm && `${ BLOCKEXPLORERS.xlm }${ tId }`, text: 'stellarchain' };
+    // DASH
+    case 'dash': return { link: BLOCKEXPLORERS.dash && `${ BLOCKEXPLORERS.dash }${ tId }`, text: 'chainz' };
+    // ZEC
+    case 'zec': return { link: BLOCKEXPLORERS.zec && `${ BLOCKEXPLORERS.zec }${ tId }`, text: 'chain.so' };
+    // BTG
+    case 'btg': return { link: BLOCKEXPLORERS.btg && `${ BLOCKEXPLORERS.btg }${ tId }`, text: 'btgexplorer' };
+
+    // ETH & ERC20
+    case 'eth':
+    case 'dai':
+    case 'pax':
+    case 'zrx':
+    case 'tusd':
+    case 'gusd':
+    case 'usdc':
+    case 'cel':
+    case 'omg':
+      return { link: BLOCKEXPLORERS.eth && `${ BLOCKEXPLORERS.eth }${ tId }`, text: 'etherscan' };
+
     default:
       return null
   }

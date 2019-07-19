@@ -89,7 +89,9 @@ const CACHE_IMAGES = [
   require('../../assets/images/icons/plus-icn-small.png'),
   require('../../assets/images/icons/withdraw-small.png'),
   require('../../assets/images/community/dogIllustration.png'),
+  require('../../assets/images/community/dogIllustration-dark.png'),
   require('../../assets/images/community/frenchie.png'),
+  require('../../assets/images/community/frenchie-dark.png'),
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/bear/profile-bear.png`,
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/cat/profile-cat.png`,
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/deer/profile-deer.png`,
@@ -104,9 +106,13 @@ const CACHE_IMAGES = [
   `${API_URL.replace('/api/v3', '')}/profile-images/avatar/unicorn/profile-unicorn.png`,
   require('../../assets/images/deer-sad.png'),
   require('../../assets/images/security/securityDog/security-dog-illustration.png'),
+  require('../../assets/images/security/securityDog/security-dog-illustration-dark.png'),
   require('../../assets/images/security/securityDiane/security-diane-illustration.png'),
+  require('../../assets/images/security/securityDiane/security-diane-illustration-dark.png'),
   require('../../assets/images/calculator.png'),
-  require('../../assets/images/security-dog.png')
+  require('../../assets/images/security-dog.png'),
+  require('../../assets/images/stacked_coins.png'),
+  require('../../assets/images/maintenance/hippo-maintenance.png')
 ];
 
 export default {

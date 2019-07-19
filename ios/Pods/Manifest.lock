@@ -63,6 +63,10 @@ PODS:
   - EXImagePicker (5.0.2):
     - UMCore
     - UMFileSystemInterface
+  - EXLocation (5.0.1):
+    - UMCore
+    - UMPermissionsInterface
+    - UMTaskManagerInterface
   - EXPermissions (5.0.1):
     - UMCore
     - UMPermissionsInterface
@@ -188,6 +192,7 @@ DEPENDENCIES:
   - EXGoogleSignIn (from `../node_modules/expo-google-sign-in/ios`)
   - EXImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
   - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
+  - EXLocation (from `../node_modules/expo-location/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSegment (from `../node_modules/expo-analytics-segment/ios`)
@@ -279,6 +284,9 @@ EXTERNAL SOURCES:
   EXImagePicker:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-image-picker/ios"
+  EXLocation:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-location/ios"
   EXPermissions:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-permissions/ios"
@@ -361,6 +369,7 @@ SPEC CHECKSUMS:
   EXGoogleSignIn: c9ca75d6f3e1058bf2329a64d9db112538461db6
   EXImageManipulator: 8038764aace4dd73af5e7d34869b12116a801ea4
   EXImagePicker: 80ebecae5905b1d642ef5b12a592cf8af9f051dc
+  EXLocation: d9bbd9ff37ea80dcf094cacccc0134a7b512bcb3
   EXPermissions: 8e05008ed4fc8c9be6c17ea95301fc3f3f005a7b
   EXSecureStore: 32410487aae714d3fd4d4afb9b3208490fc19a37
   EXSegment: b413562b37825f8f8f2addc22a675f566c2b3ad8

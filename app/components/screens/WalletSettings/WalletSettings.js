@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Platform, Switch } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 
 
@@ -9,12 +8,13 @@ import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import Separator from '../../atoms/Separator/Separator'
 import IconButton from '../../organisms/IconButton/IconButton'
-import STYLES from '../../../constants/STYLES'
 import apiUtil from '../../../utils/api-util'
+import { isUSCitizen } from '../../../utils/user-util'
 import API from '../../../constants/API'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import { WALLET_LANDING_VIEW_TYPES } from '../../../constants/UI'
 import { deleteSecureStoreKey } from '../../../utils/expo-storage';
+import PerCoinCelInterestCard from "../../molecules/PerCoinCelInterestCard/PerCoinCelInterestCard";
 
 @connect(
   state => ({
@@ -70,22 +70,6 @@ class WalletSettings extends Component {
     this.setState({ interestInCel: changesInterestEarn })
   }
 
-  rightSwitch = () => {
-    const { interestInCel } = this.state
-    const isIos = Platform.OS === 'ios'
-    const falseColor = isIos ? 'transparent' : STYLES.COLORS.DARK_GRAY3
-
-    return (
-      <Switch
-        value={interestInCel}
-        onValueChange={this.changeInterestEarn}
-        thumbColor={STYLES.COLORS.WHITE}
-        ios_backgroundColor={STYLES.COLORS.DARK_GRAY3}
-        trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
-      />
-    )
-  }
-
   handleViewChange = async view => {
     const { actions } = this.props
     this.setState({ defaultView: view })
@@ -106,8 +90,6 @@ class WalletSettings extends Component {
       { label: 'Grid view', value: WALLET_LANDING_VIEW_TYPES.GRID },
       { label: 'List view', value: WALLET_LANDING_VIEW_TYPES.LIST }
     ]
-
-    const Switcher = this.rightSwitch
 
     return (
       <RegularLayout>
@@ -133,15 +115,9 @@ class WalletSettings extends Component {
         >
           Withdrawal addresses
         </IconButton>
-        <Separator text='INTEREST' />
+        { !isUSCitizen() && <Separator text='INTEREST' /> }
 
-        <IconButton
-          margin={'20 0 20 0'}
-          right={<Switcher />}
-          hideIconRight
-        >
-          Earn interest in CEL
-        </IconButton>
+        <PerCoinCelInterestCard />
        
       </RegularLayout>
     )

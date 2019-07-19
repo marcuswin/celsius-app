@@ -7,6 +7,7 @@ function initialState() {
   return {
     appInitialized: false,
     appInitializing: false,
+    geolocation: null,
 
     // App states: active|inactive|background
     appState: "active",
@@ -68,6 +69,14 @@ export default function appReducer(state = initialState(), action) {
       return {
         ...state,
         showVerifyScreen: action.showVerifyScreen
+      };
+    case ACTIONS.SET_GEOLOCATION:
+      return {
+        ...state,
+        geolocation: {
+          geoLat: action.geoLat,
+          geoLong: action.geoLong,
+        }
       };
 
     default:

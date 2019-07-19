@@ -58,6 +58,6 @@ const themed = {
   }
 }
 
-const SimpleSelectStyle = () => getThemedStyle(base, themed)
+const SimpleSelectStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
 
 export default SimpleSelectStyle

@@ -15,7 +15,7 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    marginTop: 10,
+    marginBottom: 28,
     height: 40,
     width: 40,
     borderRadius: 20
@@ -42,6 +42,6 @@ const themed = {
   }
 }
 
-const CoinSwitchStyle = () => getThemedStyle(base, themed)
+const CoinSwitchStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
 
 export default CoinSwitchStyle

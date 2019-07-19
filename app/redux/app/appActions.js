@@ -1,3 +1,5 @@
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
 import { Platform } from "react-native";
 
 import Constants from '../../../constants';
@@ -7,7 +9,7 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { KYC_STATUSES, TRANSFER_STATUSES } from "../../constants/DATA";
+import { TRANSFER_STATUSES } from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import appUtil from "../../utils/app-util";
@@ -16,6 +18,8 @@ import { disableAccessibilityFontScaling } from "../../utils/styles-util";
 import ASSETS from "../../constants/ASSETS";
 import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
+import { requestForPermission } from "../../utils/device-permissions";
+import { hasPassedKYC } from "../../utils/user-util";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.extra;
 
@@ -27,6 +31,7 @@ export {
 
   handleAppStateChange,
   setInternetConnection,
+  getGeolocation,
 
   showVerifyScreen, // TODO move to security actions
 };
@@ -43,6 +48,7 @@ function initCelsiusApp() {
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
+      dispatch(getGeolocation());
 
       await appUtil.initInternetConnectivityListener();
       await appUtil.pollBackendStatus();
@@ -118,6 +124,7 @@ function handleAppStateChange(nextAppState) {
         }
 
         analytics.sessionStarted();
+        dispatch(getGeolocation());
       }
 
       if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
@@ -187,12 +194,12 @@ function initAppData(initToken = null) {
         await dispatch(actions.getLoyaltyInfo())
         await dispatch(actions.getComplianceInfo());
 
-        if (!profile.kyc || (profile.kyc && profile.kyc.status !== KYC_STATUSES.passed)) {
+        if (!profile.kyc || (profile.kyc && !hasPassedKYC())) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
         }
 
         // get wallet details for verified users
-        if (profile.kyc && profile.kyc.status === KYC_STATUSES.passed) {
+        if (profile.kyc && hasPassedKYC()) {
           await dispatch(actions.getWalletSummary());
         }
       }
@@ -210,5 +217,26 @@ function showVerifyScreen(defaultVerifyState = true) {
   return async (dispatch) => {
     // if (getState().app.showVerifyScreen === defaultVerifyState) return;
     dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
+  }
+}
+
+
+/**
+ * Gets geolocation for device
+ */
+function getGeolocation() {
+  return async (dispatch) => {
+    const permission = await requestForPermission(Permissions.LOCATION, { goToSettings: false });
+
+    if (!permission) return
+
+    const location = await Location.getCurrentPositionAsync({});
+    if (location && location.coords) {
+      dispatch({
+        type: ACTIONS.SET_GEOLOCATION,
+        geoLat: location.coords.latitude,
+        geoLong: location.coords.longitude,
+      })
+    }
   }
 }

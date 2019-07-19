@@ -34,30 +34,21 @@ const base = {
 
 const themed = {
     light: {
-        separatorColor: {
-            color: STYLES.COLORS.MEDIUM_GRAY
-        },
-        lineColor: {
-          color: 'red',
-        },
+      separatorColor: {
+        color: STYLES.COLORS.MEDIUM_GRAY
+      }
     },
 
     dark: {
         separatorColor: {
-            color: STYLES.COLORS.WHITE_OPACITY3
-        },
-      lineColor: {
-          color: 'rgba(255, 255, 255, 0.2)',
-      },
+          color: STYLES.COLORS.WHITE_OPACITY7
+        }
     },
 
     celsius: {
         separatorColor: {
             color: STYLES.COLORS.MEDIUM_GRAY
         },
-      lineColor: {
-        color: '#000000',
-      },
     }
 }
 

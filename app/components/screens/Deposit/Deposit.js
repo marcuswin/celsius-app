@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Linking, TouchableOpacity, View } from "react-native";
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import QRCode from 'react-qr-code'
 
 import cryptoUtil from '../../../utils/crypto-util'
-
+import { getTheme } from '../../../utils/styles-util'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import * as appActions from '../../../redux/actions'
 import { getDepositEligibleCoins } from '../../../redux/custom-selectors'
@@ -18,7 +18,7 @@ import STYLES from '../../../constants/STYLES'
 import DepositStyle from './Deposit.styles'
 import Card from '../../atoms/Card/Card'
 import Icon from '../../atoms/Icon/Icon'
-import { EMPTY_STATES, MODALS } from '../../../constants/UI'
+import { EMPTY_STATES, MODALS, THEMES } from '../../../constants/UI'
 import Spinner from '../../atoms/Spinner/Spinner'
 import CoinPicker from '../../molecules/CoinPicker/CoinPicker'
 import { KYC_STATUSES } from '../../../constants/DATA'
@@ -26,6 +26,8 @@ import StaticScreen from '../StaticScreen/StaticScreen'
 import IconButton from '../../organisms/IconButton/IconButton'
 import DestinationTagModal from '../../organisms/DestinationTagModal/DestinationTagModal'
 import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
+import DepositInfoModal from "../../organisms/DepositInfoModal/DepositInfoModal";
+import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -35,7 +37,7 @@ import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    depositCompliance: state.user.compliance.deposit
+    depositCompliance: state.compliance.deposit
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -51,6 +53,11 @@ class Deposit extends Component {
       isFetchingAddress: false,
       useAlternateAddress: false
     }
+  }
+
+  componentDidMount() {
+    const {actions} = this.props;
+      actions.openModal(MODALS.DEPOSIT_INFO_MODAL)
   }
 
   getAddress = currency => {
@@ -126,7 +133,6 @@ class Deposit extends Component {
     } else if (formData.selectedCoin) {
       defaultSelectedCoin = formData.selectedCoin
     }
-
     return defaultSelectedCoin
   }
 
@@ -164,7 +170,7 @@ class Deposit extends Component {
     if (memoId) {
       actions.openModal(MODALS.MEMO_ID_MODAL)
     }
-  }
+  };
 
   renderSwitchAddressBlock = (alternativeAddress, currency) => {
     const { useAlternateAddress } = this.state
@@ -242,8 +248,8 @@ class Deposit extends Component {
       actions,
       formData,
       eligibleCoins,
-      kycStatus,
-      depositCompliance
+      depositCompliance,
+      navigation
     } = this.props
     const {
       address,
@@ -251,10 +257,23 @@ class Deposit extends Component {
       destinationTag,
       memoId
     } = this.getAddress(formData.selectedCoin)
+    const coin = navigation.getParam('coin')
     const { useAlternateAddress, isFetchingAddress } = this.state
     const styles = DepositStyle()
+    const theme = getTheme()
+    let infoColor;
+    let link;
 
-    if (kycStatus !== KYC_STATUSES.passed) {
+    switch (theme) {
+      case THEMES.LIGHT:
+        infoColor = STYLES.COLORS.DARK_GRAY
+        break
+      default:
+      case THEMES.DARK:
+        infoColor= STYLES.COLORS.WHITE
+    }
+
+    if (!hasPassedKYC()) {
       return (
         <StaticScreen
           emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_DEPOSIT }}
@@ -264,6 +283,29 @@ class Deposit extends Component {
     if (!depositCompliance.allowed) {
       return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     }
+
+    // TODO: place into some util
+
+    switch (formData.selectedCoin) {
+      case "BCH":
+        link = "https://buy.bitcoin.com/bch/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-bch";
+        break;
+      case "BTC":
+        link = "https://buy.bitcoin.com/btc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-btc";
+        break;
+      case "ETH":
+        link = "https://buy.bitcoin.com/eth/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-eth";
+        break;
+      case "LTC":
+        link = "https://buy.bitcoin.com/ltc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-ltc";
+        break;
+      case "XRP":
+        link = "https://buy.bitcoin.com/xrp/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-xrp";
+        break;
+      default:
+        link = null
+    }
+
     return (
       <RegularLayout padding={'20 0 100 0'}>
         <CoinPicker
@@ -295,7 +337,7 @@ class Deposit extends Component {
                       alignItems: 'center'
                     }}
                   >
-                    <CelText weight={'500'}>{destinationTag || memoId}</CelText>
+                    <CelText style={ styles.importantInfo } weight={'500'}>{destinationTag || memoId}</CelText>
                     <TouchableOpacity
                       onPress={() => this.openModal(destinationTag, memoId)}
                     >
@@ -303,8 +345,8 @@ class Deposit extends Component {
                         name='Info'
                         height='19'
                         width='19'
-                        fill='#ffffff'
-                        stroke='rgba(61,72,83,0.3)'
+                        fill= { infoColor }
+                        stroke='rgba(61,72,83, 1)'
                         style={{ marginLeft: 10, marginTop: 2 }}
                       />
                     </TouchableOpacity>
@@ -343,7 +385,8 @@ class Deposit extends Component {
                 <CelText
                   type='H4'
                   align={'center'}
-                  style={{ marginTop: 10, marginBottom: 10 }}
+                  margin='10 0 10 0'
+                  style={ styles.importantInfo }
                 >
                   {useAlternateAddress ? alternateAddress : address}
                 </CelText>
@@ -373,6 +416,10 @@ class Deposit extends Component {
               </View>
             </Card>
 
+            { ["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
+              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin} from Bitcoin.com`}</CelText>
+            }
+
             {alternateAddress &&
               this.renderSwitchAddressBlock(
                 alternateAddress,
@@ -397,6 +444,7 @@ class Deposit extends Component {
 
         <DestinationTagModal closeModal={actions.closeModal} />
         <MemoIdModal closeModal={actions.closeModal} />
+        <DepositInfoModal type={coin} closeModal={actions.closeModal}/>
       </RegularLayout>
     )
   }

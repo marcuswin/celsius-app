@@ -1,9 +1,11 @@
 // refactored
 const COLORS = {
   WHITE: '#fff',
+  WHITE_OPACITY7: 'rgba(255,255,255,0.7)',
   WHITE_OPACITY5: 'rgba(255,255,255,0.5)',
   WHITE_OPACITY3: 'rgba(255,255,255,0.3)',
   WHITE_OPACITY2: 'rgba(255,255,255,0.2)',
+  WHITE_OPACITY1: 'rgba(255,255,255,0.1)',
   BLACK_OPACITY2: 'rgba(0,0,0,0.2)',
   CELSIUS: '#3F51AB', // prov: change name!
   DARK_HEADER: '#1F2E3D',
@@ -17,11 +19,14 @@ const COLORS = {
   MEDIUM_GRAY1: 'rgba(115,122,130,0.1)',
   MEDIUM_GRAY3: 'rgba(115,122,130,0.3)',
   GRAY: '#BBBFC2',
+  SEMI_GRAY: '#344352',
   DARK_GRAY: '#3D4853',
   DARK_GRAY3: 'rgba(61, 72, 83, 0.3)',
   DARK_GRAY6: 'rgba(61, 72, 83, 0.6)',
   DARK_GRAY7: 'rgba(61, 72, 83, 0.7)',
   DARK_GRAY_OPACITY: 'rgba(61, 72, 83, 0.15)',
+  DARK_TOGGLE_FOREGROUND: '#79828B',
+  DARK_TOGGLE_BACKGROUND: '#404D59',
   CELSIUS_BLUE: '#4156A6',
   GREEN: '#4fb895',
   GREEN_OPACITY: 'rgba(79,184,149,0.15)',

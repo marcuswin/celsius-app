@@ -16,6 +16,7 @@ import Separator from '../../atoms/Separator/Separator'
 import STYLES from '../../../constants/STYLES'
 import Icon from '../../atoms/Icon/Icon'
 import Loader from '../../atoms/Loader/Loader'
+import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
 @connect(
   state => ({
@@ -263,8 +264,9 @@ class SecurityOverview extends Component {
           <Separator text='Two-factor verification' />
           <Card margin='40 0 40 0'>
             <View style={style.twoFactor}>
-              <Image
-                source={require('../../../../assets/images/security/securityDog/security-dog-illustration.png')}
+              <ThemedImage
+                lightSource={require('../../../../assets/images/security/securityDog/security-dog-illustration.png')}
+                darkSource={require('../../../../assets/images/security/securityDog/security-dog-illustration-dark.png')}
                 style={style.twoFactorImage}
               />
               <View style={style.twoFactorText}>
@@ -280,8 +282,9 @@ class SecurityOverview extends Component {
 
           <Card margin='40 0 40 0'>
             <View style={style.email}>
-              <Image
-                source={require('../../../../assets/images/security/securityDiane/security-diane-illustration.png')}
+              <ThemedImage
+                lightSource={require('../../../../assets/images/security/securityDiane/security-diane-illustration.png')}
+                darkSource={require('../../../../assets/images/security/securityDiane/security-diane-illustration-dark.png')}
                 style={style.emailImage}
               />
               <View style={style.emailText}>

@@ -38,6 +38,16 @@ function initInterceptors () {
         deviceModel = DeviceInfo.getModel()
         osVersion = DeviceInfo.getSystemVersion()
       }
+      const geolocation = store.getState().app.geolocation
+
+      if (geolocation) {
+        newRequest.headers = {
+          ...newRequest.headers,
+          "geo-lat": geolocation.geoLat,
+          "geo-long": geolocation.geoLong,
+        }
+      }
+
       if (!req.url.includes('branch.io')) {
         newRequest.headers = {
           ...newRequest.headers,

@@ -10,6 +10,7 @@ import logger from '../../utils/logger-util';
 import { setFormErrors } from "../forms/formsActions";
 import { KYC_STATUSES } from "../../constants/DATA";
 import analytics from "../../utils/analytics";
+import complianceService from "../../services/compliance-service";
 
 export {
   getKYCStatus,
@@ -68,16 +69,15 @@ function updateProfileAddressInfo(profileAddressInfo) {
       const updatedProfileData = await usersService.updateProfileAddressInfo(profileAddressInfo);
       dispatch(updateProfileAddressInfoSuccess(updatedProfileData.data));
 
-      const compliance = await usersService.getComplianceInfo();
+      const compliance = await complianceService.getComplianceInfo();
       dispatch( {
         type: ACTIONS.GET_COMPLIANCE_INFO_SUCCESS,
-        callName: API.GET_COMPLIANCE_INFO_INFO,
+        callName: API.GET_COMPLIANCE_INFO,
         complianceInfo: compliance.data.allowed_actions
       });
 
       const forbiddenState = formData.country.name === "United States" ? formData.state : formData.country.name;
-      const {kyc} = getState().user.compliance.app;
-
+      const {kyc} = getState().compliance.app;
       if (!kyc) {
         dispatch(showMessage("error", `Yikes, due to local laws and regulations, we are not allowed to support operations in ${forbiddenState}.`))
       } else {
@@ -106,13 +106,11 @@ function updateProfileAddressInfo(profileAddressInfo) {
  * @param {Object} profileTaxpayerInfo
  */
 function updateTaxpayerInfo(profileTaxpayerInfo) {
-  return async dispatch => {
+  return async (dispatch) => {
     dispatch(startApiCall(API.UPDATE_USER_TAXPAYER_INFO));
-
     try {
       const updatedProfileData = await usersService.updateProfileTaxpayerInfo(profileTaxpayerInfo);
       await dispatch(updateProfileTaxpayerInfoSuccess(updatedProfileData.data));
-      dispatch(showMessage("success", "SSN successfully submitted!"))
 
       return {
         success: true
