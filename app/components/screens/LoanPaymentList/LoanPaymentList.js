@@ -11,79 +11,12 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Separator from '../../atoms/Separator/Separator';
 import STYLES from '../../../constants/STYLES';
 import Card from '../../atoms/Card/Card';
+import { THEMES } from "../../../constants/UI";
 
 @connect(
   state => ({
-    coins: state.compliance.loan.coins,
-    walletCoins: state.wallet.summary.coins,
-    loans: [
-      {
-        amountToPay: 1000,
-        amountPaid: 1000,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.3.5004',
-      },
-      {
-        amountToPay: 2000,
-        amountPaid: 2000,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.4.5000',
-      },
-      {
-        amountToPay: 2000,
-        amountPaid: 1000,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.5.5000',
-      },
-      {
-        amountToPay: 3000,
-        amountPaid: 500,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.6.5000',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.7.5001',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.8.5001',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.9.5001',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.8.5001',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.9.5001',
-      },
-      {
-        amountToPay: 1000,
-        amountPaid: 0,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.10.5001',
-      },
-      {
-        amountToPay: "last payment",
-        amountPaid: 12,
-        type: 'PaymentType.MONTHLY_INTEREST',
-        dueDate: '12.11.5000',
-      }
-    ]
+    allLoans: state.loans.allLoans,
+    theme: state.user.appSettings.theme,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -97,71 +30,76 @@ class LoanPaymentList extends Component {
     right: "profile"
   });
 
-  // isPaid represents difference between amountPaid and amoutToPay 
+  // isNot1Paid represents difference between amountPaid and amoutToPay 
   renderFuturePayments = () => {
-    const { loans } = this.props
+    const { theme, allLoans } = this.props
     const style = LoanPaymentListStyle()
-    const futurePayments = loans.slice(0, -1)
-    // const nextPayment = loans[0]
+    const fillBackgroundColor = theme === THEMES.LIGHT ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_BACKGROUND
+    const futurePayments = allLoans[1].amortizationTable.slice(0, -1)
 
-    const isNotPaid = futurePayments.filter(p => p.amountPaid < p.amountToPay).map((p, index) => (
-      <View style={{ height: 50, marginVertical: 0, backgroundColor: index === 0 ? STYLES.COLORS.MEDIUM_GRAY3 : STYLES.COLORS.LIGHT_GRAY, borderRadius: 8 }}>
-        <View style={style.upcomintPayment}>
-          <CelText weight='600' type='H3'>{p.amountToPay}</CelText>
+    // console.log(futurePa1yments.fil)
+
+
+    const isNotPaid = futurePayments.filter(p => p.isPaid === false).map((p, index, key) => (
+      <View style={{backgroundColor: index === 0 ? STYLES.COLORS.MEDIUM_GRAY3 : (fillBackgroundColor), borderRadius: 8 }}>
+        <View key={key} style={style.upcomintPayment}>
+          <CelText  weight='600' type='H3'>{p.amountToPay}</CelText>
           <CelText weight='300' type='H6'>{p.dueDate}</CelText>
         </View>
-        {index === 0 || index === futurePayments.length - 3 ? null :
+        {index === 0 ? null :
           <Separator />}
       </View>
-      )
-      )
-      return (
+    )
+    )
+    return (
       <View>
-          <View style={style.nextPayment}>
-            <CelText align='center' type='H6'>Next payment</CelText>
-          </View>
-          <View>
-            {isNotPaid}
-          </View>
+        <View style={style.nextPayment}>
+          <CelText color={STYLES.COLORS.MEDIUM_GRAY} align='center' type='H6'>Next payment</CelText>
         </View>
-        )
-      }
-    
-  renderPayments = () => {
-    const {loans} = this.props
-        const style = LoanPaymentListStyle()
-        const principalPayout = loans[loans.length - 1]
-    
-        return (
-      <View>
-          {this.renderFuturePayments()}
-          <View style={style.principalPayment}>
-            <CelText align='center' type='H6'>Principal payout</CelText>
-          </View>
-          <Card color={STYLES.COLORS.GREEN} >
-            <View style={style.lastPayment}>
-              <CelText color='white' weight='600' type='H3'>{principalPayout.amountToPay}</CelText>
-              <CelText color='white' weight='300' type='H6'>{principalPayout.dueDate}</CelText>
-            </View>
-          </Card>
+        <View>
+          {isNotPaid}
+        </View>
+      </View>
+    )
+  }
 
+  renderPrincipalPayments = () => {
+    const { allLoans } = this.props
+    const style = LoanPaymentListStyle()
+    const futurePayments = allLoans[1].amortizationTable
+
+    const principalPayout = futurePayments.filter(p => p.type === 'RECEIVING_PRINCIPAL_BACK')
+
+    return (
+      <View>
+        <View style={style.principalPayment}>
+          <CelText color={STYLES.COLORS.MEDIUM_GRAY} align='center' type='H6'>Principal payout</CelText>
         </View>
-        )
-      }
-    
+        <Card color={STYLES.COLORS.GREEN}>
+          <View style={style.lastPayment}>
+            <CelText color='white' weight='600' type='H3'>{principalPayout[0].amountToPay}</CelText>
+            <CelText color='white' weight='300' type='H6'>{principalPayout[0].dueDate}</CelText>
+          </View>
+        </Card>
+      </View>
+    )
+  }
+
   render() {
-    // const style = LoanPaymentListStyle();
     return (
       <RegularLayout>
-          <View style={{ marginHorizontal: 15 }}>
-            <CelText weight='500' type='H6'>Upcoming Payments</CelText>
-            <View style={{ marginTop: 15 }}>
-              {this.renderPayments()}
+        <View style={{ marginHorizontal: 15 }}>
+          <CelText weight='500' type='H6'>Upcoming Payments</CelText>
+          <View style={{ marginTop: 15 }}>
+            <View>
+              {this.renderFuturePayments()}
+              {this.renderPrincipalPayments()}
             </View>
           </View>
-        </RegularLayout>
-        );
-      }
-    }
-    
-    export default LoanPaymentList
+        </View>
+      </RegularLayout>
+    );
+  }
+}
+
+export default LoanPaymentList

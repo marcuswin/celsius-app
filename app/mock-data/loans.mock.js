@@ -33,6 +33,7 @@ export default {
       "first_interest": "2019-06-10T15:45:14.686Z",
       "maturity": "August 2, 2019",
 
+
     },
   },
   [LOAN_TYPES.LOAN_APPROVED]: {
@@ -66,8 +67,86 @@ export default {
       "next_interest": "2019-06-10T15:45:14.686Z",
       "maturity": "2019-06-10T15:45:14.686Z",
     },
-
-},
+    "amortizationTable": [
+      {
+        "amountToPay": "1000",
+        "amountPaid": "1000",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": "1.1.2003",
+        "isPaid": true
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "1000",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": '1.2.2003',
+        "isPaid": true
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "1000",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": true
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": true
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": '1.2.3002',
+        "isPaid": false
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": false
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": false
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": '1.2.3002',
+        "isPaid": false
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": false
+      },
+      {
+        "amountToPay": "1000",
+        "amountPaid": "0",
+        "type": "MONTHLY_INTEREST",
+        "dueDate": null,
+        "isPaid": false
+      },
+      {
+        "amountToPay": "2000",
+        "amountPaid": "1110",
+        "type": "RECEIVING_PRINCIPAL_BACK",
+        "dueDate": '1.20.2001',
+        "isPaid": false
+      }
+    ],
+  },
   [LOAN_TYPES.LOAN_COMPLETED]: {
     "id": LOAN_TYPES.LOAN_COMPLETED,
     "amount_collateral_usd": "15.151515151515151536",
