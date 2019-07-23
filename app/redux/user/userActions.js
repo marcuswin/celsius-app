@@ -1,5 +1,6 @@
 import { Constants } from "expo";
 import _ from "lodash";
+import moment from "moment";
 
 import ACTIONS from "../../constants/ACTIONS";
 import API from "../../constants/API";
@@ -15,6 +16,7 @@ import { navigateTo } from "../nav/navActions";
 import { MODALS } from "../../constants/UI";
 import apiUtil from "../../utils/api-util";
 import { getWalletSummary } from "../wallet/walletActions";
+
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -182,7 +184,7 @@ function disableTwoFactor() {
       await TwoFactorService.disableTwoFactor(code);
       dispatch({ type: ACTIONS.DISABLE_TWO_FACTOR_SUCCESS });
       dispatch(navigateTo("SecuritySettings"));
-      dispatch(showMessage("success", "Two-Factor Verification removed"));
+      dispatch(showMessage("success", "In order to completely remove Two-Factor Verification check your email."));
     } catch (error) {
       dispatch(apiError(API.DISABLE_TWO_FACTOR));
       dispatch(showMessage("error", error.msg));
@@ -431,12 +433,25 @@ function setUserAppSettings(data) {
         userAppData: newSettings
       });
 
+      const currentDate = moment.utc();
+
       const newDataKeys = Object.keys(newData);
 
       if (newDataKeys.includes("interest_in_cel") || newDataKeys.includes("interest_in_cel_per_coin")) {
         if (newSettings.interest_in_cel !== appSettings.interest_in_cel) {
-          if (newSettings.interest_in_cel) return dispatch(showMessage("success", "Congrats! Starting next Monday you will earn interest in CEL on all deposited coins with higher rates. To change how you earn interest visit My CEL page."));
-          if (!newSettings.interest_in_cel) return dispatch(showMessage("success", "Starting next Monday, you will receive interest income in-kind on all deposited coins."));
+
+          if (currentDate.day() <= 5 && currentDate.hour() < 17) {
+
+            if (newSettings.interest_in_cel) {
+              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in CEL on all deposited coins.`));
+            }
+            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income in-kind on all deposited coins.`));
+          } else {
+            if (newSettings.interest_in_cel) {
+              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL for all deposited coins. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
+            }
+            if (!newSettings.interest_in_cel) return dispatch(showMessage("success", `You have chosen to earn interest income in-kind for all deposited coins. Interest has already been calculated for this week, so you will receive interest in-kind beginning Monday, ${currentDate.day(15).format("DD MMMM")}.`));
+          }
         }
 
         if (!_.isEqual(newSettings.interest_in_cel_per_coin, appSettings.interest_in_cel_per_coin)) {
@@ -455,11 +470,17 @@ function setUserAppSettings(data) {
             }
           });
 
-          if (coinsInCel.length) {
-            return dispatch(showMessage("success", `Congrats! Starting next Monday you will earn interest in CEL on ${ coinsInCel.join(', ') } with higher rates.`));
+          if (currentDate.day() <= 5 && currentDate.hour() < 17) {
+            if (coinsInCel.length) {
+              return dispatch(showMessage("success", `Congrats! Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ coinsInCel.join(', ') } in CEL.`));
+            }
+            return dispatch(showMessage("success", `Starting next Monday, ${currentDate.day(8).format("DD MMMM")}, you will receive interest income on ${ changedCoins.join(', ') } in ${ changedCoins.join(', ') }.`));
           }
-          
-          return dispatch(showMessage("success", `Congrats! Starting next Monday you will earn interest income in kind.`));
+
+          if (coinsInCel.length) {
+              return dispatch(showMessage("success", `Congrats! You have chosen to earn interest income in CEL. Interest has already been calculated for this week, so you will receive interest in CEL beginning Monday, ${currentDate.day(15).format("DD MMMM")}`));
+            }
+            return dispatch(showMessage("success", `You have chosen to earn interest income in ${ changedCoins.join(', ') }. Interest has already been calculated for this week, so you will receive interest in ${ changedCoins.join(', ') } beginning Monday, ${currentDate.day(15).format("DD MMMM")}. `));
         }
       }
     } catch (e) {

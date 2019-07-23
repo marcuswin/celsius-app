@@ -209,14 +209,11 @@ class BorrowLanding extends Component {
 
     return(
       <RegularLayout padding={"20 0 100 0"}>
-        <View
-          style={{
-            marginLeft: 20,
-            marginRight: 20
-          }}
-        >
+        <View>
 
-         { this.renderCard() }
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            { this.renderCard() }
+          </View>
 
           <Animated.ScrollView
             horizontal
@@ -230,10 +227,8 @@ class BorrowLanding extends Component {
             snapToInterval={cardWidth + widthPercentageToDP("4%")}
             snapToAlignment={"center"}
           >
-            <View style={{ width: widthPercentageToDP("15%") }}/>
             {
               allLoans && allLoans.map((loan, index) => {
-                const loanStatusDetails = loan.uiProps;
                 const opacity = xOffset.interpolate({
                   inputRange: [
                     (index - 1) * cardWidth,
@@ -246,11 +241,9 @@ class BorrowLanding extends Component {
                 return (
                   <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
                     <LoanOverviewCard
-                      loan={{
-                        ...loan,
-                        ...loanStatusDetails,
-                      }}
-                      onPressDetails={() => actions.navigateTo("LoanRequestDetails", { id: loan.transaction_id, loan })}
+                      loan={loan}
+                      index={index}
+                      navigateTo={actions.navigateTo}
                     />
                   </Animated.View>
                 );

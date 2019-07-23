@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { View } from 'react-native';
+import { TouchableOpacity, View } from "react-native";
 
 
 import * as appActions from "../../../redux/actions";
@@ -18,12 +18,15 @@ import API from "../../../constants/API";
 import STYLES from '../../../constants/STYLES';
 import { KEYBOARD_TYPE, MODALS } from "../../../constants/UI";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
+import Icon from "../../atoms/Icon/Icon";
+import Card from "../../atoms/Card/Card";
 
 @connect(
   state => ({
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    callsInProgress: state.api.callsInProgress
+    callsInProgress: state.api.callsInProgress,
+    promoCode: state.branch.registeredLink
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -77,7 +80,7 @@ class RegisterInitial extends Component {
   }
 
   render() {
-    const { formData, actions, callsInProgress, formErrors } = this.props;
+    const { formData, actions, callsInProgress, formErrors, promoCode } = this.props;
 
     const isUsingSocial = formData.googleId || formData.facebookId || formData.twitterId;
 
@@ -151,6 +154,43 @@ class RegisterInitial extends Component {
           />
         )}
 
+        <Card color={STYLES.COLORS.CELSIUS_BLUE}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ flex: 1, paddingRight: 5}}>
+              <View style={{width: 40, height: 40, borderRadius: 20, backgroundColor: STYLES.COLORS.WHITE, justifyContent: "center", alignContent: "center"}}>
+                <Icon name={"Present"} width="20" height="20" fill={STYLES.COLORS.CELSIUS_BLUE}/>
+              </View>
+            </View>
+            {promoCode ?
+              <View style={{ flex: 6 }}>
+                <CelText type={"H5"} weight={"500"} color={STYLES.COLORS.WHITE}>
+                  You have successfully entered your referral code.
+                </CelText>
+                <CelText margin={"10 0 0 0"} type={"H6"} weight={"300"} color={STYLES.COLORS.WHITE}>
+                  Create your account and finish your profile verification process to be able to receive a bonus.
+                </CelText>
+              </View>
+              :
+              <View style={{ flex: 6 }}>
+                <CelText type={"H5"} weight={"500"} color={STYLES.COLORS.WHITE}>
+                  Have a referral code?
+                </CelText>
+                <CelText margin={"10 0 0 0"} type={"H6"} weight={"300"} color={STYLES.COLORS.WHITE}>
+                  Receive your prize upon identity verification. Enter the right referral code now,
+                  <CelText type={"H6"}
+                           weight={"500"}
+                           color={STYLES.COLORS.WHITE}>
+                    you won’t be able to do this later.
+                  </CelText>
+                </CelText>
+                <TouchableOpacity onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}>
+                  <CelText color={STYLES.COLORS.WHITE} margin="20 0 10 0">Enter referral code</CelText>
+                </TouchableOpacity>
+              </View>
+            }
+          </View>
+        </Card>
+
         <CelButton
           margin="10 0 10 0"
           onPress={this.submitForm}
@@ -158,14 +198,6 @@ class RegisterInitial extends Component {
           loading={registerLoading}
         >
           Create account
-        </CelButton>
-
-        <CelButton
-          margin="20 0 20 0"
-          onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
-          basic
-        >
-          Have a promo code?
         </CelButton>
 
         <View>

@@ -13,7 +13,26 @@ const base = {
   buttonIconText: {
     flexDirection: 'row',
     justifyContent: "space-around",
-  }
+  },
+  firstLoanWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    alignContent: 'center',
+    paddingTop: '20%'
+  },
+  firstLoanTitle: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  firstLoanSubtitle: {
+    marginRight: 25,
+    marginLeft: 25,
+  },
+  firstLoanButton: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
 }
 
 const themed = {

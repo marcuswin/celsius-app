@@ -58,6 +58,9 @@ const base = {
     },
     greenButton: {
         backgroundColor: STYLES.COLORS.GREEN
+    },
+    redButton: {
+        backgroundColor: STYLES.COLORS.RED
     }
 }
 

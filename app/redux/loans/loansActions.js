@@ -10,6 +10,7 @@ import { MODALS } from "../../constants/UI";
 export {
   applyForALoan,
   getAllLoans,
+  setActiveLoan,
 }
 
 /**
@@ -71,5 +72,17 @@ function getAllLoans() {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_LOANS, err));
     }
+  }
+}
+
+/**
+ * Sets active loan in the reducer
+ *
+ * @param {uuid} - loanId
+ */
+function setActiveLoan(loanId) {
+  return {
+    type: ACTIONS.SET_ACTIVE_LOAN,
+    loanId,
   }
 }

@@ -9,7 +9,8 @@ const USE_MOCK_LOANS = true
 function initialState() {
   return {
     ltvs: undefined,
-    allLoans: []
+    allLoans: [],
+    activeLoan: null,
   };
 }
 
@@ -20,6 +21,12 @@ export default function loansReducer(state = initialState(), action) {
       return {
         ...state,
         ltvs: action.ltvs,
+      };
+
+    case ACTIONS.SET_ACTIVE_LOAN:
+      return {
+        ...state,
+        activeLoan: state.allLoans.find(l => l.id === action.loanId),
       };
 
     case ACTIONS.GET_ALL_LOANS_SUCCESS:

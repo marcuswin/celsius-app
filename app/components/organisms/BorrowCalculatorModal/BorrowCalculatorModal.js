@@ -7,6 +7,7 @@ import CelText from '../../atoms/CelText/CelText'
 // import BorrowCalculatorModalStyle from "./BorrowCalculatorModal.styles";
 import BorrowCalculator from '../../organisms/BorrowCalculator/BorrowCalculator'
 import { MODALS, THEMES } from '../../../constants/UI'
+import STYLES from '../../../constants/STYLES';
 
 
 const BorrowCalculatorModal = (props) => (
@@ -18,8 +19,8 @@ const BorrowCalculatorModal = (props) => (
         How much you like to borrow?
       </CelText>
 
-      <View style={{ padding: 10 }}>
-        <BorrowCalculator emitParams={props.emitParams} theme={THEMES.LIGHT} />
+      <View style={{ padding: 10, backgroundColor: STYLES.COLORS.LIGHT_GRAY }}>
+        <BorrowCalculator emitParams={props.emitParams} themeModal={THEMES.LIGHT} />
       </View>
 
     </CelModal>

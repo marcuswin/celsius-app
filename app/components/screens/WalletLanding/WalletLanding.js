@@ -10,7 +10,6 @@ import * as appActions from '../../../redux/actions'
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import CelText from '../../atoms/CelText/CelText'
 import CoinCard from '../../molecules/CoinCard/CoinCard'
-import cryptoUtil from '../../../utils/crypto-util'
 import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCard'
 import WalletLandingStyle from './WalletLanding.styles'
 import CoinListCard from '../../molecules/CoinListCard/CoinListCard'
@@ -44,7 +43,8 @@ let counter = 0;
       user: state.user.profile,
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
-        : KYC_STATUSES.collecting
+        : KYC_STATUSES.collecting,
+      depositCompliance: state.compliance.deposit,
     }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -188,6 +188,8 @@ class WalletLanding extends Component {
       })
     }
 
+    coinWithAmount.sort((a, b) => a.amount_usd < b.amount_usd)
+
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 
     return coinWithAmount.length
@@ -243,6 +245,7 @@ class WalletLanding extends Component {
       currenciesRates,
       currenciesGraphs,
       actions,
+      depositCompliance,
     } = this.props
     const { activeView } = this.state
 
@@ -252,7 +255,7 @@ class WalletLanding extends Component {
       walletSummary.coins.forEach(coin => {
         const withoutAmountNoPrior =
           coin.amount_usd === 0 &&
-          cryptoUtil.priorityCoins.indexOf(coin.short) !== -1
+          depositCompliance.coins.indexOf(coin.short) !== -1
         if (coin.amount_usd === 0 && withoutAmountNoPrior) {
           coinWithoutAmount.push(coin)
         }

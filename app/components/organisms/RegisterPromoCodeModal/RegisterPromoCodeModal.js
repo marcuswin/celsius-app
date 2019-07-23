@@ -80,7 +80,7 @@ class RegisterPromoCodeModal extends Component {
       code.amount = referralLink.referred_award_amount;
       code.coin = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ? 'USD' : referralLink.referred_award_coin;
       if (referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
-        congratsText = 'You will receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
+        congratsText = 'After you register and pass KYC, you will have a chance to receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
       }
       if (referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
         if (referralLink.referred_award_trigger === "sign-up") {
