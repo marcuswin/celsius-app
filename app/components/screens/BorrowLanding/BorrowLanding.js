@@ -6,7 +6,6 @@ import { Animated, View, TouchableOpacity, Image } from "react-native";
 import * as appActions from "../../../redux/actions";
 import BorrowLandingStyle from "./BorrowLanding.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import CelButton from '../../atoms/CelButton/CelButton'
 import { hasPassedKYC } from "../../../utils/user-util";
 import { EMPTY_STATES, MODALS } from "../../../constants/UI";
 import formatter from "../../../utils/formatter"
@@ -208,69 +207,50 @@ class BorrowLanding extends Component {
     const { xOffset } = this.state;
     const { actions, allLoans } = this.props;
 
-    const style = BorrowLandingStyle()
-    
     return(
       <RegularLayout padding={"20 0 100 0"}>
         <View>
-          { allLoans && allLoans.length > 0 ?            
-              ( <View>
-                { this.renderCard() }
-                <Animated.ScrollView
-                  horizontal
-                  scrollEventThrottle={16}
-                  onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-                    { useNativeDriver: true }
-                  )}
-                  showsHorizontalScrollIndicator={false}
-                  decelerationRate={0}
-                  snapToInterval={cardWidth + widthPercentageToDP("4%")}
-                  snapToAlignment={"center"}
-                >
-                  <View style={{ width: widthPercentageToDP("15%") }}/>
-                  {
-                    allLoans && allLoans.map((loan, index) => {
-                      const loanStatusDetails = loan.uiProps;
-                      const opacity = xOffset.interpolate({
-                        inputRange: [
-                          (index - 1) * cardWidth,
-                          index * cardWidth,
-                          (index + 1) * cardWidth
-                        ],
-                        outputRange: [0.3, 1, 0.15],
-                        extrapolate: "clamp"
-                      });
-                      return (
-                        <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
-                          <LoanOverviewCard
-                            loan={{
-                              ...loan,
-                              ...loanStatusDetails,
-                            }}
-                            onPressDetails={() => actions.navigateTo("LoanRequestDetails", { id: loan.transaction_id, loan })}
-                          />
-                        </Animated.View>
-                      );
-                    })
-                  }
-                  <View style={{ width: widthPercentageToDP("15%") }}/>
-                </Animated.ScrollView>
-              </View> 
-              ) :
-              (
-                <View style={style.firstLoanWrapper}>
-                  <Image
-                    source={require('../../../../assets/images/monkey-on-a-laptop-illustration.png')} style={{ height: 140, resizeMode: 'contain' }}
-                  />
-                  <CelText weight='bold' align='center' type='H2' style={style.firstLoanTitle}>Apply For Your First Loan</CelText>
-                  <CelText weight="light" align='center' style={style.firstLoanSubtitle}>Take out a USD, crypto, or stablecoin loan at the lowest interest rates on the market.</CelText>
-                  <CelButton style={style.firstLoanButton} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for a loan</CelButton>
-                  <CelButton basic onPress={() => actions.openModal(MODALS.BORROW_CALCULATOR_MODAL)}>Calculate Loan Interest</CelButton>
-                </View>
-              )            
-          }
-          
+
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            { this.renderCard() }
+          </View>
+
+          <Animated.ScrollView
+            horizontal
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+              { useNativeDriver: true }
+            )}
+            showsHorizontalScrollIndicator={false}
+            decelerationRate={0}
+            snapToInterval={cardWidth + widthPercentageToDP("4%")}
+            snapToAlignment={"center"}
+          >
+            {
+              allLoans && allLoans.map((loan, index) => {
+                const opacity = xOffset.interpolate({
+                  inputRange: [
+                    (index - 1) * cardWidth,
+                    index * cardWidth,
+                    (index + 1) * cardWidth
+                  ],
+                  outputRange: [0.3, 1, 0.15],
+                  extrapolate: "clamp"
+                });
+                return (
+                  <Animated.View key={loan.id} style={[this.transitionAnimation(index), { opacity }]}>
+                    <LoanOverviewCard
+                      loan={loan}
+                      index={index}
+                      navigateTo={actions.navigateTo}
+                    />
+                  </Animated.View>
+                );
+              })
+            }
+            <View style={{ width: widthPercentageToDP("15%") }}/>
+          </Animated.ScrollView>
           <BorrowCalculatorModal emitParams={this.emitParams} />
         </View>
       </RegularLayout>
