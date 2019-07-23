@@ -30,7 +30,7 @@ class BorrowLoanOption extends Component {
   render() {
     const { ltv } = this.props;
     if (!ltv) return <LoadingScreen />;
-
+    
     return (
       <View style={{flex:1}}>
         <HeadingProgressBar steps={6} currentStep={3} />

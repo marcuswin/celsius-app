@@ -36,14 +36,14 @@ class LoanInterestCard extends Component {
       currency: null
     }
     const { formData, currencyRates, walletSummary, ltv } = this.props;
-
-    this.crypto = currencyRates[formData.coin.toLowerCase()];
+    
+    this.crypto = currencyRates[formData.collateralCoin.toLowerCase()];
     this.amountCollateralUsd = formData.loanAmount / ltv.percent;
     this.amountCollateralCrypto = (this.amountCollateralUsd / this.crypto);
     this.interest = formatter.percentage(ltv.interest);
     this.loanToValue = ltv.percent;
-
-    this.isAllowed = walletSummary.coins.find(c => c.short === formData.coin).amount_usd > this.amountCollateralUsd
+    this.monthlyPayment = ltv.interest * formData.loanAmount / 12
+    this.isAllowed = walletSummary.coins.find(c => c.short === formData.collateralCoin).amount_usd > this.amountCollateralUsd
   }
 
   setLoanOption = (interest, monthlyPayment, amountCollateralUsd, amountCollateralCrypto, loanToValue) => {
@@ -62,7 +62,7 @@ class LoanInterestCard extends Component {
 
   handleDepositCalculation = () => {
     const { formData, walletSummary } = this.props
-    const coin = walletSummary.coins.find(c => c.short === formData.coin)
+    const coin = walletSummary.coins.find(c => c.short === formData.collateralCoin)
     const value = this.amountCollateralCrypto - coin.amount
     return formatter.crypto(value)
   }
@@ -83,7 +83,7 @@ class LoanInterestCard extends Component {
             <View style={{opacity: this.isAllowed ? 1 : 0.4}}>
               <CelText weight={"300"} type={"H6"}>{`$${formatter.round(this.monthlyPayment)} per month`}</CelText>
               <CelText weight={"600"} type={"H3"}>{`${this.interest}% APR`}</CelText>
-              <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(this.amountCollateralCrypto)} ${formData.coin} as collateral`}</CelText>
+              <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(this.amountCollateralCrypto)} ${formData.collateralCoin} as collateral`}</CelText>
             </View>
             {!this.isAllowed ? 
             <View>
@@ -92,14 +92,14 @@ class LoanInterestCard extends Component {
                 <CelText weight={"300"} align="left" > 
                   Additional 
                   <CelText weight={"500"} align="left" > 
-                   {` ${this.handleDepositCalculation()}${formData.coin} `}
+                   {` ${this.handleDepositCalculation()}${formData.collateralCoin} `}
                     <CelText weight={"300"} align="left" > 
                       required
                     </CelText>
                   </CelText>
                 </CelText>
                 <TouchableOpacity
-                  onPress={()=>actions.navigateTo('Deposit', { coin: formData.coin })}
+                  onPress={()=>actions.navigateTo('Deposit', { coin: formData.collateralCoin })}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
                     <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />

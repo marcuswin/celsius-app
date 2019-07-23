@@ -14,11 +14,13 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from '../../atoms/CelButton/CelButton';
 import VerticalSlider from '../../atoms/VerticalSlider/VerticalSlider';
 import STYLES from '../../../constants/STYLES';
-import ProgressBar from '../../atoms/ProgressBar/ProgressBar';
+import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar';
+import {LOAN_TYPES} from '../../../constants/DATA'
 
 @connect(
   (state) => ({
     formData: state.forms.formData,
+    loanCompliance: state.compliance.loan
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -41,6 +43,22 @@ class BorrowLoanTerm extends Component {
     actions.updateFormField('termOfLoan', selectedStep)
   }
 
+  renderButton () {
+    const { actions, formData } = this.props
+    if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN ) {
+      return (
+        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo('ConfirmYourLoan')} iconRight="IconArrowRight">
+          Confirm your loan
+        </CelButton>
+      )
+    } 
+    return (
+      <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo('BorrowBankAccount')} iconRight="IconArrowRight">
+        Bank account
+      </CelButton>
+    )
+  }
+
   render() {
     const { actions, formData } = this.props;
 
@@ -54,24 +72,29 @@ class BorrowLoanTerm extends Component {
     ]
 
     return (
-      <RegularLayout>
-        <View style={{ paddingTop: 10, alignItems: 'center'}}>
-          <ProgressBar steps={6} currentStep={4} />
-          <CelText margin={"30 0 30 0"} weight={"300"}>How long would you like to borrow {formatter.usd(formData.loanAmount)}?</CelText>
-        </View>
-        <View>
-          <VerticalSlider
-            items={sliderItems}
-            field="termOfLoan"
-            value={formData.termOfLoan}
-            updateFormField={actions.updateFormField}
-          />
+      <View style={{flex: 1}}>
+        <HeadingProgressBar steps={6} currentStep={4} />
+        <RegularLayout
+          fabType={'hide'}
+        >
+          <View style={{ paddingTop: 10, alignItems: 'center'}}>
+            <CelText margin={"0 0 30 0"} weight={"300"}>How long would you like to borrow {formatter.usd(formData.loanAmount)}?</CelText>
+          </View>
+          <View>
+            <VerticalSlider
+              items={sliderItems}
+              field="termOfLoan"
+              value={formData.termOfLoan}
+              updateFormField={actions.updateFormField}
+            />
 
-        </View>
-        <CelButton margin="50 0 30 0" onPress={() => actions.navigateTo('BorrowBankAccount')} iconRight="IconArrowRight">
-          Bank account
-        </CelButton>
-      </RegularLayout>
+          </View>
+
+          {this.renderButton()}
+
+        </RegularLayout>
+      </View>
+      
     );
   }
 }
