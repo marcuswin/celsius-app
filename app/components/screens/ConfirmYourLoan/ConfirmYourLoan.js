@@ -39,7 +39,7 @@ class ConfirmYourLoan extends Component {
 
   componentDidMount () {
     const { formData, actions, currencyRates } = this.props
-    actions.getLinkedBankAccount()
+    // actions.getLinkedBankAccount()
 
     const crypto = currencyRates[formData.coin.toLowerCase()]
     const loanAmount = parseFloat(formData.loanAmount)
@@ -87,37 +87,39 @@ class ConfirmYourLoan extends Component {
   }
   
   renderBankAccountInfo = () => {
-    const { bankAccountInfo } = this.props
-      if ( bankAccountInfo && bankAccountInfo.location === 'United States') {
+    const { bankInfo } = this.props.formData
+      if ( bankInfo && bankInfo.location === 'United States') {
         return (
           <View>
             <CelText type="H6" weight="300">ABA (routing number)</CelText>
-            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankAccountInfo.bank_routing_number }</CelText>
+            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_routing_number }</CelText>
           
             <CelText type="H6" weight="300">Your Account Number</CelText>
-            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankAccountInfo.bank_account_number }</CelText>
+            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_account_number }</CelText>
           </View>
         )
       }
      return (
        <View>
           <CelText type="H6" weight="300">SWIFT (Bank Identifier Code)</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankAccountInfo.swift }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.swift }</CelText>
 
           <CelText type="H6" weight="300">Your Account Number</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankAccountInfo.iban }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.iban }</CelText>
        </View>
      
      )
   }
 
   renderBankInfo = () => {
-    const { formData, bankAccountInfo } = this.props
+    const { formData } = this.props
+    const { bankInfo } = this.props.formData
+    
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
       return (
         <Card>
           <CelText type="H6" weight="300">Bank Name</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankAccountInfo.bank_name }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_name }</CelText>
           
           <CelText type="H6" weight="300">Bank Address</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ 'Bank address' }</CelText>
@@ -129,7 +131,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ 'Bank City' }</CelText>
 
           <CelText type="H6" weight="300" margin={'0 0 3 0'}>Bank Country</CelText>
-          { this.showCountry(bankAccountInfo.location) }
+          { this.showCountry(bankInfo.location) }
           
           { this.renderBankAccountInfo() }
 
