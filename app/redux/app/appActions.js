@@ -112,6 +112,10 @@ function handleAppStateChange(nextAppState) {
 
     if (profile && profile.has_pin) {
       if (nextAppState === "active") {
+        dispatch(actions.getLoyaltyInfo())
+        dispatch(actions.getInitialCelsiusData())
+        dispatch(actions.getCurrencyRates())
+
         if (Platform.OS === "ios") {
           clearTimeout(pinTimeout);
         }
