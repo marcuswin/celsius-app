@@ -31,7 +31,7 @@ class BorrowCollateral extends Component {
   handleSelectCoin = (coin) => {
     const { actions } = this.props
 
-    actions.updateFormField('coin', coin)
+    actions.updateFormField('collateralCoin', coin)
     actions.navigateTo('BorrowLoanOption')
   }
 

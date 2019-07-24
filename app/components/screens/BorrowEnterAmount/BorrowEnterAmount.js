@@ -20,6 +20,7 @@ import CelSelect from "../../molecules/CelSelect/CelSelect";
 import Icon from "../../atoms/Icon/Icon";
 import BorrowEnterAmountStyle from "./BorrowEnterAmount.styles";
 import { isCompanyMember } from "../../../utils/user-util";
+import { LOAN_TYPES } from '../../../constants/DATA';
 
 @connect(
   state => ({
@@ -130,6 +131,8 @@ class BorrowEnterAmount extends Component {
         onPress={() => {
           actions.navigateTo('BorrowCollateral')
           actions.toggleKeypad()
+          actions.getLinkedBankAccount()
+          // actions.navigateTo('VerifyProfile', { onSuccess: () => actions.openModal(UI.MODALS.BORROW_CONFIRM)})
         }}
         margin='20 0 0 0'
         iconRight='arrowRight'
@@ -193,6 +196,7 @@ class BorrowEnterAmount extends Component {
                 field='coin'
                 value={formData.coin}
                 updateFormField={actions.updateFormField}
+                onChange={(value) => actions.updateFormFields({ coin: value, loanType: value === 'USD' ? LOAN_TYPES.USD_LOAN : LOAN_TYPES.STABLE_COIN_LOAN})}
                 placeholder='Choose a coin'
               />
             )}
