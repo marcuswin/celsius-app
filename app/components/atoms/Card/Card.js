@@ -52,10 +52,11 @@ class Card extends React.Component {
       onPress,
       close,
       color,
-      noBorder
+      noBorder,
+      theme
     } = this.props
     const { open } = this.state
-    const style = CardStyle()
+    const style = CardStyle(theme)
     const paddingStyles = getPadding(padding)
     const marginStyles = getMargins(margin)
     const opacityStyles = { opacity }

@@ -28,14 +28,14 @@ const base = {
     width: widthPercentageToDP('50%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
   },
   halfExtra: {
-    width: widthPercentageToDP('45%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
+    width: widthPercentageToDP('40.5%') - 28 // -28 because RegularLayout padding is 20 and gap between two cards should be 16 so 16/2 = 8
   },
   third: {
     width: widthPercentageToDP('26.93%')
   },
   thirdExtra: {
-    width: widthPercentageToDP('22.93%'),
-    minWidth: widthPercentageToDP('22.93%')
+    width: widthPercentageToDP('20.5%'),
+    minWidth: widthPercentageToDP('20.5%')
   }
 }
 
@@ -69,6 +69,6 @@ const themed = {
   celsius: {}
 }
 
-const CardStyle = () => getThemedStyle(base, themed)
+const CardStyle = (theme) => (theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed))
 
 export default CardStyle
