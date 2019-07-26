@@ -10,7 +10,7 @@ import Separator from "../../atoms/Separator/Separator";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
-import { getMargins } from "../../../utils/styles-util";
+import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 import { LOAN_STATUS } from "../../../constants/DATA";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
@@ -21,6 +21,7 @@ class LoanOverviewCard extends Component {
     loan: PropTypes.instanceOf(Object),
     navigateTo: PropTypes.func.isRequired,
     index: PropTypes.number,
+    length: PropTypes.number,
   };
   static defaultProps = {
     payed: false,
@@ -33,21 +34,22 @@ class LoanOverviewCard extends Component {
     this.state = {};
   }
 
-  getMarginForIndex(index) {
-    if (index === 0) return "0 0 0 40"
-
-    return "0 0 0 0"
+  getMarginForIndex(index, length) {
+     if (index === 0) return `0 0 0 ${widthPercentageToDP("15%")}`;
+     if (index === length) return `0 ${widthPercentageToDP("15%")} 0 0`
+    return `0 0 0 0`
   }
 
   render() {
-    const { loan, navigateTo, index } = this.props;
+    const { loan, navigateTo, index, length } = this.props;
     const style = LoanOverviewCardStyle();
+
 
     const previousPayments = loan.amortization_table.filter(p => p.isPaid)
     const previous5Payments = previousPayments.slice(0, 5)
 
     return (
-      <View style={[style.container, getMargins(this.getMarginForIndex(index))]}>
+      <View style={[style.container, getMargins(this.getMarginForIndex(index, length))]}>
         <Card padding={"0 0 0 0"}>
           <View style={style.info}>
             <View style={style.status}>
@@ -159,7 +161,10 @@ class LoanOverviewCard extends Component {
         { loan.status === LOAN_STATUS.PENDING && (
           <CelButton
             margin="15 0 15 0"
-            onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
+            onPress={() => {
+
+              navigateTo("LoanRequestDetails", { id: loan.id })
+            }}
             color="red"
           >
             Cancel loan
