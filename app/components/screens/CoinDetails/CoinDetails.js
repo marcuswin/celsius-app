@@ -93,10 +93,22 @@ class CoinDetails extends Component {
     return {};
   }
 
+  setInterestRate = () => {
+    const { interestRates, appSettings } = this.props;
+    const coinDetails = this.getCoinDetails();
+    let interestRate = 0
+    if (coinDetails.short !== "CEL" && interestRates[coinDetails.short]) {
+      interestRate = !appSettings.interest_in_cel_per_coin[coinDetails.short]
+        ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
+        : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
+    return interestRate
+    }
+  }
+
   navigateToAllTransactions = () => {
     const { actions } = this.props;
     actions.navigateTo("AllTransactions");
-  };
+  }
 
   goToCelPay = () => {
     const { currency } = this.state;
@@ -116,13 +128,7 @@ class CoinDetails extends Component {
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     const interestInCoins = appSettings.interest_in_cel_per_coin;
-
-    let interestRate = 0
-    if (coinDetails.short !== "CEL" && interestRates[coinDetails.short]) {
-      interestRate = appSettings.interest_in_cel
-        ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
-        : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
-    }
+    const interestRate = this.setInterestRate()
 
     return (
       <RegularLayout padding={"20 0 100 0"}>

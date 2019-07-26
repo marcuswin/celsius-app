@@ -33,9 +33,16 @@ export default function generalDataReducer(state = initialState(), action) {
       };
 
     case ACTIONS.GET_INITIAL_CELSIUS_DATA_SUCCESS:
+      // NOTE(fj) BE returns cel_rate as "0" every time
+      interestRates = { ...state.interestRates } || {}
+      Object.keys(action.interestRates).forEach(coinShort => {
+        interestRates[coinShort] = interestRates[coinShort] || {}
+        interestRates[coinShort].rate = action.interestRates[coinShort].rate
+      })
+  
       return {
         ...state,
-        interestRates: action.interestRates,
+        interestRates,
         minimumLoanAmount: action.minimumLoanAmount,
         celUtilityTiers: action.celUtilityTiers,
         withdrawalSettings: action.withdrawalSettings,
@@ -44,6 +51,7 @@ export default function generalDataReducer(state = initialState(), action) {
     case ACTIONS.GET_LOYALTY_INFO_SUCCESS:
       interestRates = { ...state.interestRates }
 
+      // NOTE(fj) BE returns cel_rate as "0" every time
       Object.keys(state.interestRates).forEach(coinShort => {
         interestRates[coinShort].cel_rate = ((1 + Number(action.loyaltyInfo.earn_interest_bonus)) * state.interestRates[coinShort].rate).toString()
       })
