@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, ScrollView } from 'react-native';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -14,8 +14,8 @@ import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import Icon from "../../atoms/Icon/Icon";
 import STYLES from '../../../constants/STYLES';
 import { isUSCitizen } from "../../../utils/user-util";
-import { THEMES } from '../../../constants/UI';
-import { getTheme } from "../../../utils/styles-util";
+import PerCoinCelInterestCardStyle from "./PerCoinCelInterestCard.styles";
+import ScrollMore from "../../atoms/ScrollMore/ScrollMore";
 
 
 @connect(
@@ -70,18 +70,20 @@ class PerCoinCelInterestCard extends Component {
   componentWillReceiveProps(nextProps) {
     const { appSettings, actions, formData } = this.props
 
-    if (!_.isEqual(appSettings, nextProps.appSettings)) {
+    if (!_.isEqual(appSettings, nextProps.appSettings) || !nextProps.formData.coinsInCel) {
       actions.initForm({
         interestInCel: nextProps.appSettings.interest_in_cel,
         coinsInCel: { ...nextProps.appSettings.interest_in_cel_per_coin }
       })
     }
-    if (!_.isEqual(formData.coinsInCel, nextProps.formData.coinsInCel)) {
+
+    if (!_.isEqual(formData.coinsInCel, nextProps.formData.coinsInCel && nextProps.formData.coinsInCel)) {
       this.changeMainCheck(nextProps.formData.coinsInCel)
     }
   }
 
   changeMainCheck = (coinsInCel) => {
+    if (!coinsInCel) return
     const { formData, actions, appSettings } = this.props
     let countCoinsTrue = 0
     const totalCoins = Object.keys(appSettings.interest_in_cel_per_coin).length
@@ -153,11 +155,12 @@ class PerCoinCelInterestCard extends Component {
 
   render() {
     if (isUSCitizen()) return null
+    const style = PerCoinCelInterestCardStyle()
     
-    const theme = getTheme();
     const { formData, actions } = this.props
     const { coinList, isExpanded, coinNames, isLoading } = this.state
-    const fillColor = theme === THEMES.DARK ? STYLES.COLORS.DARK_HEADER : STYLES.COLORS.WHITE
+
+    if (!formData.coinsInCel) return null
 
     return (
       <Card>
@@ -168,7 +171,7 @@ class PerCoinCelInterestCard extends Component {
           rightText="Earn interest in CEL"
           rightTextStyle={{ color: 'red' }}
           checkedImage={this.renderImage()}
-          unChecked={<Icon name='Unchecked' width={23} height={23} fill={fillColor} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
+          unChecked={<Icon name='Unchecked' width={23} height={23} fill={style.iconFill.color} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
         />
 
         <Separator margin="0 0 15 0" />
@@ -188,40 +191,47 @@ class PerCoinCelInterestCard extends Component {
         </TouchableOpacity>
         {
           isExpanded && (
-            <View style={{ marginTop: 25 }}>
-              {coinList.map(c => (
-                <CelCheckbox
-                  key={c}
-                  field={c}
-                  onChange={(field, value) => {
-                    actions.updateFormFields({
-                      ...formData,
-                      coinsInCel: {
-                        ...formData.coinsInCel,
-                        ...{ [field]: value }
-                      }
-                    })
-                  }}
+            <View>
+              <ScrollView style={{ marginTop: 25, height: 210 }}>
+                {coinList.map(c => (
+                  <CelCheckbox
+                    key={c}
+                    field={c}
+                    onChange={(field, value) => {
+                      actions.updateFormFields({
+                        ...formData,
+                        coinsInCel: {
+                          ...formData.coinsInCel,
+                          ...{ [field]: value }
+                        }
+                      })
+                    }}
 
-                  value={!!formData.coinsInCel[c]}
-                  rightText={`${coinNames[c]} - ${c}`}
-                  checkedImage={<Icon name='CheckedBorder' width='23' height='23' fill={STYLES.COLORS.GREEN} />}
-                  unChecked={<Icon name='Unchecked' width='23' height='23' fill={fillColor} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
+                    value={!!formData.coinsInCel[c]}
+                    rightText={`${coinNames[c]} - ${c}`}
+                    checkedImage={<Icon name='CheckedBorder' width='23' height='23' fill={STYLES.COLORS.GREEN} />}
+                    unChecked={<Icon name='Unchecked' width='23' height='23' fill={style.iconFill.color} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
 
-                />
-              ))}
-              <CelButton
-                onPress={this.saveSelection}
-                basic
-                margin="5 0 0 0"
-                loading={isLoading}
-              >
-                Save
-            </CelButton>
+                  />
+                ))}
+                <View style={{ height: 30 }} />
+              </ScrollView>
+              <ScrollMore height={210 + 30} />
             </View>
+
           )
         }
-      </Card >
+
+        <Separator margin="5 0 5 0"/>
+
+        <CelButton
+          onPress={this.saveSelection}
+          margin="5 0 0 0"
+          loading={isLoading}
+        >
+          Save
+        </CelButton>
+      </Card>
     );
   }
 }
