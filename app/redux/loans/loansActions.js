@@ -11,6 +11,7 @@ export {
   applyForALoan,
   getAllLoans,
   setActiveLoan,
+  cancelLoan
 }
 
 /**
@@ -83,5 +84,25 @@ function setActiveLoan(loanId) {
   return {
     type: ACTIONS.SET_ACTIVE_LOAN,
     loanId,
+  }
+}
+
+/**
+ * Cancels desired pending loan
+ * @param id
+ */
+function cancelLoan() {
+  return async (dispatch) => {
+    try {
+      startApiCall(API.CANCEL_LOAN)
+      // id should be number
+      // const res = await loansService.cancelLoan(id)
+
+      // TODO add needed logic for redux or call getAllLoans()
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.CANCEL_LOAN, err));
+    }
   }
 }

@@ -3,7 +3,8 @@ import apiUrl from './api-url';
 
 const loansService = {
   apply,
-  getAllLoans
+  getAllLoans,
+  cancelLoan
 };
 
 /**
@@ -40,6 +41,16 @@ function apply(loanApplication, verification) {
  */
 function getAllLoans() {
   return axios.get(`${apiUrl}/loans`);
+}
+
+/**
+ * Cancels desired pending loan
+ *
+ * @param {String} id
+ * @returns {Promise}
+ */
+function cancelLoan(id) {
+  return axios.put(`${apiUrl}/loans/${id}/cancel`)
 }
 
 export default loansService;

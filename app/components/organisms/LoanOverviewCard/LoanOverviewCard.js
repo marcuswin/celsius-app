@@ -21,6 +21,7 @@ class LoanOverviewCard extends Component {
     loan: PropTypes.instanceOf(Object),
     navigateTo: PropTypes.func.isRequired,
     index: PropTypes.number,
+    actions: PropTypes.instanceOf(Object),
     length: PropTypes.number,
   };
   static defaultProps = {
@@ -41,9 +42,8 @@ class LoanOverviewCard extends Component {
   }
 
   render() {
-    const { loan, navigateTo, index, length } = this.props;
+    const { loan, navigateTo, index, length, actions } = this.props;
     const style = LoanOverviewCardStyle();
-
 
     const previousPayments = loan.amortization_table.filter(p => p.isPaid)
     const previous5Payments = previousPayments.slice(0, 5)
@@ -162,7 +162,7 @@ class LoanOverviewCard extends Component {
           <CelButton
             margin="15 0 15 0"
             onPress={() => {
-
+              actions.cancelLoan(loan.id);
               navigateTo("LoanRequestDetails", { id: loan.id })
             }}
             color="red"

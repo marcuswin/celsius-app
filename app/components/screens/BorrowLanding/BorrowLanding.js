@@ -243,6 +243,7 @@ class BorrowLanding extends Component {
                       index={index}
                       length={allLoans.length - 1}
                       navigateTo={actions.navigateTo}
+                      actions={actions}
                     />
                   </Animated.View>
                 );
