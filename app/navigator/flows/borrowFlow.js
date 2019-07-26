@@ -15,6 +15,7 @@ import LoanRequestDetails from "../../components/screens/LoanRequestDetails/Loan
 import LoanPaymentHistory from "../../components/screens/LoanPaymentHistory/LoanPaymentHistory";
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
+import LoanPaymentCoin from "../../components/screens/LoanPaymentCoin/LoanPaymentCoin";
 
 export const borrowFlow = {
   screens: {
@@ -30,6 +31,7 @@ export const borrowFlow = {
     BorrowConfirm,
     TransactionDetails,
     Deposit,
+    LoanPaymentCoin,
     LoanRequestDetails,
     LoanPaymentHistory,
     ...profileFlow.screens,
