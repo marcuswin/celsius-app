@@ -8,7 +8,6 @@ import Icon from '../Icon/Icon';
 import CelText from '../CelText/CelText';
 
 class CircleButton extends Component {
-
   static propTypes = {
     theme: PropTypes.string,
     style: PropTypes.oneOfType([
@@ -32,6 +31,7 @@ class CircleButton extends Component {
     isSelected: false,
     selectable: false,
     disabled: false,
+    type: 'menu',
   };
 
   shouldComponentUpdate(nextProps) {

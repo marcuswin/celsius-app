@@ -20,7 +20,6 @@ import { openModal } from '../../../redux/ui/uiActions'
 import store from '../../../redux/store'
 import StaticScreen from '../StaticScreen/StaticScreen'
 import BalanceView from '../../atoms/BalanceView/BalanceView'
-import EmptyState from '../../atoms/EmptyState/EmptyState'
 import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import STYLES from '../../../constants/STYLES'
 import cryptoUtil from '../../../utils/crypto-util'
@@ -28,6 +27,9 @@ import celUtilityUtil from '../../../utils/cel-utility-util'
 import LoseMembershipModal from "../../molecules/LoseMembershipModal/LoseMembershipModal";
 import LoseTierModal from "../../molecules/LoseTierModal/LoseTierModal";
 import { hasPassedKYC } from "../../../utils/user-util";
+import CelText from "../../atoms/CelText/CelText";
+import Card from "../../atoms/Card/Card";
+import CircleButton from "../../atoms/CircleButton/CircleButton";
 
 @connect(
   state => ({
@@ -343,13 +345,31 @@ class WithdrawEnterAmount extends Component {
                 </CelButton>
               </View>
             ) : (
-              <EmptyState
-                heading='Address locked'
-                paragraphs={[
-                  `You have recently changed your ${coin} withdrawal address.`,
-                  `Due to our security protocols, your address will be active in ${ hours } hours and ${ minutes } minutes.`
-                ]}
-              />
+              <View>
+                <CircleButton
+                  style={{ marginTop: 50 }}
+                  icon="TransactionLocked"
+                  iconSize={35}
+                />
+
+                <CelText margin='20 0 15 0' align='center' type='H2' weight={'bold'}>
+                  Address Locked
+                </CelText>
+
+                <CelText align="center">
+                  You have recently changed your ${coin} withdrawal address.
+                </CelText>
+
+                <Card margin="10 0 0 0">
+                  <CelText align="center" type="H6">
+                    Due to our security protocols, your address will be active in
+                  </CelText>
+
+                  <CelText margin="10 0 0 0" align='center' type='H3' weight={'bold'}>
+                    ${ hours }h ${ minutes }m.
+                  </CelText>
+                </Card>
+              </View>
             )}
           </View>
         </View>
