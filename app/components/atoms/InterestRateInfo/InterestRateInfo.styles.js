@@ -51,7 +51,7 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: widthPercentageToDP("32%"),
+    width: widthPercentageToDP("37%"),
     height: heightPercentageToDP("5%")
   },
   regularRateWrapper: {
@@ -62,6 +62,7 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
+    width: widthPercentageToDP("37%"),
     height: heightPercentageToDP("5%")
   },
   usdInfoWrapper: {

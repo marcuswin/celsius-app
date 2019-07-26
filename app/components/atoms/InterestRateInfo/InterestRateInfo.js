@@ -60,61 +60,55 @@ class InterestRateInfo extends Component {
     
     return (
       <View style={[styles.mainWrapper, additionalWrapperStyle]}>
-        <View style={styles.mainInfoWrapper}>
-          <View style={styles.imageInfoWrapper}>
-            <View style={styles.imageWrapper}>
-              <Image
-                source={{ uri: currencyInfo.image_url }}
-                style={styles.currencyImage}
-              />
+        <View>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={styles.imageWrapper}>
+                <Image
+                  source={{ uri: currencyInfo.image_url }}
+                  style={styles.currencyImage}
+                />
+              </View>
+
+              <CelText margin="0 0 0 3" weight="500">{this.capitalize(name)} ({currencyInfo.short})</CelText>
             </View>
-            <View style={styles.infoWrapper}>
-              <CelText weight={"500"} type={"H5"} style={styles.currencyName}>
-                {this.capitalize(name)}
+
+            {["BCH", "BTC", "ETH", "XRP", "LTC"].includes(currencyInfo.short) &&
+              <CelText
+                align={"center"}
+                color={STYLES.COLORS.CELSIUS_BLUE}
+                type={"H7"}
+                weight={"300"}
+                onPress={() => Linking.openURL(link)}
+              >
+                {`Buy ${currencyInfo.short}`}
               </CelText>
-              <CelText weight={"500"} type={"H4"} style={styles.currencyShort}>
-                {currencyInfo.short}
-              </CelText>
-              {["BCH", "BTC", "ETH", "XRP", "LTC"].includes(currencyInfo.short) &&
-              <CelText align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"}
-                       onPress={() => Linking.openURL(link)}>{`Buy ${currencyInfo.short}`}</CelText>
-              }
-            </View>
+            }
           </View>
-          <View style={{ justifyContent: "space-around" }}>
+
+          <CelText margin="3 0 2 0" type={"H7"} style={styles.regularRateText}>
+            Earn in:
+          </CelText>
+
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={styles.regularRateWrapper}>
-              <CelText type={"H7"} style={styles.regularRateText}>
-                Regular
+              <CelText type={"H7"} style={styles.regularRateText} margin="0 5 0 0">
+                { currencyInfo.short }
               </CelText>
-              <CelText type={"H5"} style={styles.regRateText}>
+              <CelText type={"H7"} weight="bold" style={styles.regRateText}>
                 {formatter.percentageDisplay(rate.rate)}
               </CelText>
             </View>
             <View style={styles.celRateWrapper}>
-              <CelText type={"H7"} style={styles.celsiusRateText}>
-                Bonus
+              <CelText type={"H7"} style={styles.celsiusRateText} margin="0 5 0 0">
+                CEL
               </CelText>
-              <CelText type={"H5"} style={styles.celRateText}>
+              <CelText type={"H7"} weight="bold" style={styles.celRateText}>
                 {formatter.percentageDisplay(rate.cel_rate)}
               </CelText>
             </View>
           </View>
         </View>
-        {currencyInfo.short.toUpperCase() === "USD" && (
-          <View style={styles.usdInfoWrapper}>
-            <CelText>
-              Start earning interest for dollars by{" "}
-              <CelText
-                onPress={() => {
-                  Linking.openURL("mailto:sales@celsius.network");
-                }}
-              >
-                getting in touch
-              </CelText>{" "}
-              with our team.
-            </CelText>
-          </View>
-        )}
       </View>
     );
   }

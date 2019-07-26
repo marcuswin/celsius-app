@@ -23,7 +23,7 @@ class InterestRateInfoTable extends Component {
   }
 
   renderInterestTable() {
-    const { interestRates, pressed, loyaltyInfo } = this.props;
+    const { interestRates, loyaltyInfo } = this.props;
     const interestArray = [];
     const ratesPriority = ["ETH", "BTC", "USD"];
 
@@ -48,23 +48,6 @@ class InterestRateInfoTable extends Component {
       return 0;
     });
 
-    if (pressed) {
-      return sortedRates.map(interest => {
-        const border = interest === sortedRates[0] ? null : { borderTopWidth: 2, borderColor: "rgba(200,200,200,0.3)" };
-        return (
-          <View key={interest.currency} style={border}>
-            <InterestRateInfo
-              compact
-              currency={interest.currency}
-              rate={interest.rate}
-              loyaltyInfo={loyaltyInfo}
-            />
-          </View>
-        );
-      }
-      )
-    }
-
     return sortedRates.map(interest => {
         const border = interest === sortedRates[0] ? null : { borderTopWidth: 2, borderColor: "rgba(200,200,200,0.3)" };
         return (
@@ -78,7 +61,7 @@ class InterestRateInfoTable extends Component {
           </View>
         );
       }
-    ).slice(0,5);
+    )
   }
 
   render() {
