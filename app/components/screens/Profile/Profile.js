@@ -16,6 +16,7 @@ import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
 import CelButton from "../../atoms/CelButton/CelButton";
+import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 
 const { version } = Constants.manifest;
 
@@ -87,6 +88,8 @@ class Profile extends Component {
     const { profilePicture, user, actions } = this.props;
     return (
       <RegularLayout>
+        <MissingInfoCard user={user} />
+
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
           {profilePicture ? (
             <Image

@@ -23,6 +23,7 @@ import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
 import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
+import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 
 let counter = 0;
 
@@ -367,6 +368,8 @@ class WalletLanding extends Component {
     return (
       <RegularLayout>
         <View>
+          <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
+
           <WalletDetailsCard
             walletSummary={walletSummary}
             navigateTo={actions.navigateTo}
