@@ -227,8 +227,8 @@ class CoinDetails extends Component {
                   {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                     <View style={style.interestRateWrapper}>
                       <CelText type="H6" weight='300'>Current rate</CelText>
-                      <View>
-                        <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                      <View style={{ alignSelf: 'flex-end'}}>
+                        <Badge margin='12 0 10 12'  color={COLORS.GREEN}>
                           <CelText align='justify' type="H5" color="white">{interestRate}</CelText>
                         </Badge>
                       </View>

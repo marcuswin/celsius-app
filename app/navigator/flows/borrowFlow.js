@@ -13,6 +13,9 @@ import TransactionDetails from '../../components/screens/TransactionDetails/Tran
 import ConfirmYourLoan from '../../components/screens/ConfirmYourLoan/ConfirmYourLoan'
 import LoanRequestDetails from "../../components/screens/LoanRequestDetails/LoanRequestDetails";
 import LoanPaymentHistory from "../../components/screens/LoanPaymentHistory/LoanPaymentHistory";
+import ChoosePrepaymentMethod from "../../components/screens/ChoosePrepaymentMethod/ChoosePrepaymentMethod";
+import LoanPrepaymentPeriod from '../../components/screens/LoanPrepaymentPeriod/LoanPrepaymentPeriod'
+import PaymentCel from '../../components/screens/PaymentCel/PaymentCel'
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
 import LoanPaymentCoin from "../../components/screens/LoanPaymentCoin/LoanPaymentCoin";
@@ -27,6 +30,9 @@ export const borrowFlow = {
     ConfirmYourLoan,
     VerifyProfile,
     BorrowLanding,
+    ChoosePrepaymentMethod,
+    PaymentCel,
+    LoanPrepaymentPeriod,
     LoanPaymentList,
     BorrowConfirm,
     TransactionDetails,

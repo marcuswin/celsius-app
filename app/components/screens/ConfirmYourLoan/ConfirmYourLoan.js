@@ -64,9 +64,9 @@ class ConfirmYourLoan extends Component {
     });
     if (iso) return (
       <View style={{flex: 1, flexDirection: 'row', marginTop: 5, marginBottom: 5}}>
-        <Image 
+        <Image
           source={{ uri: `https://raw.githubusercontent.com/hjnilsson/country-flags/master/png250px/${iso.toLowerCase()}.png` }}
-          resizeMode="cover" 
+          resizeMode="cover"
           style={style.flagImage}
         />
          <CelText type="H3" weight="600" margin={'0 0 0 5'}>{ country.name }</CelText>
@@ -74,65 +74,36 @@ class ConfirmYourLoan extends Component {
     )
   }
 
-  renderAmount = () => {
-    const { formData } = this.props
-    if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN){
-     return (
-      <CelText align="center" type="H1" weight="bold">{ formatter.crypto(formData.loanAmount, formData.coin, { precision: 2 }) }</CelText>
-     )
-    } 
-    return( 
-      <CelText align="center" type="H1" weight="bold">{ formatter.usd(formData.loanAmount, { precision: 0 }) }</CelText>
-    )
-  }
-  
-  renderBankAccountInfo = () => {
-    const { bankInfo } = this.props.formData
-      if ( bankInfo && bankInfo.location === 'United States') {
-        return (
-          <View>
-            <CelText type="H6" weight="300">ABA (routing number)</CelText>
-            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_routing_number }</CelText>
-          
-            <CelText type="H6" weight="300">Your Account Number</CelText>
-            <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_account_number }</CelText>
-          </View>
-        )
-      }
-     return (
-       <View>
-          <CelText type="H6" weight="300">SWIFT (Bank Identifier Code)</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.swift }</CelText>
 
-          <CelText type="H6" weight="300">Your Account Number</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.iban }</CelText>
-       </View>
-     
-     )
+  requestButtonHandle = () => {
+    const { actions } = this.props
+
+    // actions.applyForALoan(formData)
+    actions.navigateTo('ChoosePrepaymentMethod')
   }
 
   renderBankInfo = () => {
     const { formData } = this.props
     const { bankInfo } = this.props.formData
-    
+
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
       return (
         <Card>
           <CelText type="H6" weight="300">Bank Name</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_name }</CelText>
-          
+
           <CelText type="H6" weight="300">Bank Address</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ 'Bank address' }</CelText>
 
           <CelText type="H6" weight="300">Bank ZIP / Postal Code</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ 'Bank ZIP / Postal Code' }</CelText>
-          
+
           <CelText type="H6" weight="300">Bank City</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ 'Bank City' }</CelText>
 
           <CelText type="H6" weight="300" margin={'0 0 3 0'}>Bank Country</CelText>
           { this.showCountry(bankInfo.location) }
-          
+
           { this.renderBankAccountInfo() }
 
         </Card>
@@ -140,9 +111,48 @@ class ConfirmYourLoan extends Component {
     }
   }
 
+  renderBankAccountInfo = () => {
+    const { bankInfo } = this.props.formData
+    if ( bankInfo && bankInfo.location === 'United States') {
+      return (
+        <View>
+          <CelText type="H6" weight="300">ABA (routing number)</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_routing_number }</CelText>
+
+          <CelText type="H6" weight="300">Your Account Number</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.bank_account_number }</CelText>
+        </View>
+      )
+    }
+    return (
+      <View>
+        <CelText type="H6" weight="300">SWIFT (Bank Identifier Code)</CelText>
+        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.swift }</CelText>
+
+        <CelText type="H6" weight="300">Your Account Number</CelText>
+        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ bankInfo.iban }</CelText>
+      </View>
+
+    )
+  }
+
+
+  renderAmount = () => {
+    const { formData } = this.props
+    if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN){
+      return (
+        <CelText align="center" type="H1" weight="bold">{ formatter.crypto(formData.loanAmount, formData.coin, { precision: 2 }) }</CelText>
+      )
+    }
+    return(
+      <CelText align="center" type="H1" weight="bold">{ formatter.usd(formData.loanAmount, { precision: 0 }) }</CelText>
+    )
+  }
+
   render() {
-    const {formData, actions} = this.props;
+    const {formData} = this.props;
     const style = ConfirmYourLoanStyle();
+
     return (
       <View flex={1}>
         <HeadingProgressBar steps={6} currentStep={6} />
@@ -159,7 +169,7 @@ class ConfirmYourLoan extends Component {
                   <CelText type="H6" weight="300">The exact amount of collateral needed will be determined upon approval. Coins used for collateral will be locked and ineligible to earn interest.</CelText>
                 </Card>
             </Card>
-            
+
             <Card>
               <View style={style.horizontalCardContainer}>
                 <View style={style.horizontalCardItem}>
@@ -211,7 +221,7 @@ class ConfirmYourLoan extends Component {
               <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>Reduce your interest rate by</CelText>
               <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ 15 } %</CelText>
               <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>
-                By paying out in 
+                By paying out in
                 <CelText type="H5" weight="300" align="center" color={style.blueCardBoldText.color}> CEL</CelText>
               </CelText>
 
@@ -281,7 +291,7 @@ class ConfirmYourLoan extends Component {
                   <CelText type="H6" weight="300">If BTC drops bellow $XXX, you will receive a notification to review your borrowing options.</CelText>
                 </Card>
             </Card>
-         
+
             <Card>
               <CelText type="H6" weight="300" align="center">Liquidation at</CelText>
               <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ '$XXXX' }</CelText>
@@ -290,11 +300,11 @@ class ConfirmYourLoan extends Component {
                 </Card>
             </Card>
 
-            <CelButton onPress={() => actions.applyForALoan(formData)} margin="22 0 0 0">Request loan</CelButton>
+            <CelButton onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
           </View>
         </RegularLayout>
       </View>
-     
+
     );
   }
 }
