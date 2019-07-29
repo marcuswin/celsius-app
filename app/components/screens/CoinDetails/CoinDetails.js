@@ -20,6 +20,7 @@ import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
 import Icon from "../../atoms/Icon/Icon";
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
 import InterestCard from "../../molecules/InterestCard/InterestCard";
+import interestUtil from "../../../utils/interest-util";
 
 const { COLORS } = STYLES;
 
@@ -93,18 +94,6 @@ class CoinDetails extends Component {
     return {};
   }
 
-  setInterestRate = () => {
-    const { interestRates, appSettings } = this.props;
-    const coinDetails = this.getCoinDetails();
-    let interestRate = 0
-    if (coinDetails.short !== "CEL" && interestRates[coinDetails.short]) {
-      interestRate = !appSettings.interest_in_cel_per_coin[coinDetails.short]
-        ? formatter.percentageDisplay(interestRates[coinDetails.short].rate)
-        : formatter.percentageDisplay(interestRates[coinDetails.short].cel_rate)
-    return interestRate
-    }
-  }
-
   navigateToAllTransactions = () => {
     const { actions } = this.props;
     actions.navigateTo("AllTransactions");
@@ -128,7 +117,7 @@ class CoinDetails extends Component {
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
     const interestInCoins = appSettings.interest_in_cel_per_coin;
-    const interestRate = this.setInterestRate()
+    const interestRate = interestUtil.getUserInterestForCoin(coinDetails.short)
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -229,7 +218,7 @@ class CoinDetails extends Component {
                       <CelText type="H6" weight='300'>Current rate</CelText>
                       <View>
                         <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                          <CelText align='justify' type="H5" color="white">{interestRate}</CelText>
+                          <CelText align='justify' type="H5" color="white">{ interestRate.display }</CelText>
                         </Badge>
                       </View>
                     </View>

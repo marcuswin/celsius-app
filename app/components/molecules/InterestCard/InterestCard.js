@@ -9,12 +9,16 @@ import STYLES from '../../../constants/STYLES'
 import CelText from "../../atoms/CelText/CelText";
 import * as appActions from "../../../redux/actions";
 import { getTheme } from "../../../utils/styles-util";
+import formatter from "../../../utils/formatter";
 import { THEMES } from "../../../constants/UI";
 import Spinner from "../../atoms/Spinner/Spinner";
 import { isUSCitizen } from "../../../utils/user-util";
+import Badge from "../../atoms/Badge/Badge";
 
 @connect(
-  () => ({}),
+  (state) => ({
+    interestRates: state.generalData.interestRates,
+  }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 
@@ -50,7 +54,7 @@ class InterestCard extends Component {
   };
 
   render () {
-    const { interestInCoins, tier,coin, actions } = this.props
+    const { interestInCoins, tier,coin, actions, interestRates } = this.props
     const { loading } = this.state
 
     if (tier === 'NONE') return null
@@ -60,6 +64,16 @@ class InterestCard extends Component {
     const theme = getTheme()
     return (
       <View style={{justifyContent: "space-between"}}>
+        { !interestInCoins[coin] && (
+          <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
+            <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
+
+            <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={STYLES.COLORS.GREEN}>
+              <CelText align='justify' type="H5" color="white">{ formatter.percentageDisplay(interestRates[coin].cel_rate) }</CelText>
+            </Badge>
+          </View>
+        )}
+
         <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
           <CelText color={"#737A82"} type={"H4"} weight={"300"}>Earn interest in CEL</CelText>
           { loading ? (
