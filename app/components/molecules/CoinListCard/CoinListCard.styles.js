@@ -10,19 +10,6 @@ const base = {
     height: 40,
     marginRight: 12
   },
-  cardInnerView: {
-    flexDirection: "row",
-    marginHorizontal: 12
-  },
-  wrapper: {
-    width: "100%"
-  },
-  coinTextWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    width: "100%"
-  }
 };
 
 const themed = {
