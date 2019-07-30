@@ -118,7 +118,7 @@ class Home extends Component {
             </CelText>
             <Loader progress={this.state.progress} />
           </View>
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Image
               source={require('../../../../assets/images/PartnerLogos/BitGo.png')}
               style={{
@@ -131,16 +131,6 @@ class Home extends Component {
             />
             <Image
               source={require('../../../../assets/images/PartnerLogos/DP.png')}
-              style={{
-                resizeMode: 'contain',
-                width: widthPercentageToDP('18%'),
-                marginLeft: 5,
-                marginRight: 5,
-                alignSelf: 'flex-end'
-              }}
-            />
-            <Image
-              source={require('../../../../assets/images/PartnerLogos/EY.png')}
               style={{
                 resizeMode: 'contain',
                 width: widthPercentageToDP('18%'),
