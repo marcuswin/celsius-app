@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import * as appActions from '../../../redux/actions';
 
-
 import WelcomeStyle from "./Welcome.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
@@ -32,6 +31,11 @@ class Welcome extends Component {
     transparent: true
   })
 
+  onPressLogin = () => {
+    const { actions } = this.props
+      actions.navigateTo('Login')
+  }
+
   render() {
     const style = WelcomeStyle();
     const { actions } = this.props
@@ -44,7 +48,7 @@ class Welcome extends Component {
           <CelText weight='bold' align='center' type='H1' style={style.title}>Welcome to Celsius Network</CelText>
           <CelText weight="light" align='center' style={style.subtitle}>A new way to earn, borrow and pay on the blockchain. Let’s bring the next 100M people into crypto together.</CelText>
           <CelButton style={style.button} onPress={() => actions.navigateTo('RegisterInitial')}>Join Celsius</CelButton>
-          <CelButton basic onPress={() => actions.navigateTo('Login')}>Login</CelButton>
+          <CelButton basic onPress={() => this.onPressLogin()}>Login</CelButton>
 
           <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: {revisionId}</CelText>
         </View>

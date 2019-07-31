@@ -20,7 +20,7 @@
     "set:env:preprod": "CONFIG=PREPROD node set-env",
     "set:env:production": "CONFIG=PRODUCTION node set-env",
     "plop": "plop",
-    "postinstall": "node set-facebook-pods"
+    "postinstall": "node set-facebook-pods && node ./fixAndroid/android-release-fix.js"
   },
   "pre-commit": [
     "lint"
@@ -60,7 +60,8 @@
     "qs": "6.5.1",
     "react": "16.8.3",
     "react-native": "0.59.9",
-    "react-native-appsflyer": "^1.4.2",
+    "react-native-advertising": "^1.0.10",
+    "react-native-appsflyer": "^1.4.3",
     "react-native-branch": "2.2.5",
     "react-native-check-box": "^2.1.7",
     "react-native-code-push": "^5.6.0",

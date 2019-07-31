@@ -13,7 +13,8 @@ function initialState() {
     appState: "active",
     internetConnected: true,
     assetsLoaded: false,
-    showVerifyScreen: false // TODO move to security
+    showVerifyScreen: false, // TODO move to security
+    advertisingId: null
   };
 }
 
@@ -78,7 +79,11 @@ export default function appReducer(state = initialState(), action) {
           geoLong: action.geoLong,
         }
       };
-
+    case ACTIONS.SET_ADVERTISING_ID:
+      return {
+        ...state,
+        advertisingId: action.advertisingId
+      }
     default:
       return { ...state };
   }
