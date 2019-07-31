@@ -32,6 +32,7 @@ const { COLORS } = STYLES;
     interestRates: state.generalData.interestRates,
     celpayCompliance: state.compliance.celpay,
     coinAmount: state.graph.coinLastValue,
+    appSettings: state.user.appSettings,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -108,13 +109,14 @@ class CoinDetails extends Component {
 
   render() {
     const { currency } = this.state;
-    const { actions, interestRates, celpayCompliance, currencies } = this.props;
+    const { actions, interestRates, celpayCompliance, currencies, appSettings } = this.props;
     const coinDetails = this.getCoinDetails();
     const style = CoinDetailsStyle();
     const coinPrice = currencies ? currencies.filter(c => c.short === coinDetails.short).map(m => m.market_quotes_usd)[0] : {}
     const theme = getTheme();
     const isCoinEligibleForCelPay = celpayCompliance.allowed && celpayCompliance.coins.includes(currency.short);
 
+    const interestInCoins = appSettings.interest_in_cel_per_coin;
     const interestRate = interestUtil.getUserInterestForCoin(coinDetails.short)
 
     return (
@@ -236,7 +238,8 @@ class CoinDetails extends Component {
               <Separator margin={"20 0 10 0"}/>
               <InterestCard
                 coin={coinDetails.short}
-                inCEL={interestRate.inCEL}
+                interestRate={interestRate}
+                interestInCoins={interestInCoins}
                 setUserAppSettings={actions.setUserAppSettings}
               />
             </Card>

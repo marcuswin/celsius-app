@@ -54,9 +54,10 @@ class InterestCard extends Component {
   };
 
   render () {
-    const { tier,coin, actions, interestRates, inCEL } = this.props
+    const { tier,coin, actions, interestRates, interestRate } = this.props
     const { loading } = this.state
 
+    if (!interestRate.eligible) return null
     if (tier === 'NONE') return null
     if (isUSCitizen()) return null
 
@@ -65,7 +66,7 @@ class InterestCard extends Component {
 
     return (
       <View style={{justifyContent: "space-between"}}>
-        { !inCEL && (
+        { !interestRate.inCEL && (
           <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
             <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
 
@@ -84,7 +85,7 @@ class InterestCard extends Component {
               thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
               ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
               trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
-              value={inCEL}
+              value={interestRate.inCEL}
               onValueChange={this.handleValueChange}
             />
           )}
