@@ -24,6 +24,7 @@ import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInter
 import { getSecureStoreKey } from '../../../utils/expo-storage';
 import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
+import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
 
 let counter = 0;
 
@@ -412,6 +413,8 @@ class WalletLanding extends Component {
           <View>
             <CoinsCard />
           </View>
+
+          <ComingSoonCoins activeView={activeView} />
         </View>
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}
