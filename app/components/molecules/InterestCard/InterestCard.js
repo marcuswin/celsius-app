@@ -25,8 +25,8 @@ import Badge from "../../atoms/Badge/Badge";
 class InterestCard extends Component {
   static propTypes = {
     coin: PropTypes.string,
-    interestInCoin: PropTypes.bool,
-    setUserAppSettings: PropTypes.func.isRequired
+    setUserAppSettings: PropTypes.func.isRequired,
+    inCEL: PropTypes.bool
   }
   static defaultProps = {}
 
@@ -54,7 +54,7 @@ class InterestCard extends Component {
   };
 
   render () {
-    const { interestInCoins, tier,coin, actions, interestRates } = this.props
+    const { tier,coin, actions, interestRates, inCEL } = this.props
     const { loading } = this.state
 
     if (tier === 'NONE') return null
@@ -62,9 +62,10 @@ class InterestCard extends Component {
 
     const falseColor = Platform.OS === 'ios' ? 'transparent' : STYLES.COLORS.DARK_GRAY3
     const theme = getTheme()
+
     return (
       <View style={{justifyContent: "space-between"}}>
-        { !interestInCoins[coin] && (
+        { !inCEL && (
           <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
             <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
 
@@ -83,7 +84,7 @@ class InterestCard extends Component {
               thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
               ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
               trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
-              value={interestInCoins[coin]}
+              value={inCEL}
               onValueChange={this.handleValueChange}
             />
           )}
