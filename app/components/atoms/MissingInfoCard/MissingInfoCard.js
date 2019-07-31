@@ -4,12 +4,13 @@ import { Linking } from "react-native";
 
 import Card from "../Card/Card";
 import STYLES from "../../../constants/STYLES";
-import { hasSSN, hasAddress } from "../../../utils/user-util";
+import { hasSSN, hasAddress, hasPassedKYC } from "../../../utils/user-util";
 import CelText from "../CelText/CelText";
 
 const MissingInfoCard = (props) => {
   const { user, navigateTo } = props
-  if (user.email && user.ssn && user.address) return null
+
+  if (user.email && hasSSN() && hasAddress() || !hasPassedKYC()) return null
 
   let title
   let body
