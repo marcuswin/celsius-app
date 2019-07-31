@@ -19,7 +19,7 @@ const Badge = ({
   const styles = BadgeStyle()
   const badgeStyles = [
     styles.container,
-    { backgroundColor: color },
+    { backgroundColor: color, alignItems: 'flex-end' },
     getMargins(margin),
     getPadding(padding),
   ]
@@ -34,6 +34,8 @@ Badge.propTypes = {
   color: PropTypes.string,
   margin: PropTypes.string,
   padding: PropTypes.string,
+  style: PropTypes.instanceOf(Object),
+
 }
 
 export default Badge

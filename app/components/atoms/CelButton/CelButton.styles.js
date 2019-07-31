@@ -55,6 +55,12 @@ const base = {
     },
     ghostTitle: {
         color: STYLES.COLORS.CELSIUS_BLUE
+    },
+    greenButton: {
+        backgroundColor: STYLES.COLORS.GREEN
+    },
+    redButton: {
+        backgroundColor: STYLES.COLORS.RED
     }
 }
 

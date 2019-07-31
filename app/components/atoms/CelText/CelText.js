@@ -43,6 +43,7 @@ class CelText extends Component {
     allCaps: PropTypes.bool,
     onPress: PropTypes.func,
     size: PropTypes.number,
+    strikethrough: PropTypes.bool,
     theme: PropTypes.oneOf(Object.values(THEMES)),
   }
   static defaultProps = {
@@ -52,7 +53,8 @@ class CelText extends Component {
     style: {},
     align: 'left',
     allCaps: false,
-    italic: false
+    italic: false,
+    strikethrough: false
   }
 
   getFontSize = type => getScaledFont(STYLES.FONTSIZE[type])
@@ -87,7 +89,7 @@ class CelText extends Component {
   }
 
   getFontStyle = () => {
-    const { type, margin, align, size, theme } = this.props
+    const { type, margin, align, size, strikethrough, theme } = this.props
     const cmpStyle = CelTextStyle(theme)
     const fontSize = size
       ? { fontSize: getScaledFont(size), lineHeight: getScaledFont(size) }
@@ -96,6 +98,7 @@ class CelText extends Component {
     const colorStyle = this.getTextColor()
     const marginStyle = getMargins(margin)
     const alignStyle = { textAlign: align }
+    const decorationStyle = strikethrough ? {textDecorationLine: 'line-through', textDecorationStyle: 'solid'} : null
 
     return [
       cmpStyle.text,
@@ -103,7 +106,8 @@ class CelText extends Component {
       fontSize,
       fontFamily,
       marginStyle,
-      alignStyle
+      alignStyle,
+      decorationStyle
     ]
   }
 
