@@ -4,7 +4,8 @@ import apiUrl from './api-url';
 const loansService = {
   apply,
   getAllLoans,
-  cancelLoan
+  cancelLoan,
+  getMarginCalls
 };
 
 /**
@@ -51,6 +52,15 @@ function getAllLoans() {
  */
 function cancelLoan(id) {
   return axios.put(`${apiUrl}/loans/${id}/cancel`)
+}
+
+/**
+ * Gets all margin calls
+ *
+ * @returns {Promise}
+ */
+function getMarginCalls() {
+  return axios.get(`${apiUrl}/loans/margin_calls`)
 }
 
 export default loansService;

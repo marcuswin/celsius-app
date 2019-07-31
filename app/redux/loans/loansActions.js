@@ -11,7 +11,8 @@ export {
   applyForALoan,
   getAllLoans,
   setActiveLoan,
-  cancelLoan
+  cancelLoan,
+  getMarginCalls
 }
 
 /**
@@ -71,6 +72,31 @@ function getAllLoans() {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_LOANS, err));
+    }
+  }
+}
+
+/**
+ * Get margin call warnings
+ */
+function getMarginCalls() {
+
+  return async (dispatch) => {
+    try {
+      startApiCall(API.GET_MARGIN_CALLS);
+
+      // const res = await loansService.getMarginCalls();
+      const res = {data:''}
+
+      dispatch({
+        type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
+        callName: API.GET_MARGIN_CALLS,
+        marginCalls: res.data,
+      });
+    } catch (err) {
+
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_MARGIN_CALLS, err));
     }
   }
 }

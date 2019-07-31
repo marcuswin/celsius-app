@@ -4,7 +4,19 @@ import formatter from "./formatter";
 
 const loanUtil = {
   mapLoan,
+  mapMarginCall
 };
+
+function mapMarginCall(marginCall) {
+  const newMarginCall = { ...marginCall }
+  // newMarginCall.allCoins = []
+  // const walletSummary = store.getState().wallet.summary
+  // const  currenciesRates = store.getState().currencies.rates
+  // walletSummary.coins.forEach(coin => {
+  //   newMarginCall.allCoins[coin.short] = marginCall.margin_call_usd_amount / currenciesRates[coin.short]
+  // })
+  return newMarginCall;
+}
 
 function mapLoan(loan) {
   const newLoan = { ...loan };

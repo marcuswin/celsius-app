@@ -195,6 +195,7 @@ function initAppData(initToken = null) {
         await dispatch(actions.getCommunityStatistics())
         await dispatch(actions.getLoyaltyInfo())
         await dispatch(actions.getComplianceInfo());
+        await dispatch(actions.getMarginCalls())
 
         if (!profile.kyc || (profile.kyc && !hasPassedKYC())) {
           await dispatch(actions.getAllTransfers(TRANSFER_STATUSES.claimed));
