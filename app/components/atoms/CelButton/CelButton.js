@@ -48,21 +48,23 @@ class CelButton extends Component {
   getButtonStyle = (style) => {
     const { margin, disabled, basic, size, ghost, color } = this.props;
     const buttonStyles = [style.container, style[`${size}Container`]];
-
     buttonStyles.push(getMargins(margin));
     if (color) buttonStyles.push(style[`${color}Button`])
     if (disabled) buttonStyles.push(style.disabledButton);
     if (basic) buttonStyles.push(style.basicButton);
-    if (ghost) buttonStyles.push(style.ghostButton)
+    if (ghost) buttonStyles.push(style.ghostButton);
+    if (ghost && color) buttonStyles.push(style[`ghost${color}Button`]);
+    if (basic && color) buttonStyles.push(style[`basic${color}Button`]);
     return buttonStyles;
   }
 
   getTitleStyle = (style) => {
-    const { disabled, basic, size, textColor, ghost, textSize } = this.props;
+    const { disabled, basic, size, textColor, ghost, textSize, color } = this.props;
     const titleStyle = [style.baseTitle, textSize ? {} : style[`${size}Title`]];
     if (disabled) titleStyle.push(style.disabledTitleColor);
     if (basic) titleStyle.push(style.basicTitle);
     if (ghost) titleStyle.push(style.ghostTitle)
+    if (basic && color) titleStyle.push(style[`basic${color}TitleButton`])
     if (textColor) titleStyle.push({ color: textColor })
 
     return titleStyle;

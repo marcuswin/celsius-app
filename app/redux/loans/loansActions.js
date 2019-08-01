@@ -7,6 +7,7 @@ import loansService from "../../services/loans-service";
 import analytics from "../../utils/analytics";
 import { MODALS } from "../../constants/UI";
 import loanUtil from '../../utils/loan-util';
+import formatter from "../../utils/formatter";
 
 const USE_MOCK_LOANS = true
 const USE_MOCK_MARGIN_CALLS = true
@@ -124,17 +125,10 @@ function getMarginCalls() {
 /**
  * Add collateral on margin call
  */
-function lockMarginCollateral(marginCallID) {
-  return async (dispatch, getState) => {
+function lockMarginCollateral(marginCallID, marginCallData) {
+  return async (dispatch) => {
     try {
-      const { formData } = getState().forms;
       startApiCall(API.LOCK_MARGIN_CALL_COLLATERAL);
-  
-      const marginCallData = {
-        coin: formData.coin,
-        amount_collateral_usd: formData.amountCollateralUsd,
-        amount_collateral_crypto: formData.amountCollateralCrypto
-      }
   
       await loansService.lockMarginCollateral(marginCallID, marginCallData);
 
@@ -142,8 +136,8 @@ function lockMarginCollateral(marginCallID) {
         type: ACTIONS.LOCK_MARGIN_CALL_COLLATERAL_SUCCESS,
         callName: API.LOCK_MARGIN_CALL_COLLATERAL
       });
+      showMessage("success", `You have successfully locked on additional ${formatter.crypto(marginCallData.amount_collateral_crypto, marginCallData.coin)} as collateral.`)
     } catch (err) {
-
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.LOCK_MARGIN_CALL_COLLATERAL, err));
     }

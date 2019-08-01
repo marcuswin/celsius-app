@@ -16,7 +16,7 @@ class Card extends React.Component {
     color: PropTypes.string,
     styles: PropTypes.instanceOf(Object),
     onPress: PropTypes.func,
-    size: PropTypes.oneOf(['full', 'half', 'third', 'halfExtra', 'thirdExtra']),
+    size: PropTypes.oneOf(['full', 'half', 'third', 'halfExtra', 'thirdExtra', "twoThirds"]),
     close: PropTypes.bool,
     noBorder: PropTypes.bool
   }

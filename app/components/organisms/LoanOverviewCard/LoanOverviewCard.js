@@ -14,6 +14,7 @@ import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 import { LOAN_STATUS } from "../../../constants/DATA";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
+import STYLES from "../../../constants/STYLES";
 
 class LoanOverviewCard extends Component {
 
@@ -40,6 +41,17 @@ class LoanOverviewCard extends Component {
      if (index === length) return `0 ${widthPercentageToDP("15%")} 0 0`
     return `0 0 0 0`
   }
+
+  lockMarginCollateral = () => {
+    const {loan, actions} = this.props;
+
+    const marginCallData = {
+      coin: loan.margin_call.collateral_coin,
+      amount_collateral_usd: loan.margin_call.margin_call_usd_amount,
+      amount_collateral_crypto: loan.margin_call.margin_call_amount
+    };
+    actions.lockMarginCollateral(loan.margin_call.id, marginCallData)
+  };
 
   render() {
     const { loan, navigateTo, index, length, actions } = this.props;
@@ -93,6 +105,15 @@ class LoanOverviewCard extends Component {
               </Card>
             }
           </View>
+
+          { loan.status === LOAN_STATUS.ACTIVE && loan.margin_call_activated &&
+          <Card styles={{alignSelf: "center"}} size={"twoThirds"} color={STYLES.COLORS.RED}>
+            <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>Margin Call Warning</CelText>
+            <CelText weight={"300"} type={"H6"} color={STYLES.COLORS.WHITE} margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`}</CelText>
+            <CelButton onPress={ this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"} textColor={STYLES.COLORS.RED} basic color={"red"}>Approve BTC Lock</CelButton>
+            <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+          </Card>
+          }
 
           { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
             <View>
