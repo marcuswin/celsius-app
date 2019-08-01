@@ -6,6 +6,9 @@ import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
 import analytics from "../../utils/analytics";
 import { MODALS } from "../../constants/UI";
+import loanUtil from '../../utils/loan-util';
+
+const USE_MOCK_MARGIN_CALLS = true
 
 export {
   applyForALoan,
@@ -83,15 +86,21 @@ function getMarginCalls() {
 
   return async (dispatch) => {
     try {
+      let marginCalls
       startApiCall(API.GET_MARGIN_CALLS);
 
-      // const res = await loansService.getMarginCalls();
-      const res = {data:''}
+      if(USE_MOCK_MARGIN_CALLS) {
+        marginCalls = require("../../mock-data/margincalls.mock").default
+      } else {
+        const res = await loansService.getMarginCalls();
+        marginCalls = res.data
+      }
+      
 
       dispatch({
         type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
         callName: API.GET_MARGIN_CALLS,
-        marginCalls: res.data,
+        marginCalls: marginCalls.map(m => loanUtil.mapMarginCall(m)),
       });
     } catch (err) {
 
