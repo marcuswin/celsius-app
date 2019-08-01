@@ -3,6 +3,7 @@ package com.celsius;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import info.applike.advertisingid.RNAdvertisingIdPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.microsoft.codepush.react.CodePush;
 import com.appsflyer.reactnative.RNAppsFlyerPackage;
@@ -47,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNAdvertisingIdPackage(),
             new RNMixpanel(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RNAppsFlyerPackage(),

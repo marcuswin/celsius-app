@@ -787,7 +787,6 @@
 				6F53B12D50A24CFDB3AAEDCD /* AppCenterReactNative.xcodeproj */,
 				3DF026F90BFB484AB96BB554 /* AppCenterReactNativeAnalytics.xcodeproj */,
 				8E0856157D5C4C8A930D8F53 /* AppCenterReactNativeCrashes.xcodeproj */,
-				FB40A0E943F74027B5CBDD0C /* RNAdvertisingId.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1836,8 +1835,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = celsiusTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1885,8 +1882,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = celsiusTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1945,8 +1940,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = celsius/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1992,8 +1985,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = celsius/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2032,8 +2023,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = "celsius-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2083,8 +2072,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = "celsius-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2133,8 +2120,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = "celsius-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2183,8 +2168,6 @@
 					"$(SRCROOT)/../node_modules/appcenter/ios/AppCenterReactNative",
 					"$(SRCROOT)/../node_modules/appcenter-analytics/ios/AppCenterReactNativeAnalytics",
 					"$(SRCROOT)/../node_modules/appcenter-crashes/ios/AppCenterReactNativeCrashes",
-					"$(SRCROOT)/../node_modules/react-native-advertising/ios",
-					"$(SRCROOT)/../node_modules/react-native-advertising-id/ios",
 				);
 				INFOPLIST_FILE = "celsius-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -1,4 +1,4 @@
-// import * as Segment from 'expo-analytics-segment'
+import * as Segment from 'expo-analytics-segment'
 import * as Font from 'expo-font'
 import { Asset } from 'expo-asset'
 import React from 'react'
@@ -24,8 +24,8 @@ const {
   TWITTER_CUSTOMER_KEY,
   TWITTER_SECRET_KEY,
   APPSFLYER_KEY,
-  // SEGMENT_ANDROID_KEY,
-  // SEGMENT_IOS_KEY
+  SEGMENT_ANDROID_KEY,
+  SEGMENT_IOS_KEY
 } = Constants.extra
 
 export default {
@@ -44,12 +44,12 @@ export default {
 async function initializeThirdPartyServices () {
   apiUtil.initInterceptors()
   twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY)
-  // await Segment.initialize({
-  //   androidWriteKey: SEGMENT_ANDROID_KEY,
-  //   iosWriteKey: SEGMENT_IOS_KEY
-  // })
+  await Segment.initialize({
+    androidWriteKey: SEGMENT_ANDROID_KEY,
+    iosWriteKey: SEGMENT_IOS_KEY
+  })
 
-  appsFlyer.initSdk(
+  await appsFlyer.initSdk(
       {
         devKey: APPSFLYER_KEY,
         isDebug: false,
