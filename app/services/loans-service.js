@@ -4,7 +4,9 @@ import apiUrl from './api-url';
 const loansService = {
   apply,
   getAllLoans,
-  cancelLoan
+  cancelLoan,
+  getMarginCalls,
+  lockMarginCollateral
 };
 
 /**
@@ -51,6 +53,27 @@ function getAllLoans() {
  */
 function cancelLoan(id) {
   return axios.put(`${apiUrl}/loans/${id}/cancel`)
+}
+
+/**
+ * Gets all margin calls
+ *
+ * @returns {Promise}
+ */
+function getMarginCalls() {
+  return axios.get(`${apiUrl}/loans/margin_calls`)
+}
+
+/**
+ * Lock margin call collateral
+ * 
+ * @param {String} marginCallID
+ * @param {Object} marginCallData
+ * 
+ * @returns {Promise}
+ */
+function lockMarginCollateral(marginCallID, marginCallData) {
+  return axios.post(`${apiUrl}/loans/margin_calls/${marginCallID}/lock`, marginCallData)
 }
 
 export default loansService;

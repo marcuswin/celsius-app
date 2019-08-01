@@ -18,6 +18,7 @@ import loggerUtil from "../../utils/logger-util";
 import analytics from "../../utils/analytics";
 import { requestForPermission } from "../../utils/device-permissions";
 import { hasPassedKYC } from "../../utils/user-util";
+// import { MODALS } from "../../constants/UI";
 
 const { SECURITY_STORAGE_AUTH_KEY } = Constants.manifest.extra;
 
@@ -202,7 +203,12 @@ function initAppData(initToken = null) {
 
         // get wallet details for verified users
         if (profile.kyc && hasPassedKYC()) {
-          await dispatch(actions.getWalletSummary());
+          await dispatch(actions.getWalletSummary())
+          await dispatch(actions.getMarginCalls())
+          // const { marginCalls } = getState().loan
+          // if(marginCalls.length > 0) {
+          //   actions.openModal(MODALS.)
+          // }
         }
       }
     } else if (token) {
