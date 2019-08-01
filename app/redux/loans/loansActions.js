@@ -8,6 +8,7 @@ import analytics from "../../utils/analytics";
 import { MODALS } from "../../constants/UI";
 import loanUtil from '../../utils/loan-util';
 
+const USE_MOCK_LOANS = true
 const USE_MOCK_MARGIN_CALLS = true
 
 export {
@@ -15,7 +16,8 @@ export {
   getAllLoans,
   setActiveLoan,
   cancelLoan,
-  getMarginCalls
+  getMarginCalls,
+  lockMarginCollateral
 }
 
 /**
@@ -62,14 +64,23 @@ function applyForALoan() {
 function getAllLoans() {
   return async (dispatch) => {
     try {
+      let loans
       startApiCall(API.GET_ALL_LOANS);
 
-      const res = await loansService.getAllLoans();
+      if (USE_MOCK_LOANS) {
+        loans = Object
+          .values(require("../../mock-data/loans.mock").default)
+          .map(l => loanUtil.mapLoan(l))
+
+      } else {
+        const res = await loansService.getAllLoans();
+        loans = res.data
+      }
 
       dispatch({
         type: ACTIONS.GET_ALL_LOANS_SUCCESS,
         callName: API.GET_ALL_LOANS,
-        allLoans: res.data,
+        allLoans: loans.map(l => loanUtil.mapLoan(l)),
       });
 
     } catch (err) {
@@ -106,6 +117,35 @@ function getMarginCalls() {
 
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_MARGIN_CALLS, err));
+    }
+  }
+}
+
+/**
+ * Add collateral on margin call
+ */
+function lockMarginCollateral(marginCallID) {
+  return async (dispatch, getState) => {
+    try {
+      const { formData } = getState().forms;
+      startApiCall(API.LOCK_MARGIN_CALL_COLLATERAL);
+  
+      const marginCallData = {
+        coin: formData.coin,
+        amount_collateral_usd: formData.amountCollateralUsd,
+        amount_collateral_crypto: formData.amountCollateralCrypto
+      }
+  
+      await loansService.lockMarginCollateral(marginCallID, marginCallData);
+
+      dispatch({
+        type: ACTIONS.LOCK_MARGIN_CALL_COLLATERAL_SUCCESS,
+        callName: API.LOCK_MARGIN_CALL_COLLATERAL
+      });
+    } catch (err) {
+
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.LOCK_MARGIN_CALL_COLLATERAL, err));
     }
   }
 }

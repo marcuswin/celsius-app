@@ -28,6 +28,7 @@ function mapLoan(loan) {
 
   newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
   newLoan.hasInterestPaymentFinished = Number(newLoan.total_interest_paid) === Number(newLoan.total_interest)
+  newLoan.margin_call = mapMarginCall(newLoan.margin_call)
 
   return newLoan
 }
