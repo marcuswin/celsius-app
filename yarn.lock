@@ -7725,10 +7725,15 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-native-appsflyer@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-1.4.2.tgz#2261028d03bb351a066e1443a64af802aeb0edaf"
-  integrity sha512-DBhmP7XbHM0ztK2xcrMeCJ4wYhsrP7gU1GuD0H9XogSqGfRPn2picS0Go4vyjIvpcvao4wJc2rlIdpBkSc/wEg==
+react-native-advertising@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/react-native-advertising/-/react-native-advertising-1.0.10.tgz#498e2e6e07007d4fff14c3491f508d682c62a088"
+  integrity sha512-w2Cb3rIqWD9I2EL22YgDazG/9jUPXZ3lDsv9kkvpOlMmZ0tYEh1M7zZ7MNGvCe3dgp0ShYCrP8YPRg8gvqrqsw==
+
+react-native-appsflyer@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-1.4.3.tgz#53631c7d156f516f45548f8317a931d10efaf5fc"
+  integrity sha512-rpXUjKz3aNEv2JUrKSsT75PGuPJpfOoW3iuw7cc/A5pwUF3uD3C1PG3L7NBK+PCpBWen94EmT2mJZMcIko1DWg==
 
 react-native-branch@2.2.5:
   version "2.2.5"
@@ -7765,10 +7770,10 @@ react-native-code-push@^5.6.0:
     semver "^5.6.0"
     xcode "1.0.0"
 
-react-native-device-info@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-2.1.3.tgz#7463f826a420a53210be89cf671345d1fa92843f"
-  integrity sha512-PmF2dHjoxzYfq0VQ+a1E82z2Bf+8svUk2JoYmgkAI/EPrWfbrKYSC3WxRv4/VAUS0RsGMLnYw+Ygtuf4hIXpew==
+react-native-device-info@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-2.3.2.tgz#db2b8f135aaf2515583e367ab791dcc7d2f0d14c"
+  integrity sha512-ccpPuUbwhw5uYdVwN1UJp6ykMZz6U/u82HNM3oJ7O6MP8RIMlMDkHbqR4O0sDtUSuRMGiqqRzFtmOLFYeQ0ODw==
 
 react-native-dotenv@^0.2.0:
   version "0.2.0"
@@ -7793,6 +7798,11 @@ react-native-gesture-handler@^1.3.0:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+react-native-idfa@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-idfa/-/react-native-idfa-4.1.0.tgz#88d56223765054128e287d8e26c3abc04242d13b"
+  integrity sha512-jxiww2T9zt5Gaj/h0CHdmXzASgz+X5WAZIoU4heX799lpT7uKBQIMGgCsaJ5iZwEEnwTSERiNropR7sOrZHkCQ==
 
 react-native-mixpanel@^1.1.4:
   version "1.1.4"

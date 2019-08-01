@@ -1,7 +1,8 @@
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import { Platform } from "react-native";
-
+import RNAdvertisingId from "react-native-advertising";
+import { IDFA } from 'react-native-idfa';
 import Constants from '../../../constants';
 import store from "../../redux/store";
 import * as actions from "../actions";
@@ -32,7 +33,6 @@ export {
   handleAppStateChange,
   setInternetConnection,
   getGeolocation,
-
   showVerifyScreen, // TODO move to security actions
 };
 
@@ -45,6 +45,7 @@ function initCelsiusApp() {
 
     try {
       dispatch({ type: ACTIONS.APP_INIT_START });
+      await dispatch(setAdvertisingId())
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
@@ -220,6 +221,25 @@ function showVerifyScreen(defaultVerifyState = true) {
   }
 }
 
+/**
+ * Set advertising id for Apps Flyer
+ */
+function setAdvertisingId() {
+  return async (dispatch) => {
+    let userAID
+    if (Platform.OS === 'ios'){
+      const res =  await IDFA.getIDFA()
+      userAID = res
+    } else {
+      const res = await RNAdvertisingId.getAdvertisingId()
+      userAID = res.advertisingId
+    }
+    dispatch({
+      type: ACTIONS.SET_ADVERTISING_ID,
+      advertisingId: userAID
+    });
+  }
+}
 
 /**
  * Gets geolocation for device

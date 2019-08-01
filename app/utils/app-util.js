@@ -1,10 +1,11 @@
-import * as Segment from 'expo-analytics-segment'
+// import * as Segment from 'expo-analytics-segment'
 import * as Font from 'expo-font'
 import { Asset } from 'expo-asset'
 import React from 'react'
 import { Image } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 import twitter from 'react-native-simple-twitter'
+import appsFlyer from "react-native-appsflyer";
 
 import Constants from '../../constants'
 import {
@@ -16,13 +17,15 @@ import baseUrl from '../services/api-url'
 import store from '../redux/store'
 import * as actions from '../redux/actions'
 import apiUtil from './api-util'
+import loggerUtil from "./logger-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
   TWITTER_CUSTOMER_KEY,
   TWITTER_SECRET_KEY,
-  SEGMENT_ANDROID_KEY,
-  SEGMENT_IOS_KEY
+  APPSFLYER_KEY,
+  // SEGMENT_ANDROID_KEY,
+  // SEGMENT_IOS_KEY
 } = Constants.extra
 
 export default {
@@ -41,10 +44,24 @@ export default {
 async function initializeThirdPartyServices () {
   apiUtil.initInterceptors()
   twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY)
-  await Segment.initialize({
-    androidWriteKey: SEGMENT_ANDROID_KEY,
-    iosWriteKey: SEGMENT_IOS_KEY
-  })
+  // await Segment.initialize({
+  //   androidWriteKey: SEGMENT_ANDROID_KEY,
+  //   iosWriteKey: SEGMENT_IOS_KEY
+  // })
+
+  appsFlyer.initSdk(
+      {
+        devKey: APPSFLYER_KEY,
+        isDebug: false,
+        // appId: '41*****44', <--for IOS
+      },
+      (result) => {
+        loggerUtil.logme(result)
+      },
+      (error) => {
+        loggerUtil.err(error)
+      }
+  );
 }
 
 /**

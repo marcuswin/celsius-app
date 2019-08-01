@@ -1,6 +1,6 @@
 {
   "name": "react-native-appsflyer",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "summary": "React Native Appsflyer plugin",
   "requires_arc": true,
   "license": {
