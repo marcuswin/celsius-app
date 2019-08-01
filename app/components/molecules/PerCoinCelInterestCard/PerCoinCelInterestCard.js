@@ -17,7 +17,6 @@ import { isUSCitizen } from "../../../utils/user-util";
 import PerCoinCelInterestCardStyle from "./PerCoinCelInterestCard.styles";
 import ScrollMore from "../../atoms/ScrollMore/ScrollMore";
 
-
 @connect(
   state => ({
     appSettings: state.user.appSettings,
@@ -192,7 +191,7 @@ class PerCoinCelInterestCard extends Component {
         {
           isExpanded && (
             <View>
-              <ScrollView style={{ marginTop: 25, height: 210 }}>
+              <ScrollView style={{ marginTop: 25, height: 210 }} nestedScrollEnabled>
                 {coinList.map(c => (
                   <CelCheckbox
                     key={c}
