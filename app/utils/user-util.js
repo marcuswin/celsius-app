@@ -4,6 +4,7 @@ import { KYC_STATUSES } from "../constants/DATA";
 export {
   isCompanyMember,
   isUSCitizen,
+  isUSResident,
   isCelsiusMember,
   hasPassedKYC,
   // TODO(ns) KYC: isRejecEted, isPending
@@ -29,6 +30,15 @@ function isCompanyMember () {
 function isUSCitizen () {
   const { profile } = store.getState().user
   return [profile.citizenship, profile.country].includes('United States')
+}
+
+/**
+ * get if the user has an address in the US
+ * @returns {boolean}
+ */
+function isUSResident () {
+  const { profile } = store.getState().user
+  return profile.country === 'United States'
 }
 
 /**

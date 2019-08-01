@@ -13,7 +13,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import Icon from "../../atoms/Icon/Icon";
 import STYLES from '../../../constants/STYLES';
-import { isUSCitizen } from "../../../utils/user-util";
+import { isUSResident } from "../../../utils/user-util";
 import PerCoinCelInterestCardStyle from "./PerCoinCelInterestCard.styles";
 import ScrollMore from "../../atoms/ScrollMore/ScrollMore";
 
@@ -153,7 +153,7 @@ class PerCoinCelInterestCard extends Component {
   }
 
   render() {
-    if (isUSCitizen()) return null
+    if (isUSResident()) return null
     const style = PerCoinCelInterestCardStyle()
     
     const { formData, actions } = this.props
