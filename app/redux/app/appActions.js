@@ -3,6 +3,7 @@ import * as Location from 'expo-location';
 import { Platform } from "react-native";
 import RNAdvertisingId from "react-native-advertising";
 import { IDFA } from 'react-native-idfa';
+import appsFlyer from "react-native-appsflyer";
 import Constants from '../../../constants';
 import store from "../../redux/store";
 import * as actions from "../actions";
@@ -35,6 +36,8 @@ export {
   getGeolocation,
 
   showVerifyScreen, // TODO move to security actions
+  setAdvertisingId,
+  setAppsFlyerUID
 };
 
 /**
@@ -46,7 +49,6 @@ function initCelsiusApp() {
 
     try {
       dispatch({ type: ACTIONS.APP_INIT_START });
-      await dispatch(setAdvertisingId())
       await appUtil.logoutOnEnvChange();
 
       disableAccessibilityFontScaling();
@@ -241,6 +243,23 @@ function setAdvertisingId() {
     });
   }
 }
+
+/**
+ * Set Apps Flyer device UID
+ */
+function setAppsFlyerUID () {
+  return (dispatch) => {
+    appsFlyer.getAppsFlyerUID((error, appsFlyerUid) => {
+      if (!error) {
+        dispatch({
+          type: ACTIONS.SET_DEVICE_APPSFLYER_UID,
+          appsFlyerUID: appsFlyerUid
+        })
+      }
+    })
+  }
+}
+
 
 /**
  * Gets geolocation for device

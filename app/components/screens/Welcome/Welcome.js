@@ -20,6 +20,7 @@ const revisionId = ''
 @connect(
   state => ({
       advertisingId: state.app.advertisingId,
+      appsFlyerUID: state.app.appsFlyerUID,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -34,11 +35,11 @@ class Welcome extends Component {
 
   onPressLogin = () => {
     const { actions } = this.props
-      actions.navigateTo('Login')
+    actions.navigateTo('Login')
   }
 
   render() {
-    const style = WelcomeStyle();
+      const style = WelcomeStyle();
     const { actions } = this.props
     return (
       <RegularLayout fabType="hide">
@@ -52,10 +53,6 @@ class Welcome extends Component {
           <CelButton basic onPress={() => this.onPressLogin()}>Login</CelButton>
 
           <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Celsius App version: {revisionId}</CelText>
-          <CelText margin="30 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>Advertising id</CelText>
-          <CelText margin="0 0 0 0" weight="light" align='center' type="H7" style={{ opacity: 0.5 }}>{ this.props.advertisingId }</CelText>
-
-
         </View>
       </RegularLayout>
     );

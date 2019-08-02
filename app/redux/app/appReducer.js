@@ -14,7 +14,8 @@ function initialState() {
     internetConnected: true,
     assetsLoaded: false,
     showVerifyScreen: false, // TODO move to security
-    advertisingId: null
+    advertisingId: null,
+    appsFlyerUID: null
   };
 }
 
@@ -83,7 +84,12 @@ export default function appReducer(state = initialState(), action) {
       return {
         ...state,
         advertisingId: action.advertisingId
-      }
+      };
+    case ACTIONS.SET_DEVICE_APPSFLYER_UID:
+      return {
+        ...state,
+        appsFlyerUID: action.appsFlyerUID
+      };
     default:
       return { ...state };
   }
