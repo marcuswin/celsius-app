@@ -10,7 +10,7 @@ import formatter from "../../../utils/formatter";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { TRANSACTION_TYPES } from "../../../constants/DATA";
 
-function getPropsFromTransaciton(transaction) {
+function getPropsFromTransaction(transaction) {
   switch (transaction.type) {
     case TRANSACTION_TYPES.COLLATERAL_PENDING:
       return {
@@ -21,6 +21,16 @@ function getPropsFromTransaciton(transaction) {
       return {
         status: "Active Loan",
         color: STYLES.COLORS.CELSIUS_BLUE
+      };
+    case TRANSACTION_TYPES.LOAN_INTEREST:
+      return {
+        status: "Active Loan",
+        color: STYLES.COLORS.CELSIUS_BLUE
+      };
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+      return {
+        status: "Completed Loand",
+        color: STYLES.COLORS.GREEN
       };
     case TRANSACTION_TYPES.COLLATERAL_UNLOCKED:
       if (transaction.loan_data.unlock_reason === "rejected") {
@@ -51,7 +61,7 @@ function getPropsFromTransaciton(transaction) {
 }
 
 const CollateralLoanCard = ({ transaction, navigateTo }) => {
-  const { status, color } = getPropsFromTransaciton(transaction);
+  const { status, color } = getPropsFromTransaction(transaction);
   return (
     <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
       <Card padding="15 15 15 15">

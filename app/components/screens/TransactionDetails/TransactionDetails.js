@@ -28,8 +28,8 @@ import {
   MarginCall,
   Liquidation,
   UnlockReason,
-  HeadingCard,
-} from './TransactionDetailsSections';
+  HeadingCard, ChangePaymentCard
+} from "./TransactionDetailsSections";
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
 import apiUtil from '../../../utils/api-util';
@@ -189,6 +189,8 @@ class TransactionDetails extends Component {
         return <BasicSection key={sectionType} label="Time" value={moment(transaction.loan_data.liquidated_at).format("h:mm A")} />;
       case "collateral:liquidation:reason":
         return <HeadingCard key={sectionType} heading="Margin Call Liquidation" text="Your collateral will be liquidated due to the latest Margin Call outbreak." />;
+      case "change:payment:card":
+        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo}/>;
       default:
         return null;
     }

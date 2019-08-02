@@ -64,6 +64,9 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
   if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
+  if (transaction.nature === "loan_principal") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
+  if (transaction.nature === "loan_interest") return TRANSACTION_TYPES.LOAN_INTEREST;
+
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_ONHOLD;
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_RETURNED;
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data) return TRANSACTION_TYPES.CELPAY_RECEIVED;
@@ -164,6 +167,20 @@ function orderTransactionsByDate(transactions = []) {
  */
 function getTransactionProps(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+      return {
+        title: () => "Principal Payment",
+        color: STYLES.COLORS.GREEN,
+        iconName: "TransactionSent",
+        statusText: "Loan Principal Payment"
+      };
+    case TRANSACTION_TYPES.LOAN_INTEREST:
+      return {
+        title: () => "Loan Interest Payment",
+        color: STYLES.COLORS.CELSIUS_BLUE,
+        iconName: "TransactionSent",
+        statusText: "Loan Interest Payment"
+      };
     case TRANSACTION_TYPES.DEPOSIT_PENDING:
       return {
         title: (coin) => `${coin} Deposit`,
@@ -229,7 +246,6 @@ function getTransactionProps(transaction) {
         iconName: "ReceiveArrowTransactions",
         statusText: "Bonus"
       };
-
 
     case TRANSACTION_TYPES.CELPAY_PENDING:
       return {
@@ -382,6 +398,10 @@ function getTransactionProps(transaction) {
  */
 function getTransactionSections(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL:
+      return ["info", "collateral:loan:card", "date", "time", "button:back"];
+    case TRANSACTION_TYPES.LOAN_INTEREST:
+      return ["info", "collateral:loan:card", "date", "time", "change:payment:card", "button:back"];
     case TRANSACTION_TYPES.DEPOSIT_PENDING:
       return ["info", "address:from", "date", "time", "status:noSeparator", "transactionId", "button:deposit", "button:back"];
     case TRANSACTION_TYPES.DEPOSIT_CONFIRMED:

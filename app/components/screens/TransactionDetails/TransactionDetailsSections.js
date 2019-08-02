@@ -443,6 +443,15 @@ export const HeadingCard = ({ heading, text }) => (
   </View>
 )
 
+export const ChangePaymentCard = ({navigateTo, heading, text}) => (
+  <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
+    <Card>
+      <CelText weight={"300"} type={"H5"}>{heading}</CelText>
+      <CelText margin={"10 0 10 0"} onPress={() => navigateTo("WalletLanding")} weight={"300"} type={"H5"} color={STYLES.COLORS.CELSIUS_BLUE}>{text}</CelText>
+    </Card>
+  </View>
+)
+
 export const UnlockReason = ({ transaction }) => {
   let heading;
   if (transaction.loan_data.unlock_reason === 'rejected') heading = "Your loan request has been rejected"
