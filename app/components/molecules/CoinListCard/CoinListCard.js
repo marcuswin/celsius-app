@@ -11,6 +11,7 @@ import STYLES from "../../../constants/STYLES";
 import formatter from '../../../utils/formatter';
 import Card from '../../atoms/Card/Card';
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
+import interestUtil from "../../../utils/interest-util";
 
 class CoinListCard extends Component {
 
@@ -40,16 +41,11 @@ class CoinListCard extends Component {
     </Fragment>
   )
 
-  renderPriceChange = (currencyRates) => {
-    const coinPriceChange = currencyRates.price_change_usd['1d']
-    const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
-    const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
-
+  renderInterestRate = (coin) => {
+    const interestRate = interestUtil.getUserInterestForCoin(coin.short)
+    if (!interestRate.eligible) return null
     return (
-      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-        <Icon name={arrowType} fill={textColor} height={6} width={6}/>
-        <CelText weight='500' type="H7" color={textColor} margin='0 0 0 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
-      </View>
+      <CelText weight='500' type="H7" color={STYLES.COLORS.GREEN} margin='0 0 0 3'>{ interestRate.display} APR</CelText>
     )
   }
 
@@ -69,7 +65,7 @@ class CoinListCard extends Component {
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
           <View style={{ position: 'absolute', right: 0, alignSelf: 'center' }} >
-            {this.renderPriceChange(currencyRates)}
+            {this.renderInterestRate(coin)}
           </View>
         </View>
       </Card >

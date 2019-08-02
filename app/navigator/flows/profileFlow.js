@@ -26,6 +26,7 @@ import WithdrawNewAddressSetup from "../../components/screens/WithdrawNewAddress
 import WithdrawAddressOverview from "../../components/screens/WithdrawAddressOverview/WithdrawAddressOverview";
 import WithdrawAddressLabel from "../../components/screens/WithdrawAddressLabel/WithdrawAddressLabel";
 import PersonalInformation from "../../components/screens/PersonalInformation/PersonalInformation";
+import Support from "../../components/screens/Support/Support";
 
 
 export const profileFlow = {
@@ -55,7 +56,8 @@ export const profileFlow = {
     WithdrawNewAddressSetup,
     WithdrawAddressOverview,
     WithdrawAddressLabel,
-    PersonalInformation
+    PersonalInformation,
+    Support
   },
   props: {
     initialRouteName: 'Profile',

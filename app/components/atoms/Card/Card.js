@@ -74,6 +74,10 @@ class Card extends React.Component {
       borderStyle
     ]
 
+    const closeIconColor = color === STYLES.COLORS.CELSIUS_BLUE
+      ? STYLES.COLORS.WHITE
+      : STYLES.COLORS.DARK_GRAY_OPACITY
+
     const card = (
       <Fragment>
         {close && (
@@ -83,7 +87,7 @@ class Card extends React.Component {
           >
             <Icon
               name='Close'
-              color={STYLES.COLORS.DARK_GRAY_OPACITY}
+              fill={closeIconColor}
               width='25'
             />
           </TouchableOpacity>

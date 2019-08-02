@@ -23,13 +23,6 @@ class TodayInterestRatesModal extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      pressed: false
-    };
-  }
-
   navigateToLoyalty = () => {
     const {actions} = this.props;
     actions.navigateTo("LoyaltyProgram");
@@ -37,8 +30,7 @@ class TodayInterestRatesModal extends Component {
   };
 
   render() {
-    const { actions, interestRates } = this.props;
-    const {pressed} = this.state;
+    const { actions } = this.props;
     const style = TodayInterestRatesModalStyle();
 
 
@@ -54,7 +46,7 @@ class TodayInterestRatesModal extends Component {
          align={"center"}
          style={style.explanation}
        >
-         Bonus rates are provided if you chose to earn interest in CEL tokens.
+         Bonus rates are provided if you choose to earn interest in CEL tokens.{' '}
          <CelText
            onPress={this.navigateToLoyalty}
            style={{color: STYLES.COLORS.CELSIUS_BLUE}}>
@@ -62,16 +54,7 @@ class TodayInterestRatesModal extends Component {
          </CelText>
        </CelText>
 
-        <InterestRateInfoTable pressed={pressed}/>
-
-        { (!pressed && interestRates && Object.keys(interestRates).length > 5) &&
-          <CelButton
-            basic
-            onPress={() => this.setState({ pressed: true })}
-          >
-            See all
-          </CelButton>
-        }
+        <InterestRateInfoTable />
 
         <CelButton
           onPress={() => {

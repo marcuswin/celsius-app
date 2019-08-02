@@ -5,11 +5,12 @@ const base = {
   container: {
     flex: 1
   },
-  coinImage: {
-    width: 40,
-    height: 40,
-    marginRight: 12
-  },
+
+  flexWrapper: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  }
 };
 
 const themed = {
@@ -20,6 +21,6 @@ const themed = {
   celsius: {}
 };
 
-const CoinListCardStyle = () => getThemedStyle(base, themed);
+const ComingSoonCoinsStyle = () => getThemedStyle(base, themed);
 
-export default CoinListCardStyle;
+export default ComingSoonCoinsStyle;
