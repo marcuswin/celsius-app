@@ -1,10 +1,24 @@
 import { LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
 import formatter from "./formatter";
+import store from "../redux/store";
 
 const loanUtil = {
   mapLoan,
+  mapMarginCall
 };
+
+function mapMarginCall(marginCall) {
+  const newMarginCall = { ...marginCall }
+  newMarginCall.allCoins = {}
+  const walletSummary = store.getState().wallet.summary
+  const  currenciesRates = store.getState().currencies.rates
+  walletSummary.coins.forEach(coin => {
+    const currenciesRateForCoin = currenciesRates.find((currenciesRate) => currenciesRate.short === coin.short).market_quotes_usd.price
+    newMarginCall.allCoins[coin.short] = marginCall.margin_call_usd_amount / currenciesRateForCoin
+  })
+  return newMarginCall;
+}
 
 function mapLoan(loan) {
   const newLoan = { ...loan };
@@ -14,6 +28,7 @@ function mapLoan(loan) {
 
   newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
   newLoan.hasInterestPaymentFinished = Number(newLoan.total_interest_paid) === Number(newLoan.total_interest)
+  newLoan.margin_call = mapMarginCall(newLoan.margin_call)
 
   return newLoan
 }

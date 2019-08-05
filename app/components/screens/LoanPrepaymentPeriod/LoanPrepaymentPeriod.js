@@ -70,7 +70,7 @@ class LoanPrepaymentPeriod extends Component {
 
           </View>
 
-          <CelButton margin="50 0 30 0" iconRight="IconArrowRight">
+          <CelButton margin="50 0 30 0" iconRight="IconArrowRight" onPress={()=>{actions.navigateTo("LoanPaymentCoin")}}>
             Continue
           </CelButton>
 

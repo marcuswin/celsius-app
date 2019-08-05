@@ -6,12 +6,19 @@ import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
 import analytics from "../../utils/analytics";
 import { MODALS } from "../../constants/UI";
+import loanUtil from '../../utils/loan-util';
+import formatter from "../../utils/formatter";
+
+const USE_MOCK_LOANS = true
+const USE_MOCK_MARGIN_CALLS = true
 
 export {
   applyForALoan,
   getAllLoans,
   setActiveLoan,
-  cancelLoan
+  cancelLoan,
+  getMarginCalls,
+  lockMarginCollateral
 }
 
 /**
@@ -58,19 +65,90 @@ function applyForALoan() {
 function getAllLoans() {
   return async (dispatch) => {
     try {
+      let loans
       startApiCall(API.GET_ALL_LOANS);
 
-      const res = await loansService.getAllLoans();
+      if (USE_MOCK_LOANS) {
+        loans = Object
+          .values(require("../../mock-data/loans.mock").default)
+          .map(l => loanUtil.mapLoan(l))
+
+      } else {
+        const res = await loansService.getAllLoans();
+        loans = res.data
+      }
 
       dispatch({
         type: ACTIONS.GET_ALL_LOANS_SUCCESS,
         callName: API.GET_ALL_LOANS,
-        allLoans: res.data,
+        allLoans: loans.map(l => loanUtil.mapLoan(l)),
       });
 
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.GET_ALL_LOANS, err));
+    }
+  }
+}
+
+/**
+ * Get margin call warnings
+ */
+function getMarginCalls() {
+
+  return async (dispatch) => {
+    try {
+      let marginCalls
+      startApiCall(API.GET_MARGIN_CALLS);
+
+      if(USE_MOCK_MARGIN_CALLS) {
+        marginCalls = require("../../mock-data/margincalls.mock").default
+      } else {
+        const res = await loansService.getMarginCalls();
+        marginCalls = res.data
+      }
+      
+
+      dispatch({
+        type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
+        callName: API.GET_MARGIN_CALLS,
+        marginCalls: marginCalls.map(m => loanUtil.mapMarginCall(m)),
+      });
+    } catch (err) {
+
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_MARGIN_CALLS, err));
+    }
+  }
+}
+
+/**
+ * Add collateral on margin call
+ * 
+ * @param {String} marginCallID
+ * @param {Object} marginCallData
+ * @param {String} marginCallData.coin
+ * @param {String} marginCallData.amount_collateral_usd
+ * @param {String} marginCallData.amount_collateral_crypto
+ * 
+ * @returns {Promise}
+ */
+function lockMarginCollateral(marginCallID, marginCallData) {
+  return async (dispatch) => {
+    try {
+      startApiCall(API.LOCK_MARGIN_CALL_COLLATERAL);
+  
+      await loansService.lockMarginCollateral(marginCallID, marginCallData);
+
+      dispatch({
+        type: ACTIONS.LOCK_MARGIN_CALL_COLLATERAL_SUCCESS,
+        callName: API.LOCK_MARGIN_CALL_COLLATERAL
+      });
+      
+      dispatch(showMessage("success", `You have successfully locked on additional ${formatter.crypto(marginCallData.amount_collateral_crypto, marginCallData.coin)} as collateral.`))
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.LOCK_MARGIN_CALL_COLLATERAL, err));
     }
   }
 }
