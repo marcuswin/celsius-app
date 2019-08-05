@@ -35,18 +35,18 @@ function initInterceptors () {
     async req => {
       const newRequest = { ...req }
       newRequest.headers = {
-          X_Advertising_AFID: store.getState().app.appsFlyerUID
+          'X-Advertising-AFID': store.getState().app.appsFlyerUID
       }
 
       if (Platform.OS === 'ios') {
           newRequest.headers = {
               ...newRequest.headers,
-              X_Advertising_IDFA: store.getState().app.advertisingId
+              'X-Advertising-IDFA': store.getState().app.advertisingId
           }
       } else {
           newRequest.headers = {
               ...newRequest.headers,
-              X_Advertising_AAID: store.getState().app.advertisingId
+             ' X-Advertising-AAID': store.getState().app.advertisingId
           }
       }
 

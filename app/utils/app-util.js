@@ -42,8 +42,8 @@ export default {
  * Initializes all third party services used in Celsius app
  */
 async function initializeThirdPartyServices () {
-  await actions.setAdvertisingId()
-  await actions.setAppsFlyerUID()
+  await store.dispatch(actions.setAppsFlyerUID())
+  await store.dispatch(actions.setAdvertisingId())
 
   apiUtil.initInterceptors()
   twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY)
