@@ -10,8 +10,6 @@ import STYLES from "../../../constants/STYLES";
 import { WALLET_LANDING_VIEW_TYPES } from "../../../constants/UI";
 
 const COMING_SOON_COINS = [
-  { name: 'Tether', short: 'USDT', image_url: require('../../../../assets/images/coins/Tether.png'), learn_more_link: 'https://tether.to/' },
-  { name: 'LEOcoin', short: 'LEO', image_url: require('../../../../assets/images/coins/LEO.png'), learn_more_link: 'https://www.leocoin.org/' },
   { name: 'TrueGBP', short: 'TGBP', image_url: require('../../../../assets/images/coins/TGBP-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truegbp' },
   { name: 'TrueAUD', short: 'TAUD', image_url: require('../../../../assets/images/coins/TAUD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/trueaud' },
   { name: 'TrueCAD', short: 'TCAD', image_url: require('../../../../assets/images/coins/TCAD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truecad' },
