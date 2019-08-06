@@ -186,6 +186,26 @@ export default {
     "verified": null,
     "note": "MEMBERSHIP_BONUS_TOKEN"
   },
+  [TRANSACTION_TYPES.MARGIN_CALL]: {
+    "id": TRANSACTION_TYPES.MARGIN_CALL,
+    "transaction_id": null,
+    "amount": "5.000",
+    "amount_usd": "255.0704207649809",
+    "coin": "cel",
+    "interest_coin": null,
+    "time": "2019-05-14T14:33:00.240Z",
+    "is_confirmed": true,
+    "from_address": null,
+    "to_address": null,
+    "state": "confirmed",
+    "nature": "margin_call",
+    "type": "incoming",
+    "transfer_data": {},
+    "loan_data": {},
+    "referral_data": {},
+    "verified": null,
+    "note": "MARGIN_CALL_COLLATERAL"
+  },
   [TRANSACTION_TYPES.LOAN_PRINCIPAL]: {
     "id": TRANSACTION_TYPES.LOAN_PRINCIPAL,
     "transaction_id": null,

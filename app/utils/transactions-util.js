@@ -57,6 +57,8 @@ function getTransactionType(transaction) {
     if (transaction.state === "liquidated") return TRANSACTION_TYPES.COLLATERAL_LIQUIDATED;
   }
 
+  if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
+
   if (transaction.nature === "referred_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRED_HODL;
   if (transaction.nature === "referred_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRED;
   if (transaction.nature === "referred_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRED_PENDING;
@@ -167,6 +169,13 @@ function orderTransactionsByDate(transactions = []) {
  */
 function getTransactionProps(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.MARGIN_CALL:
+      return {
+        title: () => "Margin Call Collateral",
+        color: STYLES.COLORS.CELSIUS_BLUE,
+        iconName: "TransactionSent",
+        statusText: "Margin Call Collateral"
+      };
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return {
         title: () => "Principal Payment",
@@ -398,6 +407,8 @@ function getTransactionProps(transaction) {
  */
 function getTransactionSections(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.MARGIN_CALL:
+      return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return ["info", "collateral:loan:card", "date", "time", "button:back"];
     case TRANSACTION_TYPES.LOAN_INTEREST:

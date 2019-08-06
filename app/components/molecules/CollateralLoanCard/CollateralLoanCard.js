@@ -12,6 +12,11 @@ import { TRANSACTION_TYPES } from "../../../constants/DATA";
 
 function getPropsFromTransaction(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.MARGIN_CALL:
+      return {
+        status: "Active Loan",
+        color: STYLES.COLORS.CELSIUS_BLUE
+      };
     case TRANSACTION_TYPES.COLLATERAL_PENDING:
       return {
         status: "Pending Loan",

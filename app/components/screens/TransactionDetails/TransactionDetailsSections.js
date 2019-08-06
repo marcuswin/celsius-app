@@ -463,7 +463,16 @@ export const UnlockReason = ({ transaction }) => {
       text="Your collateral is now released and ready to earn interest again."
     />
   )
-}
+};
+
+  export const MarginCallCard = () => (
+    <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
+      <Card>
+        <CelText type="H5" weight="500" margin={"10 0 10 0"}>Margin Call Liquidation</CelText>
+        <CelText type="H6" style={{ opacity: 0.7 }} margin={"0 0 10 0"}>Your collateral was liquidated due to the latest Margin Call outbreak.</CelText>
+      </Card>
+    </View>
+  )
 
 
 export const HodlInfoSection = ({ date, amount, coin }) => (
