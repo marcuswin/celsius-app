@@ -35,7 +35,8 @@ const cardWidth = widthPercentageToDP("70%");
     loan: state.compliance.loan,
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
-      : KYC_STATUSES.collecting
+      : KYC_STATUSES.collecting,
+    marginCalls: state.loans.marginCalls
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -204,7 +205,10 @@ class BorrowLanding extends Component {
 
   renderDefaultView() {
     const { xOffset } = this.state;
-    const { actions, allLoans } = this.props;
+    const { actions, allLoans, walletSummary, marginCalls } = this.props;
+
+    const hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === marginCalls[0].collateral_coin && coin.amount >= marginCalls[0].margin_call_amount);
+    const hasEnoughOtherCoins = !!walletSummary.coins.find(coin => marginCalls[0].allCoins[coin.short] <= coin.amount);
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -244,6 +248,8 @@ class BorrowLanding extends Component {
                       length={allLoans.length - 1}
                       navigateTo={actions.navigateTo}
                       actions={actions}
+                      hasOriginalCoin={hasEnoughOriginalCoin}
+                      hasEnoughOtherCoins={hasEnoughOtherCoins}
                     />
                   </Animated.View>
                 );

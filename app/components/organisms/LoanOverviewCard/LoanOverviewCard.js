@@ -24,6 +24,8 @@ class LoanOverviewCard extends Component {
     index: PropTypes.number,
     actions: PropTypes.instanceOf(Object),
     length: PropTypes.number,
+    hasEnoughOriginalCoin: PropTypes.bool,
+    hasEnoughOtherCoins: PropTypes.bool
   };
   static defaultProps = {
     payed: false,
@@ -54,7 +56,7 @@ class LoanOverviewCard extends Component {
   };
 
   render() {
-    const { loan, navigateTo, index, length, actions } = this.props;
+    const { loan, navigateTo, index, length, actions, hasEnoughOtherCoins, hasEnoughOriginalCoin } = this.props;
     const style = LoanOverviewCardStyle();
 
     const previousPayments = loan.amortization_table.filter(p => p.isPaid)
@@ -110,8 +112,19 @@ class LoanOverviewCard extends Component {
           <Card styles={{alignSelf: "center"}} size={"twoThirds"} color={STYLES.COLORS.RED}>
             <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>Margin Call Warning</CelText>
             <CelText weight={"300"} type={"H6"} color={STYLES.COLORS.WHITE} margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`}</CelText>
-            <CelButton onPress={ this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"} textColor={STYLES.COLORS.RED} basic color={"red"}>Approve BTC Lock</CelButton>
-            <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+            { hasEnoughOriginalCoin &&
+              <View>
+                <CelButton onPress={this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"}
+                           textColor={STYLES.COLORS.RED} basic color={"red"}>Approve BTC Lock</CelButton>
+                <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+              </View>
+            }
+            { !hasEnoughOriginalCoin && hasEnoughOtherCoins &&
+              <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+            }
+            { !hasEnoughOriginalCoin && !hasEnoughOtherCoins &&
+              <CelButton onPress={() => actions.navigateTo("Deposit")} size={"small"} margin={"10 0 10 0"} textColor={STYLES.COLORS.RED} basic color={"red"}>Deposit Coins</CelButton>
+            }
           </Card>
           }
 
