@@ -42,7 +42,7 @@ class ChoosePrepaymentMethod extends Component {
       {
         cardTitle: "Prepay with crypto",
         cardCopy: "Use coins from your wallet to prepay your loan interest.",
-        onPressAction: () => actions.navigateTo("LoanPrepaymentPeriod"),
+        onPressAction: () => actions.navigateTo("LoanPaymentCoin"),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
         isPaymentCel: false
