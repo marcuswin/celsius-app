@@ -48,7 +48,7 @@ const base = {
   },
   interestRateWrapper: {
     justifyContent: 'flex-start',
-    alignContent: 'center',
+    alignContent: 'flex-end',
     paddingTop: 12
 
   },

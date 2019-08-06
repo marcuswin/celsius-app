@@ -25,6 +25,7 @@ import { getSecureStoreKey } from '../../../utils/expo-storage';
 import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
+import MarginCallModal from '../../organisms/MarginCallModal/MarginCallModal';
 
 let counter = 0;
 
@@ -32,7 +33,7 @@ let counter = 0;
   state => {
     const branchTransfer =
       state.branch.transferHash &&
-      state.transfers.transfers[state.branch.transferHash]
+        state.transfers.transfers[state.branch.transferHash]
         ? state.transfers.transfers[state.branch.transferHash]
         : null
 
@@ -47,6 +48,7 @@ let counter = 0;
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
       depositCompliance: state.compliance.deposit,
+      marginCalls: state.loans.marginCalls
     }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
@@ -65,7 +67,7 @@ class WalletLanding extends Component {
     }
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { navigation } = props
@@ -103,6 +105,11 @@ class WalletLanding extends Component {
     await actions.getWalletSummary()
     if (!currenciesRates) actions.getCurrencyRates()
     if (!currenciesGraphs) actions.getCurrencyGraphs()
+    await actions.getMarginCalls()
+    const { marginCalls } = this.props
+    if (marginCalls.length > 0) {
+      actions.openModal(MODALS.MARGIN_CALL_MODAL)
+    }
 
     // NOTE (fj): quickfix for CN-2763
     // if (user.celsius_member) {
@@ -111,14 +118,14 @@ class WalletLanding extends Component {
       this.shouldInitializeMembership = false
     }
     const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
+    if (user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
     this.setWalletFetchingInterval()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { isFocused, appSettings } = this.props
 
     if (prevProps.isFocused !== isFocused && isFocused === true) {
@@ -146,7 +153,7 @@ class WalletLanding extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     counter = 0;
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     clearInterval(this.walletFetchingInterval)
@@ -161,7 +168,7 @@ class WalletLanding extends Component {
   }
 
   handleBackButton = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     counter++;
     if (counter === 1) actions.showMessage("info", "Clicking the hardware back button twice will exit the app.")
     if (counter === 2) BackHandler.exitApp();
@@ -350,7 +357,7 @@ class WalletLanding extends Component {
     )
   }
 
-  render () {
+  render() {
     const { activeView } = this.state
     const {
       actions,
@@ -425,6 +432,7 @@ class WalletLanding extends Component {
         <TodayInterestRatesModal />
         <BecameCelMemberModal />
         <EarnInterestCelModal />
+        {this.props.marginCalls.length > 0 && <MarginCallModal />}
       </RegularLayout>
     )
   }

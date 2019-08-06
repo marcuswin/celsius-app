@@ -52,6 +52,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/illuNoKYC3x.png'),
   require('../../assets/images/OfflineMode/deer-tangled3x.png'),
   require('../../assets/images/diane-sad.png'),
+  require('../../assets/images/alert.png'),
   require('../../assets/images/empty-profile/empty-profile.png'),
   require('../../assets/images/icons/contacts-circle/contacts-circle.png'),
   require('../../assets/images/icons/fb-circle/fb-circle.png'),
@@ -117,6 +118,7 @@ const CACHE_IMAGES = [
   require('../../assets/images/icons/help-center.png'),
   require('../../assets/images/icons/support-dark.png'),
   require('../../assets/images/icons/support.png'),
+  require('../../assets/images/illustrations-v3/monkey-success/monkey-success.png'),
 ];
 
 export default {

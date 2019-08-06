@@ -28,6 +28,7 @@ import DestinationTagModal from '../../organisms/DestinationTagModal/Destination
 import MemoIdModal from '../../organisms/MemoIdModal/MemoIdModal'
 import DepositInfoModal from "../../organisms/DepositInfoModal/DepositInfoModal";
 import { hasPassedKYC } from "../../../utils/user-util";
+import formatter from "../../../utils/formatter"
 
 @connect(
   state => ({
@@ -37,7 +38,9 @@ import { hasPassedKYC } from "../../../utils/user-util";
     kycStatus: state.user.profile.kyc
       ? state.user.profile.kyc.status
       : KYC_STATUSES.collecting,
-    depositCompliance: state.compliance.deposit
+    depositCompliance: state.compliance.deposit,
+    walletSummary: state.wallet.summary,
+    marginCalls: state.loans.marginCalls
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -47,7 +50,7 @@ class Deposit extends Component {
     right: 'profile'
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isFetchingAddress: false,
@@ -56,8 +59,8 @@ class Deposit extends Component {
   }
 
   componentDidMount() {
-    const {actions} = this.props;
-      actions.openModal(MODALS.DEPOSIT_INFO_MODAL)
+    const { actions } = this.props;
+    actions.openModal(MODALS.DEPOSIT_INFO_MODAL)
   }
 
   getAddress = currency => {
@@ -172,6 +175,42 @@ class Deposit extends Component {
     }
   };
 
+  renderMarginCallCard = () => {
+    const { formData, marginCalls, walletSummary, navigation } = this.props
+    const initialCollateral = navigation.getParam('coin')
+    const collateralCoin = formData.selectedCoin || initialCollateral
+
+    let collateralMissing
+    const collateralObj = walletSummary.coins.find(c => c.short === formData.selectedCoin)
+
+
+    if (collateralObj) {
+      collateralMissing = formatter.crypto((marginCalls[0].allCoins[collateralCoin] - collateralObj.amount), collateralCoin)
+    }
+
+    return (
+      <View style={{ alignSelf: 'center' }}>
+        <Card
+          color={STYLES.COLORS.CELSIUS_BLUE}
+          size={'twoThirds'}
+        >
+          <CelText
+            align={'center'}
+            weight={'300'}
+            type={'H6'}
+            color={STYLES.COLORS.WHITE}
+          >{collateralMissing} </CelText>
+          <CelText
+            weight={'300'}
+            align={'center'}
+            type={'H6'}
+            color={STYLES.COLORS.WHITE}
+          >required to cover the margin call</CelText>
+        </Card>
+      </View>
+    )
+  }
+
   renderSwitchAddressBlock = (alternativeAddress, currency) => {
     const { useAlternateAddress } = this.state
     const style = DepositStyle()
@@ -243,13 +282,13 @@ class Deposit extends Component {
     </View>
   )
 
-  render () {
+  render() {
     const {
       actions,
       formData,
       eligibleCoins,
       depositCompliance,
-      navigation
+      navigation,
     } = this.props
     const {
       address,
@@ -270,7 +309,7 @@ class Deposit extends Component {
         break
       default:
       case THEMES.DARK:
-        infoColor= STYLES.COLORS.WHITE
+        infoColor = STYLES.COLORS.WHITE
     }
 
     if (!hasPassedKYC()) {
@@ -317,6 +356,8 @@ class Deposit extends Component {
           defaultSelected={this.getDefaultSelectedCoin()}
         />
 
+        { navigation.getParam('isMarginWarning') ? this.renderMarginCallCard() : null }
+
         {address && !isFetchingAddress ? (
           <View style={styles.container}>
             {destinationTag || memoId ? (
@@ -337,7 +378,7 @@ class Deposit extends Component {
                       alignItems: 'center'
                     }}
                   >
-                    <CelText style={ styles.importantInfo } weight={'500'}>{destinationTag || memoId}</CelText>
+                    <CelText style={styles.importantInfo} weight={'500'}>{destinationTag || memoId}</CelText>
                     <TouchableOpacity
                       onPress={() => this.openModal(destinationTag, memoId)}
                     >
@@ -345,7 +386,7 @@ class Deposit extends Component {
                         name='Info'
                         height='19'
                         width='19'
-                        fill= { infoColor }
+                        fill={infoColor}
                         stroke='rgba(61,72,83, 1)'
                         style={{ marginLeft: 10, marginTop: 2 }}
                       />
@@ -386,7 +427,7 @@ class Deposit extends Component {
                   type='H4'
                   align={'center'}
                   margin='10 0 10 0'
-                  style={ styles.importantInfo }
+                  style={styles.importantInfo}
                 >
                   {useAlternateAddress ? alternateAddress : address}
                 </CelText>
@@ -416,15 +457,15 @@ class Deposit extends Component {
               </View>
             </Card>
 
-            { ["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
-              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin} from Bitcoin.com`}</CelText>
+            {["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
+            <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin} from Bitcoin.com`}</CelText>
             }
 
             {alternateAddress &&
-              this.renderSwitchAddressBlock(
-                alternateAddress,
-                formData.selectedCoin
-              )}
+            this.renderSwitchAddressBlock(
+              alternateAddress,
+              formData.selectedCoin
+            )}
           </View>
         ) : null}
 
@@ -444,7 +485,7 @@ class Deposit extends Component {
 
         <DestinationTagModal closeModal={actions.closeModal} />
         <MemoIdModal closeModal={actions.closeModal} />
-        <DepositInfoModal type={coin} closeModal={actions.closeModal}/>
+        <DepositInfoModal type={coin} closeModal={actions.closeModal} />
       </RegularLayout>
     )
   }

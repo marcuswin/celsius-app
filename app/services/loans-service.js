@@ -3,7 +3,10 @@ import apiUrl from './api-url';
 
 const loansService = {
   apply,
-  getAllLoans
+  getAllLoans,
+  cancelLoan,
+  getMarginCalls,
+  lockMarginCollateral
 };
 
 /**
@@ -40,6 +43,39 @@ function apply(loanApplication, verification) {
  */
 function getAllLoans() {
   return axios.get(`${apiUrl}/loans`);
+}
+
+/**
+ * Cancels desired pending loan
+ *
+ * @param {String} id
+ * @returns {Promise}
+ */
+function cancelLoan(id) {
+  return axios.put(`${apiUrl}/loans/${id}/cancel`)
+}
+
+/**
+ * Gets all margin calls
+ *
+ * @returns {Promise}
+ */
+function getMarginCalls() {
+  return axios.get(`${apiUrl}/loans/margin_calls`)
+}
+
+/**
+ * Lock margin call collateral
+ * 
+ * @param {String} marginCallID
+ * @param {String} marginCallData.coin
+ * @param {String} marginCallData.amount_collateral_usd
+ * @param {String} marginCallData.amount_collateral_crypto
+ * 
+ * @returns {Promise}
+ */
+function lockMarginCollateral(marginCallID, marginCallData) {
+  return axios.post(`${apiUrl}/loans/margin_calls/${marginCallID}/lock`, marginCallData)
 }
 
 export default loansService;
