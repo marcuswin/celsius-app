@@ -18,7 +18,7 @@ class PrepayDollarInterestModal extends Component {
   closeModalHandler = () => {
     const { actions } = this.props;
 
-    actions.navigateTo("LoanPrepaymentPeriod");
+    actions.navigateTo("LoanPrepaymentPeriod", { type: "dollar" });
     actions.closeModal();
   };
 
@@ -26,9 +26,7 @@ class PrepayDollarInterestModal extends Component {
     const style = PrepayDollarInterestModalStyle();
 
     return (
-      <CelModal
-        name={MODALS.PREPAY_DOLLAR_INTEREST_MODAL}
-      >
+      <CelModal name={MODALS.PREPAY_DOLLAR_INTEREST_MODAL}>
         <CelText type="H2" align={"center"} weight="bold" style={style.title}>
           Prepay your interest in dollars
         </CelText>
