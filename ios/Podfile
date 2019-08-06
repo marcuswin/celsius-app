@@ -31,7 +31,6 @@ target 'celsius' do
 
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
-  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
   # CodePush plugin dependency
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
@@ -40,6 +39,10 @@ target 'celsius' do
   pod 'react-native-appsflyer', :path => '../node_modules/react-native-appsflyer'
 
   pod 'Mixpanel'
+
+  pod 'react-native-idfa', :path => '../node_modules/react-native-idfa'
+
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
   pre_install do |installer|
     # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289

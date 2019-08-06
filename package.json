@@ -20,7 +20,7 @@
     "set:env:preprod": "CONFIG=PREPROD node set-env",
     "set:env:production": "CONFIG=PRODUCTION node set-env",
     "plop": "plop",
-    "postinstall": "node set-facebook-pods"
+    "postinstall": "node set-facebook-pods && node ./fixAndroid/android-release-fix.js"
   },
   "pre-commit": [
     "lint"
@@ -60,14 +60,16 @@
     "qs": "6.5.1",
     "react": "16.8.3",
     "react-native": "0.59.9",
-    "react-native-appsflyer": "^1.4.2",
+    "react-native-advertising": "^1.0.10",
+    "react-native-appsflyer": "^1.4.3",
     "react-native-branch": "2.2.5",
     "react-native-check-box": "^2.1.7",
     "react-native-code-push": "^5.6.0",
-    "react-native-device-info": "^2.1.3",
+    "react-native-device-info": "^2.3.2",
     "react-native-dotenv": "^0.2.0",
     "react-native-expo-image-cache": "^4.0.4",
     "react-native-gesture-handler": "^1.3.0",
+    "react-native-idfa": "^4.1.0",
     "react-native-mixpanel": "^1.1.4",
     "react-native-picker-select": "^6.0.0",
     "react-native-simple-twitter": "1.2.0",

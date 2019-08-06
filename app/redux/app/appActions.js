@@ -1,7 +1,9 @@
 import * as Permissions from 'expo-permissions';
 import * as Location from 'expo-location';
 import { Platform } from "react-native";
-
+import RNAdvertisingId from "react-native-advertising";
+import { IDFA } from 'react-native-idfa';
+import appsFlyer from "react-native-appsflyer";
 import Constants from '../../../constants';
 import store from "../../redux/store";
 import * as actions from "../actions";
@@ -34,6 +36,8 @@ export {
   getGeolocation,
 
   showVerifyScreen, // TODO move to security actions
+  setAdvertisingId,
+  setAppsFlyerUID
 };
 
 /**
@@ -217,6 +221,42 @@ function showVerifyScreen(defaultVerifyState = true) {
   return async (dispatch) => {
     // if (getState().app.showVerifyScreen === defaultVerifyState) return;
     dispatch({ type: ACTIONS.SHOW_VERIFY_SCREEN, showVerifyScreen: defaultVerifyState });
+  }
+}
+
+/**
+ * Set advertising id for Apps Flyer
+ */
+function setAdvertisingId() {
+  return async (dispatch) => {
+    let userAID
+    if (Platform.OS === 'ios'){
+      const res =  await IDFA.getIDFA()
+      userAID = res
+    } else {
+      const res = await RNAdvertisingId.getAdvertisingId()
+      userAID = res.advertisingId
+    }
+    dispatch({
+      type: ACTIONS.SET_ADVERTISING_ID,
+      advertisingId: userAID
+    });
+  }
+}
+
+/**
+ * Set Apps Flyer device UID
+ */
+function setAppsFlyerUID () {
+  return (dispatch) => {
+    appsFlyer.getAppsFlyerUID((error, appsFlyerUid) => {
+      if (!error) {
+        dispatch({
+          type: ACTIONS.SET_DEVICE_APPSFLYER_UID,
+          appsFlyerUID: appsFlyerUid
+        })
+      }
+    })
   }
 }
 

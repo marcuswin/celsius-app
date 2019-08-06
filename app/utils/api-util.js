@@ -34,6 +34,22 @@ function initInterceptors () {
   axios.interceptors.request.use(
     async req => {
       const newRequest = { ...req }
+      newRequest.headers = {
+          'X-Advertising-AFID': store.getState().app.appsFlyerUID
+      }
+
+      if (Platform.OS === 'ios') {
+          newRequest.headers = {
+              ...newRequest.headers,
+              'X-Advertising-IDFA': store.getState().app.advertisingId
+          }
+      } else {
+          newRequest.headers = {
+              ...newRequest.headers,
+             ' X-Advertising-AAID': store.getState().app.advertisingId
+          }
+      }
+
       if(!deviceModel || !osVersion) {
         deviceModel = DeviceInfo.getModel()
         osVersion = DeviceInfo.getSystemVersion()

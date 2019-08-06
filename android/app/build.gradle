@@ -140,6 +140,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-advertising')
     implementation project(':react-native-mixpanel')
     implementation project(':react-native-code-push')
     implementation project(':react-native-appsflyer')
@@ -155,6 +156,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-advertising')
     addUnimodulesDependencies()
 }
 
