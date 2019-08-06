@@ -18,7 +18,8 @@ export {
   setActiveLoan,
   cancelLoan,
   getMarginCalls,
-  lockMarginCollateral
+  lockMarginCollateral,
+  updateLoanSettings
 }
 
 /**
@@ -181,6 +182,28 @@ function cancelLoan() {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));
+    }
+  }
+}
+
+/**
+ *  Update Loan Settings
+ *
+ *  param {String} loanId
+ *  param {Object} loan.setting true/false
+ */
+
+function updateLoanSettings() {
+  return async (dispatch) => {
+
+    try {
+      startApiCall(API.UPDATE_LOAN_SETTINGS)
+      // const res = await loansService.updateLoanSettings(id, value)
+
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.UPDATE_LOAN_SETTINGS, err));
     }
   }
 }

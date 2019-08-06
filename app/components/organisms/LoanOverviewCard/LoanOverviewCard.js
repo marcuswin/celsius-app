@@ -168,7 +168,7 @@ class LoanOverviewCard extends Component {
               <View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
                 <Separator vertical/>
                 <CelButton
-                  onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
+                  onPress={() => navigateTo("LoanSettings", { id: loan.id })}
                   basic
                   textSize={"H6"}
                 >
