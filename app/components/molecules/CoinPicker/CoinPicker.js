@@ -45,7 +45,7 @@ class CoinPicker extends Component {
           iconSize={30}
           style={{ marginBottom: 5, marginTop: 20 }}
           type="coin"
-          icon={`Icon${value}`}
+          icon={`Icon${value.replace(' ','')}`}
         />
 
         <SimpleSelect

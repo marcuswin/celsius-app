@@ -34,7 +34,6 @@ class DepositInfoModal extends Component {
     let steps;
 
     const coinName = currencies.find(coin => coin.short === type);
-
     switch (type) {
       case "":
         steps = [
@@ -88,7 +87,7 @@ class DepositInfoModal extends Component {
         steps = [
           {
             image: { uri: coinName.image_url },
-            title: `Only deposit ${coinName.displayName} (${type}) to this wallet`,
+            title: `Only deposit ${coinName.displayName} (${type.replace(' ','')}) to this wallet`,
             description: "Sending any other digital asset to this specific address, will result in permanent loss.",
             buttonText: "I understand"
           }
@@ -124,9 +123,9 @@ class DepositInfoModal extends Component {
         pictureCircle
       >
         {steps.length > 1 &&
-        <View style={style.progressBar}>
-          <DotsBar length={2} currentStep={currentStep + 1}/>
-        </View>}
+          <View style={style.progressBar}>
+            <DotsBar length={2} currentStep={currentStep + 1} />
+          </View>}
         <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
         <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
         <CelButton
