@@ -302,7 +302,7 @@ class ConfirmYourLoan extends Component {
                 </Card>
             </Card>
 
-            <CelButton onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
+            <CelButton onPress={ this.requestButtonHandle } margin="22 0 0 0">Submit for Approval</CelButton>
           </View>
         </RegularLayout>
         <LoanApplicationSuccessModal />
