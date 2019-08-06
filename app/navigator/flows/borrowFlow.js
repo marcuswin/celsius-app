@@ -17,10 +17,11 @@ import ChoosePrepaymentMethod from "../../components/screens/ChoosePrepaymentMet
 import LoanPrepaymentPeriod from '../../components/screens/LoanPrepaymentPeriod/LoanPrepaymentPeriod'
 import PaymentCel from '../../components/screens/PaymentCel/PaymentCel'
 import LoanSettings from "../../components/screens/LoanSettings/LoanSettings";
-import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
-import { profileFlow } from './profileFlow'
 import LoanPaymentCoin from "../../components/screens/LoanPaymentCoin/LoanPaymentCoin";
 import WiringBankInformation from "../../components/screens/WiringBankInformation/WiringBankInformation";
+import PrincipalPayment from "../../components/screens/PrincipalPayment/PrincipalPayment";
+import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
+import { profileFlow } from './profileFlow'
 
 export const borrowFlow = {
   screens: {
@@ -44,6 +45,7 @@ export const borrowFlow = {
     LoanRequestDetails,
     LoanPaymentHistory,
     LoanSettings,
+    PrincipalPayment,
     ...profileFlow.screens,
   },
   props: {
