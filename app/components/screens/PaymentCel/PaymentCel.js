@@ -40,6 +40,7 @@ class PaymentCel extends Component {
   render() {
     // const style = PaymentCelCelStyle();
     const { actions } = this.props;
+    // const screen = navigation.getParam("screen");
 
     const percentageNumber = 16; // TODO (srdjan) this number is from BE, calculated or hardcoded?
 

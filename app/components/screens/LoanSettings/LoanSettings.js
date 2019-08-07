@@ -24,7 +24,7 @@ import { getTheme } from "../../../utils/styles-util";
 class LoanSettings extends Component {
 
   static navigationOptions = () => ({
-    title: "LoanSettings Screen",
+    title: "Loan Settings",
     right: "profile"
   });
 
@@ -80,7 +80,10 @@ class LoanSettings extends Component {
         <IconButton margin={"20 0 0 0"} right={<Switcher />} hideIconRight>
           Automatic Interest Payment
         </IconButton>
-        <IconButton margin={"20 0 0 0"}>
+        <IconButton
+          margin={"20 0 0 0"}
+          onPress={() => actions.navigateTo('ChoosePaymentMethod', {screen: "ChoosePaymentMethod"})}
+        >
           Change Interest Payment Type
         </IconButton>
         <IconButton margin={"20 0 0 0"} onPress={() => actions.navigateTo("PrincipalPayment", {id})}>
