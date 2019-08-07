@@ -34,7 +34,6 @@ class DepositInfoModal extends Component {
     let steps;
 
     const coinName = currencies.find(coin => coin.short === type);
-
     switch (type) {
       case "":
         steps = [
@@ -124,9 +123,9 @@ class DepositInfoModal extends Component {
         pictureCircle
       >
         {steps.length > 1 &&
-        <View style={style.progressBar}>
-          <DotsBar length={2} currentStep={currentStep + 1}/>
-        </View>}
+          <View style={style.progressBar}>
+            <DotsBar length={2} currentStep={currentStep + 1} />
+          </View>}
         <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
         <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
         <CelButton
