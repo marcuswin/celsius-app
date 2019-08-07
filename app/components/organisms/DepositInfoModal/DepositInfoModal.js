@@ -128,7 +128,7 @@ class DepositInfoModal extends Component {
           <DotsBar length={2} currentStep={currentStep + 1}/>
         </View>}
         <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
-        <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
+        <CelText type='H4' align={"center"} weight={"300"} style={style.description}>{steps[currentStep].description}</CelText>
         <CelButton
           margin={"20 0 20 0"}
           onPress={this.closeModalHandler}

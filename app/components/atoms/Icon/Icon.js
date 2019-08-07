@@ -11,7 +11,7 @@ import { THEMES } from "../../../constants/UI";
 
 const iconColors = {
   primary: {
-    [THEMES.LIGHT]: STYLES.COLORS.DARK_GRAY,
+    [THEMES.LIGHT]: STYLES.COLORS.MEDIUM_GRAY,
     [THEMES.DARK]: STYLES.COLORS.WHITE_OPACITY5,
   }
 }

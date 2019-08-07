@@ -71,8 +71,8 @@ const base = {
     ...STYLES.SHADOW_STYLES
   },
   modalImageCircle: {
-    width: widthPercentageToDP("16%"),
-    height: widthPercentageToDP("16%")
+    width: widthPercentageToDP("12%"),
+    height: widthPercentageToDP("12%")
   }
 };
 

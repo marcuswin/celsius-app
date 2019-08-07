@@ -7,7 +7,8 @@ const base = {
     },
     filterContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: "center"
     },
     filterIcon: {
         flexDirection: 'row',
