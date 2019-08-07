@@ -43,7 +43,7 @@ const base = {
     backgroundColor: "rgba(61,72,83,1)",
   },
   labelText: {
-    fontFamily: "barlow-regular",
+    fontFamily: "Barlow-Regular",
     color: "white",
     height: heightPercentageToDP("2.7%"),
   },
