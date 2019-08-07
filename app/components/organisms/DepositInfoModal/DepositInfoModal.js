@@ -87,7 +87,7 @@ class DepositInfoModal extends Component {
         steps = [
           {
             image: { uri: coinName.image_url },
-            title: `Only deposit ${coinName.displayName} (${type.replace(' ','')}) to this wallet`,
+            title: `Only deposit ${coinName.displayName} (${type}) to this wallet`,
             description: "Sending any other digital asset to this specific address, will result in permanent loss.",
             buttonText: "I understand"
           }
