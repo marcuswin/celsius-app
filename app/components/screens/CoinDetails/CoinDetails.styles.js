@@ -55,8 +55,13 @@ const base = {
   buttonItself: {
     flex: 1,
     paddingTop: 5,
-    paddingBottom: 5
-  }
+    paddingBottom: 5,
+  },
+  buttonIcon: {
+    opacity: 0.5
+  },
+  graphContainer: {justifyContent: "center", alignItems: "center"},
+  priceIndicator : { paddingHorizontal: 20 }
 };
 
 const themed = {

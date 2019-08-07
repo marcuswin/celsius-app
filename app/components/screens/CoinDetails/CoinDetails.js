@@ -122,7 +122,7 @@ class CoinDetails extends Component {
     return (
       <RegularLayout padding={"20 0 100 0"}>
         <View style={style.container}>
-          <Card padding={"0 0 0 0"}>
+          <Card padding={"0 0 7 0"}>
             <View style={style.coinAmountWrapper}>
               <View style={style.amountFlexBox}>
                 <CoinIcon customStyles={style.coinImage} theme={theme} url={currency.image_url} coinShort={currency.short} />
@@ -138,12 +138,13 @@ class CoinDetails extends Component {
                   style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
                   onPress={() => actions.navigateTo("Deposit", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
-                    <Icon
-                      fill="primary"
-                      name="Deposit"
-                      width="25"
-                    />
-
+                    <View style={style.buttonIcon}>
+                      <Icon
+                        fill="primary"
+                        name="Deposit"
+                        width="25"
+                      />
+                    </View>
                     <CelText>
                       Deposit
                     </CelText>
@@ -157,11 +158,13 @@ class CoinDetails extends Component {
                   }}>
 
                     <View style={style.buttonItself}>
+                      <View style={style.buttonIcon}>
                       <Icon
                         fill="primary"
                         name="CelPay"
                         width="25"
                       />
+                      </View>
 
                       <CelText>
                         CelPay
@@ -178,11 +181,13 @@ class CoinDetails extends Component {
                 <TouchableOpacity style={style.buttons}
                                   onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
                   <View style={style.buttonItself}>
+                    <View style={style.buttonIcon}>
                     <Icon
                       fill="primary"
                       name="Withdraw"
                       width="25"
                     />
+                    </View>
                     <CelText>
                       Withdraw
                     </CelText>
@@ -206,24 +211,22 @@ class CoinDetails extends Component {
               <View>
                 <View style={style.interestWrapper}>
                   <View style={style.interestCardWrapper}>
-                    <CelText type="H6" weight='300'>Total interest earned</CelText>
+                    <CelText type="H6" weight='300' margin={'3 0 3 0'}>Total interest earned</CelText>
                     <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                    <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                    <CelText type="H6" weight='300' margin={'3 0 3 0'}>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
                     { coinDetails.interest_earned_cel ? (
-                        <CelText type="H6" weight='300'>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
+                        <CelText type="H6" weight='300' margin={'3 0 0 0'}>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
                     ) : null }
                   </View>
                   {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
                     <View style={style.interestRateWrapper}>
-                      <CelText type="H6" weight='300'>Current rate</CelText>
-                      <View>
-                        <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                          <CelText align='justify' type="H5" color="white">{ interestRate.display }</CelText>
+                        <Badge margin='0 10 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                          <CelText margin={"0 5 0 5"} align='justify' type="H5" color="white">{ `${interestRate.display} APR` }</CelText>
                         </Badge>
-                      </View>
                     </View>
                   )}
                 </View>
+                <View style={style.graphContainer}>
                 <GraphContainer
                   periods={["MONTH", "YEAR"]}
                   showCursor
@@ -234,19 +237,24 @@ class CoinDetails extends Component {
                   type={"coin-interest"}
                   coin={currency.short}
                 />
+                </View>
               </View>
-              <Separator margin={"20 0 10 0"}/>
-              <InterestCard
-                coin={coinDetails.short}
-                interestRate={interestRate}
-                interestInCoins={interestInCoins}
-                setUserAppSettings={actions.setUserAppSettings}
-              />
+              {celpayCompliance &&
+                <View style={{paddingHorizontal: 5}}>
+                  <Separator margin={"20 0 22 0"}/>
+                  <InterestCard
+                    coin={coinDetails.short}
+                    interestRate={interestRate}
+                    interestInCoins={interestInCoins}
+                    setUserAppSettings={actions.setUserAppSettings}
+                  />
+                </View>
+              }
             </Card>
             : null}
         </View>
 
-        <View style={style.container}>
+        <View style={style.priceIndicator}>
           <Card>
             <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
               <View>
@@ -282,12 +290,6 @@ class CoinDetails extends Component {
             onPress={this.navigateToAllTransactions}
           >
             See all
-          </CelButton>
-        </View>
-
-        <View>
-          <CelButton onPress={() => actions.navigateTo("WithdrawEnterAmount", { coin: coinDetails.short })}>
-            Withdraw
           </CelButton>
         </View>
       </RegularLayout>

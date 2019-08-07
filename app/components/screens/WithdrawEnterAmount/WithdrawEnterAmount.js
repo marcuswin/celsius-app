@@ -83,7 +83,7 @@ class WithdrawEnterAmount extends Component {
         )[0].amount_usd
         return balanceUsd > 0
       })
-      .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
+      .map(c => ({ label: `${c.displayName} (${c.short})`, value: c.short }))
 
     this.state = {
       coinSelectItems,
@@ -264,7 +264,7 @@ class WithdrawEnterAmount extends Component {
       )
     }
     const coin = formData.coin || ''
-
+    
     const coinData = walletSummary.coins.find(
       c => c.short === coin.toUpperCase()
     ) || { amount: '', amount_usd: '' }
@@ -337,7 +337,7 @@ class WithdrawEnterAmount extends Component {
                     !(formData.amountUsd && Number(formData.amountUsd) > 0)
                   }
                   onPress={this.handleNextStep}
-                  iconRight='IconArrowRight'
+                  iconRight={"IconArrowRight"}
                 >
                   {formData.amountUsd && Number(formData.amountUsd) > 0
                     ? 'Check wallet address'

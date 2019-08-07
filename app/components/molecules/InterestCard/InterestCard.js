@@ -8,7 +8,7 @@ import Card from '../../atoms/Card/Card'
 import STYLES from '../../../constants/STYLES'
 import CelText from "../../atoms/CelText/CelText";
 import * as appActions from "../../../redux/actions";
-import { getTheme } from "../../../utils/styles-util";
+import { getTheme, widthPercentageToDP } from "../../../utils/styles-util";
 import formatter from "../../../utils/formatter";
 import { THEMES } from "../../../constants/UI";
 import Spinner from "../../atoms/Spinner/Spinner";
@@ -76,7 +76,7 @@ class InterestCard extends Component {
           </View>
         )}
 
-        <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
+        <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginHorizontal: widthPercentageToDP("2%")}}>
           <CelText color={"#737A82"} type={"H4"} weight={"300"}>Earn interest in CEL</CelText>
           { loading ? (
             <Spinner size={30} />
