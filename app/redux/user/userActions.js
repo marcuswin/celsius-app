@@ -376,6 +376,7 @@ function getCelsiusMemberStatus() {
         dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL));
       }
       dispatch(getWalletSummary());
+      dispatch(getProfileInfo())
       dispatch({
         type: ACTIONS.GET_MEMBER_STATUS_SUCCESS,
         isNewMember: celMemberStatus.data.is_new_member

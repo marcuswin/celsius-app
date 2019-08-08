@@ -1,7 +1,6 @@
 import { createStackNavigator } from 'react-navigation'
 
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
-import KYCLanding from '../../components/screens/KYCLanding/KYCLanding'
 import TransactionsOnHold from '../../components/screens/TransactionsOnHold/TransactionsOnHold'
 import TransactionDetails from '../../components/screens/TransactionDetails/TransactionDetails'
 import KYCProfileDetails from '../../components/screens/KYCProfileDetails/KYCProfileDetails'
@@ -13,7 +12,6 @@ import { walletFlow } from "./walletFlow";
 
 const kycFlow = {
   screens: {
-    KYCLanding,
     TransactionsOnHold,
     TransactionDetails,
     KYCProfileDetails,
@@ -24,7 +22,7 @@ const kycFlow = {
     ...walletFlow.screens
   },
   props: {
-    initialRouteName: 'KYCLanding',
+    initialRouteName: 'KYCProfileDetails',
     defaultNavigationOptions: {
       ...defaultNavigationOptions,
       headerSameColor: false,
