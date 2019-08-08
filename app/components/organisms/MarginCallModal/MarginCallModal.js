@@ -49,17 +49,17 @@ class MarginCallModal extends Component {
           </CelText>
         </View>
         <CelButton type='H4' weight='500' onPress={() => actions.lockMarginCollateral(marginCalls[0].id, { coin: marginCalls[0].collateral_coin, amount_collateral_crypto: marginCalls[0].margin_call_amount, amount_collateral_usd: marginCalls[0].margin_call_usd_amount }) && actions.closeModal()}> Lock {marginCalls[0].margin_call_amount} {marginCalls[0].collateral_coin} </CelButton>
-        <CelButton basic margin='10 0 0 0' onPress={() => actions.closeModal() && actions.navigateTo('BorrowCollateral')}>Use other coins</CelButton>
+        <CelButton basic margin='10 0 0 0' onPress={() => actions.closeModal() && actions.navigateTo('ChooseMarginCollateralCoin', { marginCall: marginCalls[0] })}>Use other coins</CelButton>
       </View >
     )
   }
 
   renderLockOtherCoins = () => {
-    const { actions } = this.props
+    const { marginCalls, actions } = this.props
     return (
       <View>
-        <CelText type='H4' weight='300' align='center' margin='0 0 20 0'>The value of your collateral dropped significantly. To match the value with the market prices please choose a coin from your wallet with enough balance, or deposit more coins.</CelText>
-        <CelButton type='H6' weight='500' onPress={() => actions.closeModal() && actions.navigateTo('BorrowCollateral')}>Choose a coin from wallet</CelButton>
+        <CelText type='H4' weight='300' align='center' margin='0 0 20 0'>The value of your collateral droped significantly. To match the value with the market prices please choose a coin from your wallet with enough balance, or deposit more coins.</CelText>
+        <CelButton type='H6' weight='500' onPress={() => actions.closeModal() && actions.navigateTo('ChooseMarginCollateralCoin', { marginCall: marginCalls[0] })}>Choose a coin from wallet</CelButton>
       </View>
     )
   }

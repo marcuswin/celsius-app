@@ -69,8 +69,9 @@ const base = {
     bottom: 0,
     right: 0
   },
-  dot: { marginTop: widthPercentageToDP("1.3%"),
-    marginRight: 2,
+  dot: {
+    marginTop: widthPercentageToDP("1.8%"),
+    marginRight: 4,
     height: widthPercentageToDP("1.6%"),
     width: widthPercentageToDP("1.6%"),
     borderRadius: widthPercentageToDP("1.6%") / 2
