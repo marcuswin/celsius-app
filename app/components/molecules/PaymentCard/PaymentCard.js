@@ -36,6 +36,19 @@ class PaymentCard extends Component {
     };
   }
 
+  navigate = (loanAmount) => {
+    const {reason, actions, coinShort} = this.props;
+
+    if (loanAmount) {
+      if (reason) {
+        actions.showMessage("success", "You have successfully changed interest payment method")
+        return actions.navigateTo("LoanSettings")
+      }
+      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort })
+    }
+    return
+  };
+
   render() {
     const {
       coinShort,
@@ -49,7 +62,7 @@ class PaymentCard extends Component {
 
     const loanAmount = loanCollateral < coinAmount;
     return (
-      <Card padding={"12 50 12 12"} styles={{ opacity: loanAmount ? 1 : 0.5 }}>
+      <Card onPress={() => this.navigate(loanAmount)} padding={"12 50 12 12"} styles={{ opacity: loanAmount ? 1 : 0.5 }}>
         <View style={{ flexDirection: "row" }}>
           <View style={{ alignSelf: "center", marginRight: 10 }}>
             <CoinIcon

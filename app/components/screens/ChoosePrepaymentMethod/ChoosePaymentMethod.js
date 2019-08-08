@@ -22,9 +22,9 @@ class ChoosePaymentMethod extends Component {
   static defaultProps = {};
 
   static navigationOptions = ({navigation}) => {
-    const screen = navigation.getParam("screen");
+    const reason = navigation.getParam("reason");
     return {
-    title: screen ? "Setup Payment" : "Prepay interest",
+    title: reason ? "Setup Payment" : "Prepay interest",
     right: "profile",
     left: "back"
   }};
@@ -32,15 +32,15 @@ class ChoosePaymentMethod extends Component {
   getCardProps = () => {
     const { actions, navigation } = this.props;
     const number = 12; // TODO (srdjan) this number is from BE, calculating based on cel ratio, or hardcoded?
-    const screen = navigation.getParam("screen");
+    const reason = navigation.getParam("reason");
 
-    const pay = screen ? `pay` : `prepay`;
+    const pay = reason ? `pay` : `prepay`;
 
     const cardProps = [
       {
         cardTitle: `${formatter.capitalize(pay)} with CEL`,
         cardCopy: `Pay up to ${number}% less interest when you choose to ${pay} your monthly payment in CEL.`,
-        onPressAction: () => actions.navigateTo("PaymentCel"),
+        onPressAction: () => actions.navigateTo("PaymentCel", {reason}),
         lightImage: require("../../../../assets/images/icons/cel.png"),
         darkImage: require("../../.././../assets/images/icons/cel-dark.png"),
         isPaymentCel: true
@@ -48,7 +48,7 @@ class ChoosePaymentMethod extends Component {
       {
         cardTitle: `${formatter.capitalize(pay)} with crypto`,
         cardCopy: `Use coins from your wallet to ${pay} your loan interest.`,
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin"),
+        onPressAction: () => actions.navigateTo("LoanPaymentCoin", {reason}),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
         isPaymentCel: false
@@ -56,7 +56,7 @@ class ChoosePaymentMethod extends Component {
       {
         cardTitle: `${formatter.capitalize(pay)} with Dollars`,
         cardCopy: `Get all the information necessary to ${pay} your interest in dollars.`,
-        onPressAction: () => actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
+        onPressAction: () => reason ? actions.navigateTo("BorrowBankAccount", { reason }) : actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
         lightImage: require("../../../../assets/images/icons/dollars.png"),
         darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
         isPaymentCel: false

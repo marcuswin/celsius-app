@@ -30,14 +30,15 @@ class LoanPaymentCoin extends Component {
   });
 
   render() {
-    const {currenciesRates, actions} = this.props;
+    const {currenciesRates, actions, navigation} = this.props;
     const style = LoanPaymentCoinStyle();
+    const reason = navigation.getParam("reason");
 
     return (
       <RegularLayout>
         <CelText margin={"0 0 10 0"} align={"center"} weight={"300"}>Choose a coin from your wallet to complete your loan interest payment</CelText>
         { currenciesRates.map(c => (
-            <PaymentCard key={c.short} name={c.name} coinShort={c.short} image={c.image_url}/>
+            <PaymentCard reason={reason} key={c.short} name={c.name} coinShort={c.short} image={c.image_url}/>
           ))}
 
         <TouchableOpacity

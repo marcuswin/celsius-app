@@ -37,10 +37,20 @@ class PaymentCel extends Component {
   //
   // }
 
+  navigate = () => {
+    const {actions, navigation} = this.props;
+    const reason = navigation.getParam("reason");
+     if (reason) {
+       actions.showMessage("success", "You have successfully changed interest payment method")
+       return actions.navigateTo("LoanSettings")
+     }
+
+    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL" })
+  };
+
   render() {
     // const style = PaymentCelCelStyle();
     const { actions } = this.props;
-    // const screen = navigation.getParam("screen");
 
     const percentageNumber = 16; // TODO (srdjan) this number is from BE, calculated or hardcoded?
 
@@ -59,7 +69,7 @@ class PaymentCel extends Component {
           <CelText type={"H1"} weight={"700"} align={"center"}>
             {percentageNumber}% less
           </CelText>
-          <Separator margin={"10 0 12 0"} />
+          <Separator margin={"10 0 12 0"}/>
           <CelText>
             Decrease your monthly interest payment from{" "}
             <CelText weight={"500"}>$XX</CelText> to{" "}
@@ -68,9 +78,7 @@ class PaymentCel extends Component {
         </Card>
         <CelButton
           margin={"20 0 0 0"}
-          onPress={() => {
-            actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL" });
-          }}
+          onPress={() => this.navigate()}
         >
           Pay with CEL
         </CelButton>

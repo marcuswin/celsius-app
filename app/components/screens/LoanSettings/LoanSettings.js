@@ -82,7 +82,7 @@ class LoanSettings extends Component {
         </IconButton>
         <IconButton
           margin={"20 0 0 0"}
-          onPress={() => actions.navigateTo('ChoosePaymentMethod', {screen: "ChoosePaymentMethod"})}
+          onPress={() => actions.navigateTo('ChoosePaymentMethod', {reason: "interestPayment"})}
         >
           Change Interest Payment Type
         </IconButton>
