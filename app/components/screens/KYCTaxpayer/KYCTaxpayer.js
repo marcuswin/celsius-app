@@ -15,6 +15,8 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import { MODALS } from "../../../constants/UI";
 import SsnModal from "../../organisms/SsnModal/SsnModal";
+import Separator from "../../atoms/Separator/Separator";
+import SocialSecurityNumber from "../../molecules/SocialSecurityNumber/SocialSecurityNumber";
 
 let focused = 0;
 
@@ -184,9 +186,11 @@ class KYCTaxpayer extends Component {
                 refs={(input) => { this.ssn3 = input }}
               />
             </View>
+            <SocialSecurityNumber />
             <View style={{ height: 40, alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
               <CelText color='red' >{formErrors.ssn}</CelText>
             </View>
+            <Separator />
           </View>
           :
           <React.Fragment>
