@@ -101,6 +101,19 @@ function loadCelsiusAssets() {
   };
 }
 
+const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+  data => {  
+    loggerUtil.logme(data)   
+  }
+);
+
+const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(
+  data => {
+    loggerUtil.logme(data) 
+  }
+);
+
+
 
 /**
  * Handles state change of the app
@@ -138,6 +151,15 @@ function handleAppStateChange(nextAppState) {
             clearTimeout(pinTimeout);
           }, ASK_FOR_PIN_AFTER);
         }
+
+        if(this.onInstallConversionDataCanceller){
+          onInstallConversionDataCanceller();
+          loggerUtil.logme("unregister onInstallConversionDataCanceller");
+        } 
+        if(this.onAppOpenAttributionCanceller){
+          onAppOpenAttributionCanceller();
+          loggerUtil.logme("unregister onAppOpenAttributionCanceller");
+        }  
 
         if (Platform.OS === "android") {
           startOfBackgroundTimer = new Date().getTime();
