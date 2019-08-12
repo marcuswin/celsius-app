@@ -14,7 +14,6 @@ import STYLES from '../../../constants/STYLES';
 import { MODALS } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import * as appActions from "../../../redux/actions";
-import { hasPassedKYC } from "../../../utils/user-util";
 
 @connect(
   state => ({
@@ -34,14 +33,12 @@ class WalletDetailsCard extends PureComponent {
 
   navigateToBalanceHistory = () =>{
     const {actions} = this.props;
-    if (hasPassedKYC()) return actions.navigateTo('BalanceHistory')
-    actions.navigateTo("KYCLanding");
+    actions.navigateTo('BalanceHistory')
   };
 
   navigateToDeposit = () => {
     const {actions} = this.props;
-    if (hasPassedKYC()) return actions.navigateTo('Deposit')
-    actions.navigateTo("KYCLanding");
+    actions.navigateTo('Deposit')
   };
   openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 

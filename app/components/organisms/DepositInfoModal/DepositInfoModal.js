@@ -34,6 +34,7 @@ class DepositInfoModal extends Component {
     let steps;
 
     const coinName = currencies.find(coin => coin.short === type);
+
     switch (type) {
       case "":
         steps = [
@@ -83,6 +84,16 @@ class DepositInfoModal extends Component {
           }
         ];
         break;
+      case "USDT ERC20":
+        steps = [
+          {
+            image: { uri: coinName.image_url },
+            title: `Please ensure only Tether ERC20 tokens are deposited to this address`,
+            description: "Sending other USDT coins to this address (the Omni Layer version) may result in the permanent loss of funds.",
+            buttonText: "I understand"
+          }
+        ];
+        break;
       default:
         steps = [
           {
@@ -123,11 +134,11 @@ class DepositInfoModal extends Component {
         pictureCircle
       >
         {steps.length > 1 &&
-          <View style={style.progressBar}>
-            <DotsBar length={2} currentStep={currentStep + 1} />
-          </View>}
+        <View style={style.progressBar}>
+          <DotsBar length={2} currentStep={currentStep + 1}/>
+        </View>}
         <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
-        <CelText type='H4' align={"center"} weight={"300"} style={style.description}>{steps[currentStep].description}</CelText>
+        <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
         <CelButton
           margin={"20 0 20 0"}
           onPress={this.closeModalHandler}

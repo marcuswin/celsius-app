@@ -2,15 +2,27 @@ import store from '../redux/store'
 import { KYC_STATUSES } from "../constants/DATA";
 
 export {
+  isUserLoggedIn,
   isCompanyMember,
   isUSCitizen,
   isUSResident,
   isCelsiusMember,
   hasPassedKYC,
+  isKYCRejectedForever,
   // TODO(ns) KYC: isRejecEted, isPending
   isMalisaPusonja,
   hasSSN,
   hasAddress,
+  getUserKYCStatus,
+}
+
+/**
+ * get if the user is a company member
+ * @returns {boolean}
+ */
+function isUserLoggedIn () {
+  const { profile } = store.getState().user
+  return !!profile.id
 }
 
 /**
@@ -52,11 +64,29 @@ function isCelsiusMember () {
 
 /**
  *  get if user has passed KYC
+ * @returns {string} status - one of KYC_STATUSES
+ */
+function getUserKYCStatus () {
+  const status = store.getState().user.profile.kyc ? store.getState().user.profile.kyc.status : KYC_STATUSES.collecting
+  return status
+}
+
+/**
+ *  get if user has passed KYC
  * @returns {boolean}
  */
 function hasPassedKYC () {
-  const status = store.getState().user.profile.kyc ? store.getState().user.profile.kyc.status : null
-  if (status) return status === KYC_STATUSES.passed || status === KYC_STATUSES.ico_passed
+  const status = getUserKYCStatus()
+  return status === KYC_STATUSES.passed || status === KYC_STATUSES.ico_passed
+}
+
+/**
+ * checks if user is rejected from BO
+ * @returns {boolean}
+ */
+function isKYCRejectedForever () {
+  const status = getUserKYCStatus()
+  return status === KYC_STATUSES.permanently_rejected
 }
 
 

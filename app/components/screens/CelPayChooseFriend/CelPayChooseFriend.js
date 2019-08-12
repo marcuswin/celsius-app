@@ -16,13 +16,13 @@ import ContactList from '../../molecules/ContactList/ContactList';
 import Separator from '../../atoms/Separator/Separator';
 import Icon from '../../atoms/Icon/Icon';
 import { getFilteredContacts } from '../../../redux/custom-selectors';
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import StaticScreen from "../StaticScreen/StaticScreen";
 import { EMPTY_STATES } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import logger from "../../../utils/logger-util";
 import cryptoUtil from '../../../utils/crypto-util';
 import { hasPassedKYC } from "../../../utils/user-util";
+import ContactsLoader from "../../organisms/ContactsLoader/ContactsLoader";
 
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
@@ -95,10 +95,10 @@ class CelPayChooseFriend extends Component {
       await this.setContacts(data);
       await this.getContacts();
     }
-    const haseFrieds = this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
+    const hasFriends = this.hasFriends()
     navigation.setParams({
-      title: permission && haseFrieds ? "Choose a friend" : "No friends?",
-      right: permission && haseFrieds ? "search" : "profile"
+      title: permission && hasFriends ? "Choose a friend" : "No friends?",
+      right: permission && hasFriends ? "search" : "profile"
     })
 
     this.setState({
@@ -186,13 +186,15 @@ class CelPayChooseFriend extends Component {
     actions.navigateTo('CelPayEnterAmount');
   };
 
+  hasFriends = () => this.props.contacts && this.props.contacts.friendsWithApp && this.props.contacts.friendsWithApp.length  > 0
+
   renderContent = () => {
     const { hasContactPermission } = this.state;
     const { contacts } = this.props;
     const EmptyState = renderEmptyState;
 
     return (
-      !hasContactPermission
+      !hasContactPermission && !this.hasFriends()
         ?
         <EmptyState onContactImport={this.handleContactImport} onSkip={this.handleSkip} />
         :
@@ -216,14 +218,15 @@ class CelPayChooseFriend extends Component {
   );
 
   render() {
-    const { user, kycStatus, celpayCompliance, walletSummary } = this.props;
+    const { user, kycStatus, celpayCompliance, walletSummary, actions } = this.props;
     const { isLoading } = this.state;
+    const hasFriends = this.hasFriends()
 
     if (kycStatus && !hasPassedKYC()) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_VERIFIED_CELPAY }}/>
     if (!user.celsius_member) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.NON_MEMBER_CELPAY }}/>
     if (!celpayCompliance.allowed) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />;
-    if (isLoading) return <LoadingScreen />
-    
+
+    if (isLoading && !hasFriends) return <ContactsLoader navigateTo={actions.navigateTo}/>
     if (!cryptoUtil.isGreaterThan(walletSummary.total_amount_usd, 0)) return <StaticScreen emptyState={{ purpose: EMPTY_STATES.INSUFFICIENT_FUNDS }} />
 
     const RenderContent = this.renderContent;

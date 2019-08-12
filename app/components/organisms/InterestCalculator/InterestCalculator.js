@@ -36,7 +36,7 @@ class InterestCalculator extends Component {
   }
   static defaultProps = { defaultCoin: 'BTC', showCard: false }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { defaultCoin, currencies, interestCompliance } = this.props
 
@@ -147,6 +147,9 @@ class InterestCalculator extends Component {
     } else {
       celCardStyle.push(style.selectedCard)
     }
+
+    const interestInCelPerWeek = weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
+    const interestInCelPerYear = yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
     return (
       <>
         <CelText style={style.calculatorInfo} align={'center'} margin='20 0 16 0'>
@@ -194,16 +197,25 @@ class InterestCalculator extends Component {
             color={STYLES.COLORS.LIGHT_GRAY}
             margin='20 10 20 20'
           >
-            <CelText theme={THEMES.LIGHT} align={'center'}>
-              {formatter.usd(
-                weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
-              )}
-            </CelText>
-            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-              {formatter.crypto(weeklyInterest, selectedCoin, {
-                precision: 2
-              })}
-            </CelText>
+            <View>
+              <CelText theme={THEMES.LIGHT} align={'center'}>
+                {formatter.usd(
+                  weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
+                )
+                }
+              </CelText>
+              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
+                {earnInterestIn === true ?
+                  formatter.crypto(interestInCelPerWeek, 'CEL', {
+                    precision: 2
+                  })
+                  :
+                  formatter.crypto(weeklyInterest, selectedCoin, {
+                    precision: 2
+                  })
+                }
+              </CelText>
+            </View>
             <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest per week
             </CelText>
@@ -213,16 +225,24 @@ class InterestCalculator extends Component {
             color={STYLES.COLORS.LIGHT_GRAY}
             margin='20 20 20 10'
           >
-            <CelText theme={THEMES.LIGHT} align={'center'}>
-              {formatter.usd(
-                yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
-              )}
-            </CelText>
-            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-              {formatter.crypto(yearlyInterest, selectedCoin, {
-                precision: 2
-              })}
-            </CelText>
+            <View>
+              <CelText theme={THEMES.LIGHT} align={'center'}>
+                {formatter.usd(
+                  yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
+                )}
+              </CelText>
+              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
+                {earnInterestIn === true ?
+                  formatter.crypto(interestInCelPerYear, 'CEL', {
+                    precision: 2
+                  })
+                  :
+                  formatter.crypto(yearlyInterest, selectedCoin, {
+                    precision: 2
+                  })
+                }
+              </CelText>
+            </View>
             <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest per year
             </CelText>
@@ -232,7 +252,7 @@ class InterestCalculator extends Component {
     )
   }
 
-  render () {
+  render() {
     const { coinSelectItems } = this.state
     const { actions, formData, keypadOpen, showCard, theme } = this.props
 
@@ -280,8 +300,8 @@ class InterestCalculator extends Component {
             </Card>
           </View>
         ) : (
-          <InterestOptions />
-        )}
+            <InterestOptions />
+          )}
 
         <CelNumpad
           field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}
