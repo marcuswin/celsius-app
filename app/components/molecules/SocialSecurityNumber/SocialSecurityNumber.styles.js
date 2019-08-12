@@ -1,5 +1,5 @@
-// import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
 const base = {
     container: {
@@ -8,33 +8,57 @@ const base = {
     ssnInput: {
         flex: 1,
         flexDirection: 'row',
-        // flexGrow: 1,
-        marginHorizontal: 40,
-        // width: 'auto',
         alignItems: 'center',
-        justifyContent: 'space-between',
         alignSelf: 'center',
-        paddingTop: 20,
+        paddingTop: 30,
+        marginHorizontal: 20,
     },
     inputCel: {
         borderRadius: 10,
         backgroundColor: 'white',
         flex: 1,
-        flexGrow: 1,
-        justifyContent: 'space-between',
+        height: 50,
+        justifyContent: 'space-around',
         alignContent: 'center',
         alignItems: 'center',
-        alignSelf: 'center',
-
     },
-
+    taxID: {
+        borderRadius: 10,
+        backgroundColor: 'white',
+        flex: 1,
+        height: 50,
+        justifyContent: 'space-around',
+        paddingLeft: 10,
+        marginVertical: 20,
+    },
+    nationalID: {
+        borderRadius: 10,
+        backgroundColor: 'white',
+        flex: 1,
+        height: 50,
+        justifyContent: 'space-around',
+        paddingLeft: 10,
+        marginBottom: 20
+    }
 }
 
 const themed = {
     light: {
+        nationalID: {
+            backgroundColor: STYLES.COLORS.WHITE
+        }
     },
 
     dark: {
+        taxID: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        },
+        nationalID: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        },
+        inputCel: {
+            backgroundColor: STYLES.COLORS.DARK_HEADER
+        }
     },
 
     celsius: {
