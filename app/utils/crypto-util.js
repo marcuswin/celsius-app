@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
  * @returns {boolean}
  */
 function isERC20(currency) {
-  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs'].indexOf(currency.toLowerCase()) !== -1;
+  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs', 'leo' ].indexOf(currency.toLowerCase()) !== -1;
 }
 
 

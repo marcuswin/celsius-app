@@ -6,7 +6,8 @@ const loansService = {
   getAllLoans,
   cancelLoan,
   getMarginCalls,
-  lockMarginCollateral
+  lockMarginCollateral,
+  updateLoanSettings
 };
 
 /**
@@ -76,6 +77,17 @@ function getMarginCalls() {
  */
 function lockMarginCollateral(marginCallID, marginCallData) {
   return axios.post(`${apiUrl}/loans/margin_calls/${marginCallID}/lock`, marginCallData)
+}
+
+/**
+ *
+ * Update Loan Settings
+ *
+ * @param {String} loanId
+ * @returns {Promise}
+ */
+function updateLoanSettings(loanId, value) {
+  return axios.post(`${apiUrl}/loans/${loanId}/settings`, value)
 }
 
 export default loansService;

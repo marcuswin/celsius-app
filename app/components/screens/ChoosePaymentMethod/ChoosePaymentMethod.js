@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 
-import ChoosePrepaymentMethodStyle from "./ChoosePrepaymentMethod.styles";
+import ChoosePaymentMethodStyle from "./ChoosePaymentMethod.styles";
 import PaymentCard from "../../organisms/PaymentCard/PaymentCard";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import PrepayDollarInterestModal from "../../organisms/PrepayDollarInterestModal/PrepayDollarInterestModal";
 import { MODALS } from "../../../constants/UI";
+import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
@@ -16,43 +17,46 @@ import { MODALS } from "../../../constants/UI";
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class ChoosePrepaymentMethod extends Component {
+class ChoosePaymentMethod extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = () => ({
-    title: "Prepay interest",
+  static navigationOptions = ({navigation}) => {
+    const reason = navigation.getParam("reason");
+    return {
+    title: reason ? "Setup Payment" : "Prepay interest",
     right: "profile",
     left: "back"
-  });
+  }};
 
   getCardProps = () => {
-    const { actions } = this.props;
+    const { actions, navigation } = this.props;
     const number = 12; // TODO (srdjan) this number is from BE, calculating based on cel ratio, or hardcoded?
+    const reason = navigation.getParam("reason");
+
+    const pay = reason ? `pay` : `prepay`;
 
     const cardProps = [
       {
-        cardTitle: "Prepay with CEL",
-        cardCopy: `Pay up to ${number}% less interest when you choose to prepay your monthly payment in CEL.`,
-        onPressAction: () => actions.navigateTo("PaymentCel"),
+        cardTitle: `${formatter.capitalize(pay)} with CEL`,
+        cardCopy: `Pay up to ${number}% less interest when you choose to ${pay} your monthly payment in CEL.`,
+        onPressAction: () => actions.navigateTo("PaymentCel", {reason}),
         lightImage: require("../../../../assets/images/icons/cel.png"),
         darkImage: require("../../.././../assets/images/icons/cel-dark.png"),
         isPaymentCel: true
       },
       {
-        cardTitle: "Prepay with crypto",
-        cardCopy: "Use coins from your wallet to prepay your loan interest.",
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin"),
+        cardTitle: `${formatter.capitalize(pay)} with crypto`,
+        cardCopy: `Use coins from your wallet to ${pay} your loan interest.`,
+        onPressAction: () => actions.navigateTo("LoanPaymentCoin", {reason}),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
         isPaymentCel: false
       },
       {
-        cardTitle: "Prepay with Dollars",
-        cardCopy:
-          "Get all the information necessary to prepay your interest in dollars.",
-        onPressAction: () =>
-          actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
+        cardTitle: `${formatter.capitalize(pay)} with Dollars`,
+        cardCopy: `Get all the information necessary to ${pay} your interest in dollars.`,
+        onPressAction: () => reason ? actions.navigateTo("BorrowBankAccount", { reason }) : actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
         lightImage: require("../../../../assets/images/icons/dollars.png"),
         darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
         isPaymentCel: false
@@ -63,7 +67,7 @@ class ChoosePrepaymentMethod extends Component {
   };
 
   render() {
-    const style = ChoosePrepaymentMethodStyle();
+    const style = ChoosePaymentMethodStyle();
 
     const cardProps = this.getCardProps();
 
@@ -88,4 +92,4 @@ class ChoosePrepaymentMethod extends Component {
   }
 }
 
-export default ChoosePrepaymentMethod;
+export default ChoosePaymentMethod;

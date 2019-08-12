@@ -47,7 +47,7 @@ class LoanApplicationSuccessModal extends Component {
     if (steps[currentStep].buttonText === "Next") {
       this.setState({ currentStep: 1 });
     } else {
-      actions.navigateTo("ChoosePrepaymentMethod");
+      actions.navigateTo("ChoosePaymentMethod");
       actions.closeModal();
       this.setState({ currentStep: 0 });
     }

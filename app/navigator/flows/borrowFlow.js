@@ -13,14 +13,18 @@ import TransactionDetails from '../../components/screens/TransactionDetails/Tran
 import ConfirmYourLoan from '../../components/screens/ConfirmYourLoan/ConfirmYourLoan'
 import LoanRequestDetails from "../../components/screens/LoanRequestDetails/LoanRequestDetails";
 import LoanPaymentHistory from "../../components/screens/LoanPaymentHistory/LoanPaymentHistory";
-import ChoosePrepaymentMethod from "../../components/screens/ChoosePrepaymentMethod/ChoosePrepaymentMethod";
+import ChoosePaymentMethod from "../../components/screens/ChoosePaymentMethod/ChoosePaymentMethod";
 import ChooseMarginCollateralCoin from "../../components/screens/ChooseMarginCollateralCoin/ChooseMarginCollateralCoin";
 import LoanPrepaymentPeriod from '../../components/screens/LoanPrepaymentPeriod/LoanPrepaymentPeriod'
 import PaymentCel from '../../components/screens/PaymentCel/PaymentCel'
-import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
-import { profileFlow } from './profileFlow'
+import LoanSettings from "../../components/screens/LoanSettings/LoanSettings";
 import LoanPaymentCoin from "../../components/screens/LoanPaymentCoin/LoanPaymentCoin";
 import WiringBankInformation from "../../components/screens/WiringBankInformation/WiringBankInformation";
+import PrincipalPayment from "../../components/screens/PrincipalPayment/PrincipalPayment";
+import PrincipalPaymentType from "../../components/screens/PrincipalPaymentType/PrincipalPaymentType";
+
+import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
+import { profileFlow } from './profileFlow'
 
 export const borrowFlow = {
   screens: {
@@ -32,7 +36,7 @@ export const borrowFlow = {
     ConfirmYourLoan,
     VerifyProfile,
     BorrowLanding,
-    ChoosePrepaymentMethod,
+    ChoosePaymentMethod,
     ChooseMarginCollateralCoin,
     PaymentCel,
     LoanPrepaymentPeriod,
@@ -44,6 +48,9 @@ export const borrowFlow = {
     WiringBankInformation,
     LoanRequestDetails,
     LoanPaymentHistory,
+    LoanSettings,
+    PrincipalPayment,
+    PrincipalPaymentType,
     ...profileFlow.screens,
   },
   props: {

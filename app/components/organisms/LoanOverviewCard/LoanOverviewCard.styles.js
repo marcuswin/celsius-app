@@ -7,7 +7,7 @@ const base = {
     flex: 1,
     width: widthPercentageToDP("70%")
   },
-  buttonContainer: { flexDirection: "row", padding: 12, justifyContent: "space-around" },
+  buttonContainer: { flexDirection: "row", padding: 12, justifyContent: "space-evenly" },
   interest: { flexDirection: "row", padding: 12 },
   status: { flexDirection: "row", alignItems: "center" },
   info: { alignItems: "center", padding: 12 },

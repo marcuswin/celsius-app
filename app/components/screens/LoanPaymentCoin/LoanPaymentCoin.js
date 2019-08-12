@@ -9,9 +9,10 @@ import * as appActions from "../../../redux/actions";
 import LoanPaymentCoinStyle from "./LoanPaymentCoin.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
-import PaymentCard from "../../molecules/PaymentCard/PaymentCard";
 import Icon from "../../atoms/Icon/Icon";
 import Card from "../../atoms/Card/Card";
+import {COIN_CARD_TYPE} from "../../../constants/DATA";
+import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(
   state => ({
@@ -29,15 +30,36 @@ class LoanPaymentCoin extends Component {
     right: "profile"
   });
 
+  handleSelectCoin = (coinShort) => {
+    const { actions, loanCollateral, coinAmount, navigation} = this.props;
+    const reason = navigation.getParam("reason");
+
+    // loanCollateral and coinAmount from backend to Redux
+    const loanAmount = loanCollateral < coinAmount; // TODO - check this props
+    if (loanAmount) {
+      if (reason) {
+        actions.showMessage("success", "You have successfully changed interest payment method")
+        return actions.navigateTo("LoanSettings")
+      }
+      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort })
+    }
+    return
+  }
+
   render() {
-    const {currenciesRates, actions} = this.props;
+    const { currenciesRates, actions } = this.props;
     const style = LoanPaymentCoinStyle();
 
     return (
       <RegularLayout>
         <CelText margin={"0 0 10 0"} align={"center"} weight={"300"}>Choose a coin from your wallet to complete your loan interest payment</CelText>
-        { currenciesRates.map(c => (
-            <PaymentCard key={c.short} name={c.name} coinShort={c.short} image={c.image_url}/>
+        { currenciesRates.map(coin => (
+          <CollateralCoinCard
+            key={coin.short}
+            handleSelectCoin={this.handleSelectCoin}
+            coin={coin}
+            type={COIN_CARD_TYPE.LOAN_PAYMENT_COIN_CARD}
+          />
           ))}
 
         <TouchableOpacity

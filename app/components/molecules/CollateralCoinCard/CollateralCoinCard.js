@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
 import * as appActions from "../../../redux/actions";
+import {COIN_CARD_TYPE} from '../../../constants/DATA'
 
 import { getTheme } from "../../../utils/styles-util";
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";
@@ -21,7 +22,7 @@ import Separator from '../../atoms/Separator/Separator';
     coins: state.compliance.loan.coins,
     currencies: state.currencies.rates,
     formData: state.forms.formData,
-    marginCalls: state.loans.marginCalls
+    walletSummary: state.wallet.summary.coins
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -29,123 +30,217 @@ import Separator from '../../atoms/Separator/Separator';
 class CollateralCoinCard extends Component {
   static propTypes = {
     coin: PropTypes.instanceOf(Object).isRequired,
-    value: PropTypes.number,
-    isMarginCall: PropTypes.bool,
+    type: PropTypes.oneOf('Collateral', 'PrincipalPayment')
   };
-  static defaultProps = {
-    isMarginCall: false
 
-  }
-
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      currency: null
+      currency: null,
+      name: null,
+      fiat: null,
+      collateralAmount: null,
+      color: null,
+      amount: null,
+      amount_usd: null,
+      additionalCryptoAmount: null,
+      isAllowed : false,
+      additionalInfoExplanation: null
     }
-    const { formData, coin } = this.props
-    this.name = formatter.capitalize(coin.name);
-    this.crypto = formatter.crypto(coin.amount, coin.short, { precision: 2 });
-    this.fiat = formatter.usd(coin.amount_usd);
-    this.collateralAmount = formData.loanAmount * 2
-
-    this.color = coin.amount_usd < this.collateralAmount ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY;
-    this.isAllowed = coin.amount_usd >= this.collateralAmount
   }
 
   componentDidMount() {
-    const { currencies, coin } = this.props
-    const currency = currencies.filter(c => c.short === coin.short.toUpperCase())[0];
-    this.setState({ currency })
+    this.setValues()
   }
 
-  handleDepositCalculation = () => {
-    const { formData, coin, isMarginCall, marginCalls } = this.props
-    const { currency } = this.state
+  setValues = async () => {
+    const {type, formData, coin, currencies, walletSummary, isMarginCall, marginCall} = this.props
     let value
-    if (isMarginCall && marginCalls[0].allCoins[coin.short] > coin.amount) {
-      return formatter.crypto(marginCalls[0].allCoins[coin.short] - coin.amount)
+    let cryptoAmount
+    let amountUsd
+    let additionalCryptoAmount
+    let isAllowed
+    let color
+
+    // constant values
+    const name = formatter.capitalize(coin.name)
+    const currency = currencies.filter(c => c.short === coin.short.toUpperCase())[0];
+    const walletCoin = walletSummary.find( c => c.short === coin.short )
+
+    // default values
+    cryptoAmount = walletCoin ? formatter.crypto(walletCoin.amount, walletCoin.short, {precision: 2}) : null
+    amountUsd = walletCoin ? formatter.usd(walletCoin.amount_usd) : null
+    isAllowed = walletCoin ? walletCoin.amount_usd > 0 : false// TODO check this!
+
+    await this.setState({name, currency, isAllowed})
+
+
+    if (type === COIN_CARD_TYPE.COLLATERAL_COIN_CARD) {
+      cryptoAmount = formatter.crypto(coin.amount, coin.short, {precision: 2})
+      amountUsd = formatter.usd(coin.amount_usd)
+
+      const collateralAmount= formData.loanAmount * 2
+      isAllowed = coin.amount_usd >= collateralAmount
+      color = coin.amount_usd < collateralAmount ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
+
+      if (currency) {
+        value = (formData.loanAmount * 2 - coin.amount_usd) / currency.market_quotes_usd.price
+      }
+      additionalCryptoAmount = formatter.crypto(value, coin.short, {precision: 2})
+
+      await this.setState({
+        additionalInfoExplanation: 'required.',
+        cryptoAmount,
+        amountUsd,
+        additionalCryptoAmount,
+        color,
+        isAllowed,
+        }
+      )
+
+    } else if ( type === COIN_CARD_TYPE.PRINCIPAL_PAYMENT_COIN_CARD ) {
+      color = !isAllowed ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
+      await this.setState({
+        additionalInfoExplanation: 'required for a first month of loan interest payment.',
+        cryptoAmount,
+        amountUsd,
+        isAllowed,
+        color
+        // TODO when API is completed add state: additionalCryptoAmount
+      })
+
+    } else if ( type === COIN_CARD_TYPE.LOAN_PAYMENT_COIN_CARD ) {
+      color = !isAllowed ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
+      await this.setState({
+        additionalInfoExplanation: 'required for a first month of loan interest payment.',
+        cryptoAmount,
+        amountUsd,
+        isAllowed,
+        color
+        // TODO when API is completed add state: additionalCryptoAmount
+      })
+    } else if ( type === COIN_CARD_TYPE.MARGIN_COLLATERAL_COIN_CARD) {
+      isAllowed = coin.amount >= marginCall.allCoins[coin.short]
+      color = !isAllowed ? STYLES.COLORS.RED : STYLES.COLORS.MEDIUM_GRAY
+
+      // additionalCryptoAmount - margin call value
+      let marginCallValue
+      if (isMarginCall && marginCall.allCoins[coin.short] > coin.amount) {
+        marginCallValue = formatter.crypto(marginCall.allCoins[coin.short] - coin.amount, coin.short, {precision: 4});
+      } else  marginCallValue =  formatter.crypto(marginCall.allCoins[coin.short], coin.short, {precision: 4});
+
+
+      await this.setState({
+        additionalInfoExplanation: 'required.',
+        cryptoAmount,
+        amountUsd,
+        isAllowed,
+        additionalCryptoAmount: marginCallValue,
+        color
+      })
     }
-    if (currency) {
-      value = (formData.loanAmount * 2 - coin.amount_usd) / currency.market_quotes_usd.price
-    }
-    const cryptoAmount = formatter.crypto(value, coin.short, { precision: 2 })
-    return cryptoAmount
+  }
+
+  // only when open margin call
+  renderMarginCall = () => {
+    const { marginCall, coin } = this.props
+    const style = CollateralCoinCardStyle();
+    return(
+      <View style={style.marginRequired}>
+        <CelText align="left" weight="300" type="H6">
+          <CelText align="left" weight="600" type="H6">
+           { `${formatter.crypto(marginCall.allCoins[coin.short], coin.short,{precision: 4})} `}
+          </CelText>required to cover margin call
+        </CelText>
+      </View>
+    )
+  }
+
+  renderAdditionalInformation = () => {
+    const {additionalCryptoAmount, additionalInfoExplanation} = this.state
+      return (
+        <View>
+          <Separator size={2} margin={"10 0 5 0"}/>
+          <View>
+            <CelText weight={"300"} align="left">
+              Additional
+              <CelText weight={"500"} align="left">
+                {` ${additionalCryptoAmount} `}
+                <CelText weight={"300"} align="left">
+                  {`${additionalInfoExplanation}`}
+                </CelText>
+              </CelText>
+            </CelText>
+          </View>
+        </View>
+      )
+  }
+
+  renderDepositMore = () => {
+    const { coin, actions } = this.props
+    return (
+      <TouchableOpacity
+        onPress={()=>actions.navigateTo('Deposit', { coin: coin.short })}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
+          <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
+          <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
+            Deposit more
+          </CelText>
+        </View>
+      </TouchableOpacity>
+    )
   }
 
   render = () => {
-    const { actions, coin, handleSelectCoin, marginCalls, value } = this.props
+    const { handleSelectCoin, coin, marginCall } = this.props
+    const { name, cryptoAmount, amountUsd, color, currency, isAllowed } = this.state
+
     const style = CollateralCoinCardStyle();
     const theme = getTheme();
-    const { currency } = this.state
 
-    return (
-      <Card
-        onPress={this.isAllowed ? () => handleSelectCoin(coin.short) : null}
-        color={this.isAllowed ? null : style.cardStyle.color}
-      >
-        <View key={coin.name} style={style.mainContainer}>
-          <View style={style.iconContainer}>
-            {currency && currency.image_url ? (
+    if (currency && cryptoAmount){
+      return (
+        <Card
+          onPress={isAllowed ? () => handleSelectCoin(coin.short) : null}
+          color={isAllowed ? null: style.cardStyle.color}
+        >
+          <View key={coin.name} style={style.mainContainer}>
+            <View style={style.iconContainer}>
               <CoinIcon
-                customStyles={[style.coinImage, { opacity: this.isAllowed ? 1 : 0.4 }]}
+                customStyles={[style.coinImage, {opacity: isAllowed ? 1 : 0.4}]}
                 theme={theme}
                 url={currency.image_url}
                 coinShort={currency.short}
               />
-            ) : null
-            }
-          </View>
-          <View style={style.textContainer}>
-            <View style={{ opacity: this.isAllowed ? 1 : 0.4 }}>
-              <CelText weight={"600"} align="left" type='H3' >{this.name}</CelText>
-              <CelText weight={"300"} align="left" style={{ color: this.color }}>
-                {this.crypto}
-                <CelText weight={"300"} align="left">{' | '}
-                  <CelText weight={"300"} align="left" style={{ color: this.color }}>
-                    {this.fiat} USD
+            </View>
+            <View style={style.textContainer}>
+              <View style={{opacity: isAllowed ? 1 : 0.4}}>
+                <CelText weight={"600"} align="left" type='H3' >{name}</CelText>
+                <CelText weight={"300"} align="left" style={{color}}>
+                  {cryptoAmount}
+                  <CelText weight={"300"} align="left">{' | '}
+                    <CelText weight={"300"} align="left" style={{color}}>
+                      {amountUsd} USD
+                    </CelText>
                   </CelText>
                 </CelText>
-              </CelText>
-              {marginCalls && this.isAllowed &&
-                <View style={style.marginRequired}>
-                  <CelText align='left' weight='300' type='H7'>{formatter.crypto(value)} required to cover margin call</CelText>
-                </View>}
+              </View>
+              {marginCall && isAllowed ? this.renderMarginCall() : null}
+
+              {!isAllowed ?
+                <View>
+                  {this.renderAdditionalInformation()}
+                  {this.renderDepositMore()}
+                </View>
+                : null}
             </View>
 
-            {!this.isAllowed ?
-              <View>
-                <Separator size={2} margin={"10 0 5 0"} />
-                <View>
-                  <CelText weight={"300"} align="left" >
-                    Additional
-                  <CelText weight={"500"} align="left" >
-                      {` ${this.handleDepositCalculation()} `}
-                      <CelText weight={"300"} align="left" >
-                        required
-                    </CelText>
-                    </CelText>
-                  </CelText>
-                  <TouchableOpacity
-                    onPress={() => actions.navigateTo('Deposit', { coin: coin.short })}
-                  >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
-                      <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
-                      <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
-                        Deposit more
-                    </CelText>
-                    </View>
-                  </TouchableOpacity>
-
-                </View>
-              </View>
-              : null}
           </View>
-
-        </View>
-      </Card>
-
-    )
+        </Card>
+      )
+    }
+    return null
   }
 }
 

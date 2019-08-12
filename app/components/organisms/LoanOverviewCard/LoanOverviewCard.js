@@ -30,7 +30,7 @@ class LoanOverviewCard extends Component {
   static defaultProps = {
     payed: false,
     loanSettings: false,
-    index: 0,
+    index: 0
   };
 
   constructor(props) {
@@ -39,28 +39,28 @@ class LoanOverviewCard extends Component {
   }
 
   getMarginForIndex(index, length) {
-     if (index === 0) return `0 0 0 ${widthPercentageToDP("15%")}`;
-     if (index === length) return `0 ${widthPercentageToDP("15%")} 0 0`
-    return `0 0 0 0`
+    if (index === 0) return `0 0 0 ${widthPercentageToDP("15%")}`;
+    if (index === length) return `0 ${widthPercentageToDP("15%")} 0 0`;
+    return `0 0 0 0`;
   }
 
   lockMarginCollateral = () => {
-    const {loan, actions} = this.props;
+    const { loan, actions } = this.props;
 
     const marginCallData = {
       coin: loan.margin_call.collateral_coin,
       amount_collateral_usd: loan.margin_call.margin_call_usd_amount,
       amount_collateral_crypto: loan.margin_call.margin_call_amount
     };
-    actions.lockMarginCollateral(loan.margin_call.id, marginCallData)
+    actions.lockMarginCollateral(loan.margin_call.id, marginCallData);
   };
 
   render() {
     const { loan, navigateTo, index, length, actions, hasEnoughOtherCoins, hasEnoughOriginalCoin } = this.props;
     const style = LoanOverviewCardStyle();
 
-    const previousPayments = loan.amortization_table.filter(p => p.isPaid)
-    const previous5Payments = previousPayments.slice(0, 5)
+    const previousPayments = loan.amortization_table.filter(p => p.isPaid);
+    const previous5Payments = previousPayments.slice(0, 5);
 
     return (
       <View style={[style.container, getMargins(this.getMarginForIndex(index, length))]}>
@@ -74,61 +74,66 @@ class LoanOverviewCard extends Component {
             <CelText type={"H2"} weight={"600"} margin={"5 0 5 0"}>{loan.uiProps.displayAmount}</CelText>
 
             {loan.status === LOAN_STATUS.COMPLETED && (
-              <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Completed:</CelText>
                 <CelText type={"H6"}>{moment(loan.maturity_date).format("MMMM DD, YYYY")}</CelText>
               </View>
             )}
 
             {loan.status === LOAN_STATUS.CANCELED && (
-              <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Request Canceled:</CelText>
                 <CelText type={"H6"}>{moment(loan.canceled_at).format("MMMM DD, YYYY")}</CelText>
               </View>
             )}
 
             {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
-              <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Approved:</CelText>
                 <CelText type={"H6"}>{moment(loan.approved_at).format("MMMM DD, YYYY")}</CelText>
               </View>
             )}
 
-            <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <CelText type={"H6"}>Loan Requested:</CelText>
               <CelText type={"H6"}>{moment(loan.created_at).format("MMMM DD, YYYY")}</CelText>
             </View>
 
             {loan.status === LOAN_STATUS.PENDING &&
-              <Card color={style.card.color} margin={"30 0 0 0"}>
-                <CelText type={"H7"}>
-                  Someone from our team is already reviewing your request. You will be notified when your request is approved.
-                </CelText>
-              </Card>
+            <Card color={style.card.color} margin={"30 0 0 0"}>
+              <CelText type={"H7"}>
+                Someone from our team is already reviewing your request. You will be notified when your request is
+                approved.
+              </CelText>
+            </Card>
             }
           </View>
 
-          { loan.status === LOAN_STATUS.ACTIVE && loan.margin_call_activated &&
-          <Card styles={{alignSelf: "center"}} size={"twoThirds"} color={STYLES.COLORS.RED}>
+          {loan.status === LOAN_STATUS.ACTIVE && loan.margin_call_activated &&
+          <Card styles={{ alignSelf: "center" }} size={"twoThirds"} color={STYLES.COLORS.RED}>
             <CelText weight={"500"} type={"H5"} color={STYLES.COLORS.WHITE}>Margin Call Warning</CelText>
-            <CelText weight={"300"} type={"H6"} color={STYLES.COLORS.WHITE} margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`}</CelText>
-            { hasEnoughOriginalCoin &&
-              <View>
-                <CelButton onPress={this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"}
-                           textColor={STYLES.COLORS.RED} basic color={"red"}>Approve BTC Lock</CelButton>
-                <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
-              </View>
+            <CelText weight={"300"} type={"H6"} color={STYLES.COLORS.WHITE}
+                     margin={"10 0 0 0"}>{`The value of your collateral has dropped significantly. To match the value with the current market prices, we will need to lock an additional ${formatter.crypto(loan.margin_call.margin_call_amount, loan.margin_call.collateral_coin)} from your wallet balance. You can also deposit more funds or choose other coins from your wallet.`}</CelText>
+            {hasEnoughOriginalCoin &&
+            <View>
+              <CelButton onPress={this.lockMarginCollateral} size={"small"} margin={"10 0 10 0"}
+                         textColor={STYLES.COLORS.RED} basic color={"red"}>Approve BTC Lock</CelButton>
+              <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"}
+                         textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+            </View>
             }
-            { !hasEnoughOriginalCoin && hasEnoughOtherCoins &&
-              <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"} textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
+            {!hasEnoughOriginalCoin && hasEnoughOtherCoins &&
+            <CelButton onPress={() => actions.navigateTo("BorrowCollateral")} size={"small"}
+                       textColor={STYLES.COLORS.WHITE} ghost color={"red"}>Use Other Coins</CelButton>
             }
-            { !hasEnoughOriginalCoin && !hasEnoughOtherCoins &&
-              <CelButton onPress={() => actions.navigateTo("Deposit")} size={"small"} margin={"10 0 10 0"} textColor={STYLES.COLORS.RED} basic color={"red"}>Deposit Coins</CelButton>
+            {!hasEnoughOriginalCoin && !hasEnoughOtherCoins &&
+            <CelButton onPress={() => actions.navigateTo("Deposit")} size={"small"} margin={"10 0 10 0"}
+                       textColor={STYLES.COLORS.RED} basic color={"red"}>Deposit Coins</CelButton>
             }
           </Card>
           }
 
-          { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
+          {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
             <View>
               <Separator size={2} margin={"0 0 10 0"}/>
               <View style={style.interest}>
@@ -164,40 +169,41 @@ class LoanOverviewCard extends Component {
               Loan Details
             </CelButton>
 
-            { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
-              <View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
-                <Separator vertical/>
+            {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
+              <Separator vertical/>
+            }
+
+            {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
                 <CelButton
-                  onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
+                  onPress={() => navigateTo("LoanSettings", { id: loan.id })}
                   basic
                   textSize={"H6"}
                 >
                   Loan Settings
                 </CelButton>
-              </View>
             )}
           </View>
 
           {loan.hasInterestPaymentFinished && loan.status === LOAN_STATUS.ACTIVE &&
-            <View>
-              <Separator size={2} margin={"0 0 0 0"}/>
-              <CelButton
-                onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
-                margin={"15 0 15 0"}
-                color="green"
-              >
-                Payout Principal
-              </CelButton>
-            </View>
+          <View>
+            <Separator size={2} margin={"0 0 0 0"}/>
+            <CelButton
+              onPress={() => navigateTo("LoanRequestDetails", { id: loan.id })}
+              margin={"15 0 15 0"}
+              color="green"
+            >
+              Payout Principal
+            </CelButton>
+          </View>
           }
         </Card>
 
-        { loan.status === LOAN_STATUS.PENDING && (
+        {loan.status === LOAN_STATUS.PENDING && (
           <CelButton
             margin="15 0 15 0"
             onPress={() => {
               actions.cancelLoan(loan.id);
-              navigateTo("LoanRequestDetails", { id: loan.id })
+              navigateTo("LoanRequestDetails", { id: loan.id });
             }}
             color="red"
           >
@@ -205,7 +211,7 @@ class LoanOverviewCard extends Component {
           </CelButton>
         )}
 
-        { loan.status === LOAN_STATUS.APPROVED && (
+        {loan.status === LOAN_STATUS.APPROVED && (
           <Card close>
             <CelText weight="500">
               Did you know you can prepay loan interest?
@@ -215,7 +221,8 @@ class LoanOverviewCard extends Component {
               type="H6"
               style={{ opacity: 0.7 }}
             >
-              Choose a period of six months or more to prepay your interest. You will get notified as soon as your interest payment is due again.
+              Choose a period of six months or more to prepay your interest. You will get notified as soon as your
+              interest payment is due again.
             </CelText>
 
             <CelButton
@@ -228,18 +235,18 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        { loan.status === LOAN_STATUS.ACTIVE && (
+        {loan.status === LOAN_STATUS.ACTIVE && (
           <View>
             <CelText>Payment History</CelText>
 
-            { previous5Payments.map((p, i) => (
-              <PaymentListItem key={`${p.dueDate}${i}`} payment={p} />
+            {previous5Payments.map((p, i) => (
+              <PaymentListItem key={`${p.dueDate}${i}`} payment={p}/>
             ))}
 
-            { previousPayments.length > 5 && (
+            {previousPayments.length > 5 && (
               <CelButton
                 basic
-                onPress={() => navigateTo('LoanPaymentHistory', { id: loan.id })}
+                onPress={() => navigateTo("LoanPaymentHistory", { id: loan.id })}
               >
                 See all
               </CelButton>
@@ -248,10 +255,10 @@ class LoanOverviewCard extends Component {
           </View>
         )}
 
-        { loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished && (
+        {loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished && (
           <View>
-            <Separator margin="10 0 10 0" />
-            <CelButton onPress={() => navigateTo('LoanPaymentList', { id: loan.id })}>
+            <Separator margin="10 0 10 0"/>
+            <CelButton onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}>
               Upcoming Payments
             </CelButton>
           </View>

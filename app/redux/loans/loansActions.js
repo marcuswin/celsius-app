@@ -18,7 +18,8 @@ export {
   setActiveLoan,
   cancelLoan,
   getMarginCalls,
-  lockMarginCollateral
+  lockMarginCollateral,
+  updateLoanSettings
 }
 
 /**
@@ -107,7 +108,7 @@ function getMarginCalls() {
         const res = await loansService.getMarginCalls();
         marginCalls = res.data
       }
-      
+
 
       dispatch({
         type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
@@ -124,27 +125,27 @@ function getMarginCalls() {
 
 /**
  * Add collateral on margin call
- * 
+ *
  * @param {String} marginCallID
  * @param {Object} marginCallData
  * @param {String} marginCallData.coin
  * @param {String} marginCallData.amount_collateral_usd
  * @param {String} marginCallData.amount_collateral_crypto
- * 
+ *
  * @returns {Promise}
  */
 function lockMarginCollateral(marginCallID, marginCallData) {
   return async (dispatch) => {
     try {
       startApiCall(API.LOCK_MARGIN_CALL_COLLATERAL);
-  
+
       await loansService.lockMarginCollateral(marginCallID, marginCallData);
 
       dispatch({
         type: ACTIONS.LOCK_MARGIN_CALL_COLLATERAL_SUCCESS,
         callName: API.LOCK_MARGIN_CALL_COLLATERAL
       });
-      
+
       dispatch(showMessage("success", `You have successfully locked on additional ${formatter.crypto(marginCallData.amount_collateral_crypto, marginCallData.coin)} as collateral.`))
     } catch (err) {
       dispatch(showMessage('error', err.msg));
@@ -181,6 +182,27 @@ function cancelLoan() {
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));
+    }
+  }
+}
+
+/**
+ *  Update Loan Settings
+ *
+ *  param {String} loanId
+ *  param {Object} loan.setting true/false
+ */
+
+function updateLoanSettings() {
+  return async (dispatch) => {
+
+    try {
+      startApiCall(API.UPDATE_LOAN_SETTINGS)
+      // const res = await loansService.updateLoanSettings(id, value)
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.UPDATE_LOAN_SETTINGS, err));
     }
   }
 }

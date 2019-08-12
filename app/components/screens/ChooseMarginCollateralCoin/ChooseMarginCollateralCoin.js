@@ -8,9 +8,9 @@ import * as appActions from "../../../redux/actions";
 import ChooseMarginCollateralCoinStyle from "./ChooseMarginCollateralCoin.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
-import MarginCollateralCoinCard from "../../molecules/MarginCollateralCoinCard/MarginCollateralCoinCard";
 import Icon from "../../atoms/Icon/Icon";
+import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
+import {COIN_CARD_TYPE} from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -51,7 +51,6 @@ class ChooseMarginCollateralCoin extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <HeadingProgressBar steps={6} currentStep={2} />
         <RegularLayout fabType="hide">
           <View style={{ alignItems: "center" }}>
             <CelText
@@ -66,10 +65,11 @@ class ChooseMarginCollateralCoin extends Component {
 
           <View style={style.wrapper}>
             {availableCoins.map(coin => (
-              <MarginCollateralCoinCard
+              <CollateralCoinCard
                 key={coin.short}
                 handleSelectCoin={this.handleSelectCoin}
                 coin={coin}
+                type={COIN_CARD_TYPE.MARGIN_COLLATERAL_COIN_CARD}
                 isMarginCall
                 marginCall={marginCalls[0]}
               />

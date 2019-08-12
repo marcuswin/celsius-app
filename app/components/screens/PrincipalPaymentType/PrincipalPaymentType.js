@@ -6,12 +6,11 @@ import { bindActionCreators } from "redux";
 
 import {COIN_CARD_TYPE} from '../../../constants/DATA'
 import * as appActions from "../../../redux/actions";
-import BorrowCollateralStyle from "./BorrowCollateral.styles";
+import PrincipalPaymentTypeStyle from "./PrincipalPaymentType.styles";
 import CelText from "../../atoms/CelText/CelText";
 import Card from "../../atoms/Card/Card";
 import Icon from '../../atoms/Icon/Icon'
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(
@@ -19,38 +18,42 @@ import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoi
     coins: state.compliance.loan.collateral_coins,
     walletCoins: state.wallet.summary.coins,
     formData: state.forms.formData,
+    allLoans: state.loans.allLoans,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
-class BorrowCollateral extends Component {
+class PrincipalPaymentType extends Component {
   static navigationOptions = () => ({
-    title: "Collateral",
-    right: "profile"
+    title: "Principal Payment Type",
   });
 
   handleSelectCoin = (coin) => {
     const { actions } = this.props
-    actions.updateFormField('collateralCoin', coin)
-    actions.navigateTo('BorrowLoanOption')
+    actions.updateFormField('coin',  coin )
+    actions.navigateBack()
+    this.renderMessage()
+  }
+
+  renderMessage = () => {
+    const { actions } = this.props
+      actions.showMessage("success", "You have successfully set up automatic payout from collateral. ")
   }
 
   render() {
-    const { actions, coins, walletCoins, formData } = this.props;
-    const style = BorrowCollateralStyle();
+    const { actions, coins, walletCoins } = this.props;
+    const style = PrincipalPaymentTypeStyle();
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
       .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
 
     return (
-      <View style={{flex: 1}}>
-        <HeadingProgressBar steps={6} currentStep={2}/>
         <RegularLayout
           fabType='hide'
         >
           <View style={{alignItems: 'center'}}>
             <CelText margin={"0 0 10 0"} weight={"300"} type={'H4'} align={'center'}>
-              Choose a coin to use as a collateral for a {formData.loanAmount} {formData.coin} loan:
+              Choose a coin from your wallet for your loan principal payment
             </CelText>
           </View>
 
@@ -60,7 +63,7 @@ class BorrowCollateral extends Component {
                 key={coin.short}
                 handleSelectCoin={this.handleSelectCoin}
                 coin={coin}
-                type={COIN_CARD_TYPE.COLLATERAL_COIN_CARD}
+                type={COIN_CARD_TYPE.PRINCIPAL_PAYMENT_COIN_CARD}
               />
             ))
             }
@@ -78,16 +81,15 @@ class BorrowCollateral extends Component {
 
           <Card close>
             <CelText type='H5' weight={"500"} margin={'0 0 10 5'}>
-            Make sure you have enough coins
+              Make sure you have enough coins
             </CelText>
             <CelText type='H5' margin={'0 0 0 5'}>
-            Add more coins to make sure you have enough in your wallet for your monthly loan payment.
+              Add more coins to make sure you have enough in your wallet for your monthly interest payment.
             </CelText>
           </Card>
         </RegularLayout>
-      </View>
     );
   }
 }
 
-export default BorrowCollateral
+export default PrincipalPaymentType
