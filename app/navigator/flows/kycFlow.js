@@ -7,6 +7,7 @@ import KYCProfileDetails from '../../components/screens/KYCProfileDetails/KYCPro
 import KYCAddressInfo from '../../components/screens/KYCAddressInfo/KYCAddressInfo'
 import KYCTaxpayer from '../../components/screens/KYCTaxpayer/KYCTaxpayer'
 import KYCVerifyID from '../../components/screens/KYCVerifyID/KYCVerifyID'
+import KYCFinalRejection from '../../components/screens/KYCFinalRejection/KYCFinalRejection'
 import { profileFlow } from "./profileFlow";
 import { walletFlow } from "./walletFlow";
 
@@ -18,6 +19,7 @@ const kycFlow = {
     KYCAddressInfo,
     KYCTaxpayer,
     KYCVerifyID,
+    KYCFinalRejection,
     ...profileFlow.screens,
     ...walletFlow.screens
   },

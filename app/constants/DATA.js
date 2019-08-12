@@ -30,7 +30,8 @@ const KYC_STATUSES = {
   passed: 'passed',
   rejected: 'rejected',
   ico_passed: 'ico_passed',
-  rejeceted: 'rejeceted'
+  rejeceted: 'rejeceted',
+  permanently_rejected: 'permanently_rejected',
 };
 
 const BLOCKEXPLORERS = {

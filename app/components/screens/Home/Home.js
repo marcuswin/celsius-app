@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
 import * as appActions from '../../../redux/actions'
-import { KYC_STATUSES, RANDOM_MESSAGES } from '../../../constants/DATA'
+import { RANDOM_MESSAGES } from '../../../constants/DATA'
 import Loader from '../../atoms/Loader/Loader'
 import {
   heightPercentageToDP,
@@ -12,6 +12,7 @@ import {
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import { THEMES } from '../../../constants/UI';
+import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
 
 const apiCalls = []
 
@@ -58,16 +59,19 @@ class Home extends Component {
       this.props.appInitialized === true
     ) {
       if (user.id) {
-        if (
-          user.kyc &&
-          user.kyc.status === KYC_STATUSES.passed &&
-          user.has_pin
-        ) {
-            return prevProps.actions.navigateTo('VerifyProfile', {
-              activeScreen: 'WalletLanding' })
-        }
         if (!user.has_pin) {
           return prevProps.actions.navigateTo('RegisterSetPin')
+        }
+
+        if (user.kyc) {
+          if (hasPassedKYC()) {
+            return prevProps.actions.navigateTo('VerifyProfile', {
+              activeScreen: 'WalletLanding' })
+          }
+          if (isKYCRejectedForever()) {
+            return prevProps.actions.navigateTo('VerifyProfile', {
+              activeScreen: 'KYCFinalRejection' })
+          }
         }
         return prevProps.actions.navigateTo('WalletFab')
       }
