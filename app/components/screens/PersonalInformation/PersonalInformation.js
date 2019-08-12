@@ -13,8 +13,7 @@ import STYLES from "../../../constants/STYLES";
 import CelButton from "../../atoms/CelButton/CelButton";
 import Separator from "../../atoms/Separator/Separator";
 import CelInput from "../../atoms/CelInput/CelInput";
-
-let focused = 0;
+import SocialSecurityNumber from "../../molecules/SocialSecurityNumber/SocialSecurityNumber";
 
 @connect(
   state => ({
@@ -40,17 +39,6 @@ class PersonalInformation extends Component {
     };
   }
 
-  componentDidUpdate() {
-    const { formData } = this.props;
-    if (formData.ssn2 && formData.ssn2.length === 2 && focused < 2) {
-      this.ssn3.focus();
-      focused = 2;
-    }
-    if (formData.ssn1 && formData.ssn1.length === 3 && focused < 1) {
-      this.ssn2.focus();
-      focused = 1;
-    }
-  };
 
   updateSSNNumber = async () => {
     const { actions, formData } = this.props;
@@ -68,11 +56,9 @@ class PersonalInformation extends Component {
   };
 
   render() {
-    const { user, actions, formErrors, formData } = this.props;
+    const { user, actions, formErrors } = this.props;
     const style = PersonalInformationStyle();
-    const { updatingTaxInfo } = this.state;
     const dateOfBirth = user.date_of_birth ? user.date_of_birth.split("-") : {};
-    const ssnArray = user.ssn ? user.ssn.split("-") : {};
 
     return (
       <RegularLayout>
@@ -94,87 +80,9 @@ class PersonalInformation extends Component {
               </CelText>
             </View>
             }
-
-            <View>
-              <View style={style.ssnInput}>
-                <CelInput
-                  onFocus={this.ssnField}
-                  large={false}
-                  style={{ flex: 1, flexGrow: 1, justifyContent: "center" }}
-                  maxLenght={3}
-                  keyboardType={"phone-pad"}
-                  type={"number"}
-                  margin="0 10 0 10" field="ssn1"
-                  placeholder="XXX"
-                  value={user.ssn ? ssnArray[0] : formData.ssn1}
-                  error={formErrors.ssn1}
-                  disabled={!!ssnArray[0]}
-                  refs={(input) => {
-                    this.ssn1 = input;
-                  }}
-                  onSubmitEditing={() => {
-                    this.ssn2.focus();
-                  }}
-                  returnKeyType={"next"}
-                />
-                <CelText style={{ flex: 0.1 }}>
-                  {"-"}
-                </CelText>
-                <CelInput
-                  large={false}
-                  maxLenght={2}
-                  style={{ flex: 1, flexGrow: 1, justifyContent: "center" }}
-                  keyboardType={"phone-pad"}
-                  type={"number"}
-                  margin="0 10 0 10"
-                  field="ssn2"
-                  placeholder="XX"
-                  value={user.ssn ? ssnArray[1] : formData.ssn2}
-                  error={formErrors.ssn2}
-                  disabled={!!ssnArray[1]}
-                  refs={(input) => {
-                    this.ssn2 = input;
-                  }}
-                  onSubmitEditing={() => {
-                    this.ssn3.focus();
-                  }}
-                  returnKeyType={"next"}
-                />
-                <CelText style={{ flex: 0.1 }}>
-                  {"-"}
-                </CelText>
-                <CelInput
-                  large={false}
-                  maxLenght={4}
-                  style={{ flex: 1, flexGrow: 1, justifyContent: "center" }}
-                  keyboardType={"phone-pad"}
-                  type={"number"}
-                  margin="0 10 0 10"
-                  field="ssn3"
-                  placeholder="XXXX"
-                  value={user.ssn ? ssnArray[2] : formData.ssn3}
-                  disabled={!!ssnArray[2]}
-                  error={formErrors.ssn3}
-                  refs={(input) => {
-                    this.ssn3 = input;
-                  }}
-                />
-              </View>
-              <View style={{ height: 40, alignItems: "center", alignContent: "center", justifyContent: "center" }}>
-                <CelText color='red'>{formErrors.ssn}</CelText>
-              </View>
-            </View>
-
-            {!user.ssn &&
-            <CelButton
-              onPress={() => this.updateSSNNumber()}
-              margin={"20 0 20 0"}
-              loading={updatingTaxInfo}
-              disabled={!formData.ssn1 && !formData.ssn1 && !formData.ssn3}
-            >
-              Submit SSN
-            </CelButton>
-            }
+            <SocialSecurityNumber 
+            onPress={() => this.updateSSNNumber()}
+            />
           </View>
         )}
 
