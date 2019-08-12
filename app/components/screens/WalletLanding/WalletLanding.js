@@ -17,7 +17,6 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Icon from '../../atoms/Icon/Icon'
 import CelPayReceivedModal from '../../organisms/CelPayReceivedModal/CelPayReceivedModal'
 import { WALLET_LANDING_VIEW_TYPES, MODALS } from '../../../constants/UI'
-import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal'
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
@@ -419,7 +418,6 @@ class WalletLanding extends Component {
           transfer={branchTransfer}
         />
 
-        <TodayInterestRatesModal />
         <BecameCelMemberModal />
         <EarnInterestCelModal />
       </RegularLayout>
