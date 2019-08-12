@@ -6,6 +6,7 @@ import InterestRateInfoStyle from "./InterestRateInfo.styles";
 import CelText from "../CelText/CelText";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
+import Card from "../Card/Card";
 
 @connect(state => ({
   walletCurrencies: state.currencies.rates
@@ -59,7 +60,7 @@ class InterestRateInfo extends Component {
     }
     
     return (
-      <View style={[styles.mainWrapper, additionalWrapperStyle]}>
+      <Card padding={"16 16 16 16"} style={[styles.mainWrapper, additionalWrapperStyle]}>
         <View>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -86,7 +87,7 @@ class InterestRateInfo extends Component {
             }
           </View>
 
-          <CelText margin="3 0 2 0" type={"H7"} style={styles.regularRateText}>
+          <CelText margin="8 0 2 0" type={"H7"} style={styles.regularRateText}>
             Earn in:
           </CelText>
 
@@ -109,7 +110,7 @@ class InterestRateInfo extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </Card>
     );
   }
 }

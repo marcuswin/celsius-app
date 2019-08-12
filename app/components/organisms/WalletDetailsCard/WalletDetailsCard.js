@@ -11,7 +11,6 @@ import Separator from '../../atoms/Separator/Separator';
 import WalletDetailsCardStyle from "./WalletDetailsCard.styles";
 import formatter from '../../../utils/formatter';
 import STYLES from '../../../constants/STYLES';
-import { MODALS } from "../../../constants/UI";
 import { KYC_STATUSES } from "../../../constants/DATA";
 import * as appActions from "../../../redux/actions";
 
@@ -40,7 +39,6 @@ class WalletDetailsCard extends PureComponent {
     const {actions} = this.props;
     actions.navigateTo('Deposit')
   };
-  openInterestModal = () => this.props.openModal(MODALS.TODAY_INTEREST_RATES_MODAL);
 
   render() {
     const { walletSummary, actions } = this.props;
@@ -68,7 +66,7 @@ class WalletDetailsCard extends PureComponent {
               <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(walletSummary.total_interest_earned)}</CelText>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.openInterestModal}>
+            <TouchableOpacity onPress={() => actions.navigateTo("InterestRates")}>
               <CelText color={STYLES.COLORS.CELSIUS_BLUE}>Rates this week</CelText>
             </TouchableOpacity>
           </View>
