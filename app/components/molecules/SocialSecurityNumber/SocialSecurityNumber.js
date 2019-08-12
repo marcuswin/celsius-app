@@ -9,6 +9,7 @@ import SocialSecurityNumberStyle from "./SocialSecurityNumber.styles";
 import CelText from '../../atoms/CelText/CelText';
 import CelInput from '../../atoms/CelInput/CelInputText';
 import CelButton from '../../atoms/CelButton/CelButton';
+import { isUSCitizen } from "../../../utils/user-util";
 
 let focused = 0;
 
@@ -39,16 +40,6 @@ class SocialSecurityNumber extends Component {
     if (formData.ssn1 && formData.ssn1.length === 3 && focused < 1) { this.ssn2.focus(); focused = 1 }
   };
 
-  isFromUS = () => {
-    const { user } = this.props;
-
-    let usCitizen = false;
-    // if (formData.citizenship.name === "United States" || formData.country.name === "United States") usCitizen = true;
-    if (user.citizenship === 'United States' || user.country === 'United States') usCitizen = true
-    return usCitizen;
-  };
-
-
   render() {
     const { formData, formErrors, user, onPress } = this.props;
     const { updatingTaxInfo } = this.state;
@@ -57,7 +48,7 @@ class SocialSecurityNumber extends Component {
 
     return (
       <View>
-        {(this.isFromUS()) ?
+        {(isUSCitizen()) ?
           <View>
             <View style={style.ssnInput}>
               <View style={style.inputCel}>
@@ -136,18 +127,18 @@ class SocialSecurityNumber extends Component {
         }
         <View style={{ flexWrap: 'wrap', alignContent: 'center', justifyContent: 'center', paddingBottom: 20 }}>
 
+          {!user.ssn &&
           <CelButton
             onPress={() => onPress()}
-            disabled={!!user.ssn}
             iconRight={"IconArrowRight"}
             iconRightHeight={"20"}
             iconRightWidth={"20"}
             loading={updatingTaxInfo}
           >
-            {(this.isFromUS()) ?
+            {(isUSCitizen()) ?
               'Submit SSN' : 'Continue'}
-
           </CelButton>
+          }
         </View>
       </View>
 
