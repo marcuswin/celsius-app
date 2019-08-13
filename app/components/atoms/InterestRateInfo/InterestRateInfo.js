@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, Linking } from "react-native";
+import { View, Linking } from "react-native";
 import { connect } from "react-redux";
 
 import InterestRateInfoStyle from "./InterestRateInfo.styles";
@@ -7,6 +7,7 @@ import CelText from "../CelText/CelText";
 import formatter from "../../../utils/formatter";
 import STYLES from "../../../constants/STYLES";
 import Card from "../Card/Card";
+import CoinIcon from "../CoinIcon/CoinIcon";
 
 @connect(state => ({
   walletCurrencies: state.currencies.rates
@@ -65,12 +66,8 @@ class InterestRateInfo extends Component {
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View style={styles.imageWrapper}>
-                <Image
-                  source={{ uri: currencyInfo.image_url }}
-                  style={styles.currencyImage}
-                />
+                <CoinIcon customStyles={ styles.currencyImage } url={currencyInfo.image_url} coinShort={currencyInfo.short} />
               </View>
-
               <CelText margin="0 0 0 3" weight="500">{this.capitalize(name)} ({currencyInfo.short})</CelText>
             </View>
 
@@ -92,7 +89,7 @@ class InterestRateInfo extends Component {
           </CelText>
 
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <View style={styles.regularRateWrapper}>
+            <View style={[styles.regularRateWrapper, styles.inKindColor]}>
               <CelText type={"H7"} style={styles.regularRateText} margin="0 5 0 0">
                 { currencyInfo.short }
               </CelText>
