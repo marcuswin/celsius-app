@@ -13,7 +13,6 @@ import STYLES from '../../../constants/STYLES'
 import TransactionsHistory from '../../molecules/TransactionsHistory/TransactionsHistory'
 import CelButton from '../../atoms/CelButton/CelButton'
 import WalletInterestStyle from './WalletInterest.styles'
-import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import { EMPTY_STATES, MODALS } from '../../../constants/UI'
 import GraphContainer from '../../graphs/GraphContainer/GraphContainer'
 import LoadingScreen from '../../screens/LoadingScreen/LoadingScreen'
@@ -62,11 +61,6 @@ class WalletInterest extends Component {
     this.setState({ loading: false })
   }
 
-  openInterestModal = () => {
-    const { actions } = this.props
-    actions.openModal(MODALS.TODAY_INTEREST_RATES_MODAL)
-  }
-
   navigateToAllTransactions = () => {
     const { actions } = this.props
     actions.navigateTo('AllTransactions')
@@ -106,7 +100,7 @@ class WalletInterest extends Component {
     return (
       <RegularLayout padding='20 0 100 0'>
         <View style={style.container}>
-          <Card onPress={this.openInterestModal}>
+          <Card onPress={() => actions.navigateTo("InterestRates")}>
             <>
               <CelText type='H6' weight='300'>
                 Total interest earned
@@ -163,7 +157,6 @@ class WalletInterest extends Component {
             See all
           </CelButton>
         </View>
-        <TodayInterestRatesModal />
         <InterestCalculatorModal />
       </RegularLayout>
     )

@@ -48,10 +48,8 @@ class InterestRateInfoTable extends Component {
       return 0;
     });
 
-    return sortedRates.map(interest => {
-        const border = interest === sortedRates[0] ? null : { borderTopWidth: 2, borderColor: "rgba(200,200,200,0.3)" };
-        return (
-          <View key={interest.currency} style={border}>
+    return sortedRates.map(interest => (
+          <View key={interest.currency}>
             <InterestRateInfo
               compact
               currency={interest.currency}
@@ -59,8 +57,7 @@ class InterestRateInfoTable extends Component {
               loyaltyInfo={loyaltyInfo}
             />
           </View>
-        );
-      }
+        )
     )
   }
 
