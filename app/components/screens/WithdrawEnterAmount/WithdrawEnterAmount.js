@@ -337,7 +337,7 @@ class WithdrawEnterAmount extends Component {
                     !(formData.amountUsd && Number(formData.amountUsd) > 0)
                   }
                   onPress={this.handleNextStep}
-                  iconRight={"IconArrowRight"}
+                  iconRight={formData.amountUsd && Number(formData.amountUsd) > 0 ? "IconArrowRight" : ""}
                 >
                   {formData.amountUsd && Number(formData.amountUsd) > 0
                     ? 'Check wallet address'
