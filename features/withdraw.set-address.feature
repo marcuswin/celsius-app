@@ -17,6 +17,7 @@ Feature: Set withdrawal address
 
     Given User has not set a withdrawal address for the chosen coin
     When User enters a valid address for coin
+    And Verifies his profile
     Then User can continue with the withdrawal process
 
 
@@ -29,6 +30,7 @@ Feature: Set withdrawal address
     Given User has not set a withdrawal address for the <coin>
     When User enters a valid address for coin
     And Enters <additional_data>
+    And Verifies his profile
     Then User can continue with the withdrawal process
 
     Examples:
@@ -49,6 +51,7 @@ Feature: Set withdrawal address
     Then A Modal opens warning the user about missing <additional_data>
 
     When User confirms he doesn't have <additional_data>
+    And Verifies his profile
     Then User can continue with the withdrawal process
 
     Examples:
