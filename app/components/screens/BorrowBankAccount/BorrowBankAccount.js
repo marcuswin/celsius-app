@@ -77,6 +77,7 @@ class BorrowBankAccount extends Component {
     }
 
     this.setState({ isLoading: true })
+    actions.confirmLoanInfo(formData, true)  // TODO: create object with proper data and send it instead of formData
     await actions.linkBankAccount(bankAccountInfo)
     this.setState({ isLoading: false })
   }
@@ -97,7 +98,7 @@ class BorrowBankAccount extends Component {
       <View style={{flex: 1}}>
         <HeadingProgressBar steps={6} currentStep={5} />
         <RegularLayout
-          fabType={'hide'}        
+          fabType={'hide'}
         >
           <CelText
             weight='300'

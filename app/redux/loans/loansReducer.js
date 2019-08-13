@@ -8,6 +8,7 @@ function initialState() {
     ltvs: undefined,
     allLoans: [],
     activeLoan: null,
+    loanInfo: null,
     marginCalls: []
   };
 }
@@ -31,7 +32,11 @@ export default function loansReducer(state = initialState(), action) {
         ...state,
         allLoans: action.allLoans,
       };
-
+    case ACTIONS.GET_CONFIRM_LOAN_INFO_SUCCESS:
+      return {
+        ...state,
+        loanInfo: action.loanInfo,
+      };
     case ACTIONS.GET_MARGIN_CALLS_SUCCESS:
       return {
         ...state,

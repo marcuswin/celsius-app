@@ -15,6 +15,7 @@ const USE_MOCK_MARGIN_CALLS = true
 export {
   applyForALoan,
   getAllLoans,
+  confirmLoanInfo,
   setActiveLoan,
   cancelLoan,
   getMarginCalls,
@@ -83,6 +84,29 @@ function getAllLoans() {
         type: ACTIONS.GET_ALL_LOANS_SUCCESS,
         callName: API.GET_ALL_LOANS,
         allLoans: loans.map(l => loanUtil.mapLoan(l)),
+      });
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_ALL_LOANS, err));
+    }
+  }
+}
+
+/**
+ * Get loan information for confirmation for user
+ */
+function confirmLoanInfo(data, mockFlag) {
+  return async (dispatch) => {
+    try {
+      startApiCall(API.GET_CONFIRM_LOAN_INFO);
+      const res = await loansService.setConfirmLoanInfo(data, mockFlag);
+      const loanInfo = res.data
+
+      dispatch({
+        type: ACTIONS.GET_CONFIRM_LOAN_INFO_SUCCESS,
+        callName: API.GET_CONFIRM_LOAN_INFO,
+        loanInfo,
       });
 
     } catch (err) {

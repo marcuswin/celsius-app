@@ -1,9 +1,11 @@
 import axios from 'axios';
 import apiUrl from './api-url';
+import mockData from '../mock-data/loans.mock'
 
 const loansService = {
   apply,
   getAllLoans,
+  setConfirmLoanInfo,
   cancelLoan,
   getMarginCalls,
   lockMarginCollateral,
@@ -42,9 +44,26 @@ function apply(loanApplication, verification) {
  *
  * @returns {Promise}
  */
+function setConfirmLoanInfo(loanData, mockFlag) {
+  if (mockFlag) {
+    return { data: {loan: mockData.CONFIRM_LOAN} }
+  }
+  return axios.post(`${apiUrl}/loans/new-loan-preview`, {
+    loanData
+  });
+}
+
+
+/**
+* Gets confirm loan information
+*
+* @returns {Promise}
+*/
 function getAllLoans() {
   return axios.get(`${apiUrl}/loans`);
 }
+
+
 
 /**
  * Cancels desired pending loan
@@ -67,12 +86,12 @@ function getMarginCalls() {
 
 /**
  * Lock margin call collateral
- * 
+ *
  * @param {String} marginCallID
  * @param {String} marginCallData.coin
  * @param {String} marginCallData.amount_collateral_usd
  * @param {String} marginCallData.amount_collateral_crypto
- * 
+ *
  * @returns {Promise}
  */
 function lockMarginCollateral(marginCallID, marginCallData) {
