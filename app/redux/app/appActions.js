@@ -102,7 +102,7 @@ function loadCelsiusAssets() {
 }
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
-  data => {  
+  data => {
     loggerUtil.logme(data)   
   }
 );
@@ -152,11 +152,11 @@ function handleAppStateChange(nextAppState) {
           }, ASK_FOR_PIN_AFTER);
         }
 
-        if(this.onInstallConversionDataCanceller){
+        if(onInstallConversionDataCanceller){
           onInstallConversionDataCanceller();
           loggerUtil.logme("unregister onInstallConversionDataCanceller");
         } 
-        if(this.onAppOpenAttributionCanceller){
+        if(onAppOpenAttributionCanceller){
           onAppOpenAttributionCanceller();
           loggerUtil.logme("unregister onAppOpenAttributionCanceller");
         }  

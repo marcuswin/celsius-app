@@ -22,7 +22,6 @@ import Message from './components/molecules/Message/Message'
 // import captureException from './utils/errorhandling-util'
 import ErrorBoundary from './ErrorBoundary'
 
-appUtil.initializeThirdPartyServices()
 
 function getActiveRouteName (navigationState) {
   if (!navigationState) {
@@ -47,6 +46,7 @@ export default class App extends Component {
     )
 
     await this.initApp()
+    appUtil.initializeThirdPartyServices()
     StyleSheet.setStyleAttributePreprocessor(
       'fontFamily',
       Font.processFontFamily
