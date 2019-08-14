@@ -6,11 +6,7 @@ import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
 import analytics from "../../utils/analytics";
 import { MODALS } from "../../constants/UI";
-import loanUtil from '../../utils/loan-util';
 import formatter from "../../utils/formatter";
-
-const USE_MOCK_LOANS = true
-const USE_MOCK_MARGIN_CALLS = true
 
 export {
   applyForALoan,
@@ -67,23 +63,12 @@ function applyForALoan() {
 function getAllLoans() {
   return async (dispatch) => {
     try {
-      let loans
-      startApiCall(API.GET_ALL_LOANS);
-
-      if (USE_MOCK_LOANS) {
-        loans = Object
-          .values(require("../../mock-data/loans.mock").default)
-          .map(l => loanUtil.mapLoan(l))
-
-      } else {
-        const res = await loansService.getAllLoans();
-        loans = res.data
-      }
+      const allLoans = await loansService.getAllLoans();
 
       dispatch({
         type: ACTIONS.GET_ALL_LOANS_SUCCESS,
         callName: API.GET_ALL_LOANS,
-        allLoans: loans.map(l => loanUtil.mapLoan(l)),
+        allLoans
       });
 
     } catch (err) {
@@ -96,11 +81,11 @@ function getAllLoans() {
 /**
  * Get loan information for confirmation for user
  */
-function confirmLoanInfo(data, mockFlag) {
+function confirmLoanInfo(data) {
   return async (dispatch) => {
     try {
       startApiCall(API.GET_CONFIRM_LOAN_INFO);
-      const res = await loansService.setConfirmLoanInfo(data, mockFlag);
+      const res = await loansService.setConfirmLoanInfo(data);
       const loanInfo = res.data
 
       dispatch({
@@ -120,24 +105,16 @@ function confirmLoanInfo(data, mockFlag) {
  * Get margin call warnings
  */
 function getMarginCalls() {
-
   return async (dispatch) => {
     try {
-      let marginCalls
       startApiCall(API.GET_MARGIN_CALLS);
 
-      if(USE_MOCK_MARGIN_CALLS) {
-        marginCalls = require("../../mock-data/margincalls.mock").default
-      } else {
-        const res = await loansService.getMarginCalls();
-        marginCalls = res.data
-      }
-
+      const marginCalls = await loansService.getMarginCalls();
 
       dispatch({
         type: ACTIONS.GET_MARGIN_CALLS_SUCCESS,
         callName: API.GET_MARGIN_CALLS,
-        marginCalls: marginCalls.map(m => loanUtil.mapMarginCall(m)),
+        marginCalls,
       });
     } catch (err) {
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import apiUrl from './api-url';
-import mockData from '../mock-data/loans.mock'
+import { mocks } from '../../dev-settings'
+import loanUtil from "../utils/loan-util";
 
 const loansService = {
   apply,
@@ -44,9 +45,9 @@ function apply(loanApplication, verification) {
  *
  * @returns {Promise}
  */
-function setConfirmLoanInfo(loanData, mockFlag) {
-  if (mockFlag) {
-    return { data: {loan: mockData.CONFIRM_LOAN} }
+function setConfirmLoanInfo(loanData) {
+  if (mocks.USE_MOCK_LOAN_INFO) {
+    return { data: {loan: (require("../mock-data/loans.mock").default.CONFIRM_LOAN)} }
   }
   return axios.post(`${apiUrl}/loans/new-loan-preview`, {
     loanData
@@ -59,10 +60,16 @@ function setConfirmLoanInfo(loanData, mockFlag) {
 *
 * @returns {Promise}
 */
-function getAllLoans() {
-  return axios.get(`${apiUrl}/loans`);
+async function getAllLoans () {
+  let loans
+  if (mocks.USE_MOCK_LOANS) {
+     loans = Object.values(require("../mock-data/loans.mock").default.ALL_LOANS)
+  } else {
+    const res = await axios.get(`${apiUrl}/loans`);
+    loans = res.data
+  }
+  return loans.map(l => loanUtil.mapLoan(l))
 }
-
 
 
 /**
@@ -80,8 +87,16 @@ function cancelLoan(id) {
  *
  * @returns {Promise}
  */
-function getMarginCalls() {
-  return axios.get(`${apiUrl}/loans/margin_calls`)
+async function getMarginCalls() {
+  let marginCalls
+    if(mocks.USE_MOCK_MARGIN_CALLS) {
+      marginCalls = require("../mock-data/margincalls.mock").default
+    } else {
+      const res = await axios.get(`${apiUrl}/loans/margin_calls`)
+      marginCalls = res.data
+    }
+
+   return marginCalls.map(m => loanUtil.mapMarginCall(m))
 }
 
 /**
