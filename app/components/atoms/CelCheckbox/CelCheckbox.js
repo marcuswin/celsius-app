@@ -5,9 +5,12 @@ import CheckBox from "react-native-check-box";
 
 import CelText from "../CelText/CelText";
 import STYLES from '../../../constants/STYLES';
+import {THEMES} from "../../../constants/UI";
+
 
 const CelCheckbox = (props) => {
   const onPress = props.onChange || props.updateFormField
+
 
   return (
     <TouchableOpacity
@@ -24,7 +27,7 @@ const CelCheckbox = (props) => {
         unCheckedImage={props.unChecked}
 
       />
-      <CelText>{props.rightText}</CelText>
+      <CelText theme={props.theme}>{props.rightText}</CelText>
     </TouchableOpacity>
   )
 }
@@ -37,6 +40,7 @@ CelCheckbox.propTypes = {
   rightText: PropTypes.string,
   checkedImage: PropTypes.element,
   unChecked: PropTypes.element,
+  theme: PropTypes.oneOf(Object.values(THEMES)),
 }
 
 export default CelCheckbox

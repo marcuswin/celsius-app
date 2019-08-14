@@ -143,7 +143,7 @@ class SecuritySettings extends Component {
             basic
             onPress={() => actions.navigateTo('SecurityOverview')}
           >
-            Security screen overview
+            Security overview
           </CelButton>
         ) : null}
 
