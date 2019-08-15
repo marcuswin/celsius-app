@@ -55,7 +55,11 @@ class IconButton extends Component {
           {!!icon && <Icon fill={third} name={icon} width='25' />}
           <CelText
             type='H4'
-            style={{ marginLeft: icon ? 15 : 0 }}
+            style={{
+              marginLeft: icon ? 15 : 0,
+              marginRight: 5,
+              flexWrap: 'wrap'
+            }}
             color={secondary}
           >
             {children}

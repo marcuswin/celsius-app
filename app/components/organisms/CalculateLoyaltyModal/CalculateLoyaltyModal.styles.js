@@ -4,7 +4,8 @@ import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
   footerContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignSelf: 'center',
   }
 }
 

@@ -167,7 +167,8 @@ class VerifyProfile extends Component {
         <CelText type='H1' align='center'>
           Verification required
         </CelText>
-        <CelText align='center' margin='10 0 10 0'>
+    
+        <CelText onPress = {()=>actions.logoutUser()}align='center' margin='10 0 10 0'>
           Please enter your 2FA code to proceed
         </CelText>
 

@@ -7,7 +7,7 @@ const base = {
     padding: 5,
     justifyContent: "center",
     alignItems: "center",
-    alignSelf: "flex-end"
+    alignSelf: 'center'
   }
 };
 
