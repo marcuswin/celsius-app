@@ -11,6 +11,7 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
 import DATA, { TRANSACTION_TYPES } from "../../../constants/DATA";
+import InfoBox from "../../atoms/InfoBox/InfoBox";
 
 const { BLOCKEXPLORERS } = DATA;
 
@@ -486,6 +487,20 @@ export const HodlInfoSection = ({ date, amount, coin }) => (
     </Card>
   </View>
 );
+
+  export const SsnInfo = ({navigateTo}) => (
+    <View style={{ paddingHorizontal: 20}}>
+      <InfoBox
+        left
+        color={"white"}
+        backgroundColor={STYLES.COLORS.ORANGE}
+        titleText={"In order to confirm the interest you earned, please enter your SSN. If you don't provide it by the end of the year, all pending transactions will be cancelled automatically and you won't be able to collect the interest"}
+        children={ <TouchableOpacity onPress={() => navigateTo("PersonalInformation")}>
+          <CelText color={STYLES.COLORS.WHITE} weight={"700"} margin="20 0 10 0">Enter your SSN</CelText>
+        </TouchableOpacity>}
+      />
+    </View>
+  )
 
 function getBlockExplorerLink(transaction) {
   const tId = transaction.transaction_id;

@@ -20,7 +20,6 @@ export default {
     "referral_data": {},
     "verified": false
   },
-
   [TRANSACTION_TYPES.COLLATERAL_PENDING]: {
     "id": TRANSACTION_TYPES.COLLATERAL_PENDING,
     "transaction_id": null,
@@ -146,12 +145,11 @@ export default {
     "referral_data": {},
     "verified": null
   },
-
   [TRANSACTION_TYPES.INTEREST]: {
     "id": TRANSACTION_TYPES.INTEREST,
     "transaction_id": null,
     "amount": "1.20823769",
-    "amount_usd": 145.30297339476456,
+    "amount_usd": "145.30297339476456",
     "coin": "ltc",
     "interest_coin": "ltc",
     "time": "2019-07-08T11:00:27.759Z",
@@ -263,6 +261,25 @@ export default {
       "total_interest_payment": "41.438356164383560525",
       "liquidated_at": "2019-07-12T14:26:07.612Z",
     },
+    "referral_data": {},
+    "verified": null
+  },
+  [TRANSACTION_TYPES.PENDING_INTEREST]: {
+    "id": TRANSACTION_TYPES.PENDING_INTEREST,
+    "transaction_id": null,
+    "amount": "6.6666",
+    "amount_usd": "696.9696",
+    "coin": "ltc",
+    "interest_coin": "ltc",
+    "time": "2019-07-08T11:00:27.759Z",
+    "is_confirmed": true,
+    "from_address": null,
+    "to_address": null,
+    "state": "confirmed",
+    "nature": "pending_interest",
+    "type": "incoming",
+    "transfer_data": {},
+    "loan_data": {},
     "referral_data": {},
     "verified": null
   },
