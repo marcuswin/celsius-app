@@ -154,7 +154,7 @@ class GraphContainer extends Component {
 
     return (
       <View style={[style.container, { width }]}>
-      {interest && <Separator margin={"20 0 10 0"} />}
+      {interest && <Separator margin={"15 0 12 0"} />}
         {showPeriods &&
           <View style={style.period}>
             <PeriodGraphView

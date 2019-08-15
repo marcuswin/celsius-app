@@ -58,7 +58,6 @@ const base = {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F3F3F3",
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -90,8 +89,16 @@ const base = {
 };
 
 const themed = {
-  light: {},
-  dark: {},
+  light: {
+    inKindColor: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+    }
+  },
+  dark: {
+    inKindColor: {
+      backgroundColor: STYLES.COLORS.DARKEST_HEADER,
+      }
+    },
   celsius: {}
 };
 

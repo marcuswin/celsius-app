@@ -9,7 +9,7 @@ const base = {
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingVertical: 10,
     paddingBottom: 10
   },
   title: {

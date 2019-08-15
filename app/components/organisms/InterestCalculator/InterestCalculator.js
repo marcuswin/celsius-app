@@ -36,13 +36,13 @@ class InterestCalculator extends Component {
   }
   static defaultProps = { defaultCoin: 'BTC', showCard: false }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { defaultCoin, currencies, interestCompliance } = this.props
 
     const coinSelectItems = currencies
       .filter(c => interestCompliance.coins.includes(c.short))
-      .map(c => ({ label: `${c.displayName} - ${c.short}`, value: c.short }))
+      .map(c => ({ label: `${c.displayName}  (${c.short})`, value: c.short }))
 
     this.state = {
       coinSelectItems,
@@ -147,9 +147,12 @@ class InterestCalculator extends Component {
     } else {
       celCardStyle.push(style.selectedCard)
     }
+
+    const interestInCelPerWeek = weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
+    const interestInCelPerYear = yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
     return (
       <>
-        <CelText style={style.calculatorInfo} align={'center'} margin='20 0 16 0'>
+        <CelText style={style.calculatorInfo} align={'center'} margin='20 0 5 0'>
           Choose how you want to earn interest.
         </CelText>
 
@@ -163,10 +166,11 @@ class InterestCalculator extends Component {
             }}
           >
             <CelText color={noCelTextColor} align={'center'} weight='bold'>
-              {formatter.percentageDisplay(interestRateForCoin.rate)}
+              {formatter.percentageDisplay(interestRateForCoin.rate, true)}
+              <CelText type='H4' weight='600' color={noCelTextColor}>%</CelText>
             </CelText>
             <CelText color={noCelTextColor} align={'center'}>
-              Regular rates
+              Regular
             </CelText>
           </Card>
           <Card
@@ -177,33 +181,43 @@ class InterestCalculator extends Component {
               this.setState({ earnInterestIn: true })
             }}
           >
-            <CelText color={celTextColor} align={'center'} weight='bold'>
-              {formatter.percentageDisplay(interestRateForCoin.cel_rate)}
+            <CelText color={celTextColor} align={'center'} weight='bold' >
+              {formatter.percentageDisplay(interestRateForCoin.cel_rate, true)}
+              <CelText type='H4' align='center' weight='bold' color={celTextColor}>%</CelText>
             </CelText>
             <CelText color={celTextColor} align={'center'}>
-              Earn in CEL rates
+              Earn in CEL
             </CelText>
           </Card>
         </View>
 
         <Separator />
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', marginHorizontal: 20 }}>
           <Card
             styles={{ flex: 1 }}
             color={STYLES.COLORS.LIGHT_GRAY}
-            margin='20 10 20 20'
+            margin='0 20 0 20'
           >
-            <CelText theme={THEMES.LIGHT} align={'center'}>
-              {formatter.usd(
-                weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
-              )}
-            </CelText>
-            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-              {formatter.crypto(weeklyInterest, selectedCoin, {
-                precision: 2
-              })}
-            </CelText>
+            <View>
+              <CelText theme={THEMES.LIGHT} align={'center'}>
+                {formatter.usd(
+                  weeklyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
+                )
+                }
+              </CelText>
+              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
+                {earnInterestIn === true ?
+                  formatter.crypto(interestInCelPerWeek, 'CEL', {
+                    precision: 2
+                  })
+                  :
+                  formatter.crypto(weeklyInterest, selectedCoin, {
+                    precision: 2
+                  })
+                }
+              </CelText>
+            </View>
             <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest per week
             </CelText>
@@ -211,18 +225,26 @@ class InterestCalculator extends Component {
           <Card
             styles={{ flex: 1 }}
             color={STYLES.COLORS.LIGHT_GRAY}
-            margin='20 20 20 10'
+            margin='20 20 20 20'
           >
-            <CelText theme={THEMES.LIGHT} align={'center'}>
-              {formatter.usd(
-                yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
-              )}
-            </CelText>
-            <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
-              {formatter.crypto(yearlyInterest, selectedCoin, {
-                precision: 2
-              })}
-            </CelText>
+            <View>
+              <CelText theme={THEMES.LIGHT} align={'center'}>
+                {formatter.usd(
+                  yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()]
+                )}
+              </CelText>
+              <CelText theme={THEMES.LIGHT} align={'center'} weight='bold'>
+                {earnInterestIn === true ?
+                  formatter.crypto(interestInCelPerYear, 'CEL', {
+                    precision: 2
+                  })
+                  :
+                  formatter.crypto(yearlyInterest, selectedCoin, {
+                    precision: 2
+                  })
+                }
+              </CelText>
+            </View>
             <CelText theme={THEMES.LIGHT} type='H6' align={'center'}>
               Interest per year
             </CelText>
@@ -232,7 +254,7 @@ class InterestCalculator extends Component {
     )
   }
 
-  render () {
+  render() {
     const { coinSelectItems } = this.state
     const { actions, formData, keypadOpen, showCard, theme } = this.props
 
@@ -280,8 +302,8 @@ class InterestCalculator extends Component {
             </Card>
           </View>
         ) : (
-          <InterestOptions />
-        )}
+            <InterestOptions />
+          )}
 
         <CelNumpad
           field={formData.isUsd ? 'amountUsd' : 'amountCrypto'}

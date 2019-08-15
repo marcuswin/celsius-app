@@ -20,7 +20,7 @@ const BalanceView = props => {
         marginBottom: 10
       }}
     >
-      <CelText align='right' type='H7'>
+      <CelText align='right' type='H7' weight={"300"}>
         Balance:{' '}
         {`${formatter.getEllipsisAmount(
           formatter.removeDecimalZeros(crypto),

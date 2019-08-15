@@ -10,6 +10,7 @@ import { getSecureStoreKey } from '../utils/expo-storage'
 
 import store from '../redux/store'
 import * as actions from '../redux/actions'
+import { isKYCRejectedForever } from "./user-util";
 
 const {
   SECURITY_STORAGE_AUTH_KEY,
@@ -161,7 +162,9 @@ function initInterceptors () {
           store.dispatch(
             actions.navigateTo('VerifyProfile', {
               show: error.response.data.show,
-              activeScreen: 'WalletLanding'
+              onSuccess: () => {
+                store.dispatch(actions.navigateTo(isKYCRejectedForever() ? 'KYCFinalRejection' : 'WalletLanding'))
+              },
             })
           )
           store.dispatch(actions.showVerifyScreen())

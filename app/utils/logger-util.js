@@ -52,30 +52,46 @@ function logme (payload) {
   axios.post('https://api.staging.celsius.network/api/v1/logme', payload)
 }
 
-function err (e, isFatal = false) {
-  const { revisionId } = Constants.manifest
+function errorValidation(error) {
+  const stringIgnore = [
+    "Could not download from",
+    "undefined is not an object (evaluating 't.dispatch')"
+  ];
 
-  const state = store.getState()
-
-  const { profile } = state.user
-  const userData = profile && { user_id: profile.id, email: profile.email }
-
-  const { activeScreen } = state.nav
-
-  const error = {
-    name: e.name,
-    stack: e.stack,
-    message: e.message
+  for (let i = 0; i < stringIgnore.length; i++) {
+    if (error.includes(stringIgnore[i])) {
+      return false;
+    }
   }
+  return true;
+}
 
-  const errorObject = {
-    err: error,
-    user: userData,
-    active_screen: activeScreen,
-    is_fatal: isFatal && typeof isFatal === 'string' && isFatal === 'true',
-    app_version: revisionId,
-    platform: Constants.platform
+function err(e, isFatal = false) {
+  if (errorValidation(e.message)) {
+    const { revisionId } = Constants.manifest
+
+    const state = store.getState()
+
+    const { profile } = state.user
+    const userData = profile && { user_id: profile.id, email: profile.email }
+
+    const { activeScreen } = state.nav
+
+    const error = {
+      name: e.name,
+      stack: e.stack,
+      message: e.message
+    }
+
+    const errorObject = {
+      err: error,
+      user: userData,
+      active_screen: activeScreen,
+      is_fatal: isFatal && typeof isFatal === 'string' && isFatal === 'true',
+      app_version: revisionId,
+      platform: Constants.platform
+    }
+
+    axios.post(`${API_URL}/graylog`, errorObject)
   }
-
-  axios.post(`${API_URL}/graylog`, errorObject)
 }

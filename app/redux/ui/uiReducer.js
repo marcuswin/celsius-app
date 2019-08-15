@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
         message: {
           type: action.msgType,
           text: action.text,
+          action: action.action,
         }
       };
       

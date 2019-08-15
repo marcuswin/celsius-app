@@ -71,9 +71,13 @@ let backendPollInterval
 async function pollBackendStatus () {
   if (backendPollInterval) clearInterval(backendPollInterval)
   await store.dispatch(actions.getBackendStatus())
+  await store.dispatch(actions.getKYCStatus())
 
   backendPollInterval = setInterval(
-    async () => await store.dispatch(actions.getBackendStatus()),
+    async () => {
+      await store.dispatch(actions.getBackendStatus())
+      await store.dispatch(actions.getKYCStatus())
+    },
     POLL_INTERVAL
   )
 }

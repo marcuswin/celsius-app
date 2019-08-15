@@ -47,7 +47,7 @@ class KYCVerifyID extends Component {
     actions.getKYCDocuments()
     this.selectDocumentType('passport')
   }
-  
+
   getCameraPermissions = async () => {
     let perm = await Permissions.getAsync(Permissions.CAMERA)
 
@@ -63,7 +63,7 @@ class KYCVerifyID extends Component {
       perm = await Permissions.askAsync(Permissions.CAMERA_ROLL)
     }
   }
-  
+
   saveFrontImage = photo => {
     const { actions } = this.props
 
@@ -80,7 +80,7 @@ class KYCVerifyID extends Component {
       cameraType: 'back',
       mask: 'document'
     })
-    
+
     await this.getCameraPermissions()
     await this.getCameraRollPermissions()
     actions.navigateTo('CameraScreen', { onSave: this.saveFrontImage })
@@ -102,7 +102,7 @@ class KYCVerifyID extends Component {
       cameraType: 'back',
       mask: 'document'
     })
-    
+
     await this.getCameraPermissions()
     await this.getCameraRollPermissions()
     actions.navigateTo('CameraScreen', { onSave: this.saveBackImage })
@@ -278,6 +278,7 @@ class KYCVerifyID extends Component {
           {docType !== 'passport' && <BackCamera />}
           <CelButton
             loading={isLoading}
+            disabled={isLoading}
             margin='20 0 0 0'
             onPress={this.submit}
           >
