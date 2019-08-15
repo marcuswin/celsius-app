@@ -11,7 +11,7 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { TRANSFER_STATUSES } from "../../constants/DATA";
+import  {BRANCH_LINKS, TRANSFER_STATUSES} from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import appUtil from "../../utils/app-util";
@@ -103,13 +103,17 @@ function loadCelsiusAssets() {
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   data => {
-    loggerUtil.logme(data)   
+    loggerUtil.logme(data)
   }
 );
 
 const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(
-  data => {
-    loggerUtil.logme(data) 
+  res => {
+    const { data } = res
+    switch (data.type) {
+      case BRANCH_LINKS.NAVIGATE_TO:
+        store.dispatch(actions.navigateTo(data.screen))
+    }
   }
 );
 
