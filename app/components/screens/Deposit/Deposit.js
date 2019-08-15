@@ -262,7 +262,6 @@ class Deposit extends Component {
     const styles = DepositStyle()
     const theme = getTheme()
     let infoColor;
-    let link;
 
     switch (theme) {
       case THEMES.LIGHT:
@@ -284,27 +283,7 @@ class Deposit extends Component {
       return <StaticScreen emptyState={{ purpose: EMPTY_STATES.COMPLIANCE }} />
     }
 
-    // TODO: place into some util
-
-    switch (formData.selectedCoin) {
-      case "BCH":
-        link = "https://buy.bitcoin.com/bch/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-bch";
-        break;
-      case "BTC":
-        link = "https://buy.bitcoin.com/btc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-btc";
-        break;
-      case "ETH":
-        link = "https://buy.bitcoin.com/eth/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-eth";
-        break;
-      case "LTC":
-        link = "https://buy.bitcoin.com/ltc/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-ltc";
-        break;
-      case "XRP":
-        link = "https://buy.bitcoin.com/xrp/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-xrp";
-        break;
-      default:
-        link = null
-    }
+    const link = cryptoUtil.provideLink(formData.selectedCoin);
 
     return (
       <RegularLayout padding={'20 0 100 0'}>
@@ -416,8 +395,8 @@ class Deposit extends Component {
               </View>
             </Card>
 
-            { ["BCH", "BTC", "ETH", "XRP", "LTC"].includes(formData.selectedCoin) &&
-              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{`Buy ${formData.selectedCoin} from Bitcoin.com`}</CelText>
+            { cryptoUtil.hasLinkToBuy(formData.selectedCoin) &&
+              <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{cryptoUtil.provideText(formData.selectedCoin)}</CelText>
             }
 
             {alternateAddress &&
