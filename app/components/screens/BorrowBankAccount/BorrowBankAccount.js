@@ -77,7 +77,7 @@ class BorrowBankAccount extends Component {
     }
 
     this.setState({ isLoading: true })
-    actions.confirmLoanInfo(formData, true)  // TODO: create object with proper data and send it instead of formData
+    actions.confirmLoanInfo(formData)  // TODO: create object with proper data and send it instead of formData
     await actions.linkBankAccount(bankAccountInfo)
     this.setState({ isLoading: false })
   }
