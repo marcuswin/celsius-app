@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Linking } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { withNavigationFocus } from "react-navigation";
 
-
+import { isUserLoggedIn } from "../../../utils/user-util";
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
 import TermsOfUseStyle from "./TermsOfUse.styles";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -291,10 +292,34 @@ class TermsOfUse extends Component {
 
   render() {
     const { terms } = this.state;
+    const { actions, appSettings, navigation } = this.props;
+
+    const nextScreen = navigation.getParam("nextScreen");
 
     return (
       <RegularLayout fabType='hide'>
-          {terms.map(this.renderScreen)}
+        {terms.map(this.renderScreen)}
+
+        {isUserLoggedIn() && !appSettings.accepted_terms_of_use &&
+          <React.Fragment>
+            <CelButton
+              margin={"20 0 10 0"}
+              onPress={() => {
+                actions.setUserAppSettings({ accepted_terms_of_use: true });
+                actions.navigateTo(nextScreen);
+              }}
+            >
+              Accept and Continue
+            </CelButton>
+            <CelButton
+              margin={"20 0 60 0"}
+              onPress={() => Linking.openURL("mailto:app@celsius.network")}
+              basic
+            >
+              Contact Support
+            </CelButton>
+          </React.Fragment>
+        }
       </RegularLayout>
     );
   }
