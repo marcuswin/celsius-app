@@ -136,7 +136,6 @@ class CelModal extends Component {
                   if (onClose) onClose()
                 }}
               >
-                <View style={{ height: 50, width: 50, paddingTop: 5, paddingLeft: 20 }}>
                   <Icon
                     name='Close'
                     height='15'
@@ -145,7 +144,6 @@ class CelModal extends Component {
                     fill={'#3D4853'}
                     marginTop={20}
                   />
-                </View>
               </TouchableOpacity>
             ) : null}
             {header ? (
@@ -173,22 +171,22 @@ class CelModal extends Component {
                 {childrenWithProps}
               </View>
             ) : (
-                <ScrollView
-                  style={[
-                    style.contentWrapper,
-                    {
-                      marginTop: header
-                        ? heightPercentageToDP('15.3%')
-                        : heightPercentageToDP('6%')
-                    },
-                    paddingStyle
-                  ]}
-                  showsVerticalScrollIndicator
-                  contentContainerStyle={{ flexGrow: 1 }}
-                >
-                  {childrenWithProps}
-                </ScrollView>
-              )}
+              <ScrollView
+                style={[
+                  style.contentWrapper,
+                  {
+                    marginTop: header
+                      ? heightPercentageToDP('15.3%')
+                      : heightPercentageToDP('5%')
+                  },
+                  paddingStyle
+                ]}
+                showsVerticalScrollIndicator
+                contentContainerStyle={{ flexGrow: 1 }}
+              >
+                {childrenWithProps}
+              </ScrollView>
+            )}
           </View>
           <BlurView
             tint={'dark'}
