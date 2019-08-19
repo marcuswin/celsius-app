@@ -1,12 +1,11 @@
 import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 
 const base = {
   container: {
     flex: 1
   },
   mainContainer: {
-    height: heightPercentageToDP("33.5%"),
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-evenly",
@@ -21,6 +20,10 @@ const base = {
     justifyContent: "space-evenly"
   },
   otherCoinsContainer: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  celContainer: {
     alignItems: "center",
     justifyContent: "center"
   },

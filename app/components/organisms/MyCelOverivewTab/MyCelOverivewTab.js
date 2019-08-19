@@ -36,7 +36,7 @@ class MyCelOverivewTab extends Component {
             <CelText
               type={"H5"}
               weight={"500"}
-              style={{ marginTop: widthPercentageToDP("23.3") / 3 }}
+              style={{ marginTop: widthPercentageToDP("15.3") / 3 }}
               // color={color}
             >
               Your CEL Ratio is
@@ -46,7 +46,7 @@ class MyCelOverivewTab extends Component {
               weight={"700"}
               style={{
                 left: 5,
-                top: widthPercentageToDP("23.3%") / 3.5
+                top: widthPercentageToDP("14%") / 3.5
               }}
             >
               {`${Math.round(formatter.percentage(loyaltyInfo.cel_ratio))}%`}
@@ -63,12 +63,13 @@ class MyCelOverivewTab extends Component {
                 darkSource={require('../../../../assets/images/loyaltyIcons/reward-dark-icon3x.png')}
               />
             </View>
-            <View style={{ marginTop: 40 }}>
+            <View style={{ marginTop: 40, paddingHorizontal: 10 }}>
               <CelText
                 style={style.title}
                 type={"H3"}
                 weight={"600"}
                 align={"center"}
+                margin={"10 0 0 0"}
               >
                 Always Updating
               </CelText>
