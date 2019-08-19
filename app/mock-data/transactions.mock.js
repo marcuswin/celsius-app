@@ -266,5 +266,24 @@ export default {
     "referral_data": {},
     "verified": null
   },
+  [TRANSACTION_TYPES.PENDING_INTEREST]: {
+    "id": TRANSACTION_TYPES.PENDING_INTEREST,
+    "transaction_id": null,
+    "amount": "6.6666",
+    "amount_usd": "696.9696",
+    "coin": "ltc",
+    "interest_coin": "ltc",
+    "time": "2019-07-08T11:00:27.759Z",
+    "is_confirmed": true,
+    "from_address": null,
+    "to_address": null,
+    "state": "confirmed",
+    "nature": "pending_interest",
+    "type": "incoming",
+    "transfer_data": {},
+    "loan_data": {},
+    "referral_data": {},
+    "verified": null
+  },
 };
 

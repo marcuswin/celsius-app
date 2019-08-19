@@ -29,7 +29,8 @@ import {
   Liquidation,
   UnlockReason,
   HeadingCard, MarginCallCard,
-  ChangePaymentCard
+  ChangePaymentCard,
+  SsnInfo
 } from "./TransactionDetailsSections";
 import CelButton from '../../atoms/CelButton/CelButton';
 import STYLES from '../../../constants/STYLES';
@@ -194,7 +195,9 @@ class TransactionDetails extends Component {
         return <MarginCallCard key={sectionType}/>;
       case "change:payment:card":
         return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo}/>;
-      default:
+      case 'info:box':
+        return <SsnInfo key={sectionType} navigateTo={actions.navigateTo}/>
+        default:
         return null;
     }
   };

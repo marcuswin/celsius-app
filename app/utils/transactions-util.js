@@ -58,6 +58,7 @@ function getTransactionType(transaction) {
   }
 
   if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
+  if (transaction.nature === "pending_interest") return TRANSACTION_TYPES.PENDING_INTEREST;
 
   if (transaction.nature === "referred_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRED_HODL;
   if (transaction.nature === "referred_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRED;
@@ -169,6 +170,13 @@ function orderTransactionsByDate(transactions = []) {
  */
 function getTransactionProps(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.PENDING_INTEREST:
+      return {
+        title: (coin) => `${coin} Interest`,
+        color: STYLES.COLORS.ORANGE,
+        iconName: "TransactionInterest",
+        statusText: "Interest pending"
+      };
     case TRANSACTION_TYPES.MARGIN_CALL:
       return {
         title: () => "Margin Call Collateral",
@@ -407,6 +415,8 @@ function getTransactionProps(transaction) {
  */
 function getTransactionSections(transaction) {
   switch (transaction.type) {
+    case TRANSACTION_TYPES.PENDING_INTEREST:
+      return ["info", "date", "time", "status:noSeparator", "info:box", "button:deposit", "button:back"];
     case TRANSACTION_TYPES.MARGIN_CALL:
       return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
