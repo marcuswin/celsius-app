@@ -1,7 +1,7 @@
 import ACTIONS from '../../constants/ACTIONS';
 import transactionsUtil from "../../utils/transactions-util";
 
-const USE_MOCK_TRANSACTIONS = true
+const USE_MOCK_TRANSACTIONS = false
 
 /**
  * TODO make it a function add JSDoc & desc for return
