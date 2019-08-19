@@ -19,7 +19,7 @@ const themed = {
       backgroundColor: STYLES.COLORS.WHITE
     },
     textColor: {
-      color: STYLES.COLORS.DARK_GRAY6
+      color: STYLES.COLORS.DARK_GRAY
     },
     iconColor: {
       color: STYLES.COLORS.DARK_GRAY6
