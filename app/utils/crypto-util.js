@@ -8,7 +8,7 @@ import BigNumber from 'bignumber.js';
  * @returns {boolean}
  */
 function isERC20(currency) {
-  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs', 'leo', 'usdt erc20' ].indexOf(currency.toLowerCase()) !== -1;
+  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs', 'leo', 'usdt erc20', 'tcad' ].indexOf(currency.toLowerCase()) !== -1;
 }
 
 function hasLinkToBuy(currency) {

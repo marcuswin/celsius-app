@@ -12,7 +12,6 @@ import { WALLET_LANDING_VIEW_TYPES } from "../../../constants/UI";
 const COMING_SOON_COINS = [
   { name: 'TrueGBP', short: 'TGBP', image_url: require('../../../../assets/images/coins/TGBP-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truegbp' },
   { name: 'TrueAUD', short: 'TAUD', image_url: require('../../../../assets/images/coins/TAUD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/trueaud' },
-  { name: 'TrueCAD', short: 'TCAD', image_url: require('../../../../assets/images/coins/TCAD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truecad' },
   { name: 'TrueHKD', short: 'THKD', image_url: require('../../../../assets/images/coins/THKD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truehkd' },
   { name: 'Algorand', short: 'ALGO', image_url: require('../../../../assets/images/coins/algorand.png'), learn_more_link: 'https://www.algorand.com/' },
   { name: 'EOS', short: 'EOS', image_url: require('../../../../assets/images/coins/eos.png'), learn_more_link: 'https://eos.io/' },
