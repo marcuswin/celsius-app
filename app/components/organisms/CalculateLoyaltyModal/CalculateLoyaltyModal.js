@@ -63,6 +63,7 @@ class CalculateLoyaltyModal extends Component {
             <CelText
               weight={"500"}
               type={"H5"}
+              align={"center"}
             >
             so keep HODling!
             </CelText>
