@@ -11,7 +11,7 @@ const CelCheckbox = (props) => {
 
   return (
     <TouchableOpacity
-      style={{ flexDirection: 'row', marginBottom: 15 }}
+      style={{ flexDirection: 'row', marginBottom: 15, alignItems: 'center', }}
       onPress={() => onPress(props.field, !props.value)}
     >
       <CheckBox
@@ -24,7 +24,7 @@ const CelCheckbox = (props) => {
         unCheckedImage={props.unChecked}
 
       />
-      <CelText>{props.rightText}</CelText>
+      <CelText type='H4' weight={props.textWeight} color={props.fillColor}>{props.rightText}</CelText>
     </TouchableOpacity>
   )
 }
@@ -37,6 +37,8 @@ CelCheckbox.propTypes = {
   rightText: PropTypes.string,
   checkedImage: PropTypes.element,
   unChecked: PropTypes.element,
+  fillColor: PropTypes.string,
+  textWeight: PropTypes.string,
 }
 
 export default CelCheckbox

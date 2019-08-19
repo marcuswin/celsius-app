@@ -5,12 +5,16 @@ const base = {
   container: {
     flex: 1
   },
-
+  wrapper: {
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3, opacity: 8
+  },
   tableWrapper: {
     flexDirection: 'column',
     marginTop: 10,
     borderRadius: 3,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   tierWrapper: {
     flexDirection: 'row',
@@ -51,7 +55,7 @@ const base = {
   bonus: {
     flexDirection: 'row',
     backgroundColor: STYLES.COLORS.WHITE,
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   loan: {
     flexDirection: 'row',
@@ -61,7 +65,7 @@ const base = {
   separator: {
     alignItems: 'center',
     backgroundColor: STYLES.COLORS.DARK_GRAY3,
-    paddingVertical: 5
+    paddingVertical: 5,
   },
 };
 
