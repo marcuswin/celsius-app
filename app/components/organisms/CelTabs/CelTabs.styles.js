@@ -10,7 +10,7 @@ const base = {
     flexDirection: "row",
     justifyContent: "space-around",
     paddingHorizontal: widthPercentageToDP("5.33%"),
-    marginTop: heightPercentageToDP("2.02%"),
+    marginTop: heightPercentageToDP("3.02%"),
   },
   activeTabContent : {
     flex: 0.7,

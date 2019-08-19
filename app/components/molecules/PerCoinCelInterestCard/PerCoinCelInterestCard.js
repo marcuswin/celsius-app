@@ -155,7 +155,7 @@ class PerCoinCelInterestCard extends Component {
   render() {
     if (isUSResident()) return null
     const style = PerCoinCelInterestCardStyle()
-    
+
     const { formData, actions } = this.props
     const { coinList, isExpanded, coinNames, isLoading } = this.state
 
@@ -167,8 +167,9 @@ class PerCoinCelInterestCard extends Component {
           field="interestInCel"
           onChange={this.toggleAll}
           value={formData.interestInCel}
+          fillColor={style.fillColor.color}
           rightText="Earn interest in CEL"
-          rightTextStyle={{ color: 'red' }}
+          textWeight='400'
           checkedImage={this.renderImage()}
           unChecked={<Icon name='Unchecked' width={23} height={23} fill={style.iconFill.color} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
         />
@@ -179,14 +180,16 @@ class PerCoinCelInterestCard extends Component {
           onPress={() => this.setState({ isExpanded: !isExpanded })}
           style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 10 }}
         >
-          <CelText color={STYLES.COLORS.MEDIUM_GRAY}>Choose each coin separately</CelText>
-          <Icon
-            name={isExpanded ? "UpArrow" : "DownArrow"}
-            height='9'
-            fill={STYLES.COLORS.MEDIUM_GRAY}
-            width='15'
-          />
-
+          <CelText weight='300' type='H4' color={STYLES.COLORS.MEDIUM_GRAY}>Choose each coin separately</CelText>
+          <View style={{ paddingTop: 5, paddingRight: 5 }}>
+            <Icon
+              name={isExpanded ? "IconChevronUp" : "IconChevronDown"}
+              height='9'
+              fill={STYLES.COLORS.MEDIUM_GRAY}
+              width='14'
+              iconOpacity={0.5}
+            />
+          </View>
         </TouchableOpacity>
         {
           isExpanded && (
@@ -208,6 +211,8 @@ class PerCoinCelInterestCard extends Component {
 
                     value={!!formData.coinsInCel[c]}
                     rightText={`${coinNames[c]} - ${c}`}
+                    fillColor={STYLES.COLORS.MEDIUM_GRAY}
+                    textWeight='300'
                     checkedImage={<Icon name='CheckedBorder' width='23' height='23' fill={STYLES.COLORS.GREEN} />}
                     unChecked={<Icon name='Unchecked' width='23' height='23' fill={style.iconFill.color} style={{ borderWidth: 1, borderRadius: 6, borderColor: STYLES.COLORS.GRAY }} />}
 
@@ -221,7 +226,7 @@ class PerCoinCelInterestCard extends Component {
           )
         }
 
-        <Separator margin="5 0 5 0"/>
+        <Separator margin="10 0 10 0" />
 
         <CelButton
           onPress={this.saveSelection}

@@ -13,6 +13,7 @@ const COMING_SOON_COINS = [
   { name: 'TrueGBP', short: 'TGBP', image_url: require('../../../../assets/images/coins/TGBP-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truegbp' },
   { name: 'TrueAUD', short: 'TAUD', image_url: require('../../../../assets/images/coins/TAUD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/trueaud' },
   { name: 'TrueHKD', short: 'THKD', image_url: require('../../../../assets/images/coins/THKD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truehkd' },
+  { name: 'TrueCAD', short: 'TCAD', image_url: require('../../../../assets/images/coins/TCAD-500x500.png'), learn_more_link: 'https://www.trusttoken.com/truecad' },
   { name: 'Algorand', short: 'ALGO', image_url: require('../../../../assets/images/coins/algorand.png'), learn_more_link: 'https://www.algorand.com/' },
   { name: 'EOS', short: 'EOS', image_url: require('../../../../assets/images/coins/eos.png'), learn_more_link: 'https://eos.io/' },
   { name: 'Tron', short: 'TRX', image_url: require('../../../../assets/images/coins/tron3x.png'), learn_more_link: 'https://tron.network/' },

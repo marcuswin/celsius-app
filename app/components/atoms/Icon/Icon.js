@@ -22,15 +22,17 @@ class Icon extends Component {
     fill: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    iconOpacity: PropTypes.number,
   };
   static defaultProps = {
     fill: '#000',
     width: 40,
-    height: 40
+    height: 40,
+    iconOpacity: 1
   }
 
   render() {
-    const { name, fill, style } = this.props
+    const { name, fill, iconOpacity, style } = this.props
     const theme = getTheme()
     let fillColor = fill;
 
@@ -38,7 +40,7 @@ class Icon extends Component {
 
     const viewBox = Svgs[`${name}ViewBox`] || this.props.viewBox;
     return (
-      <View style={{overflow: 'hidden'}}>
+      <View style={{overflow: 'hidden', opacity: iconOpacity}}>
         <SvgIcon
           viewBox={viewBox}
           name={name} {...this.props}
