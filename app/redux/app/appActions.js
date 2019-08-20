@@ -11,7 +11,7 @@ import {
   getSecureStoreKey,
   deleteSecureStoreKey
 } from "../../utils/expo-storage";
-import { TRANSFER_STATUSES } from "../../constants/DATA";
+import  {BRANCH_LINKS, TRANSFER_STATUSES} from "../../constants/DATA";
 import ACTIONS from "../../constants/ACTIONS";
 import { registerForPushNotificationsAsync } from "../../utils/push-notifications-util";
 import appUtil from "../../utils/app-util";
@@ -101,6 +101,24 @@ function loadCelsiusAssets() {
   };
 }
 
+const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+  data => {
+    loggerUtil.logme(data)
+  }
+);
+
+const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(
+  res => {
+    // console.log('ovo je res: ', JSON.stringify(res))
+
+    const { data } = res
+    switch (data.type) {
+      case BRANCH_LINKS.NAVIGATE_TO:
+        store.dispatch(actions.navigateTo(data.screen))
+    }
+  }
+);
+
 
 /**
  * Handles state change of the app
@@ -116,35 +134,52 @@ function handleAppStateChange(nextAppState) {
     const { appState } = store.getState().app;
     const { activeScreen } = store.getState().nav;
 
-    if (profile && profile.has_pin) {
-      if (nextAppState === "active") {
-        if (Platform.OS === "ios") {
-          clearTimeout(pinTimeout);
-        }
-
-        if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
-          startOfBackgroundTimer = null;
-          dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
-        }
-
-        analytics.sessionStarted();
-        dispatch(getGeolocation());
+    if (Platform.OS === 'ios') {
+      if (appState.match(/inactive|background/) && nextAppState === 'active') {
+          appsFlyer.trackAppLaunch();
       }
+    }
 
-      if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
-        if (Platform.OS === "ios") {
-          pinTimeout = setTimeout(() => {
-            dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+    if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
+      if(onInstallConversionDataCanceller){
+        onInstallConversionDataCanceller();
+        loggerUtil.logme("unregister onInstallConversionDataCanceller");
+      }
+      if(onAppOpenAttributionCanceller){
+        onAppOpenAttributionCanceller();
+        loggerUtil.logme("unregister onAppOpenAttributionCanceller");
+      }
+    }
+
+      if (profile && profile.has_pin) {
+        if (nextAppState === "active") {
+          if (Platform.OS === "ios") {
             clearTimeout(pinTimeout);
-          }, ASK_FOR_PIN_AFTER);
+          }
+
+          if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
+            startOfBackgroundTimer = null;
+            dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+          }
+          analytics.sessionStarted();
+          dispatch(getGeolocation());
         }
 
-        if (Platform.OS === "android") {
-          startOfBackgroundTimer = new Date().getTime();
-        }
 
-        analytics.sessionEnded();
-      }
+        if (nextAppState.match(/inactive|background/) && profile && profile.has_pin && appState === "active") {
+          if (Platform.OS === "ios") {
+            pinTimeout = setTimeout(() => {
+              dispatch(actions.navigateTo("VerifyProfile", { activeScreen }));
+              clearTimeout(pinTimeout);
+            }, ASK_FOR_PIN_AFTER);
+          }
+
+          if (Platform.OS === "android") {
+            startOfBackgroundTimer = new Date().getTime();
+          }
+
+          analytics.sessionEnded();
+        }
     }
 
     dispatch({

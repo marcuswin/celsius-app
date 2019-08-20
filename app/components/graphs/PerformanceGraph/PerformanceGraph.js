@@ -2,7 +2,7 @@ import React from "react";
 import { View, SafeAreaView, Animated, TextInput } from "react-native";
 import PropTypes from "prop-types";
 
-import Svg from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import moment from "moment";
 import * as path from "svg-path-properties";
 import * as shape from "d3-shape";
@@ -13,7 +13,6 @@ import PerformanceGraphStyle from "./PerformanceGraph.styles";
 import Separator from "../../atoms/Separator/Separator";
 import formatter from "../../../utils/formatter";
 
-const { Path } = Svg;
 const d3 = { shape };
 
 class PerformanceGraph extends React.Component {

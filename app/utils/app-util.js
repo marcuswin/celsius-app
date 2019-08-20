@@ -2,7 +2,7 @@ import * as Segment from 'expo-analytics-segment'
 import * as Font from 'expo-font'
 import { Asset } from 'expo-asset'
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, Platform } from 'react-native'
 import NetInfo from '@react-native-community/netinfo'
 import twitter from 'react-native-simple-twitter'
 import appsFlyer from "react-native-appsflyer";
@@ -23,7 +23,8 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   TWITTER_CUSTOMER_KEY,
   TWITTER_SECRET_KEY,
-  APPSFLYER_KEY,
+  APPSFLYER_KEY_ANDROID,
+  APPSFLYER_KEY_IOS,
   SEGMENT_ANDROID_KEY,
   SEGMENT_IOS_KEY
 } = Constants.extra
@@ -51,13 +52,16 @@ async function initializeThirdPartyServices () {
     androidWriteKey: SEGMENT_ANDROID_KEY,
     iosWriteKey: SEGMENT_IOS_KEY
   })
+  // console.log('Before appsFlyer initSDK')
+  const appsFlyerOptions = {
+    devKey: Platform.OS === 'android' ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
+    isDebug: true,
+    appId: Platform.OS === 'ios' && '1387885523'
+  }
+  // console.log('After appsFlyer initSDK - options')
 
   await appsFlyer.initSdk(
-      {
-        devKey: APPSFLYER_KEY,
-        isDebug: false,
-        // appId: '41*****44', <--for IOS
-      },
+      appsFlyerOptions,
       (result) => {
         loggerUtil.logme(result)
       },
