@@ -6,15 +6,15 @@ const base = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: "center",
     paddingVertical: 16
   },
   leftSide: {
     flexDirection: 'row',
     alignItems: 'center'
-
   },
   rightSide: {
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   amounts: {
     marginLeft: 10
