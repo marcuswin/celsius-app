@@ -51,17 +51,17 @@ const base = {
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: widthPercentageToDP("32%"),
+    width: widthPercentageToDP("37%"),
     height: heightPercentageToDP("5%")
   },
   regularRateWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F3F3F3",
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 10,
+    width: widthPercentageToDP("37%"),
     height: heightPercentageToDP("5%")
   },
   usdInfoWrapper: {
@@ -89,8 +89,16 @@ const base = {
 };
 
 const themed = {
-  light: {},
-  dark: {},
+  light: {
+    inKindColor: {
+      backgroundColor: STYLES.COLORS.LIGHT_GRAY,
+    }
+  },
+  dark: {
+    inKindColor: {
+      backgroundColor: STYLES.COLORS.DARKEST_HEADER,
+      }
+    },
   celsius: {}
 };
 

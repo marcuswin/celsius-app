@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import * as appActions from '../../../redux/actions'
-import { KYC_STATUSES, RANDOM_MESSAGES } from '../../../constants/DATA'
+import { RANDOM_MESSAGES } from '../../../constants/DATA'
 import Loader from '../../atoms/Loader/Loader'
 import {
   heightPercentageToDP,
@@ -13,6 +13,7 @@ import {
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import { THEMES } from '../../../constants/UI';
+import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
 
 const apiCalls = []
 
@@ -60,16 +61,19 @@ class Home extends Component {
       this.props.appInitialized === true
     ) {
       if (user.id) {
-        if (
-          user.kyc &&
-          user.kyc.status === KYC_STATUSES.passed &&
-          user.has_pin
-        ) {
-            return prevProps.actions.navigateTo('VerifyProfile', {
-              activeScreen: 'WalletLanding' })
-        }
         if (!user.has_pin) {
           return prevProps.actions.navigateTo('RegisterSetPin')
+        }
+
+        if (user.kyc) {
+          if (hasPassedKYC()) {
+            return prevProps.actions.navigateTo('VerifyProfile', {
+              activeScreen: 'WalletLanding' })
+          }
+          if (isKYCRejectedForever()) {
+            return prevProps.actions.navigateTo('VerifyProfile', {
+              activeScreen: 'KYCFinalRejection' })
+          }
         }
         return prevProps.actions.navigateTo('WalletFab')
       }
@@ -120,7 +124,7 @@ class Home extends Component {
             </CelText>
             <Loader progress={this.state.progress} />
           </View>
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Image
               source={require('../../../../assets/images/PartnerLogos/BitGo.png')}
               style={{
@@ -133,16 +137,6 @@ class Home extends Component {
             />
             <Image
               source={require('../../../../assets/images/PartnerLogos/DP.png')}
-              style={{
-                resizeMode: 'contain',
-                width: widthPercentageToDP('18%'),
-                marginLeft: 5,
-                marginRight: 5,
-                alignSelf: 'flex-end'
-              }}
-            />
-            <Image
-              source={require('../../../../assets/images/PartnerLogos/EY.png')}
               style={{
                 resizeMode: 'contain',
                 width: widthPercentageToDP('18%'),

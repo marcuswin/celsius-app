@@ -37,6 +37,8 @@ export default function appReducer(state = initialState(), action) {
     case ACTIONS.LOGIN_USER_GOOGLE_SUCCESS:
     case ACTIONS.LOGIN_USER_FACEBOOK_SUCCESS:
     case ACTIONS.LOGIN_USER_TWITTER_SUCCESS:
+    case ACTIONS.CHECK_TWO_FACTOR_SUCCESS:
+    case ACTIONS.CHECK_PIN_SUCCESS:
     case ACTIONS.APP_INIT_DONE:
       return {
         ...state,

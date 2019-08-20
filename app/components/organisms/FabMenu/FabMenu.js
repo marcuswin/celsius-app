@@ -10,7 +10,11 @@ import Fab from '../../molecules/Fab/Fab';
 import CircleButton from '../../atoms/CircleButton/CircleButton';
 import { THEMES } from '../../../constants/UI';
 import { KYC_STATUSES } from "../../../constants/DATA";
-import { hasPassedKYC } from "../../../utils/user-util";
+import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
+import CelText from "../../atoms/CelText/CelText";
+import Card from "../../atoms/Card/Card";
+import Icon from "../../atoms/Icon/Icon";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -72,7 +76,6 @@ class FabMenu extends Component {
       [
         { iconName:'Settings', label: 'Settings', screen: 'Settings' },
         { iconName: 'Community', label: 'Community', screen: 'Community' },
-        // { iconName: 'Support', label: 'Support', screen: 'Support' }
       ]
     ];
     if (depositCompliance.allowed) main[0].push({iconName: 'Deposit', label: 'Deposit', screen: 'Deposit' });
@@ -211,21 +214,47 @@ class FabMenu extends Component {
   renderFabMenu = () => {
     const style = FabMenuStyle();
     const { menuItems } = this.state;
-    const { actions } = this.props;
+    const { actions, theme } = this.props;
     const tintColor = this.getTintColor();
 
     if (Platform.OS !== 'android') {
       return (
-        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill, style.menuContainer]} >
-          <View>
+        <BlurView tint={tintColor} intensity={100} style={[StyleSheet.absoluteFill]} >
+          <Card styles={style.helpCard} size={"half"} onPress={() => {
+            actions.navigateTo("Support");
+            actions.closeFabMenu()
+          }}>
+            <Icon
+              name={"QuestionCircle"}
+              width={25}
+              height={25}
+              fill={theme === "dark" ?  STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
+            />
+            <CelText weight={"300"} type={"H5"}>Need help?</CelText>
+          </Card>
+          <View style={style.menuContainer}>
             {menuItems.map(this.renderMenuRow)}
           </View>
         </BlurView>
       )
     }
     return (
-      <TouchableOpacity style={[StyleSheet.absoluteFill, style.menuContainer, style.background]} onPress={() => actions.closeFabMenu()}>
+      <TouchableOpacity style={[StyleSheet.absoluteFill, style.background]} onPress={() => actions.closeFabMenu()}>
+        <Card styles={style.helpCard} size={"half"} onPress={() => {
+          actions.navigateTo("Support");
+          actions.closeFabMenu()
+        }}>
+          <Icon
+            name={"QuestionCircle"}
+            width={25}
+            height={25}
+            fill={theme === "dark" ?  STYLES.COLORS.WHITE_OPACITY5 : STYLES.COLORS.DARK_GRAY}
+          />
+          <CelText weight={"300"} type={"H5"}>Need help?</CelText>
+        </Card>
+        <View style={style.menuContainer}>
         {menuItems.map(this.renderMenuRow)}
+        </View>
       </TouchableOpacity>
     )
 
@@ -247,6 +276,8 @@ class FabMenu extends Component {
   render() {
     const style = FabMenuStyle();
     const { fabMenuOpen, fabType } = this.props
+
+    if (isKYCRejectedForever()) return null
 
     // if (!appInitialized) return null; // Too many bugs with this one line of code :D
     if (fabType === 'hide') return null;

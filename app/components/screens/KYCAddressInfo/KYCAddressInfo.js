@@ -88,11 +88,8 @@ class KYCAddressInfo extends Component {
     }
 
     this.setState({ updatingAddressInfoInProgress: true })
-    const response = await actions.updateProfileAddressInfo(updatedAddressInfo)
-
-    if (response.success) {
-        this.setState({ updatingAddressInfoInProgress: false })
-      }
+    await actions.updateProfileAddressInfo(updatedAddressInfo)
+    this.setState({ updatingAddressInfoInProgress: false })
   };
 
   render() {

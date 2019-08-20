@@ -126,8 +126,8 @@ const CoinSwitch = props => {
         <TouchableOpacity onPress={() => updateFormField('isUsd', !isUsd)}>
           <Icon
             name='Switch'
-            width='30'
-            height='30'
+            width='25'
+            height='25'
             fill={STYLES.COLORS.MEDIUM_GRAY}
           />
         </TouchableOpacity>

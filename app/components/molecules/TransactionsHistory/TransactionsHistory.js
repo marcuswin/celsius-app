@@ -133,7 +133,7 @@ class TransactionsHistory extends Component {
       <View style={[style.container, margins]}>
         <View style={style.filterContainer}>
           <View>
-            <CelText weight='medium' type='H6' margin='15 0 0 0'>
+            <CelText weight='medium' type='H6' margin='0 0 0 0'>
               Transaction history
             </CelText>
           </View>
@@ -150,7 +150,6 @@ class TransactionsHistory extends Component {
                   height: 50,
                   width: 50,
                   paddingTop: 20,
-                  marginBottom: 20,
                   alignItems: "flex-end",
                   }}
                 >

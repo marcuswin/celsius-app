@@ -4,27 +4,22 @@ import React, { Component } from "react";
 // import Constants from 'expo-constants';
 import { Image as RNImage, TouchableOpacity, View } from "react-native";
 import { Image } from "react-native-expo-image-cache";
-
 import * as appActions from "../../../redux/actions";
 
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import CelInput from "../../atoms/CelInput/CelInput";
 import STYLES from "../../../constants/STYLES";
 import Separator from "../../atoms/Separator/Separator";
 import IconButton from "../../organisms/IconButton/IconButton";
-import CelButton from "../../atoms/CelButton/CelButton";
 import { MODALS } from "../../../constants/UI";
 import ReferralSendModal from "../../organisms/ReferralSendModal/ReferralSendModal";
 import RegisterPromoCodeModal from "../../organisms/RegisterPromoCodeModal/RegisterPromoCodeModal";
-import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
-
-import { getFontSize } from '../../../utils/styles-util';
-import { isUSCitizen } from "../../../utils/user-util";
+import CelButton from "../../atoms/CelButton/CelButton";
+import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 
 // Todo(sb): OTA updates
 // const { revisionId } = Constants.manifest;
-const revisionId = ''
+const version = ''
 
 @connect(
   state => ({
@@ -85,28 +80,17 @@ class Profile extends Component {
     await actions.logoutUser();
   };
 
-  updateSSNNumber = async () => {
-    const { actions, formData } = this.props;
-
-    const ssn = { ssn: formData.ssn };
-
-    this.setState({ updatingTaxInfo: true });
-    await actions.updateTaxpayerInfo(ssn);
-    this.setState({ updatingTaxInfo: false });
-  };
-
   openReferralSendModal = () => {
     const { actions } = this.props;
     actions.openModal(MODALS.REFERRAL_SEND_MODAL);
   };
 
   render() {
-    const { profilePicture, user, actions, formData, formErrors } = this.props;
-    const { updatingTaxInfo } = this.state;
-    const ssn = user.ssn ? user.ssn : formData.ssn;
-
+    const { profilePicture, user, actions } = this.props;
     return (
       <RegularLayout>
+        <MissingInfoCard user={user} />
+
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
           {profilePicture ? (
             <Image
@@ -138,65 +122,24 @@ class Profile extends Component {
         <IconButton
           onPress={() => actions.openModal(MODALS.REGISTER_PROMO_CODE_MODAL)}
           margin="0 0 20 0"
-          icon="Bell"
+          icon="Present"
         >
           Enter a promo code
         </IconButton>
 
         <Separator />
 
-        <CelInput margin="20 0 20 0" disabled type="text" field="email" placeholder="E-mail" value={user.email} />
-        <CelInput type="text" field='cellphone' disabled placeholder='Phone number' error={formErrors.cellphone} value={user.cellphone_verified ? user.cellphone : ""} margin={"0 0 20 0"} />
+        <IconButton icon={"Couple"} onPress={() => actions.navigateTo("PersonalInformation")}>Personal Information</IconButton>
 
-        {!user.cellphone_verified &&
-          <CelButton
-            margin={"20 0 20 0"}
-            onPress={() => actions.navigateTo("CellphoneEnter")}
-          >
-            Enter Phone Number
-          </CelButton>
-        }
-        <ContactSupport
-          content='flex-start'
-          fontSize= {getFontSize()}
-          align='left'
-          copy="To make changes on your profile, contact our support at app@celsius.network."
-        />
-        {isUSCitizen() && (
-          <View>
-            <Separator margin={"10 0 20 0"} color={STYLES.COLORS.DARK_GRAY} opacity={0.2} textOpacity={0.4} text={"SOCIAL SECURITY NUMBER"} />
-
-            {!user.ssn &&
-              <View>
-                <CelText margin={"0 0 20 0"} type={"H4"} weight={"300"}>
-                  We are required to collect SSN from all American users. Please provide your SSN to start earning interest.
-                  This information is encrypted and highly secured.
-              </CelText>
-              </View>
-            }
-
-            <CelInput margin="0 0 20 0"
-              disabled={!!user.ssn}
-              type={user.ssn ? "text" : "password"}
-              field="ssn"
-              placeholder="Social Security Number"
-              value={ssn} error={formErrors.ssn}
-              keyboardType={'phone-pad'}/>
-
-            {!user.ssn &&
-              <CelButton
-                onPress={() => this.updateSSNNumber()}
-                margin={"20 0 20 0"}
-                loading={updatingTaxInfo}
-                disabled={!formData.ssn}
-              >
-                Submit SSN
-            </CelButton>
-            }
-          </View>
-        )}
-        <CelText margin="30 0 0 0" weight="light" align='center' type="H7">
-          Celsius App version: {revisionId}
+        <CelButton
+          onPress={() => actions.navigateTo("TermsOfUse")}
+          basic
+          margin={"20 0 0 0"}
+        >
+          See Terms of use
+        </CelButton>
+        <CelText margin="20 0 0 0" weight="light" align='center' type="H7">
+          Celsius App version: {version}
         </CelText>
 
         <ReferralSendModal />

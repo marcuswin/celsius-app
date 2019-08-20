@@ -80,17 +80,17 @@ class VerifyProfile extends Component {
         return
       }
 
-      if (navigation.getParam('show', null)) {
-        await actions.showVerifyScreen(false)
-        await actions.initAppData()
-        this.setState({ loading: false })
-      }
       actions.navigateTo(activeScreen)
       return
     }
-    onSuccess()
+
+    if (navigation.getParam('show', null)) {
+      await actions.showVerifyScreen(false)
+      await actions.initAppData()
+    }
 
     this.setState({ loading: false })
+    onSuccess()
   }
 
   onCheckError = () => {

@@ -112,7 +112,11 @@ const CACHE_IMAGES = [
   require('../../assets/images/calculator.png'),
   require('../../assets/images/security-dog.png'),
   require('../../assets/images/stacked_coins.png'),
-  require('../../assets/images/maintenance/hippo-maintenance.png')
+  require('../../assets/images/maintenance/hippo-maintenance.png'),
+  require('../../assets/images/icons/help-center-dark.png'),
+  require('../../assets/images/icons/help-center.png'),
+  require('../../assets/images/icons/support-dark.png'),
+  require('../../assets/images/icons/support.png'),
 ];
 
 export default {
