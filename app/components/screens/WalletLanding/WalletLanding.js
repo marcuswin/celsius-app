@@ -17,12 +17,13 @@ import LoadingScreen from '../LoadingScreen/LoadingScreen'
 import Icon from '../../atoms/Icon/Icon'
 import CelPayReceivedModal from '../../organisms/CelPayReceivedModal/CelPayReceivedModal'
 import { WALLET_LANDING_VIEW_TYPES, MODALS } from '../../../constants/UI'
-import TodayInterestRatesModal from '../../organisms/TodayInterestRatesModal/TodayInterestRatesModal'
 import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal'
 import { KYC_STATUSES } from '../../../constants/DATA'
 import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
 import { getSecureStoreKey } from '../../../utils/expo-storage';
-import { hasPassedKYC, isUSCitizen } from "../../../utils/user-util";
+import { isUSCitizen } from "../../../utils/user-util";
+import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
+import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
 
 let counter = 0;
 
@@ -102,6 +103,8 @@ class WalletLanding extends Component {
     if (!currenciesRates) actions.getCurrencyRates()
     if (!currenciesGraphs) actions.getCurrencyGraphs()
 
+    // await actions.getCelsiusMemberStatus()
+
     // NOTE (fj): quickfix for CN-2763
     // if (user.celsius_member) {
     if (this.shouldInitializeMembership) {
@@ -157,6 +160,7 @@ class WalletLanding extends Component {
       actions.getWalletSummary()
     }, 5000)
   }
+
 
   handleBackButton = () => {
     const {actions} = this.props;
@@ -282,9 +286,7 @@ class WalletLanding extends Component {
               displayName={currency.displayName}
               currencyRates={currency}
               onCardPress={() =>
-                hasPassedKYC()
-                  ? actions.navigateTo('Deposit', { coin: coin.short })
-                  : actions.navigateTo('KYCLanding')
+                   actions.navigateTo('Deposit', { coin: coin.short })
               }
               graphData={graphData}
             />
@@ -299,9 +301,7 @@ class WalletLanding extends Component {
             displayName={currency.displayName}
             currencyRates={currency}
             onCardPress={() =>
-              hasPassedKYC()
-                ? actions.navigateTo('Deposit', { coin: coin.short })
-                : actions.navigateTo('KYCLanding')
+                 actions.navigateTo('Deposit', { coin: coin.short })
             }
           />
         )
@@ -321,9 +321,7 @@ class WalletLanding extends Component {
       <TouchableOpacity
         style={gridStyle}
         onPress={() =>
-          hasPassedKYC()
-            ? actions.navigateTo('Deposit')
-            : actions.navigateTo('KYCLanding')
+             actions.navigateTo('Deposit')
         }
       >
         <Icon fill={'gray'} width='17' height='17' name='CirclePlus' />
@@ -367,6 +365,8 @@ class WalletLanding extends Component {
     return (
       <RegularLayout>
         <View>
+          <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
+
           <WalletDetailsCard
             walletSummary={walletSummary}
             navigateTo={actions.navigateTo}
@@ -409,6 +409,8 @@ class WalletLanding extends Component {
           <View>
             <CoinsCard />
           </View>
+
+          <ComingSoonCoins activeView={activeView} />
         </View>
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}
@@ -416,7 +418,6 @@ class WalletLanding extends Component {
           transfer={branchTransfer}
         />
 
-        <TodayInterestRatesModal />
         <BecameCelMemberModal />
         <EarnInterestCelModal />
       </RegularLayout>

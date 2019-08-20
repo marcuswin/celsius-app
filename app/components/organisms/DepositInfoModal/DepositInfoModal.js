@@ -84,6 +84,16 @@ class DepositInfoModal extends Component {
           }
         ];
         break;
+      case "USDT ERC20":
+        steps = [
+          {
+            image: { uri: coinName.image_url },
+            title: `Please ensure only Tether ERC20 tokens are deposited to this address`,
+            description: "Sending other USDT coins to this address (the Omni Layer version) may result in the permanent loss of funds.",
+            buttonText: "I understand"
+          }
+        ];
+        break;
       default:
         steps = [
           {

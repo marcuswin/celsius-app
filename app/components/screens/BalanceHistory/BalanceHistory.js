@@ -13,6 +13,9 @@ import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import TransactionsHistory from "../../molecules/TransactionsHistory/TransactionsHistory";
 import CelButton from "../../atoms/CelButton/CelButton";
 import GraphContainer from "../../graphs/GraphContainer/GraphContainer";
+import {hasPassedKYC} from "../../../utils/user-util";
+import StaticScreen from "../StaticScreen/StaticScreen";
+import {EMPTY_STATES} from "../../../constants/UI";
 
 @connect(
   state => ({
@@ -51,6 +54,14 @@ class BalanceHistory extends Component {
   render() {
     const { actions, walletSummary } = this.props;
     const style = BalanceHistoryStyle();
+
+    if (!hasPassedKYC()) {
+      return (
+        <StaticScreen
+          emptyState={{ purpose: EMPTY_STATES.NO_TRANSACTIONS }}
+        />
+      )
+    }
 
     return (
       <RegularLayout padding="20 0 100 0">

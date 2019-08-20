@@ -243,6 +243,7 @@ function checkTwoFactor(onSuccess, onError) {
   };
 }
 
+
 /**
  * Saves all contacts from users Phonebook
  * @param {Object[]} contacts
@@ -264,12 +265,21 @@ function connectPhoneContacts(contacts) {
  * Gets all contacts for user
  */
 function getConnectedContacts() {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_CONNECT_CONTACTS));
+    const { activeScreen } = getState().nav
 
     try {
-      const res = await usersService.getConnectedContacts();
-      dispatch(getConnectedContactsSuccess(res.data.contacts));
+        const res = await usersService.getConnectedContacts();
+        dispatch(getConnectedContactsSuccess(res.data.contacts));
+
+        const action = activeScreen === 'CelPayChooseFriend' ? null : { text: 'Go to CelPay', action: () => dispatch(navigateTo('CelPayChooseFriend')) }
+        dispatch(showMessage(
+          'success',
+          'Congrats! Your contacts have been added to your wallet. Get started with CelPay and transfer crypto between friends faster and easier than ever before.',
+          false,
+          action,
+        ))
     } catch (err) {
       logger.err(err);
     }
@@ -375,6 +385,7 @@ function getCelsiusMemberStatus() {
         dispatch(openModal(MODALS.BECAME_CEL_MEMBER_MODAL));
       }
       dispatch(getWalletSummary());
+      dispatch(getProfileInfo())
       dispatch({
         type: ACTIONS.GET_MEMBER_STATUS_SUCCESS,
         isNewMember: celMemberStatus.data.is_new_member

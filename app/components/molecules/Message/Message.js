@@ -39,23 +39,6 @@ class Message extends Component {
     opacity: new Animated.Value(0.3)
   };
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { message } = this.props;
-  //   const { opacity } = this.state;
-
-  //   if (!message && nextProps.message) {
-  //     Animated.timing(
-  //       opacity,
-  //       {
-  //         toValue: 1,
-  //         duration: 800,
-  //         useNativeDriver: true,
-  //         easing: Easing.linear
-  //       }
-  //     ).start();
-  //   }
-  // }
-
   getIcon = () => {
     const { message } = this.props;
 
@@ -75,6 +58,7 @@ class Message extends Component {
   render() {
     const { message, actions } = this.props;
     if (!message || !message.text) return null;
+    const { action } = message
     const style = MessageStyle();
 
     const icon = this.getIcon();
@@ -84,15 +68,22 @@ class Message extends Component {
         <View style={style.circle}>
           <Icon {...icon} height='29' width='29' fill={STYLES.COLORS.WHITE} />
         </View>
+
         <View style={{ width: "65%" }}>
           <CelText margin={"5 0 0 0"} color="white">
             {message.text}
           </CelText>
+          { !!action && (
+            <CelText margin={"5 0 0 0"} color="white" weight="bold" onPress={action.action}>
+              {action.text} >
+            </CelText>
+          )}
         </View>
+
         <TouchableOpacity onPress={() => actions.clearMessage()} style={style.closeButton}>
-        <View style={style.closeButtonView}>
-          <Icon name="Close" height="20" width="20" viewBox="0 0 1000 1000" fill="#FFFFFF" />
-        </View>
+          <View style={style.closeButtonView}>
+            <Icon name="Close" height="20" width="20" viewBox="0 0 1000 1000" fill="#FFFFFF" />
+          </View>
         </TouchableOpacity>
       </Animated.View>
     );

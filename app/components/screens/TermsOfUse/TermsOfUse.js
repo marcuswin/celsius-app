@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Linking } from "react-native";
+import { View } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -9,7 +9,6 @@ import { withNavigationFocus } from "react-navigation";
 import * as appActions from "../../../redux/actions";
 import CelText from "../../atoms/CelText/CelText";
 import TermsOfUseStyle from "./TermsOfUse.styles";
-import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 
 @connect(
@@ -264,7 +263,7 @@ class TermsOfUse extends Component {
 
     };
   }
-  
+
   componentDidMount() {
     const { actions } = this.props
     actions.setFabType('hide')
@@ -278,7 +277,7 @@ class TermsOfUse extends Component {
       }
     }
   }
-  
+
   renderScreen(section, index) {
     const style = TermsOfUseStyle();
     return (
@@ -292,33 +291,10 @@ class TermsOfUse extends Component {
 
   render() {
     const { terms } = this.state;
-    const { actions, appSettings, navigation } = this.props;
-
-    const nextScreen = navigation.getParam("nextScreen");
 
     return (
       <RegularLayout fabType='hide'>
           {terms.map(this.renderScreen)}
-          {!appSettings.accepted_terms_of_use &&
-          <React.Fragment>
-            <CelButton
-              margin={"20 0 10 0"}
-              onPress={() => {
-                actions.setUserAppSettings({ accepted_terms_of_use: true });
-                actions.navigateTo(nextScreen);
-              }}
-            >
-              Accept and Continue
-            </CelButton>
-            <CelButton
-              margin={"20 0 60 0"}
-              onPress={() => Linking.openURL("mailto:app@celsius.network")}
-              basic
-            >
-              Contact Support
-            </CelButton>
-          </React.Fragment>
-          }
       </RegularLayout>
     );
   }

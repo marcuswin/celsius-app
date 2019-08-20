@@ -1,4 +1,4 @@
-import { getThemedStyle } from '../../../utils/styles-util'
+import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from '../../../constants/STYLES'
 
 const base = {
@@ -9,7 +9,17 @@ const base = {
     right: 20
   },
   menuContainer: {
-    justifyContent: 'center'
+    position: "absolute",
+    left: widthPercentageToDP("10%"),
+    bottom: heightPercentageToDP("15%"),
+    width: widthPercentageToDP("80%"),
+  },
+  helpCard: {
+    position: "absolute",
+    left: widthPercentageToDP("30%"),
+    top: heightPercentageToDP("5.5%"),
+    flexDirection: "row",
+    justifyContent: "space-around"
   },
   opacityCircle: {
     backgroundColor: STYLES.COLORS.CELSIUS,

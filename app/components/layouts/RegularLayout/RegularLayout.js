@@ -31,12 +31,10 @@ class RegularLayout extends Component {
     enableParentScroll: true,
     fabType: 'main'
   }
-  componentDidMount() {
-    const { fabType, actions } = this.props
-    actions.setFabType(fabType)
-  }
+  componentDidMount = () => this.setFabType()
+  componentDidUpdate = () => this.setFabType()
 
-  componentDidUpdate () {
+  setFabType = () => {
     const { isFocused, fabType, actions } = this.props
     if (isFocused === true) {
       actions.setFabType(fabType)

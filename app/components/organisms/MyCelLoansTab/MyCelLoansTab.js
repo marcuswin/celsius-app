@@ -71,7 +71,7 @@ class MyCelInterestTab extends Component {
                   type={"H4"}
                   weight={"500"}
                 >
-                  Loyality Level{' '}
+                  Loyalty Level{' '}
                   <CelText
                     style={ style.explanation }
                     align={"center"}

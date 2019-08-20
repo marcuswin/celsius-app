@@ -51,7 +51,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H6" weight="300">{ formatter.usd(formData.amountCollateralUsd) }</CelText>
 
           <Card>
-            <CelText type="H6" weight="300">Exact collateral amount would be determined upon approval</CelText>
+            <CelText type="H6" weight="300">Exact collateral amount will be determined upon approval</CelText>
           </Card>
 
           <Separator margin="16 0 16 0"/>
@@ -77,7 +77,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H5" weight={"300"} align="center">By applying for a loan you agree to our</CelText>
           <CelText onPress={() => actions.navigateTo("TermsOfUse")} color={STYLES.COLORS.CELSIUS_BLUE} type="H5" weight={"300"} align="center">Terms of Use</CelText>
 
-          <CelButton onPress={() => actions.applyForALoan(formData)} margin="22 0 0 0">Initiate loan</CelButton>
+          <CelButton onPress={() => actions.applyForALoan(formData)} margin="22 0 0 0">Submit for Approval</CelButton>
         </View>
       </RegularLayout>
     );

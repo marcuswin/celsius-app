@@ -13,6 +13,7 @@ import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP } from '../../../utils/styles-util';
 import CoinCardStyle from './CoinCard.styles';
 import { THEMES } from "../../../constants/UI";
+import interestUtil from "../../../utils/interest-util";
 
 class CoinCard extends Component {
   static propTypes = {
@@ -72,13 +73,17 @@ class CoinCard extends Component {
 
     const padding = graphData ? '12 0 0 0' : undefined; // undefined so it will fallback to default card prop padding
 
+    const coinInterest = interestUtil.getUserInterestForCoin(coin.short)
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
       <Card size="half" padding={padding} onPress={onCardPress}>
-        <View style={{ flexDirection: "row", marginHorizontal: 12 }}>
-          <View >
-            <CelText style={style.text} weight='300' type="H6">{displayName}</CelText>
+        <View style={style.cardInnerView}>
+          <View style={style.wrapper}>
+            <View style={style.coinTextWrapper}>
+              <CelText style={style.text} weight='300' type="H6">{displayName}</CelText>
+              { coinInterest.eligible && <CelText color={STYLES.COLORS.GREEN} type="H7">{ coinInterest.display }</CelText> }
+            </View>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
         </View>

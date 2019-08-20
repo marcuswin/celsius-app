@@ -12,6 +12,7 @@ const COLORS = {
   DARK_BACKGROUND: '#151E27',
   DARK_LABEL: "#293D51",
   DARK_OVERLAY: "rgba(21, 30, 39, 0.9)",
+  DARKEST_HEADER: "#344352",
 
   // style guide colors
   LIGHT_GRAY: '#F3F3F3',

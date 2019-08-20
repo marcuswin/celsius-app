@@ -25,8 +25,9 @@ let msgTimeout;
  * @param {string} msgType - one of warning|info|success|error
  * @param {string} text - text to show
  * @param {boolean} disableClear - should the message stay forever
+ * @param {object} action - text and action for toast message
  */
-function showMessage(msgType, text, disableClear) {
+function showMessage(msgType, text, disableClear, action) {
   return dispatch => {
     clearTimeout(msgTimeout);
 
@@ -41,6 +42,7 @@ function showMessage(msgType, text, disableClear) {
       type: ACTIONS.SHOW_MESSAGE,
       msgType,
       text,
+      action
     })
   }
 }

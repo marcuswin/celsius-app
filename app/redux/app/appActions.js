@@ -101,13 +101,13 @@ function loadCelsiusAssets() {
   };
 }
 
-const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData (
   data => {
     loggerUtil.logme(data)
   }
 );
 
-const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution(
+const onAppOpenAttributionCanceller = appsFlyer.onAppOpenAttribution (
   res => {
     // console.log('ovo je res: ', JSON.stringify(res))
 
@@ -151,11 +151,15 @@ function handleAppStateChange(nextAppState) {
       }
     }
 
-      if (profile && profile.has_pin) {
-        if (nextAppState === "active") {
-          if (Platform.OS === "ios") {
-            clearTimeout(pinTimeout);
-          }
+    if (profile && profile.has_pin) {
+      if (nextAppState === "active") {
+        dispatch(actions.getLoyaltyInfo())
+        dispatch(actions.getInitialCelsiusData())
+        dispatch(actions.getCurrencyRates())
+
+        if (Platform.OS === "ios") {
+          clearTimeout(pinTimeout);
+        }
 
           if (Platform.OS === "android" && new Date().getTime() - startOfBackgroundTimer > ASK_FOR_PIN_AFTER) {
             startOfBackgroundTimer = null;
@@ -213,7 +217,7 @@ function initAppData(initToken = null) {
 
     // get user token
     const token = initToken || await getSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
-    
+
     // fetch user
     if (token) await dispatch(actions.getProfileInfo());
 

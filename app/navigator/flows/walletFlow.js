@@ -13,6 +13,7 @@ import { withdrawFlow } from './withdrawFlow'
 import { profileFlow } from './profileFlow'
 import { depositFlow } from './depositFlow'
 import { borrowFlow } from './borrowFlow'
+import InterestRates from "../../components/screens/InterestRates/InterestRates";
 
 export const walletFlow = {
   screens: {
@@ -24,6 +25,7 @@ export const walletFlow = {
     TransactionDetails,
     Community,
     MyCel,
+    InterestRates,
     ...depositFlow.screens,
     ...profileFlow.screens,
     ...celPayFlow.screens,
