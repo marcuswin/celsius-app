@@ -51,21 +51,21 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>We&apos;d like to use your calendat in order to use it in the app - is that ok?</string>
+	<string>We'd like to use your calendat in order to use it in the app - is that ok?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We&apos;d like to use your camera in order to proceed with taking a picture - is that ok?</string>
+	<string>We'd like to use your camera in order to proceed with taking a picture - is that ok?</string>
 	<key>NSContactsUsageDescription</key>
-	<string>We&apos;d like to use your contacts in order to use it in the app - is that ok?</string>
+	<string>We'd like to use your contacts in order to use it in the app - is that ok?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We&apos;d like to use your location data in order to determine what country you&apos;re from - is that ok?</string>
+	<string>We'd like to use your location data in order to determine what country you're from - is that ok?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We&apos;d like to use your location data in order to determine what country you&apos;re from - is that ok?</string>
+	<string>We'd like to use your location data in order to determine what country you're from - is that ok?</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>We&apos;d like to use your microphone in order to use your camera - is that ok?</string>
+	<string>We'd like to use your microphone in order to use your camera - is that ok?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We&apos;d like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
+	<string>We'd like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We&apos;d like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
+	<string>We'd like to use your photo library in order to proceed with picking a picture from your gallery - is that ok?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Barlow-Thin.ttf</string>
