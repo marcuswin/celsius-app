@@ -18,8 +18,6 @@ import Card from "../../atoms/Card/Card";
 import STYLES from "../../../constants/STYLES";
 import { LOAN_TYPES } from '../../../constants/DATA';
 import LoanApplicationSuccessModal from '../../organisms/LoanApplicationSuccessModal/LoanApplicationSuccessModal';
-import { MODALS } from '../../../constants/UI';
-
 
 // TODO rename to BorrowLoanConfirm
 @connect(
@@ -81,7 +79,7 @@ class ConfirmYourLoan extends Component {
     const { actions } = this.props
 
     // actions.applyForALoan(formData)
-    actions.openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL)
+    actions.navigateTo('LoanTermsOfUse')
   }
 
   renderBankInfo = () => {

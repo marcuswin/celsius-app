@@ -25,6 +25,7 @@ import PrincipalPaymentType from "../../components/screens/PrincipalPaymentType/
 
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import { profileFlow } from './profileFlow'
+import LoanTermsOfUse from "../../components/screens/LoanTermsOfUse/LoanTermsOfUse";
 
 export const borrowFlow = {
   screens: {
@@ -51,6 +52,7 @@ export const borrowFlow = {
     LoanSettings,
     PrincipalPayment,
     PrincipalPaymentType,
+    LoanTermsOfUse,
     ...profileFlow.screens,
   },
   props: {

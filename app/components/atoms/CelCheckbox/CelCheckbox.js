@@ -24,7 +24,7 @@ const CelCheckbox = (props) => {
         unCheckedImage={props.unChecked}
 
       />
-      <CelText>{props.rightText}</CelText>
+      <CelText style={{ marginRight: 30 }}>{props.rightText}</CelText>
     </TouchableOpacity>
   )
 }
