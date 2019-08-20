@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Platform, Switch } from 'react-native'
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -11,10 +10,9 @@ import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
 import IconButton from '../../organisms/IconButton/IconButton'
 import CelButton from '../../atoms/CelButton/CelButton'
 import { MODALS } from '../../../constants/UI'
-import STYLES from '../../../constants/STYLES'
 import RemoveAuthAppModal from '../../organisms/RemoveAuthAppModal/RemoveAuthAppModal'
-import { getTheme } from '../../../utils/styles-util'
 import { hasPassedKYC } from "../../../utils/user-util";
+import CelSwitch from '../../atoms/CelSwitch/CelSwitch';
 
 @connect(
   state => ({
@@ -35,7 +33,7 @@ class SecuritySettings extends Component {
     title: 'Security'
   })
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.is2FAEnabled !== prevState.is2FAEnabled) {
       return {
         is2FAEnabled: nextProps.is2FAEnabled
@@ -44,7 +42,7 @@ class SecuritySettings extends Component {
     return null
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -52,7 +50,7 @@ class SecuritySettings extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { actions } = this.props
     actions.getProfileInfo()
   }
@@ -64,16 +62,10 @@ class SecuritySettings extends Component {
 
   rightSwitch = () => {
     const { is2FAEnabled } = this.state
-    const isIos = Platform.OS === 'ios'
-    const falseColor = isIos ? 'transparent' : STYLES.COLORS.DARK_GRAY3
-    const theme = getTheme()
     return (
-      <Switch
+      <CelSwitch
         onValueChange={this.handleSwitchChange}
         value={is2FAEnabled}
-        thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
-        ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
-        trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
       />
     )
   }
@@ -105,7 +97,7 @@ class SecuritySettings extends Component {
     actions.navigateTo('VerifyProfile', { onSuccess: actions.disableTwoFactor })
   }
 
-  render () {
+  render() {
     const { actions, is2FAEnabled, user, kycStatus } = this.props
     const Switcher = this.rightSwitch
 
