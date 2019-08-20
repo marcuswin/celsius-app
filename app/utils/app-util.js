@@ -1,22 +1,22 @@
-import * as Segment from 'expo-analytics-segment'
-import * as Font from 'expo-font'
-import { Asset } from 'expo-asset'
-import React from 'react'
-import { Image, Platform } from 'react-native'
-import NetInfo from '@react-native-community/netinfo'
-import twitter from 'react-native-simple-twitter'
+import * as Segment from "expo-analytics-segment";
+import * as Font from "expo-font";
+import { Asset } from "expo-asset";
+import React from "react";
+import { Image, Platform } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
+import twitter from "react-native-simple-twitter";
 import appsFlyer from "react-native-appsflyer";
 
-import Constants from '../../constants'
+import Constants from "../../constants";
 import {
   deleteSecureStoreKey,
   getSecureStoreKey,
   setSecureStoreKey
-} from './expo-storage'
-import baseUrl from '../services/api-url'
-import store from '../redux/store'
-import * as actions from '../redux/actions'
-import apiUtil from './api-util'
+} from "./expo-storage";
+import baseUrl from "../services/api-url";
+import store from "../redux/store";
+import * as actions from "../redux/actions";
+import apiUtil from "./api-util";
 import loggerUtil from "./logger-util";
 
 const {
@@ -27,7 +27,7 @@ const {
   APPSFLYER_KEY_IOS,
   SEGMENT_ANDROID_KEY,
   SEGMENT_IOS_KEY
-} = Constants.extra
+} = Constants.extra;
 
 export default {
   initializeThirdPartyServices,
@@ -37,77 +37,78 @@ export default {
   cacheImages,
   cacheFonts,
   recursiveMap
-}
+};
 
 /**
  * Initializes all third party services used in Celsius app
  */
-async function initializeThirdPartyServices () {
-  await store.dispatch(actions.setAppsFlyerUID())
-  await store.dispatch(actions.setAdvertisingId())
+async function initializeThirdPartyServices() {
+  await store.dispatch(actions.setAppsFlyerUID());
+  await store.dispatch(actions.setAdvertisingId());
 
-  apiUtil.initInterceptors()
-  twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY)
+  apiUtil.initInterceptors();
+  twitter.setConsumerKey(TWITTER_CUSTOMER_KEY, TWITTER_SECRET_KEY);
   await Segment.initialize({
     androidWriteKey: SEGMENT_ANDROID_KEY,
     iosWriteKey: SEGMENT_IOS_KEY
-  })
+  });
   // console.log('Before appsFlyer initSDK')
   const appsFlyerOptions = {
-    devKey: Platform.OS === 'android' ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
-    isDebug: true,
-    appId: Platform.OS === 'ios' && '1387885523'
+    devKey:
+      Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
+    isDebug: true
+  };
+
+  if (Platform.OS === "ios") {
+    appsFlyerOptions.appId = "1387885523";
   }
   // console.log('After appsFlyer initSDK - options')
 
   await appsFlyer.initSdk(
-      appsFlyerOptions,
-      (result) => {
-        loggerUtil.logme(result)
-      },
-      (error) => {
-        loggerUtil.err(error)
-      }
+    appsFlyerOptions,
+    result => {
+      loggerUtil.logme(result);
+    },
+    error => {
+      loggerUtil.err(error);
+    }
   );
 }
 
 /**
  * Logs the user out on environment change, helps developers
  */
-async function logoutOnEnvChange () {
-  const previousBaseUrl = await getSecureStoreKey('BASE_URL')
+async function logoutOnEnvChange() {
+  const previousBaseUrl = await getSecureStoreKey("BASE_URL");
   if (previousBaseUrl !== baseUrl) {
-    await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY)
-    await setSecureStoreKey('BASE_URL', baseUrl)
+    await deleteSecureStoreKey(SECURITY_STORAGE_AUTH_KEY);
+    await setSecureStoreKey("BASE_URL", baseUrl);
   }
 }
 
 /**
  * Initializes the connectivity listener for the app
  */
-function initInternetConnectivityListener () {
-  NetInfo.isConnected.addEventListener('connectionChange', isConnected =>
+function initInternetConnectivityListener() {
+  NetInfo.isConnected.addEventListener("connectionChange", isConnected =>
     store.dispatch(actions.setInternetConnection(isConnected))
-  )
+  );
 }
 
 /**
  * Polls status of the backend app from /status every 30s
  */
-const POLL_INTERVAL = 30 * 1000
-let backendPollInterval
-async function pollBackendStatus () {
-  if (backendPollInterval) clearInterval(backendPollInterval)
-  await store.dispatch(actions.getBackendStatus())
-  await store.dispatch(actions.getKYCStatus())
+const POLL_INTERVAL = 30 * 1000;
+let backendPollInterval;
+async function pollBackendStatus() {
+  if (backendPollInterval) clearInterval(backendPollInterval);
+  await store.dispatch(actions.getBackendStatus());
+  await store.dispatch(actions.getKYCStatus());
 
-  backendPollInterval = setInterval(
-    async () => {
-      await store.dispatch(actions.getBackendStatus())
-      await store.dispatch(actions.getKYCStatus())
-    },
-    POLL_INTERVAL
-  )
+  backendPollInterval = setInterval(async () => {
+    await store.dispatch(actions.getBackendStatus());
+    await store.dispatch(actions.getKYCStatus());
+  }, POLL_INTERVAL);
 }
 
 /**
@@ -123,12 +124,12 @@ async function pollBackendStatus () {
 // For web images, use Image.prefetch(image).
 // Continue referencing the image normally,
 // e.g. with <Image source={require('path/to/image.png')} />
-async function cacheImages (images) {
+async function cacheImages(images) {
   for (let i = 0; i < images.length; i++) {
-    if (typeof image === 'string') {
-      await Image.prefetch(images[i])
+    if (typeof image === "string") {
+      await Image.prefetch(images[i]);
     } else {
-      await Asset.fromModule(images[i]).downloadAsync()
+      await Asset.fromModule(images[i]).downloadAsync();
     }
   }
 }
@@ -140,9 +141,9 @@ async function cacheImages (images) {
  * @returns {Array} - array of promises
  */
 // Fonts are preloaded using Expo.Font.loadAsync(font).
-async function cacheFonts (fonts) {
+async function cacheFonts(fonts) {
   for (let i = 0; i < fonts.length; i++) {
-    await Font.loadAsync(fonts[i])
+    await Font.loadAsync(fonts[i]);
   }
 }
 
@@ -153,20 +154,20 @@ async function cacheFonts (fonts) {
  * @param {Function} fn - function that will change all nested elements
  * @returns {Array} - array of react childrens changed through fn()
  */
-function recursiveMap (children, fn) {
+function recursiveMap(children, fn) {
   return React.Children.map(children, child => {
     if (!React.isValidElement(child)) {
-      return child
+      return child;
     }
 
-    let newChild = child
+    let newChild = child;
 
     if (child.props.children) {
       newChild = React.cloneElement(child, {
         children: recursiveMap(child.props.children, fn)
-      })
+      });
     }
 
-    return fn(newChild)
-  })
+    return fn(newChild);
+  });
 }
