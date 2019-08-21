@@ -130,8 +130,8 @@ class TransactionsHistory extends Component {
     }
 
     return (
-      <View style={[style.container, margins]}>
-        <View style={style.filterContainer}>
+      <View style={[style.container]}>
+        <View style={[style.filterContainer, hasFilter ? { marginBottom: 10} : margins]}>
           <View>
             <CelText weight='medium' type='H6' margin='0 0 0 0'>
               Transaction history

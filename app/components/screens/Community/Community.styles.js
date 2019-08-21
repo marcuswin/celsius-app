@@ -36,7 +36,8 @@ const base = {
     width: widthPercentageToDP("22%"),
     height: widthPercentageToDP("20.4%"),
     overflow: "hidden"
-  }
+  },
+  graphMargin: {marginTop: heightPercentageToDP("5%")}
 };
 
 

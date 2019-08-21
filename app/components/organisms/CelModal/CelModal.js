@@ -87,7 +87,7 @@ class CelModal extends Component {
     )
   }
 
-  render () {
+  render() {
     const {
       openedModal,
       name,
@@ -136,7 +136,6 @@ class CelModal extends Component {
                   if (onClose) onClose()
                 }}
               >
-                <View style={{ height: 50, width: 50, paddingTop: 16 }}>
                   <Icon
                     name='Close'
                     height='15'
@@ -145,7 +144,6 @@ class CelModal extends Component {
                     fill={'#3D4853'}
                     marginTop={20}
                   />
-                </View>
               </TouchableOpacity>
             ) : null}
             {header ? (
@@ -179,7 +177,7 @@ class CelModal extends Component {
                   {
                     marginTop: header
                       ? heightPercentageToDP('15.3%')
-                      : heightPercentageToDP('8%')
+                      : heightPercentageToDP('5%')
                   },
                   paddingStyle
                 ]}

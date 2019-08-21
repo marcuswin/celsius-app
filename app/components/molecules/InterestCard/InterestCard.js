@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Platform, Switch, View } from 'react-native'
+import { View } from 'react-native'
 
 import Card from '../../atoms/Card/Card'
 import STYLES from '../../../constants/STYLES'
@@ -14,6 +14,7 @@ import { THEMES } from "../../../constants/UI";
 import Spinner from "../../atoms/Spinner/Spinner";
 import { isUSCitizen } from "../../../utils/user-util";
 import Badge from "../../atoms/Badge/Badge";
+import CelSwitch from '../../atoms/CelSwitch/CelSwitch';
 
 @connect(
   (state) => ({
@@ -30,7 +31,7 @@ class InterestCard extends Component {
   }
   static defaultProps = {}
 
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = { loading: false }
@@ -43,7 +44,7 @@ class InterestCard extends Component {
     // if(!value) await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
 
     await setUserAppSettings({
-      interest_in_cel : true,
+      interest_in_cel: true,
       interest_in_cel_per_coin: {
         ...interestInCoins,
         [coin]: value,
@@ -53,44 +54,40 @@ class InterestCard extends Component {
     this.setState({ loading: false })
   };
 
-  render () {
-    const { tier,coin, actions, interestRates, interestRate } = this.props
+  render() {
+    const { tier, coin, actions, interestRates, interestRate } = this.props
     const { loading } = this.state
 
     if (!interestRate.eligible) return null
     if (tier === 'NONE') return null
     if (isUSCitizen()) return null
 
-    const falseColor = Platform.OS === 'ios' ? 'transparent' : STYLES.COLORS.DARK_GRAY3
     const theme = getTheme()
 
     return (
-      <View style={{justifyContent: "space-between"}}>
-        { !interestRate.inCEL && (
-          <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
+      <View style={{ justifyContent: "space-between" }}>
+        {!interestRate.inCEL && (
+          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
             <CelText style={{ width: '75%' }}>Switch to earning interest in CEL to increase your interest rate to:</CelText>
 
-            <Badge margin='12 0 10 12' style={{alignContent: 'center',}} color={STYLES.COLORS.GREEN}>
-              <CelText align='justify' type="H5" color="white">{ formatter.percentageDisplay(interestRates[coin].cel_rate) }</CelText>
+            <Badge margin='12 0 10 12' style={{ alignContent: 'center', }} color={STYLES.COLORS.GREEN}>
+              <CelText align='justify' type="H5" color="white">{formatter.percentageDisplay(interestRates[coin].cel_rate)}</CelText>
             </Badge>
           </View>
         )}
 
-        <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginHorizontal: widthPercentageToDP("2%")}}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10, marginHorizontal: widthPercentageToDP("2%") }}>
           <CelText color={"#737A82"} type={"H4"} weight={"300"}>Earn interest in CEL</CelText>
-          { loading ? (
+          {loading ? (
             <Spinner size={30} />
           ) : (
-            <Switch
-              thumbColor={ theme === 'light' ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_TOGGLE_FOREGROUND }
-              ios_backgroundColor={ theme === 'light' ? STYLES.COLORS.DARK_GRAY3 : STYLES.COLORS.DARK_TOGGLE_BACKGROUND }
-              trackColor={{ false: falseColor, true: STYLES.COLORS.GREEN }}
-              value={interestRate.inCEL}
-              onValueChange={this.handleValueChange}
-            />
-          )}
+              <CelSwitch
+                value={interestRate.inCEL}
+                onValueChange={this.handleValueChange}
+              />
+            )}
         </View>
-        <Card color={ theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_GRAY}>
+        <Card color={theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_GRAY}>
           <CelText weight={"300"} type={"H7"}>To earn interest in CEL on all your deposited coins, visit <CelText onPress={() => actions.navigateTo("MyCel")} weight={"300"} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>My CEL</CelText> page.</CelText>
         </Card>
       </View>

@@ -24,7 +24,7 @@ export default {
  * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
  * @returns {string}
  */
-function usd (amount, options = {}) {
+function usd(amount, options = {}) {
   return currency.format(floor10(amount), { code: 'USD', ...options })
 }
 
@@ -39,7 +39,7 @@ function usd (amount, options = {}) {
  * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
  * @returns {string}
  */
-function crypto (amount, cryptocurrency, options = {}) {
+function crypto(amount, cryptocurrency, options = {}) {
   return currency.format(amount, {
     precision: options.noPrecision ? 0 : options.precision || 5,
     thousand: ',',
@@ -57,7 +57,7 @@ function crypto (amount, cryptocurrency, options = {}) {
  * @param {Object} options - check options here https://www.npmjs.com/package/currency-formatter#advanced-usage
  * @returns {string}
  */
-function round (amount, options = {}) {
+function round(amount, options = {}) {
   return currency.format(amount, {
     precision: options.noPrecision ? 0 : options.precision || 2,
     thousand: ','
@@ -70,7 +70,7 @@ function round (amount, options = {}) {
  * @param {string} curr - 'USD' or everything else
  * @returns {number}
  */
-function getAllowedDecimals (curr) {
+function getAllowedDecimals(curr) {
   return curr === 'USD' ? 2 : 5
 }
 
@@ -81,7 +81,7 @@ function getAllowedDecimals (curr) {
  * @param {string} curr - 'USD' or everything else
  * @returns {boolean}
  */
-function hasEnoughDecimals (value = '', curr) {
+function hasEnoughDecimals(value = '', curr) {
   return getNumberOfDecimals(value) > getAllowedDecimals(curr)
 }
 
@@ -92,7 +92,7 @@ function hasEnoughDecimals (value = '', curr) {
  * @param {string} curr - 'USD' or everything else
  * @returns {number}
  */
-function setCurrencyDecimals (value, curr) {
+function setCurrencyDecimals(value, curr) {
   if (!hasEnoughDecimals(value, curr)) return value
 
   return floor10(value, -this.getAllowedDecimals(curr)).toString()
@@ -104,7 +104,7 @@ function setCurrencyDecimals (value, curr) {
  * @param {string} str
  * @returns {string}
  */
-function capitalize (str) {
+function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -114,7 +114,7 @@ function capitalize (str) {
  * @param {number|string} amount
  * @returns {string}
  */
-function removeDecimalZeros (amount) {
+function removeDecimalZeros(amount) {
   // const numberOfDecimals = getNumberOfDecimals(amount)
   const splitedValue = amount.toString().split('.')
   let decimals = ''
@@ -134,7 +134,7 @@ function removeDecimalZeros (amount) {
  * @param {number} number
  * @returns {number}
  */
-function percentage (number) {
+function percentage(number) {
   return Math.round(number * 10000) / 100
 }
 
@@ -142,11 +142,12 @@ function percentage (number) {
  * Formats percentage from number - 0.0695 => 6.95%
  *
  * @param {number|string} - number to format
- * @returns {number}
+ * @param {boolean} - Hide percentage symbol
+//  * @returns {number}
  */
-function percentageDisplay (number) {
+function percentageDisplay(number, noSymbol = false) {
   const percentageNum = Math.round(number * 10000) / 100
-  return `${percentageNum.toFixed(2)}%`
+  return `${percentageNum.toFixed(2)}${noSymbol ? '' : '%'}`
 }
 
 
@@ -158,7 +159,7 @@ function percentageDisplay (number) {
  * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
  * @returns {Number} The adjusted value.
  */
-function floor10 (value, exp = -2) {
+function floor10(value, exp = -2) {
   const realExp = Math.pow(10, -exp)
   return Math.floor(value * realExp) / realExp
 }
@@ -169,7 +170,7 @@ function floor10 (value, exp = -2) {
  * @param {Number}  value The number.
  * @returns {Number} Decimal number of input value
  */
-function getNumberOfDecimals (value) {
+function getNumberOfDecimals(value) {
   const stringValue = value.toString()
   const splitValue = stringValue && stringValue.split('.')
   return stringValue && (splitValue[1] ? splitValue[1].length : 0)
@@ -182,7 +183,7 @@ function getNumberOfDecimals (value) {
  * @param {Integer} exp   The exponent
  * @returns {String}
  */
-function getEllipsisAmount (value, exp) {
+function getEllipsisAmount(value, exp) {
   const realValue =
     value === '.' || value === '0.' ? '0.' : (value || 0).toString()
   const floatValue = parseFloat(realValue).toString()
@@ -197,7 +198,7 @@ function getEllipsisAmount (value, exp) {
 /**
  * @todo
  */
-function isMergeableObject (val) {
+function isMergeableObject(val) {
   const nonNullObject = val && typeof val === 'object'
 
   return (
@@ -210,14 +211,14 @@ function isMergeableObject (val) {
 /**
  * @todo
  */
-function emptyTarget (val) {
+function emptyTarget(val) {
   return Array.isArray(val) ? [] : {}
 }
 
 /**
  * @todo
  */
-function cloneIfNecessary (value, optionsArgument) {
+function cloneIfNecessary(value, optionsArgument) {
   const clone = optionsArgument && optionsArgument.clone === true
   return clone && isMergeableObject(value)
     ? deepmerge(emptyTarget(value), value, optionsArgument)
@@ -227,7 +228,7 @@ function cloneIfNecessary (value, optionsArgument) {
 /**
  * @todo
  */
-function defaultArrayMerge (target, source, optionsArgument) {
+function defaultArrayMerge(target, source, optionsArgument) {
   const destination = target.slice()
   source.forEach((e, i) => {
     if (typeof destination[i] === 'undefined') {
@@ -244,7 +245,7 @@ function defaultArrayMerge (target, source, optionsArgument) {
 /**
  * @todo
  */
-function mergeObject (target, source, optionsArgument) {
+function mergeObject(target, source, optionsArgument) {
   const destination = {}
   if (isMergeableObject(target)) {
     Object.keys(target).forEach(key => {
@@ -264,7 +265,7 @@ function mergeObject (target, source, optionsArgument) {
 /**
  * @todo
  */
-function deepmerge (target, source, optionsArgument) {
+function deepmerge(target, source, optionsArgument) {
   const array = Array.isArray(source)
   const options = optionsArgument || { arrayMerge: defaultArrayMerge }
   const arrayMerge = options.arrayMerge || defaultArrayMerge
@@ -280,7 +281,7 @@ function deepmerge (target, source, optionsArgument) {
 /**
  * @todo
  */
-deepmerge.all = function deepmergeAll (array, optionsArgument) {
+deepmerge.all = function deepmergeAll(array, optionsArgument) {
   if (!Array.isArray(array) || array.length < 2) {
     throw new Error(
       'first argument should be an array with at least two elements'
