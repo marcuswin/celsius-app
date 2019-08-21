@@ -24,7 +24,7 @@ function getUserInterestForCoin(coinShort) {
   let interestRateDisplay
   let inCEL = false
   let eligible = false
-  if (coinShort !== "CEL" && interestRates[coinShort]) {
+  if (interestRates[coinShort]) {
     eligible = true
     inCEL = appSettings.interest_in_cel_per_coin[coinShort] || (appSettings.interest_in_cel && appSettings.interest_in_cel_per_coin[coinShort] === null)
     interestRateDisplay = !inCEL
