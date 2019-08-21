@@ -9,13 +9,14 @@ import LoanTermsOfUseStyle from "./LoanTermsOfUse.styles";
 import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import CelButton from "../../atoms/CelButton/CelButton";
-import {MODALS} from "../../../constants/UI";
+import { MODALS, THEMES } from "../../../constants/UI";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import STYLES from "../../../constants/STYLES";
 import Card from "../../atoms/Card/Card";
-import ExpandableItem from "../../atoms/ExpandableItem/ExpandableItem";
+import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import Separator from "../../atoms/Separator/Separator";
 import Icon from "../../atoms/Icon/Icon";
+import { getTheme } from "../../../utils/styles-util"
 import { handleCopy } from './ToUObj'
 
 @connect(
@@ -83,12 +84,16 @@ class LoanTermsOfUse extends Component {
 
   renderTermsOfUse = (part) => {
     const style = LoanTermsOfUseStyle();
-
     return (
       part.map( (o, i) =>
-        <ExpandableItem style={style.expandableItem} key={ i } heading={ o.title }>
-          <CelText>{o.textArray ? this.renderTextArray(o.textArray) :  o.copy}</CelText>
-        </ExpandableItem> )
+        <View key={ i } style={style.expandableItem}>
+          <ExpandableItem heading={ o.title }>
+            <CelText
+              type={'H5'}
+              style={{ marginTop: 20}}>{o.textArray ? this.renderTextArray(o.textArray) :  o.copy}
+            </CelText>
+          </ExpandableItem>
+        </View>)
     )
   }
 
@@ -99,6 +104,8 @@ class LoanTermsOfUse extends Component {
     const style = LoanTermsOfUseStyle()
     const termsOfUse = handleCopy()
     this.handleAcceptance()
+
+    const theme = getTheme()
 
     return (
       <RegularLayout
@@ -111,11 +118,11 @@ class LoanTermsOfUse extends Component {
           Celsius Loan Terms and Conditions
         </CelText>
 
-        { this.renderTermsOfUse(termsOfUse.termsPt1) }
+          { this.renderTermsOfUse(termsOfUse.termsPt1) }
 
         <Card
-          color={ STYLES.COLORS.WHITE }
-          margin={'0 0 20 0'}
+          color={ theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.SEMI_GRAY }
+          margin={'20 0 20 0'}
         >
           <CelCheckbox
             onChange={ (field, value) =>  this.setState({ acceptPt1: value })}
@@ -129,7 +136,8 @@ class LoanTermsOfUse extends Component {
 
         { this.renderTermsOfUse(termsOfUse.termsPt2) }
         <Card
-          color={ STYLES.COLORS.WHITE}
+          color={ theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.SEMI_GRAY }
+          margin={'20 0 20 0'}
         >
           <CelCheckbox
             onChange={ (field, value) =>  this.setState({ acceptPt2: value })}
@@ -143,7 +151,8 @@ class LoanTermsOfUse extends Component {
 
         { this.renderTermsOfUse(termsOfUse.termsPt3) }
         <Card
-          color={ STYLES.COLORS.WHITE }
+          color={ theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.SEMI_GRAY  }
+          margin={'20 0 20 0'}
         >
           <CelCheckbox
             onChange={ (field, value) =>  this.setState({ acceptPt3: value })}
@@ -155,24 +164,34 @@ class LoanTermsOfUse extends Component {
           />
         </Card>
         <Card
-          color={ STYLES.COLORS.WHITE }
+          color={ theme === THEMES.LIGHT ? STYLES.COLORS.WHITE : STYLES.COLORS.SEMI_GRAY  }
           padding={'20 0 20 0'}
         >
           <View style={ style.shareCard }>
             <TouchableOpacity style={ style.downloadButton }>
-              <Icon name='KycCamera' height='24' fill={STYLES.COLORS.GRAY} />
+              <Icon
+                name='Download'
+                height='24'
+                fill={STYLES.COLORS.GRAY}
+                style={ style.iconStyle }
+              />
               <CelText
                 align={'center'}
               >Download T&C</CelText>
             </TouchableOpacity>
             <Separator
-              color={'red'}
+              color={STYLES.COLORS.GRAY}
               vertical
-              height={"40%"}
-              top={10}
+              height={'40%'}
+              top={12}
+              opacity={1}
             />
             <TouchableOpacity style={ style.shareButton }>
-              <Icon name='KycCamera' height='24' fill={STYLES.COLORS.GRAY} />
+              <Icon name='Share'
+                height='24'
+                fill={ STYLES.COLORS.GRAY }
+                style={ style.iconStyle }
+              />
               <CelText
                 align={'center'}
               >Share</CelText>

@@ -10,7 +10,8 @@ const base = {
       marginBottom: 25
   },
   expandableItem: {
-    marginBottom: 20
+    marginBottom: 15,
+    marginTop: 10
   },
   shareCard: {
     flexDirection: 'row',
@@ -23,6 +24,9 @@ const base = {
   },
   shareButton: {
     flex: 0.5
+  },
+  iconStyle: {
+    marginBottom: 10
   }
 }
 
