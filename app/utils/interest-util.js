@@ -26,7 +26,7 @@ function getUserInterestForCoin(coinShort) {
   let eligible = false
   if (interestRates[coinShort]) {
     eligible = true
-    inCEL = appSettings.interest_in_cel_per_coin[coinShort] || (appSettings.interest_in_cel && appSettings.interest_in_cel_per_coin[coinShort] === null)
+    inCEL = (appSettings.interest_in_cel_per_coin[coinShort] || (appSettings.interest_in_cel && appSettings.interest_in_cel_per_coin[coinShort] === null)) && (coinShort !== "CEL")
     interestRateDisplay = !inCEL
       ? formatter.percentageDisplay(interestRates[coinShort].rate)
       : formatter.percentageDisplay(interestRates[coinShort].cel_rate)

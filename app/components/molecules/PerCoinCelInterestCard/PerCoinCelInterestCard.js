@@ -33,7 +33,7 @@ class PerCoinCelInterestCard extends Component {
     super(props);
     const { appSettings, actions, currencies } = props
 
-    const coinList = Object.keys(appSettings.interest_in_cel_per_coin)
+    const coinList = Object.keys(appSettings.interest_in_cel_per_coin).filter(coin => coin !== "CEL")
     const coinNames = {}
     currencies.forEach(c => {
       coinNames[c.short] = c.displayName
