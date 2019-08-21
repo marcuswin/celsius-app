@@ -11,11 +11,11 @@ import Graph from "../../graphs/Graph/Graph";
 
 import STYLES from "../../../constants/STYLES";
 import { heightPercentageToDP } from '../../../utils/styles-util';
-import CoinCardStyle from './CoinCard.styles';
+import CoinGridCardStyle from './CoinGridCard.styles';
 import { THEMES } from "../../../constants/UI";
 import interestUtil from "../../../utils/interest-util";
 
-class CoinCard extends Component {
+class CoinGridCard extends Component {
   static propTypes = {
     coin: PropTypes.instanceOf(Object).isRequired,
     displayName: PropTypes.string.isRequired,
@@ -39,7 +39,7 @@ class CoinCard extends Component {
 
   coinCardFull = (coin) => (
     <Fragment >
-      <CelText style={CoinCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
+      <CelText style={CoinGridCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
       <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
@@ -60,7 +60,7 @@ class CoinCard extends Component {
   render = () => {
     const { coin, theme, displayName, currencyRates, onCardPress, graphData } = this.props;
     const amount = coin.amount_usd > 0;
-    const style = CoinCardStyle();
+    const style = CoinGridCardStyle();
     let dateArray;
     let priceArray;
 
@@ -100,4 +100,4 @@ class CoinCard extends Component {
   }
 }
 
-export default CoinCard
+export default CoinGridCard

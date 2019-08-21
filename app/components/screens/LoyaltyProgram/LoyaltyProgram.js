@@ -346,7 +346,7 @@ class LoyaltyProgram extends Component {
               </Card>
             )}
 
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", paddingHorizontal: 10 }}>
               <View style={ style.circle }>
               <ThemedImage
                 style={[
@@ -417,15 +417,15 @@ class LoyaltyProgram extends Component {
               />
               </View>
               <CelText style={ style.title } type={"H3"} weight={"600"}>Always Updating</CelText>
-              <CelText
-                style={ style.explanation }
-                align={"center"}
-                type={"H4"}
-                weight={"300"}
-              >
-                Your loyalty level is dynamic and will change with changing wallet balances. This includes new wallet
-                activity as well as market fluctuations, so be sure to check your status every week!
-              </CelText>
+                <CelText
+                  style={ style.explanation }
+                  align={"center"}
+                  type={"H4"}
+                  weight={"300"}
+                >
+                  Your loyalty level is dynamic and will change with changing wallet balances. This includes new wallet
+                  activity as well as market fluctuations, so be sure to check your status every week!
+                </CelText>
             </View>
             <CelButton
               margin={"30 0 10 0"}

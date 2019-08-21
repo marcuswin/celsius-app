@@ -1,12 +1,10 @@
-
 // import STYLES from '../../../constants/STYLES';
 import { getThemedStyle } from '../../../utils/styles-util';
 
 const base = {
-  footerContainer: {
-    flexDirection: 'row',
-    justifyContent: "center"
-  }
+    container: {
+        flex: 1
+    }
 }
 
 const themed = {
@@ -20,6 +18,6 @@ const themed = {
     }
 }
 
-const CalculateLoyaltyModalStyle = () => getThemedStyle(base, themed);
+const CelSwitchStyle = () => getThemedStyle(base, themed);
 
-export default CalculateLoyaltyModalStyle
+export default CelSwitchStyle

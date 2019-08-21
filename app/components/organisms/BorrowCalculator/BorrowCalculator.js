@@ -47,15 +47,14 @@ class BorrowCalculator extends Component {
     const {
       currencies,
       loanCompliance,
-      ltv,
-      minimumLoanAmount,
+      ltv
     } = props
 
 
     const coinSelectItems = currencies
       .filter(c => loanCompliance.coins.includes(c.short))
       .map(c => ({
-        label: `${c.displayName} - ${c.short}`,
+        label: `${c.displayName}  (${c.short})`,
         value: c.short
       }))
 
@@ -76,7 +75,7 @@ class BorrowCalculator extends Component {
     props.actions.initForm({
       coin: "BTC",
       termOfLoan: 6,
-      amount: minimumLoanAmount,
+      amount: 0,
       ltv: ltv[0],
     })
 
@@ -112,6 +111,17 @@ class BorrowCalculator extends Component {
     }
 
     switch (purpose) {
+
+      case EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS:
+        return {
+          ...defaultProps,
+          subtitle: 'Calculate your loan interest.',
+          bottomHeading: `To apply for a loan, you need to deposit an additional ${formatter.crypto(loanParams.missingCollateral, loanParams.largestShortCrypto)}`,
+          bottomParagraph: 'Deposit more coins to start your first loan application',
+          buttonCopy: 'Deposit coins',
+          onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
+        }
+
       case EMPTY_STATES.NON_VERIFIED_BORROW:
         return {
           ...defaultProps,
@@ -120,16 +130,6 @@ class BorrowCalculator extends Component {
           bottomParagraph: `Verify your identity to start using your coins as collateral and get a dollar loan starting at just ${formatter.percentageDisplay(loanParams.bestLtv)} APR`,
           buttonCopy: 'Verify identity',
           onPress: () => actions.navigateTo("KYCProfileDetails"),
-        }
-
-      case EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS:
-        return {
-          ...defaultProps,
-          subtitle: '',
-          bottomHeading: `To apply for a loan, you need to deposit an additional ${formatter.crypto(loanParams.missingCollateral, loanParams.largestShortCrypto)}`,
-          bottomParagraph: 'Deposit more coins to start your first loan application',
-          buttonCopy: 'Deposit coins',
-          onPress: () => actions.navigateTo("Deposit", { coin: loanParams.largestShortCrypto }),
         }
 
       case EMPTY_STATES.NON_MEMBER_BORROW:
@@ -172,13 +172,10 @@ class BorrowCalculator extends Component {
     return {
       loanCard: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.SEMI_GRAY,
       amountCard: theme !== THEMES.DARK ? STYLES.COLORS.WHITE : STYLES.COLORS.DARK_HEADER,
-      iconColor: theme !== THEMES.DARK ? STYLES.COLORS.LIGHT_GRAY : STYLES.COLORS.DARK_HEADER
+      iconColor: theme !== THEMES.DARK ? STYLES.COLORS.DARK_HEADER : STYLES.COLORS.LIGHT_GRAY
     }
   }
 
-  handleSliderItems = () => {
-
-  }
 
   calculateLoanParams = () => {
     const { formData, currencies, walletSummary, ltv, purpose, minimumLoanAmount, loanCompliance } = this.props
@@ -232,7 +229,8 @@ class BorrowCalculator extends Component {
     const {
       actions,
       formData,
-      ltv
+      ltv,
+      minimumLoanAmount
     } = this.props
 
     if (!formData.ltv) return null;
@@ -267,9 +265,9 @@ class BorrowCalculator extends Component {
           rightText="USD"
           field={'amount'}
           type={'number'}
-          placeholder={'$3,000'}
+          placeholder={`${formatter.usd(minimumLoanAmount, { precision: 0 })} min`}
           keyboardType={'numeric'}
-          value={formData.amount}
+          value={0}
           onChange={this.changeAmount}
         />
         <Card>
@@ -327,7 +325,7 @@ class BorrowCalculator extends Component {
             >
               <CelText
                 align={'center'}
-                weight='bold'
+                weight='600'
                 style={style.interestCardText}
                 type={textType}
               >
@@ -349,7 +347,7 @@ class BorrowCalculator extends Component {
             >
               <CelText
                 align={'center'}
-                weight='bold'
+                weight='600'
                 style={style.interestCardText}
                 type={textType}>
                 {loanParams.totalInterest}
@@ -398,7 +396,7 @@ class BorrowCalculator extends Component {
         >
           <CelText
             align={'center'}
-            weight='bold'
+            weight='600'
             style={style.interestCardText}
             type={'H2'}>
             {formatter.crypto(loanParams.collateralNeeded, formData.coin)}
@@ -413,9 +411,11 @@ class BorrowCalculator extends Component {
         </Card>
         <CelText
           align={'center'}
-          type={'H4'}
+          type={'H5'}
           margin={'4 0 20 0'}
-          weight={'300'}>
+          weight={'300'}
+          color={STYLES.COLORS.MEDIUM_GRAY}
+        >
           The amount of collateral needed is based on your annual interest rate.
         </CelText>
         <Separator />
@@ -433,7 +433,7 @@ class BorrowCalculator extends Component {
           {!!purposeProps.bottomParagraph && (
             <CelText
               align={'center'}
-              type={'H4'}
+              type={'H5'}
               margin={'4 0 20 0'}
               weight={'300'}
             >

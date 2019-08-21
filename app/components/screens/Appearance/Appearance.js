@@ -12,7 +12,7 @@ import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
 import CircleButton from "../../atoms/CircleButton/CircleButton";
 import { THEMES } from "../../../constants/UI";
-import CoinCard from "../../molecules/CoinCard/CoinCard";
+import CoinGridCard from "../../molecules/CoinGridCard/CoinGridCard";
 
 @connect(
   state => ({
@@ -47,7 +47,7 @@ class Appearance extends Component {
 
     return (
       <View style={{ alignItems: "center", paddingBottom: 20 }}>
-        <CoinCard
+        <CoinGridCard
           key={btcCoin.short}
           coin={btcCoin}
           displayName={btcRates.displayName}

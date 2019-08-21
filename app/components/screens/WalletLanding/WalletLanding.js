@@ -1,29 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import { View, TouchableOpacity, BackHandler } from "react-native";
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import _ from 'lodash'
-import { withNavigationFocus } from 'react-navigation'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { withNavigationFocus } from "react-navigation";
 
-
-import * as appActions from '../../../redux/actions'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
-import CelText from '../../atoms/CelText/CelText'
-import CoinCard from '../../molecules/CoinCard/CoinCard'
-import WalletDetailsCard from '../../organisms/WalletDetailsCard/WalletDetailsCard'
-import WalletLandingStyle from './WalletLanding.styles'
-import CoinListCard from '../../molecules/CoinListCard/CoinListCard'
-import LoadingScreen from '../LoadingScreen/LoadingScreen'
-import Icon from '../../atoms/Icon/Icon'
-import CelPayReceivedModal from '../../organisms/CelPayReceivedModal/CelPayReceivedModal'
-import { WALLET_LANDING_VIEW_TYPES, MODALS } from '../../../constants/UI'
-import BecameCelMemberModal from '../../organisms/BecameCelMemberModal/BecameCelMemberModal'
-import { KYC_STATUSES } from '../../../constants/DATA'
-import EarnInterestCelModal from '../../organisms/EarnInterestCelModal/EarnInterestCelModal';
-import { getSecureStoreKey } from '../../../utils/expo-storage';
+import * as appActions from "../../../redux/actions";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import CelText from "../../atoms/CelText/CelText";
+import WalletDetailsCard from "../../organisms/WalletDetailsCard/WalletDetailsCard";
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
+import Icon from "../../atoms/Icon/Icon";
+import CelPayReceivedModal from "../../organisms/CelPayReceivedModal/CelPayReceivedModal";
+import { WALLET_LANDING_VIEW_TYPES, MODALS } from "../../../constants/UI";
+import BecameCelMemberModal from "../../organisms/BecameCelMemberModal/BecameCelMemberModal";
+import { KYC_STATUSES } from "../../../constants/DATA";
+import EarnInterestCelModal from "../../organisms/EarnInterestCelModal/EarnInterestCelModal";
+import { getSecureStoreKey } from "../../../utils/expo-storage";
 import { isUSCitizen } from "../../../utils/user-util";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
+import CoinCards from "../../organisms/CoinCards/CoinCards";
+import WalletLandingStyle from "./WalletLanding.styles";
 
 let counter = 0;
 
@@ -33,7 +30,7 @@ let counter = 0;
       state.branch.transferHash &&
       state.transfers.transfers[state.branch.transferHash]
         ? state.transfers.transfers[state.branch.transferHash]
-        : null
+        : null;
 
     return {
       branchTransfer,
@@ -45,40 +42,40 @@ let counter = 0;
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
-      depositCompliance: state.compliance.deposit,
-    }
+      depositCompliance: state.compliance.deposit
+    };
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class WalletLanding extends Component {
-  static propTypes = {}
-  static defaultProps = {}
-  static walletFetchingInterval
+  static propTypes = {};
+  static defaultProps = {};
+  static walletFetchingInterval;
 
   static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state
+    const { params } = navigation.state;
     return {
-      title: params && params.title ? params.title : 'Welcome',
-      right: 'profile',
+      title: params && params.title ? params.title : "Welcome",
+      right: "profile",
       hideBack: true
-    }
-  }
+    };
+  };
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
-    const { navigation } = props
+    const { navigation } = props;
 
     navigation.setParams({
-      title: `Welcome ${props.user.first_name || ''}!`
-    })
+      title: `Welcome ${props.user.first_name || ""}!`
+    });
 
     this.state = {
       activeView: props.appSettings.default_wallet_view
-    }
+    };
 
     // NOTE (fj): quickfix for CN-2763
-    this.shouldInitializeMembership = true
+    this.shouldInitializeMembership = true;
   }
 
   componentDidMount = async () => {
@@ -88,49 +85,49 @@ class WalletLanding extends Component {
       currenciesRates,
       currenciesGraphs,
       user
-    } = this.props
+    } = this.props;
 
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
 
     if (appSettings && appSettings.accepted_terms_of_use === false) {
-      return actions.navigateTo('TermsOfUse', {
-        purpose: 'accept',
-        nextScreen: 'WalletLanding'
-      })
+      return actions.navigateTo("TermsOfUse", {
+        purpose: "accept",
+        nextScreen: "WalletLanding"
+      });
     }
 
-    await actions.getWalletSummary()
-    if (!currenciesRates) actions.getCurrencyRates()
-    if (!currenciesGraphs) actions.getCurrencyGraphs()
+    await actions.getWalletSummary();
+    if (!currenciesRates) actions.getCurrencyRates();
+    if (!currenciesGraphs) actions.getCurrencyGraphs();
 
     // await actions.getCelsiusMemberStatus()
 
     // NOTE (fj): quickfix for CN-2763
     // if (user.celsius_member) {
     if (this.shouldInitializeMembership) {
-      actions.getCelsiusMemberStatus()
-      this.shouldInitializeMembership = false
+      actions.getCelsiusMemberStatus();
+      this.shouldInitializeMembership = false;
     }
-    const isCelInterestModalHidden = await getSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL');
-    if(user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== 'ON' && !isUSCitizen()) {
+    const isCelInterestModalHidden = await getSecureStoreKey("HIDE_MODAL_INTEREST_IN_CEL");
+    if (user.celsius_member && !appSettings.interest_in_cel && isCelInterestModalHidden !== "ON" && !isUSCitizen()) {
       actions.openModal(MODALS.EARN_INTEREST_CEL);
     }
 
-    this.setWalletFetchingInterval()
-  }
+    this.setWalletFetchingInterval();
+  };
 
-  componentDidUpdate (prevProps) {
-    const { isFocused, appSettings } = this.props
+  componentDidUpdate(prevProps) {
+    const { isFocused, appSettings } = this.props;
 
     if (prevProps.isFocused !== isFocused && isFocused === true) {
-      this.setWalletFetchingInterval()
+      this.setWalletFetchingInterval();
     }
 
     if (
       prevProps.appSettings.default_wallet_view !==
       appSettings.default_wallet_view
     ) {
-      this.toggleView(appSettings.default_wallet_view)
+      this.toggleView(appSettings.default_wallet_view);
     }
 
     // if (
@@ -143,249 +140,61 @@ class WalletLanding extends Component {
     // }
 
     if (isFocused === false && this.walletFetchingInterval) {
-      clearInterval(this.walletFetchingInterval)
+      clearInterval(this.walletFetchingInterval);
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     counter = 0;
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    clearInterval(this.walletFetchingInterval)
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+    clearInterval(this.walletFetchingInterval);
   }
 
   setWalletFetchingInterval = () => {
-    const { actions } = this.props
+    const { actions } = this.props;
 
     this.walletFetchingInterval = setInterval(() => {
-      actions.getWalletSummary()
-    }, 5000)
-  }
+      actions.getWalletSummary();
+    }, 5000);
+  };
 
 
   handleBackButton = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     counter++;
-    if (counter === 1) actions.showMessage("info", "Clicking the hardware back button twice will exit the app.")
+    if (counter === 1) actions.showMessage("info", "Clicking the hardware back button twice will exit the app.");
     if (counter === 2) BackHandler.exitApp();
-    return true
+    return true;
   };
 
   toggleView = viewType => {
-    this.setState({ activeView: viewType })
-  }
+    this.setState({ activeView: viewType });
+  };
 
-  renderCoinWithAmount = () => {
-    const {
-      walletSummary,
-      currenciesRates,
-      currenciesGraphs,
-      actions
-    } = this.props
-    const { activeView } = this.state
-
-    const coinWithAmount = []
-    if (walletSummary) {
-      walletSummary.coins.forEach(coin => {
-        if (coin.amount_usd > 0) {
-          coinWithAmount.push(coin)
-        }
-      })
-    }
-
-    coinWithAmount.sort((a, b) => a.amount_usd < b.amount_usd)
-
-    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
-
-    return coinWithAmount.length
-      ? coinWithAmount.map(coin => {
-        const currency = currenciesRates.find(
-          c => c.short === coin.short.toUpperCase()
-        )
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short])
-          ? currenciesGraphs[coin.short]
-          : null
-
-        // Render grid item
-        if (isGrid) {
-          return (
-            <CoinCard
-              key={coin.short}
-              coin={coin}
-              displayName={currency.displayName}
-              currencyRates={currency}
-              onCardPress={() =>
-                actions.navigateTo('CoinDetails', {
-                  coin: coin.short,
-                  title: currency.displayName
-                })
-              }
-              graphData={graphData}
-            />
-          )
-        }
-
-        // Render list item
-        return (
-          <CoinListCard
-            key={coin.short}
-            coin={coin}
-            displayName={currency.displayName}
-            currencyRates={currency}
-            onCardPress={() =>
-              actions.navigateTo('CoinDetails', {
-                coin: coin.short,
-                title: currency.displayName
-              })
-            }
-          />
-        )
-      })
-      : null
-  }
-
-  renderCoinWithoutAmount = () => {
-    const {
-      walletSummary,
-      currenciesRates,
-      currenciesGraphs,
-      actions,
-      depositCompliance,
-    } = this.props
-    const { activeView } = this.state
-
-    const coinWithoutAmount = []
-
-    if (walletSummary) {
-      walletSummary.coins.forEach(coin => {
-        const withoutAmountNoPrior =
-          coin.amount_usd === 0 &&
-          depositCompliance.coins.indexOf(coin.short) !== -1
-        if (coin.amount_usd === 0 && withoutAmountNoPrior) {
-          coinWithoutAmount.push(coin)
-        }
-      })
-    }
-
-    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
-
-    return coinWithoutAmount.length
-      ? coinWithoutAmount.map(coin => {
-        const currency = currenciesRates.find(
-          c => c.short === coin.short.toUpperCase()
-        )
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short])
-          ? currenciesGraphs[coin.short]
-          : null
-
-        // Render grid item
-        if (isGrid) {
-          return (
-            <CoinCard
-              key={coin.short}
-              coin={coin}
-              displayName={currency.displayName}
-              currencyRates={currency}
-              onCardPress={() =>
-                   actions.navigateTo('Deposit', { coin: coin.short })
-              }
-              graphData={graphData}
-            />
-          )
-        }
-
-        // Render list item
-        return (
-          <CoinListCard
-            key={coin.short}
-            coin={coin}
-            displayName={currency.displayName}
-            currencyRates={currency}
-            onCardPress={() =>
-                 actions.navigateTo('Deposit', { coin: coin.short })
-            }
-          />
-        )
-      })
-      : null
-  }
-
-  renderAddMoreCoins = () => {
-    const { actions } = this.props
-    const { activeView } = this.state
-    const style = WalletLandingStyle()
-
-    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
-    const gridStyle = isGrid ? style.addMoreCoinsGrid : style.addMoreCoinsList
-
-    return (
-      <TouchableOpacity
-        style={gridStyle}
-        onPress={() =>
-             actions.navigateTo('Deposit')
-        }
-      >
-        <Icon fill={'gray'} width='17' height='17' name='CirclePlus' />
-        <CelText type='H5' margin={isGrid ? '5 0 0 0' : '0 0 0 5'}>
-          Deposit coins
-        </CelText>
-      </TouchableOpacity>
-    )
-  }
-
-  renderCoinsCard = () => {
-    const CoinWithAmount = this.renderCoinWithAmount
-    const CoinWithoutAmount = this.renderCoinWithoutAmount
-    const AddMoreCoins = this.renderAddMoreCoins
-    const style = WalletLandingStyle()
-    return (
-      <View style={style.coinCardContainer}>
-        <CoinWithAmount />
-        <CoinWithoutAmount />
-        <AddMoreCoins />
-      </View>
-    )
-  }
-
-  render () {
-    const { activeView } = this.state
-    const {
-      actions,
-      walletSummary,
-      currenciesRates,
-      currenciesGraphs,
-      user,
-      branchTransfer
-    } = this.props
-    // const style = WalletLandingStyle();
+  render() {
+    const { activeView } = this.state;
+    const { actions, walletSummary, currenciesRates, currenciesGraphs, user, branchTransfer, depositCompliance } = this.props;
+    const style = WalletLandingStyle();
 
     if (!walletSummary || !currenciesRates || !currenciesGraphs || !user) {
-      return <LoadingScreen />
+      return <LoadingScreen/>;
     }
-    const CoinsCard = this.renderCoinsCard
+
     return (
       <RegularLayout>
         <View>
           <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
-
           <WalletDetailsCard
             walletSummary={walletSummary}
             navigateTo={actions.navigateTo}
             openModal={actions.openModal}
           />
-
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
-          >
-            <CelText
-              style={{ alignSelf: 'center', marginTop: 20 }}
-              weight='500'
-            >
+          <View style={style.depositWrapper}>
+            <CelText style={style.depositedCoins} weight='500'>
               Deposited coins
             </CelText>
-            <View style={{ flexDirection: 'row', marginTop: 20 }}>
-              <TouchableOpacity
-                onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}
-              >
+            <View style={style.buttonWrapper}>
+              <TouchableOpacity onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.GRID)}>
                 <Icon
                   style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.GRID ? 1 : 0.5 }}
                   fill="primary"
@@ -393,10 +202,7 @@ class WalletLanding extends Component {
                   width='18'
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                style={{ marginLeft: 16 }}
-                onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}
-              >
+              <TouchableOpacity style={style.listView} onPress={() => this.toggleView(WALLET_LANDING_VIEW_TYPES.LIST)}>
                 <Icon
                   style={{ opacity: activeView === WALLET_LANDING_VIEW_TYPES.LIST ? 1 : 0.5 }}
                   fill="primary"
@@ -406,23 +212,25 @@ class WalletLanding extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <View>
-            <CoinsCard />
-          </View>
-
-          <ComingSoonCoins activeView={activeView} />
+          <CoinCards activeView={activeView}
+                     navigateTo={actions.navigateTo}
+                     walletSummary={walletSummary}
+                     currenciesGraphs={currenciesGraphs}
+                     currenciesRates={currenciesRates}
+                     depositCompliance={depositCompliance}
+          />
+          <ComingSoonCoins activeView={activeView}/>
         </View>
         <CelPayReceivedModal
           navigateTo={actions.navigateTo}
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-
-        <BecameCelMemberModal />
-        <EarnInterestCelModal />
+        <BecameCelMemberModal/>
+        <EarnInterestCelModal/>
       </RegularLayout>
-    )
+    );
   }
 }
 
-export default withNavigationFocus(WalletLanding)
+export default withNavigationFocus(WalletLanding);

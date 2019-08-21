@@ -15,7 +15,6 @@ import CommunityStyle from "./Community.styles";
 import PerformanceGraph from "../../graphs/PerformanceGraph/PerformanceGraph";
 import ThemedImage from '../../atoms/ThemedImage/ThemedImage'
 
-
 @connect(
   state => ({
     communityStats: state.community.stats,
@@ -98,11 +97,13 @@ class Community extends Component {
 
         <CommunityDashboard name={"CEL VS BTC VS ETH"}/>
 
-        <PerformanceGraph
-          celStats={celStats}
-          ethStats={ethStats}
-          btcStats={btcStats}
-        />
+          <View style={style.graphMargin}>
+            <PerformanceGraph
+                celStats={celStats}
+                ethStats={ethStats}
+                btcStats={btcStats}
+            />
+          </View>
 
         {/* <CommunityDashboard name={"BORROW"} info buttonTypes={["Loans", "Average", "Total"]}/>*/}
 
