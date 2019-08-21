@@ -84,8 +84,8 @@ class ConfirmYourLoan extends Component {
 
   renderBankInfo = () => {
     const { formData } = this.props
-    const { loan } = this.props.loanInfo
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
+      const { loan } = this.props.loanInfo
       return (
         <Card>
           <CelText type="H6" weight="300">Bank Name</CelText>
