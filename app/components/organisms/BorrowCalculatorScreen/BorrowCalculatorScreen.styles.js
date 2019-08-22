@@ -56,9 +56,6 @@ const themed = {
     },
     interestCardText: {
       color: STYLES.COLORS.WHITE
-    },
-    loanCard: {
-      backgroundColor: 'red'
     }
   },
 

@@ -8,15 +8,14 @@ import { heightPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 import CelText from "../../atoms/CelText/CelText";
 
-const height = heightPercentageToDP("22.5%")
+const height = heightPercentageToDP("22.5%");
 
 const { Surface, Group, Shape } = ART;
 
 class CircularProgressBar extends Component {
-
   static propTypes = {
     amountPaid: PropTypes.number,
-    amountLoaned: PropTypes.number,
+    amountLoaned: PropTypes.number
   };
   static defaultProps = {};
 
@@ -27,10 +26,11 @@ class CircularProgressBar extends Component {
 
   render() {
     const style = CircularProgressBarStyles();
-    const {amountLoaned, amountPaid} = this.props;
+    const { amountLoaned, amountPaid } = this.props;
     const percentage = amountPaid * 100 / amountLoaned;
-    const section = d3.pie().value(l => l.percent)({});
-    const path = d3.arc()
+    const section = d3.pie().value(l => l.percent)({})[0];
+    const path = d3
+      .arc()
       .startAngle(0)
       .endAngle(Math.PI * 2 * percentage / 100)
       .outerRadius(height / 2.5) // must be less than 1/2 the chart's height/width
@@ -40,20 +40,20 @@ class CircularProgressBar extends Component {
       <View>
         <Surface width={height} height={height}>
           <Group x={height / 2} y={height / 2}>
-            {
-              section.map(sec => (
-                <Shape
-                  d={path(sec)}
-                  stroke={STYLES.COLORS.GREEN}
-                  fill={STYLES.COLORS.GREEN}
-                  strokeWidth={4}
-                  key={"trt"}
-                />
-              ))
-            }
+            <Shape
+              d={path(section)}
+              stroke={STYLES.COLORS.GREEN}
+              fill={STYLES.COLORS.GREEN}
+              strokeWidth={4}
+            />
           </Group>
         </Surface>
-        <View style={[style.innerCircle, { backgroundColor: STYLES.COLORS.GREEN_OPACITY }]}/>
+        <View
+          style={[
+            style.innerCircle,
+            { backgroundColor: STYLES.COLORS.GREEN_OPACITY }
+          ]}
+        />
         <View style={[style.contentCircle, style.progressBackground]}>
           <CelText color={STYLES.COLORS.GRAY} type={"H6"} weight={"300"}>
             Amount paid

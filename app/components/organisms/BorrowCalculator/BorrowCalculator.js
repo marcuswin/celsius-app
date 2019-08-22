@@ -342,11 +342,7 @@ class BorrowCalculator extends Component {
             name={`Icon${formData.coin}`}
             width="40"
             height="40"
-            fill={
-              themeModal || theme !== THEMES.DARK
-                ? STYLES.COLORS.DARK_GRAY
-                : STYLES.COLORS.WHITE
-            }
+            fill={themeColors.iconColor}
           />
           <View style={style.selectWrapper}>
             <SimpleSelect
