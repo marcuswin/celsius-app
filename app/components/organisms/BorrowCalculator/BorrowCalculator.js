@@ -45,8 +45,7 @@ class BorrowCalculator extends Component {
     const {
       currencies,
       loanCompliance,
-      ltv,
-      minimumLoanAmount,
+      ltv
     } = props
 
 
@@ -54,7 +53,7 @@ class BorrowCalculator extends Component {
     const coinSelectItems = currencies
       .filter(c => loanCompliance.collateral_coins.includes(c.short))
       .map(c => ({
-        label: `${c.displayName} - ${c.short}`,
+        label: `${c.displayName}  (${c.short})`,
         value: c.short
       }))
 
@@ -74,7 +73,7 @@ class BorrowCalculator extends Component {
     props.actions.initForm({
       coin: "BTC",
       termOfLoan: 6,
-      amount: minimumLoanAmount,
+      amount: 0,
       ltv: ltv[0],
     })
 
@@ -142,7 +141,8 @@ class BorrowCalculator extends Component {
       formData,
       ltv,
       theme,
-      themeModal
+      themeModal,
+      minimumLoanAmount
     } = this.props
 
 
@@ -158,9 +158,9 @@ class BorrowCalculator extends Component {
           rightText="USD"
           field={'amount'}
           type={'number'}
-          placeholder={'$3,000'}
+          placeholder={`${formatter.usd(minimumLoanAmount, { precision: 0 })} min`}
           keyboardType={'numeric'}
-          value={formData.amount}
+          value={0}
           onChange={this.changeAmount}
           theme={ themeModal }
         />
@@ -313,14 +313,44 @@ class BorrowCalculator extends Component {
         </Card>
         <CelText
           align={'center'}
-          type={'H4'}
+          type={'H5'}
           margin={'4 0 20 0'}
           weight={'300'}
-          theme={ themeModal }
+          color={STYLES.COLORS.MEDIUM_GRAY}
         >
           The amount of collateral needed is based on your annual interest rate.
         </CelText>
-      </View>
+        <Separator />
+        <View>
+          {!!purposeProps.bottomHeading && (
+            <CelText
+              weight="bold"
+              type="H2"
+              align="center"
+              margin={'20 0 20 0'}
+            >
+              {purposeProps.bottomHeading}
+            </CelText>
+          )}
+          {!!purposeProps.bottomParagraph && (
+            <CelText
+              align={'center'}
+              type={'H5'}
+              margin={'4 0 20 0'}
+              weight={'300'}
+            >
+              {purposeProps.bottomParagraph}
+            </CelText>
+          )}
+
+          <CelButton
+            onPress={purposeProps.onPress}
+            margin='20 0 20 0'
+          >
+            {purposeProps.buttonCopy}
+          </CelButton>
+        </View>
+      </RegularLayout>
     );
   }
 }

@@ -46,7 +46,7 @@ class MyCelHeader extends Component {
             ]}
         >
           <View style={style.topContainer}>
-            <View>
+            <View style={style.celContainer}>
               <CelText
                 color={"white"}
                 type={"H4"}
@@ -56,7 +56,7 @@ class MyCelHeader extends Component {
               </CelText>
               <CelText
                 color={"white"}
-                type={"H5"}
+                type={"H6"}
                 weight={"300"}
               >
                 CEL coins
@@ -75,7 +75,7 @@ class MyCelHeader extends Component {
               <CelText color={"white"} type={"H4"} weight={"700"}>
                 {formatter.usd(walletSummary.total_amount_usd - celAmount.amount_usd, { precision: 0 })}
               </CelText>
-              <CelText color={"white"} type={"H5"} weight={"300"}>
+              <CelText color={"white"} type={"H6"} weight={"300"}>
                 Other coins
               </CelText>
             </View>

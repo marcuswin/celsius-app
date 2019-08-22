@@ -25,12 +25,13 @@ const base = {
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: 10
   },
   annualPercentage: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
+  }
 };
 
 const themed = {
@@ -43,7 +44,7 @@ const themed = {
       color: STYLES.COLORS.DARK_GRAY
     },
     interestCardText: {
-      color: STYLES.COLORS.MEDIUM_GRAY
+      color: STYLES.COLORS.DARK_GRAY
     }
   },
   dark: {

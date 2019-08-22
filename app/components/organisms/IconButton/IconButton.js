@@ -81,8 +81,9 @@ class IconButton extends Component {
             <Icon
               name='IconChevronRight'
               height='12'
-              width='7.7'
+              width='15'
               fill={third}
+              iconOpacity={0.5}
             />
           )}
         </View>

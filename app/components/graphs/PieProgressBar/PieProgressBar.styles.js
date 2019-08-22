@@ -8,7 +8,7 @@ const base = {
     flex: 1
   },
   outerCircle: {
-    marginTop: 10,
+    marginVertical: 10,
     justifyContent: "center",
     alignItems: "center",
     height: heightPercentageToDP("20.3%"),
