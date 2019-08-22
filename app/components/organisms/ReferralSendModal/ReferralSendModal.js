@@ -67,9 +67,9 @@ class ReferralSendModal extends Component {
         picture={require('../../../../assets/images/icons/referrals/dog.png')}
         style={{ paddingBottom: 30 }}
       >
-        <CelText type="H2" weight="bold" align={"center"} style={{ paddingTop: 30 }}>Refer your friends!</CelText>
+        <CelText type="H2" weight="bold" align={"center"} style={{ paddingTop: 30 }}>Refer and earn!</CelText>
 
-        <CelText color={STYLES.COLORS.DARK_GRAY} align={"center"} weight='300' style={style.explanation}>Use your unique promo code or link to invite your friends to Celsius. You’ll both receive up to <CelText weight='600'>$20 </CelText>when they join*!</CelText>
+        <CelText color={STYLES.COLORS.DARK_GRAY} align={"center"} weight='300' style={style.explanation}>Earn $10 in BTC when a friend joins Celsius Network with your unique referral link!*</CelText>
 
         <View style={style.copyShareWrapper}>
           <View styles={{ backgroundColor: 'red', paddingTop: 10 }}>
@@ -81,11 +81,11 @@ class ReferralSendModal extends Component {
           </View>
         </View>
         <View style={style.shareWrapper}>
-          <CelButton onPress={() => Share.share({ message: shareLink })}>
+          <CelButton onPress={() => Share.share({ message: `Join Celsius Network using my referral code when signing up and earn $10 in BTC with your first deposit of $200 or more! #UnbankYourself \n${shareLink}` })}>
             Share a unique link
         </CelButton>
         </View>
-        <CelText type='H6' align={"left"} style={style.explanation}>*$10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit. </CelText>
+        <CelText type='H6' align={"left"} style={style.explanation}>*$10 in BTC is distributed when a new user makes a first deposit of $200 or more using your referral code at the time of signup.</CelText>
       </CelModal>
 
     );

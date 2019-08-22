@@ -35,7 +35,7 @@ class WalletSettings extends Component {
     title: 'Wallet'
   })
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       defaultView: '',
@@ -44,7 +44,7 @@ class WalletSettings extends Component {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     const { actions, appSettings } = this.props
     await actions.getUserAppSettings()
     this.setState({
@@ -63,7 +63,7 @@ class WalletSettings extends Component {
   changeInterestEarn = async () => {
     const { actions, appSettings } = this.props
     const changesInterestEarn = !appSettings.interest_in_cel
-    if(!changesInterestEarn) await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
+    if (!changesInterestEarn) await deleteSecureStoreKey('HIDE_MODAL_INTEREST_IN_CEL')
     actions.setUserAppSettings({
       interest_in_cel: changesInterestEarn
     })
@@ -76,8 +76,8 @@ class WalletSettings extends Component {
     actions.setUserAppSettings({ default_wallet_view: view })
   }
 
-  render () {
-    const { callsInProgress , actions} = this.props
+  render() {
+    const { callsInProgress, actions } = this.props
     const { defaultView } = this.state
 
     const loading = apiUtil.areCallsInProgress(
@@ -108,17 +108,17 @@ class WalletSettings extends Component {
             Default view: {this.getViewText(defaultView)}
           </IconButton>
         </RNPickerSelect>
-          <IconButton
+        <IconButton
           onPress={() => actions.navigateTo('WithdrawAddressOverview')}
           margin={'0 0 20 0'}
           IconRight
         >
           Withdrawal addresses
         </IconButton>
-        { !isUSCitizen() && <Separator text='INTEREST' /> }
+        {!isUSCitizen() && <Separator text='INTEREST' margin='0 0 10 0'/>}
 
         <PerCoinCelInterestCard />
-       
+
       </RegularLayout>
     )
   }

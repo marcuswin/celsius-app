@@ -26,6 +26,9 @@ const themed = {
   light: {
     amounts: {
       backgroundColor: STYLES.COLORS.LIGHT_GRAY
+    },
+    calculatorInfo: {
+      color: STYLES.COLORS.MEDIUM_GRAY
     }
   },
 
@@ -34,7 +37,7 @@ const themed = {
       backgroundColor: STYLES.COLORS.DARK_BACKGROUND
     },
     calculatorInfo: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.MEDIUM_GRAY
     }
   },
 

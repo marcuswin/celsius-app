@@ -7,7 +7,8 @@ const cursorRadius = 10;
 
 const base = {
   root: {
-    flex: 1
+    flex: 1,
+    paddingTop: heightPercentageToDP("20%")
   },
   container: {
     height,

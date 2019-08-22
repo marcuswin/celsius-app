@@ -17,7 +17,7 @@ import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
-    communityStats: state.community.stats
+    communityStats: state.community.stats,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -133,8 +133,7 @@ class CommunityDashboard extends Component {
                   name={button}
                   height={18}
                   width={18}
-                  stroke={activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
-                  fill={"white"}
+                  fill={ activeButton === button ? STYLES.COLORS.CELSIUS_BLUE : STYLES.COLORS.MEDIUM_GRAY}
                   strokeWidth={0.5}
                 />
                 <CelText type={"H7"} weight={"500"} align={"center"}

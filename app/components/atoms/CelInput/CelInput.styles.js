@@ -59,6 +59,7 @@ const base = {
       right: 10,
       top: 14,
       height: 23,
+      color: STYLES.COLORS.MEDIUM_GRAY
     }
 }
 

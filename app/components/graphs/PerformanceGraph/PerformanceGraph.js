@@ -108,17 +108,13 @@ class PerformanceGraph extends React.Component {
     const btc = this.scaleY.invert(btcY);
 
     this.cursor.dashedLine.current.setNativeProps({
-      top: y - heightPercentageToDP("0.8%"),
-      height: this.props.height - y,
+      top: 0,
+      height: heightPercentageToDP("20%"),
       left: x
-    });
-    this.cursor.pointer.current.setNativeProps({
-      top: y - heightPercentageToDP("1.4%"),
-      left: x - this.props.cursorRadius - widthPercentageToDP("0.5%")
     });
     const date = moment(label).format("MMM D, YYYY")
     this.cursor.labelText.current.setNativeProps({ text: `${date}` });
-    this.cursor.label.current.setNativeProps({ top: y - heightPercentageToDP("7.2%"), left: x - widthPercentageToDP("12%") });
+    this.cursor.label.current.setNativeProps({ top: -heightPercentageToDP("3.5%"), left: x - widthPercentageToDP("12%") });
 
     this.label.celPercent.current.setNativeProps({ text: `${formatter.percentage(cel)} %` });
     this.label.ethPercent.current.setNativeProps({ text: `${formatter.percentage(eth)} %` });
@@ -143,15 +139,9 @@ class PerformanceGraph extends React.Component {
               <View style={[styles.label, styles.labelBoxBackgroundColor]}>
                 <TextInput ref={this.cursor.labelText} style={styles.labelText} editable={false}/>
               </View>
-              <View style={[styles.triangle, styles.triangleBackgroundColor]}/>
-            </View>
-            <View ref={this.cursor.pointer}>
-              <View style={[styles.cursor, styles.cursorBackgroundColor, { borderColor: STYLES.COLORS.CELSIUS_BLUE }]}>
-                <View style={[styles.circle, { backgroundColor: STYLES.COLORS.CELSIUS_BLUE }]}/>
-              </View>
             </View>
             <View ref={this.cursor.dashedLine}>
-              <Separator opacity={1} color={STYLES.COLORS.CELSIUS_BLUE} size={2} dashed vertical/>
+              <Separator opacity={1} color={styles.labelBoxBackgroundColor} size={1} vertical/>
             </View>
           </View>
           <Animated.ScrollView
