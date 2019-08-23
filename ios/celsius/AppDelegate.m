@@ -45,12 +45,25 @@
   return YES;
 }
 
+// AppsFlyer deeplinking
 - (BOOL) application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nullable))restorationHandler
 {
   [[AppsFlyerTracker sharedTracker] continueUserActivity:userActivity restorationHandler:restorationHandler];
   return YES;
 }
+// Reports app open from deep link from apps which do not support Universal Links (Twitter) and for iOS8 and below
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+  [[AppsFlyerTracker sharedTracker] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:annotation];
+  return YES;
+}
 
+// Reports app open from URL Scheme deep link for iOS 10
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+            options:(NSDictionary *) options {
+  [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
+  return YES;
+}
+//-------
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
   NSArray<id<RCTBridgeModule>> *extraModules = [_moduleRegistryAdapter extraModulesForBridge:bridge];

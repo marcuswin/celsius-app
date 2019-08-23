@@ -52,17 +52,14 @@ async function initializeThirdPartyServices() {
     androidWriteKey: SEGMENT_ANDROID_KEY,
     iosWriteKey: SEGMENT_IOS_KEY
   });
-  // console.log('Before appsFlyer initSDK')
   const appsFlyerOptions = {
-    devKey:
-      Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
+    devKey: Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
     isDebug: true
   };
 
   if (Platform.OS === "ios") {
     appsFlyerOptions.appId = "1387885523";
   }
-  // console.log('After appsFlyer initSDK - options')
 
   await appsFlyer.initSdk(
     appsFlyerOptions,
