@@ -258,9 +258,7 @@ class TermsOfUse extends Component {
           heading: "31. Governing Law and Venue\n",
           text: "The relationship between you and Celsius is governed exclusively by the laws of the State of Delaware, without regard to its conflict of law provisions.  Any dispute arising out of, or related to, your Account or relationship with Celsius must be brought exclusively in the courts located in Dover, Delaware; however, Celsius may bring equitable relief or collections actions in any applicable jurisdiction.\n"
         }
-
       ]
-
     };
   }
 

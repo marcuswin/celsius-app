@@ -53,8 +53,43 @@ const base = {
         borderWidth: 1,
         borderColor: STYLES.COLORS.CELSIUS_BLUE
     },
+   ghostredButton: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: STYLES.COLORS.WHITE,
+    },
+    ghostgreenButton: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: STYLES.COLORS.WHITE,
+
+    },
+    basicredButton: {
+        backgroundColor: STYLES.COLORS.WHITE,
+        margin: 20,
+    },
+    basicgreenButton: {
+        backgroundColor: STYLES.COLORS.WHITE
+    },
+    ghostColorTitle: {
+        color: STYLES.COLORS.WHITE
+    },
     ghostTitle: {
         color: STYLES.COLORS.CELSIUS_BLUE
+    },
+    greenButton: {
+        backgroundColor: STYLES.COLORS.GREEN
+    },
+    redButton: {
+        backgroundColor: STYLES.COLORS.RED
+    },
+    basicredTitleButton: {
+      paddingHorizontal: 10,
+      paddingVertical: 5
+    },
+    basicgreenTitleButton: {
+      paddingHorizontal: 10,
+      paddingVertical: 5
     }
 }
 

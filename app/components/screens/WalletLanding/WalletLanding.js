@@ -19,6 +19,7 @@ import { getSecureStoreKey } from "../../../utils/expo-storage";
 import { isUSCitizen } from "../../../utils/user-util";
 import MissingInfoCard from "../../atoms/MissingInfoCard/MissingInfoCard";
 import ComingSoonCoins from "../../molecules/ComingSoonCoins/ComingSoonCoins";
+import MarginCallModal from '../../organisms/MarginCallModal/MarginCallModal';
 import CoinCards from "../../organisms/CoinCards/CoinCards";
 import WalletLandingStyle from "./WalletLanding.styles";
 
@@ -28,7 +29,7 @@ let counter = 0;
   state => {
     const branchTransfer =
       state.branch.transferHash &&
-      state.transfers.transfers[state.branch.transferHash]
+        state.transfers.transfers[state.branch.transferHash]
         ? state.transfers.transfers[state.branch.transferHash]
         : null;
 
@@ -42,8 +43,9 @@ let counter = 0;
       kycStatus: state.user.profile.kyc
         ? state.user.profile.kyc.status
         : KYC_STATUSES.collecting,
-      depositCompliance: state.compliance.deposit
-    };
+      depositCompliance: state.compliance.deposit,
+      marginCalls: state.loans.marginCalls
+    }
   },
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -96,11 +98,14 @@ class WalletLanding extends Component {
       });
     }
 
-    await actions.getWalletSummary();
-    if (!currenciesRates) actions.getCurrencyRates();
-    if (!currenciesGraphs) actions.getCurrencyGraphs();
-
-    // await actions.getCelsiusMemberStatus()
+    await actions.getWalletSummary()
+    if (!currenciesRates) actions.getCurrencyRates()
+    if (!currenciesGraphs) actions.getCurrencyGraphs()
+    await actions.getMarginCalls()
+    const { marginCalls } = this.props
+    if (marginCalls.length > 0) {
+      actions.openModal(MODALS.MARGIN_CALL_MODAL)
+    }
 
     // NOTE (fj): quickfix for CN-2763
     // if (user.celsius_member) {
@@ -226,8 +231,9 @@ class WalletLanding extends Component {
           closeModal={actions.closeModal}
           transfer={branchTransfer}
         />
-        <BecameCelMemberModal/>
-        <EarnInterestCelModal/>
+        <BecameCelMemberModal />
+        <EarnInterestCelModal />
+        {this.props.marginCalls.length > 0 && <MarginCallModal />}
       </RegularLayout>
     );
   }

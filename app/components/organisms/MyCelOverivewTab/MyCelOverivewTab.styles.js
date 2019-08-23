@@ -5,13 +5,13 @@ import STYLES from '../../../constants/STYLES';
 const base = {
 
   container: {
-      height:heightPercentageToDP("75%"),
-      marginHorizontal: 20,
-      alignItems: "center",
-      justifyContent: "flex-start",
-    },
+    height: heightPercentageToDP("75%"),
+    marginHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
   contentWrapper: {
-    marginBottom: 10, 
+    marginBottom: 10,
   },
   starIcon: {
     resizeMode: "contain",
@@ -48,7 +48,9 @@ const base = {
     color: STYLES.COLORS.CELSIUS_BLUE
   },
   explanation: {
-    marginBottom: heightPercentageToDP("3.73%")
+    marginBottom: heightPercentageToDP("3.73%"),
+    paddingHorizontal: 20,
+
   },
 };
 

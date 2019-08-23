@@ -6,7 +6,10 @@ import ACTIONS from "../../constants/ACTIONS";
 function initialState() {
   return {
     ltvs: undefined,
-    allLoans: []
+    allLoans: [],
+    activeLoan: null,
+    loanInfo: null,
+    marginCalls: []
   };
 }
 
@@ -18,10 +21,26 @@ export default function loansReducer(state = initialState(), action) {
         ltvs: action.ltvs,
       };
 
+    case ACTIONS.SET_ACTIVE_LOAN:
+      return {
+        ...state,
+        activeLoan: state.allLoans.find(l => l.id === action.loanId),
+      };
+
     case ACTIONS.GET_ALL_LOANS_SUCCESS:
       return {
         ...state,
         allLoans: action.allLoans,
+      };
+    case ACTIONS.GET_CONFIRM_LOAN_INFO_SUCCESS:
+      return {
+        ...state,
+        loanInfo: action.loanInfo,
+      };
+    case ACTIONS.GET_MARGIN_CALLS_SUCCESS:
+      return {
+        ...state,
+        marginCalls: action.marginCalls
       };
 
     default:

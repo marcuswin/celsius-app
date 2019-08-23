@@ -12,8 +12,8 @@ const base = {
   image: { alignItems: "center" },
   communityImage: {
     position: "absolute",
-    left: 16,
-    bottom: -10,
+    left: 5,
+    bottom: -12,
     resizeMode: "cover",
     height: widthPercentageToDP("35%"),
     width: widthPercentageToDP("30%"),

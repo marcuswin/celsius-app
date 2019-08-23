@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { TouchableOpacity } from "react-native";
 import CheckBox from "react-native-check-box";
 
 import CelText from "../CelText/CelText";
-import STYLES from '../../../constants/STYLES';
+import STYLES from "../../../constants/STYLES";
 
-const CelCheckbox = (props) => {
-  const onPress = props.onChange || props.updateFormField
+const CelCheckbox = props => {
+  const onPress = props.onChange || props.updateFormField;
 
   return (
     <TouchableOpacity
-      style={{ flexDirection: 'row', marginBottom: 15, alignItems: 'center', }}
+      style={{ flexDirection: "row", marginBottom: 15, alignItems: "center" }}
       onPress={() => onPress(props.field, !props.value)}
     >
       <CheckBox
@@ -22,12 +22,18 @@ const CelCheckbox = (props) => {
         isChecked={props.value}
         checkedImage={props.checkedImage}
         unCheckedImage={props.unChecked}
-
       />
-      <CelText type='H4' weight={props.textWeight} color={props.fillColor}>{props.rightText}</CelText>
+      <CelText
+        type="H4"
+        weight={props.textWeight}
+        color={props.fillColor}
+        style={{ marginRight: 30 }}
+      >
+        {props.rightText}
+      </CelText>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
 CelCheckbox.propTypes = {
   field: PropTypes.string.isRequired,
@@ -38,7 +44,7 @@ CelCheckbox.propTypes = {
   checkedImage: PropTypes.element,
   unChecked: PropTypes.element,
   fillColor: PropTypes.string,
-  textWeight: PropTypes.string,
-}
+  textWeight: PropTypes.string
+};
 
-export default CelCheckbox
+export default CelCheckbox;

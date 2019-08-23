@@ -5,21 +5,34 @@ const base = {
   container: {
     flex: 1
   },
-
-  iconWrapper: {
-    borderRadius: 40,
-    height: 40,
-    width: 40,
-    marginRight: 10,
-    justifyContent: 'center'
+  buttonsWrapper: {
+    flex: 1,
+    marginLeft: 12,
+    marginRight: 12
+  },
+  buttonIconText: {
+    flexDirection: 'row',
+    justifyContent: "space-around",
+  },
+  firstLoanWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    alignContent: 'center',
+    paddingTop: '20%'
+  },
+  firstLoanTitle: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  firstLoanSubtitle: {
+    marginRight: 25,
+    marginLeft: 25,
+  },
+  firstLoanButton: {
+    marginTop: 20,
+    marginBottom: 20,
   },
 
-  info: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row'
-  }
 }
 
 const themed = {
