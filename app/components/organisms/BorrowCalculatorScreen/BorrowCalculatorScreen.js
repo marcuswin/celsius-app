@@ -97,7 +97,7 @@ class BorrowCalculatorScreen extends Component {
     const loanParams = emitParams()
 
     const defaultProps = {
-      subtitle: 'You are not allowed to apply for a loan, but you can try our loan calculator.',
+      subtitle: 'Calculate your loan interest.',
       bottomHeading: 'Borrow dollars for your crypto',
       bottomParagraph: 'Calculate your loan interest before you deposit coins',
       buttonCopy: 'Deposit',

@@ -40,12 +40,12 @@ class BorrowCalculator extends Component {
   constructor(props) {
     super(props);
 
-    const { currencies, loanCompliance, ltv, minimumLoanAmount } = props;
+    const { currencies, loanCompliance, ltv } = props;
 
     const coinSelectItems = currencies
       .filter(c => loanCompliance.collateral_coins.includes(c.short))
       .map(c => ({
-        label: `${c.displayName} - ${c.short}`,
+        label: `${c.displayName} (${c.short})`,
         value: c.short
       }));
 
@@ -65,7 +65,7 @@ class BorrowCalculator extends Component {
     props.actions.initForm({
       coin: "BTC",
       termOfLoan: 6,
-      amount: minimumLoanAmount,
+      amount: 0,
       ltv: ltv[0]
     });
 
@@ -98,8 +98,8 @@ class BorrowCalculator extends Component {
           : STYLES.COLORS.DARK_HEADER,
       iconColor:
         themeModal || theme !== THEMES.DARK
-          ? STYLES.COLORS.LIGHT_GRAY
-          : STYLES.COLORS.DARK_HEADER
+          ? STYLES.COLORS.DARK_HEADER
+          : STYLES.COLORS.LIGHT_GRAY
     };
   };
 
@@ -187,7 +187,13 @@ class BorrowCalculator extends Component {
   render() {
     const { coinSelectItems, loanParams } = this.state;
 
-    const { actions, formData, ltv, theme, themeModal } = this.props;
+    const { actions,
+      formData,
+      ltv,
+      theme,
+      themeModal,
+      minimumLoanAmount
+    } = this.props;
 
     const style = BorrowCalculatorStyle(themeModal || theme);
     if (!formData.ltv) return null;
@@ -204,7 +210,7 @@ class BorrowCalculator extends Component {
           rightText="USD"
           field={"amount"}
           type={"number"}
-          placeholder={"$3,000"}
+          placeholder={`${formatter.usd(minimumLoanAmount, { precision: 0 })} min`}
           keyboardType={"numeric"}
           value={formData.amount}
           onChange={this.changeAmount}
@@ -214,15 +220,14 @@ class BorrowCalculator extends Component {
           <CelText
             align={"center"}
             type={"H4"}
-            margin={"4 0 20 0"}
+            margin={"4 0 5 0"}
             weight={"300"}
             theme={themeModal}
           >
             Choose your annual interest rate.
           </CelText>
           <View style={style.ltvWrapper}>
-            {themeModal &&
-              ltv &&
+            { ltv &&
               ltv.map(c => (
                 <Card
                   size={"thirdExtra"}
@@ -280,7 +285,7 @@ class BorrowCalculator extends Component {
             >
               <CelText
                 align={"center"}
-                weight="bold"
+                weight="600"
                 style={
                   !themeModal
                     ? style.interestCardText
@@ -307,7 +312,7 @@ class BorrowCalculator extends Component {
             >
               <CelText
                 align={"center"}
-                weight="bold"
+                weight="600"
                 style={
                   !themeModal
                     ? style.interestCardText
@@ -364,7 +369,7 @@ class BorrowCalculator extends Component {
         >
           <CelText
             align={"center"}
-            weight="bold"
+            weight="600"
             style={
               !themeModal
                 ? style.interestCardText
@@ -385,7 +390,7 @@ class BorrowCalculator extends Component {
         </Card>
         <CelText
           align={"center"}
-          type={"H4"}
+          type={"H5"}
           margin={"4 0 20 0"}
           weight={"300"}
           theme={themeModal}

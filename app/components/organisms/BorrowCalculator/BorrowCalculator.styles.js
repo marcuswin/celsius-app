@@ -44,7 +44,8 @@ const themed = {
       color: STYLES.COLORS.DARK_GRAY
     },
     interestCardText: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.DARK_GRAY,
+      fontWeight: '300'
     }
   },
   dark: {
