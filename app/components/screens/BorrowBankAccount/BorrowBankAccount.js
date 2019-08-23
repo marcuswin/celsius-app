@@ -1,62 +1,62 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { View } from 'react-native'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { View } from "react-native";
 
-
-import * as appActions from '../../../redux/actions'
-import CelText from '../../atoms/CelText/CelText'
-import RegularLayout from '../../layouts/RegularLayout/RegularLayout'
-import CelButton from '../../atoms/CelButton/CelButton'
-import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
-import CelInput from '../../atoms/CelInput/CelInput'
-import CelSelect from '../../molecules/CelSelect/CelSelect'
-import { BANK_ACCOUNT_TYPE } from '../../../constants/DATA'
+import * as appActions from "../../../redux/actions";
+import CelText from "../../atoms/CelText/CelText";
+import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
+import CelButton from "../../atoms/CelButton/CelButton";
+import HeadingProgressBar from "../../atoms/HeadingProgressBar/HeadingProgressBar";
+import CelInput from "../../atoms/CelInput/CelInput";
+import CelSelect from "../../molecules/CelSelect/CelSelect";
+import { BANK_ACCOUNT_TYPE } from "../../../constants/DATA";
 
 @connect(
   state => ({
     userProfile: state.user.profile,
     formData: state.forms.formData,
     formErrors: state.forms.formErrors,
-    bankAccountInfo: state.user.bankAccountInfo,
+    bankAccountInfo: state.user.bankAccountInfo
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class BorrowBankAccount extends Component {
   static navigationOptions = () => ({
-    title: 'Link bank account'
-  })
+    title: "Link bank account"
+  });
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.state = {
       isLoading: false
-    }
+    };
   }
 
-  async componentDidMount () {
-    const { actions, userProfile } = this.props
-    actions.updateFormField('bank_location', { name: userProfile.country })
-    this.getExistingBankAccountData()
+  componentDidMount() {
+    const { actions, userProfile } = this.props;
+    actions.updateFormField("bank_location", { name: userProfile.country });
+    this.getExistingBankAccountData();
   }
 
   getExistingBankAccountData() {
-    const { bankAccountInfo, actions } = this.props
+    const { bankAccountInfo, actions } = this.props;
     actions.updateFormFields({
       bank_name: bankAccountInfo.bank_name,
       bank_account_number: bankAccountInfo.bank_account_number,
       bank_routing_number: bankAccountInfo.bank_routing_number,
-      selectedAccountType: bankAccountInfo.account_type === 'checking' ? 'Checking' : 'Savings',
+      selectedAccountType:
+        bankAccountInfo.account_type === "checking" ? "Checking" : "Savings",
       swift: bankAccountInfo.swift,
       iban: bankAccountInfo.iban,
-      bank_location: {name: bankAccountInfo.location}
-    })
+      bank_location: { name: bankAccountInfo.location }
+    });
   }
 
   linkBankAccount = async () => {
-    const { actions, formData } = this.props
-    const isAmerican = this.isAmerican()
+    const { actions, formData } = this.props;
+    const isAmerican = this.isAmerican();
 
     const bankAccountInfo = {
       bank_name: formData.bank_name,
@@ -66,53 +66,51 @@ class BorrowBankAccount extends Component {
       swift: formData.swift,
       iban: formData.iban,
       location: formData.bank_location.name
-    }
+    };
 
     if (isAmerican) {
-      delete bankAccountInfo.swift
-      delete bankAccountInfo.iban
+      delete bankAccountInfo.swift;
+      delete bankAccountInfo.iban;
     } else {
-      delete bankAccountInfo.bank_account_number
-      delete bankAccountInfo.bank_routing_number
+      delete bankAccountInfo.bank_account_number;
+      delete bankAccountInfo.bank_routing_number;
     }
 
-    this.setState({ isLoading: true })
-    await actions.confirmLoanInfo(formData)  // TODO: create object with proper data and send it instead of formData
-    await actions.linkBankAccount(bankAccountInfo)
-    this.setState({ isLoading: false })
-  }
+    this.setState({ isLoading: true });
+    await actions.confirmLoanInfo(formData); // TODO: create object with proper data and send it instead of formData
+    await actions.linkBankAccount(bankAccountInfo);
+    this.setState({ isLoading: false });
+  };
 
   isAmerican = () => {
-    const { formData } = this.props
+    const { formData } = this.props;
     return (
-      formData.bank_location && formData.bank_location.name === 'United States'
-    )
-  }
+      formData.bank_location && formData.bank_location.name === "United States"
+    );
+  };
 
-  render () {
-    const { isLoading } = this.state
-    const { formData, formErrors } = this.props
-    const isAmerican = this.isAmerican()
+  render() {
+    const { isLoading } = this.state;
+    const { formData, formErrors } = this.props;
+    const isAmerican = this.isAmerican();
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <HeadingProgressBar steps={6} currentStep={5} />
-        <RegularLayout
-          fabType={'hide'}
-        >
+        <RegularLayout fabType={"hide"}>
           <CelText
-            weight='300'
-            type='H4'
-            margin={'0 0 30 0'}
-            style={{ alignSelf: 'flex-start' }}
+            weight="300"
+            type="H4"
+            margin={"0 0 30 0"}
+            style={{ alignSelf: "flex-start" }}
           >
             Provide us with your bank account details:
           </CelText>
 
           <CelSelect
-            type='country'
-            field='bank_location'
-            labelText='Bank Location'
+            type="country"
+            field="bank_location"
+            labelText="Bank Location"
             showCountryFlag
             hideCallingCodes
             value={formData.bank_location}
@@ -120,17 +118,17 @@ class BorrowBankAccount extends Component {
           />
 
           <CelInput
-            placeholder='Bank name'
-            field={'bank_name'}
+            placeholder="Bank name"
+            field={"bank_name"}
             value={formData.bank_name}
             error={formErrors.bank_name}
-            returnKeyType={'next'}
+            returnKeyType={"next"}
             blurOnSubmiting={false}
             onSubmitEditing={() => {
               if (isAmerican) {
-                this.bank_account_number.focus()
+                this.bank_account_number.focus();
               } else {
-                this.iban.focus()
+                this.iban.focus();
               }
             }}
           />
@@ -138,83 +136,83 @@ class BorrowBankAccount extends Component {
           {isAmerican ? (
             <>
               <CelInput
-                placeholder='Account Number'
-                field={'bank_account_number'}
+                placeholder="Account Number"
+                field={"bank_account_number"}
                 value={formData.bank_account_number}
                 error={formErrors.bank_account_number}
-                returnKeyType={'next'}
+                returnKeyType={"next"}
                 blurOnSubmiting={false}
                 refs={input => {
-                  this.bank_account_number = input
+                  this.bank_account_number = input;
                 }}
                 onSubmitEditing={() => {
-                  this.bank_routing_number.focus()
+                  this.bank_routing_number.focus();
                 }}
               />
 
               <CelInput
-                placeholder='ABA (Routing Number)'
-                field={'bank_routing_number'}
+                placeholder="ABA (Routing Number)"
+                field={"bank_routing_number"}
                 value={formData.bank_routing_number}
                 error={formErrors.bank_routing_number}
-                returnKeyType={'next'}
+                returnKeyType={"next"}
                 blurOnSubmiting={false}
                 refs={input => {
-                  this.bank_routing_number = input
+                  this.bank_routing_number = input;
                 }}
               />
             </>
           ) : (
             <>
               <CelInput
-                placeholder='Account Number (IBAN)'
-                field={'iban'}
+                placeholder="Account Number (IBAN)"
+                field={"iban"}
                 value={formData.iban}
                 error={formErrors.iban}
-                returnKeyType={'next'}
+                returnKeyType={"next"}
                 blurOnSubmiting={false}
                 refs={input => {
-                  this.iban = input
+                  this.iban = input;
                 }}
                 onSubmitEditing={() => {
-                  this.swift.focus()
+                  this.swift.focus();
                 }}
               />
 
               <CelInput
-                placeholder='SWIFT (Bank Identifier Code)'
-                field={'swift'}
+                placeholder="SWIFT (Bank Identifier Code)"
+                field={"swift"}
                 value={formData.swift}
                 error={formErrors.swift}
-                returnKeyType={'next'}
+                returnKeyType={"next"}
                 blurOnSubmiting={false}
                 refs={input => {
-                  this.swift = input
+                  this.swift = input;
                 }}
               />
             </>
           )}
 
           <CelText
-            weight='300'
-            type='H4'
-            style={{ alignSelf: 'flex-start' }}
-            margin={'0 0 10 0'}
+            weight="300"
+            type="H4"
+            style={{ alignSelf: "flex-start" }}
+            margin={"0 0 10 0"}
           >
             Account type:
           </CelText>
 
           <CelSelect
             items={BANK_ACCOUNT_TYPE}
-            field={'selectedAccountType'}
-            labelText={'Account type'}
+            field={"selectedAccountType"}
+            labelText={"Account type"}
             value={formData.selectedAccountType}
             error={formErrors.selectedAccountType}
           />
 
-          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <CelButton
-              iconRight='IconArrowRight'
+              iconRight="IconArrowRight"
               onPress={this.linkBankAccount}
               loading={isLoading}
             >
@@ -223,8 +221,8 @@ class BorrowBankAccount extends Component {
           </View>
         </RegularLayout>
       </View>
-    )
+    );
   }
 }
 
-export default BorrowBankAccount
+export default BorrowBankAccount;

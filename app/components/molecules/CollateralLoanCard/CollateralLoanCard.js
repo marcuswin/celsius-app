@@ -62,6 +62,9 @@ function getPropsFromTransaction(transaction) {
         status: "Completed Loan",
         color: STYLES.COLORS.RED
       };
+    default: {
+      return {};
+    }
   }
 }
 
@@ -70,21 +73,27 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
   return (
     <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
       <Card padding="15 15 15 15">
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-          <Icon name="TransactionLoan" width={20} height={20} fill={color}/>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Icon name="TransactionLoan" width={20} height={20} fill={color} />
           <CelText color={color}>{status}</CelText>
         </View>
 
-        <CelText type="H2" align="center" weight="600"
-                 margin="10 0 10 0">{formatter.usd(transaction.loan_data.loan_amount)}</CelText>
-        <CelText type="H6" align="center">Loan initiated: {transaction.loan_data.initiation_date}</CelText>
+        <CelText type="H2" align="center" weight="600" margin="10 0 10 0">
+          {formatter.usd(transaction.loan_data.loan_amount)}
+        </CelText>
+        <CelText type="H6" align="center">
+          Loan initiated: {transaction.loan_data.initiation_date}
+        </CelText>
 
-        <Separator margin="12 0 12 0"/>
+        <Separator margin="12 0 12 0" />
 
-        <CelButton
-          basic
-          onPress={() => navigateTo("WalletLanding")}
-        >
+        <CelButton basic onPress={() => navigateTo("WalletLanding")}>
           See Loan Overview
         </CelButton>
       </Card>
