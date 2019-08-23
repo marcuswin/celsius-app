@@ -1,9 +1,16 @@
 import axios from 'axios';
 import apiUrl from './api-url';
+import { mocks } from '../../dev-settings'
+import loanUtil from "../utils/loan-util";
 
 const loansService = {
   apply,
-  getAllLoans
+  getAllLoans,
+  setConfirmLoanInfo,
+  cancelLoan,
+  getMarginCalls,
+  lockMarginCollateral,
+  updateLoanSettings
 };
 
 /**
@@ -38,8 +45,83 @@ function apply(loanApplication, verification) {
  *
  * @returns {Promise}
  */
-function getAllLoans() {
-  return axios.get(`${apiUrl}/loans`);
+function setConfirmLoanInfo(loanData) {
+  if (mocks.USE_MOCK_LOAN_INFO) {
+    return { data: {loan: (require("../mock-data/loans.mock").default.CONFIRM_LOAN)} }
+  }
+  return axios.post(`${apiUrl}/loans/new-loan-preview`, {
+    loanData
+  });
+}
+
+
+/**
+* Gets confirm loan information
+*
+* @returns {Promise}
+*/
+async function getAllLoans () {
+  let loans
+  if (mocks.USE_MOCK_LOANS) {
+     loans = Object.values(require("../mock-data/loans.mock").default.ALL_LOANS)
+  } else {
+    const res = await axios.get(`${apiUrl}/loans`);
+    loans = res.data
+  }
+  return loans.map(l => loanUtil.mapLoan(l))
+}
+
+
+/**
+ * Cancels desired pending loan
+ *
+ * @param {String} id
+ * @returns {Promise}
+ */
+function cancelLoan(id) {
+  return axios.put(`${apiUrl}/loans/${id}/cancel`)
+}
+
+/**
+ * Gets all margin calls
+ *
+ * @returns {Promise}
+ */
+async function getMarginCalls() {
+  let marginCalls
+    if(mocks.USE_MOCK_MARGIN_CALLS) {
+      marginCalls = require("../mock-data/margincalls.mock").default
+    } else {
+      const res = await axios.get(`${apiUrl}/loans/margin_calls`)
+      marginCalls = res.data
+    }
+
+   return marginCalls.map(m => loanUtil.mapMarginCall(m))
+}
+
+/**
+ * Lock margin call collateral
+ *
+ * @param {String} marginCallID
+ * @param {String} marginCallData.coin
+ * @param {String} marginCallData.amount_collateral_usd
+ * @param {String} marginCallData.amount_collateral_crypto
+ *
+ * @returns {Promise}
+ */
+function lockMarginCollateral(marginCallID, marginCallData) {
+  return axios.post(`${apiUrl}/loans/margin_calls/${marginCallID}/lock`, marginCallData)
+}
+
+/**
+ *
+ * Update Loan Settings
+ *
+ * @param {String} loanId
+ * @returns {Promise}
+ */
+function updateLoanSettings(loanId, value) {
+  return axios.post(`${apiUrl}/loans/${loanId}/settings`, value)
 }
 
 export default loansService;

@@ -1,25 +1,22 @@
-
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import { getThemedStyle } from "../../../utils/styles-util";
 
 const base = {
   footerContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
+    alignSelf: "center",
     justifyContent: "center"
   }
-}
+};
 
 const themed = {
-    light: {
-    },
+  light: {},
 
-    dark: {
-    },
+  dark: {},
 
-    celsius: {
-    }
-}
+  celsius: {}
+};
 
 const CalculateLoyaltyModalStyle = () => getThemedStyle(base, themed);
 
-export default CalculateLoyaltyModalStyle
+export default CalculateLoyaltyModalStyle;

@@ -44,7 +44,8 @@ const themed = {
       color: STYLES.COLORS.DARK_GRAY
     },
     interestCardText: {
-      color: STYLES.COLORS.DARK_GRAY
+      color: STYLES.COLORS.DARK_GRAY,
+      fontWeight: '300'
     }
   },
   dark: {
@@ -57,15 +58,13 @@ const themed = {
     },
     interestCardText: {
       color: STYLES.COLORS.WHITE
-    },
-    loanCard: {
-      backgroundColor: 'red'
     }
   },
 
   celsius: {}
 };
 
-const LoanCalculatorStyle = () => getThemedStyle(base, themed);
+const LoanCalculatorStyle = (theme) => ( theme ? getThemedStyle(base, themed, theme) : getThemedStyle(base, themed));
+
 
 export default LoanCalculatorStyle;

@@ -1,5 +1,6 @@
 import ACTIONS from '../../constants/ACTIONS';
 import transactionsUtil from "../../utils/transactions-util";
+import { mocks } from '../../../dev-settings'
 
 /**
  * TODO make it a function add JSDoc & desc for return
@@ -14,7 +15,14 @@ export default function transactionsReducer(state = initialState, action) {
   let transactionDetails = {};
   switch (action.type) {
     case ACTIONS.GET_ALL_TRANSACTIONS_SUCCESS:
-      action.transactions.forEach(t => { newTransactions[t.id] = transactionsUtil.mapTransaction(t) });
+      if (mocks.USE_MOCK_TRANSACTIONS) {
+        Object
+          .values(require("../../mock-data/transactions.mock").default)
+          .forEach(t => { newTransactions[t.id] = transactionsUtil.mapTransaction(t) });
+      } else {
+        action.transactions.forEach(t => { newTransactions[t.id] = transactionsUtil.mapTransaction(t) });
+      }
+
       return {
         ...state,
         transactionList: {
