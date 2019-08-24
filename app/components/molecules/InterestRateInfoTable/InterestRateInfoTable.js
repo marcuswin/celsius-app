@@ -25,7 +25,7 @@ class InterestRateInfoTable extends Component {
   renderInterestTable() {
     const { interestRates, loyaltyInfo } = this.props;
     const interestArray = [];
-    const ratesPriority = ["ETH", "BTC", "USD"];
+    const ratesPriority = ["CEL", "ETH", "BTC", "USD"];
 
 
     Object.keys(interestRates).forEach((currency) => {
@@ -37,9 +37,12 @@ class InterestRateInfoTable extends Component {
     });
 
     const sortedRates = interestArray.sort((a, b) => {
+
       if (ratesPriority.indexOf(a.currency) > ratesPriority.indexOf(b.currency)) {
         return -1;
       }
+
+      if (a.currency === "CEL") return -1;
 
       if (ratesPriority.indexOf(a.currency) < ratesPriority.indexOf(b.currency)) {
         return 1;
