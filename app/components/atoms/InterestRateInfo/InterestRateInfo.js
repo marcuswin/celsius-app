@@ -76,14 +76,16 @@ class InterestRateInfo extends Component {
                 {formatter.percentageDisplay(rate.rate)}
               </CelText>
             </View>
-            <View style={styles.celRateWrapper}>
-              <CelText type={"H7"} style={styles.celsiusRateText} margin="0 5 0 0">
-                CEL
-              </CelText>
-              <CelText type={"H7"} weight="bold" style={styles.celRateText}>
-                {formatter.percentageDisplay(rate.cel_rate)}
-              </CelText>
-            </View>
+            {currencyInfo.short === "CEL" ? null :
+              <View style={styles.celRateWrapper}>
+                <CelText type={"H7"} style={styles.celsiusRateText} margin="0 5 0 0">
+                  CEL
+                </CelText>
+                <CelText type={"H7"} weight="bold" style={styles.celRateText}>
+                  {formatter.percentageDisplay(rate.cel_rate)}
+                </CelText>
+              </View>
+            }
           </View>
         </View>
       </Card>
