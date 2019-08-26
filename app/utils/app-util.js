@@ -23,8 +23,8 @@ const {
   SECURITY_STORAGE_AUTH_KEY,
   TWITTER_CUSTOMER_KEY,
   TWITTER_SECRET_KEY,
-  APPSFLYER_KEY_ANDROID,
-  APPSFLYER_KEY_IOS,
+  // APPSFLYER_KEY_ANDROID,
+  // APPSFLYER_KEY_IOS,
   SEGMENT_ANDROID_KEY,
   SEGMENT_IOS_KEY
 } = Constants.extra;
@@ -53,14 +53,17 @@ async function initializeThirdPartyServices() {
     iosWriteKey: SEGMENT_IOS_KEY
   });
   const appsFlyerOptions = {
-    devKey: Platform.OS === "android" ? APPSFLYER_KEY_ANDROID : APPSFLYER_KEY_IOS,
+    devKey:
+      Platform.OS === "android"
+        ? "kc52L3ZYK35BuHAum9iVJj"
+        : "3KiLr9QhtGzZ8QxHfkW9nL",
     isDebug: true
   };
 
   if (Platform.OS === "ios") {
     appsFlyerOptions.appId = "1387885523";
   }
-
+  // console.log("BEFORE init");
   await appsFlyer.initSdk(
     appsFlyerOptions,
     result => {
@@ -70,6 +73,7 @@ async function initializeThirdPartyServices() {
       loggerUtil.err(error);
     }
   );
+  // console.log("AFTER init");
 }
 
 /**
