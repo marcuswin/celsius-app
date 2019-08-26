@@ -1954,7 +1954,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = celsius.network.wallet1;
+				PRODUCT_BUNDLE_IDENTIFIER = network.celsius.wallet;
 				PRODUCT_NAME = celsius;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64e arm64";
@@ -1999,7 +1999,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = celsius.network.wallet1;
+				PRODUCT_BUNDLE_IDENTIFIER = network.celsius.wallet;
 				PRODUCT_NAME = celsius;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64 arm64e";
