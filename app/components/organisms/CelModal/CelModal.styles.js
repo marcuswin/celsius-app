@@ -25,8 +25,8 @@ const base = {
   },
   closeBtn: {
     position: "absolute",
-    top: 12,
-    right: 12,
+    top: 20,
+    right: 20,
     backgroundColor: "transparent",
     zIndex: 10
   },

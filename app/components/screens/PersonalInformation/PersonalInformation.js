@@ -190,9 +190,16 @@ class PersonalInformation extends Component {
           text={"ADDRESS INFO"} />
 
         <View>
-          <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Address</CelText>
+          <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Street address</CelText>
           <CelInput field={"profileStreet"} disabled type="text" value={user.street} />
         </View>
+
+        {user.building_number &&
+          <View>
+            <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Building number</CelText>
+            <CelInput field={"buildingNumber"} disabled type="text" value={user.building_number} />
+          </View>
+        }
 
         <View>
           <CelText margin={"0 0 10 0"} type={"H4"} weight={"300"}>Apartment number</CelText>
