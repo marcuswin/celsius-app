@@ -87,7 +87,11 @@ class BalanceHistory extends Component {
 
             <CelButton
               basic
-              onPress={() => actions.navigateTo("AllTransactions")}
+              onPress={() => {
+                  actions.navigateTo("AllTransactions")
+                  actions.getAllTransactions()
+                }
+              }
             >
               See all
             </CelButton>

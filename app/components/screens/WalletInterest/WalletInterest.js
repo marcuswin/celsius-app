@@ -63,7 +63,7 @@ class WalletInterest extends Component {
 
   navigateToAllTransactions = () => {
     const { actions } = this.props
-    actions.navigateTo('AllTransactions')
+    actions.navigateTo('AllTransactions', { transactionType: 'interest' })
   }
 
   render() {
