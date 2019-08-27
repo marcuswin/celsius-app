@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -10,9 +10,9 @@ import BorrowCollateralStyle from "./BorrowCollateral.styles";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
-import CircleButton from "../../atoms/CircleButton/CircleButton";
 import formatter from "../../../utils/formatter";
 import ProgressBar from "../../atoms/ProgressBar/ProgressBar";
+import Icon from "../../atoms/Icon/Icon";
 
 @connect(
   state => ({
@@ -47,17 +47,18 @@ class BorrowCollateral extends Component {
     const color = coin.amount_usd < collateralAmount ? "rgba(239,70,26,1)" : "rgba(60,71,84,0.7)";
 
     return (
-      <View key={coin.name} style={style.coinWrapper}>
-        <CircleButton
-          onPress={() => this.handleSelectCoin(coin.short)}
-          type={"coin"}
-          icon={`Icon${coin.short}`}
-          disabled={coin.amount_usd < collateralAmount}
+      <TouchableOpacity
+        key={coin.name}
+        style={style.coinWrapper}
+        onPress={() => this.handleSelectCoin(coin.short)}
+      >
+        <Icon
+          name={`Icon${coin.short}`}
         />
         <CelText weight={"500"} align="center" style={{marginTop: 10}}>{name}</CelText>
         <CelText weight={"300"} align="center" style={{color}}>{crypto}</CelText>
         <CelText weight={"300"} align="center" style={{color}}>{fiat}</CelText>
-      </View>
+      </TouchableOpacity>
     );
   };
 
