@@ -7,9 +7,13 @@
 
 #import "AppDelegate.h"
 #import <CodePush/CodePush.h>
-#import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
-#import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNative/AppCenterReactNative.h>
+// #import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
+// #import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
+// #import <AppCenterReactNative/AppCenterReactNative.h>
+#import <AppCenterReactNativeCrashes.h>
+#import <AppCenterReactNativeAnalytics.h>
+#import <AppCenterReactNative.h>
+#import <RNBranch.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -22,14 +26,12 @@
 
 
 @import AppsFlyerLib;
-@import react_native_branch;
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES]; // <-- add this 
-
-  NSURL *jsCodeLocation;
 
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];  // Initialize AppCenter crashes
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];  // Initialize AppCenter analytics
@@ -77,9 +79,7 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if (![RNBranch.branch application:app openURL:url options:options]) {
         // do other deep link routing for the Facebook SDK, Pinterest SDK, etc 
-          if (![RNBranch.branch application:app openURL:url options:options]) {
-        [[AppsFlyerTracker sharedTracker] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:annotation];
-    }
+        [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
     }
     return YES;
 }
@@ -87,7 +87,7 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     [RNBranch continueUserActivity:userActivity];
     [[AppsFlyerTracker sharedTracker] continueUserActivity:userActivity restorationHandler:restorationHandler];
-    return YES
+    return YES;
 }
 
 
@@ -98,12 +98,12 @@
 
 
 
-// Reports app open from URL Scheme deep link for iOS 10
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-            options:(NSDictionary *) options {
-  [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
-  return YES;
-}
+// // Reports app open from URL Scheme deep link for iOS 10
+// - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+//             options:(NSDictionary *) options {
+//   [[AppsFlyerTracker sharedTracker] handleOpenUrl:url options:options];
+//   return YES;
+// }
 //-------
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
