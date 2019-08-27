@@ -13,6 +13,7 @@ import STYLES from "../../../constants/STYLES";
 import CelText from "../../atoms/CelText/CelText";
 
 @connect(
+  () => ({ }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
 class InterestRates extends Component {
