@@ -14,7 +14,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import io.branch.rnbranch.RNBranchPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -57,7 +56,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo(),
             new NetInfoPackage(),
             new SplashScreenReactPackage(),
-            new RNBranchPackage(),
             new SvgPackage(),
             new RNGestureHandlerPackage(),
           new ModuleRegistryAdapter(mModuleRegistryProvider)
