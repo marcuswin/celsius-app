@@ -47,7 +47,7 @@ async function requestForPermission(permission, options) {
     } else if (opts.goToSettings) {
       Linking.openURL('app-settings:')
     }
-  } else if (Platform.OS === 'android' && options.askAnyway) {
+  } else if (Platform.OS === 'android' && options && options.askAnyway) {
     const perm = await Permissions.askAsync(permission);
     status = perm.status;
   }

@@ -25,6 +25,7 @@ function celPayFriend () {
     try {
       const {
         amountCrypto,
+        amountUsd,
         friend,
         coin,
         code,
@@ -50,9 +51,16 @@ function celPayFriend () {
         transfer: transferData
       })
 
-      const names = friend.name ? friend.name.split(' ') : undefined
-      let msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}`
-      if (names && names[0]) msg += ` to ${names[0]}!`
+      let msg
+      if (amountUsd >= 50) {
+        msg = `Check your email and confirm your CelPay transaction!`
+      } else {
+        const names = friend.name ? friend.name.split(' ') : undefined
+        msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}`
+        if (names && names[0]) msg += ` to ${names[0]}!`
+      }
+
+
       dispatch(showMessage('success', msg))
       dispatch(clearForm())
       dispatch(
@@ -79,7 +87,7 @@ function celPayFriend () {
 function celPayShareLink () {
   return async (dispatch, getState) => {
     try {
-      const { amountCrypto, coin, code, pin } = getState().forms.formData
+      const { amountCrypto, amountUsd, coin, code, pin } = getState().forms.formData
 
       const transfer = {
         amount: amountCrypto,
@@ -105,7 +113,13 @@ function celPayShareLink () {
       )}! Click on the link to claim it ${branchLink}`
       await Share.share({ message: shareMsg, title: 'Celsius CelPay' })
 
-      const msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}!`
+      let msg
+      if (amountUsd >= 50) {
+        msg = `Check your email and confirm your CelPay transaction!`
+      } else {
+        msg = `Successfully sent ${formatter.crypto(amountCrypto, coin)}!`
+      }
+
       dispatch(showMessage('success', msg))
       dispatch(clearForm())
       dispatch(

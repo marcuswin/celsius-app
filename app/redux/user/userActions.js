@@ -269,11 +269,14 @@ function getConnectedContacts() {
   return async (dispatch, getState) => {
     dispatch(startApiCall(API.GET_CONNECT_CONTACTS));
     const { activeScreen } = getState().nav
+    const { friendsWithApp } = getState().user.contacts
 
     try {
-        const res = await usersService.getConnectedContacts();
-        dispatch(getConnectedContactsSuccess(res.data.contacts));
+      const res = await usersService.getConnectedContacts();
+      dispatch(getConnectedContactsSuccess(res.data.contacts));
+      const newFriendsWithApp = res.data.contacts.friendsWithApp
 
+      if (friendsWithApp.length !== newFriendsWithApp.length) {
         const action = activeScreen === 'CelPayChooseFriend' ? null : { text: 'Go to CelPay', action: () => dispatch(navigateTo('CelPayChooseFriend')) }
         dispatch(showMessage(
           'success',
@@ -281,6 +284,8 @@ function getConnectedContacts() {
           false,
           action,
         ))
+      }
+
     } catch (err) {
       logger.err(err);
     }
