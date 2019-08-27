@@ -96,7 +96,9 @@ class CoinDetails extends Component {
 
   navigateToAllTransactions = () => {
     const { actions } = this.props;
-    actions.navigateTo("AllTransactions");
+    const { currency } = this.state;
+
+    actions.navigateTo('AllTransactions', { coin: currency.short})
   }
 
   goToCelPay = () => {

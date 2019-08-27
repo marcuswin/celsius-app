@@ -138,6 +138,7 @@ class CelPayChooseFriend extends Component {
   };
 
   handleContactImport = async () => {
+    if (!hasPassedKYC()) return
     const { navigation, actions } = this.props;
 
     const permission = await requestForPermission(Permissions.CONTACTS);

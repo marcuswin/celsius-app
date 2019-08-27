@@ -43,7 +43,7 @@ class TransactionsHistory extends Component {
       { label: 'Withdrawn', value: 'withdraw' },
       { label: 'Received', value: 'received' },
       { label: 'Interest', value: 'interest' },
-      { label: 'Celpay', value: 'celpay' }
+      { label: 'CelPay', value: 'celpay' }
     ],
     hasFilter: true
   }
@@ -102,17 +102,47 @@ class TransactionsHistory extends Component {
     return transactionsDisplay
   }
 
-  render () {
+  renderPickerSelect = () => {
     const { filter } = this.state
+    const { filterOptions } = this.props
+    return (
+      <RNPickerSelect
+        placeholder={{ label: 'Show only:', color: 'rgba(0,0,0,0.5)' }}
+        items={filterOptions}
+        onValueChange={this.handleFilterChange}
+        value={filter || null}
+        style={{ height: 32, width: 32  }}
+      >
+        <View
+          style={{
+            height: 50,
+            width: 50,
+            paddingTop: 20,
+            alignItems: "flex-end",
+          }}
+        >
+          <Icon
+            name='Filter'
+            width='16'
+            height='16'
+            fill={STYLES.COLORS.DARK_GRAY}
+          />
+        </View>
+      </RNPickerSelect>
+    )
+  }
+
+  render () {
     const {
       actions,
       margin,
-      filterOptions,
       callsInProgress,
-      hasFilter
+      hasFilter,
+      // navigation
     } = this.props
     const style = TransactionsHistoryStyle()
     const margins = getMargins(margin)
+    // const transactionType = navigation.getParam('transactionType') || null
 
     if (
       apiUtil.areCallsInProgress([API.GET_ALL_TRANSACTIONS], callsInProgress)
@@ -138,31 +168,7 @@ class TransactionsHistory extends Component {
               Transaction history
             </CelText>
           </View>
-          {hasFilter && (
-            <RNPickerSelect
-              placeholder={{ label: 'Show only:', color: 'rgba(0,0,0,0.5)' }}
-              items={filterOptions}
-              onValueChange={this.handleFilterChange}
-              value={filter || null}
-              style={{ height: 32, width: 32  }}
-            >
-              <View
-                style={{
-                  height: 50,
-                  width: 50,
-                  paddingTop: 20,
-                  alignItems: "flex-end",
-                  }}
-                >
-                <Icon
-                  name='Filter'
-                  width='16'
-                  height='16'
-                  fill={STYLES.COLORS.DARK_GRAY}
-                />
-              </View>
-            </RNPickerSelect>
-          )}
+          { hasFilter && this.renderPickerSelect() }
         </View>
 
         <FlatList

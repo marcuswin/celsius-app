@@ -34,7 +34,7 @@ class EarnInterestCelModal extends Component {
         name={MODALS.EARN_INTEREST_CEL}
         picture={require('../../../../assets/images/Onboarding-Welcome3x.png')}
       >
-        <CelText type="H2" align="center" weight='bold' margin="15 0 15 0">It's time to CELebrate!</CelText>
+        <CelText type="H2" align="center" weight='bold' margin="60 0 15 0">It's time to CELebrate!</CelText>
 
         <CelText align="center">
           You can now earn up to 25% more on deposits when you earn in CEL.

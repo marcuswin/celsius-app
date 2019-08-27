@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { MODALS } from "../../../constants/UI";
+import { MODALS, THEMES } from "../../../constants/UI";
 
 import WithdrawWarningModalStyle from "./WithdrawWarningModal.styles";
 import CelText from '../../atoms/CelText/CelText';
@@ -55,7 +55,6 @@ class WithdrawWarningModal extends Component {
     const tagUpperCase = coin === 'XLM' ? 'MEMO ID' : 'DESTINATION TAG'
     const tag = coin === 'XLM' ? 'Memo ID' : 'destination tag'
 
-
     return (
       <CelModal
         name={MODALS.WITHDRAW_WARNING_MODAL}
@@ -71,6 +70,7 @@ class WithdrawWarningModal extends Component {
             value={this.state.isChecked}
             onChange={(field, value) => this.setState({ isChecked: value }) }
             rightText={`My address does not have a ${tag}`}
+            theme={ THEMES.LIGHT }
           />
         </View>
         <View>

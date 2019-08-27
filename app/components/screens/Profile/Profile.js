@@ -89,7 +89,7 @@ class Profile extends Component {
     const { profilePicture, user, actions } = this.props;
     return (
       <RegularLayout>
-        <MissingInfoCard user={user} />
+        <MissingInfoCard user={user} navigateTo={actions.navigateTo}/>
 
         <View style={{ flexDirection: "row", alignSelf: "flex-start" }}>
           {profilePicture ? (
