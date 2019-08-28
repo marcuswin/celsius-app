@@ -46,7 +46,14 @@ const base = {
         backgroundColor: 'transparent',
         borderWidth: 1,
         borderColor: STYLES.COLORS.CELSIUS_BLUE
-    }
+    },
+    screen: {
+        width: 300,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 25,
+        backgroundColor: "white"
+      },
 };
 
 
