@@ -158,6 +158,8 @@ PODS:
     - React/RCTBlob
   - RNDeviceInfo (2.3.2):
     - React
+  - RNShare (2.0.0):
+    - React
   - SSZipArchive (2.2.2)
   - UMBarCodeScannerInterface (2.0.1)
   - UMCameraInterface (2.0.1)
@@ -214,6 +216,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNShare (from `../node_modules/react-native-share`)
   - UMBarCodeScannerInterface (from `../node_modules/unimodules-barcode-scanner-interface/ios`)
   - UMCameraInterface (from `../node_modules/unimodules-camera-interface/ios`)
   - UMConstantsInterface (from `../node_modules/unimodules-constants-interface/ios`)
@@ -313,6 +316,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/netinfo"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   UMBarCodeScannerInterface:
     :path: !ruby/object:Pathname
     path: "../node_modules/unimodules-barcode-scanner-interface/ios"
@@ -392,6 +397,7 @@ SPEC CHECKSUMS:
   react-native-idfa: 7a029b76f4d5dff76efa6fe4b86be8fadd71c49f
   react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
   RNDeviceInfo: 17e34f6dd902f08d88cbe2c0b7a01be948d43641
+  RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   UMBarCodeScannerInterface: d5602e23de37f95bb4ee49ee3b2711e128058ae9
   UMCameraInterface: dde8491778ed062348e569bad33a890e60c32c9d
@@ -407,6 +413,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 296793ab2a7e181fe5ebe2ba9b40ae208ab4b8fa
   yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: b8fc8e2d45bd268dd46f87163da8a8b804c92ed6
+PODFILE CHECKSUM: 61c54000125f3c79860307389b3a60b47cc1dfe3
 
 COCOAPODS: 1.7.5
