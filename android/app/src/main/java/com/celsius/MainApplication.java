@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import info.applike.advertisingid.RNAdvertisingIdPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.microsoft.codepush.react.CodePush;
