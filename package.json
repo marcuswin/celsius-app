@@ -72,6 +72,7 @@
     "react-native-idfa": "^4.1.0",
     "react-native-mixpanel": "^1.1.4",
     "react-native-picker-select": "^6.0.0",
+    "react-native-render-html": "^4.1.2",
     "react-native-share": "2.0.0",
     "react-native-simple-twitter": "1.2.0",
     "react-native-splash-screen": "^3.2.0",
