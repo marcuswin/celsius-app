@@ -119,19 +119,22 @@ class InterestCalculator extends Component {
     const style = InterestCalculatorStyle(theme)
 
     const selectedCoin = formData.coin || 'BTC'
+
     const interestRateForCoin =
       interestRates && formData.coin && interestRates[formData.coin]
         ? interestRates[formData.coin]
         : { rate: 0, cel_rate: 0 }
     const weeklyInterest =
       (formData.amountCrypto *
-        (earnInterestIn
+        (earnInterestIn && formData.coin !== 'CEL'
           ? interestRateForCoin.cel_rate
           : interestRateForCoin.rate)) /
       52
     const yearlyInterest =
       formData.amountCrypto *
-      (earnInterestIn ? interestRateForCoin.cel_rate : interestRateForCoin.rate)
+      (earnInterestIn  && formData.coin !== 'CEL'
+        ? interestRateForCoin.cel_rate
+        : interestRateForCoin.rate)
     const noCelCardStyle = [style.earningCard]
     const celCardStyle = [style.earningCard]
 
@@ -152,18 +155,21 @@ class InterestCalculator extends Component {
     const interestInCelPerYear = yearlyInterest * currencyRatesShort[selectedCoin.toLowerCase()] / currencyRatesShort.cel
     return (
       <>
-        <CelText style={style.calculatorInfo} align={'center'} margin='20 0 5 0'>
+        { formData.coin !=='CEL' && <CelText style={style.calculatorInfo} align={'center'} margin='20 0 5 0'>
           Choose how you want to earn interest.
-        </CelText>
+        </CelText>}
 
         <View style={{ flexDirection: 'row' }}>
           <Card
             noBorder
             styles={noCelCardStyle}
             margin='20 10 20 20'
-            onPress={() => {
-              this.setState({ earnInterestIn: false })
-            }}
+            onPress={formData.coin !== 'CEL' && (
+                () => {
+                this.setState( { earnInterestIn: false })
+                }
+              )
+            }
           >
             <CelText color={noCelTextColor} align={'center'} weight='bold'>
               {formatter.percentageDisplay(interestRateForCoin.rate, true)}
@@ -173,12 +179,12 @@ class InterestCalculator extends Component {
               Regular
             </CelText>
           </Card>
-          <Card
+          { formData.coin !== 'CEL' && <Card
             noBorder
             styles={celCardStyle}
             margin='20 20 20 10'
             onPress={() => {
-              this.setState({ earnInterestIn: true })
+              this.setState({ earnInterestIn:  true })
             }}
           >
             <CelText color={celTextColor} align={'center'} weight='bold' >
@@ -188,7 +194,7 @@ class InterestCalculator extends Component {
             <CelText color={celTextColor} align={'center'}>
               Earn in CEL
             </CelText>
-          </Card>
+          </Card> }
         </View>
 
         <Separator />
