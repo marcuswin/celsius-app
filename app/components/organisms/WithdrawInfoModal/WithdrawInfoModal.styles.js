@@ -32,8 +32,7 @@ const base = {
     progressBar: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: 20,
-        // paddingVertical: 20,
+        paddingTop: 60,
         paddingBottom: 10
 
     },

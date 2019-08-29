@@ -67,6 +67,29 @@ class WithdrawInfoModal extends Component {
     this.setState({ currentStep: 1 })
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.currentStep !== this.props.currentStep) {
+  //   }
+  // }
+
+  scroll = () => {
+    // const { type } = this.props
+    // const { steps } = this.state
+    // const three = steps.slice(1, 4)
+
+    // console.log(currentStep, 'currentStep')
+    
+      // type ?
+      //   steps.map((step) => (
+      //     this.setState({ currentStep: step.index })
+      //   )
+      // )
+      //   :
+      //   three.map((step, index) => (
+      //     this.setState({ currentStep: index })
+      //   ))
+    
+  }
 
   continue = () => {
     const { currentStep } = this.state
@@ -86,6 +109,8 @@ class WithdrawInfoModal extends Component {
       this.setState({ currentStep: currentStep + 1 })
     }
   }
+
+
 
   buttonColor = () => {
     const styles = WithdrawInfoModalStyle();
@@ -114,14 +139,7 @@ class WithdrawInfoModal extends Component {
 
   }
 
-  // scroll = () => {
-  //   // console.log('this.state.cu)')
-  //   this.setState(state => {
-  //     return {
-  //       currentStep: state.currentStep + 1,
-  //     }
-  //   })
-  // }
+
 
   transitionAnimation = (index) => ({
     transform: [
@@ -147,23 +165,28 @@ class WithdrawInfoModal extends Component {
     const ButtonStyle = this.buttonColor;
 
     const three = steps.slice(1, 4)
+    // console.log(steps.index, 'INDEX 1')
 
     return (
       <View index={steps.index}>
-        <ScrollView>
+        <ScrollView style={{ flexGrow: 1, }}
+        // onScroll={this.scroll}
+        >
           <Animated.ScrollView
+            style={{ flexGrow: 1, }}
             scrollEventThrottle={16}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-              { useNativeDriver: true }
+              { useNativeDriver: true },
+
             )}
+            onScrollEndDrag={this.scroll}
             horizontal
             pagingEnabled
           >
             {type ?
               steps.map((step, index) => (
-                // console.log(currentStep, 'currentStep')
-                <Animated.View onScroll={this.scroll} key={index} style={[styles.screen, this.transitionAnimation(index)]}>
+                <Animated.View key={steps.indexindex} style={[styles.screen, this.transitionAnimation(index)]}>
                   <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
                   <CelText type='H4' style={styles.description}>{step.description}</CelText>
                 </Animated.View>
@@ -171,9 +194,7 @@ class WithdrawInfoModal extends Component {
               )
               :
               three.map((step, index) => (
-                // console.log(index, step)
-                // this.setState({ currentStep: step })
-                <Animated.View onScroll={this.scroll} key={index} style={[styles.screen, this.transitionAnimation(index)]}>
+                <Animated.View key={steps.index} style={[styles.screen, this.transitionAnimation(index)]}>
                   <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
                   <CelText type='H4' style={styles.description}>{step.description}</CelText>
                 </Animated.View>
@@ -197,6 +218,9 @@ class WithdrawInfoModal extends Component {
     const { type, index } = this.props;
     let numberOfSteps
 
+    // console.log(steps, 'INDEX')
+
+
     if (type) {
       numberOfSteps = 4
     } else {
@@ -210,10 +234,10 @@ class WithdrawInfoModal extends Component {
         onClose={this.closeModalHandler}
         index={index}
       >
+        <View style={styles.progressBar}>
+          <DotsBar length={numberOfSteps} currentStep={currentStep} />
+        </View>
         <View style={styles.wrapper}>
-          <View style={styles.progressBar}>
-            <DotsBar length={numberOfSteps} currentStep={currentStep} />
-          </View>
           <View>
             {this.renderStep()}
           </View>
