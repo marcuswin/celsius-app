@@ -31,12 +31,12 @@ class PrincipalPaymentType extends Component {
     const { actions } = this.props
     actions.updateFormField('coin',  coin )
     actions.navigateBack()
-    this.renderMessage()
+    this.renderMessage(coin)
   }
 
-  renderMessage = () => {
+  renderMessage = (coin) => {
     const { actions } = this.props
-      actions.showMessage("success", "You have successfully set up automatic payout from collateral. ")
+    actions.showMessage("success", `You have successfully set up principal payout in ${coin.toUpperCase()}.`)
   }
 
   render() {

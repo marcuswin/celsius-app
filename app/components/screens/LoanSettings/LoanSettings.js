@@ -62,6 +62,9 @@ class LoanSettings extends Component {
     this.setState({
       isAutomaticInterestPaymentEnabled: !isAutomaticInterestPaymentEnabled
     }, () =>  actions.updateLoanSettings(id, {automaticInterestPayment: this.state.isAutomaticInterestPaymentEnabled}))
+
+    const msg = !isAutomaticInterestPaymentEnabled ? `Successfully set automatic interest payment` : `Successfully set manual interest payment`
+    actions.showMessage('success', msg)
   };
 
   render() {
