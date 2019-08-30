@@ -16,6 +16,7 @@ function initBranch() {
   return async dispatch => {
     try {
       Branch.subscribe((deepLink) => {
+        console.log('deeplinking branch', deepLink)
         // console.log('deepLink', deepLink)
         // Use for standalone debugging
         // logger.logme(deepLink)

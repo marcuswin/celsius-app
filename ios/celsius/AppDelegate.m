@@ -7,6 +7,8 @@
 
 #import "AppDelegate.h"
 #import <CodePush/CodePush.h>
+//#import <AppCenterCrashes/AppCenterCrashes.h>
+//#import <appcenter-crashes
 // #import <AppCenterReactNativeCrashes/AppCenterReactNativeCrashes.h>
 // #import <AppCenterReactNativeAnalytics/AppCenterReactNativeAnalytics.h>
 // #import <AppCenterReactNative/AppCenterReactNative.h>
@@ -14,6 +16,11 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNative.h>
 #import <RNBranch.h>
+
+//#import <AppCenterCrashes/AppCenterCrashes.h>
+//
+//#import <AppCenterAnalytics/AppCenterAnalytics.h>
+////#import <AppCenterReactNativeShared/AppCenterReactNativeShared.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
