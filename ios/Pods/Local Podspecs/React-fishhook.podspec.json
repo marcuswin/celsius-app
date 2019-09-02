@@ -1,7 +1,7 @@
 {
-  "name": "React-RCTAnimation",
+  "name": "React-fishhook",
   "version": "0.60.4",
-  "summary": "A native driver for the Animated API.",
+  "summary": "A very simple library that enables dynamically rebinding symbols in Mach-O binaries running on iOS in the simulator and on device.",
   "homepage": "http://facebook.github.io/react-native/",
   "license": "MIT",
   "authors": "Facebook, Inc. and its affiliates",
@@ -13,16 +13,6 @@
     "git": "https://github.com/facebook/react-native.git",
     "tag": "v0.60.4"
   },
-  "source_files": "{Drivers/*,Nodes/*,*}.{h,m}",
-  "preserve_paths": [
-    "package.json",
-    "LICENSE",
-    "LICENSE-docs"
-  ],
-  "header_dir": "React",
-  "dependencies": {
-    "React-Core": [
-      "0.60.4"
-    ]
-  }
+  "source_files": "*.{c,h}",
+  "header_dir": "fishhook"
 }
