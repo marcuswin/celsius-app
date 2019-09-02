@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from "react-navigation-stack"
 import { defaultNavigationOptions, transitionConfig } from '../navigationConfig'
 import WithdrawEnterAmount from '../../components/screens/WithdrawEnterAmount/WithdrawEnterAmount'
 import WithdrawConfirmAddress from '../../components/screens/WithdrawConfirmAddress/WithdrawConfirmAddress'

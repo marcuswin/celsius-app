@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity } from 'react-native';
-import { TWLoginButton } from "react-native-simple-twitter";
+// import { TWLoginButton } from "react-native-simple-twitter";
 
 
 
@@ -55,7 +55,7 @@ class SocialLogin extends Component {
           </TouchableOpacity>
         </View>
 
-        <TWLoginButton
+        {/* <TWLoginButton
           ref={this.setFakeTwitterButton}
           style={style.fakeTwitterButton}
           onGetAccessToken={actions.twitterGetAccessToken}
@@ -63,7 +63,7 @@ class SocialLogin extends Component {
           closeText="< Back to Celsius"
           onClose={actions.twitterClose}
           onError={this.handleError}
-        />
+        /> */}
       </View>
     );
   }
