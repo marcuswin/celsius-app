@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from "react-navigation-stack";
 import Profile from '../../components/screens/Profile/Profile';
 import Settings from "../../components/screens/Settings/Settings";
 import TermsOfUse from "../../components/screens/TermsOfUse/TermsOfUse";

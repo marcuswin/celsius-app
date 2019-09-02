@@ -1,5 +1,5 @@
 import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
+// import * as Location from "expo-location";
 import { Platform } from "react-native";
 import RNAdvertisingId from "react-native-advertising";
 import { IDFA } from "react-native-idfa";
@@ -316,13 +316,13 @@ function setAppsFlyerUID() {
  */
 function getGeolocation() {
   return async dispatch => {
-    const permission = await requestForPermission(Permissions.LOCATION, {
-      goToSettings: false
-    });
+    // const permission = await requestForPermission(Permissions.LOCATION, {
+    //   goToSettings: false
+    // });
 
-    if (!permission) return;
+    // if (!permission) return;
 
-    const location = await Location.getCurrentPositionAsync({});
+    // const location = await Location.getCurrentPositionAsync({});
     if (location && location.coords) {
       dispatch({
         type: ACTIONS.SET_GEOLOCATION,

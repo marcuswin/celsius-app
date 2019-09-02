@@ -1,4 +1,4 @@
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator } from "react-navigation-stack"
 import CoinDetails from '../../components/screens/CoinDetails/CoinDetails'
 import WalletLanding from '../../components/screens/WalletLanding/WalletLanding'
 import WalletInterest from '../../components/screens/WalletInterest/WalletInterest'
