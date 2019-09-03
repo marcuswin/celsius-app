@@ -165,7 +165,7 @@ PODS:
   - react-native-appsflyer (1.4.4):
     - AppsFlyerFramework (~> 4.8.12)
     - React
-  - react-native-branch (3.1.1):
+  - react-native-branch (4.0.0):
     - Branch (= 0.27.1)
     - React
   - react-native-geolocation (2.0.2):
@@ -504,7 +504,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-appsflyer: 612fc77cbe1f4cb390eb8b6c5f99b0ed9aa33127
-  react-native-branch: b95430177fc90d4a5d414b33c6bc7b1e8e3a2ea5
+  react-native-branch: 5e2b3a7bbda82a7af421ce1981a956ef18c38d96
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-idfa: 7a029b76f4d5dff76efa6fe4b86be8fadd71c49f
   react-native-netinfo: 0e563248a4b9a99c33ec29bd03c2d50767db22a6
@@ -536,6 +536,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 8664abd37a00715727e60df9ecd65e42ba47b548
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
-PODFILE CHECKSUM: f40508a48dd9e1bd99de71c3b3c3d5ce087f5aed
+PODFILE CHECKSUM: 747af0534a74f871664d9d93e77b99d19591c553
 
 COCOAPODS: 1.7.5

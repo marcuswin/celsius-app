@@ -18,7 +18,6 @@ public class BasePackageList {
         new expo.modules.google.signin.GoogleSignInPackage(),
         new expo.modules.imagemanipulator.ImageManipulatorPackage(),
         new expo.modules.imagepicker.ImagePickerPackage(),
-        new expo.modules.location.LocationPackage(),
         new expo.modules.permissions.PermissionsPackage(),
         new expo.modules.securestore.SecureStorePackage()
     );

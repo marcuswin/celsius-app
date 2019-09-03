@@ -66,7 +66,6 @@ target 'celsius' do
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
 
-  pod 'react-native-branch', :path => '../node_modules/react-native-branch'
 
 
 
@@ -81,6 +80,8 @@ target 'celsius' do
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
+  pod 'react-native-branch', :path => '../node_modules/react-native-branch'
 
   pre_install do |installer|
     # workaround for https://github.com/CocoaPods/CocoaPods/issues/3289

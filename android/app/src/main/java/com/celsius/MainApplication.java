@@ -11,7 +11,6 @@ import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
 import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
-import io.branch.rnbranch.RNBranchPackage;
 import info.applike.advertisingid.RNAdvertisingIdPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.microsoft.codepush.react.CodePush;
@@ -57,7 +56,6 @@ public class MainApplication extends Application implements ReactApplication {
             new AppCenterReactNativeCrashesPackage(getApplication(), getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
             new AppCenterReactNativeAnalyticsPackage(getApplication(), getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
             new AppCenterReactNativePackage(getApplication()),
-            new RNBranchPackage(),
             new RNMixpanel(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RNAppsFlyerPackage(),
