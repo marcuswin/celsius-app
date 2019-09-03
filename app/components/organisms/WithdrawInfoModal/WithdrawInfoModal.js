@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Animated, View, ScrollView, TouchableOpacity } from "react-native";
+import { Animated, View, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 
 
 import formatter from "../../../utils/formatter";
@@ -9,10 +9,11 @@ import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
 import CelButton from "../../atoms/CelButton/CelButton";
-import DotsBar from '../../atoms/DotsBar/DotsBar';
 import { widthPercentageToDP } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
 
 const cardWidth = widthPercentageToDP("70%");
+const { width } = Dimensions.get('window');
 
 class WithdrawInfoModal extends Component {
   static propTypes = {
@@ -67,28 +68,9 @@ class WithdrawInfoModal extends Component {
     this.setState({ currentStep: 1 })
   }
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.currentStep !== this.props.currentStep) {
-  //   }
-  // }
-
   scroll = () => {
-    // const { type } = this.props
-    // const { steps } = this.state
-    // const three = steps.slice(1, 4)
-
-    // console.log(currentStep, 'currentStep')
-    
-      // type ?
-      //   steps.map((step) => (
-      //     this.setState({ currentStep: step.index })
-      //   )
-      // )
-      //   :
-      //   three.map((step, index) => (
-      //     this.setState({ currentStep: index })
-      //   ))
-    
+    this.continue()
+    this.buttonColor()
   }
 
   continue = () => {
@@ -98,19 +80,16 @@ class WithdrawInfoModal extends Component {
     if (type) {
       if (currentStep === 4) {
         if (toggleKeypad) toggleKeypad();
-        this.closeModalHandler();
       } else {
         this.setState({ currentStep: currentStep + 1 })
       }
     } else if (currentStep === 3) {
       if (toggleKeypad) toggleKeypad();
-      this.closeModalHandler();
     } else {
       this.setState({ currentStep: currentStep + 1 })
     }
+
   }
-
-
 
   buttonColor = () => {
     const styles = WithdrawInfoModalStyle();
@@ -124,7 +103,7 @@ class WithdrawInfoModal extends Component {
       }
       return (
         <View >
-          {currentStep === 4 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+          {currentStep === 4 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
         </View >
       )
     }
@@ -133,13 +112,11 @@ class WithdrawInfoModal extends Component {
     }
     return (
       <View >
-        {currentStep === 3 ? <CelButton style={normalButton} onPress={this.continue}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+        {currentStep === 3 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
       </View >
     )
 
   }
-
-
 
   transitionAnimation = (index) => ({
     transform: [
@@ -158,6 +135,66 @@ class WithdrawInfoModal extends Component {
     ]
   });
 
+  renderDots() {
+    const { steps } = this.state
+    const { type } = this.props
+
+    const three = steps.slice(1, 4)
+    const position = Animated.divide(this.state.xOffset, width);
+
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+        {type ?
+          steps.map((_, i) => {
+            const opacity = position.interpolate({
+              inputRange: [i - 1, i, i + 1],
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: 'clamp'
+            })
+            return (
+              <Animated.View
+                key={i}
+                style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
+              />
+            );
+          })
+          :
+          three.map((_, i) => {
+            const opacity = position.interpolate({
+              inputRange: [i - 1, i, i + 1],
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: 'clamp'
+            })
+            return (
+              <Animated.View
+                key={i}
+                style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
+              />
+            );
+          })
+        }
+      </View>
+    );
+  }
+
+  // renderPicture = () => {
+  //   const { steps } = this.state
+
+  //   {
+  //     type ?
+  //       steps.map((step, index) => (
+  //         <CelText type='H2' weight='bold' style={styles.title}> {step.picture}</CelText>
+  //       )
+  //       )
+  //       :
+  //       three.map((step, index) => (
+  //         <CelText type='H2' weight='bold' style={styles.title}> {step.picture}</CelText>
+  //       ))
+  //   }
+
+
+  // }
+
   renderStep() {
     const { steps, xOffset } = this.state;
     const { type } = this.props
@@ -165,12 +202,12 @@ class WithdrawInfoModal extends Component {
     const ButtonStyle = this.buttonColor;
 
     const three = steps.slice(1, 4)
-    // console.log(steps.index, 'INDEX 1')
 
     return (
       <View index={steps.index}>
-        <ScrollView style={{ flexGrow: 1, }}
-        // onScroll={this.scroll}
+        {this.renderDots()}
+        <ScrollView
+
         >
           <Animated.ScrollView
             style={{ flexGrow: 1, }}
@@ -183,10 +220,11 @@ class WithdrawInfoModal extends Component {
             onScrollEndDrag={this.scroll}
             horizontal
             pagingEnabled
+            showsHorizontalScrollIndicator
           >
             {type ?
               steps.map((step, index) => (
-                <Animated.View key={steps.indexindex} style={[styles.screen, this.transitionAnimation(index)]}>
+                <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
                   <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
                   <CelText type='H4' style={styles.description}>{step.description}</CelText>
                 </Animated.View>
@@ -194,7 +232,7 @@ class WithdrawInfoModal extends Component {
               )
               :
               three.map((step, index) => (
-                <Animated.View key={steps.index} style={[styles.screen, this.transitionAnimation(index)]}>
+                <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
                   <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
                   <CelText type='H4' style={styles.description}>{step.description}</CelText>
                 </Animated.View>
@@ -215,17 +253,7 @@ class WithdrawInfoModal extends Component {
   render() {
     const styles = WithdrawInfoModalStyle();
     const { steps, currentStep } = this.state;
-    const { type, index } = this.props;
-    let numberOfSteps
-
-    // console.log(steps, 'INDEX')
-
-
-    if (type) {
-      numberOfSteps = 4
-    } else {
-      numberOfSteps = 3
-    }
+    const { index } = this.props;
 
     return (
       <CelModal
@@ -234,13 +262,8 @@ class WithdrawInfoModal extends Component {
         onClose={this.closeModalHandler}
         index={index}
       >
-        <View style={styles.progressBar}>
-          <DotsBar length={numberOfSteps} currentStep={currentStep} />
-        </View>
         <View style={styles.wrapper}>
-          <View>
-            {this.renderStep()}
-          </View>
+          {this.renderStep()}
         </View>
       </CelModal>
     );

@@ -7,7 +7,7 @@ const base = {
     },
     wrapper: {
         alignItems: 'center',
-        paddingTop: 40,
+        paddingTop: 0,
     },
     button: {
         alignItems: 'center',
@@ -32,7 +32,7 @@ const base = {
     progressBar: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 60,
+        paddingTop: 30,
         paddingBottom: 10
 
     },
