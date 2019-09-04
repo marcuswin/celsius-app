@@ -22,9 +22,9 @@ export const InfoSection = ({ transaction, transactionProps }) => (
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText margin='0 0 16 0' type="H1"
+    <CelText margin='0 0 10 0' type="H1"
              align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
-    <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3"
+    <CelText color={STYLES.COLORS.MEDIUM_GRAY} type="H3"
              align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 );
@@ -382,7 +382,7 @@ export const InterestSection = ({ interestEarned }) => (
 
   <View style={{ width: "100%", paddingHorizontal: 20 }}>
     <Card>
-      <CelText type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
+      <CelText weight="light" type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
   </View>

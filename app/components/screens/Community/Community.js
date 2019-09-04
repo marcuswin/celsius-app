@@ -71,9 +71,8 @@ class Community extends Component {
           </View>
           <CelText margin={"10 0 0 0"} weight={"300"} align={"center"} type={"H6"}>Most deposited coin</CelText>
           <CelText weight={"600"} align={"center"} type={"H1"}
-                   style={style.text}>{`${formatter.crypto(highestDeposit.total, "", { noPrecision: true })} ${highestDeposit.coin}`}</CelText>
-          <CelText weight={"300"} align={"center"} type={"H5"}
-                   style={style.secondText}>{formatter.usd(highestDeposit.total_usd)}</CelText>
+                   margin="7 0 7 0">{`${formatter.crypto(highestDeposit.total, "", { noPrecision: true })} ${highestDeposit.coin}`}</CelText>
+          <CelText weight={"300"} align={"center"} type={"H5"}>{formatter.usd(highestDeposit.total_usd)}</CelText>
 
           <Card margin={"20 0 0 0"}>
             <View style={style.amountsView}>

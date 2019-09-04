@@ -21,7 +21,7 @@ const base = {
   },
   wrapper: {
     marginTop: heightPercentageToDP("3%"),
-    paddingHorizontal: widthPercentageToDP("3%"),
+    paddingHorizontal: widthPercentageToDP("5%"),
     paddingTop: heightPercentageToDP("2%"),
     backgroundColor: STYLES.COLORS.WHITE,
     borderRadius: 8

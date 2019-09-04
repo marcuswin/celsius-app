@@ -114,7 +114,7 @@ class TransactionDetails extends Component {
       case 'address:to':
         return <AddressSection key={sectionType} transaction={transaction} address={transaction.to_address} text="Withdrawn to:" />;
       case 'button:back':
-        return kycPassed ? <CelButton margin="16 0 80 0" key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
+        return kycPassed ? <CelButton margin="12 0 80 0" key={sectionType} onPress={() => actions.navigateTo('WalletLanding')} basic>Go back to wallet</CelButton> : null
       case 'button:deposit':
         return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('Deposit')}>Deposit coins</CelButton>;
 
@@ -123,13 +123,13 @@ class TransactionDetails extends Component {
       case 'button:celpay:friend':
         return kycPassed ? <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay a friend</CelButton> : null;
       case 'button:cancel:withdrawal':
-        return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={ () => actions.cancelWithdrawal(transactionId) } basic>Cancel withdrawal</CelButton>;
+        return <CelButton margin="12 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={ () => actions.cancelWithdrawal(transactionId) } basic>Cancel withdrawal</CelButton>;
       case 'button:cancel:celpay':
-        return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
+        return <CelButton margin="12 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
+        return <CelButton margin="12 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Apply for another loan</CelButton>
       case 'button:refer':
-        return <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
+        return <CelButton margin="12 0 10 0" key={sectionType} onPress={() => actions.navigateTo('BorrowEnterAmount')}>Refer more friends</CelButton> // TODO(sb): link to refer a friend
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
