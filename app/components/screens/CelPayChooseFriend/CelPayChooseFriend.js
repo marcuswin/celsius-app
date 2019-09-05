@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Contacts from 'expo-contacts';
 import * as Permissions from 'expo-permissions';
-import { Image, TouchableOpacity, View, ScrollView } from 'react-native';
+import { TouchableOpacity, View, ScrollView } from 'react-native';
 
 import * as appActions from '../../../redux/actions';
 
@@ -28,14 +28,15 @@ import ContactsLoader from "../../organisms/ContactsLoader/ContactsLoader";
 const renderEmptyState = ({ onContactImport, onSkip }) => (
   <ScrollView style={{ paddingBottom: 90, paddingTop: 30 }}>
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <Image source={require('../../../../assets/images/diane-sad.png')} style={{ height: 160, resizeMode: 'contain' }} />
-      <CelText weight='700' type='H2' align="center" margin={"30 0 16 0"} >
-        Uhoh, no friends?
+      <CelText weight='700' type='H2' align="center" margin={"80 0 30 0"} >
+        CelPay with Friends!
     </CelText>
-      <CelText weight='300' margin="0 0 30 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
-        Add your contacts or connect your Facebook or Twitter so you can easily send your friends some crypto.
-    </CelText>
-
+      <CelText weight='300' margin="0 0 10 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H4" align="center">
+        Add your contacts or connect your Facebook or Twitter to transfer crypto between you and your friends.
+      </CelText>
+      <CelText weight='300' margin="0 0 40 0" style={{ paddingHorizontal: 20 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H6" align="center">
+        *Only friends with the Celsius app will appear in your contacts list.
+      </CelText>
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <CelButton margin="0 0 10 0" onPress={onContactImport}>
           Import contacts

@@ -110,7 +110,7 @@ class WalletInterest extends Component {
                   {formatter.usd(walletSummary.total_interest_earned)}
                 </CelText>
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
-                  Todays rates
+                  Rates this week
                 </CelText>
               </View>
               <Separator  margin="10 0 0 0" />
