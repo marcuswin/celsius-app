@@ -37,6 +37,8 @@ function getActiveRouteName (navigationState) {
 @codePush
 export default class App extends Component {
   async componentDidMount () {
+    appUtil.initializeThirdPartyServices()
+
     this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       store.dispatch(actions.navigateBack())
       return true
@@ -46,7 +48,6 @@ export default class App extends Component {
     )
 
     await this.initApp()
-    appUtil.initializeThirdPartyServices()
     StyleSheet.setStyleAttributePreprocessor(
       'fontFamily',
       Font.processFontFamily

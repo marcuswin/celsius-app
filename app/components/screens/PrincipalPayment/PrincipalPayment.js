@@ -92,7 +92,7 @@ class PrincipalPayment extends Component {
           right={<Switcher/>}
           hideIconRight
         >
-            Payout Principal From Collateral
+            Payout From Collateral
         </IconButton>
         {payOutPrincipalFromCollateral ?
           <Card color={STYLES.COLORS.ORANGE}>

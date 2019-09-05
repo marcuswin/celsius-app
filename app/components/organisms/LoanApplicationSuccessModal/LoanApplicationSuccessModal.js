@@ -80,7 +80,11 @@ class LoanApplicationSuccessModal extends Component {
         </CelButton>
         {currentStep > 0 && (
           <View>
-            <CelButton basic onPress={() => actions.closeModal()}>
+            <CelButton basic onPress={() => {
+              actions.closeModal()
+              actions.showMessage('success', 'Loan successfully initialized!')
+              actions.navigateTo('BorrowLanding')
+            }}>
               Close
             </CelButton>
           </View>

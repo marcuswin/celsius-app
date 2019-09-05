@@ -81,7 +81,7 @@ class ReferralSendModal extends Component {
           </View>
         </View>
         <View style={style.shareWrapper}>
-          <CelButton onPress={() => Share.share({ message: `Join Celsius Network using my referral code when signing up and earn $10 in BTC with your first deposit of $200 or more! #UnbankYourself \n${shareLink}` })}>
+          <CelButton onPress={() => Share.share({ message: `Join Celsius Network using my referral code ${slug} when signing up and earn $10 in BTC with your first deposit of $200 or more! #UnbankYourself \n \n${shareLink}` })}>
             Share a unique link
         </CelButton>
         </View>
