@@ -56,12 +56,12 @@ class ApiAuthorization extends Component {
 
         <CelButton
           onPress={() => actions.navigateTo("ApiAuthorizationPermissions")}
-          margin={"30 0 10 0"}
+          margin={"30 0 0 0"}
         >
           Generate API key
         </CelButton>
 
-        {!!apiKeys && apiKeys.length > 0 && <Separator margin={"30 0 24 0"} />}
+        {!!apiKeys && apiKeys.length > 0 && <Separator margin={"24 0 24 0"} />}
 
         {!!apiKeys &&
           apiKeys.map(apiKey => (

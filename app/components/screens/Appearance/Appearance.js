@@ -78,6 +78,7 @@ class Appearance extends Component {
               icon={theme === THEMES.LIGHT ? "Checked" : false}
               iconSize={15}
               type='theme'
+              text='Light'
               style={[
                 { backgroundColor: STYLES.COLORS.WHITE },
                 style.themeBtn
@@ -90,6 +91,7 @@ class Appearance extends Component {
               icon={theme === THEMES.DARK ? "Checked" : false}
               iconSize={15}
               type='theme'
+              text='Dark'
               style={[
                 { backgroundColor: STYLES.COLORS.DARK_HEADER },
                 style.themeBtn

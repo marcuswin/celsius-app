@@ -12,7 +12,6 @@ const base = {
 
   contactImageWrapper: {
     shadowColor: '#000000',
-    marginLeft: 10,
     borderRadius: 50/2,
     width: 50,
     height: 50,

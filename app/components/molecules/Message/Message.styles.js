@@ -19,7 +19,7 @@ const baseContainer = {
   paddingRight: 20,
   alignItems: "flex-start",
   justifyContent: "space-between",
-  elevation: 1
+  elevation: 1,
 };
 
 const base = {
@@ -45,15 +45,15 @@ const base = {
     borderRadius: 15,
     // backgroundColor: "white",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   closeButton: {
+    marginTop: -8,
     width: "15%",
-    paddingTop: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    opacity: 0.5
+    opacity: 0.5,
   },
   closeButtonView: {
     width: 50,
