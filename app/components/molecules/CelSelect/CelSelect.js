@@ -11,9 +11,11 @@ import * as appActions from "../../../redux/actions";
 import CelSelectStyle from "./CelSelect.styles";
 import { getMargins } from '../../../utils/styles-util';
 import Icon from '../../atoms/Icon/Icon';
-import { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } from '../../../constants/DATA';
+import SELECT_VALUES from '../../../constants/SELECT_VALUES';
 import CelText from '../../atoms/CelText/CelText';
 import STYLES from '../../../constants/STYLES'
+
+const { PERSON_TITLE, GENDER, STATE, DAYS, YEARS, MONTHS } = SELECT_VALUES
 
 @connect(
   () => ({}),

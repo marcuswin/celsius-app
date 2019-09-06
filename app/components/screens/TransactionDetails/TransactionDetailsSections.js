@@ -10,10 +10,8 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import DATA, { TRANSACTION_TYPES } from "../../../constants/DATA";
+import { TRANSACTION_TYPES, BLOCKEXPLORERS } from "../../../constants/DATA";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
-
-const { BLOCKEXPLORERS } = DATA;
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
@@ -120,7 +118,7 @@ export const AddressSection = ({ transaction, text, address }) => {
               </TouchableOpacity>
             )}
           </View>
-          <CelText weight='500' type="H4">{address.split("?")[0]}</CelText>
+          { address && <CelText weight='500' type="H4">{address.split("?")[0]}</CelText> }
         </Card>
         {transaction.coin === "xrp" && (
           <Card margin={"10 0 20 0"}>

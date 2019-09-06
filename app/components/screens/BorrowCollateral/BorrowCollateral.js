@@ -4,7 +4,7 @@ import { View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import {COIN_CARD_TYPE} from '../../../constants/DATA'
+import {COIN_CARD_TYPE} from '../../../constants/UI'
 import * as appActions from "../../../redux/actions";
 import BorrowCollateralStyle from "./BorrowCollateral.styles";
 import CelText from "../../atoms/CelText/CelText";

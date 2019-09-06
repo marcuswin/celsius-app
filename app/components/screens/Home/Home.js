@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { View, Image, ScrollView, SafeAreaView, StatusBar } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import * as appActions from '../../../redux/actions'
-import { RANDOM_MESSAGES } from '../../../constants/DATA'
 import Loader from '../../atoms/Loader/Loader'
 import {
   heightPercentageToDP,
@@ -12,7 +11,7 @@ import {
   getPadding
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
-import { THEMES } from '../../../constants/UI';
+import { THEMES, WELCOME_MESSAGES } from "../../../constants/UI";
 import { hasPassedKYC, isKYCRejectedForever } from "../../../utils/user-util";
 
 const apiCalls = []
@@ -43,7 +42,7 @@ class Home extends Component {
 
     this.state = {
       progress: 0,
-      randomMsg: RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)]
+      randomMsg: WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)]
     }
   }
 

@@ -11,7 +11,7 @@ import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Icon from "../../atoms/Icon/Icon";
 import Card from "../../atoms/Card/Card";
-import {COIN_CARD_TYPE} from "../../../constants/DATA";
+import {COIN_CARD_TYPE} from "../../../constants/UI";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(

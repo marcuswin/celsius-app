@@ -10,7 +10,7 @@ import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Icon from "../../atoms/Icon/Icon";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
-import {COIN_CARD_TYPE} from "../../../constants/DATA";
+import {COIN_CARD_TYPE} from "../../../constants/UI";
 
 @connect(
   state => ({
