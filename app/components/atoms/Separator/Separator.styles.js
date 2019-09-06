@@ -41,7 +41,7 @@ const themed = {
 
     dark: {
         separatorColor: {
-          color: STYLES.COLORS.WHITE_OPACITY7
+          color: STYLES.COLORS.SEMI_GRAY
         }
     },
 
