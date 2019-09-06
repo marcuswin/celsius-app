@@ -7735,10 +7735,10 @@ react-native-appsflyer@^1.4.3:
   resolved "https://registry.yarnpkg.com/react-native-appsflyer/-/react-native-appsflyer-1.4.3.tgz#53631c7d156f516f45548f8317a931d10efaf5fc"
   integrity sha512-rpXUjKz3aNEv2JUrKSsT75PGuPJpfOoW3iuw7cc/A5pwUF3uD3C1PG3L7NBK+PCpBWen94EmT2mJZMcIko1DWg==
 
-react-native-branch@2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
-  integrity sha1-QHTdY7SXPmOX2c5Q6XtXx3pRjp0=
+react-native-branch@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.1.1.tgz#41926463a05e6e94d76e2346051f0fc374e77596"
+  integrity sha512-q3Jz2vFWnxjmRWiMFo2PqOrh9TNPrPgt4xntWUMNUmE4860D4i6esOZ/e+JIE7ym//bvki1tQgucTyntSFRrKQ==
 
 react-native-check-box@^2.1.7:
   version "2.1.7"

@@ -2,7 +2,10 @@ package com.celsius;
 
 import android.app.Application;
 
+import io.branch.rnbranch.RNBranchModule;
+
 import com.facebook.react.ReactApplication;
+import io.branch.rnbranch.RNBranchPackage;
 import info.applike.advertisingid.RNAdvertisingIdPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.microsoft.codepush.react.CodePush;
@@ -14,7 +17,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import io.branch.rnbranch.RNBranchPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -47,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNBranchPackage(),
             new RNMixpanel(),
             new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new RNAppsFlyerPackage(),
@@ -57,7 +60,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNDeviceInfo(),
             new NetInfoPackage(),
             new SplashScreenReactPackage(),
-            new RNBranchPackage(),
             new SvgPackage(),
             new RNGestureHandlerPackage(),
           new ModuleRegistryAdapter(mModuleRegistryProvider)
@@ -78,6 +80,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    RNBranchModule.getAutoInstance(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

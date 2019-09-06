@@ -24,16 +24,35 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:screenOrientation="portrait"
+        android:launchMode="singleTask"
         android:windowSoftInputMode="adjustResize">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+        <!-- AppsFlyer URI scheme -->
         <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
           <data android:scheme="celsius" />
+        </intent-filter>
+        <!-- Branch URI scheme -->
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="cel" />
+        </intent-filter>
+        <!-- Branch App Links -->
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" android:host="celsiusnetwork.app.link" />
+            <data android:scheme="https" android:host="celsiusnetwork-alternate.app.link" />
+            <data android:scheme="https" android:host="celsiusnetwork.test-app.link" />
+            <data android:scheme="https" android:host="celsiusnetwork-alternate.test-app.link" />
         </intent-filter>
       </activity>
       <activity
@@ -46,6 +65,15 @@
         <meta-data
                 android:name="com.google.android.gms.ads.AD_MANAGER_APP"
                 android:value="true"/>
+
+        <!-- Branch install referrer tracking (optional) -->
+        <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
 
 </manifest>

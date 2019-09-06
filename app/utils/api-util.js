@@ -47,7 +47,7 @@ function initInterceptors () {
       } else {
           newRequest.headers = {
               ...newRequest.headers,
-             ' X-Advertising-AAID': store.getState().app.advertisingId
+             'X-Advertising-AAID': store.getState().app.advertisingId
           }
       }
 
