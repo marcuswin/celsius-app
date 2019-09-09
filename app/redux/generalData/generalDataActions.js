@@ -9,7 +9,7 @@ import { navigateTo } from "../nav/navActions";
 export {
   getBackendStatus,
   getInitialCelsiusData,
-
+  getLoanTermsOfUse,
   getKYCDocTypes, // TODO Move to KYC actions
 }
 
@@ -100,5 +100,30 @@ function getBackendStatusSuccess(backendStatus) {
     type: ACTIONS.GET_BACKEND_STATUS_SUCCESS,
     callName: API.GET_BACKEND_STATUS,
     backendStatus,
+  }
+}
+
+function getLoanTermsOfUse() {
+  return async dispatch => {
+    dispatch(startApiCall(API.GET_LOAN_TERMS_OF_USE));
+
+    try {
+
+      const res = await generalDataService.getLoanTermsOfUse();
+      const pdfRes = await generalDataService.getPDFLoanTermsOfUse();
+      const lToU = res.data;
+      const pdf = pdfRes.data;
+
+       dispatch({
+        type: ACTIONS.GET_LOAN_TERMS_OF_USE_SUCCESS,
+        callName: API.GET_LOAN_TERMS_OF_USE,
+        lToU,
+         pdf,
+      })
+
+    } catch (err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_BACKEND_STATUS, err));
+    }
   }
 }
