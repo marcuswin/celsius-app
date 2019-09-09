@@ -151,13 +151,13 @@ function registrationPromoCode(onSuccess) {
 
         if(onSuccess) onSuccess()
       } else {
-        throw new Error("Sorry, but this promo code is not valid!")
+        throw new Error("That is not a valid referral code.")
       }
     } catch (err) {
       dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
       // dispatch(actions.showMessage("warning", "Sorry, but this promo code is not valid!"));
       dispatch(actions.setFormErrors({
-        promoCode: "Sorry, but this promo code is not valid!"
+        promoCode: "That is not a valid referral code."
       }));
     }
   }

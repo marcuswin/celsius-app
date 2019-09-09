@@ -49,7 +49,7 @@ class CelApiDropdown extends Component {
 
     return (
       <View style={style.dropDown}>
-        <TouchableOpacity onPress={this.openDropdown}>
+        <View>
           <View style={[style.normalButton, borderRadius]}>
 
             <View>
@@ -57,7 +57,7 @@ class CelApiDropdown extends Component {
                 weight={"400"}>{`xxxx - xxxx - xxxx - ${children}`}</CelText>
             </View>
 
-            <View style={style.valueIcon}>
+            <TouchableOpacity  onPress={this.openDropdown} style={style.valueIcon}>
               <View style={style.valueIconRight}>
                 <Icon
                   name={isExpanded ? "UpArrow" : "DownArrow"}
@@ -65,14 +65,14 @@ class CelApiDropdown extends Component {
                   fill={"rgba(61,72,83,0.3)"}
                 />
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
           {isExpanded &&
             <View style={style.separator}>
               <Separator opacity={0.2} />
             </View>
           }
-        </TouchableOpacity>
+        </View>
         {isExpanded &&
           <View style={style.expand}>
             <CelText type={"H6"} weight={"400"}>Last used:</CelText>

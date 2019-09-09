@@ -29,7 +29,7 @@ class CelButton extends Component {
     iconRightColor: PropTypes.string,
     ghost: PropTypes.bool,
     textSize: PropTypes.string,
-    color: PropTypes.oneOf(['green', 'red']),
+    color: PropTypes.oneOf(['green', 'red', 'white']),
   };
 
   static defaultProps = {
