@@ -19,6 +19,8 @@ import CelButton from "../../atoms/CelButton/CelButton";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
 import CelInput from "../../atoms/CelInput/CelInput";
 import WithdrawWarningModal from "../../organisms/WithdrawWarningModal/WithdrawWarningModal";
+import MemoIdModal from "../../organisms/MemoIdModal/MemoIdModal";
+import DestinationTagModal from "../../organisms/DestinationTagModal/DestinationTagModal";
 
 
 @connect(
@@ -78,7 +80,7 @@ class WithdrawCreateAddress extends Component {
     const { actions, formData } = this.props
 
 
-    if (!formData.coinTag && ['XRP', 'XLM'].includes(formData.coin)) {
+    if (!formData.coinTag && ['XRP', 'XLM', 'EOS'].includes(formData.coin)) {
       actions.openModal(MODALS.WITHDRAW_WARNING_MODAL)
     } else {
       actions.navigateTo("VerifyProfile", {
@@ -99,7 +101,7 @@ class WithdrawCreateAddress extends Component {
 
   render() {
     const { coin, balanceCrypto, balanceUsd } = this.state;
-    const { formData } = this.props;
+    const { formData, actions } = this.props;
     const style = WithdrawalAddressConfirmationStyle();
     let tagText;
     let placeHolderText;
@@ -110,6 +112,9 @@ class WithdrawCreateAddress extends Component {
       placeHolderText = "Destination Tag";
     } else if (formData.coin && formData.coin.toLowerCase() === "xlm") {
       tagText = "What is XLM Memo Id";
+      placeHolderText = "Memo Id";
+    } else if (formData.coin && formData.coin.toLowerCase() === "eos") {
+      tagText = "What is EOS Memo Id";
       placeHolderText = "Memo Id";
     }
 
@@ -158,7 +163,9 @@ class WithdrawCreateAddress extends Component {
               refs={(input) => { this.tag = input }}
             />
             <View style={{ marginBottom: 10, alignSelf: "flex-start" }}>
-              <CelText type={"H5"} style={style.tagText}>{tagText}</CelText>
+              <TouchableOpacity onPress={() => formData.coin.toLowerCase() === 'xrp' ? actions.openModal(MODALS.DESTINATION_TAG_MODAL) : actions.openModal(MODALS.MEMO_ID_MODAL)}>
+                <CelText type={"H5"} style={style.tagText} >{tagText}</CelText>
+              </TouchableOpacity>
             </View>
           </React.Fragment>
         }
@@ -188,6 +195,8 @@ class WithdrawCreateAddress extends Component {
 
 
         <WithdrawWarningModal coin={formData.coin} navigateNext={this.handleConfirmWithdrawalFromModal} />
+        <MemoIdModal closeModal={actions.closeModal} coin={formData.coin} />
+        <DestinationTagModal closeModal={actions.closeModal} />
       </RegularLayout>
     );
   }

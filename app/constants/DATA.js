@@ -24,9 +24,9 @@ const BLOCKEXPLORERS_STAGING = {
   xlm: 'https://testnet.steexp.com/tx/',
   btg: 'https://testnet.btgexplorer.com/tx/',
   eth: 'https://rinkeby.etherscan.io/tx/',
+  eos: 'https://jungle.bloks.io/transaction/',
   erc20: 'https://rinkeby.etherscan.io/tx/',
 }
-
 const BLOCKEXPLORERS_PRODUCTION = {
   btc: 'https://blockchain.info/btc/tx/',
   bch: 'https://bchsvexplorer.com/tx/',
@@ -37,6 +37,7 @@ const BLOCKEXPLORERS_PRODUCTION = {
   zec: 'https://chain.so/tx/ZEC/`, ',
   btg: 'https://btgexplorer.com/tx/',
   eth: 'https://etherscan.io/tx/',
+  eos: "https://bloks.io/transaction/",
   erc20: 'https://etherscan.io/tx/',
 }
 

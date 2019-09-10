@@ -104,7 +104,7 @@ class TransactionDetails extends Component {
       case 'time':
         return <BasicSection key={sectionType} label="Time" value={moment.utc(transaction.time).format("h:mm A (z)")} />;
       case 'ref:pending':
-      return <BasicSection key={sectionType} label="" value={"Your award is yet to be confirmed. You will be able to see it in your wallet, soon."} />;
+        return <BasicSection key={sectionType} label="" value={"Your award is yet to be confirmed. You will be able to see it in your wallet, soon."} />;
       case 'status':
         return <StatusSection key={sectionType} transactionProps={transactionProps} />;
       case 'status:noSeparator':
@@ -123,7 +123,7 @@ class TransactionDetails extends Component {
       case 'button:celpay:friend':
         return kycPassed ? <CelButton margin="16 0 10 0" key={sectionType} onPress={() => actions.navigateTo('CelPayChooseFriend')}>CelPay a friend</CelButton> : null;
       case 'button:cancel:withdrawal':
-        return <CelButton margin="12 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={ () => actions.cancelWithdrawal(transactionId) } basic>Cancel withdrawal</CelButton>;
+        return <CelButton margin="16 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelWithdrawal(transactionId)} basic>Cancel withdrawal</CelButton>;
       case 'button:cancel:celpay':
         return <CelButton margin="12 0 10 0" textColor={STYLES.COLORS.RED} key={sectionType} onPress={() => actions.cancelTransfer(transaction.transfer_data.hash)} basic>Cancel transaction</CelButton>;
       case 'button:applyForLoan':
@@ -133,7 +133,7 @@ class TransactionDetails extends Component {
       case 'note':
         return <NoteSection key={sectionType} text={transaction.transfer_data.message} />;
       case 'interest':
-        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={totalInterestEarned} interestInCel={appSettings.interest_in_cel} setUserAppSettings={actions.setUserAppSettings} tier={loyaltyInfo.tier.title} interestBonus={loyaltyInfo.earn_interest_bonus}/>;
+        return <InterestSection margin="20 0 20 0" key={sectionType} navigateTo={actions.navigateTo} interestEarned={totalInterestEarned} interestInCel={appSettings.interest_in_cel} setUserAppSettings={actions.setUserAppSettings} tier={loyaltyInfo.tier.title} interestBonus={loyaltyInfo.earn_interest_bonus} />;
       case 'loan:rejected':
         return <LoanInfoSection key={sectionType} navigateTo={actions.navigateTo} />;
       // TODO(sb): Value need to be changed
@@ -192,12 +192,12 @@ class TransactionDetails extends Component {
       case "collateral:liquidation:reason":
         return <HeadingCard key={sectionType} heading="Margin Call Liquidation" text="Your collateral will be liquidated due to the latest Margin Call outbreak." />;
       case "margin:call:card":
-        return <MarginCallCard key={sectionType}/>;
+        return <MarginCallCard key={sectionType} />;
       case "change:payment:card":
-        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo}/>;
+        return <ChangePaymentCard key={sectionType} heading="You would have saved XX% if you paid your interest in CEL." text="Change payment" navigateTo={actions.navigateTo} />;
       case 'info:box':
-        return <SsnInfo key={sectionType} navigateTo={actions.navigateTo}/>
-        default:
+        return <SsnInfo key={sectionType} navigateTo={actions.navigateTo} />
+      default:
         return null;
     }
   };
@@ -213,7 +213,6 @@ class TransactionDetails extends Component {
     )
 
     const sections = transaction.uiSections;
-
     return (
       <RegularLayout padding="0 0 0 0">
         {sections.map(this.renderSection)}

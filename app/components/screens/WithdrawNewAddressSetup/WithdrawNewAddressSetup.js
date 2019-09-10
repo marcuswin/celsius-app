@@ -73,7 +73,7 @@ class WithdrawNewAddressSetup extends Component {
                   multiline type={'text-area'} numberOfLines={formData.withdrawAddress ? 3 : 1}
         />
 
-        {["XRP", "XLM"].indexOf(formData.coin) !== -1 &&
+        {["XRP", "XLM", "EOS"].indexOf(formData.coin) !== -1 &&
             <CelInput placeholder={formData.coin === "XRP" ? "Destination Tag" : "Memo id"} field={"coinTag"} value={formData.coinTag} margin={"20 0 0 0"}/>
         }
         <TouchableOpacity style={{ marginVertical: 20 }} onPress={this.handleScanClick}>
