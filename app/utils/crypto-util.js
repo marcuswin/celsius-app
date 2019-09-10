@@ -8,11 +8,11 @@ import BigNumber from 'bignumber.js';
  * @returns {boolean}
  */
 function isERC20(currency) {
-  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs', 'leo', 'usdt erc20', 'tcad', 'tgbp', 'thkd', 'taud', 'eos' ].indexOf(currency.toLowerCase()) !== -1;
+  return ['eth', 'dai', 'pax', 'cel', 'omg', 'zrx', 'tusd', 'gusd', 'usdc', 'orbs', 'leo', 'usdt erc20', 'tcad', 'tgbp', 'thkd', 'taud'].indexOf(currency.toLowerCase()) !== -1;
 }
 
 function hasLinkToBuy(currency) {
-  return ["BCH", "BTC", "ETH", "XRP", "LTC", "TUSD", "USDC", "PAX"].includes(currency)
+  return ["BCH", "BTC", "ETH", "XRP", "LTC", "TUSD", "USDC", "PAX", 'THKD', 'TCAD', 'TAUD', 'TGBP'].includes(currency)
 }
 
 function provideLink(currency) {
@@ -34,13 +34,25 @@ function provideLink(currency) {
       link = "https://buy.bitcoin.com/xrp/?ref_id=celsius&utm_source=celsius&utm_medium=app-link&utm_content=buy-xrp";
       break;
     case "TUSD":
-      link = "https://app.trusttoken.com/signup-or-signin";
+      link = "https://www.trusttoken.com/trueusd";
       break;
     case "USDC":
       link = "https://usdc.circle.com/start";
       break;
     case "PAX":
       link = "https://account.paxos.com/signup";
+      break;
+    case "THKD":
+      link = "https://www.trusttoken.com/truehkd";
+      break;
+    case "TCAD":
+      link = "https://www.trusttoken.com/truecad";
+      break;
+    case "TAUD":
+      link = "https://www.trusttoken.com/trueaud";
+      break;
+    case "TGBP":
+      link = "https://www.trusttoken.com/truegbp";
       break;
     default:
       link = null;
@@ -50,21 +62,21 @@ function provideLink(currency) {
 
 function provideText(currency) {
   let text;
-  switch(currency) {
+  switch (currency) {
     case "BCH":
-      text = `Buy ${currency} from bitcoin.com` ;
+      text = `Buy ${currency} from bitcoin.com`;
       break;
     case "BTC":
-      text = `Buy ${currency} from bitcoin.com` ;
+      text = `Buy ${currency} from bitcoin.com`;
       break;
     case "ETH":
-      text = `Buy ${currency} from bitcoin.com` ;
+      text = `Buy ${currency} from bitcoin.com`;
       break;
     case "LTC":
-      text = `Buy ${currency} from bitcoin.com` ;
+      text = `Buy ${currency} from bitcoin.com`;
       break;
     case "XRP":
-      text = `Buy ${currency} from bitcoin.com` ;
+      text = `Buy ${currency} from bitcoin.com`;
       break;
     case "TUSD":
       text = `Buy ${currency} from TrustToken`;
@@ -74,6 +86,18 @@ function provideText(currency) {
       break;
     case "PAX":
       text = `Buy ${currency} from Paxos`;
+      break;
+    case "THKD":
+      text = `Buy ${currency} from TrustToken`;
+      break;
+    case "TCAD":
+      text = `Buy ${currency} from TrustToken`;
+      break;
+    case "TAUD":
+      text = `Buy ${currency} from TrustToken`;
+      break;
+    case "TGBP":
+      text = `Buy ${currency} from TrustToken`;
       break;
     default:
       text = null;

@@ -208,52 +208,50 @@ class CoinDetails extends Component {
         />
 
         <View style={style.container}>
-          {coinDetails.short !== "CEL" ?
-            <Card margin="10 0 10 0">
-              <View>
-                <View style={style.interestWrapper}>
-                  <View style={style.interestCardWrapper}>
-                    <CelText type="H6" weight='300' margin={'3 0 3 0'}>Total interest earned</CelText>
-                    <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
-                    <CelText type="H6" weight='300' margin={'3 0 3 0'}>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
-                    { coinDetails.interest_earned_cel ? (
-                        <CelText type="H6" weight='300' margin={'3 0 0 0'}>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
-                    ) : null }
+          <Card margin="10 0 10 0">
+            <View>
+              <View style={style.interestWrapper}>
+                <View style={style.interestCardWrapper}>
+                  <CelText type="H6" weight='300' margin={'3 0 3 0'}>Total interest earned</CelText>
+                  <CelText type="H3" weight='600' margin={'3 0 3 0'}>{formatter.usd(coinDetails.interest_earned_usd)}</CelText>
+                  <CelText type="H6" weight='300' margin={'3 0 3 0'}>{formatter.crypto(coinDetails.interest_earned, coinDetails.short)}</CelText>
+                  { coinDetails.interest_earned_cel ? (
+                      <CelText type="H6" weight='300' margin={'3 0 0 0'}>{formatter.crypto(coinDetails.interest_earned_cel, "CEL")}</CelText>
+                  ) : null }
+                </View>
+                {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
+                  <View style={style.interestRateWrapper}>
+                      <Badge margin='0 10 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
+                        <CelText margin={"0 5 0 5"} align='justify' type="H5" color="white">{ `${interestRate.display} APR` }</CelText>
+                      </Badge>
                   </View>
-                  {!!coinDetails && !!interestRates && !!interestRates[coinDetails.short] && (
-                    <View style={style.interestRateWrapper}>
-                        <Badge margin='0 10 10 12' style={{alignContent: 'center',}} color={COLORS.GREEN}>
-                          <CelText margin={"0 5 0 5"} align='justify' type="H5" color="white">{ `${interestRate.display} APR` }</CelText>
-                        </Badge>
-                    </View>
-                  )}
-                </View>
-                <View style={style.graphContainer}>
-                <GraphContainer
-                  periods={["MONTH", "YEAR"]}
-                  showCursor
-                  showPeriods
-                  interest
-                  backgroundColor={"#FFFFFF"}
-                  width={widthPercentageToDP("78%")}
-                  type={"coin-interest"}
-                  coin={currency.short}
-                />
-                </View>
+                )}
               </View>
-              {celpayCompliance &&
-                <View style={{paddingHorizontal: 5}}>
-                  <Separator margin={"20 0 22 0"}/>
-                  <InterestCard
-                    coin={coinDetails.short}
-                    interestRate={interestRate}
-                    interestInCoins={interestInCoins}
-                    setUserAppSettings={actions.setUserAppSettings}
-                  />
-                </View>
-              }
-            </Card>
-            : null}
+              <View style={style.graphContainer}>
+              <GraphContainer
+                periods={["MONTH", "YEAR"]}
+                showCursor
+                showPeriods
+                interest
+                backgroundColor={"#FFFFFF"}
+                width={widthPercentageToDP("78%")}
+                type={"coin-interest"}
+                coin={currency.short}
+              />
+              </View>
+            </View>
+            {celpayCompliance &&
+              <View style={{paddingHorizontal: 5}}>
+                <Separator margin={"20 0 22 0"}/>
+                <InterestCard
+                  coin={coinDetails.short}
+                  interestRate={interestRate}
+                  interestInCoins={interestInCoins}
+                  setUserAppSettings={actions.setUserAppSettings}
+                />
+              </View>
+            }
+          </Card>
         </View>
 
         <View style={style.priceIndicator}>

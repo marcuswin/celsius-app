@@ -13,6 +13,8 @@ import CelModal from "../CelModal/CelModal";
 import CelInput from "../../atoms/CelInput/CelInput";
 import CelButton from "../../atoms/CelButton/CelButton";
 import { BRANCH_LINKS } from "../../../constants/DATA";
+import Card from "../../atoms/Card/Card";
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -80,7 +82,7 @@ class RegisterPromoCodeModal extends Component {
       code.amount = referralLink.referred_award_amount;
       code.coin = referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL ? 'USD' : referralLink.referred_award_coin;
       if (referralLink.link_type === BRANCH_LINKS.INDIVIDUAL_REFERRAL) {
-        congratsText = 'After you register and pass KYC, you will have a chance to receive bonus $10 in BTC distributed after initial deposit of $1,000 or more in the first five days. Additional $10 bonus distributed after keeping $1,000 or more for 90 days. Wallet balance value is based on time of deposit.'
+        congratsText = 'Your referral code has been successfully activated. In order to receive your reward, you must:'
       }
       if (referralLink.link_type === BRANCH_LINKS.COMPANY_REFERRAL) {
         if (referralLink.referred_award_trigger === "sign-up") {
@@ -98,16 +100,30 @@ class RegisterPromoCodeModal extends Component {
     return (
       <CelModal
         noScroll
-        picture={confirmed ? require("../../../../assets/images/victory-bear3x.png") : require("../../../../assets/images/money-bear3x.png")}
+        picture={confirmed ? require("../../../../assets/images/checkmark-circle.png") : require("../../../../assets/images/gift-circle.png")}
         name={MODALS.REGISTER_PROMO_CODE_MODAL}
         style={style.container}
       >
         {!confirmed ?
           <View>
-            <CelText margin={"40 0 10 0"} align={"center"} type={"H2"} weight='bold'>Enter a promo code</CelText>
-            <CelText margin={"0 0 10 0"} align={"left"} type={"H6"} weight={"300"}>Receive an award with the right promo code:</CelText>
-              <CelInput type="text" field="promoCode" placeholder="Promo code"
-                value={formData.promoCode} error={formErrors.promoCode} border
+            <CelText
+                margin={"40 0 10 0"}
+                align={"center"}
+                type={"H2"}
+                weight='bold'
+            >
+              Have a referral code?
+            </CelText>
+            <CelText
+                margin={"0 0 10 0"}
+                align={"center"}
+                type={"H6"}
+                weight={"300"}
+            >
+              Enter your referral code below and follow the instructions on the next screen to receive your reward.
+            </CelText>
+              <CelInput type="text" field="promoCode" placeholder="Enter Referral Code"
+                value={formData.promoCode} error={ formErrors.promoCode } border
               />
 
             {(formData.promoCode !== null || formData.promoCode === '') ?
@@ -120,7 +136,6 @@ class RegisterPromoCodeModal extends Component {
               <CelButton
                 onPress={() => this.confirm()}
                 disabled
-
               >
                 Confirm
             </CelButton>
@@ -131,13 +146,38 @@ class RegisterPromoCodeModal extends Component {
         {confirmed ?
           <View>
             <CelText margin={"20 0 10 0"} align={"center"} type={"H2"} weight={"700"}>Congrats!</CelText>
-            <CelText margin={"10 0 30 0"} align={"center"} type={"H4"} weight={"300"}>{congratsText}</CelText>
+            <CelText margin={"0 0 30 0"} align={"center"} type={"H5"} weight={"300"}>{congratsText}</CelText>
+            <Card
+              color={ STYLES.COLORS.LIGHT_GRAY }
+            >
+              <CelText
+                  margin={"10 0 10 0"}
+                  type={"H6"}
+                  weight={"300"}
+              >
+                1. Complete KYC (Identity Verification).
+              </CelText>
+              <CelText
+                  margin={"10 0 10 0"}
+                  type={"H6"}
+                  weight={"300"}
+              >
+                2. Receive confirmation of account verification.
+              </CelText>
+              <CelText
+                  margin={"10 0 10 0"}
+                  type={"H6"}
+                  weight={"300"}
+              >
+                3. Deposit $200 or more worth of coins to your Celsius wallet.
+              </CelText>
+            </Card>
             <CelButton
               onPress={() => {
                 actions.closeModal();
               }}
             >
-              Continue
+              Done
             </CelButton>
           </View> : null
         }

@@ -31,7 +31,8 @@ class CoinCards extends Component {
       })
     }
 
-    walletCoins.sort((a, b) => a.amount_usd < b.amount_usd)
+    walletCoins.sort((a, b) => b.amount_usd - a.amount_usd)
+
 
     const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
 

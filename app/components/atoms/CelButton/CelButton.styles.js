@@ -83,6 +83,9 @@ const base = {
     redButton: {
         backgroundColor: STYLES.COLORS.RED
     },
+    whiteButton: {
+        backgroundColor: STYLES.COLORS.WHITE,
+    },
     basicredTitleButton: {
       paddingHorizontal: 10,
       paddingVertical: 5

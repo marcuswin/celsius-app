@@ -14,7 +14,6 @@ import Spinner from "../../atoms/Spinner/Spinner";
 import apiUtil from "../../../utils/api-util";
 import API from "../../../constants/API";
 import { widthPercentageToDP } from "../../../utils/styles-util";
-import Separator from "../../atoms/Separator/Separator";
 
 @connect(
   (state, props) => {
@@ -154,7 +153,6 @@ class GraphContainer extends Component {
 
     return (
       <View style={[style.container, { width }]}>
-      {interest && <Separator margin={"15 0 12 0"} />}
         {showPeriods &&
           <View style={style.period}>
             <PeriodGraphView

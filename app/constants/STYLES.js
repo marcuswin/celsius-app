@@ -1,4 +1,3 @@
-// refactored
 const COLORS = {
   WHITE: '#fff',
   WHITE_OPACITY7: 'rgba(255,255,255,0.7)',
@@ -33,12 +32,9 @@ const COLORS = {
   GREEN_OPACITY: 'rgba(79,184,149,0.15)',
   ORANGE: '#e19f30',
   RED: '#ef461a'
-  // TODO(sb) CircleButton add border on android
-  // border andr... #E6E7E7 za light/cel
-  // border andr... #0F151B za dark
 }
 
-const imageSizes = {
+const CAMERA_MASK_SIZES = {
   circle: {
     width: 250,
     height: 250
@@ -88,13 +84,8 @@ const FONTSIZE = {
 export default {
   COLORS,
   FONTSIZE,
-  imageSizes,
+  CAMERA_MASK_SIZES,
   SHADOW_STYLES,
   ANDROID_SHADOW_STYLES,
   ANDROID_BORDER_STYLES,
 }
-
-// export {
-//   COLORS,
-//   FONTSIZE
-// }

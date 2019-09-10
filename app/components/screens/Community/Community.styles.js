@@ -9,7 +9,9 @@ const base = {
   secondText: { marginTop: heightPercentageToDP("0.5%") },
   amountsView: { justifyContent: "space-around" },
   amountsCard: { marginTop: heightPercentageToDP("2%") },
-  image: { alignItems: "center" },
+  image: {
+    alignItems: "center",
+  },
   communityImage: {
     position: "absolute",
     left: 5,
@@ -22,7 +24,8 @@ const base = {
   imageView: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    margin: 12
+    margin: 12,
+    marginLeft: 5,
   },
   coinImage: {
     width: 38,

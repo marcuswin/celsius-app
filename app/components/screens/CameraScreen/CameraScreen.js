@@ -147,7 +147,7 @@ class CameraScreen extends Component {
     const { actions, mask, navigation } = this.props
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [STYLES.imageSizes[mask].width, STYLES.imageSizes[mask].height]
+      aspect: [STYLES.CAMERA_MASK_SIZES[mask].width, STYLES.CAMERA_MASK_SIZES[mask].height]
     })
     if (result.cancelled) {
       return
@@ -179,14 +179,14 @@ class CameraScreen extends Component {
         const coef = photo.width * (size.height / photo.height)
         const overScan = ((coef - size.width) * 0.5) / coef
         cropWidth = photo.width - 2 * size.width * overScan
-        cropWidth = (cropWidth * STYLES.imageSizes[mask].width) / size.width
+        cropWidth = (cropWidth * STYLES.CAMERA_MASK_SIZES[mask].width) / size.width
       } else {
-        cropWidth = (STYLES.imageSizes[mask].width / size.width) * photo.width
+        cropWidth = (STYLES.CAMERA_MASK_SIZES[mask].width / size.width) * photo.width
       }
 
       const cropHeight =
-        (cropWidth / STYLES.imageSizes[mask].width) *
-        STYLES.imageSizes[mask].height
+        (cropWidth / STYLES.CAMERA_MASK_SIZES[mask].width) *
+        STYLES.CAMERA_MASK_SIZES[mask].height
 
       const imageManipulations = [
         {
@@ -252,8 +252,8 @@ class CameraScreen extends Component {
           <ThemedImage
             { ...imageSource }
             style={{
-              width: STYLES.imageSizes[mask].width,
-              height: STYLES.imageSizes[mask].height,
+              width: STYLES.CAMERA_MASK_SIZES[mask].width,
+              height: STYLES.CAMERA_MASK_SIZES[mask].height,
               alignSelf: 'center'
             }}
           />
@@ -262,7 +262,7 @@ class CameraScreen extends Component {
         <View style={[style.mask, style.maskOverlayColor]}>
           <View
             style={{
-              width: STYLES.imageSizes[mask].width,
+              width: STYLES.CAMERA_MASK_SIZES[mask].width,
               alignSelf: 'center',
               marginTop: 20
             }}

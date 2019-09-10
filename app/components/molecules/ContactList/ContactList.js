@@ -45,10 +45,14 @@ class ContactList extends Component {
     const { contacts, onContactPress } = this.props;
 
     const sortedContacts = contacts.friendsWithApp.sort((a,b) => {
-      if (a.name[0] < b.name[0])
-        return -1;
-      if (a.name[0] > b.name[0])
-        return 1;
+        if (!a.name || !b.name )
+            return -1;
+
+        if (a.name[0] < b.name[0])
+            return -1;
+
+        if (a.name[0] > b.name[0])
+            return 1;
       return 0;
     })
 

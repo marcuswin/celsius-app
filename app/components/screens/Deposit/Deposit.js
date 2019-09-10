@@ -230,7 +230,7 @@ class Deposit extends Component {
 
       buttonText = `Use ${
         useAlternateAddress ? 'Bitcoin' : 'Cash Address'
-      }-format`
+        }-format`
     }
 
     return (
@@ -335,7 +335,7 @@ class Deposit extends Component {
           defaultSelected={this.getDefaultSelectedCoin()}
         />
 
-        { navigation.getParam('isMarginWarning') ? this.renderMarginCallCard() : null }
+        {navigation.getParam('isMarginWarning') ? this.renderMarginCallCard() : null}
 
         {address && !isFetchingAddress ? (
           <View style={styles.container}>
@@ -436,15 +436,15 @@ class Deposit extends Component {
               </View>
             </Card>
 
-            { cryptoUtil.hasLinkToBuy(formData.selectedCoin) &&
+            {cryptoUtil.hasLinkToBuy(formData.selectedCoin) &&
               <CelText margin={"20 0 20 0"} align={"center"} color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"} weight={"300"} onPress={() => Linking.openURL(link)}>{cryptoUtil.provideText(formData.selectedCoin)}</CelText>
             }
 
             {alternateAddress &&
-            this.renderSwitchAddressBlock(
-              alternateAddress,
-              formData.selectedCoin
-            )}
+              this.renderSwitchAddressBlock(
+                alternateAddress,
+                formData.selectedCoin
+              )}
           </View>
         ) : null}
 
@@ -461,9 +461,8 @@ class Deposit extends Component {
             </IconButton>
           </View>
         ) : null}
-
         <DestinationTagModal closeModal={actions.closeModal} />
-        <MemoIdModal closeModal={actions.closeModal} />
+        <MemoIdModal closeModal={actions.closeModal} coin={formData.selectedCoin} />
         <DepositInfoModal type={coin} closeModal={actions.closeModal} />
       </RegularLayout>
     )

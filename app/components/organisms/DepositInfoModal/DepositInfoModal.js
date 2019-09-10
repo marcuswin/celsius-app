@@ -84,6 +84,22 @@ class DepositInfoModal extends Component {
           }
         ];
         break;
+      case "EOS":
+        steps = [
+          {
+            image: { uri: coinName.image_url },
+            title: `Only deposit EOS (EOS) to this wallet`,
+            description: "Sending any other digital asset to this specific address, will result in permanent loss.",
+            buttonText: "Continue"
+          },
+          {
+            image: { uri: coinName.image_url },
+            title: "Memo ID is required to deposit EOS",
+            description: "Sending funds without memo ID or with an incorrect one, will result in loss.",
+            buttonText: "I understand"
+          }
+        ];
+        break;
       case "USDT ERC20":
         steps = [
           {
@@ -134,9 +150,9 @@ class DepositInfoModal extends Component {
         pictureCircle
       >
         {steps.length > 1 &&
-        <View style={style.progressBar}>
-          <DotsBar length={2} currentStep={currentStep + 1}/>
-        </View>}
+          <View style={style.progressBar}>
+            <DotsBar length={2} currentStep={currentStep + 1} />
+          </View>}
         <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
         <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
         <CelButton

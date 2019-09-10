@@ -62,7 +62,7 @@ class LoanInterestCard extends Component {
 
   handleDepositCalculation = () => {
     const { formData, walletSummary } = this.props
-    const coin = walletSummary.coins.find(c => c.short === formData.collateralCoin)
+    const coin = walletSummary.coins.find(c => c.short === formData.collateralCoin) || {amount: 0}
     const value = this.amountCollateralCrypto - coin.amount
     return formatter.crypto(value)
   }

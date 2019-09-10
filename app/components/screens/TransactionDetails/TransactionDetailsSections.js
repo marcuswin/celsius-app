@@ -10,21 +10,19 @@ import Card from "../../atoms/Card/Card";
 import CelButton from "../../atoms/CelButton/CelButton";
 import ContactSupport from "../../atoms/ContactSupport/ContactSupport";
 import CopyButton from "../../atoms/CopyButton/CopyButton";
-import DATA, { TRANSACTION_TYPES } from "../../../constants/DATA";
+import { TRANSACTION_TYPES, BLOCKEXPLORERS } from "../../../constants/DATA";
 import InfoBox from "../../atoms/InfoBox/InfoBox";
-
-const { BLOCKEXPLORERS } = DATA;
 
 export const InfoSection = ({ transaction, transactionProps }) => (
   <View style={{ marginBottom: 10 }}>
     <View style={{ marginTop: 10, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-      <Icon width="12" fill={transactionProps.color} name={transactionProps.iconName} style={{ marginRight: 5 }}/>
+      <Icon width="12" fill={transactionProps.color} name={transactionProps.iconName} style={{ marginRight: 5 }} />
       <CelText color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
 
-    <CelText margin='0 0 16 0' type="H1"
+    <CelText margin='0 0 10 0' type="H1"
              align="center">{formatter.crypto(transaction.amount, transaction.coin.toUpperCase(), { precision: 5 })}</CelText>
-    <CelText style={{ marginTop: 10 }} color={STYLES.COLORS.MEDIUM_GRAY} type="H3"
+    <CelText color={STYLES.COLORS.MEDIUM_GRAY} type="H3"
              align="center">{`${formatter.usd(transaction.amount_usd)} USD`}</CelText>
   </View>
 );
@@ -35,7 +33,7 @@ export const BasicSection = ({ label, value, noSeparator = false }) => (
       <CelText type="H6">{label}:</CelText>
       <CelText type="H6">{value}</CelText>
     </View>
-    {!noSeparator && <Separator/>}
+    {!noSeparator && <Separator />}
   </View>
 );
 
@@ -50,13 +48,13 @@ export const BasicCardSection = ({ label, value, coin, monthly, total }) => (
         <View>
           <CelText type={"H6"}>Monthly Interest</CelText>
           <CelText type={"H3"}
-                   weight={"600"}> {formatter.crypto(monthly, coin.toUpperCase(), { precision: 2 })}</CelText>
+            weight={"600"}> {formatter.crypto(monthly, coin.toUpperCase(), { precision: 2 })}</CelText>
         </View>
-        <Separator vertical/>
+        <Separator vertical />
         <View>
           <CelText type={"H6"}>Total Interest</CelText>
           <CelText color={STYLES.COLORS.CELSIUS_BLUE} type={"H3"}
-                   weight={"600"}>{formatter.crypto(total, coin.toUpperCase(), { precision: 2 })}</CelText>
+            weight={"600"}>{formatter.crypto(total, coin.toUpperCase(), { precision: 2 })}</CelText>
         </View>
       </View>
     </Card>
@@ -80,13 +78,13 @@ export const CardSection = ({ coinAmount, coin, cardText, amount, title, noSepar
       {amount && <CelText type="H6">{formatter.usd(amount)}</CelText>}
     </View>
     {cardText &&
-    <Card padding="20 10 20 10">
-      <CelText type={"H6"}>
-        {cardText}
-      </CelText>
-    </Card>
+      <Card padding="20 10 20 10">
+        <CelText type={"H6"}>
+          {cardText}
+        </CelText>
+      </Card>
     }
-    {!noSeparator && <Separator/>}
+    {!noSeparator && <Separator />}
   </View>
 );
 
@@ -97,7 +95,7 @@ export const StatusSection = ({ transactionProps, noSeparator = false }) => (
       <CelText type="H6">Status:</CelText>
       <CelText type="H6" color={transactionProps.color}>{transactionProps.statusText}</CelText>
     </View>
-    {!noSeparator && <Separator/>}
+    {!noSeparator && <Separator />}
   </View>
 );
 
@@ -116,18 +114,18 @@ export const AddressSection = ({ transaction, text, address }) => {
               >
                 <CelText color={STYLES.COLORS.CELSIUS_BLUE}>View on {link.text}</CelText>
                 <Icon name='NewWindowIcon' height='17' width='17' fill={STYLES.COLORS.CELSIUS_BLUE}
-                      style={{ marginLeft: 5 }}/>
+                  style={{ marginLeft: 5 }} />
               </TouchableOpacity>
             )}
           </View>
-          <CelText weight='500' type="H4">{address.split("?")[0]}</CelText>
+          { address && <CelText weight='500' type="H4">{address.split("?")[0]}</CelText> }
         </Card>
         {transaction.coin === "xrp" && (
           <Card margin={"10 0 20 0"}>
             <CelText weight='500' type="H4">Destination Tag: {address.split("=")[1]}</CelText>
           </Card>
         )}
-        {transaction.coin === "xlm" && (
+        {(transaction.coin === "xlm" || transaction.coin === "eos") && (
           <Card margin={"10 0 20 0"}>
             <CelText weight='500' type="H4">Memo ID: {address.split("=")[1]}</CelText>
           </Card>
@@ -146,9 +144,9 @@ export const TransactionSection = ({ transaction, text, actions }) => (
         </View>
         <CelText weight='500' style={{ paddingBottom: 10 }} type="H4">{transaction.transaction_id}</CelText>
         <CopyButton text="Copy ID" color={STYLES.COLORS.CELSIUS_BLUE} copyText={transaction.transaction_id}
-                    onCopy={() => {
-                      actions.showMessage("success", "Transaction ID copied to clipboard!");
-                    }}/>
+          onCopy={() => {
+            actions.showMessage("success", "Transaction ID copied to clipboard!");
+          }} />
       </Card>
     </View>
   ) : null
@@ -164,27 +162,27 @@ export const SentTo = ({ transaction, text }) => (
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
           {!transaction.transfer_data || !transaction.transfer_data.claimer || !transaction.transfer_data.claimer.profile_picture ?
             <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                   style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+              style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
             :
             <Image source={{ uri: transaction.transfer_data.claimer.profile_picture }}
-                   style={{
-                     width: 50,
-                     height: 50,
-                     borderRadius: 50 / 2,
-                     borderColor: "#ffffff",
-                     borderWidth: 3, ...STYLES.SHADOW_STYLES
-                   }}/>}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+                borderColor: "#ffffff",
+                borderWidth: 3, ...STYLES.SHADOW_STYLES
+              }} />}
           {transaction.transfer_data && transaction.transfer_data.claimer && (
             <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
               <CelText weight='600'
-                       type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
+                type='H4'>{transaction.transfer_data.claimer.first_name} {transaction.transfer_data.claimer.last_name}</CelText>
               <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
                 {transaction.transfer_data.claimer.email ? transaction.transfer_data.claimer.email : null}
               </CelText>
             </View>
           )}
           <View style={{ paddingTop: 10 }}>
-            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30}/>
+            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
           </View>
         </View>
       </Card>
@@ -202,27 +200,27 @@ export const SentFrom = ({ transaction, text }) => (
         <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
           {!transaction.transfer_data || !transaction.transfer_data.sender || !transaction.transfer_data.sender.profile_picture ?
             <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                   style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+              style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
             :
             <Image source={{ uri: transaction.transfer_data.sender.profile_picture }}
-                   style={{
-                     width: 50,
-                     height: 50,
-                     borderRadius: 50 / 2,
-                     borderColor: "#ffffff",
-                     borderWidth: 3, ...STYLES.SHADOW_STYLES
-                   }}/>}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+                borderColor: "#ffffff",
+                borderWidth: 3, ...STYLES.SHADOW_STYLES
+              }} />}
           {transaction.transfer_data && transaction.transfer_data.sender && (
             <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
               <CelText weight='600'
-                       type='H4'>{transaction.transfer_data.sender.first_name} {transaction.transfer_data.sender.last_name}</CelText>
+                type='H4'>{transaction.transfer_data.sender.first_name} {transaction.transfer_data.sender.last_name}</CelText>
               <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
                 {transaction.transfer_data.sender.email ? transaction.transfer_data.sender.email : " "}
               </CelText>
             </View>
           )}
           <View style={{ paddingTop: 10 }}>
-            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30}/>
+            <Icon name='Celsius' fill={STYLES.COLORS.CELSIUS_BLUE} height={30} width={30} />
           </View>
         </View>
       </Card>
@@ -239,21 +237,21 @@ export const ReferrerHODL = ({ transaction, text, lockedValue }) => (
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         {!transaction.referral_data.referred.profile_picture ?
           <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
           :
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-                   type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
             {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
           </CelText>
         </View>
       </View>
       <CelText style={{ marginTop: 20 }} type="H5"
-               color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.referral_data.referred.first_name} keeps initial
-        deposit until
+        color={STYLES.COLORS.MEDIUM_GRAY}>If {transaction.referral_data.referred.first_name} keeps initial
+ deposit until
         <CelText type="H5" color={STYLES.COLORS.DARK_GRAY} weight='600'>{` ${lockedValue} `}</CelText>, your referral
         reward will unlock.
       </CelText>
@@ -270,13 +268,13 @@ export const Referrer = ({ transaction, text }) => (
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         {!transaction.referral_data.referred.profile_picture ?
           <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
           :
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-                   type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
             {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
           </CelText>
@@ -295,13 +293,13 @@ export const Referred = ({ transaction, text }) => (
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         {!transaction.referral_data.referrer.profile_picture ?
           <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
           :
           <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-                   type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+            type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
             {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
           </CelText>
@@ -320,13 +318,13 @@ export const ReferrerPending = ({ transaction, text }) => (
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         {!transaction.referral_data.referred.profile_picture ?
           <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
           :
           <Image source={{ uri: transaction.referral_data.referred.profile_picture }}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-                   type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
+            type='H4'>{transaction.referral_data.referred.first_name} {transaction.referral_data.referred.last_name}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
             {transaction.referral_data.referred.email ? transaction.referral_data.referred.email : null}
           </CelText>
@@ -349,13 +347,13 @@ export const ReferredPending = ({ transaction, text }) => (
       <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
         {!transaction.referral_data.referrer.profile_picture ?
           <Image source={require("../../../../assets/images/empty-profile/empty-profile.png")}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />
           :
           <Image source={{ uri: transaction.referral_data.referrer.profile_picture }}
-                 style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }}/>}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, borderColor: "#ffffff", borderWidth: 3 }} />}
         <View style={{ flex: 1, flexDirection: "column", alignContent: "center", paddingLeft: 10 }}>
           <CelText weight='600'
-                   type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
+            type='H4'>{transaction.referral_data.referrer.first_name} {transaction.referral_data.referrer.last_name}</CelText>
           <CelText style={{ paddingTop: 5 }} color={STYLES.COLORS.CELSIUS_BLUE} type="H6">
             {transaction.referral_data.referrer.email ? transaction.referral_data.referrer.email : null}
           </CelText>
@@ -382,7 +380,7 @@ export const InterestSection = ({ interestEarned }) => (
 
   <View style={{ width: "100%", paddingHorizontal: 20 }}>
     <Card>
-      <CelText type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
+      <CelText weight="light" type="H6" align="center" style={{ marginBottom: 2 }}>So far you earned</CelText>
       <CelText type="H3" weight="600" align="center">{formatter.usd(interestEarned)}</CelText>
     </Card>
   </View>
@@ -404,7 +402,7 @@ export const Disclaimer = ({ transaction }) => {
   return (
     <View style={{ paddingHorizontal: 20, marginVertical: 20 }}>
       <Card>
-        <CelText type="H6" style={{ opacity: 0.7 }}>{ text }</CelText>
+        <CelText type="H6" style={{ opacity: 0.7 }}>{text}</CelText>
       </Card>
     </View>
   )
@@ -413,13 +411,13 @@ export const Disclaimer = ({ transaction }) => {
 export const MarginCall = ({ transaction }) => (
   <View style={{ paddingHorizontal: 20 }}>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-      <CelText>{ transaction.coin.toUpperCase() } margin call at:</CelText>
-      <CelText>{ formatter.usd(transaction.loan_data.margin) }</CelText>
+      <CelText>{transaction.coin.toUpperCase()} margin call at:</CelText>
+      <CelText>{formatter.usd(transaction.loan_data.margin)}</CelText>
     </View>
     <Card>
-      <CelText type="H6" style={{ opacity: 0.7 }}>If { transaction.coin.toUpperCase() } drops below { formatter.usd(transaction.loan_data.margin) } you will get a notification asking for additional collateral.</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }}>If {transaction.coin.toUpperCase()} drops below {formatter.usd(transaction.loan_data.margin)} you will get a notification asking for additional collateral.</CelText>
     </Card>
-    <Separator margin="20 0 20 0"/>
+    <Separator margin="20 0 20 0" />
   </View>
 )
 
@@ -427,10 +425,10 @@ export const Liquidation = ({ transaction }) => (
   <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
       <CelText>Liquidation at:</CelText>
-      <CelText>{ formatter.usd(transaction.loan_data.liquidation) }</CelText>
+      <CelText>{formatter.usd(transaction.loan_data.liquidation)}</CelText>
     </View>
     <Card>
-      <CelText type="H6" style={{ opacity: 0.7 }}>If { transaction.coin.toUpperCase() } drops below { formatter.usd(transaction.loan_data.liquidation) } we will sell some of your collateral to cover the margin.</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }}>If {transaction.coin.toUpperCase()} drops below {formatter.usd(transaction.loan_data.liquidation)} we will sell some of your collateral to cover the margin.</CelText>
     </Card>
   </View>
 )
@@ -438,13 +436,13 @@ export const Liquidation = ({ transaction }) => (
 export const HeadingCard = ({ heading, text }) => (
   <View style={{ paddingHorizontal: 20 }}>
     <Card>
-      <CelText type="H5" weight="500">{ heading }</CelText>
-      <CelText type="H6" style={{ opacity: 0.7 }}>{ text }</CelText>
+      <CelText type="H5" weight="500">{heading}</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }}>{text}</CelText>
     </Card>
   </View>
 )
 
-export const ChangePaymentCard = ({navigateTo, heading, text}) => (
+export const ChangePaymentCard = ({ navigateTo, heading, text }) => (
   <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
     <Card>
       <CelText weight={"300"} type={"H5"}>{heading}</CelText>
@@ -466,14 +464,14 @@ export const UnlockReason = ({ transaction }) => {
   )
 };
 
-  export const MarginCallCard = () => (
-    <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
-      <Card>
-        <CelText type="H5" weight="500" margin={"10 0 10 0"}>Margin Call Liquidation</CelText>
-        <CelText type="H6" style={{ opacity: 0.7 }} margin={"0 0 10 0"}>Your collateral was liquidated due to the latest Margin Call outbreak.</CelText>
-      </Card>
-    </View>
-  )
+export const MarginCallCard = () => (
+  <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
+    <Card>
+      <CelText type="H5" weight="500" margin={"10 0 10 0"}>Margin Call Liquidation</CelText>
+      <CelText type="H6" style={{ opacity: 0.7 }} margin={"0 0 10 0"}>Your collateral was liquidated due to the latest Margin Call outbreak.</CelText>
+    </Card>
+  </View>
+)
 
 
 export const HodlInfoSection = ({ date, amount, coin }) => (
@@ -488,14 +486,14 @@ export const HodlInfoSection = ({ date, amount, coin }) => (
   </View>
 );
 
-export const SsnInfo = ({navigateTo}) => (
-  <View style={{ paddingHorizontal: 20}}>
+export const SsnInfo = ({ navigateTo }) => (
+  <View style={{ paddingHorizontal: 20 }}>
     <InfoBox
       left
       color={"white"}
       backgroundColor={STYLES.COLORS.ORANGE}
       titleText={"In order to confirm the interest you earned, please enter your SSN. If you don't provide it by the end of the year, all pending transactions will be cancelled automatically and you won't be able to collect the interest"}
-      children={ <TouchableOpacity onPress={() => navigateTo("PersonalInformation")}>
+      children={<TouchableOpacity onPress={() => navigateTo("PersonalInformation")}>
         <CelText color={STYLES.COLORS.WHITE} weight={"700"} margin="20 0 10 0">Enter your SSN</CelText>
       </TouchableOpacity>}
     />
@@ -520,6 +518,9 @@ function getBlockExplorerLink(transaction) {
     // XLM
     case "xlm":
       return { link: BLOCKEXPLORERS.xlm && `${BLOCKEXPLORERS.xlm}${tId}`, text: "stellarchain" };
+    // EOS
+    case "eos":
+      return { link: BLOCKEXPLORERS.eos && `${BLOCKEXPLORERS.eos}${tId}`, text: "bloks.io" };
     // DASH
     case "dash":
       return { link: BLOCKEXPLORERS.dash && `${BLOCKEXPLORERS.dash}${tId}`, text: "chainz" };

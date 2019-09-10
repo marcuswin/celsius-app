@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from 'prop-types';
 import * as appActions from "../../../redux/actions";
-import {COIN_CARD_TYPE} from '../../../constants/DATA'
+import {COIN_CARD_TYPE} from '../../../constants/UI'
 
 import { getTheme } from "../../../utils/styles-util";
 import CoinIcon from "../../atoms/CoinIcon/CoinIcon";

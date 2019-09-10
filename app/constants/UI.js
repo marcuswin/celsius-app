@@ -6,27 +6,6 @@ const KEYBOARD_TYPE = {
   NUMBER_PAD: 'number-pad',
 }
 
-const AUTO_CAPITALIZE = {
-  CHARACTERS: 'characters', // all characters
-  WORDS: 'words', // first letter of each word
-  SENTENCES: 'sentences', // first letter of each sentence
-  NONE: 'none' // don't auto capitalize anything
-}
-
-const CAMERA_COPY = {
-  DOCUMENT:
-    `Please center your document in the marked area. Be sure the photo is clear and the document's details are easily legible.`,
-  SELFIE:
-    'Please center your face in the circle and take a selfie. We need your recent picture to compare it with the one on the document.'
-}
-
-const GRAPHS = {
-  TOTAL_BALANCE: 'TOTAL_BALANCE',
-  TOTAL_INTEREST: 'TOTAL_INTEREST',
-  COIN_BALANCE: 'COIN_BALANCE',
-  COIN_INTEREST: 'COIN_INTEREST'
-}
-
 const MODALS = {
   BASIC_MODAL: 'BASIC_MODAL',
   WITHDRAW_INFO_MODAL: 'WITHDRAW_INFO_MODAL',
@@ -57,17 +36,6 @@ const MODALS = {
   MARGIN_CALL_MODAL: 'MARGIN_CALL_MODAL',
   PREPAY_DOLLAR_INTEREST_MODAL: 'PREPAY_DOLLAR_INTEREST_MODAL',
 
-}
-
-const VERIFY_IDENTITY_TYPES = {
-  TWO_FACTOR: 'TWO_FACTOR',
-  PIN: 'PIN'
-}
-
-const VERIFY_IDENTITY_ACTION_TYPES = {
-  DEFAULT: 'DEFAULT',
-  SET_PIN: 'SET_PIN',
-  CONFIRM_SET_PIN: 'CONFIRM_SET_PIN'
 }
 
 const INITIAL_ROUTE = 'Home'
@@ -133,37 +101,52 @@ const WALLET_LANDING_VIEW_TYPES = {
 
 const FAB_TYPE = ['main', 'support', 'hide']
 
-export default {
-  KEYBOARD_TYPE,
-  AUTO_CAPITALIZE,
-  CAMERA_COPY,
-  MODALS,
-  VERIFY_IDENTITY_TYPES,
-  VERIFY_IDENTITY_ACTION_TYPES,
-  INITIAL_ROUTE,
-  THEMES,
-  EMPTY_STATES,
-  KEYPAD_PURPOSES,
-  PHONES_WITH_CUSTOM_KEYPAD,
-  HIGHLIGHTED_COUNTRIES,
-  GRAPHS,
-  FAB_TYPE
+const WELCOME_MESSAGES = [
+  {
+    title: "Interest Income",
+    text: "Make your Mondays a whole lot more interesting. Deposit coins and receive weekly interest payments directly to your Celsius wallet."
+  },
+  {
+    title: "Crypto is the New Collateral",
+    text: "Crypto-backed loans give you access to the cash you need at rates you deserve without selling your coins! "
+  },
+  {
+    title: "No Fees, No Worries",
+    text: "CelPay is the easiest way to send and receive crypto instantly - without the fees."
+  },
+  {
+    title: "Unity in Community",
+    text: "Celsius Network’s promise is to only act in the best interest of our community by offering unmatched financial services that are safe, secure, and rewarding."
+  },
+  {
+    title: "Join the CEL-ebration!",
+    text: "Get the most out of your Celsius app by earning in CEL! Earning interest in the CEL token gets you up to 25% more interest."
+  },
+  {
+    title: "Security is our Top Priority",
+    text: "Did you know Celsius uses BitGo as its custodian? This way we can give top security to all our customers. Be sure to turn on two-factor authentication in your profile settings to make the app as secure as possible!"
+  }
+];
+
+
+const COIN_CARD_TYPE = {
+  COLLATERAL_COIN_CARD: 'COLATERAL_COIN_CARD',
+  PRINCIPAL_PAYMENT_COIN_CARD:'PRINCIPAL_PAYMENT_COIN_CARD',
+  LOAN_PAYMENT_COIN_CARD: 'LOAN_PAYMENT_COIN_CARD',
+  MARGIN_COLLATERAL_COIN_CARD: 'MARGIN_COLLATERAL_COIN_CARD'
 }
 
 export {
   KEYBOARD_TYPE,
-  AUTO_CAPITALIZE,
-  CAMERA_COPY,
   MODALS,
-  VERIFY_IDENTITY_TYPES,
-  VERIFY_IDENTITY_ACTION_TYPES,
   INITIAL_ROUTE,
   THEMES,
   EMPTY_STATES,
   KEYPAD_PURPOSES,
   PHONES_WITH_CUSTOM_KEYPAD,
   HIGHLIGHTED_COUNTRIES,
-  GRAPHS,
   FAB_TYPE,
-  WALLET_LANDING_VIEW_TYPES
+  WALLET_LANDING_VIEW_TYPES,
+  WELCOME_MESSAGES,
+  COIN_CARD_TYPE
 }

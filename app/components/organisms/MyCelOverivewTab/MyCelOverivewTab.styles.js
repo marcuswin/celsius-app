@@ -49,8 +49,7 @@ const base = {
   },
   explanation: {
     marginBottom: heightPercentageToDP("3.73%"),
-    paddingHorizontal: 20,
-
+    paddingHorizontal: widthPercentageToDP("5%"),
   },
 };
 

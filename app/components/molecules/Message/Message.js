@@ -70,7 +70,7 @@ class Message extends Component {
         </View>
 
         <View style={{ width: "65%" }}>
-          <CelText margin={"5 0 0 0"} color="white">
+          <CelText margin={"3 0 0 0"} color="white">
             {message.text}
           </CelText>
           { !!action && (

@@ -3,7 +3,9 @@ import apiUrl from './api-url';
 
 const generalDataService = {
   getBackendStatus,
-  getCelsiusInitialData
+  getCelsiusInitialData,
+  getLoanTermsOfUse,
+  getPDFLoanTermsOfUse
 };
 
 
@@ -28,5 +30,13 @@ function getCelsiusInitialData() {
   return axios.get(`${apiUrl}/initial_data`);
 }
 
+
+function getLoanTermsOfUse() {
+  return axios.get(`${apiUrl}/web/document/loan-terms-and-conditions/md`)
+}
+
+function getPDFLoanTermsOfUse() {
+  return `${apiUrl}/web/document/loan-terms-and-conditions/pdf`
+}
 
 export default generalDataService;

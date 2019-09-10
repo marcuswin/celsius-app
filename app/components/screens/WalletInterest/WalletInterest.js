@@ -100,7 +100,7 @@ class WalletInterest extends Component {
     return (
       <RegularLayout padding='20 0 100 0'>
         <View style={style.container}>
-          <Card onPress={() => actions.navigateTo("InterestRates")}>
+          <Card>
             <>
               <CelText type='H6' weight='300'>
                 Total interest earned
@@ -109,9 +109,11 @@ class WalletInterest extends Component {
                 <CelText weight='600' type='H3'>
                   {formatter.usd(walletSummary.total_interest_earned)}
                 </CelText>
-                <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
-                  Todays rates
-                </CelText>
+                  <TouchableOpacity onPress={() => actions.navigateTo("InterestRates")}>
+                      <CelText color={STYLES.COLORS.CELSIUS_BLUE}>
+                          Rates this week
+                      </CelText>
+                  </TouchableOpacity>
               </View>
               <Separator  margin="10 0 0 0" />
               <TouchableOpacity

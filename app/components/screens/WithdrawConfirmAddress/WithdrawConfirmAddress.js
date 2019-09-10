@@ -62,7 +62,7 @@ class WithdrawConfirmAddress extends Component {
   };
 
   navigate = () => {
-    const {actions} = this.props;
+    const { actions } = this.props;
     actions.closeModal();
     actions.navigateTo("WithdrawAddressOverview")
   }
@@ -78,6 +78,9 @@ class WithdrawConfirmAddress extends Component {
       placeHolderText = "Destination Tag";
     } else if (formData.coin && formData.coin.toLowerCase() === "xlm") {
       tagText = "What is XLM Memo Id";
+      placeHolderText = "Memo Id";
+    } else if (formData.coin && formData.coin.toLowerCase() === "eos") {
+      tagText = "What is EOS Memo Id";
       placeHolderText = "Memo Id";
     }
 
@@ -110,7 +113,7 @@ class WithdrawConfirmAddress extends Component {
           numberOfLines={3}
           returnKeyType={hasTag ? "next" : "done"}
           blurOnSubmiting={!hasTag}
-          onSubmitEditing={() => {if(hasTag)this.tag.focus()}}
+          onSubmitEditing={() => { if (hasTag) this.tag.focus() }}
         />
 
         <InfoBox
@@ -123,14 +126,14 @@ class WithdrawConfirmAddress extends Component {
           boldText={' wallet settings.'}
         />
 
-                {hasTag ? (
+        {hasTag ? (
           <CelInput
             placeholder={placeHolderText}
             value={addressDisplay.newTag}
             field="coinTag"
             margin="10 0 10 0"
             disabled
-            refs={(input) => {this.tag = input}}
+            refs={(input) => { this.tag = input }}
           />
         ) : null
         }

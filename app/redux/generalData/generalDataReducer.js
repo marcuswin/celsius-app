@@ -12,6 +12,8 @@ function initialState() {
 
     kycDocTypes: undefined, // TODO move to kycReducer
     backendStatus: undefined, // TODO move to appReducer ?
+    loanTermsOfUse: undefined,
+    pdf: undefined,
   };
 }
 
@@ -24,6 +26,13 @@ export default function generalDataReducer(state = initialState(), action) {
       return {
         ...state,
         kycDocTypes: action.kycDocTypes,
+      };
+
+    case ACTIONS.GET_LOAN_TERMS_OF_USE_SUCCESS:
+      return {
+        ...state,
+        loanTermsOfUse: action.lToU,
+        pdf: action.pdf
       };
 
     case ACTIONS.GET_BACKEND_STATUS_SUCCESS:

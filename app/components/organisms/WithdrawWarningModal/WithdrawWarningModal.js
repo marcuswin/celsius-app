@@ -52,8 +52,8 @@ class WithdrawWarningModal extends Component {
     const { coin, navigateNext } = this.props
     const style = WithdrawWarningModalStyle();
 
-    const tagUpperCase = coin === 'XLM' ? 'MEMO ID' : 'DESTINATION TAG'
-    const tag = coin === 'XLM' ? 'Memo ID' : 'destination tag'
+    const tagUpperCase = coin === 'XRP' ? 'DESTINATION TAG' : 'MEMO ID'
+    const tag = coin === 'XRP' ? 'destination tag' : 'Memo ID'
 
     return (
       <CelModal
@@ -68,9 +68,9 @@ class WithdrawWarningModal extends Component {
             uncheckedCheckBoxColor={STYLES.COLORS.GRAY}
             checkedCheckBoxColor={STYLES.COLORS.GREEN}
             value={this.state.isChecked}
-            onChange={(field, value) => this.setState({ isChecked: value }) }
+            onChange={(field, value) => this.setState({ isChecked: value })}
             rightText={`My address does not have a ${tag}`}
-            theme={ THEMES.LIGHT }
+            theme={THEMES.LIGHT}
           />
         </View>
         <View>

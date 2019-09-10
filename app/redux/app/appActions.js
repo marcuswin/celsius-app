@@ -221,6 +221,7 @@ function initAppData(initToken = null) {
     await dispatch(actions.getCurrencyRates());
     await dispatch(actions.getCurrencyGraphs());
     await dispatch(actions.getInitialCelsiusData());
+    await dispatch(actions.getLoanTermsOfUse())
 
     // get user token
     const token =

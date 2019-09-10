@@ -12,7 +12,9 @@ import formatter from "../../../utils/formatter";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import STYLES from "../../../constants/STYLES";
+import { THEMES } from "../../../constants/UI"
 import Icon from "../../atoms/Icon/Icon";
+import {getTheme} from "../../../utils/styles-util";
 
 
 @connect(
@@ -121,9 +123,11 @@ class CommunityDashboard extends Component {
     const { name, buttonTypes, info, children } = this.props;
     const { activeButton, primaryNumber, explanation } = this.state;
     const style = CommunityDashboardStyle();
+    const theme = getTheme()
+    const separatorColor = THEMES.LIGHT === theme ? STYLES.COLORS.DARK_GRAY : STYLES.COLORS.SEMI_GRAY
     return (
       <View style={style.container}>
-        <Separator margin={"30 0 20 0"} text={name}/>
+        <Separator margin={"30 0 20 0"} color={separatorColor} text={name}/>
         {(buttonTypes && buttonTypes.length > 0) &&
         <View style={style.buttonWrapper}>
           {buttonTypes.map((button) => (
