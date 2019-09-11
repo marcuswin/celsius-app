@@ -16,7 +16,7 @@ module.exports = {
       type: 'list',
       name: 'complexity',
       message: 'What is the complexity of your React Component?',
-      choices: ['dumb', 'smart', 'connected', 'graphs'],
+      choices: ['dumb', 'smart', 'connected'],
     }
   ],
   actions: [
