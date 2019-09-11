@@ -46,14 +46,6 @@ module.exports = {
         '<key>CFBundleShortVersionString</key>',
         '\t<string>{{version}}</string>',
       ].join('\n'),
-    },
-    // {
-    //   type: 'modify',
-    //   path: 'ios/celsius/Info.plist',
-    //   pattern: /versionCode(.+?)\n/,
-    //   template: [
-    //     'versionCode {{buildNumber}}\n',
-    //   ].join('\n'),
-    // },
+    }
   ]
 };
