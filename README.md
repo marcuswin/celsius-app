@@ -8,7 +8,7 @@
 
 ## Install Application on your mobile device
 
-1. [Android](https://play.google.com/store/apps/details?id=network.celsius.borrower)
+1. [Android](https://play.google.com/store/apps/details?id=network.celsius.wallet&hl=en)
 2. [iOS](https://apps.apple.com/us/app/celsius-network/id1387885523)
 
 ### Dev commands
