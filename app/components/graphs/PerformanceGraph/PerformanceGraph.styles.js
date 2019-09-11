@@ -70,15 +70,14 @@ const base = {
     bottom: 0,
     right: 0
   },
-  dot: {
-    marginTop: widthPercentageToDP("1.8%"),
-    marginRight: 4,
-    height: widthPercentageToDP("1.6%"),
-    width: widthPercentageToDP("1.6%"),
-    borderRadius: widthPercentageToDP("1.6%") / 2
+  percentageView : {
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
-  percentageView : {justifyContent: "space-between", flexDirection: "row"},
-  singlePercent: { flexDirection: "row", alignItems: 'flex-start', }
+  singlePercent: {
+    flexDirection: "row",
+    alignItems: 'flex-start',
+  }
 }
 
 const themed = {
