@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -43,6 +44,7 @@
 		3DFAB541DCB24D08B04F86B0 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FFBF3F7671645B2848EF773 /* AppCenter-Config.plist */; };
 		51D7A52CCB244C40AEE9E192 /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B05B42C06E1C4387A0BC085F /* libRNSVG-tvOS.a */; };
 		5FDF9739CE074BB68E43D425 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A494E0FC692C42988B7DE35D /* libRNGestureHandler.a */; };
+		7F69E7AEAFA94853828AFF43 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 014789A9CB3C4E18890C772A /* branch.json */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		87DC16ED2F85C6B14D6C041C /* libPods-celsius.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B876908CC68C6CC9438FB73C /* libPods-celsius.a */; };
 		A1855691EF9B469A9A560E75 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B0B8FF1B8E604000907C7AFC /* libRNGestureHandler-tvOS.a */; };
@@ -74,7 +76,6 @@
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		EE9C80E1F4B04FAA925F8E93 /* libAppCenterReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 708EB4B4144F45028158D8C4 /* libAppCenterReactNative.a */; };
-		7F69E7AEAFA94853828AFF43 /* branch.json in Resources */ = {isa = PBXBuildFile; fileRef = 014789A9CB3C4E18890C772A /* branch.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,7 @@
 		00E356EE1AD99517003FC87E /* celsiusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = celsiusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* celsiusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = celsiusTests.m; sourceTree = "<group>"; };
+		014789A9CB3C4E18890C772A /* branch.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = branch.json; path = ../branch.json; sourceTree = "<group>"; };
 		0F99602C551A4B16A7A89E5D /* libreact-native-branch.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libreact-native-branch.a"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -527,7 +529,6 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FB40A0E943F74027B5CBDD0C /* RNAdvertisingId.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAdvertisingId.xcodeproj; path = "../node_modules/react-native-advertising-id/ios/RNAdvertisingId.xcodeproj"; sourceTree = "<group>"; };
-		014789A9CB3C4E18890C772A /* branch.json */ = {isa = PBXFileReference; name = "branch.json"; path = "../branch.json"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

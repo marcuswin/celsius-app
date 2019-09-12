@@ -47,7 +47,7 @@ class QRScannerScreen extends Component {
     }
     actions.setFabType("hide");
 
-    this.setState({
+    await this.setState({
       hasCameraPermission: permission.status === "granted",
       handleBarCodeRead: this.handleBarCodeRead
     });
@@ -79,7 +79,7 @@ class QRScannerScreen extends Component {
     return (
       <View style={style.container}>
         <BarCodeScanner
-          onBarCodeRead={this.state.handleBarCodeRead}
+            onBarCodeScanned={this.state.handleBarCodeRead}
         >
           <View
             style={style.barcodeWrapper}

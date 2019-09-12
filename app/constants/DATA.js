@@ -221,12 +221,12 @@ const BANK_ACCOUNT_TYPE = [
 
 
 const LOAN_STATUS = {
-  APPROVED: 'APPROVED',
-  PENDING: 'PENDING',
-  REJECTED: 'REJECTED',
-  ACTIVE: 'ACTIVE',
-  COMPLETED: 'COMPLETED',
-  CANCELED: 'CANCELED'
+  APPROVED: 'approved',
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  ACTIVE: 'active',
+  COMPLETED: 'completed',
+  CANCELED: 'canceled'
 }
 
 const LOAN_TYPES = {

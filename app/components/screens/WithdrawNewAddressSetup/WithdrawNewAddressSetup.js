@@ -3,7 +3,7 @@ import { TouchableOpacity } from "react-native";
 // import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
+import * as Permissions from "expo-permissions";
 
 import * as appActions from "../../../redux/actions";
 import WithdrawalNewAddressSetupStyle from "./WithdrawNewAddressSetup.styles";
@@ -41,6 +41,14 @@ class WithdrawNewAddressSetup extends Component {
     actions.setCoinWithdrawalAddress("change-address")
   };
 
+  getCameraPermissions = async () => {
+    let perm = await Permissions.getAsync(Permissions.CAMERA)
+    if (perm.status !== 'granted') {
+      perm = await Permissions.askAsync(Permissions.CAMERA)
+    }
+    return perm
+  }
+
   handleScan = (code) => {
     const { actions } = this.props;
     const address = addressUtil.splitAddressTag(code);
@@ -48,12 +56,14 @@ class WithdrawNewAddressSetup extends Component {
     actions.updateFormField("coinTag", address.newTag);
   };
 
-  handleScanClick = () => {
+  handleScanClick = async () => {
     const { actions } = this.props;
-
-    actions.navigateTo("QRScanner", {
-      onScan: this.handleScan
-    });
+    const perm = await this.getCameraPermissions()
+    if (perm.status === 'granted') {
+      actions.navigateTo("QRScanner", {
+        onScan: this.handleScan
+      });
+    }
   };
 
   render() {
