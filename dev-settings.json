@@ -1,8 +1,8 @@
 {
   "mocks": {
-    "USE_MOCK_LOANS": true,
-    "USE_MOCK_MARGIN_CALLS": true,
-    "USE_MOCK_LOAN_INFO": true,
-    "USE_MOCK_TRANSACTIONS": true
+    "USE_MOCK_LOANS": false,
+    "USE_MOCK_MARGIN_CALLS": false,
+    "USE_MOCK_LOAN_INFO": false,
+    "USE_MOCK_TRANSACTIONS": false
   }
 }
