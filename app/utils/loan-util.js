@@ -9,6 +9,8 @@ const loanUtil = {
 };
 
 function mapMarginCall(marginCall) {
+  if (!marginCall) return
+
   const newMarginCall = { ...marginCall }
   newMarginCall.allCoins = {}
   const walletSummary = store.getState().wallet.summary
@@ -97,15 +99,17 @@ function getLoanSections(loan) {
     case LOAN_STATUS.COMPLETED:
       return ["completion:date", "initiation:date", "unlocked:collateral", "term", "annualInterest"];
     case LOAN_STATUS.CANCELED:
-      return ["cancellation:date", "initiation:date", "estimated:collateral", "term", "annualInterest"];
+      return ["cancellation:date", "initiation:date", "term", "annualInterest"];
     case LOAN_STATUS.REJECTED:
-      return ["rejection:date", "initiation:date", "estimated:collateral", "term", "annualInterest"];
+      return ["rejection:date", "initiation:date", "term", "annualInterest"];
     default:
       break;
   }
 }
 
 function flagPaidPayments(loan) {
+  if (!loan.amortization_table || !loan.amortization_table.length) return []
+
   const amortizationTable = loan.amortization_table.map(p => ({
     ...p,
     isPaid: Number(p.amountToPay) === Number(p.amountPaid),

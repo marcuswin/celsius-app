@@ -1,25 +1,31 @@
-// copies app.json from celsius-creds repo
+// copies app.json from celsius-app-creds repo
 
 const fs = require('fs');
 const path = require('path');
 
 const { CONFIG, DIRECTORY_PATH } = process.env;
+
+const DEFAULT_CREDS_DIR = './celsius-app-creds'
+
 const ALL_CONFIGS = {
-  DEV: 'DEV',
+  // DEV: 'DEV',
   STAGING: 'STAGING',
-  TEST: 'TEST',
-  PREPROD: 'PREPROD',
   PRODUCTION: 'PRODUCTION'
 };
 
+const filesToCopy = [
+  'app.json',
+  'google-services.json',
+  'celsius.jks',
+  'constants.js',
+  'branch.json',
+]
+
 if (Object.keys(ALL_CONFIGS).indexOf(CONFIG) !== -1) {
-  copyFileFromCelsiusCreds('app.json')
-  copyFileFromCelsiusCreds('google-services.json')
-  copyFileFromCelsiusCreds('build_android.sh')
-  copyFileFromCelsiusCreds('celsius.jks')
-  copyFileFromCelsiusCreds('constants.js')
+  filesToCopy.forEach(copyFileFromCelsiusCreds)
+
   // eslint-disable-next-line no-console
-  console.log(`Created app.json for ${CONFIG} environment successfully`);
+  console.log(`Generated all env specific files for ${CONFIG} environment successfully`);
   return true;
 }
 
@@ -30,24 +36,17 @@ return false;
 function copyFileFromCelsiusCreds(pathToFile) {
   let src;
   const dest = path.resolve(__dirname, pathToFile);
-  const directoryPath = DIRECTORY_PATH || '../celsius-creds'
+  const directoryPath = DIRECTORY_PATH || DEFAULT_CREDS_DIR
 
   switch (CONFIG) {
-    case ALL_CONFIGS.STAGING:
-      src = path.resolve(__dirname, `${directoryPath}/staging/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
-      break;
-    case ALL_CONFIGS.TEST:
-      src = path.resolve(__dirname, `${directoryPath}/test/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
-      break;
-    case ALL_CONFIGS.PREPROD:
-      src = path.resolve(__dirname, `${directoryPath}/pre-prod/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
-      break;
     case ALL_CONFIGS.PRODUCTION:
-      src = path.resolve(__dirname, `${directoryPath}/production/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/production/${pathToFile}`);
       break;
+
     case ALL_CONFIGS.DEV:
+    case ALL_CONFIGS.STAGING:
     default:
-      src = path.resolve(__dirname, `${directoryPath}/dev/${DIRECTORY_PATH ? '' : 'celsius-app/'}${pathToFile}`);
+      src = path.resolve(__dirname, `${directoryPath}/staging/${pathToFile}`);
   }
 
   if (!fs.existsSync(src)) {
@@ -58,4 +57,7 @@ function copyFileFromCelsiusCreds(pathToFile) {
 
   const data = fs.readFileSync(src, 'utf-8');
   fs.writeFileSync(dest, data);
+
+  // eslint-disable-next-line no-console
+  console.log(`${pathToFile} was copied to project`)
 }

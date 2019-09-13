@@ -136,8 +136,16 @@ class PerformanceGraph extends React.Component {
           </Svg>
           <View style={{ position: "absolute" }}>
             <View ref={this.cursor.label} style={[styles.pointer]}>
-              <View style={[styles.label, styles.labelBoxBackgroundColor]}>
-                <TextInput ref={this.cursor.labelText} style={styles.labelText} editable={false}/>
+              <View style={ styles.label }>
+                <TextInput
+                    ref={this.cursor.labelText}
+                    style={{
+                      color: 'white',
+                      height: heightPercentageToDP("5.7%"),
+                      fontSize: 12
+                    }} // TextInput issue- styles cannot override and need to be inline
+                    editable={false}
+                />
               </View>
             </View>
             <View ref={this.cursor.dashedLine}>
@@ -166,12 +174,34 @@ class PerformanceGraph extends React.Component {
               if (c === "eth") color = STYLES.COLORS.GREEN;
               return (
                 <View key={c} style={styles.singlePercent}>
-                  <View style={[styles.dot, { backgroundColor: color }]}/>
+                  <View
+                      style={{
+                        backgroundColor: color,
+                        marginTop: widthPercentageToDP("1.8%"),
+                        marginRight: 4,
+                        height: widthPercentageToDP("1.6%"),
+                        width: widthPercentageToDP("1.6%"),
+                        borderRadius: widthPercentageToDP("1.6%") / 2
+                      }} // TextInput issue- styles cannot override and need to be inline
+                    />
                   <View>
-                    <TextInput style={[styles.labelText, { color }]}
-                               editable={false}>{`${c.toUpperCase()} Change `}</TextInput>
-                    <TextInput style={[styles.labelText, { color }]} ref={this.label[`${c}Percent`]}
-                               editable={false}/>
+                    <View>
+                      <View>
+                        <TextInput
+                            style={{ color }}
+                            editable={false}
+                        >
+                          {`${c.toUpperCase()} Change `}
+                        </TextInput>
+                      </View>
+                      <View>
+                        <TextInput
+                            style={{ color }}
+                            ref={this.label[`${c}Percent`]}
+                            editable={false}
+                        />
+                      </View>
+                    </View>
                   </View>
                 </View>
               );

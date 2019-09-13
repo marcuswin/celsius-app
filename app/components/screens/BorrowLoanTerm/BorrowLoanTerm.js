@@ -38,12 +38,6 @@ class BorrowLoanTerm extends Component {
     props.actions.updateFormField('termOfLoan', 6)
   }
 
-  onConfirmYourLoanPress = async () => {
-    const { actions, formData } = this.props
-    await actions.confirmLoanInfo(formData)  // TODO: create object with proper data and send it instead of formData
-    actions.navigateTo('ConfirmYourLoan')
-  }
-
   changeSelectedLoan = (selectedStep) => {
     const { actions } = this.props;
     actions.updateFormField('termOfLoan', selectedStep)
@@ -53,8 +47,12 @@ class BorrowLoanTerm extends Component {
     const { actions, formData } = this.props
     if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN ) {
       return (
-        <CelButton margin="50 0 30 0" onPress={this.onConfirmYourLoanPress} iconRight="IconArrowRight">
-          Confirm your loan
+        <CelButton
+          margin="50 0 30 0"
+          onPress={() => actions.navigateTo('LoanTermsOfUse')}
+          iconRight="IconArrowRight"
+        >
+          Continue
         </CelButton>
       )
     }

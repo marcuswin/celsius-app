@@ -19,6 +19,7 @@ import BorrowCalculatorModal from "../../organisms/BorrowCalculatorModal/BorrowC
 import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
+import StaticScreen from "../StaticScreen/StaticScreen";
 
 const cardWidth = widthPercentageToDP("70%");
 
@@ -142,6 +143,9 @@ class BorrowLanding extends Component {
   renderCard = () => {
     const style = BorrowLandingStyle();
     const { actions } = this.props;
+
+
+
     return (
       <Card
         padding='12 12 12 12'
@@ -150,7 +154,9 @@ class BorrowLanding extends Component {
           <View style={style.buttonIconText}>
             <TouchableOpacity
               style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
-              onPress={() => actions.navigateTo("BorrowEnterAmount")}>
+              onPress={() => {
+                actions.navigateTo("BorrowEnterAmount")
+              }}>
               <View style={style.buttonItself}>
                 <Image
                   style={{
@@ -207,8 +213,12 @@ class BorrowLanding extends Component {
     const { xOffset } = this.state;
     const { actions, allLoans, walletSummary, marginCalls } = this.props;
 
-    const hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === marginCalls[0].collateral_coin && coin.amount >= marginCalls[0].margin_call_amount);
-    const hasEnoughOtherCoins = !!walletSummary.coins.find(coin => marginCalls[0].allCoins[coin.short] <= coin.amount);
+    let hasEnoughOriginalCoin
+    let hasEnoughOtherCoins
+    if (marginCalls[0]) {
+      hasEnoughOriginalCoin = !!walletSummary.coins.find(coin => coin.short === marginCalls[0].collateral_coin && coin.amount >= marginCalls[0].margin_call_amount);
+      hasEnoughOtherCoins = !!walletSummary.coins.find(coin => marginCalls[0].allCoins[coin.short] <= coin.amount);
+    }
 
     return (
       <RegularLayout padding={"20 0 100 0"}>
@@ -265,9 +275,8 @@ class BorrowLanding extends Component {
   // slavija intersection
   renderIntersection() {
     const { maxAmount, isLoading } = this.state;
-    const { user, kycStatus, loanCompliance, minimumLoanAmount } = this.props;
+    const { user, kycStatus, loanCompliance, minimumLoanAmount, allLoans } = this.props;
     const minLtv = this.getMinLtv();
-
 
     if (kycStatus && !hasPassedKYC()) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                      purpose={EMPTY_STATES.NON_VERIFIED_BORROW}/>;
@@ -277,6 +286,8 @@ class BorrowLanding extends Component {
                                                                 purpose={EMPTY_STATES.COMPLIANCE}/>;
 
     if (isLoading) return <LoadingScreen/>;
+
+    if (allLoans.length === 0) return <StaticScreen emptyState={{purpose: EMPTY_STATES.NO_LOANS}}/>
 
     if (maxAmount < minimumLoanAmount / minLtv) return <BorrowCalculatorScreen emitParams={this.emitParams}
                                                                                purpose={EMPTY_STATES.BORROW_NOT_ENOUGH_FUNDS}/>;

@@ -204,6 +204,7 @@ class BorrowCalculator extends Component {
     const textType = numberOfDigits > 8 ? "H3" : "H2";
     const themeColors = this.getThemeColors();
 
+    const sortedLtv = ltv.sort((a, b) => a.interest < b.interest);
     return (
       <View style={style.container}>
         <CelInput
@@ -227,8 +228,7 @@ class BorrowCalculator extends Component {
             Choose your annual interest rate.
           </CelText>
           <View style={style.ltvWrapper}>
-            { ltv &&
-              ltv.map(c => (
+            { sortedLtv && sortedLtv.map(c => (
                 <Card
                   size={"thirdExtra"}
                   margin="20 5 20 5"

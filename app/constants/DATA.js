@@ -101,6 +101,19 @@ const TRANSACTION_TYPES = {
   OUT: 'OUT',
 };
 
+const LOAN_TRANSACTION_TYPES = {
+  SENDING_LOAN_TEST: "sending_loan_test",
+  SENDING_LOAN_FULL: "sending_loan_full",
+  RECEIVING_COLLATERAL_TEST: "receiving_collateral_test",
+  RECEIVING_COLLATERAL_FULL: "receiving_collateral_full",
+  MONTHLY_INTEREST: "monthly_interest",
+  PREPAYMENT: "prepayment",
+  MARGIN_CALL_COLLATERAL: "margin_call_collateral",
+  MARGIN_CALL_PRINCIPAL: "margin_call_principal",
+  SENDING_BACK_COLLATERAL: "sending_back_collateral",
+  RECEIVING_PRINCIPAL_BACK: "receiving_principal_back",
+}
+
 
 /*
  * Future TRANSACTION_TYPES
@@ -221,12 +234,12 @@ const BANK_ACCOUNT_TYPE = [
 
 
 const LOAN_STATUS = {
-  APPROVED: 'APPROVED',
-  PENDING: 'PENDING',
-  REJECTED: 'REJECTED',
-  ACTIVE: 'ACTIVE',
-  COMPLETED: 'COMPLETED',
-  CANCELED: 'CANCELED'
+  APPROVED: 'approved',
+  PENDING: 'pending',
+  REJECTED: 'rejected',
+  ACTIVE: 'active',
+  COMPLETED: 'completed',
+  CANCELED: 'canceled'
 }
 
 const LOAN_TYPES = {
@@ -251,4 +264,5 @@ export {
   LOAN_STATUS,
   LOAN_TYPES,
   LOAN_PAYMENT_TYPES,
+  LOAN_TRANSACTION_TYPES
 }

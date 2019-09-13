@@ -37,6 +37,14 @@ const base = {
         height: 48,
         fontSize,
         fontFamily: 'Barlow-Light',
+        ...Platform.select({
+            android: {
+                paddingTop: 2
+            },
+            ios: {
+                paddingBottom: 6
+            }
+        })
     },
     disabledInput: {
         opacity: 0.6

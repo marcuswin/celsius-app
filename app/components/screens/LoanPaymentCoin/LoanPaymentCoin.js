@@ -30,18 +30,22 @@ class LoanPaymentCoin extends Component {
     right: "profile"
   });
 
-  handleSelectCoin = (coinShort) => {
+  handleSelectCoin = async (coinShort) => {
     const { actions, loanCollateral, coinAmount, navigation} = this.props;
     const reason = navigation.getParam("reason");
+    const id = navigation.getParam("id");
 
     // loanCollateral and coinAmount from backend to Redux
+
     const loanAmount = loanCollateral < coinAmount; // TODO - check this props
-    if (loanAmount) {
+    if (!loanAmount) {
       if (reason) {
+        await actions.updateLoanSettings(id, {interest_payment_asset: coinShort})
         actions.showMessage("success", "You have successfully changed interest payment method")
+
         return actions.navigateTo("LoanSettings")
       }
-      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort })
+      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort, id })
     }
     return
   }

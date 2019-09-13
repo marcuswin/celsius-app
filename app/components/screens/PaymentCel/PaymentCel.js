@@ -14,7 +14,8 @@ import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
-    loyaltyInfo: state.user.loyaltyInfo
+    loyaltyInfo: state.user.loyaltyInfo,
+    loanSettings: state.loans.loanSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -37,15 +38,19 @@ class PaymentCel extends Component {
   //
   // }
 
-  navigate = () => {
+  navigate = async () => {
     const {actions, navigation} = this.props;
     const reason = navigation.getParam("reason");
-     if (reason) {
+    const id = navigation.getParam("id");
+
+    if (reason) {
+       await actions.updateLoanSettings(id, {interest_payment_asset: "CEL"})
        actions.showMessage("success", "You have successfully changed interest payment method")
-       return actions.navigateTo("LoanSettings")
+
+      return actions.navigateTo("LoanSettings")
      }
 
-    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL" })
+    actions.navigateTo("LoanPrepaymentPeriod", { coin: "CEL", id })
   };
 
   render() {

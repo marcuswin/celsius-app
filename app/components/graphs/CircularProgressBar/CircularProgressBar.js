@@ -17,7 +17,10 @@ class CircularProgressBar extends Component {
     amountPaid: PropTypes.number,
     amountLoaned: PropTypes.number
   };
-  static defaultProps = {};
+  static defaultProps = {
+    amountPaid: 1,
+    amountLoaned: 1
+  };
 
   constructor(props) {
     super(props);

@@ -30,7 +30,11 @@ class BorrowLoanOption extends Component {
   render() {
     const { ltv } = this.props;
     if (!ltv) return <LoadingScreen />;
-    
+
+    const ltvCards = ltv
+      .sort((a, b) => a.interest > b.interest)
+      .map((item) => <LoanInterestCard key={item.interest} ltv={item}/>)
+
     return (
       <View style={{flex:1}}>
         <HeadingProgressBar steps={6} currentStep={3} />
@@ -38,7 +42,7 @@ class BorrowLoanOption extends Component {
           fabType='hide'
         >
           <CelText weight={"300"} margin={"0 0 0 0"} align='center'>Choose your interest rate:</CelText>
-          {ltv.map((item)=><LoanInterestCard key={item.interest} ltv={item}/>)}
+          { ltvCards }
         </RegularLayout>
       </View>
     );

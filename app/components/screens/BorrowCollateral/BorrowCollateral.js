@@ -31,6 +31,7 @@ class BorrowCollateral extends Component {
   handleSelectCoin = (coin) => {
     const { actions } = this.props
     actions.updateFormField('collateralCoin', coin)
+
     actions.navigateTo('BorrowLoanOption')
   }
 
@@ -40,7 +41,7 @@ class BorrowCollateral extends Component {
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
-      .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
+      .sort((a, b) => b.amount_usd - a.amount_usd)
 
     return (
       <View style={{flex: 1}}>

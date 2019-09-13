@@ -53,10 +53,10 @@ class WithdrawCreateAddress extends Component {
 
   getCameraPermissions = async () => {
     let perm = await Permissions.getAsync(Permissions.CAMERA)
-
     if (perm.status !== 'granted') {
       perm = await Permissions.askAsync(Permissions.CAMERA)
     }
+    return perm
   }
 
   handleScan = (code) => {
@@ -69,11 +69,12 @@ class WithdrawCreateAddress extends Component {
 
   handleScanClick = async () => {
     const { actions } = this.props;
-
-    await this.getCameraPermissions()
-    actions.navigateTo("QRScanner", {
-      onScan: this.handleScan
-    });
+    const perm = await this.getCameraPermissions()
+    if (perm.status === 'granted') {
+      actions.navigateTo("QRScanner", {
+        onScan: this.handleScan
+      });
+    }
   };
 
   handeConfirmWithdrawal = () => {
