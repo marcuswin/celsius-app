@@ -12,6 +12,8 @@ import { WALLET_LANDING_VIEW_TYPES } from "../../../constants/UI";
 const COMING_SOON_COINS = [
   { name: 'Algorand', short: 'ALGO', image_url: require('../../../../assets/images/coins/algorand.png'), learn_more_link: 'https://www.algorand.com/' },
   { name: 'Tron', short: 'TRX', image_url: require('../../../../assets/images/coins/tron3x.png'), learn_more_link: 'https://tron.network/' },
+  { name: 'PAX Gold', short: 'PAXG', image_url: require('../../../../assets/images/coins/paxGoldFullColor3x.png'), learn_more_link: 'https://www.paxos.com/paxgold/' },
+
 ]
 
 const ComingSoonCoins = (props) => {
