@@ -47,13 +47,13 @@ export const BasicCardSection = ({ label, value, coin, monthly, total }) => (
       <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
         <View>
           <CelText type={"H6"}>Monthly Interest</CelText>
-          <CelText type={"H3"}
+          <CelText type={"H4"}
             weight={"600"}> {formatter.crypto(monthly, coin.toUpperCase(), { precision: 2 })}</CelText>
         </View>
         <Separator vertical />
         <View>
           <CelText type={"H6"}>Total Interest</CelText>
-          <CelText color={STYLES.COLORS.CELSIUS_BLUE} type={"H3"}
+          <CelText color={STYLES.COLORS.CELSIUS_BLUE} type={"H4"}
             weight={"600"}>{formatter.crypto(total, coin.toUpperCase(), { precision: 2 })}</CelText>
         </View>
       </View>

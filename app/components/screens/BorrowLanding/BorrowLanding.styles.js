@@ -1,5 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle } from '../../../utils/styles-util';
+import {getThemedStyle, widthPercentageToDP} from '../../../utils/styles-util';
 
 const base = {
   container: {
@@ -10,9 +10,33 @@ const base = {
     marginLeft: 12,
     marginRight: 12
   },
-  buttonIconText: {
+  buttonsIconText: {
     flexDirection: 'row',
     justifyContent: "space-around",
+    flex: 1,
+  },
+  buttonIconText: {
+    flex: 0.5,
+    marginLeft: widthPercentageToDP("1.3%"),
+    marginRight: widthPercentageToDP("1.3%")
+  },
+  buttonItself: {
+    justifyContent: 'space-around',
+    flex: 1,
+  },
+  buttonIconHand: {
+    alignSelf: "center",
+    width: 25,
+    height: 29,
+    marginBottom: 5,
+    marginTop: 6,
+  },
+  buttonIconCalc: {
+    alignSelf: "center",
+    width: 25,
+    height: 25,
+    marginBottom: 5,
+    marginTop: 6,
   },
   firstLoanWrapper: {
     flex: 1,
@@ -31,8 +55,7 @@ const base = {
   firstLoanButton: {
     marginTop: 20,
     marginBottom: 20,
-  },
-
+  }
 }
 
 const themed = {
