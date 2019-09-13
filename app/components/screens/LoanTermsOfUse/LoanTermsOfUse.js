@@ -10,12 +10,13 @@ import LoanTermsOfUseStyle from "./LoanTermsOfUse.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import CelButton from "../../atoms/CelButton/CelButton";
-import { MODALS, THEMES } from "../../../constants/UI";
+import { THEMES } from "../../../constants/UI";
 import CelCheckbox from "../../atoms/CelCheckbox/CelCheckbox";
 import STYLES from "../../../constants/STYLES";
 import Card from "../../atoms/Card/Card";
 import ExpandableItem from "../../molecules/ExpandableItem/ExpandableItem";
 import Icon from "../../atoms/Icon/Icon";
+import HeadingProgressBar from '../../atoms/HeadingProgressBar/HeadingProgressBar'
 
 @connect(
   state => ({
@@ -39,7 +40,7 @@ class LoanTermsOfUse extends Component {
       pdf: undefined
     };
 
-    props.actions.initForm({
+    props.actions.updateFormFields({
       acceptLoanTermsOfUse: false
     });
   }
@@ -50,11 +51,6 @@ class LoanTermsOfUse extends Component {
       pdf
     });
   }
-
-  handleRequestButton = () => {
-    const { actions } = this.props;
-    actions.openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL);
-  };
 
   handleAcceptance = () => {
     const { accept } = this.state;
@@ -72,6 +68,13 @@ class LoanTermsOfUse extends Component {
       actions.updateFormField("acceptLoanTermsOfUse", false);
     }
   };
+
+  continue = () => {
+    const { actions } = this.props
+    actions.navigateTo('VerifyProfile', {
+      onSuccess: () => actions.navigateTo('ConfirmYourLoan')
+    })
+  }
 
 
   render() {
@@ -97,10 +100,11 @@ class LoanTermsOfUse extends Component {
     const count = 1;
 
     return (
-      <RegularLayout fabType={"hide"}>
-
-        {text.map(({ heading, content }, index) => (
-              <View>
+      <RegularLayout fabType={"hide"} padding="0 0 100 0">
+        <HeadingProgressBar steps={6} currentStep={6} />
+        <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
+          {text.map(({ heading, content }, index) => (
+              <View key={`${heading}${index}`}>
                 <ExpandableItem heading={heading}>
                   <Markdown style={{
                     listOrderedItemIcon: { color: c },
@@ -140,35 +144,36 @@ class LoanTermsOfUse extends Component {
                 }
               </View>
             )
-        )}
-        <Card
-          color={
-            theme === THEMES.LIGHT
-              ? STYLES.COLORS.WHITE
-              : STYLES.COLORS.SEMI_GRAY
-          }
-          padding={"20 0 20 0"}
-        >
-          <View style={styles.shareCard}>
-            <TouchableOpacity onPress={() => Linking.openURL(pdf)} style={styles.shareButton}>
-              <Icon
-                name="Share"
-                height="24"
-                fill={STYLES.COLORS.GRAY}
-                style={styles.iconStyle}
-              />
-              <CelText align={"center"}>Share/Download</CelText>
-            </TouchableOpacity>
-          </View>
-        </Card>
+          )}
+          <Card
+            color={
+              theme === THEMES.LIGHT
+                ? STYLES.COLORS.WHITE
+                : STYLES.COLORS.SEMI_GRAY
+            }
+            padding={"20 0 20 0"}
+          >
+            <View style={styles.shareCard}>
+              <TouchableOpacity onPress={() => Linking.openURL(pdf)} style={styles.shareButton}>
+                <Icon
+                  name="Share"
+                  height="24"
+                  fill={STYLES.COLORS.GRAY}
+                  style={styles.iconStyle}
+                />
+                <CelText align={"center"}>Share/Download</CelText>
+              </TouchableOpacity>
+            </View>
+          </Card>
 
-        <CelButton
-          onPress={this.handleRequestButton}
-          style={styles.requestButton}
-          disabled={!formData.acceptLoanTermsOfUse}
-        >
-          Request Loan
-        </CelButton>
+          <CelButton
+            onPress={this.continue}
+            style={styles.requestButton}
+            disabled={!formData.acceptLoanTermsOfUse}
+          >
+            Confirm loan
+          </CelButton>
+        </View>
       </RegularLayout>
     );
   }

@@ -56,7 +56,6 @@ class LoanInterestCard extends Component {
       amountCollateralUsd,
       ltv: loanToValue
     });
-
     actions.navigateTo("BorrowLoanTerm")
   };
 

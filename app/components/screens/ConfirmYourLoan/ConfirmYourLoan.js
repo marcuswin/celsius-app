@@ -17,7 +17,7 @@ import Separator from "../../atoms/Separator/Separator";
 import Card from "../../atoms/Card/Card";
 import STYLES from "../../../constants/STYLES";
 import { LOAN_TYPES } from '../../../constants/DATA';
-import LoanApplicationSuccessModal from '../../organisms/LoanApplicationSuccessModal/LoanApplicationSuccessModal';
+import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 // TODO rename to BorrowLoanConfirm
 @connect(
@@ -25,7 +25,8 @@ import LoanApplicationSuccessModal from '../../organisms/LoanApplicationSuccessM
     formData: state.forms.formData,
     currencyRates: state.currencies.currencyRatesShort,
     bankAccountInfo: state.user.bankAccountInfo,
-    loanInfo: state.loans.loanInfo
+    loanInfo: state.loans.loanInfo,
+    loan: state.loans.loan
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -38,18 +39,9 @@ class ConfirmYourLoan extends Component {
     right: "profile"
   });
 
-  componentDidMount () {
-    const { formData, actions, currencyRates } = this.props
-    // actions.getLinkedBankAccount()
-    const crypto = currencyRates[formData.coin.toLowerCase()]
-    const loanAmount = parseFloat(formData.loanAmount)
-    let totalPayment = 0
-    if (formData.loanType === LOAN_TYPES.STABLE_COIN_LOAN){
-      totalPayment = loanAmount * crypto + formData.monthlyPayment * formData.termOfLoan
-    } else {
-      totalPayment = loanAmount + (formData.monthlyPayment * formData.termOfLoan)
-    }
-    actions.updateFormField( 'totalPaymentInUsd', totalPayment )
+  componentDidMount() {
+    const { actions } = this.props
+    actions.loanApplyPreviewData();
   }
 
   showCountry(countryName){
@@ -74,18 +66,15 @@ class ConfirmYourLoan extends Component {
     )
   }
 
-
   requestButtonHandle = () => {
-    const { actions } = this.props
-
-    // actions.applyForALoan(formData)
-    actions.navigateTo('LoanTermsOfUse')
+    const { actions } = this.props;
+    actions.applyForALoan()
   }
 
   renderBankInfo = () => {
     const { formData } = this.props
     if( formData.loanType === LOAN_TYPES.USD_LOAN ) {
-      const { loan } = this.props.loanInfo
+      const { loan } = this.props
       return (
         <Card>
           <CelText type="H6" weight="300">Bank Name</CelText>
@@ -112,12 +101,13 @@ class ConfirmYourLoan extends Component {
 
   renderBankAccountInfo = () => {
     const { bankInfo } = this.props.formData
-    const { loan } = this.props.loanInfo
+    const { loan } = this.props
+
     if ( bankInfo && bankInfo.location === 'United States') {
       return (
         <View>
           <CelText type="H6" weight="300">ABA (routing number)</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_swift }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_routing_number}</CelText>
 
           <CelText type="H6" weight="300">Your Account Number</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_account_number }</CelText>
@@ -127,22 +117,21 @@ class ConfirmYourLoan extends Component {
     return (
       <View>
         <CelText type="H6" weight="300">SWIFT (Bank Identifier Code)</CelText>
-        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_swift }</CelText>
+        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_account_swift }</CelText>
 
         <CelText type="H6" weight="300">Your Account Number</CelText>
-        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_account_number }</CelText>
+        <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_account_iban }</CelText>
       </View>
-
     )
   }
 
 
   renderAmount = () => {
-    const { loan } = this.props.loanInfo
+    const { loan } = this.props
 
-    if (loan.type === LOAN_TYPES.STABLE_COIN_LOAN){
+    if (loan.coin_loan_asset !== "USD"){
       return (
-        <CelText align="center" type="H1" weight="bold">{ formatter.crypto(loan.loan_amount, loan.loan_coin, { precision: 2 }) }</CelText>
+        <CelText align="center" type="H1" weight="bold">{ formatter.crypto(loan.loan_amount, loan.coin_loan_asset, { precision: 2 }) }</CelText>
       )
     }
     return(
@@ -151,8 +140,10 @@ class ConfirmYourLoan extends Component {
   }
 
   render() {
-    const { loan } = this.props.loanInfo
+    const { loan } = this.props
     const style = ConfirmYourLoanStyle();
+
+    if (!loan) return <LoadingScreen />
 
     return (
       <View flex={1}>
@@ -165,7 +156,7 @@ class ConfirmYourLoan extends Component {
             {this.renderAmount()}
             <Card>
               <CelText type="H6" weight="300" align="center">Estimated Collateral</CelText>
-              <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ formatter.crypto(loan.estimated_collateral, loan.estimated_collateral_coin) }</CelText>
+              <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ formatter.crypto(loan.amount_collateral_crypto, loan.coin) }</CelText>
                 <Card color={style.grayCard.color}>
                   <CelText type="H6" weight="300">The exact amount of collateral needed will be determined upon approval. Coins used for collateral will be locked and ineligible to earn interest.</CelText>
                 </Card>
@@ -184,7 +175,7 @@ class ConfirmYourLoan extends Component {
 
                 <View style={style.horizontalCardItem}>
                   <CelText type="H6" weight="300" align="center">Annual Interest Rate</CelText>
-                  <CelText type="H3" weight="600" align="center">{ formatter.percentage(loan.annual_interest_rate) }%</CelText>
+                  <CelText type="H3" weight="600" align="center">{ formatter.percentage(loan.interest) }%</CelText>
                 </View>
               </View>
             </Card>
@@ -202,15 +193,15 @@ class ConfirmYourLoan extends Component {
 
                 <View style={style.horizontalCardItem}>
                   <CelText type="H6" weight="300" align="center">Total Interest</CelText>
-                  <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.monthly_payment * loan.term_of_loan )}</CelText>
+                  <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.total_interest)}</CelText>
                 </View>
               </View>
             </Card>
 
             <Card>
               <CelText type="H6" weight="300" align="center">Total of Payments</CelText>
-              <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.total_payments) }</CelText>
-              <CelText type="H6" weight="300" align="center">(Amount Borrowes + Total Interest)</CelText>
+              <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.total_of_payment) }</CelText>
+              <CelText type="H6" weight="300" align="center">{loan.total_of_payment}</CelText>
 
               <Separator margin={'10 0 10 0'}/>
 
@@ -220,7 +211,7 @@ class ConfirmYourLoan extends Component {
 
             <Card color={style.blueCard.color}>
               <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>Reduce your interest rate by</CelText>
-              <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.percentage(loan.CEL_discount) } %</CelText>
+              <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.percentage(loan.loan_interest_bonus) } %</CelText>
               <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>
                 By paying out in
                 <CelText type="H5" weight="300" align="center" color={style.blueCardBoldText.color}> CEL</CelText>
@@ -231,7 +222,7 @@ class ConfirmYourLoan extends Component {
               <View style={style.horizontalCardContainer}>
                 <View style={style.horizontalCardItem}>
                   <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}> Monthly Interest</CelText>
-                  <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.crypto(loan.CEL_monthly_interest, 'CEL', {precision: 2}) }</CelText>
+                  <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.crypto(loan.monthly_payment_in_cel, 'CEL', {precision: 2}) }</CelText>
                 </View>
 
                 <View style={style.separatorContainer}>
@@ -240,7 +231,7 @@ class ConfirmYourLoan extends Component {
 
                 <View style={style.horizontalCardItem}>
                   <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>Total Interest</CelText>
-                  <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.crypto(loan.CEL_total_interest, 'CEL', {precision: 2}) }</CelText>
+                  <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.crypto(loan.total_interest_in_cel, 'CEL', {precision: 2}) }</CelText>
                 </View>
               </View>
 
@@ -248,7 +239,7 @@ class ConfirmYourLoan extends Component {
                 <View style={style.horizontalCardContainer}>
                   <View style={style.horizontalCardItem}>
                     <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}> Original Monthly Interest</CelText>
-                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color} strikethrough>{ formatter.usd(loan.CEL_original_monthly_interest) }</CelText>
+                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color} strikethrough>{ formatter.usd(loan.original_monthly_interest_payment_in_usd) }</CelText>
                   </View>
 
                   <View style={style.separatorContainer}>
@@ -257,7 +248,7 @@ class ConfirmYourLoan extends Component {
 
                   <View style={style.horizontalCardItem}>
                     <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>Discounted Monthly Interest</CelText>
-                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.usd(loan.CEL_discounted_monthly_interest )}</CelText>
+                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.usd(loan.discounted_monthly_interest_payment_in_usd )}</CelText>
                   </View>
                 </View>
               </Card>
@@ -266,7 +257,7 @@ class ConfirmYourLoan extends Component {
                 <View style={style.horizontalCardContainer}>
                   <View style={style.horizontalCardItem}>
                     <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}> Original Total Interest</CelText>
-                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color} strikethrough>{ formatter.usd( loan.CEL_original_total_interest) }</CelText>
+                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color} strikethrough>{ formatter.usd( loan.original_total_interest_in_usd) }</CelText>
                   </View>
 
                   <View style={style.separatorContainer}>
@@ -275,7 +266,7 @@ class ConfirmYourLoan extends Component {
 
                   <View style={style.horizontalCardItem}>
                     <CelText type="H6" weight="300" align="center" color={style.blueCardText.color}>Discounted Total Interest</CelText>
-                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.usd(loan.CEL_discounted_total_interest)}</CelText>
+                    <CelText type="H3" weight="600" align="center" color={style.blueCardBoldText.color}>{ formatter.usd(loan.discounted_total_interest_in_usd)}</CelText>
                   </View>
                 </View>
               </Card>
@@ -286,12 +277,12 @@ class ConfirmYourLoan extends Component {
            { this.renderBankInfo() }
 
             <Card>
-              <CelText type="H6" weight="300" align="center">{loan.margin_call.collateral_coin}
+              <CelText type="H6" weight="300" align="center">{loan.coin}
                 <CelText type="H6" weight="300" align="center"> margin call</CelText>
               </CelText>
-              <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ loan.margin_call.margin_call_amount }</CelText>
+              <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{formatter.usd(loan.margin_call_price)}</CelText>
                 <Card color={style.grayCard.color}>
-                  <CelText type="H6" weight="300">If BTC drops bellow $XXX, you will receive a notification to review your borrowing options.</CelText>
+                  <CelText type="H6" weight="300">{`If ${loan.coin} drops bellow ${formatter.usd(loan.margin_call_price,)}, you will receive a notification to review your borrowing options.`}</CelText>
                 </Card>
             </Card>
 
@@ -299,14 +290,13 @@ class ConfirmYourLoan extends Component {
               <CelText type="H6" weight="300" align="center">Liquidation at</CelText>
               <CelText type="H3" weight="700" align="center" margin= '5 0 10 0'>{ formatter.usd(loan.liquidation_call_price) }</CelText>
                 <Card color={style.grayCard.color}>
-                  <CelText type="H6" weight="300">If BTC drops below $xxx we will sell some of your collateral to cover the margin.</CelText>
+                  <CelText type="H6" weight="300">{`If ${loan.coin} drops below ${formatter.usd(loan.liquidation_call_price)} we will sell some of your collateral to cover the margin.`}</CelText>
                 </Card>
             </Card>
 
             <CelButton onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
           </View>
         </RegularLayout>
-        <LoanApplicationSuccessModal />
       </View>
 
     );

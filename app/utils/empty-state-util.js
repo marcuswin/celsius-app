@@ -19,6 +19,13 @@ function getProps(purpose, componentProps) {
   }
 
   switch (purpose) {
+    case EMPTY_STATES.NO_LOANS:
+      return {
+        ...props,
+        image: require('../../assets/images/monkey-on-a-laptop-illustration.png'),
+        heading: "Apply For Your First Loan",
+        paragraphs: ["Take out a dollar, crypto or stablecoin loan at the lowest interest rates."],
+      };
     // Not KYC Verified Empty States
     case EMPTY_STATES.NON_VERIFIED_WITHDRAW:
       return {

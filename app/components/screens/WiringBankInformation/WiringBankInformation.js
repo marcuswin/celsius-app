@@ -5,11 +5,9 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as appActions from "../../../redux/actions";
 
-// import WiringBankInformationStyle from "./WiringBankInformation.styles";
 import CelText from "../../atoms/CelText/CelText";
 import RegularLayout from "../../layouts/RegularLayout/RegularLayout";
 import Separator from "../../atoms/Separator/Separator";
-import CelButton from "../../atoms/CelButton/CelButton";
 
 @connect(
   state => ({
@@ -25,7 +23,6 @@ class WiringBankInformation extends Component {
   });
 
   render() {
-    const { actions } = this.props;
     return (
       <RegularLayout fabType={"hide"}>
         <CelText align={"center"}>
@@ -71,15 +68,6 @@ class WiringBankInformation extends Component {
             <View style={{ flex: 1 }}>Share Info</View>
           </View>
         </Card> */}
-        <CelButton
-          margin="50 0 30 0"
-          iconRight="IconArrowRight"
-          onPress={() => {
-            actions.navigateTo("LoanPaymentCoin");
-          }}
-        >
-          Continue
-        </CelButton>
       </RegularLayout>
     );
   }

@@ -13,7 +13,8 @@ import formatter from "../../../utils/formatter";
 
 @connect(
   state => ({
-    formData: state.forms.formData
+    formData: state.forms.formData,
+    loanSettings: state.loans.loanSettings
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -21,18 +22,21 @@ class ChoosePaymentMethod extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     const reason = navigation.getParam("reason");
     return {
-    title: reason ? "Setup Payment" : "Prepay interest",
-    right: "profile",
-    left: "back"
-  }};
+      title: reason ? "Setup Payment" : "Prepay interest",
+      right: "profile",
+      left: "back"
+    };
+  };
+
 
   getCardProps = () => {
-    const { actions, navigation } = this.props;
+    const { actions, navigation, loanSettings } = this.props;
     const number = 12; // TODO (srdjan) this number is from BE, calculating based on cel ratio, or hardcoded?
     const reason = navigation.getParam("reason");
+    const id = navigation.getParam("id");
 
     const pay = reason ? `pay` : `prepay`;
 
@@ -40,26 +44,26 @@ class ChoosePaymentMethod extends Component {
       {
         cardTitle: `${formatter.capitalize(pay)} with CEL`,
         cardCopy: `Pay up to ${number}% less interest when you choose to ${pay} your monthly payment in CEL.`,
-        onPressAction: () => actions.navigateTo("PaymentCel", {reason}),
+        onPressAction: () => actions.navigateTo("PaymentCel", { reason, id }),
         lightImage: require("../../../../assets/images/icons/cel.png"),
         darkImage: require("../../.././../assets/images/icons/cel-dark.png"),
-        isPaymentCel: true
+        isPaymentCel: reason && loanSettings.interest_payment_asset === "CEL"
       },
       {
         cardTitle: `${formatter.capitalize(pay)} with crypto`,
         cardCopy: `Use coins from your wallet to ${pay} your loan interest.`,
-        onPressAction: () => actions.navigateTo("LoanPaymentCoin", {reason}),
+        onPressAction: () => actions.navigateTo("LoanPaymentCoin", { reason, id }),
         lightImage: require("../../../../assets/images/icons/crypto.png"),
         darkImage: require("../../.././../assets/images/icons/crypto-dark.png"),
-        isPaymentCel: false
+        isPaymentCel: reason && loanSettings.interest_payment_asset !== "CEL" && loanSettings.interest_payment_asset !== "USD"
       },
       {
         cardTitle: `${formatter.capitalize(pay)} with Dollars`,
         cardCopy: `Get all the information necessary to ${pay} your interest in dollars.`,
-        onPressAction: () => reason ? actions.navigateTo("BorrowBankAccount", { reason }) : actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
+        onPressAction: () => reason ? actions.navigateTo("WiringBankInformation") : actions.openModal(MODALS.PREPAY_DOLLAR_INTEREST_MODAL),
         lightImage: require("../../../../assets/images/icons/dollars.png"),
         darkImage: require("../../.././../assets/images/icons/dollars-dark.png"),
-        isPaymentCel: false
+        isPaymentCel: reason && loanSettings.interest_payment_asset === "USD"
       }
     ];
 
@@ -86,7 +90,7 @@ class ChoosePaymentMethod extends Component {
             />
           ))}
         </RegularLayout>
-        <PrepayDollarInterestModal />
+        <PrepayDollarInterestModal/>
       </View>
     );
   }

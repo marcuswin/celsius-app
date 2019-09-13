@@ -11,6 +11,7 @@ import VerticalSlider from "../../atoms/VerticalSlider/VerticalSlider";
 import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
+import { LOAN_TRANSACTION_TYPES } from "../../../constants/DATA";
 
 @connect(
   state => ({
@@ -49,6 +50,7 @@ class LoanPrepaymentPeriod extends Component {
     const style = LoanPrepaymentPeriodStyle();
     const { actions, formData, navigation, currenciesRates } = this.props;
     const type = navigation.getParam("type");
+    const id = navigation.getParam("id");
     const inheritCoin = navigation.getParam("coin");
     let currenciesRateForCoin = currenciesRates.find(
       currenciesRate => currenciesRate.short === inheritCoin
@@ -266,9 +268,11 @@ class LoanPrepaymentPeriod extends Component {
             iconRight="IconArrowRight"
             onPress={() => {
               if (type === "dollar") {
-                actions.navigateTo("WiringBankInformation");
+                actions.navigateTo("WiringBankInformation", {months: formData.prepaidPeriod, id});
+              } else if (type === "cel") {
+                actions.prepayInterest(formData.prepaidPeriod, "CEL", id, LOAN_TRANSACTION_TYPES.PREPAYMENT )
               } else {
-                actions.navigateTo("LoanPaymentCoin");
+                actions.prepayInterest(formData.prepaidPeriod, inheritCoin, id, LOAN_TRANSACTION_TYPES.PREPAYMENT )
               }
             }}
           >

@@ -341,7 +341,7 @@ function linkBankAccount(bankAccountInfo) {
       const bankRes = await usersService.linkBankAccount(bankAccountInfo);
       dispatch({ type: ACTIONS.LINK_BANK_ACCOUNT_SUCCESS });
       dispatch(updateFormField("bankInfo", bankRes.data));
-      dispatch(navigateTo("ConfirmYourLoan"));
+      // dispatch(navigateTo("ConfirmYourLoan"));
     } catch (err) {
       if (err.type === "Validation error") {
         dispatch(setFormErrors(apiUtil.parseValidationErrors(err)));

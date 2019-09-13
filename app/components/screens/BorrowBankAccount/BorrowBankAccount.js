@@ -42,6 +42,9 @@ class BorrowBankAccount extends Component {
 
   getExistingBankAccountData() {
     const { bankAccountInfo, actions } = this.props;
+
+    if (!bankAccountInfo) return;
+
     actions.updateFormFields({
       bank_name: bankAccountInfo.bank_name,
       bank_account_number: bankAccountInfo.bank_account_number,
@@ -77,8 +80,8 @@ class BorrowBankAccount extends Component {
     }
 
     this.setState({ isLoading: true });
-    await actions.confirmLoanInfo(formData); // TODO: create object with proper data and send it instead of formData
     await actions.linkBankAccount(bankAccountInfo);
+    actions.navigateTo('LoanTermsOfUse')
     this.setState({ isLoading: false });
   };
 
@@ -93,6 +96,8 @@ class BorrowBankAccount extends Component {
     const { isLoading } = this.state;
     const { formData, formErrors } = this.props;
     const isAmerican = this.isAmerican();
+
+    // TODO Check how should bank data be sent to back
 
     return (
       <View style={{ flex: 1 }}>
@@ -216,7 +221,7 @@ class BorrowBankAccount extends Component {
               onPress={this.linkBankAccount}
               loading={isLoading}
             >
-              Confirm your loan
+              Continue
             </CelButton>
           </View>
         </RegularLayout>

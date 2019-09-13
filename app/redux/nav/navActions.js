@@ -62,7 +62,7 @@ function navigateBack(backScreenName) {
       // n: 2 indicates we want to navigate 2 screens back
       // return () => {
         _navigator.dispatch(
-          StackActions.pop({ n: 2 })
+          StackActions.pop({ n: 1 })
         )
       // }
     }
