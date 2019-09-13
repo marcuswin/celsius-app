@@ -104,7 +104,7 @@ class LoanTermsOfUse extends Component {
         <HeadingProgressBar steps={6} currentStep={6} />
         <View style={{ paddingTop: 20, paddingHorizontal: 20 }}>
           {text.map(({ heading, content }, index) => (
-              <View key={`${heading}${index}`}>
+              <View key={`${heading}${index}`} style={{marginTop:10}}>
                 <ExpandableItem heading={heading}>
                   <Markdown style={{
                     listOrderedItemIcon: { color: c },
