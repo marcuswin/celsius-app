@@ -1,5 +1,5 @@
 // import STYLES from '../../../constants/STYLES';
-import { getThemedStyle, heightPercentageToDP, widthPercentageToDP } from "../../../utils/styles-util";
+import { getThemedStyle, widthPercentageToDP } from "../../../utils/styles-util";
 import STYLES from "../../../constants/STYLES";
 
 const base = {
@@ -7,11 +7,34 @@ const base = {
     flex: 1,
     width: widthPercentageToDP("70%")
   },
-  buttonContainer: { flexDirection: "row", padding: 12, justifyContent: "space-evenly" },
-  interest: { flexDirection: "row", padding: 12 },
-  status: { flexDirection: "row", alignItems: "center" },
-  info: { alignItems: "center", padding: 12 },
-  progress: {position: "absolute", left: widthPercentageToDP("29%"), top: heightPercentageToDP("1.3%")}
+  buttonContainer: {
+    flexDirection: "row",
+    padding: 12,
+    justifyContent: "space-evenly"
+  },
+  interests: {
+    // flexDirection: "row",
+    flex: 1,
+    padding: 12,
+  },
+  interest: {
+    flex: 0.5,
+  },
+  interestCel: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  status: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  info: {
+    alignItems: "center",
+    padding: 12
+  },
+  progress: {
+    alignItems: 'center'
+  }
 };
 
 const themed = {

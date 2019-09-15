@@ -5,15 +5,18 @@ import { View, TouchableOpacity } from "react-native";
 import ExpandableItemStyle from "./ExpandableItem.styles";
 import CelText from "../../atoms/CelText/CelText";
 import Icon from "../../atoms/Icon/Icon";
-import { getTheme } from "../../../utils/styles-util";
 import { THEMES } from "../../../constants/UI";
 import STYLES from "../../../constants/STYLES";
+import { getMargins, getTheme } from '../../../utils/styles-util'
 
 class ExpandableItem extends Component {
   static propTypes = {
-    heading: PropTypes.string
+    heading: PropTypes.string,
+    margin: PropTypes.string,
   };
-  static defaultProps = {};
+  static defaultProps = {
+    margin: "0 0 0 0",
+  };
 
   constructor(props) {
     super(props);
@@ -27,11 +30,17 @@ class ExpandableItem extends Component {
     const style = ExpandableItemStyle();
     const { isExpanded } = this.state;
     const theme = getTheme();
-    const { heading } = this.props;
+    const { heading, margin } = this.props;
+
+    const margins = getMargins(margin)
 
     return (
       <TouchableOpacity
-        style={style.container}
+        style={[
+            style.container,
+            ...margins,
+          ]
+        }
         onPress={() => this.setState({ isExpanded: !isExpanded })}
       >
         <View style={style.leftSegment} />

@@ -197,10 +197,16 @@ class BorrowCalculator extends Component {
 
     const style = BorrowCalculatorStyle(themeModal || theme);
     if (!formData.ltv) return null;
-    const numberOfDigits = Math.max(
-      formatter.usd(loanParams.monthlyInterest).length,
-      formatter.usd(loanParams.totalInterest).length
-    );
+    let numberOfDigits
+    if (loanParams.monthlyInterest && loanParams.totalInterest) {
+      numberOfDigits = Math.max(
+          (loanParams.monthlyInterest).length,
+          (loanParams.totalInterest).length
+      )
+    }
+
+
+
     const textType = numberOfDigits > 8 ? "H3" : "H2";
     const themeColors = this.getThemeColors();
 
