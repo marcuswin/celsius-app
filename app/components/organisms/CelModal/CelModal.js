@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  StyleSheet
+  StyleSheet,
+  Animated,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -21,7 +22,7 @@ import { MODALS, THEMES } from '../../../constants/UI'
 import {
   heightPercentageToDP,
   getPadding,
-  addThemeToComponents
+  addThemeToComponents,
 } from '../../../utils/styles-util'
 import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
@@ -50,16 +51,26 @@ class CelModal extends Component {
     onClose: PropTypes.func,
     padding: PropTypes.string,
     onBackdropPress: PropTypes.func,
-    pictureCircle: PropTypes.bool
+    pictureCircle: PropTypes.bool,
+    content: PropTypes.instanceOf(Array),
+    index: PropTypes.number
   }
   static defaultProps = {
     shouldRenderCloseButton: true,
     picture: null,
     header: false,
     noScroll: false,
-    pictureCircle: false
+    pictureCircle: false,
     // marginTop: heightPercentageToDP("15%"),
     // height: heightPercentageToDP("65%"),
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      xOffset: new Animated.Value(0),
+    }
   }
 
   getTintColor = () => {
@@ -100,7 +111,7 @@ class CelModal extends Component {
       picture,
       noScroll,
       onClose,
-      padding
+      padding,
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
@@ -136,14 +147,7 @@ class CelModal extends Component {
                   if (onClose) onClose()
                 }}
               >
-                  <Icon
-                    name='Close'
-                    height='15'
-                    width='15'
-                    viewBox='0 0 1000 1000'
-                    fill={'#3D4853'}
-                    marginTop={20}
-                  />
+                <Icon name='Close' height='15' width='15' viewBox='0 0 1000 1000' fill={'#3D4853'} marginTop={20} />
               </TouchableOpacity>
             ) : null}
             {header ? (
@@ -155,50 +159,30 @@ class CelModal extends Component {
                   {secondaryText}
                 </CelText>
               </View>
-            ) : null}
+            )
+              :
+              null}
+
             {noScroll ? (
-              <View
-                style={[
-                  style.contentWrapper,
-                  {
-                    marginTop: header
-                      ? heightPercentageToDP('15.3%')
-                      : heightPercentageToDP('8%')
-                  },
-                  paddingStyle
-                ]}
-              >
+              <View style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('8%') }, paddingStyle]}>
                 {childrenWithProps}
               </View>
             ) : (
-              <ScrollView
-                style={[
-                  style.contentWrapper,
-                  {
-                    marginTop: header
-                      ? heightPercentageToDP('15.3%')
-                      : heightPercentageToDP('5%')
-                  },
-                  paddingStyle
-                ]}
-                showsVerticalScrollIndicator
-                contentContainerStyle={{ flexGrow: 1 }}
-              >
-                {childrenWithProps}
-              </ScrollView>
-            )}
+                <ScrollView
+                  style={[style.contentWrapper, { marginTop: header ? heightPercentageToDP('15.3%') : heightPercentageToDP('5%') }, paddingStyle]}
+                  showsVerticalScrollIndicator
+                  contentContainerStyle={{ flexGrow: 1 }}
+                >
+                  {childrenWithProps}
+                </ScrollView>
+              )}
           </View>
-          <BlurView
-            tint={'dark'}
-            intensity={100}
-            style={StyleSheet.absoluteFill}
+          <BlurView tint={'dark'} intensity={100} style={StyleSheet.absoluteFill}
           >
-            <TouchableOpacity
-              style={style.outsideCloseModal}
-              onPress={() => {
-                actions.closeModal()
-                if (onClose) onClose()
-              }}
+            <TouchableOpacity style={style.outsideCloseModal} onPress={() => {
+              actions.closeModal()
+              if (onClose) onClose()
+            }}
             />
           </BlurView>
         </View>

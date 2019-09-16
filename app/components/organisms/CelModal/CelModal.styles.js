@@ -33,8 +33,8 @@ const base = {
   imageWrapper: {
     position: "absolute",
     zIndex: 10,
-    top: -heightPercentageToDP("20%")/1.7,
-    left: widthPercentageToDP("80%")/2 - heightPercentageToDP("18%")/2,
+    top: -heightPercentageToDP("20%") / 1.7,
+    left: widthPercentageToDP("80%") / 2 - heightPercentageToDP("18%") / 2,
   },
   modalImage: {
     width: heightPercentageToDP("22.5%"),
@@ -60,7 +60,7 @@ const base = {
   imageWrapperCircle: {
     width: widthPercentageToDP("28.8%"),
     height: widthPercentageToDP("28.8%"),
-    borderRadius: widthPercentageToDP("28.8%")/2,
+    borderRadius: widthPercentageToDP("28.8%") / 2,
     backgroundColor: "white",
     position: "absolute",
     justifyContent: "center",
@@ -73,7 +73,29 @@ const base = {
   modalImageCircle: {
     width: widthPercentageToDP("12%"),
     height: widthPercentageToDP("12%")
-  }
+  },
+  screen: {
+    width: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 25,
+    backgroundColor: "white"
+  },
+  title: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 10,
+    paddingTop: 10
+
+  },
+  description: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#737A82',
+    paddingBottom: 10,
+  },
 };
 
 const themed = {

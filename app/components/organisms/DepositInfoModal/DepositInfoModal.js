@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, ScrollView, Animated, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -9,9 +9,13 @@ import * as appActions from "../../../redux/actions";
 import DepositInfoModalStyle from "./DepositInfoModal.styles";
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
-import DotsBar from "../../atoms/DotsBar/DotsBar";
 import CelText from "../../atoms/CelText/CelText";
 import CelButton from "../../atoms/CelButton/CelButton";
+import { widthPercentageToDP } from '../../../utils/styles-util';
+import STYLES from '../../../constants/STYLES';
+
+const cardWidth = widthPercentageToDP("70%");
+const { width } = Dimensions.get('window');
 
 @connect(
   state => ({
@@ -32,6 +36,7 @@ class DepositInfoModal extends Component {
     super(props);
     const { type, currencies } = props;
     let steps;
+
 
     const coinName = currencies.find(coin => coin.short === type);
 
@@ -90,7 +95,6 @@ class DepositInfoModal extends Component {
             image: { uri: coinName.image_url },
             title: `Only deposit EOS (EOS) to this wallet`,
             description: "Sending any other digital asset to this specific address, will result in permanent loss.",
-            buttonText: "Continue"
           },
           {
             image: { uri: coinName.image_url },
@@ -123,24 +127,91 @@ class DepositInfoModal extends Component {
 
     this.state = {
       currentStep: 0,
-      steps
+      steps,
+      xOffset: new Animated.Value(0),
+
     };
   }
 
-  closeModalHandler = () => {
-    const { actions } = this.props;
-    const { steps, currentStep } = this.state;
+  transitionAnimation = (index) => ({
+    transform: [
+      { perspective: 800 },
+      {
+        scale: this.state.xOffset.interpolate({
+          inputRange: [
+            (index - 1) * cardWidth,
+            index * cardWidth,
+            (index + 1) * cardWidth
+          ],
+          outputRange: [0.9, 1, 0.9],
+          extrapolate: "clamp"
+        })
+      }
+    ]
+  });
 
-    if (steps[currentStep].buttonText === "Continue") {
-      this.setState({ currentStep: 1 });
-    } else {
-      actions.closeModal();
-      this.setState({ currentStep: 0 });
-    }
-  };
+
+  renderText = () => {
+    const { steps, xOffset } = this.state
+    const { actions } = this.props
+    const styles = DepositInfoModalStyle();
+
+    return (
+      < ScrollView >
+        <Animated.ScrollView
+          style={{ flexGrow: 1 }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+            { useNativeDriver: true },
+
+          )}
+          onScrollEndDrag={this.scroll}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+        >
+          {steps.map((step, index) => (
+            <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
+              <CelText type='H2' align={"center"} weight='bold' style={styles.title}>{step.title}</CelText>
+              <CelText type='H4' align={"center"} style={styles.description}>{step.description}</CelText>
+              {step.buttonText && <CelButton margin={"20 0 20 0"} onPress={() => actions.closeModal()} >{step.buttonText}</CelButton>}
+            </Animated.View>
+          ))
+          }
+        </Animated.ScrollView>
+      </ScrollView >
+    )
+  }
+
+  renderDots() {
+    const { steps } = this.state
+
+    const position = Animated.divide(this.state.xOffset, width);
+
+    return (
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+        {steps.map((_, i) => {
+          const opacity = position.interpolate({
+            inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
+            outputRange: [0.3, 1, 1, 1, 0.3],
+            extrapolate: 'clamp'
+          })
+          return (
+            <Animated.View
+              key={i}
+              style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
+            />
+          );
+        })
+        }
+
+      </View>
+    );
+  }
 
   render() {
-    const style = DepositInfoModalStyle();
+    // const style = DepositInfoModalStyle();
     const { steps, currentStep } = this.state;
 
     return (
@@ -149,16 +220,11 @@ class DepositInfoModal extends Component {
         picture={steps[currentStep].image}
         pictureCircle
       >
-        {steps.length > 1 &&
-          <View style={style.progressBar}>
-            <DotsBar length={2} currentStep={currentStep + 1} />
-          </View>}
-        <CelText type='H2' align={"center"} weight='bold' style={style.title}>{steps[currentStep].title}</CelText>
-        <CelText type='H4' align={"center"} style={style.description}>{steps[currentStep].description}</CelText>
-        <CelButton
-          margin={"20 0 20 0"}
-          onPress={this.closeModalHandler}
-        >{steps[currentStep].buttonText}</CelButton>
+        <View style={{ paddingTop: 40 }}>
+          {steps.length > 1 && this.renderDots()}
+          {this.renderText()}
+        </View>
+
       </CelModal>
     );
   }

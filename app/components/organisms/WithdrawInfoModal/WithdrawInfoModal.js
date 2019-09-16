@@ -8,7 +8,6 @@ import CelText from '../../atoms/CelText/CelText';
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
-import CelButton from "../../atoms/CelButton/CelButton";
 import { widthPercentageToDP } from '../../../utils/styles-util';
 import STYLES from '../../../constants/STYLES';
 
@@ -32,6 +31,10 @@ class WithdrawInfoModal extends Component {
     this.state = {
       currentStep: 1,
       xOffset: new Animated.Value(0),
+      // steps: [
+      //   title = 'dsds1111',
+      //   description = 'dada',
+      // ],
       steps: [
         {
           index: 1,
@@ -56,21 +59,18 @@ class WithdrawInfoModal extends Component {
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
           title: "Transactions are safely secured with BitGo",
           description: "BitGo is a leading custodial service powering exchanges like Kraken and UPbit. Coins will be moved from time to time to exchanges or to Hedge funds borrowing coins in order to short the market, in this case, coins are converted to fiat and secured in an FDIC-insured bank account.",
-        }
+        },
+       
       ],
 
     };
   }
 
-  closeModalHandler = () => {
-    const { closeModal } = this.props
-    closeModal()
-    this.setState({ currentStep: 1 })
-  }
 
   scroll = () => {
     this.continue()
-    this.buttonColor()
+    // this.buttonColor()
+
   }
 
   continue = () => {
@@ -90,6 +90,11 @@ class WithdrawInfoModal extends Component {
     }
 
   }
+  closeModalHandler = () => {
+    const { closeModal } = this.props
+    closeModal()
+    this.setState({ currentStep: 1 })
+  }
 
   buttonColor = () => {
     const styles = WithdrawInfoModalStyle();
@@ -100,22 +105,24 @@ class WithdrawInfoModal extends Component {
     if (type) {
       if (currentStep !== 4) {
         normalButton.push(styles.whiteButton)
-      }
-      return (
-        <View >
-          {currentStep === 4 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
-        </View >
-      )
-    }
-    if (currentStep !== 3) {
-      normalButton.push(styles.whiteButton)
-    }
-    return (
-      <View >
-        {currentStep === 3 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
-      </View >
-    )
+        //   }
+        //   return (
+        //     <View >
+        //       {currentStep === 4 ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+        //     </View >
+        //   )
+        // }
+        // if (currentStep !== 3) {
+        //   normalButton.push(styles.whiteButton)
+        // }
+        // return (
+        //   <View >
+        //     {step[index] ? <CelButton style={normalButton} onPress={this.closeModalHandler}>Continue</CelButton> : <CelButton ghost style={normalButton} onPress={this.continue}>Next tip </CelButton>}
+        //   </View >
+        // )
 
+      }
+    }
   }
 
   transitionAnimation = (index) => ({
@@ -137,78 +144,41 @@ class WithdrawInfoModal extends Component {
 
   renderDots() {
     const { steps } = this.state
-    const { type } = this.props
 
-    const three = steps.slice(1, 4)
     const position = Animated.divide(this.state.xOffset, width);
 
     return (
       <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-        {type ?
-          steps.map((_, i) => {
-            const opacity = position.interpolate({
-              inputRange: [i - 1, i, i + 1],
-              outputRange: [0.3, 1, 0.3],
-              extrapolate: 'clamp'
-            })
-            return (
-              <Animated.View
-                key={i}
-                style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
-              />
-            );
+        {steps.map((_, i) => {
+          const opacity = position.interpolate({
+            inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
+            outputRange: [0.3, 1, 1, 1, 0.3],
+            extrapolate: 'clamp'
           })
-          :
-          three.map((_, i) => {
-            const opacity = position.interpolate({
-              inputRange: [i - 1, i, i + 1],
-              outputRange: [0.3, 1, 0.3],
-              extrapolate: 'clamp'
-            })
-            return (
-              <Animated.View
-                key={i}
-                style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
-              />
-            );
-          })
+          return (
+            <Animated.View
+              key={i + 1}
+              style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
+            />
+          );
+        })
         }
+
       </View>
     );
   }
-
-  // renderPicture = () => {
-  //   const { steps } = this.state
-
-  //   {
-  //     type ?
-  //       steps.map((step, index) => (
-  //         <CelText type='H2' weight='bold' style={styles.title}> {step.picture}</CelText>
-  //       )
-  //       )
-  //       :
-  //       three.map((step, index) => (
-  //         <CelText type='H2' weight='bold' style={styles.title}> {step.picture}</CelText>
-  //       ))
-  //   }
-
-
-  // }
 
   renderStep() {
     const { steps, xOffset } = this.state;
     const { type } = this.props
     const styles = WithdrawInfoModalStyle();
-    const ButtonStyle = this.buttonColor;
+    // const ButtonStyle = this.buttonColor;
 
     const three = steps.slice(1, 4)
 
     return (
-      <View index={steps.index}>
-        {this.renderDots()}
-        <ScrollView
-
-        >
+      <View>
+        <ScrollView>
           <Animated.ScrollView
             style={{ flexGrow: 1, }}
             scrollEventThrottle={16}
@@ -240,7 +210,7 @@ class WithdrawInfoModal extends Component {
             }
           </Animated.ScrollView>
           <View style={styles.button}>
-            <ButtonStyle />
+            {/* <ButtonStyle /> */}
             <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
               <CelText> Skip </CelText>
             </TouchableOpacity>
@@ -250,19 +220,49 @@ class WithdrawInfoModal extends Component {
     )
   }
 
-  render() {
+  renderImage() {
+    const { steps, xOffset } = this.state;
     const styles = WithdrawInfoModalStyle();
-    const { steps, currentStep } = this.state;
-    const { index } = this.props;
+
+
+    return (
+      <ScrollView>
+        <Animated.ScrollView
+          style={{ flexGrow: 1, }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+            { useNativeDriver: true },
+
+          )}
+          onScrollEndDrag={this.scroll}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator
+        >
+          {steps.forEach((step, index) => (
+            <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
+              {step.image}
+        </Animated.View>
+          )
+          )}
+        </Animated.ScrollView>
+      </ScrollView>
+    )
+
+  }
+
+  render() {
 
     return (
       <CelModal
         name={MODALS.WITHDRAW_INFO_MODAL}
-        picture={steps[currentStep - 1].image}
+        // picture={this.renderImage()}
         onClose={this.closeModalHandler}
-        index={index}
+        // content={true}
       >
-        <View style={styles.wrapper}>
+        <View style={{ paddingTop: 20 }}>
+          {this.renderDots()}
           {this.renderStep()}
         </View>
       </CelModal>

@@ -7,12 +7,11 @@ const base = {
     },
     wrapper: {
         alignItems: 'center',
-        paddingTop: 0,
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 40,
+        paddingBottom: 400,
     },
     title: {
         textAlign: 'center',
@@ -29,13 +28,6 @@ const base = {
         color: '#737A82',
         paddingBottom: 10,
     },
-    progressBar: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 30,
-        paddingBottom: 10
-
-    },
     modalButton: {
         marginTop: 20,
         backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
@@ -48,7 +40,7 @@ const base = {
     },
     screen: {
         width: 300,
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         borderRadius: 25,
         backgroundColor: "white"
