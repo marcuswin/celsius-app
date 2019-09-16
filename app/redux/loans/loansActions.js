@@ -221,8 +221,6 @@ function cancelLoan(loanId) {
     try {
       startApiCall(API.CANCEL_LOAN)
       await loansService.cancelLoan(loanId)
-      dispatch(getAllLoans())
-
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));

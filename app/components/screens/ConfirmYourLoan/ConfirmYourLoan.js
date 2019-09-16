@@ -39,6 +39,14 @@ class ConfirmYourLoan extends Component {
     right: "profile"
   });
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isLoading: false
+    }
+  }
+
   componentDidMount() {
     const { actions } = this.props
     actions.loanApplyPreviewData();
@@ -66,9 +74,15 @@ class ConfirmYourLoan extends Component {
     )
   }
 
-  requestButtonHandle = () => {
+  requestButtonHandle = async () => {
     const { actions } = this.props;
-    actions.applyForALoan()
+    this.setState({
+      isLoading: true
+    })
+    await actions.applyForALoan()
+    this.setState({
+      isLoading: false
+    })
   }
 
   renderBankInfo = () => {
@@ -140,10 +154,11 @@ class ConfirmYourLoan extends Component {
   }
 
   render() {
-    const { loan } = this.props
+    const { loan } = this.props;
+    const {isLoading} = this.state;
     const style = ConfirmYourLoanStyle();
 
-    if (!loan) return <LoadingScreen />
+    if (!loan) return <LoadingScreen />;
 
     return (
       <View flex={1}>
@@ -294,7 +309,7 @@ class ConfirmYourLoan extends Component {
                 </Card>
             </Card>
 
-            <CelButton onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
+            <CelButton loading={isLoading} onPress={ this.requestButtonHandle } margin="22 0 0 0">Request loan</CelButton>
           </View>
         </RegularLayout>
       </View>

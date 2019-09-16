@@ -15,6 +15,7 @@ import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 import { LOAN_STATUS } from "../../../constants/DATA";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 import STYLES from "../../../constants/STYLES";
+import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 
 class LoanOverviewCard extends Component {
   static propTypes = {
@@ -62,6 +63,7 @@ class LoanOverviewCard extends Component {
       isLoading: true
     });
     await actions.cancelLoan(loan.id);
+    await actions.getAllLoans();
     this.setState({
       isLoading: false
     })
@@ -74,7 +76,7 @@ class LoanOverviewCard extends Component {
 
     const previousPayments = loan.amortization_table.filter(p => p.isPaid);
     const previous5Payments = previousPayments.slice(0, 5);
-    
+
     return (
       <View style={[style.container, getMargins(this.getMarginForIndex(index, length))]}>
         <Card  padding={"0 0 0 0"}>
@@ -162,10 +164,10 @@ class LoanOverviewCard extends Component {
 
                 </View>
                 <View style={style.progress}>
-                  {/* <CircularProgressBar
+                  <CircularProgressBar
                     amountLoaned={Number(loan.total_interest)}
                     amountPaid={Number(loan.total_interest_paid)}
-                  /> */}
+                  />
                 </View>
               </View>
             </View>
