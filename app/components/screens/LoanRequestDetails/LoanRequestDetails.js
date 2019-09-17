@@ -30,11 +30,16 @@ class LoanRequestDetails extends Component {
   static propTypes = {};
   static defaultProps = {};
 
-  static navigationOptions = () => ({
-    title: `Loan Details`,
-    right: "profile",
-    hideBack: true
-  });
+  static navigationOptions = ({ navigation }) => {
+    const hideBack = navigation.getParam("hideBack")
+
+    return {
+      title: `Loan Details`,
+      right: "profile",
+      hideBack,
+    };
+  }
+
 
   constructor(props) {
     super(props);

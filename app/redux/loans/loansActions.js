@@ -61,7 +61,7 @@ function applyForALoan() {
         allLoans
       });
 
-      dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id }));
+      dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
       dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL));
       dispatch(showMessage('success', 'Loan created successfully!'))
 
