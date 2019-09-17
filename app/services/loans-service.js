@@ -14,7 +14,8 @@ const loansService = {
   loanApplyPreviewData,
   getLoanSettings,
   prepayInterest,
-  payPrincipal
+  payPrincipal,
+  payMonthlyInterest,
 };
 
 /**
@@ -162,33 +163,38 @@ function getLoanSettings(loanId){
 }
 
 /**
+ * Prepay interest for a loan
  *
- * @param {String} months
- * @param {String} coin
- * @param {Number} id
- * @param {String} type
+ * @param {Number} numberOfInstallments - number of months to prepay
+ * @param {String} coin - BTC|XRP
+ * @param {UUID} id - id of the loan
  * @returns {Promise}
  */
-function prepayInterest(months, coin, id, type) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/${type}`, {
-    prepayment_period: months,
+function prepayInterest(numberOfInstallments, coin, id) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/prepayment`, {
+    numberOfInstallments,
     coin
   })
 }
 
 /**
+ * Creates the principal payment for specific loan, and finishes the loan
  *
- * @param {Number} id
- * @param {String} type
- * @param {String} coin
- * @param {Boolean} fromCollateral
+ * @param {Number} id - loan id
  * @returns {Promise}
  */
-function payPrincipal(id, type, coin, fromCollateral) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/${type}`, {
-    payoutPrincipalFromCollateral: fromCollateral,
-    coin,
-  })
+function payPrincipal(id) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`)
+}
+
+/**
+ * Creates the monthly interest payment for specific loan
+ *
+ * @param {Number} id - loan id
+ * @returns {Promise}
+ */
+function payMonthlyInterest(id) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`)
 }
 
 export default loansService;

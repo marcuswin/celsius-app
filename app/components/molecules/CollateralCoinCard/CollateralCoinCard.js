@@ -30,7 +30,8 @@ import Separator from '../../atoms/Separator/Separator';
 class CollateralCoinCard extends Component {
   static propTypes = {
     coin: PropTypes.instanceOf(Object).isRequired,
-    type: PropTypes.oneOf('Collateral', 'PrincipalPayment')
+    type: PropTypes.oneOf('Collateral', 'PrincipalPayment'),
+    isLoading: PropTypes.bool,
   };
 
   constructor (props) {
@@ -193,7 +194,7 @@ class CollateralCoinCard extends Component {
   }
 
   render = () => {
-    const { handleSelectCoin, coin, marginCall } = this.props
+    const { handleSelectCoin, coin, marginCall, isLoading } = this.props
     const { name, cryptoAmount, amountUsd, color, currency, isAllowed } = this.state
 
     const style = CollateralCoinCardStyle();
@@ -204,6 +205,7 @@ class CollateralCoinCard extends Component {
         <Card
           onPress={isAllowed ? () => handleSelectCoin(coin.short) : null}
           color={isAllowed ? null: style.cardStyle.color}
+          opacity={isLoading ? 0.7 : 1}
         >
           <View key={coin.name} style={style.mainContainer}>
             <View style={style.iconContainer}>

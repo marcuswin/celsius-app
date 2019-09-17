@@ -11,12 +11,14 @@ import VerticalSlider from "../../atoms/VerticalSlider/VerticalSlider";
 import CelButton from "../../atoms/CelButton/CelButton";
 import STYLES from "../../../constants/STYLES";
 import formatter from "../../../utils/formatter";
-import { LOAN_TRANSACTION_TYPES } from "../../../constants/DATA";
+import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 
 @connect(
   state => ({
     formData: state.forms.formData,
-    currenciesRates: state.currencies.rates
+    allLoans: state.loans.allLoans,
+    loanSettings: state.loans.loanSettings,
+    currencyRates: state.currencies.currencyRatesShort,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) })
 )
@@ -32,216 +34,74 @@ class LoanPrepaymentPeriod extends Component {
 
   constructor(props) {
     super(props);
-
     props.actions.updateFormField("prepaidPeriod", 6);
   }
 
-  calculatePrepaidValue = (usdValue, currenciesRateForCoin, inheritCoin) => {
-    const { navigation } = this.props;
-    const type = navigation.getParam("type");
-    if (type && type === "dollar") {
-      return formatter.usd(usdValue);
-    }
+  setPrepaymentPeriod = () => {
+    const { actions, formData, navigation, allLoans } = this.props
+    const reason = navigation.getParam("reason")
+    const id = navigation.getParam("id")
+    const loan = allLoans.find(l => l.id === id)
 
-    return formatter.crypto(usdValue / currenciesRateForCoin, inheritCoin);
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      if (formData.coin === 'USD') {
+        const amountUsd = formData.prepaidPeriod * loan.monthly_payment
+        actions.updateFormField('amountUsd', amountUsd)
+        actions.navigateTo('WiringBankInformation')
+      } else {
+        actions.prepayInterest(id)
+      }
+    }
+  }
+
+  calculatePrepaidValue = (usdValue, coinRate, coin) => {
+    const rate = coin === 'USD' ? 1 : coinRate
+    return formatter.crypto(usdValue / rate, coin);
   };
+
+  renderSlider = () => {
+    const { allLoans, actions, formData, navigation, currencyRates } = this.props;
+    const loanId = navigation.getParam('id')
+    const loan = allLoans.find(l => l.id === loanId)
+    const coinRate = currencyRates[formData.coin.toLowerCase()]
+
+    const monthValues = [6, 7, 8, 9, 10, 11, 12]
+    const sliderItems = monthValues.map(m => ({
+      value: m,
+      label: (
+        <>
+          <CelText
+            type="H6"
+            weight="bold"
+            color={formData.prepaidPeriod === m ? STYLES.COLORS.CELSIUS_BLUE : null}
+          >
+            {m} MONTHS
+          </CelText>
+          <CelText type="H6">
+            Prepay:{" "}
+            {this.calculatePrepaidValue(
+              Number(loan.monthly_payment * m),
+              coinRate,
+              formData.coin
+            )}
+          </CelText>
+        </>
+      )
+    }))
+
+    return (
+      <VerticalSlider
+        items={sliderItems}
+        field="prepaidPeriod"
+        value={formData.prepaidPeriod}
+        updateFormField={actions.updateFormField}
+      />
+    )
+  }
 
   render() {
     const style = LoanPrepaymentPeriodStyle();
-    const { actions, formData, navigation, currenciesRates } = this.props;
-    const type = navigation.getParam("type");
-    const id = navigation.getParam("id");
-    const inheritCoin = navigation.getParam("coin");
-    let currenciesRateForCoin = currenciesRates.find(
-      currenciesRate => currenciesRate.short === inheritCoin
-    );
-    if ((!type || (type && type !== "dollar")) && currenciesRateForCoin) {
-      currenciesRateForCoin = currenciesRateForCoin.market_quotes_usd.price;
-    }
-
-    // TODO store prepaidPeriod to formData, consider to move sliderItems to atom
-    const sliderItems = [
-      {
-        value: 6,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 6 ? STYLES.COLORS.CELSIUS_BLUE : null
-              }
-            >
-              6 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 6),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 7,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 12
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              7 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 7),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 8,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 18
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              8 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 8),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 9,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 24
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              9 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 9),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 10,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 30
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              10 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 10),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 11,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 36
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              11 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 11),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      },
-      {
-        value: 12,
-        label: (
-          <>
-            <CelText
-              type="H6"
-              weight="bold"
-              color={
-                formData.prepaidPeriod === 36
-                  ? STYLES.COLORS.CELSIUS_BLUE
-                  : null
-              }
-            >
-              12 MONTHS
-            </CelText>
-            <CelText type="H6">
-              Prepay:{" "}
-              {this.calculatePrepaidValue(
-                Number(formData.monthlyPayment * 12),
-                currenciesRateForCoin,
-                inheritCoin
-              )}
-            </CelText>
-          </>
-        )
-      }
-    ];
+    const verticalSlider = this.renderSlider()
 
     return (
       <View style={style.container}>
@@ -255,26 +115,13 @@ class LoanPrepaymentPeriod extends Component {
             </CelText>
           </View>
           <View>
-            <VerticalSlider
-              items={sliderItems}
-              field="prepaidPeriod"
-              value={formData.prepaidPeriod}
-              updateFormField={actions.updateFormField}
-            />
+            { verticalSlider }
           </View>
 
           <CelButton
             margin="50 0 30 0"
             iconRight="IconArrowRight"
-            onPress={() => {
-              if (type === "dollar") {
-                actions.navigateTo("WiringBankInformation", {months: formData.prepaidPeriod, id});
-              } else if (type === "cel") {
-                actions.prepayInterest(formData.prepaidPeriod, "CEL", id, LOAN_TRANSACTION_TYPES.PREPAYMENT )
-              } else {
-                actions.prepayInterest(formData.prepaidPeriod, inheritCoin, id, LOAN_TRANSACTION_TYPES.PREPAYMENT )
-              }
-            }}
+            onPress={this.setPrepaymentPeriod}
           >
             Continue
           </CelButton>

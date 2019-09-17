@@ -21,7 +21,8 @@ export {
   loanApplyPreviewData,
   getLoanSettings,
   payPrincipal,
-  prepayInterest
+  prepayInterest,
+  payMonthlyInterest
 }
 
 /**
@@ -284,21 +285,22 @@ function getLoanSettings(id){
 
 /**
  *
- * @param {String} months
- * @param {String} coin
- * @param {Number} id
- * @param {String} type
+ * @param {Number} loanId
  * @returns {Function}
  */
 
-function prepayInterest(months, coin, id, type) {
-  return async (dispatch) => {
+function prepayInterest(id) {
+  return async (dispatch, getState) => {
     startApiCall(API.PREPAY_LOAN_INTEREST)
 
     try {
-      const res = await loansService.prepayInterest(months, coin, id, type)
-      const transactionId = res.data;
+      const { formData } = getState().forms
+      const res = await loansService.prepayInterest(formData.prepaidPeriod, formData.coin, id)
+      const transactionId = res.data.transaction_id;
 
+      dispatch({
+        type: ACTIONS.PREPAY_LOAN_INTEREST_SUCCESS
+      })
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
 
     } catch(err){
@@ -309,24 +311,42 @@ function prepayInterest(months, coin, id, type) {
 }
 
 /**
+ * Pays principal for the selected loan
  *
  * @param {Number} id
- * @param {String} type
- * @param {String} coin
- * @param {Boolean} fromCollateral
- * @returns {Function}
  */
 
-function payPrincipal(id, type, coin, fromCollateral) {
+function payPrincipal(id) {
   return async (dispatch) => {
     startApiCall(API.PAY_LOAN_PRINCIPAL)
 
     try {
-      const res = await loansService.payPrincipal(id, type, coin, fromCollateral);
+      const res = await loansService.payPrincipal(id);
       const transactionId = res.data;
 
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
 
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+/**
+ * Pay monthly interest for specific loan
+ *
+ * @param {UUID} id - loan id
+ */
+function payMonthlyInterest(id) {
+  return async (dispatch) => {
+    startApiCall(API.PAY_LOAN_INTEREST)
+
+    try {
+      const res = await loansService.payPrincipal(id);
+      const transactionId = res.data.transaction_id;
+      dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));

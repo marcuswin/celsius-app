@@ -69,6 +69,7 @@ function getTransactionType(transaction) {
 
   if (transaction.nature === "loan_principal") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
   if (transaction.nature === "loan_interest") return TRANSACTION_TYPES.LOAN_INTEREST;
+  if (transaction.nature === "loan_prepayment") return TRANSACTION_TYPES.LOAN_INTEREST;
 
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && !transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_ONHOLD;
   if (transaction.nature === "inbound_transfer" && transaction.transfer_data.claimed_at && !transaction.transfer_data.cleared_at && transaction.transfer_data.expired_at) return TRANSACTION_TYPES.CELPAY_RETURNED;

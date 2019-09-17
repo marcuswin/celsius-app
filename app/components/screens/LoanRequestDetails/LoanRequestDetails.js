@@ -140,7 +140,7 @@ class LoanRequestDetails extends Component {
           Go back to the wallet
         </CelButton>
 
-        <LoanApplicationSuccessModal />
+        <LoanApplicationSuccessModal loanId={activeLoan.id} />
       </RegularLayout>
     );
   }

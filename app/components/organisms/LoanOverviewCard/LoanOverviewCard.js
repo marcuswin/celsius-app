@@ -13,6 +13,7 @@ import formatter from "../../../utils/formatter";
 import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 // import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
 import { LOAN_STATUS } from "../../../constants/DATA";
+import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 import STYLES from "../../../constants/STYLES";
 import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
@@ -67,6 +68,20 @@ class LoanOverviewCard extends Component {
     this.setState({
       isLoading: false
     })
+  }
+
+  payInterest = async () => {
+    const { actions, loan } = this.props
+    this.setState({ isLoading: true });
+    await actions.payMonthlyInterest(loan.id)
+    this.setState({ isLoading: false });
+  }
+
+  payPrincipal = async () => {
+    const { actions, loan } = this.props
+    this.setState({ isLoading: true });
+    await actions.payPrincipal(loan.id)
+    this.setState({ isLoading: false });
   }
 
   render() {
@@ -216,15 +231,28 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          { loan.hasInterestPaymentFinished && loan.status === LOAN_STATUS.ACTIVE &&
+          { loan.status === LOAN_STATUS.ACTIVE && loan.hasInterestPaymentFinished &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
-                onPress={() => actions.payPrincipal(loan.id, "receiving_principal_back", "ETH", false)}
+                onPress={this.payPrincipal}
                 margin={"15 0 15 0"}
                 color="green"
               >
                 Payout Principal
+              </CelButton>
+            </View>
+          }
+          { loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished &&
+            <View>
+              <Separator size={2} margin={"0 0 0 0"}/>
+              <CelButton
+                onPress={this.payInterest}
+                margin={"15 0 15 0"}
+                loading={isLoading}
+                disabled={isLoading}
+              >
+                Pay Monthly Interest
               </CelButton>
             </View>
           }
@@ -241,7 +269,7 @@ class LoanOverviewCard extends Component {
           </CelButton>
         )}
 
-        {loan.status === LOAN_STATUS.APPROVED && (
+        {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
           <Card close>
             <CelText weight="500">
               Did you know you can prepay loan interest?
@@ -258,7 +286,7 @@ class LoanOverviewCard extends Component {
             <CelButton
               basic
               textSize={"H6"}
-              onPress={() => navigateTo("ChoosePaymentMethod", { id: loan.id })}
+              onPress={() => navigateTo("ChoosePaymentMethod", { id: loan.id, reason: LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT })}
             >
               Prepay interest
             </CelButton>
