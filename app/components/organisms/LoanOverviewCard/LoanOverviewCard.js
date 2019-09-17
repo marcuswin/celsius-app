@@ -242,6 +242,8 @@ class LoanOverviewCard extends Component {
                 onPress={this.payPrincipal}
                 margin={"15 0 15 0"}
                 color="green"
+                loading={isLoading}
+                disabled={isLoading}
               >
                 Payout Principal
               </CelButton>

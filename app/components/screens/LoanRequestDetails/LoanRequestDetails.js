@@ -98,7 +98,7 @@ class LoanRequestDetails extends Component {
                                  monthly={activeLoan.monthly_payment}
                                  total={activeLoan.total_interest}/>;
       case "marginCall":
-        return activeLoan.margin_call && <CardSection key={sectionType} title={`${activeLoan.margin_call.collateral_coin} Margin Call At:`} amount={activeLoan.margin_call.margin_call_amount}
+        return activeLoan.margin_call && <CardSection key={sectionType} title={`${activeLoan.margin_call.collateral_coin} Margin Call At:`} amount={activeLoan.margin_call.margin_call_usd_amount}
                             cardText={`If ${activeLoan.margin_call.collateral_coin} drops below ${formatter.usd(activeLoan.margin_call.margin_call_usd_amount)} you will get a notification asking for additional collateral.`} />;
       case "liquidation":
         return activeLoan.margin_call && <CardSection key={sectionType} title={"Liquidation At:"} amount={activeLoan.liquidation_call_price}
