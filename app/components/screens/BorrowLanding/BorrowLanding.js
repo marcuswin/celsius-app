@@ -143,62 +143,44 @@ class BorrowLanding extends Component {
   renderCard = () => {
     const style = BorrowLandingStyle();
     const { actions } = this.props;
-
-
-
     return (
       <Card
         padding='12 12 12 12'
       >
         <View style={style.buttonsWrapper}>
-          <View style={style.buttonIconText}>
+          <View style={style.buttonsIconText}>
             <TouchableOpacity
-              style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
-              onPress={() => {
-                actions.navigateTo("BorrowEnterAmount")
-              }}>
+              style={ style.buttonIconText }
+              onPress={() => actions.navigateTo("BorrowEnterAmount")}>
               <View style={style.buttonItself}>
                 <Image
-                  style={{
-                    alignSelf: "center",
-                    width: 25,
-                    height: 29,
-                    marginBottom: 5,
-                    marginTop: 6
-                  }}
+                  style={ style.buttonIconHand }
                   source={require("../../../../assets/images/icon-apply-for-a-new-loan.png")}
                 />
                 <CelText align='center'>
-                  Apply for
-                </CelText>
-                <CelText align='center'>
-                  a loan
+                  Apply for a loan
                 </CelText>
               </View>
             </TouchableOpacity>
             <Separator
               vertical
               height={"35%"}
-              top={50}
+              top={42}
             />
             <TouchableOpacity
-              style={{ marginLeft: widthPercentageToDP("3.3%"), marginRight: widthPercentageToDP("3.3%") }}
+              style={ style.buttonIconText }
               onPress={() => {
                 actions.openModal(MODALS.BORROW_CALCULATOR_MODAL);
               }}
             >
               <View style={style.buttonItself}>
                 <Image
-                  style={{
-                    alignSelf: "center",
-                    width: 25,
-                    height: 25,
-                    marginBottom: 18,
-                    marginTop: 6
-                  }}
+                  style={ style.buttonIconCalc }
                   source={require("../../../../assets/images/calculator.png")}
                 />
-                <CelText align='center'>
+                <CelText
+                  align='center'
+                >
                   Calculator
                 </CelText>
               </View>

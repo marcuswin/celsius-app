@@ -190,7 +190,11 @@ class CelSelect extends Component {
           this.renderImage([cmpStyle.flagImage, {marginRight: 5}], this.state.value.alpha2)
           : null
         }
-        <CelText type="H4" color={textColor}>{value ? (value.label || value.name) : labelText}</CelText>
+        <CelText
+            type="H4"
+            color={textColor}
+        >
+          {value ? (value.label || value.name) : labelText}</CelText>
         {!disabled &&
           <View style={cmpStyle.iconRight}>
             <Icon name='CaretDown' height='9' width='15' fill={iconColor} />

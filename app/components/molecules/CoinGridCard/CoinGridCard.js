@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { View } from 'react-native';
+import { View, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 
 
@@ -25,6 +25,49 @@ class CoinGridCard extends Component {
     theme: PropTypes.oneOf(Object.values(THEMES))
   };
 
+  constructor (props) {
+    super (props)
+    this.state = {
+      fadeAnim: new Animated.Value(0),
+
+      dateArray: [],
+      priceArray: [],
+      coinPriceChange: null,
+      coinInterest: {}
+    }
+  }
+
+  async componentDidMount() {
+    const { graphData, currencyRates, coin } = this.props
+    const coinPriceChange = currencyRates.price_change_usd['1d']
+    // Graph animation
+    Animated.timing (
+        this.state.fadeAnim,
+        {
+          toValue: 1,
+          duration: 5000,
+        }
+    ).start();
+
+    const coinInterest = interestUtil.getUserInterestForCoin(coin.short)
+
+    await this.setState({
+      coinPriceChange,
+      coinInterest
+    })
+    if (graphData) {
+      const dateArray = graphData["1d"].map(data => data[0])
+      const priceArray = graphData["1d"].map(data => data[1])
+      setTimeout(()=>{
+         this.setState({
+          dateArray,
+          priceArray
+        })
+      }, 500)
+
+    }
+  }
+
   coinCardEmpty = () => (
     <View>
       <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(0)}</CelText>
@@ -44,39 +87,18 @@ class CoinGridCard extends Component {
     </Fragment>
   )
 
-  // renderPriceChange = (currencyRates) => {
-  //   const coinPriceChange = currencyRates.price_change_usd['1d']
-  //   const textColor = coinPriceChange < 0 ? STYLES.COLORS.RED : STYLES.COLORS.GREEN
-  //   const arrowType = coinPriceChange < 0 ? "DownArrow" : "UpArrow"
-  //
-  //   return (
-  //     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-  //       <Icon name={arrowType} fill={textColor} height={6} width={6} />
-  //       <CelText weight='500' type="H7" color={textColor} margin='1 0 2 3'>{coinPriceChange ? Math.abs(coinPriceChange) : 0} %</CelText>
-  //     </View>
-  //   )
-  // }
-
   render = () => {
     const { coin, theme, displayName, currencyRates, onCardPress, graphData } = this.props;
+    const { dateArray, priceArray, coinPriceChange, coinInterest } = this.state
     const amount = coin.amount_usd > 0;
     const style = CoinGridCardStyle();
-    let dateArray;
-    let priceArray;
-
-    const coinPriceChange = currencyRates.price_change_usd['1d']
-    if (graphData) {
-      dateArray = graphData["1d"].map(data => data[0]);
-      priceArray = graphData["1d"].map(data => data[1]);
-
-    }
 
     const padding = graphData ? '12 0 0 0' : undefined; // undefined so it will fallback to default card prop padding
 
-    const coinInterest = interestUtil.getUserInterestForCoin(coin.short)
     // Todo(ns): adjust graph size according to Card size prop
 
     return (
+
       <Card size="half" padding={padding} onPress={onCardPress}>
         <View style={style.cardInnerView}>
           <View style={style.wrapper}>
@@ -87,14 +109,19 @@ class CoinGridCard extends Component {
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
           </View>
         </View>
-        {graphData ?
-          <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
-            rate={coinPriceChange}
-            height={heightPercentageToDP("10%")}
-            style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
-                 theme={theme}
-          />
-          : <View style={{ marginBottom: '40%' }} />}
+
+        {graphData && dateArray.length > 0 && priceArray.length > 0 ?
+            <Animated.View
+                style={{ ...this.props.style, opacity: this.state.fadeAnim }}
+            >
+              <Graph key={coin.short} dateArray={dateArray} priceArray={priceArray}
+                     rate={coinPriceChange}
+                     height={heightPercentageToDP("10%")}
+                     style={{ borderBottomRightRadius: 8, borderBottomLeftRadius: 8, overflow: 'hidden' }}
+                     theme={theme}
+              />
+            </Animated.View>
+            : <View style={{ marginBottom: '45%' }} />}
       </Card>
     )
   }

@@ -21,8 +21,15 @@ class CoinCards extends Component {
     depositCompliance: PropTypes.instanceOf(Object)
   };
 
-  renderCoinCards = () => {
-    const { walletSummary, currenciesRates, currenciesGraphs, navigateTo, activeView, } = this.props
+  constructor (props) {
+    super(props)
+    this.state = {
+      walletCoins: []
+    }
+  }
+
+  async componentDidMount () {
+    const { walletSummary, currenciesRates, currenciesGraphs, navigateTo } = this.props
     const walletCoins = []
 
     if (walletSummary) {
@@ -30,52 +37,70 @@ class CoinCards extends Component {
         walletCoins.push(coin)
       })
     }
-
     walletCoins.sort((a, b) => b.amount_usd - a.amount_usd)
 
-
-    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
-
-    return walletCoins.length
-      ? walletCoins.map(coin => {
+    if (walletCoins) {
+      const coins = []
+      walletCoins.forEach(coin => {
+        const tempCoin = coin
         let hasAmount = false;
         if (coin.amount_usd > 0) {
           hasAmount = true
         }
-        const currency = currenciesRates.find(
-          c => c.short === coin.short.toUpperCase()
+
+        tempCoin.currency = currenciesRates.find(
+            c => c.short === coin.short.toUpperCase()
         )
-        const graphData = !_.isEmpty(currenciesGraphs[coin.short])
-          ? currenciesGraphs[coin.short]
-          : null
-        const navigate = hasAmount ?
-          () => navigateTo('CoinDetails', { coin: coin.short, title: currency.displayName }) :
-          () => navigateTo('Deposit', { coin: coin.short })
-        // Render grid item
-        if (isGrid) {
-          return (
-            <CoinGridCard
-              key={coin.short}
-              coin={coin}
-              displayName={currency.displayName}
-              currencyRates={currency}
-              onCardPress={navigate}
-              graphData={graphData}
-            />
-          )
-        }
-        // Render list item
-        return (
-          <CoinListCard
-            key={coin.short}
-            coin={coin}
-            displayName={currency.displayName}
-            currencyRates={currency}
-            onCardPress={navigate}
-          />
-        )
+        tempCoin.graphData = !_.isEmpty(currenciesGraphs[coin.short])
+            ? currenciesGraphs[coin.short]
+            : null
+        tempCoin.navigate = hasAmount ?
+            () => navigateTo('CoinDetails', {coin: coin.short, title: tempCoin.currency.displayName}) :
+            () => navigateTo('Deposit', {coin: coin.short})
+
+       coins.push(coin)
       })
-      : null
+
+      await this.setState({
+        walletCoins: coins
+      })
+    }
+  }
+
+  renderCoinCards = () => {
+    const { activeView } = this.props
+    const { walletCoins } = this.state
+
+    const isGrid = activeView === WALLET_LANDING_VIEW_TYPES.GRID
+
+    // Render grid item
+    if (isGrid) {
+      return (
+          walletCoins.map( coin => (
+            <CoinGridCard
+                key={coin.short}
+                coin={coin}
+                displayName={coin.currency.displayName}
+                currencyRates={coin.currency}
+                onCardPress={coin.navigate}
+                graphData={coin.graphData}
+            />
+            )
+          )
+      )
+    }
+    // Render list item
+    return (
+        walletCoins.map(coin => (
+            <CoinListCard
+                key={coin.short}
+                coin={coin}
+                displayName={coin.currency.displayName}
+                currencyRates={coin.currency}
+                onCardPress={coin.navigate}
+            />
+        ))
+    )
   }
 
   renderAddMoreCoins = () => {
@@ -102,7 +127,6 @@ class CoinCards extends Component {
 
   render() {
     const style = CoinCardsStyle();
-
     return (
       <View style={style.coinCardContainer}>
         { this.renderCoinCards() }
