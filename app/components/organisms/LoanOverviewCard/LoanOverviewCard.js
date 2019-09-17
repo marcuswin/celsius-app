@@ -12,7 +12,7 @@ import Icon from "../../atoms/Icon/Icon";
 import formatter from "../../../utils/formatter";
 import { getMargins, widthPercentageToDP } from "../../../utils/styles-util";
 import { LOAN_STATUS } from "../../../constants/DATA";
-import { LOAN_PAYMENT_REASONS } from "../../../constants/UI";
+import { LOAN_PAYMENT_REASONS, MODALS } from "../../../constants/UI";
 import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 import STYLES from "../../../constants/STYLES";
 import CircularProgressBar from "../../graphs/CircularProgressBar/CircularProgressBar";
@@ -58,16 +58,10 @@ class LoanOverviewCard extends Component {
     actions.lockMarginCollateral(loan.margin_call.id, marginCallData);
   };
 
-  cancelLoan = async () => {
+  openCancelModal = () => {
     const {actions, loan} = this.props;
-    this.setState({
-      isLoading: true
-    });
-    await actions.cancelLoan(loan.id);
-    await actions.getAllLoans();
-    this.setState({
-      isLoading: false
-    })
+    actions.updateFormField('loanId', loan.id);
+    actions.openModal(MODALS.LOAN_CANCEL_MODAL);
   }
 
   payInterest = async () => {
@@ -267,9 +261,8 @@ class LoanOverviewCard extends Component {
         {loan.status === LOAN_STATUS.PENDING && (
           <CelButton
             margin="15 0 15 0"
-            onPress={this.cancelLoan}
+            onPress={this.openCancelModal}
             color="red"
-            loading={isLoading}
           >
             Cancel loan
           </CelButton>

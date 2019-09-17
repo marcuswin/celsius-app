@@ -107,6 +107,7 @@ function loanApplyPreviewData() {
 function getAllLoans() {
   return async (dispatch) => {
     try {
+      startApiCall(API.GET_ALL_LOANS);
       const allLoans = await loansService.getAllLoans();
 
       dispatch({
@@ -213,11 +214,11 @@ function setActiveLoan(loanId) {
 
 /**
  * Cancels desired pending loan
- * @param id
  */
-function cancelLoan(loanId) {
-  return async (dispatch) => {
+function cancelLoan() {
+  return async (dispatch, getState) => {
     try {
+      const { loanId } = getState().forms.formData
       startApiCall(API.CANCEL_LOAN)
       await loansService.cancelLoan(loanId)
     } catch (err) {
