@@ -130,6 +130,51 @@ class BorrowBankAccount extends Component {
             returnKeyType={"next"}
             blurOnSubmiting={false}
             onSubmitEditing={() => {
+              this.bank_city.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank City"
+            field={"bank_city"}
+            value={formData.bank_city}
+            error={formErrors.bank_city}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_city = input;
+            }}
+            onSubmitEditing={() => {
+              this.bank_street_and_number.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank Street and Number"
+            field={"bank_street_and_number"}
+            value={formData.bank_street_and_number}
+            error={formErrors.bank_street_and_number}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_street_and_number = input;
+            }}
+            onSubmitEditing={() => {
+              this.bank_zip.focus();
+            }}
+          />
+
+          <CelInput
+            placeholder="Bank Zip"
+            field={"bank_zip"}
+            value={formData.bank_zip}
+            error={formErrors.bank_zip}
+            returnKeyType={"next"}
+            blurOnSubmiting={false}
+            refs={input => {
+              this.bank_zip = input;
+            }}
+            onSubmitEditing={() => {
               if (isAmerican) {
                 this.bank_account_number.focus();
               } else {
