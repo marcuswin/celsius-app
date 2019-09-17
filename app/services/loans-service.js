@@ -16,6 +16,7 @@ const loansService = {
   prepayInterest,
   payPrincipal,
   payMonthlyInterest,
+  getAmortizationTable
 };
 
 /**
@@ -195,6 +196,15 @@ function payPrincipal(id) {
  */
 function payMonthlyInterest(id) {
   return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`)
+}
+
+/**
+ *
+ * @param id
+ * @returns {Promise}
+ */
+function getAmortizationTable(id) {
+  return axios.get(`${apiUrl}/loans/${id}/amortization-table`)
 }
 
 export default loansService;

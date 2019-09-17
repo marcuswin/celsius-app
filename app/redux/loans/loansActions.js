@@ -22,7 +22,8 @@ export {
   getLoanSettings,
   payPrincipal,
   prepayInterest,
-  payMonthlyInterest
+  payMonthlyInterest,
+  getAmortizationTable,
 }
 
 /**
@@ -350,6 +351,27 @@ function payMonthlyInterest(id) {
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+function getAmortizationTable(id) {
+  return async (dispatch) => {
+    startApiCall(API.GET_AMORTIZATION_TABLE)
+
+    try {
+      const res = await loansService.getAmortizationTable(id);
+      const amortizationTable = res.data;
+
+      dispatch({
+        type: ACTIONS.GET_AMORTIZATION_TABLE_SUCCESS,
+        callName: API.GET_AMORTIZATION_TABLE,
+        amortizationTable
+      });
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_AMORTIZATION_TABLE, err));
     }
   }
 }
