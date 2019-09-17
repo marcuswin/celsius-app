@@ -1,11 +1,9 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { openModal, showMessage } from "../ui/uiActions";
+import { showMessage } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
-// import analytics from "../../utils/analytics";
-import { MODALS } from "../../constants/UI";
 import formatter from "../../utils/formatter";
 import loanUtil from "../../utils/loan-util";
 
@@ -62,7 +60,6 @@ function applyForALoan() {
       });
 
       dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
-      dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL));
       dispatch(showMessage('success', 'Loan created successfully!'))
 
       // analytics.loanApplied(res.data);
