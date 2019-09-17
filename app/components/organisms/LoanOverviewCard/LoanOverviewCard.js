@@ -200,12 +200,12 @@ class LoanOverviewCard extends Component {
                   >{"-XX if paid in CEL"}</CelText>
                 </Card>
               </View>
-                <View style={style.progress}>
-                  <CircularProgressBar
-                    amountLoaned={Number(loan.total_interest)}
-                    amountPaid={Number(loan.total_interest_paid)}
-                  />
-                </View>
+              <View style={style.progress}>
+                <CircularProgressBar
+                  amountLoaned={Number(loan.total_interest)}
+                  amountPaid={Number(loan.total_interest_paid)}
+                />
+              </View>
             </View>
           )}
 
@@ -297,7 +297,7 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && previousPayments && (
+        {loan.status === LOAN_STATUS.ACTIVE && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
