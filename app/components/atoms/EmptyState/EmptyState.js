@@ -32,6 +32,8 @@ class EmptyState extends Component {
     onPress: PropTypes.func,
     support: PropTypes.bool,
     modal: PropTypes.element,
+    secondaryButton: PropTypes.string,
+    secondaryOnPress: PropTypes.func,
   }
   static defaultProps = {}
 
@@ -112,6 +114,8 @@ class EmptyState extends Component {
       onPress,
       button,
       support,
+      secondaryButton,
+      secondaryOnPress,
     } = emptyStateProps
     const style = EmptyStateStyle()
 
@@ -149,6 +153,16 @@ class EmptyState extends Component {
             onPress={onPress}
           >
             {button}
+          </CelButton>
+        ) : null}
+
+        {secondaryButton && secondaryOnPress ? (
+          <CelButton
+            basic
+            margin='10 0 10 0'
+            onPress={secondaryOnPress}
+          >
+            {secondaryButton}
           </CelButton>
         ) : null}
 

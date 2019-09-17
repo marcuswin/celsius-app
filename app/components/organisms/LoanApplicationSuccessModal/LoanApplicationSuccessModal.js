@@ -18,7 +18,7 @@ import * as appActions from "../../../redux/actions";
 )
 class LoanApplicationSuccessModal extends Component {
   static propTypes = {
-    loanId: PropTypes.string.isRequired(),
+    loanId: PropTypes.number.isRequired,
   };
   static defaultProps = {};
 
