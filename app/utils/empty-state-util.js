@@ -27,7 +27,7 @@ function getProps(purpose, componentProps) {
         paragraphs: ["Take out a dollar, crypto or stablecoin loan at the lowest interest rates."],
         onPress: () => actions.navigateTo("BorrowEnterAmount"),
         button: 'Apply for a loan',
-        secondaryOnPress: () => actions.navigateTo("LoanCalculator"),
+        secondaryOnPress: () => actions.openModal(MODALS.BORROW_CALCULATOR_MODAL),
         secondaryButton: 'Calculate Loan Interest',
       };
     // Not KYC Verified Empty States
