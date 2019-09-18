@@ -29,9 +29,9 @@ function mapLoan(loan) {
   newLoan.amortization_table = flagPaidPayments(loan);
 
   // NOTE should probably be removed or updated once BE is done
-  newLoan.total_interest = getTotalInterest(loan);
-  newLoan.total_interest_paid = getInterestPaid(loan);
-  newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan)
+  newLoan.total_interest = newLoan.id && getTotalInterest(loan);
+  newLoan.total_interest_paid = newLoan.id && getInterestPaid(loan);
+  newLoan.hasInterestPaymentFinished = newLoan.id && isInterestPaid(newLoan)
 
   newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
