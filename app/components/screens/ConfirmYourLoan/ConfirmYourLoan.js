@@ -95,7 +95,7 @@ class ConfirmYourLoan extends Component {
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_name }</CelText>
 
           <CelText type="H6" weight="300">Bank Address</CelText>
-          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_address }</CelText>
+          <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_street_and_number }</CelText>
 
           <CelText type="H6" weight="300">Bank ZIP / Postal Code</CelText>
           <CelText type="H3" weight="600" margin={'0 0 15 0'}>{ loan.bank_zip }</CelText>
