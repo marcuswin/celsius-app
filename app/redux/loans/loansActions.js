@@ -294,7 +294,12 @@ function prepayInterest(id) {
 
     try {
       const { formData } = getState().forms
-      const res = await loansService.prepayInterest(formData.prepaidPeriod, formData.coin, id)
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.prepayInterest(formData.prepaidPeriod, formData.coin, id, verification)
       const transactionId = res.data.transaction_id;
 
       dispatch({
@@ -316,11 +321,18 @@ function prepayInterest(id) {
  */
 
 function payPrincipal(id) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     startApiCall(API.PAY_LOAN_PRINCIPAL)
 
     try {
-      const res = await loansService.payPrincipal(id);
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+
+      const res = await loansService.payPrincipal(id, verification);
       const transactionId = res.data;
 
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
@@ -338,11 +350,17 @@ function payPrincipal(id) {
  * @param {UUID} id - loan id
  */
 function payMonthlyInterest(id) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     startApiCall(API.PAY_LOAN_INTEREST)
 
     try {
-      const res = await loansService.payPrincipal(id);
+      const { formData } = getState().forms
+      const verification = {
+        pin: formData.pin,
+        twoFactorCode: formData.code
+      };
+
+      const res = await loansService.payPrincipal(id, verification);
       const transactionId = res.data.transaction_id;
       dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));

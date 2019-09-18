@@ -169,12 +169,16 @@ function getLoanSettings(loanId){
  * @param {Number} numberOfInstallments - number of months to prepay
  * @param {String} coin - BTC|XRP
  * @param {UUID} id - id of the loan
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
  * @returns {Promise}
  */
-function prepayInterest(numberOfInstallments, coin, id) {
+function prepayInterest(numberOfInstallments, coin, id, verification) {
   return axios.post(`${apiUrl}/loans/${id}/payment/prepayment`, {
     numberOfInstallments,
-    coin
+    coin,
+    ...verification
   })
 }
 
@@ -182,20 +186,26 @@ function prepayInterest(numberOfInstallments, coin, id) {
  * Creates the principal payment for specific loan, and finishes the loan
  *
  * @param {Number} id - loan id
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
  * @returns {Promise}
  */
-function payPrincipal(id) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`)
+function payPrincipal(id, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/receiving_principal_back`, verification)
 }
 
 /**
  * Creates the monthly interest payment for specific loan
  *
  * @param {Number} id - loan id
+ * @param {string} verification.pin - eg '1234'
+ * @param {string} verification.twoFactorCode - eg '123456'
+
  * @returns {Promise}
  */
-function payMonthlyInterest(id) {
-  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`)
+function payMonthlyInterest(id, verification) {
+  return axios.post(`${apiUrl}/loans/${id}/payment/monthly_interest`, verification)
 }
 
 /**

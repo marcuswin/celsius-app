@@ -49,7 +49,9 @@ class LoanPrepaymentPeriod extends Component {
         actions.updateFormField('amountUsd', amountUsd)
         actions.navigateTo('WiringBankInformation')
       } else {
-        actions.prepayInterest(id)
+        actions.navigateTo('VerifyProfile', {
+          onSuccess: () => actions.prepayInterest(id),
+        })
       }
     }
   }
