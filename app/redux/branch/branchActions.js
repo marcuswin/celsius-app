@@ -5,7 +5,8 @@ import { BRANCH_LINKS } from '../../constants/DATA'
 import { MODALS } from '../../constants/UI'
 import ACTIONS from "../../constants/ACTIONS";
 import * as transfersActions from "../transfers/transfersActions";
-import * as actions from "../../redux/actions";
+import * as uiActions from "../ui/uiActions";
+import * as formsActions from "../forms/formsActions";
 
 
 export {
@@ -27,7 +28,7 @@ function getBranchIndividualLink () {
         link: branchLinkRes.data.branch_link.branch_link
       })
     } catch (err) {
-      dispatch(actions.showMessage("error", err.msg));
+      dispatch(uiActions.showMessage("error", err.msg));
       dispatch(apiError(API.GET_INDIVIDUAL_LINK, err));
     }
   }
@@ -64,7 +65,7 @@ function registerReferralLink (deepLink) {
       const { profile } = getState().user
       if (profile.id) {
         return dispatch(
-          actions.showMessage(
+          uiActions.showMessage(
             'warning',
             "Sorry, but existing users can't use this link!"
           )
@@ -79,7 +80,7 @@ function registerReferralLink (deepLink) {
       if (!linkResData.valid) {
         dispatch(apiError(API.GET_LINK_BY_URL))
         dispatch(
-          actions.showMessage(
+          uiActions.showMessage(
             'warning',
             'Sorry, but this link is not valid anymore!'
           )
@@ -97,11 +98,11 @@ function registerReferralLink (deepLink) {
         ) {
           return
         }
-        dispatch(actions.openModal(MODALS.REFERRAL_RECEIVED_MODAL))
+        dispatch(uiActions.openModal(MODALS.REFERRAL_RECEIVED_MODAL))
       }
     } catch (err) {
       dispatch(apiError(API.GET_LINK_BY_URL, err))
-      dispatch(actions.showMessage('error', err.msg))
+      dispatch(uiActions.showMessage('error', err.msg))
     }
   }
 }
@@ -117,7 +118,7 @@ function submitProfileCode(onSuccess) {
       if(onSuccess) onSuccess()
     } catch (err) {
       dispatch(apiError(API.CHECK_PROFILE_PROMO_CODE, err));
-      dispatch(actions.setFormErrors({
+      dispatch(formsActions.setFormErrors({
         promoCode: err.msg
       }));
     }
@@ -155,8 +156,8 @@ function registrationPromoCode(onSuccess) {
       }
     } catch (err) {
       dispatch(apiError(API.SUBMIT_PROMO_CODE, err));
-      // dispatch(actions.showMessage("warning", "Sorry, but this promo code is not valid!"));
-      dispatch(actions.setFormErrors({
+      // dispatch(uiActions.showMessage("warning", "Sorry, but this promo code is not valid!"));
+      dispatch(formsActions.setFormErrors({
         promoCode: "That is not a valid referral code."
       }));
     }

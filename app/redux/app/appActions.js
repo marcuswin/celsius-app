@@ -107,7 +107,7 @@ function loadCelsiusAssets() {
 
 const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
   data => {
-    loggerUtil.logme(data);
+    loggerUtil.log(data);
   }
 );
 
@@ -144,11 +144,11 @@ function handleAppStateChange(nextAppState) {
     if (nextAppState.match(/inactive|background/) && appState === "active") { // ONLY FOR DEBUG PURPOSE
       if (onInstallConversionDataCanceller) {
         onInstallConversionDataCanceller();
-        loggerUtil.logme("unregister onInstallConversionDataCanceller");
+        loggerUtil.log("unregister onInstallConversionDataCanceller");
       }
       if (onAppOpenAttributionCanceller) {
         onAppOpenAttributionCanceller();
-        loggerUtil.logme("unregister onAppOpenAttributionCanceller");
+        loggerUtil.log("unregister onAppOpenAttributionCanceller");
       }
     }
 
