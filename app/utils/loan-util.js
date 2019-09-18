@@ -1,4 +1,4 @@
-import { LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
+import { LOAN_PAYMENT_TYPES, LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
 import formatter from "./formatter";
 import store from "../redux/store";
@@ -28,8 +28,12 @@ function mapLoan(loan) {
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
 
+  // NOTE should probably be removed or updated once BE is done
+  newLoan.total_interest = getTotalInterest(loan);
+  newLoan.total_interest_paid = getInterestPaid(loan);
+  newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan)
+
   newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
-  newLoan.hasInterestPaymentFinished = Number(newLoan.total_interest_paid) === Number(newLoan.total_interest)
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
 
   return newLoan
@@ -116,6 +120,40 @@ function flagPaidPayments(loan) {
   }))
 
   return amortizationTable
+}
+
+function isInterestPaid(loan) {
+  let areAllPaymentsMade = true
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      areAllPaymentsMade = areAllPaymentsMade && row.isPaid
+    })
+
+  return areAllPaymentsMade
+}
+
+function getTotalInterest(loan) {
+  let totalInterest = 0
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      totalInterest += Number(row.amountToPay)
+    })
+
+  return totalInterest.toFixed(2)
+}
+
+
+function getInterestPaid(loan) {
+  let interestPaid = 0
+  loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .forEach(row => {
+      interestPaid += Number(row.amountPaid)
+    })
+
+  return interestPaid.toFixed(2)
 }
 
 export default loanUtil
