@@ -220,7 +220,7 @@ class LoanOverviewCard extends Component {
 
             {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
                 <CelButton
-                  onPress={() => navigateTo("LoanSettings", { id: loan.id })}
+                  onPress={() => navigateTo('VerifyProfile', { onSuccess: () => navigateTo("LoanSettings", { id: loan.id }) })}
                   basic
                   textSize={"H6"}
                 >
