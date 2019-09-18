@@ -35,6 +35,11 @@ function mapLoan(loan) {
 
   newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
+  // newLoan.canPrepayInterest = newLoan.max_possible_prepayment_period && newLoan.max_possible_prepayment_period >= 6
+  newLoan.canPrepayInterest = true
+  newLoan.max_possible_prepayment_period = 8
+
+  // console.log({ newLoan })
 
   return newLoan
 }

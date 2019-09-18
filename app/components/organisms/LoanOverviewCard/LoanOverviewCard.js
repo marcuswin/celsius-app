@@ -247,7 +247,7 @@ class LoanOverviewCard extends Component {
               </CelButton>
             </View>
           }
-          { loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished &&
+          { loan.can_pay_interest &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
@@ -272,7 +272,7 @@ class LoanOverviewCard extends Component {
           </CelButton>
         )}
 
-        {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
+        { loan.canPrepayInterest && (
           <Card close>
             <CelText weight="500">
               Did you know you can prepay loan interest?

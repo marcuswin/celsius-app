@@ -67,7 +67,15 @@ class LoanPrepaymentPeriod extends Component {
     const loan = allLoans.find(l => l.id === loanId)
     const coinRate = currencyRates[formData.coin.toLowerCase()]
 
-    const monthValues = [6, 7, 8, 9, 10, 11, 12]
+    // const monthValues = [6, 7, 8, 9, 10, 11, 12]
+    const monthValues = []
+    let month = 6
+    while (month <= Math.min(loan.max_possible_prepayment_period, 12)) {
+      monthValues.push(month)
+      month ++;
+    }
+
+
     const sliderItems = monthValues.map(m => ({
       value: m,
       label: (
