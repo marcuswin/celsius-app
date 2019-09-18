@@ -67,7 +67,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
   if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
-  if (transaction.nature === "loan_principal") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
+  if (transaction.nature === "loan_principal_payment") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
   if (transaction.nature === "loan_interest") return TRANSACTION_TYPES.LOAN_INTEREST;
   if (transaction.nature === "loan_prepayment") return TRANSACTION_TYPES.LOAN_INTEREST;
 
