@@ -73,7 +73,7 @@ class CoinGridCard extends Component {
       <CelText weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(0)}</CelText>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Icon fill={STYLES.COLORS.CELSIUS_BLUE} width="13" height="13" name="CirclePlus" />
-        <CelText margin={'0 0 0 5'} color={STYLES.COLORS.CELSIUS_BLUE}>
+        <CelText margin={'0 0 0 5'} type={"H7"} color={STYLES.COLORS.CELSIUS_BLUE}>
           Deposit
       </CelText>
       </View>
@@ -83,7 +83,7 @@ class CoinGridCard extends Component {
   coinCardFull = (coin) => (
     <Fragment >
       <CelText style={CoinGridCardStyle.text} weight='600' type="H3" margin='3 0 3 0'>{formatter.usd(coin.amount_usd)}</CelText>
-      <CelText weight='300' type="H6">{formatter.crypto(coin.amount, coin.short)}</CelText>
+      <CelText weight='300' type="H7">{formatter.crypto(coin.amount, coin.short)}</CelText>
     </Fragment>
   )
 
@@ -121,7 +121,8 @@ class CoinGridCard extends Component {
                      theme={theme}
               />
             </Animated.View>
-            : <View style={{ marginBottom: '45%' }} />}
+            : <View style={{ marginBottom: '45%' }} />
+            }
       </Card>
     )
   }

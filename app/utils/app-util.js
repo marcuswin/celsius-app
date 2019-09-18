@@ -67,7 +67,7 @@ async function initializeThirdPartyServices() {
   await appsFlyer.initSdk(
     appsFlyerOptions,
     result => {
-      loggerUtil.logme(result);
+      loggerUtil.log(result);
     },
     error => {
       loggerUtil.err(error);
