@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import moment from "moment";
 
 import Card from "../../atoms/Card/Card";
 import Separator from "../../atoms/Separator/Separator";
@@ -32,9 +33,14 @@ function getPropsFromTransaction(transaction) {
         status: "Active Loan",
         color: STYLES.COLORS.CELSIUS_BLUE
       };
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
+      return {
+        status: "Active Loan",
+        color: STYLES.COLORS.CELSIUS_BLUE
+      };
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return {
-        status: "Completed Loand",
+        status: "Completed Loan",
         color: STYLES.COLORS.GREEN
       };
     case TRANSACTION_TYPES.COLLATERAL_UNLOCKED:
@@ -70,6 +76,9 @@ function getPropsFromTransaction(transaction) {
 
 const CollateralLoanCard = ({ transaction, navigateTo }) => {
   const { status, color } = getPropsFromTransaction(transaction);
+
+  // TODO: See Loan Overview to navigate where it should
+
   return (
     <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
       <Card padding="15 15 15 15">
@@ -85,10 +94,10 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
         </View>
 
         <CelText type="H2" align="center" weight="600" margin="10 0 10 0">
-          {formatter.usd(transaction.loan_data.loan_amount)}
+          {formatter.usd(transaction.amount_usd)}
         </CelText>
         <CelText type="H6" align="center">
-          Loan initiated: {transaction.loan_data.initiation_date}
+          Loan initiated: {moment(transaction.time).format("D MMM YYYY")}
         </CelText>
 
         <Separator margin="12 0 12 0" />

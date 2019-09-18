@@ -38,7 +38,7 @@ function getTransactionType(transaction) {
     }
     return TRANSACTION_TYPES.CANCELED;
   }
-
+  
   if (transaction.nature === "deposit" && !transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_PENDING;
   if (transaction.nature === "deposit" && transaction.is_confirmed) return TRANSACTION_TYPES.DEPOSIT_CONFIRMED;
   if (transaction.nature === "withdrawal") {
@@ -60,6 +60,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === "margin_call") return TRANSACTION_TYPES.MARGIN_CALL;
   if (transaction.nature === "pending_interest") return TRANSACTION_TYPES.PENDING_INTEREST;
 
+
   if (transaction.nature === "referred_award" && transaction.state === "locked") return TRANSACTION_TYPES.REFERRED_HODL;
   if (transaction.nature === "referred_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRED;
   if (transaction.nature === "referred_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRED_PENDING;
@@ -67,6 +68,7 @@ function getTransactionType(transaction) {
   if (transaction.nature === "referrer_award" && transaction.state === "confirmed") return TRANSACTION_TYPES.REFERRER;
   if (transaction.nature === "referrer_award" && transaction.state === "unconfirmed") return TRANSACTION_TYPES.REFERRER_PENDING;
 
+  if (transaction.nature === "loan") return TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED;
   if (transaction.nature === "loan_principal") return TRANSACTION_TYPES.LOAN_PRINCIPAL;
   if (transaction.nature === "loan_interest") return TRANSACTION_TYPES.LOAN_INTEREST;
   if (transaction.nature === "loan_prepayment") return TRANSACTION_TYPES.LOAN_INTEREST;
@@ -184,6 +186,13 @@ function getTransactionProps(transaction) {
         color: STYLES.COLORS.CELSIUS_BLUE,
         iconName: "TransactionSent",
         statusText: "Margin Call Collateral"
+      };
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
+      return {
+        title: () => "Loan Received",
+        color: STYLES.COLORS.GREEN,
+        iconName: "TransactionReceived",
+        statusText: "Loan Received"
       };
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return {
@@ -420,6 +429,8 @@ function getTransactionSections(transaction) {
       return ["info", "date", "time", "status:noSeparator", "info:box", "button:deposit", "button:back"];
     case TRANSACTION_TYPES.MARGIN_CALL:
       return ["info", "collateral:loan:card", "date", "time", "margin:call:card", "button:back"];
+    case TRANSACTION_TYPES.LOAN_PRINCIPAL_RECEIVED:
+      return ["info", "collateral:loan:card", "date", "time", "button:back"];
     case TRANSACTION_TYPES.LOAN_PRINCIPAL:
       return ["info", "collateral:loan:card", "date", "time", "button:back"];
     case TRANSACTION_TYPES.LOAN_INTEREST:
