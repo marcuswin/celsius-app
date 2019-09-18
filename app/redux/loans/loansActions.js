@@ -1,6 +1,6 @@
 import ACTIONS from '../../constants/ACTIONS';
 import API from '../../constants/API';
-import { showMessage } from "../ui/uiActions";
+import { showMessage, closeModal } from "../ui/uiActions";
 import { apiError, startApiCall } from "../api/apiActions";
 import { navigateTo } from "../nav/navActions";
 import loansService from "../../services/loans-service";
@@ -221,6 +221,9 @@ function cancelLoan() {
       const { loanId } = getState().forms.formData
       startApiCall(API.CANCEL_LOAN)
       await loansService.cancelLoan(loanId)
+
+      dispatch(showMessage('success', 'Loan successfully canceled!'))
+      dispatch(closeModal())
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));

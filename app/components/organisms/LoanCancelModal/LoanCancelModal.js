@@ -21,8 +21,6 @@ class LoanCancelModal extends React.Component {
     });
     await actions.cancelLoan();
     await actions.getAllLoans();
-    actions.closeModal();
-    actions.showMessage('success', 'Loan successfully canceled!');
     this.setState({
       isLoading: false
     })
