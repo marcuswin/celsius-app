@@ -28,16 +28,21 @@ function mapLoan(loan) {
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
 
-  // NOTE should probably be removed or updated once BE is done
-  newLoan.total_interest = newLoan.id && getTotalInterest(loan);
-  newLoan.total_interest_paid = newLoan.id && getInterestPaid(loan);
-  newLoan.hasInterestPaymentFinished = newLoan.id && isInterestPaid(newLoan)
 
-  newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) !== 0
+  newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) === 0
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
-  // newLoan.canPrepayInterest = newLoan.max_possible_prepayment_period && newLoan.max_possible_prepayment_period >= 6
-  newLoan.canPrepayInterest = true
-  newLoan.max_possible_prepayment_period = 8
+
+  if (newLoan.id) {
+    // NOTE should probably be removed or updated once BE is done
+    newLoan.total_interest = getTotalInterest(loan);
+    newLoan.total_interest_paid = getInterestPaid(loan);
+    newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid)
+
+    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(loan)
+    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(loan)
+    newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.maxPossiblePrepaymentPeriod >= 6
+  }
+
 
   // console.log({ newLoan })
 
@@ -121,6 +126,7 @@ function flagPaidPayments(loan) {
 
   const amortizationTable = loan.amortization_table.map(p => ({
     ...p,
+    amountPaid: p.amountPaid || p.balance,
     isPaid: Number(p.amountToPay) === Number(p.amountPaid),
   }))
 
@@ -128,7 +134,7 @@ function flagPaidPayments(loan) {
 }
 
 function isInterestPaid(loan) {
-  let areAllPaymentsMade = true
+  let areAllPaymentsMade = !!loan.amortization_table.length
   loan.amortization_table
     .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
     .forEach(row => {
@@ -159,6 +165,20 @@ function getInterestPaid(loan) {
     })
 
   return interestPaid.toFixed(2)
+}
+
+function getMaxPossiblePrepaymentPeriod(loan) {
+  const numOfInterestPayments = loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+    .length
+
+  const numOfPaidInterestPayments = loan.amortization_table
+    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid)
+    .length
+
+  const paymentsLeft = numOfInterestPayments - numOfPaidInterestPayments
+
+  return paymentsLeft > 12 ? 12 : paymentsLeft
 }
 
 export default loanUtil

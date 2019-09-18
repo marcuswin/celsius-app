@@ -233,7 +233,7 @@ class LoanOverviewCard extends Component {
             )}
           </View>
 
-          { loan.status === LOAN_STATUS.ACTIVE && loan.hasInterestPaymentFinished &&
+          { loan.hasInterestPaymentFinished &&
             <View>
               <Separator size={2} margin={"0 0 0 0"}/>
               <CelButton
