@@ -77,8 +77,6 @@ function getPropsFromTransaction(transaction) {
 const CollateralLoanCard = ({ transaction, navigateTo }) => {
   const { status, color } = getPropsFromTransaction(transaction);
 
-  // TODO: See Loan Overview to navigate where it should
-
   return (
     <View style={{ paddingHorizontal: 20, marginBottom: 20 }}>
       <Card padding="15 15 15 15">
@@ -102,7 +100,7 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
 
         <Separator margin="12 0 12 0" />
 
-        <CelButton basic onPress={() => navigateTo("WalletLanding")}>
+        <CelButton basic onPress={() => navigateTo("LoanRequestDetails", { id: transaction.loan_data.loan_number })}>
           See Loan Overview
         </CelButton>
       </Card>

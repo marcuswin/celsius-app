@@ -101,7 +101,7 @@ class WalletLanding extends Component {
     await actions.getWalletSummary()
     if (!currenciesRates) actions.getCurrencyRates()
     if (!currenciesGraphs) actions.getCurrencyGraphs()
-    await actions.getMarginCalls()
+    // await actions.getMarginCalls()
     const { marginCalls } = this.props
     if (marginCalls.length > 0) {
       actions.openModal(MODALS.MARGIN_CALL_MODAL)

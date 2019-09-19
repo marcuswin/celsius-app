@@ -20,6 +20,7 @@ import Card from "../../atoms/Card/Card";
 import CelText from "../../atoms/CelText/CelText";
 import Separator from "../../atoms/Separator/Separator";
 import EmptyState from "../../atoms/EmptyState/EmptyState";
+import LoanCancelModal from "../../organisms/LoanCancelModal/LoanCancelModal";
 
 const cardWidth = widthPercentageToDP("70%");
 
@@ -249,6 +250,7 @@ class BorrowLanding extends Component {
             }
           </Animated.ScrollView>
           <BorrowCalculatorModal emitParams={this.emitParams}/>
+          <LoanCancelModal actions={actions}/>
         </View>
       </RegularLayout>
     );
