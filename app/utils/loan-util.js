@@ -28,9 +28,6 @@ function mapLoan(loan) {
   newLoan.uiProps = getLoanStatusDetails(loan);
   newLoan.uiSections = getLoanSections(loan);
   newLoan.amortization_table = flagPaidPayments(loan);
-
-
-  newLoan.hasInterestPaymentStarted = Number(newLoan.total_interest_paid) === 0
   newLoan.margin_call = mapMarginCall(newLoan.margin_call)
 
   if (newLoan.id) {
