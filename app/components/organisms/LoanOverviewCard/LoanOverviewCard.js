@@ -296,7 +296,7 @@ class LoanOverviewCard extends Component {
           </Card>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && previousPayments && !!previousPayments.length && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && previousPayments && !!previousPayments.length && (
           <View>
             <CelText>Payment History</CelText>
 
@@ -316,10 +316,13 @@ class LoanOverviewCard extends Component {
           </View>
         )}
 
-        {loan.status === LOAN_STATUS.ACTIVE && !loan.hasInterestPaymentFinished && (
+        { [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) &&
+          (!loan.hasInterestPaymentFinished || !loan.isPrincipalPaid) && (
           <View>
             <Separator margin="10 0 10 0"/>
-            <CelButton onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}>
+            <CelButton
+              onPress={() => navigateTo("LoanPaymentList", { id: loan.id })}
+            >
               Upcoming Payments
             </CelButton>
           </View>
