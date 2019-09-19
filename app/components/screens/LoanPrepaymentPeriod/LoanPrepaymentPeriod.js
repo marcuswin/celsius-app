@@ -56,6 +56,22 @@ class LoanPrepaymentPeriod extends Component {
     }
   }
 
+  getMonthValues = () => {
+    const { allLoans, navigation } = this.props;
+    const loanId = navigation.getParam('id')
+    const loan = allLoans.find(l => l.id === loanId)
+
+    // const monthValues = [6, 7, 8, 9, 10, 11, 12]
+    const monthValues = []
+    let month = 6
+    while (month <= Math.min(loan.max_possible_prepayment_period, 12)) {
+      monthValues.push(month)
+      month ++;
+    }
+
+    return monthValues
+  }
+
   calculatePrepaidValue = (usdValue, coinRate, coin) => {
     const rate = coin === 'USD' ? 1 : coinRate
     return formatter.crypto(usdValue / rate, coin);
@@ -67,14 +83,7 @@ class LoanPrepaymentPeriod extends Component {
     const loan = allLoans.find(l => l.id === loanId)
     const coinRate = currencyRates[formData.coin.toLowerCase()]
 
-    // const monthValues = [6, 7, 8, 9, 10, 11, 12]
-    const monthValues = []
-    let month = 6
-    while (month <= Math.min(loan.max_possible_prepayment_period, 12)) {
-      monthValues.push(month)
-      month ++;
-    }
-
+    const monthValues = this.getMonthValues()
 
     const sliderItems = monthValues.map(m => ({
       value: m,
@@ -109,9 +118,39 @@ class LoanPrepaymentPeriod extends Component {
     )
   }
 
+  renderWhenOnly6Months = () => {
+    const { allLoans, currencyRates, formData, navigation } = this.props
+    const coinRate = currencyRates[formData.coin.toLowerCase()]
+    const loanId = navigation.getParam('id')
+    const loan = allLoans.find(l => l.id === loanId)
+    const amount = this.calculatePrepaidValue(Number(loan.monthly_payment * 6), coinRate, formData.coin)
+
+    return (
+      <RegularLayout>
+        <CelText type="H3" weight="bold" align="center" margin="50 0 15 0">
+          Minimum prepayment time period is 6 months
+        </CelText>
+        <CelText align="center" weight={"300"}>
+          You can payout { amount } of your interest now
+        </CelText>
+
+        <CelButton
+          margin="50 0 30 0"
+          iconRight="IconArrowRight"
+          onPress={this.setPrepaymentPeriod}
+        >
+          Continue
+        </CelButton>
+      </RegularLayout>
+    )
+  }
+
   render() {
     const style = LoanPrepaymentPeriodStyle();
-    const verticalSlider = this.renderSlider()
+    const verticalSlider = this.renderSlider();
+    const monthValues = this.getMonthValues()
+
+    if (monthValues.length === 1) return this.renderWhenOnly6Months()
 
     return (
       <View style={style.container}>
