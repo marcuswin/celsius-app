@@ -23,7 +23,7 @@ import LoadingScreen from "../LoadingScreen/LoadingScreen";
 class BorrowLoanOption extends Component {
 
   static navigationOptions = () => ({
-    title: "Choose Your Intrest Rate",
+    title: "Choose Your Interest Rate",
     right: "info"
   });
 
@@ -41,7 +41,7 @@ class BorrowLoanOption extends Component {
         <RegularLayout
           fabType='hide'
         >
-          <CelText weight={"300"} margin={"0 0 0 0"} align='center'>Choose your interest rate:</CelText>
+          <CelText weight={"300"} margin={"0 0 20 0"} align='center'>Choose your interest rate:</CelText>
           { ltvCards }
         </RegularLayout>
       </View>

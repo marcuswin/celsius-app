@@ -110,27 +110,27 @@ class LoanOverviewCard extends Component {
             {loan.status === LOAN_STATUS.COMPLETED && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Completed:</CelText>
-                <CelText type={"H6"}>{moment(loan.maturity_date).format("MMM DD, YYYY").toUpperCase()}</CelText>
+                <CelText type={"H6"}>{moment(loan.maturity_date).format("MMM DD, YYYY")}</CelText>
               </View>
             )}
 
             {loan.status === LOAN_STATUS.CANCELED && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Request Canceled:</CelText>
-                <CelText type={"H6"}>{moment(loan.canceled_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
+                <CelText type={"H6"}>{moment(loan.canceled_at).format("MMM DD, YYYY")}</CelText>
               </View>
             )}
 
             {[LOAN_STATUS.APPROVED, LOAN_STATUS.ACTIVE].includes(loan.status) && (
               <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <CelText type={"H6"}>Loan Approved:</CelText>
-                <CelText type={"H6"}>{moment(loan.approved_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
+                <CelText type={"H6"}>{moment(loan.approved_at).format("MMM DD, YYYY")}</CelText>
               </View>
             )}
 
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 5 }}>
               <CelText type={"H6"}>Loan Requested:</CelText>
-              <CelText type={"H6"}>{moment(loan.created_at).format("MMM DD, YYYY").toUpperCase()}</CelText>
+              <CelText type={"H6"}>{moment(loan.created_at).format("MMM DD, YYYY")}</CelText>
             </View>
 
             {loan.status === LOAN_STATUS.PENDING &&
@@ -207,7 +207,7 @@ class LoanOverviewCard extends Component {
                     type={"H7"}
                     weight={"300"}
                     align={'center'}
-                  >{"-XX if paid in CEL"}</CelText>
+                  >{"-XX% if paid in CEL"}</CelText>
                 </Card>
               </View>
             </View>

@@ -216,7 +216,7 @@ class ConfirmYourLoan extends Component {
             <Card>
               <CelText type="H6" weight="300" align="center">Total of Payments</CelText>
               <CelText type="H3" weight="600" align="center">{ formatter.usd(loan.total_of_payment) }</CelText>
-              <CelText type="H6" weight="300" align="center">{loan.total_of_payment}</CelText>
+              <CelText type="H6" weight="300" align="center">(Amount Borrowed + Total Interest)</CelText>
 
               <Separator margin={'10 0 10 0'}/>
 

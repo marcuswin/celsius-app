@@ -80,13 +80,13 @@ class LoanInterestCard extends Component {
       >
           <View style={style.textContainer}>
             <View style={{opacity: this.isAllowed ? 1 : 0.4}}>
-              <CelText weight={"300"} type={"H6"}>{`$${formatter.round(this.monthlyPayment)} per month`}</CelText>
-              <CelText weight={"600"} type={"H3"}>{`${this.interest}% APR`}</CelText>
+              <CelText weight={"300"} type={"H6"} margin={"0 0 4 0"}>{`$${formatter.round(this.monthlyPayment)} per month`}</CelText>
+              <CelText weight={"600"} type={"H3"} margin={"0 0 4 0"}>{`${this.interest}% APR`}</CelText>
               <CelText weight={"300"} type={"H6"}>{`Locking ${formatter.crypto(this.amountCollateralCrypto)} ${formData.collateralCoin} as collateral`}</CelText>
             </View>
             {!this.isAllowed ? 
             <View>
-              <Separator size={2} margin={"10 0 5 0"} />
+              <Separator size={2} margin={"15 0 10 0"} />
               <View>
                 <CelText weight={"300"} align="left" > 
                   Additional 
