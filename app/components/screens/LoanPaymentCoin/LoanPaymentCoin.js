@@ -11,12 +11,14 @@ import CelText from '../../atoms/CelText/CelText';
 import RegularLayout from '../../layouts/RegularLayout/RegularLayout';
 import Icon from "../../atoms/Icon/Icon";
 import Card from "../../atoms/Card/Card";
-import {COIN_CARD_TYPE} from "../../../constants/UI";
+import { COIN_CARD_TYPE, LOAN_PAYMENT_REASONS } from "../../../constants/UI";
 import CollateralCoinCard from "../../molecules/CollateralCoinCard/CollateralCoinCard";
 
 @connect(
   state => ({
-    currenciesRates: state.currencies.rates,
+    currencyRates: state.currencies.rates,
+    walletSummary: state.wallet.summary,
+    loanCompliance: state.compliance.loan,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -25,44 +27,67 @@ class LoanPaymentCoin extends Component {
   static propTypes = {};
   static defaultProps = {}
 
-  static navigationOptions = () => ({
-    title: "Pay with Crypto",
-    right: "profile"
-  });
+  static navigationOptions = ({ navigation }) => {
+    const reason = navigation.getParam('reason')
+
+    let title = "Pay with Crypto"
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      title = "Prepay with Crypto"
+    }
+
+    return {
+      title,
+      right: "profile"
+    }
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isLoading: {}
+    }
+  }
 
   handleSelectCoin = async (coinShort) => {
-    const { actions, loanCollateral, coinAmount, navigation} = this.props;
+    const { actions, navigation} = this.props;
     const reason = navigation.getParam("reason");
     const id = navigation.getParam("id");
 
-    // loanCollateral and coinAmount from backend to Redux
-
-    const loanAmount = loanCollateral < coinAmount; // TODO - check this props
-    if (!loanAmount) {
-      if (reason) {
-        await actions.updateLoanSettings(id, {interest_payment_asset: coinShort})
-        actions.showMessage("success", "You have successfully changed interest payment method")
-
-        return actions.navigateTo("LoanSettings")
-      }
-      actions.navigateTo("LoanPrepaymentPeriod", { coin: coinShort, id })
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST_PREPAYMENT) {
+      actions.updateFormField('coin', coinShort)
+      actions.navigateTo('LoanPrepaymentPeriod', { id, reason })
     }
-    return
+
+    if (reason === LOAN_PAYMENT_REASONS.INTEREST) {
+      this.setState({ isLoading: { [coinShort]: true }})
+      await actions.updateLoanSettings(id, {interest_payment_asset: coinShort})
+      actions.showMessage("success", `You have successfully changed interest payment method to ${ coinShort }`)
+      actions.navigateTo('ChoosePaymentMethod', { id, reason })
+      this.setState({ isLoading: { [coinShort]: false }})
+    }
   }
 
   render() {
-    const { currenciesRates, actions } = this.props;
+    const { walletSummary, currencyRates, actions, loanCompliance } = this.props;
+    const { isLoading } = this.state;
     const style = LoanPaymentCoinStyle();
+
+    const availableCoins = walletSummary.coins
+      .filter(coin => coin.amount_usd > 0)
+      .filter(coin => loanCompliance.collateral_coins.includes(coin.short))
+      .sort((a,b) => Number(b.amount_usd) - Number(a.amount_usd))
 
     return (
       <RegularLayout>
-        <CelText margin={"0 0 10 0"} align={"center"} weight={"300"}>Choose a coin from your wallet to complete your loan interest payment</CelText>
-        { currenciesRates.map(coin => (
+        <CelText margin={"0 0 10 0"} align={"center"} weight={"300"}>Choose a coin from your wallet to complete your payment</CelText>
+        { availableCoins.map(coin => (
           <CollateralCoinCard
             key={coin.short}
             handleSelectCoin={this.handleSelectCoin}
-            coin={coin}
+            coin={currencyRates.find(cr => cr.short === coin.short)}
             type={COIN_CARD_TYPE.LOAN_PAYMENT_COIN_CARD}
+            isLoading={isLoading[coin.short]}
           />
           ))}
 
@@ -78,7 +103,7 @@ class LoanPaymentCoin extends Component {
 
         <Card close>
           <CelText weight={"500"} type={"H5"}>Make sure you have enough coins</CelText>
-          <CelText margin={"10 0 5 0"} weight={"300"} type={"H5"}>Add more coins to make sure you have enough in your wallet for your monthly interest payment.</CelText>
+          <CelText margin={"10 0 5 0"} weight={"300"} type={"H5"}>Add more coins to make sure you have enough in your wallet for your payment.</CelText>
         </Card>
       </RegularLayout>
     );

@@ -248,8 +248,8 @@ const LOAN_TYPES = {
 };
 
 const LOAN_PAYMENT_TYPES = {
-  MONTHLY_INTEREST: 'MONTHLY_INTEREST',
-  RECEIVING_PRINCIPAL_BACK: 'RECEIVING_PRINCIPAL_BACK',
+  MONTHLY_INTEREST: 'monthly_interest',
+  RECEIVING_PRINCIPAL_BACK: 'receiving_principal_back',
 };
 
 export {

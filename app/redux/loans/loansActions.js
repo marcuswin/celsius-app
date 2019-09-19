@@ -21,7 +21,9 @@ export {
   loanApplyPreviewData,
   getLoanSettings,
   payPrincipal,
-  prepayInterest
+  prepayInterest,
+  payMonthlyInterest,
+  getAmortizationTable,
 }
 
 /**
@@ -59,7 +61,7 @@ function applyForALoan() {
         allLoans
       });
 
-      dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id }));
+      dispatch(navigateTo("LoanRequestDetails", { id: res.data.loan.id, hideBack: true }));
       dispatch(openModal(MODALS.LOAN_APPLICATION_SUCCESS_MODAL));
       dispatch(showMessage('success', 'Loan created successfully!'))
 
@@ -221,8 +223,6 @@ function cancelLoan(loanId) {
     try {
       startApiCall(API.CANCEL_LOAN)
       await loansService.cancelLoan(loanId)
-      dispatch(getAllLoans())
-
     } catch (err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.CANCEL_LOAN, err));
@@ -286,21 +286,22 @@ function getLoanSettings(id){
 
 /**
  *
- * @param {String} months
- * @param {String} coin
- * @param {Number} id
- * @param {String} type
+ * @param {Number} loanId
  * @returns {Function}
  */
 
-function prepayInterest(months, coin, id, type) {
-  return async (dispatch) => {
+function prepayInterest(id) {
+  return async (dispatch, getState) => {
     startApiCall(API.PREPAY_LOAN_INTEREST)
 
     try {
-      const res = await loansService.prepayInterest(months, coin, id, type)
-      const transactionId = res.data;
+      const { formData } = getState().forms
+      const res = await loansService.prepayInterest(formData.prepaidPeriod, formData.coin, id)
+      const transactionId = res.data.transaction_id;
 
+      dispatch({
+        type: ACTIONS.PREPAY_LOAN_INTEREST_SUCCESS
+      })
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
 
     } catch(err){
@@ -311,20 +312,17 @@ function prepayInterest(months, coin, id, type) {
 }
 
 /**
+ * Pays principal for the selected loan
  *
  * @param {Number} id
- * @param {String} type
- * @param {String} coin
- * @param {Boolean} fromCollateral
- * @returns {Function}
  */
 
-function payPrincipal(id, type, coin, fromCollateral) {
+function payPrincipal(id) {
   return async (dispatch) => {
     startApiCall(API.PAY_LOAN_PRINCIPAL)
 
     try {
-      const res = await loansService.payPrincipal(id, type, coin, fromCollateral);
+      const res = await loansService.payPrincipal(id);
       const transactionId = res.data;
 
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
@@ -332,6 +330,48 @@ function payPrincipal(id, type, coin, fromCollateral) {
     } catch(err) {
       dispatch(showMessage('error', err.msg));
       dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+/**
+ * Pay monthly interest for specific loan
+ *
+ * @param {UUID} id - loan id
+ */
+function payMonthlyInterest(id) {
+  return async (dispatch) => {
+    startApiCall(API.PAY_LOAN_INTEREST)
+
+    try {
+      const res = await loansService.payPrincipal(id);
+      const transactionId = res.data.transaction_id;
+      dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
+      dispatch(navigateTo('TransactionDetails', { id: transactionId }));
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.PAY_LOAN_PRINCIPAL, err));
+    }
+  }
+}
+
+function getAmortizationTable(id) {
+  return async (dispatch) => {
+    startApiCall(API.GET_AMORTIZATION_TABLE)
+
+    try {
+      const res = await loansService.getAmortizationTable(id);
+      const amortizationTable = res.data;
+
+      dispatch({
+        type: ACTIONS.GET_AMORTIZATION_TABLE_SUCCESS,
+        callName: API.GET_AMORTIZATION_TABLE,
+        amortizationTable
+      });
+
+    } catch(err) {
+      dispatch(showMessage('error', err.msg));
+      dispatch(apiError(API.GET_AMORTIZATION_TABLE, err));
     }
   }
 }

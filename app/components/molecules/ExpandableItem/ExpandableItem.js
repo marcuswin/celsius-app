@@ -38,7 +38,7 @@ class ExpandableItem extends Component {
       <TouchableOpacity
         style={[
             style.container,
-            ...margins,
+            margins,
           ]
         }
         onPress={() => this.setState({ isExpanded: !isExpanded })}

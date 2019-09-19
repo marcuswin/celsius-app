@@ -11,7 +11,7 @@ import PaymentListItem from "../../atoms/PaymentListItem/PaymentListItem";
 
 @connect(
   state => ({
-    activeLoan: state.loans.activeLoan,
+    allLoans: state.loans.allLoans,
   }),
   dispatch => ({ actions: bindActionCreators(appActions, dispatch) }),
 )
@@ -28,15 +28,19 @@ class LoanPaymentList extends Component {
   constructor(props) {
     super(props);
 
-    const { navigation, actions } = props;
+    const { navigation, allLoans } = props;
     const loanId = navigation.getParam("id");
-    actions.setActiveLoan(loanId)
+
+    this.state = {
+      loan: allLoans.find(l => l.id === loanId)
+    }
   }
 
-  renderFuturePayments = () => {
-    const { activeLoan } = this.props
 
-    const upcomingPayments = activeLoan.amortization_table.filter(payment => !payment.isPaid && payment.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
+  renderFuturePayments = () => {
+    const { loan } = this.state
+
+    const upcomingPayments = loan.amortization_table.filter(payment => !payment.isPaid && payment.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST)
     return upcomingPayments.map((payment, i) => {
       if (i === 0) {
         return (
@@ -54,8 +58,9 @@ class LoanPaymentList extends Component {
   }
 
   renderPrincipalPayments = () => {
-    const { activeLoan } = this.props
-    const principalPayment = activeLoan.amortization_table.find(p => p.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
+    const { loan } = this.state
+
+    const principalPayment = loan.amortization_table.find(p => p.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
 
     return principalPayment && (
       <PaymentListItem
@@ -67,9 +72,9 @@ class LoanPaymentList extends Component {
   }
 
   render() {
-    const { activeLoan } = this.props
+    const { loan } = this.state
 
-    if (!activeLoan) return null;
+    if (!loan.amortization_table.length) return null;
 
     return (
       <RegularLayout>

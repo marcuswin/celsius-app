@@ -48,7 +48,7 @@ class PrincipalPaymentType extends Component {
 
     const availableCoins = walletCoins
       .filter(coin => coins.includes(coin.short))
-      .sort((a,b) => Number(a.amount_usd) < Number(b.amount_usd))
+      .sort((a,b) => Number(b.amount_usd) - Number(a.amount_usd))
 
     return (
         <RegularLayout

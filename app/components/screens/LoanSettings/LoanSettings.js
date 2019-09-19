@@ -13,7 +13,7 @@ import IconButton from "../../organisms/IconButton/IconButton";
 import STYLES from "../../../constants/STYLES";
 import { getTheme } from "../../../utils/styles-util";
 import Spinner from "../../atoms/Spinner/Spinner";
-import { THEMES } from "../../../constants/UI";
+import { LOAN_PAYMENT_REASONS, THEMES } from "../../../constants/UI";
 import LoadingScreen from "../LoadingScreen/LoadingScreen";
 
 
@@ -111,7 +111,7 @@ class LoanSettings extends Component {
           </IconButton>
           <IconButton
             margin={"20 0 0 0"}
-            onPress={() => actions.navigateTo("ChoosePaymentMethod", { reason: "interestPayment", id })}
+            onPress={() => actions.navigateTo("ChoosePaymentMethod", { reason: LOAN_PAYMENT_REASONS.INTEREST, id })}
           >
             Change Interest Payment Type
           </IconButton>
