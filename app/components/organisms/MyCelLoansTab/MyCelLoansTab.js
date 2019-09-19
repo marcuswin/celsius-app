@@ -26,7 +26,9 @@ class MyCelInterestTab extends Component {
 
     return (
       <View style={style.contentWrapper}>
+
         <View style={{ width, marginBottom: 10 }}>
+
           <View style={style.wrapper}>
             <View style={ style.circle }>
               <ThemedImage
@@ -38,9 +40,8 @@ class MyCelInterestTab extends Component {
                   darkSource={ require('../../../../assets/images/loyaltyIcons/celsiusCircleIconDark3x.png') }
               />
             </View>
-            <View style={{marginTop: 40}}>
+            <View style={{marginTop: 30}}>
               <CelText 
-                style={ style.title }
                 type={"H3"}
                 weight={"600"}
                 align={"center"}
@@ -48,7 +49,6 @@ class MyCelInterestTab extends Component {
                 Lower interest on Loans
               </CelText>
               <CelText
-                style={ style.explanation }
                 align={"center"}
                 type={"H4"}
                 weight={"300"}
@@ -57,23 +57,21 @@ class MyCelInterestTab extends Component {
               </CelText>
             </View>
           </View>
+
           <View style={style.wrapper}>
             <CelText
-              style={ style.explanation }
               align={"center"}
               type={"H4"}
               weight={"300"}
             >
               Based on your{' '}
                 <CelText
-                  style={ style.explanation }
                   align={"center"}
                   type={"H4"}
                   weight={"500"}
                 >
                   Loyalty Level{' '}
                   <CelText
-                    style={ style.explanation }
                     align={"center"}
                     type={"H4"}
                     weight={"300"}
@@ -83,7 +81,7 @@ class MyCelInterestTab extends Component {
               </CelText>
             </CelText>
             <CelText
-                style={ style.title }
+                style={style.title}
                 align={"center"}
                 type={"H1"}
                 weight={"600"}

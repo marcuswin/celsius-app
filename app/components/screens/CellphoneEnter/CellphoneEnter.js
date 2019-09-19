@@ -47,7 +47,7 @@ class CellphoneEnter extends Component {
     return (
       <RegularLayout>
         <CelText margin="0 0 30 0" type="H1" align="center">Enter your phone number</CelText>
-        <CelInput type="phone" field="cellphone" placeholder="Phone number" value={formData.cellphone}/>
+        <CelInput type="phone" field="cellphone" placeholder="Phone number" margin="20 0 20 0" value={formData.cellphone}/>
 
         <CelButton margin="10 0 40 0" onPress={() => {
           this.updateCellphoneNumber(formData.cellphone)

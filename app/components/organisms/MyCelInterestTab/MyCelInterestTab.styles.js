@@ -21,9 +21,9 @@ const base = {
     marginBottom: heightPercentageToDP("0.5%"),
   },
   wrapper: {
-    marginTop: heightPercentageToDP("3%"),
     paddingHorizontal: widthPercentageToDP("5%"),
-    paddingTop: heightPercentageToDP("2%"),
+    paddingVertical: heightPercentageToDP("3%"),
+    marginVertical: heightPercentageToDP('1.5%'),
     backgroundColor: STYLES.COLORS.WHITE,
     borderRadius: 8
   },
@@ -43,7 +43,7 @@ const base = {
     marginBottom: heightPercentageToDP("0.8%"),
   },
   title: {
-    marginBottom: heightPercentageToDP("1.4%"),
+    marginTop: heightPercentageToDP("1%"),
   },
   loyalityQuestion: {
     marginTop: heightPercentageToDP("1.5%"),

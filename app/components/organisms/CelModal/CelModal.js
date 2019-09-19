@@ -26,6 +26,7 @@ import {
 import CelText from '../../atoms/CelText/CelText'
 import CelInput from '../../atoms/CelInput/CelInput'
 import Message from '../../molecules/Message/Message'
+import STYLES from "../../../constants/STYLES";
 
 @connect(
   state => ({
@@ -100,7 +101,8 @@ class CelModal extends Component {
       picture,
       noScroll,
       onClose,
-      padding
+      padding,
+      title
     } = this.props
     const style = CelModalStyle()
     const paddingStyle = padding ? getPadding(padding) : {}
@@ -171,21 +173,25 @@ class CelModal extends Component {
                 {childrenWithProps}
               </View>
             ) : (
-              <ScrollView
-                style={[
-                  style.contentWrapper,
-                  {
-                    marginTop: header
-                      ? heightPercentageToDP('15.3%')
-                      : heightPercentageToDP('5%')
-                  },
-                  paddingStyle
-                ]}
-                showsVerticalScrollIndicator
-                contentContainerStyle={{ flexGrow: 1 }}
-              >
-                {childrenWithProps}
-              </ScrollView>
+                <View style={{height: heightPercentageToDP('60%'), paddingTop: 80}}>
+                  {title && <CelText color={STYLES.COLORS.DARK_GRAY} type="H2" weight="bold" align={"center"}>{title}</CelText>}
+                  <ScrollView
+                      style={[
+                        style.contentWrapper,
+                        {
+                          marginTop: header
+                              ? heightPercentageToDP('15.3%')
+                              : heightPercentageToDP('2%')
+                        },
+                        paddingStyle
+                      ]}
+                      showsVerticalScrollIndicator
+                      contentContainerStyle={{ flexGrow: 1 }}
+                  >
+                    {childrenWithProps}
+                  </ScrollView>
+                </View>
+
             )}
           </View>
           <BlurView

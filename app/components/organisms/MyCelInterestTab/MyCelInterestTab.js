@@ -39,7 +39,7 @@ class MyCelInterestTab extends Component {
                   darkSource={ require('../../../../assets/images/loyaltyIcons/interestCircleIconDark3x.png') }
               />
             </View>
-            <View style={{marginTop: 40}}>
+            <View style={{marginTop: 30}}>
               <CelText 
                 style={ style.title }
                 type={"H3"}
@@ -49,7 +49,6 @@ class MyCelInterestTab extends Component {
                 Earn better interest
               </CelText>
               <CelText
-                style={ style.explanation }
                 align={"center"}
                 type={"H4"}
                 weight={"300"}
@@ -60,21 +59,18 @@ class MyCelInterestTab extends Component {
           </View>
           <View style={style.wrapper}>
             <CelText
-              style={ style.explanation }
               align={"center"}
               type={"H4"}
               weight={"300"}
             >
               Based on your{' '}
                 <CelText
-                  style={ style.explanation }
                   align={"center"}
                   type={"H4"}
                   weight={"500"}
                 >
                   Loyalty Level{' '}
                   <CelText
-                    style={ style.explanation }
                     align={"center"}
                     type={"H4"}
                     weight={"300"}

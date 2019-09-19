@@ -140,7 +140,7 @@ class SocialSecurityNumber extends Component {
             </View>
             <View style={style.nationalID}>
               <CelInput
-                margin="0 0 30 0"
+                margin="20 0 20 0"
                 type="text"
                 field="national_id"
                 placeholder="E-National ID Number (optional)"

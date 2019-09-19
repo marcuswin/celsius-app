@@ -21,6 +21,7 @@ const COLORS = {
   GRAY: '#BBBFC2',
   SEMI_GRAY: '#344352',
   DARK_GRAY: '#3D4853',
+  BLUE_GRAY: '#293D51',
   DARK_GRAY3: 'rgba(61, 72, 83, 0.3)',
   DARK_GRAY6: 'rgba(61, 72, 83, 0.6)',
   DARK_GRAY7: 'rgba(61, 72, 83, 0.7)',

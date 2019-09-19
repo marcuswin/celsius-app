@@ -103,7 +103,7 @@ class CoinGridCard extends Component {
         <View style={style.cardInnerView}>
           <View style={style.wrapper}>
             <View style={style.coinTextWrapper}>
-              <CelText style={style.text} weight='300' type="H6">{displayName}</CelText>
+              <CelText  weight='300' type="H6">{displayName}</CelText>
               { coinInterest.eligible && <CelText color={STYLES.COLORS.GREEN} type="H7">{ coinInterest.display }</CelText> }
             </View>
             {amount ? this.coinCardFull(coin) : this.coinCardEmpty(coin, currencyRates)}
