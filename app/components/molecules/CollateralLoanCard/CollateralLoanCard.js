@@ -100,7 +100,7 @@ const CollateralLoanCard = ({ transaction, navigateTo }) => {
 
         <Separator margin="12 0 12 0" />
 
-        <CelButton basic onPress={() => navigateTo("LoanRequestDetails", { id: transaction.loan_data.id })}>
+        <CelButton basic onPress={() => navigateTo("LoanRequestDetails", { id: transaction.loan_data.loan_number })}>
           See Loan Overview
         </CelButton>
       </Card>
