@@ -1,5 +1,6 @@
 import { LOAN_PAYMENT_TYPES, LOAN_STATUS, LOAN_TYPES } from "../constants/DATA";
 import STYLES from "../constants/STYLES";
+import logger from "./logger-util";
 import formatter from "./formatter";
 import store from "../redux/store";
 
@@ -34,17 +35,18 @@ function mapLoan(loan) {
 
   if (newLoan.id) {
     // NOTE should probably be removed or updated once BE is done
-    newLoan.total_interest = getTotalInterest(loan);
-    newLoan.total_interest_paid = getInterestPaid(loan);
+    newLoan.total_interest = getTotalInterest(newLoan);
+    newLoan.total_interest_paid = getInterestPaid(newLoan);
     newLoan.hasInterestPaymentFinished = isInterestPaid(newLoan) && !!Number(newLoan.total_interest_paid)
+    newLoan.isPrincipalPaid = isPrincipalPaid(newLoan)
 
-    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(loan)
-    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(loan)
+    newLoan.max_possible_prepayment_period = getMaxPossiblePrepaymentPeriod(newLoan)
+    newLoan.maxPossiblePrepaymentPeriod = getMaxPossiblePrepaymentPeriod(newLoan)
     newLoan.canPrepayInterest = [LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && newLoan.maxPossiblePrepaymentPeriod >= 6
   }
 
 
-  // console.log({ newLoan })
+  logger.log({ newLoan })
 
   return newLoan
 }
@@ -126,8 +128,8 @@ function flagPaidPayments(loan) {
 
   const amortizationTable = loan.amortization_table.map(p => ({
     ...p,
-    amountPaid: p.amountPaid || p.balance,
-    isPaid: Number(p.amountToPay) === Number(p.amountPaid),
+    amountPaid: p.status === 'PAID' ? p.amountToPay : 0,
+    isPaid: p.status === 'PAID',
   }))
 
   return amortizationTable
@@ -173,12 +175,19 @@ function getMaxPossiblePrepaymentPeriod(loan) {
     .length
 
   const numOfPaidInterestPayments = loan.amortization_table
-    .filter(row => row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid)
+    .filter(row => (row.type === LOAN_PAYMENT_TYPES.MONTHLY_INTEREST && row.isPaid))
     .length
 
   const paymentsLeft = numOfInterestPayments - numOfPaidInterestPayments
 
   return paymentsLeft > 12 ? 12 : paymentsLeft
+}
+
+function isPrincipalPaid(loan) {
+  const principalPayment = loan.amortization_table
+    .find(row => row.type === LOAN_PAYMENT_TYPES.RECEIVING_PRINCIPAL_BACK)
+
+  return principalPayment.isPaid
 }
 
 export default loanUtil

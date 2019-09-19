@@ -334,10 +334,9 @@ function payPrincipal(id) {
         twoFactorCode: formData.code
       };
 
-
       const res = await loansService.payPrincipal(id, verification);
-      const transactionId = res.data;
 
+      const transactionId = res.data.transaction_id;
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
 
     } catch(err) {
@@ -363,7 +362,7 @@ function payMonthlyInterest(id) {
         twoFactorCode: formData.code
       };
 
-      const res = await loansService.payPrincipal(id, verification);
+      const res = await loansService.payMonthlyInterest(id, verification);
       const transactionId = res.data.transaction_id;
       dispatch({ type: ACTIONS.PAY_LOAN_INTEREST_SUCCESS })
       dispatch(navigateTo('TransactionDetails', { id: transactionId }));
