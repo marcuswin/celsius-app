@@ -147,8 +147,6 @@ class SocialSecurityNumber extends Component {
                 value={user.national_id ? user.national_id : formData.national_id}
                 error={formErrors.national_id}
                 disabled={!!user.national_id}
-                multiline
-                numberOfLines={2}
               />
             </View>
             <View style={{ flexWrap: 'wrap', alignContent: 'center', justifyContent: 'center', paddingBottom: 20 }}>
