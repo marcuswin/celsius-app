@@ -37,7 +37,7 @@ class VerticalSlider extends Component {
 
     return (
       <View style={style.container}>
-        <View style={{ height, width: 40, paddingVertical: 10 }}>
+        <View style={{ height, width: 40, paddingVertical: 10, marginRight: 15 }}>
           <View style={{ transform: [{ rotate: '90deg' }] }}>
             <Slider
               minimumTrackTintColor={STYLES.COLORS.CELSIUS_BLUE}

@@ -169,7 +169,8 @@ class LoanOverviewCard extends Component {
 
           {[LOAN_STATUS.ACTIVE, LOAN_STATUS.APPROVED].includes(loan.status) && (
             <View styles={{ flex: 1 }}>
-              <Separator size={2} margin={"0 0 10 0"}/>
+              <Separator size={2} margin={"0 0 0 0"}/>
+              <View style={{flexDirection: "row"}}>
               <View>
                 <View
                     style={style.interests}
@@ -185,13 +186,22 @@ class LoanOverviewCard extends Component {
                 </View>
               </View>
 
+
+              <View style={style.progress}>
+                <CircularProgressBar
+                  amountLoaned={Number(loan.total_interest)}
+                  amountPaid={Number(loan.total_interest_paid)}
+                />
+              </View>
+              </View>
+              <Separator margin={"0 0 20 0"}/>
               <View styles={{ flex: 1}}>
                 <Card
-                    color={style.card.color}
-                    padding={"5 5 5 5"}
-                    margin={'0 0 20 0'}
-                    size={'half'}
-                    styles={{ alignSelf: 'center'}}
+                  color={style.card.color}
+                  padding={"5 5 5 5"}
+                  margin={'0 0 20 0'}
+                  size={'half'}
+                  styles={{ alignSelf: 'center'}}
                 >
                   <CelText
                     type={"H7"}
@@ -200,16 +210,10 @@ class LoanOverviewCard extends Component {
                   >{"-XX if paid in CEL"}</CelText>
                 </Card>
               </View>
-              <View style={style.progress}>
-                <CircularProgressBar
-                  amountLoaned={Number(loan.total_interest)}
-                  amountPaid={Number(loan.total_interest_paid)}
-                />
-              </View>
             </View>
           )}
 
-          <Separator size={2} margin={"10 0 0 0"}/>
+          <Separator size={2} margin={"0 0 0 0"}/>
 
           <View style={style.buttonContainer}>
             <CelButton

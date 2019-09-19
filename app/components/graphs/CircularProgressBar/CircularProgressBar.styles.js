@@ -8,21 +8,21 @@ const base = {
     },
   innerCircle: {
     position: "absolute",
-    top: heightPercentageToDP("1.1%"),
-    left: heightPercentageToDP("1.1%"),
-    width: heightPercentageToDP("20.3%"),
-    height: heightPercentageToDP("20.3%"),
-    borderRadius: heightPercentageToDP("20.3%") / 2,
+    top: heightPercentageToDP("0.6%"),
+    left: heightPercentageToDP("0.5%"),
+    width: heightPercentageToDP("13.8%"),
+    height: heightPercentageToDP("13.8%"),
+    borderRadius: heightPercentageToDP("13.8%") / 2,
   },
   contentCircle: {
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    top: heightPercentageToDP("2.55%"),
-    left: heightPercentageToDP("2.58%"),
-    width: heightPercentageToDP("17.4%"),
-    height: heightPercentageToDP("17.4%"),
-    borderRadius: heightPercentageToDP("17.4%") / 2,
+    top: heightPercentageToDP("1.5%"),
+    left: heightPercentageToDP("1.45%"),
+    width: heightPercentageToDP("12.1%"),
+    height: heightPercentageToDP("12.1%"),
+    borderRadius: heightPercentageToDP("12.1%") / 2,
   }
 };
 
