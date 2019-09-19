@@ -76,7 +76,7 @@ const base = {
   },
   screen: {
     width: 300,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     borderRadius: 25,
     backgroundColor: "white"
@@ -86,9 +86,10 @@ const base = {
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: 10,
-    paddingTop: 10
+    paddingTop: 10,
+    color: STYLES.COLORS.DARK_GRAY
 
-  },
+},
   description: {
     textAlign: 'center',
     alignItems: 'center',
@@ -96,6 +97,10 @@ const base = {
     color: '#737A82',
     paddingBottom: 10,
   },
+  modalButton: {
+    marginTop: 20,
+    backgroundColor: STYLES.COLORS.CELSIUS_BLUE,
+},
 };
 
 const themed = {

@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { Animated, View, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { Animated, View, ScrollView} from "react-native";
 
 
 import formatter from "../../../utils/formatter";
-import CelText from '../../atoms/CelText/CelText';
 import CelModal from "../CelModal/CelModal";
 import { MODALS } from "../../../constants/UI";
 import WithdrawInfoModalStyle from "./WithdrawInfoModal.styles";
-import { widthPercentageToDP } from '../../../utils/styles-util';
-import STYLES from '../../../constants/STYLES';
+// import { widthPercentageToDP } from '../../../utils/styles-util';
+// import STYLES from '../../../constants/STYLES';
 
-const cardWidth = widthPercentageToDP("70%");
-const { width } = Dimensions.get('window');
+// const cardWidth = widthPercentageToDP("70%");
+// const { width } = Dimensions.get('window');
 
 class WithdrawInfoModal extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired,
     toggleKeypad: PropTypes.func,
-    type: PropTypes.bool,
+    type: PropTypes.string,
     withdrawalSettings: PropTypes.instanceOf(Object),
-    index: PropTypes.number,
   };
   static defaultProps = {}
 
@@ -31,36 +29,28 @@ class WithdrawInfoModal extends Component {
     this.state = {
       currentStep: 1,
       xOffset: new Animated.Value(0),
-      // steps: [
-      //   title = 'dsds1111',
-      //   description = 'dada',
-      // ],
       steps: [
         {
-          index: 1,
           image: require('../../../../assets/images/illustrations-v3/PolarBearHODL3x.png'),
           title: "Are you sure you want to withdraw CEL?",
           description: "A withdrawal could affect your membership interest rates. Rates are determined by your loyalty level: the amount of CEL you HODL vs. the amount of other assets you hold. Please view our loyalty program.",
         },
         {
-          index: 2,
           image: require('../../../../assets/images/illustrations-v3/PolarBearSad3x.png'),
           title: `Immediate withdrawals under ${withdrawalSettings && formatter.usd(withdrawalSettings.maximum_withdrawal_amount)}`,
           description: "Celsius enables you to withdraw coins at any time. However, when exceeding this limit, withdrawals might be delayed for twenty-four (24) hours due to our security protocols.",
         },
         {
-          index: 3,
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
           title: "Don’t forget to check your withdrawal address",
           description: "Celsius uses a smart-contract based wallet for ETH and ERC20 coins, some wallets and exchanges (e.g. Bitfinex) do not support transactions from a smart-contract source. We recommend a one time test withdrawal with a small sum. Contact app@celsius.network if you are unsure.",
         },
         {
-          index: 4,
           image: require('../../../../assets/images/illustrations-v3/PolarBearFistUp3x.png'),
           title: "Transactions are safely secured with BitGo",
           description: "BitGo is a leading custodial service powering exchanges like Kraken and UPbit. Coins will be moved from time to time to exchanges or to Hedge funds borrowing coins in order to short the market, in this case, coins are converted to fiat and secured in an FDIC-insured bank account.",
         },
-       
+
       ],
 
     };
@@ -125,105 +115,104 @@ class WithdrawInfoModal extends Component {
     }
   }
 
-  transitionAnimation = (index) => ({
-    transform: [
-      { perspective: 800 },
-      {
-        scale: this.state.xOffset.interpolate({
-          inputRange: [
-            (index - 1) * cardWidth,
-            index * cardWidth,
-            (index + 1) * cardWidth
-          ],
-          outputRange: [0.9, 1, 0.9],
-          extrapolate: "clamp"
-        })
-      }
-    ]
-  });
+  // transitionAnimation = (index) => ({
+  //   transform: [
+  //     { perspective: 800 },
+  //     {
+  //       scale: this.state.xOffset.interpolate({
+  //         inputRange: [
+  //           (index - 1) * cardWidth,
+  //           index * cardWidth,
+  //           (index + 1) * cardWidth
+  //         ],
+  //         outputRange: [0.9, 1, 0.9],
+  //         extrapolate: "clamp"
+  //       })
+  //     }
+  //   ]
+  // });
 
-  renderDots() {
-    const { steps } = this.state
+  // renderDots() {
+  //   const { steps } = this.state
 
-    const position = Animated.divide(this.state.xOffset, width);
+  //   const position = Animated.divide(this.state.xOffset, width);
 
-    return (
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-        {steps.map((_, i) => {
-          const opacity = position.interpolate({
-            inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
-            outputRange: [0.3, 1, 1, 1, 0.3],
-            extrapolate: 'clamp'
-          })
-          return (
-            <Animated.View
-              key={i + 1}
-              style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
-            />
-          );
-        })
-        }
+  //   return (
+  //     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+  //       {steps.map((_, i) => {
+  //         const opacity = position.interpolate({
+  //           inputRange: [i - 0.50000000001, i - 0.5, i, i + 0.5, i + 0.50000000001],
+  //           outputRange: [0.3, 1, 1, 1, 0.3],
+  //           extrapolate: 'clamp'
+  //         })
+  //         return (
+  //           <Animated.View
+  //             key={i + 1}
+  //             style={{ opacity, height: 10, width: 10, backgroundColor: STYLES.COLORS.MEDIUM_GRAY, margin: 8, borderRadius: 5 }}
+  //           />
+  //         );
+  //       })
+  //       }
 
-      </View>
-    );
-  }
+  //     </View>
+  //   );
+  // }
 
-  renderStep() {
-    const { steps, xOffset } = this.state;
-    const { type } = this.props
-    const styles = WithdrawInfoModalStyle();
-    // const ButtonStyle = this.buttonColor;
+  // renderStep() {
+  //   const { steps, xOffset } = this.state;
+  //   const { type } = this.props
+  //   const styles = WithdrawInfoModalStyle();
+  //   // const ButtonStyle = this.buttonColor;
 
-    const three = steps.slice(1, 4)
+  //   const three = steps.slice(1, 4)
 
-    return (
-      <View>
-        <ScrollView>
-          <Animated.ScrollView
-            style={{ flexGrow: 1, }}
-            scrollEventThrottle={16}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: xOffset } } }],
-              { useNativeDriver: true },
+  //   return (
+  //     <View>
+  //       <ScrollView>
+  //         <Animated.ScrollView
+  //           style={{ flexGrow: 1, }}
+  //           scrollEventThrottle={16}
+  //           onScroll={Animated.event(
+  //             [{ nativeEvent: { contentOffset: { x: xOffset } } }],
+  //             { useNativeDriver: true },
 
-            )}
-            onScrollEndDrag={this.scroll}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator
-          >
-            {type ?
-              steps.map((step, index) => (
-                <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
-                  <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
-                  <CelText type='H4' style={styles.description}>{step.description}</CelText>
-                </Animated.View>
-              )
-              )
-              :
-              three.map((step, index) => (
-                <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
-                  <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
-                  <CelText type='H4' style={styles.description}>{step.description}</CelText>
-                </Animated.View>
-              ))
-            }
-          </Animated.ScrollView>
-          <View style={styles.button}>
-            {/* <ButtonStyle /> */}
-            <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
-              <CelText> Skip </CelText>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View>
-    )
-  }
+  //           )}
+  //           onScrollEndDrag={this.scroll}
+  //           horizontal
+  //           pagingEnabled
+  //           showsHorizontalScrollIndicator
+  //         >
+  //           {type ?
+  //             steps.map((step, index) => (
+  //               <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
+  //                 <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
+  //                 <CelText type='H4' style={styles.description}>{step.description}</CelText>
+  //               </Animated.View>
+  //             )
+  //             )
+  //             :
+  //             three.map((step, index) => (
+  //               <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
+  //                 <CelText type='H2' weight='bold' style={styles.title}> {step.title}</CelText>
+  //                 <CelText type='H4' style={styles.description}>{step.description}</CelText>
+  //               </Animated.View>
+  //             ))
+  //           }
+  //         </Animated.ScrollView>
+  //         <View style={styles.button}>
+  //           {/* <ButtonStyle /> */}
+  //           <TouchableOpacity style={{ marginTop: 10 }} onPress={this.closeModalHandler}>
+  //             <CelText> Skip </CelText>
+  //           </TouchableOpacity>
+  //         </View>
+  //       </ScrollView>
+  //     </View>
+  //   )
+  // }
 
   renderImage() {
     const { steps, xOffset } = this.state;
     const styles = WithdrawInfoModalStyle();
-
 
     return (
       <ScrollView>
@@ -243,7 +232,7 @@ class WithdrawInfoModal extends Component {
           {steps.forEach((step, index) => (
             <Animated.View style={[styles.screen, this.transitionAnimation(index)]}>
               {step.image}
-        </Animated.View>
+            </Animated.View>
           )
           )}
         </Animated.ScrollView>
@@ -253,6 +242,8 @@ class WithdrawInfoModal extends Component {
   }
 
   render() {
+    const { steps } = this.state
+    const { type } = this.props
 
     return (
       <CelModal
@@ -260,10 +251,12 @@ class WithdrawInfoModal extends Component {
         // picture={this.renderImage()}
         onClose={this.closeModalHandler}
         // content={true}
+        modalInfo={steps}
+        type={type}
       >
         <View style={{ paddingTop: 20 }}>
-          {this.renderDots()}
-          {this.renderStep()}
+          {/* {this.renderDots()} */}
+          {/* {this.renderStep()} */}
         </View>
       </CelModal>
     );
