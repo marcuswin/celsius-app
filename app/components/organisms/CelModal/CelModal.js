@@ -130,6 +130,7 @@ class CelModal extends Component {
         <View style={[style.wrapper, size]}>
           <View style={style.modal}>
             {this.renderImage()}
+
             {shouldRenderCloseButton ? (
               <TouchableOpacity
                 style={style.closeBtn}
@@ -173,8 +174,8 @@ class CelModal extends Component {
                 {childrenWithProps}
               </View>
             ) : (
-                <View style={{height: heightPercentageToDP('60%'), paddingTop: 80}}>
-                  {title && <CelText color={STYLES.COLORS.DARK_GRAY} type="H2" weight="bold" align={"center"}>{title}</CelText>}
+                <>
+                  {title && <CelText style={{paddingTop: 90}} color={STYLES.COLORS.DARK_GRAY} type="H2" weight="bold" align={"center"}>{title}</CelText>}
                   <ScrollView
                       style={[
                         style.contentWrapper,
@@ -190,8 +191,7 @@ class CelModal extends Component {
                   >
                     {childrenWithProps}
                   </ScrollView>
-                </View>
-
+                </>
             )}
           </View>
           <BlurView
