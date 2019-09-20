@@ -118,6 +118,10 @@ class CelModal extends Component {
       THEMES.LIGHT
     )
 
+    let marginTop = heightPercentageToDP('8%')
+    if (picture) marginTop = heightPercentageToDP('6%')
+    if (header) marginTop = heightPercentageToDP('15.3%')
+
     return (
       <Modal
         animationType='fade'
@@ -163,11 +167,7 @@ class CelModal extends Component {
               <View
                 style={[
                   style.contentWrapper,
-                  {
-                    marginTop: header
-                      ? heightPercentageToDP('15.3%')
-                      : heightPercentageToDP('8%')
-                  },
+                  { marginTop },
                   paddingStyle
                 ]}
               >
@@ -179,11 +179,7 @@ class CelModal extends Component {
                   <ScrollView
                       style={[
                         style.contentWrapper,
-                        {
-                          marginTop: header
-                              ? heightPercentageToDP('15.3%')
-                              : heightPercentageToDP('2%')
-                        },
+                        { marginTop },
                         paddingStyle
                       ]}
                       showsVerticalScrollIndicator
